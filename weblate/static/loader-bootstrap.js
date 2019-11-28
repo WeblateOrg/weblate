@@ -24,9 +24,9 @@ function decreaseLoading(sel) {
     }
 }
 
-function addAlert(message) {
+function addAlert(message, kind="danger") {
     var alerts = $('#popup-alerts');
-    var e = $('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+    var e = $('<div class="alert alert-' + kind + ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
     e.append(new Text(message));
     alerts.show().append(e);
     e.on('closed.bs.alert', function () {
@@ -582,13 +582,11 @@ function zenEditor() {
             } else {
                 statusdiv.attr('class', 'fa-check-circle text-success');
             }
-            statusdiv.addClass('fa').tooltip('destroy');
-            if (data.messages !== '') {
-                statusdiv.tooltip({
-                    'html': true,
-                    'title': data.messages
-                });
-            };
+            statusdiv.addClass('fa');
+            $.each(data.messages, function (i, val) {
+                console.log(val);
+                addAlert(val.text);
+            });
             $row.removeClass('translation-modified').addClass('translation-saved');
             if (data.translationsum !== '') {
                 $row.find('input[name=translationsum]').val(data.translationsum);

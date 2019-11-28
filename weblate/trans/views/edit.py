@@ -29,7 +29,6 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
@@ -700,12 +699,6 @@ def load_zen(request, project, component, lang):
 @require_POST
 def save_zen(request, project, component, lang):
     """Save handler for zen mode."""
-
-    def render_mesage(message):
-        return render_to_string(
-            'message.html', {'tags': message.tags, 'message': message.message}
-        )
-
     translation = get_translation(request, project, component, lang)
 
     form = TranslationForm(request.user, translation, None, request.POST)
@@ -721,11 +714,11 @@ def save_zen(request, project, component, lang):
 
         translationsum = hash_to_checksum(unit.get_target_hash())
 
-    response = {'messages': '', 'state': 'success', 'translationsum': translationsum}
+    response = {'messages': [], 'state': 'success', 'translationsum': translationsum}
 
     storage = get_messages(request)
     if storage:
-        response['messages'] = '\n'.join([render_mesage(m) for m in storage])
+        response['messages'] = [{'tags': m.tags, 'text': m.message} for m in storage]
         tags = {m.tags for m in storage}
         if 'error' in tags:
             response['state'] = 'danger'
