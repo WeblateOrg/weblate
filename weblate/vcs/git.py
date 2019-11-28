@@ -534,8 +534,14 @@ class GitMergeRequestBase(GitRepository):
 
     def push_to_fork(self, local_branch, fork_branch):
         """Push given local branch to branch in forked repository."""
-        cmd_push = ['push', '--force', self.get_username()]
-        self.execute(cmd_push + ['{0}:{1}'.format(local_branch, fork_branch)])
+        self.execute(
+            [
+                'push',
+                '--force',
+                self.get_username(),
+                '{0}:{1}'.format(local_branch, fork_branch),
+            ]
+        )
 
     def fork(self):
         """Create fork of original repository if one doesn't exist yet."""
@@ -596,17 +602,18 @@ class GithubRepository(GitMergeRequestBase):
         """Create pull request to merge branch in forked repository into
         branch of remote repository.
         """
-        cmd = [
-            'pull-request',
-            '-f',
-            '-h',
-            '{0}:{1}'.format(self.get_username(), fork_branch),
-            '-b',
-            origin_branch,
-            '-m',
-            settings.DEFAULT_PULL_MESSAGE,
-        ]
-        self.execute(cmd)
+        self.execute(
+            [
+                'pull-request',
+                '-f',
+                '-h',
+                '{0}:{1}'.format(self.get_username(), fork_branch),
+                '-b',
+                origin_branch,
+                '-m',
+                settings.DEFAULT_PULL_MESSAGE,
+            ]
+        )
 
 
 class LocalRepository(GitRepository):
@@ -715,26 +722,27 @@ class GitLabRepository(GitMergeRequestBase):
             updates.
         """
         # Checkout the branch we want to use as the source for new MR.
-        cmd = [
-            'checkout',
-            '-B',
-            fork_branch,
-            '{}/{}'.format(self.get_username(), fork_branch),
-        ]
-        self.execute(cmd)
+        self.execute(
+            [
+                'checkout',
+                '-B',
+                fork_branch,
+                '{}/{}'.format(self.get_username(), fork_branch),
+            ]
+        )
         # Create a new MR against origin/<origin_branch> from the fork.
-        cmd = [
-            'mr',
-            'create',
-            'origin',
-            origin_branch,
-            '-m',
-            settings.DEFAULT_PULL_MESSAGE,
-        ]
-        self.execute(cmd)
+        self.execute(
+            [
+                'mr',
+                'create',
+                'origin',
+                origin_branch,
+                '-m',
+                settings.DEFAULT_PULL_MESSAGE,
+            ]
+        )
         # Return to the previous checked out branch.
-        cmd = ['checkout', '-']
-        self.execute(cmd)
+        self.execute(['checkout', '-'])
 
 
 class GitForcePushRepository(GitRepository):
