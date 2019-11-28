@@ -506,10 +506,6 @@
 {% endif %}
 {% endwith %}
 
-<form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline double-submission">
-{% csrf_token %}
-{{ addword_form.words }}
-<input type="hidden" name="next" value="{{ this_unit_url }}" />
 <div class="panel panel-default">
   <div class="panel-heading">
   <h4 class="panel-title">
@@ -525,39 +521,36 @@
         <th>{{ unit.translation.language }}</th>
         </tr>
         </thead>
-        <tbody>
-            {% for item in glossary %}
-                <tr class="glossary-embed clickable-row" title="{% trans "Copy word into translation" %}">
-                <td>{{ item.source }}</td>
-                <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                <td colspan="2">{% trans "No related strings found in the glossary." %}</td>
-                </tr>
-            {% endfor %}
+        <tbody id="glossary-words">
+            {% include "snippets/glossary.html" %}
         </tbody>
     </table>
 {% if user_can_add_dictionary %}
-    <table class="table table-condensed table-add-glossary">
-        <tfoot>
-        <tr>
-        <th>{% trans "Add word to glossary" %}</th>
-        <td>
-        <input type="submit" class="btn btn-primary btn-xs pull-right flip" value="{% trans "Add" %}" />
-        </td>
-        </tr>
-        <tr class="form-inline">
-        <td colspan="2">{{ addword_form.source }}</td>
-        </tr>
-        <tr class="form-inline">
-        <td colspan="2">{{ addword_form.target }}</td>
-        </tr>
-        </tfoot>
-    </table>
+    <div class="panel-footer">
+        <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% trans "Add word to glossary" %}</a>
+    </div>
+    <form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline double-submission">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ this_unit_url }}" />
+    <div class="modal fade" tabindex="-1" role="dialog" id="add-glossary-form">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">{% trans "Add word to glossary" %}</h4>
+          </div>
+          <div class="modal-body">
+            {{ addword_form|crispy }}
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    </form>
 {% endif %}
 </div>
-</form>
 
 <div class="panel panel-default">
   <div class="panel-heading">

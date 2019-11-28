@@ -1365,7 +1365,7 @@ $(function () {
             success: function (data) {
                 decreaseLoading('#glossary-add-loading');
                 if (data.responseCode === 200) {
-                    form.find('tbody').html(data.results);
+                    $('#glossary-words').html(data.results);
                     form.find('[name=words]').attr('value', data.words);
                 }
                 $('.translation-editor:first').focus();
@@ -1375,6 +1375,7 @@ $(function () {
                 decreaseLoading('#glossary-add-loading');
             }
         });
+        $('#add-glossary-form').modal('hide');
         return false;
     });
 
@@ -1450,6 +1451,11 @@ $(function () {
      * issues with ClipboardJS, see https://stackoverflow.com/a/40862005/225718
      */
     $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+
+    /* Focus first input in modal */
+    $(document).on('shown.bs.modal', function(e) {
+        $('input:visible:enabled:first', e.target).focus();
+    });
 
     /* Copy to clipboard */
     var clipboard = new ClipboardJS('[data-clipboard-text]');

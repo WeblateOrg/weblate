@@ -266,7 +266,7 @@ def add_dictionary(request, unit_id):
             words.append(word.id)
             code = 200
             results = render_to_string(
-                'glossary-embed.html',
+                'snippets/glossary.html',
                 {
                     'glossary': (
                         Dictionary.objects.get_words(unit).order()
