@@ -448,7 +448,7 @@
 
 </div>
 
-<div class="col-sm-3 small">
+<div class="col-sm-3 source-info">
 
 {% with unit.active_checks as checks %}
 {% if checks or unit.suggestions %}
@@ -530,89 +530,101 @@
 {% endif %}
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default string-info">
   <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'user/translating' 'source-context' right=True %}
   {% trans "Source information" %}
   </h4>
   </div>
-  <table class="table table-striped table-condensed overflow-wrap">
+  <div class="list-group">
     {% with unit.source_info.screenshots.order as screenshots %}
     {% if screenshots or user_can_add_screenshot %}
-    <tr>
-    <th>
-    {% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}">{% icon "pencil.svg" %}</a>{% endif %}
+    <div class="list-group-item">
+    <h5>{% if user_can_add_screenshot %} <a class="btn btn-link btn-xs pull-right flip" id="edit-screenshot" href="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Screenshot context" %}
-    </th>
-    </tr>
-    <tr>
-    <td>
+    </h5>
     {% for screenshot in screenshots %}
     {% include "screenshots/screenshot_show.html" %}
     {% empty %}
     {% trans "No screenshot currently associated!" %}
     {% endfor %}
-    </td>
-    </tr>
+    </div>
     {% endif %} 
     {% endwith %}
     {% if unit.context or unit.extra_context or user_can_edit_source %}
-    <tr>
-    <th>
+    <div class="list-group-item">
+    <h5>
     {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Context" %}
-    </th>
-    </tr>
+    </h5>
     {% if user_can_edit_source and not unit.extra_context and not unit.context %}
-    <tr>
-    <td>{% trans "No context currently associated!" %}</td>
-    </tr>
+    {% trans "No context currently associated!" %}
     {% endif %}
     {% if unit.extra_context %}
-    <tr>
-    <td>{{ unit.extra_context }}</td>
-    </tr>
+    <p>{{ unit.extra_context }}</p>
     {% endif %}
     {% if unit.context %}
-    <tr>
-    <td>{% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}</td>
-    </tr>
+    {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}</td>
+    </div>
     {% endif %}
     {% endif %}
     {% if unit.all_flags or user_can_edit_source %}
-    <tr>
-    <th>
+    <div class="list-group-item">
+    <h5>
     {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Flags" %}
-    </th>
-    </tr>
-    <tr>
-    <td>
+    </h5>
     {% if unit.all_flags %}
     {{ unit.all_flags.format }}
     {% else %}
     {% trans "No flags currently set!" %}
     {% endif %}
-    </td>
-    </tr>
+    </div>
     {% endif %}
-    {% include "unit-details.html" %}
+    {% if unit.location %}
+    <div class="list-group-item">
+    <h5>
+    {% trans "Source string location" %}
+    </h5>
+    {% get_location_links user.profile unit %}
+    </div>
+    {% endif %}
+    {% if unit.comment %}
+    <div class="list-group-item">
+    <h5>
+    {% trans "Comments" %}
+    </h5>
+    {{ unit.comment }}
+    </div>
+    {% endif %}
+    <div class="list-group-item">
+    <h5>
+    {% trans "Source string age" %}
+    </h5>
+    {{ unit.timestamp|naturaltime }}
+    </div>
+    <div class="list-group-item">
+    <h5>
+    {% trans "Translation file" %}
+    </h5>
+    <span class="long-filename">
+    {% blocktrans with unit.translation.filename as filename and unit.position as position %}{{ filename }}, string {{ position }}{% endblocktrans %}
+    </span>
+    </div>
     {% with unit.active_source_checks as checks %}
     {% if checks %}
-    <tr>
-    <th>{% trans "Failing checks" %}</th>
-    </tr>
-    <tr>
-    <td>
+    <div class="list-group-item">
+    <h5>
+    {% trans "Failing checks" %}
+    </h5>
     <div class="list-group">
     {% include "snippets/list-checks.html" with object=unit.translation checks=checks %}
     </div>
-    </td>
-    </tr>
+    </div>
     {% endif %}
     {% endwith %}
-  </table>
+  </div>
 </div>
 
 </div>
