@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-11-27 10:45+0000\n"
-"PO-Revision-Date: 2019-11-25 20:04+0000\n"
+"PO-Revision-Date: 2019-11-28 09:57+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -28,8 +28,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.10-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -397,12 +397,6 @@ msgid "Editor link"
 msgstr "Ссылка редактора"
 
 #: weblate/accounts/models.py:379
-#, fuzzy
-#| msgid ""
-#| "Enter a custom URL to be used as link to the source code. You can use "
-#| "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is a good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -410,7 +404,7 @@ msgid ""
 msgstr ""
 "Укажите адрес, который будет использоваться как ссылка исходного кода. Можно "
 "использовать {{branch}} для ветви, {{filename}} и {{line}}, как имя файла и "
-"строчных заглушек."
+"строчных заполнителей."
 
 #: weblate/accounts/models.py:388
 msgid "Translation editor mode"
@@ -2233,13 +2227,11 @@ msgstr "Перевод использует двуязычные файлы."
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
-msgstr "Заглушки"
+msgstr "Заполнители"
 
 #: weblate/checks/placeholders.py:46
-#, fuzzy
-#| msgid "Translations with failing checks"
 msgid "Translation is missing some placeholders"
-msgstr "Переводы с непройденной проверкой"
+msgstr "Некоторые заполнители пропущены в переводе"
 
 #: weblate/checks/placeholders.py:68
 #: weblate/templates/addons/discovery_help.html:8
@@ -9157,8 +9149,8 @@ msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Ссылка на браузер репозитория, используются {{branch}} для ветви, "
-"{{filename}} и {{line}}, как имя файла и строчные заполнители."
+"Ссылка на браузер репозитория, используются {{ branch }} для ветви, {{ "
+"filename }} и {{ line }}, как имя файла и строчные заполнители."
 
 #: weblate/trans/models/component.py:222
 msgid "Exported repository URL"
@@ -10135,7 +10127,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
-msgstr "Маска файла не содержит * в качестве заполнителя для языка!"
+msgstr "Маска файла не содержит * в качестве заглушки для языка!"
 
 #: weblate/trans/validators.py:38
 msgid ""
