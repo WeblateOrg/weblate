@@ -30,7 +30,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy
 from git.config import GitConfigParser
 
-from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
@@ -578,6 +577,7 @@ class GitMergeRequestBase(GitRepository):
         raise NotImplementedError()
 
     def get_merge_message(self):
+        from weblate.utils.render import render_template
         return render_template(settings.DEFAULT_PULL_MESSAGE, component=self)
 
 
