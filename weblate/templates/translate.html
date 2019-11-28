@@ -526,7 +526,7 @@
         </tbody>
     </table>
 {% if user_can_add_dictionary %}
-    <div class="panel-footer">
+    <div class="panel-footer panel-footer-links">
         <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% trans "Add word to glossary" %}</a>
     </div>
     <form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline double-submission">
