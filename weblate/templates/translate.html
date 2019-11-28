@@ -610,18 +610,6 @@
     {% blocktrans with unit.translation.filename as filename and unit.position as position %}{{ filename }}, string {{ position }}{% endblocktrans %}
     </span>
     </div>
-    {% with unit.active_source_checks as checks %}
-    {% if checks %}
-    <div class="list-group-item">
-    <h5>
-    {% trans "Failing checks" %}
-    </h5>
-    <div class="list-group">
-    {% include "snippets/list-checks.html" with object=unit.translation checks=checks %}
-    </div>
-    </div>
-    {% endif %}
-    {% endwith %}
   </div>
 </div>
 
