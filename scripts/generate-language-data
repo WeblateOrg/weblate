@@ -24,6 +24,7 @@
 import csv
 import json
 import re
+import subprocess
 from textwrap import TextWrapper
 
 SPLIT_RE = re.compile(
@@ -197,7 +198,7 @@ for word in SKIP:
 with open("weblate/checks/languages.py", "w") as output:
     output.write(HEADER)
     output.write("# Language names to ignore in same check\n")
-    output.write("LANGUAGES = frozenset((\n")
+    output.write("LANGUAGES = {\n")
     content = ", ".join(
         (
             "'{}'".format(word.replace("'", "\\'"))
@@ -206,4 +207,16 @@ with open("weblate/checks/languages.py", "w") as output:
         )
     )
     output.write("\n".join(WRAPPER.wrap(content)))
-    output.write("\n))\n")
+    output.write("\n}\n")
+
+# Apply coding style
+subprocess.run(
+    [
+        "black",
+        "weblate/langdata/countries.py",
+        "weblate/langdata/aliases.py",
+        "weblate/langdata/plurals.py",
+        "weblate/langdata/languages.py",
+        "weblate/checks/languages.py",
+    ]
+)

@@ -35,709 +35,929 @@ from django.utils.translation import ugettext_noop as _
 # Language definitions
 LANGUAGES = (
     # Translators: Language name, ISO code: aa
-    ('aa', _('Afar'), 2, 'n != 1'),
+    ("aa", _("Afar"), 2, "n != 1"),
     # Translators: Language name, ISO code: ab
-    ('ab', _('Abkhazian'), 2, 'n != 1'),
+    ("ab", _("Abkhazian"), 2, "n != 1"),
     # Translators: Language name, ISO code: ace
-    ('ace', _('Acehnese'), 1, '0'),
+    ("ace", _("Acehnese"), 1, "0"),
     # Translators: Language name, ISO code: ach
-    ('ach', _('Acholi'), 2, 'n > 1'),
+    ("ach", _("Acholi"), 2, "n > 1"),
     # Translators: Language name, ISO code: ady
-    ('ady', _('Adyghe'), 2, 'n > 1'),
+    ("ady", _("Adyghe"), 2, "n > 1"),
     # Translators: Language name, ISO code: ae
-    ('ae', _('Avestan'), 2, 'n != 1'),
+    ("ae", _("Avestan"), 2, "n != 1"),
     # Translators: Language name, ISO code: af
-    ('af', _('Afrikaans'), 2, 'n != 1'),
+    ("af", _("Afrikaans"), 2, "n != 1"),
     # Translators: Language name, ISO code: ak
-    ('ak', _('Akan'), 2, 'n > 1'),
+    ("ak", _("Akan"), 2, "n > 1"),
     # Translators: Language name, ISO code: am
-    ('am', _('Amharic'), 2, 'n > 1'),
+    ("am", _("Amharic"), 2, "n > 1"),
     # Translators: Language name, ISO code: an
-    ('an', _('Aragonese'), 2, 'n != 1'),
+    ("an", _("Aragonese"), 2, "n != 1"),
     # Translators: Language name, ISO code: anp
-    ('anp', _('Angika'), 2, 'n != 1'),
+    ("anp", _("Angika"), 2, "n != 1"),
     # Translators: Language name, ISO code: ar
-    ('ar', _('Arabic'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar",
+        _("Arabic"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: ar_BH
-    ('ar_BH', _('Arabic (Bahrain)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar_BH",
+        _("Arabic (Bahrain)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: ar_DZ
-    ('ar_DZ', _('Arabic (Algeria)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar_DZ",
+        _("Arabic (Algeria)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: ar_EG
-    ('ar_EG', _('Arabic (Egypt)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar_EG",
+        _("Arabic (Egypt)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: ar_KW
-    ('ar_KW', _('Arabic (Kuwait)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar_KW",
+        _("Arabic (Kuwait)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: ar_MA
-    ('ar_MA', _('Arabic (Morocco)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar_MA",
+        _("Arabic (Morocco)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: ar_SA
-    ('ar_SA', _('Arabic (Saudi Arabia)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar_SA",
+        _("Arabic (Saudi Arabia)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: ar_YE
-    ('ar_YE', _('Arabic (Yemen)'), 6, 'n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5'),
+    (
+        "ar_YE",
+        _("Arabic (Yemen)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: arn
-    ('arn', _('Mapudungun'), 2, 'n > 1'),
+    ("arn", _("Mapudungun"), 2, "n > 1"),
     # Translators: Language name, ISO code: ars
-    ('ars', _('Arabic (Najdi)'), 6, '(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))))'),
+    (
+        "ars",
+        _("Arabic (Najdi)"),
+        6,
+        "(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n % 100 >= 3 && n % 100 <= 10) ? 3 : ((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))))",
+    ),
     # Translators: Language name, ISO code: as
-    ('as', _('Assamese'), 2, 'n > 1'),
+    ("as", _("Assamese"), 2, "n > 1"),
     # Translators: Language name, ISO code: asa
-    ('asa', _('Asu'), 2, 'n != 1'),
+    ("asa", _("Asu"), 2, "n != 1"),
     # Translators: Language name, ISO code: ast
-    ('ast', _('Asturian'), 2, 'n != 1'),
+    ("ast", _("Asturian"), 2, "n != 1"),
     # Translators: Language name, ISO code: av
-    ('av', _('Avaric'), 2, 'n != 1'),
+    ("av", _("Avaric"), 2, "n != 1"),
     # Translators: Language name, ISO code: ay
-    ('ay', _('Aymará'), 1, '0'),
+    ("ay", _("Aymará"), 1, "0"),
     # Translators: Language name, ISO code: az
-    ('az', _('Azerbaijani'), 2, 'n != 1'),
+    ("az", _("Azerbaijani"), 2, "n != 1"),
     # Translators: Language name, ISO code: ba
-    ('ba', _('Bashkir'), 2, 'n != 1'),
+    ("ba", _("Bashkir"), 2, "n != 1"),
     # Translators: Language name, ISO code: bar
-    ('bar', _('Bavarian'), 2, 'n != 1'),
+    ("bar", _("Bavarian"), 2, "n != 1"),
     # Translators: Language name, ISO code: be
-    ('be', _('Belarusian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "be",
+        _("Belarusian"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: be_Latn
-    ('be_Latn', _('Belarusian (latin)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "be_Latn",
+        _("Belarusian (latin)"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: bem
-    ('bem', _('Bemba'), 2, 'n != 1'),
+    ("bem", _("Bemba"), 2, "n != 1"),
     # Translators: Language name, ISO code: ber
-    ('ber', _('Berber'), 2, 'n != 1'),
+    ("ber", _("Berber"), 2, "n != 1"),
     # Translators: Language name, ISO code: bez
-    ('bez', _('Bena'), 2, 'n != 1'),
+    ("bez", _("Bena"), 2, "n != 1"),
     # Translators: Language name, ISO code: bg
-    ('bg', _('Bulgarian'), 2, 'n != 1'),
+    ("bg", _("Bulgarian"), 2, "n != 1"),
     # Translators: Language name, ISO code: bh
-    ('bh', _('Bihari'), 2, 'n > 1'),
+    ("bh", _("Bihari"), 2, "n > 1"),
     # Translators: Language name, ISO code: bi
-    ('bi', _('Bislama'), 2, 'n != 1'),
+    ("bi", _("Bislama"), 2, "n != 1"),
     # Translators: Language name, ISO code: bm
-    ('bm', _('Bambara'), 1, '0'),
+    ("bm", _("Bambara"), 1, "0"),
     # Translators: Language name, ISO code: bn
-    ('bn', _('Bengali'), 2, 'n > 1'),
+    ("bn", _("Bengali"), 2, "n > 1"),
     # Translators: Language name, ISO code: bn_BD
-    ('bn_BD', _('Bengali (Bangladesh)'), 2, 'n != 1'),
+    ("bn_BD", _("Bengali (Bangladesh)"), 2, "n != 1"),
     # Translators: Language name, ISO code: bn_IN
-    ('bn_IN', _('Bengali (India)'), 2, 'n != 1'),
+    ("bn_IN", _("Bengali (India)"), 2, "n != 1"),
     # Translators: Language name, ISO code: bo
-    ('bo', _('Tibetan'), 1, '0'),
+    ("bo", _("Tibetan"), 1, "0"),
     # Translators: Language name, ISO code: br
-    ('br', _('Breton'), 5, '(n % 10 == 1 && n % 100 != 11 && n % 100 != 71 && n % 100 != 91) ? 0 : ((n % 10 == 2 && n % 100 != 12 && n % 100 != 72 && n % 100 != 92) ? 1 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && (n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 < 90 || n % 100 > 99)) ? 2 : ((n != 0 && n % 1000000 == 0) ? 3 : 4)))'),
+    (
+        "br",
+        _("Breton"),
+        5,
+        "(n % 10 == 1 && n % 100 != 11 && n % 100 != 71 && n % 100 != 91) ? 0 : ((n % 10 == 2 && n % 100 != 12 && n % 100 != 72 && n % 100 != 92) ? 1 : ((((n % 10 == 3 || n % 10 == 4) || n % 10 == 9) && (n % 100 < 10 || n % 100 > 19) && (n % 100 < 70 || n % 100 > 79) && (n % 100 < 90 || n % 100 > 99)) ? 2 : ((n != 0 && n % 1000000 == 0) ? 3 : 4)))",
+    ),
     # Translators: Language name, ISO code: brx
-    ('brx', _('Bodo'), 2, 'n != 1'),
+    ("brx", _("Bodo"), 2, "n != 1"),
     # Translators: Language name, ISO code: bs
-    ('bs', _('Bosnian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "bs",
+        _("Bosnian"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: bs_Cyrl
-    ('bs_Cyrl', _('Bosnian (cyrillic)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "bs_Cyrl",
+        _("Bosnian (cyrillic)"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: bs_Latn
-    ('bs_Latn', _('Bosnian (latin)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "bs_Latn",
+        _("Bosnian (latin)"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: byn
-    ('byn', _('Bilen'), 2, 'n != 1'),
+    ("byn", _("Bilen"), 2, "n != 1"),
     # Translators: Language name, ISO code: ca
-    ('ca', _('Catalan'), 2, 'n != 1'),
+    ("ca", _("Catalan"), 2, "n != 1"),
     # Translators: Language name, ISO code: ca@valencia
-    ('ca@valencia', _('Valencian'), 2, 'n != 1'),
+    ("ca@valencia", _("Valencian"), 2, "n != 1"),
     # Translators: Language name, ISO code: ce
-    ('ce', _('Chechen'), 2, 'n != 1'),
+    ("ce", _("Chechen"), 2, "n != 1"),
     # Translators: Language name, ISO code: ceb
-    ('ceb', _('Cebuano'), 2, 'n != 1'),
+    ("ceb", _("Cebuano"), 2, "n != 1"),
     # Translators: Language name, ISO code: cgg
-    ('cgg', _('Chiga'), 2, 'n != 1'),
+    ("cgg", _("Chiga"), 2, "n != 1"),
     # Translators: Language name, ISO code: ch
-    ('ch', _('Chamorro'), 2, 'n != 1'),
+    ("ch", _("Chamorro"), 2, "n != 1"),
     # Translators: Language name, ISO code: chm
-    ('chm', _('Mari'), 2, 'n != 1'),
+    ("chm", _("Mari"), 2, "n != 1"),
     # Translators: Language name, ISO code: chr
-    ('chr', _('Cherokee'), 2, 'n != 1'),
+    ("chr", _("Cherokee"), 2, "n != 1"),
     # Translators: Language name, ISO code: ckb
-    ('ckb', _('Sorani'), 2, 'n != 1'),
+    ("ckb", _("Sorani"), 2, "n != 1"),
     # Translators: Language name, ISO code: co
-    ('co', _('Corsican'), 2, 'n != 1'),
+    ("co", _("Corsican"), 2, "n != 1"),
     # Translators: Language name, ISO code: cr
-    ('cr', _('Cree'), 2, 'n != 1'),
+    ("cr", _("Cree"), 2, "n != 1"),
     # Translators: Language name, ISO code: crh
-    ('crh', _('Crimean Tatar'), 1, '0'),
+    ("crh", _("Crimean Tatar"), 1, "0"),
     # Translators: Language name, ISO code: cs
-    ('cs', _('Czech'), 3, '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2'),
+    ("cs", _("Czech"), 3, "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2"),
     # Translators: Language name, ISO code: csb
-    ('csb', _('Kashubian'), 3, 'n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "csb",
+        _("Kashubian"),
+        3,
+        "n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: cu
-    ('cu', _('Old Church Slavonic'), 2, 'n != 1'),
+    ("cu", _("Old Church Slavonic"), 2, "n != 1"),
     # Translators: Language name, ISO code: cv
-    ('cv', _('Chuvash'), 2, 'n != 1'),
+    ("cv", _("Chuvash"), 2, "n != 1"),
     # Translators: Language name, ISO code: cy
-    ('cy', _('Welsh'), 6, '(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5'),
+    (
+        "cy",
+        _("Welsh"),
+        6,
+        "(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5",
+    ),
     # Translators: Language name, ISO code: da
-    ('da', _('Danish'), 2, 'n != 1'),
+    ("da", _("Danish"), 2, "n != 1"),
     # Translators: Language name, ISO code: de
-    ('de', _('German'), 2, 'n != 1'),
+    ("de", _("German"), 2, "n != 1"),
     # Translators: Language name, ISO code: de_AT
-    ('de_AT', _('German (Austria)'), 2, 'n != 1'),
+    ("de_AT", _("German (Austria)"), 2, "n != 1"),
     # Translators: Language name, ISO code: de_CH
-    ('de_CH', _('German (Swiss High)'), 2, 'n != 1'),
+    ("de_CH", _("German (Swiss High)"), 2, "n != 1"),
     # Translators: Language name, ISO code: de_LU
-    ('de_LU', _('German (Luxembourg)'), 2, 'n != 1'),
+    ("de_LU", _("German (Luxembourg)"), 2, "n != 1"),
     # Translators: Language name, ISO code: doi
-    ('doi', _('Dogri'), 2, 'n != 1'),
+    ("doi", _("Dogri"), 2, "n != 1"),
     # Translators: Language name, ISO code: dsb
-    ('dsb', _('Lower Sorbian'), 4, '(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3))'),
+    (
+        "dsb",
+        _("Lower Sorbian"),
+        4,
+        "(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3))",
+    ),
     # Translators: Language name, ISO code: dv
-    ('dv', _('Dhivehi'), 2, 'n != 1'),
+    ("dv", _("Dhivehi"), 2, "n != 1"),
     # Translators: Language name, ISO code: dz
-    ('dz', _('Dzongkha'), 1, '0'),
+    ("dz", _("Dzongkha"), 1, "0"),
     # Translators: Language name, ISO code: ee
-    ('ee', _('Ewe'), 2, 'n != 1'),
+    ("ee", _("Ewe"), 2, "n != 1"),
     # Translators: Language name, ISO code: el
-    ('el', _('Greek'), 2, 'n != 1'),
+    ("el", _("Greek"), 2, "n != 1"),
     # Translators: Language name, ISO code: en
-    ('en', _('English'), 2, 'n != 1'),
+    ("en", _("English"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_AU
-    ('en_AU', _('English (Australia)'), 2, 'n != 1'),
+    ("en_AU", _("English (Australia)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_CA
-    ('en_CA', _('English (Canada)'), 2, 'n != 1'),
+    ("en_CA", _("English (Canada)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_GB
-    ('en_GB', _('English (United Kingdom)'), 2, 'n != 1'),
+    ("en_GB", _("English (United Kingdom)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_IE
-    ('en_IE', _('English (Ireland)'), 2, 'n != 1'),
+    ("en_IE", _("English (Ireland)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_IN
-    ('en_IN', _('English (India)'), 2, 'n != 1'),
+    ("en_IN", _("English (India)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_NZ
-    ('en_NZ', _('English (New Zealand)'), 2, 'n != 1'),
+    ("en_NZ", _("English (New Zealand)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_PH
-    ('en_PH', _('English (Philippines)'), 2, 'n != 1'),
+    ("en_PH", _("English (Philippines)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_US
-    ('en_US', _('English (United States)'), 2, 'n != 1'),
+    ("en_US", _("English (United States)"), 2, "n != 1"),
     # Translators: Language name, ISO code: en_ZA
-    ('en_ZA', _('English (South Africa)'), 2, 'n != 1'),
+    ("en_ZA", _("English (South Africa)"), 2, "n != 1"),
     # Translators: Language name, ISO code: eo
-    ('eo', _('Esperanto'), 2, 'n != 1'),
+    ("eo", _("Esperanto"), 2, "n != 1"),
     # Translators: Language name, ISO code: es
-    ('es', _('Spanish'), 2, 'n != 1'),
+    ("es", _("Spanish"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_419
-    ('es_419', _('Spanish (Latin America)'), 2, 'n != 1'),
+    ("es_419", _("Spanish (Latin America)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_AR
-    ('es_AR', _('Spanish (Argentina)'), 2, 'n != 1'),
+    ("es_AR", _("Spanish (Argentina)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_BO
-    ('es_BO', _('Spanish (Bolivia)'), 2, 'n != 1'),
+    ("es_BO", _("Spanish (Bolivia)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_CL
-    ('es_CL', _('Spanish (Chile)'), 2, 'n != 1'),
+    ("es_CL", _("Spanish (Chile)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_DO
-    ('es_DO', _('Spanish (Dominican Republic)'), 2, 'n != 1'),
+    ("es_DO", _("Spanish (Dominican Republic)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_EC
-    ('es_EC', _('Spanish (Ecuador)'), 2, 'n != 1'),
+    ("es_EC", _("Spanish (Ecuador)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_MX
-    ('es_MX', _('Spanish (Mexico)'), 2, 'n != 1'),
+    ("es_MX", _("Spanish (Mexico)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_PE
-    ('es_PE', _('Spanish (Peru)'), 2, 'n != 1'),
+    ("es_PE", _("Spanish (Peru)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_PR
-    ('es_PR', _('Spanish (Puerto Rico)'), 2, 'n != 1'),
+    ("es_PR", _("Spanish (Puerto Rico)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_US
-    ('es_US', _('Spanish (American)'), 2, 'n != 1'),
+    ("es_US", _("Spanish (American)"), 2, "n != 1"),
     # Translators: Language name, ISO code: es_VE
-    ('es_VE', _('Spanish (Venezuela)'), 2, 'n != 1'),
+    ("es_VE", _("Spanish (Venezuela)"), 2, "n != 1"),
     # Translators: Language name, ISO code: et
-    ('et', _('Estonian'), 2, 'n != 1'),
+    ("et", _("Estonian"), 2, "n != 1"),
     # Translators: Language name, ISO code: eu
-    ('eu', _('Basque'), 2, 'n != 1'),
+    ("eu", _("Basque"), 2, "n != 1"),
     # Translators: Language name, ISO code: fa
-    ('fa', _('Persian'), 2, 'n > 1'),
+    ("fa", _("Persian"), 2, "n > 1"),
     # Translators: Language name, ISO code: fa_AF
-    ('fa_AF', _('Dari'), 2, 'n > 1'),
+    ("fa_AF", _("Dari"), 2, "n > 1"),
     # Translators: Language name, ISO code: ff
-    ('ff', _('Fulah'), 2, 'n > 1'),
+    ("ff", _("Fulah"), 2, "n > 1"),
     # Translators: Language name, ISO code: fi
-    ('fi', _('Finnish'), 2, 'n != 1'),
+    ("fi", _("Finnish"), 2, "n != 1"),
     # Translators: Language name, ISO code: fil
-    ('fil', _('Filipino'), 2, 'n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9)'),
+    (
+        "fil",
+        _("Filipino"),
+        2,
+        "n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9)",
+    ),
     # Translators: Language name, ISO code: fj
-    ('fj', _('Fijian'), 2, 'n != 1'),
+    ("fj", _("Fijian"), 2, "n != 1"),
     # Translators: Language name, ISO code: fo
-    ('fo', _('Faroese'), 2, 'n != 1'),
+    ("fo", _("Faroese"), 2, "n != 1"),
     # Translators: Language name, ISO code: fr
-    ('fr', _('French'), 2, 'n > 1'),
+    ("fr", _("French"), 2, "n > 1"),
     # Translators: Language name, ISO code: fr_AG
-    ('fr_AG', _('French (Antigua and Barbuda)'), 2, 'n > 1'),
+    ("fr_AG", _("French (Antigua and Barbuda)"), 2, "n > 1"),
     # Translators: Language name, ISO code: fr_BE
-    ('fr_BE', _('French (Belgium)'), 2, 'n > 1'),
+    ("fr_BE", _("French (Belgium)"), 2, "n > 1"),
     # Translators: Language name, ISO code: fr_CA
-    ('fr_CA', _('French (Canada)'), 2, 'n > 1'),
+    ("fr_CA", _("French (Canada)"), 2, "n > 1"),
     # Translators: Language name, ISO code: fr_CH
-    ('fr_CH', _('French (Switzerland)'), 2, 'n > 1'),
+    ("fr_CH", _("French (Switzerland)"), 2, "n > 1"),
     # Translators: Language name, ISO code: fr_LU
-    ('fr_LU', _('French (Luxembourg)'), 2, 'n > 1'),
+    ("fr_LU", _("French (Luxembourg)"), 2, "n > 1"),
     # Translators: Language name, ISO code: frp
-    ('frp', _('Franco-Provençal'), 2, 'n > 1'),
+    ("frp", _("Franco-Provençal"), 2, "n > 1"),
     # Translators: Language name, ISO code: fur
-    ('fur', _('Friulian'), 2, 'n != 1'),
+    ("fur", _("Friulian"), 2, "n != 1"),
     # Translators: Language name, ISO code: fy
-    ('fy', _('Frisian'), 2, 'n != 1'),
+    ("fy", _("Frisian"), 2, "n != 1"),
     # Translators: Language name, ISO code: ga
-    ('ga', _('Irish'), 5, 'n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>6 && n<11) ? 3 : 4'),
+    (
+        "ga",
+        _("Irish"),
+        5,
+        "n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>6 && n<11) ? 3 : 4",
+    ),
     # Translators: Language name, ISO code: gd
-    ('gd', _('Gaelic'), 4, '(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3'),
+    (
+        "gd",
+        _("Gaelic"),
+        4,
+        "(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : (n > 2 && n < 20) ? 2 : 3",
+    ),
     # Translators: Language name, ISO code: gez
-    ('gez', _('Ge\'ez'), 2, 'n != 1'),
+    ("gez", _("Ge'ez"), 2, "n != 1"),
     # Translators: Language name, ISO code: gl
-    ('gl', _('Galician'), 2, 'n != 1'),
+    ("gl", _("Galician"), 2, "n != 1"),
     # Translators: Language name, ISO code: gn
-    ('gn', _('Guarani'), 2, 'n != 1'),
+    ("gn", _("Guarani"), 2, "n != 1"),
     # Translators: Language name, ISO code: gsw
-    ('gsw', _('German (Swiss)'), 2, 'n != 1'),
+    ("gsw", _("German (Swiss)"), 2, "n != 1"),
     # Translators: Language name, ISO code: gu
-    ('gu', _('Gujarati'), 2, 'n > 1'),
+    ("gu", _("Gujarati"), 2, "n > 1"),
     # Translators: Language name, ISO code: gu_IN
-    ('gu_IN', _('Gujarati (India)'), 2, 'n > 1'),
+    ("gu_IN", _("Gujarati (India)"), 2, "n > 1"),
     # Translators: Language name, ISO code: gun
-    ('gun', _('Gun'), 2, 'n > 1'),
+    ("gun", _("Gun"), 2, "n > 1"),
     # Translators: Language name, ISO code: guw
-    ('guw', _('Gun'), 2, 'n > 1'),
+    ("guw", _("Gun"), 2, "n > 1"),
     # Translators: Language name, ISO code: gv
-    ('gv', _('Manx'), 4, '(n % 10 == 1) ? 0 : ((n % 10 == 2) ? 1 : ((n % 100 == 0 || n % 100 == 20 || n % 100 == 40 || n % 100 == 60 || n % 100 == 80) ? 2 : 3))'),
+    (
+        "gv",
+        _("Manx"),
+        4,
+        "(n % 10 == 1) ? 0 : ((n % 10 == 2) ? 1 : ((n % 100 == 0 || n % 100 == 20 || n % 100 == 40 || n % 100 == 60 || n % 100 == 80) ? 2 : 3))",
+    ),
     # Translators: Language name, ISO code: ha
-    ('ha', _('Hausa'), 2, 'n != 1'),
+    ("ha", _("Hausa"), 2, "n != 1"),
     # Translators: Language name, ISO code: haw
-    ('haw', _('Hawaiian'), 2, 'n != 1'),
+    ("haw", _("Hawaiian"), 2, "n != 1"),
     # Translators: Language name, ISO code: he
-    ('he', _('Hebrew'), 4, '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))'),
+    (
+        "he",
+        _("Hebrew"),
+        4,
+        "(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))",
+    ),
     # Translators: Language name, ISO code: he_IL
-    ('he_IL', _('Hebrew (Israel)'), 4, '(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))'),
+    (
+        "he_IL",
+        _("Hebrew (Israel)"),
+        4,
+        "(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))",
+    ),
     # Translators: Language name, ISO code: hi
-    ('hi', _('Hindi'), 2, 'n > 1'),
+    ("hi", _("Hindi"), 2, "n > 1"),
     # Translators: Language name, ISO code: hil
-    ('hil', _('Hiligaynon'), 2, 'n != 1'),
+    ("hil", _("Hiligaynon"), 2, "n != 1"),
     # Translators: Language name, ISO code: hne
-    ('hne', _('Chhattisgarhi'), 2, 'n != 1'),
+    ("hne", _("Chhattisgarhi"), 2, "n != 1"),
     # Translators: Language name, ISO code: ho
-    ('ho', _('Hiri Motu'), 2, 'n != 1'),
+    ("ho", _("Hiri Motu"), 2, "n != 1"),
     # Translators: Language name, ISO code: hr
-    ('hr', _('Croatian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "hr",
+        _("Croatian"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: hrx
-    ('hrx', _('Hunsrik'), 2, 'n != 1'),
+    ("hrx", _("Hunsrik"), 2, "n != 1"),
     # Translators: Language name, ISO code: hsb
-    ('hsb', _('Upper Sorbian'), 4, '(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3))'),
+    (
+        "hsb",
+        _("Upper Sorbian"),
+        4,
+        "(n % 100 == 1) ? 0 : ((n % 100 == 2) ? 1 : ((n % 100 == 3 || n % 100 == 4) ? 2 : 3))",
+    ),
     # Translators: Language name, ISO code: ht
-    ('ht', _('Haitian'), 2, 'n != 1'),
+    ("ht", _("Haitian"), 2, "n != 1"),
     # Translators: Language name, ISO code: hu
-    ('hu', _('Hungarian'), 2, 'n != 1'),
+    ("hu", _("Hungarian"), 2, "n != 1"),
     # Translators: Language name, ISO code: hy
-    ('hy', _('Armenian'), 2, 'n > 1'),
+    ("hy", _("Armenian"), 2, "n > 1"),
     # Translators: Language name, ISO code: hz
-    ('hz', _('Herero'), 2, 'n != 1'),
+    ("hz", _("Herero"), 2, "n != 1"),
     # Translators: Language name, ISO code: ia
-    ('ia', _('Interlingua'), 2, 'n != 1'),
+    ("ia", _("Interlingua"), 2, "n != 1"),
     # Translators: Language name, ISO code: id
-    ('id', _('Indonesian'), 1, '0'),
+    ("id", _("Indonesian"), 1, "0"),
     # Translators: Language name, ISO code: ie
-    ('ie', _('Occidental'), 2, 'n != 1'),
+    ("ie", _("Occidental"), 2, "n != 1"),
     # Translators: Language name, ISO code: ig
-    ('ig', _('Igbo'), 1, '0'),
+    ("ig", _("Igbo"), 1, "0"),
     # Translators: Language name, ISO code: ii
-    ('ii', _('Nuosu'), 1, '0'),
+    ("ii", _("Nuosu"), 1, "0"),
     # Translators: Language name, ISO code: ik
-    ('ik', _('Inupiaq'), 2, 'n != 1'),
+    ("ik", _("Inupiaq"), 2, "n != 1"),
     # Translators: Language name, ISO code: io
-    ('io', _('Ido'), 2, 'n != 1'),
+    ("io", _("Ido"), 2, "n != 1"),
     # Translators: Language name, ISO code: is
-    ('is', _('Icelandic'), 2, 'n % 10 != 1 || n % 100 == 11'),
+    ("is", _("Icelandic"), 2, "n % 10 != 1 || n % 100 == 11"),
     # Translators: Language name, ISO code: it
-    ('it', _('Italian'), 2, 'n != 1'),
+    ("it", _("Italian"), 2, "n != 1"),
     # Translators: Language name, ISO code: iu
-    ('iu', _('Inuktitut'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("iu", _("Inuktitut"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: ja
-    ('ja', _('Japanese'), 1, '0'),
+    ("ja", _("Japanese"), 1, "0"),
     # Translators: Language name, ISO code: ja_KS
-    ('ja_KS', _('Japanese (Kansai)'), 1, '0'),
+    ("ja_KS", _("Japanese (Kansai)"), 1, "0"),
     # Translators: Language name, ISO code: jam
-    ('jam', _('Jamaican Patois'), 2, 'n != 1'),
+    ("jam", _("Jamaican Patois"), 2, "n != 1"),
     # Translators: Language name, ISO code: jbo
-    ('jbo', _('Lojban'), 1, '0'),
+    ("jbo", _("Lojban"), 1, "0"),
     # Translators: Language name, ISO code: jgo
-    ('jgo', _('Ngomba'), 2, 'n != 1'),
+    ("jgo", _("Ngomba"), 2, "n != 1"),
     # Translators: Language name, ISO code: jmc
-    ('jmc', _('Machame'), 2, 'n != 1'),
+    ("jmc", _("Machame"), 2, "n != 1"),
     # Translators: Language name, ISO code: jv
-    ('jv', _('Javanese'), 1, '0'),
+    ("jv", _("Javanese"), 1, "0"),
     # Translators: Language name, ISO code: ka
-    ('ka', _('Georgian'), 2, 'n != 1'),
+    ("ka", _("Georgian"), 2, "n != 1"),
     # Translators: Language name, ISO code: kab
-    ('kab', _('Kabyle'), 2, 'n > 1'),
+    ("kab", _("Kabyle"), 2, "n > 1"),
     # Translators: Language name, ISO code: kaj
-    ('kaj', _('Jju'), 2, 'n != 1'),
+    ("kaj", _("Jju"), 2, "n != 1"),
     # Translators: Language name, ISO code: kcg
-    ('kcg', _('Tyap'), 2, 'n != 1'),
+    ("kcg", _("Tyap"), 2, "n != 1"),
     # Translators: Language name, ISO code: kde
-    ('kde', _('Makonde'), 1, '0'),
+    ("kde", _("Makonde"), 1, "0"),
     # Translators: Language name, ISO code: kea
-    ('kea', _('Kabuverdianu'), 1, '0'),
+    ("kea", _("Kabuverdianu"), 1, "0"),
     # Translators: Language name, ISO code: kg
-    ('kg', _('Kongo'), 2, 'n != 1'),
+    ("kg", _("Kongo"), 2, "n != 1"),
     # Translators: Language name, ISO code: ki
-    ('ki', _('Gikuyu'), 2, 'n != 1'),
+    ("ki", _("Gikuyu"), 2, "n != 1"),
     # Translators: Language name, ISO code: kj
-    ('kj', _('Kwanyama'), 2, 'n != 1'),
+    ("kj", _("Kwanyama"), 2, "n != 1"),
     # Translators: Language name, ISO code: kk
-    ('kk', _('Kazakh'), 2, 'n != 1'),
+    ("kk", _("Kazakh"), 2, "n != 1"),
     # Translators: Language name, ISO code: kkj
-    ('kkj', _('Kako'), 2, 'n != 1'),
+    ("kkj", _("Kako"), 2, "n != 1"),
     # Translators: Language name, ISO code: kl
-    ('kl', _('Greenlandic'), 2, 'n != 1'),
+    ("kl", _("Greenlandic"), 2, "n != 1"),
     # Translators: Language name, ISO code: km
-    ('km', _('Central Khmer'), 1, '0'),
+    ("km", _("Central Khmer"), 1, "0"),
     # Translators: Language name, ISO code: kmr
-    ('kmr', _('Kurmanji'), 2, 'n != 1'),
+    ("kmr", _("Kurmanji"), 2, "n != 1"),
     # Translators: Language name, ISO code: kn
-    ('kn', _('Kannada'), 2, 'n > 1'),
+    ("kn", _("Kannada"), 2, "n > 1"),
     # Translators: Language name, ISO code: ko
-    ('ko', _('Korean'), 1, '0'),
+    ("ko", _("Korean"), 1, "0"),
     # Translators: Language name, ISO code: kok
-    ('kok', _('Konkani'), 2, 'n != 1'),
+    ("kok", _("Konkani"), 2, "n != 1"),
     # Translators: Language name, ISO code: kr
-    ('kr', _('Kanuri'), 2, 'n != 1'),
+    ("kr", _("Kanuri"), 2, "n != 1"),
     # Translators: Language name, ISO code: ks
-    ('ks', _('Kashmiri'), 2, 'n != 1'),
+    ("ks", _("Kashmiri"), 2, "n != 1"),
     # Translators: Language name, ISO code: ksb
-    ('ksb', _('Shambala'), 2, 'n != 1'),
+    ("ksb", _("Shambala"), 2, "n != 1"),
     # Translators: Language name, ISO code: ksh
-    ('ksh', _('Colognian'), 3, 'n==0 ? 0 : n==1 ? 1 : 2'),
+    ("ksh", _("Colognian"), 3, "n==0 ? 0 : n==1 ? 1 : 2"),
     # Translators: Language name, ISO code: ku
-    ('ku', _('Kurdish'), 2, 'n != 1'),
+    ("ku", _("Kurdish"), 2, "n != 1"),
     # Translators: Language name, ISO code: kv
-    ('kv', _('Komi'), 2, 'n != 1'),
+    ("kv", _("Komi"), 2, "n != 1"),
     # Translators: Language name, ISO code: kw
-    ('kw', _('Cornish'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("kw", _("Cornish"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: ky
-    ('ky', _('Kyrgyz'), 2, 'n != 1'),
+    ("ky", _("Kyrgyz"), 2, "n != 1"),
     # Translators: Language name, ISO code: la
-    ('la', _('Latin'), 2, 'n != 1'),
+    ("la", _("Latin"), 2, "n != 1"),
     # Translators: Language name, ISO code: lag
-    ('lag', _('Langi'), 3, '(n == 0) ? 0 : ((n == 1) ? 1 : 2)'),
+    ("lag", _("Langi"), 3, "(n == 0) ? 0 : ((n == 1) ? 1 : 2)"),
     # Translators: Language name, ISO code: lb
-    ('lb', _('Luxembourgish'), 2, 'n != 1'),
+    ("lb", _("Luxembourgish"), 2, "n != 1"),
     # Translators: Language name, ISO code: lg
-    ('lg', _('Luganda'), 2, 'n != 1'),
+    ("lg", _("Luganda"), 2, "n != 1"),
     # Translators: Language name, ISO code: li
-    ('li', _('Limburgish'), 2, 'n != 1'),
+    ("li", _("Limburgish"), 2, "n != 1"),
     # Translators: Language name, ISO code: lkt
-    ('lkt', _('Lakota'), 1, '0'),
+    ("lkt", _("Lakota"), 1, "0"),
     # Translators: Language name, ISO code: ln
-    ('ln', _('Lingala'), 2, 'n > 1'),
+    ("ln", _("Lingala"), 2, "n > 1"),
     # Translators: Language name, ISO code: lo
-    ('lo', _('Lao'), 1, '0'),
+    ("lo", _("Lao"), 1, "0"),
     # Translators: Language name, ISO code: lt
-    ('lt', _('Lithuanian'), 3, '(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2)'),
+    (
+        "lt",
+        _("Lithuanian"),
+        3,
+        "(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : ((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2)",
+    ),
     # Translators: Language name, ISO code: lu
-    ('lu', _('Luba-Katanga'), 2, 'n != 1'),
+    ("lu", _("Luba-Katanga"), 2, "n != 1"),
     # Translators: Language name, ISO code: lv
-    ('lv', _('Latvian'), 3, '(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2)'),
+    (
+        "lv",
+        _("Latvian"),
+        3,
+        "(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2)",
+    ),
     # Translators: Language name, ISO code: mai
-    ('mai', _('Maithili'), 2, 'n != 1'),
+    ("mai", _("Maithili"), 2, "n != 1"),
     # Translators: Language name, ISO code: mas
-    ('mas', _('Masai'), 2, 'n != 1'),
+    ("mas", _("Masai"), 2, "n != 1"),
     # Translators: Language name, ISO code: me
-    ('me', _('Montenegrin'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "me",
+        _("Montenegrin"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: mfe
-    ('mfe', _('Morisyen'), 2, 'n > 1'),
+    ("mfe", _("Morisyen"), 2, "n > 1"),
     # Translators: Language name, ISO code: mg
-    ('mg', _('Malagasy'), 2, 'n > 1'),
+    ("mg", _("Malagasy"), 2, "n > 1"),
     # Translators: Language name, ISO code: mgo
-    ('mgo', _('Metaʼ'), 2, 'n != 1'),
+    ("mgo", _("Metaʼ"), 2, "n != 1"),
     # Translators: Language name, ISO code: mh
-    ('mh', _('Marshallese'), 2, 'n != 1'),
+    ("mh", _("Marshallese"), 2, "n != 1"),
     # Translators: Language name, ISO code: mhr
-    ('mhr', _('Meadow Mari'), 2, 'n != 1'),
+    ("mhr", _("Meadow Mari"), 2, "n != 1"),
     # Translators: Language name, ISO code: mi
-    ('mi', _('Maori'), 2, 'n > 1'),
+    ("mi", _("Maori"), 2, "n > 1"),
     # Translators: Language name, ISO code: mia
-    ('mia', _('Miami'), 2, 'n > 1'),
+    ("mia", _("Miami"), 2, "n > 1"),
     # Translators: Language name, ISO code: mk
-    ('mk', _('Macedonian'), 2, 'n==1 || n%10==1 ? 0 : 1'),
+    ("mk", _("Macedonian"), 2, "n==1 || n%10==1 ? 0 : 1"),
     # Translators: Language name, ISO code: ml
-    ('ml', _('Malayalam'), 2, 'n != 1'),
+    ("ml", _("Malayalam"), 2, "n != 1"),
     # Translators: Language name, ISO code: mn
-    ('mn', _('Mongolian'), 2, 'n != 1'),
+    ("mn", _("Mongolian"), 2, "n != 1"),
     # Translators: Language name, ISO code: mni
-    ('mni', _('Manipuri'), 2, 'n != 1'),
+    ("mni", _("Manipuri"), 2, "n != 1"),
     # Translators: Language name, ISO code: mnk
-    ('mnk', _('Mandinka'), 3, 'n==0 ? 0 : n==1 ? 1 : 2'),
+    ("mnk", _("Mandinka"), 3, "n==0 ? 0 : n==1 ? 1 : 2"),
     # Translators: Language name, ISO code: mr
-    ('mr', _('Marathi'), 2, 'n > 1'),
+    ("mr", _("Marathi"), 2, "n > 1"),
     # Translators: Language name, ISO code: ms
-    ('ms', _('Malay'), 1, '0'),
+    ("ms", _("Malay"), 1, "0"),
     # Translators: Language name, ISO code: mt
-    ('mt', _('Maltese'), 4, 'n==1 ? 0 : n==0 || ( n%100>1 && n%100<11) ? 1 : (n%100>10 && n%100<20 ) ? 2 : 3'),
+    (
+        "mt",
+        _("Maltese"),
+        4,
+        "n==1 ? 0 : n==0 || ( n%100>1 && n%100<11) ? 1 : (n%100>10 && n%100<20 ) ? 2 : 3",
+    ),
     # Translators: Language name, ISO code: my
-    ('my', _('Burmese'), 1, '0'),
+    ("my", _("Burmese"), 1, "0"),
     # Translators: Language name, ISO code: na
-    ('na', _('Nauru'), 2, 'n != 1'),
+    ("na", _("Nauru"), 2, "n != 1"),
     # Translators: Language name, ISO code: nah
-    ('nah', _('Nahuatl'), 2, 'n != 1'),
+    ("nah", _("Nahuatl"), 2, "n != 1"),
     # Translators: Language name, ISO code: nan
-    ('nan', _('Chinese (Min Nan)'), 2, 'n != 1'),
+    ("nan", _("Chinese (Min Nan)"), 2, "n != 1"),
     # Translators: Language name, ISO code: nap
-    ('nap', _('Neapolitan'), 2, 'n != 1'),
+    ("nap", _("Neapolitan"), 2, "n != 1"),
     # Translators: Language name, ISO code: naq
-    ('naq', _('Nama'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("naq", _("Nama"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: nb_NO
-    ('nb_NO', _('Norwegian Bokmål'), 2, 'n != 1'),
+    ("nb_NO", _("Norwegian Bokmål"), 2, "n != 1"),
     # Translators: Language name, ISO code: nd
-    ('nd', _('North Ndebele'), 2, 'n != 1'),
+    ("nd", _("North Ndebele"), 2, "n != 1"),
     # Translators: Language name, ISO code: nds
-    ('nds', _('German (Low)'), 2, 'n != 1'),
+    ("nds", _("German (Low)"), 2, "n != 1"),
     # Translators: Language name, ISO code: ne
-    ('ne', _('Nepali'), 2, 'n != 1'),
+    ("ne", _("Nepali"), 2, "n != 1"),
     # Translators: Language name, ISO code: ng
-    ('ng', _('Ndonga'), 2, 'n != 1'),
+    ("ng", _("Ndonga"), 2, "n != 1"),
     # Translators: Language name, ISO code: nl
-    ('nl', _('Dutch'), 2, 'n != 1'),
+    ("nl", _("Dutch"), 2, "n != 1"),
     # Translators: Language name, ISO code: nl_BE
-    ('nl_BE', _('Flemish'), 2, 'n != 1'),
+    ("nl_BE", _("Flemish"), 2, "n != 1"),
     # Translators: Language name, ISO code: nn
-    ('nn', _('Norwegian Nynorsk'), 2, 'n != 1'),
+    ("nn", _("Norwegian Nynorsk"), 2, "n != 1"),
     # Translators: Language name, ISO code: nnh
-    ('nnh', _('Ngiemboon'), 2, 'n != 1'),
+    ("nnh", _("Ngiemboon"), 2, "n != 1"),
     # Translators: Language name, ISO code: nqo
-    ('nqo', _('N’Ko'), 1, '0'),
+    ("nqo", _("N’Ko"), 1, "0"),
     # Translators: Language name, ISO code: nr
-    ('nr', _('South Ndebele'), 2, 'n != 1'),
+    ("nr", _("South Ndebele"), 2, "n != 1"),
     # Translators: Language name, ISO code: nso
-    ('nso', _('Pedi'), 2, 'n > 1'),
+    ("nso", _("Pedi"), 2, "n > 1"),
     # Translators: Language name, ISO code: nv
-    ('nv', _('Navaho'), 2, 'n != 1'),
+    ("nv", _("Navaho"), 2, "n != 1"),
     # Translators: Language name, ISO code: ny
-    ('ny', _('Nyanja'), 2, 'n != 1'),
+    ("ny", _("Nyanja"), 2, "n != 1"),
     # Translators: Language name, ISO code: nyn
-    ('nyn', _('Nyankole'), 2, 'n != 1'),
+    ("nyn", _("Nyankole"), 2, "n != 1"),
     # Translators: Language name, ISO code: oc
-    ('oc', _('Occitan'), 2, 'n > 1'),
+    ("oc", _("Occitan"), 2, "n > 1"),
     # Translators: Language name, ISO code: oj
-    ('oj', _('Ojibwe'), 2, 'n != 1'),
+    ("oj", _("Ojibwe"), 2, "n != 1"),
     # Translators: Language name, ISO code: om
-    ('om', _('Oromo'), 2, 'n != 1'),
+    ("om", _("Oromo"), 2, "n != 1"),
     # Translators: Language name, ISO code: or
-    ('or', _('Odia'), 2, 'n != 1'),
+    ("or", _("Odia"), 2, "n != 1"),
     # Translators: Language name, ISO code: os
-    ('os', _('Ossetian'), 2, 'n != 1'),
+    ("os", _("Ossetian"), 2, "n != 1"),
     # Translators: Language name, ISO code: otk
-    ('otk', _('Kokturk'), 2, 'n != 1'),
+    ("otk", _("Kokturk"), 2, "n != 1"),
     # Translators: Language name, ISO code: pa
-    ('pa', _('Punjabi'), 2, 'n > 1'),
+    ("pa", _("Punjabi"), 2, "n > 1"),
     # Translators: Language name, ISO code: pap
-    ('pap', _('Papiamento'), 2, 'n != 1'),
+    ("pap", _("Papiamento"), 2, "n != 1"),
     # Translators: Language name, ISO code: pi
-    ('pi', _('Pali'), 2, 'n != 1'),
+    ("pi", _("Pali"), 2, "n != 1"),
     # Translators: Language name, ISO code: pl
-    ('pl', _('Polish'), 3, 'n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "pl",
+        _("Polish"),
+        3,
+        "n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: pms
-    ('pms', _('Piemontese'), 2, 'n != 1'),
+    ("pms", _("Piemontese"), 2, "n != 1"),
     # Translators: Language name, ISO code: pr
-    ('pr', _('Pirate'), 2, 'n != 1'),
+    ("pr", _("Pirate"), 2, "n != 1"),
     # Translators: Language name, ISO code: prg
-    ('prg', _('Prussian'), 3, '(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2)'),
+    (
+        "prg",
+        _("Prussian"),
+        3,
+        "(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2)",
+    ),
     # Translators: Language name, ISO code: ps
-    ('ps', _('Pashto'), 2, 'n != 1'),
+    ("ps", _("Pashto"), 2, "n != 1"),
     # Translators: Language name, ISO code: pt
-    ('pt', _('Portuguese'), 2, 'n > 1'),
+    ("pt", _("Portuguese"), 2, "n > 1"),
     # Translators: Language name, ISO code: pt_AO
-    ('pt_AO', _('Portuguese (Angola)'), 2, 'n > 1'),
+    ("pt_AO", _("Portuguese (Angola)"), 2, "n > 1"),
     # Translators: Language name, ISO code: pt_BR
-    ('pt_BR', _('Portuguese (Brazil)'), 2, 'n > 1'),
+    ("pt_BR", _("Portuguese (Brazil)"), 2, "n > 1"),
     # Translators: Language name, ISO code: pt_PT
-    ('pt_PT', _('Portuguese (Portugal)'), 2, 'n > 1'),
+    ("pt_PT", _("Portuguese (Portugal)"), 2, "n > 1"),
     # Translators: Language name, ISO code: qu
-    ('qu', _('Quechua'), 2, 'n != 1'),
+    ("qu", _("Quechua"), 2, "n != 1"),
     # Translators: Language name, ISO code: rm
-    ('rm', _('Romansh'), 2, 'n != 1'),
+    ("rm", _("Romansh"), 2, "n != 1"),
     # Translators: Language name, ISO code: rn
-    ('rn', _('Rundi'), 2, 'n != 1'),
+    ("rn", _("Rundi"), 2, "n != 1"),
     # Translators: Language name, ISO code: ro
-    ('ro', _('Romanian'), 3, 'n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2'),
+    ("ro", _("Romanian"), 3, "n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2"),
     # Translators: Language name, ISO code: ro_MD
-    ('ro_MD', _('Moldavian'), 3, '(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2)'),
+    (
+        "ro_MD",
+        _("Moldavian"),
+        3,
+        "(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2)",
+    ),
     # Translators: Language name, ISO code: rof
-    ('rof', _('Rombo'), 2, 'n != 1'),
+    ("rof", _("Rombo"), 2, "n != 1"),
     # Translators: Language name, ISO code: ru
-    ('ru', _('Russian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "ru",
+        _("Russian"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: ru_UA
-    ('ru_UA', _('Russian (Ukraine)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "ru_UA",
+        _("Russian (Ukraine)"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: rue
-    ('rue', _('Rusyn'), 2, 'n != 1'),
+    ("rue", _("Rusyn"), 2, "n != 1"),
     # Translators: Language name, ISO code: rw
-    ('rw', _('Kinyarwanda'), 2, 'n != 1'),
+    ("rw", _("Kinyarwanda"), 2, "n != 1"),
     # Translators: Language name, ISO code: rwk
-    ('rwk', _('Rwa'), 2, 'n != 1'),
+    ("rwk", _("Rwa"), 2, "n != 1"),
     # Translators: Language name, ISO code: sa
-    ('sa', _('Sanskrit'), 3, 'n==1 ? 0 : n==2 ? 1 : 2'),
+    ("sa", _("Sanskrit"), 3, "n==1 ? 0 : n==2 ? 1 : 2"),
     # Translators: Language name, ISO code: sah
-    ('sah', _('Yakut'), 1, '0'),
+    ("sah", _("Yakut"), 1, "0"),
     # Translators: Language name, ISO code: saq
-    ('saq', _('Samburu'), 2, 'n != 1'),
+    ("saq", _("Samburu"), 2, "n != 1"),
     # Translators: Language name, ISO code: sat
-    ('sat', _('Santali'), 2, 'n != 1'),
+    ("sat", _("Santali"), 2, "n != 1"),
     # Translators: Language name, ISO code: sc
-    ('sc', _('Sardinian'), 2, 'n != 1'),
+    ("sc", _("Sardinian"), 2, "n != 1"),
     # Translators: Language name, ISO code: scn
-    ('scn', _('Sicilian'), 2, 'n != 1'),
+    ("scn", _("Sicilian"), 2, "n != 1"),
     # Translators: Language name, ISO code: sco
-    ('sco', _('Scots'), 2, 'n != 1'),
+    ("sco", _("Scots"), 2, "n != 1"),
     # Translators: Language name, ISO code: sd
-    ('sd', _('Sindhi'), 2, 'n != 1'),
+    ("sd", _("Sindhi"), 2, "n != 1"),
     # Translators: Language name, ISO code: sdh
-    ('sdh', _('Southern Kurdish'), 2, 'n != 1'),
+    ("sdh", _("Southern Kurdish"), 2, "n != 1"),
     # Translators: Language name, ISO code: se
-    ('se', _('Northern Sami'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("se", _("Northern Sami"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: seh
-    ('seh', _('Sena'), 2, 'n != 1'),
+    ("seh", _("Sena"), 2, "n != 1"),
     # Translators: Language name, ISO code: ses
-    ('ses', _('Koyraboro Senni'), 1, '0'),
+    ("ses", _("Koyraboro Senni"), 1, "0"),
     # Translators: Language name, ISO code: sg
-    ('sg', _('Sango'), 1, '0'),
+    ("sg", _("Sango"), 1, "0"),
     # Translators: Language name, ISO code: shi
-    ('shi', _('Tachelhit'), 3, '(n == 0 || n == 1) ? 0 : ((n >= 2 && n <= 10) ? 1 : 2)'),
+    (
+        "shi",
+        _("Tachelhit"),
+        3,
+        "(n == 0 || n == 1) ? 0 : ((n >= 2 && n <= 10) ? 1 : 2)",
+    ),
     # Translators: Language name, ISO code: shn
-    ('shn', _('Shan'), 2, 'n != 1'),
+    ("shn", _("Shan"), 2, "n != 1"),
     # Translators: Language name, ISO code: si
-    ('si', _('Sinhala'), 2, 'n > 1'),
+    ("si", _("Sinhala"), 2, "n > 1"),
     # Translators: Language name, ISO code: sk
-    ('sk', _('Slovak'), 3, '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2'),
+    ("sk", _("Slovak"), 3, "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2"),
     # Translators: Language name, ISO code: sl
-    ('sl', _('Slovenian'), 4, 'n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3'),
+    (
+        "sl",
+        _("Slovenian"),
+        4,
+        "n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3",
+    ),
     # Translators: Language name, ISO code: sm
-    ('sm', _('Samoan'), 2, 'n != 1'),
+    ("sm", _("Samoan"), 2, "n != 1"),
     # Translators: Language name, ISO code: sma
-    ('sma', _('Southern Sami'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("sma", _("Southern Sami"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: smi
-    ('smi', _('Sami'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("smi", _("Sami"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: smj
-    ('smj', _('Lule Sami'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("smj", _("Lule Sami"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: smn
-    ('smn', _('Inari Sami'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("smn", _("Inari Sami"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: sms
-    ('sms', _('Skolt Sami'), 3, '(n == 1) ? 0 : ((n == 2) ? 1 : 2)'),
+    ("sms", _("Skolt Sami"), 3, "(n == 1) ? 0 : ((n == 2) ? 1 : 2)"),
     # Translators: Language name, ISO code: sn
-    ('sn', _('Shona'), 2, 'n != 1'),
+    ("sn", _("Shona"), 2, "n != 1"),
     # Translators: Language name, ISO code: so
-    ('so', _('Somali'), 2, 'n != 1'),
+    ("so", _("Somali"), 2, "n != 1"),
     # Translators: Language name, ISO code: son
-    ('son', _('Songhai'), 1, '0'),
+    ("son", _("Songhai"), 1, "0"),
     # Translators: Language name, ISO code: sq
-    ('sq', _('Albanian'), 2, 'n != 1'),
+    ("sq", _("Albanian"), 2, "n != 1"),
     # Translators: Language name, ISO code: sr
-    ('sr', _('Serbian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "sr",
+        _("Serbian"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: sr_Cyrl
-    ('sr_Cyrl', _('Serbian (cyrillic)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "sr_Cyrl",
+        _("Serbian (cyrillic)"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: sr_Latn
-    ('sr_Latn', _('Serbian (latin)'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "sr_Latn",
+        _("Serbian (latin)"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: ss
-    ('ss', _('Swati'), 2, 'n != 1'),
+    ("ss", _("Swati"), 2, "n != 1"),
     # Translators: Language name, ISO code: ssy
-    ('ssy', _('Saho'), 2, 'n != 1'),
+    ("ssy", _("Saho"), 2, "n != 1"),
     # Translators: Language name, ISO code: st
-    ('st', _('Southern Sotho'), 2, 'n != 1'),
+    ("st", _("Southern Sotho"), 2, "n != 1"),
     # Translators: Language name, ISO code: su
-    ('su', _('Sundanese'), 1, '0'),
+    ("su", _("Sundanese"), 1, "0"),
     # Translators: Language name, ISO code: sv
-    ('sv', _('Swedish'), 2, 'n != 1'),
+    ("sv", _("Swedish"), 2, "n != 1"),
     # Translators: Language name, ISO code: sw
-    ('sw', _('Swahili'), 2, 'n != 1'),
+    ("sw", _("Swahili"), 2, "n != 1"),
     # Translators: Language name, ISO code: sw_CD
-    ('sw_CD', _('Swahili (Congo)'), 2, 'n != 1'),
+    ("sw_CD", _("Swahili (Congo)"), 2, "n != 1"),
     # Translators: Language name, ISO code: syr
-    ('syr', _('Syriac'), 2, 'n != 1'),
+    ("syr", _("Syriac"), 2, "n != 1"),
     # Translators: Language name, ISO code: szl
-    ('szl', _('Silesian'), 3, 'n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "szl",
+        _("Silesian"),
+        3,
+        "n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: ta
-    ('ta', _('Tamil'), 2, 'n != 1'),
+    ("ta", _("Tamil"), 2, "n != 1"),
     # Translators: Language name, ISO code: ta_LK
-    ('ta_LK', _('Tamil (Sri Lanka)'), 2, 'n != 1'),
+    ("ta_LK", _("Tamil (Sri Lanka)"), 2, "n != 1"),
     # Translators: Language name, ISO code: te
-    ('te', _('Telugu'), 2, 'n != 1'),
+    ("te", _("Telugu"), 2, "n != 1"),
     # Translators: Language name, ISO code: teo
-    ('teo', _('Teso'), 2, 'n != 1'),
+    ("teo", _("Teso"), 2, "n != 1"),
     # Translators: Language name, ISO code: tg
-    ('tg', _('Tajik'), 1, '0'),
+    ("tg", _("Tajik"), 1, "0"),
     # Translators: Language name, ISO code: th
-    ('th', _('Thai'), 1, '0'),
+    ("th", _("Thai"), 1, "0"),
     # Translators: Language name, ISO code: ti
-    ('ti', _('Tigrinya'), 2, 'n > 1'),
+    ("ti", _("Tigrinya"), 2, "n > 1"),
     # Translators: Language name, ISO code: tig
-    ('tig', _('Tigre'), 2, 'n != 1'),
+    ("tig", _("Tigre"), 2, "n != 1"),
     # Translators: Language name, ISO code: tk
-    ('tk', _('Turkmen'), 2, 'n != 1'),
+    ("tk", _("Turkmen"), 2, "n != 1"),
     # Translators: Language name, ISO code: tl
-    ('tl', _('Tagalog'), 2, 'n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9)'),
+    (
+        "tl",
+        _("Tagalog"),
+        2,
+        "n != 1 && n != 2 && n != 3 && (n % 10 == 4 || n % 10 == 6 || n % 10 == 9)",
+    ),
     # Translators: Language name, ISO code: tlh-qaak
-    ('tlh-qaak', _('Klingon (pIqaD)'), 1, '0'),
+    ("tlh-qaak", _("Klingon (pIqaD)"), 1, "0"),
     # Translators: Language name, ISO code: tlh
-    ('tlh', _('Klingon'), 1, '0'),
+    ("tlh", _("Klingon"), 1, "0"),
     # Translators: Language name, ISO code: tn
-    ('tn', _('Tswana'), 2, 'n != 1'),
+    ("tn", _("Tswana"), 2, "n != 1"),
     # Translators: Language name, ISO code: to
-    ('to', _('Tongan'), 1, '0'),
+    ("to", _("Tongan"), 1, "0"),
     # Translators: Language name, ISO code: tr
-    ('tr', _('Turkish'), 2, 'n != 1'),
+    ("tr", _("Turkish"), 2, "n != 1"),
     # Translators: Language name, ISO code: ts
-    ('ts', _('Tsonga'), 2, 'n != 1'),
+    ("ts", _("Tsonga"), 2, "n != 1"),
     # Translators: Language name, ISO code: tt
-    ('tt', _('Tatar'), 1, '0'),
+    ("tt", _("Tatar"), 1, "0"),
     # Translators: Language name, ISO code: tt@iqtelif
-    ('tt@iqtelif', _('Tatar (IQTElif)'), 1, '0'),
+    ("tt@iqtelif", _("Tatar (IQTElif)"), 1, "0"),
     # Translators: Language name, ISO code: tw
-    ('tw', _('Twi'), 2, 'n != 1'),
+    ("tw", _("Twi"), 2, "n != 1"),
     # Translators: Language name, ISO code: ty
-    ('ty', _('Tahitian'), 2, 'n != 1'),
+    ("ty", _("Tahitian"), 2, "n != 1"),
     # Translators: Language name, ISO code: tzm
-    ('tzm', _('Central Atlas Tamazight'), 2, 'n >= 2 && (n < 11 || n > 99)'),
+    ("tzm", _("Central Atlas Tamazight"), 2, "n >= 2 && (n < 11 || n > 99)"),
     # Translators: Language name, ISO code: ug
-    ('ug', _('Uyghur'), 2, 'n != 1'),
+    ("ug", _("Uyghur"), 2, "n != 1"),
     # Translators: Language name, ISO code: uk
-    ('uk', _('Ukrainian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "uk",
+        _("Ukrainian"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: ur
-    ('ur', _('Urdu'), 2, 'n != 1'),
+    ("ur", _("Urdu"), 2, "n != 1"),
     # Translators: Language name, ISO code: ur_PK
-    ('ur_PK', _('Urdu (Pakistan)'), 2, 'n != 1'),
+    ("ur_PK", _("Urdu (Pakistan)"), 2, "n != 1"),
     # Translators: Language name, ISO code: uz
-    ('uz', _('Uzbek'), 2, 'n != 1'),
+    ("uz", _("Uzbek"), 2, "n != 1"),
     # Translators: Language name, ISO code: uz_Latn
-    ('uz_Latn', _('Uzbek (latin)'), 2, 'n != 1'),
+    ("uz_Latn", _("Uzbek (latin)"), 2, "n != 1"),
     # Translators: Language name, ISO code: ve
-    ('ve', _('Venda'), 2, 'n != 1'),
+    ("ve", _("Venda"), 2, "n != 1"),
     # Translators: Language name, ISO code: vec
-    ('vec', _('Venetian'), 2, 'n != 1'),
+    ("vec", _("Venetian"), 2, "n != 1"),
     # Translators: Language name, ISO code: vi
-    ('vi', _('Vietnamese'), 1, '0'),
+    ("vi", _("Vietnamese"), 1, "0"),
     # Translators: Language name, ISO code: vls
-    ('vls', _('West Flemish'), 2, 'n != 1'),
+    ("vls", _("West Flemish"), 2, "n != 1"),
     # Translators: Language name, ISO code: vo
-    ('vo', _('Volapük'), 2, 'n != 1'),
+    ("vo", _("Volapük"), 2, "n != 1"),
     # Translators: Language name, ISO code: vun
-    ('vun', _('Vunjo'), 2, 'n != 1'),
+    ("vun", _("Vunjo"), 2, "n != 1"),
     # Translators: Language name, ISO code: wa
-    ('wa', _('Walloon'), 2, 'n > 1'),
+    ("wa", _("Walloon"), 2, "n > 1"),
     # Translators: Language name, ISO code: wae
-    ('wae', _('German (Walser)'), 2, 'n != 1'),
+    ("wae", _("German (Walser)"), 2, "n != 1"),
     # Translators: Language name, ISO code: wal
-    ('wal', _('Wolaytta'), 2, 'n != 1'),
+    ("wal", _("Wolaytta"), 2, "n != 1"),
     # Translators: Language name, ISO code: wen
-    ('wen', _('Sorbian'), 3, 'n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'),
+    (
+        "wen",
+        _("Sorbian"),
+        3,
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+    ),
     # Translators: Language name, ISO code: wo
-    ('wo', _('Wolof'), 1, '0'),
+    ("wo", _("Wolof"), 1, "0"),
     # Translators: Language name, ISO code: xh
-    ('xh', _('Xhosa'), 2, 'n != 1'),
+    ("xh", _("Xhosa"), 2, "n != 1"),
     # Translators: Language name, ISO code: xog
-    ('xog', _('Soga'), 2, 'n != 1'),
+    ("xog", _("Soga"), 2, "n != 1"),
     # Translators: Language name, ISO code: yi
-    ('yi', _('Yiddish'), 2, 'n != 1'),
+    ("yi", _("Yiddish"), 2, "n != 1"),
     # Translators: Language name, ISO code: yo
-    ('yo', _('Yoruba'), 1, '0'),
+    ("yo", _("Yoruba"), 1, "0"),
     # Translators: Language name, ISO code: yue
-    ('yue', _('Yue'), 1, '0'),
+    ("yue", _("Yue"), 1, "0"),
     # Translators: Language name, ISO code: za
-    ('za', _('Zhuang'), 2, 'n != 1'),
+    ("za", _("Zhuang"), 2, "n != 1"),
     # Translators: Language name, ISO code: zh_Hans
-    ('zh_Hans', _('Chinese (Simplified)'), 1, '0'),
+    ("zh_Hans", _("Chinese (Simplified)"), 1, "0"),
     # Translators: Language name, ISO code: zh_Hans_SG
-    ('zh_Hans_SG', _('Chinese (Simplified, Singapore)'), 1, '0'),
+    ("zh_Hans_SG", _("Chinese (Simplified, Singapore)"), 1, "0"),
     # Translators: Language name, ISO code: zh_Hant
-    ('zh_Hant', _('Chinese (Traditional)'), 1, '0'),
+    ("zh_Hant", _("Chinese (Traditional)"), 1, "0"),
     # Translators: Language name, ISO code: zh_Hant_HK
-    ('zh_Hant_HK', _('Chinese (Traditional, Hong Kong)'), 1, '0'),
+    ("zh_Hant_HK", _("Chinese (Traditional, Hong Kong)"), 1, "0"),
     # Translators: Language name, ISO code: zu
-    ('zu', _('Zulu'), 2, 'n > 1'),
+    ("zu", _("Zulu"), 2, "n > 1"),
 )
