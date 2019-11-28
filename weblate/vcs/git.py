@@ -604,12 +604,12 @@ class GithubRepository(GitMergeRequestBase):
         self.execute(
             [
                 'pull-request',
-                '-f',
-                '-h',
+                '--force',
+                '--head',
                 '{0}:{1}'.format(self.get_username(), fork_branch),
-                '-b',
+                '--base',
                 origin_branch,
-                '-m',
+                '--message',
                 settings.DEFAULT_PULL_MESSAGE,
             ]
         )
@@ -736,7 +736,7 @@ class GitLabRepository(GitMergeRequestBase):
                 'create',
                 'origin',
                 origin_branch,
-                '-m',
+                '--message',
                 settings.DEFAULT_PULL_MESSAGE,
             ]
         )
