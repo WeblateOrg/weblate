@@ -33,7 +33,8 @@ from six import PY2, StringIO, with_metaclass
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
-from weblate.langdata import languages, plurals
+from weblate.langdata.languages import LANGUAGES
+from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -406,7 +407,7 @@ class VerifyPluralsTest(TestCase):
     """In database plural form verification."""
     @staticmethod
     def all_data():
-        return chain(languages.LANGUAGES, plurals.EXTRAPLURALS)
+        return chain(LANGUAGES, EXTRAPLURALS)
 
     def test_valid(self):
         """Validate that we can name all plural equations"""

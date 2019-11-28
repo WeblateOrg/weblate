@@ -39,7 +39,10 @@ from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 
 from weblate.lang import data
-from weblate.langdata import aliases, countries, languages, plurals
+from weblate.langdata.aliases import ALIASES
+from weblate.langdata.countries import DEFAULT_LANGS
+from weblate.langdata.languages import LANGUAGES
+from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
 from weblate.trans.util import sort_objects
 from weblate.utils.stats import LanguageStats
@@ -155,7 +158,7 @@ class LanguageQuerySet(models.QuerySet):
         )
         for newcode in codes:
             if newcode in aliases.ALIASES:
-                newcode = aliases.ALIASES[newcode]
+                newcode = ALIASES[newcode]
                 ret = self.try_get(code=newcode)
                 if ret is not None:
                     return ret
@@ -215,7 +218,7 @@ class LanguageQuerySet(models.QuerySet):
             return ret
 
         # Try canonical variant
-        if settings.SIMPLIFY_LANGUAGES and newcode.lower() in countries.DEFAULT_LANGS:
+        if settings.SIMPLIFY_LANGUAGES and newcode.lower() in DEFAULT_LANGS:
             ret = self.try_get(code=lang.lower())
             if ret is not None:
                 return ret
@@ -277,7 +280,7 @@ class LanguageQuerySet(models.QuerySet):
         languages-data repo.
         """
         # Create Weblate languages
-        for code, name, nplurals, pluraleq in languages.LANGUAGES:
+        for code, name, nplurals, pluraleq in LANGUAGES:
             lang, created = self.get_or_create(code=code, defaults={'name': name})
             if created:
                 logger('Created language {}'.format(code))
@@ -323,7 +326,7 @@ class LanguageQuerySet(models.QuerySet):
                 continue
 
         # Create addditiona plurals
-        for code, _unused, nplurals, pluraleq in plurals.EXTRAPLURALS:
+        for code, _unused, nplurals, pluraleq in EXTRAPLURALS:
             lang = self.get(code=code)
 
             # Get plural type
