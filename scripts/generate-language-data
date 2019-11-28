@@ -86,6 +86,11 @@ with open("scripts/language-data/extraplurals.csv", "r") as csvfile:
     reader = csv.reader(csvfile, delimiter=";")
     EXTRAPLURALS = list(reader)
 
+# Read extra plurals
+with open("scripts/language-data/default_countries.csv", "r") as csvfile:
+    reader = csv.reader(csvfile, delimiter=";")
+    DEFAULT_COUNTRIES = list(reader)
+
 # Write language definitions
 with open("weblate/langdata/languages.py", "w") as output:
     output.write(HEADER)
@@ -96,7 +101,10 @@ with open("weblate/langdata/languages.py", "w") as output:
         output.write(
             TEMPLATE.format(row[0], row[1].replace("'", "\\'"), row[2], row[3])
         )
-    output.write(")\n\n")
+    output.write(")\n")
+with open("weblate/langdata/plurals.py", "w") as output:
+    output.write(HEADER)
+    output.write("from django.utils.translation import ugettext_noop as _\n\n")
     output.write("# Additional plural rules definitions\n")
     output.write("EXTRAPLURALS = (\n")
     for row in EXTRAPLURALS:
@@ -104,11 +112,20 @@ with open("weblate/langdata/languages.py", "w") as output:
             TEMPLATE.format(row[0], row[1].replace("'", "\\'"), row[2], row[3])
         )
     output.write(")\n")
+with open("weblate/langdata/aliases.py", "w") as output:
+    output.write(HEADER)
     output.write("# Language aliases\n")
     output.write("ALIASES = {\n")
     for row in ALIASES:
         output.write("    '{}': '{}',\n".format(*row))
     output.write("}\n")
+with open("weblate/langdata/countries.py", "w") as output:
+    output.write(HEADER)
+    output.write("# List of defaul languages, omitting country code should be okay\n")
+    output.write("DEFAULT_LANGS = (\n")
+    for row in DEFAULT_COUNTRIES:
+        output.write("    '{}',\n".format(*row))
+    output.write(")\n")
 
 # Generate same check blacklist
 words = set()
