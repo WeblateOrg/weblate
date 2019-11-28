@@ -748,14 +748,6 @@ $(function () {
         return false;
     });
 
-    /* Git commit tooltip */
-    $('.html-tooltip').each(function () {
-        var $this = $(this);
-        $this.tooltip({
-            html: true,
-            title: $this.find('.tooltip-content').html()
-        });
-    });
     $('.text-tooltip').tooltip();
 
     /* Hiding spam protection field */

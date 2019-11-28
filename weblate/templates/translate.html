@@ -102,24 +102,6 @@
 
   <div class="panel-heading"><span class="pull-right flip">
   <i class="fa fa-link text-tooltip" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}"></i>
-  &nbsp;
-  <i class="fa fa-keyboard-o html-tooltip" data-toggle="tooltip" data-placement="bottom">
-  <div class="tooltip-content hidden">
-    <table><thead><tr><th colspan='2'>{% trans "Keyboard shortcuts available:" %}</th></tr></thead>
-    <tbody>
-    <tr><td>Ctrl+Enter</td><td>{% trans "Save" %}</td></tr>
-    <tr><td>Ctrl+Shift+Enter</td><td>{% trans "Unmark review needed flag and save" %}</td></tr>
-    <tr><td>Alt+PageUp/PageDown/Home/End</td><td>{% trans "Strings navigation" %}</td></tr>
-    <tr><td>Ctrl+E</td><td>{% trans "Focus translation editor" %}</td></tr>
-    <tr><td>Ctrl+Q</td><td>{% trans "Focus comment editor" %}</td></tr>
-    <tr><td>Ctrl+M</td><td>{% trans "Shows machine translation tab" %}</td></tr>
-    <tr><td>Ctrl+J</td><td>{% trans "Shows nearby strings tab" %}</td></tr>
-    <tr><td>Ctrl+S</td><td>{% trans "Shows search tab" %}</td></tr>
-    <tr><td>Ctrl+O</td><td>{% trans "Copies source string" %}</td></tr>
-    <tr><td>Ctrl+Y</td><td>{% trans "Toggle edit needed flag" %}</td></tr>
-    </tbody>
-    </table>
-  </div></i>
   </span><h4 class="panel-title">{% if unit.translation.is_source %}{% trans "Source string" %}{% else %}{% trans "Translation" %}{% endif %} {% if unit.readonly %}<span class="badge">{% trans "Read only" %}</span>{% endif %}</h4></div>
   <div class="panel-body">
     {% csrf_token %}
