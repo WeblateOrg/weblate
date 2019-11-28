@@ -578,7 +578,8 @@ class GitMergeRequestBase(GitRepository):
 
     def get_merge_message(self):
         from weblate.utils.render import render_template
-        return render_template(settings.DEFAULT_PULL_MESSAGE, component=self)
+
+        return render_template(settings.DEFAULT_PULL_MESSAGE, component=self.component)
 
 
 class GithubRepository(GitMergeRequestBase):

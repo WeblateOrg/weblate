@@ -222,11 +222,11 @@ class Repository(object):
         raise NotImplementedError()
 
     @classmethod
-    def clone(cls, source, target, branch=None):
+    def clone(cls, source, target, branch=None, component=None):
         """Clone repository and return object for cloned repository."""
         SSH_WRAPPER.create()
         cls._clone(source, target, branch)
-        return cls(target, branch)
+        return cls(target, branch, component)
 
     def update_remote(self):
         """Update remote repository."""

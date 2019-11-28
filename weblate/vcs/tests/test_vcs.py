@@ -29,6 +29,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
+from weblate.trans.models import Component, Project
 from weblate.trans.tests.utils import RepoTestMixin, TempDirMixin, get_test_file
 from weblate.utils.files import remove_readonly
 from weblate.vcs.base import RepositoryException
@@ -118,9 +119,15 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         return
 
     def clone_repo(self, path):
+
         return self._class.clone(
             self.format_local_path(getattr(self, '{0}_repo_path'.format(self._vcs))),
             path,
+            component=Component(
+                slug='test',
+                name='Test',
+                project=Project(name='Test', slug='test'),
+            ),
         )
 
     def tearDown(self):
