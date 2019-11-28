@@ -24,6 +24,21 @@ function decreaseLoading(sel) {
     }
 }
 
+function addAlert(message) {
+    var alerts = $('#popup-alerts');
+    var e = $('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+    e.append(new Text(message));
+    alerts.show().append(e);
+    e.on('closed.bs.alert', function () {
+        if (alerts.find('.alert').length == 0) {
+            alerts.hide();
+        }
+    });
+    setTimeout(function () {
+        e.alert('close');
+    }, 5000);
+}
+
 function getNumericKey(idx) {
     var ret = idx + 1;
 
@@ -120,6 +135,9 @@ function loadActivityChart(element) {
             configureChart($('#activity-month'));
             decreaseLoading('#activity-loading');
         },
+        error: function (jqXHR, textStatus, errorThrown) {
+            addAlert(errorThrown);
+        },
         dataType: 'json'
     });
 
@@ -130,6 +148,9 @@ function loadActivityChart(element) {
             Chartist.Bar('#activity-year', data);
             configureChart($('#activity-year'));
             decreaseLoading('#activity-loading');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            addAlert(errorThrown);
         },
         dataType: 'json'
     });
@@ -165,7 +186,8 @@ function screenshotAddString() {
                 list.html(data);
             });
         },
-        error: function () {
+        error: function (jqXHR, textStatus, errorThrown) {
+            addAlert(errorThrown);
             decreaseLoading(addLoadId);
         }
     });
@@ -417,9 +439,7 @@ function processMachineTranslation(data, scope) {
 
 function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
     decreaseLoading('#' + scope + '-loading');
-    $('#' + scope + '-errors').append(
-        $('<li>' + gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown + '</li>')
-    );
+    addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
 }
 
 function loadMachineTranslations(data, textStatus) {
@@ -431,7 +451,9 @@ function loadMachineTranslations(data, textStatus) {
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', el),
             success: function (data) {processMachineTranslation(data, 'mt');},
-            error: function (jqXHR, textStatus, errorThrown) {failedMachineTranslation(jqXHR, textStatus, errorThrown, 'mt');},
+            error: function (jqXHR, textStatus, errorThrown) {
+                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'mt');
+            },
             dataType: 'json',
             data: {
                 csrfmiddlewaretoken: $form.find('input').val(),
@@ -545,7 +567,9 @@ function zenEditor() {
         url: form.attr('action'),
         data: form.serialize(),
         dataType: 'json',
-        error: screenshotFailure,
+        error: function (jqXHR, textStatus, errorThrown) {
+            addAlert(errorThrown);
+        },
         success: function (data) {
             loadingdiv.hide();
             statusdiv.show();
@@ -724,7 +748,9 @@ $(function () {
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
             success: function (data) {processMachineTranslation(data, 'memory');},
-            error: function (jqXHR, textStatus, errorThrown) {failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');},
+            error: function (jqXHR, textStatus, errorThrown) {
+                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
+            },
             dataType: 'json',
             data: {
                 csrfmiddlewaretoken: $form.find('input').val(),
@@ -743,7 +769,9 @@ $(function () {
             data: form.serialize(),
             dataType: 'json',
             success: function (data) {processMachineTranslation(data, 'memory');},
-            error: function (jqXHR, textStatus, errorThrown) {failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');},
+            error: function (jqXHR, textStatus, errorThrown) {
+                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
+            },
         });
         return false;
     });
@@ -921,9 +949,6 @@ $(function () {
         }
     }
 
-    /* Generic tooltips */
-    $('.tooltip-control').tooltip();
-
     /* Whiteboard message discard */
     $('.alert').on('close.bs.alert', function () {
         var $this = $(this);
@@ -937,9 +962,11 @@ $(function () {
                     csrfmiddlewaretoken: $form.find('input').val(),
                     id: $this.data('id'),
                 },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    addAlert(errorThrown);
+                },
             });
         }
-        $this.tooltip('destroy');
     });
 
     /* Check ignoring */
@@ -952,6 +979,9 @@ $(function () {
             url: $this.attr('href'),
             data: {
                 csrfmiddlewaretoken: $form.find('input').val(),
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                addAlert(errorThrown);
             },
         });
         $this.parents('.check').remove();
@@ -1294,22 +1324,10 @@ $(function () {
     });
 
     /* Access management */
-    $('.set-group').tooltip({
-        title: function() {
-            var $this = $(this);
-
-            if ($this.data('error')) {
-                return $this.data('error');
-            }
-            return $this.data('name');
-        },
-        animation: false
-    });
     $('.set-group').click(function () {
         var $this = $(this);
         var $form = $('#set_groups_form');
 
-        $this.tooltip('hide');
         $this.prop('disabled', true);
         $this.data('error', '');
         $this.parent().removeClass('load-error');
@@ -1326,17 +1344,13 @@ $(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.responseCode !== 200) {
-                    $this.parent().addClass('load-error');
-                    $this.data('error', data.message);
-                    $this.tooltip('show');
+                    addAlert(data.message);
                 }
                 $this.prop('checked', data.state);
                 $this.prop('disabled', false);
             },
             error: function (xhr, textStatus, errorThrown) {
-                $this.parent().addClass('load-error');
-                $this.data('error', errorThrown);
-                $this.tooltip('show');
+                addAlert(errorThrown);
                 $this.prop('disabled', false);
             },
         });
@@ -1362,6 +1376,7 @@ $(function () {
                 form.trigger('reset');
             },
             error: function (xhr, textStatus, errorThrown) {
+                addAlert(errorThrown);
                 decreaseLoading('#glossary-add-loading');
             }
         });
