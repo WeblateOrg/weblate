@@ -101,7 +101,7 @@
 <div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_source %}panel-warning{% else %}panel-default{% endif %}">
 
   <div class="panel-heading"><span class="pull-right flip">
-  <i class="fa fa-link text-tooltip" data-toggle="tooltip" data-placement="bottom" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}"></i>
+  <i class="fa fa-link" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}"></i>
   </span><h4 class="panel-title">{% if unit.translation.is_source %}{% trans "Source string" %}{% else %}{% trans "Translation" %}{% endif %} {% if unit.readonly %}<span class="badge">{% trans "Read only" %}</span>{% endif %}</h4></div>
   <div class="panel-body">
     {% csrf_token %}

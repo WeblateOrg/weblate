@@ -748,8 +748,6 @@ $(function () {
         return false;
     });
 
-    $('.text-tooltip').tooltip();
-
     /* Hiding spam protection field */
     $('#s_content').hide();
     $('#id_content').parent('div').hide();
@@ -1451,16 +1449,6 @@ $(function () {
 
     /* Copy to clipboard */
     var clipboard = new ClipboardJS('[data-clipboard-text]');
-    clipboard.on('success', function(e) {
-        var $trigger = $(e.trigger);
-        // Backup current text
-        var backup = $trigger.attr('data-original-title');
-
-        // Change text to copied
-        $trigger.attr('data-original-title', gettext('Copied')).tooltip('show');
-        // Restore original
-        $trigger.attr('data-original-title', backup);
-    });
 
     /* Auto translate source select */
     var select_auto_source = $('input[name="auto_source"]');
