@@ -22,6 +22,7 @@ Not yet released.
 * Extended search capabilities.
 * Added support for automatic translation strings marked for edit.
 * Avoid sending duplicate notifications for linked component alerts.
+* Improve default merge request message.
 
 Weblate 3.9.1
 -------------

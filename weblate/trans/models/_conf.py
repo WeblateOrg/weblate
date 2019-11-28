@@ -134,7 +134,10 @@ Updated by "{{ addon_name }}" hook in Weblate.
 Translation: {{ project_name }}/{{ component_name }}
 Translate-URL: {{ url }}'''
 
-    DEFAULT_PULL_MESSAGE = 'Update from Weblate'
+    DEFAULT_PULL_MESSAGE = '''Translations update from Weblate
+
+Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_name }}.
+'''
 
     # Billing
     INVOICE_PATH = ''
