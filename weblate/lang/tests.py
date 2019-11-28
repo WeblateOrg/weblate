@@ -38,7 +38,7 @@ from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 
-LANGUAGES = (
+TEST_LANGUAGES = (
     ('cs_CZ', 'cs', 'ltr', '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2', 'Czech', False),
     ('cs (2)', 'cs', 'ltr', '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2', 'Czech', False),
     ('czech', 'cs', 'ltr', '(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2', 'Czech', False),
@@ -158,7 +158,7 @@ class TestSequenceMeta(type):
 
             return test
 
-        for params in LANGUAGES:
+        for params in TEST_LANGUAGES:
             test_name = "test_create_%s" % params[1].replace('@', '_')
             dict[test_name] = gen_test(*params)
 
