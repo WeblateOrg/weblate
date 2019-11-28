@@ -633,5 +633,21 @@ class WeblateAccountsConf(AppConf):
     SOCIAL_AUTH_AUTH0_IMAGE = 'auth0.svg'
     SOCIAL_AUTH_AUTH0_TITLE = 'Auth0'
 
+    # Login required URLs
+    LOGIN_REQUIRED_URLS = []
+    LOGIN_REQUIRED_URLS_EXCEPTIONS = (
+        r'/accounts/(.*)$',  # Required for login
+        r'/admin/login/(.*)$',  # Required for admin login
+        r'/static/(.*)$',  # Required for development mode
+        r'/widgets/(.*)$',  # Allowing public access to widgets
+        r'/data/(.*)$',  # Allowing public access to data exports
+        r'/hooks/(.*)$',  # Allowing public access to notification hooks
+        r'/healthz/$',  # Allowing public access to health check
+        r'/api/(.*)$',  # Allowing access to API
+        r'/js/i18n/$',  # JavaScript localization
+        r'/contact/$',  # Optional for contact form
+        r'/legal/(.*)$',  # Optional for legal app
+    )
+
     class Meta(object):
         prefix = ''

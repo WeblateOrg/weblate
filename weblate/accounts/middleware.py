@@ -79,22 +79,15 @@ class RequireLoginMiddleware(object):
     LOGIN_REQUIRED_URLS_EXCEPTIONS is, conversely, where you explicitly
     define any exceptions (like login and logout URLs).
     """
+
     def __init__(self, get_response=None):
         self.get_response = get_response
-        self.required = self.get_setting_re(
-            'LOGIN_REQUIRED_URLS',
-            []
-        )
-        self.exceptions = self.get_setting_re(
-            'LOGIN_REQUIRED_URLS_EXCEPTIONS',
-            [r'/accounts/(.*)$', r'/static/(.*)$', r'/api/(.*)$']
-        )
+        self.required = self.get_setting_re(settings.LOGIN_REQUIRED_URLS)
+        self.exceptions = self.get_setting_re(setttings.LOGIN_REQUIRED_URLS_EXCEPTIONS)
 
-    def get_setting_re(self, name, default):
+    def get_setting_re(self, setting):
         """Grab regexp list from settings and compiles them"""
-        return tuple(
-            (re.compile(url) for url in getattr(settings, name, default))
-        )
+        return tuple(re.compile(url) for url in settings)
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         """Check request whether it needs to enforce login for this URL based
