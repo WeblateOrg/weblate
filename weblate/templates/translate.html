@@ -165,14 +165,12 @@
     </div>
     {% endif %}
     <label>{{ unit.translation.component.project.source_language }}</label>
-    {% with unit.translation.component.get_editable_template as edit_template %}
-    {% if edit_template %}
-    {% perm 'unit.edit' edit_template as user_can_edit_template %}
+    {% perm 'unit.edit' unit.source_info as user_can_edit_template %}
     {% if user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ edit_template.get_translate_url }}?checksum={{ unit.checksum }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
+    <a title="{% trans "Edit source string" %}"href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
+    {% else %}
+    <a title="{% trans "View source string" %}"href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "eye.svg" %}</a>
     {% endif %}
-    {% endif %}
-    {% endwith %}
     {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
     </div>
     {% endif %}
