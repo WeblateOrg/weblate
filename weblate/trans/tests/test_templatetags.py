@@ -138,13 +138,11 @@ class LocationLinksTest(TestCase):
                 href="http://example.net/foo.bar#L123" target="_blank"
                 rel="noopener noreferrer">
             foo.bar:123
-            <i class="fa fa-external-link"></i>
             </a>
             <a class="long-filename"
                 href="http://example.net/bar.foo#L321" target="_blank"
                 rel="noopener noreferrer">
             bar.foo:321
-            <i class="fa fa-external-link"></i>
             </a>
             '''
         )
@@ -161,7 +159,6 @@ class LocationLinksTest(TestCase):
                 href="http://example.net/foo.bar#L123" target="_blank"
                 rel="noopener noreferrer">
             foo.bar:123
-            <i class="fa fa-external-link"></i>
             </a>
             '''
         )
@@ -179,7 +176,6 @@ class LocationLinksTest(TestCase):
                 href="editor://open/?file=foo.bar&amp;line=123" target="_blank"
                 rel="noopener noreferrer">
             foo.bar:123
-            <i class="fa fa-external-link"></i>
             </a>
             '''
         )
