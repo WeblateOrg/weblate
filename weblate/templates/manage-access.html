@@ -3,6 +3,7 @@
 {% load translations %}
 {% load crispy_forms_tags %}
 {% load permissions %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -41,9 +42,8 @@
 <form action="{% url "delete-user" project=object.slug %}" method="post">
 {% csrf_token %}
 <input type="hidden" name="user" value="{{ user.username }}" />
-<button type="submit" class="btn btn-danger">
-<i class="fa fa-trash"></i>
-{% trans "Remove" %}
+<button type="submit" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
+{% icon 'delete.svg' %}
 </button>
 </form>
   </td>
