@@ -23,6 +23,7 @@ Not yet released.
 * Added support for automatic translation strings marked for edit.
 * Avoid sending duplicate notifications for linked component alerts.
 * Improve default merge request message.
+* Better indicate string state in zen mode.
 
 Weblate 3.9.1
 -------------

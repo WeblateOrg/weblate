@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load icons %}
+
+<span class="state-icon {{ state }}">
+<span title="{% trans "Needs editing" %}" class="state-need-edit">{% icon "need-edit.svg" %}</span>
+<span title="{% trans "Untranslated" %}" class="state-empty">{% icon "empty.svg" %}</span>
+<span title="{% trans "Fails checks" %}" class="red state-alert">{% icon "alert.svg" %}</span>
+<span title="{% trans "Approved" %}" class="green state-approved">{% icon "approved.svg" %}</span>
+<span title="{% trans "Translated" %}" class="green state-translated">{% icon "translated.svg" %}</span>
+<span title="{% trans "Commented" %}" class="state-comment">{% icon "comment.svg" %}</span>
+<span title="{% trans "Suggested" %}" class="state-suggest">{% icon "suggest.svg" %}</span>
+</span>

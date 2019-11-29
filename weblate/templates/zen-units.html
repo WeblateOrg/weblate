@@ -41,7 +41,7 @@
 <td>
 {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}
 {% loading_icon item.unit.checksum %}
-<i id="status-{{ item.unit.checksum }}"></i>
+<span id="status-{{ item.unit.checksum }}">{% get_state_flags item.unit %}</span>
 {% endif %}
 </td>
 <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="translatetext">
@@ -92,7 +92,7 @@
 <tr id="row-edit-{{ item.unit.checksum }}">
 <td>
 {% loading_icon item.unit.checksum %}
-<i id="status-{{ item.unit.checksum }}"></i>
+<span id="status-{{ item.unit.checksum }}">{% get_state_flags item.unit %}</span>
 </td>
 {% endif %}
 <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="translator">

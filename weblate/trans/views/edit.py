@@ -50,7 +50,7 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
-from weblate.trans.util import join_plural, redirect_next, render
+from weblate.trans.util import get_state_css, join_plural, redirect_next, render
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -702,6 +702,7 @@ def save_zen(request, project, component, lang):
     translation = get_translation(request, project, component, lang)
 
     form = TranslationForm(request.user, translation, None, request.POST)
+    unit = None
     translationsum = ''
     if not form.is_valid():
         show_form_errors(request, form)
@@ -714,7 +715,12 @@ def save_zen(request, project, component, lang):
 
         translationsum = hash_to_checksum(unit.get_target_hash())
 
-    response = {'messages': [], 'state': 'success', 'translationsum': translationsum}
+    response = {
+        'messages': [],
+        'state': 'success',
+        'translationsum': translationsum,
+        'unit_flags': get_state_css(unit) if unit is not None else [],
+    }
 
     storage = get_messages(request)
     if storage:

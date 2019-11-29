@@ -335,3 +335,26 @@ def rich_to_xliff_string(string_elements):
 
     # Strip dummy root element
     return string_xml[3:][:-4]
+
+
+def get_state_css(unit):
+    """Return state flags."""
+    flags = []
+
+    if unit.fuzzy:
+        flags.append("state-need-edit")
+    elif not unit.translated:
+        flags.append("state-empty")
+    elif unit.has_failing_check:
+        flags.append("state-alert")
+    elif unit.approved:
+        flags.append("state-approved")
+    elif unit.translated:
+        flags.append("state-translated")
+
+    if unit.has_comment:
+        flags.append("state-comment")
+
+    if unit.has_suggestion:
+        flags.append("state-suggest")
+    return flags

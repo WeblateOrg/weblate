@@ -52,7 +52,7 @@ from weblate.trans.models import (
     WhiteboardMessage,
 )
 from weblate.trans.simplediff import html_diff
-from weblate.trans.util import split_plural
+from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.markdown import render_markdown
 from weblate.utils.stats import BaseStats, ProjectLanguageStats
@@ -541,33 +541,10 @@ def get_state_badge(unit):
     return mark_safe(BADGE_TEMPLATE.format(*flag))
 
 
-@register.simple_tag
+@register.inclusion_tag("snippets/unit-state.html")
 def get_state_flags(unit):
     """Return state flags."""
-    flags = []
-
-    if unit.fuzzy:
-        flags.append((ugettext("Needs editing"), "", "need-edit.svg"))
-    elif not unit.translated:
-        flags.append((ugettext("Untranslated"), "", "empty.svg"))
-    elif unit.has_failing_check:
-        flags.append((ugettext("Fails checks"), "red", "alert.svg"))
-    elif unit.approved:
-        flags.append((ugettext("Approved"), "green", "approved.svg"))
-    elif unit.translated:
-        flags.append((ugettext("Translated"), "green", "translated.svg"))
-
-    if unit.has_comment:
-        flags.append((ugettext("Commented"), "", "comment.svg"))
-
-    if unit.has_suggestion:
-        flags.append((ugettext("Suggested"), "", "suggest.svg"))
-
-    return mark_safe(
-        "\n".join(
-            FLAG_TEMPLATE.format(flag[0], flag[1], icon(flag[2])) for flag in flags
-        )
-    )
+    return {'state': ' '.join(get_state_css(unit))}
 
 
 @register.simple_tag

@@ -541,18 +541,10 @@ function zenEditor() {
         success: function (data) {
             loadingdiv.hide();
             statusdiv.show();
-            if (data.state == 'danger') {
-                statusdiv.attr('class', 'fa-times-circle text-danger');
-            } else if (data.state == 'warning') {
-                statusdiv.attr('class', 'fa-exclamation-circle text-warning');
-            } else if (data.state == 'info') {
-                statusdiv.attr('class', 'fa-check-circle text-warning');
-            } else {
-                statusdiv.attr('class', 'fa-check-circle text-success');
+            if (data.unit_flags.length > 0) {
+                $(statusdiv.children()[0]).attr('class', 'state-icon ' + data.unit_flags.join(' '));
             }
-            statusdiv.addClass('fa');
             $.each(data.messages, function (i, val) {
-                console.log(val);
                 addAlert(val.text);
             });
             $row.removeClass('translation-modified').addClass('translation-saved');
