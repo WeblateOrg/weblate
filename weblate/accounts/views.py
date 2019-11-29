@@ -63,6 +63,7 @@ from social_core.exceptions import (
 )
 from social_django.views import auth, complete, disconnect
 
+from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
     CaptchaForm,
@@ -123,6 +124,13 @@ Additional message:
 
 %(message)s
 '''
+
+TEMPLATE_FOOTER = """
+--
+User: {username}
+IP address: {address}
+User agent: {agent}
+"""
 
 CONTACT_SUBJECTS = {
     'lang': 'New language request',
@@ -189,7 +197,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
 
     mail = EmailMultiAlternatives(
         '{0}{1}'.format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
-        message % context,
+        '{}\n{}'.format(message % context, TEMPLATE_FOOTER.format(address=get_ip_address(request), agent=get_user_agent(request), username=request.user.username)),
         to=to,
         headers={'Reply-To': sender},
     )
