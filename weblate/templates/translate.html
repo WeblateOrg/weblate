@@ -195,7 +195,7 @@
     {% elif locked %}
     title="{% trans "This translation is currently locked." %}"
     {% endif %}
-    ><i class="fa fa-check"></i> {% trans "Save" %}</button>
+    > {% trans "Save" %}</button>
 
     {% if unit.translation.component.enable_suggestions %}
     <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="151" 
@@ -205,9 +205,9 @@
     {% elif project_locked %}
     title="{% trans "This translation is currently locked." %}"
     {% endif %}
-    ><i class="fa fa-comment"></i> {% trans "Suggest" %}</button>
+    >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="152"><i class="fa {% if LANGUAGE_BIDI %}fa-backward{% else %}fa-forward{% endif %}"></i> {% trans "Skip" %}</button>
+    <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="152">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
   </div>
 </div>
 </form>
