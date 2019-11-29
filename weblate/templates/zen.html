@@ -55,7 +55,7 @@
 {% include 'zen-units.html' %}
 <tfoot>
 <tr><td colspan="3" class="loading-icon">
-<i id="loading-next" class="fa fa-spinner fa-spin" style="display: none"></i>
+{% loading_icon "next" %}
 <a href="{% url 'load_zen' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" class="hidden" id="zen-load" data-offset="{{ offset }}"></a>
 </td></tr>
 </tfoot>

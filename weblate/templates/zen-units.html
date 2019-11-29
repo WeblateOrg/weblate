@@ -40,7 +40,7 @@
 <tr id="row-source-{{ item.unit.checksum }}">
 <td>
 {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}
-<i id="loading-{{ item.unit.checksum }}" class="fa fa-spinner fa-spin" style="display: none"></i>
+{% loading_icon item.unit.checksum %}
 <i id="status-{{ item.unit.checksum }}"></i>
 {% endif %}
 </td>
@@ -91,7 +91,7 @@
 
 <tr id="row-edit-{{ item.unit.checksum }}">
 <td>
-<i id="loading-{{ item.unit.checksum }}" class="fa fa-spinner fa-spin" style="display: none"></i>
+{% loading_icon item.unit.checksum %}
 <i id="status-{{ item.unit.checksum }}"></i>
 </td>
 {% endif %}

@@ -376,7 +376,7 @@
 <th>{% trans "Service" %}</th>
 <th>{% trans "Quality" %}</th>
 <th colspan="2">
-<i id="mt-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
+{% loading_icon "mt" %}
 </th>
 <tr>
 </thead>
@@ -402,7 +402,7 @@
 <th>{% trans "Origin" %}</th>
 <th>{% trans "Similarity" %}</th>
 <th colspan="2">
-<i id="memory-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
+{% loading_icon "memory" %}
 </th>
 <tr>
 </thead>
@@ -486,7 +486,7 @@
   <div class="panel-heading">
   <h4 class="panel-title">
     <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
-    <i id="glossary-add-loading" class="fa fa-spinner fa-spin pull-right flip" style="display:none;"></i>
+    {% loading_icon "glossary-add" %}
     {% trans "Glossary" %}
   </h4>
   </div>

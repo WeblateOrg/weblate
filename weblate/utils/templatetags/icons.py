@@ -33,6 +33,8 @@ PATH = os.path.join(
 
 CACHE = {}
 
+SPIN = '<span class="icon-spin" {} {}>{}</span>'
+
 
 @register.simple_tag()
 def icon(name):
@@ -40,3 +42,14 @@ def icon(name):
         with open(os.path.join(PATH, name), "r") as handle:
             CACHE[name] = mark_safe(handle.read())
     return CACHE[name]
+
+
+@register.simple_tag()
+def loading_icon(name=None, hidden=True):
+    return mark_safe(
+        SPIN.format(
+            'id="loading-{}"'.format(name) if name else '',
+            'style="display: none"' if hidden else '',
+            icon('loading.svg')
+        )
+    )

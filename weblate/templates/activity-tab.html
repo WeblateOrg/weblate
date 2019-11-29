@@ -1,6 +1,8 @@
 {% load i18n %}
+{% load icons %}
 <div class="tab-pane" id="activity">
-<i id="activity-loading" class="fa fa-spinner fa-spin pull-right flip"></i>
+
+{% loading_icon "activity" hidden=False %}
 
 <h3>{% trans "Activity in last 30 days" %}</h3>
 <div id="activity-month" class="ct-chart ct-double-octave"></div>

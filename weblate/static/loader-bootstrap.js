@@ -104,12 +104,12 @@ function loadActivityChart(element) {
     }
     activityDataLoaded = true;
 
-    increaseLoading('#activity-loading');
+    increaseLoading('#loading-activity');
     $.ajax({
         url: element.data('monthly'),
         success: function(data) {
             Chartist.Bar('#activity-month', data);
-            decreaseLoading('#activity-loading');
+            decreaseLoading('#loading-activity');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             addAlert(errorThrown);
@@ -117,12 +117,12 @@ function loadActivityChart(element) {
         dataType: 'json'
     });
 
-    increaseLoading('#activity-loading');
+    increaseLoading('#loading-activity');
     $.ajax({
         url: element.data('yearly'),
         success: function(data) {
             Chartist.Bar('#activity-year', data);
-            decreaseLoading('#activity-loading');
+            decreaseLoading('#loading-activity');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             addAlert(errorThrown);
@@ -133,7 +133,7 @@ function loadActivityChart(element) {
 
 function screenshotStart() {
     $('#search-results').empty();
-    increaseLoading('#screenshots-loading');
+    increaseLoading('#loading-screenshots');
 }
 
 function screenshotFailure() {
@@ -190,7 +190,7 @@ function screenshotResultSet(results) {
 }
 
 function screenshotLoaded(data) {
-    decreaseLoading('#screenshots-loading');
+    decreaseLoading('#loading-screenshots');
     if (data.responseCode !== 200) {
         screnshotResultError('danger', gettext('Error loading search results!'));
     } else if (data.results.length === 0) {
@@ -412,9 +412,9 @@ function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
 
 function loadMachineTranslations(data, textStatus) {
     var $form = $('#link-post');
-    decreaseLoading('#mt-loading');
+    decreaseLoading('#loading-mt');
     data.forEach(function (el, idx) {
-        increaseLoading('#mt-loading');
+        increaseLoading('#loading-mt');
         $.ajax({
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', el),
@@ -693,7 +693,7 @@ $(function () {
             return;
         }
         machineTranslationLoaded = true;
-        increaseLoading('#mt-loading');
+        increaseLoading('#loading-mt');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
             success: loadMachineTranslations,
@@ -708,7 +708,7 @@ $(function () {
             return;
         }
         translationMemoryLoaded = true;
-        increaseLoading('#memory-loading');
+        increaseLoading('#loading-memory');
         var $form = $('#link-post');
         $.ajax({
             type: 'POST',
@@ -727,7 +727,7 @@ $(function () {
     $('#memory-search').submit(function () {
         var form = $(this);
 
-        increaseLoading('#memory-loading');
+        increaseLoading('#loading-memory');
         $('#memory-translations').empty();
         $.ajax({
             type: 'POST',
@@ -1289,14 +1289,14 @@ $(function () {
     $('.add-dict-inline').submit(function () {
         var form = $(this);
 
-        increaseLoading('#glossary-add-loading');
+        increaseLoading('#loading-glossary-add');
         $.ajax({
             type: 'POST',
             url: form.attr('action'),
             data: form.serialize(),
             dataType: 'json',
             success: function (data) {
-                decreaseLoading('#glossary-add-loading');
+                decreaseLoading('#loading-glossary-add');
                 if (data.responseCode === 200) {
                     $('#glossary-words').html(data.results);
                     form.find('[name=words]').attr('value', data.words);
@@ -1306,7 +1306,7 @@ $(function () {
             },
             error: function (xhr, textStatus, errorThrown) {
                 addAlert(errorThrown);
-                decreaseLoading('#glossary-add-loading');
+                decreaseLoading('#loading-glossary-add');
             }
         });
         $('#add-glossary-form').modal('hide');
