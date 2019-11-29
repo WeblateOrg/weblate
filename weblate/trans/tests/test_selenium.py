@@ -46,6 +46,7 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.file_detector import UselessFileDetector
 from selenium.webdriver.support.expected_conditions import (
     presence_of_element_located,
@@ -63,11 +64,7 @@ from weblate.trans.tests.utils import TempDirMixin, create_billing, create_test_
 from weblate.vcs.ssh import get_key_data
 
 # Check whether we should run Selenium tests
-DO_SELENIUM = (
-    'DO_SELENIUM' in os.environ
-    and 'SAUCE_USERNAME' in os.environ
-    and 'SAUCE_ACCESS_KEY' in os.environ
-)
+DO_SAUCE = 'SAUCE_USERNAME' in os.environ and 'SAUCE_ACCESS_KEY' in os.environ
 
 TEST_BACKENDS = (
     'social_core.backends.email.EmailAuth',
@@ -104,7 +101,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         failures = len(result.failures)
         super(SeleniumTests, self).run(result)
 
-        if DO_SELENIUM:
+        if DO_SAUCE:
             if errors == len(result.errors) and failures == len(result.failures):
                 self.driver.execute_script('sauce:job-result=passed')
             else:
@@ -120,10 +117,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @classmethod
     def setUpClass(cls):
+        cls.image_path = os.path.join(settings.BASE_DIR, 'test-images')
+        if not os.path.exists(cls.image_path):
+            os.makedirs(cls.image_path)
         if 'DRONE_BUILD_NUMBER' in os.environ:
             # Listen on Docker interface in Drone
             cls.host = socket.gethostbyname(socket.gethostname())
-        if DO_SELENIUM:
+        if DO_SAUCE:
             cls.caps['name'] = 'Weblate CI build'
             if 'screenResolution' not in cls.caps:
                 cls.caps['screenResolution'] = '1280x1024'
@@ -161,16 +161,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             print(
                 'Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(jobid)
             )
-            cls.image_path = os.path.join(settings.BASE_DIR, 'test-images')
-            if not os.path.exists(cls.image_path):
-                os.makedirs(cls.image_path)
+        else:
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            cls.driver = driver = webdriver.Chrome(chrome_options=chrome_options)
+
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
         if self.driver is None:
             raise SkipTest('Selenium Tests disabled')
         super(SeleniumTests, self).setUp()
-        self.driver.execute_script('sauce:context={}'.format(self.id()))
+        if DO_SAUCE:
+            self.driver.execute_script('sauce:context={}'.format(self.id()))
         self.driver.get('{0}{1}'.format(self.live_server_url, reverse('home')))
         self.driver.set_window_size(1280, 1024)
         site = Site.objects.get(pk=1)
@@ -1027,6 +1030,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot('source-review-edit.png')
         # Close modal dialog
         self.driver.find_element_by_id('id_extra_context').send_keys(Keys.ESCAPE)
+        time.sleep(0.5)
 
         # Profile
         self.click(self.driver.find_element_by_id('user-dropdown'))

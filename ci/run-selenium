@@ -6,7 +6,5 @@
 run_coverage ./manage.py collectstatic --noinput --verbosity 0
 check
 
-export DO_SELENIUM=1
-
 run_coverage ./manage.py test --debug-mode -p test_selenium.py
 check
