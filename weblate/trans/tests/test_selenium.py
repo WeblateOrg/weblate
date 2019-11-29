@@ -162,7 +162,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             chrome_options.add_argument("--headless")
             try:
                 cls.driver = webdriver.Chrome(chrome_options=chrome_options)
-            except IOError as error:
+            except WebDriverException as error:
                 cls.driver_error = str(error)
 
         if cls.driver is not None:
