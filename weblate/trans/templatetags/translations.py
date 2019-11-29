@@ -56,7 +56,6 @@ from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.markdown import render_markdown
 from weblate.utils.stats import BaseStats, ProjectLanguageStats
-from weblate.utils.templatetags.icons import icon
 
 register = template.Library()
 
