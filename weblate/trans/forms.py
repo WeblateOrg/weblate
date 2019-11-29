@@ -74,12 +74,10 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_TRANSLATED,
 )
+from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
 
-ICON_TEMPLATE = '''
-<i class="fa fa-{0}"></i> {1}
-'''
 BUTTON_TEMPLATE = '''
 <button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
 '''
@@ -230,7 +228,7 @@ class PluralTextarea(forms.Textarea):
                     'copy-text',
                     ugettext('Fill in with source string'),
                     COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
-                    ICON_TEMPLATE.format('clone', ugettext('Clone source')),
+                    '{} {}'.format(icon("clone.svg"), ugettext('Clone source')),
                 ),
             )
         )
