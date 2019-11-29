@@ -752,43 +752,6 @@ $(function () {
         $('form.autosubmit').submit();
     });
 
-    /* Row expander */
-    $('.expander').click(function () {
-        var $this = $(this);
-        var $tableRow = $this.closest('tr');
-        var $nextRow = $tableRow.next();
-        $nextRow.toggle();
-        $tableRow.find('.expand-icon').toggleClass('fa-chevron-right').toggleClass('fa-chevron-down');
-        var $loader = $nextRow.find('.load-details');
-        if ($loader.length > 0) {
-            var url = $loader.attr('href');
-            $loader.remove();
-            $.get(
-                url,
-                function (data) {
-                    var $cell = $nextRow.find('.details-content');
-                    $cell.find('.fa-spin').remove();
-                    $cell.append(data);
-                    $cell.find('[data-flag]').click(function (e) {
-                        var $this = $(this);
-                        var $textarea = $this.closest('td').find('input[type="text"]');
-                        if ($textarea.val().length > 0) {
-                            $textarea.val($textarea.val() + ',' + $this.data('flag'));
-                        } else {
-                            $textarea.val($this.data('flag'));
-                        }
-                        e.preventDefault();
-                    });
-                }
-            );
-        }
-    });
-
-    /* Auto expand expander */
-    $('.auto-expand').each(function () {
-        $(this).click();
-    });
-
     var activeTab;
 
     /* Load correct tab */
