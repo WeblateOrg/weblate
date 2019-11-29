@@ -56,6 +56,7 @@ from weblate.trans.util import split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.markdown import render_markdown
 from weblate.utils.stats import BaseStats, ProjectLanguageStats
+from weblate.utils.templatetags.icons import icon
 
 register = template.Library()
 
@@ -79,7 +80,7 @@ NAME_MAPPING = {
     None: ugettext_lazy("Possible configuration"),
 }
 
-FLAG_TEMPLATE = '<i title="{0}" class="fa fa-{1}"></i>'
+FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
 BADGE_TEMPLATE = '<span class="badge pull-right flip {1}">{0}</span>'
 
 PERM_TEMPLATE = """
@@ -546,20 +547,27 @@ def get_state_flags(unit):
     flags = []
 
     if unit.fuzzy:
-        flags.append((ugettext("Needs editing"), "question-circle text-danger"))
+        flags.append((ugettext("Needs editing"), "", "need-edit.svg"))
     elif not unit.translated:
-        flags.append((ugettext("Untranslated"), "times-circle text-danger"))
+        flags.append((ugettext("Untranslated"), "", "empty.svg"))
     elif unit.has_failing_check:
-        flags.append((ugettext("Fails checks"), "exclamation-circle text-warning"))
+        flags.append((ugettext("Fails checks"), "red", "alert.svg"))
     elif unit.approved:
-        flags.append((ugettext("Approved"), "check-circle text-success"))
+        flags.append((ugettext("Approved"), "green", "approved.svg"))
     elif unit.translated:
-        flags.append((ugettext("Translated"), "check-circle text-primary"))
+        flags.append((ugettext("Translated"), "green", "translated.svg"))
 
     if unit.has_comment:
-        flags.append((ugettext("Commented"), "comment text-info"))
+        flags.append((ugettext("Commented"), "", "comment.svg"))
 
-    return mark_safe("\n".join([FLAG_TEMPLATE.format(*flag) for flag in flags]))
+    if unit.has_suggestion:
+        flags.append((ugettext("Suggested"), "", "suggest.svg"))
+
+    return mark_safe(
+        "\n".join(
+            FLAG_TEMPLATE.format(flag[0], flag[1], icon(flag[2])) for flag in flags
+        )
+    )
 
 
 @register.simple_tag
