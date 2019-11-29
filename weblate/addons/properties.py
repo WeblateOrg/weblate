@@ -148,7 +148,7 @@ class PropertiesSortAddon(BaseAddon):
     compat = {
         'file_format': frozenset(('properties-utf8', 'properties')),
     }
-    icon = 'sort-alpha-asc'
+    icon = 'sort-alphabetical.svg'
 
     def pre_commit(self, translation, author):
         format_file(translation.get_filename())

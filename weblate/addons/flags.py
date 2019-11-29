@@ -31,7 +31,7 @@ SUPPORT_FUZZY = {'ts', 'po', 'po-mono'}
 
 class FlagBase(BaseAddon):
     events = (EVENT_UNIT_PRE_CREATE,)
-    icon = 'flag'
+    icon = 'flag.svg'
 
     @classmethod
     def can_install(cls, component, user):

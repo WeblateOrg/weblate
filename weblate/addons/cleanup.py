@@ -66,7 +66,7 @@ class CleanupAddon(BaseCleanupAddon):
         'For most file formats, this means removing stale translation keys '
         'no longer present in the base file.'
     )
-    icon = 'eraser'
+    icon = 'eraser.svg'
 
     def update_appstore(self, index, translation, storage):
         """Filter obsolete units in storage.

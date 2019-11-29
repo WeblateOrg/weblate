@@ -38,7 +38,7 @@ class AutoTranslateAddon(BaseAddon):
     )
     settings_form = AutoAddonForm
     multiple = True
-    icon = "language"
+    icon = "language.svg"
 
     def post_update(self, component, previous_head):
         self.daily(component)

@@ -41,7 +41,7 @@ class GitSquashAddon(BaseAddon):
         'vcs': {'git', 'gerrit', 'subversion', 'github', 'gitlab', 'git-force-push'}
     }
     events = (EVENT_POST_COMMIT,)
-    icon = 'compress'
+    icon = 'compress.svg'
     repo_scope = True
 
     def squash_all(self, component, repository, base=None, author=None):

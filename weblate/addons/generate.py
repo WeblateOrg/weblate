@@ -38,7 +38,7 @@ class GenerateFileAddon(BaseAddon):
     )
     settings_form = GenerateForm
     multiple = True
-    icon = 'bar-chart'
+    icon = 'poll.svg'
 
     @classmethod
     def can_install(cls, component, user):

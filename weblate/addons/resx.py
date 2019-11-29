@@ -34,7 +34,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
         "Unused strings are removed, and new ones are added as "
         "copies of the source string."
     )
-    icon = "refresh"
+    icon = "refresh.svg"
     compat = {"file_format": {"resx"}}
 
     def update_resx(self, index, translation, storage, changes):

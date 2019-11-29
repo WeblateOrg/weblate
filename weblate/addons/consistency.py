@@ -35,7 +35,7 @@ class LangaugeConsistencyAddon(BaseAddon):
         'Ensure that all components within one project '
         'have translation to same languages.'
     )
-    icon = 'language'
+    icon = 'language.svg'
     project_scope = True
 
     def ensure_all_have(self, project, languages):

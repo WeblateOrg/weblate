@@ -35,7 +35,7 @@ class RemovalAddon(BaseAddon):
     project_scope = True
     events = (EVENT_DAILY,)
     settings_form = RemoveForm
-    icon = 'trash'
+    icon = 'delete.svg'
 
     def get_cutoff(self):
         age = self.instance.configuration['age']

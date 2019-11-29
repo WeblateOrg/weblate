@@ -52,7 +52,7 @@ class BaseAddon(object):
     multiple = False
     verbose = 'Base addon'
     description = 'Base addon'
-    icon = 'cog'
+    icon = 'cog.svg'
     project_scope = False
     repo_scope = False
     has_summary = False
@@ -353,4 +353,4 @@ class StoreBaseAddon(BaseAddon):
     """Base class for addons tweaking store."""
 
     events = (EVENT_STORE_POST_LOAD,)
-    icon = 'wrench'
+    icon = 'wrench.svg'

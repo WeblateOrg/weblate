@@ -39,7 +39,7 @@ class DiscoveryAddon(BaseAddon):
     )
     settings_form = DiscoveryForm
     multiple = True
-    icon = 'search'
+    icon = 'magnify.svg'
     repo_scope = True
     trigger_update = True
 

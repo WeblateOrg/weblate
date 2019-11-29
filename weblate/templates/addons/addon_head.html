@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load translations %}
+{% load icons %}
 
 <h4>
 {% if addon.project_scope %}
@@ -8,7 +9,7 @@
 {% if addon.repo_scope %}
 <span class="badge pull-right flip" title="{% trans "This addon is used for all components sharing this repository." %}">{% trans "repository wide" %}</span>
 {% endif %}
-<i class="fa fa-{{ addon.icon }}"></i> 
+{% icon addon.icon %}
 {{ addon.verbose }}
 {% documentation_icon "admin/addons" addon.doc_anchor %}
 </h4>

@@ -30,7 +30,7 @@ from weblate.utils.site import get_site_url
 class BaseScriptAddon(BaseAddon):
     """Base class for script executing addons."""
 
-    icon = 'file-code-o'
+    icon = 'script.svg'
     script = None
     add_file = None
     alert = 'AddonScriptError'
