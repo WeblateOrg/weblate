@@ -30,6 +30,8 @@ from random import SystemRandom
 
 from django.conf import settings
 
+from weblate.utils.templatetags.icons import icon
+
 TIMEDELTA = 600
 
 # Supported operators
@@ -44,9 +46,9 @@ class MathCaptcha(object):
     """Simple match captcha object."""
     operators = ('+', '-', '*')
     operators_display = {
-        '+': '<i class="fa fa-plus"></i>',
-        '-': '<i class="fa fa-minus"></i>',
-        '*': '<i class="fa fa-times"></i>',
+        '+': icon('plus.svg'),
+        '-': icon('minus.svg'),
+        '*': icon('close.svg'),
     }
     interval = (1, 10)
 
