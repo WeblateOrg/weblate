@@ -404,6 +404,7 @@ class Unit(models.Model, LoggerMixin):
                 position=pos,
                 location=location,
                 flags=flags,
+                state=STATE_TRANSLATED,
             )
             self.extra_context = source_unit.extra_context
             self.extra_flags = source_unit.extra_flags
