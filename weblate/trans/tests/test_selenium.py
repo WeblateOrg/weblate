@@ -173,7 +173,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self):
         if self.driver is None:
-            raise SkipTest("Selenium Tests not available: {}".format(cls.driver_error))
+            raise SkipTest("Webdriver not available: {}".format(self.driver_error))
         super(SeleniumTests, self).setUp()
         if DO_SAUCE:
             self.driver.execute_script("sauce:context={}".format(self.id()))
