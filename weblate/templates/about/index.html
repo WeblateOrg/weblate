@@ -51,19 +51,18 @@
 
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Versions" %}</h4></div>
-
-<table class="table table-condensed table-striped">
-<tr>
-<th><a href="{{ weblate_url }}">Weblate</a></th>
-<td>{{ version }}</td>
-</tr>
+<div class="panel-body formats">
+<a class="format-item" href="{{ weblate_url }}">Weblate
+<span>{{ version }}</span>
+</a>
 {% for ver in versions %}
-<tr>
-<th><a href="{{ ver.1 }}">{{ ver.0 }}</a></th>
-<td>{{ ver.2 }}</td>
-</tr>
+<a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
+<span>{{ ver.2 }}</span>
+</a>
 {% endfor %}
-</table>
+
+
+</div>
 <div class="panel-footer">
 
 <p>{% trans "Weblate owes its existence to these projects." %}</p>
