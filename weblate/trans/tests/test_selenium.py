@@ -63,9 +63,6 @@ from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import TempDirMixin, create_billing, create_test_user
 from weblate.vcs.ssh import get_key_data
 
-# Check whether we should run Selenium tests
-DO_SAUCE = "SAUCE_USERNAME" in os.environ and "SAUCE_ACCESS_KEY" in os.environ
-
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
     "social_core.backends.google.GoogleOAuth2",
@@ -88,25 +85,9 @@ SOURCE_FONT = os.path.join(
 
 
 class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
-    caps = {"browserName": "firefox", "platform": "Windows 10"}
     driver = None
     driver_error = ""
     image_path = None
-    port = 9090
-
-    def run(self, result=None):
-        if result is None:
-            result = self.defaultTestResult()
-
-        errors = len(result.errors)
-        failures = len(result.failures)
-        super(SeleniumTests, self).run(result)
-
-        if DO_SAUCE:
-            if errors == len(result.errors) and failures == len(result.failures):
-                self.driver.execute_script("sauce:job-result=passed")
-            else:
-                self.driver.execute_script("sauce:job-result=failed")
 
     @contextmanager
     def wait_for_page_load(self, timeout=30):
@@ -116,54 +97,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @classmethod
     def setUpClass(cls):
+        # Screenshots storage
         cls.image_path = os.path.join(settings.BASE_DIR, "test-images")
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)
-        if "DRONE_BUILD_NUMBER" in os.environ:
-            # Listen on Docker interface in Drone
-            cls.host = socket.gethostbyname(socket.gethostname())
-        if DO_SAUCE:
-            cls.caps["name"] = "Weblate CI build"
-            if "screenResolution" not in cls.caps:
-                cls.caps["screenResolution"] = "1280x1024"
-            # Fill in Travis details in caps
-            if "TRAVIS_JOB_NUMBER" in os.environ:
-                cls.caps["tunnel-identifier"] = os.environ["TRAVIS_JOB_NUMBER"]
-                cls.caps["build"] = os.environ["TRAVIS_BUILD_NUMBER"]
-                cls.caps["tags"] = [
-                    "python-{0}".format(os.environ["TRAVIS_PYTHON_VERSION"]),
-                    "django-{0}".format(django.get_version()),
-                    "CI",
-                ]
-            elif "DRONE_BUILD_NUMBER" in os.environ:
-                cls.caps["tunnel-identifier"] = os.environ["DRONE_BUILD_NUMBER"]
-                cls.caps["build"] = os.environ["DRONE_BUILD_NUMBER"]
-                cls.caps["tags"] = ["CI"]
-
-            # Use Sauce connect
-            cls.username = os.environ["SAUCE_USERNAME"]
-            cls.key = os.environ["SAUCE_ACCESS_KEY"]
-            # We do not want to use file detector as it magically uploads
-            # anything what matches local filename
-            cls.driver = webdriver.Remote(
-                desired_capabilities=cls.caps,
-                command_executor="http://{0}:{1}@{2}/wd/hub".format(
-                    cls.username, cls.key, "ondemand.saucelabs.com"
-                ),
-                file_detector=UselessFileDetector(),
-            )
-            print(
-                "Sauce Labs job: https://saucelabs.com/jobs/{0}".format(
-                    cls.driver.session_id
-                )
-            )
-        else:
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")
-            try:
-                cls.driver = webdriver.Chrome(chrome_options=chrome_options)
-            except WebDriverException as error:
-                cls.driver_error = str(error)
+        # Build Chrome driver
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        try:
+            cls.driver = webdriver.Chrome(chrome_options=chrome_options)
+        except WebDriverException as error:
+            cls.driver_error = str(error)
 
         if cls.driver is not None:
             cls.driver.implicitly_wait(5)
@@ -175,8 +119,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         if self.driver is None:
             raise SkipTest("Webdriver not available: {}".format(self.driver_error))
         super(SeleniumTests, self).setUp()
-        if DO_SAUCE:
-            self.driver.execute_script("sauce:context={}".format(self.id()))
         self.driver.get("{0}{1}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1280, 1024)
         site = Site.objects.get(pk=1)

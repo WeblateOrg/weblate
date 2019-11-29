@@ -70,18 +70,6 @@ sphinx_step = {
     "commands": basic_install
     + [cmd_pip_deps, "make -C docs html SPHINXOPTS='-n -W -a'"],
 }
-selenium_step = {
-    "name": "test",
-    "image": "weblate/cidocker:3.7",
-    "ports": [9090],
-    "environment": get_test_env(
-        {
-            "SAUCE_USERNAME": secret("SAUCE_USERNAME"),
-            "SAUCE_ACCESS_KEY": secret("SAUCE_ACCESS_KEY"),
-        }
-    ),
-    "commands": basic_install + [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-selenium"],
-}
 test_step = {
     "name": "test",
     "image": "weblate/cidocker:3.7",
@@ -110,14 +98,6 @@ database_service = {
     "ports": [5432],
     "environment": {"POSTGRES_USER": "postgres", "POSTGRES_DB": "weblate"},
 }
-sauce_service = {
-    "name": "sauce",
-    "image": "nijel/sauce-connect:latest",
-    "environment": {
-        "SAUCE_USERNAME": secret("SAUCE_USERNAME"),
-        "SAUCE_ACCESS_KEY": secret("SAUCE_ACCESS_KEY"),
-    },
-}
 
 # Pipeline template
 pipeline_template = {
@@ -140,11 +120,6 @@ def main(ctx):
     return [
         pipeline("lint", [flake_step, sdist_step]),
         pipeline("docs", [sphinx_step]),
-        pipeline(
-            "tests:selenium",
-            [selenium_step, codecov_step],
-            [database_service, sauce_service],
-        ),
         pipeline("tests:python-2.7", [test_step_27, codecov_step], [database_service]),
         pipeline("tests:python-3.7", [test_step, codecov_step], [database_service]),
         pipeline(

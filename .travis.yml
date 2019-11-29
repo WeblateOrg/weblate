@@ -19,7 +19,6 @@ env:
   global:
     - DJANGO_SETTINGS_MODULE=weblate.settings_test
     - CI_DATABASE=postgresql
-    - SAUCE_USERNAME=nijel
     - CC_TEST_REPORTER_ID=b477753e9d539176556058b92f0f6594e7823ab95d1db1348f189745ea618af6
     - CI_DB_HOST=127.0.0.1
 before_install:
@@ -31,7 +30,6 @@ install:
   - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
   - export PKG_CONFIG_PATH=$TESSERACT_PKG:$PKG_CONFIG_PATH
   - wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/3.05.02-3/tesseract.tar.xz | tar -C $HOME -xJf -
-  - export SAUCE_ACCESS_KEY=`echo MTBlOGE0MzItZmI0Mi00MmZhLTk5NjgtMTE4N2E3YjhlYTAy | base64 --decode`
   # Get newer pip and whell for binary caching support
   - pip install --upgrade pip wheel
   # Install PyPI packages
@@ -70,7 +68,6 @@ addons: &aptaddon
     - libgirepository1.0-dev
     - libenchant1c2a
     - g++
-    - daemon
     - chromium-browser
     sources:
     - git-core
@@ -107,17 +104,6 @@ jobs:
         postgresql: "9.6"
       services:
         - postgresql
-    - stage: "Basic tests"
-      name: "Django 2.2, selenium"
-      env: CI_DEPS="Django>=2.2,<2.3"
-      script:
-        - ./ci/install-sauce
-        - ./ci/run-selenium
-        - kill `cat ~/.sauce-pid`
-        - cat ~/.sauce-log
-      addons:
-        <<: *aptaddon
-        postgresql: "9.6"
     - stage: "Basic tests"
       name: "Setup"
       script:
