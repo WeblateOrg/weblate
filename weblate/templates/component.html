@@ -148,7 +148,7 @@
 <div class="tab-pane" id="alerts">
 {% if user.is_authenticated %}
 {% for alert in alerts %}
-<div class="panel panel-warning">
+<div class="panel panel-default">
 <div class="panel-heading">{{ alert }}</div>
 <div class="panel-body">{{ alert.render }}</div>
 <div class="panel-footer">{{ alert.timestamp|naturaltime }}</div>
@@ -248,7 +248,7 @@
 <div class="tab-pane" id="rename">
 
 <form method="post" action="{% url 'rename' project=object.project.slug component=object.slug %}">
-<div class="panel panel-warning">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Rename component" %}</h4></div>
 <div class="panel-body">
 <div class="form-group">
@@ -263,7 +263,7 @@
 </form>
 
 <form method="post" action="{% url 'move' project=object.project.slug component=object.slug %}">
-<div class="panel panel-warning">
+<div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Move component" %}</h4></div>
 <div class="panel-body">
 <div class="form-group">
