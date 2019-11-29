@@ -8,6 +8,8 @@
 {% if unit %}
 <tr>
 <td class="translatetext">{% format_translation unit.source unit.translation.component.project.source_language %}</td>
+<td>{{ unit.context }}</td>
+<td>{{ unit.location }}</td>
 <td>
 <a href="{{ unit.get_absolute_url }}?checksum={{ unit.checksum }}" class="btn btn-primary">{% trans "View" %}</a>
 </td>
@@ -24,6 +26,6 @@
 {% endif %}
 {% empty %}
 <tr class="warning">
-<td colspan="2">{% trans "No source strings are currently assigned!" %}</td>
+<td colspan="5">{% trans "No source strings are currently assigned!" %}</td>
 </tr>
 {% endfor %}

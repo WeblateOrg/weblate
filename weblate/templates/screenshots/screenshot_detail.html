@@ -24,8 +24,10 @@
 <table class="table table-striped">
 <thead>
 <tr>
-<th>{% trans "Source string" %}</th>
-<th colspan="2">{% trans "Actions" %}</th>
+    <th>{% trans "Source string" %}</th>
+    <th>{% trans "Context" %}</th>
+    <th>{% trans "Location" %}</th>
+    <th colspan="2">{% trans "Actions" %}</th>
 </tr>
 </thead>
 <tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
@@ -58,10 +60,10 @@
     </tr>
     </thead>
     <tbody id="screenshots-loading" style="display:none;">
-      <tr><td colspan="3">{% icon "loading.svg" %} {% trans "Loading results…" %}</td></tr>
+      <tr><td colspan="4">{% icon "loading.svg" %} {% trans "Loading results…" %}</td></tr>
     </tbody>
     <tbody id="search-results">
-      <tr><td colspan="3">{% trans "Please search below to find matching source strings." %}</td></tr>
+      <tr><td colspan="4">{% trans "Please search below to find matching source strings." %}</td></tr>
     </tbody>
   </table>
   </div>
@@ -70,7 +72,7 @@
     <div class="pull-right flip">
     <form class="form-inline">
       {% csrf_token %}
-      <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-primary btn-warning" id="screenshots-auto">{% trans "Automatically recognize" %}</button>
+      <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}" class="btn btn-warning" id="screenshots-auto">{% trans "Automatically recognize" %}</button>
     </form>
     </div>
     {% endif %}

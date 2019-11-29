@@ -165,7 +165,7 @@ function screenshotAddString() {
 
 function screnshotResultError(severity, message) {
     $('#search-results').html(
-        '<tr class="' + severity + '"><td colspan="2">' + message + '</td></tr>'
+        '<tr class="' + severity + '"><td colspan="4">' + message + '</td></tr>'
     );
 }
 
