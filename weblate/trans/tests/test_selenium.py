@@ -156,10 +156,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 ),
                 file_detector=UselessFileDetector(),
             )
-            cls.driver.implicitly_wait(5)
-            jobid = cls.driver.session_id
             print(
-                'Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(jobid)
+                'Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(
+                 cls.driver.session_id
+                 )
             )
         else:
             chrome_options = Options()
@@ -170,6 +170,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 cls.driver_error = str(error)
 
         if cls.driver is not None:
+            cls.driver.implicitly_wait(5)
             cls.actions = webdriver.ActionChains(cls.driver)
 
         super(SeleniumTests, cls).setUpClass()
