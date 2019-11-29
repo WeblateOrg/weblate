@@ -90,6 +90,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         'platform': 'Windows 10',
     }
     driver = None
+    driver_error = ''
     image_path = None
     port = 9090
 
@@ -156,7 +157,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 file_detector=UselessFileDetector(),
             )
             cls.driver.implicitly_wait(5)
-            cls.actions = webdriver.ActionChains(cls.driver)
             jobid = cls.driver.session_id
             print(
                 'Sauce Labs job: https://saucelabs.com/jobs/{0}'.format(jobid)
@@ -164,13 +164,19 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         else:
             chrome_options = Options()
             chrome_options.add_argument("--headless")
-            cls.driver = webdriver.Chrome(chrome_options=chrome_options)
+            try:
+                cls.driver = webdriver.Chrome(chrome_options=chrome_options)
+            except IOError as error:
+                cls.driver_error = str(error)
+
+        if cls.driver is not None:
+            cls.actions = webdriver.ActionChains(cls.driver)
 
         super(SeleniumTests, cls).setUpClass()
 
     def setUp(self):
         if self.driver is None:
-            raise SkipTest('Selenium Tests disabled')
+            raise SkipTest('Selenium Tests not available: {}'.format(cls.driver_error))
         super(SeleniumTests, self).setUp()
         if DO_SAUCE:
             self.driver.execute_script('sauce:context={}'.format(self.id()))
