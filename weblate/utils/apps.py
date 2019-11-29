@@ -37,7 +37,6 @@ from weblate.utils.checks import (
 )
 from weblate.utils.django_hacks import monkey_patch_translate
 from weblate.utils.errors import init_error_collection
-from weblate.utils.requirements import check_requirements
 
 
 class UtilsConfig(AppConfig):
@@ -47,7 +46,6 @@ class UtilsConfig(AppConfig):
 
     def ready(self):
         super(UtilsConfig, self).ready()
-        register(check_requirements)
         register(check_data_writable)
         register(check_mail_connection, deploy=True)
         register(check_celery, deploy=True)
