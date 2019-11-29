@@ -60,7 +60,7 @@ def report_error(
 
     if not skip_sentry and settings.SENTRY_DSN:
         with sentry_sdk.push_scope() as scope:
-            if extra_data;
+            if extra_data:
                 for key, value in extra_data.items():
                     scope.set_extra(key, value)
             sentry_sdk.capture_exception()
