@@ -3,6 +3,7 @@
 {% load translations %}
 {% load permissions %}
 {% load crispy_forms_tags %}
+{% load icons %}
 
 {% block breadcrumbs %}
 {% if project %}
@@ -27,18 +28,14 @@
 {% perm 'change.download' project as user_can_download_changes %}
 
 {% if user_can_download_changes or changes_rss %}
-<ul class="pagination pull-right flip">
+<div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_download_changes %}
-<li>
-<a href="{% url 'changes-csv' %}?{{ query_string }}" title="{% trans "Download latest changes as CSV" %}"><i class="fa fa-download"></i></a>
-</li>
+<a href="{% url 'changes-csv' %}?{{ query_string }}" title="{% trans "Download latest changes as CSV" %}" class="btn btn-link">{% icon "download.svg" %}</a>
 {% endif %}
 {% if changes_rss %}
-<li>
-<a href="{{ changes_rss }}" title="{% trans "Follow using RSS" %}"><i class="fa fa-rss"></i></a>
-</li>
+<a href="{{ changes_rss }}" title="{% trans "Follow using RSS" %}" class="btn btn-link">{% icon "rss.svg" %}</a>
 {% endif %}
-</ul>
+</div>
 {% endif %}
 
 {% include "paginator.html" %}
