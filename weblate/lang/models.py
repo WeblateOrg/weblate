@@ -44,9 +44,9 @@ from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.langdata.languages import LANGUAGES
 from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
-from weblate.utils.templatetags.icons import icon
 from weblate.trans.util import sort_objects
 from weblate.utils.stats import LanguageStats
+from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_pluraleq
 
 PLURAL_RE = re.compile(

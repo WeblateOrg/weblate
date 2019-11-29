@@ -44,9 +44,9 @@ from selenium.common.exceptions import (
     NoSuchElementException,
     WebDriverException,
 )
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.file_detector import UselessFileDetector
 from selenium.webdriver.support.expected_conditions import (
     presence_of_element_located,
@@ -164,7 +164,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         else:
             chrome_options = Options()
             chrome_options.add_argument("--headless")
-            cls.driver = driver = webdriver.Chrome(chrome_options=chrome_options)
+            cls.driver = webdriver.Chrome(chrome_options=chrome_options)
 
         super(SeleniumTests, cls).setUpClass()
 
