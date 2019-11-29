@@ -12,7 +12,7 @@ if (window.location.hash && (window.location.hash.indexOf('"') > -1 || window.lo
 // Loading indicator handler
 function increaseLoading(sel) {
     if (loading === 0) {
-        $(sel).show();
+        $('#loading-' + sel).show();
     }
     loading += 1;
 }
@@ -20,7 +20,7 @@ function increaseLoading(sel) {
 function decreaseLoading(sel) {
     loading -= 1;
     if (loading === 0) {
-        $(sel).hide();
+        $('#loading-' + sel).hide();
     }
 }
 
@@ -104,12 +104,12 @@ function loadActivityChart(element) {
     }
     activityDataLoaded = true;
 
-    increaseLoading('#loading-activity');
+    increaseLoading('activity');
     $.ajax({
         url: element.data('monthly'),
         success: function(data) {
             Chartist.Bar('#activity-month', data);
-            decreaseLoading('#loading-activity');
+            decreaseLoading('activity');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             addAlert(errorThrown);
@@ -117,12 +117,12 @@ function loadActivityChart(element) {
         dataType: 'json'
     });
 
-    increaseLoading('#loading-activity');
+    increaseLoading('activity');
     $.ajax({
         url: element.data('yearly'),
         success: function(data) {
             Chartist.Bar('#activity-year', data);
-            decreaseLoading('#loading-activity');
+            decreaseLoading('activity');
         },
         error: function (jqXHR, textStatus, errorThrown) {
             addAlert(errorThrown);
@@ -133,7 +133,7 @@ function loadActivityChart(element) {
 
 function screenshotStart() {
     $('#search-results').empty();
-    increaseLoading('#loading-screenshots');
+    increaseLoading('screenshots');
 }
 
 function screenshotFailure() {
@@ -190,7 +190,7 @@ function screenshotResultSet(results) {
 }
 
 function screenshotLoaded(data) {
-    decreaseLoading('#loading-screenshots');
+    decreaseLoading('screenshots');
     if (data.responseCode !== 200) {
         screnshotResultError('danger', gettext('Error loading search results!'));
     } else if (data.results.length === 0) {
@@ -273,7 +273,7 @@ function testChangeHandler(e) {
 }
 
 function processMachineTranslation(data, scope) {
-    decreaseLoading('#' + scope + '-loading');
+    decreaseLoading(scope);
     if (data.responseStatus === 200) {
         data.translations.forEach(function (el, idx) {
             var newRow = $('<tr/>').data('quality', el.quality);
@@ -406,15 +406,15 @@ function processMachineTranslation(data, scope) {
 }
 
 function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
-    decreaseLoading('#' + scope + '-loading');
+    decreaseLoading(scope);
     addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
 }
 
 function loadMachineTranslations(data, textStatus) {
     var $form = $('#link-post');
-    decreaseLoading('#loading-mt');
+    decreaseLoading('mt');
     data.forEach(function (el, idx) {
-        increaseLoading('#loading-mt');
+        increaseLoading('mt');
         $.ajax({
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', el),
@@ -693,7 +693,7 @@ $(function () {
             return;
         }
         machineTranslationLoaded = true;
-        increaseLoading('#loading-mt');
+        increaseLoading('mt');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
             success: loadMachineTranslations,
@@ -708,7 +708,7 @@ $(function () {
             return;
         }
         translationMemoryLoaded = true;
-        increaseLoading('#loading-memory');
+        increaseLoading('memory');
         var $form = $('#link-post');
         $.ajax({
             type: 'POST',
@@ -727,7 +727,7 @@ $(function () {
     $('#memory-search').submit(function () {
         var form = $(this);
 
-        increaseLoading('#loading-memory');
+        increaseLoading('memory');
         $('#memory-translations').empty();
         $.ajax({
             type: 'POST',
@@ -1289,14 +1289,14 @@ $(function () {
     $('.add-dict-inline').submit(function () {
         var form = $(this);
 
-        increaseLoading('#loading-glossary-add');
+        increaseLoading('glossary-add');
         $.ajax({
             type: 'POST',
             url: form.attr('action'),
             data: form.serialize(),
             dataType: 'json',
             success: function (data) {
-                decreaseLoading('#loading-glossary-add');
+                decreaseLoading('glossary-add');
                 if (data.responseCode === 200) {
                     $('#glossary-words').html(data.results);
                     form.find('[name=words]').attr('value', data.words);
@@ -1306,7 +1306,7 @@ $(function () {
             },
             error: function (xhr, textStatus, errorThrown) {
                 addAlert(errorThrown);
-                decreaseLoading('#loading-glossary-add');
+                decreaseLoading('glossary-add');
             }
         });
         $('#add-glossary-form').modal('hide');
