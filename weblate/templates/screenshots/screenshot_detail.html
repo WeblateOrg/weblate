@@ -3,6 +3,7 @@
 {% load permissions %}
 {% load crispy_forms_tags %}
 {% load translations %}
+{% load icons %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
@@ -57,7 +58,7 @@
     </tr>
     </thead>
     <tbody id="screenshots-loading" style="display:none;">
-      <tr><td colspan="3"><i class="fa fa-spinner fa-spin"></i> {% trans "Loading results…" %}</td></tr>
+      <tr><td colspan="3">{% icon "loading.svg" %} {% trans "Loading results…" %}</td></tr>
     </tbody>
     <tbody id="search-results">
       <tr><td colspan="3">{% trans "Please search below to find matching source strings." %}</td></tr>

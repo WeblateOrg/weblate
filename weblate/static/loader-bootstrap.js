@@ -142,11 +142,9 @@ function screenshotFailure() {
 
 function screenshotAddString() {
     var pk = $(this).data('pk');
-    var addLoadId = '#adding-' + pk;
     var form = $('#screenshot-add-form');
 
     $('#add-source').val(pk);
-    increaseLoading(addLoadId);
     $.ajax({
         type: 'POST',
         url: form.attr('action'),
@@ -155,15 +153,12 @@ function screenshotAddString() {
         success: function () {
             var list = $('#sources-listing');
 
-            decreaseLoading(addLoadId);
-            $(addLoadId).parents('tr').fadeOut();
             $.get(list.data('href'), function (data) {
                 list.html(data);
             });
         },
         error: function (jqXHR, textStatus, errorThrown) {
             addAlert(errorThrown);
-            decreaseLoading(addLoadId);
         }
     });
 }
@@ -182,15 +177,13 @@ function screenshotResultSet(results) {
             '<td class="context"></td>' +
             '<td class="location"></td>' +
             '<td><a class="add-string btn btn-primary"> ' +
-            gettext('Add to screenshot') +
-            '</a><i class="fa fa-spinner fa-spin"></i></tr>'
+            gettext('Add to screenshot') + '</tr>'
         );
 
         row.find('.text').text(value.text);
         row.find('.context').text(value.context);
         row.find('.location').text(value.location);
         row.find('.add-string').data('pk', value.pk);
-        row.find('.fa-spin').hide().attr('id', 'adding-' + value.pk);
         $('#search-results').append(row);
     });
     $('#search-results').find('.add-string').click(screenshotAddString);
