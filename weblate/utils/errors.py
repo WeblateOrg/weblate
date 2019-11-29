@@ -59,7 +59,11 @@ def report_error(
         rollbar.report_exc_info(request=request, extra_data=extra_data, level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
-        sentry_sdk.capture_exception()
+        with sentry_sdk.push_scope() as scope:
+            if extra_data;
+                for key, value in extra_data.items():
+                    scope.set_extra(key, value)
+            sentry_sdk.capture_exception()
 
     logger.error('%s: %s: %s', prefix, error.__class__.__name__, force_text(error))
     if print_tb:
