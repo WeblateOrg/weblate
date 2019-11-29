@@ -44,6 +44,7 @@ from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.langdata.languages import LANGUAGES
 from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
+from weblate.utils.templatetags.icons import icon
 from weblate.trans.util import sort_objects
 from weblate.utils.stats import LanguageStats
 from weblate.utils.validators import validate_pluraleq
@@ -52,7 +53,7 @@ PLURAL_RE = re.compile(
     r'\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)'
 )
 PLURAL_TITLE = '''
-{name} <i class="fa fa-question-circle text-primary" title="{examples}"></i>
+{name} <span title="{examples}">{icon}</span>
 '''
 COPY_RE = re.compile(r'\([0-9]+\)')
 
@@ -578,6 +579,7 @@ class Plural(models.Model):
         """Return label for plural form."""
         return PLURAL_TITLE.format(
             name=self.get_plural_name(idx),
+            icon=icon("info.svg"),
             # Translators: Label for plurals with example counts
             examples=_('For example: {0}').format(
                 ', '.join(self.examples.get(idx, []))
