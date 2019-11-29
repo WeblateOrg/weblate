@@ -922,6 +922,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(self.driver.find_element_by_partial_link_text("All strings"))
         self.screenshot("source-review-detail.png")
         self.click(self.driver.find_element_by_id("edit-context"))
+        time.sleep(0.5)
         self.screenshot("source-review-edit.png")
         # Close modal dialog
         self.driver.find_element_by_id("id_extra_context").send_keys(Keys.ESCAPE)
