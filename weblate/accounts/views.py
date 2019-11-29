@@ -63,7 +63,6 @@ from social_core.exceptions import (
 )
 from social_django.views import auth, complete, disconnect
 
-from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
     CaptchaForm,
@@ -103,6 +102,7 @@ from weblate.utils.ratelimit import (
     reset_rate_limit,
     session_ratelimit_post,
 )
+from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.views import get_component, get_project
 
 CONTACT_TEMPLATE = '''
@@ -197,7 +197,14 @@ def mail_admins_contact(request, subject, message, context, sender, to):
 
     mail = EmailMultiAlternatives(
         '{0}{1}'.format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
-        '{}\n{}'.format(message % context, TEMPLATE_FOOTER.format(address=get_ip_address(request), agent=get_user_agent(request), username=request.user.username)),
+        '{}\n{}'.format(
+            message % context,
+            TEMPLATE_FOOTER.format(
+                address=get_ip_address(request),
+                agent=get_user_agent(request),
+                username=request.user.username,
+            ),
+        ),
         to=to,
         headers={'Reply-To': sender},
     )
