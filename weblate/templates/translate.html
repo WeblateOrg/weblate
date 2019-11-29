@@ -21,6 +21,8 @@
 
 {% block content %}
 
+{% include "show-component-state.html" with object=unit.translation.component %}
+
 {% perm 'unit.edit' unit as user_can_translate %}
 {% perm 'suggestion.add' unit as user_can_suggest %}
 {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
@@ -38,8 +40,6 @@
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
-
-{% include "show-component-state.html" with object=unit.translation.component %}
 
 {% with unit.get_comments as comments and unit.nearby as nearby %}
 
