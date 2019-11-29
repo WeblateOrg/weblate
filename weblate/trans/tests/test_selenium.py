@@ -22,14 +22,12 @@ from __future__ import print_function, unicode_literals
 
 import math
 import os
-import socket
 import time
 from contextlib import contextmanager
 from datetime import timedelta
 from io import BytesIO
 from unittest import SkipTest, skipIf
 
-import django
 import six
 import social_django.utils
 from django.conf import settings
@@ -47,7 +45,6 @@ from selenium.common.exceptions import (
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.remote.file_detector import UselessFileDetector
 from selenium.webdriver.support.expected_conditions import (
     presence_of_element_located,
     staleness_of,
