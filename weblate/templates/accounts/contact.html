@@ -8,14 +8,13 @@
 
 {% block content %}
 
+<div class="container">
+
 <div class="alert alert-info">
     {% blocktrans %}You can contact maintainers of this server here.{% endblocktrans %}
     {% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at {{ weblate_link }}.{% endblocktrans %}
 </div>
 
-<div class="row">
-
-<div class="col-lg-6 col-lg-offset-3">
 <form method="post" action="{% url 'contact' %}">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Contact" %}</h4></div>
@@ -32,7 +31,6 @@
 </div>
 </form>
 
-</div>
 </div>
 
 {% endblock %}
