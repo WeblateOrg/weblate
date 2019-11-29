@@ -124,9 +124,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             self.format_local_path(getattr(self, '{0}_repo_path'.format(self._vcs))),
             path,
             component=Component(
-                slug='test',
-                name='Test',
-                project=Project(name='Test', slug='test'),
+                slug='test', name='Test', project=Project(name='Test', slug='test')
             ),
         )
 
@@ -414,9 +412,33 @@ class VCSGitForcePushTest(VCSGitTest):
     _class = GitForcePushRepository
 
 
-class VCSGerritTest(VCSGitTest):
+@override_settings(GITHUB_USERNAME="test")
+class VCSGithubTest(VCSGitTest):
+    _class = GithubFakeRepository
+    _vcs = 'git'
+    _sets_push = False
+
+    def add_remote_commit(self, conflict=False, rename=False):
+        # Use Git to create changed upstream repo
+        backup = self._class
+        self._class = GitRepository
+        try:
+            super(VCSGithubTest, self).add_remote_commit(conflict, rename)
+        finally:
+            self._class = backup
+
+
+@override_settings(GITLAB_USERNAME="test")
+class VCSGitLabTest(VCSGithubTest):
+    _class = GitLabFakeRepository
+    _vcs = 'git'
+    _sets_push = False
+
+
+class VCSGerritTest(VCSGithubTest):
     _class = GitWithGerritRepository
     _vcs = 'git'
+    _sets_push = True
 
     def fixup_repo(self, repo):
         # Create commit-msg hook, so that git-review doesn't try
@@ -425,28 +447,6 @@ class VCSGerritTest(VCSGitTest):
         with open(hook, 'w') as handle:
             handle.write('#!/bin/sh\nexit 0\n')
         os.chmod(hook, 0o755)
-
-    def add_remote_commit(self, conflict=False, rename=False):
-        # Use Git to create changed upstream repo
-        self._class = GitRepository
-        try:
-            super(VCSGerritTest, self).add_remote_commit(conflict, rename)
-        finally:
-            self._class = GitWithGerritRepository
-
-
-@override_settings(GITHUB_USERNAME="test")
-class VCSGithubTest(VCSGitTest):
-    _class = GithubFakeRepository
-    _vcs = 'git'
-    _sets_push = False
-
-
-@override_settings(GITLAB_USERNAME="test")
-class VCSGitLabTest(VCSGitTest):
-    _class = GitLabFakeRepository
-    _vcs = 'git'
-    _sets_push = False
 
 
 class VCSSubversionTest(VCSGitTest):
