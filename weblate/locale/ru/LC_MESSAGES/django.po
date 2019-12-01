@@ -20,8 +20,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-11-27 10:45+0000\n"
-"PO-Revision-Date: 2019-11-28 09:57+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2019-12-01 11:05+0000\n"
+"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
@@ -519,16 +519,12 @@ msgid "Monthly digest"
 msgstr "Ежемесячная сводка"
 
 #: weblate/accounts/notifications.py:379
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository failure"
-msgstr "Подробности репозитория"
+msgstr "Сбой репозитория"
 
 #: weblate/accounts/notifications.py:399
-#, fuzzy
-#| msgid "Repository branch"
 msgid "Repository operation"
-msgstr "Ветвь репозитория"
+msgstr "Работа с репозиторием"
 
 #: weblate/accounts/notifications.py:406 weblate/trans/models/change.py:246
 msgid "Parse error"
@@ -569,7 +565,7 @@ msgstr "Новый язык"
 
 #: weblate/accounts/notifications.py:542
 msgid "New translation component"
-msgstr "Новый переводимый компонент"
+msgstr "Добавить новый компонент перевода"
 
 #: weblate/accounts/notifications.py:549 weblate/trans/models/change.py:267
 msgid "New whiteboard message"
@@ -821,16 +817,12 @@ msgid "Language consistency"
 msgstr "Языковая согласованность"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Эта надстройка гарантирует, что все компоненты в одном проекте имеют перевод "
-"на те же самые языки."
+"Убедитесь, что все компоненты в рамках одного проекта переведены на одни и "
+"те же языки."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -1176,19 +1168,14 @@ msgid "Update RESX files"
 msgstr "Обновить файлы RESX"
 
 #: weblate/addons/resx.py:33
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
-"Обновить все файлы переводов до соответствия одноязычному базовому файлу. "
-"Для большинства форматов файлов это означает удаление устарелых ключей "
-"переводов, которых больше нет в базовом файле."
+"Обновить все файлы переводов для соответствия одноязычному исходному "
+"базовому файлу. Неиспользуемые строки удаляются, а новые добавляются как "
+"копии исходных строк."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -1224,10 +1211,8 @@ msgid "Edit component settings"
 msgstr "Править параметры компонентов"
 
 #: weblate/auth/data.py:40
-#, fuzzy
-#| msgid "Lock component from translating"
 msgid "Lock component, preventing translations"
-msgstr "Заблокировать компонент, предотвратить перевод"
+msgstr "Заблокировать компонент от перевода"
 
 #: weblate/auth/data.py:42
 msgid "Post comment"
@@ -4361,12 +4346,12 @@ msgstr "Добавить"
 #: weblate/templates/base.html:176 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
-msgstr "Добавить новый переводческий проект"
+msgstr "Добавить новый проект перевода"
 
 #: weblate/templates/base.html:177 weblate/templates/project.html:128
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
-msgstr "Добавить новый переводимый компонент"
+msgstr "Добавить новый компонент перевода"
 
 #: weblate/templates/base.html:201
 #: weblate/templates/trans/alert/billinglimit.html:4
@@ -5401,9 +5386,9 @@ msgid ""
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"Переводческий проект для %(project)s на русском языке в настоящее время "
-"момент содержит <strong>%(total)s  переводимых строк</strong> и "
-"<strong>готов на %(percent)s %%</strong>."
+"Проект перевода для %(project)s на русском языке в настоящее время момент "
+"содержит <strong>%(total)s переводимых строк</strong> и <strong>готов на "
+"%(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:45
 #, python-format
@@ -5418,20 +5403,20 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Переводческий проект %(project)s в настоящее время содержит <strong>"
-"%(total)s переводимых строк</strong> и переводится на <strong>%(languages)s "
-"язык</strong>. В целом, эти переводы готовы на <strong>%(percent)s %%</"
-"strong>."
+"Проект перевода %(project)s в настоящее время содержит <strong>%(total)s "
+"переводимых строк</strong> и переводится на <strong>%(languages)s "
+"язык</strong>. В целом, эти переводы готовы на <strong>%(percent)s "
+"%%</strong>."
 msgstr[1] ""
-"Переводческий проект %(project)s в настоящее время содержит <strong>"
-"%(total)s переводимых строк</strong> и переводится на <strong>%(languages)s "
-"языка</strong>. В целом, эти переводы готовы на <strong>%(percent)s %%</"
-"strong>."
+"Проект перевода %(project)s в настоящее время содержит <strong>%(total)s "
+"переводимых строк</strong> и переводится на <strong>%(languages)s "
+"языка</strong>. В целом, эти переводы готовы на <strong>%(percent)s "
+"%%</strong>."
 msgstr[2] ""
-"Переводческий проект %(project)s в настоящее время содержит <strong>"
-"%(total)s переводимых строк</strong> и переводится на <strong>%(languages)s "
-"языков</strong>. В целом, эти переводы готовы на <strong>%(percent)s %%</"
-"strong>."
+"Проект перевода %(project)s в настоящее время содержит <strong>%(total)s "
+"переводимых строк</strong> и переводится на <strong>%(languages)s "
+"языков</strong>. В целом, эти переводы готовы на <strong>%(percent)s "
+"%%</strong>."
 
 #: weblate/templates/engage.html:47
 #, python-format
@@ -5937,11 +5922,11 @@ msgstr ""
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
 msgid "Your translation project was removed"
-msgstr "Ваш переводческий проект был удален"
+msgstr "Ваш проект перевода был удалён"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr "Ваш переводческий проект запланирован для удаления"
+msgstr "Ваш проект перевода запланирован для удаления"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -6041,15 +6026,13 @@ msgstr "Новый компонент был добавлен в %(project)s н�
 
 #: weblate/templates/mail/new_component.html:11
 #: weblate/templates/mail/new_language.html:36
-#, fuzzy
-#| msgid "New translation component"
 msgid "View translation component"
-msgstr "Новый переводимый компонент"
+msgstr "Обзор компонента перевода"
 
 #: weblate/templates/mail/new_component_subject.txt:3
 #, python-format
 msgid "New translation component %(component)s"
-msgstr "Новый переводимый компонент %(component)s"
+msgstr "Новый компонент перевода %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:7
 #, python-format
@@ -6837,10 +6820,8 @@ msgid "Number of words"
 msgstr "Количество слов"
 
 #: weblate/templates/project_stats.html:15
-#, fuzzy
-#| msgid "Number of words"
 msgid "Number of characters"
-msgstr "Количество слов"
+msgstr "Количество символов"
 
 #: weblate/templates/project_stats.html:20
 msgid "Number of languages"
@@ -6855,10 +6836,8 @@ msgid "Number of source words"
 msgstr "Количество исходных слов"
 
 #: weblate/templates/project_stats.html:35
-#, fuzzy
-#| msgid "Number of source words"
 msgid "Number of source characters"
-msgstr "Количество исходных слов"
+msgstr "Количество исходных символов"
 
 #: weblate/templates/ratelimit.html:5
 #, fuzzy
@@ -7040,7 +7019,7 @@ msgstr "Использовано %(used)s из %(total)s"
 #: weblate/templates/snippets/list-objects-percent.html:6
 msgctxt "Completed translation"
 msgid "Done"
-msgstr ""
+msgstr "Готово"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
@@ -7072,7 +7051,7 @@ msgstr "Комментарии"
 
 #: weblate/templates/snippets/list-objects.html:79
 msgid "Nothing to list here."
-msgstr ""
+msgstr "Нет элементов для перечисления."
 
 #: weblate/templates/snippets/plural-equation.html:4
 msgid ""
@@ -7272,7 +7251,7 @@ msgstr ""
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
-msgstr "Переводимый компонент выглядит одноязычным, но он не настроен так."
+msgstr "Компонент перевода выглядит одноязычным, хотя он настроен не так."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add a monolingual base language file in the component settings."
@@ -7544,8 +7523,8 @@ msgid ""
 msgstr ""
 "При изменении URL репозитория существующее содержание объединяется с новым "
 "репозиторием. Если репозиторий просто переносят в другое расположение, "
-"проблем не возникнет. Однако, если содержание репозиториев отличается, лучше "
-"создать новый переводимый компонент."
+"проблем не возникнет. Однако, если содержимое репозиториев отличается, лучше "
+"создать новый компонент перевода."
 
 #: weblate/templates/trans/suggestion_list.html:30
 msgid "No matching translations found!"
@@ -10081,10 +10060,8 @@ msgid "This translation is locked."
 msgstr "Этот перевод в настоящее время заблокирован."
 
 #: weblate/trans/templatetags/translations.py:796
-#, fuzzy
-#| msgid "New translation component"
 msgid "Updating translation component…"
-msgstr "Новый переводимый компонент"
+msgstr "Обновление компонента перевода…"
 
 #: weblate/trans/templatetags/translations.py:808
 msgid "Some of the components within this project have alerts."
@@ -10514,7 +10491,7 @@ msgstr "Перевод был удален."
 
 #: weblate/trans/views/manage.py:81
 msgid "Translation component was scheduled for removal."
-msgstr "Переводимый компонент запланирован для удаления."
+msgstr "Компонент перевода запланирован для удаления."
 
 #: weblate/trans/views/manage.py:101
 msgid "Project was scheduled for removal."
