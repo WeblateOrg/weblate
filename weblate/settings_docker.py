@@ -965,7 +965,7 @@ if get_env_bool("WEBLATE_REQUIRE_LOGIN", False):
             rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
             rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
             rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
-            rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notification hooks
+            rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notifications
             rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
             rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
             rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
