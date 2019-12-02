@@ -354,7 +354,6 @@ and provide a user to bind for the search. For example:
 Active directory integration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 .. code-block:: python
 
     import ldap
@@ -365,16 +364,17 @@ Active directory integration
 
     # User and group search objects and types
     AUTH_LDAP_USER_SEARCH = LDAPSearch("CN=Users,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)")
-    AUTH_LDAP_GROUP_SEARCH = LDAPSearch("OU=Groups,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)")
-    AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
 
+    # Make selected group a superuser in Weblate
     AUTH_LDAP_USER_FLAGS_BY_GROUP = {
         # is_superuser means user has all permissions
         "is_superuser": "CN=weblate_AdminUsers,OU=Groups,DC=example,DC=com",
     }
 
+    # Map groups from AD to Weblate
+    AUTH_LDAP_GROUP_SEARCH = LDAPSearch("OU=Groups,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)")
+    AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
     AUTH_LDAP_FIND_GROUP_PERMS = True
-    AUTH_LDAP_ALWAYS_UPDATE_USER = True
 
 
 .. seealso::
