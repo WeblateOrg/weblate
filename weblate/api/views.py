@@ -73,6 +73,7 @@ from weblate.utils.celery import get_queue_stats
 from weblate.utils.docs import get_doc_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download
+from weblate.wladmin.models import ConfigurationError
 
 REPO_OPERATIONS = {
     'push': ('vcs.push', 'do_push', (), True),
@@ -720,21 +721,26 @@ class Metrics(APIView):
         stats = GlobalStats()
         queues = get_queue_stats()
 
-        return Response({
-            'units': stats.all,
-            'units_translated': stats.translated,
-            'users': User.objects.count(),
-            'changes': Change.objects.count(),
-            'projects': Project.objects.count(),
-            'components': Component.objects.count(),
-            'translations': Translation.objects.count(),
-            'languages': stats.languages,
-            'checks': Check.objects.count(),
-            'suggestions': Suggestion.objects.count(),
-            'index_updates': queues.get('search', 0),
-            'celery_queue': queues.get('celery', 0),
-            'celery_memory_queue': queues.get('memory', 0),
-            'celery_notification_queue': queues.get('notification', 0),
-            'celery_queues': queues,
-            'name': settings.SITE_TITLE,
-        })
+        return Response(
+            {
+                'units': stats.all,
+                'units_translated': stats.translated,
+                'users': User.objects.count(),
+                'changes': Change.objects.count(),
+                'projects': Project.objects.count(),
+                'components': Component.objects.count(),
+                'translations': Translation.objects.count(),
+                'languages': stats.languages,
+                'checks': Check.objects.count(),
+                'configuration_errors': ConfigurationError.objects.filter(
+                    ignored=False
+                ).count(),
+                'suggestions': Suggestion.objects.count(),
+                'index_updates': queues.get('search', 0),
+                'celery_queue': queues.get('celery', 0),
+                'celery_memory_queue': queues.get('memory', 0),
+                'celery_notification_queue': queues.get('notification', 0),
+                'celery_queues': queues,
+                'name': settings.SITE_TITLE,
+            }
+        )
