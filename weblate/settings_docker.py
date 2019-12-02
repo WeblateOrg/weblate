@@ -960,17 +960,17 @@ if get_env_bool("WEBLATE_REQUIRE_LOGIN", False):
     LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         "WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS",
         (
-            r"/accounts/(.*)$",  # Required for login
-            r"/admin/login/(.*)$",  # Required for admin login
-            r"/static/(.*)$",  # Required for development mode
-            r"/widgets/(.*)$",  # Allowing public access to widgets
-            r"/data/(.*)$",  # Allowing public access to data exports
-            r"/hooks/(.*)$",  # Allowing public access to notification hooks
-            r"/healthz/$",  # Allowing public access to health check
-            r"/api/(.*)$",  # Allowing access to API
-            r"/js/i18n/$",  # Javascript localization
-            r"/contact/$",  # Optional for contact form
-            r"/legal/(.*)$",  # Optional for legal app
+            rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
+            rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
+            rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
+            rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
+            rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
+            rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notification hooks
+            rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
+            rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
+            rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
+            rf"{URL_PREFIX}/contact/$",  # Optional for contact form
+            rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         ),
     )
 
