@@ -1,6 +1,12 @@
 Upgrading Weblate
 =================
 
+Docker image upgrades
+---------------------
+
+The official Docker image (see :ref:`quick-docker`) has all upgrade steps
+integrated. There are no manual step besides pulling latest version.
+
 .. _generic-upgrade-instructions:
 
 Generic upgrade instructions
