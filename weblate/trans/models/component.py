@@ -37,10 +37,11 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_text, python_2_unicode_compatible
+from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy, ungettext
+from six import python_2_unicode_compatible
 from six.moves.urllib.parse import urlparse
 
 from weblate.checks.flags import Flags
