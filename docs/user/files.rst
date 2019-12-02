@@ -55,6 +55,9 @@ Add as suggestion
 Add as translation needing edit
     Imported translations are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
+Replace existing translation file
+    Existing file is replaced with new content. This can lead to loss of existing
+    translations, use with caution.
 
 There is also an option for how to handle strings needing edit in the imported
 file. Such strings can be handle in one of the three following ways: "Do not import", "Import as string needing edit", or "Import as translated".
