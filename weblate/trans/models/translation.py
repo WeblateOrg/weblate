@@ -703,7 +703,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             check_obj = CHECKS[check]
             if not check_obj.target:
                 continue
-            result.add_if(self.stats, choices, check_obj.url_id, check_obj.severity)
+            result.add_if(self.stats, choices, check_obj.url_id, 'warning')
 
         # Grab comments
         result.add_if(self.stats, choices, 'comments', 'info')
