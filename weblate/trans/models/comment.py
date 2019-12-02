@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change

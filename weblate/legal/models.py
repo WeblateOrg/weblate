@@ -24,7 +24,7 @@ from datetime import date
 
 from django.conf import settings
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 
 from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent

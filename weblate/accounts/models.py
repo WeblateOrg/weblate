@@ -32,10 +32,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import LANGUAGE_SESSION_KEY, ugettext
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
+from six import python_2_unicode_compatible
 from social_django.models import UserSocialAuth
 
 from weblate.accounts.avatar import get_user_display

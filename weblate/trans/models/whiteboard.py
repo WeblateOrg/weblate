@@ -24,11 +24,11 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.html import urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
+from six import python_2_unicode_compatible
 
 from weblate.lang.models import Language
 

@@ -28,9 +28,9 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy
+from six import python_2_unicode_compatible
 
 from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
