@@ -101,18 +101,14 @@ def get_view_description(view_cls, html=False):
 
     if hasattr(getattr(view_cls, 'serializer_class', 'None'), 'Meta'):
         doc_url = get_doc_url(
-            'api',
-            '{0}s'.format(
-                view_cls.serializer_class.Meta.model.__name__.lower()
-            )
+            'api', '{0}s'.format(view_cls.serializer_class.Meta.model.__name__.lower())
         )
     else:
         doc_url = get_doc_url('api')
 
     if html:
-        return (
-            formatting.markup_description(description)
-            + mark_safe(DOC_TEXT.format(doc_url))
+        return formatting.markup_description(description) + mark_safe(
+            DOC_TEXT.format(doc_url)
         )
     return description
 
@@ -123,6 +119,7 @@ class MultipleFieldMixin(object):
     based on a `lookup_fields` attribute, instead of the default single field
     filtering.
     """
+
     def get_object(self):
         # Get the base queryset
         queryset = self.get_queryset()
@@ -147,32 +144,24 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
             raise Http404('Not supported format')
-        return super(DownloadViewSet, self).perform_content_negotiation(
-            request, force
-        )
+        return super(DownloadViewSet, self).perform_content_negotiation(request, force)
 
     def download_file(self, filename, content_type, component=None):
         """Wrapper for file download"""
         if os.path.isdir(filename):
             response = zip_download(filename, filename)
-            filename = '{}.zip'.format(
-                component.slug if component else 'weblate'
-            )
+            filename = '{}.zip'.format(component.slug if component else 'weblate')
         else:
             with open(filename, 'rb') as handle:
-                response = HttpResponse(
-                    handle.read(),
-                    content_type=content_type
-                )
+                response = HttpResponse(handle.read(), content_type=content_type)
             filename = os.path.basename(filename)
-        response['Content-Disposition'] = 'attachment; filename="{0}"'.format(
-            filename
-        )
+        response['Content-Disposition'] = 'attachment; filename="{0}"'.format(filename)
         return response
 
 
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
+
     def repository_operation(self, request, obj, project, operation):
         permission, method, args, takes_request = REPO_OPERATIONS[operation]
 
@@ -187,9 +176,7 @@ class WeblateViewSet(DownloadViewSet):
         return getattr(obj, method)(*args)
 
     @action(
-        detail=True,
-        methods=['get', 'post'],
-        serializer_class=RepoRequestSerializer
+        detail=True, methods=['get', 'post'], serializer_class=RepoRequestSerializer
     )
     def repository(self, request, **kwargs):
         obj = self.get_object()
@@ -207,8 +194,7 @@ class WeblateViewSet(DownloadViewSet):
 
             data = {
                 'result': self.repository_operation(
-                    request, obj, project,
-                    serializer.validated_data['operation']
+                    request, obj, project, serializer.validated_data['operation']
                 )
             }
 
@@ -229,9 +215,7 @@ class WeblateViewSet(DownloadViewSet):
 
         if isinstance(obj, Project):
             data['url'] = reverse(
-                'api:project-repository',
-                kwargs={'slug': obj.slug},
-                request=request
+                'api:project-repository', kwargs={'slug': obj.slug}, request=request
             )
         else:
             data['remote_commit'] = obj.get_last_remote_commit()
@@ -245,26 +229,21 @@ class WeblateViewSet(DownloadViewSet):
                         'component__slug': component.slug,
                         'language__code': obj.language.code,
                     },
-                    request=request
+                    request=request,
                 )
                 data['status'] = obj.component.repository.status()
                 changes = Change.objects.filter(
-                    action__in=Change.ACTIONS_REPOSITORY,
-                    component=obj.component,
+                    action__in=Change.ACTIONS_REPOSITORY, component=obj.component
                 ).order_by('-id')
             else:
                 data['url'] = reverse(
                     'api:component-repository',
-                    kwargs={
-                        'project__slug': obj.project.slug,
-                        'slug': obj.slug,
-                    },
-                    request=request
+                    kwargs={'project__slug': obj.project.slug, 'slug': obj.slug},
+                    request=request,
                 )
                 data['status'] = obj.repository.status()
                 changes = Change.objects.filter(
-                    action__in=Change.ACTIONS_REPOSITORY,
-                    component=obj,
+                    action__in=Change.ACTIONS_REPOSITORY, component=obj
                 ).order_by('-id')
 
             if changes.exists() and changes[0].is_merge_failure():
@@ -305,17 +284,14 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
                     status=status.HTTP_201_CREATED,
                     headers={
                         'Location': str(serializer.data[api_settings.URL_FIELD_NAME])
-                    }
+                    },
                 )
 
         queryset = obj.component_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
 
         serializer = ComponentSerializer(
-            page,
-            many=True,
-            context={'request': request},
-            remove_fields=('project',),
+            page, many=True, context={'request': request}, remove_fields=('project',)
         )
 
         return self.get_paginated_response(serializer.data)
@@ -324,10 +300,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
-        serializer = StatisticsSerializer(
-            obj,
-            context={'request': request},
-        )
+        serializer = StatisticsSerializer(obj, context={'request': request})
 
         return Response(serializer.data)
 
@@ -344,11 +317,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
         queryset = Change.objects.prefetch().filter(project=obj).order_by('id')
         page = self.paginate_queryset(queryset)
 
-        serializer = ChangeSerializer(
-            page,
-            many=True,
-            context={'request': request},
-        )
+        serializer = ChangeSerializer(page, many=True, context={'request': request})
 
         return self.get_paginated_response(serializer.data)
 
@@ -366,10 +335,9 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
                 and 'weblate.billing' in settings.INSTALLED_APPS
             ):
                 from weblate.billing.models import Billing
+
                 try:
-                    billing = Billing.objects.get_valid().for_user(
-                        self.request.user
-                    )[0]
+                    billing = Billing.objects.get_valid().for_user(self.request.user)[0]
                 except IndexError:
                     billing = None
             else:
@@ -392,16 +360,15 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     lookup_fields = ('project__slug', 'slug')
 
     def get_queryset(self):
-        return Component.objects.prefetch().filter(
-            project__in=self.request.user.allowed_projects
-        ).prefetch_related(
-            'project__source_language'
-        ).order_by('id')
+        return (
+            Component.objects.prefetch()
+            .filter(project__in=self.request.user.allowed_projects)
+            .prefetch_related('project__source_language')
+            .order_by('id')
+        )
 
     @action(
-        detail=True,
-        methods=['get', 'post'],
-        serializer_class=LockRequestSerializer
+        detail=True, methods=['get', 'post'], serializer_class=LockRequestSerializer
     )
     def lock(self, request, **kwargs):
         obj = self.get_object()
@@ -425,9 +392,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             raise Http404('No template found!')
 
         return self.download_file(
-            obj.get_template_filename(),
-            obj.template_store.mimetype(),
-            component=obj
+            obj.get_template_filename(), obj.template_store.mimetype(), component=obj
         )
 
     @action(detail=True, methods=['get'])
@@ -437,10 +402,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         if not obj.new_base:
             raise Http404('No file found!')
 
-        return self.download_file(
-            obj.get_new_base_filename(),
-            'application/binary',
-        )
+        return self.download_file(obj.get_new_base_filename(), 'application/binary')
 
     @action(detail=True, methods=['get'])
     def translations(self, request, **kwargs):
@@ -450,10 +412,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         page = self.paginate_queryset(queryset)
 
         serializer = TranslationSerializer(
-            page,
-            many=True,
-            context={'request': request},
-            remove_fields=('component',),
+            page, many=True, context={'request': request}, remove_fields=('component',)
         )
 
         return self.get_paginated_response(serializer.data)
@@ -465,11 +424,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         queryset = obj.translation_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
 
-        serializer = StatisticsSerializer(
-            page,
-            many=True,
-            context={'request': request},
-        )
+        serializer = StatisticsSerializer(page, many=True, context={'request': request})
 
         return self.get_paginated_response(serializer.data)
 
@@ -480,11 +435,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         queryset = Change.objects.prefetch().filter(component=obj).order_by('id')
         page = self.paginate_queryset(queryset)
 
-        serializer = ChangeSerializer(
-            page,
-            many=True,
-            context={'request': request},
-        )
+        serializer = ChangeSerializer(page, many=True, context={'request': request})
 
         return self.get_paginated_response(serializer.data)
 
@@ -501,20 +452,17 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
     queryset = Translation.objects.none()
     serializer_class = TranslationSerializer
-    lookup_fields = (
-        'component__project__slug', 'component__slug', 'language__code',
-    )
-    raw_urls = (
-        'translation-file',
-    )
+    lookup_fields = ('component__project__slug', 'component__slug', 'language__code')
+    raw_urls = ('translation-file',)
     raw_formats = EXPORTERS
 
     def get_queryset(self):
-        return Translation.objects.prefetch().filter(
-            component__project__in=self.request.user.allowed_projects
-        ).prefetch_related(
-            'component__project__source_language',
-        ).order_by('id')
+        return (
+            Translation.objects.prefetch()
+            .filter(component__project__in=self.request.user.allowed_projects)
+            .prefetch_related('component__project__source_language')
+            .order_by('id')
+        )
 
     @action(
         detail=True,
@@ -524,7 +472,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             parsers.FormParser,
             parsers.FileUploadParser,
         ),
-        serializer_class=UploadRequestSerializer
+        serializer_class=UploadRequestSerializer,
     )
     def file(self, request, **kwargs):
         obj = self.get_object()
@@ -533,8 +481,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             fmt = self.format_kwarg or request.query_params.get('format')
             return download_translation_file(obj, fmt)
 
-        if (not user.has_perm('upload.perform', obj)
-                or obj.component.locked):
+        if not user.has_perm('upload.perform', obj) or obj.component.locked:
             raise PermissionDenied()
 
         if 'file' not in request.data:
@@ -563,29 +510,27 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 data['fuzzy'],
             )
 
-            return Response(data={
-                'not_found': not_found,
-                'skipped': skipped,
-                'accepted': accepted,
-                'total': total,
-                # Compatibility with older less detailed API
-                'result': accepted > 0,
-                'count': total,
-            })
+            return Response(
+                data={
+                    'not_found': not_found,
+                    'skipped': skipped,
+                    'accepted': accepted,
+                    'total': total,
+                    # Compatibility with older less detailed API
+                    'result': accepted > 0,
+                    'count': total,
+                }
+            )
         except Exception as error:
             return Response(
-                data={'result': False, 'detail': force_text(error)},
-                status=400
+                data={'result': False, 'detail': force_text(error)}, status=400
             )
 
     @action(detail=True, methods=['get'])
     def statistics(self, request, **kwargs):
         obj = self.get_object()
 
-        serializer = StatisticsSerializer(
-            obj,
-            context={'request': request},
-        )
+        serializer = StatisticsSerializer(obj, context={'request': request})
 
         return Response(serializer.data)
 
@@ -596,11 +541,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         queryset = Change.objects.prefetch().filter(translation=obj).order_by('id')
         page = self.paginate_queryset(queryset)
 
-        serializer = ChangeSerializer(
-            page,
-            many=True,
-            context={'request': request},
-        )
+        serializer = ChangeSerializer(page, many=True, context={'request': request})
 
         return self.get_paginated_response(serializer.data)
 
@@ -611,11 +552,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         queryset = obj.unit_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
 
-        serializer = UnitSerializer(
-            page,
-            many=True,
-            context={'request': request},
-        )
+        serializer = UnitSerializer(page, many=True, context={'request': request})
 
         return self.get_paginated_response(serializer.data)
 
@@ -656,9 +593,7 @@ class ScreenshotViewSet(DownloadViewSet):
 
     queryset = Screenshot.objects.none()
     serializer_class = ScreenshotSerializer
-    raw_urls = (
-        'screenshot-file',
-    )
+    raw_urls = ('screenshot-file',)
 
     def get_queryset(self):
         return Screenshot.objects.filter(
@@ -678,10 +613,7 @@ class ScreenshotViewSet(DownloadViewSet):
     def file(self, request, **kwargs):
         obj = self.get_object()
         if request.method == 'GET':
-            return self.download_file(
-                obj.image.path,
-                'application/binary',
-            )
+            return self.download_file(obj.image.path, 'application/binary')
 
         if not request.user.has_perm('screenshot.edit', obj.component):
             raise PermissionDenied()
@@ -690,13 +622,10 @@ class ScreenshotViewSet(DownloadViewSet):
         serializer.is_valid(raise_exception=True)
 
         obj.image.save(
-            serializer.validated_data['image'].name,
-            serializer.validated_data['image']
+            serializer.validated_data['image'].name, serializer.validated_data['image']
         )
 
-        return Response(data={
-            'result': True,
-        })
+        return Response(data={'result': True})
 
 
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -711,6 +640,7 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
 
 class Metrics(APIView):
     """Metrics view for monitoring"""
+
     permission_classes = (IsAuthenticated,)
 
     # pylint: disable=redefined-builtin
