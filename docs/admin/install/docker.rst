@@ -479,6 +479,8 @@ LDAP
 .. envvar:: WEBLATE_AUTH_LDAP_USER_ATTR_MAP
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_DN
 .. envvar:: WEBLATE_AUTH_LDAP_BIND_PASSWORD
+.. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH
+.. envvar:: WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER
 
     LDAP authentication configuration.
 
@@ -492,6 +494,17 @@ LDAP
           # map weblate 'full_name' to ldap 'name' and weblate 'email' attribute to 'mail' ldap attribute.
           # another example that can be used with OpenLDAP: 'full_name:cn,email:mail'
           WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
+
+
+    **Example with bind against Active Directory:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_AUTH_LDAP_SERVER_URI: ldap://ldap.example.org
+          WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
+          WEBLATE_AUTH_LDAP_USER_SEARCH: CN=Users,DC=example,DC=com
+          WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER: (sAMAccountName=%(user)s)
 
     .. seealso::
 

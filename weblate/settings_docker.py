@@ -328,6 +328,9 @@ if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
+    import ldap
+    from django_auth_ldap.config import LDAPSearch
+
     AUTH_LDAP_SERVER_URI = os.environ.get("WEBLATE_AUTH_LDAP_SERVER_URI")
     AUTH_LDAP_USER_DN_TEMPLATE = os.environ.get(
         "WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE", "cn=%(user)s,o=Example"
@@ -338,6 +341,14 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     )
     AUTH_LDAP_BIND_DN = os.environ.get("WEBLATE_AUTH_LDAP_BIND_DN", "")
     AUTH_LDAP_BIND_PASSWORD = os.environ.get("WEBLATE_AUTH_LDAP_BIND_PASSWORD", "")
+
+    _AUTH_LDAP_USER_SEARCH = get_env_list("")
+    if "WEBLATE_AUTH_LDAP_USER_SEARCH" in os.environ:
+        AUTH_LDAP_USER_SEARCH = LDAPSearch(
+            os.environ["WEBLATE_AUTH_LDAP_USER_SEARCH"],
+            ldap.SCOPE_SUBTREE,
+            os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
+        )
 
 # Always include Weblate backend
 AUTHENTICATION_BACKENDS += ("weblate.accounts.auth.WeblateUserBackend",)
