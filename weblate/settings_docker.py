@@ -595,11 +595,13 @@ LOGGING = {
         "weblate.search": {"handlers": [DEFAULT_LOG], "level": "INFO"},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "WARNING"},
-        # Python Social Auth logging
-        # 'social': {
-        #     'handlers': [DEFAULT_LOG],
-        #     'level': 'DEBUG',
-        # },
+        # Python Social Auth
+        "social": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "WARNING"},
+        # Django Authentication Using LDAP
+        "django_auth_ldap": {
+            "level": "DEBUG" if DEBUG else "WARNING",
+            "handlers": [DEFAULT_LOG],
+        },
     },
 }
 
