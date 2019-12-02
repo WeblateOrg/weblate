@@ -325,6 +325,18 @@ Once you have the package installed, you can hook it into the Django authenticat
     # Hide the registration form
     REGISTRATION_OPEN = False
 
+.. note::
+
+    You should remove ``'social_core.backends.email.EmailAuth'`` from the
+    ``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set
+    their password in Weblate, and authenticate using that. Keeping
+    ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
+    make permissions and facilitate anonymous users. It will also allow you
+    to log in using a local admin account, if you have created it (e.g. by using
+    :djadmin:`createadmin`).
+
+Using bind password
+~~~~~~~~~~~~~~~~~~~
 
 If you can not use direct bind for authentication, you will need to use search,
 and provide a user to bind for the search. For example:
@@ -339,15 +351,31 @@ and provide a user to bind for the search. For example:
    AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
        ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 
-.. note::
+Active directory integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    You should remove ``'social_core.backends.email.EmailAuth'`` from the
-    ``AUTHENTICATION_BACKENDS`` setting, otherwise users will be able to set
-    their password in Weblate, and authenticate using that. Keeping
-    ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
-    make permissions and facilitate anonymous users. It will also allow you
-    to log in using a local admin account, if you have created it (e.g. by using
-    :djadmin:`createadmin`).
+
+.. code-block:: python
+
+    import ldap
+    from django_auth_ldap.config import LDAPSearch, NestedActiveDirectoryGroupType
+
+    AUTH_LDAP_BIND_DN = "CN=ldap,CN=Users,DC=example,DC=com"
+    AUTH_LDAP_BIND_PASSWORD = "password"
+
+    # User and group search objects and types
+    AUTH_LDAP_USER_SEARCH = LDAPSearch("CN=Users,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(sAMAccountName=%(user)s)")
+    AUTH_LDAP_GROUP_SEARCH = LDAPSearch("OU=Groups,DC=example,DC=com", ldap.SCOPE_SUBTREE, "(objectClass=group)")
+    AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
+
+    AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+        # is_superuser means user has all permissions
+        "is_superuser": "CN=weblate_AdminUsers,OU=Groups,DC=example,DC=com",
+    }
+
+    AUTH_LDAP_FIND_GROUP_PERMS = True
+    AUTH_LDAP_ALWAYS_UPDATE_USER = True
+
 
 .. seealso::
 
