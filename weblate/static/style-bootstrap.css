@@ -143,9 +143,6 @@ textarea.translation-editor {
 textarea#id_comment {
     height: 5em;
 }
-.source-checks .check {
-    white-space: nowrap;
-}
 .hlcheck {
     border: 1px dotted #AEB7CF;
     background-color: #E0EAF1;
@@ -476,19 +473,6 @@ input[type="datetime-local"].form-control, input[type="month"].form-control {
     text-align: center;
     padding-top: auto;
 }
-.list-buttons {
-    margin: 10px 0 5px 0;
-}
-.panel-checks {
-    padding: 0;
-}
-.panel-checks .list-group {
-    margin-bottom: 0;
-}
-.panel-checks .list-group-item:first-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
 .dir-rtl .pull-right > .dropdown-menu {
   left: 0;
   right: auto;
@@ -683,8 +667,21 @@ svg {
 .source-info, .source-info h5 {
     font-size: 14px;
 }
-.string-info .list-group-item {
+.source-info .list-group-item {
     padding: 15px;
+}
+.list-group-item.check h5 {
+    font-weight: 600;
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+}
+.check .list-group-item-text {
+    padding: 5px;
+}
+.check .list-buttons {
+    TODO
+    margin: 10px 0 5px 0;
 }
 .string-info .list-group-item h5 {
     font-weight: 600;
