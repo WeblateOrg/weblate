@@ -1177,33 +1177,31 @@ $(function () {
         );
     }
 
-    if ($('.check').length > 0) {
-        $($('.check')[0].parentNode).children('.check').each(function(idx) {
-            var $this = $(this);
+    $('.check-item').each(function(idx) {
+        var $this = $(this);
 
-            if (idx < 10) {
-                let key = getNumericKey(idx);
+        if (idx < 10) {
+            let key = getNumericKey(idx);
 
-                $(this).find('.check-number').html(
-                    ' <kbd title="' +
-                    interpolate(gettext('Ctrl+I then %s'), [key]) +
-                    '">' +
-                    key +
-                    '</kbd>'
-                );
+            $(this).find('.check-number').html(
+                ' <kbd title="' +
+                interpolate(gettext('Press Ctrl+I then %s to dismiss this.'), [key]) +
+                '">' +
+                key +
+                '</kbd>'
+            );
 
-                Mousetrap.bindGlobal(
-                    ['ctrl+i ' + key, 'command+i ' + key],
-                    function(e) {
-                        $this.find('.dismiss-single').click();
-                        return false;
-                    }
-                );
-            } else {
-                $(this).find('.check-number').html('');
-            }
-        });
-    }
+            Mousetrap.bindGlobal(
+                ['ctrl+i ' + key, 'command+i ' + key],
+                function(e) {
+                    $this.find('.dismiss-single').click();
+                    return false;
+                }
+            );
+        } else {
+            $(this).find('.check-number').html('');
+        }
+    });
 
     /* Labels in dropdown menu in Dashboard */
     $('#views-menu li a').click(function() {
