@@ -127,16 +127,17 @@ class ChangesView(ListView):
 
     def _get_queryset_project(self):
         """Filtering by translation/project."""
-        if 'project' in self.request.GET:
-            try:
-                self.project, self.component, self.translation = get_project_translation(
-                    self.request,
-                    self.request.GET.get('project'),
-                    self.request.GET.get('component'),
-                    self.request.GET.get('lang'),
-                )
-            except Http404:
-                messages.error(self.request, _('Failed to find matching project!'))
+        if 'project' not in self.request.GET:
+            return
+        try:
+            self.project, self.component, self.translation = get_project_translation(
+                self.request,
+                self.request.GET.get('project'),
+                self.request.GET.get('component'),
+                self.request.GET.get('lang'),
+            )
+        except Http404:
+            messages.error(self.request, _('Failed to find matching project!'))
 
     def _get_queryset_language(self):
         """Filtering by language"""
