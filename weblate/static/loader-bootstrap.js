@@ -205,12 +205,18 @@ function initEditor() {
     autosize($('.translation-editor'));
 
     /* Minimal height for editor */
-    $('.zen .translation-editor').each(function () {
+    $('.zen-horizontal .translator').each(function () {
         var $this = $(this);
-        var td_height = $this.parents('td').height();
-        var editor_height = $this.height();
-        var content_height = $this.parent().height();
-        this.style.minHeight = (td_height - (content_height - editor_height)) + 'px';
+        var td_height = $this.height();
+        var editor_height = 0;
+        var content_height = $this.find('form').height();
+        var $editors = $this.find('.translation-editor');
+        $editors.each(function () {
+            var $editor = $(this);
+            editor_height += $editor.height();
+        });
+        /* There is 10px padding */
+        $editors.css('min-height', ((td_height - (content_height - editor_height - 10)) / $editors.length) + 'px');
     });
 
     /* Count characters */
