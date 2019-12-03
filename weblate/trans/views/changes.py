@@ -47,6 +47,7 @@ else:
 
 class ChangesView(ListView):
     """Browser for changes."""
+
     paginate_by = 20
 
     def __init__(self, **kwargs):
@@ -60,9 +61,7 @@ class ChangesView(ListView):
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
-        context = super(ChangesView, self).get_context_data(
-            **kwargs
-        )
+        context = super(ChangesView, self).get_context_data(**kwargs)
         context['project'] = self.project
 
         url = {}
@@ -74,56 +73,44 @@ class ChangesView(ListView):
             url['lang'] = self.translation.language.code
             url['component'] = self.translation.component.slug
             url['project'] = self.translation.component.project.slug
-            context['changes_rss'] = reverse(
-                'rss-translation',
-                kwargs=url,
+            context['changes_rss'] = reverse('rss-translation', kwargs=url)
+            context['title'] = (
+                pgettext('Changes in translation', 'Changes in %s') % self.translation
             )
-            context['title'] = pgettext(
-                'Changes in translation', 'Changes in %s'
-            ) % self.translation
         elif self.component is not None:
             context['project'] = self.component.project
             context['component'] = self.component
             url['component'] = self.component.slug
             url['project'] = self.component.project.slug
-            context['changes_rss'] = reverse(
-                'rss-component',
-                kwargs=url,
+            context['changes_rss'] = reverse('rss-component', kwargs=url)
+            context['title'] = (
+                pgettext('Changes in component', 'Changes in %s') % self.component
             )
-            context['title'] = pgettext(
-                'Changes in component', 'Changes in %s'
-            ) % self.component
         elif self.project is not None:
             context['project'] = self.project
             url['project'] = self.project.slug
-            context['changes_rss'] = reverse(
-                'rss-project',
-                kwargs=url,
+            context['changes_rss'] = reverse('rss-project', kwargs=url)
+            context['title'] = (
+                pgettext('Changes in project', 'Changes in %s') % self.project
             )
-            context['title'] = pgettext(
-                'Changes in project', 'Changes in %s'
-            ) % self.project
 
         if self.language is not None:
             context['language'] = self.language
             url['lang'] = self.language.code
             if 'changes_rss' not in context:
-                context['changes_rss'] = reverse(
-                    'rss-language',
-                    kwargs=url,
-                )
+                context['changes_rss'] = reverse('rss-language', kwargs=url)
             if 'title' not in context:
-                context['title'] = pgettext(
-                    'Changes in language', 'Changes in %s'
-                ) % self.language
+                context['title'] = (
+                    pgettext('Changes in language', 'Changes in %s') % self.language
+                )
 
         if self.user is not None:
             context['changes_user'] = self.user
             url['user'] = self.user.username
             if 'title' not in context:
-                context['title'] = pgettext(
-                    'Changes by user', 'Changes by %s'
-                ) % self.user.full_name
+                context['title'] = (
+                    pgettext('Changes by user', 'Changes by %s') % self.user.full_name
+                )
 
         url = list(url.items())
         for action in self.actions:
@@ -142,44 +129,30 @@ class ChangesView(ListView):
         """Filtering by translation/project."""
         if 'project' in self.request.GET:
             try:
-                self.project, self.component, self.translation = \
-                    get_project_translation(
-                        self.request,
-                        self.request.GET.get('project'),
-                        self.request.GET.get('component'),
-                        self.request.GET.get('lang'),
-                    )
-            except Http404:
-                messages.error(
+                self.project, self.component, self.translation = get_project_translation(
                     self.request,
-                    _('Failed to find matching project!')
+                    self.request.GET.get('project'),
+                    self.request.GET.get('component'),
+                    self.request.GET.get('lang'),
                 )
+            except Http404:
+                messages.error(self.request, _('Failed to find matching project!'))
 
     def _get_queryset_language(self):
         """Filtering by language"""
         if self.translation is None and self.request.GET.get('lang'):
             try:
-                self.language = Language.objects.get(
-                    code=self.request.GET['lang']
-                )
+                self.language = Language.objects.get(code=self.request.GET['lang'])
             except Language.DoesNotExist:
-                messages.error(
-                    self.request,
-                    _('Failed to find matching language!')
-                )
+                messages.error(self.request, _('Failed to find matching language!'))
 
     def _get_queryset_user(self):
         """Filtering by user"""
         if 'user' in self.request.GET:
             try:
-                self.user = User.objects.get(
-                    username=self.request.GET['user']
-                )
+                self.user = User.objects.get(username=self.request.GET['user'])
             except User.DoesNotExist:
-                messages.error(
-                    self.request,
-                    _('Failed to find matching user!')
-                )
+                messages.error(self.request, _('Failed to find matching user!'))
 
     def _get_request_actions(self):
         if 'action' in self.request.GET:
@@ -225,6 +198,7 @@ class ChangesView(ListView):
 
 class ChangesCSVView(ChangesView):
     """CSV renderer for changes view"""
+
     paginate_by = None
 
     def get(self, request, *args, **kwargs):
@@ -253,13 +227,15 @@ class ChangesCSVView(ChangesView):
         writer.writerow(('timestamp', 'action', 'user', 'url', 'target'))
 
         for change in object_list:
-            writer.writerow((
-                change.timestamp.isoformat(),
-                change.get_action_display(),
-                change.user.username if change.user else '',
-                get_site_url(change.get_absolute_url()),
-                change.target,
-            ))
+            writer.writerow(
+                (
+                    change.timestamp.isoformat(),
+                    change.get_action_display(),
+                    change.user.username if change.user else '',
+                    get_site_url(change.get_absolute_url()),
+                    change.target,
+                )
+            )
 
         return response
 
@@ -285,7 +261,9 @@ def show_change(request, pk):
         context = notification.get_context(change if not others else None)
         context['request'] = request
         context['changes'] = changes
-        context['subject'] = notification.render_template('_subject.txt', context, digest=bool(others))
+        context['subject'] = notification.render_template(
+            '_subject.txt', context, digest=bool(others)
+        )
         content = notification.render_template('.html', context, digest=bool(others))
 
     return HttpResponse(content_type='text/html; charset=utf-8', content=content)
