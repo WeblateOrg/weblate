@@ -54,17 +54,18 @@ CONTEXT_APPS = ['billing', 'legal', 'gitexport']
 
 
 def add_error_logging_context(context):
-    if (hasattr(settings, 'ROLLBAR')
-            and 'client_token' in settings.ROLLBAR
-            and 'environment' in settings.ROLLBAR):
+    if (
+        hasattr(settings, 'ROLLBAR')
+        and 'client_token' in settings.ROLLBAR
+        and 'environment' in settings.ROLLBAR
+    ):
         context['rollbar_token'] = settings.ROLLBAR['client_token']
         context['rollbar_environment'] = settings.ROLLBAR['environment']
     else:
         context['rollbar_token'] = None
         context['rollbar_environment'] = None
 
-    if (hasattr(settings, 'RAVEN_CONFIG')
-            and 'public_dsn' in settings.RAVEN_CONFIG):
+    if hasattr(settings, 'RAVEN_CONFIG') and 'public_dsn' in settings.RAVEN_CONFIG:
         context['sentry_dsn'] = settings.RAVEN_CONFIG['public_dsn']
     else:
         context['sentry_dsn'] = None
@@ -79,6 +80,23 @@ def add_optional_context(context):
     for name in CONTEXT_APPS:
         appname = 'weblate.{}'.format(name)
         context['has_{}'.format(name)] = appname in settings.INSTALLED_APPS
+
+
+def get_bread_image(path):
+    if path == '/':
+        return 'dashboard.svg'
+    first = path.split('/', 2)[1]
+    if first in ('user', 'accounts'):
+        return 'account.svg'
+    if first == 'checks':
+        return 'alert.svg'
+    if first == 'languages':
+        return 'language.svg'
+    if first == 'manage':
+        return 'wrench.svg'
+    if first in ('about', 'stats', 'keys', 'legal'):
+        return 'weblate.svg'
+    return 'project.svg'
 
 
 def weblate_context(request):
@@ -96,9 +114,7 @@ def weblate_context(request):
         )
 
     if settings.OFFER_HOSTING:
-        description = _(
-            'Hosted Weblate, the place to localize your software project.'
-        )
+        description = _('Hosted Weblate, the place to localize your software project.')
     else:
         description = _(
             'This site runs Weblate for localizing various software projects.'
@@ -109,8 +125,8 @@ def weblate_context(request):
     context = {
         'cache_param': '?v={}'.format(weblate.GIT_VERSION),
         'version': weblate.VERSION,
+        'bread_image': get_bread_image(request.path),
         'description': description,
-
         'weblate_link': mark_safe(
             '<a href="{}">weblate.org</a>'.format(escape(weblate_url))
         ),
@@ -118,26 +134,18 @@ def weblate_context(request):
             '<a href="{}">Weblate</a>'.format(escape(weblate_url))
         ),
         'weblate_version_link': mark_safe(
-            '<a href="{}">Weblate {}</a>'.format(
-                escape(weblate_url), weblate.VERSION
-            )
+            '<a href="{}">Weblate {}</a>'.format(escape(weblate_url), weblate.VERSION)
         ),
         'donate_url': URL_DONATE % weblate.VERSION,
-
         'site_url': get_site_url(),
         'site_domain': get_site_domain(),
-
         'current_date': datetime.utcnow().strftime('%Y-%m-%d'),
         'current_year': datetime.utcnow().strftime('%Y'),
         'current_month': datetime.utcnow().strftime('%m'),
-
         'login_redirect_url': login_redirect_url,
-
         'has_ocr': weblate.screenshots.views.HAS_OCR,
         'has_antispam': bool(settings.AKISMET_API_KEY),
-
         'watched_projects': watched_projects,
-
         'allow_index': False,
         'configuration_errors': ConfigurationError.objects.filter(
             ignored=False

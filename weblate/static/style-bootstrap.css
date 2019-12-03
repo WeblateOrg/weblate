@@ -539,6 +539,18 @@ td.number, th.number {
     color: #144D3F;
     background: none;
 }
+.bread-icon path {
+    fill: #BFC3C7;
+}
+.bread-icon svg {
+    margin: 0 5px 0 0;
+}
+.dir-rtl .bread-icon svg {
+    margin: 0 0 0 5px;
+}
+.breadcrumb > li.bread-icon + li::before {
+    display: none;
+}
 .breadcrumb {
     border-bottom: 1px solid #E9EAEC;
     font-size: 16px;
