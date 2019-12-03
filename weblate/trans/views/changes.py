@@ -270,14 +270,22 @@ def show_change(request, pk):
     acl_obj = change.translation or change.component or change.project
     if not request.user.has_perm('unit.edit', acl_obj):
         raise PermissionDenied()
+    others = request.GET.getlist('other')
+    if others:
+        changes = Change.objects.filter(pk__in=others + [change.pk])
+        for change in changes:
+            acl_obj = change.translation or change.component or change.project
+            if not request.user.has_perm('unit.edit', acl_obj):
+                raise PermissionDenied()
     if change.action not in NOTIFICATIONS_ACTIONS:
         content = ''
     else:
         notifications = NOTIFICATIONS_ACTIONS[change.action]
         notification = notifications[0](None)
-        context = notification.get_context(change)
+        context = notification.get_context(change if not others else None)
         context['request'] = request
-        context['subject'] = notification.render_template('_subject.txt', context)
-        content = notification.render_template('.html', context)
+        context['changes'] = changes
+        context['subject'] = notification.render_template('_subject.txt', context, digest=bool(others))
+        content = notification.render_template('.html', context, digest=bool(others))
 
     return HttpResponse(content_type='text/html; charset=utf-8', content=content)
