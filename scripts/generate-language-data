@@ -66,8 +66,13 @@ from __future__ import unicode_literals
 
 '''
 
-TEMPLATE = """    # Translators: Language name, ISO code: {0}
-    ('{0}', _('{1}'), {2}, '{3}'),
+TEMPLATE = """    (
+        '{0}',
+        # Translators: Language name, ISO code: {0}
+        _('{1}'),
+        {2},
+        '{3}'
+    ),
 """
 
 WRAPPER = TextWrapper(width=79, initial_indent=" " * 4, subsequent_indent=" " * 4)
