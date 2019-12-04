@@ -501,6 +501,8 @@ LDAP
     .. code-block:: yaml
 
         environment:
+          WEBLATE_AUTH_LDAP_BIND_DN: CN=ldap,CN=Users,DC=example,DC=com
+          WEBLATE_AUTH_LDAP_BIND_PASSWORD: password
           WEBLATE_AUTH_LDAP_SERVER_URI: ldap://ldap.example.org
           WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
           WEBLATE_AUTH_LDAP_USER_SEARCH: CN=Users,DC=example,DC=com
