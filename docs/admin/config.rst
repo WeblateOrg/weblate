@@ -1233,3 +1233,19 @@ Identity which should be used by Weblate to sign Git commits, for example:
 .. seealso::
 
     :ref:`gpg-sign`
+
+.. setting:: DATABASE_BACKUP
+
+DATABASE_BACKUP
+--------------------
+.. versionadded:: 3.1
+
+Whether the database backups should be stored as plain text, compressed or skipped.
+The authorized values are:
+* plain
+* compressed
+* none
+
+.. seealso::
+
+    :ref:`backup`

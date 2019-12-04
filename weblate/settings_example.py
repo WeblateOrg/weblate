@@ -839,6 +839,9 @@ CELERY_TASK_ROUTES = {
     "weblate.wladmin.tasks.backup_service": {"queue": "backup"},
 }
 
+# Enable plain database backups
+DATABASE_BACKUP = "plain"
+
 # Enable auto updating
 AUTO_UPDATE = False
 

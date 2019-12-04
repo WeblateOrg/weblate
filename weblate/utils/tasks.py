@@ -71,8 +71,6 @@ def database_backup():
         return
     cmd = [
         "pg_dump",
-        "--file",
-        data_dir("backups", "database.sql"),
         "--dbname",
         database["NAME"],
     ]
@@ -82,6 +80,11 @@ def database_backup():
         cmd += ["--port", database["PORT"]]
     if database["USER"]:
         cmd += ["--username", database["USER"]]
+    if settings.DATABASE_BACKUP == "compressed":
+        cmd += ["--file", data_dir("backups", "database.sql.gz")]
+        cmd += ["--compress", "6"]
+    else:
+        cmd += ["--file", data_dir("backups", "database.sql")]
 
     subprocess.check_call(cmd, env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}))
 
@@ -91,7 +94,8 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         crontab(hour=1, minute=0), settings_backup.s(), name="settings-backup"
     )
-    sender.add_periodic_task(
-        crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
-    )
+    if settings.DATABASE_BACKUP != "none":
+        sender.add_periodic_task(
+            crontab(hour=1, minute=30), database_backup.s(), name="database-backup"
+        )
     sender.add_periodic_task(60, heartbeat.s(), name="heartbeat")

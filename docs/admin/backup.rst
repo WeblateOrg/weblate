@@ -1,3 +1,5 @@
+.. _backup:
+
 Backing up and moving Weblate
 =============================
 
@@ -181,6 +183,9 @@ backups. The files are updated daily (requires a running Celery beats server, se
 * Translation memory dump, in JSON format.
 * Weblate settings as :file:`settings.py`.
 * PostgreSQL database backup as :file:`database.sql`.
+
+The database backup are by default saved as plain text, but they also can be compressed
+or entirely skipped by using :setting:`DATABASE_BACKUP`.
 
 Version control repositories
 ++++++++++++++++++++++++++++
