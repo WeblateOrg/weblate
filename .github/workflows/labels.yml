@@ -13,7 +13,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue has been added to backlog. It is not scheduled on our road map, but it might be eventually implemented. In case you desperately need this feature, please consider [funding the development](https://weblate.org/support/).
+            This issue has been added to backlog. It is not scheduled on our road map, but it might be eventually implemented. In case you desperately need this feature, please consider helping or [funding the development](https://weblate.org/support/).
       - name: Add undecided comment
         uses: peter-evans/create-or-update-comment@v1
         if: github.event.label.name == 'undecided'
