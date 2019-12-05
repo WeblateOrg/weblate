@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load static %}
+{% load compress %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">{% trans "Internal Server Error" %}</a></li>
@@ -17,6 +18,7 @@
 <p>{% blocktrans with error_id=sentry_event_id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
 
 {% if sentry_dsn %}
+{% compress js %}
 <script src="{% static "js/sentry.js" %}"></script>
 
 <script>
@@ -28,6 +30,7 @@
     eventId: '{{ sentry_event_id }}'
   })
 </script>
+{% endcompress %}
 {% endif %}
 {% endif %}
 
