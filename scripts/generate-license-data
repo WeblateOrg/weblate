@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+"""
+Helper script to generate Python code for licenses from
+https://github.com/spdx/license-list-XML
+"""
+
+import json
+import subprocess
+
+HEADER = '''# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2019 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+"""
+License data definitions.
+
+This is an automatically generated file, see scripts/generate-language-data
+"""
+
+'''
+TEMPLATE = """    (
+        '{0}',
+        '{1}',
+        '{2}'
+    ),
+"""
+
+with open("scripts/spdx-license-list/json/licenses.json") as handle:
+    data = json.load(handle)
+
+with open("weblate/utils/licensedata.py", "w") as output:
+    output.write(HEADER)
+    output.write("# Libre license definitions (either according to OSI or FSF)\n")
+    output.write("LIBRE_LICENSES = (\n")
+    for license in data["licenses"]:
+        if license["isDeprecatedLicenseId"]:
+            continue
+        if not license.get("isFsfLibre", False) and not license["isOsiApproved"]:
+            continue
+        output.write(
+            TEMPLATE.format(
+                license["licenseId"], license["name"], license["seeAlso"][0]
+            )
+        )
+    output.write(")\n")
+
+# Apply coding style
+subprocess.run(["black", "weblate/utils/licensedata.py"])
