@@ -524,7 +524,7 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            body=b'{"dirs": ["en-cs"]}',
+            body=b'{"langs": {"en": "English", "cs": "Czech"}}',
         )
         httpretty.register_uri(
             httpretty.GET,

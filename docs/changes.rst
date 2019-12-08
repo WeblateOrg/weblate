@@ -24,6 +24,7 @@ Not yet released.
 * Avoid sending duplicate notifications for linked component alerts.
 * Improve default merge request message.
 * Better indicate string state in zen mode.
+* Added support for more languages in Yandex Translate.
 
 Weblate 3.9.1
 -------------

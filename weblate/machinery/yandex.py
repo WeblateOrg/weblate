@@ -53,13 +53,10 @@ class YandexTranslation(MachineTranslation):
         response = self.json_req(
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
             key=settings.MT_YANDEX_KEY,
+            ui="en",
         )
         self.check_failure(response)
-        return [tuple(item.split('-')) for item in response['dirs']]
-
-    def is_supported(self, source, language):
-        """Check whether given language combination is supported."""
-        return (source, language) in self.supported_languages
+        return response["langs"].keys()
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
