@@ -110,8 +110,8 @@ def guess_user_language(request, translations):
     try:
         return translations.order_by('?')[0].language
     except IndexError:
-        # There are not existing translations, so return any Language objects
-        return Language.objects.all()[0]
+        # There are no existing translations
+        return None
 
 
 def get_user_translations(request, user):
