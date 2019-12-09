@@ -83,6 +83,7 @@ test_step = {
     "commands": basic_install + [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-test"],
 }
 test_step_minversion = dict(test_step)
+test_step_minversion["image"] = "weblate/cidocker:3.7"
 test_step_minversion["commands"] = (
     basic_install + [cmd_pip_postgresql] + cmd_pip_deps_min + ["./ci/run-test"]
 )
