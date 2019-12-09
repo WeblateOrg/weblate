@@ -139,7 +139,7 @@ def main(ctx):
         pipeline("tests:python-3.7", [test_step_37, codecov_step], [database_service]),
         pipeline("tests:python-3.8", [test_step, codecov_step], [database_service]),
         pipeline(
-            "tests:python-3.8-minversion",
+            "tests:python-minversion",
             [test_step_minversion, codecov_step],
             [database_service],
         ),
