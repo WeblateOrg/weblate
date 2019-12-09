@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.10.0 (55ecd8a2) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.10.1 (9740a4dc) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1081,17 +1081,9 @@ var Sentry = (function (exports) {
             try {
                 wrapped.prototype = wrapped.prototype || {};
                 Object.defineProperties(wrapped, {
-                    __sentry__: {
-                        enumerable: false,
-                        value: true,
-                    },
                     __sentry_original__: {
                         enumerable: false,
                         value: original,
-                    },
-                    __sentry_wrapped__: {
-                        enumerable: false,
-                        value: wrapped,
                     },
                 });
             }
@@ -4455,7 +4447,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.10.0';
+    var SDK_VERSION = '5.10.1';
 
     /**
      * The Sentry Browser SDK Client.
@@ -4978,11 +4970,9 @@ var Sentry = (function (exports) {
                                 type: 'instrument',
                             },
                         };
-                        // If Instrument integration has been called before TryCatch
-                        // use it as "before" callback in the wrap and use the original instead
-                        if (original.__sentry__ && original.__sentry_original__) {
+                        // If Instrument integration has been called before TryCatch, get the name of original function
+                        if (original.__sentry_original__) {
                             wrapOptions.mechanism.data.handler = getFunctionName(original.__sentry_original__);
-                            return wrap(original.__sentry_original__, wrapOptions, original.__sentry_wrapped__);
                         }
                         // Otherwise wrap directly
                         return wrap(original, wrapOptions);
