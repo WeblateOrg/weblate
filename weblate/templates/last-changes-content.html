@@ -15,7 +15,7 @@
         {% if not hide_links %}
         {% perm 'unit.edit' change.unit as user_can_translate %}
         <div class="btn-float pull-right flip">
-            <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "eye.svg" %}</a>
+            <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
             {% if debug %}
             <a class="btn btn-link" href="{% url 'show_change' pk=change.pk %}" title="{% trans "View notification" %}">{% icon "bell.svg" %}</a>
             {% endif %}

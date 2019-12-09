@@ -73,11 +73,7 @@
 <label>
     {% trans "Source" %}
     {% perm 'unit.edit' item.unit.source_info as user_can_edit_template %}
-    {% if user_can_edit_template %}
     <a title="{% trans "Edit source string" %}"href="{{ item.unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
-    {% else %}
-    <a title="{% trans "View source string" %}"href="{{ item.unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "eye.svg" %}</a>
-    {% endif %}
 </label>
 {% format_translation item.unit.source item.unit.translation.component.project.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
 </div>
