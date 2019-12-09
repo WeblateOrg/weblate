@@ -332,7 +332,9 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     from django_auth_ldap.config import LDAPSearch
 
     AUTH_LDAP_SERVER_URI = os.environ.get("WEBLATE_AUTH_LDAP_SERVER_URI")
-    AUTH_LDAP_USER_DN_TEMPLATE = os.environ.get("WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE")
+    AUTH_LDAP_USER_DN_TEMPLATE = (
+        os.environ.get("WEBLATE_AUTH_LDAP_USER_DN_TEMPLATE") or None
+    )
     AUTHENTICATION_BACKENDS += ("django_auth_ldap.backend.LDAPBackend",)
     AUTH_LDAP_USER_ATTR_MAP = get_env_map(
         "WEBLATE_AUTH_LDAP_USER_ATTR_MAP", {"full_name": "name", "email": "mail"}
