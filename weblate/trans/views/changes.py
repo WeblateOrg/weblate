@@ -248,6 +248,7 @@ def show_change(request, pk):
     if not request.user.has_perm('unit.edit', acl_obj):
         raise PermissionDenied()
     others = request.GET.getlist('other')
+    changes = None
     if others:
         changes = Change.objects.filter(pk__in=others + [change.pk])
         for change in changes:
