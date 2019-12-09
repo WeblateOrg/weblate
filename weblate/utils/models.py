@@ -62,6 +62,8 @@ class WeblateConf(AppConf):
         'weblate.trans.search',
     ]
 
+    DATABASE_BACKUP = 'plain'
+
     class Meta(object):
         prefix = ''
 
