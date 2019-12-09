@@ -63,38 +63,6 @@ p, pre {margin: 0;}
 .content {
 	padding: 30px 0;
 }
-.footer {
-	background-color: #144D3F;
-	padding: 0 0 80px 0;
-	width: 100%;
-	float: left;
-	color: #fff;
-	font-size: 18px;
-	position: relative;
-}
-.footer .f-logo {
-    text-align: center;
-	width: 100%;
-    height: 150px;
-    display: block;
-}
-.footer .footer-left, .footer .footer-right {
-	width: 50%;
-	float: left;
-	font-size: 14px;
-	color: #2ECCAA;
-}
-.footer .footer-left a, .footer .footer-right a {
-	color: #2ECCAA;
-	text-decoration: underline;
-}
-.footer .footer-left a:hover, .footer .footer-right a:hover {
-	text-decoration: none;
-}
-.footer .footer-right {
-	width: 50%;
-	text-align: right;
-}
 .box {
 	width: 100%;
 	float: left;
@@ -274,14 +242,20 @@ img {
     <div class="container">
         <div class="box">
             {% if change %}
-            <h1>{{ change.get_action_display }}</h1>
+            <h1>
+                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
+                {{ change.get_action_display }}
+            </h1>
             <div class="nav">
                 {% if project %}<a href="{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
                 {% if component %}/ <a href="{{ component.get_absolute_url }}">{{ component.name }}</a>{% endif %}
                 {% if translation %}/ <a href="{{ translation.get_absolute_url }}">{{ translation.language.name }}</a>{% endif %}
             </div>
             {% else %}
-            <h1>{{ subject }}</h1>
+            <h1>
+                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
+                {{ subject }}
+            </h1>
             {% endif %}
             {% block content %}
             {% endblock %}
@@ -367,11 +341,6 @@ img {
     </div>
     </div>
     <div class="footer">
-    	<div class="container">
-            <a class="f-logo" href="https://weblate.org/">
-                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
-            </a>
-        </div>
         <div class="container">
 			<div class="footer-left"><a href="https://weblate.org/">{% trans "Weblate, the copylefted libre continuous localization system" %}</a></div>
             <div class="footer-right">
