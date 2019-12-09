@@ -17,6 +17,8 @@ cmd_pip_postgresql = "pip install -r requirements-postgresql.txt"
 cmd_pip_postgresql_old = "pip install psycopg2-binary==2.7.7"
 # PIP requirements installation
 cmd_pip_deps = "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt"
+cmd_pip_deps_min_1 = "requirements-builder --req requirements.txt --req requirements-optional.txt --level pypi > requirements-min.txt"
+cmd_pip_deps_min_2 = "pip install -r requirements-min.txt"
 
 
 def secret(name):
@@ -77,11 +79,22 @@ test_step = {
     "environment": get_test_env(),
     "commands": basic_install + [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-test"],
 }
+test_step_minversion = dict(test_step)
+test_step_minversion["commands"] = basic_install + [
+    cmd_pip_postgresql,
+    cmd_pip_deps_min_1,
+    cmd_pip_deps_min_2,
+    "./ci/run-test",
+]
 test_step_37 = dict(test_step)
 test_step_37["image"] = "weblate/cidocker:3.7"
 test_step_27 = dict(test_step)
 test_step_27["image"] = "weblate/cidocker:2.7"
-test_step_27["commands"] basic_install + [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-test"]
+test_step_27["commands"] = basic_install + [
+    cmd_pip_postgresql_old,
+    cmd_pip_deps,
+    "./ci/run-test",
+]
 
 migrations_step = {
     "name": "test",
@@ -124,6 +137,11 @@ def main(ctx):
         pipeline("tests:python-2.7", [test_step_27, codecov_step], [database_service]),
         pipeline("tests:python-3.7", [test_step_37, codecov_step], [database_service]),
         pipeline("tests:python-3.8", [test_step, codecov_step], [database_service]),
+        pipeline(
+            "tests:python-3.8-minversion",
+            [test_step_minversion, codecov_step],
+            [database_service],
+        ),
         pipeline(
             "tests:migrations", [migrations_step, codecov_step], [database_service]
         ),
