@@ -70,18 +70,19 @@ sphinx_step = {
     "commands": basic_install
     + [cmd_pip_deps, "make -C docs html SPHINXOPTS='-n -W -a'"],
 }
+
 test_step = {
     "name": "test",
-    "image": "weblate/cidocker:3.7",
+    "image": "weblate/cidocker:3.8",
     "environment": get_test_env(),
     "commands": basic_install + [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-test"],
 }
-test_step_27 = {
-    "name": "test",
-    "image": "weblate/cidocker:2.7",
-    "environment": get_test_env(),
-    "commands": basic_install + [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-test"],
-}
+test_step_37 = dict(test_step)
+test_step_37["image"] = "weblate/cidocker:3.7"
+test_step_27 = dict(test_step)
+test_step_27["image"] = "weblate/cidocker:2.7"
+test_step_27["commands"] basic_install + [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-test"]
+
 migrations_step = {
     "name": "test",
     "image": "weblate/cidocker:3.7",
@@ -121,7 +122,8 @@ def main(ctx):
         pipeline("lint", [flake_step, sdist_step]),
         pipeline("docs", [sphinx_step]),
         pipeline("tests:python-2.7", [test_step_27, codecov_step], [database_service]),
-        pipeline("tests:python-3.7", [test_step, codecov_step], [database_service]),
+        pipeline("tests:python-3.7", [test_step_37, codecov_step], [database_service]),
+        pipeline("tests:python-3.8", [test_step, codecov_step], [database_service]),
         pipeline(
             "tests:migrations", [migrations_step, codecov_step], [database_service]
         ),
