@@ -246,7 +246,7 @@ def check_contribute(user, permission, translation):
     )
 
 
-@register_perm('machinery.view')
+@register_perm('machinery.view', 'memory.view')
 @cache_perm
 def check_machinery(user, permission, obj):
     if not MACHINE_TRANSLATION_SERVICES.exists():
