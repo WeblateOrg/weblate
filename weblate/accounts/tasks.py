@@ -135,11 +135,14 @@ def notify_auditlog(log_id, email):
 @app.task(trail=False)
 def send_mails(mails):
     """Send multiple mails in single connection."""
-    filename = os.path.join(settings.STATIC_ROOT, 'email-logo.png')
-    with open(filename, 'rb') as handle:
-        image = MIMEImage(handle.read())
-    image.add_header('Content-ID', '<email-logo@cid.weblate.org>')
-    image.add_header('Content-Disposition', 'inline', filename='weblate.png')
+    images = []
+    for name in ('email-logo.png', 'email-logo-footer.png'):
+        filename = os.path.join(settings.STATIC_ROOT, name)
+        with open(filename, 'rb') as handle:
+            image = MIMEImage(handle.read())
+        image.add_header('Content-ID', '<{}@cid.weblate.org>'.format(name))
+        image.add_header('Content-Disposition', 'inline', filename=name)
+        images.append(image)
 
     connection = get_connection()
     try:
@@ -159,7 +162,8 @@ def send_mails(mails):
                 connection=connection,
             )
             email.mixed_subtype = 'related'
-            email.attach(image)
+            for image in images:
+                email.attach(image)
             email.attach_alternative(mail['body'], 'text/html')
             email.send()
     finally:

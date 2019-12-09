@@ -25,6 +25,7 @@ Not yet released.
 * Improve default merge request message.
 * Better indicate string state in zen mode.
 * Added support for more languages in Yandex Translate.
+* Improved look of notification emails.
 
 Weblate 3.9.1
 -------------

@@ -1,6 +1,6 @@
 {% load i18n %}
 {% load static %}
-{% load translations %}
+{% load humanize %}
 {% load compress %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
@@ -63,71 +63,32 @@ p, pre {margin: 0;}
 .content {
 	padding: 30px 0;
 }
-.box {
-	width: 100%;
-	float: left;
-	border-radius: 20px;
-	padding-bottom: 14px;
-	background-color: #FFFFFF;
-	margin-bottom: 30px;
-	box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
+h1 img {
+    padding: 0 5px 0 0;
 }
-.box h1 {
-	width: 100%;
-	float: left;
-	padding: 14px 30px;
-	font-size: 28px;
+h1 {
+	font-size: 30px;
     font-weight: normal;
 	letter-spacing: -0.5px;
-	line-height: 36px;
-	margin: 0;
+	line-height: 48px;
+	margin: 20px 0;
 	color: #2A3744;
-	border-bottom: 1px solid #E9EAEC;
 }
-.box h2 {
-	width: 100%;
-	float: left;
-	padding: 7px 30px;
-	font-size: 20px;
-    font-weight: bold;
+h2 {
+	font-size: 26px;
+    font-weight: normal;
 	letter-spacing: -0.5px;
-	line-height: 22px;
-	margin: 0;
+	line-height: 31px;
 	color: #2A3744;
 }
-.box .bordered, .box .buttons, .box h2 {
-	border-top: 1px solid #E9EAEC;
-}
-.box .nav {
-	border-bottom: 1px solid #E9EAEC;
-    margin-bottom: 5px;
-    background-color: #eee;
-    color: #2A3744;
-}
-.box .line, .box .list-group, .box code, .box pre, .box ul, .box ol, .box table, .box .nav {
-	width: 100%;
-	float: left;
-	padding: 7px 30px;
-}
-.box ol, .box ul {
-    margin-left: 20px;
-}
-.box code, .box pre {
+code, pre {
 	word-wrap: break-word;
     white-space: pre-wrap;
 }
-.box .buttons {
+.buttons {
     padding-top: 18px;
 }
-.box .line-left {
-	width: 50%;
-	float: left;
-}
-.box .line-right {
-	width: 50%;
-	float: left;
-}
-.box .head {
+.head {
 	font-size: 28px;
 	letter-spacing: -0.5px;
 	line-height: 36px;
@@ -159,12 +120,6 @@ a.button:hover {
 	background-color: #fff;
 	color: #2ECCAA;
 	border-color: #2ECCAA;
-}
-@media (max-width: 790px) {
-	footer .footer-left, footer .footer-right {width: 100%;}
-    footer .footer-left, footer .footer-right {text-align: center;}
-	.box .line-left, .box .line-right {width: 100%;}
-	.box .line .line-left {padding-left: 0; margin-bottom: 10px;}
 }
 .translatetext {
     background-color: #eee;
@@ -200,6 +155,33 @@ del {
 .comment-source {
     background-color: #F2E5EA;
 }
+.footer {
+    background-color: #2A3744;
+    font-size: 14px;
+    line-height: 20px;
+    color: #E9EAEC;
+    padding: 20px 20px 30px 20px;
+    margin-top: 20px
+}
+.footer p:first-child {
+    margin-bottom: 20px;
+}
+.footer img {
+    padding-bottom: 20px;
+}
+.footer a {
+    color: #00D2E6;
+    color: #E9EAEC;
+
+}
+tr td { 
+    text-align: right;
+    padding-left: 20px;
+}
+tr td:first-child {
+    text-align: left;
+    padding-left: 0;
+}
 {%  comment %}
 /* Bootstrap parts for history */
 {% endcomment %}
@@ -233,6 +215,14 @@ del {
 img {
   vertical-align: middle;
 }
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
+}
   </style>
 {% endcompress %}
  </head>
@@ -243,117 +233,85 @@ img {
         <div class="box">
             {% if change %}
             <h1>
-                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
+                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo.png@cid.weblate.org{% endif %}" />
                 {{ change.get_action_display }}
             </h1>
             <div class="nav">
-                {% if project %}<a href="{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
+                {% if change.author %}{{ change.author.profile.get_user_display_link }}: {% endif %}
+                <a href="{{ current_site_url }}">{{ site_title }}</a>
+                {% if project %}/ <a href="{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
                 {% if component %}/ <a href="{{ component.get_absolute_url }}">{{ component.name }}</a>{% endif %}
                 {% if translation %}/ <a href="{{ translation.get_absolute_url }}">{{ translation.language.name }}</a>{% endif %}
             </div>
             {% else %}
             <h1>
-                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo@cid.weblate.org{% endif %}" />
+                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo.png@cid.weblate.org{% endif %}" />
                 {{ subject }}
             </h1>
             {% endif %}
             {% block content %}
             {% endblock %}
         </div>
-    </div>
-    <div class="container">
 {% if translation %}
-        <div class="box">
-            <h1>
-                {% trans "Translation Info" %}
-            </h1>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "all" %}</div>
-                <div class="line-right">{{ translation.stats.all }}</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "translated" %}</div>
-                <div class="line-right">{{ translation.stats.translated }} ({{ translation.stats.translated_percent |percent_format }})</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "nottranslated" %}</div>
-                <div class="line-right">{{ translation.stats.nottranslated }} ({{ translation.stats.nottranslated_percent |percent_format }})</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "todo" %}</div>
-                <div class="line-right">{{ translation.stats.todo }} ({{ translation.stats.todo_percent |percent_format }})</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "fuzzy" %}</div>
-                <div class="line-right">{{ translation.stats.fuzzy }} ({{ translation.stats.fuzzy_percent |percent_format }})</div>
-            </div>
-            <div class="line buttons">
-                <a class="button" href="{{ translation_url }}">{% trans "View" %}</a>
-            </div>
+        <h2>
+            {% trans "Translation Info" %}
+        </h2>
+        <table>
+            {% include "mail/snippets/stats.html" with stats=translation.stats %}
+        </table>
+        <div class="buttons">
+            <a class="button" href="{{ translation_url }}">{% trans "View" %}</a>
         </div>
 {% elif component %}
-        <div class="box">
-            <h1>
-                {% trans "Component Information" %}
-            </h1>
-            <div class="line">
-                <div class="line-left">{% trans "Languages" %}</div>
-                <div class="line-right">{{ component.stats.languages }}</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "all" %}</div>
-                <div class="line-right">{{ component.stats.all }}</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "translated" %}</div>
-                <div class="line-right">{{ component.stats.translated }} ({{ component.stats.translated_percent |percent_format }})</div>
-            </div>
-            <div class="line buttons">
-                <a class="button" href="{{ component.get_absolute_url  }}">{% trans "View" %}</a>
-            </div>
+        <h2>
+            {% trans "Component Information" %}
+        </h2>
+        <table>
+            <tr>
+                <td>{% trans "Languages" %}</td>
+                <td>{{ component.stats.languages|intcomma }}</td>
+            </tr>
+            {% include "mail/snippets/stats.html" with stats=component.stats %}
+        </table>
+        <div class="buttons">
+            <a class="button" href="{{ component.get_absolute_url  }}">{% trans "View" %}</a>
         </div>
 {% elif project %}
-        <div class="box">
-            <h1>
-                {% trans "Project Information" %}
-            </h1>
-            <div class="line">
-                <div class="line-left">{% trans "Components" %}</div>
-                <div class="line-right">{{ project.component_set.count }}</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% trans "Languages" %}</div>
-                <div class="line-right">{{ project.stats.languages }}</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "all" %}</div>
-                <div class="line-right">{{ project.stats.all }}</div>
-            </div>
-            <div class="line">
-                <div class="line-left">{% get_filter_name "translated" %}</div>
-                <div class="line-right">{{ project.stats.translated }} ({{ project.stats.translated_percent |percent_format }})</div>
-            </div>
-            <div class="line buttons">
-                <a class="button" href="{{ project.get_absolute_url  }}">{% trans "View" %}</a>
-            </div>
+        <h2>
+            {% trans "Project Information" %}
+        </h2>
+        <table>
+            <tr>
+                <td>{% trans "Components" %}</td>
+                <td>{{ project.component_set.count|intcomma }}</td>
+            </tr>
+            <tr>
+                <td>{% trans "Languages" %}</td>
+                <td>{{ project.stats.languages|intcomma }}</td>
+            </tr>
+            {% include "mail/snippets/stats.html" with stats=project.stats %}
+        </table>
+        <div class="buttons">
+            <a class="button" href="{{ project.get_absolute_url  }}">{% trans "View" %}</a>
         </div>
 {% endif %}
-    </div>
-    </div>
-    <div class="footer">
-        <div class="container">
-			<div class="footer-left"><a href="https://weblate.org/">{% trans "Weblate, the copylefted libre continuous localization system" %}</a></div>
-            <div class="footer-right">
-                <a href="{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
+        <div class="footer">
+			<p>
+                <img src="{% if request %}{% static "email-logo-footer.png" %}{% else %}cid:email-logo-footer.png@cid.weblate.org{% endif %}" /><br />
+                <a href="https://weblate.org/">{% trans "Weblate, the libre continuous localization system." %}</a>
+            </p>
+            <p>
+                ▸ <a href="{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
+            </p>
                 {% if unsubscribe_nonce %}
-                <a href="{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
+            <p>
+                ▸ <a href="{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
+            </p>
                 {% endif %}
-            </div>
-		</div>
-        <div class="container">
-            {% comment %}This avoids Gmail hiding the footer, as it finds unique content here{% endcomment %}
-            <span style="opacity: 0">Generated on {% now "DATETIME_FORMAT" %}</span>
         </div>
+        {% comment %}This avoids Gmail hiding the footer, as it finds unique content here{% endcomment %}
+        <p style="opacity: 0" class="text-muted">Generated on {% now "DATETIME_FORMAT" %}</p>
+    </div>
     </div>
  </body>
 </html>

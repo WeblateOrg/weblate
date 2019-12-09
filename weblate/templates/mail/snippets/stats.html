@@ -1,0 +1,27 @@
+{% load translations %}
+{% load humanize %}
+
+<tr>
+    <td>{% get_filter_name "all" %}</td>
+    <td>{{ stats.all|intcomma }}</td>
+</tr>
+<tr>
+    <td>{% get_filter_name "translated" %}</td>
+    <td>{{ stats.translated|intcomma }}</td>
+    <td>{{ stats.translated_percent |percent_format }}</td>
+</tr>
+<tr>
+    <td>{% get_filter_name "nottranslated" %}</td>
+    <td>{{ stats.nottranslated|intcomma }}</td>
+    <td>{{ stats.nottranslated_percent |percent_format }}</td>
+</tr>
+<tr>
+    <td>{% get_filter_name "todo" %}</td>
+    <td>{{ stats.todo|intcomma }}</td>
+    <td>{{ stats.todo_percent |percent_format }}</td>
+</tr>
+<tr>
+    <td>{% get_filter_name "fuzzy" %}</td>
+    <td>{{ stats.fuzzy|intcomma }}</td>
+    <td>{{ stats.fuzzy_percent |percent_format }}</td>
+</tr>

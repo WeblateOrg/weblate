@@ -3,9 +3,6 @@
 {% load i18n %}{% load translations %}
 
 {% block content %}
-<p>
-{% blocktrans with user=user.username %}There has been a new comment on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktrans %}
-</p>
 
 {% include "mail/snippets/source-string.html" %}
 

@@ -3,13 +3,6 @@
 {% load i18n %}{% load translations %}
 
 {% block content %}
-<p>
-{% if project %}
-{% blocktrans %}New whiteboard message has been added to {{ project }} at {{ site_title }}.{% endblocktrans %}
-{% else %}
-{% blocktrans %}New whiteboard message has been added at {{ site_title }}.{% endblocktrans %}
-{% endif %}
-</p>
 
 <h2>{% trans "Message" %}</h2>
 

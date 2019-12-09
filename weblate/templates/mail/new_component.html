@@ -1,14 +1,3 @@
 {% extends "mail/base.html" %}
 
 {% load i18n %}{% load translations %}
-
-{% block content %}
-<p>
-{% blocktrans %}New component {{ component }} has been added to {{ project }} at {{ site_title }}.{% endblocktrans %}
-</p>
-
-<div class="line buttons">
-    <a class="button" href="{{ component.get_absolute_url }}">{% trans "View translation component" %}</a>
-</div>
-
-{% endblock %}

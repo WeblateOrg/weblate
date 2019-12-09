@@ -17,14 +17,16 @@
 </p>
 {% endif %}
 
-<div class="line">
-<div class="line-left">{% trans "IP address" %}</div>
-<div class="line-right">{{ address }}</div>
-</div>
-<div class="line">
-<div class="line-left">{% trans "User agent" %}</div>
-<div class="line-right">{{ user_agent }}</div>
-</div>
+<table>
+<tr>
+<td>{% trans "IP address" %}</td>
+<td>{{ address }}</td>
+</tr>
+<tr>
+<td>{% trans "User agent" %}</td>
+<td>{{ user_agent }}</td>
+</tr>
+</table>
 
 <p>
 {% blocktrans %}If you did not request this change, please report it as soon as possible.{% endblocktrans %}
