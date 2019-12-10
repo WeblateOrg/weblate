@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.10.1 (9740a4dc) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.10.2 (b12397a8) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -711,8 +711,8 @@ var Sentry = (function (exports) {
         var wrappedLevels = {};
         // Restore all wrapped console methods
         levels.forEach(function (level) {
-            if (level in global.console && originalConsole[level].__sentry__) {
-                wrappedLevels[level] = originalConsole[level].__sentry_wrapped__;
+            if (level in global.console && originalConsole[level].__sentry_original__) {
+                wrappedLevels[level] = originalConsole[level];
                 originalConsole[level] = originalConsole[level].__sentry_original__;
             }
         });
@@ -3717,7 +3717,7 @@ var Sentry = (function (exports) {
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
-                var context = this.__sentry__ ? this.__sentry_original__ : this;
+                var context = this.__sentry_original__ || this;
                 // tslint:disable-next-line:no-unsafe-any
                 return originalFunctionToString.apply(context, args);
             };
@@ -4447,7 +4447,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.10.1';
+    var SDK_VERSION = '5.10.2';
 
     /**
      * The Sentry Browser SDK Client.
@@ -4696,7 +4696,7 @@ var Sentry = (function (exports) {
                     if (self._oldOnErrorHandler) {
                         return self._oldOnErrorHandler.apply(this, arguments);
                     }
-                    return true;
+                    return false;
                 }
                 var client = currentHub.getClient();
                 var event = isPrimitive(error)
@@ -4715,7 +4715,7 @@ var Sentry = (function (exports) {
                 if (self._oldOnErrorHandler) {
                     return self._oldOnErrorHandler.apply(this, arguments);
                 }
-                return true;
+                return false;
             };
             this._onErrorHandlerInstalled = true;
         };
