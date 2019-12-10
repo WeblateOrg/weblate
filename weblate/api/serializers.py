@@ -164,6 +164,8 @@ class ComponentSerializer(RemovableSerializer):
         view_name='api:component-changes',
         lookup_field=('project__slug', 'slug'),
     )
+    license_url = serializers.CharField(read_only=True)
+
     repo = RepoURLField()
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField

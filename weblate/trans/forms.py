@@ -1225,7 +1225,6 @@ class ComponentSettingsForm(SettingsBaseForm):
             'name',
             'report_source_bugs',
             'license',
-            'license_url',
             'agreement',
             'allow_translation_propagation',
             'enable_suggestions',
@@ -1262,7 +1261,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                 Tab(
                     _('Basic'),
                     Fieldset(_('Name'), 'name'),
-                    Fieldset(_('License'), 'license', 'license_url', 'agreement'),
+                    Fieldset(_('License'), 'license', 'agreement'),
                     Fieldset(_('Upstream links'), 'report_source_bugs'),
                     css_id='basic',
                 ),

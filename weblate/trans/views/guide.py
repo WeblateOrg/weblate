@@ -148,9 +148,7 @@ class LicenseGuideline(Guideline):
     anchor = "basic"
 
     def is_passing(self):
-        return (
-            self.component.osi_approved_license or self.component.fsf_approved_license
-        )
+        return self.component.libre_license
 
     def get_docs_url(self):
         return "https://choosealicense.com/"

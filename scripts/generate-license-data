@@ -55,9 +55,10 @@ This is an automatically generated file, see scripts/generate-language-data
 
 '''
 TEMPLATE = """    (
-        '{0}',
-        '{1}',
-        '{2}'
+        "{0}",
+        "{1}",
+        "{2}",
+        {3}
     ),
 """
 
@@ -66,16 +67,17 @@ with open("scripts/spdx-license-list/json/licenses.json") as handle:
 
 with open("weblate/utils/licensedata.py", "w") as output:
     output.write(HEADER)
-    output.write("# Libre license definitions (either according to OSI or FSF)\n")
-    output.write("LIBRE_LICENSES = (\n")
-    for license in data["licenses"]:
+    output.write("LICENSES = (\n")
+    for license in sorted(data["licenses"], key=lambda x: x["name"].lower()):
         if license["isDeprecatedLicenseId"]:
             continue
-        if not license.get("isFsfLibre", False) and not license["isOsiApproved"]:
-            continue
+        libre = license.get("isFsfLibre", False) or license["isOsiApproved"]
         output.write(
             TEMPLATE.format(
-                license["licenseId"], license["name"], license["seeAlso"][0]
+                license["licenseId"],
+                license["name"].replace('"', '\\"'),
+                license["seeAlso"][0],
+                "True" if libre else "False",
             )
         )
     output.write(")\n")

@@ -151,7 +151,6 @@ class Command(BaseCommand):
         self.file_format = None
         self.language_regex = None
         self.license = None
-        self.license_url = None
         self.main_component = None
         self.name_template = None
         self.base_file_template = None
@@ -198,7 +197,6 @@ class Command(BaseCommand):
                 '%s', '{{ component }}'
             )
         self.license = options['license']
-        self.license_url = options['license_url']
         self.push_on_commit = options['push_on_commit']
         self.base_file_template = options['base_file_template']
         self.new_base_template = options['new_base_template']
@@ -384,7 +382,6 @@ class Command(BaseCommand):
                 vcs=self.vcs,
                 push_on_commit=self.push_on_commit,
                 license=self.license,
-                license_url=self.license_url,
             )
 
         return component

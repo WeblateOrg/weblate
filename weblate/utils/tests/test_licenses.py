@@ -22,45 +22,63 @@ from __future__ import unicode_literals
 
 from django.test import SimpleTestCase
 
-from weblate.utils.licenses import is_fsf_approved, is_osi_approved
+from weblate.utils.licenses import convert_license
 
 # Licenses extracted from Hosted Weblate service
-LICENSES = (
-    '', 'MIT like license', 'CC-BY-SA-4.0', 'ISC', 'Beerware', 'GPL-3.0',
-    'GPL-2.0', 'LGPL-2.0+', 'GPL-2.0+ or CC-BY-SA-3.0', 'LPPL-1.3c',
-    'GPL-2.0+', 'MPL-2.0', 'CC-BY-ND-4.0', 'MIT', 'AGPL-3.0-or-later',
-    'Public', 'CC0-1.0', 'LGPL-2+', 'GPLv3', 'CC-BY-2.0', 'AGPL-3.0+', 'GPLv2',
-    'WTFPL', ' Apache-2.0', 'AGPL v3', 'LGPL-3.0+', 'Polymer License',
-    'LGPL-2.1+', 'BSD-2-Clause', 'GPL-3.0+', 'AGPL-3.0', 'CC-BY-3.0',
-    'Proprietary', 'Apache-2.0', 'BSD-3-Clause', 'Apache 2.0'
-)
-
-NON_OSI = {
-    '', 'Polymer License', 'Proprietary', 'CC-BY-ND-4.0', 'CC0-1.0',
-    'CC-BY-3.0', 'Public', 'Beerware', 'CC-BY-2.0', 'CC-BY-SA-4.0',
-    'WTFPL',
-}
-
-NON_FSF = {
-    '', 'Polymer License', 'Proprietary', 'CC-BY-ND-4.0',
-    'CC-BY-3.0', 'Public', 'Beerware', 'CC-BY-2.0', 'LPPL-1.3c',
-    'BSD-2-Clause',
+TEST_DATA = {
+    "": "",
+    "GNU AGPLv3": "AGPL-3.0-only",
+    "AGPL-3.0+": "AGPL-3.0-or-later",
+    "GNU GPLv3": "GPL-3.0-only",
+    "MPL-2.0": "MPL-2.0",
+    "Apache-2.0": "Apache-2.0",
+    "Polymer License": "BSD-3-Clause",
+    "Beerware": "Beerware",
+    "BSD-3-clause": "BSD-3-Clause",
+    "GPL-2.0+": "GPL-2.0-or-later",
+    "AGPL-3.0-or-later": "AGPL-3.0-or-later",
+    "CC-BY-2.0": "CC-BY-2.0",
+    "BSD beerware derivative": "Beerware",
+    "GPL-2.0": "GPL-2.0-only",
+    "GPL-3.0+": "GPL-3.0-or-later",
+    "GPL-2.0+ or CC-BY-SA-3.0": "GPL-2.0-or-later",
+    "LGPL-3.0+": "LGPL-3.0-or-later",
+    "CC-BY-ND-4.0": "CC-BY-ND-4.0",
+    "BSD-2-Clause": "BSD-2-Clause",
+    "MIT": "MIT",
+    "Please see the Contribution License Agreement": "proprietary",
+    "LGPL-2+": "LGPL-2.0-or-later",
+    "Apache License 2.0": "Apache-2.0",
+    "Zlib": "Zlib",
+    "CC-BY-SA-4.0": "CC-BY-SA-4.0",
+    "CC0-1.0": "CC0-1.0",
+    "Proprietary": "proprietary",
+    "ISC": "ISC",
+    "LGPL-2.0+": "LGPL-2.0-or-later",
+    "WTFPL": "WTFPL",
+    "LPPL-1.3c": "LPPL-1.3c",
+    " Apache-2.0": "Apache-2.0",
+    "GNU GPL v3": "GPL-3.0-only",
+    "CC-BY-3.0": "CC-BY-3.0",
+    "MIT like license": "MIT",
+    "GPLv3": "GPL-3.0-only",
+    "BSD-3-Clause": "BSD-3-Clause",
+    "Apache 2.0": "Apache-2.0",
+    "GNU General Public Licence": "GPL-2.0-or-later",
+    "GPL-3.0-or-later": "GPL-3.0-or-later",
+    "LGPL-2.1+": "LGPL-2.1-or-later",
+    "AGPL v3": "AGPL-3.0-only",
+    "GPLv2": "GPL-2.0-only",
+    "GPL-3.0": "GPL-3.0-only",
+    "AGPL-3.0": "AGPL-3.0-only",
 }
 
 
 class LicenseTest(SimpleTestCase):
-    def test_osi(self):
-        for license in LICENSES:
+    def test_convert(self):
+        for source, expected in TEST_DATA.items():
             self.assertEqual(
-                is_osi_approved(license),
-                license not in NON_OSI,
-                'Wrong OSI state for {}'.format(license)
-            )
-
-    def test_fsf(self):
-        for license in LICENSES:
-            self.assertEqual(
-                is_fsf_approved(license),
-                license not in NON_FSF,
-                'Wrong FSF state for {}'.format(license)
+                expected,
+                convert_license(source),
+                "License conversion failed for {}".format(source),
             )

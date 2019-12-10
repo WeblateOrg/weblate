@@ -44,11 +44,10 @@
 <th>{% trans "Translation license" %}</th>
 <td colspan="2">
 {% if object.license_url %}
-<a href="{{ object.license_url }}">{{ object.license }}</a>
+<a href="{{ object.license_url }}">{{ object.get_license_display }}</a>
 {% else %}
 {{ object.license }}
 {% endif %}
-{% include "snippets/license-flag.html" with component=object %}
 </td>
 </tr>
 {% endif %}

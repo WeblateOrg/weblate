@@ -83,7 +83,7 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.errors import report_error
-from weblate.utils.licenses import is_fsf_approved, is_osi_approved
+from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
 from weblate.utils.render import (
     render_template,
     validate_render_addon,
@@ -339,15 +339,7 @@ class Component(models.Model, URLMixin, PathMixin):
         max_length=150,
         blank=True,
         default="",
-        help_text=ugettext_lazy(
-            "Optional short summary of license used for translations."
-        ),
-    )
-    license_url = models.URLField(
-        verbose_name=ugettext_lazy("License URL"),
-        blank=True,
-        default="",
-        help_text=ugettext_lazy("Optional URL with license details."),
+        choices=get_license_choices(),
     )
     agreement = models.TextField(
         verbose_name=ugettext_lazy("Contributor agreement"),
@@ -1935,12 +1927,16 @@ class Component(models.Model, URLMixin, PathMixin):
         )
 
     @cached_property
-    def osi_approved_license(self):
-        return is_osi_approved(self.license)
+    def libre_license(self):
+        return is_libre(self.license)
 
     @cached_property
-    def fsf_approved_license(self):
-        return is_fsf_approved(self.license)
+    def license_url(self):
+        return get_license_url(self.license)
+
+    @property
+    def license_badge(self):
+        return self.license.split('-')[0]
 
     def post_create(self, user):
         from weblate.trans.models import Change

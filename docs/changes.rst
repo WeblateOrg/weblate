@@ -26,6 +26,7 @@ Not yet released.
 * Better indicate string state in zen mode.
 * Added support for more languages in Yandex Translate.
 * Improved look of notification emails.
+* Provide choice for translation license.
 
 Weblate 3.9.1
 -------------
