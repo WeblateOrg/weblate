@@ -1588,10 +1588,6 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             raise ValidationError({"new_lang": msg})
 
-        if self.license == "" and self.license_url != "":
-            msg = _("License URL can not be used without a license summary.")
-            raise ValidationError({"license_url": msg, "license": msg})
-
         # Skip validation if we don't have valid project
         if self.project_id is None or not self.file_format:
             return
