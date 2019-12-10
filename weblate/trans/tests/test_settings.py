@@ -62,7 +62,7 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, 'Settings')
         data = {}
         data.update(response.context['form'].initial)
-        data['license'] = 'test'
+        data['license'] = 'MIT'
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, 'Settings saved')
         self.assertEqual(
