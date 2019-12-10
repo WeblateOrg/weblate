@@ -46,7 +46,7 @@
 {% if object.license_url %}
 <a href="{{ object.license_url }}">{{ object.get_license_display }}</a>
 {% else %}
-{{ object.license }}
+{{ object.get_license_display }}
 {% endif %}
 </td>
 </tr>

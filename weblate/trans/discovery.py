@@ -39,7 +39,7 @@ from weblate.utils.render import render_template
 # Attributes to copy from main component
 COPY_ATTRIBUTES = (
     'project', 'vcs',
-    'license_url', 'license', 'agreement',
+    'license', 'agreement',
     'report_source_bugs', 'allow_translation_propagation',
     'enable_suggestions', 'suggestion_voting', 'suggestion_autoaccept',
     'check_flags', 'new_lang', 'language_code_style',
