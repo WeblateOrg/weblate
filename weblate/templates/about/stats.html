@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'about' %}">{% trans "About Weblate" %}</a></li>
@@ -13,16 +14,11 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
 <table class="table">
-<thead>
-<tr>
-<th>{% trans "User" %}</th>
-<th>{% trans "Translated" %}</th>
-</tr>
 <tbody>
 {% for u in top_translations %}
 <tr>
 <td>{{ u.get_user_display_link }}</td>
-<td class="percent">{{ u.translated }}</td>
+<td class="number">{{ u.translated|intcomma }}</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -35,16 +31,11 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Most active suggesters" %}</h4></div>
 <table class="table">
-<thead>
-<tr>
-<th>{% trans "User" %}</th>
-<th>{% trans "Suggested" %}</th>
-</tr>
 <tbody>
 {% for u in top_suggestions %}
 <tr>
 <td>{{ u.get_user_display_link }}</td>
-<td class="percent">{{ u.suggested }}</td>
+<td class="number">{{ u.suggested|intcomma }}</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -56,16 +47,11 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Most active screenshot uploaders" %}</h4></div>
 <table class="table">
-<thead>
-<tr>
-<th>{% trans "User" %}</th>
-<th>{% trans "Screenshots uploaded" %}</th>
-</tr>
 <tbody>
 {% for u in top_uploads %}
 <tr>
 <td>{{ u.get_user_display_link }}</td>
-<td class="percent">{{ u.uploaded }}</td>
+<td class="number">{{ u.uploaded|intcomma }}</td>
 </tr>
 {% endfor %}
 </tbody>
@@ -80,39 +66,39 @@
 <table class="table">
 <tr>
 <th>{% trans "Source strings" %}</th>
-<td>{{ total_strings }}</td>
+<td class="number">{{ total_strings|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Translatable strings" %}</th>
-<td>{{ total_units }}</td>
+<td class="number">{{ total_units|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Translatable words" %}</th>
-<td>{{ total_words }}</td>
+<td class="number">{{ total_words|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Used languages" %}</th>
-<td>{{ total_languages }}</td>
+<td class="number">{{ total_languages|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Registered users" %}</th>
-<td>{{ total_users }}</td>
+<td class="number">{{ total_users|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Suggestions made" %}</th>
-<td>{{ total_suggestions }}</td>
+<td class="number">{{ total_suggestions|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Translations made" %}</th>
-<td>{{ total_translations }}</td>
+<td class="number">{{ total_translations|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Failing checks found" %}</th>
-<td>{{ total_checks }}</td>
+<td class="number">{{ total_checks|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Ignored checks" %}</th>
-<td>{{ ignored_checks }}</td>
+<td class="number">{{ ignored_checks|intcomma }}</td>
 </tr>
 </table>
 </div>
