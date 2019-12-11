@@ -20,6 +20,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import logging
 import os
 from datetime import timedelta
 from glob import glob
@@ -55,13 +56,15 @@ from weblate.trans.search import Fulltext
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
 
+SEARCH_LOGGER = logging.getLogger("weblate.search")
+
 
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
 )
 def perform_update(cls, pk, auto=False):
     try:
-        if cls == 'Project':
+        if cls == "Project":
             obj = Project.objects.get(pk=pk)
         else:
             obj = Component.objects.get(pk=pk)
@@ -124,16 +127,16 @@ def commit_pending(hours=None, pks=None, logger=None):
             continue
 
         if logger:
-            logger('Committing {0}'.format(component))
+            logger("Committing {0}".format(component))
 
-        perform_commit.delay(component.pk, 'commit_pending', None)
+        perform_commit.delay(component.pk, "commit_pending", None)
 
 
 @app.task(trail=False)
 def cleanup_fulltext():
     """Remove stale units from fulltext"""
     fulltext = Fulltext()
-    languages = list(Language.objects.values_list('code', flat=True)) + [None]
+    languages = list(Language.objects.values_list("code", flat=True)) + [None]
     # We operate only on target indexes as they will have all IDs anyway
     for lang in languages:
         if lang is None:
@@ -145,20 +148,24 @@ def cleanup_fulltext():
         except EmptyIndexError:
             continue
         for item in fields:
-            if Unit.objects.filter(pk=item['pk']).exists():
+            if Unit.objects.filter(pk=item["pk"]).exists():
                 continue
-            fulltext.clean_search_unit(item['pk'], lang)
+            fulltext.clean_search_unit(item["pk"], lang)
 
 
 @app.task(trail=False)
 def optimize_fulltext():
+    SEARCH_LOGGER.info("starting optimizing source index")
     fulltext = Fulltext()
     index = fulltext.get_source_index()
     index.optimize()
+    SEARCH_LOGGER.info("completed optimizing source index")
     languages = Language.objects.have_translation()
     for lang in languages:
+        SEARCH_LOGGER.info("starting optimizing %s index", lang.code)
         index = fulltext.get_target_index(lang.code)
         index.optimize()
+        SEARCH_LOGGER.info("completed optimizing %s index", lang.code)
 
 
 def cleanup_sources(project):
@@ -170,7 +177,7 @@ def cleanup_sources(project):
             source_ids = (
                 Unit.objects.filter(translation__component=component)
                 .exclude(translation=translation)
-                .values('id_hash')
+                .values("id_hash")
                 .distinct()
             )
 
@@ -182,7 +189,7 @@ def cleanup_source_data(project):
         # List all current unit content_hashs
         units = (
             Unit.objects.filter(translation__component__project=project)
-            .values('content_hash')
+            .values("content_hash")
             .distinct()
         )
 
@@ -201,7 +208,7 @@ def cleanup_language_data(project):
                 Unit.objects.filter(
                     translation__language=lang, translation__component__project=project
                 )
-                .values('content_hash')
+                .values("content_hash")
                 .distinct()
             )
 
@@ -229,7 +236,7 @@ def cleanup_project(pk):
 def cleanup_suggestions():
     # Process suggestions
     anonymous_user = get_anonymous()
-    suggestions = Suggestion.objects.prefetch_related('project', 'language')
+    suggestions = Suggestion.objects.prefetch_related("project", "language")
     for suggestion in suggestions.iterator():
         with transaction.atomic():
             # Remove suggestions with same text as real translation
@@ -267,13 +274,13 @@ def update_remotes():
     """Update all remote branches (without attempt to merge)."""
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
-        perform_update.delay('Component', component.pk, auto=True)
+        perform_update.delay("Component", component.pk, auto=True)
 
 
 @app.task(trail=False)
 def cleanup_stale_repos():
-    prefix = data_dir('vcs')
-    vcs_mask = os.path.join(prefix, '*', '*')
+    prefix = data_dir("vcs")
+    vcs_mask = os.path.join(prefix, "*", "*")
 
     yesterday = time() - 86400
 
@@ -286,7 +293,7 @@ def cleanup_stale_repos():
             continue
 
         # Parse path
-        project, component = os.path.split(path[len(prefix) + 1:])
+        project, component = os.path.split(path[len(prefix) + 1 :])
 
         # Find matching components
         objects = Component.objects.with_repo().filter(
@@ -319,13 +326,13 @@ def repository_alerts(threshold=10):
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         if component.repository.count_missing() > 10:
-            component.add_alert('RepositoryOutdated')
+            component.add_alert("RepositoryOutdated")
         else:
-            component.delete_alert('RepositoryOutdated')
+            component.delete_alert("RepositoryOutdated")
         if component.repository.count_outgoing() > 10:
-            component.add_alert('RepositoryChanges')
+            component.add_alert("RepositoryChanges")
         else:
-            component.delete_alert('RepositoryChanges')
+            component.delete_alert("RepositoryChanges")
 
 
 @app.task(trail=False)
@@ -385,58 +392,58 @@ def auto_translate(
         user = User.objects.get(pk=user_id)
     else:
         user = None
-    with override(user.profile.language if user else 'en'):
+    with override(user.profile.language if user else "en"):
         auto = AutoTranslate(
-            user,
-            Translation.objects.get(pk=translation_id),
-            filter_type,
-            mode,
+            user, Translation.objects.get(pk=translation_id), filter_type, mode
         )
-        if auto_source == 'mt':
+        if auto_source == "mt":
             auto.process_mt(engines, threshold)
         else:
             auto.process_others(component)
 
         if auto.updated == 0:
-            return _('Automatic translation completed, no strings were updated.')
+            return _("Automatic translation completed, no strings were updated.")
 
-        return ungettext(
-            'Automatic translation completed, %d string was updated.',
-            'Automatic translation completed, %d strings were updated.',
-            auto.updated,
-        ) % auto.updated
+        return (
+            ungettext(
+                "Automatic translation completed, %d string was updated.",
+                "Automatic translation completed, %d strings were updated.",
+                auto.updated,
+            )
+            % auto.updated
+        )
 
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600, commit_pending.s(), name='commit-pending')
+    sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(
-        crontab(hour=3, minute=30), update_remotes.s(), name='update-remotes'
+        crontab(hour=3, minute=30), update_remotes.s(), name="update-remotes"
     )
-    sender.add_periodic_task(3600 * 24, repository_alerts.s(), name='repository-alerts')
-    sender.add_periodic_task(3600 * 24, component_alerts.s(), name='component-alerts')
+    sender.add_periodic_task(3600 * 24, repository_alerts.s(), name="repository-alerts")
+    sender.add_periodic_task(3600 * 24, component_alerts.s(), name="component-alerts")
     sender.add_periodic_task(
-        3600 * 24, cleanup_suggestions.s(), name='suggestions-cleanup'
-    )
-    sender.add_periodic_task(
-        3600 * 24, cleanup_stale_repos.s(), name='cleanup-stale-repos'
+        3600 * 24, cleanup_suggestions.s(), name="suggestions-cleanup"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_old_suggestions.s(), name='cleanup-old-suggestions'
+        3600 * 24, cleanup_stale_repos.s(), name="cleanup-stale-repos"
     )
     sender.add_periodic_task(
-        3600 * 24, cleanup_old_comments.s(), name='cleanup-old-comments'
+        3600 * 24, cleanup_old_suggestions.s(), name="cleanup-old-suggestions"
+    )
+    sender.add_periodic_task(
+        3600 * 24, cleanup_old_comments.s(), name="cleanup-old-comments"
     )
 
     # Following fulltext maintenance tasks should not be
     # executed at same time
     sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week='saturday'),
+        crontab(hour=2, minute=30, day_of_week="saturday"),
         cleanup_fulltext.s(),
-        name='fulltext-cleanup',
+        name="fulltext-cleanup",
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week='sunday'),
+        crontab(hour=2, minute=30, day_of_week="sunday"),
         optimize_fulltext.s(),
-        name='fulltext-optimize',
+        name="fulltext-optimize",
     )
