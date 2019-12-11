@@ -229,6 +229,7 @@ Notable configuration or dependencies changes:
 
 * The database migration can take long on bigger installations.
 * There is new dependency on the ``misaka`` and ``GitPython`` modules.
+* The Celery now uses separate queue for translating, it is recommended to update to new worker setup which utilizes this, see :ref:`celery`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
