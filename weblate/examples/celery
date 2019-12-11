@@ -7,8 +7,8 @@ python -m celery -A weblate multi $1 \
     --pidfile=weblate-%n.pid \
     --logfile=weblate-%n%I.log --loglevel=DEBUG \
     --beat:celery --concurrency:celery=4 --queues:celery=celery --prefetch-multiplier:celery=4 \
-    --concurrency:notify=4 --queues:notify=notify --prefetch-multiplier:notify=4 \
+    --concurrency:notify=4 --queues:notify=notify --prefetch-multiplier:notify=100 \
     --concurrency:search=1 --queues:search=search --prefetch-multiplier:search=2000 \
     --concurrency:memory=1 --queues:memory=memory --prefetch-multiplier:memory=2000 \
-    --concurrency:translate=1 --queues:translate=translate \
+    --concurrency:translate=2 --queues:translate=translate \
     --concurrency:backup=1 --queues:backup=backup 
