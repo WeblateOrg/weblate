@@ -1023,7 +1023,7 @@ CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.cleanup_fulltext": {"queue": "search"},
     "weblate.trans.tasks.auto_translate": {"queue": "translate"},
     "weblate.memory.tasks.*": {"queue": "memory"},
-    "weblate.accounts.tasks.notify_change": {"queue": "notify"},
+    "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.memory.tasks.memory_backup": {"queue": "backup"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
