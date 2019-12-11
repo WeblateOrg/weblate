@@ -28,44 +28,40 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class SettingsTest(ViewTestCase):
     def test_project_denied(self):
-        url = reverse('settings', kwargs=self.kw_project)
+        url = reverse("settings", kwargs=self.kw_project)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
     def test_project(self):
-        self.project.add_user(self.user, '@Administration')
-        url = reverse('settings', kwargs=self.kw_project)
+        self.project.add_user(self.user, "@Administration")
+        url = reverse("settings", kwargs=self.kw_project)
         response = self.client.get(url)
-        self.assertContains(response, 'Settings')
-        data = response.context['settings_form'].initial
-        data['web'] = 'https://example.com/test/'
+        self.assertContains(response, "Settings")
+        data = response.context["settings_form"].initial
+        data["web"] = "https://example.com/test/"
         response = self.client.post(url, data, follow=True)
-        self.assertContains(response, 'Settings saved')
+        self.assertContains(response, "Settings saved")
         self.assertEqual(
-            Project.objects.get(pk=self.project.pk).web,
-            'https://example.com/test/'
+            Project.objects.get(pk=self.project.pk).web, "https://example.com/test/"
         )
 
     def test_component_denied(self):
-        url = reverse('settings', kwargs=self.kw_component)
+        url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
         response = self.client.post(url)
         self.assertEqual(response.status_code, 404)
 
     def test_component(self):
-        self.project.add_user(self.user, '@Administration')
-        url = reverse('settings', kwargs=self.kw_component)
+        self.project.add_user(self.user, "@Administration")
+        url = reverse("settings", kwargs=self.kw_component)
         response = self.client.get(url)
-        self.assertContains(response, 'Settings')
+        self.assertContains(response, "Settings")
         data = {}
-        data.update(response.context['form'].initial)
-        data['license'] = 'MIT'
+        data.update(response.context["form"].initial)
+        data["license"] = "MIT"
         response = self.client.post(url, data, follow=True)
-        self.assertContains(response, 'Settings saved')
-        self.assertEqual(
-            Component.objects.get(pk=self.component.pk).license,
-            'test'
-        )
+        self.assertContains(response, "Settings saved")
+        self.assertEqual(Component.objects.get(pk=self.component.pk).license, "MIT")
