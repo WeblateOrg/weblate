@@ -293,7 +293,7 @@ def cleanup_stale_repos():
             continue
 
         # Parse path
-        project, component = os.path.split(path[len(prefix) + 1 :])
+        project, component = os.path.split(path[len(prefix) + 1:])
 
         # Find matching components
         objects = Component.objects.with_repo().filter(
