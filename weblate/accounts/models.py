@@ -263,6 +263,10 @@ class VerifiedEmail(models.Model):
     def __str__(self):
         return '{0} - {1}'.format(self.social.user.username, self.email)
 
+    @property
+    def provider(self):
+        return self.social.provider
+
 
 @python_2_unicode_compatible
 class Profile(models.Model):

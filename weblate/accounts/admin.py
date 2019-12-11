@@ -36,7 +36,7 @@ class ProfileAdmin(WeblateModelAdmin):
 
 
 class VerifiedEmailAdmin(WeblateModelAdmin):
-    list_display = ('social', 'email')
+    list_display = ('social', 'provider', 'email')
     search_fields = ('email', 'social__user__username', 'social__user__email')
     raw_id_fields = ('social',)
     ordering = ('email',)
