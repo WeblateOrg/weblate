@@ -571,6 +571,18 @@ Azure Active Directory with Tenant support
     Enables Azure Active Directory authentication with Tenant support, see
     :doc:`psa:backends/azuread`.
 
+Keycloak
+++++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_PUBLIC_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_AUTHORIZATION_URL
+.. envvar:: WEBLATE_SOCIAL_AUTH_KEYCLOAK_ACCESS_TOKEN_URL
+
+    Enables Keycloak authentication, see
+    `documentation <https://github.com/python-social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_.
+
 Linux vendors
 +++++++++++++
 
