@@ -155,15 +155,13 @@ class UnitAdmin(WeblateModelAdmin):
 
 
 class SuggestionAdmin(WeblateModelAdmin):
-    list_display = ['content_hash', 'target', 'project', 'language', 'user']
-    list_filter = ['project', 'language']
-    search_fields = ['content_hash', 'target']
+    list_display = ['target', 'unit', 'user']
+    search_fields = ['unit__content_hash', 'target']
 
 
 class CommentAdmin(WeblateModelAdmin):
-    list_display = ['content_hash', 'comment', 'user', 'project', 'language', 'user']
-    list_filter = ['project', 'language']
-    search_fields = ['content_hash', 'comment']
+    list_display = ['comment', 'unit', 'user']
+    search_fields = ['unit__content_hash', 'comment']
 
 
 class DictionaryAdmin(WeblateModelAdmin):

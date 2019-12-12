@@ -41,7 +41,6 @@ from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
-from weblate.utils.unitdata import filter_query
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -365,17 +364,17 @@ class Project(models.Model, URLMixin, PathMixin):
 
         units = Unit.objects.filter(translation__component__project=self)
         updates = (
-            ('has_failing_check', 'checks_check'),
-            ('has_comment', 'trans_comment'),
-            ('has_suggestion', 'trans_suggestion'),
+            ('has_failing_check', 'check'),
+            ('has_comment', 'comment'),
+            ('has_suggestion', 'suggestion'),
         )
         for flag, table in updates:
             self.log_debug('updating unit flags: %s', flag)
-            unit_ids = set(filter_query(units, table).values_list('id', flat=True))
             f_true = {flag: True}
             f_false = {flag: False}
-            units.filter(**f_false).filter(id__in=unit_ids).update(**f_true)
-            units.filter(**f_true).exclude(id__in=unit_ids).update(**f_false)
+            lookup = {table: None}
+            units.filter(**f_false).exclude(**lookup).update(**f_true)
+            units.filter(**f_true).filter(**lookup).update(**f_false)
         self.log_debug('all unit flags updated')
 
     def invalidate_stats_deep(self):
