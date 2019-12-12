@@ -386,9 +386,9 @@ class MergeFailureNotification(Notification):
         fake.alert = Alert()
         if self.fake_notify is None:
             self.fake_notify = NewAlertNotificaton(None)
-        return user.id in {
-            user.id for user in self.fake_notify.get_users(FREQ_INSTANT, fake)
-        }
+        return bool(
+            list(self.fake_notify.get_users(FREQ_INSTANT, fake, users=[user.pk]))
+        )
 
 
 @register_notification
@@ -448,9 +448,9 @@ class LastAuthorCommentNotificaton(Notification):
     def should_skip(self, user, change):
         if self.fake_notify is None:
             self.fake_notify = MentionCommentNotificaton(None)
-        return user.id in {
-            user.id for user in self.fake_notify.get_users(FREQ_INSTANT, change)
-        }
+        return bool(
+            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
+        )
 
     def get_users(
         self,
@@ -483,9 +483,9 @@ class MentionCommentNotificaton(Notification):
     def should_skip(self, user, change):
         if self.fake_notify is None:
             self.fake_notify = NewCommentNotificaton(None)
-        return user.id in {
-            user.id for user in self.fake_notify.get_users(FREQ_INSTANT, change)
-        }
+        return bool(
+            list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
+        )
 
     def get_users(
         self,
@@ -576,7 +576,7 @@ class NewAlertNotificaton(Notification):
         fake = copy(change)
         fake.component = change.component.linked_component
         fake.project = fake.component.project
-        return user.id in {user.id for user in self.get_users(FREQ_INSTANT, fake)}
+        return bool(list(self.get_users(FREQ_INSTANT, fake, users=[user.pk])))
 
 
 class SummaryNotification(Notification):
