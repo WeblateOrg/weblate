@@ -91,9 +91,13 @@ class Notification(object):
     ignore_watched = False
     required_attr = None
 
-    def __init__(self, outgoing):
+    def __init__(self, outgoing, perm_cache=None):
         self.outgoing = outgoing
         self.subscription_cache = {}
+        if perm_cache is not None:
+            self.perm_cache = perm_cache
+        else:
+            self.perm_cache = {}
 
     def need_language_filter(self, change):
         return self.filter_languages
@@ -151,6 +155,14 @@ class Notification(object):
         except ObjectDoesNotExist:
             return False
 
+    def is_admin(self, user, project):
+        if project is None:
+            return False
+        key = (user.pk, project.pk)
+        if key not in self.perm_cache:
+            self.perm_cache[key] = user.has_perm('project.edit', project)
+        return self.perm_cache[key]
+
     def get_users(
         self,
         frequency,
@@ -183,7 +195,7 @@ class Notification(object):
                 # Admin for not admin projects
                 or (
                     subscription.scope == SCOPE_ADMIN
-                    and not user.has_perm('project.edit', project)
+                    and not self.is_admin(user, project)
                 )
                 # Default scope for not watched
                 or (
@@ -386,7 +398,7 @@ class MergeFailureNotification(Notification):
         fake.action = Change.ACTION_ALERT
         fake.alert = Alert()
         if self.fake_notify is None:
-            self.fake_notify = NewAlertNotificaton(None)
+            self.fake_notify = NewAlertNotificaton(None, self.perm_cache)
         return bool(
             list(self.fake_notify.get_users(FREQ_INSTANT, fake, users=[user.pk]))
         )
@@ -448,7 +460,7 @@ class LastAuthorCommentNotificaton(Notification):
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
-            self.fake_notify = MentionCommentNotificaton(None)
+            self.fake_notify = MentionCommentNotificaton(None, self.perm_cache)
         return bool(
             list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
         )
@@ -483,7 +495,7 @@ class MentionCommentNotificaton(Notification):
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
-            self.fake_notify = NewCommentNotificaton(None)
+            self.fake_notify = NewCommentNotificaton(None, self.perm_cache)
         return bool(
             list(self.fake_notify.get_users(FREQ_INSTANT, change, users=[user.pk]))
         )

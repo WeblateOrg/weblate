@@ -77,10 +77,11 @@ def notify_change(change_id, change_name=''):
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
 
     change = Change.objects.get(pk=change_id)
+    perm_cache = {}
     if change.action in NOTIFICATIONS_ACTIONS:
         outgoing = []
         for notification_cls in NOTIFICATIONS_ACTIONS[change.action]:
-            notification = notification_cls(outgoing)
+            notification = notification_cls(outgoing, perm_cache)
             notification.notify_immediate(change)
         if outgoing:
             send_mails.delay(outgoing)
