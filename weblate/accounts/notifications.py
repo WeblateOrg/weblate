@@ -378,13 +378,17 @@ class MergeFailureNotification(Notification):
     )
     verbose = _('Repository failure')
     template_name = 'repository_error'
+    fake_notify = None
 
     def should_skip(self, user, change):
         fake = copy(change)
         fake.action = Change.ACTION_ALERT
         fake.alert = Alert()
-        notify = NewAlertNotificaton(None)
-        return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, fake)}
+        if self.fake_notify is None:
+            self.fake_notify = NewAlertNotificaton(None)
+        return user.id in {
+            user.id for user in self.fake_notify.get_users(FREQ_INSTANT, fake)
+        }
 
 
 @register_notification
@@ -439,10 +443,14 @@ class LastAuthorCommentNotificaton(Notification):
     template_name = 'new_comment'
     ignore_watched = True
     required_attr = 'comment'
+    fake_notify = None
 
     def should_skip(self, user, change):
-        notify = MentionCommentNotificaton([])
-        return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
+        if self.fake_notify is None:
+            self.fake_notify = MentionCommentNotificaton(None)
+        return user.id in {
+            user.id for user in self.fake_notify.get_users(FREQ_INSTANT, change)
+        }
 
     def get_users(
         self,
@@ -470,10 +478,14 @@ class MentionCommentNotificaton(Notification):
     template_name = 'new_comment'
     ignore_watched = True
     required_attr = 'comment'
+    fake_notify = None
 
     def should_skip(self, user, change):
-        notify = NewCommentNotificaton([])
-        return user.id in {user.id for user in notify.get_users(FREQ_INSTANT, change)}
+        if self.fake_notify is None:
+            self.fake_notify = NewCommentNotificaton(None)
+        return user.id in {
+            user.id for user in self.fake_notify.get_users(FREQ_INSTANT, change)
+        }
 
     def get_users(
         self,
