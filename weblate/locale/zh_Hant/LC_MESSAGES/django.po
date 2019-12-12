@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-12-03 20:37+0000\n"
-"PO-Revision-Date: 2019-11-28 09:58+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2019-12-13 21:23+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -533,7 +533,7 @@ msgstr "新評註"
 
 #: weblate/accounts/notifications.py:518
 msgid "Changed string"
-msgstr "已變更字串"
+msgstr "變更了字串"
 
 #: weblate/accounts/notifications.py:526
 msgid "New language"
@@ -6748,10 +6748,8 @@ msgid "Repository branch"
 msgstr "儲存庫分支"
 
 #: weblate/templates/snippets/git-info.html:26
-#, fuzzy
-#| msgid "Last remote commit:"
 msgid "Last remote commit"
-msgstr "上次遠端提交："
+msgstr "上次遠端提交"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:33
@@ -6783,9 +6781,6 @@ msgid "OSI approved license"
 msgstr "核可字串數"
 
 #: weblate/templates/snippets/list-objects-number.html:6
-#, fuzzy
-#| msgctxt "No known user"
-#| msgid "None"
 msgctxt "None strings to review"
 msgid "None"
 msgstr "無"
@@ -6841,7 +6836,7 @@ msgstr "此等式用來辨別給訂的數目 (n) 要使用哪種複數形式。"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "進階查詢設置器"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6860,82 +6855,57 @@ msgid "Location strings"
 msgstr "位置字串"
 
 #: weblate/templates/snippets/query-builder.html:17
-#, fuzzy
-#| msgid "Strings status"
 msgid "String state"
 msgstr "字串狀態"
 
 #: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Pending string"
-msgstr "未決的建議"
+msgstr "未決的字串"
 
 #: weblate/templates/snippets/query-builder.html:19
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
 msgstr "有翻譯建議的字串"
 
 #: weblate/templates/snippets/query-builder.html:20
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
 msgstr "有評註內容的字串"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "任何未通過查核的字串"
+msgstr "未通過查核的字串"
 
 #: weblate/templates/snippets/query-builder.html:22
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage languages"
 msgid "String target language"
-msgstr "管理語言"
+msgstr "字串目標語言"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed by"
-msgstr "更改了來源字串"
+msgstr "字串變更者"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "搜尋 %s"
+msgstr "搜尋…"
 
 #: weblate/templates/snippets/query-builder.html:36
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "更改了來源字串"
+msgstr "時間點之後的字串變更"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "有標需編輯的字串"
+msgstr "時間點之前的字串變更"
 
 #: weblate/templates/snippets/query-builder.html:42
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 #: weblate/templates/snippets/query-builder.html:52
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "API 用法範例："
+msgstr "查詢範例"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Review translations touched by other users."
 msgid "Review strings changed by other users"
-msgstr "檢閱其他使用者碰過的翻譯。"
+msgstr "檢閱其他使用者變更過的字串"
 
 #: weblate/templates/snippets/query-builder.html:60 weblate/trans/filter.py:34
 msgid "Translated strings"
@@ -6954,16 +6924,12 @@ msgid "Approved strings with suggestions"
 msgstr "有翻譯建議的核可後字串"
 
 #: weblate/templates/snippets/unit-state.html:7
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Fails checks"
 msgstr "未通過查核"
 
 #: weblate/templates/snippets/unit-state.html:10
-#, fuzzy
-#| msgid "Comment"
 msgid "Commented"
-msgstr "評註"
+msgstr "寫下了評註"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -7384,8 +7350,7 @@ msgstr "請登入以儲存翻譯內容。"
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
-msgstr ""
-"僅校閱者可以更動核可後的字串。如果您認為字串應該要修改，請加入翻譯建議。"
+msgstr "僅校閱者可以變更核可後的字串。如果您認為字串應該要修改，請加入翻譯建議。"
 
 #: weblate/templates/translate.html:192
 msgid ""
@@ -7657,10 +7622,8 @@ msgid "Other components"
 msgstr "其他組件"
 
 #: weblate/templates/translation.html:193
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "Translation Information"
-msgstr "翻譯通知"
+msgstr "翻譯資訊"
 
 #: weblate/templates/translation.html:204
 #: weblate/templates/translation.html:316
@@ -7952,10 +7915,9 @@ msgid "Strings with source comments"
 msgstr "有評註內容的來源字串"
 
 #: weblate/trans/filter.py:50
-#, fuzzy, python-format
-#| msgid "Failing checks"
+#, python-format
 msgid "Failed check: %s"
-msgstr "未通過查核"
+msgstr "未通過查核：%s"
 
 #: weblate/trans/forms.py:148
 msgid "Invalid checksum specified!"
@@ -8017,29 +7979,25 @@ msgstr "等候檢閱"
 
 #: weblate/trans/forms.py:473
 msgid "Source string has been changed meanwhile. Please check your changes."
-msgstr "此刻來源字串已經更動。請檢查您的變動。"
+msgstr "此刻來源字串已經更動。請檢查您的變更。"
 
 #: weblate/trans/forms.py:481
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
-msgstr "此刻字串的翻譯已經更動。請檢查您的變動。"
+msgstr "此刻字串的翻譯已經更動。請檢查您的變更。"
 
 #: weblate/trans/forms.py:489
 msgid "Translation text too long!"
 msgstr "翻譯文字過長！"
 
 #: weblate/trans/forms.py:540
-#, fuzzy
-#| msgid "File upload has failed: %s"
 msgid "File upload mode"
-msgstr "檔案上傳失敗：%s"
+msgstr "檔案上傳模式"
 
 #: weblate/trans/forms.py:542 weblate/trans/forms.py:799
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as translation"
-msgstr "新增為其他翻譯"
+msgstr "新增為翻譯"
 
 #: weblate/trans/forms.py:543
 msgid "Add as approved translation"
@@ -8112,10 +8070,8 @@ msgid "{filter_name}, {search_name}"
 msgstr "{filter_name}, {search_name}"
 
 #: weblate/trans/forms.py:742
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Failed to parse query string: {}"
-msgstr "評估複數形等式時失敗：{}"
+msgstr "解析查詢字串時失敗：{}"
 
 #: weblate/trans/forms.py:769 weblate/trans/forms.py:771
 msgid "Could not find merged string."
@@ -8652,7 +8608,7 @@ msgstr "在清理時移除了建議"
 
 #: weblate/trans/models/change.py:252
 msgid "Source string changed"
-msgstr "更改了來源字串"
+msgstr "來源字串已變更"
 
 #: weblate/trans/models/change.py:253
 msgid "New string added"
