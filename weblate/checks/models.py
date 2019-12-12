@@ -104,12 +104,14 @@ class CheckManager(models.Manager):
         """
         checks = []
         for check in self.iterator():
-            checks.append(Check(
-                project=project,
-                check=check.check,
-                ignore=check.ignore,
-                content_hash=check.content_hash,
-            ))
+            checks.append(
+                Check(
+                    project=project,
+                    check=check.check,
+                    ignore=check.ignore,
+                    content_hash=check.content_hash,
+                )
+            )
         # The batch size is needed for MySQL
         self.bulk_create(checks, batch_size=500)
 
@@ -133,6 +135,9 @@ class CheckManager(models.Manager):
 
 @python_2_unicode_compatible
 class Check(UnitData):
+    unit = models.ForeignKey(
+        "trans.Unit", null=True, blank=True, on_delete=models.deletion.CASCADE
+    )
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
 
@@ -146,17 +151,12 @@ class Check(UnitData):
             return None
 
     class Meta(object):
-        unique_together = ('content_hash', 'project', 'language', 'check')
-        index_together = [
-            ('project', 'language', 'content_hash'),
-        ]
+        #unique_together = ('content_hash', 'project', 'language', 'check')
+        # unit, check
+        index_together = [('project', 'language', 'content_hash')]
 
     def __str__(self):
-        return '{0}/{1}: {2}'.format(
-            self.project,
-            self.language,
-            self.check,
-        )
+        return '{0}/{1}: {2}'.format(self.project, self.language, self.check)
 
     def get_description(self):
         if self.check_obj:
@@ -210,8 +210,7 @@ def update_failed_check_flag(sender, instance, created, **kwargs):
     related = instance.related_units
     try:
         related[0].update_has_failing_check(
-            has_checks=None if instance.ignore else True,
-            invalidate=True
+            has_checks=None if instance.ignore else True, invalidate=True
         )
     except IndexError:
         return

@@ -80,6 +80,13 @@ class CommentQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Comment(UnitData, UserDisplayMixin):
+    unit = models.ForeignKey(
+        "trans.Unit",
+        null=True,
+        blank=True,
+        on_delete=models.deletion.CASCADE,
+        related_name="comment_set",
+    )
     comment = models.TextField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

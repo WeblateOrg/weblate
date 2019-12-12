@@ -43,6 +43,7 @@ class SuggestionManager(models.Manager):
     def add(self, unit, target, request, vote=False):
         """Create new suggestion for this unit."""
         from weblate.auth.models import get_anonymous
+
         user = request.user if request else get_anonymous()
 
         if unit.translated and unit.target == target:
@@ -127,6 +128,9 @@ class SuggestionQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Suggestion(UnitData, UserDisplayMixin):
+    unit = models.ForeignKey(
+        "trans.Unit", null=True, blank=True, on_delete=models.deletion.CASCADE
+    )
     target = models.TextField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
