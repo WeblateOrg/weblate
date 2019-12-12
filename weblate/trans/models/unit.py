@@ -74,8 +74,6 @@ SIMPLE_FILTERS = {
     'comments': {'has_comment': True},
 }
 
-SEARCH_FILTERS = ('source', 'target', 'context', 'location', 'comment')
-
 NEWLINES = re.compile(r'\r\n|\r|\n')
 
 
@@ -263,7 +261,7 @@ class Unit(models.Model, LoggerMixin):
     content_hash = models.BigIntegerField(db_index=True)
     location = models.TextField(default='', blank=True)
     context = models.TextField(default='', blank=True)
-    comment = models.TextField(default='', blank=True)
+    note = models.TextField(default='', blank=True)
     flags = models.TextField(default='', blank=True)
     source = models.TextField()
     previous_source = models.TextField(default='', blank=True)
@@ -387,7 +385,7 @@ class Unit(models.Model, LoggerMixin):
             target = unit.target
             source = unit.source
             context = unit.context
-            comment = unit.comments
+            note = unit.notes
             previous_source = unit.previous_source
             content_hash = unit.content_hash
         except Exception as error:
@@ -444,7 +442,7 @@ class Unit(models.Model, LoggerMixin):
             and same_source
             and same_target
             and same_state
-            and comment == self.comment
+            and note == self.note
             and pos == self.position
             and content_hash == self.content_hash
             and previous_source == self.previous_source
@@ -459,7 +457,7 @@ class Unit(models.Model, LoggerMixin):
         self.target = target
         self.state = state
         self.context = context
-        self.comment = comment
+        self.note = note
         self.content_hash = content_hash
         self.previous_source = previous_source
         self.update_priority(save=False)

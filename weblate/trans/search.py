@@ -92,12 +92,12 @@ class Fulltext(WhooshIndex):
     def update_target_unit_index(writer, searcher, unit):
         """Update target index for given unit."""
         if not isinstance(unit, dict):
-            unit = {'pk': unit.pk, 'target': unit.target, 'comment': unit.comment}
+            unit = {'pk': unit.pk, 'target': unit.target, 'note': unit.note}
         writer.delete_by_term('pk', unit['pk'], searcher)
         writer.add_document(
             pk=unit['pk'],
             target=force_text(unit['target']),
-            comment=force_text(unit['comment']),
+            comment=force_text(unit['note']),
         )
 
     def update_index(self, units):
@@ -132,7 +132,7 @@ class Fulltext(WhooshIndex):
                 context=force_text(unit.context),
                 location=force_text(unit.location),
                 target=force_text(unit.target),
-                comment=force_text(unit.comment),
+                note=force_text(unit.note),
                 language=force_text(unit.translation.language.code),
             )
 

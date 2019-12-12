@@ -755,7 +755,7 @@ class WeblateTranslationTest(FixtureTestCase):
             context=force_text(unit.context),
             location=force_text(unit.location),
             target=force_text(other.target),
-            comment='',
+            note='',
             language=force_text(unit.translation.language.code),
         )
         # Perform lookup

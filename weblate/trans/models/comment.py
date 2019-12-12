@@ -58,7 +58,6 @@ class Comment(models.Model, UserDisplayMixin):
     unit = models.ForeignKey(
         "trans.Unit",
         on_delete=models.deletion.CASCADE,
-        related_name="comment_set",
     )
     comment = models.TextField()
     user = models.ForeignKey(

@@ -60,7 +60,7 @@ class SameCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_single(
             'some long text is here',
             'some long text is here',
-            MockUnit(code='de', comment='Tag: screen'),
+            MockUnit(code='de', note='Tag: screen'),
         ))
 
     def test_same_numbers(self):
