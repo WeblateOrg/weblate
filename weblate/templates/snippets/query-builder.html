@@ -12,18 +12,32 @@
                   <li><a href="#" data-field="source:">{% trans "Source strings" %}</a></li>
                   <li><a href="#" data-field="target:">{% trans "Target strings" %}</a></li>
                   <li><a href="#" data-field="context:">{% trans "Context strings" %}</a></li>
-                  <li><a href="#" data-field="comment:">{% trans "Comment strings" %}</a></li>
+                  <li><a href="#" data-field="note:">{% trans "Comment strings" %}</a></li>
                   <li><a href="#" data-field="location:">{% trans "Location strings" %}</a></li>
                   <li><a href="#" data-field="state:">{% trans "String state" %}</a></li>
                   <li><a href="#" data-field="pending:">{% trans "Pending string" %}</a></li>
-                  <li><a href="#" data-field="has_suggestion:">{% trans "String has suggestion" %}</a></li>
-                  <li><a href="#" data-field="has_comment:">{% trans "String has comment" %}</a></li>
-                  <li><a href="#" data-field="has_failing_check:">{% trans "String has failing check" %}</a></li>
                   <li><a href="#" data-field="language:">{% trans "String target language" %}</a></li>
                   <li><a href="#" data-field="changed_by:">{% trans "String changed by" %}</a></li>
                 </ul>
               </div><!-- /btn-group -->
               <input type="text" class="form-control" placeholder="{% trans "Search for…" %}">
+              <span class="input-group-btn">
+                <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
+              </span>
+            </div><!-- /input-group -->
+        </div>
+
+        <div class="btn-group search-group" role="group">
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "String has suggestion" %}</span> <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" data-field="has:suggestion">{% trans "String has suggestion" %}</a></li>
+                  <li><a href="#" data-field="has:comment">{% trans "String has comment" %}</a></li>
+                  <li><a href="#" data-field="has:failing_check">{% trans "String has failing check" %}</a></li>
+                  <li><a href="#" data-field="has:plural">{% trans "String has plural" %}</a></li>
+                </ul>
+              </div><!-- /btn-group -->
               <span class="input-group-btn">
                 <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
               </span>
@@ -63,22 +77,22 @@
     </tr>
     <tr>
         <th>{% trans "Strings with comments" %}</th>
-        <td><code>has_comment:1</code></td>
+        <td><code>has:comment</code></td>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     <tr>
         <th>{% trans "Strings with any failing checks" %}</th>
-        <td><code>has_failing_check:1</code></td>
+        <td><code>has:check</code></td>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     <tr>
-        <th>{% trans "Strings with suggestions" %}</th>
-        <td><code>has_suggestion:1</code></td>
+        <th>{% trans "Strings with suggestions from others" %}</th>
+        <td><code>has:suggestion AND NOT suggestion_author:{{ user.username }}</code></td>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     <tr>
         <th>{% trans "Approved strings with suggestions" %}</th>
-        <td><code>state:approved AND has_suggestion:1</code></td>
+        <td><code>state:approved AND has:suggestion</code></td>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     </table>
