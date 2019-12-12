@@ -36,6 +36,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate import VERSION
 from weblate.accounts.tasks import send_mails
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Alert, Change, Translation
@@ -158,10 +159,13 @@ class Notification(object):
     def is_admin(self, user, project):
         if project is None:
             return False
-        key = (user.pk, project.pk)
-        if key not in self.perm_cache:
-            self.perm_cache[key] = user.has_perm('project.edit', project)
-        return self.perm_cache[key]
+
+        if project.pk not in self.perm_cache:
+            self.perm_cache[project.pk] = User.objects.all_admins(project).values_list(
+                'pk', flat=True
+            )
+
+        return user.pk in self.perm_cache[project.pk]
 
     def get_users(
         self,
