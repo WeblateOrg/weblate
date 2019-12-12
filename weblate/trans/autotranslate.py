@@ -38,11 +38,7 @@ class AutoTranslate(object):
         self.target_state = STATE_FUZZY if mode == 'fuzzy' else STATE_TRANSLATED
 
     def get_units(self):
-        units = self.translation.unit_set.filter_type(
-            self.filter_type,
-            self.translation.component.project,
-            self.translation.language,
-        )
+        units = self.translation.unit_set.filter_type(self.filter_type)
         if self.mode == 'suggest':
             units = units.exclude(has_suggestion=True)
         return units

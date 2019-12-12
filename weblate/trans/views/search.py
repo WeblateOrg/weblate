@@ -156,25 +156,21 @@ def search(request, project=None, component=None, lang=None):
     context = {
         'search_form': search_form,
     }
-    search_kwargs = {}
     if component:
         obj = get_component(request, project, component)
         context['component'] = obj
         context['project'] = obj.project
         context['back_url'] = obj.get_absolute_url()
-        search_kwargs = {'component': obj}
     elif project:
         obj = get_project(request, project)
         context['project'] = obj
         context['back_url'] = obj.get_absolute_url()
-        search_kwargs = {'project': obj}
     else:
         obj = None
         context['back_url'] = None
     if lang:
         s_language = get_object_or_404(Language, code=lang)
         context['language'] = s_language
-        search_kwargs = {'language': s_language}
         if obj:
             if component:
                 context['back_url'] = obj.translation_set.get(
@@ -202,10 +198,7 @@ def search(request, project=None, component=None, lang=None):
             units = Unit.objects.filter(
                 translation__component__project__in=allowed_projects
             )
-        units = units.search(
-            search_form.cleaned_data,
-            **search_kwargs
-        )
+        units = units.search(search_form.cleaned_data)
         if lang:
             units = units.filter(
                 translation__language=context['language']
@@ -253,8 +246,6 @@ def state_change(request, project, component=None, lang=None):
 
     matching = unit_set.filter_type(
         form.cleaned_data['type'],
-        context['project'],
-        context['translation'].language if 'translation' in context else None,
     ).exclude(
         state=STATE_EMPTY
     )

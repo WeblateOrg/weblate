@@ -24,7 +24,6 @@ import fnmatch
 import os
 import re
 import time
-from collections import defaultdict
 from copy import copy
 from glob import glob
 
@@ -45,7 +44,6 @@ from six import python_2_unicode_compatible
 from six.moves.urllib.parse import urlparse
 
 from weblate.checks.flags import Flags
-from weblate.checks.models import Check
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.trans.defines import (
@@ -496,7 +494,6 @@ class Component(models.Model, URLMixin, PathMixin):
         self.updated_sources = {}
         self.old_component = copy(self)
         self._sources = {}
-        self.checks_cache = None
         self.logs = []
         self.translations_count = None
         self.translations_progress = 0
@@ -1232,14 +1229,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
-        self.checks_cache = defaultdict(list)
         was_change = False
-        check_values = Check.objects.filter(project=self.project).values_list(
-            "content_hash", "language_id", "check"
-        )
-        for check in check_values:
-            key = (check[0], check[1])
-            self.checks_cache[key].append(check[2])
         translations = {}
         languages = {}
         try:
@@ -1351,7 +1341,6 @@ class Component(models.Model, URLMixin, PathMixin):
         for translation in translations.values():
             translation.notify_new(request)
 
-        self.checks_cache = None
         self.log_info("updating completed")
         return was_change
 
@@ -1656,7 +1645,6 @@ class Component(models.Model, URLMixin, PathMixin):
         changed_git = True
         changed_setup = False
         changed_template = False
-        changed_project = False
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -1674,7 +1662,6 @@ class Component(models.Model, URLMixin, PathMixin):
             changed_template = (
                 old.edit_template != self.edit_template
             ) and self.template
-            changed_project = old.project_id != self.project_id
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
@@ -1687,14 +1674,6 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Save/Create object
         super(Component, self).save(*args, **kwargs)
-
-        # Handle moving between projects
-        if changed_project:
-            from weblate.trans.tasks import cleanup_project
-
-            # Schedule cleanup for both projects
-            cleanup_project.delay(old.project.pk)
-            cleanup_project.delay(self.project.pk)
 
         from weblate.trans.tasks import component_after_save
 

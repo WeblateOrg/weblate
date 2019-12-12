@@ -212,9 +212,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Change.objects.create(
             unit=unit,
             suggestion=Suggestion.objects.create(
-                content_hash=unit.content_hash,
-                project=unit.translation.component.project,
-                language=unit.translation.language,
+                unit=unit,
                 target='Foo',
             ),
             user=self.second_user(),
@@ -229,8 +227,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Change.objects.create(
             unit=unit,
             comment=Comment.objects.create(
-                content_hash=unit.content_hash,
-                project=unit.translation.component.project,
+                unit=unit.source_info,
                 comment=comment,
             ),
             user=self.second_user(),
@@ -365,9 +362,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_reminder_suggestion(self):
         unit = self.get_unit()
         Suggestion.objects.create(
-            content_hash=unit.content_hash,
-            project=unit.translation.component.project,
-            language=unit.translation.language,
+            unit=unit,
             target='Foo',
         )
         self.test_reminder(

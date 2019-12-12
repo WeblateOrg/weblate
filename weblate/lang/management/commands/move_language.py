@@ -20,7 +20,6 @@
 
 from django.core.management.base import BaseCommand
 
-from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 
 
@@ -41,7 +40,6 @@ class Command(BaseCommand):
         source = Language.objects.get(code=options['source'])
         target = Language.objects.get(code=options['target'])
 
-        source.suggestion_set.update(language=target)
         for translation in source.translation_set.iterator():
             other = translation.component.translation_set.filter(
                 language=target
@@ -66,20 +64,6 @@ class Command(BaseCommand):
             group.languages.remove(source)
             group.languages.add(target)
         source.dictionary_set.update(language=target)
-        source.comment_set.update(language=target)
-
-        for check in source.check_set.iterator():
-            other = Check.objects.filter(
-                content_hash=check.content_hash,
-                project=check.project,
-                language=target,
-                check=check.check
-            )
-            if other.exists():
-                self.stderr.write('Already exists: {}'.format(check))
-                continue
-            check.language = target
-            check.save()
 
         for plural in source.plural_set.iterator():
             try:

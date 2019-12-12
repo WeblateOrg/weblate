@@ -9,10 +9,10 @@
     <div class="col-xs-2 history-event">
         <strong>{{ comment.get_user_display }}</strong>
         <p class="text-muted">
-        {% if comment.language %}
-        {% trans "Translation comment" %}
-        {% else %}
+        {% if comment.unit.translation.is_source %}
         {% trans "Source string comment" %}
+        {% else %}
+        {% trans "Translation comment" %}
         {% endif %}
         </p>
     </div>
@@ -27,7 +27,7 @@
             </form>
         </div>
         {% endif %}
-        <div class="comment-content{% if not comment.language %} comment-source{% endif %}">
+        <div class="comment-content{% if comment.unit.translation.is_source %} comment-source{% endif %}">
             {{ comment.comment|markdown }}
             <span class="pull-right flip text-muted">{{ comment.timestamp|naturaltime }}</span>
             <div class="clearfix"></div>

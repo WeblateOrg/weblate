@@ -33,28 +33,24 @@ class Command(BaseCommand):
         results = Check.objects.filter(
             check='same'
         ).values(
-            'content_hash'
+            'unit__content_hash'
         ).annotate(
-            Count('content_hash')
+            Count('unit__content_hash')
         ).filter(
-            content_hash__count__gt=1
+            unit__content_hash__count__gt=1
         ).order_by(
-            '-content_hash__count'
+            '-unit__content_hash__count'
         )
 
         for item in results:
             check = Check.objects.filter(
                 check='same',
-                content_hash=item['content_hash']
+                unit__content_hash=item['unit__content_hash']
             )[0]
-
-            units = check.related_units
-            if not units.exists():
-                continue
 
             self.stdout.write(
                 '{0:5d} {1}'.format(
-                    item['content_hash__count'],
-                    units[0].source,
+                    item['unit__content_hash__count'],
+                    check.unit.source,
                 )
             )

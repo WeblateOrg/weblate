@@ -27,7 +27,7 @@ from django.core.exceptions import ValidationError
 
 from weblate.checks.models import Check
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.models import Component, Project, Suggestion, Unit
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
@@ -430,21 +430,11 @@ class ComponentChangeTest(RepoTestCase):
     def test_change_project(self):
         component = self.create_component()
 
-        # Create and verify suggestion
-        unit = Unit.objects.filter(translation__language_code="cs")[0]
-        Suggestion.objects.create(
-            project=component.project,
-            content_hash=unit.content_hash,
-            language=unit.translation.language,
-        )
-        self.assertEqual(component.project.suggestion_set.count(), 1)
-
         # Check current path exists
         old_path = component.full_path
         self.assertTrue(os.path.exists(old_path))
 
         # Crete target project
-        original = component.project
         second = Project.objects.create(
             name='Test2',
             slug='test2',
@@ -461,10 +451,6 @@ class ComponentChangeTest(RepoTestCase):
 
         # Check paths differ
         self.assertNotEqual(old_path, new_path)
-
-        # Check suggestion has been copied
-        self.assertEqual(original.suggestion_set.count(), 0)
-        self.assertEqual(component.project.suggestion_set.count(), 1)
 
     def test_change_to_mono(self):
         """Test swtiching to monolingual format on the fly."""

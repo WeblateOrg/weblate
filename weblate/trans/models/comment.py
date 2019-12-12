@@ -31,7 +31,7 @@ from weblate.trans.models.change import Change
 class CommentManager(models.Manager):
     # pylint: disable=no-init
 
-    def add(self, unit, user, lang, text):
+    def add(self, unit, user, text):
         """Add comment to this unit."""
         new_comment = self.create(
             user=user,

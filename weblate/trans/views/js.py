@@ -146,9 +146,10 @@ def get_unit_translations(request, unit_id):
 @require_POST
 def ignore_check(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
-    request.user.check_access(obj.project)
+    project = obj.unit.translation.component.project
+    request.user.check_access(project)
 
-    if not request.user.has_perm('unit.check', obj.project):
+    if not request.user.has_perm('unit.check', project):
         raise PermissionDenied()
 
     # Mark check for ignoring
@@ -158,23 +159,23 @@ def ignore_check(request, check_id):
 
 
 @require_POST
-def ignore_check_source(request, check_id, pk):
+def ignore_check_source(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
-    request.user.check_access(obj.project)
-    source = get_object_or_404(Unit, pk=int(pk))
+    unit = obj.unit
+    project = unit.translation.component.project
+    request.user.check_access(project)
 
-    if (obj.project != source.translation.component.project
-            or not request.user.has_perm('unit.check', obj.project)
-            or not request.user.has_perm('source.edit', source.translation.component)):
+    if (not request.user.has_perm('unit.check', project)
+            or not request.user.has_perm('source.edit', unit.translation.component)):
         raise PermissionDenied()
 
     # Mark check for ignoring
     ignore = obj.check_obj.ignore_string
-    flags = Flags(source.extra_flags)
+    flags = Flags(unit.extra_flags)
     if ignore not in flags:
         flags.merge(ignore)
-        source.extra_flags = flags.format()
-        source.save()
+        unit.extra_flags = flags.format()
+        unit.save()
 
     # response for AJAX
     return HttpResponse('ok')

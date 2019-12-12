@@ -48,6 +48,10 @@ def fake_get_comments():
     return [Comment(comment='Weblate translator comment')]
 
 
+def empty_get_comments():
+    return []
+
+
 class PoExporterTest(BaseTestCase):
     _class = PoExporter
     _has_context = True
@@ -125,6 +129,8 @@ class PoExporterTest(BaseTestCase):
             unit.__dict__['suggestions'] = [
                 Suggestion(target='Weblate translator suggestion')
             ]
+        else:
+            unit.get_comments = empty_get_comments
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)

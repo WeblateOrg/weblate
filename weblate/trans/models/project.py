@@ -223,6 +223,7 @@ class Project(models.Model, URLMixin, PathMixin):
         # Reload components after source language change
         if old is not None and old.source_language != self.source_language:
             from weblate.trans.tasks import perform_load
+
             for component in self.component_set.iterator():
                 perform_load.delay(component.pk)
 
@@ -307,6 +308,8 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def run_batch_checks(self, attr_name):
         """Run batch executed checks"""
+        from weblate.trans.models import Unit
+
         create = []
         meth_name = 'check_{}_project'.format(attr_name)
         for check, check_obj in CHECKS.items():
@@ -317,32 +320,33 @@ class Project(models.Model, URLMixin, PathMixin):
             data = getattr(check_obj, meth_name)(self)
             # Fetch existing check instances
             existing = set(
-                Check.objects.filter(project=self, check=check).values_list(
-                    'content_hash', 'language_id'
-                )
+                Check.objects.filter(
+                    unit__translation__component__project=self, check=check
+                ).values_list('unit__content_hash', 'unit__translation__language_id')
             )
             # Create new check instances
             for item in data:
                 if 'translation__language' not in item:
-                    item['translation__language'] = None
+                    item['translation__language'] = self.source_language.id
                 key = (item['content_hash'], item['translation__language'])
                 if key in existing:
                     existing.discard(key)
                 else:
-                    create.append(
-                        Check(
-                            content_hash=item['content_hash'],
-                            project=self,
-                            language_id=item['translation__language'],
-                            check=check,
-                            ignore=False,
-                        )
+                    units = Unit.objects.filter(
+                        translation__component__project=self,
+                        translation__language_id=item['translation__language'],
+                        content_hash=item['content_hash'],
                     )
+                    for unit in units:
+                        create.append(Check(unit=unit, check=check, ignore=False))
             # Remove stale instances
             if existing:
                 query = functools.reduce(
                     lambda q, value: q
-                    | (Q(content_hash=value[0]) & Q(language_id=value[1])),
+                    | (
+                        Q(unit__content_hash=value[0])
+                        & Q(unit__translation__language_id=value[1])
+                    ),
                     existing,
                     Q(),
                 )
@@ -409,6 +413,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def post_create(self, user, billing=None):
         from weblate.trans.models import Change
+
         if billing:
             billing.projects.add(self)
             self.access_control = Project.ACCESS_PRIVATE
@@ -416,12 +421,13 @@ class Project(models.Model, URLMixin, PathMixin):
         if not user.is_superuser:
             self.add_user(user, '@Administration')
         Change.objects.create(
-            action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user,
+            action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user
         )
 
     @cached_property
     def all_alerts(self):
         from weblate.trans.models import Alert
+
         result = Alert.objects.filter(component__project=self)
         list(result)
         return result

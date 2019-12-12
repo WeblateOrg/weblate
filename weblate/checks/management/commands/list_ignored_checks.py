@@ -50,17 +50,14 @@ class Command(BaseCommand):
         else:
             checks = Check.objects.filter(ignore=True)
         for check in checks.iterator():
-            name = '{0}-{1}'.format(check.check, check.content_hash)
-            units = check.related_units
-            if not units.exists():
-                continue
+            name = '{0}-{1}'.format(check.check, check.unit.content_hash)
             if name in results:
                 results[name]['count'] += 1
             else:
                 results[name] = {
                     'count': 1,
                     'check': check.check,
-                    'source': units[0].source,
+                    'source': check.unit.source,
                 }
         results = sorted(results.values(), key=lambda x: -x['count'])
         for result in results[:options['count']]:
