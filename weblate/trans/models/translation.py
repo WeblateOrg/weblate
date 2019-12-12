@@ -645,7 +645,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         result.add(self.stats, choices, 'all', 'success')
 
         # All checks
-        result.add_if(self.stats, choices, 'sourcechecks', 'danger')
+        result.add_if(self.stats, choices, 'allchecks', 'danger')
 
         # Process specific checks
         for check in CHECKS:
@@ -655,7 +655,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             result.add_if(self.stats, choices, check_obj.url_id, check_obj.severity)
 
         # Grab comments
-        result.add_if(self.stats, choices, 'sourcecomments', 'info')
+        result.add_if(self.stats, choices, 'comments', 'info')
 
         return result
 

@@ -22,11 +22,10 @@ from __future__ import unicode_literals
 
 import re
 
-from django.db.models import Count
+from django.db.models import Count, F
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import SourceCheck
-from weblate.lang.models import Language
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
@@ -72,22 +71,26 @@ class MultipleFailingCheck(SourceCheck):
     batch_update = True
 
     def check_source(self, source, unit):
-        related = Language.objects.filter(
-            check__content_hash=unit.content_hash,
-            check__project=unit.translation.component.project
-        ).distinct()
+        from weblate.checks.models import Check
+        related = Check.objects.filter(
+            unit__content_hash=unit.content_hash,
+            unit__translation__component=unit.translation.component,
+        ).exclude(
+            unit_id=unit.id
+        )
         return related.count() >= 2
 
     def check_source_project(self, project):
         """Batch check for whole project."""
         from weblate.checks.models import Check
         return Check.objects.filter(
-            project=project,
-            language__isnull=False,
+            unit__translation__component__project=project,
+        ).exclude(
+            unit__translation__language=project.source_language
         ).values(
-            'content_hash'
+            content_hash=F('unit__content_hash')
         ).annotate(
-            Count('language')
+            Count('unit')
         ).filter(
-            language__count__gt=1
+            unit__count__gt=1
         )

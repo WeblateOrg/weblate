@@ -134,7 +134,7 @@ def search(translation, request):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = translation.unit_set.search(form.cleaned_data, translation=translation)
+    allunits = translation.unit_set.search(form.cleaned_data)
 
     search_query = form.get_search_query() if form_valid else ''
     name = form.get_name() if form_valid else ''
@@ -359,8 +359,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     try:
         suggestion = Suggestion.objects.get(
             pk=int(sugid),
-            project=translation.component.project,
-            language=translation.language,
+            unit__translation=translation,
         )
     except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _('Invalid suggestion!'))
@@ -566,7 +565,7 @@ def auto_translation(request, project, component, lang):
 @session_ratelimit_post('comment')
 def comment(request, pk):
     """Add new comment."""
-    unit = get_object_or_404(Unit, pk=pk)
+    scope = unit = get_object_or_404(Unit, pk=pk)
     request.user.check_access(unit.translation.component.project)
 
     if not request.user.has_perm('comment.add', unit.translation):
@@ -576,10 +575,8 @@ def comment(request, pk):
 
     if form.is_valid():
         if form.cleaned_data['scope'] == 'global':
-            lang = None
-        else:
-            lang = unit.translation.language
-        Comment.objects.add(unit, request.user, lang, form.cleaned_data['comment'])
+            scope = unit.source_info
+        Comment.objects.add(scope, request.user, form.cleaned_data['comment'])
         messages.success(request, _('Posted new comment'))
     else:
         messages.error(request, _('Failed to add comment!'))
@@ -592,17 +589,13 @@ def comment(request, pk):
 def delete_comment(request, pk):
     """Delete comment."""
     comment_obj = get_object_or_404(Comment, pk=pk)
-    project = comment_obj.project
+    project = comment_obj.unit.translation.component.project
     request.user.check_access(project)
 
     if not request.user.has_perm('comment.delete', comment_obj, project):
         raise PermissionDenied()
 
-    units = comment_obj.related_units
-    if units.exists():
-        fallback_url = units[0].get_absolute_url()
-    else:
-        fallback_url = project.get_absolute_url()
+    fallback_url = comment_obj.unit.get_absolute_url()
 
     comment_obj.delete()
     messages.info(request, _('Translation comment has been deleted.'))

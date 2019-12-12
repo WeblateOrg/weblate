@@ -29,6 +29,7 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_DAILY
 from weblate.addons.forms import RemoveForm, RemoveSuggestionForm
+from weblate.trans.models import Comment, Suggestion
 
 
 class RemovalAddon(BaseAddon):
@@ -52,7 +53,9 @@ class RemoveComments(RemovalAddon):
 
     def daily(self, component):
         self.delete_older(
-            component.project.comment_set.all()
+            Comment.objects.filter(
+                unit__translation__component__project=component.project
+            )
         )
         component.project.update_unit_flags()
 
@@ -65,7 +68,9 @@ class RemoveSuggestions(RemovalAddon):
 
     def daily(self, component):
         self.delete_older(
-            component.project.suggestion_set.annotate(
+            Suggestion.objects.filter(
+                unit__translation__component__project=component.project
+            ).annotate(
                 Sum('vote__value')
             ).filter(
                 Q(vote__value__sum__lte=self.instance.configuration.get('votes', 0))

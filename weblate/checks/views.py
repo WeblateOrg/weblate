@@ -19,7 +19,7 @@
 #
 from __future__ import unicode_literals
 
-from django.db.models import Count
+from django.db.models import Count, F
 from django.http import Http404
 from django.shortcuts import render
 from django.utils.encoding import force_text
@@ -28,14 +28,15 @@ from django.utils.translation import ugettext as _
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
-from weblate.trans.models import Unit
 from weblate.trans.util import redirect_param
 from weblate.utils.views import get_component, get_project
 
 
 def acl_checks(user):
     """Filter checks by ACL."""
-    return Check.objects.filter(project__in=user.allowed_projects)
+    return Check.objects.filter(
+        unit__translation__component__project__in=user.allowed_projects
+    )
 
 
 def encode_optional(params):
@@ -57,11 +58,15 @@ def show_checks(request):
     )
 
     if request.GET.get('project'):
-        allchecks = allchecks.filter(project__slug=request.GET['project'])
+        allchecks = allchecks.filter(
+            unit__translation__component__project__slug=request.GET['project']
+        )
         url_params['project'] = request.GET['project']
 
     if request.GET.get('language'):
-        allchecks = allchecks.filter(language__code=request.GET['language'])
+        allchecks = allchecks.filter(
+            unit__translation__language__code=request.GET['language']
+        )
         url_params['language'] = request.GET['language']
 
     allchecks = allchecks.values('check').annotate(count=Count('id'))
@@ -97,7 +102,9 @@ def show_check(request, name):
     )
 
     if request.GET.get('language'):
-        checks = checks.filter(language__code=request.GET['language'])
+        checks = checks.filter(
+            unit__translation__language__code=request.GET['language']
+        )
         url_params['language'] = request.GET['language']
 
     if request.GET.get('project') and '/' not in request.GET['project']:
@@ -108,7 +115,11 @@ def show_check(request, name):
             name=name,
         )
 
-    checks = checks.values('project__slug').annotate(count=Count('id'))
+    checks = checks.values(
+        project__slug=F('unit__translation__component__project__slug')
+    ).annotate(
+        count=Count('id')
+    )
 
     return render(
         request,
@@ -136,7 +147,7 @@ def show_check_project(request, name, project):
 
     allchecks = acl_checks(request.user).filter(
         check=name,
-        project=prj,
+        unit__translation__component__project=prj,
         ignore=ignore,
     )
 
@@ -144,66 +155,17 @@ def show_check_project(request, name, project):
         url_params['ignored'] = 'true'
 
     if request.GET.get('language'):
-        allchecks = allchecks.filter(language__code=request.GET['language'])
+        allchecks = allchecks.filter(
+            unit__translation__language__code=request.GET['language']
+        )
         url_params['language'] = request.GET['language']
 
-    units = Unit.objects.none()
-    if check.target:
-        langs = allchecks.values_list('language', flat=True).distinct()
-        for lang in langs:
-            checks = allchecks.filter(
-                language=lang,
-            ).values_list('content_hash', flat=True)
-            res = Unit.objects.filter(
-                content_hash__in=checks,
-                translation__language=lang,
-                translation__component__project=prj,
-            ).values(
-                'translation__component__slug',
-                'translation__component__project__slug'
-            ).annotate(count=Count('id'))
-            units |= res
-    if check.source:
-        checks = allchecks.filter(
-            language=None,
-        ).values_list(
-            'content_hash', flat=True
-        )
-        for component in prj.component_set.iterator():
-            try:
-                lang_id = component.translation_set.values_list(
-                    'language_id', flat=True
-                )[0]
-            except IndexError:
-                continue
-            res = Unit.objects.filter(
-                content_hash__in=checks,
-                translation__language_id=lang_id,
-                translation__component=component
-            ).values(
-                'translation__component__slug',
-                'translation__component__project__slug'
-            ).annotate(count=Count('id'))
-            units |= res
-
-    counts = {}
-    for unit in units:
-        key = '/'.join((
-            unit['translation__component__project__slug'],
-            unit['translation__component__slug']
-        ))
-        if key in counts:
-            counts[key] += unit['count']
-        else:
-            counts[key] = unit['count']
-
-    units = [
-        {
-            'translation__component__slug': item.split('/')[1],
-            'translation__component__project__slug': item.split('/')[0],
-            'count': counts[item]
-        } for item in counts
-    ]
+    units = allchecks.values(
+        component__slug=F('unit__translation__component__slug'),
+        project__slug=F('unit__translation__component__project__slug'),
+    ).annotate(
+        count=Count('id')
+    )
 
     return render(
         request,
@@ -231,23 +193,25 @@ def show_check_component(request, name, project, component):
 
     allchecks = acl_checks(request.user).filter(
         check=name,
-        project=subprj.project,
+        unit__translation__component=subprj,
         ignore=ignore,
     )
 
     if ignore:
         url_params['ignored'] = 'true'
 
+    # Source checks are for single language only, redirect directly there
     if check.source:
         url_params['type'] = check.url_id
         return redirect_param(
-            'translation',
+            'translate',
             encode_optional(url_params),
             project=subprj.project.slug,
             component=subprj.slug,
             lang=subprj.project.source_language.code,
         )
 
+    # When filtering language, redirect directly to it
     if request.GET.get('language') and '/' not in request.GET['language']:
         url_params['type'] = check.url_id
         return redirect_param(
@@ -258,39 +222,9 @@ def show_check_component(request, name, project, component):
             lang=request.GET['language'],
         )
 
-    units = Unit.objects.none()
-
-    if check.target:
-        langs = allchecks.values_list(
-            'language', flat=True
-        ).distinct()
-        for lang in langs:
-            checks = allchecks.filter(
-                language=lang,
-            ).values_list('content_hash', flat=True)
-            res = Unit.objects.filter(
-                translation__component=subprj,
-                content_hash__in=checks,
-                translation__language=lang,
-            ).values(
-                'translation__language__code'
-            ).annotate(count=Count('id'))
-            units |= res
-
-    counts = {}
-    for unit in units:
-        key = unit['translation__language__code']
-        if key in counts:
-            counts[key] += unit['count']
-        else:
-            counts[key] = unit['count']
-
-    units = [
-        {
-            'translation__language__code': item,
-            'count': counts[item]
-        } for item in counts
-    ]
+    units = allchecks.values(
+        translation__language__code=F('unit__translation__language__code'),
+    ).annotate(count=Count('id'))
 
     return render(
         request,

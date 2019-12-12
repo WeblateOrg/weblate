@@ -27,8 +27,6 @@ from __future__ import unicode_literals
 from django.utils.encoding import force_text
 
 from weblate.checks.models import Check
-from weblate.lang.models import Language
-from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
 

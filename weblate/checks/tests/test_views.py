@@ -129,7 +129,7 @@ class ChecksViewTest(ViewTestCase):
             reverse(
                 'show_check_component',
                 kwargs={
-                    'name': 'ellipsis',
+                    'name': 'multiple_failures',
                     'project': self.project.slug,
                     'component': self.component.slug,
                 }
@@ -137,8 +137,8 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            '{0}?type=check%3Aellipsis'.format(
-                reverse('translation', kwargs={
+            '{0}?type=check%3Amultiple_failures'.format(
+                reverse('translate', kwargs={
                     'project': self.project.slug,
                     'component': self.component.slug,
                     'lang': self.project.source_language.code,

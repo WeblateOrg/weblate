@@ -39,7 +39,6 @@ from weblate.memory.tasks import update_memory
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
-from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.search import Fulltext
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
@@ -72,54 +71,22 @@ SIMPLE_FILTERS = {
     'suggestions': {'has_suggestion': True},
     'nosuggestions': {'has_suggestion': False, 'state__lt': STATE_TRANSLATED},
     'comments': {'has_comment': True},
+    'allchecks': {'has_failing_check': True},
 }
 
 NEWLINES = re.compile(r'\r\n|\r|\n')
 
 
 class UnitQuerySet(models.QuerySet):
-    def filter_checks(self, rqtype, project, language, ignored=False, strict=False):
-        """Filtering for checks."""
-
-        # Filter checks for current project
-        checks = Check.objects.filter(ignore=ignored)
-
-        if project is not None:
-            checks = checks.filter(project=project)
-
-        # Filter by language
-        if rqtype == 'allchecks':
-            return self.filter(has_failing_check=True)
-        if rqtype == 'sourcechecks':
-            checks = checks.filter(language=None)
-        elif rqtype.startswith('check:'):
-            check_id = rqtype[6:]
-            if check_id not in CHECKS:
-                if strict:
-                    raise ValueError('Unknown check: {}'.format(check_id))
-                return self.all()
-            if CHECKS[check_id].source:
-                checks = checks.filter(language=None)
-            elif CHECKS[check_id].target and language is not None:
-                checks = checks.filter(language=language)
-            # Filter by check type
-            checks = checks.filter(check=check_id)
-
-        checks = checks.values_list('content_hash', flat=True)
-        return self.filter(content_hash__in=checks)
-
-    def filter_type(self, rqtype, project, language, ignored=False, strict=False):
+    def filter_type(self, rqtype, ignored=False, strict=False):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
-        if rqtype == 'sourcecomments':
-            coms = Comment.objects.filter(language=None)
-            if project is not None:
-                coms = coms.filter(project=project)
-            coms = coms.values_list('content_hash', flat=True)
-            return self.filter(content_hash__in=coms)
-        elif rqtype.startswith('check:') or rqtype in ['allchecks', 'sourcechecks']:
-            return self.filter_checks(rqtype, project, language, ignored, strict=strict)
+        elif rqtype.startswith('check:'):
+            check_id = rqtype[6:]
+            if strict and check_id not in CHECKS:
+                raise ValueError('Unknown check: {}'.format(check_id))
+            return self.filter(check__check=check_id, check__ignore=ignored)
         elif rqtype == 'all':
             return self.all()
         elif strict:
@@ -127,16 +94,7 @@ class UnitQuerySet(models.QuerySet):
         # Catch anything not matching
         return self.all()
 
-    def review(
-        self,
-        date,
-        exclude_user,
-        only_user,
-        project=None,
-        component=None,
-        language=None,
-        translation=None,
-    ):
+    def review(self, date, exclude_user, only_user):
         """Return units touched by other users since given time."""
         # Filter out changes we're interested in
         changes = Change.objects.content()
@@ -146,15 +104,6 @@ class UnitQuerySet(models.QuerySet):
             changes = changes.exclude(Q(author=exclude_user) | Q(user=exclude_user))
         if only_user:
             changes = changes.filter(Q(author=only_user) | Q(user=only_user))
-        if translation:
-            changes = changes.filter(translation=translation)
-        else:
-            if component:
-                changes = changes.filter(component=component)
-            elif project:
-                changes = changes.filter(component__project=project)
-            if language:
-                changes = changes.filter(translation__language=language)
         # Filter units for these changes
         return self.filter(change__in=changes).distinct()
 
@@ -168,31 +117,17 @@ class UnitQuerySet(models.QuerySet):
             'translation__component__project__source_language',
         )
 
-    def search(
-        self, params, project=None, component=None, language=None, translation=None
-    ):
+    def search(self, params):
         """High level wrapper for searching."""
-        if translation is not None:
-            component = translation.component
-            language = translation.language
-        if component is not None:
-            project = component.project
-
         base = self.prefetch()
         if params['type'] != 'all':
-            base = self.filter_type(
-                params['type'], project, language, params.get('ignored', False)
-            )
+            base = self.filter_type(params['type'], params.get('ignored', False))
 
         if params.get('date') or params.get('exclude_user') or params.get('only_user'):
             base = base.review(
                 params.get('date'),
                 params.get('exclude_user'),
                 params.get('only_user'),
-                project,
-                component,
-                language,
-                translation,
             )
 
         if 'lang' in params and params['lang']:
@@ -710,70 +645,27 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def suggestions(self):
         """Return all suggestions for this unit."""
-        return Suggestion.objects.filter(
-            content_hash=self.content_hash,
-            project=self.translation.component.project,
-            language=self.translation.language,
-        ).order()
+        return self.suggestion_set.order()
 
     def checks(self, values=False):
         """Return all checks names for this unit (even ignored)."""
-        if values and self.translation.component.checks_cache is not None:
-            key = (self.content_hash, self.translation.language_id)
-            return self.translation.component.checks_cache.get(key, [])
-        result = Check.objects.filter(
-            content_hash=self.content_hash,
-            project=self.translation.component.project,
-            language=self.translation.language,
-        )
+        result = self.check_set.all()
         if values:
             return result.values_list('check', flat=True)
         return result
 
-    def source_checks(self):
-        """Return all source checks for this unit (even ignored)."""
-        return Check.objects.filter(
-            content_hash=self.content_hash,
-            project=self.translation.component.project,
-            language=None,
-        )
-
     def active_checks(self):
         """Return all active (not ignored) checks for this unit."""
-        return Check.objects.filter(
-            content_hash=self.content_hash,
-            project=self.translation.component.project,
-            language=self.translation.language,
-            ignore=False,
-        )
-
-    def active_source_checks(self):
-        """Return all active (not ignored) source checks for this unit."""
-        return Check.objects.filter(
-            content_hash=self.content_hash,
-            project=self.translation.component.project,
-            language=None,
-            ignore=False,
-        )
+        return self.check_set.filter(ignore=False)
 
     def get_comments(self):
         """Return list of target comments."""
         return (
             Comment.objects.filter(
-                content_hash=self.content_hash,
-                project=self.translation.component.project,
+                Q(unit=self) | Q(unit=self.source_info)
             )
-            .filter(Q(language=self.translation.language) | Q(language=None))
             .order()
         )
-
-    def get_source_comments(self):
-        """Return list of target comments."""
-        return Comment.objects.filter(
-            content_hash=self.content_hash,
-            project=self.translation.component.project,
-            language=None,
-        ).order()
 
     def run_checks(self, same_state=True, same_content=True):
         """Update checks for this unit."""
@@ -783,14 +675,8 @@ class Unit(models.Model, LoggerMixin):
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
-        content_hash = self.content_hash
-        project = self.translation.component.project
-        if is_source:
-            language = None
-            old_checks = set(self.source_checks().values_list('check', flat=True))
-        else:
-            language = self.translation.language
-            old_checks = set(self.checks(True))
+
+        old_checks = set(self.check_set.values_list('check', flat=True))
         create = []
 
         # Run all checks
@@ -813,9 +699,7 @@ class Unit(models.Model, LoggerMixin):
                     # Create new check
                     create.append(
                         Check(
-                            content_hash=content_hash,
-                            project=project,
-                            language=language,
+                            unit=self,
                             ignore=False,
                             check=check,
                         )
@@ -830,9 +714,7 @@ class Unit(models.Model, LoggerMixin):
         if old_checks:
             was_change = True
             Check.objects.filter(
-                content_hash=content_hash,
-                project=project,
-                language=language,
+                unit=self,
                 check__in=old_checks,
             ).delete()
 

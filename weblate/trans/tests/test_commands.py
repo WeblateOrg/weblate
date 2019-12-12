@@ -30,7 +30,7 @@ from six import StringIO
 
 from weblate.accounts.models import Profile
 from weblate.runner import main
-from weblate.trans.models import Component, Suggestion, Translation
+from weblate.trans.models import Component, Translation
 from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
@@ -349,19 +349,12 @@ class CleanupCommandTest(RepoTestCase):
         Fulltext.FAKE = False
         fulltext = Fulltext()
         try:
-            component = self.create_component()
+            self.create_component()
             index = fulltext.get_source_index()
             self.assertEqual(len(list(index.reader().all_stored_fields())), 16)
-            # Create dangling suggestion
-            Suggestion.objects.create(
-                project=component.project,
-                content_hash=1,
-                language=component.translation_set.all()[0].language,
-            )
             # Remove all translations
             Translation.objects.all().delete()
             call_command('cleanuptrans')
-            self.assertEqual(Suggestion.objects.count(), 0)
             self.assertEqual(len(list(index.reader().all_stored_fields())), 0)
         finally:
             Fulltext.FAKE = orig_fake

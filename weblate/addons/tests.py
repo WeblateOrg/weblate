@@ -734,19 +734,13 @@ class TestRemoval(FixtureTestCase):
 
     def add_content(self):
         unit = self.get_unit()
-        Comment.objects.create(
+        unit.comment_set.create(
             user=None,
-            content_hash=unit.content_hash,
-            project=unit.translation.component.project,
             comment='comment',
-            language=unit.translation.language,
         )
-        Suggestion.objects.create(
+        unit.suggestion_set.create(
             user=None,
-            content_hash=unit.content_hash,
-            project=unit.translation.component.project,
             target='suggestion',
-            language=unit.translation.language,
         )
 
     def test_current(self):

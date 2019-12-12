@@ -26,7 +26,6 @@ from django.db.models import Sum
 from django.utils.translation import ugettext as _
 from six import python_2_unicode_compatible
 
-from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils import messages
@@ -73,7 +72,7 @@ class SuggestionManager(models.Manager):
 
         # Record in change
         Change.objects.create(
-            unit=self.unit,
+            unit=unit,
             suggestion=suggestion,
             action=Change.ACTION_SUGGESTION,
             user=user,
@@ -130,8 +129,8 @@ class Suggestion(models.Model, UserDisplayMixin):
     @transaction.atomic
     def accept(self, translation, request, permission='suggestion.accept'):
         if not request.user.has_perm(permission, self.unit):
-            failure = True
             messages.error(request, _('Failed to accept suggestion!'))
+            return
 
         # Skip if there is no change
         elif self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
@@ -139,8 +138,8 @@ class Suggestion(models.Model, UserDisplayMixin):
             self.unit.state = STATE_TRANSLATED
             self.unit.save_backend(request.user, change_action=Change.ACTION_ACCEPT)
 
-        if not failure:
-            self.delete()
+        # Delete the suggestion
+        self.delete()
 
     def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE, is_spam=False):
         """Delete with logging change"""

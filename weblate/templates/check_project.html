@@ -18,7 +18,7 @@
 {% if checks %}
 <div class="list-group">
 {% for obj in checks %}
-<a class="list-group-item" href="{% url 'show_check_component' name=check.check_id project=obj.translation__component__project__slug component=obj.translation__component__slug %}{{ url_params }}"><span class="badge">{{ obj.count }}</span>{% component_name obj.translation__component__project__slug obj.translation__component__slug %}</a>
+<a class="list-group-item" href="{% url 'show_check_component' name=check.check_id project=obj.project__slug component=obj.component__slug %}{{ url_params }}"><span class="badge">{{ obj.count }}</span>{% component_name obj.project__slug obj.component__slug %}</a>
 {% endfor %}
 </div>
 {% else %}

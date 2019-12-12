@@ -64,7 +64,7 @@ class PermissionsTest(TestCase):
         )
 
     def test_delete_comment(self):
-        comment = Comment(project=self.project)
+        comment = Comment()
         self.assertTrue(
             self.superuser.has_perm('comment.delete', comment, self.project)
         )
@@ -76,7 +76,7 @@ class PermissionsTest(TestCase):
         )
 
     def test_delete_owned_comment(self):
-        comment = Comment(project=self.project, user=self.user)
+        comment = Comment(user=self.user)
         self.assertTrue(
             self.superuser.has_perm('comment.delete', comment, self.project)
         )
@@ -88,7 +88,7 @@ class PermissionsTest(TestCase):
         )
 
     def test_delete_not_owned_comment(self):
-        comment = Comment(project=self.project, user=self.admin)
+        comment = Comment(user=self.admin)
         self.assertTrue(
             self.superuser.has_perm('comment.delete', comment, self.project)
         )

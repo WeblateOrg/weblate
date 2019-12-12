@@ -416,7 +416,7 @@ class TranslationStats(BaseStats):
             item = item[:-6]
         translation = self._object
         stats = translation.unit_set.filter_type(
-            item, translation.component.project, translation.language, strict=True
+            item
         ).aggregate(
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )

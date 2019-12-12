@@ -184,7 +184,7 @@ def update_failed_check_flag(sender, instance, created, **kwargs):
     if created:
         return
     try:
-        unit.update_has_failing_check(
+        instance.unit.update_has_failing_check(
             has_checks=None if instance.ignore else True, invalidate=True
         )
     except IndexError:

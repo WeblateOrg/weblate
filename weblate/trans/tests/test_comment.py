@@ -63,10 +63,6 @@ class CommentViewTest(FixtureTestCase):
             translation.stats.comments,
             1
         )
-        self.assertEqual(
-            translation.stats.sourcecomments,
-            0
-        )
 
     def test_add_source_comment(self):
         unit = self.get_unit()
@@ -91,14 +87,10 @@ class CommentViewTest(FixtureTestCase):
             language_code='cs'
         )
         # Check number of comments
-        self.assertTrue(unit.has_comment)
+        self.assertFalse(unit.has_comment)
         self.assertEqual(
             translation.stats.comments,
-            1
-        )
-        self.assertEqual(
-            translation.stats.sourcecomments,
-            1
+            0
         )
 
     def test_delete_comment(self):

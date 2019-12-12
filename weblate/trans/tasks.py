@@ -39,7 +39,6 @@ from whoosh.index import EmptyIndexError
 
 from weblate.auth.models import User, get_anonymous
 from weblate.celery import app
-from weblate.checks.models import Check
 from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
@@ -184,41 +183,6 @@ def cleanup_sources(project):
             translation.unit_set.exclude(id_hash__in=source_ids).delete()
 
 
-def cleanup_source_data(project):
-    with transaction.atomic():
-        # List all current unit content_hashs
-        units = (
-            Unit.objects.filter(translation__component__project=project)
-            .values("content_hash")
-            .distinct()
-        )
-
-        # Remove source comments and checks for deleted units
-        for obj in Comment, Check:
-            obj.objects.filter(language=None, project=project).exclude(
-                content_hash__in=units
-            ).delete()
-
-
-def cleanup_language_data(project):
-    for lang in Language.objects.iterator():
-        with transaction.atomic():
-            # List current unit content_hashs
-            units = (
-                Unit.objects.filter(
-                    translation__language=lang, translation__component__project=project
-                )
-                .values("content_hash")
-                .distinct()
-            )
-
-            # Remove checks, suggestions and comments for deleted units
-            for obj in Check, Suggestion, Comment:
-                obj.objects.filter(language=lang, project=project).exclude(
-                    content_hash__in=units
-                ).delete()
-
-
 @app.task(trail=False)
 def cleanup_project(pk):
     """Perform cleanup of project models."""
@@ -228,8 +192,6 @@ def cleanup_project(pk):
         return
 
     cleanup_sources(project)
-    cleanup_source_data(project)
-    cleanup_language_data(project)
 
 
 @app.task(trail=False)
@@ -240,14 +202,10 @@ def cleanup_suggestions():
     for suggestion in suggestions.iterator():
         with transaction.atomic():
             # Remove suggestions with same text as real translation
-            is_different = False
-            # Do not rely on the SQL as MySQL compares strings case insensitive
-            for unit in suggestion.related_units:
-                if unit.target != suggestion.target or not unit.translated:
-                    is_different = True
-                    break
-
-            if not is_different:
+            if (
+                suggestion.unit.target == suggestion.target
+                and suggestion.unit.translated
+            ):
                 suggestion.delete_log(
                     anonymous_user, change=Change.ACTION_SUGGESTION_CLEANUP
                 )
@@ -255,9 +213,7 @@ def cleanup_suggestions():
 
             # Remove duplicate suggestions
             sugs = Suggestion.objects.filter(
-                content_hash=suggestion.content_hash,
-                language=suggestion.language,
-                project=suggestion.project,
+                unit=suggestion.unit,
                 target=suggestion.target,
             ).exclude(id=suggestion.id)
             # Do not rely on the SQL as MySQL compares strings case insensitive

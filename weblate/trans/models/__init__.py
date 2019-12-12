@@ -85,11 +85,6 @@ def component_post_delete(sender, instance, **kwargs):
     # Invalidate stats
     instance.stats.invalidate()
 
-    # Schedule project cleanup
-    from weblate.trans.tasks import cleanup_project
-
-    cleanup_project.delay(instance.project.pk)
-
     # Do not delete linked components
     if not instance.is_repo_link:
         delete_object_dir(instance)
@@ -120,10 +115,9 @@ def update_source(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_comment_flag(sender, instance, **kwargs):
     """Update related unit comment flags"""
-    for unit in instance.related_units:
-        # Update unit stats
-        if unit.update_has_comment():
-            unit.translation.invalidate_cache()
+    # Update unit stats
+    if instance.unit.update_has_comment():
+        instance.unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Suggestion)
@@ -131,10 +125,9 @@ def update_comment_flag(sender, instance, **kwargs):
 @disable_for_loaddata
 def update_suggestion_flag(sender, instance, **kwargs):
     """Update related unit suggestion flags"""
-    for unit in instance.related_units:
-        # Update unit stats
-        if unit.update_has_suggestion():
-            unit.translation.invalidate_cache()
+    # Update unit stats
+    if instance.unit.update_has_suggestion():
+        instance.unit.translation.invalidate_cache()
 
 
 @receiver(user_pre_delete)

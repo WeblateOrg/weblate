@@ -37,28 +37,26 @@ from weblate.utils.state import STATE_TRANSLATED
 
 class CleanupTest(ViewTestCase):
     def test_cleanup_suggestions_case_sensitive(self):
-        unit = self.get_unit()
         request = self.get_request()
+        unit = self.get_unit()
 
         # Add two suggestions
         Suggestion.objects.add(unit, 'Zkouška', request)
         Suggestion.objects.add(unit, 'zkouška', request)
         # This should be ignored
         Suggestion.objects.add(unit, 'zkouška', request)
-        self.assertEqual(len(unit.suggestions), 2)
+        self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Perform cleanup, no suggestions should be deleted
         cleanup_suggestions()
-        unit = self.get_unit()
-        self.assertEqual(len(unit.suggestions), 2)
+        self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Translate string to one of suggestions
         unit.translate(self.user, 'zkouška', STATE_TRANSLATED)
 
         # The cleanup should remove one
         cleanup_suggestions()
-        unit = self.get_unit()
-        self.assertEqual(len(unit.suggestions), 1)
+        self.assertEqual(len(self.get_unit().suggestions), 1)
 
     def test_cleanup_suggestions_duplicate(self):
         request = self.get_request()
@@ -67,22 +65,18 @@ class CleanupTest(ViewTestCase):
         # Add two suggestions
         Suggestion.objects.add(unit, 'Zkouška', request)
         Suggestion.objects.add(unit, 'zkouška', request)
-        self.assertEqual(len(unit.suggestions), 2)
+        self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Perform cleanup, no suggestions should be deleted
         cleanup_suggestions()
-        unit = self.get_unit()
-        self.assertEqual(len(unit.suggestions), 2)
+        self.assertEqual(len(self.get_unit().suggestions), 2)
 
         # Create two suggestions with same target
-        for suggestion in unit.suggestions:
-            suggestion.target = 'zkouška'
-            suggestion.save()
+        unit.suggestions.update(target='zkouška')
 
         # The cleanup should remove one
         cleanup_suggestions()
-        unit = self.get_unit()
-        self.assertEqual(len(unit.suggestions), 1)
+        self.assertEqual(len(self.get_unit().suggestions), 1)
 
     def test_cleanup_old_suggestions(self, expected=2):
         request = self.get_request()
@@ -101,11 +95,11 @@ class CleanupTest(ViewTestCase):
 
     def test_cleanup_old_comments(self, expected=2):
         unit = self.get_unit()
-        Comment.objects.add(unit, self.user, None, 'Zkouška')
+        Comment.objects.add(unit.source_info, self.user, 'Zkouška')
         Comment.objects.all().update(
             timestamp=timezone.now() - timedelta(days=30)
         )
-        Comment.objects.add(unit, self.user, None, 'Zkouška 2')
+        Comment.objects.add(unit.source_info, self.user, 'Zkouška 2')
         cleanup_old_comments()
         self.assertEqual(Comment.objects.count(), expected)
 

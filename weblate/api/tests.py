@@ -540,7 +540,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(unit.target, 'Ahoj světe!\n')
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
-        self.assertEqual(self.component.project.suggestion_set.count(), 0)
+        self.assertEqual(self.component.project.stats.suggestions, 0)
 
     def test_upload_content(self):
         self.authenticate()
@@ -597,7 +597,7 @@ class TranslationAPITest(APIBaseTest):
                 'total': 4
             }
         )
-        self.assertEqual(self.component.project.suggestion_set.count(), 1)
+        self.assertEqual(self.component.project.stats.suggestions, 1)
         with open(TEST_PO, 'rb') as handle:
             response = self.client.put(
                 reverse(

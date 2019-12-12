@@ -43,8 +43,6 @@ def get_filter_choice():
             _('Approved strings with suggestions')
         ),
         ('unapproved', _('Strings waiting for review')),
-        ('sourcechecks', _('Strings with any failing source checks')),
-        ('sourcecomments', _('Strings with source comments')),
     ]
     result.extend(
         (CHECKS[check].url_id, _('Failed check: %s') % CHECKS[check].name)
