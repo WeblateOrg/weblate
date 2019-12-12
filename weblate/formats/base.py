@@ -88,8 +88,8 @@ class TranslationUnit(object):
         return ''
 
     @cached_property
-    def comments(self):
-        """Return comments or notes from units."""
+    def notes(self):
+        """Return notes from units."""
         return ''
 
     @cached_property

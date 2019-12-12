@@ -141,11 +141,11 @@
     {% endif %}
     {% else %}
 
-    {% if unit.comment %}
-    <!-- comment -->
+    {% if unit.note %}
+    <!-- note -->
     <div class="form-group help-block">
     <label>{% trans "Source string comment" %}</label>
-    {% format_translation unit.comment unit.translation.component.project.source_language %}
+    {% format_translation unit.note unit.translation.component.project.source_language %}
     </div>
     {% endif %}
 

@@ -149,7 +149,7 @@ class BaseExporter(object):
             output.setid(unit.checksum)
 
         # Store note
-        note = self.string_filter(unit.comment)
+        note = self.string_filter(unit.note)
         if note:
             output.addnote(note, origin='developer')
         # In Weblate context

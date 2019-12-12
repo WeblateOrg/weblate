@@ -415,7 +415,7 @@ class UnitSerializer(RemovableSerializer):
         model = Unit
         fields = (
             'translation', 'source', 'previous_source', 'target', 'id_hash',
-            'content_hash', 'location', 'context', 'comment', 'flags', 'fuzzy',
+            'content_hash', 'location', 'context', 'note', 'flags', 'fuzzy',
             'translated', 'position', 'has_suggestion', 'has_comment',
             'has_failing_check', 'num_words', 'priority', 'id', 'web_url',
             'url',

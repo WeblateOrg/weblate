@@ -1002,7 +1002,7 @@ Units
     :>json string content_hash: unique identifier of the source string
     :>json string location: location of the unit in source code
     :>json string context: translation unit context
-    :>json string comment: translation unit comment
+    :>json string note: translation unit note
     :>json string flags: translation unit flags
     :>json boolean fuzzy: whether unit is fuzzy or marked for review
     :>json boolean translated: whether unit is translated

@@ -161,7 +161,7 @@ class SameCheck(TargetCheck):
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
         # Ignore some docbook tags
-        if unit.comment.startswith('Tag: ') and unit.comment[5:] in DB_TAGS:
+        if unit.note.startswith('Tag: ') and unit.note[5:] in DB_TAGS:
             return True
 
         # Lower case source
