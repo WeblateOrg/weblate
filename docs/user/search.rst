@@ -27,7 +27,7 @@ Fields
    Target string case insensitive search.
 ``context:TEXT``
    Context string case insensitive search.
-``comment:TEXT``
+``note:TEXT``
    Comment string case insensitive search.
 ``location:TEXT``
    Location string case insensitive search.
@@ -40,19 +40,23 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes (``plural``).
-``has_suggestion:BOOLEAN``
-   String has suggestion.
-``has_comment:BOOLEAN``
-   String has comment.
-``has_failing_check:BOOLEAN``
-   String has failing check.
+   Search for string having attributes (``plural``, ``suggestion``, ``comment``, ``check``).
 ``language:TEXT``
    String target language.
 ``changed_by:TEXT``
    String was changed by author with given username.
 ``changed:DATETIME``
    String was changed on date, supports :ref:`search-operators`.
+``check:TEXT``
+   String has failing check.
+``comment:TEXT``
+   Search in user comments.
+``comment_author:TEXT``
+   Filter by comment author.
+``suggestion:TEXT``
+   Search in suggestions.
+``suggestion_author:TEXT``
+   Filter by suggestion author.
 
 Boolean operators
 -----------------

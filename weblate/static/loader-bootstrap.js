@@ -1502,7 +1502,9 @@ $(function () {
         var button = group.find('button');
         var input = group.find('input');
 
-        if (input.val() !== '') {
+        if (input.length === 0) {
+            $('#id_q').insertAtCaret(' ' + button.data('field') + ' ');
+        } else if (input.val() !== '') {
             $('#id_q').insertAtCaret(' ' + button.data('field') + input.val() + ' ');
         }
     });

@@ -124,21 +124,24 @@ class QueryParser(whoosh.qparser.QueryParser):
             source=TEXT,
             target=TEXT,
             context=TEXT,
-            comment=TEXT,
+            note=TEXT,
             location=TEXT,
             priority=NUMERIC,
             added=DATETIME,
             state=StateField,
             pending=BOOLEAN,
             has=TEXT,
-            has_suggestion=BOOLEAN,
-            has_comment=BOOLEAN,
-            has_failing_check=BOOLEAN,
             # Language
             language=TEXT,
             # Change fields
             changed=DATETIME,
             changed_by=TEXT,
+            # Unit data
+            check=TEXT,
+            suggestion=TEXT,
+            suggestion_author=TEXT,
+            comment=TEXT,
+            comment_author=TEXT,
         )
         # Features to implement and corresponding blockers
         # - unitdata lookups, https://github.com/WeblateOrg/weblate/issues/3007
@@ -171,18 +174,30 @@ class QueryParser(whoosh.qparser.QueryParser):
 
 PARSER = QueryParser()
 
+STRING_FIELD_MAP = {
+    "check": "check__check",
+    "suggestion": "suggestion__target",
+    "comment": "comment__comment",
+}
+EXACT_FIELD_MAP = {
+    "language": "translation__language__code",
+    "changed_by": "change__author__username",
+    "suggestion_author": "suggestion__user__username",
+    "comment_author": "comment__user__username",
+}
+
 
 def field_name(field, suffix="icontains"):
     if field == "changed":
         return "change__timestamp"
-    if field == "changed_by":
-        return "change__author__username"
-    if field == "language":
-        return "translation__language__code"
     if field == "added":
         return "timestamp"
-    if field in ("source", "target", "context", "comment", "location"):
+    if field in ("source", "target", "context", "note", "location"):
         return "{}__{}".format(field, suffix)
+    if field in STRING_FIELD_MAP:
+        return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
+    if field in EXACT_FIELD_MAP:
+        return "{}__iexact".format(EXACT_FIELD_MAP[field])
     return field
 
 
@@ -210,6 +225,13 @@ def range_sql(field, start, end, conv=int):
 def has_sql(text):
     if text == "plural":
         return Q(source__contains=PLURAL_SEPARATOR)
+    if text == "suggestion":
+        return Q(has_suggestion=True)
+    if text == "comment":
+        return Q(has_comment=True)
+    if text == "check":
+        return Q(has_failing_check=True)
+
     raise ValueError("Unsupported has lookup: {}".format(text))
 
 
@@ -229,7 +251,7 @@ def query_sql(obj):
     if isinstance(obj, whoosh.query.Term):
         if obj.fieldname == "has":
             return has_sql(obj.text)
-        return Q(**{field_name(obj.fieldname): obj.text})
+        return field_extra(obj.fieldname, Q(**{field_name(obj.fieldname): obj.text}))
     if isinstance(obj, whoosh.query.DateRange):
         return field_extra(
             obj.fieldname,

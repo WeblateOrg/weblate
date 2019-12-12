@@ -180,7 +180,7 @@ class QueryParserTest(TestCase):
         )
 
     def test_language(self):
-        self.assert_query("language:cs", Q(translation__language__code="cs"))
+        self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
 
     def test_html(self):
         self.assert_query(
@@ -192,3 +192,11 @@ class QueryParserTest(TestCase):
 
     def test_has(self):
         self.assert_query("has:plural", Q(source__contains=PLURAL_SEPARATOR))
+        self.assert_query("has:suggestion", Q(has_suggestion=True))
+        self.assert_query("has:check", Q(has_failing_check=True))
+        self.assert_query("has:comment", Q(has_comment=True))
+
+    def test_suggestions(self):
+        self.assert_query(
+            "suggestion_author:nijel", Q(suggestion__user__username__iexact="nijel")
+        )
