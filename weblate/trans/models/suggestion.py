@@ -34,7 +34,6 @@ from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
 from weblate.utils.request import get_ip_address
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.unitdata import UnitData
 
 
 class SuggestionManager(models.Manager):
@@ -51,9 +50,7 @@ class SuggestionManager(models.Manager):
 
         same_suggestions = self.filter(
             target=target,
-            content_hash=unit.content_hash,
-            language=unit.translation.language,
-            project=unit.translation.component.project,
+            unit=unit,
         )
         # Do not rely on the SQL as MySQL compares strings case insensitive
         for same in same_suggestions:
@@ -66,9 +63,7 @@ class SuggestionManager(models.Manager):
         # Create the suggestion
         suggestion = self.create(
             target=target,
-            content_hash=unit.content_hash,
-            language=unit.translation.language,
-            project=unit.translation.component.project,
+            unit=unit,
             user=user,
             userdetails={
                 'address': get_ip_address(request) if request else '',
@@ -77,15 +72,14 @@ class SuggestionManager(models.Manager):
         )
 
         # Record in change
-        for aunit in suggestion.related_units:
-            Change.objects.create(
-                unit=aunit,
-                suggestion=suggestion,
-                action=Change.ACTION_SUGGESTION,
-                user=user,
-                target=target,
-                author=user,
-            )
+        Change.objects.create(
+            unit=self.unit,
+            suggestion=suggestion,
+            action=Change.ACTION_SUGGESTION,
+            user=user,
+            target=target,
+            author=user,
+        )
 
         # Add unit vote
         if vote:
@@ -98,28 +92,6 @@ class SuggestionManager(models.Manager):
 
         return True
 
-    def copy(self, project):
-        """Copy suggestions to new project
-
-        This is used on moving component to other project and ensures nothing
-        is lost. We don't actually look where the suggestion belongs as it
-        would make the operation really expensive and it should be done in the
-        cleanup cron job.
-        """
-        suggestions = []
-        for suggestion in self.iterator():
-            suggestions.append(
-                Suggestion(
-                    project=project,
-                    target=suggestion.target,
-                    content_hash=suggestion.content_hash,
-                    user=suggestion.user,
-                    language=suggestion.language,
-                )
-            )
-        # The batch size is needed for MySQL
-        self.bulk_create(suggestions, batch_size=500)
-
 
 class SuggestionQuerySet(models.QuerySet):
     def order(self):
@@ -127,9 +99,9 @@ class SuggestionQuerySet(models.QuerySet):
 
 
 @python_2_unicode_compatible
-class Suggestion(UnitData, UserDisplayMixin):
+class Suggestion(models.Model, UserDisplayMixin):
     unit = models.ForeignKey(
-        "trans.Unit", null=True, blank=True, on_delete=models.deletion.CASCADE
+        "trans.Unit", on_delete=models.deletion.CASCADE
     )
     target = models.TextField()
     user = models.ForeignKey(
@@ -139,7 +111,6 @@ class Suggestion(UnitData, UserDisplayMixin):
         on_delete=models.deletion.CASCADE,
     )
     userdetails = JSONField()
-    language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(
@@ -150,32 +121,23 @@ class Suggestion(UnitData, UserDisplayMixin):
 
     class Meta(object):
         app_label = 'trans'
-        index_together = [('project', 'language', 'content_hash')]
 
     def __str__(self):
         return 'suggestion for {0} by {1}'.format(
-            self.content_hash, self.user.username if self.user else 'unknown'
+            self.unit, self.user.username if self.user else 'unknown'
         )
 
     @transaction.atomic
     def accept(self, translation, request, permission='suggestion.accept'):
-        allunits = translation.unit_set.select_for_update().filter(
-            content_hash=self.content_hash
-        )
-        failure = False
-        for unit in allunits:
-            if not request.user.has_perm(permission, unit):
-                failure = True
-                messages.error(request, _('Failed to accept suggestion!'))
-                continue
+        if not request.user.has_perm(permission, self.unit):
+            failure = True
+            messages.error(request, _('Failed to accept suggestion!'))
 
-            # Skip if there is no change
-            if unit.target == self.target and unit.state >= STATE_TRANSLATED:
-                continue
-
-            unit.target = self.target
-            unit.state = STATE_TRANSLATED
-            unit.save_backend(request.user, change_action=Change.ACTION_ACCEPT)
+        # Skip if there is no change
+        elif self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
+            self.unit.target = self.target
+            self.unit.state = STATE_TRANSLATED
+            self.unit.save_backend(request.user, change_action=Change.ACTION_ACCEPT)
 
         if not failure:
             self.delete()
@@ -186,10 +148,9 @@ class Suggestion(UnitData, UserDisplayMixin):
             report_spam(
                 self.userdetails['address'], self.userdetails['agent'], self.target
             )
-        for unit in self.related_units:
-            Change.objects.create(
-                unit=unit, action=change, user=user, target=self.target, author=user
-            )
+        Change.objects.create(
+            unit=self.unit, action=change, user=user, target=self.target, author=user
+        )
         self.delete()
 
     def get_num_votes(self):

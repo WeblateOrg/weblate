@@ -26,7 +26,6 @@ from six import python_2_unicode_compatible
 
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
-from weblate.utils.unitdata import UnitData
 
 
 class CommentManager(models.Manager):
@@ -36,10 +35,8 @@ class CommentManager(models.Manager):
         """Add comment to this unit."""
         new_comment = self.create(
             user=user,
-            content_hash=unit.content_hash,
-            project=unit.translation.component.project,
+            unit=unit,
             comment=text,
-            language=lang,
         )
         Change.objects.create(
             unit=unit,
@@ -50,28 +47,6 @@ class CommentManager(models.Manager):
             details={'comment': text},
         )
 
-    def copy(self, project):
-        """Copy comments to new project
-
-        This is used on moving component to other project and ensures nothing
-        is lost. We don't actually look where the comment belongs as it
-        would make the operation really expensive and it should be done in the
-        cleanup cron job.
-        """
-        comments = []
-        for comment in self.iterator():
-            comments.append(
-                Comment(
-                    project=project,
-                    comment=comment.comment,
-                    content_hash=comment.content_hash,
-                    user=comment.user,
-                    language=comment.language,
-                )
-            )
-        # The batch size is needed for MySQL
-        self.bulk_create(comments, batch_size=500)
-
 
 class CommentQuerySet(models.QuerySet):
     def order(self):
@@ -79,11 +54,9 @@ class CommentQuerySet(models.QuerySet):
 
 
 @python_2_unicode_compatible
-class Comment(UnitData, UserDisplayMixin):
+class Comment(models.Model, UserDisplayMixin):
     unit = models.ForeignKey(
         "trans.Unit",
-        null=True,
-        blank=True,
         on_delete=models.deletion.CASCADE,
         related_name="comment_set",
     )
@@ -100,9 +73,8 @@ class Comment(UnitData, UserDisplayMixin):
 
     class Meta(object):
         app_label = 'trans'
-        index_together = [('project', 'language', 'content_hash')]
 
     def __str__(self):
         return 'comment for {0} by {1}'.format(
-            self.content_hash, self.user.username if self.user else 'unknown'
+            self.unit, self.user.username if self.user else 'unknown'
         )

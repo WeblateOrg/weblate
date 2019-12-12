@@ -31,7 +31,6 @@ from six import python_2_unicode_compatible
 
 from weblate.checks import CHECKS
 from weblate.utils.decorators import disable_for_loaddata
-from weblate.utils.unitdata import UnitData
 
 
 class WeblateChecksConf(AppConf):
@@ -94,27 +93,6 @@ class WeblateChecksConf(AppConf):
 class CheckManager(models.Manager):
     # pylint: disable=no-init
 
-    def copy(self, project):
-        """Copy checks to new project
-
-        This is used on moving component to other project and ensures nothing
-        is lost. We don't actually look where the check belongs as it
-        would make the operation really expensive and it should be done in the
-        cleanup cron job.
-        """
-        checks = []
-        for check in self.iterator():
-            checks.append(
-                Check(
-                    project=project,
-                    check=check.check,
-                    ignore=check.ignore,
-                    content_hash=check.content_hash,
-                )
-            )
-        # The batch size is needed for MySQL
-        self.bulk_create(checks, batch_size=500)
-
     def bulk_create_ignore(self, objs):
         """Wrapper to bulk_create to ignore existing entries.
 
@@ -134,9 +112,9 @@ class CheckManager(models.Manager):
 
 
 @python_2_unicode_compatible
-class Check(UnitData):
+class Check(models.Model):
     unit = models.ForeignKey(
-        "trans.Unit", null=True, blank=True, on_delete=models.deletion.CASCADE
+        "trans.Unit", on_delete=models.deletion.CASCADE
     )
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
@@ -151,17 +129,15 @@ class Check(UnitData):
             return None
 
     class Meta(object):
-        #unique_together = ('content_hash', 'project', 'language', 'check')
-        # unit, check
-        index_together = [('project', 'language', 'content_hash')]
+        unique_together = ('unit', 'check')
 
     def __str__(self):
-        return '{0}/{1}: {2}'.format(self.project, self.language, self.check)
+        return '{0}: {1}'.format(self.unit, self.check)
 
     def get_description(self):
         if self.check_obj:
             try:
-                return self.check_obj.get_description(self.related_units[0])
+                return self.check_obj.get_description(self.unit)
             except IndexError:
                 return self.check_obj.description
         return self.check
@@ -169,7 +145,7 @@ class Check(UnitData):
     def get_fixup(self):
         if self.check_obj:
             try:
-                return self.check_obj.get_fixup(self.related_units[0])
+                return self.check_obj.get_fixup(self.unit)
             except IndexError:
                 return None
         return None
@@ -205,11 +181,10 @@ class Check(UnitData):
 @disable_for_loaddata
 def update_failed_check_flag(sender, instance, created, **kwargs):
     """Update related unit failed check flag."""
-    if instance.language is None or created:
+    if created:
         return
-    related = instance.related_units
     try:
-        related[0].update_has_failing_check(
+        unit.update_has_failing_check(
             has_checks=None if instance.ignore else True, invalidate=True
         )
     except IndexError:
