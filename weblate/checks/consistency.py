@@ -83,7 +83,6 @@ class ConsistencyCheck(TargetCheck):
         from weblate.trans.models import Unit
         return Unit.objects.filter(
             translation__component__project=project,
-            translation__component__allow_translation_propagation=True,
         ).values(
             'content_hash', 'translation__language'
         ).annotate(
@@ -93,9 +92,6 @@ class ConsistencyCheck(TargetCheck):
         )
 
     def check_target_unit(self, sources, targets, unit):
-        # Do not check consistency if user asked not to have it
-        if not unit.translation.component.allow_translation_propagation:
-            return False
         for other in unit.same_source_units:
             if unit.target == other.target:
                 continue
