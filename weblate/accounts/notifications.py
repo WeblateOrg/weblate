@@ -196,11 +196,12 @@ class Notification(object):
                 continue
 
             last_user = user
+            if subscription.frequency != frequency:
+                continue
             if frequency == FREQ_INSTANT and self.should_skip(user, change):
                 continue
-            if subscription.frequency == frequency:
-                last_user.current_subscription = subscription
-                yield last_user
+            last_user.current_subscription = subscription
+            yield last_user
 
     def send(self, address, subject, body, headers):
         self.outgoing.append(
