@@ -956,6 +956,11 @@ REST_FRAMEWORK = {
 }
 
 if get_env_bool("WEBLATE_REQUIRE_LOGIN", False):
+    # Force authentication for REST API
+    REST_FRAMEWORK[
+        "DEFAULT_PERMISSION_CLASSES"
+    ] = "rest_framework.permissions.IsAuthenticated"
+
     # Example for restricting access to logged in users
     LOGIN_REQUIRED_URLS = (r"/(.*)$",)
 

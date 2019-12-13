@@ -644,6 +644,11 @@ This allows you to password protect whole installation using:
     LOGIN_REQUIRED_URLS = (
         r'/(.*)$',
     )
+    REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = "rest_framework.permissions.IsAuthenticated"
+
+.. hint::
+
+   It is desirable to lock down API access as well as shown in above example.
 
 .. setting:: LOGIN_REQUIRED_URLS_EXCEPTIONS
 
