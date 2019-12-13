@@ -209,17 +209,18 @@ def field_extra(field, query):
     return query
 
 
-def range_sql(field, start, end, conv=int):
+def range_sql(field, start, end, startexcl, endexcl, conv=int):
     def range_lookup(field, op, value):
         return {"{}__{}".format(field_name(field), op): conv(value)}
 
+    gte = "gt" if startexcl else "gte"
+    lte = "lt" if endexcl else "lte"
+
     if start and end:
-        return Q(**range_lookup(field, "gte", start)) & Q(
-            **range_lookup(field, "lte", end)
-        )
+        return Q(**range_lookup(field, gte, start)) & Q(**range_lookup(field, lte, end))
     if start:
-        return Q(**range_lookup(field, "gte", start))
-    return Q(**range_lookup(field, "lte", end))
+        return Q(**range_lookup(field, gte, start))
+    return Q(**range_lookup(field, lte, end))
 
 
 def has_sql(text):
@@ -255,10 +256,17 @@ def query_sql(obj):
     if isinstance(obj, whoosh.query.DateRange):
         return field_extra(
             obj.fieldname,
-            range_sql(obj.fieldname, obj.startdate, obj.enddate, timezone.make_aware),
+            range_sql(
+                obj.fieldname,
+                obj.startdate,
+                obj.enddate,
+                obj.startexcl,
+                obj.endexcl,
+                timezone.make_aware,
+            ),
         )
     if isinstance(obj, whoosh.query.NumericRange):
-        return range_sql(obj.fieldname, obj.start, obj.end)
+        return range_sql(obj.fieldname, obj.start, obj.end, obj.startexcl, obj.endexcl)
     if isinstance(obj, whoosh.query.Regex):
         try:
             re.compile(obj.text)
