@@ -94,19 +94,6 @@ class UnitQuerySet(models.QuerySet):
         # Catch anything not matching
         return self.all()
 
-    def review(self, date, exclude_user, only_user):
-        """Return units touched by other users since given time."""
-        # Filter out changes we're interested in
-        changes = Change.objects.content()
-        if date:
-            changes = changes.filter(timestamp__gte=date)
-        if exclude_user:
-            changes = changes.exclude(Q(author=exclude_user) | Q(user=exclude_user))
-        if only_user:
-            changes = changes.filter(Q(author=only_user) | Q(user=only_user))
-        # Filter units for these changes
-        return self.filter(change__in=changes).distinct()
-
     def prefetch(self):
         return self.prefetch_related(
             'translation',
@@ -117,26 +104,9 @@ class UnitQuerySet(models.QuerySet):
             'translation__component__project__source_language',
         )
 
-    def search(self, params):
+    def search(self, query):
         """High level wrapper for searching."""
-        base = self.prefetch()
-        if params['type'] != 'all':
-            base = self.filter_type(params['type'], params.get('ignored', False))
-
-        if params.get('date') or params.get('exclude_user') or params.get('only_user'):
-            base = base.review(
-                params.get('date'),
-                params.get('exclude_user'),
-                params.get('only_user'),
-            )
-
-        if 'lang' in params and params['lang']:
-            base = base.filter(translation__language__code__in=params['lang'])
-
-        if 'q' not in params or not params['q']:
-            return base
-
-        return base.filter(parse_query(params['q']))
+        return self.prefetch().filter(parse_query(query))
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""

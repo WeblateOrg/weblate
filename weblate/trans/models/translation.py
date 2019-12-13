@@ -41,7 +41,6 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.defines import FILENAME_LENGTH
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.filter import get_filter_choice
 from weblate.trans.mixins import LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
@@ -641,21 +640,20 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def get_source_checks(self):
         """Return list of failing source checks on current component."""
         result = TranslationChecklist()
-        choices = dict(get_filter_choice())
-        result.add(self.stats, choices, 'all', 'success')
+        result.add(self.stats, 'all', 'success')
 
         # All checks
-        result.add_if(self.stats, choices, 'allchecks', 'danger')
+        result.add_if(self.stats, 'allchecks', 'danger')
 
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]
             if not check_obj.source:
                 continue
-            result.add_if(self.stats, choices, check_obj.url_id, check_obj.severity)
+            result.add_if(self.stats, check_obj.url_id, check_obj.severity)
 
         # Grab comments
-        result.add_if(self.stats, choices, 'comments', 'info')
+        result.add_if(self.stats, 'comments', 'info')
 
         return result
 
@@ -666,47 +664,46 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             return self.get_source_checks()
 
         result = TranslationChecklist()
-        choices = dict(get_filter_choice())
 
         # All strings
-        result.add(self.stats, choices, 'all', 'success')
-        result.add_if(self.stats, choices, 'approved', 'success')
+        result.add(self.stats, 'all', 'success')
+        result.add_if(self.stats, 'approved', 'success')
 
         # Count of translated strings
-        result.add_if(self.stats, choices, 'translated', 'success')
+        result.add_if(self.stats, 'translated', 'success')
 
         # To approve
         if self.component.project.enable_review:
-            result.add_if(self.stats, choices, 'unapproved', 'warning')
+            result.add_if(self.stats, 'unapproved', 'warning')
 
         # Approved with suggestions
-        result.add_if(self.stats, choices, 'approved_suggestions', 'danger')
+        result.add_if(self.stats, 'approved_suggestions', 'danger')
 
         # Untranslated strings
-        result.add_if(self.stats, choices, 'todo', 'danger')
+        result.add_if(self.stats, 'todo', 'danger')
 
         # Not translated strings
-        result.add_if(self.stats, choices, 'nottranslated', 'danger')
+        result.add_if(self.stats, 'nottranslated', 'danger')
 
         # Fuzzy strings
-        result.add_if(self.stats, choices, 'fuzzy', 'danger')
+        result.add_if(self.stats, 'fuzzy', 'danger')
 
         # Translations with suggestions
-        result.add_if(self.stats, choices, 'suggestions', 'info')
-        result.add_if(self.stats, choices, 'nosuggestions', 'info')
+        result.add_if(self.stats, 'suggestions', 'info')
+        result.add_if(self.stats, 'nosuggestions', 'info')
 
         # All checks
-        result.add_if(self.stats, choices, 'allchecks', 'danger')
+        result.add_if(self.stats, 'allchecks', 'danger')
 
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]
             if not check_obj.target:
                 continue
-            result.add_if(self.stats, choices, check_obj.url_id, 'warning')
+            result.add_if(self.stats, check_obj.url_id, 'warning')
 
         # Grab comments
-        result.add_if(self.stats, choices, 'comments', 'info')
+        result.add_if(self.stats, 'comments', 'info')
 
         return result
 

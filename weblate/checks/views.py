@@ -202,7 +202,7 @@ def show_check_component(request, name, project, component):
 
     # Source checks are for single language only, redirect directly there
     if check.source:
-        url_params['type'] = check.url_id
+        url_params['q'] = check.url_id
         return redirect_param(
             'translate',
             encode_optional(url_params),
@@ -213,7 +213,7 @@ def show_check_component(request, name, project, component):
 
     # When filtering language, redirect directly to it
     if request.GET.get('language') and '/' not in request.GET['language']:
-        url_params['type'] = check.url_id
+        url_params['q'] = check.url_id
         return redirect_param(
             'translate',
             encode_optional(url_params),

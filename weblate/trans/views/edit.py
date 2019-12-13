@@ -134,7 +134,7 @@ def search(translation, request):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = translation.unit_set.search(form.cleaned_data)
+    allunits = translation.unit_set.search(form.cleaned_data.get("q", ""))
 
     search_query = form.get_search_query() if form_valid else ''
     name = form.get_name() if form_valid else ''

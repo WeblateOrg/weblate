@@ -418,7 +418,7 @@ class ExportTest(ViewTestCase):
         )
 
     def test_export_po_todo(self):
-        response = self.export_format('po', type='todo')
+        response = self.export_format('po', q='state:<translated')
         self.assertContains(response, self.test_source)
         self.assertContains(response, self.test_source_plural)
         self.assertContains(
@@ -454,7 +454,7 @@ class ExportTest(ViewTestCase):
         )
 
     def test_export_xlsx_empty(self):
-        response = self.export_format('xlsx', type='check:inconsistent')
+        response = self.export_format('xlsx', q='check:inconsistent')
         self.assertEqual(
             response['Content-Disposition'],
             'attachment; filename=test-test-cs.xlsx'

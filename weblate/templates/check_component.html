@@ -19,7 +19,7 @@
 {% if checks %}
 <div class="list-group">
 {% for obj in checks %}
-<a class="list-group-item" href="{% url 'translate' project=component.project.slug component=component.slug lang=obj.translation__language__code %}{{ url_params }}{% if url_params %}&amp;{% else %}?{% endif %}type={{ check.url_id }}"><span class="badge">{{ obj.count }}</span>{% language_name obj.translation__language__code %}</a>
+<a class="list-group-item" href="{% url 'translate' project=component.project.slug component=component.slug lang=obj.translation__language__code %}{{ url_params }}{% if url_params %}&amp;{% else %}?{% endif %}q={{ check.url_id }}"><span class="badge">{{ obj.count }}</span>{% language_name obj.translation__language__code %}</a>
 {% endfor %}
 </div>
 {% else %}

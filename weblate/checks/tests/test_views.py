@@ -137,7 +137,7 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertRedirects(
             response,
-            '{0}?type=check%3Amultiple_failures'.format(
+            '{0}?q=check%3Amultiple_failures'.format(
                 reverse('translate', kwargs={
                     'project': self.project.slug,
                     'component': self.component.slug,

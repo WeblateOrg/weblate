@@ -96,7 +96,7 @@ def download_translation(request, project, component, lang):
             show_form_errors(request, form)
             return redirect(obj)
 
-        kwargs['units'] = obj.unit_set.search(form.cleaned_data)
+        kwargs['units'] = obj.unit_set.filter_type(form.cleaned_data["type"])
         kwargs['fmt'] = form.cleaned_data['format']
 
     return download_translation_file(obj, **kwargs)

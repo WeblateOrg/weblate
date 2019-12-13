@@ -452,10 +452,10 @@ class ZenViewTest(ViewTestCase):
     def test_zen_invalid(self):
         response = self.client.get(
             reverse('zen', kwargs=self.kw_translation),
-            {'type': 'nonexisting-type'},
+            {'q': 'has:nonexisting'},
             follow=True
         )
-        self.assertContains(response, 'Please choose a valid filter type.')
+        self.assertContains(response, 'Unsupported has lookup')
 
     def test_load_zen(self):
         response = self.client.get(

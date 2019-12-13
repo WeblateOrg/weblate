@@ -52,14 +52,14 @@
 {% if global_base %}
 {% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
 {% endif %}
-{% include "snippets/list-objects-number.html" with value=stats.todo query="type=todo" class="zero-width-640" %}
-{% include "snippets/list-objects-number.html" with value=stats.todo_words query="type=todo" class="zero-width-720" %}
-{% include "snippets/list-objects-number.html" with value=stats.allchecks query="type=allchecks" class="zero-width-768" %}
-{% include "snippets/list-objects-number.html" with value=stats.suggestions query="type=suggestions" class="zero-width-900" %}
-{% include "snippets/list-objects-number.html" with value=stats.comments query="type=comments" class="zero-width-1000" %}
+{% include "snippets/list-objects-number.html" with value=stats.todo query="q=state:<translated" class="zero-width-640" %}
+{% include "snippets/list-objects-number.html" with value=stats.todo_words query="q=state:<translated" class="zero-width-720" %}
+{% include "snippets/list-objects-number.html" with value=stats.allchecks query="q=has:check" class="zero-width-768" %}
+{% include "snippets/list-objects-number.html" with value=stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
+{% include "snippets/list-objects-number.html" with value=stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
 <td class="actions buttons-cell" rowspan="2">
 {% if translate_url %}
-<a href="{{ translate_url }}?type={% if stats.todo %}todo{% else %}all{% endif %}" class="btn btn-primary">
+<a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">
 {% trans "Translate" %}
 </a>
 {% else %}
