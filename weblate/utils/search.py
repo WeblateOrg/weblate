@@ -138,6 +138,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             changed_by=TEXT,
             # Unit data
             check=TEXT,
+            ignored_check=TEXT,
             suggestion=TEXT,
             suggestion_author=TEXT,
             comment=TEXT,
@@ -174,12 +175,12 @@ class QueryParser(whoosh.qparser.QueryParser):
 
 PARSER = QueryParser()
 
-STRING_FIELD_MAP = {
-    "check": "check__check",
-    "suggestion": "suggestion__target",
-    "comment": "comment__comment",
-}
+PLAIN_FIELDS = ("source", "target", "context", "note", "location")
+FIELD_MAP = {"changed": "change__timestamp", "added": "timestamp"}
+STRING_FIELD_MAP = {"suggestion": "suggestion__target", "comment": "comment__comment"}
 EXACT_FIELD_MAP = {
+    "check": "check__check",
+    "ignored_check": "check__check",
     "language": "translation__language__code",
     "changed_by": "change__author__username",
     "suggestion_author": "suggestion__user__username",
@@ -188,11 +189,9 @@ EXACT_FIELD_MAP = {
 
 
 def field_name(field, suffix="icontains"):
-    if field == "changed":
-        return "change__timestamp"
-    if field == "added":
-        return "timestamp"
-    if field in ("source", "target", "context", "note", "location"):
+    if field in FIELD_MAP:
+        return FIELD_MAP[field]
+    if field in PLAIN_FIELDS:
         return "{}__{}".format(field, suffix)
     if field in STRING_FIELD_MAP:
         return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
@@ -206,6 +205,10 @@ def field_extra(field, query):
 
     if field in {"changed", "changed_by"}:
         return query & Q(change__action__in=Change.ACTIONS_CONTENT)
+    if field == "check":
+        return query & Q(check__ignore=False)
+    if field == "ignored_check":
+        return query & Q(check__ignore=True)
     return query
 
 
@@ -232,6 +235,8 @@ def has_sql(text):
         return Q(has_comment=True)
     if text == "check":
         return Q(has_failing_check=True)
+    if text == "ignored-check":
+        return Q(check__ignore=True)
 
     raise ValueError("Unsupported has lookup: {}".format(text))
 

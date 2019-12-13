@@ -36,11 +36,11 @@ Fields
 ``added:DATETIME``
    Timestamp when string was added to Weblate.
 ``state:TEXT``
-   State search (``approved``, ``translated``, ``needs-editing``, ``empty``), supports :ref:`search-operators`.
+   State search (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes (``plural``, ``suggestion``, ``comment``, ``check``).
+   Search for string having attributes (``plural``, ``suggestion``, ``comment``, ``check``, ``ignored-check``).
 ``language:TEXT``
    String target language.
 ``changed_by:TEXT``
@@ -49,6 +49,8 @@ Fields
    String was changed on date, supports :ref:`search-operators`.
 ``check:TEXT``
    String has failing check.
+``ignored_check:TEXT``
+   String has ignored check.
 ``comment:TEXT``
    Search in user comments.
 ``comment_author:TEXT``
