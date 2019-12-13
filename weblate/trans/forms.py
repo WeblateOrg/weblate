@@ -42,7 +42,7 @@ from django.utils.encoding import force_text, smart_text
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from django.utils.translation import pgettext, pgettext_lazy, ugettext
+from django.utils.translation import pgettext_lazy, ugettext
 from django.utils.translation import ugettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
@@ -53,14 +53,7 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import (
-    Change,
-    Component,
-    Project,
-    Translation,
-    Unit,
-    WhiteboardMessage,
-)
+from weblate.trans.models import Change, Component, Project, Unit, WhiteboardMessage
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
 from weblate.utils.errors import report_error
@@ -621,12 +614,6 @@ class SearchForm(forms.Form):
 
     # pylint: disable=invalid-name
     q = forms.CharField(label=_('Query'), min_length=1, required=False)
-    ignored = forms.BooleanField(
-        widget=forms.HiddenInput,
-        label=_('Show ignored checks as well'),
-        required=False,
-        initial=False,
-    )
     checksum = ChecksumField(required=False)
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
 
@@ -647,7 +634,6 @@ class SearchForm(forms.Form):
                     'month_ago': timezone.now() - timedelta(days=31),
                 },
             ),
-            Field('ignored'),
             Field('checksum'),
             Field('offset'),
         )

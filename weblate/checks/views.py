@@ -202,10 +202,11 @@ def show_check_component(request, name, project, component):
 
     # Source checks are for single language only, redirect directly there
     if check.source:
-        url_params['q'] = check.url_id
         return redirect_param(
             'translate',
-            encode_optional(url_params),
+            encode_optional({
+                'q': '{}{}'.format('ignored_' if ignore else '', check.url_id)
+            }),
             project=subprj.project.slug,
             component=subprj.slug,
             lang=subprj.project.source_language.code,
@@ -213,10 +214,11 @@ def show_check_component(request, name, project, component):
 
     # When filtering language, redirect directly to it
     if request.GET.get('language') and '/' not in request.GET['language']:
-        url_params['q'] = check.url_id
         return redirect_param(
             'translate',
-            encode_optional(url_params),
+            encode_optional({
+                'q': '{}{}'.format('ignored_' if ignore else '', check.url_id)
+            }),
             project=subprj.project.slug,
             component=subprj.slug,
             lang=request.GET['language'],
@@ -231,6 +233,7 @@ def show_check_component(request, name, project, component):
         'check_component.html',
         {
             'checks': units,
+            'ignored': ignore,
             'title': '{0}/{1}'.format(force_text(subprj), check.name),
             'check': check,
             'component': subprj,

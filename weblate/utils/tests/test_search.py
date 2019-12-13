@@ -197,8 +197,19 @@ class QueryParserTest(TestCase):
         self.assert_query("has:suggestion", Q(has_suggestion=True))
         self.assert_query("has:check", Q(has_failing_check=True))
         self.assert_query("has:comment", Q(has_comment=True))
+        self.assert_query("has:ignored-check", Q(check__ignore=True))
 
     def test_suggestions(self):
         self.assert_query(
             "suggestion_author:nijel", Q(suggestion__user__username__iexact="nijel")
+        )
+
+    def test_checks(self):
+        self.assert_query(
+            "check:ellipsis",
+            Q(check__check__iexact="ellipsis") & Q(check__ignore=False),
+        )
+        self.assert_query(
+            "ignored_check:ellipsis",
+            Q(check__check__iexact="ellipsis") & Q(check__ignore=True),
         )
