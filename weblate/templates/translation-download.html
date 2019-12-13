@@ -13,7 +13,7 @@
 {% if object.stats.todo %}
 <li role="separator" class="divider"></li>
 {% for exporter in exporters %}
-<li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}&amp;type=todo" title="{% trans "Download for offline translation." %}">{% blocktrans with exporter.verbose as format %}Download strings needing action as {{ format }}{% endblocktrans %}</a></li>
+<li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}&amp;q=state:&lt;translated" title="{% trans "Download for offline translation." %}">{% blocktrans with exporter.verbose as format %}Download strings needing action as {{ format }}{% endblocktrans %}</a></li>
 {% endfor %}
 {% endif %}
 <li role="separator" class="divider"></li>

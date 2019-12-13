@@ -134,7 +134,7 @@
 <td class="progress-cell hidden-xs">{% translation_progress object %}</td>
 <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
 <td rowspan="2" class="buttons-cell full-cell">
-<a href="{{ translate_url }}?type={% if object.stats.todo > 0 %}todo{% else %}all{% endif %}" class="pull-right flip btn btn-primary">{% trans "Translate" %}</a>
+<a href="{{ translate_url }}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="pull-right flip btn btn-primary">{% trans "Translate" %}</a>
 </td>
 </tr>
 
@@ -163,7 +163,7 @@
 </div>
 <table class="table table-autowidth">
 {% for c in object.list_translation_checks %}
-<tr data-href="{{ translate_url }}?type={{ c.0 }}" class="clickable-row">
+<tr data-href="{{ translate_url }}?q={{ c.0 }}" class="clickable-row">
 <th class="number">{{ c.2|intcomma }}</th>
 <td class="legend">
 <div class="progress">
@@ -171,7 +171,7 @@
 </div>
 </td>
 <td class="full-cell">
-<a href="{{ translate_url }}?type={{ c.0 }}">
+<a href="{{ translate_url }}?q={{ c.0 }}">
 {{ c.1 }} — {% blocktrans with count=c.4|intcomma count cnt=c.4 %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
 </a>
 </td>

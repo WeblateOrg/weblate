@@ -52,7 +52,7 @@ from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
-from weblate.trans.filter import get_filter_choice
+from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import (
     Change,
     Component,
@@ -621,7 +621,6 @@ class SearchForm(forms.Form):
 
     # pylint: disable=invalid-name
     q = forms.CharField(label=_('Query'), min_length=1, required=False)
-    type = FilterField()
     ignored = forms.BooleanField(
         widget=forms.HiddenInput,
         label=_('Show ignored checks as well'),
@@ -648,7 +647,6 @@ class SearchForm(forms.Form):
                     'month_ago': timezone.now() - timedelta(days=31),
                 },
             ),
-            Field('type'),
             Field('ignored'),
             Field('checksum'),
             Field('offset'),
@@ -656,24 +654,10 @@ class SearchForm(forms.Form):
 
     def get_name(self):
         """Return verbose name for a search."""
-        search_name = self.cleaned_data['q']
-        search_filter = self.cleaned_data['type']
-        filter_name = ''
-
-        if search_filter != 'all' or search_name == '':
-            for choice in self.fields['type'].choices:
-                if choice[0] == search_filter:
-                    filter_name = choice[1]
-                    break
-
-        if search_name and filter_name:
-            return pgettext(
-                'String to concatenate search and filter names',
-                '{filter_name}, {search_name}',
-            ).format(search_name=search_name, filter_name=filter_name)
-        if search_name:
-            return search_name
-        return filter_name
+        try:
+            return FILTERS.search_name[self.cleaned_data['q']]
+        except KeyError:
+            return self.cleaned_data['q']
 
     def get_search_query(self):
         return self.cleaned_data['q']
@@ -726,11 +710,7 @@ class SearchForm(forms.Form):
         return self
 
     def clean(self):
-        """Sanity checking for search type."""
-        # Default to all strings
-        if not self.cleaned_data.get('type'):
-            self.cleaned_data['type'] = 'all'
-
+        """Sanity checking query string."""
         # Try to parse query string
         query = self.cleaned_data.get('q')
         if query:
@@ -1766,28 +1746,15 @@ class BulkStateForm(forms.Form):
 
     def __init__(self, user, obj, *args, **kwargs):
         super(BulkStateForm, self).__init__(*args, **kwargs)
+
         excluded = {STATE_EMPTY}
-        translation = None
-        if isinstance(obj, Translation):
-            project = obj.component.project
-            translation = obj
-        elif isinstance(obj, Component):
-            project = obj.project
-        else:
-            project = obj
+        if not user.has_perm('unit.review', obj):
+            excluded.add(STATE_APPROVED)
 
         # Filter offered states
-        if not user.has_perm('unit.review', project):
-            excluded.add(STATE_APPROVED)
         self.fields['state'].choices = [
             x for x in self.fields['state'].choices if x[0] not in excluded
         ]
-
-        # Filter checks
-        if translation:
-            self.fields['type'].choices = [
-                (x[0], x[1]) for x in translation.list_translation_checks
-            ]
 
 
 class ContributorAgreementForm(forms.Form):

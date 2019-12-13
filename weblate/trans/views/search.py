@@ -65,7 +65,7 @@ def parse_url(request, project, component=None, lang=None):
         context['project'] = obj.project
     else:
         obj = get_translation(request, project, component, lang)
-        unit_set = obj.unit_set
+        unit_set = obj.unit_set.all()
         context['translation'] = obj
         context['component'] = obj.component
         context['project'] = obj.component.project
@@ -198,7 +198,7 @@ def search(request, project=None, component=None, lang=None):
             units = Unit.objects.filter(
                 translation__component__project__in=allowed_projects
             )
-        units = units.search(search_form.cleaned_data)
+        units = units.search(search_form.cleaned_data.get("q", ""))
         if lang:
             units = units.filter(
                 translation__language=context['language']

@@ -97,31 +97,23 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
-            {'q': 'hello', 'type': 'untranslated'}
+            {'q': 'hello AND state:<translated'}
         )
         self.assertContains(
             response,
-            '<span class="hlmatch">Hello</span>, world'
+            'Hello, world'
         )
         response = self.client.get(
             reverse('search'),
-            {'q': 'hello', 'type': 'todo'}
+            {'q': 'hello AND state:empty'}
         )
         self.assertContains(
             response,
-            '<span class="hlmatch">Hello</span>, world'
+            'Hello, world'
         )
         response = self.client.get(
             reverse('search'),
-            {'q': 'hello', 'type': 'nottranslated'}
-        )
-        self.assertContains(
-            response,
-            '<span class="hlmatch">Hello</span>, world'
-        )
-        response = self.client.get(
-            reverse('search'),
-            {'type': 'check:php_format'}
+            {'q': 'check:php_format'}
         )
         self.assertContains(
             response,
@@ -129,17 +121,12 @@ class SearchViewTest(ViewTestCase):
         )
         response = self.client.get(
             reverse('search'),
-            {'type': 'check:php_format', 'ignored': '1'}
+            {'q': 'check:php_format', 'ignored': '1'}
         )
         self.assertContains(
             response,
             'No matching strings found.'
         )
-        response = self.client.get(
-            reverse('search'),
-            {'type': 'xxx'}
-        )
-        self.assertContains(response, 'Please choose a valid filter type.')
         self.do_search_url(reverse('search'))
 
     def test_pagination(self):
@@ -206,32 +193,18 @@ class SearchViewTest(ViewTestCase):
             None
         )
 
-    def test_random(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
-        self.do_search(
-            {'type': 'random'},
-            'Nazdar svete'
-        )
-        self.do_search(
-            {'type': 'random', 'q': 'hello'},
-            'Nazdar svete'
-        )
-
     def test_review(self):
         # Review
         self.do_search(
-            {'q': 'changed:>=2010-01-10', 'type': 'all'},
+            {'q': 'changed:>=2010-01-10'},
             None
         )
         self.do_search(
-            {'q': 'changed:>=2010-01-10 AND NOT changed_by:testuser', 'type': 'all'},
+            {'q': 'changed:>=2010-01-10 AND NOT changed_by:testuser'},
             None
         )
         self.do_search(
-            {'q': 'changed:>2010-01-10 AND changed_by:testuser', 'type': 'all'},
+            {'q': 'changed:>2010-01-10 AND changed_by:testuser'},
             None
         )
         self.do_search(
@@ -240,7 +213,7 @@ class SearchViewTest(ViewTestCase):
         )
         # Review, partial date
         self.do_search(
-            {'q': 'changed:>=2010-01-', 'type': 'all'},
+            {'q': 'changed:>=2010-01-'},
             None
         )
 
@@ -301,34 +274,28 @@ class SearchViewTest(ViewTestCase):
 
     def test_search_type(self):
         self.do_search(
-            {'type': 'untranslated'},
+            {'q': 'state:<translated'},
             'Strings needing action',
         )
         self.do_search(
-            {'type': 'fuzzy'},
+            {'q': 'state:needs-editing'},
             None
         )
         self.do_search(
-            {'type': 'suggestions'},
+            {'q': 'has:suggestion'},
             None
         )
         self.do_search(
-            {'type': 'allchecks'},
+            {'q': 'has:check'},
             None
         )
         self.do_search(
-            {'type': 'check:plurals'},
+            {'q': 'check:plurals'},
             None
         )
         self.do_search(
-            {'type': 'all'},
+            {'q': ''},
             '1 / 4'
-        )
-
-    def test_search_errors(self):
-        self.do_search(
-            {'type': 'nonexisting-type'},
-            'Please choose a valid filter type.',
         )
 
     def test_search_plural(self):
@@ -513,12 +480,11 @@ class BulkStateTest(ViewTestCase):
             },
             follow=True
         )
-        unit = self.get_unit()
         self.assertContains(
             response,
             'Bulk status change completed, 1 string was updated.'
         )
-        self.assertEqual(unit.state, STATE_TRANSLATED)
+        self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
 
     def test_no_match(self):
         response = self.client.post(

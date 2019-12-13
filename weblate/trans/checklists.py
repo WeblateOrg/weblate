@@ -18,20 +18,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from weblate.trans.filter import FILTERS
+
 
 class TranslationChecklist(list):
     """Simple list wrapper for translation checklist"""
 
-    def add_if(self, stats, choices, name, level):
+    def add_if(self, stats, name, level):
         """Add to list if there are matches"""
         if getattr(stats, name) > 0:
-            self.add(stats, choices, name, level)
+            self.add(stats, name, level)
 
-    def add(self, stats, choices, name, level):
+    def add(self, stats, name, level):
         """Add item to the list"""
         self.append((
-            name,
-            choices[name],
+            FILTERS.id_query[name],
+            FILTERS.id_name[name],
             getattr(stats, name),
             level,
             getattr(stats, '{}_words'.format(name))
