@@ -14,7 +14,7 @@ Accessing repositories
 
 The VCS repository you want to use has to be accessible to Weblate. With a
 publicly available repository you just need to enter correct URL (for example
-``git://github.com/WeblateOrg/weblate.git`` or
+``git@github.com:WeblateOrg/weblate.git`` or
 ``https://github.com/WeblateOrg/weblate.git``), but for private repositories the
 setup might be more complex.
 
@@ -33,16 +33,28 @@ be stored just once on the disk.
 SSH repositories
 ++++++++++++++++
 
-The most frequently used method to access private repositories is based on SSH. To
-have access to such a repository, you generate SSH key for Weblate and authorize
-it to access the repository. Weblate also needs to know the host key to avoid
-man in the middle attacks. This all can be done in the Weblate administration
-interface:
+The most frequently used method to access private repositories is based on SSH.
+To have access to such a repository, you need to authorize Weblate SSH key (see
+:ref:`weblate-ssh-key`) to give it access to the upstream repository. 
+
+.. warning::
+
+    On GitHub, you can add the key to only one repository. See the following
+    sections for other solutions for GitHub.
+
+Weblate also stores host key fingerprint on first connection and fails to
+connect to the host in case it is later changed (see :ref:`verify-ssh`).
+
+In case some adjustment is needed, you can do that in the Weblate
+administration interface:
 
 .. image:: images/ssh-keys.png
 
-Generating SSH keys
-~~~~~~~~~~~~~~~~~~~
+
+.. _weblate-ssh-key:
+
+Weblate SSH key
+~~~~~~~~~~~~~~~
 
 You can generate or display the key currently used by Weblate in the admin
 interface (follow :guilabel:`SSH keys` link on main admin page). Once you've
@@ -56,11 +68,6 @@ done this, Weblate should be able to access your repository.
 .. hint::
 
    You can backup the Weblate generated private key as well.
-
-.. warning::
-
-    On GitHub, you can add the key to only one repository. See the following
-    sections for other solutions for GitHub.
 
 .. _verify-ssh:
 
@@ -166,7 +173,9 @@ repositories you want.
 
 On Hosted Weblate, adding ``weblate`` user is enough to grant the service
 access to the repository. Once you invite the bot, it accepts the invitation
-within five minutes. This is same as described in :ref:`hosted-push`.
+within five minutes and you can use SSH URL to access your repo (for example
+``git@github.com:WeblateOrg/weblate.git```). This is same as described in
+:ref:`hosted-push`.
 
 Customizing Git configuration
 +++++++++++++++++++++++++++++
