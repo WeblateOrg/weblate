@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-12-03 20:37+0000\n"
-"PO-Revision-Date: 2019-12-01 11:05+0000\n"
+"PO-Revision-Date: 2019-12-13 21:23+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -773,16 +773,12 @@ msgid "The server does not allow authentication."
 msgstr "Palvelin ei salli tunnistautumista."
 
 #: weblate/accounts/views.py:1027
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
-"Rekisteröinti epäonnistui! Käyttämäsi tunniste, joko sähköposti tai "
-"käyttäjänimi, on jo käytössä toisella käyttäjätilillä."
+"Rekisteröityminen epäonnistui. Antamasi tunnistautuminen, sähköposti tai "
+"käyttäjänimi on jo käytössä toisella käyttäjätilillä."
 
 #: weblate/accounts/views.py:1042
 msgid "Notification settings adjusted."
@@ -834,16 +830,12 @@ msgid "Language consistency"
 msgstr "Kielen johdonmukaisuus"
 
 #: weblate/addons/consistency.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Tämä lisäosa varmistaa että projektin kaikkien komponenttien käännöksissä on "
-"aktivoitu samat kielet."
+"Varmista, että saman projektin kaikissa komponenteissa on käännökset "
+"samoille kielille."
 
 #: weblate/addons/discovery.py:35
 msgid "Component discovery"
@@ -5716,10 +5708,8 @@ msgid "There are no glossaries defined for this language."
 msgstr "Tälle kielelle ei ole määritelty sanastoja."
 
 #: weblate/templates/last-changes-content.html:18
-#, fuzzy
-#| msgid "Check details"
 msgid "View details"
-msgstr "Tarkista tiedot"
+msgstr "Näytä tiedot"
 
 #: weblate/templates/last-changes-content.html:20
 msgid "View notification"
@@ -6245,11 +6235,11 @@ msgstr ""
 
 #: weblate/templates/manage/backups.html:62
 msgid "Turn off"
-msgstr ""
+msgstr "Ota pois käytöstä"
 
 #: weblate/templates/manage/backups.html:62
 msgid "Turn on"
-msgstr ""
+msgstr "Ota käyttöön"
 
 #: weblate/templates/manage/backups.html:63
 msgid "Perform backup"
@@ -6848,10 +6838,9 @@ msgid "None"
 msgstr "Tuntematon käyttäjä"
 
 #: weblate/templates/snippets/list-objects-percent.html:4
-#, fuzzy, python-format
-#| msgid "Used %(used)s of %(total)s"
+#, python-format
 msgid "%(value)s of %(all)s"
-msgstr "Käytetty %(used)s / %(total)s"
+msgstr "%(value)s / %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:6
 msgctxt "Completed translation"
@@ -6933,10 +6922,8 @@ msgid "String has comment"
 msgstr "Tekstillä on kommentti"
 
 #: weblate/templates/snippets/query-builder.html:21
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Automaattitarkistuksen hylkäämät tekstit"
+msgstr "Tekstistä on löytynyt virhe"
 
 #: weblate/templates/snippets/query-builder.html:22
 msgid "String target language"
@@ -6988,16 +6975,12 @@ msgid "Approved strings with suggestions"
 msgstr "Hyväksytyt tekstit, joihin on ehdotuksia"
 
 #: weblate/templates/snippets/unit-state.html:7
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Fails checks"
 msgstr "Virheitä löytynyt tarkistuksessa"
 
 #: weblate/templates/snippets/unit-state.html:10
-#, fuzzy
-#| msgid "Comment"
 msgid "Commented"
-msgstr "Kommentti"
+msgstr "Kommentoitu"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -7418,10 +7401,8 @@ msgid "Edit source string"
 msgstr "Muokkaa lähdetekstiä"
 
 #: weblate/templates/translate.html:173 weblate/templates/zen-units.html:79
-#, fuzzy
-#| msgid "New source string"
 msgid "View source string"
-msgstr "Uusi lähdeteksti"
+msgstr "Näytä lähdeteksti"
 
 #: weblate/templates/translate.html:188
 msgid "Please log in to save translations."
@@ -8525,10 +8506,8 @@ msgstr "Antamasi käännöksen nimi ei täsmää poistettavan kännöksen nimeen
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:142
-#, fuzzy
-#| msgid "No related strings found in the glossary."
 msgid "Duplicated string found in the file."
-msgstr "Sanastosta ei löytynyt asiaan liittyviä tekstejä."
+msgstr "Tiedostosta löytyi kahdennettu teksti."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:149
@@ -10121,10 +10100,8 @@ msgid "Make your translations available under a libre license."
 msgstr "Julkaise käännöksesi vapaalla lisenssillä."
 
 #: weblate/trans/views/guide.py:161
-#, fuzzy
-#| msgid "Merges content of file header into the translation."
 msgid "Provide context to the translators"
-msgstr "Tiedoston otsikon sisältö on liitetty onnistuneesti käännökseen."
+msgstr "Anna kääntäjille tietoa asiayhteydestä"
 
 #: weblate/trans/views/guide.py:169
 msgid "Add screenshots to show where strings are being used."
