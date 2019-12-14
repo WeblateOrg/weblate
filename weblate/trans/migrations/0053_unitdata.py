@@ -26,6 +26,8 @@ def migrate_unitdata(apps, schema_editor):
             del state["id"]
             del state["unit_id"]
             for unit in units:
+                if model.objects.using(db_alias).filter(unit=unit, **state).exists():
+                    continue
                 model.objects.using(db_alias).create(unit=unit, **state)
 
         # Remove old objects without unit link
