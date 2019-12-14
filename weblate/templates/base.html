@@ -35,7 +35,7 @@
 
 {% include "snippets/meta-css.html" %}
 
-  <script src="{% url 'js-catalog' %}" type="text/javascript"></script>
+  <script src="{% url 'js-catalog' %}" type="text/javascript" defer></script>
 {% compress js %}
 {% if rollbar_token %}
 <script>
@@ -61,19 +61,19 @@ var _rollbarConfig = {
 // End Rollbar Snippet
 </script>
 {% endif %}
-  <script data-cfasync="false" src="{% static 'js/jquery.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/js.cookie.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/autosize.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/multi.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/mousetrap.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/mousetrap-global-bind.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/chartist.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/clipboard.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/modernizr.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'js/slugify.js' %}{{ cache_param }}" type="text/javascript"></script>
-  <script data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/jquery.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/js.cookie.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/autosize.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/multi.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/mousetrap.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/mousetrap-global-bind.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/chartist.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/clipboard.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'bootstrap/js/bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'bootstrap/js/bootstrap-datepicker.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/modernizr.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'js/slugify.js' %}{{ cache_param }}" type="text/javascript"></script>
+  <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}" type="text/javascript"></script>
 {% endcompress %}
   <link rel="image_src" type="image/png" href="{% static 'weblate-128.png' %}"/>
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'logo-32.png' %}">
