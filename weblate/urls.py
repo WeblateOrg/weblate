@@ -1123,9 +1123,9 @@ real_patterns = [
         name='user_suggestions',
     ),
 
-    # Avatars
+    # Avatars, 80 pixes used when linked with weblate.org
     url(
-        r'^avatar/(?P<size>(24|32|128))/(?P<user>[^/]+)\.png$',
+        r'^avatar/(?P<size>(24|32|80|128))/(?P<user>[^/]+)\.png$',
         weblate.accounts.views.user_avatar,
         name='user_avatar',
     ),
