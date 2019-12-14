@@ -21,6 +21,7 @@
 from __future__ import unicode_literals
 
 from django.utils.functional import cached_property
+from django.utils.text import format_lazy
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks import CHECKS
@@ -54,7 +55,7 @@ class FilterRegistry(object):
         result.extend(
             (
                 CHECKS[check].url_id,
-                _("Failed check: %s") % CHECKS[check].name,
+                format_lazy(_("Failed check: {}"), CHECKS[check].name),
                 "check:{}".format(check),
             )
             for check in CHECKS
@@ -94,7 +95,10 @@ def get_filter_choice():
         ("unapproved", _("Strings waiting for review")),
     ]
     result.extend(
-        (CHECKS[check].url_id, _("Failed check: %s") % CHECKS[check].name)
+        (
+            CHECKS[check].url_id,
+            format_lazy(_("Failed check: {}"), CHECKS[check].name),
+        )
         for check in CHECKS
     )
     return result
