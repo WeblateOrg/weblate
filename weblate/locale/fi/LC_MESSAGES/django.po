@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-12-15 11:57+0000\n"
-"PO-Revision-Date: 2019-12-14 19:39+0000\n"
+"PO-Revision-Date: 2019-12-17 14:55+0000\n"
 "Last-Translator: Tuomas Harju <tuomas@rtj-group.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -6186,6 +6186,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
+"Tukipaketti sisältää sähköpostituen tai Weblate-asennuksesi "
+"varmuuskopioinnin pilvipalveluun."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6215,7 +6217,7 @@ msgstr "Lataa yksityinen avain"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:16
 msgid "The private key is needed to access the remote backup repository."
-msgstr ""
+msgstr "Yksityinen avain tarvitaan jotta päästään etävarmuuskopioarkistoon."
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
@@ -6282,6 +6284,8 @@ msgid ""
 "The Django admin interface might be useful to perform certain management "
 "operations."
 msgstr ""
+"Djangon hallintakäyttöliittymä voi olla hyödyllinen joidenkin "
+"hallintatoimenpiteiden suorittamiseksi."
 
 #: weblate/templates/manage/tools.html:31
 msgid "Send test e-mail"
@@ -6838,52 +6842,38 @@ msgstr "Ehdotettu muutos:"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:528 weblate/utils/state.py:33
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs editing"
 msgstr "Vaatii muokkaamista"
 
 #: weblate/templates/snippets/unit-state.html:6
-#, fuzzy
-#| msgid "Untranslated"
 msgctxt "String state"
 msgid "Untranslated"
 msgstr "Kääntämättä"
 
 #: weblate/templates/snippets/unit-state.html:7
-#, fuzzy
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Fails checks"
 msgstr "Virheitä löytynyt tarkistuksessa"
 
 #: weblate/templates/snippets/unit-state.html:8
 #: weblate/trans/templatetags/translations.py:532 weblate/utils/state.py:35
-#, fuzzy
-#| msgid "Approved"
 msgctxt "String state"
 msgid "Approved"
 msgstr "Hyväksytty"
 
 #: weblate/templates/snippets/unit-state.html:9
 #: weblate/trans/templatetags/translations.py:534 weblate/utils/state.py:34
-#, fuzzy
-#| msgid "Translated"
 msgctxt "String state"
 msgid "Translated"
 msgstr "Käännetty"
 
 #: weblate/templates/snippets/unit-state.html:10
-#, fuzzy
-#| msgid "Commented"
 msgctxt "String state"
 msgid "Commented"
 msgstr "Kommentoitu"
 
 #: weblate/templates/snippets/unit-state.html:11
-#, fuzzy
-#| msgid "Suggested"
 msgctxt "String state"
 msgid "Suggested"
 msgstr "Ehdotettu"
@@ -7016,6 +7006,8 @@ msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
 msgstr ""
+"Tämä voi tapahtua näiden ominaisuuksien päältä pois ottamisen jälkeen, tai "
+"jos jotain riippuvuuksia puuttu."
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -8978,7 +8970,7 @@ msgstr ""
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "%d täsmäävää tiedostoa ei voitu jäsentää."
-msgstr[1] "%d täsmäävää tiedostoa ei voitu jäsentää."
+msgstr[1] "%d täsmääviä tiedostoja ei voitu jäsentää."
 
 #: weblate/trans/models/component.py:1501
 msgid "Unrecognized base file for new translations."
@@ -9505,8 +9497,6 @@ msgstr[0] "%(count)s tunnin päästä"
 msgstr[1] "%(count)s tunnin päästä"
 
 #: weblate/trans/templatetags/translations.py:530
-#, fuzzy
-#| msgid "Not translated"
 msgctxt "String state"
 msgid "Not translated"
 msgstr "Kääntämättä"
@@ -10055,15 +10045,11 @@ msgid "Invalid regular expression: {}"
 msgstr "Epäkelpo säännöllinen lauseke: {}"
 
 #: weblate/utils/state.py:32
-#, fuzzy
-#| msgid "Empty"
 msgctxt "String state"
 msgid "Empty"
 msgstr "Tyhjä"
 
 #: weblate/utils/state.py:36
-#, fuzzy
-#| msgid "Read only"
 msgctxt "String state"
 msgid "Read only"
 msgstr "Vain luku"
