@@ -674,6 +674,7 @@ SAME_BLACKLIST = frozenset((
     'source',
     'spatial',
     'spline',
+    'spoiler',
     'sponsor',
     'sponsors',
     'sport',
