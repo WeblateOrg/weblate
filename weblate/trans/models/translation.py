@@ -242,6 +242,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_filename(self):
         """Return absolute filename."""
+        if not self.filename:
+            return None
         return os.path.join(self.component.full_path, self.filename)
 
     def load_store(self, fileobj=None):
@@ -513,6 +515,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     @cached_property
     def filenames(self):
+        if not self.filename:
+            return []
         if self.component.file_format_cls.simple_filename:
             return [self.get_filename()]
         return self.store.get_filenames()

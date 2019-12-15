@@ -45,4 +45,6 @@ class AutoTranslateAddon(BaseAddon):
 
     def daily(self, component):
         for translation in component.translation_set.iterator():
+            if translation.is_source:
+                continue
             auto_translate.delay(None, translation.pk, **self.instance.configuration)
