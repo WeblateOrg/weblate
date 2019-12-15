@@ -92,7 +92,7 @@ class ProjectTest(RepoTestCase):
         old_path = project.full_path
         self.assertTrue(os.path.exists(old_path))
         self.assertTrue(os.path.exists(
-            component.translation_set.all()[0].get_filename()
+            component.translation_set.get(language_code="cs").get_filename()
         ))
         project.slug = 'changed'
         project.save()
@@ -108,7 +108,7 @@ class ProjectTest(RepoTestCase):
         )
         component = Component.objects.get(pk=component.pk)
         self.assertTrue(os.path.exists(
-            component.translation_set.all()[0].get_filename()
+            component.translation_set.get(language_code="cs").get_filename()
         ))
 
     def test_delete(self):
