@@ -623,16 +623,6 @@ def active_link(context, slug):
 
 
 @register.simple_tag
-def matching_cotentsum(item):
-    """Find matching objects to suggestion, comment or check"""
-    return Unit.objects.prefetch().filter(
-        translation__component__project=item.project,
-        translation__language=item.language,
-        content_hash=item.content_hash,
-    )
-
-
-@register.simple_tag
 def user_permissions(user, groups):
     """Render checksboxes for user permissions."""
     result = []

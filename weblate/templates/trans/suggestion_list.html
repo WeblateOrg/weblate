@@ -9,32 +9,7 @@
 
 {% block content %}
 
-<table class="table">
-<thead>
-<tr>
-<th>{% trans "Suggestion" %}</th>
-<th>{% trans "When" %}</th>
-<th>{% trans "Translations" %}</th>
-</tr>
-<tbody>
-{% for suggestion in object_list %}
-<tr>
-<td class="translatetext">{% format_translation suggestion.target suggestion.language %}</td>
-<td>{{ suggestion.timestamp|naturaltime }}</td>
-<td>
-{% matching_cotentsum suggestion as units %}
-<ul>
-{% for unit in units %}
-<li><a href="{{ unit.get_absolute_url }}#suggestions">{{ unit.translation }}</a></li>
-{% empty %}
-<li>{% trans "No matching translations found!" %}</li>
-{% endfor %}
-</ul>
-</tr>
-{% endfor %}
-
-</tbody>
-</table>
+{% include "snippets/suggestions.html" with suggestions=object_list multi_unit=1 %}
 
 {% include "paginator.html" %}
 
