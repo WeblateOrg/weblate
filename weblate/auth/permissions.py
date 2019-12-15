@@ -256,6 +256,13 @@ def check_machinery(user, permission, obj):
     return check_contribute(user, permission, obj)
 
 
+@register_perm('translation.delete')
+def check_translation_delete(user, permission, obj):
+    if obj.is_source:
+        return False
+    return check_permission(user, permission, obj)
+
+
 @register_perm('meta:vcs.status')
 @cache_perm
 def check_repository_status(user, permission, obj):
