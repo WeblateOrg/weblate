@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-12-15 11:57+0000\n"
-"PO-Revision-Date: 2019-12-14 12:36+0000\n"
+"PO-Revision-Date: 2019-12-15 17:53+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -5199,12 +5199,12 @@ msgid_plural ""
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
 "%(project)s için çeviri projesi, şu anda çeviri için <strong>%(total)s "
-"satır</strong> içeriyor ve <strong>%(languages)s dile</strong> çevriliyor. "
-"Genel olarak bu çeviriler <strong>%%%(percent)s oranında tamamlandı</strong>."
+"string</strong> içeriyor ve <strong>%(languages)s dile</strong> çevriliyor. "
+"Genel olarak bu çeviriler <strong>%%%(percent)s tamamlandı</strong>."
 msgstr[1] ""
 "%(project)s için çeviri projesi, şu anda çeviri için <strong>%(total)s "
-"satır</strong> içeriyor ve <strong>%(languages)s dile</strong> çevriliyor. "
-"Genel olarak bu çeviriler <strong>%%%(percent)s oranında tamamlandı</strong>."
+"string</strong> içeriyor ve <strong>%(languages)s dile</strong> çevriliyor. "
+"Genel olarak bu çeviriler <strong>%%%(percent)s tamamlandı</strong>."
 
 #: weblate/templates/engage.html:47
 #, python-format
@@ -6798,52 +6798,38 @@ msgstr "Önerilen değişiklik:"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:528 weblate/utils/state.py:33
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs editing"
 msgstr "Düzenleme gerekli"
 
 #: weblate/templates/snippets/unit-state.html:6
-#, fuzzy
-#| msgid "Untranslated"
 msgctxt "String state"
 msgid "Untranslated"
-msgstr "Çevrilmemiş"
+msgstr "Çevrilmeyen"
 
 #: weblate/templates/snippets/unit-state.html:7
-#, fuzzy
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Fails checks"
 msgstr "Kontroller başarısız"
 
 #: weblate/templates/snippets/unit-state.html:8
 #: weblate/trans/templatetags/translations.py:532 weblate/utils/state.py:35
-#, fuzzy
-#| msgid "Approved"
 msgctxt "String state"
 msgid "Approved"
-msgstr "Onaylı"
+msgstr "Onaylanan"
 
 #: weblate/templates/snippets/unit-state.html:9
 #: weblate/trans/templatetags/translations.py:534 weblate/utils/state.py:34
-#, fuzzy
-#| msgid "Translated"
 msgctxt "String state"
 msgid "Translated"
 msgstr "Çevrilen"
 
 #: weblate/templates/snippets/unit-state.html:10
-#, fuzzy
-#| msgid "Commented"
 msgctxt "String state"
 msgid "Commented"
-msgstr "Yorumlandı"
+msgstr "Yorumlanan"
 
 #: weblate/templates/snippets/unit-state.html:11
-#, fuzzy
-#| msgid "Suggested"
 msgctxt "String state"
 msgid "Suggested"
 msgstr "Önerilen"
@@ -7372,8 +7358,8 @@ msgstr "Denetlenecekler"
 #, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Bu satır için %(count)s öneri var."
-msgstr[1] "Bu satır için %(count)s öneri var."
+msgstr[0] "Bu string için %(count)s öneri var."
+msgstr[1] "Bu string için %(count)s öneri var."
 
 #: weblate/templates/translate.html:441
 msgid "Fix string"
@@ -7387,8 +7373,8 @@ msgstr "Tüm diller için reddet"
 #, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "Bu satır için %(count)s yorum var."
-msgstr[1] "Bu satır için %(count)s yorum var."
+msgstr[0] "Bu string için %(count)s yorum var."
+msgstr[1] "Bu string için %(count)s yorum var."
 
 #: weblate/templates/translate.html:478
 msgid "Manage glossary"
@@ -9284,8 +9270,8 @@ msgstr "Kendiliğinden çeviri tamamlandı, güncellenen satır olmadı."
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "Kendiliğinden çeviri tamamlandı, %d satır güncellendi."
-msgstr[1] "Kendiliğinden çeviri tamamlandı, %d satır güncellendi."
+msgstr[0] "Kendiliğinden çeviri tamamlandı, %d string güncellendi."
+msgstr[1] "Kendiliğinden çeviri tamamlandı, %d string güncellendi."
 
 #: weblate/trans/templatetags/translations.py:76
 msgid "Good configuration"
@@ -9467,11 +9453,9 @@ msgstr[0] "şu andan itibaren %(count)s saat"
 msgstr[1] "şu andan itibaren %(count)s saat"
 
 #: weblate/trans/templatetags/translations.py:530
-#, fuzzy
-#| msgid "Not translated"
 msgctxt "String state"
 msgid "Not translated"
-msgstr "Çevrilmedi"
+msgstr "Çevrilmeyen"
 
 #: weblate/trans/templatetags/translations.py:559
 #, python-format
@@ -9807,11 +9791,11 @@ msgid_plural ""
 "Processed {0} strings from the uploaded files (skipped: {1}, not found: {2}, "
 "updated: {3})."
 msgstr[0] ""
-"Karşıdan yüklenen dosyalardan {0} satır işlendi (atlanan: {1}, bulunamayan: "
-"{2}, güncellenen: {3})."
+"Yüklenen dosyalardan {0} string işlendi (atlanan: {1}, bulunamayan: {2}, "
+"güncellenen: {3})."
 msgstr[1] ""
-"Karşıdan yüklenen dosyalardan {0} satır işlendi (atlanan: {1}, bulunamayan: "
-"{2}, güncellenen: {3})."
+"Yüklenen dosyalardan {0} string işlendi (atlanan: {1}, bulunamayan: {2}, "
+"güncellenen: {3})."
 
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
@@ -9922,8 +9906,8 @@ msgstr "Arama ve değiştirme tamamlandı, güncellenen satır olmadı."
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Arama ve değiştirme tamamlandı, %d satır güncellendi."
-msgstr[1] "Arama ve değiştirme tamamlandı, %d satır güncellendi."
+msgstr[0] "Arama ve değiştirme tamamlandı, %d string güncellendi."
+msgstr[1] "Arama ve değiştirme tamamlandı, %d string güncellendi."
 
 #: weblate/trans/views/search.py:211
 #, python-format
@@ -9946,8 +9930,8 @@ msgstr "Toplu durum değişikliği tamamlandı, hiçbir satır güncellenmedi."
 #, python-format
 msgid "Bulk status change completed, %d string was updated."
 msgid_plural "Bulk status change completed, %d strings were updated."
-msgstr[0] "Toplu durum değişikliği tamamlandı, %d satır güncellendi."
-msgstr[1] "Toplu durum değişikliği tamamlandı, %d satır güncellendi."
+msgstr[0] "Toplu durum değişikliği tamamlandı, %d string güncellendi."
+msgstr[1] "Toplu durum değişikliği tamamlandı, %d string güncellendi."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
@@ -10019,15 +10003,11 @@ msgid "Invalid regular expression: {}"
 msgstr "Geçersiz düzenli ifade: {}"
 
 #: weblate/utils/state.py:32
-#, fuzzy
-#| msgid "Empty"
 msgctxt "String state"
 msgid "Empty"
 msgstr "Boş"
 
 #: weblate/utils/state.py:36
-#, fuzzy
-#| msgid "Read only"
 msgctxt "String state"
 msgid "Read only"
 msgstr "Salt okunur"
