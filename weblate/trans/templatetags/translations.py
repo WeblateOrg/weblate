@@ -48,7 +48,6 @@ from weblate.trans.models import (
     Dictionary,
     Project,
     Translation,
-    Unit,
     WhiteboardMessage,
 )
 from weblate.trans.simplediff import html_diff
