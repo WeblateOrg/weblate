@@ -564,12 +564,12 @@ class Component(models.Model, URLMixin, PathMixin):
     def source_translation(self):
         language = self.project.source_language
         return self.translation_set.get_or_create(
-            language_code=language.code,
+            language=language,
             defaults={
                 "check_flags": "read-only",
                 "filename": self.template,
                 "plural": language.plural,
-                "language": language,
+                "language_code": language.code,
             },
         )[0]
 
