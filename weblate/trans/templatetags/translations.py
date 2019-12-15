@@ -525,13 +525,13 @@ def get_state_badge(unit):
     flag = None
 
     if unit.fuzzy:
-        flag = (ugettext("Needs editing"), "text-danger")
+        flag = (pgettext("String state", "Needs editing"), "text-danger")
     elif not unit.translated:
-        flag = (ugettext("Not translated"), "text-danger")
+        flag = (pgettext("String state", "Not translated"), "text-danger")
     elif unit.approved:
-        flag = (ugettext("Approved"), "text-success")
+        flag = (pgettext("String state", "Approved"), "text-success")
     elif unit.translated:
-        flag = (ugettext("Translated"), "text-primary")
+        flag = (pgettext("String state", "Translated"), "text-primary")
 
     if flag is None:
         return ""

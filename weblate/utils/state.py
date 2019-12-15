@@ -20,7 +20,7 @@
 
 from __future__ import unicode_literals
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import pgettext_lazy
 
 STATE_EMPTY = 0
 STATE_FUZZY = 10
@@ -29,11 +29,11 @@ STATE_APPROVED = 30
 STATE_READONLY = 100
 
 STATE_CHOICES = (
-    (STATE_EMPTY, _('Empty')),
-    (STATE_FUZZY, _('Needs editing')),
-    (STATE_TRANSLATED, _('Translated')),
-    (STATE_APPROVED, _('Approved')),
-    (STATE_READONLY, _('Read only')),
+    (STATE_EMPTY, pgettext_lazy("String state", 'Empty')),
+    (STATE_FUZZY, pgettext_lazy("String state", 'Needs editing')),
+    (STATE_TRANSLATED, pgettext_lazy("String state", 'Translated')),
+    (STATE_APPROVED, pgettext_lazy("String state", 'Approved')),
+    (STATE_READONLY, pgettext_lazy("String state", 'Read only')),
 )
 
 STATE_NAMES = {name.replace(' ', '-').lower(): value for (value, name) in STATE_CHOICES}
