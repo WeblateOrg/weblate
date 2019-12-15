@@ -90,7 +90,7 @@ from weblate.utils.render import (
     validate_repoweb,
 )
 from weblate.utils.site import get_site_url
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
@@ -584,6 +584,11 @@ class Component(models.Model, URLMixin, PathMixin):
         try:
             return self._sources[id_hash]
         except KeyError:
+
+            if self.template and self.edit_template:
+                kwargs['state'] = STATE_TRANSLATED
+            else:
+                kwargs['state'] = STATE_READONLY
             source, created = self.source_translation.unit_set.get_or_create(
                 id_hash=id_hash,
                 translation=self.source_translation,
