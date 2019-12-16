@@ -319,7 +319,7 @@ class CreateComponentSelection(CreateComponent):
 
     def fetch_params(self, request):
         super(CreateComponentSelection, self).fetch_params(request)
-        self.components = Component.objects.with_repo().filter(
+        self.components = Component.objects.with_repo().prefetch().filter(
             project__in=self.projects
         )
         if self.selected_project:
