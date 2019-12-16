@@ -643,6 +643,7 @@ $(function () {
 
     adjustColspan();
     $window.resize(adjustColspan);
+    $document.on('shown.bs.tab', adjustColspan);
 
     /* AJAX loading of tabs/pills */
     $document.on('show.bs.tab', '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]', function (e) {
