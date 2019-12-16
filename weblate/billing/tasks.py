@@ -79,7 +79,7 @@ def notify_expired():
         for user in bill.get_notify_users():
             send_notification_email(
                 user.profile.language,
-                user.email,
+                [user.email],
                 'billing_expired',
                 context={
                     'billing': bill,
@@ -105,7 +105,7 @@ def perform_removal():
         for user in bill.get_notify_users():
             send_notification_email(
                 user.profile.language,
-                user.email,
+                [user.email],
                 'billing_expired',
                 context={
                     'billing': bill,
