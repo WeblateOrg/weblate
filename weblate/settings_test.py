@@ -26,7 +26,7 @@ import warnings
 
 from weblate.settings_example import *  # noqa
 
-CI_DATABASE = os.environ.get("CI_DATABASE", "")
+CI_DATABASE = os.environ.get("CI_DATABASE", "postgresql")
 
 default_user = "weblate"
 default_name = "weblate"

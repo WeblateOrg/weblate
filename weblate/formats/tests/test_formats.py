@@ -85,6 +85,7 @@ TEST_HE_CLDR = get_test_file("he-cldr.po")
 TEST_HE_CUSTOM = get_test_file("he-custom.po")
 TEST_HE_SIMPLE = get_test_file("he-simple.po")
 TEST_HE_THREE = get_test_file("he-three.po")
+TEST_PROPERTIES_WITH_HEADERS = get_test_file("xwiki.properties")
 
 
 class AutoLoadTest(TestCase):
@@ -406,6 +407,40 @@ class GWTFormatTest(AutoFormatTest):
             force_str(newdata).strip().splitlines(),
             force_str(testdata).strip().splitlines(),
         )
+
+
+class PropertiesWithHeadersFormatTest(AutoFormatTest):
+    FORMAT = PropertiesFormat
+    FILE = TEST_PROPERTIES_WITH_HEADERS
+    MIME = 'text/plain'
+    COUNT = 13
+    EXT = 'properties'
+    MASK = 'java/swing_messages_*.properties'
+    EXPECTED_PATH = 'java/swing_messages_cs-CZ.properties'
+    FIND = 'IGNORE'
+    FIND_CONTEXT = 'IGNORE'
+    FIND_MATCH = 'Ignore'
+    MATCH = '\n'
+    NEW_UNIT_MATCH = b'\nkey=Source string\n'
+    EXPECTED_FLAGS = ''
+
+    def assert_same(self, newdata, testdata):
+        self.assertEqual(
+            force_str(newdata).strip().splitlines(),
+            force_str(testdata).strip().splitlines(),
+        )
+
+    def test_propunit_headers(self):
+        # Parse test file
+        storage = self.FORMAT(self.FILE, template_store=self.FORMAT(self.FILE),
+                              is_template=True)
+        header_unit = storage.all_units[0]
+        comment_unit = storage.all_units[1]
+
+        self.assertIn("See the NOTICE file distributed with this work for additional",
+                      header_unit.unit.getoutput())
+        self.assertIn("This contains the translations of the module in the default "
+                      "language", comment_unit.unit.getoutput())
 
 
 class JoomlaFormatTest(AutoFormatTest):
