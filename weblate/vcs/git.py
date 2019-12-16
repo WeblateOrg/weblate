@@ -384,7 +384,7 @@ class GitWithGerritRepository(GitRepository):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['review', '--version'], merge_err=False).split()[-1]
+        return cls._popen(['review', '--version'], merge_err=True).split()[-1]
 
     def push(self):
         if self.needs_push():
