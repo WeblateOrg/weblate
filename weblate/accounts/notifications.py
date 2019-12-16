@@ -661,7 +661,9 @@ class ToDoStringsNotification(SummaryNotification):
         return translation.stats.todo > 0
 
 
-def get_notification_emails(language, recipients, notification, context=None, info=None):
+def get_notification_emails(
+    language, recipients, notification, context=None, info=None
+):
     """Render notification email."""
     context = context or {}
     headers = {}
@@ -698,7 +700,9 @@ def get_notification_emails(language, recipients, notification, context=None, in
         ]
 
 
-def send_notification_email(language, recipients, notification, context=None, info=None):
+def send_notification_email(
+    language, recipients, notification, context=None, info=None
+):
     """Render and sends notification email."""
     send_mails.delay(
         get_notification_emails(language, recipients, notification, context, info)
