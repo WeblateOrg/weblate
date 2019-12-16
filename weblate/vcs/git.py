@@ -695,7 +695,7 @@ class LocalRepository(GitRepository):
             dirname = os.path.dirname(fullname)
             if not os.path.exists(dirname):
                 os.makedirs(dirname)
-            with open(fullname, 'w') as handle:
+            with open(fullname, 'wb') as handle:
                 handle.write(content)
         # Add to repository
         repo = cls(target)
