@@ -59,6 +59,8 @@ git:
   submodules: false
 addons: &aptaddon
   apt:
+    sources:
+    - sourceline: ppa:git-core/ppa
     packages:
     - git-svn
     - graphviz
@@ -69,8 +71,6 @@ addons: &aptaddon
     - libenchant1c2a
     - g++
     - chromium-browser
-    sources:
-    - git-core
 
 jobs:
   include:
