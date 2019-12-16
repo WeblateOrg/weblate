@@ -338,7 +338,7 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def get_new_file_content(cls):
         result = cls.new_translation
-        if isinstance(result, six.string_types):
+        if isinstance(result, six.text_type):
             result = result.encode('utf-8')
         return result
 
