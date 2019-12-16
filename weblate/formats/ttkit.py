@@ -336,6 +336,13 @@ class TTKitFormat(TranslationFormat):
                     unit.target = ''
 
     @classmethod
+    def get_new_file_content(cls):
+        result = cls.new_translation
+        if isinstance(result, six.string_types):
+            result = result.encode('utf-8')
+        return result
+
+    @classmethod
     def create_new_file(cls, filename, language, base):
         """Handle creation of new translation file."""
         if base:
@@ -346,8 +353,8 @@ class TTKitFormat(TranslationFormat):
         elif cls.new_translation is None:
             raise ValueError('Not supported')
         else:
-            with open(filename, 'w') as output:
-                output.write(cls.new_translation)
+            with open(filename, 'wb') as output:
+                output.write(cls.get_new_file_content())
 
     @classmethod
     def is_valid_base_for_new(cls, base, monolingual):

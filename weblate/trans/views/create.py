@@ -56,7 +56,7 @@ def scratch_create_component(project, name, slug, file_format):
     # Create VCS with empty file
     LocalRepository.from_files(
         fake.full_path,
-        {template: format_cls.new_translation}
+        {template: format_cls.get_new_file_content()}
     )
     # Create component
     return Component.objects.create(
