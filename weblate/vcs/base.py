@@ -313,20 +313,29 @@ class Repository(object):
         except (OSError, RepositoryException):
             cls._is_supported = False
             return False
-        if cls.req_version is None or LooseVersion(version) >= LooseVersion(
-            cls.req_version
-        ):
-            cls._is_supported = True
-            delete_configuration_error(cls.name.lower())
+        try:
+            if cls.req_version is None or LooseVersion(version) >= LooseVersion(
+                cls.req_version
+            ):
+                cls._is_supported = True
+                delete_configuration_error(cls.name.lower())
+                return True
+        except Exception as error:
+            add_configuration_error(
+                cls.name.lower(),
+                '{0} version check failed (version {1}, required {2}): {3}'.format(
+                    cls.name, version, cls.req_version, error
+                ),
+            )
         else:
-            cls._is_supported = False
             add_configuration_error(
                 cls.name.lower(),
                 '{0} version is too old, please upgrade to {1}.'.format(
                     cls.name, cls.req_version
                 ),
             )
-        return cls._is_supported
+        cls._is_supported = False
+        return False
 
     @classmethod
     def get_version(cls):
