@@ -590,7 +590,7 @@ class TSUnit(MonolingualIDUnit):
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
             source = self.unit.source
-            return join_plural([source, source.replace('(s)', 's')])
+            return join_plural([source.replace('(s)', ''), source.replace('(s)', 's')])
         return super(TSUnit, self).source
 
     @cached_property
