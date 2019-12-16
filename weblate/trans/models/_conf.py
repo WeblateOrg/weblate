@@ -156,6 +156,7 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     # Mail customization
     ADMINS_CONTACT = []
     ADMINS_HOSTING = []
+    ADMINS_BILLING = []
 
     # Special chars for visual keyboard
     SPECIAL_CHARS = ('\t', '\n', '…')

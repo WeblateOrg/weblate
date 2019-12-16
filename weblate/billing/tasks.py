@@ -23,6 +23,7 @@ from __future__ import absolute_import, unicode_literals
 from datetime import timedelta
 
 from celery.schedules import crontab
+from django.conf import settings
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
@@ -59,7 +60,7 @@ def billing_notify():
 
     if limit or due:
         send_notification_email(
-            'en', 'ADMINS', 'billing_check',
+            'en', [a[1] for a in settings.ADMINS] + settings.ADMINS_BILLING, 'billing_check',
             context={'limit': limit, 'due': due}
         )
 

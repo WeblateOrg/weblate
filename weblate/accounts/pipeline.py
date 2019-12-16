@@ -148,7 +148,7 @@ def send_validation(strategy, backend, code, partial_token):
 
     send_notification_email(
         None,
-        code.email,
+        [code.email],
         template,
         info=url,
         context=context,

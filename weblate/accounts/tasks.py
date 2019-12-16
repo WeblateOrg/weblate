@@ -121,7 +121,7 @@ def notify_auditlog(log_id, email):
     audit = AuditLog.objects.get(pk=log_id)
     send_notification_email(
         audit.user.profile.language,
-        email,
+        [email],
         'account_activity',
         context={
             'message': audit.get_message,

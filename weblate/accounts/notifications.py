@@ -661,7 +661,7 @@ class ToDoStringsNotification(SummaryNotification):
         return translation.stats.todo > 0
 
 
-def get_notification_emails(language, email, notification, context=None, info=None):
+def get_notification_emails(language, recipients, notification, context=None, info=None):
     """Render notification email."""
     context = context or {}
     headers = {}
@@ -691,20 +691,15 @@ def get_notification_emails(language, email, notification, context=None, info=No
         headers['Precedence'] = 'bulk'
         headers['X-Mailer'] = 'Weblate {0}'.format(VERSION)
 
-        # List of recipients
-        if email == 'ADMINS':
-            emails = [a[1] for a in settings.ADMINS]
-        else:
-            emails = [email]
-
         # Return the mail content
         return [
-            {'subject': subject, 'body': body, 'address': email, 'headers': headers}
-            for email in emails
+            {'subject': subject, 'body': body, 'address': address, 'headers': headers}
+            for address in recipients
         ]
 
 
-def send_notification_email(language, email, notification, context=None, info=None):
+def send_notification_email(language, recipients, notification, context=None, info=None):
     """Render and sends notification email."""
-    emails = get_notification_emails(language, email, notification, context, info)
-    send_mails.delay(emails)
+    send_mails.delay(
+        get_notification_emails(language, recipients, notification, context, info)
+    )
