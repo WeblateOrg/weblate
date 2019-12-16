@@ -347,7 +347,7 @@ class Repository(object):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['--version'], local=True)
+        return cls._popen(['--version'], merge_err=False)
 
     def set_committer(self, name, mail):
         """Configure commiter name."""

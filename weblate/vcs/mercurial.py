@@ -242,7 +242,7 @@ class HgRepository(Repository):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        output = cls._popen(['version', '-q'])
+        output = cls._popen(['version', '-q'], merge_err=False)
         matches = cls.VERSION_RE.match(output)
         if matches is None:
             raise OSError('Failed to parse version string: {0}'.format(output))

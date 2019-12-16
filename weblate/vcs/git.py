@@ -218,7 +218,7 @@ class GitRepository(Repository):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['--version']).split()[2]
+        return cls._popen(['--version'], merge_err=False).split()[2]
 
     def commit(self, message, author=None, timestamp=None, files=None):
         """Create new revision."""
@@ -384,7 +384,7 @@ class GitWithGerritRepository(GitRepository):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['review', '--version']).split()[-1]
+        return cls._popen(['review', '--version'], merge_err=False).split()[-1]
 
     def push(self):
         if self.needs_push():
@@ -404,7 +404,7 @@ class SubversionRepository(GitRepository):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['svn', '--version']).split()[2]
+        return cls._popen(['svn', '--version'], merge_err=False).split()[2]
 
     @classmethod
     def is_stdlayout(cls, url):
