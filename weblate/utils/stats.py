@@ -113,7 +113,7 @@ class ParentStats(object):
             "translated_percent", parent.source_strings
         )
         self.all = parent.source_strings
-        self.translated = parent.translated
+        self.translated = stats.translated
 
 
 class BaseStats(object):
@@ -444,6 +444,14 @@ class LanguageStats(BaseStats):
     def translation_set(self):
         return prefetch_stats(self._object.translation_set.all())
 
+    def calculate_source(self, stats_obj, stats):
+        stats["source_chars"] += stats_obj.all_chars
+        stats["source_words"] += stats_obj.all_words
+        stats["source_strings"] += stats_obj.all
+
+    def prefetch_source(self):
+        return
+
     def prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
         for translation in self.translation_set:
@@ -451,15 +459,12 @@ class LanguageStats(BaseStats):
             stats_obj.ensure_basic()
             for item in BASIC_KEYS:
                 aggregate(stats, item, stats_obj)
-            # This is meaningless for language stats, but we share code
-            # with the ComponentStats
-            if translation.language == translation.component.project.source_language:
-                stats["source_chars"] = stats_obj.all_chars
-                stats["source_words"] = stats_obj.all_words
-                stats["source_strings"] = stats_obj.all
+            self.calculate_source(stats_obj, stats)
 
         for key, value in stats.items():
             self.store(key, value)
+
+        self.prefetch_source()
 
         # Calculate percents
         self.calculate_basic_percents()
@@ -476,6 +481,15 @@ class ComponentStats(LanguageStats):
     @cached_property
     def has_review(self):
         return self._object.project.enable_review
+
+    def calculate_source(self, stats_obj, stats):
+        return
+
+    def prefetch_source(self):
+        stats_obj = self._object.source_translation.stats
+        self.store("source_chars", stats_obj.all_chars)
+        self.store("source_words", stats_obj.all_words)
+        self.store("source_strings", stats_obj.all)
 
     def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
@@ -521,6 +535,20 @@ class ProjectLanguageStats(LanguageStats):
                 component.translation_set.filter(language_id=self.language.pk)
             )
         return prefetch_stats(result)
+
+    def calculate_source(self, stats_obj, stats):
+        return
+
+    def prefetch_source(self):
+        chars, words, strings = 0, 0, 0
+        for component in prefetch_stats(self._object.component_set.iterator()):
+            stats_obj = component.source_translation.stats
+            chars += stats_obj.all_chars
+            words += stats_obj.all_words
+            strings += stats_obj.all
+        self.store("source_chars", chars)
+        self.store("source_words", words)
+        self.store("source_strings", strings)
 
     def prefetch_basic(self):
         super(ProjectLanguageStats, self).prefetch_basic()
