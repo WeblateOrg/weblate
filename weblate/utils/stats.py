@@ -453,9 +453,10 @@ class LanguageStats(BaseStats):
                 aggregate(stats, item, stats_obj)
             # This is meaningless for language stats, but we share code
             # with the ComponentStats
-            stats["source_chars"] = max(stats_obj.all_chars, stats["source_chars"])
-            stats["source_words"] = max(stats_obj.all_words, stats["source_words"])
-            stats["source_strings"] = max(stats_obj.all, stats["source_strings"])
+            if translation.language == translation.component.project.source_language:
+                stats["source_chars"] = stats_obj.all_chars
+                stats["source_words"] = stats_obj.all_words
+                stats["source_strings"] = stats_obj.all
 
         for key, value in stats.items():
             self.store(key, value)
