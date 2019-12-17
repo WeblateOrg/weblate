@@ -6,7 +6,7 @@ Not yet released.
 * Improved application user interface.
 * Added doublespace check.
 * Fixed creating new languages.
-* Avoid sending auditlog notifications to deleted emails.
+* Avoid sending auditlog notifications to deleted e-mails.
 * Added support for read only strings.
 * Added support for markdown in comments.
 * Allow to place translation instructions text into project info.
@@ -24,7 +24,7 @@ Not yet released.
 * Improve default merge request message.
 * Better indicate string state in zen mode.
 * Added support for more languages in Yandex Translate.
-* Improved look of notification emails.
+* Improved look of notification e-mails.
 * Provide choice for translation license.
 
 Weblate 3.9.1
@@ -32,7 +32,7 @@ Weblate 3.9.1
 
 Released on October 28th 2019.
 
-* Remove some not needed files from backups.
+* Remove some unneeded files from backups.
 * Fixed potential crash in reports.
 * Fixed cross database migration failure.
 * Added support for force pushing Git repositories.
@@ -65,7 +65,7 @@ Released on October 15th 2019.
 * Added new custom regex based check.
 * Allow to configure contributing to shared translation memory.
 * Added ZIP download for more translation files.
-* Make Xliff standard compliant parsing of maxwidth and font.
+* Make XLIFF standard compliant parsing of maxwidth and font.
 * Added new check and fixer for safe HTML markup for translating web applications.
 * Add component alert on unsupported configuration.
 * Added automatic translation addon to bootstrap translations.
@@ -100,7 +100,7 @@ Released on August 15th 2019.
 * Add support for translating non VCS based content.
 * Added OpenGraph widget image to use on social networks.
 * Added support for animated screenshots.
-* Improved handling of monolingual Xliff files.
+* Improved handling of monolingual XLIFF files.
 * Avoid sending multiple notifications for single event.
 * Add support for filtering changes.
 * Extended predefined periods for reporting.
@@ -169,7 +169,7 @@ Weblate 3.6.1
 
 Released on April 26th 2019.
 
-* Improved handling of monolingual Xliff files.
+* Improved handling of monolingual XLIFF files.
 * Fixed digest notifications in some corner cases.
 * Fixed addon script error alert.
 * Fixed generating MO file for monolingual PO files.
@@ -207,14 +207,14 @@ Weblate 3.5.1
 Released on March 10th 2019.
 
 * Fixed Celery systemd unit example.
-* Fixed notifications from http repositories with login.
+* Fixed notifications from HTTP repositories with login.
 * Fixed race condition in editing source string for monolingual translations.
 * Include output of failed addon execution in the logs.
 * Improved validation of choices for adding new language.
 * Allow to edit file format in component settings.
 * Update installation instructions to prefer Python 3.
 * Performance and consistency improvements for loading translations.
-* Make Microsoft Terminology service compatible with current zeep releases.
+* Make Microsoft Terminology service compatible with current Zeep releases.
 * Localization updates.
 
 Weblate 3.5
@@ -222,7 +222,7 @@ Weblate 3.5
 
 Released on March 3rd 2019.
 
-* Improved performance of built in translation memory.
+* Improved performance of built-in translation memory.
 * Added interface to manage global translation memory.
 * Improved alerting on bad component state.
 * Added user interface to manage whiteboard messages.
@@ -235,8 +235,8 @@ Released on March 3rd 2019.
 * Added support for toggling GitHub or Gerrit integration.
 * Added check for Kashida letters.
 * Added option to squash commits based on authors.
-* Improved support for xlsx file format.
-* Compatibility with tesseract 4.0.
+* Improved support for XLSX file format.
+* Compatibility with Tesseract 4.0.
 * Billing addon now removes projects for unpaid billings after 45 days.
 
 Weblate 3.4
@@ -336,7 +336,7 @@ Weblate 3.1.1
 
 Released on July 27th 2018.
 
-* Fix testsuite failure on some setup.
+* Fix testsuite failure on some setups.
 
 Weblate 3.1
 ------------
@@ -398,7 +398,7 @@ Released on April 4th 2018.
 * Changed repository locking to use third party library.
 * Added support for downloading only strings needing action.
 * Added support for searching in several languages at once.
-* New addon to configure Gettext output wrapping.
+* New addon to configure gettext output wrapping.
 * New addon to configure JSON formatting.
 * Added support for authentication in API using RFC 6750 compatible Bearer authentication.
 * Added support for automatic translation using machine translation services.
@@ -437,7 +437,7 @@ Released on February 15th 2018.
 * Improved built in machine translation service.
 * Added support for SAP Translation Hub service.
 * Added support for Microsoft Terminology service.
-* Removed support for advertisement in notification mails.
+* Removed support for advertisement in notification e-mails.
 * Improved translation progress reporting at language level.
 * Improved support for different plural formulas.
 * Added support for Subversion repositories not using stdlayout.
@@ -453,7 +453,7 @@ Released on December 15th 2017.
 * Added support for DTD file format.
 * Changed keyboard shortcuts to less likely collide with browser/system ones.
 * Improved support for approved flag in XLIFF files.
-* Added support for not wrapping long strings in Gettext po files.
+* Added support for not wrapping long strings in gettext PO files.
 * Added button to copy permalink for current translation.
 * Dropped support for Django 1.10 and added support for Django 2.0.
 * Removed locking of translations while translating.
@@ -527,7 +527,7 @@ Released on May 24th 2017.
 * Fixed migrations from older versions in some corner cases.
 * Fixed possible CSRF on project watch and unwatch.
 * The password reset no longer authenticates user.
-* Fixed possible captcha bypass on forgotten password.
+* Fixed possible CAPTCHA bypass on forgotten password.
 
 Weblate 2.14
 ~~~~~~~~~~~~
@@ -700,7 +700,7 @@ Released on Jul 10th 2016.
 * Added import_json management command.
 * Correct ordering of listed translations.
 * Show full suggestion text, not only a diff.
-* Extend API (detailed repository status, statistics, ...).
+* Extend API (detailed repository status, statistics, …).
 * Testsuite no longer requires network access to test repositories.
 
 Weblate 2.6
@@ -751,13 +751,13 @@ Released on Mar 10th 2016.
 * Clarified terminology on strings needing action and not translated strings.
 * Support for Python 3.
 * Dropped support for Django 1.7.
-* Dropped dependency on msginit for creating new Gettext po files.
+* Dropped dependency on msginit for creating new gettext PO files.
 * Added configurable dashboard views.
 * Improved notifications on parse errors.
 * Added option to import components with duplicate name to import_project.
 * Improved support for translating PHP files
 * Added XLIFF export for dictionary.
-* Added XLIFF and Gettext PO export for all translations.
+* Added XLIFF and gettext PO export for all translations.
 * Documentation improvements.
 * Added support for configurable automatic group assignments.
 * Improved adding of new translations.
@@ -781,7 +781,7 @@ Released on Sep 20th 2015.
 * Added support for error reporting to Rollbar.
 * Projects now can have multiple owners.
 * Project owners can manage themselves.
-* Added support for javascript-format used in Gettext PO.
+* Added support for ``javascript-format`` used in gettext PO.
 * Support for adding new translations in XLIFF.
 * Improved file format autodetection.
 * Extended keyboard shortcuts.
@@ -791,7 +791,7 @@ Released on Sep 20th 2015.
 * Added support for filtering languages to be managed by Weblate.
 * Added support for translating and importing CSV files.
 * Rewritten handling of static files.
-* Direct login/registration links to third party service if that's the only one.
+* Direct login/registration links to third-party service if that's the only one.
 * Commit pending changes on account removal.
 * Add management command to change site name.
 * Add option to configure default committer.
@@ -806,7 +806,7 @@ Released on May 22nd 2015.
 * Dropped support for Django 1.6 and South migrations.
 * Support for adding new translations when using Java Property files
 * Allow to accept suggestion without editing.
-* Improved support for Google OAuth2.
+* Improved support for Google OAuth 2.0
 * Added support for Microsoft .resx files.
 * Tuned default robots.txt to disallow big crawling of translations.
 * Simplified workflow for accepting suggestions.
@@ -1049,7 +1049,7 @@ Released on August 14th 2012.
 * List only used languages in preferences.
 * Improved handling of not known languages when importing project.
 * Support for locking translation by translator.
-* Optionally maintain Language-Team header in po file.
+* Optionally maintain ``Language-Team`` header in po file.
 * Include some statistics in about page.
 * Supports (and requires) django-registration 0.8.
 * Caching of counted strings with failing checks.
