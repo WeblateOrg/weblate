@@ -166,6 +166,7 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
 
     SINGLE_PROJECT = False
     EXTRA_LICENSES = []
+    FONTS_CDN_URL = None
 
     class Meta(object):
         prefix = ''
