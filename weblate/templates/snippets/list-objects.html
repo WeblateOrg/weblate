@@ -50,7 +50,7 @@
 </th>
 {% include "snippets/list-objects-percent.html" with percent=stats.translated_percent value=stats.translated all=stats.all %}
 {% if global_base %}
-{% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
+{% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=stats.translated all=global_base.source_strings class="zero-width-1000" %}
 {% endif %}
 {% include "snippets/list-objects-number.html" with value=stats.todo query="q=state:<translated" class="zero-width-640" %}
 {% include "snippets/list-objects-number.html" with value=stats.todo_words query="q=state:<translated" class="zero-width-720" %}
