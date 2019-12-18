@@ -3,7 +3,6 @@
 
 <td class="number {{ class }}" data-value="{{ value }}">
     {% if value == 0 %}
-        <span class="text-muted">{% trans "None" context "None strings to review" %}</span>
     {% elif translate_url %}
         <a href="{{ translate_url }}?{{ query }}">
             {{ value|intcomma }}
