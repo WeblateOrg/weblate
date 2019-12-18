@@ -80,7 +80,7 @@ jQuery.fn.extend({
 
 function submitForm(evt) {
     var $target = $(evt.target);
-    var $form = $target.parents('form');
+    var $form = $target.closest('form');
 
     if ($form.length === 0) {
         $form = $('.translation-form');
@@ -240,7 +240,7 @@ function initEditor() {
         var $this = $(this);
 
         $this.button('loading');
-        $this.parents('.translation-item').find('.translation-editor').val(
+        $this.closest('.translation-item').find('.translation-editor').val(
             $.parseJSON($this.data('content'))
         ).change();
         autosize.update($('.translation-editor'));
@@ -253,7 +253,7 @@ function initEditor() {
     $('.direction-toggle').change(function () {
         var $this = $(this);
 
-        $this.parents('.translation-item').find('.translation-editor').attr(
+        $this.closest('.translation-item').find('.translation-editor').attr(
             'dir',
             $this.find('input').val()
         );
@@ -264,7 +264,7 @@ function initEditor() {
         var $this = $(this);
         var text = $this.data('value');
 
-        $this.parents('.translation-item').find('.translation-editor').insertAtCaret(text).change();
+        $this.closest('.translation-item').find('.translation-editor').insertAtCaret(text).change();
         autosize.update($('.translation-editor'));
         e.preventDefault();
     });
@@ -275,7 +275,7 @@ function testChangeHandler(e) {
     if (e.key && e.key === 'Tab') {
         return;
     }
-    $(this).parents('form').find('[name=fuzzy]').prop('checked', false);
+    $(this).closest('form').find('[name=fuzzy]').prop('checked', false);
 }
 
 function processMachineTranslation(data, scope) {
@@ -528,7 +528,7 @@ function loadTableSorting() {
 
 function zenEditor() {
     var $this = $(this);
-    var $row = $this.parents('tr');
+    var $row = $this.closest('tr');
     var checksum = $row.find('[name=checksum]').val();
 
     $row.addClass('translation-modified');
@@ -568,9 +568,9 @@ function insertEditor(text, element)
 
     /* Find withing root element */
     if (typeof element !== 'undefined') {
-        root = element.parents('.zen-unit');
+        root = element.closest('.zen-unit');
         if (root.length === 0) {
-            root = element.parents('.translation-form');
+            root = element.closest('.translation-form');
         }
     } else {
         root = $(document);
@@ -912,7 +912,7 @@ $(function () {
                 addAlert(errorThrown);
             },
         });
-        $this.parents('.check').remove();
+        $this.closest('.check').remove();
         return false;
     });
 
@@ -1054,7 +1054,7 @@ $(function () {
          */
         $document.on('focus', '.zen .translation-editor', function() {
             var current = $window.scrollTop();
-            var row_offset = $(this).parents('tbody').offset().top;
+            var row_offset = $(this).closest('tbody').offset().top;
             if (row_offset < current || row_offset - current > $window.height() / 2) {
                 $([document.documentElement, document.body]).animate({
                     scrollTop: row_offset
@@ -1080,7 +1080,7 @@ $(function () {
             if (focus.length === 0) {
                 $('.zen-unit:first').find('.translation-editor:first').focus();
             } else {
-                focus.parents('.zen-unit').next().find('.translation-editor:first').focus();
+                focus.closest('.zen-unit').next().find('.translation-editor:first').focus();
             }
             return false;
         });
@@ -1090,7 +1090,7 @@ $(function () {
             if (focus.length === 0) {
                 $('.zen-unit:last').find('.translation-editor:first').focus();
             } else {
-                focus.parents('.zen-unit').prev().find('.translation-editor:first').focus();
+                focus.closest('.zen-unit').prev().find('.translation-editor:first').focus();
             }
             return false;
         });
@@ -1429,7 +1429,7 @@ $(function () {
     /* Slugify name */
     $('input[name="slug"]').each(function () {
         var $slug = $(this);
-        var $form = $slug.parents('form');
+        var $form = $slug.closest('form');
         $form.find('input[name="name"]').on('change keypress keydown paste', function () {
             $slug.val(slugify($(this).val()).toLowerCase());
         });
@@ -1482,7 +1482,7 @@ $(function () {
     /* Branch loading */
     $('.branch-loader select[name=component]').change(function () {
         var $this = $(this);
-        var $form = $this.parents('form');
+        var $form = $this.closest('form');
         var branches = $form.data('branches');
         var $select = $form.find('select[name=branch]');
         $select.empty();
@@ -1494,12 +1494,12 @@ $(function () {
     /* Advanced search */
     $('.search-group li a').click(function () {
         var $this = $(this);
-        var $button = $this.parents('.input-group-btn').find('button');
+        var $button = $this.closest('.input-group-btn').find('button');
         $button.data('field', $this.data('field'));
         $button.find('span.search-label').text($this.text());
     });
     $('.search-add').click(function () {
-        var group = $(this).parents('.input-group');
+        var group = $(this).closest('.input-group');
         var button = group.find('button');
         var input = group.find('input');
 
@@ -1510,7 +1510,7 @@ $(function () {
         }
     });
     $('.search-insert').click(function () {
-        $('#id_q').insertAtCaret(' ' + $(this).parents('tr').find('code').text() + ' ');
+        $('#id_q').insertAtCaret(' ' + $(this).closest('tr').find('code').text() + ' ');
     });
 
     /* Clickable rows */
