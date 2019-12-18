@@ -42,6 +42,7 @@ from weblate.logger import LOGGER
 from weblate.trans.models import Alert, Change, Translation
 from weblate.utils.markdown import get_mentions
 from weblate.utils.site import get_site_domain, get_site_url
+from weblate.utils.stats import prefetch_stats
 
 FREQ_NONE = 0
 FREQ_INSTANT = 1
@@ -622,7 +623,7 @@ class SummaryNotification(Notification):
     def notify_summary(self, frequency):
         users = {}
         notifications = defaultdict(list)
-        for translation in Translation.objects.prefetch().iterator():
+        for translation in prefetch_stats(Translation.objects.prefetch().iterator()):
             if not self.should_notify(translation):
                 continue
             context = {
