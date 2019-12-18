@@ -203,6 +203,10 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME", None)
 
+# GitHub username for sending pull requests.
+# Please see the documentation for more details.
+GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME", None)
+
 # Authentication configuration
 AUTHENTICATION_BACKENDS = ()
 
