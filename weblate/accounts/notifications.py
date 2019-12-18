@@ -623,7 +623,7 @@ class SummaryNotification(Notification):
     def notify_summary(self, frequency):
         users = {}
         notifications = defaultdict(list)
-        for translation in prefetch_stats(Translation.objects.prefetch().iterator()):
+        for translation in prefetch_stats(Translation.objects.prefetch()):
             if not self.should_notify(translation):
                 continue
             context = {
