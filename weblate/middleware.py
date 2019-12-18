@@ -128,6 +128,12 @@ class SecurityMiddleware(object):
             style.add(domain)
             font.add(domain)
 
+        # CDN for fonts
+        if settings.FONTS_CDN_URL:
+            domain = urlparse(settings.STATIC_URL).hostname
+            style.add(domain)
+            font.add(domain)
+
         # When using external image for Auth0 provider, add it here
         if "://" in settings.SOCIAL_AUTH_AUTH0_IMAGE:
             domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
