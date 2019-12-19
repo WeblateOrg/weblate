@@ -385,6 +385,24 @@ Generic settings
        :ref:`gitlab-push`
        :ref:`lab-setup`
 
+.. envvar:: WEBLATE_GITLAB_HOST
+
+    Configures GitLab Host for GitLab merge-requests
+
+    .. seealso::
+
+       :ref:`gitlab-push`
+       :ref:`lab-setup`
+
+.. envvar:: WEBLATE_GITLAB_TOKEN
+
+    Configures GitLab access token for GitLab merge-requests
+
+    .. seealso::
+
+       :ref:`gitlab-push`
+       :ref:`lab-setup`
+
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
@@ -882,6 +900,17 @@ command. For example:
         docker-compose exec --user weblate weblate bash
         cd
         HOME=/app/data/home lab
+
+You can also use environment variables to configure ``lab`` on each container start.
+Just add ``WEBLATE_GITLAB_USERNAME``, ``WEBLATE_GITLAB_HOST``and ``WEBLATE_GITLAB_TOKEN`` to your env configuration.
+
+.. code-block:: yaml
+
+  weblate:
+    environment:
+      WEBLATE_GITLAB_USERNAME: translations_bot
+      WEBLATE_GITLAB_HOST: https://gitlab.example.com 
+      WEBLATE_GITLAB_TOKEN: personal_access_token_of_translations_bot
 
 The ``access_token`` passed for lab configuratoin must be same as :setting:`GITLAB_USERNAME`.
 
