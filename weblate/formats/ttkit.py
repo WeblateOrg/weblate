@@ -50,6 +50,7 @@ from weblate.trans.util import (
     xliff_string_to_rich,
 )
 from weblate.utils.errors import report_error
+from weblate.utils.hash import calculate_hash
 
 LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
 SUPPORTS_FUZZY = (pounit, tsunit)
@@ -82,7 +83,10 @@ class TTKitUnit(TranslationUnit):
 
         In some cases we have to use ID here to make all backends consistent.
         """
-        return self.mainunit.getcontext()
+        if self.mainunit.istranslatable():
+            return self.mainunit.getcontext()
+        else:
+            return calculate_hash(None, self.mainunit.__str__())
 
     @cached_property
     def notes(self):
