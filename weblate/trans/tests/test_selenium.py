@@ -630,7 +630,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "weblate/langdata/locale/django.pot"
         )
         Select(self.driver.find_element_by_id("id_file_format")).select_by_value("po")
-        self.driver.find_element_by_id("id_license").select_by_value("GPL-3.0-or-later")
+        Select(self.driver.find_element_by_id("id_license")).select_by_value(
+            "GPL-3.0-or-later"
+        )
         self.clear_field(self.driver.find_element_by_id("id_language_regex")).send_keys(
             language_regex
         )
@@ -662,7 +664,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         Select(self.driver.find_element_by_id("id_file_format")).select_by_value(
             "aresource"
         )
-        self.driver.find_element_by_id("id_license").select_by_value("MIT")
+        Select(self.driver.find_element_by_id("id_license")).select_by_value("MIT")
         self.screenshot("add-component-mono.png")
         # This takes long
         with self.wait_for_page_load(timeout=1200):
@@ -934,7 +936,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "weblate/langdata/locale/django.pot"
         )
         Select(self.driver.find_element_by_id("id_file_format")).select_by_value("po")
-        self.driver.find_element_by_id("id_license").select_by_value("GPL-3.0-or-later")
+        Select(self.driver.find_element_by_id("id_license")).select_by_value(
+            "GPL-3.0-or-later"
+        )
         self.clear_field(self.driver.find_element_by_id("id_language_regex")).send_keys(
             "^(cs|he|hu)$"
         )
