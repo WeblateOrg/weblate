@@ -367,18 +367,15 @@ class Project(models.Model, URLMixin, PathMixin):
         from weblate.trans.models import Unit
 
         units = Unit.objects.filter(translation__component__project=self)
-        updates = (
-            ('has_failing_check', 'check'),
-            ('has_comment', 'comment'),
-            ('has_suggestion', 'suggestion'),
+
+        self.log_debug('updating unit flags: has_failing_check')
+
+        units.filter(has_failing_check=False).filter(check__ignore=False).update(
+            has_failing_check=True
         )
-        for flag, table in updates:
-            self.log_debug('updating unit flags: %s', flag)
-            f_true = {flag: True}
-            f_false = {flag: False}
-            lookup = {table: None}
-            units.filter(**f_false).exclude(**lookup).update(**f_true)
-            units.filter(**f_true).filter(**lookup).update(**f_false)
+        units.filter(has_failing_check=True).exclude(check__ignore=False).update(
+            has_failing_check=False
+        )
         self.log_debug('all unit flags updated')
 
     def invalidate_stats_deep(self):
