@@ -1,7 +1,7 @@
 Weblate 3.10
 ------------
 
-Not yet released.
+Released on December 20th 2019.
 
 * Improved application user interface.
 * Added doublespace check.
