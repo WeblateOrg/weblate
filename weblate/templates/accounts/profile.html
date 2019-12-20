@@ -352,7 +352,7 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 <th><a href="{{ component.get_absolute_url }}">{{ component }}</a></th>
 <td>
 {% if component.license_url %}
-<a href="{{ component.license_url }}">{{ component.get_license_display }}</a></p>
+<a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
 {% else %}
 {{ component.get_license_display }}
 {% endif %}
