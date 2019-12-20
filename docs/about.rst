@@ -19,6 +19,12 @@ The landing page is <https://weblate.org/> and a cloud hosted service at
 <https://hosted.weblate.org/>. This documentation can be found on
 <https://docs.weblate.org/>.
 
+Project logos
+-------------
+
+The project logos and other graphics is available in
+<https://github.com/WeblateOrg/graphics/> repository.
+
 Leadership
 ----------
 
