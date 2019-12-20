@@ -762,11 +762,11 @@ class AutoForm(forms.Form):
     mode = forms.ChoiceField(
         label=_('Automatic translation mode'),
         choices=[
-            ('translate', _('Add as translation')),
             ('suggest', _('Add as suggestion')),
+            ('translate', _('Add as translation')),
             ('fuzzy', _('Add as needing edit')),
         ],
-        initial='translate',
+        initial='suggest',
     )
     filter_type = FilterField(required=True, initial='todo')
     auto_source = forms.ChoiceField(
