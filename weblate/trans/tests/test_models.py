@@ -70,12 +70,16 @@ class BaseTestCase(TestCase):
         Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
         """
         super(BaseTestCase, cls).setUpClass()
+
         def immediate_on_commit(func, using=None):
             func()
+
         # Context manager executing transaction.on_commit() hooks immediately
         # This is required when using a subclass of django.test.TestCase as all tests are wrapped in
         # a transaction that never gets committed.
-        cls.on_commit_mgr = mock.patch('django.db.transaction.on_commit', side_effect=immediate_on_commit)
+        cls.on_commit_mgr = mock.patch(
+            'django.db.transaction.on_commit', side_effect=immediate_on_commit
+        )
         cls.on_commit_mgr.__enter__()
 
     @classmethod
@@ -96,12 +100,16 @@ class BaseLiveServerTestCase(LiveServerTestCase):
         Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
         """
         super(LiveServerTestCase, cls).setUpClass()
+
         def immediate_on_commit(func, using=None):
             func()
+
         # Context manager executing transaction.on_commit() hooks immediately
         # This is required when using a subclass of django.test.TestCase as all tests are wrapped in
         # a transaction that never gets committed.
-        cls.on_commit_mgr = mock.patch('django.db.transaction.on_commit', side_effect=immediate_on_commit)
+        cls.on_commit_mgr = mock.patch(
+            'django.db.transaction.on_commit', side_effect=immediate_on_commit
+        )
         cls.on_commit_mgr.__enter__()
 
     @classmethod
@@ -112,6 +120,7 @@ class BaseLiveServerTestCase(LiveServerTestCase):
 
 class RepoTestCase(BaseTestCase, RepoTestMixin):
     """Generic class for tests working with repositories."""
+
     def setUp(self):
         self.clone_test_repos()
 
@@ -126,15 +135,15 @@ class ProjectTest(RepoTestCase):
 
     def test_rename(self):
         component = self.create_link()
-        self.assertTrue(
-            Component.objects.filter(repo='weblate://test/test').exists()
-        )
+        self.assertTrue(Component.objects.filter(repo='weblate://test/test').exists())
         project = component.project
         old_path = project.full_path
         self.assertTrue(os.path.exists(old_path))
-        self.assertTrue(os.path.exists(
-            component.translation_set.get(language_code="cs").get_filename()
-        ))
+        self.assertTrue(
+            os.path.exists(
+                component.translation_set.get(language_code="cs").get_filename()
+            )
+        )
         project.slug = 'changed'
         project.save()
         new_path = project.full_path
@@ -144,13 +153,13 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(
             Component.objects.filter(repo='weblate://changed/test').exists()
         )
-        self.assertFalse(
-            Component.objects.filter(repo='weblate://test/test').exists()
-        )
+        self.assertFalse(Component.objects.filter(repo='weblate://test/test').exists())
         component = Component.objects.get(pk=component.pk)
-        self.assertTrue(os.path.exists(
-            component.translation_set.get(language_code="cs").get_filename()
-        ))
+        self.assertTrue(
+            os.path.exists(
+                component.translation_set.get(language_code="cs").get_filename()
+            )
+        )
 
     def test_delete(self):
         project = self.create_project()
@@ -191,6 +200,7 @@ class ProjectTest(RepoTestCase):
 
 class TranslationTest(RepoTestCase):
     """Translation testing."""
+
     def test_basic(self):
         component = self.create_component()
         translation = component.translation_set.get(language_code='cs')
@@ -236,7 +246,7 @@ class TranslationTest(RepoTestCase):
             user = User.objects.create(
                 full_name='User {}'.format(unit.pk),
                 username='user-{}'.format(unit.pk),
-                email='{}@example.com'.format(unit.pk)
+                email='{}@example.com'.format(unit.pk),
             )
             # Fetch current pending state, it might have been
             # updated by background commit
@@ -244,9 +254,7 @@ class TranslationTest(RepoTestCase):
             unit.translate(user, 'test', STATE_TRANSLATED)
             if i == 0:
                 # First edit should trigger commit
-                self.assertNotEqual(
-                    start_rev, component.repository.last_revision
-                )
+                self.assertNotEqual(start_rev, component.repository.last_revision)
                 start_rev = component.repository.last_revision
 
         # No further commit now
@@ -268,51 +276,28 @@ class ComponentListTest(RepoTestCase):
 
     def test_auto(self):
         self.create_component()
-        clist = ComponentList.objects.create(
-            name='Name',
-            slug='slug'
-        )
+        clist = ComponentList.objects.create(name='Name', slug='slug')
         AutoComponentList.objects.create(
-            project_match='^.*$',
-            component_match='^.*$',
-            componentlist=clist
+            project_match='^.*$', component_match='^.*$', componentlist=clist
         )
-        self.assertEqual(
-            clist.components.count(), 1
-        )
+        self.assertEqual(clist.components.count(), 1)
 
     def test_auto_create(self):
-        clist = ComponentList.objects.create(
-            name='Name',
-            slug='slug'
-        )
+        clist = ComponentList.objects.create(name='Name', slug='slug')
         AutoComponentList.objects.create(
-            project_match='^.*$',
-            component_match='^.*$',
-            componentlist=clist
+            project_match='^.*$', component_match='^.*$', componentlist=clist
         )
-        self.assertEqual(
-            clist.components.count(), 0
-        )
+        self.assertEqual(clist.components.count(), 0)
         self.create_component()
-        self.assertEqual(
-            clist.components.count(), 1
-        )
+        self.assertEqual(clist.components.count(), 1)
 
     def test_auto_nomatch(self):
         self.create_component()
-        clist = ComponentList.objects.create(
-            name='Name',
-            slug='slug'
-        )
+        clist = ComponentList.objects.create(name='Name', slug='slug')
         AutoComponentList.objects.create(
-            project_match='^none$',
-            component_match='^.*$',
-            componentlist=clist
+            project_match='^none$', component_match='^.*$', componentlist=clist
         )
-        self.assertEqual(
-            clist.components.count(), 0
-        )
+        self.assertEqual(clist.components.count(), 0)
 
 
 class ModelTestCase(RepoTestCase):
@@ -323,6 +308,7 @@ class ModelTestCase(RepoTestCase):
 
 class SourceUnitTest(ModelTestCase):
     """Source Unit objects testing."""
+
     def test_source_info(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         self.assertIsNotNone(unit.source_info)
@@ -346,10 +332,7 @@ class SourceUnitTest(ModelTestCase):
         source.extra_flags = 'ignore-{0}'.format(check.check)
         source.save()
         self.assertEqual(Check.objects.count(), 0)
-        self.assertEqual(
-            Component.objects.get(pk=self.component.pk).stats.allchecks,
-            0
-        )
+        self.assertEqual(Component.objects.get(pk=self.component.pk).stats.allchecks, 0)
 
 
 class UnitTest(ModelTestCase):
@@ -409,28 +392,24 @@ class UnitTest(ModelTestCase):
 
 class WhiteboardMessageTest(ModelTestCase):
     """Test(s) for WhiteboardMessage model."""
+
     def setUp(self):
         super(WhiteboardMessageTest, self).setUp()
         WhiteboardMessage.objects.create(
-            language=Language.objects.get(code='cs'),
-            message='test cs',
+            language=Language.objects.get(code='cs'), message='test cs'
         )
         WhiteboardMessage.objects.create(
-            language=Language.objects.get(code='de'),
-            message='test de',
+            language=Language.objects.get(code='de'), message='test de'
         )
         WhiteboardMessage.objects.create(
-            project=self.component.project,
-            message='test project',
+            project=self.component.project, message='test project'
         )
         WhiteboardMessage.objects.create(
             component=self.component,
             project=self.component.project,
             message='test component',
         )
-        WhiteboardMessage.objects.create(
-            message='test global',
-        )
+        WhiteboardMessage.objects.create(message='test global')
 
     def verify_filter(self, messages, count, message=None):
         """
@@ -442,34 +421,24 @@ class WhiteboardMessageTest(ModelTestCase):
             self.assertEqual(messages[0].message, message)
 
     def test_contextfilter_global(self):
-        self.verify_filter(
-            WhiteboardMessage.objects.context_filter(),
-            1,
-            'test global'
-        )
+        self.verify_filter(WhiteboardMessage.objects.context_filter(), 1, 'test global')
 
     def test_contextfilter_project(self):
         self.verify_filter(
-            WhiteboardMessage.objects.context_filter(
-                project=self.component.project,
-            ),
+            WhiteboardMessage.objects.context_filter(project=self.component.project),
             1,
-            'test project'
+            'test project',
         )
 
     def test_contextfilter_component(self):
         self.verify_filter(
-            WhiteboardMessage.objects.context_filter(
-                component=self.component,
-            ),
-            2
+            WhiteboardMessage.objects.context_filter(component=self.component), 2
         )
 
     def test_contextfilter_translation(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                component=self.component,
-                language=Language.objects.get(code='cs'),
+                component=self.component, language=Language.objects.get(code='cs')
             ),
             3,
         )
@@ -477,15 +446,15 @@ class WhiteboardMessageTest(ModelTestCase):
     def test_contextfilter_language(self):
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                language=Language.objects.get(code='cs'),
+                language=Language.objects.get(code='cs')
             ),
             1,
-            'test cs'
+            'test cs',
         )
         self.verify_filter(
             WhiteboardMessage.objects.context_filter(
-                language=Language.objects.get(code='de'),
+                language=Language.objects.get(code='de')
             ),
             1,
-            'test de'
+            'test de',
         )
