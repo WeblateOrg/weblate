@@ -75,8 +75,8 @@ class BaseTestCase(TestCase):
             func()
 
         # Context manager executing transaction.on_commit() hooks immediately
-        # This is required when using a subclass of django.test.TestCase as all tests are wrapped in
-        # a transaction that never gets committed.
+        # This is required when using a subclass of django.test.TestCase as all tests
+        # are wrapped in a transaction that never gets committed.
         cls.on_commit_mgr = mock.patch(
             'django.db.transaction.on_commit', side_effect=immediate_on_commit
         )
@@ -105,8 +105,8 @@ class BaseLiveServerTestCase(LiveServerTestCase):
             func()
 
         # Context manager executing transaction.on_commit() hooks immediately
-        # This is required when using a subclass of django.test.TestCase as all tests are wrapped in
-        # a transaction that never gets committed.
+        # This is required when using a subclass of django.test.TestCase as all tests
+        # are wrapped in a transaction that never gets committed.
         cls.on_commit_mgr = mock.patch(
             'django.db.transaction.on_commit', side_effect=immediate_on_commit
         )

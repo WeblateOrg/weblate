@@ -472,9 +472,8 @@ class Unit(models.Model, LoggerMixin):
 
         # Propagate to other projects
         # This has to be done before changing source/content_hash for template
-        propagated = False
         if propagate:
-            propagated = self.propagate(user, change_action, author=author)
+            self.propagate(user, change_action, author=author)
 
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
