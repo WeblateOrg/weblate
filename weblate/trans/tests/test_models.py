@@ -49,8 +49,6 @@ except ImportError:
     import mock
 
 
-
-
 def fixup_languages_seq():
     # Reset sequence for Language and Plural objects as
     # we're manipulating with them in FixtureTestCase.setUpTestData
