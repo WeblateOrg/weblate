@@ -169,7 +169,7 @@ def optimize_fulltext():
 
 def cleanup_sources(project):
     """Remove stale source Unit objects."""
-    for component in project.component_set.iterator():
+    for component in project.component_set.filter(template="").iterator():
         with transaction.atomic():
             translation = component.source_translation
 
@@ -213,8 +213,7 @@ def cleanup_suggestions():
 
             # Remove duplicate suggestions
             sugs = Suggestion.objects.filter(
-                unit=suggestion.unit,
-                target=suggestion.target,
+                unit=suggestion.unit, target=suggestion.target
             ).exclude(id=suggestion.id)
             # Do not rely on the SQL as MySQL compares strings case insensitive
             for other in sugs:
