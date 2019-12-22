@@ -902,18 +902,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if orig_user:
                 request.user = orig_user
 
-    def invalidate_cache(self, recurse=True):
+    def invalidate_cache(self):
         """Invalidate any cached stats."""
         # Invalidate summary stats
         transaction.on_commit(lambda: self.stats.invalidate())
-        if recurse and self.component.allow_translation_propagation:
-            related = Translation.objects.filter(
-                component__project=self.component.project,
-                component__allow_translation_propagation=True,
-                language=self.language,
-            ).exclude(pk=self.pk)
-            for translation in related.iterator():
-                translation.invalidate_cache(False)
 
     def get_export_url(self):
         """Return URL of exported git repository."""

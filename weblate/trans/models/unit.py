@@ -503,7 +503,7 @@ class Unit(models.Model, LoggerMixin):
 
         if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
             # Update translation stats
-            self.translation.invalidate_cache(recurse=propagated)
+            self.translation.invalidate_cache()
 
             # Update user stats
             author.profile.translated += 1

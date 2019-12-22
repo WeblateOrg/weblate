@@ -1333,7 +1333,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 project.run_target_checks()
                 project.run_source_checks()
                 project.update_unit_flags()
-                transaction.on_commit(lambda: project.invalidate_stats_deep())
+                project.invalidate_stats_deep()
 
         # Schedule background cleanup if needed
         if self.needs_cleanup:
