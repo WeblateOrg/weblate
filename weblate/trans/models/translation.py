@@ -905,7 +905,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def invalidate_cache(self, recurse=True):
         """Invalidate any cached stats."""
         # Invalidate summary stats
-        self.stats.invalidate()
+        transaction.on_commit(lambda: self.stats.invalidate())
         if recurse and self.component.allow_translation_propagation:
             related = Translation.objects.filter(
                 component__project=self.component.project,
