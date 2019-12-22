@@ -176,7 +176,7 @@ def cleanup_sources(project):
             source_ids = (
                 Unit.objects.filter(translation__component=component)
                 .exclude(translation=translation)
-                .values("id_hash")
+                .values("id_hash", flat=True)
                 .distinct()
             )
 
