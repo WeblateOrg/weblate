@@ -99,7 +99,7 @@ class BaseLiveServerTestCase(LiveServerTestCase):
         TODO: Remove when immediate_on_commit function is actually implemented
         Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
         """
-        super(LiveServerTestCase, cls).setUpClass()
+        super(BaseLiveServerTestCase, cls).setUpClass()
 
         def immediate_on_commit(func, using=None):
             func()
@@ -114,7 +114,7 @@ class BaseLiveServerTestCase(LiveServerTestCase):
 
     @classmethod
     def tearDownClass(cls):
-        super(LiveServerTestCase, cls).tearDownClass()
+        super(BaseLiveServerTestCase, cls).tearDownClass()
         cls.on_commit_mgr.__exit__()
 
 
