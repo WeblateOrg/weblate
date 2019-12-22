@@ -6,13 +6,14 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2018, 2019.
 # Jesper Hertel <jesper.hertel@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
+# Henrik Dankvardt <dankvardt@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-12-17 14:55+0000\n"
-"PO-Revision-Date: 2019-12-03 03:41+0000\n"
-"Last-Translator: Jesper Hertel <jesper.hertel@gmail.com>\n"
+"PO-Revision-Date: 2019-12-23 16:21+0000\n"
+"Last-Translator: Henrik Dankvardt <dankvardt@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
 "Language: da\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 3.10\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -236,10 +237,8 @@ msgid "Watched projects"
 msgstr "Overvågede projekter"
 
 #: weblate/accounts/forms.py:757
-#, fuzzy
-#| msgid "Billed projects"
 msgid "Administered projects"
-msgstr "Fakturerede projekter"
+msgstr "Administrerede projekter"
 
 #: weblate/accounts/forms.py:759
 #, fuzzy
@@ -249,16 +248,12 @@ msgid "Project: {}"
 msgstr "Projekt: {}"
 
 #: weblate/accounts/forms.py:760
-#, fuzzy
-#| msgid "Component"
 msgid "Component: {}"
-msgstr "Komponent"
+msgstr "Komponent: {}"
 
 #: weblate/accounts/models.py:82
-#, fuzzy
-#| msgid "Password has been changed."
 msgid "Password changed."
-msgstr "Adgangskoden er ændret."
+msgstr "Adgangskoden ændret."
 
 #: weblate/accounts/models.py:83
 #, python-brace-format
@@ -375,16 +370,12 @@ msgid "Translated languages"
 msgstr "Oversatte sprog"
 
 #: weblate/accounts/models.py:289
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate. These will be offered to "
-#| "you on the dashboard to have easier access to chosen translations."
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
-"Vælg hvilke sprog, du foretrækker at oversætte. Disse vil blive tilbudt til "
-"dig på betjeningspanelet, for at få lettere adgang til udvalgte "
+"Vælg hvilke sprog, du foretrækker at oversætte til. Disse vil blive tilbudt "
+"til dig på betjeningspanelet, for at få lettere adgang til dine udvalgte "
 "oversættelser."
 
 #: weblate/accounts/models.py:296
@@ -408,31 +399,22 @@ msgid "Show secondary translations in zen mode"
 msgstr "Vis sekundære oversættelser i zen-tilstand"
 
 #: weblate/accounts/models.py:315
-#, fuzzy
-#| msgid "Hide source if there is secondary language"
 msgid "Hide source if a secondary translation exists"
-msgstr "Skjule kilden, hvis der er et sekundært sprog"
+msgstr "Skjule kilden, hvis en sekundær oversættelse findes"
 
 #: weblate/accounts/models.py:321
 msgid "Editor link"
 msgstr "Link til editor"
 
 #: weblate/accounts/models.py:323
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{ branch }} for branch, {{ filename }} and {{ line }} as filename and "
-#| "line placeholders. Usually something like editor://open/?"
-#| "file={{ filename }}&line={{ line }} is good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Angiv brugerdefineret URL som skal bruges som link til open source-kode. Du "
-"kan bruge {{ branch }} til at angive grenen og {{ filename }} og {{ line }} "
-"som pladsholdere for filnavn og linjenummer. Som regel er noget i retning af "
-"editor://open/?file={{ filename }}&line={{ line }} et godt valg."
+"Indtast en brugerdefineret URL, der skal bruges som link til kildekoden. Du "
+"kan bruge {{branch}} til filial, {{filename}} og {{line}} som filnavn og "
+"linjepladsholdere."
 
 #: weblate/accounts/models.py:332
 msgid "Translation editor mode"
@@ -447,10 +429,8 @@ msgid "Zen mode"
 msgstr "Zen-tilstand"
 
 #: weblate/accounts/models.py:339
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen editor mode"
-msgstr "Zen-tilstand"
+msgstr "Zen tilstand"
 
 #: weblate/accounts/models.py:341
 msgid "Top to bottom"
@@ -515,20 +495,15 @@ msgstr ""
 "betjeningspanelet som standard."
 
 #: weblate/accounts/models.py:432
-#, fuzzy
-#| msgid "Please choose the language you want to translate to."
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr "Vælg det sprog, som du vil oversætte til."
+msgstr "Vælg venligst hvilke komponenter, som du vil vise på kontrolpanelet"
 
 #: weblate/accounts/models.py:443
-#, fuzzy
-#| msgid ""
-#| "When enabled this component list will be shown as a tab on the dashboard"
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
-"Når den er aktiveret vises komponentlisten som et faneblad på "
-"betjeningspanelet"
+"Valg af komponentliste har ingen virkning, når det ikke vises på "
+"instrumentbrættet."
 
 #: weblate/accounts/models.py:536
 #, fuzzy
@@ -563,50 +538,38 @@ msgid "Monthly digest"
 msgstr "Månedlig sammenfatning"
 
 #: weblate/accounts/notifications.py:396
-#, fuzzy
-#| msgid "Repository details"
 msgid "Repository failure"
-msgstr "Detaljer for arkiv"
+msgstr "Arkiv fejl"
 
 #: weblate/accounts/notifications.py:420
 #, fuzzy
 #| msgid "Repository branch"
 msgid "Repository operation"
-msgstr "Arkivgren"
+msgstr "Repository operation"
 
 #: weblate/accounts/notifications.py:427 weblate/trans/models/change.py:247
 msgid "Parse error"
 msgstr "Fortolkningsfejl"
 
 #: weblate/accounts/notifications.py:434
-#, fuzzy
-#| msgid "New string added"
 msgid "New string"
-msgstr "Ny streng tilføjet"
+msgstr "Ny streng"
 
 #: weblate/accounts/notifications.py:442 weblate/trans/models/change.py:267
-#, fuzzy
-#| msgid "Recent contributions"
 msgid "New contributor"
-msgstr "Seneste bidrag"
+msgstr "Ny bidragsyder"
 
 #: weblate/accounts/notifications.py:450
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "New suggestion"
-msgstr "Stemme på forslag"
+msgstr "Nyt forslag"
 
 #: weblate/accounts/notifications.py:459
-#, fuzzy
-#| msgid "Name of the translation"
 msgid "Comment on own translation"
-msgstr "Navnet på oversættelsen"
+msgstr "kommentar på egen oversættelse"
 
 #: weblate/accounts/notifications.py:494
-#, fuzzy
-#| msgid "Contributors in comment"
 msgid "Mentioned in comment"
-msgstr "Bidragydere i kommentar"
+msgstr "nævnt i kommentar"
 
 #: weblate/accounts/notifications.py:527 weblate/templates/translate.html:387
 #: weblate/trans/forms.py:937
@@ -614,34 +577,24 @@ msgid "New comment"
 msgstr "Ny kommentar"
 
 #: weblate/accounts/notifications.py:551
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed string"
-msgstr "Ændret siden"
+msgstr "Ændret streng"
 
 #: weblate/accounts/notifications.py:559
-#, fuzzy
-#| msgid "Per language"
 msgid "New language"
-msgstr "Pr. sprog"
+msgstr "Nyt sprog"
 
 #: weblate/accounts/notifications.py:575
-#, fuzzy
-#| msgid "Add new translation component"
 msgid "New translation component"
-msgstr "Tilføj ny oversættelseskomponent"
+msgstr "ny oversættelseskomponent"
 
 #: weblate/accounts/notifications.py:582 weblate/trans/models/change.py:268
-#, fuzzy
-#| msgid "Whiteboard message"
 msgid "New whiteboard message"
-msgstr "Tavlebesked"
+msgstr "Ny whiteboard besked"
 
 #: weblate/accounts/notifications.py:590 weblate/trans/models/change.py:269
-#, fuzzy
-#| msgid "New line"
 msgid "New alert"
-msgstr "Linjeskift"
+msgstr "Ny alarm"
 
 #: weblate/accounts/notifications.py:648
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
@@ -783,10 +736,8 @@ msgstr ""
 "Kan ikke nulstille adgangskoden, godkendelse med e-mail er deaktiveret!"
 
 #: weblate/accounts/views.py:922
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Nuværende brugeridentiteter"
+msgstr "kunne ilke fjerne Nuværende brugeridentitet"
 
 #: weblate/accounts/views.py:947
 #, fuzzy
@@ -813,10 +764,8 @@ msgid "Got no e-mail address from third party authentication service."
 msgstr "Fik ingen e-mailadresse fra tredjeparts godkendelsestjeneste!"
 
 #: weblate/accounts/views.py:965
-#, fuzzy
-#| msgid "Register using email"
 msgid "Please register using e-mail instead."
-msgstr "Registrer med e-mail"
+msgstr "Registrer venligst med e-mail i stedet"
 
 #: weblate/accounts/views.py:972
 #, fuzzy
@@ -836,10 +785,8 @@ msgstr ""
 "forbindelsesfejl."
 
 #: weblate/accounts/views.py:1021
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
-msgstr "Godkendelse er blevet annulleret."
+msgstr "Godkendelse er annulleret."
 
 #: weblate/accounts/views.py:1024
 msgid "The server does not allow authentication."
@@ -858,10 +805,8 @@ msgstr ""
 "er allerede i brug i en anden konto."
 
 #: weblate/accounts/views.py:1044
-#, fuzzy
-#| msgid "Notification settings"
 msgid "Notification settings adjusted."
-msgstr "Underretningsindstillinger"
+msgstr "Underretningsindstillinger tilpasset"
 
 #: weblate/accounts/views.py:1049
 msgid ""
