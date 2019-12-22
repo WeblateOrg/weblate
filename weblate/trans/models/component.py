@@ -591,7 +591,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 kwargs['state'] = STATE_READONLY
             source, created = self.source_translation.unit_set.get_or_create(
                 id_hash=id_hash,
-                translation=self.source_translation,
                 defaults=kwargs,
             )
             if created:
