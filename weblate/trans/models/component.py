@@ -1340,7 +1340,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if self.needs_cleanup:
             from weblate.trans.tasks import cleanup_project
 
-            cleanup_project.delay(self.project.pk)
+            transaction.on_commit(lambda: cleanup_project.delay(self.project.pk))
 
         # Send notifications on new string
         for translation in translations.values():
