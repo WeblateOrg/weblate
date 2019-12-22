@@ -23,7 +23,6 @@
 
 import os
 import shutil
-from unittest import mock
 
 from django.core.management.color import no_style
 from django.db import connection
@@ -43,6 +42,13 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.state import STATE_TRANSLATED
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
+
+
 
 
 def fixup_languages_seq():
