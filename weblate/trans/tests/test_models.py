@@ -23,6 +23,7 @@
 
 import os
 import shutil
+from unittest import mock
 
 from django.core.management.color import no_style
 from django.db import connection
@@ -62,11 +63,51 @@ class BaseTestCase(TestCase):
     def setUpTestData(cls):
         fixup_languages_seq()
 
+    @classmethod
+    def setUpClass(cls):
+        """
+        TODO: Remove when immediate_on_commit function is actually implemented
+        Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
+        """
+        super(BaseTestCase, cls).setUpClass()
+        def immediate_on_commit(func, using=None):
+            func()
+        # Context manager executing transaction.on_commit() hooks immediately
+        # This is required when using a subclass of django.test.TestCase as all tests are wrapped in
+        # a transaction that never gets committed.
+        cls.on_commit_mgr = mock.patch('django.db.transaction.on_commit', side_effect=immediate_on_commit)
+        cls.on_commit_mgr.__enter__()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(BaseTestCase, cls).tearDownClass()
+        cls.on_commit_mgr.__exit__()
+
 
 class BaseLiveServerTestCase(LiveServerTestCase):
     @classmethod
     def setUpTestData(cls):
         fixup_languages_seq()
+
+    @classmethod
+    def setUpClass(cls):
+        """
+        TODO: Remove when immediate_on_commit function is actually implemented
+        Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
+        """
+        super(LiveServerTestCase, cls).setUpClass()
+        def immediate_on_commit(func, using=None):
+            func()
+        # Context manager executing transaction.on_commit() hooks immediately
+        # This is required when using a subclass of django.test.TestCase as all tests are wrapped in
+        # a transaction that never gets committed.
+        cls.on_commit_mgr = mock.patch('django.db.transaction.on_commit', side_effect=immediate_on_commit)
+        cls.on_commit_mgr.__enter__()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(LiveServerTestCase, cls).tearDownClass()
+        cls.on_commit_mgr.__exit__()
 
 
 class RepoTestCase(BaseTestCase, RepoTestMixin):
