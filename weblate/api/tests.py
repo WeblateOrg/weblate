@@ -422,6 +422,28 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(Component.objects.count(), 0)
 
+    def test_create_translation(self):
+        self.do_request(
+            'api:component-translations',
+            self.component_kwargs,
+            method="post",
+            code=201,
+            request={
+                'language_code': 'cs'
+            },
+        )
+
+    def test_create_translation_invalid_language_code(self):
+        self.do_request(
+            'api:component-translations',
+            self.component_kwargs,
+            method="post",
+            code=404,
+            request={
+                'language_code': 'invalid'
+            },
+        )
+
 
 class LanguageAPITest(APIBaseTest):
     def test_list_languages(self):

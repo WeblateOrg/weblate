@@ -1,3 +1,5 @@
+* Extended API with translation creation.
+
 Weblate 3.10
 ------------
 
