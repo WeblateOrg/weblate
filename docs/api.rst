@@ -670,6 +670,16 @@ Components
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
+.. http:post:: /api/components/(string:project)/(string:component)/translations/
+
+    Creates new translation in the given component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
+
 .. http:get:: /api/components/(string:project)/(string:component)/statistics/
 
     Returns paginated statistics for all translations within component.

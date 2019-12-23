@@ -404,9 +404,36 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
         return self.download_file(obj.get_new_base_filename(), 'application/binary')
 
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['get', 'post'])
     def translations(self, request, **kwargs):
         obj = self.get_object()
+
+        if request.method == 'POST':
+            if not request.user.has_perm('translation.add', obj):
+                self.permission_denied(request, message='Can not create translation')
+
+            if 'language_code' not in request.data:
+                raise ParseError("Missing 'language_code' parameter")
+
+            language_code = request.data['language_code']
+
+            try:
+                language = Language.objects.get(code=language_code)
+            except Language.DoesNotExist:
+                raise Http404("No language code '%s' found!" % language_code)
+
+            obj.add_new_language(language, request)
+            page = obj.translation_set.get(language=language)
+            serializer = TranslationSerializer(
+                page, context={'request': request}, remove_fields=('component',),
+            )
+
+            return Response(
+                data={
+                    'data': serializer.data,
+                },
+                status=status.HTTP_201_CREATED
+            )
 
         queryset = obj.translation_set.all().order_by('id')
         page = self.paginate_queryset(queryset)
