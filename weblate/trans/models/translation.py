@@ -74,6 +74,7 @@ class TranslationManager(models.Manager):
             force = True
             translation.filename = path
             translation.language_code = code
+            translation.save(update_fields=['filename', 'language_code'])
         flags = ''
         if not component.edit_template and translation.is_template:
             flags = 'read-only'
