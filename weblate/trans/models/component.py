@@ -1663,9 +1663,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 or (old.edit_template != self.edit_template)
                 or (old.template != self.template)
             )
-            changed_template = (
-                old.edit_template != self.edit_template
-            ) and self.template
+            changed_template = (old.template != self.template) and self.template
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
