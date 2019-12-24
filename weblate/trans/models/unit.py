@@ -303,9 +303,8 @@ class Unit(models.Model, LoggerMixin):
                 source=source,
                 target=source,
                 context=context,
-                # TODO: bad value
-                content_hash=content_hash,
-                position=pos,
+                content_hash=calculate_hash(source, context),
+                position=0,
                 location=location,
                 flags=flags,
             )
