@@ -494,6 +494,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.updated_sources = {}
         self.old_component = copy(self)
         self._sources = {}
+        self._sources_prefetched = False
         self.logs = []
         self.translations_count = None
         self.translations_progress = 0
@@ -578,22 +579,32 @@ class Component(models.Model, URLMixin, PathMixin):
         self._sources = {
             source.id_hash: source for source in self.source_translation.unit_set.all()
         }
+        self._sources_prefetched = True
 
     def get_source(self, id_hash, **kwargs):
         """Cached access to source info."""
         try:
             return self._sources[id_hash]
         except KeyError:
+            if not self._sources_prefetched:
+                # Get existing if not prefetch was done, this will raise in case of error
+                source = self.source_translation.unit_set.get(id_hash=id_hash)
 
-            if self.template and self.edit_template:
-                kwargs['state'] = STATE_TRANSLATED
+            elif not kwargs:
+                # Can not create without kwargs
+                raise
+
             else:
-                kwargs['state'] = STATE_READONLY
-            source, created = self.source_translation.unit_set.get_or_create(
-                id_hash=id_hash,
-                defaults=kwargs,
-            )
-            if created:
+                # Set correct state depending on template editing
+                if self.template and self.edit_template:
+                    kwargs['state'] = STATE_TRANSLATED
+                else:
+                    kwargs['state'] = STATE_READONLY
+
+                # Create source unit
+                source = self.source_translation.unit_set.create(
+                    id_hash=id_hash, **kwargs
+                )
                 Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
                 self.updated_sources[id_hash] = source
             self._sources[id_hash] = source
@@ -1251,7 +1262,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 (c.translation_set.count() for c in self.linked_childs)
             )
         for pos, path in enumerate(matches):
-            if not self._sources and path != self.template:
+            if not self._sources_prefetched and path != self.template:
                 self.preload_sources()
             with transaction.atomic():
                 code = self.get_lang_code(path)
@@ -1292,9 +1303,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Delete possibly no longer existing translations
         if langs is None:
-            todelete = self.translation_set.exclude(
-                id__in=translations.keys()
-            ).exclude(
+            todelete = self.translation_set.exclude(id__in=translations.keys()).exclude(
                 language=self.project.source_language
             )
             if todelete.exists():
