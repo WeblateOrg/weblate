@@ -587,7 +587,8 @@ class Component(models.Model, URLMixin, PathMixin):
             return self._sources[id_hash]
         except KeyError:
             if not self._sources_prefetched:
-                # Get existing if not prefetch was done, this will raise in case of error
+                # Get existing if not prefetch was done, this will raise an
+                # exception in case of error
                 source = self.source_translation.unit_set.get(id_hash=id_hash)
 
             elif not kwargs:
