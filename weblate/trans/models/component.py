@@ -1251,7 +1251,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 (c.translation_set.count() for c in self.linked_childs)
             )
         for pos, path in enumerate(matches):
-            if path != self.template:
+            if not self._sources and path != self.template:
                 self.preload_sources()
             with transaction.atomic():
                 code = self.get_lang_code(path)
