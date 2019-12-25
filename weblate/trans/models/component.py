@@ -32,6 +32,7 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
@@ -586,12 +587,19 @@ class Component(models.Model, URLMixin, PathMixin):
         try:
             return self._sources[id_hash]
         except KeyError:
+            source = None
+
+        try:
             if not self._sources_prefetched:
                 # Get existing if not prefetch was done, this will raise an
                 # exception in case of error
                 source = self.source_translation.unit_set.get(id_hash=id_hash)
+        except ObjectDoesNotExist:
+            if not kwargs:
+                raise
 
-            elif not kwargs:
+        if not source:
+            if not kwargs:
                 # Can not create without kwargs
                 raise
 
@@ -608,8 +616,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
                 self.updated_sources[id_hash] = source
-            self._sources[id_hash] = source
-            return source
+        self._sources[id_hash] = source
+        return source
 
     @property
     def filemask_re(self):
@@ -1872,6 +1880,7 @@ class Component(models.Model, URLMixin, PathMixin):
         file_format.add_language(fullname, language, base_filename)
 
         with transaction.atomic():
+            self.preload_sources()
             translation = Translation.objects.create(
                 component=self,
                 language=language,
