@@ -11,13 +11,14 @@
 # WWWesten <wwwesten@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
 # Scott Anecito <scott.anecito@protonmail.com>, 2019.
+# amano <amano.hajime@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-12-17 14:55+0000\n"
-"PO-Revision-Date: 2019-12-09 14:52+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2019-12-26 01:12+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -25,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.10-dev\n"
+"X-Generator: Weblate 3.10\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -1825,7 +1826,7 @@ msgstr "ダブル スペース"
 
 #: weblate/checks/chars.py:153
 msgid "Translation contains double space"
-msgstr "翻訳に、ダブル スペースがある"
+msgstr "翻訳に連続したスペースがある"
 
 #: weblate/checks/chars.py:175
 msgid "Trailing stop"
@@ -5763,14 +5764,9 @@ msgid "Congratulations"
 msgstr "翻訳のホスティング"
 
 #: weblate/templates/mail/new_contributor.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "The user %(username)s has just made a first contribution to "
-#| "%(translation)s at %(site_title)s."
+#, python-format
 msgid "The user %(username)s has just made a first contribution."
-msgstr ""
-"ユーザ %(username)s は、 %(site_title)s の %(translation)s において、はじめて"
-"の貢献を行ないました。"
+msgstr "ユーザ %(username)s は、はじめての貢献を行ないました。"
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
@@ -6707,10 +6703,8 @@ msgid "String has failing check"
 msgstr "文字列は、適正検査に不合格しました"
 
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Optional plural"
 msgid "String has plural"
-msgstr "複数形の欠如"
+msgstr "複数形がある文字列"
 
 #: weblate/templates/snippets/query-builder.html:50
 #: weblate/templates/snippets/query-builder.html:52
@@ -9367,29 +9361,29 @@ msgstr[0] "%(count)s 時間前"
 
 #: weblate/trans/templatetags/translations.py:392
 msgid "a year from now"
-msgstr "今から 1 年"
+msgstr "1 年後"
 
 #: weblate/trans/templatetags/translations.py:394
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
-msgstr[0] "今から %(count)s 年"
+msgstr[0] "%(count)s 年後"
 
 #: weblate/trans/templatetags/translations.py:399
 msgid "a month from now"
-msgstr "今から 1 ヶ月"
+msgstr "1 ヶ月後"
 
 #: weblate/trans/templatetags/translations.py:401
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "今から %(count)s か月"
+msgstr[0] "%(count)s ヶ月後"
 
 #: weblate/trans/templatetags/translations.py:406
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
-msgstr[0] "今から %(count)s 週間"
+msgstr[0] "%(count)s 週間後"
 
 #: weblate/trans/templatetags/translations.py:410
 msgid "tomorrow"
@@ -9397,43 +9391,43 @@ msgstr "明日"
 
 #: weblate/trans/templatetags/translations.py:412
 msgid "a week from now"
-msgstr "今から 1 週間"
+msgstr "1 週間後"
 
 #: weblate/trans/templatetags/translations.py:414
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
-msgstr[0] "今から %(count)s 日"
+msgstr[0] "%(count)s 日後"
 
 #: weblate/trans/templatetags/translations.py:420
 msgid "a second from now"
-msgstr "今から 1 秒"
+msgstr "1 秒後"
 
 #: weblate/trans/templatetags/translations.py:422
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
-msgstr[0] "今から %(count)s 秒"
+msgstr[0] "%(count)s 秒後"
 
 #: weblate/trans/templatetags/translations.py:427
 msgid "a minute from now"
-msgstr "今から 1 分"
+msgstr "1 分後"
 
 #: weblate/trans/templatetags/translations.py:429
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
-msgstr[0] "今から %(count)s 分"
+msgstr[0] "%(count)s 分後"
 
 #: weblate/trans/templatetags/translations.py:433
 msgid "an hour from now"
-msgstr "今から 1 時間"
+msgstr "1 時間後"
 
 #: weblate/trans/templatetags/translations.py:434
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
-msgstr[0] "今から %(count)s 時間"
+msgstr[0] "%(count)s 時間後"
 
 #: weblate/trans/templatetags/translations.py:530
 #, fuzzy
