@@ -31,8 +31,7 @@ from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
