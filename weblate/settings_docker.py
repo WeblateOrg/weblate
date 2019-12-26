@@ -659,6 +659,13 @@ MT_SERVICES = (
 # URL of the Apertium APy server
 MT_APERTIUM_APY = None
 
+# AWS
+MT_AWS_REGION = os.environ.get("WEBLATE_MT_AWS_REGION", None)
+MT_AWS_ACCESS_KEY_ID = os.environ.get("WEBLATE_MT_AWS_ACCESS_KEY_ID", None)
+MT_AWS_SECRET_ACCESS_KEY = os.environ.get("WEBLATE_MT_AWS_SECRET_ACCESS_KEY", None)
+if MT_AWS_ACCESS_KEY_ID:
+    MT_SERVICES += ("weblate.machinery.aws.AWSTranslation",)
+
 # DeepL API key
 MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY", None)
 if MT_DEEPL_KEY:
