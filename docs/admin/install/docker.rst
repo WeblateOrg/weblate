@@ -427,6 +427,19 @@ Generic settings
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. envvar:: WEBLATE_MT_AWS_REGION
+.. envvar:: WEBLATE_MT_AWS_ACCESS_KEY_ID
+.. envvar:: WEBLATE_MT_AWS_SECRET_ACCESS_KEY
+
+    Configures :ref:`aws` machine translation.
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_MT_AWS_REGION: us-east-1
+          WEBLATE_MT_AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+          WEBLATE_MT_AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
 .. envvar:: WEBLATE_MT_DEEPL_KEY
 
     Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`
