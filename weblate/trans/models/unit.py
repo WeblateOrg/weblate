@@ -200,9 +200,7 @@ class Unit(models.Model, LoggerMixin):
         blank=True,
     )
     extra_context = models.TextField(
-        verbose_name=ugettext_lazy("Additional context"),
-        default="",
-        blank=True,
+        verbose_name=ugettext_lazy("Additional context"), default="", blank=True
     )
 
     objects = UnitQuerySet.as_manager()
@@ -666,13 +664,7 @@ class Unit(models.Model, LoggerMixin):
                     old_checks.remove(check)
                 else:
                     # Create new check
-                    create.append(
-                        Check(
-                            unit=self,
-                            ignore=False,
-                            check=check,
-                        )
-                    )
+                    create.append(Check(unit=self, ignore=False, check=check))
                     was_change = True
                     has_checks = True
 
@@ -682,10 +674,7 @@ class Unit(models.Model, LoggerMixin):
         # Delete no longer failing checks
         if old_checks:
             was_change = True
-            Check.objects.filter(
-                unit=self,
-                check__in=old_checks,
-            ).delete()
+            Check.objects.filter(unit=self, check__in=old_checks).delete()
 
         # Update failing checks flag
         if not self.is_batch_update and (was_change or not same_content):
@@ -784,9 +773,7 @@ class Unit(models.Model, LoggerMixin):
     def get_all_flags(self, override=None):
         """Return union of own and component flags."""
         return Flags(
-            self.translation.all_flags,
-            self.extra_flags,
-            override or self.flags,
+            self.translation.all_flags, self.extra_flags, override or self.flags
         )
 
     @cached_property
