@@ -66,7 +66,11 @@
 <table class="table">
 <tr>
 <th>{% trans "Source strings" %}</th>
-<td class="number">{{ total_strings|intcomma }}</td>
+<td class="number">{{ source_strings|intcomma }}</td>
+</tr>
+<tr>
+<th>{% trans "Source words" %}</th>
+<td class="number">{{ source_words|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Translatable strings" %}</th>
