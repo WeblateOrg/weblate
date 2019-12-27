@@ -628,12 +628,13 @@ class Unit(models.Model, LoggerMixin):
 
     def get_comments(self):
         """Return list of target comments."""
-        return (
-            Comment.objects.filter(
-                Q(unit=self) | Q(unit=self.source_info)
+        return Comment.objects.filter(
+            Q(unit=self)
+            | (
+                Q(unit__translation=self.translation.component.source_translation)
+                & Q(unit__id_hash=self.id_hash)
             )
-            .order()
-        )
+        ).order()
 
     def run_checks(self, same_state=True, same_content=True):
         """Update checks for this unit."""
