@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2019-12-17 14:55+0000\n"
-"PO-Revision-Date: 2019-12-27 15:27+0000\n"
+"PO-Revision-Date: 2019-12-29 12:59+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
@@ -1135,7 +1135,7 @@ msgstr "Ovaj dodatak razvrstava Java datoteku svojstava."
 
 #: weblate/addons/removal.py:51
 msgid "Stale comment removal"
-msgstr ""
+msgstr "Uklanjanje zastarjelog komentara"
 
 #: weblate/addons/removal.py:52
 msgid "Set timeframe for removal of comments."
@@ -1143,7 +1143,7 @@ msgstr "Postavi vremenski okvir za uklanjanje komentara."
 
 #: weblate/addons/removal.py:65
 msgid "Stale suggestion removal"
-msgstr ""
+msgstr "Uklanjanje zastarjelog prijedloga"
 
 #: weblate/addons/removal.py:66
 msgid "Set timeframe for removal of suggestions."
@@ -1159,6 +1159,9 @@ msgid ""
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
+"Aktualiziraj sve datoteke prijevoda kako bi se podudarale s jednojezičnom "
+"osnovnom datotekom. Neiskorišteni izrazi se uklanjaju, a novi se dodaju kao "
+"kopije izvornog izraza."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
@@ -1402,7 +1405,7 @@ msgstr "Upravljaj spremištem prijevoda (na cijeloj platformi)"
 #: weblate/auth/data.py:136
 msgctxt "Access control role"
 msgid "Add suggestion"
-msgstr "DOdaj prijedlog"
+msgstr "Dodaj prijedlog"
 
 #: weblate/auth/data.py:142
 msgctxt "Access control role"
@@ -1631,7 +1634,7 @@ msgstr "Korisnik s tim korisničkim imenom već postoji."
 
 #: weblate/auth/models.py:332
 msgid "Superuser status"
-msgstr "Stanje profesionalnog korisnika"
+msgstr "Stanje super-korisnika"
 
 #: weblate/auth/models.py:334
 msgid "User has all possible permissions."
@@ -2122,7 +2125,7 @@ msgstr "Markdown reference"
 
 #: weblate/checks/markup.py:222
 msgid "Markdown link references do not match source"
-msgstr ""
+msgstr "Markdown reference poveznica se ne poklapaju s izvorom"
 
 #: weblate/checks/markup.py:238
 msgid "Markdown links"
@@ -2146,7 +2149,7 @@ msgstr "Prijevod ne sadrži URL"
 
 #: weblate/checks/markup.py:317 weblate/trans/autofixes/html.py:34
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "Nesiguran HTML"
 
 #: weblate/checks/markup.py:318
 msgid "The translation uses unsafe HTML markup"
@@ -2154,16 +2157,16 @@ msgstr "Prijevod koristi nesigurne HTML oznake"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
-msgstr ""
+msgstr "Rezervirana mjesta"
 
 #: weblate/checks/placeholders.py:46
 msgid "Translation is missing some placeholders"
-msgstr ""
+msgstr "Prijevodu nedostaju neka rezervirana mjesta"
 
 #: weblate/checks/placeholders.py:68
 #: weblate/templates/addons/discovery_help.html:8
 msgid "Regular expression"
-msgstr ""
+msgstr "Regularni izraz"
 
 #: weblate/checks/placeholders.py:69
 msgid "Translation does not match regular expression:"
@@ -2175,15 +2178,15 @@ msgstr "Qt format"
 
 #: weblate/checks/qt.py:50
 msgid "Qt format string does not match source"
-msgstr ""
+msgstr "Izraz u Qt formatu se ne poklapa s izvorom"
 
 #: weblate/checks/qt.py:61
 msgid "Qt plural format"
-msgstr ""
+msgstr "Množina u Qt formatu"
 
 #: weblate/checks/qt.py:62
 msgid "Qt plural format string does not match source"
-msgstr ""
+msgstr "Množina u Qt formatu se ne poklapa s izvorom"
 
 #: weblate/checks/render.py:49
 msgid "Maximum size of translation"
@@ -2271,9 +2274,9 @@ msgid "Default font"
 msgstr "Standardni font"
 
 #: weblate/fonts/models.py:118
-#, fuzzy
 msgid "Default font is used unless per language override matches."
-msgstr "Koristi se standardni font, osim ako se poklopi iznimka za jezik."
+msgstr ""
+"Koristi se standardni font, ukoliko se ne poklopi nadvladavanje po jeziku."
 
 #: weblate/fonts/models.py:140 weblate/templates/fonts/font_detail.html:16
 msgid "Font"
@@ -2782,20 +2785,27 @@ msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
 msgstr ""
+"Kolačići za autentificiranje koji su potrebni za prepoznavanje "
+"autentificiranih korisnika."
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid "Preferences cookie to store user preferences in certain situations."
 msgstr ""
+"Postavke kolačića za spremanje korisničkih postavki u određenim situacijama."
 
 #: weblate/legal/templates/legal/cookies.html:34
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not Track"
 "\" settings in your browser."
 msgstr ""
+"Ova stranica koristi Matomo za analiziranje prometa na web stranici. Poštuje "
+"postavke „Ne prati” u tvom pregledniku."
 
 #: weblate/legal/templates/legal/cookies.html:37
 msgid "This site uses Google Analytics to analyze website traffic."
 msgstr ""
+"Ova stranica koristi Google Analytics za analiziranje prometa na web "
+"stranici."
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
@@ -2818,6 +2828,8 @@ msgid ""
 "At Weblate, security maintains an environment that values the privacy of our "
 "users."
 msgstr ""
+"U Weblateu, sigurnost održava okruženje koje cijeni privatnost naših "
+"korisnika."
 
 #. Translators: See https://bestpractices.coreinfrastructure.org/ for more information on this
 #: weblate/legal/templates/legal/security.html:27
@@ -2825,6 +2837,8 @@ msgid ""
 "Weblate development follows the Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative."
 msgstr ""
+"Weblate razvoj slijedi najbolja rješenja inicijative Linux zaklade za "
+"osnovnu infrastrukturu."
 
 #: weblate/legal/templates/legal/security.html:37
 msgid "Security FAQ"
@@ -2832,20 +2846,21 @@ msgstr "Često postavljena pitanja o privatnosti"
 
 #: weblate/legal/templates/legal/security.html:40
 msgid "How are user passwords stored?"
-msgstr ""
+msgstr "Kako se spremaju korisničke lozinke?"
 
 #: weblate/legal/templates/legal/security.html:42
 msgid ""
 "Hashed, currently using PBKDF2, HMAC and SHA-256 with 150000 iterations."
 msgstr ""
+"Hashed, trenutačno koristi PBKDF2, HMAC i SHA-256 s 150 000 ponavljanja."
 
 #: weblate/legal/templates/legal/security.html:44
 msgid "How to report a security issue?"
-msgstr ""
+msgstr "Kako prijaviti sigurnosni problem?"
 
 #: weblate/legal/templates/legal/security.html:47
 msgid "The documentation has instructions on safe reporting."
-msgstr ""
+msgstr "Dokumentacija sadrži upute o sigurnom prijavljivanju."
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
@@ -3052,11 +3067,13 @@ msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
 msgstr ""
+"Poslužitelj je imao ozbiljnih problema tijekom obrađivanja tvog zahtjeva. "
+"Upravo smo pokrenuli proces za rješavanje problema."
 
 #: weblate/templates/500.html:18
 #, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
-msgstr ""
+msgstr "Ako trebaš pomoć, ovu grešku možeš referencirati kao %(error_id)s."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
@@ -3100,27 +3117,31 @@ msgstr "Hosting za prijevode"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
+"Ova Weblate instanca udomljuje prijevode za razne projekte slobodnog "
+"softvera."
 
 #: weblate/templates/about/index.html:33
 msgid "Weblate can host your project as well, please get in touch."
-msgstr ""
+msgstr "Weblate može udomiti i tvoj projekt. Javi se."
 
 #: weblate/templates/about/index.html:36
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
+"Komercijalni hosting je također dostupan, cijena počinje s 19 EUR mjesečno. "
+"Kontaktiraj nas za više detalja."
 
 #: weblate/templates/about/index.html:40
 #: weblate/templates/accounts/hosting.html:44
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
-msgstr ""
+msgstr "Zatraži hosting za projekt"
 
 #: weblate/templates/about/index.html:41
 #: weblate/templates/billing/overview.html:19
 msgid "View hosting plans"
-msgstr ""
+msgstr "Pogledaj planove za hosting"
 
 #: weblate/templates/about/index.html:43
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:181
@@ -3128,12 +3149,12 @@ msgstr ""
 #: weblate/templates/billing/overview.html:23
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
-msgstr ""
+msgstr "Kupi novi plan za hosting"
 
 #: weblate/templates/about/index.html:45
 #: weblate/templates/accounts/hosting.html:36
 msgid "Contact us for commercial hosting"
-msgstr ""
+msgstr "Kontaktiraj nas za komercijalni hosting"
 
 #: weblate/templates/about/index.html:53
 msgid "Weblate is built on libre software"
@@ -3163,7 +3184,7 @@ msgstr "SSH ključ nije dostupan."
 
 #: weblate/templates/about/keys.html:36
 msgid "Commit signing"
-msgstr ""
+msgstr "Pošalji obvezu za potpisivanje"
 
 #: weblate/templates/about/keys.html:42
 #, python-format
@@ -3171,10 +3192,12 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
+"Sve obveze napravljene s Weblateom potpisuju se s GPG ključem %(gpg_key_id)"
+"s, za koji se odgovarajući javni ključ nalazi niže dolje."
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
-msgstr ""
+msgstr "Slanje obveze nije podešeno."
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:64
 #: weblate/templates/dashboard/user.html:36 weblate/templates/data.html:51
@@ -3306,6 +3329,8 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at %(weblate_link)s."
 msgstr ""
+"Ako tražiš podršku za Weblate ili ako želiš poslati izvještaje o greškama, "
+"pregledaj %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:29
 #: weblate/templates/accounts/hosting.html:49
@@ -3337,23 +3362,31 @@ msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions in your inbox."
 msgstr ""
+"Ako se tvoja e-adresa nalazi u našoj bazi podataka, primit ćeš daljnje upute "
+"za vraćanje lozinke u tvojoj mapi za ulaznu poštu."
 
 #: weblate/templates/accounts/email-sent.html:26
 msgid ""
 "Shortly you should receive an e-mail containing a confirmation link. Click "
 "it to remove your account."
 msgstr ""
+"Uskoro ćeš primiti e-poštu koja sadrži poveznicu za potvrdu. Klikni je za "
+"uklanjanje tvog računa."
 
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
 "Thank you for registering. Click the confirmation link you receive by e-mail "
 "to complete the registration."
 msgstr ""
+"Zahvaljujemo se na prijavi. Za dovršavanje registracije, klikni poveznicu za "
+"potvrdu koju smo ti poslali e-poštom."
 
 #: weblate/templates/accounts/email-sent.html:31
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
 msgstr ""
+"Ako poveznica za potvrdu istekne prije nego što je upotrijebiš, registriraj "
+"se ponovo."
 
 #: weblate/templates/accounts/email-sent.html:35
 msgid ""
@@ -3364,13 +3397,13 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:40
 #: weblate/templates/mail/shared-registration.html:22
 msgid "Report an issue with registration"
-msgstr ""
+msgstr "Prijavi problem s registracijom"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:26
 #: weblate/templates/accounts/reset.html:21
 msgid "Please fix errors in the registration form."
-msgstr ""
+msgstr "Popravi greške u obrascu registracije."
 
 #: weblate/templates/accounts/email.html:26
 msgid ""
@@ -3392,7 +3425,7 @@ msgstr ""
 
 #: weblate/templates/accounts/hosting.html:18
 msgid "Conditions for gratis hosting"
-msgstr ""
+msgstr "Uvjeti za besplatan hosting"
 
 #: weblate/templates/accounts/hosting.html:20
 msgid ""
@@ -3431,6 +3464,7 @@ msgstr ""
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
 msgstr ""
+"Ova kombinacija korisničkog imena i lozinke nije nađena. Pokušaj ponovo."
 
 #: weblate/templates/accounts/login.html:24
 msgid "Password login"
@@ -3513,7 +3547,7 @@ msgstr "Licence"
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:225
 msgid "Audit log"
-msgstr ""
+msgstr "Dnevnik provjere"
 
 #: weblate/templates/accounts/profile.html:31
 #: weblate/templates/accounts/profile.html:257
@@ -3555,6 +3589,8 @@ msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
 msgstr ""
+"Dodaj sve projekte koje želiš prevesti kako bi se prikazali kao praćeni "
+"projekti na nadzornoj ploči."
 
 #: weblate/templates/accounts/profile.html:78
 #: weblate/templates/mail/base.html:304
@@ -3648,7 +3684,7 @@ msgstr "Opis"
 
 #: weblate/templates/accounts/profile.html:220
 msgid "Contact us immediately if you see anything suspicious in the audit log."
-msgstr ""
+msgstr "Odmah nas kontaktiraj, ako u zapisniku provjere uočiš nešto sumnjivo."
 
 #: weblate/templates/accounts/profile.html:229
 msgid "When"
@@ -3718,12 +3754,16 @@ msgid ""
 "The API key is also used to authenticate to automatically exported Git "
 "repositories."
 msgstr ""
+"API ključ se također koristi za autentifikaciju za automatski izvožene Git "
+"repozitorije."
 
 #: weblate/templates/accounts/profile.html:323
 msgid ""
 "Please pay attention to the licensing info, as this specifies how "
 "translations can be used."
 msgstr ""
+"Obrati pažnju na informacije o licenciranju, jer one određuju kako se "
+"prijevodi mogu koristiti."
 
 #: weblate/templates/accounts/profile.html:325
 msgid ""
@@ -3757,11 +3797,11 @@ msgstr "Licenca"
 #: weblate/templates/accounts/redirect.html:12
 #: weblate/templates/accounts/token.html:12
 msgid "Redirecting you to the authentication provider."
-msgstr ""
+msgstr "Preusmjeravamo te na davatelja autentifikacije."
 
 #: weblate/templates/accounts/register.html:18
 msgid "Please read our Terms of Service before registering."
-msgstr ""
+msgstr "Pročitaj naše uvjete za uslugu prije registriranja."
 
 #: weblate/templates/accounts/register.html:21
 msgid ""
