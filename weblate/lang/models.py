@@ -69,9 +69,12 @@ def get_plural_type(base_code, pluralequation):
     if pluralequation == '0':
         return data.PLURAL_NONE
 
+    # Remove whitespace
+    equation = pluralequation.replace(" ", "")
+
     # Standard plural equations
     for mapping in data.PLURAL_MAPPINGS:
-        if pluralequation in mapping[0]:
+        if equation in mapping[0]:
             return mapping[1]
 
     # Arabic special case
