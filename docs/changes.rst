@@ -1,3 +1,8 @@
+Weblate 3.10.1
+------------
+
+Not yet released.
+
 * Extended API with translation creation.
 
 Weblate 3.10
