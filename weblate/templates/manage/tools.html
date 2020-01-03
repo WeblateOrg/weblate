@@ -38,4 +38,23 @@
 </div>
 </form>
 
+<form  method="POST">
+{% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Change Theme" %}</h4></div>
+<div class="panel-body">
+    <p>{% trans "You can change the application's theme using the form below." %}</p>
+    <hr>
+    <select name="theme">
+        <option value="default">Default</option>
+        <option value="dark">Dark</option>
+        <option value="blue">Blue</option>
+    </select>
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Select" %}" />
+  </div>
+</div>
+</form>
+
 {% endblock %}
