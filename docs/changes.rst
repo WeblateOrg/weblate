@@ -1,4 +1,12 @@
+Weblate 3.10.1
+--------------
+
+Not yet released.
+
 * Extended API with translation creation.
+* Fixed several corner cases in data migrations.
+* Compatibility with Django 3.0.
+* Improved data cleanup performance.
 
 Weblate 3.10
 ------------

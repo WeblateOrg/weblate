@@ -21,7 +21,8 @@ def migrate_unitdata(apps, schema_editor):
                 units = units.filter(translation__language=obj.project.source_language)
             else:
                 units = units.filter(translation__language=obj.language)
-            state = obj.__getstate__()
+            # Using __getstate__ would be cleaner, but needs Django 2.0
+            state = dict(obj.__dict__)
             del state["_state"]
             del state["id"]
             del state["unit_id"]
