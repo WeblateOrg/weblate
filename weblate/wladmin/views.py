@@ -42,9 +42,10 @@ from weblate.vcs.ssh import (
     get_key_data,
     ssh_file,
 )
-from weblate.wladmin.forms import ActivateForm, BackupForm, SSHAddForm, TestMailForm
+from weblate.wladmin.forms import ActivateForm, BackupForm, SSHAddForm, TestMailForm, SwitchThemeForm
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service
+from weblate.wladmin.templatetags.change_theme import set_theme
 
 MENU = (
     ('index', 'manage', ugettext_lazy('Weblate status')),
@@ -84,6 +85,7 @@ def send_test_mail(email):
 @management_access
 def tools(request):
     emailform = TestMailForm(initial={'email': request.user.email})
+    themeform = SwitchThemeForm()
 
     if request.method == 'POST':
         if 'email' in request.POST:
@@ -95,11 +97,19 @@ def tools(request):
                 except Exception as error:
                     report_error(error, request)
                     messages.error(request, _('Could not send test e-mail: %s') % error)
+        if 'theme' in request.POST:
+            themeform = SwitchThemeForm(request.POST)
+            if themeform.is_valid():
+                try:
+                    set_theme(request.POST.get('theme',''))
+                    messages.success(request, _('Theme successfully changed to %s') % request.POST.get('theme',''))
+                except Exception as error:
+                    messages.error(request, _('Could not set theme %s') % error )
 
     return render(
         request,
         "manage/tools.html",
-        {'menu_items': MENU, 'menu_page': 'tools', 'email_form': emailform},
+        {'menu_items': MENU, 'menu_page': 'tools', 'email_form': emailform, 'switch_theme_form': themeform},
     )
 
 

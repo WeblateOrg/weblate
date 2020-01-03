@@ -789,3 +789,10 @@ class NotificationForm(forms.Form):
         ).exclude(
             pk__in=handled
         ).delete()
+
+class ThemeField(forms.Form):
+    """Theme field."""
+
+    def __init__(self, *args, **kwargs):
+        super(ThemeField, self).__init__(*args, **kwargs)
+

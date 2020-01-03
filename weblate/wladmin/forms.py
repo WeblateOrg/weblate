@@ -24,7 +24,7 @@ from crispy_forms.helper import FormHelper
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from weblate.accounts.forms import EmailField
+from weblate.accounts.forms import EmailField, ThemeField
 from weblate.wladmin.models import BackupService
 
 
@@ -65,3 +65,6 @@ class BackupForm(forms.ModelForm):
     class Meta(object):
         model = BackupService
         fields = ('repository',)
+
+class SwitchThemeForm(forms.Form):
+    theme = ThemeField()
