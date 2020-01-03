@@ -782,7 +782,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ),
-    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "1000/hour"},
+    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "5000/hour"},
     "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination"),
     "PAGE_SIZE": 20,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
