@@ -590,6 +590,8 @@ SECURE_SSL_REDIRECT = ENABLE_HTTPS
 SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1209600
+# Increase allowed upload size
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
