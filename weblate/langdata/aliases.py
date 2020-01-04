@@ -95,6 +95,7 @@ ALIASES = {
     "zh_chs": "zh_Hans",
     "zh_sg": "zh_Hans_SG",
     "zh_tw": "zh_Hant",
+    "zh_hant_tw": "zh_Hant",
     "cmn": "zh_Hans",
     "zh_hk": "zh_Hant_HK",
     "zh_hans_cn": "zh_Hans",
