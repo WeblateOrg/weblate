@@ -104,22 +104,13 @@ handler404 = weblate.trans.views.error.not_found
 handler500 = weblate.trans.views.error.server_error
 
 real_patterns = [
-    url(
-        r'^$',
-        weblate.trans.views.dashboard.home,
-        name='home',
-    ),
-    url(
-        r'^projects/$',
-        weblate.trans.views.basic.list_projects,
-        name='projects',
-    ),
+    url(r'^$', weblate.trans.views.dashboard.home, name='home'),
+    url(r'^projects/$', weblate.trans.views.basic.list_projects, name='projects'),
     url(
         r'^projects/' + PROJECT + '$',
         weblate.trans.views.basic.show_project,
         name='project',
     ),
-
     # Engagement pages
     url(
         r'^engage/' + PROJECT + '$',
@@ -131,7 +122,6 @@ real_patterns = [
         weblate.trans.views.basic.show_engage,
         name='engage',
     ),
-
     # Glossary/Dictionary pages
     url(
         r'^dictionaries/' + PROJECT + '$',
@@ -163,22 +153,15 @@ real_patterns = [
         weblate.trans.views.dictionary.download_dictionary,
         name='download_dictionary',
     ),
-
     # Subroject pages
     url(
         r'^projects/' + COMPONENT + '$',
         weblate.trans.views.basic.show_component,
         name='component',
     ),
+    url(r'^guide/' + COMPONENT + '$', weblate.trans.views.guide.guide, name='guide'),
     url(
-        r'^guide/' + COMPONENT + '$',
-        weblate.trans.views.guide.guide,
-        name='guide',
-    ),
-    url(
-        r'^matrix/' + COMPONENT + '$',
-        weblate.trans.views.source.matrix,
-        name='matrix',
+        r'^matrix/' + COMPONENT + '$', weblate.trans.views.source.matrix, name='matrix'
     ),
     url(
         r'^js/matrix/' + COMPONENT + '$',
@@ -188,9 +171,8 @@ real_patterns = [
     url(
         r'^source/(?P<pk>[0-9]+)/context/$',
         weblate.trans.views.source.edit_context,
-        name='edit_context'
+        name='edit_context',
     ),
-
     # Translation pages
     url(
         r'^projects/' + TRANSLATION + '$',
@@ -207,11 +189,7 @@ real_patterns = [
         weblate.trans.views.edit.translate,
         name='translate',
     ),
-    url(
-        r'^zen/' + TRANSLATION + '$',
-        weblate.trans.views.edit.zen,
-        name='zen',
-    ),
+    url(r'^zen/' + TRANSLATION + '$', weblate.trans.views.edit.zen, name='zen'),
     url(
         r'^download/' + TRANSLATION + '$',
         weblate.trans.views.files.download_translation,
@@ -282,16 +260,8 @@ real_patterns = [
         weblate.trans.views.search.state_change,
         name='state-change',
     ),
-    url(
-        r'^credits/$',
-        weblate.trans.views.reports.get_credits,
-        name='credits',
-    ),
-    url(
-        r'^counts/$',
-        weblate.trans.views.reports.get_counts,
-        name='counts',
-    ),
+    url(r'^credits/$', weblate.trans.views.reports.get_credits, name='credits'),
+    url(r'^counts/$', weblate.trans.views.reports.get_counts, name='counts'),
     url(
         r'^credits/' + PROJECT + '$',
         weblate.trans.views.reports.get_credits,
@@ -412,7 +382,6 @@ real_patterns = [
         weblate.trans.views.acl.set_groups,
         name='set-groups',
     ),
-
     # Monthly activity
     url(
         r'^activity/month/$',
@@ -449,7 +418,6 @@ real_patterns = [
         weblate.trans.views.charts.monthly_activity,
         name='monthly_activity',
     ),
-
     # Yearly activity
     url(
         r'^activity/year/$',
@@ -486,19 +454,13 @@ real_patterns = [
         weblate.trans.views.charts.yearly_activity,
         name='yearly_activity',
     ),
-
     # Comments
-    url(
-        r'^comment/(?P<pk>[0-9]+)/$',
-        weblate.trans.views.edit.comment,
-        name='comment',
-    ),
+    url(r'^comment/(?P<pk>[0-9]+)/$', weblate.trans.views.edit.comment, name='comment'),
     url(
         r'^comment/(?P<pk>[0-9]+)/delete/$',
         weblate.trans.views.edit.delete_comment,
         name='delete-comment',
     ),
-
     # VCS manipulation - commit
     url(
         r'^commit/' + PROJECT + '$',
@@ -515,7 +477,6 @@ real_patterns = [
         weblate.trans.views.git.commit_translation,
         name='commit_translation',
     ),
-
     # VCS manipulation - update
     url(
         r'^update/' + PROJECT + '$',
@@ -532,7 +493,6 @@ real_patterns = [
         weblate.trans.views.git.update_translation,
         name='update_translation',
     ),
-
     # VCS manipulation - push
     url(
         r'^push/' + PROJECT + '$',
@@ -549,7 +509,6 @@ real_patterns = [
         weblate.trans.views.git.push_translation,
         name='push_translation',
     ),
-
     # VCS manipulation - reset
     url(
         r'^reset/' + PROJECT + '$',
@@ -566,7 +525,6 @@ real_patterns = [
         weblate.trans.views.git.reset_translation,
         name='reset_translation',
     ),
-
     # VCS manipulation - cleanup
     url(
         r'^cleanup/' + PROJECT + '$',
@@ -598,7 +556,6 @@ real_patterns = [
         weblate.trans.views.manage.component_progress_js,
         name='component_progress_js',
     ),
-
     # Whiteboard
     url(
         r'^whiteboard/' + PROJECT + '$',
@@ -652,7 +609,6 @@ real_patterns = [
         weblate.trans.views.manage.move_component,
         name='move',
     ),
-
     # Locking
     url(
         r'^lock/' + PROJECT + '$',
@@ -674,7 +630,6 @@ real_patterns = [
         weblate.trans.views.lock.unlock_component,
         name='unlock_component',
     ),
-
     # Screenshots
     url(
         r'^screenshots/' + COMPONENT + '$',
@@ -716,13 +671,8 @@ real_patterns = [
         weblate.screenshots.views.add_source,
         name='screenshot-js-add',
     ),
-
     # Translation memory
-    url(
-        r'^memory/$',
-        weblate.memory.views.MemoryView.as_view(),
-        name='memory',
-    ),
+    url(r'^memory/$', weblate.memory.views.MemoryView.as_view(), name='memory'),
     url(
         r'^memory/delete/$',
         weblate.memory.views.DeleteView.as_view(),
@@ -789,13 +739,8 @@ real_patterns = [
         weblate.memory.views.ImportView.as_view(),
         name='memory-import',
     ),
-
     # Languages browsing
-    url(
-        r'^languages/$',
-        weblate.lang.views.show_languages,
-        name='languages',
-    ),
+    url(r'^languages/$', weblate.lang.views.show_languages, name='languages'),
     url(
         r'^languages/' + LANGUAGE + '/$',
         weblate.lang.views.show_language,
@@ -816,17 +761,10 @@ real_patterns = [
         weblate.lang.views.show_project,
         name='project-language',
     ),
-
     # Checks browsing
+    url(r'^checks/$', weblate.checks.views.show_checks, name='checks'),
     url(
-        r'^checks/$',
-        weblate.checks.views.show_checks,
-        name='checks',
-    ),
-    url(
-        r'^checks/(?P<name>[^/]+)/$',
-        weblate.checks.views.show_check,
-        name='show_check',
+        r'^checks/(?P<name>[^/]+)/$', weblate.checks.views.show_check, name='show_check'
     ),
     url(
         r'^checks/(?P<name>[^/]+)/' + PROJECT + '$',
@@ -838,24 +776,10 @@ real_patterns = [
         weblate.checks.views.show_check_component,
         name='show_check_component',
     ),
-
     # Changes browsing
-    url(
-        r'^changes/$',
-        ChangesView.as_view(),
-        name='changes',
-    ),
-    url(
-        r'^changes/csv/$',
-        ChangesCSVView.as_view(),
-        name='changes-csv',
-    ),
-    url(
-        r'^changes/render/(?P<pk>[0-9]+)/$',
-        show_change,
-        name='show_change',
-    ),
-
+    url(r'^changes/$', ChangesView.as_view(), name='changes'),
+    url(r'^changes/csv/$', ChangesCSVView.as_view(), name='changes-csv'),
+    url(r'^changes/render/(?P<pk>[0-9]+)/$', show_change, name='show_change'),
     # Notification hooks
     url(
         r'^hooks/update/' + COMPONENT + '$',
@@ -872,7 +796,6 @@ real_patterns = [
         weblate.trans.views.hooks.vcs_service_hook,
         name='webhook',
     ),
-
     # Stats exports
     url(
         r'^exports/stats/' + COMPONENT + '$',
@@ -884,34 +807,22 @@ real_patterns = [
         weblate.trans.views.api.export_stats_project,
         name='export_stats',
     ),
-
     # RSS exports
-    url(
-        r'^exports/rss/$',
-        ChangesFeed(),
-        name='rss',
-    ),
+    url(r'^exports/rss/$', ChangesFeed(), name='rss'),
     url(
         r'^exports/rss/language/' + LANGUAGE + '/$',
         LanguageChangesFeed(),
         name='rss-language',
     ),
+    url(r'^exports/rss/' + PROJECT + '$', ProjectChangesFeed(), name='rss-project'),
     url(
-        r'^exports/rss/' + PROJECT + '$',
-        ProjectChangesFeed(),
-        name='rss-project',
-    ),
-    url(
-        r'^exports/rss/' + COMPONENT + '$',
-        ComponentChangesFeed(),
-        name='rss-component',
+        r'^exports/rss/' + COMPONENT + '$', ComponentChangesFeed(), name='rss-component'
     ),
     url(
         r'^exports/rss/' + TRANSLATION + '$',
         TranslationChangesFeed(),
         name='rss-translation',
     ),
-
     # Compatibility URLs for Widgets
     url(
         r'^widgets/' + PROJECT + '(?P<widget>[^/]+)/(?P<color>[^/]+)/$',
@@ -924,8 +835,13 @@ real_patterns = [
         name='widgets-compat-render',
     ),
     url(
-        r'^widgets/(?P<project>[^/]+)-' + WIDGET + '-'
-        + LANGUAGE + r'\.' + EXTENSION + r'$',
+        r'^widgets/(?P<project>[^/]+)-'
+        + WIDGET
+        + '-'
+        + LANGUAGE
+        + r'\.'
+        + EXTENSION
+        + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image-dash',
     ),
@@ -934,33 +850,40 @@ real_patterns = [
         weblate.trans.views.widgets.render_widget,
         name='widget-image-dash',
     ),
-
     # Engagement widgets
-    url(
-        r'^exports/og\.png$',
-        weblate.trans.views.widgets.render_og,
-        name='og-image',
-    ),
+    url(r'^exports/og\.png$', weblate.trans.views.widgets.render_og, name='og-image'),
     url(
         r'^widgets/' + PROJECT + '-/' + WIDGET + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
     ),
     url(
-        r'^widgets/' + PROJECT + LANGUAGE + '/'
-        + WIDGET + r'\.' + EXTENSION + r'$',
+        r'^widgets/' + PROJECT + LANGUAGE + '/' + WIDGET + r'\.' + EXTENSION + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
     ),
     url(
-        r'^widgets/' + PROJECT + '-/'
-        + r'(?P<component>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
+        r'^widgets/'
+        + PROJECT
+        + '-/'
+        + r'(?P<component>[^/]+)/'
+        + WIDGET
+        + r'\.'
+        + EXTENSION
+        + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
     ),
     url(
-        r'^widgets/' + PROJECT + LANGUAGE + '/'
-        + r'(?P<component>[^/]+)/' + WIDGET + r'\.' + EXTENSION + r'$',
+        r'^widgets/'
+        + PROJECT
+        + LANGUAGE
+        + '/'
+        + r'(?P<component>[^/]+)/'
+        + WIDGET
+        + r'\.'
+        + EXTENSION
+        + r'$',
         weblate.trans.views.widgets.render_widget,
         name='widget-image',
     ),
@@ -969,22 +892,14 @@ real_patterns = [
         weblate.trans.views.widgets.widgets,
         name='widgets',
     ),
-    url(
-        r'^widgets/$',
-        RedirectView.as_view(url='/projects/', permanent=True),
-    ),
-
+    url(r'^widgets/$', RedirectView.as_view(url='/projects/', permanent=True)),
     # Data exports pages
-    url(
-        r'^data/$',
-        RedirectView.as_view(url='/projects/', permanent=True),
-    ),
+    url(r'^data/$', RedirectView.as_view(url='/projects/', permanent=True)),
     url(
         r'^data/' + PROJECT + '$',
         weblate.trans.views.basic.data_project,
         name='data_project',
     ),
-
     # AJAX/JS backends
     url(
         r'^js/ignore-check/(?P<check_id>[0-9]+)/$',
@@ -999,23 +914,19 @@ real_patterns = [
     url(
         r'^js/task/(?P<task_id>' + UUID + ')/$',
         weblate.trans.views.js.task_progress,
-        name='js_task_progress'
+        name='js_task_progress',
     ),
     url(
         r'^js/i18n/$',
         cache_page(3600)(
             vary_on_cookie(
-                django.views.i18n.JavaScriptCatalog.as_view(
-                    packages=['weblate']
-                )
+                django.views.i18n.JavaScriptCatalog.as_view(packages=['weblate'])
             )
         ),
-        name='js-catalog'
+        name='js-catalog',
     ),
     url(
-        r'^js/mt-services/$',
-        weblate.trans.views.js.mt_services,
-        name='js-mt-services',
+        r'^js/mt-services/$', weblate.trans.views.js.mt_services, name='js-mt-services'
     ),
     url(
         r'^js/translate/(?P<service>[^/]+)/(?P<unit_id>[0-9]+)/$',
@@ -1062,15 +973,13 @@ real_patterns = [
         weblate.trans.views.edit.save_zen,
         name='save_zen',
     ),
-
     # Admin interface
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(
         r'^admin/',
         include(
-            (weblate.wladmin.sites.SITE.urls, 'weblate.wladmin'),
-            namespace='admin'
-        )
+            (weblate.wladmin.sites.SITE.urls, 'weblate.wladmin'), namespace='admin'
+        ),
     ),
     # Weblate management interface
     url(r'^manage/$', weblate.wladmin.views.manage, name='manage'),
@@ -1083,53 +992,31 @@ real_patterns = [
     url(
         r'^manage/performance/$',
         weblate.wladmin.views.performance,
-        name='manage-performance'
+        name='manage-performance',
     ),
-
     # Auth
     url(r'^accounts/', include(weblate.accounts.urls)),
-
     # Auth
     url(r'^api/', include((weblate.api.urls, 'weblate.api'), namespace='api')),
-
     # Static pages
     url(r'^contact/$', weblate.accounts.views.contact, name='contact'),
     url(r'^hosting/$', weblate.accounts.views.hosting, name='hosting'),
-    url(
-        r'^about/$',
-        weblate.trans.views.about.AboutView.as_view(),
-        name='about'
-    ),
-    url(
-        r'^keys/$',
-        weblate.trans.views.about.KeysView.as_view(),
-        name='keys'
-    ),
-    url(
-        r'^stats/$',
-        weblate.trans.views.about.StatsView.as_view(),
-        name='stats'
-    ),
-
+    url(r'^about/$', weblate.trans.views.about.AboutView.as_view(), name='about'),
+    url(r'^keys/$', weblate.trans.views.about.KeysView.as_view(), name='keys'),
+    url(r'^stats/$', weblate.trans.views.about.StatsView.as_view(), name='stats'),
     # User pages
-    url(
-        r'^user/(?P<user>[^/]+)/$',
-        weblate.accounts.views.user_page,
-        name='user_page',
-    ),
+    url(r'^user/(?P<user>[^/]+)/$', weblate.accounts.views.user_page, name='user_page'),
     url(
         r'^user/(?P<user>[^/]+)/suggestions/$',
         weblate.accounts.views.SuggestionView.as_view(),
         name='user_suggestions',
     ),
-
     # Avatars, 80 pixes used when linked with weblate.org
     url(
         r'^avatar/(?P<size>(24|32|80|128))/(?P<user>[^/]+)\.png$',
         weblate.accounts.views.user_avatar,
         name='user_avatar',
     ),
-
     # Sitemap
     url(
         r'^sitemap\.xml$',
@@ -1143,167 +1030,134 @@ real_patterns = [
         {'sitemaps': SITEMAPS},
         name='sitemap',
     ),
-
     # Compatibility redirects
     url(
         r'^projects/' + TRANSLATION + 'translate/$',
         RedirectView.as_view(
             url='/translate/%(project)s/%(component)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^projects/' + TRANSLATION + 'zen/$',
         RedirectView.as_view(
             url='/zen/%(project)s/%(component)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^projects/' + TRANSLATION + 'download/$',
         RedirectView.as_view(
             url='/download/%(project)s/%(component)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^projects/' + TRANSLATION + 'upload/$',
         RedirectView.as_view(
             url='/upload/%(project)s/%(component)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^projects/' + TRANSLATION + 'auto/$',
         RedirectView.as_view(
             url='/auto-translate/%(project)s/%(component)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
-
     url(
         r'^dictionaries/' + PROJECT_LANG + 'upload/$',
         RedirectView.as_view(
             url='/upload-dictionaries/%(project)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^dictionaries/' + PROJECT_LANG + 'delete/$',
         RedirectView.as_view(
             url='/delete-dictionaries/%(project)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^dictionaries/' + PROJECT_LANG + 'edit/$',
         RedirectView.as_view(
             url='/edit-dictionaries/%(project)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^dictionaries/' + PROJECT_LANG + 'download/$',
         RedirectView.as_view(
             url='/download-dictionaries/%(project)s/%(lang)s/',
             permanent=True,
-            query_string=True
-        )
+            query_string=True,
+        ),
     ),
     url(
         r'^js/glossary/(?P<unit_id>[0-9]+)/$',
         weblate.trans.views.dictionary.add_dictionary,
         name='js-add-glossary',
     ),
-
     # Old activity charts
     url(
         r'^activity/html/' + TRANSLATION + '$',
         RedirectView.as_view(
-            url='/projects/%(project)s/%(component)s/%(lang)s/#activity',
-            permanent=True,
-        )
+            url='/projects/%(project)s/%(component)s/%(lang)s/#activity', permanent=True
+        ),
     ),
     url(
         r'^activity/html/' + COMPONENT + '$',
         RedirectView.as_view(
-            url='/projects/%(project)s/%(component)s/#activity',
-            permanent=True,
-        )
+            url='/projects/%(project)s/%(component)s/#activity', permanent=True
+        ),
     ),
     url(
         r'^activity/html/' + PROJECT + '$',
-        RedirectView.as_view(
-            url='/projects/%(project)s/#activity',
-            permanent=True,
-        )
+        RedirectView.as_view(url='/projects/%(project)s/#activity', permanent=True),
     ),
     url(
         r'^activity/language/html/' + LANGUAGE + '/$',
-        RedirectView.as_view(
-            url='/languages/%(lang)s/#activity',
-            permanent=True,
-        )
+        RedirectView.as_view(url='/languages/%(lang)s/#activity', permanent=True),
     ),
-
     # Site wide search
+    url(r'^search/$', weblate.trans.views.search.search, name="search"),
+    url(r'^search/' + PROJECT + '$', weblate.trans.views.search.search, name="search"),
     url(
-        r'^search/$',
-        weblate.trans.views.search.search,
-        name="search"
-    ),
-    url(
-        r'^search/' + PROJECT + '$',
-        weblate.trans.views.search.search,
-        name="search"
-    ),
-    url(
-        r'^search/' + COMPONENT + '$',
-        weblate.trans.views.search.search,
-        name="search"
+        r'^search/' + COMPONENT + '$', weblate.trans.views.search.search, name="search"
     ),
     url(
         r'^languages/' + LANGUAGE + '/' + PROJECT + 'search/$',
         weblate.trans.views.search.search,
-        name="search"
+        name="search",
     ),
-
     # Health check
-    url(
-        r'^healthz/$',
-        weblate.trans.views.basic.healthz,
-        name='healthz',
-    ),
-
+    url(r'^healthz/$', weblate.trans.views.basic.healthz, name='healthz'),
     # Aliases for static files
     url(
         r'^(android-chrome|favicon)-(?P<size>192|512)x(?P=size)\.png$',
         RedirectView.as_view(
-            url=settings.STATIC_URL + 'weblate-%(size)s.png',
-            permanent=True,
-        )
+            url=settings.STATIC_URL + 'weblate-%(size)s.png', permanent=True
+        ),
     ),
     url(
         r'^apple-touch-icon\.png$',
         RedirectView.as_view(
-            url=settings.STATIC_URL + 'weblate-180.png',
-            permanent=True,
-        )
+            url=settings.STATIC_URL + 'weblate-180.png', permanent=True
+        ),
     ),
     url(
         r'^(?P<name>favicon\.ico|robots\.txt)$',
-        RedirectView.as_view(
-            url=settings.STATIC_URL + '%(name)s',
-            permanent=True,
-        )
+        RedirectView.as_view(url=settings.STATIC_URL + '%(name)s', permanent=True),
     ),
     url(
         r'^security\.txt$',
@@ -1311,52 +1165,57 @@ real_patterns = [
     ),
     url(
         r'^browserconfig\.xml$',
-        TemplateView.as_view(template_name='browserconfig.xml'),
+        TemplateView.as_view(
+            template_name='browserconfig.xml', content_type="application/xml"
+        ),
     ),
     url(
         r'^site\.webmanifest$',
-        TemplateView.as_view(template_name='site.webmanifest'),
+        TemplateView.as_view(
+            template_name='site.webmanifest', content_type="application/json"
+        ),
     ),
 ]
 
 if 'weblate.billing' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.billing.views
+
     real_patterns += [
         url(
             r'^invoice/(?P<pk>[0-9]+)/download/$',
             weblate.billing.views.download_invoice,
             name='invoice-download',
         ),
-        url(
-            r'^billing/$',
-            weblate.billing.views.overview,
-            name='billing',
-        ),
+        url(r'^billing/$', weblate.billing.views.overview, name='billing'),
     ]
 
 if 'weblate.gitexport' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.gitexport.views
+
     real_patterns += [
         # Redirect clone from the Weblate project URL
         url(
-            r'^projects/' + COMPONENT
+            r'^projects/'
+            + COMPONENT
             + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
                 permanent=True,
-                query_string=True
-            )
+                query_string=True,
+            ),
         ),
         url(
-            r'^projects/' + COMPONENT[:-1]
-            + r'\.git/' + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
+            r'^projects/'
+            + COMPONENT[:-1]
+            + r'\.git/'
+            + '(?P<path>(info/|git-upload-pack)[a-z0-9_/-]*)$',
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
                 permanent=True,
-                query_string=True
-            )
+                query_string=True,
+            ),
         ),
         # Redirect clone in case user adds .git to the path
         url(
@@ -1364,8 +1223,8 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
             RedirectView.as_view(
                 url='/git/%(project)s/%(component)s/%(path)s',
                 permanent=True,
-                query_string=True
-            )
+                query_string=True,
+            ),
         ),
         url(
             r'^git/' + COMPONENT + '(?P<path>[a-z0-9_/-]*)$',
@@ -1377,11 +1236,12 @@ if 'weblate.gitexport' in settings.INSTALLED_APPS:
 if 'weblate.legal' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import weblate.legal.views
+
     real_patterns += [
         url(
             r'^legal/',
-            include(('weblate.legal.urls', 'weblate.legal'), namespace='legal')
-        ),
+            include(('weblate.legal.urls', 'weblate.legal'), namespace='legal'),
+        )
     ]
 
 if settings.DEBUG:
@@ -1389,26 +1249,22 @@ if settings.DEBUG:
         url(
             r'^media/(?P<path>.*)$',
             django.views.static.serve,
-            {'document_root': settings.MEDIA_ROOT}
-        ),
+            {'document_root': settings.MEDIA_ROOT},
+        )
     ]
 
 if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     import debug_toolbar
-    real_patterns += [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ]
+
+    real_patterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
 
 if 'wlhosted.integrations' in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     from wlhosted.integrations.views import CreateBillingView
+
     real_patterns += [
-        url(
-            r'^create/billing/$',
-            CreateBillingView.as_view(),
-            name='create-billing',
-        ),
+        url(r'^create/billing/$', CreateBillingView.as_view(), name='create-billing')
     ]
 
 
@@ -1418,6 +1274,4 @@ def get_url_prefix():
     return re.escape(settings.URL_PREFIX.strip('/')) + '/'
 
 
-urlpatterns = [
-    url(get_url_prefix(), include(real_patterns))
-]
+urlpatterns = [url(get_url_prefix(), include(real_patterns))]
