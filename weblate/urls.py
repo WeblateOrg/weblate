@@ -1306,6 +1306,10 @@ real_patterns = [
         )
     ),
     url(
+        r'^security\.txt$',
+        TemplateView.as_view(template_name='security.txt', content_type="text/plain"),
+    ),
+    url(
         r'^browserconfig\.xml$',
         TemplateView.as_view(template_name='browserconfig.xml'),
     ),
