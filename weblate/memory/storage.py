@@ -166,7 +166,7 @@ class TranslationMemory(WhooshIndex):
         content = fileobj.read()
         try:
             data = json.loads(force_text(content))
-        except (ValueError, UnicodeDecodeError) as error:
+        except ValueError as error:
             report_error(error, request, prefix='Failed to parse')
             raise MemoryImportError(_('Failed to parse JSON file!'))
         updates = {}

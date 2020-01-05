@@ -129,7 +129,7 @@ def vcs_service_hook(request, service):
     # Check if we got payload
     try:
         data = parse_hook_payload(request)
-    except (ValueError, KeyError, UnicodeError):
+    except (ValueError, KeyError):
         return HttpResponseBadRequest('Could not parse JSON payload!')
 
     if not data:
