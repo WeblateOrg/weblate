@@ -41,13 +41,9 @@ from weblate.utils.files import remove_readonly
 from weblate.vcs.models import VCS_REGISTRY
 
 # Directory holding test data
-TEST_DATA = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'data'
-)
+TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 
-REPOWEB_URL = \
-    'https://github.com/WeblateOrg/test/blob/master/{{filename}}#L{{line}}'
+REPOWEB_URL = 'https://github.com/WeblateOrg/test/blob/master/{{filename}}#L{{line}}'
 
 TESTPASSWORD = make_password('testpassword')
 
@@ -82,6 +78,7 @@ def create_another_user():
 
 class RepoTestMixin(object):
     """Mixin for testing with test repositories."""
+
     updated_base_repos = set()
 
     local_repo_path = 'local:'
@@ -93,8 +90,9 @@ class RepoTestMixin(object):
         """
         tarname = get_test_file(tarname)
 
-        if (not os.path.exists(output)
-                or os.path.getmtime(output) < os.path.getmtime(tarname)):
+        if not os.path.exists(output) or os.path.getmtime(output) < os.path.getmtime(
+            tarname
+        ):
 
             # Remove directory if outdated
             if os.path.exists(output):
@@ -177,10 +175,7 @@ class RepoTestMixin(object):
     def create_project(self, **kwargs):
         """Create test project."""
         project = Project.objects.create(
-            name='Test',
-            slug='test',
-            web='https://weblate.org/',
-            **kwargs
+            name='Test', slug='test', web='https://weblate.org/', **kwargs
         )
         self.addCleanup(shutil.rmtree, project.full_path, True)
         return project
@@ -191,19 +186,23 @@ class RepoTestMixin(object):
             return 'file://{}'.format(path)
         return 'file:///{}'.format(path.replace('\\', '/'))
 
-    def _create_component(self, file_format, mask, template='',
-                          new_base='', vcs='git', branch=None, **kwargs):
+    def _create_component(
+        self,
+        file_format,
+        mask,
+        template='',
+        new_base='',
+        vcs='git',
+        branch=None,
+        **kwargs
+    ):
         """Create real test component."""
         if file_format not in FILE_FORMATS:
-            raise SkipTest(
-                'File format {0} is not supported!'.format(file_format)
-            )
+            raise SkipTest('File format {0} is not supported!'.format(file_format))
         if 'project' not in kwargs:
             kwargs['project'] = self.create_project()
 
-        repo = push = self.format_local_path(
-            getattr(self, '{0}_repo_path'.format(vcs))
-        )
+        repo = push = self.format_local_path(getattr(self, '{0}_repo_path'.format(vcs)))
         if vcs not in VCS_REGISTRY:
             raise SkipTest('VCS {0} not available!'.format(vcs))
 
@@ -238,95 +237,51 @@ class RepoTestMixin(object):
         return self.create_po()
 
     def create_po(self, **kwargs):
-        return self._create_component(
-            'po',
-            'po/*.po',
-            **kwargs
-        )
+        return self._create_component('po', 'po/*.po', **kwargs)
 
     def create_po_branch(self):
-        return self._create_component(
-            'po',
-            'translations/*.po',
-            branch='translations'
-        )
+        return self._create_component('po', 'translations/*.po', branch='translations')
 
     def create_po_push(self):
-        return self.create_po(
-            push_on_commit=True
-        )
+        return self.create_po(push_on_commit=True)
 
     def create_po_empty(self):
         return self._create_component(
-            'po',
-            'po-empty/*.po',
-            new_base='po-empty/hello.pot',
-            new_lang='add',
+            'po', 'po-empty/*.po', new_base='po-empty/hello.pot', new_lang='add'
         )
 
     def create_po_mercurial(self):
-        return self.create_po(
-            vcs='mercurial'
-        )
+        return self.create_po(vcs='mercurial')
 
     def create_po_mercurial_branch(self):
         return self._create_component(
-            'po',
-            'translations/*.po',
-            branch='translations',
-            vcs='mercurial',
+            'po', 'translations/*.po', branch='translations', vcs='mercurial'
         )
 
     def create_po_svn(self):
-        return self.create_po(
-            vcs='subversion'
-        )
+        return self.create_po(vcs='subversion')
 
     def create_po_new_base(self, **kwargs):
-        return self.create_po(
-            new_base='po/hello.pot',
-            **kwargs
-        )
+        return self.create_po(new_base='po/hello.pot', **kwargs)
 
     def create_po_link(self):
-        return self._create_component(
-            'po',
-            'po-link/*.po',
-        )
+        return self._create_component('po', 'po-link/*.po')
 
     def create_po_mono(self):
-        return self._create_component(
-            'po-mono',
-            'po-mono/*.po',
-            'po-mono/en.po',
-        )
+        return self._create_component('po-mono', 'po-mono/*.po', 'po-mono/en.po')
 
     def create_srt(self):
-        return self._create_component(
-            'srt',
-            'srt/*.srt',
-            'srt/en.srt'
-        )
+        return self._create_component('srt', 'srt/*.srt', 'srt/en.srt')
 
     def create_ts(self, suffix='', **kwargs):
-        return self._create_component(
-            'ts',
-            'ts{0}/*.ts'.format(suffix),
-            **kwargs
-        )
+        return self._create_component('ts', 'ts{0}/*.ts'.format(suffix), **kwargs)
 
     def create_ts_mono(self):
-        return self._create_component(
-            'ts',
-            'ts-mono/*.ts',
-            'ts-mono/en.ts',
-        )
+        return self._create_component('ts', 'ts-mono/*.ts', 'ts-mono/en.ts')
 
     def create_iphone(self, **kwargs):
         return self._create_component(
-            'strings',
-            'iphone/*.lproj/Localizable.strings',
-            **kwargs
+            'strings', 'iphone/*.lproj/Localizable.strings', **kwargs
         )
 
     def create_android(self, suffix='', **kwargs):
@@ -338,10 +293,7 @@ class RepoTestMixin(object):
         )
 
     def create_json(self):
-        return self._create_component(
-            'json',
-            'json/*.json',
-        )
+        return self._create_component('json', 'json/*.json')
 
     def create_json_mono(self, suffix='mono', **kwargs):
         return self._create_component(
@@ -359,37 +311,19 @@ class RepoTestMixin(object):
         )
 
     def create_joomla(self):
-        return self._create_component(
-            'joomla',
-            'joomla/*.ini',
-            'joomla/en-GB.ini',
-        )
+        return self._create_component('joomla', 'joomla/*.ini', 'joomla/en-GB.ini')
 
     def create_tsv(self):
-        return self._create_component(
-            'csv',
-            'tsv/*.txt',
-        )
+        return self._create_component('csv', 'tsv/*.txt')
 
     def create_csv(self):
-        return self._create_component(
-            'csv',
-            'csv/*.txt',
-        )
+        return self._create_component('csv', 'csv/*.txt')
 
     def create_csv_mono(self):
-        return self._create_component(
-            'csv',
-            'csv-mono/*.csv',
-            'csv-mono/en.csv',
-        )
+        return self._create_component('csv', 'csv-mono/*.csv', 'csv-mono/en.csv')
 
     def create_php_mono(self):
-        return self._create_component(
-            'php',
-            'php-mono/*.php',
-            'php-mono/en.php',
-        )
+        return self._create_component('php', 'php-mono/*.php', 'php-mono/en.php')
 
     def create_java(self):
         return self._create_component(
@@ -400,52 +334,26 @@ class RepoTestMixin(object):
 
     def create_xliff(self, name='default', project=None):
         return self._create_component(
-            'xliff',
-            'xliff/*/{0}.xlf'.format(name),
-            project=project,
+            'xliff', 'xliff/*/{0}.xlf'.format(name), project=project
         )
 
     def create_xliff_mono(self):
-        return self._create_component(
-            'xliff',
-            'xliff-mono/*.xlf',
-            'xliff-mono/en.xlf',
-        )
+        return self._create_component('xliff', 'xliff-mono/*.xlf', 'xliff-mono/en.xlf')
 
     def create_resx(self):
-        return self._create_component(
-            'resx',
-            'resx/*.resx',
-            'resx/en.resx',
-        )
+        return self._create_component('resx', 'resx/*.resx', 'resx/en.resx')
 
     def create_yaml(self):
-        return self._create_component(
-            'yaml',
-            'yml/*.yml',
-            'yml/en.yml',
-        )
+        return self._create_component('yaml', 'yml/*.yml', 'yml/en.yml')
 
     def create_ruby_yaml(self):
-        return self._create_component(
-            'ruby-yaml',
-            'ruby-yml/*.yml',
-            'ruby-yml/en.yml',
-        )
+        return self._create_component('ruby-yaml', 'ruby-yml/*.yml', 'ruby-yml/en.yml')
 
     def create_dtd(self):
-        return self._create_component(
-            'dtd',
-            'dtd/*.dtd',
-            'dtd/en.dtd',
-        )
+        return self._create_component('dtd', 'dtd/*.dtd', 'dtd/en.dtd')
 
     def create_appstore(self):
-        return self._create_component(
-            'appstore',
-            'metadata/*',
-            'metadata/en-US',
-        )
+        return self._create_component('appstore', 'metadata/*', 'metadata/en-US')
 
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
@@ -485,10 +393,9 @@ class TempDirMixin(object):
 
 def create_billing(user):
     from weblate.billing.models import Billing, Invoice, Plan
+
     plan = Plan.objects.create(
-        display_limit_projects=1,
-        name='Basic plan',
-        price=19, yearly_price=199,
+        display_limit_projects=1, name='Basic plan', price=19, yearly_price=199
     )
     billing = Billing.objects.create(plan=plan)
     billing.owners.add(user)
