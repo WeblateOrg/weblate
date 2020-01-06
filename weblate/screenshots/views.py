@@ -265,6 +265,10 @@ def ocr_search(request, pk):
             for match in ocr_extract(api, image, strings):
                 results.add(sources[match])
 
+    # Close images
+    original_image.close()
+    scaled_image.close()
+
     return search_results(
         200,
         obj,
