@@ -1269,6 +1269,10 @@ class Component(models.Model, URLMixin, PathMixin):
             # Always include source language to avoid parsing matching files
             languages[self.project.source_language.code] = self.source_translation
 
+            # Delete old source units after change from monolingual to bilingual
+            if changed_template:
+                self.source_translation.unit_set.all().delete()
+
         matches = self.get_mask_matches()
         if self.translations_count != -1:
             self.translations_progress = 0
@@ -1309,7 +1313,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 translations[translation.id] = translation
                 languages[lang.code] = code
                 # Remove fuzzy flag on template name change
-                if changed_template:
+                if changed_template and self.template:
                     translation.unit_set.filter(state=STATE_FUZZY).update(
                         state=STATE_TRANSLATED
                     )
@@ -1684,7 +1688,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 or (old.edit_template != self.edit_template)
                 or (old.template != self.template)
             )
-            changed_template = (old.template != self.template) and self.template
+            changed_template = (old.template != self.template)
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
