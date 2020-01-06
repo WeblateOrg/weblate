@@ -155,6 +155,19 @@ class LicenseGuideline(Guideline):
 
 
 @register
+class AlertGuideline(Guideline):
+    description = _("Fix this component to clear its alerts.")
+    url = "component"
+    anchor = "alerts"
+
+    def is_passing(self):
+        return not self.component.all_alerts
+
+    def get_docs_url(self):
+        return get_doc_url("devel/alerts")
+
+
+@register
 class ContextGroup(Group):
     description = _("Provide context to the translators")
 
