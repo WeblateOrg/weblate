@@ -1267,7 +1267,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 raise
         else:
             # Always include source language to avoid parsing matching files
-            languages[self.project.source_language.code] = self.source_translation
+            languages[self.project.source_language.code] = self.project.source_language.code
+            translations[self.source_translation.id] = self.source_translation
 
             # Delete old source units after change from monolingual to bilingual
             if changed_template:
