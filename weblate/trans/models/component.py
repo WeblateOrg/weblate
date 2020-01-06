@@ -1317,9 +1317,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Delete possibly no longer existing translations
         if langs is None:
-            todelete = self.translation_set.exclude(id__in=translations.keys()).exclude(
-                language=self.project.source_language
-            )
+            todelete = self.translation_set.exclude(id__in=translations.keys())
             if todelete.exists():
                 self.needs_cleanup = True
                 with transaction.atomic():
