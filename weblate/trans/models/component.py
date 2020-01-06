@@ -1255,6 +1255,7 @@ class Component(models.Model, URLMixin, PathMixin):
         was_change = False
         translations = {}
         languages = {}
+        project = self.project
 
         if self.has_template():
             # Avoid parsing if template is invalid
@@ -1266,13 +1267,15 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 raise
         else:
+            translation = self.source_translation
+
             # Always include source language to avoid parsing matching files
-            languages[self.project.source_language.code] = self.project.source_language.code
-            translations[self.source_translation.id] = self.source_translation
+            languages[project.source_language.code] = project.source_language.code
+            translations[translation.id] = translation
 
             # Delete old source units after change from monolingual to bilingual
             if changed_template:
-                self.source_translation.unit_set.all().delete()
+                translation.unit_set.all().delete()
 
         matches = self.get_mask_matches()
         if self.translations_count != -1:
@@ -1335,7 +1338,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_import_alerts()
 
         # Process linked repos
-        projects = {self.project_id: self.project}
+        projects = {project.id: project}
         for pos, component in enumerate(self.linked_childs):
             self.log_info(
                 "updating linked project %s [%d/%d]",
@@ -1689,7 +1692,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 or (old.edit_template != self.edit_template)
                 or (old.template != self.template)
             )
-            changed_template = (old.template != self.template)
+            changed_template = old.template != self.template
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
