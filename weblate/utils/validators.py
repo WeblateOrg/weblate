@@ -89,50 +89,52 @@ def validate_bitmap(value):
 
     # Ensure we have image object and content type
     # Pretty much copy from django.forms.fields.ImageField:
-    if not hasattr(value.file, 'content_type'):
-        # We need to get a file object for Pillow. We might have a path or we
-        # might have to read the data into memory.
-        if hasattr(value, 'temporary_file_path'):
-            content = value.temporary_file_path()
+
+    # We need to get a file object for Pillow. We might have a path or we
+    # might have to read the data into memory.
+    if hasattr(value, 'temporary_file_path'):
+        content = value.temporary_file_path()
+    else:
+        if hasattr(value, 'read'):
+            content = BytesIO(value.read())
         else:
-            if hasattr(value, 'read'):
-                content = BytesIO(value.read())
-            else:
-                content = BytesIO(value['content'])
+            content = BytesIO(value['content'])
 
-        try:
-            # load() could spot a truncated JPEG, but it loads the entire
-            # image in memory, which is a DoS vector. See #3848 and #18520.
-            image = Image.open(content)
-            # verify() must be called immediately after the constructor.
-            image.verify()
+    try:
+        # load() could spot a truncated JPEG, but it loads the entire
+        # image in memory, which is a DoS vector. See #3848 and #18520.
+        image = Image.open(content)
+        # verify() must be called immediately after the constructor.
+        image.verify()
 
-            # Annotating so subclasses can reuse it for their own validation
-            value.file.image = image
-            # Pillow doesn't detect the MIME type of all formats. In those
-            # cases, content_type will be None.
-            value.file.content_type = Image.MIME.get(image.format)
-        except Exception:
-            # Pillow doesn't recognize it as an image.
-            six.reraise(ValidationError, ValidationError(
-                _('Invalid image!'),
-                code='invalid_image',
-            ), sys.exc_info()[2])
-        if hasattr(value.file, 'seek') and callable(value.file.seek):
-            value.file.seek(0)
+        # Pillow doesn't detect the MIME type of all formats. In those
+        # cases, content_type will be None.
+        value.file.content_type = Image.MIME.get(image.format)
+    except Exception:
+        # Pillow doesn't recognize it as an image.
+        six.reraise(ValidationError, ValidationError(
+            _('Invalid image!'),
+            code='invalid_image',
+        ), sys.exc_info()[2])
+    if hasattr(value.file, 'seek') and callable(value.file.seek):
+        value.file.seek(0)
 
     # Check image type
     if value.file.content_type not in ALLOWED_IMAGES:
+        image.close()
         raise ValidationError(
             _('Not supported image type: %s') % value.file.content_type
         )
 
     # Check dimensions
-    width, height = value.file.image.size
+    width, height = image.size
     if width > 2000 or height > 2000:
+        image.close()
         raise ValidationError(
             _('Image is too big, please scale it down or crop relevant part!')
         )
+
+    image.close()
 
 
 def clean_fullname(val):
