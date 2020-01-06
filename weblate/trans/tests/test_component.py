@@ -26,6 +26,7 @@ import shutil
 from django.core.exceptions import ValidationError
 
 from weblate.checks.models import Check
+from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_models import RepoTestCase
@@ -51,7 +52,8 @@ class ComponentTest(RepoTestCase):
             # Count units in it
             self.assertEqual(translation.unit_set.count(), units)
             # Check whether unit exists
-            self.assertTrue(translation.unit_set.filter(source=unit).exists())
+            if units:
+                self.assertTrue(translation.unit_set.filter(source=unit).exists())
 
         if component.has_template() and component.edit_template:
             translation = component.translation_set.get(
@@ -179,7 +181,7 @@ class ComponentTest(RepoTestCase):
 
     def test_create_po_empty(self):
         component = self.create_po_empty()
-        self.verify_component(component, 0)
+        self.verify_component(component, 1, 'en', 0)
 
     def test_create_po_link(self):
         component = self.create_po_link()
@@ -264,16 +266,16 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, 'cs', 4)
 
     def test_create_xliff_dph(self):
-        component = self.create_xliff('DPH')
-        self.verify_component(component, 1, 'en', 9, 'DPH')
+        component = self.create_xliff('DPH', project=self.create_project(source_language = Language.objects.get(code='cs')))
+        self.verify_component(component, 2, 'en', 9, 'DPH')
 
     def test_create_xliff_empty(self):
-        component = self.create_xliff('EMPTY')
-        self.verify_component(component, 1, 'en', 6, 'DPH')
+        component = self.create_xliff('EMPTY', project=self.create_project(source_language = Language.objects.get(code='cs')))
+        self.verify_component(component, 2, 'en', 6, 'DPH')
 
     def test_create_xliff_resname(self):
-        component = self.create_xliff('Resname')
-        self.verify_component(component, 1, 'en', 2, 'Hi')
+        component = self.create_xliff('Resname', project=self.create_project(source_language = Language.objects.get(code='cs')))
+        self.verify_component(component, 2, 'en', 2, 'Hi')
 
     def test_create_xliff_only_resname(self):
         component = self.create_xliff('only-resname')

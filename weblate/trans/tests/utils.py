@@ -174,12 +174,13 @@ class RepoTestMixin(object):
         # Remove indexes
         Fulltext.cleanup()
 
-    def create_project(self):
+    def create_project(self, **kwargs):
         """Create test project."""
         project = Project.objects.create(
             name='Test',
             slug='test',
-            web='https://weblate.org/'
+            web='https://weblate.org/',
+            **kwargs
         )
         self.addCleanup(shutil.rmtree, project.full_path, True)
         return project
@@ -397,10 +398,11 @@ class RepoTestMixin(object):
             'java/swing_messages.properties',
         )
 
-    def create_xliff(self, name='default'):
+    def create_xliff(self, name='default', project=None):
         return self._create_component(
             'xliff',
             'xliff/*/{0}.xlf'.format(name),
+            project=project,
         )
 
     def create_xliff_mono(self):
