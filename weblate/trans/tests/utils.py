@@ -332,10 +332,8 @@ class RepoTestMixin(object):
             'java/swing_messages.properties',
         )
 
-    def create_xliff(self, name='default', project=None):
-        return self._create_component(
-            'xliff', 'xliff/*/{0}.xlf'.format(name), project=project
-        )
+    def create_xliff(self, name='default', **kwargs):
+        return self._create_component('xliff', 'xliff/*/{0}.xlf'.format(name), **kwargs)
 
     def create_xliff_mono(self):
         return self._create_component('xliff', 'xliff-mono/*.xlf', 'xliff-mono/en.xlf')
