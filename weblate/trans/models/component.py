@@ -1255,14 +1255,20 @@ class Component(models.Model, URLMixin, PathMixin):
         was_change = False
         translations = {}
         languages = {}
-        try:
-            if self.has_template():
+
+        if self.has_template():
+            # Avoid parsing if template is invalid
+            try:
                 self.template_store.check_valid()
-        except (FileParseError, ValueError) as exc:
-            self.log_warning(
-                "skipping update due to error in parsing template: %s", exc
-            )
-            raise
+            except (FileParseError, ValueError) as exc:
+                self.log_warning(
+                    "skipping update due to error in parsing template: %s", exc
+                )
+                raise
+        else:
+            # Always include source language to avoid parsing matching files
+            languages[self.project.source_language.code] = self.source_translation
+
         matches = self.get_mask_matches()
         if self.translations_count != -1:
             self.translations_progress = 0
