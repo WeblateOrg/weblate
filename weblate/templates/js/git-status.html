@@ -67,7 +67,7 @@
     <td>{{ change.get_action_display }}</td>
     <td>
     {% if change.translation %}
-        <a href="{{ change.get_translation_url }}">{{ change.translation.language }}</a>
+        <a href="{{ change.translation.get_absolute_url }}">{{ change.translation.language }}</a>
     {% endif %}
     </td>
     </tr>

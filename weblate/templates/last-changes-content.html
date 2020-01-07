@@ -9,7 +9,20 @@
     <div class="col-xs-2 history-event">
         <strong>{{ change.get_user_display }}</strong>
         <p class="text-muted">{{ change.get_action_display }}</p>
-        <p><a href="{{ change.get_translation_url }}">{{ change.get_translation_display }}</a></p>
+        <p>
+            {% if change.project %}
+            <a href="{{ change.project.get_absolute_url }}">{{ change.project }}</a>
+            {% endif %}
+            {% if change.dictionary %}
+            — <a href="{{ change.dictionary.get_parent_url }}">{{ change.dictionary.language }}</a>
+            {% endif %}
+            {% if change.component %}
+            / <a href="{{ change.component.get_absolute_url }}">{{ change.component.name }}</a>
+            {% endif %}
+            {% if change.translation %}
+            — <a href="{{ change.translation.get_absolute_url }}">{{ change.translation.language }}</a>
+            {% endif %}
+        </p>
     </div>
     <div class="col-xs-10 history-data">
         {% if not hide_links %}

@@ -394,10 +394,6 @@ class Change(models.Model, UserDisplayMixin):
         """Return link either to unit or translation."""
         if self.unit is not None:
             return self.unit.get_absolute_url()
-        return self.get_translation_url()
-
-    def get_translation_url(self):
-        """Return URL for translation."""
         if self.translation is not None:
             return self.translation.get_absolute_url()
         if self.component is not None:
@@ -406,18 +402,6 @@ class Change(models.Model, UserDisplayMixin):
             return self.dictionary.get_parent_url()
         if self.project is not None:
             return self.project.get_absolute_url()
-        return None
-
-    def get_translation_display(self):
-        """Return display name for translation."""
-        if self.translation is not None:
-            return force_text(self.translation)
-        elif self.component is not None:
-            return force_text(self.component)
-        elif self.dictionary is not None:
-            return '{0}/{1}'.format(self.dictionary.project, self.dictionary.language)
-        elif self.project is not None:
-            return force_text(self.project)
         return None
 
     def can_revert(self):

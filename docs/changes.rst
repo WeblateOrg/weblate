@@ -8,6 +8,7 @@ Not yet released.
 * Compatibility with Django 3.0.
 * Improved data cleanup performance.
 * Added support for customizable security.txt.
+* Improved breadcrumbs in changes log.
 
 Weblate 3.10
 ------------
