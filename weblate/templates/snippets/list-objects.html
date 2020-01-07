@@ -64,11 +64,11 @@
 {% include "snippets/list-objects-number.html" with value=stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
 <td class="actions buttons-cell" rowspan="2">
 {% if translate_url %}
-<a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">
+<a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn {% if stats.todo %}btn-primary{% else %}btn-info{% endif %}">
 {% trans "Translate" %}
 </a>
 {% else %}
-<a href="{{ browse_url }}" class="btn btn-primary">
+<a href="{{ browse_url }}" class="btn btn-info">
 {% trans "Browse" %}
 </a>
 {% endif %}

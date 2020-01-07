@@ -603,12 +603,15 @@ thead th {
     margin-left: 0;
     margin-right: 10px;
 }
-.btn-primary, .btn-warning, .btn-danger {
+.btn-primary, .btn-warning, .btn-danger, .btn-info {
     border-radius: 20px;
     font-size: 18px;
     font-weight: 600;
     border: none;
     padding: 7px 24px;
+}
+.btn-info {
+    border: 1px solid #2ECCAA;
 }
 .btn-link.btn-xs {
     padding: 0;
@@ -636,7 +639,7 @@ thead th {
 .btn-default:hover path {
 	fill: #144D3F;
 }
-.btn-primary path, .btn-warning path {
+.btn-primary path, .btn-warning path, .btn-info path {
     fill: #fff;
 }
 button.green:hover path, a.green:hover path {
@@ -659,17 +662,15 @@ button.red:hover path, a.red:hover path {
     border-radius: 25px;
     padding: 13px 24px;
 }
-.btn-primary {
-    background-color: #2A3744;
-}
-.btn-warning {
-    background-color: #2ECCAA;
-}
 .btn-warning:hover {
     background-color: #2A3744;
 }
 .btn-primary:hover {
     background-color: #2ECCAA;
+}
+.btn-info:hover {
+    background-color: #2ECCAA;
+    color: #fff;
 }
 .btn-group-settings {
     clear: both;
