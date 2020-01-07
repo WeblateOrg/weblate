@@ -317,6 +317,7 @@ class Change(models.Model, UserDisplayMixin):
 
     ACTIONS_REPOSITORY = frozenset(
         (
+            ACTION_COMMIT,
             ACTION_PUSH,
             ACTION_RESET,
             ACTION_MERGE,
