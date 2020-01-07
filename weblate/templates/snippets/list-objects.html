@@ -33,19 +33,25 @@
 {% get_unique_row_id object as row_id %}
 <tr id="{{ row_id }}">
 <th>
-<a href="{{ browse_url }}">
-{% if name_source == "language" %}
-    {{ object.language }}
-{% elif name_source == "component_name" %}
-    {{ object.component.name }}
-{% elif name_source == "name" %}
-    {{ object.name }}
-{% elif name_source == "language" %}
-    {{ object.language }}
+{% if name_source == "translation" %}
+    <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>
+    / <a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
+    — <a href="{{ browse_url }}">{{ object.language }}</a>
 {% else %}
-    {{ object }}
+    <a href="{{ browse_url }}">
+    {% if name_source == "language" %}
+        {{ object.language }}
+    {% elif name_source == "component_name" %}
+        {{ object.component.name }}
+    {% elif name_source == "name" %}
+        {{ object.name }}
+    {% elif name_source == "language" %}
+        {{ object.language }}
+    {% else %}
+        {{ object }}
+    {% endif %}
+    </a>
 {% endif %}
-</a>
 {% indicate_alerts object %}
 </th>
 {% include "snippets/list-objects-percent.html" with percent=stats.translated_percent value=stats.translated all=stats.all %}
