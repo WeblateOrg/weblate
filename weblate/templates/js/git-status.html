@@ -59,25 +59,9 @@
 
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Repository changes" %}</h4></div>
-    <table class="table">
-    {% for change in changes %}
-    <tr>
-    <td>{{ change.timestamp|naturaltime }}</td>
-    <td>{{ change.get_user_display }}</td>
-    <td>{{ change.get_action_display }}</td>
-    <td>
-    {% if change.translation %}
-        <a href="{{ change.translation.get_absolute_url }}">{{ change.translation.language }}</a>
-    {% endif %}
-    </td>
-    </tr>
-    {% if change.target %}
-    <tr>
-    <td colspan="4"><pre>{{ change.target }}</td>
-    </tr>
-    {% endif %}
-    {% endfor %}
-    </table>
+<div class="panel-body">
+{% include "last-changes-content.html" with last_changes=changes %}
+</div>
 </div>
 
 </div>
