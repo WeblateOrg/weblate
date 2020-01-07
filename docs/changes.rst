@@ -9,6 +9,7 @@ Not yet released.
 * Improved data cleanup performance.
 * Added support for customizable security.txt.
 * Improved breadcrumbs in changes log.
+* Improved translations listing on dashboard.
 
 Weblate 3.10
 ------------
