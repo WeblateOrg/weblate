@@ -505,7 +505,7 @@ class AndroidNewLangTest(NewLangTest):
 class BasicViewTest(ViewTestCase):
     def test_view_project(self):
         response = self.client.get(reverse('project', kwargs=self.kw_project))
-        self.assertContains(response, 'Test/Test')
+        self.assertContains(response, 'test/test')
 
     def test_view_component(self):
         response = self.client.get(reverse('component', kwargs=self.kw_component))
@@ -577,11 +577,11 @@ class BasicLinkViewTest(BasicViewTest):
         return self.create_link()
 
 
-class HomeViewTest(ViewTestCase):
+class DashboardTest(ViewTestCase):
     """Test for home/index view."""
 
     def setUp(self):
-        super(HomeViewTest, self).setUp()
+        super(DashboardTest, self).setUp()
         self.user.profile.languages.add(Language.objects.get(code='cs'))
 
     def test_view_home_anonymous(self):
@@ -591,7 +591,7 @@ class HomeViewTest(ViewTestCase):
 
     def test_view_home(self):
         response = self.client.get(reverse('home'))
-        self.assertContains(response, 'Test/Test')
+        self.assertContains(response, 'test/test')
 
     def test_view_projects(self):
         response = self.client.get(reverse('projects'))
@@ -671,7 +671,7 @@ class HomeViewTest(ViewTestCase):
         self.user.profile.save()
 
         response = self.client.get(reverse('home'))
-        self.assertContains(response, 'Test/Test')
+        self.assertContains(response, 'test/test')
 
     @override_settings(SINGLE_PROJECT=True)
     def test_single_project(self):
