@@ -1451,7 +1451,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 raise ValidationError(
                     {setting: _("Option is not available for linked repositories.")}
                 )
-        self.linked_component = Component.objects.get_linked(self.repo)
+        self.linked_component = Component.objects.get_linked(self.repo).rstrip("/")
 
     def clean_lang_codes(self, matches):
         """Validate that there are no double language codes."""
