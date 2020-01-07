@@ -32,11 +32,10 @@
 {% get_browse_url object as browse_url %}
 {% get_unique_row_id object as row_id %}
 <tr id="{{ row_id }}">
-<th>
+<th class="object-link">
 {% if name_source == "translation" %}
-    <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>
-    / <a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
-    — <a href="{{ browse_url }}">{{ object.language }}</a>
+    <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>/<a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
+    — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
 {% else %}
     <a href="{{ browse_url }}">
     {% if name_source == "language" %}
