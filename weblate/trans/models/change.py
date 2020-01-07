@@ -331,6 +331,16 @@ class Change(models.Model, UserDisplayMixin):
         )
     )
 
+    # Actions where target is rendered as translation string
+    ACTIONS_CONTENT = {
+        self.ACTION_SUGGESTION,
+        self.ACTION_SUGGESTION_DELETE,
+        self.ACTION_SUGGESTION_CLEANUP,
+        self.ACTION_NEW_UNIT,
+        self.ACTION_DICTIONARY_NEW,
+        self.ACTION_DICTIONARY_EDIT,
+    }
+
     ACTIONS_MERGE_FAILURE = frozenset(
         (ACTION_FAILED_MERGE, ACTION_FAILED_REBASE, ACTION_FAILED_PUSH)
     )
@@ -419,20 +429,13 @@ class Change(models.Model, UserDisplayMixin):
     def show_content(self):
         """Whether to show content as translation."""
         return (
-            self.action
-            in (
-                self.ACTION_SUGGESTION,
-                self.ACTION_SUGGESTION_DELETE,
-                self.ACTION_SUGGESTION_CLEANUP,
-                self.ACTION_NEW_UNIT,
-                self.ACTION_DICTIONARY_NEW,
-                self.ACTION_DICTIONARY_EDIT,
-            )
+            self.action in self.ACTIONS_CONTENT
             or self.action in self.ACTIONS_REVERTABLE
         )
 
     def get_details_display(self):
         from weblate.utils.markdown import render_markdown
+
         if not self.details:
             return ''
         user_actions = {
