@@ -329,12 +329,12 @@ class Change(models.Model, UserDisplayMixin):
 
     # Actions where target is rendered as translation string
     ACTIONS_SHOW_CONTENT = {
-        self.ACTION_SUGGESTION,
-        self.ACTION_SUGGESTION_DELETE,
-        self.ACTION_SUGGESTION_CLEANUP,
-        self.ACTION_NEW_UNIT,
-        self.ACTION_DICTIONARY_NEW,
-        self.ACTION_DICTIONARY_EDIT,
+        ACTION_SUGGESTION,
+        ACTION_SUGGESTION_DELETE,
+        ACTION_SUGGESTION_CLEANUP,
+        ACTION_NEW_UNIT,
+        ACTION_DICTIONARY_NEW,
+        ACTION_DICTIONARY_EDIT,
     }
 
     # Actions indicating a repository merge failure
