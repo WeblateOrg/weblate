@@ -4,7 +4,7 @@
 # Laura Arjona Reina <larjona@larjona.net>, 2018.
 # Franco <francobenedetti.59+github1@gmail.com>, 2018, 2019.
 # Adalberto Alvarez Perez <adalprofe@gmail.com>, 2018.
-# Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2019.
+# Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2019, 2020.
 # Ivan Garcia <garcia.n91@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-06 19:16+0000\n"
-"PO-Revision-Date: 2019-12-29 12:59+0000\n"
+"PO-Revision-Date: 2020-01-08 18:36+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 3.10.1-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -205,7 +205,7 @@ msgstr "Mensaje adicional"
 
 #: weblate/accounts/forms.py:641
 msgid "Please describe the project and your relation to it."
-msgstr "Por favor, describa el proyecto y su relación con él."
+msgstr "Describa el proyecto y su relación con este."
 
 #: weblate/accounts/forms.py:705
 msgid "Component wide notifications"
@@ -282,12 +282,12 @@ msgstr "Se confirmó el restablecimiento y se desactivó la contraseña."
 #: weblate/accounts/models.py:88
 #, python-brace-format
 msgid "You can now log in using {method} ({name})."
-msgstr "Ahora puedes iniciar sesión usando {method} ({name})."
+msgstr "Ahora puede acceder a través de {method} ({name})."
 
 #: weblate/accounts/models.py:89
 #, python-brace-format
 msgid "You can no longer log in using {method} ({name})."
-msgstr "Ya no puedes iniciar sesión usando {method} ({name})."
+msgstr "Ya no puede acceder a través de {method} ({name})."
 
 #: weblate/accounts/models.py:90
 #, python-brace-format
@@ -311,7 +311,7 @@ msgstr ""
 #: weblate/accounts/models.py:94
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr "No se ha podido iniciar sesión con {method}. ({name})."
+msgstr "No se ha podido acceder a través de {method}. ({name})."
 
 #: weblate/accounts/models.py:95
 msgid "Account locked due to many failed logins."
@@ -1263,7 +1263,7 @@ msgstr "Editar la memoria de traducción"
 
 #: weblate/auth/data.py:53
 msgid "Delete translation memory"
-msgstr "Borrar la memoria de traducción"
+msgstr "Eliminar memoria de traducción"
 
 #: weblate/auth/data.py:54
 msgid "Use translation memory"
@@ -4520,7 +4520,7 @@ msgstr "Interrumpir actualización"
 
 #: weblate/templates/component-progress.html:38
 msgid "Return to the component after completion"
-msgstr "Volver al componente tras acabarlo"
+msgstr "Volver al componente al finalizar"
 
 #: weblate/templates/component.html:32
 msgid "Translations"
@@ -5175,7 +5175,7 @@ msgstr "Editar"
 #: weblate/templates/screenshots/screenshot_list.html:58
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Delete"
-msgstr "Borrar"
+msgstr "Eliminar"
 
 #: weblate/templates/dictionary.html:86
 msgid "No words found!"
@@ -7226,7 +7226,7 @@ msgstr "Utilizar esta traducción"
 
 #: weblate/templates/trans/other-row.html:24
 msgid "Change compared to this translation:"
-msgstr "Cambiar comparación a esta traducción:"
+msgstr "Cambio comparado con esta traducción:"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -7299,7 +7299,7 @@ msgstr "Siguiente"
 
 #: weblate/templates/translate.html:95
 msgid "Last"
-msgstr "Último"
+msgstr "Última"
 
 #: weblate/templates/translate.html:106
 msgid "Copy permalink"
@@ -7458,7 +7458,7 @@ msgstr "Corregir cadena"
 
 #: weblate/templates/translate.html:449
 msgid "Dismiss for all languages"
-msgstr "Descartar para todos los idiomas"
+msgstr "Descartar en todos los idiomas"
 
 #: weblate/templates/translate.html:463
 #, python-format
@@ -8134,7 +8134,7 @@ msgstr "Todos los componentes"
 
 #: weblate/trans/forms.py:988
 msgid "Please choose"
-msgstr "Por favor, elija"
+msgstr "Elija uno"
 
 #: weblate/trans/forms.py:1014
 msgid "User to add"
@@ -8154,11 +8154,11 @@ msgstr "Formato del informe"
 
 #: weblate/trans/forms.py:1066
 msgid "Choose file format for the report"
-msgstr "Elige el formato del archivo para el reporte"
+msgstr "Elija el formato del archivo para el informe"
 
 #: weblate/trans/forms.py:1068
 msgid "reStructuredText"
-msgstr "Texto re-estructurado"
+msgstr "reStructuredText"
 
 #: weblate/trans/forms.py:1069
 msgid "JSON"
@@ -8210,11 +8210,11 @@ msgstr "¡Fecha perdida!"
 
 #: weblate/trans/forms.py:1150
 msgid "Starting date has to be before ending date!"
-msgstr "¡La fecha de inicio debe ser anterior a la fecha de fin!"
+msgstr "La fecha de inicio debe ser anterior a la fecha de fin."
 
 #: weblate/trans/forms.py:1166
 msgid "You do not have permission to access this component!"
-msgstr "No tiene autorización para acceder a este componente!"
+msgstr "No tiene autorización para acceder a este componente."
 
 #: weblate/trans/forms.py:1228
 msgid "Basic"
