@@ -289,7 +289,7 @@ class LanguagesViewTest(FixtureTestCase):
     def test_language(self):
         response = self.client.get(reverse('show_language', kwargs={'lang': 'cs'}))
         self.assertContains(response, 'Czech')
-        self.assertContains(response, 'Test/Test')
+        self.assertContains(response, 'test/test')
 
     def test_language_br(self):
         response = self.client.get(reverse('show_language', kwargs={'lang': 'br'}))
