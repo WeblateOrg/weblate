@@ -424,6 +424,8 @@ class Change(models.Model, UserDisplayMixin):
                 self.ACTION_SUGGESTION_DELETE,
                 self.ACTION_SUGGESTION_CLEANUP,
                 self.ACTION_NEW_UNIT,
+                self.ACTION_DICTIONARY_NEW,
+                self.ACTION_DICTIONARY_EDIT,
             )
             or self.action in self.ACTIONS_REVERTABLE
         )
