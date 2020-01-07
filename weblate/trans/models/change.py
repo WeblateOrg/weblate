@@ -275,64 +275,60 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_HOOK, ugettext_lazy('Received repository notification')),
     )
 
-    ACTIONS_REVERTABLE = frozenset(
-        (
-            ACTION_ACCEPT,
-            ACTION_REVERT,
-            ACTION_CHANGE,
-            ACTION_UPLOAD,
-            ACTION_NEW,
-            ACTION_REPLACE,
-            ACTION_AUTO,
-        )
-    )
+    # Actions which can be reverted
+    ACTIONS_REVERTABLE = {
+        ACTION_ACCEPT,
+        ACTION_REVERT,
+        ACTION_CHANGE,
+        ACTION_UPLOAD,
+        ACTION_NEW,
+        ACTION_REPLACE,
+        ACTION_AUTO,
+    }
 
-    ACTIONS_CONTENT = frozenset(
-        (
-            ACTION_CHANGE,
-            ACTION_NEW,
-            ACTION_AUTO,
-            ACTION_ACCEPT,
-            ACTION_REVERT,
-            ACTION_UPLOAD,
-            ACTION_REPLACE,
-            ACTION_MASS_STATE,
-            ACTION_APPROVE,
-            ACTION_MARKED_EDIT,
-        )
-    )
+    # Content changes considered when looking for last author
+    ACTIONS_CONTENT = {
+        ACTION_CHANGE,
+        ACTION_NEW,
+        ACTION_AUTO,
+        ACTION_ACCEPT,
+        ACTION_REVERT,
+        ACTION_UPLOAD,
+        ACTION_REPLACE,
+        ACTION_MASS_STATE,
+        ACTION_APPROVE,
+        ACTION_MARKED_EDIT,
+    }
 
-    ACTIONS_TRANSLATED = frozenset(
-        (
-            ACTION_CHANGE,
-            ACTION_NEW,
-            ACTION_AUTO,
-            ACTION_ACCEPT,
-            ACTION_REVERT,
-            ACTION_UPLOAD,
-            ACTION_REPLACE,
-            ACTION_APPROVE,
-        )
-    )
+    # Actions considered as being translated in consistency check
+    ACTIONS_TRANSLATED = {
+        ACTION_CHANGE,
+        ACTION_NEW,
+        ACTION_AUTO,
+        ACTION_ACCEPT,
+        ACTION_REVERT,
+        ACTION_UPLOAD,
+        ACTION_REPLACE,
+        ACTION_APPROVE,
+    }
 
-    ACTIONS_REPOSITORY = frozenset(
-        (
-            ACTION_COMMIT,
-            ACTION_PUSH,
-            ACTION_RESET,
-            ACTION_MERGE,
-            ACTION_REBASE,
-            ACTION_FAILED_MERGE,
-            ACTION_FAILED_REBASE,
-            ACTION_FAILED_PUSH,
-            ACTION_LOCK,
-            ACTION_UNLOCK,
-            ACTION_DUPLICATE_LANGUAGE,
-        )
-    )
+    # Actions shown on the repository management page
+    ACTIONS_REPOSITORY = {
+        ACTION_COMMIT,
+        ACTION_PUSH,
+        ACTION_RESET,
+        ACTION_MERGE,
+        ACTION_REBASE,
+        ACTION_FAILED_MERGE,
+        ACTION_FAILED_REBASE,
+        ACTION_FAILED_PUSH,
+        ACTION_LOCK,
+        ACTION_UNLOCK,
+        ACTION_DUPLICATE_LANGUAGE,
+    }
 
     # Actions where target is rendered as translation string
-    ACTIONS_CONTENT = {
+    ACTIONS_SHOW_CONTENT = {
         self.ACTION_SUGGESTION,
         self.ACTION_SUGGESTION_DELETE,
         self.ACTION_SUGGESTION_CLEANUP,
@@ -341,9 +337,12 @@ class Change(models.Model, UserDisplayMixin):
         self.ACTION_DICTIONARY_EDIT,
     }
 
-    ACTIONS_MERGE_FAILURE = frozenset(
-        (ACTION_FAILED_MERGE, ACTION_FAILED_REBASE, ACTION_FAILED_PUSH)
-    )
+    # Actions indicating a repository merge failure
+    ACTIONS_MERGE_FAILURE = {
+        ACTION_FAILED_MERGE,
+        ACTION_FAILED_REBASE,
+        ACTION_FAILED_PUSH,
+    }
 
     unit = models.ForeignKey('Unit', null=True, on_delete=models.deletion.CASCADE)
     project = models.ForeignKey('Project', null=True, on_delete=models.deletion.CASCADE)
@@ -429,7 +428,7 @@ class Change(models.Model, UserDisplayMixin):
     def show_content(self):
         """Whether to show content as translation."""
         return (
-            self.action in self.ACTIONS_CONTENT
+            self.action in self.ACTIONS_SHOW_CONTENT
             or self.action in self.ACTIONS_REVERTABLE
         )
 
