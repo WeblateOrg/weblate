@@ -60,6 +60,8 @@ You can generate or display the key currently used by Weblate in the admin
 interface (follow :guilabel:`SSH keys` link on main admin page). Once you've
 done this, Weblate should be able to access your repository.
 
+The public key is visible to all users on the :guilabel:`About` page.
+
 .. note::
 
     The keys need to be without password to make it work, so be sure they are
