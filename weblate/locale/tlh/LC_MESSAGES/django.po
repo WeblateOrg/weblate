@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-01-06 19:16+0000\n"
+"POT-Creation-Date: 2020-01-08 18:37+0000\n"
 "PO-Revision-Date: 2019-07-22 07:40+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Klingon <https://hosted.weblate.org/projects/weblate/master/"
@@ -4611,7 +4611,7 @@ msgstr ""
 msgid "Manage"
 msgstr ""
 
-#: weblate/templates/component.html:89 weblate/templates/js/git-status.html:96
+#: weblate/templates/component.html:89 weblate/templates/js/git-status.html:80
 #: weblate/templates/project.html:79 weblate/templates/translation.html:83
 msgid "Commit"
 msgstr ""
@@ -5037,7 +5037,7 @@ msgid "Glossary"
 msgstr ""
 
 #: weblate/templates/dictionary.html:21
-#: weblate/templates/snippets/list-objects.html:67
+#: weblate/templates/snippets/list-objects.html:72
 msgid "Browse"
 msgstr ""
 
@@ -5216,7 +5216,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/engage.html:60
-#: weblate/templates/snippets/list-objects.html:63
+#: weblate/templates/snippets/list-objects.html:68
 #: weblate/templates/translation.html:137
 msgid "Translate"
 msgstr ""
@@ -5484,68 +5484,68 @@ msgstr ""
 msgid "Repository changes"
 msgstr "pong Qav"
 
-#: weblate/templates/js/git-status.html:87
+#: weblate/templates/js/git-status.html:71
 msgid "Repository tools"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:100
+#: weblate/templates/js/git-status.html:84
 msgid "Commit pending changes to the local repository"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:110
+#: weblate/templates/js/git-status.html:94
 msgid "Pull"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:114
+#: weblate/templates/js/git-status.html:98
 msgid "Pull changes from the remote repository"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:124
+#: weblate/templates/js/git-status.html:108
 msgid "Push"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:128
+#: weblate/templates/js/git-status.html:112
 msgid "Push changes to the remote repository"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:138
+#: weblate/templates/js/git-status.html:122
 #: weblate/trans/models/component.py:117
 msgid "Rebase"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:142
+#: weblate/templates/js/git-status.html:126
 msgid "Rebase local changes onto the remote repository"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:152
+#: weblate/templates/js/git-status.html:136
 msgid "Reset"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:156
+#: weblate/templates/js/git-status.html:140
 msgid "Reset all changes in the local repository"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:164
+#: weblate/templates/js/git-status.html:148
 msgid "Cleanup"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:168
+#: weblate/templates/js/git-status.html:152
 msgid "Cleanup all untracked files in the local repository"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:180
+#: weblate/templates/js/git-status.html:164
 msgid "Unlock"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:184
+#: weblate/templates/js/git-status.html:168
 msgid "Allow changes to the local repository"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:192
+#: weblate/templates/js/git-status.html:176
 msgid "Lock"
 msgstr ""
 
-#: weblate/templates/js/git-status.html:196
+#: weblate/templates/js/git-status.html:180
 msgid "Prevent any changes in the local repository"
 msgstr ""
 
@@ -5584,24 +5584,24 @@ msgstr ""
 msgid "There are no glossaries defined for this language."
 msgstr ""
 
-#: weblate/templates/last-changes-content.html:18
+#: weblate/templates/last-changes-content.html:31
 #: weblate/templates/snippets/suggestions.html:23
 #, fuzzy
 #| msgid "First name"
 msgid "View details"
 msgstr "wa'DIch pong"
 
-#: weblate/templates/last-changes-content.html:20
+#: weblate/templates/last-changes-content.html:33
 #, fuzzy
 #| msgid "New password (again)"
 msgid "View notification"
 msgstr "mu'wIj chu' (jatlhqa')"
 
-#: weblate/templates/last-changes-content.html:23
+#: weblate/templates/last-changes-content.html:36
 msgid "Revert"
 msgstr ""
 
-#: weblate/templates/last-changes-content.html:49
+#: weblate/templates/last-changes-content.html:62
 msgid "No matching activity found."
 msgstr ""
 
@@ -6628,15 +6628,16 @@ msgstr "mu'wIj chu' (jatlhqa')"
 msgid "No related strings found in the glossary."
 msgstr ""
 
-#: weblate/templates/snippets/list-objects-percent.html:4
+#: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
 msgid "%(value)s of %(all)s"
 msgstr ""
 
-#: weblate/templates/snippets/list-objects-percent.html:6
-msgctxt "Completed translation"
-msgid "Done"
-msgstr ""
+#: weblate/templates/snippets/list-objects-percent.html:7
+#, fuzzy
+#| msgid "New password (again)"
+msgid "Completed translation"
+msgstr "mu'wIj chu' (jatlhqa')"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
@@ -6665,7 +6666,7 @@ msgstr ""
 msgid "Comments"
 msgstr ""
 
-#: weblate/templates/snippets/list-objects.html:79
+#: weblate/templates/snippets/list-objects.html:84
 msgid "Nothing to list here."
 msgstr ""
 
@@ -8625,7 +8626,7 @@ msgstr ""
 msgid "Received repository notification"
 msgstr "mu'wIj chu' (jatlhqa')"
 
-#: weblate/trans/models/change.py:383
+#: weblate/trans/models/change.py:393
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
