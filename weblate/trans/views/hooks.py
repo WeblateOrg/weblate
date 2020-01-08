@@ -65,11 +65,9 @@ PAGURE_REPOS = (
 HOOK_HANDLERS = {}
 
 
-def hook_response(response='Update triggered', status='success'):
+def hook_response(response='Update triggered', message='success', status=200):
     """Generic okay hook response"""
-    return JsonResponse(
-        data={'status': status, 'message': response},
-    )
+    return JsonResponse(data={'status': message, 'message': response}, status=status)
 
 
 def register_hook(handler):
@@ -148,7 +146,7 @@ def vcs_service_hook(request, service):
 
     # This happens on ping request upon installation
     if service_data is None:
-        return hook_response('Hook working')
+        return hook_response('Hook working', status=201)
 
     # Log data
     service_long_name = service_data['service_long_name']
@@ -183,8 +181,11 @@ def vcs_service_hook(request, service):
     LOGGER.info(
         'received %s notification on repository %s, branch %s, '
         '%d matching components, %d to process',
-        service_long_name, repo_url, branch,
-        all_components.count(), components.count(),
+        service_long_name,
+        repo_url,
+        branch,
+        all_components.count(),
+        components.count(),
     )
 
     # Trigger updates
@@ -193,18 +194,16 @@ def vcs_service_hook(request, service):
         updates += 1
         LOGGER.info('%s notification will update %s', service_long_name, obj)
         Change.objects.create(
-            component=obj,
-            action=Change.ACTION_HOOK,
-            details=service_data,
+            component=obj, action=Change.ACTION_HOOK, details=service_data
         )
         perform_update.delay('Component', obj.pk)
 
     if updates == 0:
-        return hook_response('No matching repositories found!', 'failure')
+        return hook_response('No matching repositories found!', 'failure', status=202)
 
-    return hook_response('Update triggered: {}'.format(
-        ', '.join([obj.full_slug for obj in components])
-    ))
+    return hook_response(
+        'Update triggered: {}'.format(', '.join([obj.full_slug for obj in components]))
+    )
 
 
 def bitbucket_extract_changes(data):
@@ -240,9 +239,7 @@ def bitbucket_extract_full_name(repository):
     if 'owner' in repository and 'slug' in repository:
         return '{}/{}'.format(repository['owner'], repository['slug'])
     if 'project' in repository and 'slug' in repository:
-        return '{}/{}'.format(
-            repository['project']['key'], repository['slug']
-        )
+        return '{}/{}'.format(repository['project']['key'], repository['slug'])
     raise ValueError('Could not determine repository full name')
 
 
@@ -281,10 +278,12 @@ def bitbucket_hook_helper(data, request):
             templates = BITBUCKET_GIT_REPOS
         # Construct possible repository URLs
         for repo in templates:
-            repos.extend((
-                repo.format(full_name=full_name, server=server)
-                for server in repo_servers
-            ))
+            repos.extend(
+                (
+                    repo.format(full_name=full_name, server=server)
+                    for server in repo_servers
+                )
+            )
 
     if not repos:
         LOGGER.error('unsupported repository: %s', repr(data['repository']))
@@ -318,9 +317,7 @@ def github_hook_helper(data, request):
         repos = [repo % params for repo in GITHUB_REPOS]
     else:
         repos = []
-        keys = [
-            'clone_url', 'git_url', 'ssh_url', 'svn_url', 'html_url', 'url'
-        ]
+        keys = ['clone_url', 'git_url', 'ssh_url', 'svn_url', 'html_url', 'url']
         for key in keys:
             if key in data['repository']:
                 repos.append(data['repository'][key])
@@ -404,10 +401,7 @@ def pagure_hook_helper(data, request):
     server = urlparse(data['msg']['pagure_instance']).hostname
     project = data['msg']['project_fullname']
 
-    repos = [
-        repo.format(server=server, project=project)
-        for repo in PAGURE_REPOS
-    ]
+    repos = [repo.format(server=server, project=project) for repo in PAGURE_REPOS]
 
     return {
         'service_long_name': 'Pagure',

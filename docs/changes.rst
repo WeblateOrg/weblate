@@ -10,6 +10,7 @@ Not yet released.
 * Added support for customizable security.txt.
 * Improved breadcrumbs in changes log.
 * Improved translations listing on dashboard.
+* Improved HTTP responses for web hooks.
 
 Weblate 3.10
 ------------
