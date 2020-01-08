@@ -644,7 +644,9 @@ This allows you to password protect whole installation using:
     LOGIN_REQUIRED_URLS = (
         r'/(.*)$',
     )
-    REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = "rest_framework.permissions.IsAuthenticated"
+    REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
+        "rest_framework.permissions.IsAuthenticated"
+    ]
 
 .. hint::
 
