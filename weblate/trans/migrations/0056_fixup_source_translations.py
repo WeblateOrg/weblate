@@ -2,12 +2,15 @@
 
 from django.db import migrations
 
+from weblate.utils.stats import BaseStats
+
 
 def fixup_source_translations(apps, schema_editor):
     db_alias = schema_editor.connection.alias
 
     Translation = apps.get_model("trans", "Translation")
 
+    # Correctly set filename for monolingual source translations
     for translation in (
         Translation.objects.using(db_alias)
         .filter(filename="")
@@ -15,6 +18,13 @@ def fixup_source_translations(apps, schema_editor):
     ):
         translation.filename = translation.component.template
         translation.save(update_fields=["filename"])
+
+    # Invalidate caches for bilingual source translation as it might
+    # now show different numbers
+    for translation in Translation.objects.using(db_alias).filter(filename=""):
+        BaseStats(translation).invalidate()
+        BaseStats(translation.component).invalidate()
+        BaseStats(translation.component.project).invalidate()
 
 
 class Migration(migrations.Migration):
