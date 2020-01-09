@@ -1,7 +1,7 @@
 Weblate 3.10.1
 --------------
 
-Not yet released.
+Released on January 09th 2020.
 
 * Extended API with translation creation.
 * Fixed several corner cases in data migrations.
