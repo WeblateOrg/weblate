@@ -97,6 +97,7 @@ LANGUAGES = (
     ("gl", "Galego"),
     ("he", "עברית"),
     ("hu", "Magyar"),
+    ("hr", "Hrvatski"),
     ("id", "Indonesia"),
     ("it", "Italiano"),
     ("ja", "日本語"),
