@@ -340,7 +340,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = "weblate.urls"
 
 # Django and Weblate apps
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -374,7 +374,7 @@ INSTALLED_APPS = (
     "weblate",
     # Optional: Git exporter
     "weblate.gitexport",
-)
+]
 
 # Path to locales
 LOCALE_PATHS = (os.path.join(BASE_DIR, "weblate", "locale"),)
@@ -736,7 +736,7 @@ SERVER_EMAIL = "noreply@example.com"
 DEFAULT_FROM_EMAIL = "noreply@example.com"
 
 # List of URLs your site is supposed to serve
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Configuration for caching
 CACHES = {
