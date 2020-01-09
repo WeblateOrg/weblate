@@ -499,7 +499,7 @@ Machine translation settings
             WEBLATE_MT_SAP_USE_MT: 1
 
 
-.. docker-auth:
+.. _docker-auth:
 
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
