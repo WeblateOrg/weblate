@@ -28,6 +28,46 @@ plugins are listed in :file:`requirements-test.txt`.
 
 You can execute all coding style checks with the script :file:`ci/run-lint`.
 
+Coding Weblate with PyCharm
+---------------------------
+
+PyCharm is a known IDE for Python, here's some guidelines to help you setup Weblate
+project in it.
+
+Considering you have just cloned the Github repository, just open the folder in which
+you cloned it in PyCharm. Once the IDE is open, the first step is to specify the
+interpreter you want:
+
+.. image:: /images/pycharm-1.png
+
+You can either chose to let PyCharm create the virtualenv for you, or select an already
+existing one:
+
+.. image:: /images/pycharm-2.png
+
+Don't forget to install the dependencies once the interpreter is set: you
+can do it, either through the console (the console from the IDE will directly use your
+virtualenv by default), or through the interface when you get a warning about missing
+dependencies.
+
+The second step is to set the right information to use natively Django inside PyCharm:
+the idea is to be able to immediately trigger the unit tests in the IDE.
+For that you need to specify the root path of Django and the path of one setting:
+
+.. image:: /images/pycharm-3.png
+
+Be careful, the `Django project root` is the root of the repository, not the weblate
+sub-directory. About the settings, I personally use the `settings_test` from the
+repository, but you could create your own setting and set it there.
+
+Last step is to be able to run the server and to put breakpoints on the code to be able
+to debug it. This is done by creating a new `Django Server` configuration:
+
+.. image:: /images/pycharm-4.png
+.. image:: /images/pycharm-5.png
+
+Be careful to properly checked "No reload": you won't get anymore the server live reload
+if you modify some files, but the debugger will be stopped on the breakpoint you set.
 
 .. _owasp:
 
