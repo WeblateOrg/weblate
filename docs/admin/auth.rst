@@ -24,6 +24,11 @@ Using it means you can import the user database of other Django based projects (
 
 Django can additionally be set up to authenticate against other means too.
 
+.. seealso::
+
+   :ref:`docker-auth` describes how to configure authentication in the official
+   Docker image.
+
 Social authentication
 ---------------------
 

@@ -499,6 +499,8 @@ Machine translation settings
             WEBLATE_MT_SAP_USE_MT: 1
 
 
+.. docker-auth:
+
 Authentication settings
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -515,7 +517,7 @@ LDAP
 
     LDAP authentication configuration.
 
-    **Example:**
+    **Example for direct bind:**
 
     .. code-block:: yaml
 
@@ -526,8 +528,19 @@ LDAP
           # another example that can be used with OpenLDAP: 'full_name:cn,email:mail'
           WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
 
+    **Example for search and bind:**
 
-    **Example with bind against Active Directory:**
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_AUTH_LDAP_SERVER_URI: ldap://ldap.example.org
+          WEBLATE_AUTH_LDAP_BIND_DN: CN=ldap,CN=Users,DC=example,DC=com
+          WEBLATE_AUTH_LDAP_BIND_PASSWORD: password
+          WEBLATE_AUTH_LDAP_USER_ATTR_MAP: full_name:name,email:mail
+          WEBLATE_AUTH_LDAP_USER_SEARCH: CN=Users,DC=example,DC=com
+
+
+    **Example with search and bind against Active Directory:**
 
     .. code-block:: yaml
 
