@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-08 18:47+0000\n"
-"PO-Revision-Date: 2020-01-09 13:25+0000\n"
+"PO-Revision-Date: 2020-01-11 10:46+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.10.1-dev\n"
+"X-Generator: Weblate 3.10.1\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -378,8 +378,7 @@ msgstr "第 2 言語"
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
-msgstr ""
-"理解できる言語を選択すると、翻訳する言語の文字列が原文と並んで表示します。"
+msgstr "理解できる言語を選択すると、翻訳した文字列を原文の次に表示します。"
 
 #: weblate/accounts/models.py:309
 msgid "Hide completed translations on the dashboard"
@@ -425,24 +424,22 @@ msgstr "Zen 編集モード"
 
 #: weblate/accounts/models.py:341
 msgid "Top to bottom"
-msgstr "上下に並べて表示"
+msgstr "縦表示"
 
 #: weblate/accounts/models.py:342
 msgid "Side by side"
-msgstr "左右に並べて表示"
+msgstr "横表示"
 
 #: weblate/accounts/models.py:350
 msgid "Special characters"
-msgstr "特殊文字"
+msgstr "特殊記号"
 
 #: weblate/accounts/models.py:352
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
-msgstr ""
-"翻訳中に表示する、特殊なビジュアル キーボード文字を追加指定できます。頻繁に使"
-"用するが、キーボードでの入力が難しい文字に便利です。"
+msgstr "翻訳中にスクリーン キーボードに表示する特殊記号を、追加できます。頻繁に使用するが、キーボードでの入力が難しい文字に便利です。"
 
 #: weblate/accounts/models.py:364 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -451,7 +448,7 @@ msgstr "監視中の翻訳"
 #: weblate/accounts/models.py:365 weblate/templates/dashboard/user.html:23
 #: weblate/trans/models/componentlist.py:72
 msgid "Component lists"
-msgstr "複数のコンポーネント リスト"
+msgstr "すべてのコンポーネント リスト"
 
 #: weblate/accounts/models.py:366 weblate/auth/models.py:142
 #: weblate/templates/dashboard/user.html:75
@@ -1309,7 +1306,7 @@ msgstr "新しい文字列の追加"
 
 #: weblate/auth/data.py:78
 msgid "Ignore failing check"
-msgstr "失敗したチェックの無視"
+msgstr "整合性の無視"
 
 #: weblate/auth/data.py:79
 msgid "Edit strings"
@@ -1825,7 +1822,7 @@ msgstr "ダブル スペース"
 
 #: weblate/checks/chars.py:153
 msgid "Translation contains double space"
-msgstr "翻訳にダブルスペースがある"
+msgstr "翻訳に、ダブル スペースがある"
 
 #: weblate/checks/chars.py:175
 msgid "Trailing stop"
@@ -2233,18 +2230,18 @@ msgstr "文字列では省略文字 (…) の代わりに 3 点ドット (...) �
 
 #: weblate/checks/source.py:66
 msgid "Multiple failing checks"
-msgstr "複数のチェックに失敗"
+msgstr "複数の整合性に問題"
 
 #: weblate/checks/source.py:68
 msgid "The translations in several languages have failing checks"
-msgstr "いくつかの言語の翻訳でチェックが失敗しています"
+msgstr "いくつかの言語の翻訳で整合性に問題があります"
 
 #: weblate/checks/views.py:79 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/project.html:68
 msgid "Failing checks"
-msgstr "チェック失敗"
+msgstr "整合性に問題"
 
 #: weblate/fonts/models.py:44 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -2267,9 +2264,7 @@ msgstr "フォント グループ名"
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
-msgstr ""
-"このフォント グループの選択を識別するための識別子。空白や特殊文字は避けてくだ"
-"さい。"
+msgstr "このフォント グループの選択を識別するための識別子。空白や特殊記号は避けてください。"
 
 #: weblate/fonts/models.py:116 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -3130,9 +3125,7 @@ msgstr ""
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
-msgstr ""
-"このほか、商用ホスティングも提供させていただいております。価格は 1 ヶ月あた"
-"り 19 ユーロからとなります。詳しくはお尋ねください。"
+msgstr "このほか、商用ホスティングも提供させていただいております。価格は 1 か月あたり 19 ユーロからとなります。詳しくはお尋ねください。"
 
 #: weblate/templates/about/index.html:40
 #: weblate/templates/accounts/hosting.html:44
@@ -3246,7 +3239,7 @@ msgstr "翻訳数"
 
 #: weblate/templates/about/stats.html:100
 msgid "Failing checks found"
-msgstr "チェック失敗の検出数"
+msgstr "整合性に問題の発見"
 
 #: weblate/templates/about/stats.html:104 weblate/templates/component.html:75
 #: weblate/templates/language-project.html:43
@@ -4726,9 +4719,7 @@ msgstr "読み込み中…"
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
-msgstr ""
-"すべてのユーザーのレポートを表示する権限がありません。投稿のみ一覧表示しま"
-"す。"
+msgstr "すべてのユーザーに関するレポートを表示する権限がありません。あなたの投稿のみ表示します。"
 
 #: weblate/templates/component.html:303
 #: weblate/templates/dashboard/user.html:117 weblate/templates/project.html:272
@@ -4741,9 +4732,8 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"このコンポーネントの翻訳貢献者名簿を、一定期間表示します。ドキュメントやアプ"
-"リケーションに記載すると、翻訳者に感謝を示し、フィードバックをもらうのに便利"
-"です。"
+"ある期間にコンポーネントに貢献した、翻訳者の名簿を表示します。ドキュメントやアプリケーションに記載すると、翻訳者に感謝を示し、フィードバックをもらうのに便"
+"利です。"
 
 #: weblate/templates/component.html:311 weblate/templates/component.html:330
 #: weblate/templates/dashboard/user.html:125
@@ -4825,7 +4815,7 @@ msgstr "翻訳のライセンス"
 #: weblate/templates/contributor-agreement.html:9
 #: weblate/trans/models/component.py:343
 msgid "Contributor agreement"
-msgstr "貢献者の同意"
+msgstr "貢献者同意条項"
 
 #: weblate/templates/component_info.html:58 weblate/templates/data.html:71
 #: weblate/templates/mail/base.html:263 weblate/templates/mail/base.html:277
@@ -4889,9 +4879,7 @@ msgstr "校正の概要"
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
-msgstr ""
-"環境設定で翻訳したい言語を選択して、監視中のプロジェクトの概要に翻訳可能な言"
-"語を表示します。"
+msgstr "翻訳したい言語を設定で指定すると、監視中のプロジェクトに翻訳する言語の概要が表示されます。"
 
 #: weblate/templates/dashboard/user.html:84
 msgid ""
@@ -4907,8 +4895,7 @@ msgid ""
 "inclusion in documentation or the app itself, to thank translators and "
 "generate feedback to them."
 msgstr ""
-"翻訳貢献者名簿を、一定期間表示します。ドキュメントやアプリケーションに記載す"
-"ると、翻訳者に感謝を示し、フィードバックをもらうのに便利です。"
+"ある期間に貢献した、翻訳者の名簿を表示します。ドキュメントやアプリケーションに記載すると、翻訳者に感謝を示し、フィードバックをもらうのに便利です。"
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -6410,9 +6397,8 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"このプロジェクトの翻訳貢献者名簿を、一定期間表示します。ドキュメントやアプリ"
-"ケーションに記載すると、翻訳者に感謝を示し、フィードバックをもらうのに便利で"
-"す。"
+"ある期間にプロジェクトに貢献した、翻訳者の名簿を表示します。ドキュメントやアプリケーションに記載すると、翻訳者に感謝を示し、フィードバックをもらうのに便利"
+"です。"
 
 #: weblate/templates/project_info.html:11
 msgid "Mailing list for translators"
@@ -6576,7 +6562,7 @@ msgstr "最後のリモート コミット"
 #: weblate/templates/snippets/git-info.html:33
 #, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "%(date)s に %(author)s が記述"
+msgstr "%(author)s が記述 %(date)s"
 
 #: weblate/templates/snippets/git-info.html:41
 msgid "Repository containing Weblate translations"
@@ -6642,7 +6628,7 @@ msgstr "詳細なクエリ ビルダー"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
-msgstr "翻訳済み文字列"
+msgstr "翻訳文"
 
 #: weblate/templates/snippets/query-builder.html:14
 msgid "Context strings"
@@ -6670,7 +6656,7 @@ msgstr "翻訳対象の言語"
 
 #: weblate/templates/snippets/query-builder.html:20
 msgid "String changed by"
-msgstr "変更された文字列"
+msgstr "文字列を変更したユーザ"
 
 #: weblate/templates/snippets/query-builder.html:23
 msgid "Search for…"
@@ -6687,7 +6673,7 @@ msgstr "コメントがある文字列"
 
 #: weblate/templates/snippets/query-builder.html:37
 msgid "String has failing check"
-msgstr "適正検査で不合格の文字列"
+msgstr "整合性が取れない文字列"
 
 #: weblate/templates/snippets/query-builder.html:38
 msgid "String has plural"
@@ -6696,11 +6682,11 @@ msgstr "複数形がある文字列"
 #: weblate/templates/snippets/query-builder.html:50
 #: weblate/templates/snippets/query-builder.html:52
 msgid "String changed after"
-msgstr "次の日付以降に変更された文字列"
+msgstr "次の日付以降に変更した文字列"
 
 #: weblate/templates/snippets/query-builder.html:53
 msgid "String changed before"
-msgstr "次の日付以前に変更された文字列"
+msgstr "次の日付以前に変更した文字列"
 
 #: weblate/templates/snippets/query-builder.html:56
 msgid "Date"
@@ -6727,7 +6713,7 @@ msgstr "コメントがある文字列"
 #: weblate/templates/snippets/query-builder.html:84 weblate/trans/filter.py:46
 #: weblate/trans/filter.py:92
 msgid "Strings with any failing checks"
-msgstr "適正検査に不合格した文字列"
+msgstr "複数の整合性が取れない文字列"
 
 #: weblate/templates/snippets/query-builder.html:89
 msgid "Strings with suggestions from others"
@@ -6807,11 +6793,9 @@ msgid "Commented"
 msgstr "コメント付"
 
 #: weblate/templates/snippets/unit-state.html:11
-#, fuzzy
-#| msgid "Suggested"
 msgctxt "String state"
 msgid "Suggested"
-msgstr "提案数"
+msgstr "提案"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -7540,7 +7524,7 @@ msgstr "合計"
 
 #: weblate/templates/translation.html:421
 msgid "Failing check"
-msgstr "チェック失敗"
+msgstr "整合性に問題"
 
 #: weblate/templates/translation.html:438
 msgid "Last activity"
@@ -8386,7 +8370,7 @@ msgstr "変更点のコミット"
 
 #: weblate/trans/models/change.py:240
 msgid "Pushed changes"
-msgstr "変更点の送信"
+msgstr "変更点のプッシュ"
 
 #: weblate/trans/models/change.py:241
 msgid "Reset repository"
@@ -9269,13 +9253,13 @@ msgstr[0] "%(count)s 年前"
 
 #: weblate/trans/templatetags/translations.py:342
 msgid "a month ago"
-msgstr "1 ヶ月前"
+msgstr "1 か月前"
 
 #: weblate/trans/templatetags/translations.py:343
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] "%(count)s ヶ月前"
+msgstr[0] "%(count)s か月前"
 
 #: weblate/trans/templatetags/translations.py:348
 #, python-format
@@ -9344,13 +9328,13 @@ msgstr[0] "%(count)s 年後"
 
 #: weblate/trans/templatetags/translations.py:400
 msgid "a month from now"
-msgstr "1 ヶ月後"
+msgstr "1 か月後"
 
 #: weblate/trans/templatetags/translations.py:402
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
-msgstr[0] "%(count)s ヶ月後"
+msgstr[0] "%(count)s か月後"
 
 #: weblate/trans/templatetags/translations.py:407
 #, python-format
@@ -9403,8 +9387,6 @@ msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s 時間後"
 
 #: weblate/trans/templatetags/translations.py:531
-#, fuzzy
-#| msgid "Not translated"
 msgctxt "String state"
 msgid "Not translated"
 msgstr "未翻訳"
@@ -9664,7 +9646,7 @@ msgstr "以下の修正が翻訳に適用されます: %s"
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "翻訳を保存しましたが、新しくチェックに失敗した項目があります: {0}"
+msgstr "翻訳を保存しましたが、整合性に問題のある、あたらしい項目があります: {0}"
 
 #: weblate/trans/views/edit.py:280
 msgid "Invalid merge request!"
@@ -9946,15 +9928,11 @@ msgid "Invalid regular expression: {}"
 msgstr "正規表現が正しくありません: {}"
 
 #: weblate/utils/state.py:32
-#, fuzzy
-#| msgid "Empty"
 msgctxt "String state"
 msgid "Empty"
 msgstr "無し"
 
 #: weblate/utils/state.py:36
-#, fuzzy
-#| msgid "Read only"
 msgctxt "String state"
 msgid "Read only"
 msgstr "読み取り専用"
