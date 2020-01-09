@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.10.2 (b12397a8) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.11.0 (07ab8dcc) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2487,10 +2487,6 @@ var Sentry = (function (exports) {
             if (this._transaction) {
                 event.transaction = this._transaction;
             }
-            if (this._span) {
-                event.contexts = event.contexts || {};
-                event.contexts.trace = this._span.getTraceContext();
-            }
             this._applyFingerprint(event);
             event.breadcrumbs = __spread((event.breadcrumbs || []), this._breadcrumbs);
             event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
@@ -2528,7 +2524,7 @@ var Sentry = (function (exports) {
      * Default maximum number of breadcrumbs added to an event. Can be overwritten
      * with {@link Options.maxBreadcrumbs}.
      */
-    var DEFAULT_BREADCRUMBS = 30;
+    var DEFAULT_BREADCRUMBS = 100;
     /**
      * Absolute maximum number of breadcrumbs added to an event. The
      * `maxBreadcrumbs` option cannot be higher than this value.
@@ -4308,6 +4304,9 @@ var Sentry = (function (exports) {
                 // REF: https://github.com/getsentry/raven-js/issues/1233
                 referrerPolicy: (supportsReferrerPolicy() ? 'origin' : ''),
             };
+            if (this.options.headers !== undefined) {
+                defaultOptions.headers = this.options.headers;
+            }
             return this._buffer.add(new SyncPromise(function (resolve, reject) {
                 global$3
                     .fetch(_this.url, defaultOptions)
@@ -4370,6 +4369,11 @@ var Sentry = (function (exports) {
                     reject(request);
                 };
                 request.open('POST', _this.url);
+                for (var header in _this.options.headers) {
+                    if (_this.options.headers.hasOwnProperty(header)) {
+                        request.setRequestHeader(header, _this.options.headers[header]);
+                    }
+                }
                 request.send(JSON.stringify(event));
             }));
         };
@@ -4447,7 +4451,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.10.2';
+    var SDK_VERSION = '5.11.0';
 
     /**
      * The Sentry Browser SDK Client.
