@@ -1706,6 +1706,11 @@ class Component(models.Model, URLMixin, PathMixin):
         # Save/Create object
         super(Component, self).save(*args, **kwargs)
 
+        # Ensure source translation is existing, otherwise we might
+        # be hitting race conditions between background update and frontend displaying
+        # the newsly created component
+        bool(self.source_translation)
+
         from weblate.trans.tasks import component_after_save
 
         task = component_after_save.delay(
