@@ -11,6 +11,7 @@ Not yet released.
 * Improved breadcrumbs in changes log.
 * Improved translations listing on dashboard.
 * Improved HTTP responses for web hooks.
+* Added support for GitLab pull requests in Docker container.
 
 Weblate 3.10
 ------------
