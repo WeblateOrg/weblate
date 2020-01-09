@@ -24,7 +24,7 @@ from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-DEEPL_API = 'https://api.deepl.com/v1/translate'
+DEEPL_API = 'https://api.deepl.com/v2/translate'
 
 
 class DeepLTranslation(MachineTranslation):
