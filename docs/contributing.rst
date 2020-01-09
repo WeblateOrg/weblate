@@ -190,13 +190,14 @@ Releasing Weblate
 
 Release checklist:
 
-1. Set final version by ``./scripts/prepare-release``.
-2. Make sure screenshots are up to date ``make -C docs update-screenshots``
-3. Create a release ``./scripts/create-release --tag``
-4. Enable building version docs on Read the Docs
-5. Update Docker image
-6. Close GitHub milestone
-7. Once the Docker image is tested, add a tag and push it
+1. Check newly translated languages by ``./scripts/list-translated-languages``.
+2. Set final version by ``./scripts/prepare-release``.
+3. Make sure screenshots are up to date ``make -C docs update-screenshots``
+4. Create a release ``./scripts/create-release --tag``
+5. Enable building version docs on Read the Docs
+6. Update Docker image
+7. Close GitHub milestone
+8. Once the Docker image is tested, add a tag and push it
 
 .. _dco:
 
