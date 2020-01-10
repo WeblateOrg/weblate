@@ -59,6 +59,8 @@ def show_dictionaries(request, project):
         'dictionaries.html',
         {
             'title': _('Glossaries'),
+            'object': obj,
+            'project': obj,
             'dicts': sort_objects(
                 Language.objects.filter(translation__component__project=obj).distinct()
             ),

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
@@ -8,6 +9,100 @@
 {% endblock %}
 
 {% block content %}
+
+<ul class="nav nav-pills">
+    <li><a href="{% url 'project' project=object.slug %}#components">{% trans "Components" %}</a></li>
+    <li><a href="{% url 'project' project=object.slug %}#languages">{% trans "Languages" %}</a></li>
+    <li><a href="{% url 'project' project=object.slug %}#information">{% trans "Info" %}</a></li>
+    <li><a href="{% url 'project' project=object.slug %}#search">{% trans "Search" %}</a></li>
+    <li class="active"><a href="#">{% trans "Glossaries" %}</a></li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Insights" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="{% url 'project' project=object.slug %}#history">{% trans "History" %}</a></li>
+        <li><a href="{% url 'project' project=object.slug %}#activity" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.slug %}">{% trans "Activity" %}</a></li>
+        <li><a href="{% url 'export_stats' project=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
+        <li><a href="{% url 'export_stats' project=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'project' project=object.slug %}#reports">{% trans "Translation reports" %}</a></li>
+        {% endif %}
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Files" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="{% url "download_project"  project=object.slug %}?format=zip" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download original translation files as ZIP file{% endblocktrans %}</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Tools" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        {% if replace_form %}
+        <li><a href="{% url 'project' project=object.slug %}#replace">{% trans "Search and replace" %}</a></li>
+        {% endif %}
+        {% if bulk_state_form %}
+        <li><a href="{% url 'project' project=object.slug %}#bulk-state">{% trans "Bulk status change" %}</a></li>
+        {% endif %}
+        <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
+        <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
+        <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
+      </ul>
+    </li>
+    {% if user_can_manage_acl or user_can_edit_project or user_can_see_repository_status or user.is_authenticated %}
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Manage" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        {% if user_can_commit_translation %}
+        <li><a href="{{ object.get_commit_url }}" class="link-post">{% trans "Commit" %}</a></li>
+        {% endif %}
+        {% if user_can_see_repository_status %}
+        <li><a href="{% url 'project' project=object.slug %}#repository" data-toggle="tab" data-href="{% url 'git_status_project' project=object.slug %}">{% trans "Repository maintenance" %}</a></li>
+        <li role="separator" class="divider"></li>
+        {% endif %}
+        <li><a href="{% url 'memory' project=object.slug %}">{% trans "Translation memory" %}</a></li>
+        {% if whiteboard_form %}
+        <li><a href="{% url 'project' project=object.slug %}#whiteboard" data-toggle="tab">{% trans "Add a project message" %}</a></li>
+        {% endif %}
+        {% if user_can_manage_acl %}
+        <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
+        {% endif %}
+        {% if user_can_edit_project %}
+        <li><a href="{% url 'fonts' project=object.slug %}">{% trans "Fonts" %}</a></li>
+        <li><a href="{% url 'settings' project=object.slug %}">{% trans "Settings" %}</a></li>
+        {% endif %}
+        {% if delete_form or rename_form %}
+        <li role="separator" class="divider"></li>
+        <li><a href="{% url 'project' project=object.slug %}#rename" data-toggle="tab">{% trans "Rename" %}</a></li>
+        <li><a href="{% url 'project' project=object.slug %}#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
+        {% endif %}
+      </ul>
+    </li>
+    {% endif %}
+  {% if enable_sharing %}
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        {% trans "Share" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+  {% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
+        <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
+        <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation" %}</a></li>
+        <li><a href="{% url 'engage' project=object.slug %}">{% trans "Engage page" %}</a></li>
+        <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
+  {% endwith %}
+        </ul>
+    </li>
+  {% endif %}
+</ul>
+
 <table class="sort table table-condensed">
 <thead>
 <tr>
