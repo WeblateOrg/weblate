@@ -64,12 +64,12 @@
         <li><a href="{{ object.get_commit_url }}" class="link-post">{% trans "Commit" %}</a></li>
         {% endif %}
         {% if user_can_see_repository_status %}
-        <li><a href="{% url 'project' project=object.slug %}#repository" data-toggle="tab" data-href="{% url 'git_status_project' project=object.slug %}">{% trans "Repository maintenance" %}</a></li>
+        <li><a href="{% url 'project' project=object.slug %}#repository" data-href="{% url 'git_status_project' project=object.slug %}">{% trans "Repository maintenance" %}</a></li>
         <li role="separator" class="divider"></li>
         {% endif %}
         <li><a href="{% url 'memory' project=object.slug %}">{% trans "Translation memory" %}</a></li>
         {% if whiteboard_form %}
-        <li><a href="{% url 'project' project=object.slug %}#whiteboard" data-toggle="tab">{% trans "Add a project message" %}</a></li>
+        <li><a href="{% url 'project' project=object.slug %}#whiteboard">{% trans "Add a project message" %}</a></li>
         {% endif %}
         {% if user_can_manage_acl %}
         <li><a href="{% url 'manage-access' project=object.slug %}">{% trans "Users" %}</a></li>
@@ -80,8 +80,8 @@
         {% endif %}
         {% if delete_form or rename_form %}
         <li role="separator" class="divider"></li>
-        <li><a href="{% url 'project' project=object.slug %}#rename" data-toggle="tab">{% trans "Rename" %}</a></li>
-        <li><a href="{% url 'project' project=object.slug %}#delete" data-toggle="tab">{% trans "Removal" %}</a></li>
+        <li><a href="{% url 'project' project=object.slug %}#rename">{% trans "Rename" %}</a></li>
+        <li><a href="{% url 'project' project=object.slug %}#delete">{% trans "Removal" %}</a></li>
         {% endif %}
       </ul>
     </li>
