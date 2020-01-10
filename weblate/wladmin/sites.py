@@ -125,25 +125,24 @@ class WeblateAdminSite(AdminSite):
             self.register(Dictionary, DictionaryAdmin)
             self.register(Change, ChangeAdmin)
 
-        if settings.BILLING_ADMIN:
-            # Billing
-            if 'weblate.billing' in settings.INSTALLED_APPS:
-                # pylint: disable=wrong-import-position
-                from weblate.billing.admin import PlanAdmin, BillingAdmin, InvoiceAdmin
-                from weblate.billing.models import Plan, Billing, Invoice
+        # Billing
+        if 'weblate.billing' in settings.INSTALLED_APPS:
+            # pylint: disable=wrong-import-position
+            from weblate.billing.admin import PlanAdmin, BillingAdmin, InvoiceAdmin
+            from weblate.billing.models import Plan, Billing, Invoice
 
-                self.register(Plan, PlanAdmin)
-                self.register(Billing, BillingAdmin)
-                self.register(Invoice, InvoiceAdmin)
+            self.register(Plan, PlanAdmin)
+            self.register(Billing, BillingAdmin)
+            self.register(Invoice, InvoiceAdmin)
 
-            # Hosted
-            if 'wlhosted.integrations' in settings.INSTALLED_APPS:
-                # pylint: disable=wrong-import-position
-                from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
-                from wlhosted.payments.models import Customer, Payment
+        # Hosted
+        if 'wlhosted.integrations' in settings.INSTALLED_APPS:
+            # pylint: disable=wrong-import-position
+            from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
+            from wlhosted.payments.models import Customer, Payment
 
-                self.register(Customer, CustomerAdmin)
-                self.register(Payment, PaymentAdmin)
+            self.register(Customer, CustomerAdmin)
+            self.register(Payment, PaymentAdmin)
 
         # Legal
         if 'weblate.legal' in settings.INSTALLED_APPS:
