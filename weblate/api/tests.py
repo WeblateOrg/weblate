@@ -30,12 +30,42 @@ from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
+try:
+    from unittest import mock
+except ImportError:
+    import mock
+
+
 TEST_PO = get_test_file('cs.po')
 TEST_BADPLURALS = get_test_file('cs-badplurals.po')
 TEST_SCREENSHOT = get_test_file('screenshot.png')
 
 
 class APIBaseTest(APITestCase, RepoTestMixin):
+    @classmethod
+    def setUpClass(cls):
+        """
+        TODO: Remove when immediate_on_commit function is actually implemented
+        Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
+        """
+        super(APIBaseTest, cls).setUpClass()
+
+        def immediate_on_commit(func, using=None):
+            func()
+
+        # Context manager executing transaction.on_commit() hooks immediately
+        # This is required when using a subclass of django.test.TestCase as all tests
+        # are wrapped in a transaction that never gets committed.
+        cls.on_commit_mgr = mock.patch(
+            'django.db.transaction.on_commit', side_effect=immediate_on_commit
+        )
+        cls.on_commit_mgr.__enter__()
+
+    @classmethod
+    def tearDownClass(cls):
+        super(APIBaseTest, cls).tearDownClass()
+        cls.on_commit_mgr.__exit__()
+
     def setUp(self):
         self.clone_test_repos()
         self.component = self.create_component()
