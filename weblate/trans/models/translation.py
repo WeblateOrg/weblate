@@ -834,6 +834,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return (0, 0, self.unit_set.count(), len(list(store2.content_units)))
 
+    @transaction.atomic
     def merge_upload(
         self,
         request,
