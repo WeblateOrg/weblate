@@ -57,7 +57,12 @@ from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Dictionary, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
-from weblate.trans.tests.utils import TempDirMixin, create_billing, create_test_user
+from weblate.trans.tests.utils import (
+    TempDirMixin,
+    create_billing,
+    create_test_user,
+    get_test_file,
+)
 from weblate.vcs.ssh import get_key_data
 
 TEST_BACKENDS = (
@@ -489,8 +494,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Upload screenshot
         self.driver.find_element_by_id("id_name").send_keys("Automatic translation")
         element = self.driver.find_element_by_id("id_image")
-        image = os.path.join(settings.STATIC_ROOT, "logo-1024.png")
-        element.send_keys(element._upload(image))  # noqa: SLF001
+        element.send_keys(
+            element._upload(get_test_file("screenshot.png"))  # noqa: SLF001
+        )
         with self.wait_for_page_load():
             element.submit()
 
