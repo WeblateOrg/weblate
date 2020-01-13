@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-08 18:47+0000\n"
-"PO-Revision-Date: 2020-01-13 04:50+0000\n"
+"PO-Revision-Date: 2020-01-13 14:22+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
@@ -6144,13 +6144,13 @@ msgstr "Repozitorij sigurnosne kopije"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:9
 msgid "Passphrase"
-msgstr ""
+msgstr "Lozinka"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:12
 msgid ""
 "The passphrase is used to encrypt the backups and is necessary to restore "
 "them."
-msgstr ""
+msgstr "Lozinka se koristi za šifriranje i vraćanje sigurnosnih kopija."
 
 #: weblate/templates/manage/snippets/backup-credentials.html:15
 #: weblate/templates/manage/ssh.html:28
@@ -6160,71 +6160,78 @@ msgstr "Preuzmi privatni ključ"
 #: weblate/templates/manage/snippets/backup-credentials.html:16
 msgid "The private key is needed to access the remote backup repository."
 msgstr ""
+"Privatni ključ potreban je za pristup udaljenom repozitoriju sigurnosnih "
+"kopija."
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
 #: weblate/wladmin/views.py:54
 msgid "SSH keys"
-msgstr ""
+msgstr "SSH ključevi"
 
 #: weblate/templates/manage/ssh.html:18
 msgid "Public SSH key"
-msgstr ""
+msgstr "Javni SSH ključ"
 
 #: weblate/templates/manage/ssh.html:22
 msgid "Weblate currently uses this SSH key:"
-msgstr ""
+msgstr "Weblate trenutačno koristi ovaj SSH ključ:"
 
 #: weblate/templates/manage/ssh.html:39
 msgid "Generate SSH key"
-msgstr ""
+msgstr "Izradi SSH ključ"
 
 #: weblate/templates/manage/ssh.html:43
 msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate one for you."
 msgstr ""
+"Čini se da nemaš postojeći SSH ključ. Pritisni donji gumb i Weblate će ga za "
+"tebe izraditi."
 
 #: weblate/templates/manage/ssh.html:60
 msgid "Known host keys"
-msgstr ""
+msgstr "Poznati ključevi servera"
 
 #: weblate/templates/manage/ssh.html:67 weblate/wladmin/forms.py:43
 msgid "Hostname"
-msgstr ""
+msgstr "Ime servera"
 
 #: weblate/templates/manage/ssh.html:68
 msgid "Key type"
-msgstr ""
+msgstr "Vrsta ključa"
 
 #: weblate/templates/manage/ssh.html:69
 msgid "Fingerprint"
-msgstr ""
+msgstr "Otisak prsta"
 
 #: weblate/templates/manage/ssh.html:86
 msgid "Add host key"
-msgstr ""
+msgstr "Dodaj ključ za server"
 
 #: weblate/templates/manage/ssh.html:90
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
+"Za pristup SSH serverima moraju se provjeriti njihovi ključevi. Ključ "
+"servera možeš dobiti upisom imena domene ili IP-a servera u donjem obrascu."
 
 #: weblate/templates/manage/tools.html:17
 #: weblate/templates/manage/tools.html:24
 msgid "Django admin interface"
-msgstr ""
+msgstr "Django sučelje za administraciju"
 
 #: weblate/templates/manage/tools.html:21
 msgid ""
 "The Django admin interface might be useful to perform certain management "
 "operations."
 msgstr ""
+"Django sučelje za administraciju pomaže pri obavljanju određenih operacija."
 
 #: weblate/templates/manage/tools.html:31
 msgid "Send test e-mail"
-msgstr ""
+msgstr "Pošalji probni e-mail"
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -6263,23 +6270,23 @@ msgstr "isključeno"
 #: weblate/templates/memory/index.html:51
 #, python-format
 msgid "Number of entries for %(project)s"
-msgstr ""
+msgstr "Broj zapisa za %(project)s"
 
 #: weblate/templates/memory/index.html:53
 msgid "Number of entries on the whole platform"
-msgstr ""
+msgstr "Broj zapisa na cjelokupnoj platformi"
 
 #: weblate/templates/memory/index.html:55
 msgid "Number of your entries"
-msgstr ""
+msgstr "Broj tvojih zapisa"
 
 #: weblate/templates/memory/index.html:62
 msgid "Number of shared entries"
-msgstr ""
+msgstr "Broj zajedničkih unosa"
 
 #: weblate/templates/memory/index.html:67
 msgid "Total number of entries"
-msgstr ""
+msgstr "Ukupni broj zapisa"
 
 #: weblate/templates/memory/index.html:72
 msgid "Download as JSON"
@@ -6303,6 +6310,9 @@ msgid ""
 "translation memory. This can be useful after wiping memory or after initial "
 "setup."
 msgstr ""
+"Planira uvoz svih postojećih prijevoda u ovom projektu u spremište "
+"prijevoda. To može biti korisno nakon brisanja spremišta ili nakon prvog "
+"postavljanja."
 
 #: weblate/templates/memory/index.html:112
 msgid "Wipe translation memory"
@@ -6317,20 +6327,24 @@ msgid ""
 "Information on how to start translating into another language is to be found "
 "in the translator instructions."
 msgstr ""
+"Informacije o tome kako započeti prevoditi na neki drugi jezik nalaze se u "
+"uputama za prevodioce."
 
 #: weblate/templates/new-language.html:27
 msgid "Please choose the language you want to translate to."
-msgstr ""
+msgstr "Odaberi jezik na koji želiš prevoditi."
 
 #: weblate/templates/new-language.html:29
 msgid ""
 "Project maintainers are notified of this request, which prompts them to add "
 "the language manually."
 msgstr ""
+"Održavatelji projekata se obaviještavaju o ovom zahtjevu, kako bi ručno "
+"dodali jezik."
 
 #: weblate/templates/new-language.html:32
 msgid "Can't find your language in the list above?"
-msgstr ""
+msgstr "Tvoj jezik nedostaje na gornjem popisu?"
 
 #: weblate/templates/new-language.html:36
 msgid "Request new translation"
@@ -6360,7 +6374,7 @@ msgstr "Dodaj poruku za projekt"
 
 #: weblate/templates/project.html:112
 msgid "Tweet this translation"
-msgstr ""
+msgstr "Pošalji tweet o ovom prijevodu"
 
 #: weblate/templates/project.html:159
 msgid "Browse all project changes"
@@ -6369,12 +6383,16 @@ msgstr "Pregledaj sve promjene u projektu"
 #: weblate/templates/project.html:196 weblate/templates/translation.html:277
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
+"Stanje svih izraza koji odgovaraju određenoj vrsti možeš promijeniti "
+"odjednom."
 
 #: weblate/templates/project.html:217
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
+"Poruka se prikazuje za sve prijevode unutar projekta, do njegovog isteka ili "
+"trajno, dok se ne izbriše."
 
 #: weblate/templates/project.html:237
 msgid "Rename project"
@@ -6385,6 +6403,8 @@ msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
 msgstr ""
+"Preimenovanjem projekta promijenit će se svi URL-ovi. Korisnici će morati "
+"aktualizirati knjižne oznake ili reference u kloniranim repozitorijima!"
 
 #: weblate/templates/project.html:276
 msgid ""
@@ -6433,11 +6453,11 @@ msgstr "Broj izvornih znakova"
 msgid ""
 "Your request was rejected because you have performed too many operations "
 "recently."
-msgstr ""
+msgstr "Tvoj je zahtjev odbijen, jer si nedavno izvršio/la previše operacija."
 
 #: weblate/templates/ratelimit.html:7
 msgid "You have been logged out, please log in and try again later."
-msgstr ""
+msgstr "Odjavljen/la si. Prijavi se i pokušaj ponovo kasnije."
 
 #: weblate/templates/ratelimit.html:9
 msgid "Please try again later."
@@ -6445,17 +6465,19 @@ msgstr "Pokušaj ponovo kasnije."
 
 #: weblate/templates/replace.html:19
 msgid "Please review and confirm the search and replace results."
-msgstr ""
+msgstr "Pregledaj i potvrdi rezultate pretrage i zamjene."
 
 #: weblate/templates/replace.html:23
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more entries."
 msgstr ""
+"Prikazuje i zamijenjuje se samo prvih 250 poklapanja. Za zamijenjivanje "
+"daljnih unosa, izvrši zamjenu ponovo."
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
-msgstr ""
+msgstr "Dodijeljeni izvorni izrazi"
 
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -6471,6 +6493,7 @@ msgstr "Radnje"
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
+"Snimka ekrana prikazuje vizualni kontekst za sve navedene izvorne izraze."
 
 #: weblate/templates/screenshots/screenshot_detail.html:51
 msgid "Assign source strings"
@@ -6478,31 +6501,33 @@ msgstr "Dodijeli izvorne izraze"
 
 #: weblate/templates/screenshots/screenshot_detail.html:63
 msgid "Loading results…"
-msgstr ""
+msgstr "Učitavanje rezultata …"
 
 #: weblate/templates/screenshots/screenshot_detail.html:66
 msgid "Please search below to find matching source strings."
-msgstr ""
+msgstr "Za pronalaženje poklapajućih izvornih izraza, traži niže dolje."
 
 #: weblate/templates/screenshots/screenshot_detail.html:75
 msgid "Automatically recognize"
-msgstr ""
+msgstr "Prepoznaj automatski"
 
 #: weblate/templates/screenshots/screenshot_detail.html:81
 msgid "Source string search"
-msgstr ""
+msgstr "Pretraga izvornih izraza"
 
 #: weblate/templates/screenshots/screenshot_detail.html:115
 msgid "Screenshot details"
-msgstr ""
+msgstr "Podaci snimke ekrana"
 
 #: weblate/templates/screenshots/screenshot_detail.html:129
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
+"Brisanjem snimke ekrana, ona će se ukloniti iz svih povezanih izvornih "
+"izraza."
 
 #: weblate/templates/screenshots/screenshot_list.html:21
 msgid "Add new screenshot"
-msgstr "Dodaj nocu snimku ekrana"
+msgstr "Dodaj novu snimku ekrana"
 
 #: weblate/templates/screenshots/screenshot_list.html:37
 #: weblate/templates/translation.html:133
@@ -6512,19 +6537,19 @@ msgstr "Izrazi"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:29
 msgid "No source strings are currently assigned!"
-msgstr ""
+msgstr "Trenutačno nema dodijeljenih izraza!"
 
 #: weblate/templates/search.html:43
 msgid "No matching strings found."
-msgstr ""
+msgstr "Nema poklapajućih izraza."
 
 #: weblate/templates/show-component-state.html:4
 msgid "This translation is currently locked for updates."
-msgstr ""
+msgstr "Ovaj se prijevod trenutačno ne može akltualizirati, jer je zaključan."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
-msgstr ""
+msgstr "Za otključavanje ovog projekta, plati račune."
 
 #: weblate/templates/show-contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -6555,24 +6580,24 @@ msgstr ""
 #: weblate/templates/snippets/git-info.html:33
 #, python-format
 msgid "%(author)s authored %(date)s"
-msgstr ""
+msgstr "Napisao/la %(author)s %(date)s"
 
 #: weblate/templates/snippets/git-info.html:41
 msgid "Repository containing Weblate translations"
-msgstr ""
+msgstr "Repozitorij sadrži Weblate prijevode"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
-msgstr ""
+msgstr "Kopiraj riječ u prijevod"
 
 #: weblate/templates/snippets/glossary.html:11
 msgid "No related strings found in the glossary."
-msgstr ""
+msgstr "Nema srodnih izraza u glosaru."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
 msgid "%(value)s of %(all)s"
-msgstr ""
+msgstr "%(value)s od %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
 msgid "Completed translation"
@@ -6580,7 +6605,7 @@ msgstr "Dovršeni prijevod"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
-msgstr ""
+msgstr "Izraza od ukupno"
 
 #: weblate/templates/snippets/list-objects.html:17
 msgid "Untranslated"
@@ -6605,17 +6630,19 @@ msgstr "Komentari"
 
 #: weblate/templates/snippets/list-objects.html:84
 msgid "Nothing to list here."
-msgstr ""
+msgstr "Nema se što nabrojiti."
 
 #: weblate/templates/snippets/plural-equation.html:4
 msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
+"Ova jednadžba identificira na temelju određenog broja (n), oblik množine "
+"koji će se koristiti."
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Napredno sastavljanje upita"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -6816,12 +6843,16 @@ msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade it."
 msgstr ""
+"Tvoja tarifa je prekoračila ograničenja. Uslugu možeš i dalje koristiti, ali "
+"preporučujemo da je nadogradiš."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:2
 msgid ""
 "The component contains several translation files mapped to single language "
 "in Weblate."
 msgstr ""
+"Komponenta sadrži nekoliko prevodilačkih datoteka mapiranih na jedan jezik u "
+"Weblateu."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 msgid "Language codes"
@@ -6831,21 +6862,25 @@ msgstr "Kodovi jezika"
 msgid ""
 "Please fix this by removing one of the duplicated strings from the "
 "translation files."
-msgstr ""
+msgstr "Ispravi ovo uklanjanjem jednog duplog izraza iz prevodilačkih datoteka."
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
-msgstr ""
+msgstr "Komponenta sadrži nekoliko duplih izraza."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
+"Ispravi ovo uklanjanjem jednog duplog izraza s istim identifikatorom iz "
+"prevodilačkih datoteka."
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
+"Weblate nije mogao sjediniti promjene u izvoru tijekom aktualiziranja "
+"repozitorija."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -6859,16 +6894,20 @@ msgstr ""
 msgid ""
 "The translation component looks monolingual, but it is not set up to be."
 msgstr ""
+"Prevodilačka komponenta izgleda kao jednojezična, ali nije postavljena na to."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:3
 msgid "Please add a monolingual base language file in the component settings."
 msgstr ""
+"Dodaj jednojezičnu osnovnu prevodilačku datoteku u postavkama komponente."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
 "Weblate could not parse the translation files while updating the "
 "translations."
 msgstr ""
+"Weblate nije uspio obraditi prevodilačke datoteke tijekom aktualiziranja "
+"prijevoda."
 
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Filename"
@@ -6883,12 +6922,17 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
+"Repozitorij sa sustavom za kontrolu verzija sadrži mnoge promjene u "
+"usporedbi s izvorom. Sjedini promjene ili postavi guranje za automatiziranje "
+"sjedinjavanja."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
+"Repozitorij sa sustavom za kontrolu verzija nije aktualiziran s izvorom. "
+"Sjedini promjene ili postavi petlje za automatiziranje ovoga."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
 msgid "This component is set up incorrectly."
