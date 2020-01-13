@@ -177,8 +177,12 @@ Repository browser
     URL of repository browser used to display source files (location of used messages).
     When empty, no such links will be generated. You can use :ref:`markup`.
 
-    For example on GitHub, use something like
-    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``.
+    For example on GitHub, use something like:
+    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
+
+    In case your paths are relative to different folder, you might want to strip leading
+    directory by ``parentdir`` filter (see :ref:`markup`):
+    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
 Exported repository URL
     URL where changes made by Weblate are exported. This is important when
     :ref:`continuous-translation` is not used, or when there is a need to manually
@@ -342,7 +346,7 @@ The following variables are available in the repository browser or editor templa
 ``{{line}}``
    line in file
 ``{{filename}}``
-   filename, you can also strip leading parts using the parentdir filter, for example ``{{filename|parentdir}}``
+   filename, you can also strip leading parts using the ``parentdir`` filter, for example ``{{filename|parentdir}}``
 
 You can combine them with filters:
 
