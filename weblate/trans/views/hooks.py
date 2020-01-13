@@ -38,8 +38,11 @@ from weblate.utils.views import get_component, get_project
 
 BITBUCKET_GIT_REPOS = (
     'ssh://git@{server}/{full_name}.git',
+    'ssh://git@{server}/{full_name}',
     'git@{server}:{full_name}.git',
+    'git@{server}:{full_name}',
     'https://{server}/{full_name}.git',
+    'https://{server}/{full_name}',
 )
 
 BITBUCKET_HG_REPOS = (
@@ -51,14 +54,17 @@ BITBUCKET_HG_REPOS = (
 
 GITHUB_REPOS = (
     'git://github.com/%(owner)s/%(slug)s.git',
+    'git://github.com/%(owner)s/%(slug)s',
     'https://github.com/%(owner)s/%(slug)s.git',
     'https://github.com/%(owner)s/%(slug)s',
     'git@github.com:%(owner)s/%(slug)s.git',
+    'git@github.com:%(owner)s/%(slug)s',
 )
 
 PAGURE_REPOS = (
     'https://{server}/{project}',
     'https://{server}/{project}.git',
+    'ssh://git@{server}/{project}',
     'ssh://git@{server}/{project}.git',
 )
 
