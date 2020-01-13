@@ -298,8 +298,8 @@ def get_counts(request, project=None, component=None):
             result.append(row_start)
         result.append(
             ''.join((
-                cell_name.format(item['name']),
-                cell_name.format(item['email']),
+                cell_name.format(item['name'] or "Anonymous"),
+                cell_name.format(item['email'] or ""),
 
                 cell_count.format(item['count']),
                 cell_count.format(item['words']),
