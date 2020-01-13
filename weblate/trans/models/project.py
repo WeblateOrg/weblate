@@ -189,9 +189,12 @@ class Project(models.Model, URLMixin, PathMixin):
         """Return absolute URL usable for sharing."""
         return get_site_url(reverse('engage', kwargs={'project': self.slug}))
 
-    @property
+    @cached_property
     def locked(self):
-        return any((component.locked for component in self.component_set.iterator()))
+        return (
+            self.component_set.exists()
+            and not self.component_set.filter(locked=False).exists()
+        )
 
     def _get_path(self):
         return os.path.join(data_dir('vcs'), self.slug)

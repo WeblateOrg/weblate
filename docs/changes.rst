@@ -3,6 +3,8 @@ Weblate 3.11
 
 Not yet released.
 
+* Add lock indication to projects.
+
 Weblate 3.10.1
 --------------
 

@@ -783,6 +783,11 @@ def indicate_alerts(context, obj):
                 )
             )
 
+        if project.locked:
+            result.append(
+                ("state/lock.svg", ugettext("This translation is locked."), None)
+            )
+
     return {"icons": result, "component": component, "project": project}
 
 
