@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-08 18:47+0000\n"
-"PO-Revision-Date: 2020-01-04 16:35+0000\n"
+"PO-Revision-Date: 2020-01-15 13:42+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -293,12 +293,12 @@ msgstr "Már nem tud bejelentkezni {method} ({name}) használatával."
 #: weblate/accounts/models.py:90
 #, python-brace-format
 msgid "Logged on using {method} ({name})."
-msgstr "{method} ({name}) használatával jelentkezett be."
+msgstr "{method} használatával jelentkezett be ({name})."
 
 #: weblate/accounts/models.py:91
 #, python-brace-format
 msgid "Logged on using {method} ({name}) from a new device."
-msgstr "Bejelentkezett {method} ({name}) használatával egy új eszközről."
+msgstr "Bejelentkezett {method} használatával ({name}) egy új eszközről."
 
 #: weblate/accounts/models.py:92
 msgid "Somebody has attempted to register with your e-mail."
@@ -6043,8 +6043,6 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/manage-access.html:69
-#, fuzzy
-#| msgid "Add an user"
 msgid "Add a user"
 msgstr "Felhasználó hozzáadása"
 
@@ -6692,10 +6690,8 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s / %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Completed translation"
-msgstr "Kettőzött fordítás."
+msgstr "Befejezett fordítás"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
