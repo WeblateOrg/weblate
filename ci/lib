@@ -11,7 +11,8 @@ check() {
 }
 
 run_coverage() {
-    python -W default -W ignore:unclosed:ResourceWarning -m coverage run --source . --append "$@"
+    # PendingDeprecationWarning is needed as long as we support Django 1.11
+    python -W default -W ignore:unclosed:ResourceWarning -W ignore::PendingDeprecationWarning -m coverage run --source . --append "$@"
 }
 
 cleanup_database() {
