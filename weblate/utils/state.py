@@ -36,4 +36,11 @@ STATE_CHOICES = (
     (STATE_READONLY, pgettext_lazy("String state", 'Read only')),
 )
 
-STATE_NAMES = {name.replace(' ', '-').lower(): value for (value, name) in STATE_CHOICES}
+STATE_NAMES = {
+    "empty": STATE_EMPTY,
+    "needs-editing": STATE_FUZZY,
+    "fuzzy": STATE_FUZZY,
+    "translated": STATE_TRANSLATED,
+    "approved": STATE_APPROVED,
+    "read-only": STATE_READONLY,
+}
