@@ -8,6 +8,7 @@ Not yet released.
 * Fixed searching on systems with non English locales.
 * Improved GitHub and Bitbucket hooks repositories matching.
 * Fixed data migration on some Python 2.7 installations.
+* Allow to configure git shallow clones.
 
 Weblate 3.10.1
 --------------

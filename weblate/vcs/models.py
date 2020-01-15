@@ -54,6 +54,7 @@ class VCSConf(AppConf):
         'weblate.vcs.git.GitForcePushRepository',
         'weblate.vcs.mercurial.HgRepository',
     )
+    CLONE_DEPTH = 1
 
     class Meta(object):
         prefix = 'VCS'

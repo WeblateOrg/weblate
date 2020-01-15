@@ -1160,6 +1160,26 @@ custom VCS backends using this.
 
    :ref:`vcs`
 
+.. setting:: VCS_CLONE_DEPTH
+
+VCS_CLONE_DEPTH
+---------------
+
+.. versionadded:: 3.10.2
+
+Configures how deep clones of repositories Weblate should do. Currently this is
+only supported in :ref:`vcs-git`. By default Weblate does shallow clones of the
+repositories to make cloning faster and save disk space. Depending on your
+usage (for example when using custom :ref:`addons`), you might want to increase
+the depth or disable shallow clones completely by setting this to 0.
+
+In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow
+<commit hash>'`` error when pushing from Weblate, disable shallow clones completely by setting:
+
+.. code-block:: python
+
+   VCS_CLONE_DEPTH = 0
+
 .. setting:: WEBLATE_ADDONS
 
 WEBLATE_ADDONS

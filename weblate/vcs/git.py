@@ -70,10 +70,16 @@ class GitRepository(Repository):
         """Check VCS configuration."""
         self.config_update(('push', 'default', 'current'))
 
+    @staticmethod
+    def get_depth():
+        if settings.VCS_CLONE_DEPTH:
+            return ['--depth', str(settings.VCS_CLONE_DEPTH)]
+        return []
+
     @classmethod
     def _clone(cls, source, target, branch=None):
         """Clone repository."""
-        cls._popen(['clone', '--depth', '1', '--no-single-branch', source, target])
+        cls._popen(['clone'] + cls.get_depth() + ['--no-single-branch', source, target])
 
     def get_config(self, path):
         """Read entry from configuration."""
@@ -359,7 +365,7 @@ class GitRepository(Repository):
             self.execute(['fetch', 'origin'])
         else:
             # Doing initial fetch
-            self.execute(['fetch', 'origin', '--depth', '1'])
+            self.execute(['fetch', 'origin'] + self.get_depth())
         self.clean_revision_cache()
 
     def push(self):
