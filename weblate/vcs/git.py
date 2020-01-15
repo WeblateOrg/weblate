@@ -740,19 +740,23 @@ class GitLabRepository(GitMergeRequestBase):
                 '{}/{}'.format(self.get_username(), fork_branch),
             ]
         )
-        # Create a new MR against origin/<origin_branch> from the fork.
-        self.execute(
-            [
-                'mr',
-                'create',
-                'origin',
-                origin_branch,
-                '--message',
-                self.get_merge_message(),
-            ]
-        )
-        # Return to the previous checked out branch.
-        self.execute(['checkout', '-'])
+        # Reset the branch to be up to date with our main branch
+        self.execlute(['reset', '--hard', self.branch])
+        try:
+            # Create a new MR against origin/<origin_branch> from the fork.
+            self.execute(
+                [
+                    'mr',
+                    'create',
+                    'origin',
+                    origin_branch,
+                    '--message',
+                    self.get_merge_message(),
+                ]
+            )
+        finally:
+            # Return to the previous checked out branch.
+            self.execute(['checkout', '-'])
 
 
 class GitForcePushRepository(GitRepository):
