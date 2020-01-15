@@ -1,5 +1,5 @@
-Weblate 3.11
-------------
+Weblate 3.10.2
+--------------
 
 Not yet released.
 

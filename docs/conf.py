@@ -34,7 +34,7 @@ copyright = "2012 - 2020 Michal Čihař"
 author = "Michal Čihař"
 
 # The short X.Y version
-version = '3.11'
+version = '3.10.2'
 # The full version, including alpha/beta/rc tags
 release = version
 
