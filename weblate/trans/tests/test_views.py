@@ -24,6 +24,7 @@ from io import BytesIO
 from xml.dom import minidom
 from zipfile import ZipFile
 
+from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
 from django.core.cache import cache
@@ -291,11 +292,12 @@ class TranslationManipulationTest(ViewTestCase):
         )
 
     def test_model_add_duplicate(self):
-        self.assertFalse(
-            self.component.add_new_language(
-                Language.objects.get(code='de'), self.get_request()
-            )
+        request = self.get_request()
+        self.assertFalse(get_messages(request))
+        self.assertTrue(
+            self.component.add_new_language(Language.objects.get(code='de'), request)
         )
+        self.assertTrue(get_messages(request))
 
     def test_model_add_disabled(self):
         self.component.new_lang = 'contact'
