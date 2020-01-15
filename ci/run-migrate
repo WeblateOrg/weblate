@@ -37,6 +37,9 @@ for tag in $TAGS ; do
     pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
     run_coverage ./manage.py migrate
     check
+    # Check migrated vote exists
+    ./manage.py shell -c 'from weblate.trans.models import Vote; Vote.objects.get(value=1)'
+    check
 done
 
 ./manage.py makemigrations
