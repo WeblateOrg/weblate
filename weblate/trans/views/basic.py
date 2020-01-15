@@ -78,7 +78,7 @@ def list_projects(request):
             'allow_index': True,
             'projects': prefetch_stats(request.user.allowed_projects),
             'title': _('Projects'),
-        }
+        },
     )
 
 
@@ -110,11 +110,13 @@ def show_engage(request, project, lang=None):
             'total': obj.stats.source_strings,
             'percent': stats_obj.translated_percent,
             'language': language,
-            'project_link': mark_safe('<a href="{}">{}</a>'.format(
-                escape(obj.get_absolute_url()), escape(obj.name)
-            )),
+            'project_link': mark_safe(
+                '<a href="{}">{}</a>'.format(
+                    escape(obj.get_absolute_url()), escape(obj.name)
+                )
+            ),
             'title': _('Get involved in {0}!').format(obj),
-        }
+        },
     )
 
 
@@ -131,9 +133,7 @@ def show_project(request, project):
 
     # Paginate components of project.
     all_components = obj.component_set.prefetch().order()
-    components = prefetch_stats(get_paginator(
-        request, all_components
-    ))
+    components = prefetch_stats(get_paginator(request, all_components))
 
     return render(
         request,
@@ -144,29 +144,28 @@ def show_project(request, project):
             'project': obj,
             'last_changes': last_changes,
             'reports_form': ReportsForm(),
-            'last_changes_url': urlencode(
-                {'project': obj.slug}
-            ),
+            'last_changes_url': urlencode({'project': obj.slug}),
             'language_stats': language_stats,
             'search_form': SearchForm(request.user),
-            'whiteboard_form': optional_form(
-                WhiteboardForm, user, 'project.edit', obj
-            ),
+            'whiteboard_form': optional_form(WhiteboardForm, user, 'project.edit', obj),
             'delete_form': optional_form(
                 DeleteForm, user, 'project.edit', obj, obj=obj
             ),
             'rename_form': optional_form(
-                ProjectRenameForm, user, 'project.edit', obj,
-                request=request, instance=obj
+                ProjectRenameForm,
+                user,
+                'project.edit',
+                obj,
+                request=request,
+                instance=obj,
             ),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'bulk_state_form': optional_form(
-                BulkStateForm, user, 'translation.auto', obj,
-                user=user, obj=obj
+                BulkStateForm, user, 'translation.auto', obj, user=user, obj=obj
             ),
             'components': components,
             'licenses': ', '.join(sorted(obj.get_licenses())),
-        }
+        },
     )
 
 
@@ -192,13 +191,12 @@ def show_component(request, project, component):
             'last_changes_url': urlencode(
                 {'component': obj.slug, 'project': obj.project.slug}
             ),
-            'language_count': Language.objects.filter(
-                translation__component=obj
-            ).distinct().count(),
+            'language_count': Language.objects.filter(translation__component=obj)
+            .distinct()
+            .count(),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'bulk_state_form': optional_form(
-                BulkStateForm, user, 'translation.auto', obj,
-                user=user, obj=obj
+                BulkStateForm, user, 'translation.auto', obj, user=user, obj=obj
             ),
             'whiteboard_form': optional_form(
                 WhiteboardForm, user, 'component.edit', obj
@@ -207,16 +205,24 @@ def show_component(request, project, component):
                 DeleteForm, user, 'component.edit', obj, obj=obj
             ),
             'rename_form': optional_form(
-                ComponentRenameForm, user, 'component.edit', obj,
-                request=request, instance=obj
+                ComponentRenameForm,
+                user,
+                'component.edit',
+                obj,
+                request=request,
+                instance=obj,
             ),
             'move_form': optional_form(
-                ComponentMoveForm, user, 'component.edit', obj,
-                request=request, instance=obj
+                ComponentMoveForm,
+                user,
+                'component.edit',
+                obj,
+                request=request,
+                instance=obj,
             ),
             'search_form': SearchForm(request.user),
             'alerts': obj.all_alerts,
-        }
+        },
     )
 
 
@@ -242,20 +248,15 @@ def show_translation(request, project, component, lang):
             'form': form,
             'download_form': DownloadForm(),
             'autoform': optional_form(
-                AutoForm, user, 'translation.auto', obj,
-                obj=obj.component
+                AutoForm, user, 'translation.auto', obj, obj=obj.component
             ),
             'search_form': search_form,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'bulk_state_form': optional_form(
-                BulkStateForm, user, 'translation.auto', obj,
-                user=user, obj=obj
+                BulkStateForm, user, 'translation.auto', obj, user=user, obj=obj
             ),
             'new_unit_form': NewUnitForm(
-                user,
-                initial={
-                    'value': Unit(translation=obj, id_hash=-1),
-                },
+                user, initial={'value': Unit(translation=obj, id_hash=-1)}
             ),
             'whiteboard_form': optional_form(
                 WhiteboardForm, user, 'component.edit', obj
@@ -266,15 +267,12 @@ def show_translation(request, project, component, lang):
             'last_changes': last_changes,
             'last_changes_url': urlencode(obj.get_reverse_url_kwargs()),
             'other_translations': prefetch_stats(
-                Translation.objects.prefetch().filter(
-                    component__project=obj.component.project,
-                    language=obj.language,
-                ).exclude(
-                    pk=obj.pk
-                )
+                Translation.objects.prefetch()
+                .filter(component__project=obj.component.project, language=obj.language)
+                .exclude(pk=obj.pk)
             ),
             'exporters': list_exporters(obj),
-        }
+        },
     )
 
 
@@ -284,11 +282,7 @@ def data_project(request, project):
     return render(
         request,
         'data.html',
-        {
-            'object': obj,
-            'components': obj.component_set.order(),
-            'project': obj,
-        }
+        {'object': obj, 'components': obj.component_set.order(), 'project': obj},
     )
 
 
@@ -333,22 +327,14 @@ def new_language(request, project, component):
                         ),
                     )
             return redirect(obj)
-        messages.error(
-            request,
-            _('Please fix errors in the form.')
-        )
+        messages.error(request, _('Please fix errors in the form.'))
     else:
         form = form_class(obj)
 
     return render(
         request,
         'new-language.html',
-        {
-            'object': obj,
-            'project': obj.project,
-            'form': form,
-            'can_add': can_add,
-        }
+        {'object': obj, 'project': obj.project, 'form': form, 'can_add': can_add},
     )
 
 
@@ -369,6 +355,6 @@ def show_component_list(request, name):
             'object': obj,
             'components': obj.components.filter(
                 project__in=request.user.allowed_projects
-            )
-        }
+            ),
+        },
     )
