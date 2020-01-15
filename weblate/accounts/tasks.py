@@ -27,7 +27,6 @@ from email.mime.image import MIMEImage
 
 from celery.schedules import crontab
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.utils.timezone import now
 from html2text import html2text
@@ -64,15 +63,8 @@ def cleanup_auditlog():
     ).delete()
 
 
-# Retry for not existing object (maybe transaction not yet committed) with
-# delay of 10 minutes growing exponentially
-@app.task(
-    trail=False,
-    autoretry_for=(ObjectDoesNotExist,),
-    retry_backoff=600,
-    retry_backoff_max=3600,
-)
-def notify_change(change_id, change_name=''):
+@app.task(trail=False)
+def notify_change(change_id):
     from weblate.trans.models import Change
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
 
@@ -113,7 +105,7 @@ def notify_monthly():
     notify_digest('notify_monthly')
 
 
-@app.task(trail=False, autoretry_for=(ObjectDoesNotExist,))
+@app.task(trail=False)
 def notify_auditlog(log_id, email):
     from weblate.accounts.models import AuditLog
     from weblate.accounts.notifications import send_notification_email

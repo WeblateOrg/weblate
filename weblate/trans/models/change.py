@@ -21,10 +21,9 @@ from __future__ import unicode_literals
 
 import six.moves
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
-from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from six import python_2_unicode_compatible
@@ -486,4 +485,4 @@ class Change(models.Model, UserDisplayMixin):
         if self.dictionary:
             self.project = self.dictionary.project
         super(Change, self).save(*args, **kwargs)
-        notify_change.delay(self.pk, force_text(self))
+        transaction.on_commit(lambda: notify_change.delay(self.pk))

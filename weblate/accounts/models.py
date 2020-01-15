@@ -26,7 +26,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -250,7 +250,9 @@ class AuditLog(models.Model):
     def save(self, *args, **kwargs):
         super(AuditLog, self).save(*args, **kwargs)
         if self.should_notify():
-            notify_auditlog.delay(self.pk, self.user.email)
+            transaction.on_commit(
+                lambda: notify_auditlog.delay(self.pk, self.user.email)
+            )
 
 
 @python_2_unicode_compatible

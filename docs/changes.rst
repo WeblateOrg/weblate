@@ -9,6 +9,7 @@ Not yet released.
 * Improved GitHub and Bitbucket hooks repositories matching.
 * Fixed data migration on some Python 2.7 installations.
 * Allow to configure git shallow clones.
+* Improved background notifications processing.
 
 Weblate 3.10.1
 --------------
