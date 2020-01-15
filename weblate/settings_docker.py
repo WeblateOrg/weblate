@@ -755,7 +755,7 @@ SESSION_COOKIE_SECURE = ENABLE_HTTPS
 # SSL redirect
 SECURE_SSL_REDIRECT = ENABLE_HTTPS
 # Sent referrrer only for same origin links
-SECURE_REFERRER_POLICY = 'same-origin'
+SECURE_REFERRER_POLICY = "same-origin"
 # SSL redirect URL exemption list
 SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 # Session cookie age (in seconds)
@@ -896,6 +896,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.removal.RemoveComments",
     "weblate.addons.removal.RemoveSuggestions",
     "weblate.addons.resx.ResxUpdateAddon",
+    "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
 ]
 modify_env_list(CHECK_LIST, "ADDONS")

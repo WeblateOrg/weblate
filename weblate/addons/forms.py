@@ -156,6 +156,34 @@ class JSONCustomizeForm(BaseAddonForm):
     )
 
 
+class YAMLCustomizeForm(BaseAddonForm):
+    indent = forms.IntegerField(
+        label=_('YAML indentation'), min_value=1, max_value=10, initial=2, required=True
+    )
+    width = forms.ChoiceField(
+        label=_('Long lines wrapping'),
+        choices=[
+            ('80', _('Wrap lines at 80 chars')),
+            ('100', _('Wrap lines at 100 chars')),
+            ('120', _('Wrap lines at 120 chars')),
+            ('180', _('Wrap lines at 180 chars')),
+            ('65535', _('No line wrapping')),
+        ],
+        required=True,
+        initial=80,
+    )
+    line_break = forms.ChoiceField(
+        label=_('Line breaks'),
+        choices=[
+            ('dos', _('DOS (\\r\\n)')),
+            ('unix', _('UNIX (\\n)')),
+            ('mac', _('MAC (\\r)')),
+        ],
+        required=True,
+        initial='unix',
+    )
+
+
 class RemoveForm(BaseAddonForm):
     age = forms.IntegerField(
         label=_('Days to keep'), min_value=0, initial=30, required=True
@@ -222,8 +250,9 @@ class DiscoveryForm(BaseAddonForm):
         label=_('Remove components for inexistant files'), required=False
     )
     confirm = forms.BooleanField(
-        label=_('I confirm the above matches look correct'), required=False,
-        widget=forms.HiddenInput
+        label=_('I confirm the above matches look correct'),
+        required=False,
+        widget=forms.HiddenInput,
     )
 
     def __init__(self, *args, **kwargs):

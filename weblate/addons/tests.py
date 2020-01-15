@@ -54,6 +54,7 @@ from weblate.addons.properties import PropertiesSortAddon
 from weblate.addons.removal import RemoveComments, RemoveSuggestions
 from weblate.addons.resx import ResxUpdateAddon
 from weblate.addons.tasks import daily_addons
+from weblate.addons.yaml import YAMLCustomizeAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
@@ -339,6 +340,26 @@ class JsonAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('        "try"', commit)
+
+
+class YAMLAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_yaml()
+
+    def test_customize(self):
+        if not YAMLCustomizeAddon.can_install(self.component, None):
+            raise SkipTest('json dump configuration not supported')
+        YAMLCustomizeAddon.create(
+            self.component,
+            configuration={'indent': 8, 'wrap': 1000, 'line_break': 'dos'},
+        )
+        rev = self.component.repository.last_revision
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.get_translation().commit_pending('test', None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn('        try:', commit)
+        self.assertIn('\r\n', commit)
 
 
 class ViewTests(ViewTestCase):
@@ -734,14 +755,8 @@ class TestRemoval(FixtureTestCase):
 
     def add_content(self):
         unit = self.get_unit()
-        unit.comment_set.create(
-            user=None,
-            comment='comment',
-        )
-        unit.suggestion_set.create(
-            user=None,
-            target='suggestion',
-        )
+        unit.comment_set.create(user=None, comment='comment')
+        unit.suggestion_set.create(user=None, target='suggestion')
 
     def test_current(self):
         self.install()

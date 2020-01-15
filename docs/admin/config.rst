@@ -1215,6 +1215,7 @@ example:
         'weblate.addons.removal.RemoveSuggestions',
         'weblate.addons.resx.ResxUpdateAddon',
         'weblate.addons.autotranslate.AutoTranslateAddon',
+        'weblate.addons.yaml.YAMLCustomizeAddon',
 
         # Addon you want to include
         'weblate.addons.example.ExampleAddon',

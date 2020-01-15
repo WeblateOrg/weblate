@@ -11,6 +11,7 @@ Not yet released.
 * Allow to configure git shallow clones.
 * Improved background notifications processing.
 * Fixed broken form submissing when navigating back in browser.
+* New addon to configure YAML formatting.
 
 Weblate 3.10.1
 --------------

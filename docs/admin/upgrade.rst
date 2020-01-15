@@ -230,6 +230,7 @@ Notable configuration or dependencies changes:
 * The database migration can take long on bigger installations.
 * There is new dependency on the ``misaka`` and ``GitPython`` modules.
 * The Celery now uses separate queue for translating, it is recommended to update to new worker setup which utilizes this, see :ref:`celery`.
+* There is new addon in the 3.10.2 release, you might want to include them in case you modified the :setting:`WEBLATE_ADDONS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

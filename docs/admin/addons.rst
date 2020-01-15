@@ -281,6 +281,15 @@ string.
    Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale
    translation keys.
 
+.. _addon-weblate.yaml.customize:
+
+Customize YAML output
+---------------------
+
+.. versionadded:: 3.10.2
+
+Allows to customize YAML output behavior, for example line length or newlines.
+
 
 Customizing list of addons
 ++++++++++++++++++++++++++
