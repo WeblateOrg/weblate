@@ -4,6 +4,9 @@ Weblate 3.10.2
 Not yet released.
 
 * Add lock indication to projects.
+* Fixed CSS bug caused flicker in some browsers.
+* Fixed searching on systems with non English locales.
+* Improved GitHub and Bitbucket hooks repositories matching.
 
 Weblate 3.10.1
 --------------
