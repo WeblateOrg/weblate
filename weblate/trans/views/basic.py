@@ -311,7 +311,8 @@ def new_language(request, project, component):
                     translation = obj.add_new_language(language, request)
                     if translation:
                         kwargs['translation'] = translation
-                        obj = translation
+                        if len(langs) == 1:
+                            obj = translation
                         Change.objects.create(
                             action=Change.ACTION_ADDED_LANGUAGE, **kwargs
                         )

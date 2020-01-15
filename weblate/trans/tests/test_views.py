@@ -406,10 +406,12 @@ class NewLangTest(ViewTestCase):
         self.assertContains(response, 'Start new translation')
         self.assertContains(response, '/new-lang/')
 
+        lang = {'lang': 'af'}
         response = self.client.post(
-            reverse('new-language', kwargs=self.kw_component), {'lang': 'af'}
+            reverse('new-language', kwargs=self.kw_component), lang
         )
-        self.assertRedirects(response, self.component.get_absolute_url())
+        lang.update(self.kw_component)
+        self.assertRedirects(response, reverse('translation', kwargs=lang))
         self.assertTrue(
             self.component.translation_set.filter(language__code='af').exists()
         )
