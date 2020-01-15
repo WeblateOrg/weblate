@@ -1171,6 +1171,12 @@ real_patterns = [
             template_name="site.webmanifest", content_type="application/json"
         ),
     ),
+        url(
+        r"^site\.jsonschema$",
+        TemplateView.as_view(
+            template_name="site.jsonschema", content_type="application/json"
+        ),
+    ),
 ]
 
 if "weblate.billing" in settings.INSTALLED_APPS:

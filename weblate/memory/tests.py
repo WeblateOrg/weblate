@@ -20,12 +20,15 @@
 from __future__ import unicode_literals
 
 import json
+from jsonschema import validate
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from jsonschema.exceptions import ValidationError
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 from six import StringIO
+from django.conf import settings
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.memory.machine import WeblateMemory
@@ -42,6 +45,7 @@ TEST_DOCUMENT = {
     'category': CATEGORY_FILE,
 }
 
+TEMPLATES_DIR = settings.BASE_DIR+'/weblate/templates/'
 
 def add_document():
     memory = TranslationMemory()
@@ -87,6 +91,25 @@ class MemoryTest(SimpleTestCase):
             )
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
+
+    def test_json_schema_correct(self):
+        with open(get_test_file('memory.json'), "r") as read_it: 
+            jsonfile = json.load(read_it)
+
+        with open(TEMPLATES_DIR + 'site.jsonschema', "r") as read_it: 
+            jsonschema = json.load(read_it) 
+
+        validate(instance=jsonfile, schema=jsonschema)
+
+    def test_json_schema_invalid(self):
+        with open(get_test_file('memory-invalid.json'), "r") as read_it: 
+            jsonfile = json.load(read_it)
+
+        with open(TEMPLATES_DIR + 'site.jsonschema', "r") as read_it: 
+            jsonschema = json.load(read_it) 
+
+        with self.assertRaises(ValidationError):
+            validate(instance=jsonfile, schema=jsonschema)
 
     def test_dump_command(self):
         add_document()
