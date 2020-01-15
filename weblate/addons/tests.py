@@ -127,8 +127,6 @@ class IntegrationTest(ViewTestCase):
         self.assertIn('po/cs.po', commit)
 
     def test_store(self):
-        if not GettextCustomizeAddon.can_install(self.component, None):
-            raise SkipTest('po wrap configuration not supported')
         GettextCustomizeAddon.create(self.component, configuration={'width': -1})
         rev = self.component.repository.last_revision
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
@@ -329,8 +327,6 @@ class JsonAddonTest(ViewTestCase):
         )
 
     def test_customize(self):
-        if not JSONCustomizeAddon.can_install(self.component, None):
-            raise SkipTest('json dump configuration not supported')
         JSONCustomizeAddon.create(
             self.component, configuration={'indent': 8, 'sort': 1}
         )
