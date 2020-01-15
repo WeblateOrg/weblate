@@ -156,6 +156,15 @@ Contributors in comment
 Update comment in the PO file header to include contributor name and years of
 contributions.
 
+The PO file header will contain list of contributors with years they have contributed:
+
+.. code-block:: po
+
+    # Michal Čihař <michal@cihar.com>, 2012, 2018, 2019, 2020.
+    # Pavel Borecki <pavel@example.com>, 2018, 2019.
+    # Filip Hron <filip@example.com>, 2018, 2019.
+    # anonymous <noreply@weblate.org>, 2019.
+
 .. _addon-weblate.gettext.configure:
 
 Update ALL_LINGUAS variable in the "configure" file
