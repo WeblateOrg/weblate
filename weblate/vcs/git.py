@@ -741,7 +741,7 @@ class GitLabRepository(GitMergeRequestBase):
             ]
         )
         # Reset the branch to be up to date with our main branch
-        self.execlute(['reset', '--hard', self.branch])
+        self.execute(['reset', '--hard', self.branch])
         try:
             # Create a new MR against origin/<origin_branch> from the fork.
             self.execute(
