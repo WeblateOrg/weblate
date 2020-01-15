@@ -105,6 +105,8 @@ migrations_step = {
     "commands": basic_install
     + [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-migrate"],
 }
+migrations_step_27 = dict(migrations_step)
+migrations_step_27["image"] = "weblate/cidocker:2.7"
 
 # Services
 database_service = {
@@ -144,6 +146,9 @@ def main(ctx):
             [database_service],
         ),
         pipeline(
-            "tests:migrations", [migrations_step, codecov_step], [database_service]
+            "tests:migrations-3.7", [migrations_step, codecov_step], [database_service]
+        ),
+        pipeline(
+            "tests:migrations-2.7", [migrations_step_27, codecov_step], [database_service]
         ),
     ]
