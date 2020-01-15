@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
@@ -8,6 +9,9 @@
 {% endblock %}
 
 {% block content %}
+
+{% include "snippets/project-nav.html" %}
+
 <table class="sort table table-condensed">
 <thead>
 <tr>
