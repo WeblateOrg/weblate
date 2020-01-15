@@ -25,7 +25,6 @@ from django.utils.translation import ugettext_lazy as _
 from weblate.addons.base import StoreBaseAddon
 from weblate.addons.forms import YAMLCustomizeForm
 
-
 BREAKS = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
 
 
