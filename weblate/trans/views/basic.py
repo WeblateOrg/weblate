@@ -314,22 +314,23 @@ def new_language(request, project, component):
             for language in Language.objects.filter(code__in=langs):
                 kwargs['details']['language'] = language.code
                 if can_add:
-                    obj.add_new_language(language, request)
-                    Change.objects.create(
-                        action=Change.ACTION_ADDED_LANGUAGE,
-                        **kwargs
-                    )
+                    translation = obj.add_new_language(language, request)
+                    if translation:
+                        kwargs['translation'] = translation
+                        obj = translation
+                        Change.objects.create(
+                            action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+                        )
                 elif obj.new_lang == 'contact':
                     Change.objects.create(
-                        action=Change.ACTION_REQUESTED_LANGUAGE,
-                        **kwargs
+                        action=Change.ACTION_REQUESTED_LANGUAGE, **kwargs
                     )
                     messages.success(
                         request,
                         _(
                             "A request for a new translation has been "
                             "sent to the project's maintainers."
-                        )
+                        ),
                     )
             return redirect(obj)
         messages.error(

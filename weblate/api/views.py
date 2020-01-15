@@ -422,17 +422,13 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             except Language.DoesNotExist:
                 raise Http404("No language code '%s' found!" % language_code)
 
-            obj.add_new_language(language, request)
-            page = obj.translation_set.get(language=language)
+            translation = obj.add_new_language(language, request)
             serializer = TranslationSerializer(
-                page, context={'request': request}, remove_fields=('component',),
+                translation, context={'request': request}, remove_fields=('component',)
             )
 
             return Response(
-                data={
-                    'data': serializer.data,
-                },
-                status=status.HTTP_201_CREATED
+                data={'data': serializer.data}, status=status.HTTP_201_CREATED
             )
 
         queryset = obj.translation_set.all().order_by('id')

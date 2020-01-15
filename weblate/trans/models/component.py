@@ -1858,7 +1858,7 @@ class Component(models.Model, URLMixin, PathMixin):
         """Create new language file."""
         if not self.can_add_new_language(request):
             messages.error(request, _("Could not add new translation file."))
-            return False
+            return None
 
         file_format = self.file_format_cls
         # Language code from Weblate
@@ -1870,7 +1870,7 @@ class Component(models.Model, URLMixin, PathMixin):
             messages.error(
                 request, _("The given language is filtered by the language filter.")
             )
-            return False
+            return None
 
         base_filename = self.get_new_base_filename()
 
@@ -1891,7 +1891,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation.invalidate_cache()
                 translation.notify_new(request)
                 messages.error(request, _("Translation file already exists!"))
-                return False
+                return translation
 
         file_format.add_language(fullname, language, base_filename)
 
@@ -1922,7 +1922,7 @@ class Component(models.Model, URLMixin, PathMixin):
             self.project.update_unit_flags()
             translation.invalidate_cache()
             translation.notify_new(request)
-            return True
+            return translation
 
     def do_lock(self, user, lock=True):
         """Lock or unlock component."""
