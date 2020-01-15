@@ -20,6 +20,7 @@
   {% if project %}
   _paq.push(['setCustomVariable', 2, 'Project', '{{ project.name }}', 'page']);
   {% endif %}
+  _paq.push(['disableCookies']);
   _paq.push(['trackPageView']);
   _paq.push(['enableLinkTracking']);
   (function() {
