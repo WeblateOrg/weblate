@@ -2,7 +2,25 @@
 
 from django.db import migrations
 
-MODELS = [("trans", "Comment"), ("trans", "Suggestion"), ("checks", "Check")]
+MODELS = [
+    (
+        ("trans", "Comment"),
+        ("content_hash", "project", "language", "comment", "user", "timestamp"),
+    ),
+    (
+        ("trans", "Suggestion"),
+        (
+            "content_hash",
+            "project",
+            "language",
+            "target",
+            "user",
+            "userdetails",
+            "timestamp",
+        ),
+    ),
+    (("checks", "Check"), ("content_hash", "project", "language", "check", "ignore")),
+]
 
 
 def migrate_unitdata(apps, schema_editor):
@@ -10,7 +28,8 @@ def migrate_unitdata(apps, schema_editor):
 
     Unit = apps.get_model("trans", "Unit")
 
-    for model in (apps.get_model(*args) for args in MODELS):
+    for model_args, fields in MODELS:
+        model = apps.get_model(*model_args)
         # Create new objects for each related unit
         for obj in model.objects.using(db_alias).filter(unit=None).iterator():
             units = Unit.objects.using(db_alias).filter(
@@ -22,14 +41,15 @@ def migrate_unitdata(apps, schema_editor):
             else:
                 units = units.filter(translation__language=obj.language)
             # Using __getstate__ would be cleaner, but needs Django 2.0
-            state = dict(obj.__dict__)
-            del state["_state"]
-            del state["id"]
-            del state["unit_id"]
+            state = {field: getattr(obj, field) for field in fields}
             for unit in units:
                 if model.objects.using(db_alias).filter(unit=unit, **state).exists():
                     continue
-                model.objects.using(db_alias).create(unit=unit, **state)
+                created = model.objects.using(db_alias).create(unit=unit, **state)
+                # Migrate suggestion votes
+                if model_args == ("trans", "Suggestion"):
+                    for vote in obj.vote_set.all():
+                        created.vote_set.create(user=vote.user, value=vote.value)
 
         # Remove old objects without unit link
         model.objects.using(db_alias).filter(unit=None).delete()

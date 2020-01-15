@@ -7,6 +7,7 @@ Not yet released.
 * Fixed CSS bug caused flicker in some browsers.
 * Fixed searching on systems with non English locales.
 * Improved GitHub and Bitbucket hooks repositories matching.
+* Fixed data migration on some Python 2.7 installations.
 
 Weblate 3.10.1
 --------------
