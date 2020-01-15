@@ -10,6 +10,7 @@ Not yet released.
 * Fixed data migration on some Python 2.7 installations.
 * Allow to configure git shallow clones.
 * Improved background notifications processing.
+* Fixed broken form submissing when navigating back in browser.
 
 Weblate 3.10.1
 --------------

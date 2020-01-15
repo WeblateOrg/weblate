@@ -1322,6 +1322,10 @@ $(function () {
             $form.data('submitted', true);
         }
     });
+    /* Reset submitted flag when leaving the page, so that it is not set when going back in history */
+    $window.on('pagehide', function() {
+        $('form:not(.double-submission)').data('submitted', false);
+    });
 
     /* Client side form persistence */
     var $forms = $('[data-persist]');
