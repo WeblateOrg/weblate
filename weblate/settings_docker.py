@@ -999,6 +999,7 @@ if get_env_bool("WEBLATE_REQUIRE_LOGIN", False):
             rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         ),
     )
+    LOGIN_REQUIRE_URLS_EXCEPTIONS.extend(get_env_list("WEBLATE_EXTEND_LOGIN_REQUIRED_URLS_EXCEPTIONS"))
 
 # Email server
 EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)
