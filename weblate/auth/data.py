@@ -149,6 +149,7 @@ ROLES = (
         TRANSLATE_PERMS | {
             'translation.add',
             'unit.template',
+            'suggestion.delete',
             'vcs.access', 'vcs.view',
         } | filter_perms('glossary.')
     ),
