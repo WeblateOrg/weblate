@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.11.0 (07ab8dcc) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.11.1 (0ee470b3) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -590,6 +590,59 @@ var Sentry = (function (exports) {
     }
 
     /**
+     * Truncates given string to the maximum characters count
+     *
+     * @param str An object that contains serializable values
+     * @param max Maximum number of characters in truncated string
+     * @returns string Encoded
+     */
+    function truncate(str, max) {
+        if (max === void 0) { max = 0; }
+        // tslint:disable-next-line:strict-type-predicates
+        if (typeof str !== 'string' || max === 0) {
+            return str;
+        }
+        return str.length <= max ? str : str.substr(0, max) + "...";
+    }
+    /**
+     * Join values in array
+     * @param input array of values to be joined together
+     * @param delimiter string to be placed in-between values
+     * @returns Joined values
+     */
+    function safeJoin(input, delimiter) {
+        if (!Array.isArray(input)) {
+            return '';
+        }
+        var output = [];
+        // tslint:disable-next-line:prefer-for-of
+        for (var i = 0; i < input.length; i++) {
+            var value = input[i];
+            try {
+                output.push(String(value));
+            }
+            catch (e) {
+                output.push('[value cannot be serialized]');
+            }
+        }
+        return output.join(delimiter);
+    }
+    /**
+     * Checks if the value matches a regex or includes the string
+     * @param value The string value to be checked against
+     * @param pattern Either a regex or a string that must be contained in value
+     */
+    function isMatchingPattern(value, pattern) {
+        if (isRegExp(pattern)) {
+            return pattern.test(value);
+        }
+        if (typeof pattern === 'string') {
+            return value.indexOf(pattern) !== -1;
+        }
+        return false;
+    }
+
+    /**
      * Requires a module which is protected _against bundler minification.
      *
      * @param request The module path to resolve
@@ -1006,59 +1059,6 @@ var Sentry = (function (exports) {
         };
         return Memo;
     }());
-
-    /**
-     * Truncates given string to the maximum characters count
-     *
-     * @param str An object that contains serializable values
-     * @param max Maximum number of characters in truncated string
-     * @returns string Encoded
-     */
-    function truncate(str, max) {
-        if (max === void 0) { max = 0; }
-        // tslint:disable-next-line:strict-type-predicates
-        if (typeof str !== 'string' || max === 0) {
-            return str;
-        }
-        return str.length <= max ? str : str.substr(0, max) + "...";
-    }
-    /**
-     * Join values in array
-     * @param input array of values to be joined together
-     * @param delimiter string to be placed in-between values
-     * @returns Joined values
-     */
-    function safeJoin(input, delimiter) {
-        if (!Array.isArray(input)) {
-            return '';
-        }
-        var output = [];
-        // tslint:disable-next-line:prefer-for-of
-        for (var i = 0; i < input.length; i++) {
-            var value = input[i];
-            try {
-                output.push(String(value));
-            }
-            catch (e) {
-                output.push('[value cannot be serialized]');
-            }
-        }
-        return output.join(delimiter);
-    }
-    /**
-     * Checks if the value matches a regex or includes the string
-     * @param value The string value to be checked against
-     * @param pattern Either a regex or a string that must be contained in value
-     */
-    function isMatchingPattern(value, pattern) {
-        if (isRegExp(pattern)) {
-            return pattern.test(value);
-        }
-        if (typeof pattern === 'string') {
-            return value.indexOf(pattern) !== -1;
-        }
-        return false;
-    }
 
     /**
      * Wrap a given object method with a higher-order function
@@ -4451,7 +4451,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.11.0';
+    var SDK_VERSION = '5.11.1';
 
     /**
      * The Sentry Browser SDK Client.
