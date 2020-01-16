@@ -66,6 +66,15 @@ def check_mail_connection(app_configs, **kwargs):
     return errors
 
 
+def is_celery_queue_long():
+    stats = get_queue_stats()
+    if stats.pop('search') > 10000:
+        return True
+    if stats.pop('translate', 0) > 1000:
+        return True
+    return any(stat > 50 for stat in stats.values())
+
+
 def check_celery(app_configs, **kwargs):
     errors = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
@@ -85,8 +94,7 @@ def check_celery(app_configs, **kwargs):
             )
         )
     else:
-        stats = get_queue_stats()
-        if stats['celery'] > 50 or stats['search'] > 10000:
+        if is_celery_queue_long():
             errors.append(
                 Critical(
                     'The Celery tasks queue is too long, either the worker '
