@@ -13,6 +13,7 @@ Not yet released.
 * Fixed broken form submissing when navigating back in browser.
 * New addon to configure YAML formatting.
 * Fixed same plurals check to not fire on single plural form languages.
+* Fixed regex search on some fields.
 
 Weblate 3.10.1
 --------------

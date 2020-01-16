@@ -183,6 +183,7 @@ class QueryParserTest(TestCase):
 
     def test_language(self):
         self.assert_query("language:cs", Q(translation__language__code__iexact="cs"))
+        self.assert_query('language:r".*"', Q(translation__language__code__regex=".*"))
 
     def test_html(self):
         self.assert_query(
