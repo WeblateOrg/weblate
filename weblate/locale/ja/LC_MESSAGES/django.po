@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-16 08:45+0000\n"
 "PO-Revision-Date: 2020-01-17 15:44+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -180,7 +180,7 @@ msgstr "プロジェクト名"
 #: weblate/accounts/forms.py:613 weblate/templates/project_info.html:5
 #: weblate/trans/models/project.py:78
 msgid "Project website"
-msgstr "プロジェクトのウェブサイト"
+msgstr "プロジェクトの Web サイト"
 
 #: weblate/accounts/forms.py:618 weblate/trans/forms.py:1461
 #: weblate/trans/models/component.py:189
@@ -372,13 +372,13 @@ msgstr ""
 
 #: weblate/accounts/models.py:298
 msgid "Secondary languages"
-msgstr "第 2 言語"
+msgstr "参考言語"
 
 #: weblate/accounts/models.py:300
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
-msgstr "理解できる言語を選択すると、原文と並べて翻訳が付け足されます。"
+msgstr "理解できる言語を指定すると、参考言語として原文と共に表示します。"
 
 #: weblate/accounts/models.py:311
 msgid "Hide completed translations on the dashboard"
@@ -386,11 +386,11 @@ msgstr "ダッシュボードに翻訳済みを表示しない"
 
 #: weblate/accounts/models.py:314
 msgid "Show secondary translations in zen mode"
-msgstr "Zen モードで第 2 言語を表示する"
+msgstr "Zen モードで参考言語を表示する"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
-msgstr "第 2 言語が存在する場合は原文を表示しない"
+msgstr "参考言語が存在する場合は原文を表示しない"
 
 #: weblate/accounts/models.py:323
 msgid "Editor link"
@@ -957,53 +957,47 @@ msgstr "JSON キーの並べ替え"
 
 #: weblate/addons/forms.py:155
 msgid "JSON indentation"
-msgstr "JSON インデント処理"
+msgstr "JSON 形式のインデント"
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "YAML indentation"
-msgstr "JSON インデント処理"
+msgstr "YAML 形式のインデント"
 
 #: weblate/addons/forms.py:166
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
-msgstr "77 文字または改行文字で改行する"
+msgstr "80 文字で改行"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
-msgstr "77 文字または改行文字で改行する"
+msgstr "100 文字で改行"
 
 #: weblate/addons/forms.py:168
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
-msgstr "77 文字または改行文字で改行する"
+msgstr "120 文字で改行"
 
 #: weblate/addons/forms.py:169
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
-msgstr "77 文字または改行文字で改行する"
+msgstr "180 文字で改行"
 
 #: weblate/addons/forms.py:176
 msgid "Line breaks"
-msgstr ""
+msgstr "改行コード"
 
 #: weblate/addons/forms.py:178
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:179
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:180
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:189
 msgid "Days to keep"
@@ -1164,12 +1158,12 @@ msgstr "変更をプッシュする前に、Git コミットをスカッシュ�
 
 #: weblate/addons/json.py:31
 msgid "Customize JSON output"
-msgstr "JSON 出力のカスタマイズ"
+msgstr "JSON 出力形式のカスタマイズ"
 
 #: weblate/addons/json.py:33
 msgid ""
 "Allows to customize JSON output behavior, for example indentation or sorting."
-msgstr "インデント処理や並べ替えなど、JSON 出力をカスタマイズできます。"
+msgstr "インデント処理や並べ替えなど、JSON 出力形式をカスタマイズできます。"
 
 #: weblate/addons/properties.py:144
 msgid "Formats the Java properties file"
@@ -1214,20 +1208,14 @@ msgid "Invalid addon name specified!"
 msgstr "アドオン名が正しくありません！"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid "Customize JSON output"
 msgid "Customize YAML output"
-msgstr "JSON 出力のカスタマイズ"
+msgstr "YAML 出力形式のカスタマイズ"
 
 #: weblate/addons/yaml.py:35
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows to customize YAML output behavior, for example line length or "
 "newlines."
-msgstr "インデント処理や並べ替えなど、JSON 出力をカスタマイズできます。"
+msgstr "インデント処理や並べ替えなど、YAML 出力形式をカスタマイズできます。"
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -1884,11 +1872,11 @@ msgstr "原文と翻訳で一致しない末尾のスペース"
 
 #: weblate/checks/chars.py:152
 msgid "Double space"
-msgstr "連続した空白"
+msgstr "スペースが重複"
 
 #: weblate/checks/chars.py:153
 msgid "Translation contains double space"
-msgstr "翻訳に、ダブル スペースがある"
+msgstr "翻訳でスペースが重複している"
 
 #: weblate/checks/chars.py:175
 msgid "Trailing stop"
@@ -2861,15 +2849,11 @@ msgstr "ある状況におけるユーザ設定を記憶するための設定 Co
 msgid ""
 "This site uses Matomo to analyze website traffic. It honours \"Do Not Track"
 "\" settings in your browser."
-msgstr ""
-"本 Web サイトではトラフィックを解析する目的で Matomo を使用しています。 "
-"Matomo ではブラウザの \"Do Not Track (追跡禁止)\" 設定を尊重して動作します。"
+msgstr "このサイトでは Matomo を使用して Web サイトのトラフィックを分析しています。ブラウザの「トラッキングしない」設定に従います。"
 
 #: weblate/legal/templates/legal/cookies.html:37
 msgid "This site uses Google Analytics to analyze website traffic."
-msgstr ""
-"本 Web サイトではトラフィックを解析する目的で Google Analytics を使用していま"
-"す。"
+msgstr "このサイトは Google Analytics を使用して Web サイトのトラフィックを分析しています。"
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
@@ -2977,7 +2961,7 @@ msgstr "アップロードしたファイル内に正しい項目が見つかり
 #: weblate/memory/storage.py:171 weblate/memory/storage.py:181
 #: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 msgid "Failed to parse JSON file!"
-msgstr "JSON ファイルの処理に失敗しました！"
+msgstr "JSON ファイルへの変換に失敗しました！"
 
 #: weblate/memory/storage.py:210
 msgid "Failed to parse TMX file!"
@@ -4610,7 +4594,7 @@ msgstr "統計情報をダウンロードする(CSV)"
 #: weblate/templates/snippets/project-nav.html:32
 #: weblate/templates/snippets/project-nav.html:40
 msgid "Download statistics (JSON)"
-msgstr "統計情報をダウンロードする(JSON)"
+msgstr "統計情報のダウンロード（JSON）"
 
 #: weblate/templates/component.html:49 weblate/templates/dashboard/user.html:38
 #: weblate/templates/snippets/project-nav.html:34
@@ -5059,9 +5043,7 @@ msgstr ""
 msgid ""
 "Translation statistics for every component in the JSON format allows you to "
 "use the data in other websites or tools."
-msgstr ""
-"各コンポーネントに対する翻訳の統計情報は JSON 形式で提供され、他のウェブサイ"
-"トやツールなどで利用できるようになっています。"
+msgstr "JSON 形式の各コンポーネントの翻訳統計を使用すると、他の Web サイトやツールでデータを使用できます。"
 
 #: weblate/templates/data.html:79
 msgid ""
@@ -6198,7 +6180,7 @@ msgstr "直近の発生日時"
 #: weblate/templates/manage/performance.html:40
 #: weblate/templates/translate.html:447
 msgid "Dismiss"
-msgstr "隠す"
+msgstr "除外する"
 
 #: weblate/templates/manage/performance.html:41
 msgid "Ignore permanently"
@@ -7448,7 +7430,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:412
 msgid "Things to check"
-msgstr "検査項目"
+msgstr "確認事項"
 
 #: weblate/templates/translate.html:422
 #, python-format
@@ -7458,7 +7440,7 @@ msgstr[0] "この文字列には %(count)s 件の提案があります。"
 
 #: weblate/templates/translate.html:441
 msgid "Fix string"
-msgstr "文字列の修正"
+msgstr "文字列の補正"
 
 #: weblate/templates/translate.html:449
 msgid "Dismiss for all languages"
@@ -7508,7 +7490,7 @@ msgstr "原文の参照"
 
 #: weblate/templates/translate.html:591
 msgid "Source string age"
-msgstr "原文の最終保存時期"
+msgstr "原文の保存経過期間"
 
 #: weblate/templates/translate.html:598 weblate/templates/translation.html:200
 msgid "Translation file"
@@ -9116,7 +9098,7 @@ msgstr "コンポーネントリストの自動割り当て"
 
 #: weblate/trans/models/project.py:79
 msgid "Main website of translated project."
-msgstr "翻訳済みプロジェクトのメインウェブサイト。"
+msgstr "翻訳プロジェクトのメイン サイト。"
 
 #: weblate/trans/models/project.py:82
 msgid "Mailing list"
