@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-01-15 13:43+0000\n"
+"POT-Creation-Date: 2020-01-16 08:45+0000\n"
 "PO-Revision-Date: 2020-01-12 21:21+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -860,7 +860,7 @@ msgstr "生成的檔案名稱"
 msgid "Content of generated file"
 msgstr "生成的檔案內容"
 
-#: weblate/addons/forms.py:104
+#: weblate/addons/forms.py:104 weblate/addons/forms.py:164
 msgid "Long lines wrapping"
 msgstr "長列換列"
 
@@ -872,7 +872,7 @@ msgstr "於第 77 個字元處與新列處換列"
 msgid "Only wrap lines at newlines"
 msgstr "僅在新列處換列"
 
-#: weblate/addons/forms.py:108
+#: weblate/addons/forms.py:108 weblate/addons/forms.py:170
 msgid "No line wrapping"
 msgstr "不要換列"
 
@@ -921,76 +921,122 @@ msgid "JSON indentation"
 msgstr "JSON 縮排"
 
 #: weblate/addons/forms.py:161
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "YAML indentation"
+msgstr "JSON 縮排"
+
+#: weblate/addons/forms.py:166
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 80 chars"
+msgstr "於第 77 個字元處與新列處換列"
+
+#: weblate/addons/forms.py:167
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 100 chars"
+msgstr "於第 77 個字元處與新列處換列"
+
+#: weblate/addons/forms.py:168
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 120 chars"
+msgstr "於第 77 個字元處與新列處換列"
+
+#: weblate/addons/forms.py:169
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 180 chars"
+msgstr "於第 77 個字元處與新列處換列"
+
+#: weblate/addons/forms.py:176
+msgid "Line breaks"
+msgstr ""
+
+#: weblate/addons/forms.py:178
+msgid "DOS (\\r\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:179
+msgid "UNIX (\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:180
+msgid "MAC (\\r)"
+msgstr ""
+
+#: weblate/addons/forms.py:189
 msgid "Days to keep"
 msgstr "保留的天數"
 
-#: weblate/addons/forms.py:167
+#: weblate/addons/forms.py:195
 msgid "Voting threshold"
 msgstr "最低投票數"
 
-#: weblate/addons/forms.py:171
+#: weblate/addons/forms.py:199
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr "移除之最低票數。當停用投票時，這個欄位不會有效果。"
 
-#: weblate/addons/forms.py:178
+#: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files against"
 msgstr "用來比對出翻譯檔的常規表述式"
 
-#: weblate/addons/forms.py:181
+#: weblate/addons/forms.py:209
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:520
 #: weblate/trans/forms.py:1427 weblate/trans/models/component.py:282
 msgid "File format"
 msgstr "檔案格式"
 
-#: weblate/addons/forms.py:187
+#: weblate/addons/forms.py:215
 msgid "Customize the component name"
 msgstr "自訂組件名稱"
 
-#: weblate/addons/forms.py:192
+#: weblate/addons/forms.py:220
 msgid "Define the monolingual base filename"
 msgstr "定義單語的基礎檔名"
 
-#: weblate/addons/forms.py:195
+#: weblate/addons/forms.py:223
 msgid "Leave empty for bilingual translation files."
 msgstr "保留雙語翻譯檔空白。"
 
-#: weblate/addons/forms.py:198
+#: weblate/addons/forms.py:226
 msgid "Define the base file for new translations"
 msgstr "定義新翻譯的基礎檔"
 
-#: weblate/addons/forms.py:202 weblate/trans/models/component.py:277
+#: weblate/addons/forms.py:230 weblate/trans/models/component.py:277
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr "用來建立新翻譯的檔案名稱。例如 gettext，請選擇 .pot 檔。"
 
-#: weblate/addons/forms.py:207 weblate/trans/models/component.py:457
+#: weblate/addons/forms.py:235 weblate/trans/models/component.py:457
 msgid "Language filter"
 msgstr "語言篩選"
 
-#: weblate/addons/forms.py:212
+#: weblate/addons/forms.py:240
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr "掃描檔案遮罩時用以篩選過濾翻譯的常規表述式。"
 
-#: weblate/addons/forms.py:217
+#: weblate/addons/forms.py:245
 msgid "Clone addons from the main component to the newly created ones"
 msgstr "從主組件複製附加元件至新建立的組件"
 
-#: weblate/addons/forms.py:222
+#: weblate/addons/forms.py:250
 msgid "Remove components for inexistant files"
 msgstr "為不存在的檔案移除組件"
 
-#: weblate/addons/forms.py:225
+#: weblate/addons/forms.py:253
 msgid "I confirm the above matches look correct"
 msgstr "我能確認上述符合項目看起來正確"
 
-#: weblate/addons/forms.py:282
+#: weblate/addons/forms.py:311
 msgid "Please review and confirm the matched components."
 msgstr "請檢閱並確認符合的組件。"
 
-#: weblate/addons/forms.py:298
+#: weblate/addons/forms.py:327
 msgid "Please include component markup in the template."
 msgstr "請在模板中納入組件標記。"
 
@@ -1120,6 +1166,22 @@ msgstr ""
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
 msgstr "指定的附加元件名稱無效！"
+
+#: weblate/addons/yaml.py:33
+#, fuzzy
+#| msgid "Customize JSON output"
+msgid "Customize YAML output"
+msgstr "自訂 JSON 輸出"
+
+#: weblate/addons/yaml.py:35
+#, fuzzy
+#| msgid ""
+#| "Allows to customize JSON output behavior, for example indentation or "
+#| "sorting."
+msgid ""
+"Allows to customize YAML output behavior, for example line length or "
+"newlines."
+msgstr "允許自訂 JSON 輸出行為，例如縮排或排序。"
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -1544,7 +1606,7 @@ msgid "From component list"
 msgstr "取自組件列表"
 
 #: weblate/auth/models.py:137 weblate/billing/admin.py:74
-#: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:228 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:120 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:153 weblate/trans/views/basic.py:80
@@ -1560,7 +1622,7 @@ msgstr "語言選取"
 msgid "All languages"
 msgstr "所有語言"
 
-#: weblate/auth/models.py:158 weblate/billing/models.py:257
+#: weblate/auth/models.py:158 weblate/billing/models.py:263
 #: weblate/lang/models.py:395 weblate/lang/views.py:53
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:136
@@ -1690,45 +1752,45 @@ msgstr "限制之內"
 msgid "Grace period for payments"
 msgstr "支付的寬限期"
 
-#: weblate/billing/models.py:201
+#: weblate/billing/models.py:207
 msgid "Changes in last month"
 msgstr "近一個月的更動"
 
-#: weblate/billing/models.py:207
+#: weblate/billing/models.py:213
 msgid "Changes in last quarter"
 msgstr "近三個月的更動"
 
-#: weblate/billing/models.py:213
+#: weblate/billing/models.py:219
 msgid "Changes in last year"
 msgstr "近一年內的更動"
 
-#: weblate/billing/models.py:231 weblate/templates/about/stats.html:68
+#: weblate/billing/models.py:237 weblate/templates/about/stats.html:68
 #: weblate/templates/snippets/query-builder.html:10
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:96
 msgid "Source strings"
 msgstr "來源字串"
 
-#: weblate/billing/models.py:240 weblate/templates/about/stats.html:72
+#: weblate/billing/models.py:246 weblate/templates/about/stats.html:72
 #: weblate/trans/admin.py:101
 msgid "Source words"
 msgstr "來源單字"
 
-#: weblate/billing/models.py:289 weblate/templates/addons/generate_help.html:16
+#: weblate/billing/models.py:295 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:5
 msgid "Number of strings"
 msgstr "字串數目"
 
-#: weblate/billing/models.py:296
+#: weblate/billing/models.py:302
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
+#: weblate/billing/models.py:304 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "最近收據"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:320
+#: weblate/billing/models.py:326
 msgid "In display limits"
 msgstr "顯示畫面限制"
 
@@ -3445,7 +3507,7 @@ msgstr "為了確保您的密碼輸入正確，請輸入您的新密碼兩次。
 msgid "Change my password"
 msgstr "更動我的密碼"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:330
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:331
 #: weblate/trans/views/files.py:121
 msgid "Please fix errors in the form."
 msgstr "請修正表單中的錯誤。"
@@ -9258,7 +9320,7 @@ msgstr "專案存取控制已更動。"
 msgid "Get involved in {0}!"
 msgstr "參與 {0}！"
 
-#: weblate/trans/views/basic.py:325
+#: weblate/trans/views/basic.py:326
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "新增語言的要求已傳送給專案維護者。"

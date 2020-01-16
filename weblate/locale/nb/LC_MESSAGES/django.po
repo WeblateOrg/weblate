@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-01-15 13:43+0000\n"
+"POT-Creation-Date: 2020-01-16 08:45+0000\n"
 "PO-Revision-Date: 2020-01-09 13:25+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -908,7 +908,7 @@ msgstr "Navn på generert fil"
 msgid "Content of generated file"
 msgstr "Innhold i den genererte fila"
 
-#: weblate/addons/forms.py:104
+#: weblate/addons/forms.py:104 weblate/addons/forms.py:164
 msgid "Long lines wrapping"
 msgstr "Linjebrying av lange linjer"
 
@@ -920,7 +920,7 @@ msgstr "Linjebryt på 77 tegn og ved linjeskift"
 msgid "Only wrap lines at newlines"
 msgstr "Kun linjebryt ved linjeskift"
 
-#: weblate/addons/forms.py:108
+#: weblate/addons/forms.py:108 weblate/addons/forms.py:170
 msgid "No line wrapping"
 msgstr "Ingen linjebryting"
 
@@ -969,47 +969,93 @@ msgid "JSON indentation"
 msgstr "JSON-innrykk"
 
 #: weblate/addons/forms.py:161
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "YAML indentation"
+msgstr "JSON-innrykk"
+
+#: weblate/addons/forms.py:166
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 80 chars"
+msgstr "Linjebryt på 77 tegn og ved linjeskift"
+
+#: weblate/addons/forms.py:167
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 100 chars"
+msgstr "Linjebryt på 77 tegn og ved linjeskift"
+
+#: weblate/addons/forms.py:168
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 120 chars"
+msgstr "Linjebryt på 77 tegn og ved linjeskift"
+
+#: weblate/addons/forms.py:169
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 180 chars"
+msgstr "Linjebryt på 77 tegn og ved linjeskift"
+
+#: weblate/addons/forms.py:176
+msgid "Line breaks"
+msgstr ""
+
+#: weblate/addons/forms.py:178
+msgid "DOS (\\r\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:179
+msgid "UNIX (\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:180
+msgid "MAC (\\r)"
+msgstr ""
+
+#: weblate/addons/forms.py:189
 msgid "Days to keep"
 msgstr "Dager å beholde"
 
-#: weblate/addons/forms.py:167
+#: weblate/addons/forms.py:195
 msgid "Voting threshold"
 msgstr "Stemmeterskel"
 
-#: weblate/addons/forms.py:171
+#: weblate/addons/forms.py:199
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 "Terskel for fjerning. Dette feltet har ingen effekt når avstemming er "
 "avskrudd."
 
-#: weblate/addons/forms.py:178
+#: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files against"
 msgstr "Regulært uttrykk å jamføre oversettelsesfiler mot"
 
-#: weblate/addons/forms.py:181
+#: weblate/addons/forms.py:209
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:520
 #: weblate/trans/forms.py:1427 weblate/trans/models/component.py:282
 msgid "File format"
 msgstr "Filformat"
 
-#: weblate/addons/forms.py:187
+#: weblate/addons/forms.py:215
 msgid "Customize the component name"
 msgstr "Tilpass komponentnavnet"
 
-#: weblate/addons/forms.py:192
+#: weblate/addons/forms.py:220
 msgid "Define the monolingual base filename"
 msgstr "Definer ettspråklig basisfilnavn"
 
-#: weblate/addons/forms.py:195
+#: weblate/addons/forms.py:223
 msgid "Leave empty for bilingual translation files."
 msgstr "La stå tom for tospråklige oversettelsesfiler."
 
-#: weblate/addons/forms.py:198
+#: weblate/addons/forms.py:226
 msgid "Define the base file for new translations"
 msgstr "Definer basisfil for nye oversettelser"
 
-#: weblate/addons/forms.py:202 weblate/trans/models/component.py:277
+#: weblate/addons/forms.py:230 weblate/trans/models/component.py:277
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1017,33 +1063,33 @@ msgstr ""
 "Navnet på filen brukt til å opprette nye oversettelser. For gettext velg ."
 "pot fil."
 
-#: weblate/addons/forms.py:207 weblate/trans/models/component.py:457
+#: weblate/addons/forms.py:235 weblate/trans/models/component.py:457
 msgid "Language filter"
 msgstr "Språkfilter"
 
-#: weblate/addons/forms.py:212
+#: weblate/addons/forms.py:240
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
 "Regulært uttrykk å filtrere oversettelse mot ved skanning for filnavnsmaske."
 
-#: weblate/addons/forms.py:217
+#: weblate/addons/forms.py:245
 msgid "Clone addons from the main component to the newly created ones"
 msgstr "Klon tillegg fra hovedkomponenten til de nylig opprettede"
 
-#: weblate/addons/forms.py:222
+#: weblate/addons/forms.py:250
 msgid "Remove components for inexistant files"
 msgstr "Fjerner komponenter for ikke-eksisterende filer"
 
-#: weblate/addons/forms.py:225
+#: weblate/addons/forms.py:253
 msgid "I confirm the above matches look correct"
 msgstr "Jeg bekrefter at ovennevnte treff ser ut til å stemme"
 
-#: weblate/addons/forms.py:282
+#: weblate/addons/forms.py:311
 msgid "Please review and confirm the matched components."
 msgstr "Se over og bekreft de samsvarende komponentene."
 
-#: weblate/addons/forms.py:298
+#: weblate/addons/forms.py:327
 msgid "Please include component markup in the template."
 msgstr "Inkluder komponent-oppmerking i malen."
 
@@ -1180,6 +1226,24 @@ msgstr ""
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
 msgstr "Ugyldig tilleggsnavn angitt!"
+
+#: weblate/addons/yaml.py:33
+#, fuzzy
+#| msgid "Customize JSON output"
+msgid "Customize YAML output"
+msgstr "Tilpass JSON-utdata"
+
+#: weblate/addons/yaml.py:35
+#, fuzzy
+#| msgid ""
+#| "Allows to customize JSON output behavior, for example indentation or "
+#| "sorting."
+msgid ""
+"Allows to customize YAML output behavior, for example line length or "
+"newlines."
+msgstr ""
+"Tillater egendefinering av JSON-utdataoppførsel, for eksempel innrykk eller "
+"sortering."
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -1604,7 +1668,7 @@ msgid "From component list"
 msgstr "Fra komponentliste"
 
 #: weblate/auth/models.py:137 weblate/billing/admin.py:74
-#: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:228 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:120 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:153 weblate/trans/views/basic.py:80
@@ -1620,7 +1684,7 @@ msgstr "Språkvalg"
 msgid "All languages"
 msgstr "Alle språk"
 
-#: weblate/auth/models.py:158 weblate/billing/models.py:257
+#: weblate/auth/models.py:158 weblate/billing/models.py:263
 #: weblate/lang/models.py:395 weblate/lang/views.py:53
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:136
@@ -1751,45 +1815,45 @@ msgstr "Innenfor grensene"
 msgid "Grace period for payments"
 msgstr "Betalingsfrist"
 
-#: weblate/billing/models.py:201
+#: weblate/billing/models.py:207
 msgid "Changes in last month"
 msgstr "Endringer siste måned"
 
-#: weblate/billing/models.py:207
+#: weblate/billing/models.py:213
 msgid "Changes in last quarter"
 msgstr "Endringer siste kvartal"
 
-#: weblate/billing/models.py:213
+#: weblate/billing/models.py:219
 msgid "Changes in last year"
 msgstr "Endringer siste år"
 
-#: weblate/billing/models.py:231 weblate/templates/about/stats.html:68
+#: weblate/billing/models.py:237 weblate/templates/about/stats.html:68
 #: weblate/templates/snippets/query-builder.html:10
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:96
 msgid "Source strings"
 msgstr "Kildestrenger"
 
-#: weblate/billing/models.py:240 weblate/templates/about/stats.html:72
+#: weblate/billing/models.py:246 weblate/templates/about/stats.html:72
 #: weblate/trans/admin.py:101
 msgid "Source words"
 msgstr "Kildeord"
 
-#: weblate/billing/models.py:289 weblate/templates/addons/generate_help.html:16
+#: weblate/billing/models.py:295 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:5
 msgid "Number of strings"
 msgstr "Antall strenger"
 
-#: weblate/billing/models.py:296
+#: weblate/billing/models.py:302
 msgid "N/A"
 msgstr "I/T"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
+#: weblate/billing/models.py:304 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Siste faktura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:320
+#: weblate/billing/models.py:326
 msgid "In display limits"
 msgstr "Innenfor skjermvisningsgrenser"
 
@@ -3555,7 +3619,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Bytt passord"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:330
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:331
 #: weblate/trans/views/files.py:121
 msgid "Please fix errors in the form."
 msgstr "Du kan gjerne fikse feil i skjemaet."
@@ -9659,7 +9723,7 @@ msgstr "Prosjektets tilgangskontroll har blitt endret."
 msgid "Get involved in {0}!"
 msgstr "Bli med i {0}!"
 
-#: weblate/trans/views/basic.py:325
+#: weblate/trans/views/basic.py:326
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""

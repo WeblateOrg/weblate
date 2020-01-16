@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-01-15 13:43+0000\n"
+"POT-Creation-Date: 2020-01-16 08:45+0000\n"
 "PO-Revision-Date: 2020-01-12 06:58+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
@@ -919,7 +919,7 @@ msgstr "Nom del fitxer generat"
 msgid "Content of generated file"
 msgstr "Contingut del fitxer generat"
 
-#: weblate/addons/forms.py:104
+#: weblate/addons/forms.py:104 weblate/addons/forms.py:164
 msgid "Long lines wrapping"
 msgstr "Ajustament de línies llargues"
 
@@ -931,7 +931,7 @@ msgstr "Ajusta les línies a 77 caràcters i als salts de línia"
 msgid "Only wrap lines at newlines"
 msgstr "Ajusta les línies només als salts de línia"
 
-#: weblate/addons/forms.py:108
+#: weblate/addons/forms.py:108 weblate/addons/forms.py:170
 msgid "No line wrapping"
 msgstr "Sense ajustament de línies"
 
@@ -980,47 +980,93 @@ msgid "JSON indentation"
 msgstr "Sagnat del JSON"
 
 #: weblate/addons/forms.py:161
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "YAML indentation"
+msgstr "Sagnat del JSON"
+
+#: weblate/addons/forms.py:166
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 80 chars"
+msgstr "Ajusta les línies a 77 caràcters i als salts de línia"
+
+#: weblate/addons/forms.py:167
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 100 chars"
+msgstr "Ajusta les línies a 77 caràcters i als salts de línia"
+
+#: weblate/addons/forms.py:168
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 120 chars"
+msgstr "Ajusta les línies a 77 caràcters i als salts de línia"
+
+#: weblate/addons/forms.py:169
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 180 chars"
+msgstr "Ajusta les línies a 77 caràcters i als salts de línia"
+
+#: weblate/addons/forms.py:176
+msgid "Line breaks"
+msgstr ""
+
+#: weblate/addons/forms.py:178
+msgid "DOS (\\r\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:179
+msgid "UNIX (\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:180
+msgid "MAC (\\r)"
+msgstr ""
+
+#: weblate/addons/forms.py:189
 msgid "Days to keep"
 msgstr "Dies d'emmagatzematge"
 
-#: weblate/addons/forms.py:167
+#: weblate/addons/forms.py:195
 msgid "Voting threshold"
 msgstr "Llindar de vots"
 
-#: weblate/addons/forms.py:171
+#: weblate/addons/forms.py:199
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 "Llindar per a la supressió. Aquest camp no té efecte si els vots estan "
 "desactivats."
 
-#: weblate/addons/forms.py:178
+#: weblate/addons/forms.py:206
 msgid "Regular expression to match translation files against"
 msgstr "Expressió regular per a trobar fitxers de traducció"
 
-#: weblate/addons/forms.py:181
+#: weblate/addons/forms.py:209
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:520
 #: weblate/trans/forms.py:1427 weblate/trans/models/component.py:282
 msgid "File format"
 msgstr "Format de fitxer"
 
-#: weblate/addons/forms.py:187
+#: weblate/addons/forms.py:215
 msgid "Customize the component name"
 msgstr "Personalitza el nom del component"
 
-#: weblate/addons/forms.py:192
+#: weblate/addons/forms.py:220
 msgid "Define the monolingual base filename"
 msgstr "Defineix el nom de fitxer base monolingüe"
 
-#: weblate/addons/forms.py:195
+#: weblate/addons/forms.py:223
 msgid "Leave empty for bilingual translation files."
 msgstr "Deixeu-lo buit per als fitxers de traducció bilingües."
 
-#: weblate/addons/forms.py:198
+#: weblate/addons/forms.py:226
 msgid "Define the base file for new translations"
 msgstr "Defineix el fitxer base per a noves traduccions"
 
-#: weblate/addons/forms.py:202 weblate/trans/models/component.py:277
+#: weblate/addons/forms.py:230 weblate/trans/models/component.py:277
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1028,34 +1074,34 @@ msgstr ""
 "Nom de fitxer del fitxer utilitzat per a crear traduccions noves. Per al "
 "gettext, trieu el fitxer .pot."
 
-#: weblate/addons/forms.py:207 weblate/trans/models/component.py:457
+#: weblate/addons/forms.py:235 weblate/trans/models/component.py:457
 msgid "Language filter"
 msgstr "Filtre de llengua"
 
-#: weblate/addons/forms.py:212
+#: weblate/addons/forms.py:240
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
 "Expressió regular per a filtrar fitxers de traducció quan s'escanegen els "
 "noms de fitxer."
 
-#: weblate/addons/forms.py:217
+#: weblate/addons/forms.py:245
 msgid "Clone addons from the main component to the newly created ones"
 msgstr "Clona els complements del component principal als nous components"
 
-#: weblate/addons/forms.py:222
+#: weblate/addons/forms.py:250
 msgid "Remove components for inexistant files"
 msgstr "Suprimeix els components dels fitxers inexistents"
 
-#: weblate/addons/forms.py:225
+#: weblate/addons/forms.py:253
 msgid "I confirm the above matches look correct"
 msgstr "Confirmo que les coincidències anteriors semblen correctes"
 
-#: weblate/addons/forms.py:282
+#: weblate/addons/forms.py:311
 msgid "Please review and confirm the matched components."
 msgstr "Reviseu i confirmeu els components coincidents."
 
-#: weblate/addons/forms.py:298
+#: weblate/addons/forms.py:327
 msgid "Please include component markup in the template."
 msgstr "Incloeu la sintaxi del component a la plantilla."
 
@@ -1195,6 +1241,24 @@ msgstr ""
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
 msgstr "El nom especificat per al complement no és vàlid!"
+
+#: weblate/addons/yaml.py:33
+#, fuzzy
+#| msgid "Customize JSON output"
+msgid "Customize YAML output"
+msgstr "Personalitza la sortida JSON"
+
+#: weblate/addons/yaml.py:35
+#, fuzzy
+#| msgid ""
+#| "Allows to customize JSON output behavior, for example indentation or "
+#| "sorting."
+msgid ""
+"Allows to customize YAML output behavior, for example line length or "
+"newlines."
+msgstr ""
+"Permet personalitzar el comportament de la sortida JSON, per exemple, el "
+"sagnat o l'ordenació."
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -1619,7 +1683,7 @@ msgid "From component list"
 msgstr "De la llista de components"
 
 #: weblate/auth/models.py:137 weblate/billing/admin.py:74
-#: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:228 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:120 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:153 weblate/trans/views/basic.py:80
@@ -1635,7 +1699,7 @@ msgstr "Selecció de la llengua"
 msgid "All languages"
 msgstr "Totes les llengües"
 
-#: weblate/auth/models.py:158 weblate/billing/models.py:257
+#: weblate/auth/models.py:158 weblate/billing/models.py:263
 #: weblate/lang/models.py:395 weblate/lang/views.py:53
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:136
@@ -1768,45 +1832,45 @@ msgstr "Dins els límits"
 msgid "Grace period for payments"
 msgstr "Període de gràcia per als pagaments"
 
-#: weblate/billing/models.py:201
+#: weblate/billing/models.py:207
 msgid "Changes in last month"
 msgstr "Canvis durant el darrer mes"
 
-#: weblate/billing/models.py:207
+#: weblate/billing/models.py:213
 msgid "Changes in last quarter"
 msgstr "Canvis durant el darrer trimestre"
 
-#: weblate/billing/models.py:213
+#: weblate/billing/models.py:219
 msgid "Changes in last year"
 msgstr "Canvis durant el darrer any"
 
-#: weblate/billing/models.py:231 weblate/templates/about/stats.html:68
+#: weblate/billing/models.py:237 weblate/templates/about/stats.html:68
 #: weblate/templates/snippets/query-builder.html:10
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:96
 msgid "Source strings"
 msgstr "Cadenes d'origen"
 
-#: weblate/billing/models.py:240 weblate/templates/about/stats.html:72
+#: weblate/billing/models.py:246 weblate/templates/about/stats.html:72
 #: weblate/trans/admin.py:101
 msgid "Source words"
 msgstr "Paraules d'origen"
 
-#: weblate/billing/models.py:289 weblate/templates/addons/generate_help.html:16
+#: weblate/billing/models.py:295 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:5
 msgid "Number of strings"
 msgstr "Nombre de cadenes"
 
-#: weblate/billing/models.py:296
+#: weblate/billing/models.py:302
 msgid "N/A"
 msgstr "N/A"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
+#: weblate/billing/models.py:304 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Darrera factura"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:320
+#: weblate/billing/models.py:326
 msgid "In display limits"
 msgstr "Dintre dels límits de visualització"
 
@@ -3590,7 +3654,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Canvia la contrasenya"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:330
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:331
 #: weblate/trans/views/files.py:121
 msgid "Please fix errors in the form."
 msgstr "Corregiu els errors del formulari."
@@ -9745,7 +9809,7 @@ msgstr "S'ha canviat el control d'accés al projecte."
 msgid "Get involved in {0}!"
 msgstr "Involucreu-vos amb {0}!"
 
-#: weblate/trans/views/basic.py:325
+#: weblate/trans/views/basic.py:326
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr ""

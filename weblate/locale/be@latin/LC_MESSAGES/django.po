@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-01-15 13:43+0000\n"
+"POT-Creation-Date: 2020-01-16 08:45+0000\n"
 "PO-Revision-Date: 2019-11-28 09:58+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -1049,7 +1049,7 @@ msgstr "Nazva zhienieravanaha fajla"
 msgid "Content of generated file"
 msgstr "Zmiest zhienieravanaha fajla"
 
-#: weblate/addons/forms.py:104
+#: weblate/addons/forms.py:104 weblate/addons/forms.py:164
 msgid "Long lines wrapping"
 msgstr "Pieranos doŭhich radkoŭ"
 
@@ -1061,7 +1061,7 @@ msgstr "Pieranos radkoŭ paslia 77 simvalaŭ ci simvala novaha radka"
 msgid "Only wrap lines at newlines"
 msgstr "Pieranos radkoŭ toĺki paslia simvala novaha radka"
 
-#: weblate/addons/forms.py:108
+#: weblate/addons/forms.py:108 weblate/addons/forms.py:170
 msgid "No line wrapping"
 msgstr "Biez pieranosu radkoŭ"
 
@@ -1118,51 +1118,97 @@ msgid "JSON indentation"
 msgstr "Vodstupy JSON"
 
 #: weblate/addons/forms.py:161
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "YAML indentation"
+msgstr "Vodstupy JSON"
+
+#: weblate/addons/forms.py:166
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 80 chars"
+msgstr "Pieranos radkoŭ paslia 77 simvalaŭ ci simvala novaha radka"
+
+#: weblate/addons/forms.py:167
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 100 chars"
+msgstr "Pieranos radkoŭ paslia 77 simvalaŭ ci simvala novaha radka"
+
+#: weblate/addons/forms.py:168
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 120 chars"
+msgstr "Pieranos radkoŭ paslia 77 simvalaŭ ci simvala novaha radka"
+
+#: weblate/addons/forms.py:169
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 180 chars"
+msgstr "Pieranos radkoŭ paslia 77 simvalaŭ ci simvala novaha radka"
+
+#: weblate/addons/forms.py:176
+msgid "Line breaks"
+msgstr ""
+
+#: weblate/addons/forms.py:178
+msgid "DOS (\\r\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:179
+msgid "UNIX (\\n)"
+msgstr ""
+
+#: weblate/addons/forms.py:180
+msgid "MAC (\\r)"
+msgstr ""
+
+#: weblate/addons/forms.py:189
 msgid "Days to keep"
 msgstr ""
 
-#: weblate/addons/forms.py:167
+#: weblate/addons/forms.py:195
 #, fuzzy
 #| msgid "Score threshold"
 msgid "Voting threshold"
 msgstr "Paroh acenki"
 
-#: weblate/addons/forms.py:171
+#: weblate/addons/forms.py:199
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 
-#: weblate/addons/forms.py:178
+#: weblate/addons/forms.py:206
 #, fuzzy
 #| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
 msgstr "Rehuliarny vyraz dlia vydzialiennia fajlaŭ pierakladu"
 
-#: weblate/addons/forms.py:181
+#: weblate/addons/forms.py:209
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:520
 #: weblate/trans/forms.py:1427 weblate/trans/models/component.py:282
 msgid "File format"
 msgstr "Farmat fajla"
 
-#: weblate/addons/forms.py:187
+#: weblate/addons/forms.py:215
 msgid "Customize the component name"
 msgstr "Naladzić nazvu kampanienta"
 
-#: weblate/addons/forms.py:192
+#: weblate/addons/forms.py:220
 msgid "Define the monolingual base filename"
 msgstr "Vyznačyć nazvu bazavaha fajla dlia adnamoŭnaha pierakladu"
 
-#: weblate/addons/forms.py:195
+#: weblate/addons/forms.py:223
 #, fuzzy
 #| msgid "Keep empty for bilingual translation files."
 msgid "Leave empty for bilingual translation files."
 msgstr "Pakinuć pustym dlia fajlaŭ dvumoŭnaha pierakladu."
 
-#: weblate/addons/forms.py:198
+#: weblate/addons/forms.py:226
 msgid "Define the base file for new translations"
 msgstr "Vyznačyć bazavy fajl dlia novych pierakladaŭ"
 
-#: weblate/addons/forms.py:202 weblate/trans/models/component.py:277
+#: weblate/addons/forms.py:230 weblate/trans/models/component.py:277
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1170,11 +1216,11 @@ msgstr ""
 "Nazva fajla vykarystoŭvajecca dlia stvarennia novych pierakladaŭ. Dlia "
 "gettext abiarycie .pot-fajl."
 
-#: weblate/addons/forms.py:207 weblate/trans/models/component.py:457
+#: weblate/addons/forms.py:235 weblate/trans/models/component.py:457
 msgid "Language filter"
 msgstr "Fiĺtr movy"
 
-#: weblate/addons/forms.py:212
+#: weblate/addons/forms.py:240
 #, fuzzy
 #| msgid ""
 #| "Regular expression which is used to filter translation when scanning for "
@@ -1185,30 +1231,30 @@ msgstr ""
 "Rehuliarny vyraz, jaki vykarystoŭvajecca dlia fiĺtracyi pierakladaŭ pry "
 "skanavanni maski fajla."
 
-#: weblate/addons/forms.py:217
+#: weblate/addons/forms.py:245
 msgid "Clone addons from the main component to the newly created ones"
 msgstr ""
 
-#: weblate/addons/forms.py:222
+#: weblate/addons/forms.py:250
 #, fuzzy
 #| msgid "Remove components for non existing files"
 msgid "Remove components for inexistant files"
 msgstr "Vydalić kampanienty dlia adsutnych fajlaŭ"
 
-#: weblate/addons/forms.py:225
+#: weblate/addons/forms.py:253
 #, fuzzy
 #| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr ""
 "Ja pacviardžaju, što vyšej paznačanyja adpaviedniki vyhliadajuć karektna"
 
-#: weblate/addons/forms.py:282
+#: weblate/addons/forms.py:311
 #, fuzzy
 #| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
 msgstr "Kali laska, prahliadzicie i pacvierdzicie adpaviednyja kampanienty."
 
-#: weblate/addons/forms.py:298
+#: weblate/addons/forms.py:327
 msgid "Please include component markup in the template."
 msgstr ""
 
@@ -1365,6 +1411,24 @@ msgstr ""
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
 msgstr "Ukazana niapraviĺnaja nazva dadatku!"
+
+#: weblate/addons/yaml.py:33
+#, fuzzy
+#| msgid "Customize JSON output"
+msgid "Customize YAML output"
+msgstr "Nadadzić JSON-vyvad"
+
+#: weblate/addons/yaml.py:35
+#, fuzzy
+#| msgid ""
+#| "Allows to customize JSON output behavior, for example indentation or "
+#| "sorting."
+msgid ""
+"Allows to customize YAML output behavior, for example line length or "
+"newlines."
+msgstr ""
+"Dazvaliaje naladzić pavodziny vyvadu JSON, napryklad, vodstupy ci "
+"sartavannie."
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -1817,7 +1881,7 @@ msgid "From component list"
 msgstr "Sa spisu kampanientaŭ"
 
 #: weblate/auth/models.py:137 weblate/billing/admin.py:74
-#: weblate/billing/models.py:222 weblate/templates/accounts/user.html:38
+#: weblate/billing/models.py:228 weblate/templates/accounts/user.html:38
 #: weblate/templates/base.html:120 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:153 weblate/trans/views/basic.py:80
@@ -1833,7 +1897,7 @@ msgstr "Vybar movy"
 msgid "All languages"
 msgstr "Usie movy"
 
-#: weblate/auth/models.py:158 weblate/billing/models.py:257
+#: weblate/auth/models.py:158 weblate/billing/models.py:263
 #: weblate/lang/models.py:395 weblate/lang/views.py:53
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:136
@@ -1971,45 +2035,45 @@ msgstr "U miežach"
 msgid "Grace period for payments"
 msgstr "Ĺhotny pieryjad dlia aplat"
 
-#: weblate/billing/models.py:201
+#: weblate/billing/models.py:207
 msgid "Changes in last month"
 msgstr "Zmien za apošni miesiac"
 
-#: weblate/billing/models.py:207
+#: weblate/billing/models.py:213
 msgid "Changes in last quarter"
 msgstr "Zmien za apošni kvatral"
 
-#: weblate/billing/models.py:213
+#: weblate/billing/models.py:219
 msgid "Changes in last year"
 msgstr "Zmieny za apošni hod"
 
-#: weblate/billing/models.py:231 weblate/templates/about/stats.html:68
+#: weblate/billing/models.py:237 weblate/templates/about/stats.html:68
 #: weblate/templates/snippets/query-builder.html:10
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:96
 msgid "Source strings"
 msgstr "Zychdnyja radki"
 
-#: weblate/billing/models.py:240 weblate/templates/about/stats.html:72
+#: weblate/billing/models.py:246 weblate/templates/about/stats.html:72
 #: weblate/trans/admin.py:101
 msgid "Source words"
 msgstr "Zychdnyja slovy"
 
-#: weblate/billing/models.py:289 weblate/templates/addons/generate_help.html:16
+#: weblate/billing/models.py:295 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:5
 msgid "Number of strings"
 msgstr "Koĺkasć radkoŭ"
 
-#: weblate/billing/models.py:296
+#: weblate/billing/models.py:302
 msgid "N/A"
 msgstr "N/D"
 
-#: weblate/billing/models.py:298 weblate/templates/billing/status.html:59
+#: weblate/billing/models.py:304 weblate/templates/billing/status.html:59
 msgid "Last invoice"
 msgstr "Apošni rachunak"
 
 #. Translators: Whether the package is inside displayed (soft) limits
-#: weblate/billing/models.py:320
+#: weblate/billing/models.py:326
 msgid "In display limits"
 msgstr "U miežach ekrana"
 
@@ -3906,7 +3970,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Zmianіć paroĺ"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:330
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:331
 #: weblate/trans/views/files.py:121
 msgid "Please fix errors in the form."
 msgstr "Kalі laska, papraŭcie pamylkі ŭ farmuliary."
@@ -10593,7 +10657,7 @@ msgstr "Pravy dostupu da prajekta zmienienyja."
 msgid "Get involved in {0}!"
 msgstr "Dalučajciesia da {0}!"
 
-#: weblate/trans/views/basic.py:325
+#: weblate/trans/views/basic.py:326
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Zapyt na novy pieraklad adpraŭlieny dahliadčykam prajekta."
