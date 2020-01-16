@@ -12,6 +12,7 @@ Not yet released.
 * Improved background notifications processing.
 * Fixed broken form submissing when navigating back in browser.
 * New addon to configure YAML formatting.
+* Fixed same plurals check to not fire on single plural form languages.
 
 Weblate 3.10.1
 --------------
