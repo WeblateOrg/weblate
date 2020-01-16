@@ -7,7 +7,7 @@
     <th>{% trans "Current plan" %}</th>
     <td>{{ plan.name }} ({{ billing.get_state_display }}{% if billing.expiry %}{% blocktrans with expires=billing.expiry|naturaltime %}, expires {{ expires }}{% endblocktrans %}{% endif %})</td>
     <td>
-        {% if not hide_buttons and payment_enabled %}
+        {% if not hide_buttons and payment_enabled and billing.can_be_paid %}
         <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="btn btn-primary pull-right flip">
         {% trans "Change plan" %}
         </a>
@@ -20,7 +20,7 @@
         {{ plan.price }} EUR
     </td>
     <td>
-        {% if payment_enabled and plan.price and not hide_buttons %}
+        {% if payment_enabled and billing.can_be_paid and plan.price and not hide_buttons %}
         <form class="form-inline" method="post" action="{% url 'create-billing' %}">
         {% csrf_token %}
         <input type="hidden" name="plan" value="{{ plan.id }}" />
@@ -35,7 +35,7 @@
     <th>{% trans "Yearly price" %}</th>
     <td>{{ plan.yearly_price }} EUR</td>
     <td>
-        {% if payment_enabled and plan.yearly_price and not hide_buttons %}
+        {% if payment_enabled and billing.can_be_paid and plan.yearly_price and not hide_buttons %}
         <form class="form-inline" method="post" action="{% url 'create-billing' %}">
         {% csrf_token %}
         <input type="hidden" name="plan" value="{{ plan.id }}" />

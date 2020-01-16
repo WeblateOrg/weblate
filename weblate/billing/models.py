@@ -188,6 +188,12 @@ class Billing(models.Model):
     def get_absolute_url(self):
         return '{}#billing-{}'.format(reverse('billing'), self.pk)
 
+    @cached_property
+    def can_be_paid(self):
+        if self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL):
+            return True
+        return self.count_projects > 0
+
     def count_changes(self, interval):
         return Change.objects.filter(
             component__project__in=self.projects.all(),
