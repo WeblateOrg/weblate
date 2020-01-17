@@ -1101,7 +1101,15 @@ SINGLE_PROJECT
 
 .. versionadded:: 3.8
 
-Redirect user directly to single project or component instead of showing dashboard.
+Redirect user directly to single project or component instead of showing
+dashboard. It only works in case there is actually only single project in
+Weblate.
+
+Example:
+
+.. code-block:: python
+
+    SINGLE_PROJECT = True
 
 .. setting:: STATUS_URL
 
