@@ -234,10 +234,10 @@ Release checklist:
 2. Set final version by ``./scripts/prepare-release``.
 3. Make sure screenshots are up to date ``make -C docs update-screenshots``
 4. Create a release ``./scripts/create-release --tag``
-5. Enable building version docs on Read the Docs
-6. Update Docker image
-7. Close GitHub milestone
-8. Once the Docker image is tested, add a tag and push it
+5. Enable building version docs on Read the Docs and make it default.
+6. Update Docker image.
+7. Close GitHub milestone.
+8. Once the Docker image is tested, add a tag and push it.
 
 .. _dco:
 
