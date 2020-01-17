@@ -638,7 +638,6 @@ class Unit(models.Model, LoggerMixin):
         """Update checks for this unit."""
         was_change = False
         has_checks = None
-        is_source = self.translation.is_source
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -646,19 +645,24 @@ class Unit(models.Model, LoggerMixin):
         old_checks = set(self.check_set.values_list('check', flat=True))
         create = []
 
+        if self.translation.is_source:
+            checks = CHECKS.source.items()
+            meth = 'check_source'
+            args = src, self
+        else:
+            checks = CHECKS.target.items()
+            meth = 'check_target'
+            args = src, tgt, self
+
         # Run all checks
-        for check, check_obj in CHECKS.items():
+        for check, check_obj in checks:
             # Do not remove batch checks in batch processing
             if self.is_batch_update and check_obj.batch_update:
                 old_checks.discard(check)
                 continue
 
             # Does the check fire?
-            if (
-                not is_source
-                and check_obj.target
-                and check_obj.check_target(src, tgt, self)
-            ) or (is_source and check_obj.source and check_obj.check_source(src, self)):
+            if getattr(check_obj, meth)(*args):
                 if check in old_checks:
                     # We already have this check
                     old_checks.remove(check)

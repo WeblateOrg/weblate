@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from django.utils.functional import cached_property
+
 from weblate.utils.classloader import ClassLoader
 
 default_app_config = 'weblate.checks.apps.ChecksConfig'
@@ -52,5 +54,15 @@ def highlight_string(source, unit):
     return highlights
 
 
+class ChecksLoader(ClassLoader):
+    @cached_property
+    def source(self):
+        return {k: v for k, v in self.items() if v.source}
+
+    @cached_property
+    def target(self):
+        return {k: v for k, v in self.items() if v.target}
+
+
 # Initialize checks list
-CHECKS = ClassLoader('CHECK_LIST')
+CHECKS = ChecksLoader('CHECK_LIST')
