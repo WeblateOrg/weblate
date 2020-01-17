@@ -35,7 +35,7 @@ PYTHON_PRINTF_MATCH = re.compile(
         (hh|h|l|ll)?         # length formatting
         (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
     )''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
@@ -50,7 +50,7 @@ PHP_PRINTF_MATCH = re.compile(
         (hh|h|l|ll)?         # length formatting
         (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
     )''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
@@ -65,7 +65,7 @@ C_PRINTF_MATCH = re.compile(
         (hh|h|l|ll)?         # length formatting
         (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
     )''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 PYTHON_BRACE_MATCH = re.compile(
@@ -98,7 +98,7 @@ PYTHON_BRACE_MATCH = re.compile(
         )?
     )}                          # trailing }
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 C_SHARP_MATCH = re.compile(
@@ -119,7 +119,7 @@ C_SHARP_MATCH = re.compile(
         )?
     }                                   # Ending }
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 JAVA_MATCH = re.compile(
@@ -135,7 +135,7 @@ JAVA_MATCH = re.compile(
        )
     )
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 JAVA_MESSAGE_MATCH = re.compile(
@@ -150,12 +150,13 @@ JAVA_MESSAGE_MATCH = re.compile(
         \s*
     }                                   # Ending }
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
+
     regexp = None
     default_disabled = True
     severity = 'danger'
@@ -170,18 +171,14 @@ class BaseFormatCheck(TargetCheck):
     def check_generator(self, sources, targets, unit):
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
-            yield self.check_format(
-                sources[1],
-                targets[0],
-                False
-            )
+            yield self.check_format(sources[1], targets[0], False)
             return
 
         # Check singular
         yield self.check_format(
             sources[0],
             targets[0],
-            len(sources) > 1 and len(unit.translation.plural.examples[0]) == 1
+            len(sources) > 1 and len(unit.translation.plural.examples[0]) == 1,
         )
 
         # Do we have more to check?
@@ -191,9 +188,7 @@ class BaseFormatCheck(TargetCheck):
         # Check plurals against plural from source
         for i, target in enumerate(targets[1:]):
             yield self.check_format(
-                sources[1],
-                target,
-                len(unit.translation.plural.examples[i + 1]) == 1
+                sources[1], target, len(unit.translation.plural.examples[i + 1]) == 1
             )
 
     def format_string(self, string):
@@ -228,8 +223,9 @@ class BaseFormatCheck(TargetCheck):
 
         if src_matches != tgt_matches:
             # Ignore mismatch in percent position
-            if (len(src_matches) == len(tgt_matches)
-                    and self.normalize(src_matches) == self.normalize(tgt_matches)):
+            if len(src_matches) == len(tgt_matches) and self.normalize(
+                src_matches
+            ) == self.normalize(tgt_matches):
                 return False
             # We can ignore missing format strings
             # for first of plurals
@@ -277,6 +273,7 @@ class BaseFormatCheck(TargetCheck):
 
 class PythonFormatCheck(BaseFormatCheck):
     """Check for Python format string"""
+
     check_id = 'python_format'
     name = _('Python format')
     description = _('Python format string does not match source')
@@ -288,6 +285,7 @@ class PythonFormatCheck(BaseFormatCheck):
 
 class PHPFormatCheck(BaseFormatCheck):
     """Check for PHP format string"""
+
     check_id = 'php_format'
     name = _('PHP format')
     description = _('PHP format string does not match source')
@@ -299,6 +297,7 @@ class PHPFormatCheck(BaseFormatCheck):
 
 class CFormatCheck(BaseFormatCheck):
     """Check for C format string"""
+
     check_id = 'c_format'
     name = _('C format')
     description = _('C format string does not match source')
@@ -310,6 +309,7 @@ class CFormatCheck(BaseFormatCheck):
 
 class PerlFormatCheck(BaseFormatCheck):
     """Check for Perl format string"""
+
     check_id = 'perl_format'
     name = _('Perl format')
     description = _('Perl format string does not match source')
@@ -321,6 +321,7 @@ class PerlFormatCheck(BaseFormatCheck):
 
 class JavaScriptFormatCheck(CFormatCheck):
     """Check for JavaScript format string"""
+
     check_id = 'javascript_format'
     name = _('JavaScript format')
     description = _('JavaScript format string does not match source')
@@ -328,6 +329,7 @@ class JavaScriptFormatCheck(CFormatCheck):
 
 class PythonBraceFormatCheck(BaseFormatCheck):
     """Check for Python format string"""
+
     check_id = 'python_brace_format'
     name = _('Python brace format')
     description = _('Python brace format string does not match source')
@@ -342,6 +344,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
 
 class CSharpFormatCheck(BaseFormatCheck):
     """Check for C# format string"""
+
     check_id = 'c_sharp_format'
     name = _('C# format')
     description = _('C# format string does not match source')
@@ -356,6 +359,7 @@ class CSharpFormatCheck(BaseFormatCheck):
 
 class JavaFormatCheck(BaseFormatCheck):
     """Check for Java format string"""
+
     check_id = 'java_format'
     name = _('Java format')
     description = _('Java format string does not match source')
@@ -367,6 +371,7 @@ class JavaFormatCheck(BaseFormatCheck):
 
 class JavaMessageFormatCheck(BaseFormatCheck):
     """Check for Java MessageFormat string"""
+
     check_id = 'java_messageformat'
     name = _('Java MessageFormat')
     description = _('Java MessageFormat string does not match source')

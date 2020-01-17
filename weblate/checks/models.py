@@ -113,9 +113,7 @@ class CheckManager(models.Manager):
 
 @python_2_unicode_compatible
 class Check(models.Model):
-    unit = models.ForeignKey(
-        "trans.Unit", on_delete=models.deletion.CASCADE
-    )
+    unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
 
