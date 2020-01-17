@@ -1171,10 +1171,10 @@ real_patterns = [
             template_name="site.webmanifest", content_type="application/json"
         ),
     ),
-        url(
-        r"^site\.jsonschema$",
+    url(
+        r"^json.schema$",
         TemplateView.as_view(
-            template_name="site.jsonschema", content_type="application/json"
+            template_name="json.schema", content_type="application/schema+json"
         ),
     ),
 ]

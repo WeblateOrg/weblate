@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://weblate.org/json.schema",
+  "type": "array",
+  "title": "The Weblate Translations Schema",
+  "items": {
+    "type": "object",
+    "title": "The Items Schema",
+    "required": [
+      "source_language",
+      "target_language",
+      "source",
+      "target",
+      "origin",
+      "category"
+    ],
+    "properties": {
+      "source_language": {
+        "type": "string",
+        "description": "The language being translated from",
+        "default": "",
+        "examples": [
+          "en"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "target_language": {
+        "type": "string",
+        "description": "The language being translated to",
+        "examples": [
+          "cs"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "source": {
+        "type": "string",
+        "description": "The payload in the source_language",
+        "examples": [
+          "Hello"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "target": {
+        "type": "string",
+        "description": "The payload in the target_language",
+        "examples": [
+          "Ahoj"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "origin": {
+        "type": "string",
+        "description": "The origin Schema",
+        "examples": [
+          "test"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "category": {
+        "type": "integer",
+        "description": "The Category Schema",
+        "examples": [
+          1
+        ]
+      }
+    }
+  }
+}

@@ -21,8 +21,10 @@
 from __future__ import unicode_literals
 
 import json
+from jsonschema import validate
 import os.path
 
+from django.conf import settings
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import pgettext
@@ -32,6 +34,7 @@ from translate.storage.tmx import tmxfile
 from whoosh import qparser, query
 from whoosh.fields import ID, NUMERIC, STORED, TEXT, SchemaClass
 
+from jsonschema.exceptions import ValidationError
 from weblate.lang.models import Language
 from weblate.utils.errors import report_error
 from weblate.utils.index import WhooshIndex
@@ -56,6 +59,7 @@ CATEGORY_FILE = 1
 CATEGORY_SHARED = 2
 CATEGORY_PRIVATE_OFFSET = 10000000
 CATEGORY_USER_OFFSET = 20000000
+TEMPLATES_DIR = settings.BASE_DIR+'/weblate/templates/'
 
 
 def get_category_name(category, origin):
@@ -195,6 +199,13 @@ class TranslationMemory(WhooshIndex):
                 raise MemoryImportError(_('Failed to parse JSON file!'))
             update_memory_task.delay(**record)
             found += 1
+        # Try to validate with the JSON Schema
+        try:
+            with open(TEMPLATES_DIR + 'json.schema', "r") as read_it: 
+                jsonschema = json.load(read_it) 
+            validate(data, jsonschema)
+        except ValidationError:
+            raise MemoryImportError(_('Failed to validate JSON file with the JSON Schema!'))
         return found
 
     @classmethod

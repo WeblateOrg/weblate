@@ -93,20 +93,20 @@ class MemoryTest(SimpleTestCase):
         self.assertEqual(memory.doc_count(), 0)
 
     def test_json_schema_correct(self):
-        with open(get_test_file('memory.json'), "r") as read_it: 
+        with open(get_test_file('memory.json'), "r") as read_it:
             jsonfile = json.load(read_it)
 
-        with open(TEMPLATES_DIR + 'site.jsonschema', "r") as read_it: 
-            jsonschema = json.load(read_it) 
+        with open(TEMPLATES_DIR + 'json.schema', "r") as read_it:
+            jsonschema = json.load(read_it)
 
         validate(instance=jsonfile, schema=jsonschema)
 
     def test_json_schema_invalid(self):
-        with open(get_test_file('memory-invalid.json'), "r") as read_it: 
+        with open(get_test_file('memory-invalid.json'), "r") as read_it:
             jsonfile = json.load(read_it)
 
-        with open(TEMPLATES_DIR + 'site.jsonschema', "r") as read_it: 
-            jsonschema = json.load(read_it) 
+        with open(TEMPLATES_DIR + 'json.schema', "r") as read_it:
+            jsonschema = json.load(read_it)
 
         with self.assertRaises(ValidationError):
             validate(instance=jsonfile, schema=jsonschema)
