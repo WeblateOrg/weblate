@@ -10,5 +10,5 @@ python -m celery -A weblate multi $1 \
     --concurrency:notify=4 --queues:notify=notify --prefetch-multiplier:notify=10 \
     --concurrency:search=1 --queues:search=search --prefetch-multiplier:search=2000 \
     --concurrency:memory=1 --queues:memory=memory --prefetch-multiplier:memory=2000 \
-    --concurrency:translate=2 --queues:translate=translate \
-    --concurrency:backup=1 --queues:backup=backup 
+    --concurrency:translate=2 --queues:translate=translate --prefetch-multiplier:translate=4 \
+    --concurrency:backup=1 --queues:backup=backup  --prefetch-multiplier:backup=2

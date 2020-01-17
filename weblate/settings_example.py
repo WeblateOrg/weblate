@@ -830,7 +830,6 @@ CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_PREFETCH_MULTIPLIER = 0
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
