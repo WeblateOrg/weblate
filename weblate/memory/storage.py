@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 import json
-from jsonschema import validate
 import os.path
 
 from django.conf import settings
@@ -35,6 +34,7 @@ from whoosh import qparser, query
 from whoosh.fields import ID, NUMERIC, STORED, TEXT, SchemaClass
 
 from jsonschema.exceptions import ValidationError
+from jsonschema import validate
 from weblate.lang.models import Language
 from weblate.utils.errors import report_error
 from weblate.utils.index import WhooshIndex
@@ -201,11 +201,11 @@ class TranslationMemory(WhooshIndex):
             found += 1
         # Try to validate with the JSON Schema
         try:
-            with open(TEMPLATES_DIR + 'json.schema', "r") as read_it: 
-                jsonschema = json.load(read_it) 
+            with open(TEMPLATES_DIR + 'json.schema', "r") as read_it:
+                jsonschema = json.load(read_it)
             validate(data, jsonschema)
         except ValidationError:
-            raise MemoryImportError(_('Failed to validate JSON file with the JSON Schema!'))
+            raise MemoryImportError(_('JSON Schema Validation failed!'))
         return found
 
     @classmethod

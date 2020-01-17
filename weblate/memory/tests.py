@@ -20,7 +20,6 @@
 from __future__ import unicode_literals
 
 import json
-from jsonschema import validate
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -30,6 +29,7 @@ from django.urls import reverse
 from six import StringIO
 from django.conf import settings
 
+from jsonschema import validate
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.storage import CATEGORY_FILE, TranslationMemory
