@@ -262,7 +262,8 @@ class BaseFormatCheck(TargetCheck):
             ret.append((match.start(), match.end(), match.group()))
         return ret
 
-    def get_description(self, unit):
+    def get_description(self, check_obj):
+        unit = check_obj.unit
         checks = self.check_generator(
             unit.get_source_plurals(), unit.get_target_plurals(), unit
         )
@@ -271,7 +272,7 @@ class BaseFormatCheck(TargetCheck):
                 return _('Following format strings are wrong: %s') % ', '.join(
                     self.format_string(x) for x in result
                 )
-        return super(BaseFormatCheck, self).get_description(unit)
+        return super(BaseFormatCheck, self).get_description(check_obj)
 
 
 class PythonFormatCheck(BaseFormatCheck):

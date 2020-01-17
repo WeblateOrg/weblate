@@ -21,7 +21,7 @@ from __future__ import unicode_literals
 
 from django.db.models import Count, F
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
 from django.utils.translation import ugettext as _
@@ -240,3 +240,12 @@ def show_check_component(request, name, project, component):
             'url_params': encode_optional(url_params),
         }
     )
+
+
+def render_check(request, check_id):
+    """Render endpoint for checks."""
+    obj = get_object_or_404(Check, pk=int(check_id))
+    project = obj.unit.translation.component.project
+    request.user.check_access(project)
+
+    return obj.check_obj.render(request, obj.unit)

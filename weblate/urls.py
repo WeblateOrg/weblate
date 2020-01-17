@@ -902,6 +902,11 @@ real_patterns = [
     ),
     # AJAX/JS backends
     url(
+        r"^js/render-check/(?P<check_id>[0-9]+)/$",
+        weblate.checks.views.render_check,
+        name="render-check",
+    ),
+    url(
         r"^js/ignore-check/(?P<check_id>[0-9]+)/$",
         weblate.trans.views.js.ignore_check,
         name="js-ignore-check",

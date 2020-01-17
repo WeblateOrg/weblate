@@ -20,7 +20,11 @@
 
 from __future__ import unicode_literals
 
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import Http404, HttpResponse
+from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
@@ -32,6 +36,8 @@ FONT_PARAMS = (
     ("font-size", 10),
     ("font-spacing", 0),
 )
+
+IMAGE = '<a href="{0}" class="thumbnail"><img class="img-responsive" src="{0}" /></a>'
 
 
 @staticmethod
@@ -83,7 +89,43 @@ class MaxSizeCheck(TargetCheckParametrized):
         )
         return any(
             (
-                not check_render_size(font, weight, size, spacing, target, width, lines)
-                for target in targets
+                not check_render_size(
+                    font,
+                    weight,
+                    size,
+                    spacing,
+                    target,
+                    width,
+                    lines,
+                    "check:render:{}:{}".format(unit.pk, i),
+                )
+                for i, target in enumerate(targets)
             )
         )
+
+    def get_description(self, check_obj):
+        url = reverse("render-check", kwargs={"check_id": check_obj.pk})
+        return mark_safe(
+            "\n".join(
+                IMAGE.format("{}?pos={}".format(url, i))
+                for i in range(len(check_obj.unit.get_target_plurals()))
+            )
+        )
+
+    def render(self, request, unit):
+        try:
+            pos = int(request.GET.get('pos', '0'))
+        except ValueError:
+            pos = 0
+        key = "check:render:{}:{}".format(unit.pk, pos)
+        result = cache.get(key)
+        if result is None:
+            self.check_target(
+                unit.get_source_plurals(), unit.get_target_plurals(), unit
+            )
+            result = cache.get(key)
+        if result is None:
+            raise Http404('Invalid check')
+        response = HttpResponse(content_type='image/png')
+        response.write(result)
+        return response
