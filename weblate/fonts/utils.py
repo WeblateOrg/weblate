@@ -22,11 +22,13 @@
 from __future__ import unicode_literals
 
 import os
+from io import BytesIO
 from tempfile import NamedTemporaryFile
 
 import cairo
 import gi
 from django.conf import settings
+from django.core.cache import cache
 from django.core.checks import Critical
 from django.utils.html import escape
 from PIL import ImageFont
@@ -111,7 +113,7 @@ def get_font_weight(weight):
     return FONT_WEIGHTS[weight]
 
 
-def render_size(font, weight, size, spacing, text, width=1000, lines=1):
+def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_key=None):
     """Check whether rendered text fits"""
     configure_fontconfig()
 
@@ -136,12 +138,39 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1):
     layout.set_width(width * Pango.SCALE)
     layout.set_wrap(Pango.WrapMode.WORD)
 
-    return layout.get_pixel_size(), layout.get_line_count()
+    # Calculate dimensions
+    line_count = layout.get_line_count()
+    pixel_size = layout.get_pixel_size()
+
+    # Show text
+    PangoCairo.show_layout(context, layout)
+
+    # Render box around desired size
+    expected_height = lines * pixel_size.height / line_count
+    context.new_path()
+    context.set_source_rgb(246, 102, 76)
+    context.set_source_rgb(246.0 / 255, 102.0 / 255, 76.0 / 255)
+    context.set_line_width(1)
+    context.move_to(1, 1)
+    context.line_to(width, 1)
+    context.line_to(width, expected_height)
+    context.line_to(1, expected_height)
+    context.line_to(1, 1)
+    context.stroke()
+
+    if cache_key:
+        with BytesIO() as buff:
+            surface.write_to_png(buff)
+            cache.set(cache_key, buff.getvalue())
+
+    return pixel_size, line_count
 
 
-def check_render_size(font, weight, size, spacing, text, width, lines):
+def check_render_size(font, weight, size, spacing, text, width, lines, cache_key=None):
     """Check whether rendered text fits"""
-    size, actual_lines = render_size(font, weight, size, spacing, text, width, lines)
+    size, actual_lines = render_size(
+        font, weight, size, spacing, text, width, lines, cache_key
+    )
     return size.width <= width and actual_lines <= lines
 
 

@@ -137,7 +137,7 @@ class Check(models.Model):
     def get_description(self):
         if self.check_obj:
             try:
-                return self.check_obj.get_description(self.unit)
+                return self.check_obj.get_description(self)
             except IndexError:
                 return self.check_obj.description
         return self.check

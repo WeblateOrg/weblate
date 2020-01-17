@@ -3,6 +3,8 @@ Weblate 3.11
 
 Not yet released.
 
+* Rendered width check now shows image with the render.
+
 Weblate 3.10.2
 --------------
 

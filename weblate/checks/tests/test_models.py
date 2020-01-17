@@ -24,6 +24,7 @@ Tests for unitdata models.
 
 from __future__ import unicode_literals
 
+from django.urls import reverse
 from django.utils.encoding import force_text
 
 from weblate.checks.models import Check
@@ -48,3 +49,16 @@ class UnitdataTestCase(FixtureTestCase):
         self.assertEqual(check.get_description(), "-invalid-")
         self.assertEqual(check.get_severity(), "info")
         self.assertEqual(check.get_doc_url(), "")
+
+    def test_check_render(self):
+        unit = self.get_unit()
+        unit.source_info.extra_flags = 'max-size:1:1'
+        unit.source_info.save()
+        check = self.create_check("max-size")
+        url = reverse("render-check", kwargs={"check_id": check.pk})
+        self.assertEqual(
+            force_text(check.get_description()),
+            '<a href="{0}?pos=0" class="thumbnail">'
+            '<img class="img-responsive" src="{0}?pos=0" /></a>'.format(url),
+        )
+        self.assert_png(self.client.get(url))

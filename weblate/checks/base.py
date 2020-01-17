@@ -18,6 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.http import Http404
+
 from weblate.utils.docs import get_doc_url
 
 
@@ -120,11 +122,14 @@ class Check(object):
         """
         return []
 
-    def get_description(self, unit):
+    def get_description(self, check_obj):
         return self.description
 
     def get_fixup(self, unit):
         return None
+
+    def render(self, request, unit):
+        raise Http404('Not supported')
 
 
 class TargetCheck(Check):
