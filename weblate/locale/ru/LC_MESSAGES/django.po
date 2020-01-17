@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-16 08:45+0000\n"
-"PO-Revision-Date: 2020-01-16 08:45+0000\n"
+"PO-Revision-Date: 2020-01-19 11:50+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -31,9 +31,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.10.2\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -234,8 +234,8 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Вы будете получать эти уведомления только для своих переводимых языков в "
-"отслеживаемых проектах."
+"Вы будете получать эти уведомления только для своих языков перевода в "
+"отслеживаемых вами проектах."
 
 #: weblate/accounts/forms.py:741
 msgid "Use default setting"
@@ -361,15 +361,15 @@ msgstr "Язык интерфейса"
 
 #: weblate/accounts/models.py:288
 msgid "Translated languages"
-msgstr "Переведённые языки"
+msgstr "Языки перевода"
 
 #: weblate/accounts/models.py:291
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
-"Выберите языки, которые вы можете переводить. Они будут предлагаться вам на "
-"панели управления для более легкого доступа к выбранным переводам."
+"Выберите языки, на которые вы можете переводить. Они будут доступны вам на "
+"панели управления для более лёгкого доступа к выбранным переводам."
 
 #: weblate/accounts/models.py:298
 msgid "Secondary languages"
@@ -385,11 +385,11 @@ msgstr ""
 
 #: weblate/accounts/models.py:311
 msgid "Hide completed translations on the dashboard"
-msgstr "Скрывать завершенные переводы с панели управления"
+msgstr "Скрывать завершённые переводы с панели управления"
 
 #: weblate/accounts/models.py:314
 msgid "Show secondary translations in zen mode"
-msgstr "Выводить вспомогательные переводы в zen режиме"
+msgstr "Выводить вспомогательные переводы в Дзен-режиме"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
@@ -397,7 +397,7 @@ msgstr "Скрывать источник, если есть вспомогат�
 
 #: weblate/accounts/models.py:323
 msgid "Editor link"
-msgstr "Ссылка редактора"
+msgstr "Ссылка на редактор"
 
 #: weblate/accounts/models.py:325
 msgid ""
@@ -405,9 +405,9 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Укажите адрес, который будет использоваться как ссылка исходного кода. Можно "
-"использовать {{branch}} для ветви, {{filename}} и {{line}}, как имя файла и "
-"строчных заполнителей."
+"Укажите адрес, который будет использоваться в качестве ссылки на исходный "
+"код. Для подстановки значений можно использовать {{branch}} для ветки, "
+"{{filename}} для имени файла и {{line}} для строки в оном."
 
 #: weblate/accounts/models.py:334
 msgid "Translation editor mode"
@@ -415,15 +415,15 @@ msgstr "Режим редактора переводов"
 
 #: weblate/accounts/models.py:335
 msgid "Full editor"
-msgstr "Полный редактор"
+msgstr "Полноценный редактор"
 
 #: weblate/accounts/models.py:335
 msgid "Zen mode"
-msgstr "Режим Zen"
+msgstr "Дзен-режим"
 
 #: weblate/accounts/models.py:341
 msgid "Zen editor mode"
-msgstr "Режим Zen-редактора"
+msgstr "Дзен-режим редактора"
 
 #: weblate/accounts/models.py:343
 msgid "Top to bottom"
@@ -576,7 +576,7 @@ msgstr "Новое сообщение на совместной доске"
 
 #: weblate/accounts/notifications.py:591 weblate/trans/models/change.py:268
 msgid "New alert"
-msgstr "Новое оповещение"
+msgstr "Новая тревога"
 
 #: weblate/accounts/notifications.py:649
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
@@ -917,15 +917,15 @@ msgstr "Содержание сгенерированного файла"
 
 #: weblate/addons/forms.py:104 weblate/addons/forms.py:164
 msgid "Long lines wrapping"
-msgstr "Заворот длинных строк"
+msgstr "Перенос длинных строк"
 
 #: weblate/addons/forms.py:106
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr "Заворачивать строки после 77-го символа и на новых строках"
+msgstr "Переносить строки после 77-го символа и в конце строки"
 
 #: weblate/addons/forms.py:107
 msgid "Only wrap lines at newlines"
-msgstr "Заворачивать строки только на новых строках"
+msgstr "Переносить строки только в конце строки"
 
 #: weblate/addons/forms.py:108 weblate/addons/forms.py:170
 msgid "No line wrapping"
@@ -936,8 +936,8 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"По умолчанию gettext переносит строки на 77-м символе и новых строках, с "
-"параметром --no-wrap, они переносятся только на новых строках."
+"По умолчанию gettext переносит строки на 77-м символе и в конце строки, с "
+"параметром --no-wrap, они переносятся только в конце строки."
 
 #: weblate/addons/forms.py:121
 msgid "Keep previous msgids of translated strings"
@@ -976,50 +976,44 @@ msgid "JSON indentation"
 msgstr "Отступы JSON"
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "YAML indentation"
-msgstr "Отступы JSON"
+msgstr "Отступы YAML"
 
 #: weblate/addons/forms.py:166
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
-msgstr "Заворачивать строки после 77-го символа и на новых строках"
+msgstr "Переносить строку после 80 символов"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
-msgstr "Заворачивать строки после 77-го символа и на новых строках"
+msgstr "Переносить строку после 100 символов"
 
 #: weblate/addons/forms.py:168
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
-msgstr "Заворачивать строки после 77-го символа и на новых строках"
+msgstr "Переносить строку после 120 символов"
 
 #: weblate/addons/forms.py:169
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
-msgstr "Заворачивать строки после 77-го символа и на новых строках"
+msgstr "Переносить строку после 180 символов"
 
 #: weblate/addons/forms.py:176
 msgid "Line breaks"
-msgstr ""
+msgstr "Символ перевода строки"
 
 #: weblate/addons/forms.py:178
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:179
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:180
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:189
 msgid "Days to keep"
@@ -1147,8 +1141,9 @@ msgid ""
 "Update all PO files to match the POT file using msgmerge. This is triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Обновляет все PO-файлы до соответствия POT-файлу, используя msgmerge. Это "
-"случается, когда новые изменения извлекаются из верхнего репозитория."
+"Обновлять все PO-файлы, используя msgmerge, приводя их в соответствие с POT-"
+"файлом. Это происходит всякий раз, когда новые изменения извлекаются из "
+"вышестоящего репозитория."
 
 #: weblate/addons/gettext.py:232
 msgid "Customize gettext output"
@@ -1223,30 +1218,25 @@ msgid ""
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
-"Обновить все файлы переводов для соответствия одноязычному исходному "
-"базовому файлу. Неиспользуемые строки удаляются, а новые добавляются как "
-"копии исходных строк."
+"Обновлять все файлы перевода, приводя их в соответствие с одноязычным "
+"исходным базовым файлом. Неиспользуемые строки удаляются, а новые "
+"добавляются как копии исходных строк."
 
 #: weblate/addons/views.py:86
 msgid "Invalid addon name specified!"
 msgstr "Указано неверное имя надстройки!"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid "Customize JSON output"
 msgid "Customize YAML output"
-msgstr "Настроить вывод JSON"
+msgstr "Настроить вывод YAML"
 
 #: weblate/addons/yaml.py:35
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows to customize YAML output behavior, for example line length or "
 "newlines."
 msgstr ""
-"Позволяет настроить поведение вывода JSON, например, отступы или разбор."
+"Позволяет настроить поведение вывода YAML, например, символы перевода строк "
+"и их длину."
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -1437,7 +1427,7 @@ msgstr "Сбросить изменения во внутреннем репоз
 
 #: weblate/auth/data.py:92
 msgid "View upstream repository location"
-msgstr "Cмотреть расположение верхнего репозитория"
+msgstr "Просмотр расположения вышестоящего репозитория"
 
 #: weblate/auth/data.py:93
 msgid "Update the internal repository"
@@ -4231,7 +4221,7 @@ msgstr "Управлять отслеживаемыми проектами"
 
 #: weblate/templates/base.html:147
 msgid "Manage translated languages"
-msgstr "Управление переводимыми языками"
+msgstr "Управление языками перевода"
 
 #: weblate/templates/base.html:150
 msgid "Browse all languages"
@@ -4586,7 +4576,7 @@ msgstr "Инфо"
 
 #: weblate/templates/component.html:35
 msgid "Alerts"
-msgstr "Оповещения"
+msgstr "Тревоги"
 
 #: weblate/templates/component.html:37 weblate/templates/dashboard/user.html:47
 #: weblate/templates/dictionary.html:90
@@ -4797,7 +4787,7 @@ msgstr "Войдите на сайт, чтобы начать новый пер�
 
 #: weblate/templates/component.html:158
 msgid "Please log in to see the alerts."
-msgstr "Пожалуйста, войдите в систему, чтобы увидеть оповещения."
+msgstr "Пожалуйста, войдите в систему, чтобы увидеть тревоги."
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:87
 #: weblate/templates/translation.html:259
@@ -5036,7 +5026,7 @@ msgstr[2] "Навигация по всем %(count)s проектам"
 
 #: weblate/templates/dashboard/user.html:13
 msgid "Configure dashboard"
-msgstr "Настройка панели инструментов"
+msgstr "Настройка панели управления"
 
 #: weblate/templates/dashboard/user.html:50
 msgid "Checks overview"
@@ -5480,7 +5470,7 @@ msgstr "Работает на %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:8
 msgid "Service status"
-msgstr "Статус услуги"
+msgstr "Статус сервиса"
 
 #: weblate/templates/guide.html:28
 msgid ""
@@ -5897,12 +5887,12 @@ msgstr "Приглашение в %(site_title)s"
 
 #: weblate/templates/mail/new_alert.html:12
 msgid "View all alerts"
-msgstr "Просмотр всех уведомлений"
+msgstr "Просмотр всех тревог"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
 #, python-format
 msgid "New alert on %(component)s"
-msgstr "Новое оповещение на %(component)s"
+msgstr "Новая тревога в %(component)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -6997,7 +6987,7 @@ msgstr "Weblate не удалось исполнить скрипт надстр
 #: weblate/templates/trans/alert/parseerror.html:6
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:4
 msgid "The following occurrences were found:"
-msgstr "Найдены следующие вхождения:"
+msgstr "Найдены следующие проблемные случаи:"
 
 #: weblate/templates/trans/alert/addonscripterror.html:10
 msgid "Command"
@@ -7043,13 +7033,13 @@ msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
-"Исправьте это, удалив повторяющиеся строки с тем же идентификатором из "
-"файлов перевода."
+"Чтобы исправить это, удалите дубликаты строк с одинаковыми идентификаторами "
+"из файлов перевода."
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
-"Weblate не смог объединить изменения верхнего репозитория при обновлении "
+"Weblate не смог объединить вышестоящие изменения с локальным при обновлении "
 "данного репозитория."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
@@ -7081,7 +7071,7 @@ msgstr "Имя файла"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate не смог отправить изменения в верхний репозиторий."
+msgstr "Weblate не смог отправить изменения в вышестоящий репозиторий."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -7322,11 +7312,11 @@ msgstr "перевести"
 
 #: weblate/templates/translate.html:40
 msgid "Edit in Zen mode"
-msgstr "Править в режиме Zen"
+msgstr "Править в Дзен-режиме"
 
 #: weblate/templates/translate.html:40
 msgid "Zen"
-msgstr "Zen"
+msgstr "Дзен"
 
 #: weblate/templates/translate.html:43 weblate/templates/zen.html:29
 msgid "Configure editor"
@@ -7492,7 +7482,7 @@ msgstr[2] "У всех этих строк другой источник, но �
 
 #: weblate/templates/translate.html:332
 msgid "Service"
-msgstr "Услуга"
+msgstr "Сервис"
 
 #: weblate/templates/translate.html:333
 msgid "Quality"
@@ -7850,7 +7840,7 @@ msgstr "Перевод подошёл к концу."
 
 #: weblate/templates/zen.html:15
 msgid "zen"
-msgstr "zen"
+msgstr "дзен"
 
 #: weblate/templates/zen.html:27
 msgid "Edit in single string mode"
@@ -7858,7 +7848,7 @@ msgstr "Править в однострочном режиме"
 
 #: weblate/templates/zen.html:27
 msgid "Exit Zen"
-msgstr "Выйти из Zen"
+msgstr "Выйти из Дзен"
 
 #: weblate/templates/zen.html:37
 #, python-format
@@ -8690,10 +8680,8 @@ msgid "Invited user"
 msgstr "Пользователь приглашён"
 
 #: weblate/trans/models/change.py:274
-#, fuzzy
-#| msgid "Repository maintenance"
 msgid "Received repository notification"
-msgstr "Получено уведомление от репозитория"
+msgstr "Получено уведомление от удалённого репозитория"
 
 #: weblate/trans/models/change.py:392
 #, python-format
@@ -9657,7 +9645,7 @@ msgstr "Этот компонент связан с репозиторием %(t
 #: weblate/trans/templatetags/translations.py:755
 #: weblate/trans/views/guide.py:159
 msgid "Fix this component to clear its alerts."
-msgstr "Исправьте этот компонент, чтобы убрать его предупреждения."
+msgstr "Исправьте этот компонент, чтобы убрать связанные с ним тревоги."
 
 #: weblate/trans/templatetags/translations.py:762
 #: weblate/trans/templatetags/translations.py:788
@@ -9670,7 +9658,7 @@ msgstr "Обновление компонента перевода…"
 
 #: weblate/trans/templatetags/translations.py:781
 msgid "Some of the components within this project have alerts."
-msgstr "По некоторым компонентам этого проекта существуют предупреждения."
+msgstr "Есть тревоги связанные с некоторыми компонентам этого проекта."
 
 #: weblate/trans/templatetags/translations.py:817
 msgid "enabled"
@@ -10337,7 +10325,7 @@ msgstr "Поддержка сообщества"
 
 #: weblate/wladmin/models.py:92
 msgid "Hosted service"
-msgstr "Услуга Hosted"
+msgstr "Hosted-сервис"
 
 #: weblate/wladmin/models.py:93
 msgid "Basic self-hosted support"
