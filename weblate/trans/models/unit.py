@@ -783,6 +783,8 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def source_info(self):
         """Return related source string object."""
+        if self.translation.is_source:
+            return self
         return self.translation.component.get_source(self.id_hash)
 
     def get_secondary_units(self, user):
