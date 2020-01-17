@@ -25,6 +25,7 @@ from weblate.utils.docs import get_doc_url
 
 class Check(object):
     """Basic class for checks."""
+
     check_id = ''
     name = ''
     description = ''
@@ -102,9 +103,8 @@ class Check(object):
         except IndexError:
             return False
 
-        return (
-            (src in chars and tgt not in chars)
-            or (src not in chars and tgt in chars)
+        return (src in chars and tgt not in chars) or (
+            src not in chars and tgt in chars
         )
 
     def is_language(self, unit, vals):
@@ -134,6 +134,7 @@ class Check(object):
 
 class TargetCheck(Check):
     """Basic class for target checks."""
+
     target = True
 
     def check_target_unit_with_flag(self, sources, targets, unit):
@@ -151,6 +152,7 @@ class TargetCheck(Check):
 
 class SourceCheck(Check):
     """Basic class for source checks."""
+
     source = True
 
     def check_target_unit_with_flag(self, sources, targets, unit):
@@ -168,6 +170,7 @@ class SourceCheck(Check):
 
 class TargetCheckParametrized(Check):
     """Basic class for target checks with flag value."""
+
     default_disabled = True
     target = True
 
@@ -196,6 +199,7 @@ class TargetCheckParametrized(Check):
 
 class CountingCheck(TargetCheck):
     """Check whether there is same count of given string."""
+
     string = None
 
     def check_single(self, source, target, unit):

@@ -47,15 +47,13 @@ def encode_optional(params):
 
 def show_checks(request):
     """List of failing checks."""
-    ignore = ('ignored' in request.GET)
+    ignore = 'ignored' in request.GET
     url_params = {}
 
     if ignore:
         url_params['ignored'] = 'true'
 
-    allchecks = acl_checks(request.user).filter(
-        ignore=ignore,
-    )
+    allchecks = acl_checks(request.user).filter(ignore=ignore)
 
     if request.GET.get('project'):
         allchecks = allchecks.filter(
@@ -78,7 +76,7 @@ def show_checks(request):
             'checks': allchecks,
             'title': _('Failing checks'),
             'url_params': encode_optional(url_params),
-        }
+        },
     )
 
 
@@ -89,17 +87,14 @@ def show_check(request, name):
     except KeyError:
         raise Http404('No check matches the given query.')
 
-    ignore = ('ignored' in request.GET)
+    ignore = 'ignored' in request.GET
 
     url_params = {}
 
     if ignore:
         url_params['ignored'] = 'true'
 
-    checks = acl_checks(request.user).filter(
-        check=name,
-        ignore=ignore,
-    )
+    checks = acl_checks(request.user).filter(check=name, ignore=ignore)
 
     if request.GET.get('language'):
         checks = checks.filter(
@@ -117,9 +112,7 @@ def show_check(request, name):
 
     checks = checks.values(
         project__slug=F('unit__translation__component__project__slug')
-    ).annotate(
-        count=Count('id')
-    )
+    ).annotate(count=Count('id'))
 
     return render(
         request,
@@ -129,7 +122,7 @@ def show_check(request, name):
             'title': check.name,
             'check': check,
             'url_params': encode_optional(url_params),
-        }
+        },
     )
 
 
@@ -141,14 +134,12 @@ def show_check_project(request, name, project):
     except KeyError:
         raise Http404('No check matches the given query.')
 
-    ignore = ('ignored' in request.GET)
+    ignore = 'ignored' in request.GET
 
     url_params = {}
 
     allchecks = acl_checks(request.user).filter(
-        check=name,
-        unit__translation__component__project=prj,
-        ignore=ignore,
+        check=name, unit__translation__component__project=prj, ignore=ignore
     )
 
     if ignore:
@@ -163,9 +154,7 @@ def show_check_project(request, name, project):
     units = allchecks.values(
         component__slug=F('unit__translation__component__slug'),
         project__slug=F('unit__translation__component__project__slug'),
-    ).annotate(
-        count=Count('id')
-    )
+    ).annotate(count=Count('id'))
 
     return render(
         request,
@@ -176,7 +165,7 @@ def show_check_project(request, name, project):
             'check': check,
             'project': prj,
             'url_params': encode_optional(url_params),
-        }
+        },
     )
 
 
@@ -188,13 +177,11 @@ def show_check_component(request, name, project, component):
     except KeyError:
         raise Http404('No check matches the given query.')
 
-    ignore = ('ignored' in request.GET)
+    ignore = 'ignored' in request.GET
     url_params = {}
 
     allchecks = acl_checks(request.user).filter(
-        check=name,
-        unit__translation__component=subprj,
-        ignore=ignore,
+        check=name, unit__translation__component=subprj, ignore=ignore
     )
 
     if ignore:
@@ -204,9 +191,9 @@ def show_check_component(request, name, project, component):
     if check.source:
         return redirect_param(
             'translate',
-            encode_optional({
-                'q': '{}{}'.format('ignored_' if ignore else '', check.url_id)
-            }),
+            encode_optional(
+                {'q': '{}{}'.format('ignored_' if ignore else '', check.url_id)}
+            ),
             project=subprj.project.slug,
             component=subprj.slug,
             lang=subprj.project.source_language.code,
@@ -216,16 +203,16 @@ def show_check_component(request, name, project, component):
     if request.GET.get('language') and '/' not in request.GET['language']:
         return redirect_param(
             'translate',
-            encode_optional({
-                'q': '{}{}'.format('ignored_' if ignore else '', check.url_id)
-            }),
+            encode_optional(
+                {'q': '{}{}'.format('ignored_' if ignore else '', check.url_id)}
+            ),
             project=subprj.project.slug,
             component=subprj.slug,
             lang=request.GET['language'],
         )
 
     units = allchecks.values(
-        translation__language__code=F('unit__translation__language__code'),
+        translation__language__code=F('unit__translation__language__code')
     ).annotate(count=Count('id'))
 
     return render(
@@ -238,7 +225,7 @@ def show_check_component(request, name, project, component):
             'check': check,
             'component': subprj,
             'url_params': encode_optional(url_params),
-        }
+        },
     )
 
 

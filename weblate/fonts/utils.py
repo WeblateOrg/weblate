@@ -95,13 +95,15 @@ def configure_fontconfig():
 
     # Generate the configuration
     with open(config_name, "w") as handle:
-        handle.write(FONTCONFIG_CONFIG.format(
-            data_dir("cache", "fonts"),
-            fonts_dir,
-            os.path.join(settings.STATIC_ROOT, 'font-source', 'TTF'),
-            os.path.join(settings.STATIC_ROOT, 'font-dejavu'),
-            os.path.join(settings.STATIC_ROOT, 'font-droid'),
-        ))
+        handle.write(
+            FONTCONFIG_CONFIG.format(
+                data_dir("cache", "fonts"),
+                fonts_dir,
+                os.path.join(settings.STATIC_ROOT, 'font-source', 'TTF'),
+                os.path.join(settings.STATIC_ROOT, 'font-dejavu'),
+                os.path.join(settings.STATIC_ROOT, 'font-droid'),
+            )
+        )
 
     # Inject into environment
     os.environ["FONTCONFIG_FILE"] = config_name
