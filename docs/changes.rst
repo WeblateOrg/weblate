@@ -1,7 +1,7 @@
 Weblate 3.10.2
 --------------
 
-Not yet released.
+Released on January 18th 2020.
 
 * Add lock indication to projects.
 * Fixed CSS bug caused flicker in some browsers.
