@@ -5,6 +5,13 @@ Not yet released.
 
 * Rendered width check now shows image with the render.
 
+Weblate 3.10.3
+--------------
+
+Released on January 18th 2020.
+
+* Support translate-toolkit 2.5.0.
+
 Weblate 3.10.2
 --------------
 
