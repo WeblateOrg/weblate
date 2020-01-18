@@ -1,7 +1,9 @@
 Weblate 3.10.3
-------------
+--------------
 
-Not yet released.
+Released on January 18th 2020.
+
+* Support translate-toolkit 2.5.0.
 
 Weblate 3.10.2
 --------------
