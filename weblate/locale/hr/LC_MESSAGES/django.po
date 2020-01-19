@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-16 08:45+0000\n"
-"PO-Revision-Date: 2020-01-15 13:43+0000\n"
+"PO-Revision-Date: 2020-01-20 04:32+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
@@ -17,8 +17,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -902,11 +902,11 @@ msgstr "Prelamanje dugačkih redaka"
 
 #: weblate/addons/forms.py:106
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr "Prelomi retke pri 77 znakova i pri oznakama za novi redak"
+msgstr "Prelomi retke nakon 77 znakova i nakon oznaka za novi redak"
 
 #: weblate/addons/forms.py:107
 msgid "Only wrap lines at newlines"
-msgstr "Prelomi retke samo pri oznakama za novi redak"
+msgstr "Prelomi retke samo nakon oznaka za novi redak"
 
 #: weblate/addons/forms.py:108 weblate/addons/forms.py:170
 msgid "No line wrapping"
@@ -917,8 +917,8 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"Gettext standardno prelama retke pri 77 znakova i pri oznakama za novi "
-"redak. Pomoću parametra --no-wrap, prelama samo pri oznakama za novi redak."
+"Gettext standardno prelama retke nakon 77 znakova i nakon oznaka za novi "
+"redak. Pomoću parametra --no-wrap, prelama samo nakon oznaka za novi redak."
 
 #: weblate/addons/forms.py:121
 msgid "Keep previous msgids of translated strings"
@@ -957,50 +957,44 @@ msgid "JSON indentation"
 msgstr "JSON uvlačenje"
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "YAML indentation"
-msgstr "JSON uvlačenje"
+msgstr "YAML uvlačenje"
 
 #: weblate/addons/forms.py:166
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
-msgstr "Prelomi retke pri 77 znakova i pri oznakama za novi redak"
+msgstr "Prelomi retke nakon 80 znakova"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
-msgstr "Prelomi retke pri 77 znakova i pri oznakama za novi redak"
+msgstr "Prelomi retke nakon 100 znakova"
 
 #: weblate/addons/forms.py:168
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
-msgstr "Prelomi retke pri 77 znakova i pri oznakama za novi redak"
+msgstr "Prelomi retke nakon 120 znakova"
 
 #: weblate/addons/forms.py:169
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
-msgstr "Prelomi retke pri 77 znakova i pri oznakama za novi redak"
+msgstr "Prelomi retke nakon 180 znakova"
 
 #: weblate/addons/forms.py:176
 msgid "Line breaks"
-msgstr ""
+msgstr "Prijelomi redaka"
 
 #: weblate/addons/forms.py:178
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:179
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:180
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:189
 msgid "Days to keep"
@@ -1214,22 +1208,16 @@ msgid "Invalid addon name specified!"
 msgstr "Određeno je neispravno ime dodatka!"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid "Customize JSON output"
 msgid "Customize YAML output"
-msgstr "Prilagodi JSON rezultat"
+msgstr "Prilagodi YAML rezultat"
 
 #: weblate/addons/yaml.py:35
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows to customize YAML output behavior, for example line length or "
 "newlines."
 msgstr ""
-"Omogućuje prilagođavanje ponašanja JSON rezultata, npr. uvlačenje ili "
-"razvrstavanje."
+"Omogućuje prilagođavanje ponašanja YAML rezultata, npr. dužinu redaka ili "
+"nove retke."
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -1976,11 +1964,11 @@ msgstr "Razmaci interpunkcija"
 
 #: weblate/checks/chars.py:392
 msgid "Missing non breakable space before double punctuation sign"
-msgstr "Nedostaje neprekidajući razmak prije dvostrukog znaka interpunkcije"
+msgstr "Nedostaje neprekidajući razmak ispred dvostrukog znaka interpunkcije"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
-msgstr "Nedostaju množine"
+msgstr "Nedostaju oblici množine"
 
 #: weblate/checks/consistency.py:32
 msgid "Some plural forms are not translated"
@@ -1992,7 +1980,7 @@ msgstr "Jednake množine"
 
 #: weblate/checks/consistency.py:54
 msgid "Some plural forms are translated in the same way"
-msgstr "Neki oblici množine su prevedeni jednako"
+msgstr "Neki oblici množine prevedeni su jednako"
 
 #: weblate/checks/consistency.py:73
 msgid "Inconsistent"
@@ -2247,7 +2235,7 @@ msgstr "Izraz u Qt formatu se ne poklapa s izvorom"
 
 #: weblate/checks/qt.py:61
 msgid "Qt plural format"
-msgstr "Množina u Qt formatu"
+msgstr "Oblici množine u Qt formatu"
 
 #: weblate/checks/qt.py:62
 msgid "Qt plural format string does not match source"
@@ -2283,7 +2271,7 @@ msgstr "Bez množine"
 
 #: weblate/checks/source.py:39
 msgid "The string is used as plural, but not using plural forms"
-msgstr "Izraz se koristi kao množina, ali se oblik množine ne koristi"
+msgstr "Izraz se koristi kao množina, ali se oblici množine ne koriste"
 
 #: weblate/checks/source.py:52
 msgid "Ellipsis"
@@ -2646,7 +2634,7 @@ msgstr "Jedan/ostalo (klasična množina)"
 #: weblate/lang/models.py:456
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
-msgstr "Jedan/nekoliko/ostalo (množina slavenskih jezika)"
+msgstr "Jedan/nekoliko/ostalo (slavenski jezici)"
 
 #: weblate/lang/models.py:458
 msgctxt "Plural type"
@@ -2736,7 +2724,7 @@ msgstr "Broj množina"
 #: weblate/lang/models.py:510 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-equation.html:4
 msgid "Plural equation"
-msgstr "Definicija množine"
+msgstr "Formula za množinu"
 
 #: weblate/lang/models.py:515 weblate/templates/language.html:81
 msgid "Plural type"
@@ -4573,7 +4561,7 @@ msgstr "Glosari"
 #: weblate/templates/snippets/project-nav.html:25
 #: weblate/templates/translation.html:40
 msgid "Insights"
-msgstr "Uvidi"
+msgstr "Analiza"
 
 #: weblate/templates/component.html:44 weblate/templates/dashboard/user.html:34
 #: weblate/templates/dictionary.html:39
@@ -5037,7 +5025,7 @@ msgstr "S Weblatea možeš preuzeti razne podatke u strojno čitljivom formatu."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
-msgstr "RSS tijekovi"
+msgstr "RSS feedovi"
 
 #: weblate/templates/data.html:22
 msgid ""
@@ -5134,7 +5122,7 @@ msgstr "Glosari"
 #: weblate/templates/translation.html:143
 #: weblate/templates/translation.html:393
 msgid "Words"
-msgstr "Riječi"
+msgstr "Br. riječi"
 
 #: weblate/templates/dictionary.html:10
 #: weblate/templates/language-project.html:19
@@ -6246,6 +6234,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
+"Paketi podrške uključuju prioritetnu podršku putem e-maila ili spremanje "
+"sigurnosnih kopija tvoje Weblate instalacije u oblaku."
 
 #: weblate/templates/manage/snippets/activation-form.html:17
 msgid "Activate"
@@ -6645,7 +6635,7 @@ msgstr "Dodaj novu snimku ekrana"
 #: weblate/templates/translation.html:133
 #: weblate/templates/translation.html:392
 msgid "Strings"
-msgstr "Izrazi"
+msgstr "Br. izraza"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:29
 msgid "No source strings are currently assigned!"
@@ -6717,7 +6707,7 @@ msgstr "Dovršeni prijevod"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
-msgstr "Izraza od ukupno"
+msgstr "Ukupno izraza"
 
 #: weblate/templates/snippets/list-objects.html:17
 msgid "Untranslated"
@@ -6749,7 +6739,7 @@ msgid ""
 "This equation identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Ova jednadžba identificira na temelju određenog broja (n), oblik množine "
+"Ovom formulom se na temelju određenog broja (n), identificira oblik množine "
 "koji će se koristiti."
 
 #: weblate/templates/snippets/project-nav.html:136
@@ -6786,7 +6776,7 @@ msgstr "Izraz na čekanju"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "String target language"
-msgstr "Ciljani jezik za izraz"
+msgstr "Ciljani jezik izraza"
 
 #: weblate/templates/snippets/query-builder.html:20
 msgid "String changed by"
@@ -7617,6 +7607,10 @@ msgid ""
 "to a different branch, to fix inconsistent translations or to translate a "
 "new component using translation memory."
 msgstr ""
+"Automatski prijevod uzima postojeće prijevode u ovom projektu i primjenjuje "
+"ih na trenutačnu komponentu. Može se koristiti za guranje prijevoda na jednu "
+"drugu granu, za ispravljanje nedosljednih prijevoda ili za prevođenje nove "
+"komponente pomoću spremišta prijevoda."
 
 #: weblate/templates/translation.html:241
 msgid ""
@@ -7624,6 +7618,9 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"Automatski prijevod putem strojnog prijevoda koristi aktivne strojeve za "
+"strojni prijevod kako bi se dobili najbolji mogući prijevodi te ih "
+"primjenjuje u ovom projektu."
 
 #: weblate/templates/translation.html:295
 msgid ""
@@ -7659,7 +7656,7 @@ msgstr "Postotak"
 
 #: weblate/templates/translation.html:394
 msgid "Chars"
-msgstr "Znakovi"
+msgstr "Br. znakova"
 
 #: weblate/templates/translation.html:399
 msgid "Total"
@@ -7880,7 +7877,7 @@ msgstr "Izrazi označeni za uređivanje"
 
 #: weblate/trans/filter.py:42 weblate/trans/filter.py:90
 msgid "Strings needing action without suggestions"
-msgstr "Izrazi koji trebaju radnje bez prijedloga"
+msgstr "Izrazi koji zahtijevaju radnju, bez prijedloga"
 
 #: weblate/trans/filter.py:47 weblate/trans/filter.py:93
 msgid "Approved strings"
@@ -7888,7 +7885,7 @@ msgstr "Odobreni izrazi"
 
 #: weblate/trans/filter.py:53 weblate/trans/filter.py:95
 msgid "Strings waiting for review"
-msgstr "Izrazi koji čekaju na pregled"
+msgstr "Izrazi koje treba pregledati"
 
 #: weblate/trans/filter.py:58 weblate/trans/filter.py:100
 msgid "Failed check: {}"
@@ -10187,7 +10184,7 @@ msgstr "Ova e-mail adresa nije dozvoljena."
 
 #: weblate/utils/validators.py:195
 msgid "Failed to evaluate plural equation: {}"
-msgstr "Neuspjela projvera jednadžbe za množinu: {}"
+msgstr "Neuspjela provjera formule za množinu: {}"
 
 #: weblate/utils/validators.py:202
 msgid "Filename can not contain reference to a parent directory."
@@ -10234,6 +10231,8 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
+"Dodan je ključ glavnog računala za %(host)s s otiskom prsta %(fingerprint)s "
+"%(keytype)s. Provjeri njegovu točnost."
 
 #: weblate/vcs/ssh.py:162
 msgid "Failed to fetch public key for a host!"
