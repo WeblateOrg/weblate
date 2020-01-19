@@ -199,6 +199,7 @@ class QueryParserTest(TestCase):
         self.assert_query("has:check", Q(has_failing_check=True))
         self.assert_query("has:comment", Q(has_comment=True))
         self.assert_query("has:ignored-check", Q(check__ignore=True))
+        self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
 
     def test_suggestions(self):
         self.assert_query(

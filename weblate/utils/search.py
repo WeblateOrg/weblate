@@ -36,7 +36,7 @@ from jellyfish._jellyfish import (
 from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
 
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.state import STATE_NAMES
+from weblate.utils.state import STATE_NAMES, STATE_TRANSLATED
 
 
 class Comparer(object):
@@ -240,6 +240,8 @@ def has_sql(text):
         return Q(has_failing_check=True)
     if text == "ignored-check":
         return Q(check__ignore=True)
+    if text == "translation":
+        return Q(state__gte=STATE_TRANSLATED)
 
     raise ValueError("Unsupported has lookup: {}".format(text))
 
