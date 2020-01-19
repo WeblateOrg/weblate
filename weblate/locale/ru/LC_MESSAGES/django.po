@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-16 08:45+0000\n"
-"PO-Revision-Date: 2020-01-19 11:50+0000\n"
+"PO-Revision-Date: 2020-01-19 12:58+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -7078,18 +7078,18 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"Репозиторий VCS имеет множество изменений по сравнению с верхним "
-"репозиторием. Объедините изменения вручную или установите и настройте "
-"отправку, чтобы автоматизировать это."
+"Данный репозиторий VCS имеет множество изменений в сравнении с вышестоящим. "
+"Выполните слияние изменений вручную или настройте отправку изменений, чтобы "
+"автоматизировать это."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Репозиторий VCS не актуализируется с верхним репозиторием. Объедините "
-"изменения вручную или установите и настройте обработчики, чтобы "
-"автоматизировать это."
+"Не удаётся привести репозиторий VCS в актуальное состояние в соответствии с "
+"вышестоящим. Выполните слияние изменений вручную или установите и настройте "
+"обработчики (hooks), чтобы автоматизировать это."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
 msgid "This component is set up incorrectly."
@@ -7111,8 +7111,8 @@ msgstr ""
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Weblate не смог сделать выборку изменений в верхнем репозитории при "
-"обновлении данного репозитория."
+"Weblate не смог обновить данный репозиторий так как не смог извлечь "
+"изменения из вышестоящего."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -7257,7 +7257,7 @@ msgstr "Объединить изменения Weblate и разрешить л
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
-msgstr "Отправить изменения в верхний репозиторий."
+msgstr "Отправить изменения в вышестоящий репозиторий."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
@@ -8914,8 +8914,9 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Определите, должен ли Weblate объединить верхний репозиторий или сменить "
-"базу изменений на него."
+"Определите, должен ли Weblate при обновлении из вышестоящего репозитория "
+"производить слияние (merge) удалённых изменений или перебазировать (rebase) "
+"локальные изменения."
 
 #: weblate/trans/models/component.py:386
 msgid "Commit message when translating"
@@ -8961,7 +8962,9 @@ msgstr "Отправлять при коммите"
 
 #: weblate/trans/models/component.py:444
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Должен ли репозиторий передаваться вверх при каждом коммите."
+msgstr ""
+"Следует ли производить отправку изменений в вышестоящий репозиторий при "
+"каждом коммите."
 
 #: weblate/trans/models/component.py:448
 msgid "Age of changes to commit"
