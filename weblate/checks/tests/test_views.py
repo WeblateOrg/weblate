@@ -29,24 +29,30 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class ChecksViewTest(ViewTestCase):
     """Testing of check views."""
+
+    def setUp(self):
+        super(ViewTestCase, self).setUp()
+        self.component = self.create_component()
+        self.project = self.component.project
+
     def test_browse(self):
         response = self.client.get(reverse('checks'))
-        self.assertContains(response, '/same/')
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(reverse('checks'), {'language': 'de'})
-        self.assertContains(response, '/same/')
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(
             reverse('checks'),
             {'project': self.project.slug}
         )
-        self.assertContains(response, '/same/')
+        self.assertEqual(response.status_code, 200)
 
         response = self.client.get(
             reverse('checks'),
             {'project': self.project.slug, 'component': self.component.slug}
         )
-        self.assertContains(response, '/same/')
+        self.assertEqual(response.status_code, 200)
 
     def test_check(self):
         response = self.client.get(
