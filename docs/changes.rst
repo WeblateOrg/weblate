@@ -68,7 +68,7 @@ Released on December 20th 2019.
 * Added support for automatic translation strings marked for edit.
 * Avoid sending duplicate notifications for linked component alerts.
 * Improve default merge request message.
-* Better indicate string state in zen mode.
+* Better indicate string state in Zen mode.
 * Added support for more languages in Yandex Translate.
 * Improved look of notification e-mails.
 * Provide choice for translation license.
@@ -195,7 +195,7 @@ Released on June 21st 2019.
 * Improved error logging.
 * Allow custom location in MO generating addon.
 * Added addons to cleanup old suggestions or comments.
-* Added option to enable horizontal mode in the zen editor.
+* Added option to enable horizontal mode in the Zen editor.
 * Improved import perfomance with many linked components.
 * Fixed examples installation in some cases.
 * Improved rendering of alerts in changes.
@@ -275,7 +275,7 @@ Released on March 3rd 2019.
 * Addon commit message now can be configured.
 * Reduce number of commits when updating upstream repository.
 * Fixed possible metadata loss when moving component between projects.
-* Improved navigation in the zen mode.
+* Improved navigation in the Zen mode.
 * Added several new quality checks (Markdown related and URL).
 * Added support for app store metadata files.
 * Added support for toggling GitHub or Gerrit integration.
@@ -726,13 +726,13 @@ Released on Aug 31st 2016.
 * Added Subversion support.
 * Separated XML validity check from XML mismatched tags.
 * Fixed API to honor HIDE_REPO_CREDENTIALS settings.
-* Show source change in zen mode.
-* Alt+PageUp/PageDown/Home/End now works in zen mode as well.
+* Show source change in Zen mode.
+* Alt+PageUp/PageDown/Home/End now works in Zen mode as well.
 * Add tooltip showing exact time of changes.
 * Add option to select filters and search from translation page.
 * Added UI for translation removal.
 * Improved behavior when inserting placeables.
-* Fixed auto locking issues in zen mode.
+* Fixed auto locking issues in Zen mode.
 
 Weblate 2.7
 ~~~~~~~~~~~
@@ -861,7 +861,7 @@ Released on May 22nd 2015.
 * More detailed repository status view.
 * Direct link for editing template when changing translation.
 * Allow to add more permissions to project owners.
-* Allow to show secondary language in zen mode.
+* Allow to show secondary language in Zen mode.
 * Support for hiding source string in favor of secondary language.
 
 Weblate 2.2

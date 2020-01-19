@@ -311,7 +311,7 @@ class Profile(models.Model):
         verbose_name=_('Hide completed translations on the dashboard'), default=False
     )
     secondary_in_zen = models.BooleanField(
-        verbose_name=_('Show secondary translations in zen mode'), default=True
+        verbose_name=_('Show secondary translations in the Zen mode'), default=True
     )
     hide_source_secondary = models.BooleanField(
         verbose_name=_('Hide source if a secondary translation exists'), default=False

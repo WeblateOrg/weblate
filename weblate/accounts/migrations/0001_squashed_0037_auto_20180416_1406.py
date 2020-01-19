@@ -176,7 +176,7 @@ class Migration(migrations.Migration):
                     "secondary_in_zen",
                     models.BooleanField(
                         default=True,
-                        verbose_name="Show secondary translations in zen mode",
+                        verbose_name="Show secondary translations in the Zen mode",
                     ),
                 ),
                 (
