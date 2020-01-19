@@ -67,6 +67,12 @@ def show_checks(request):
         )
         url_params['language'] = request.GET['language']
 
+    if request.GET.get('component'):
+        allchecks = allchecks.filter(
+            unit__translation__component__slug=request.GET['component']
+        )
+        url_params['component'] = request.GET['component']
+
     allchecks = allchecks.values('check').annotate(count=Count('id'))
 
     return render(
