@@ -161,7 +161,7 @@ def ignore_check(request, check_id):
 @require_POST
 def ignore_check_source(request, check_id):
     obj = get_object_or_404(Check, pk=int(check_id))
-    unit = obj.unit
+    unit = obj.unit.source_info
     project = unit.translation.component.project
     request.user.check_access(project)
 
