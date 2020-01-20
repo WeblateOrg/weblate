@@ -93,6 +93,7 @@ from weblate.utils.render import (
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
+from weblate.utils.validators import validate_re_nonempty
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -465,6 +466,7 @@ class Component(models.Model, URLMixin, PathMixin):
     )
     shaping_regex = RegexField(
         verbose_name=ugettext_lazy("Shapings regular expression"),
+        validators=[validate_re_nonempty],
         max_length=190,
         default="",
         blank=True,

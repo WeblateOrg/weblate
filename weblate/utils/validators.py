@@ -59,12 +59,12 @@ FORBIDDEN_EXTENSIONS = frozenset(
 )
 
 
-def validate_re(value, groups=None):
+def validate_re(value, groups=None, allow_empty=True):
     try:
         compiled = re.compile(value)
     except re.error as error:
         raise ValidationError(_('Failed to compile: {0}').format(error))
-    if compiled.match(""):
+    if not allow_empty and compiled.match(""):
         raise ValidationError(_("Regular expression should not match empty string."))
     if not groups:
         return
@@ -76,6 +76,10 @@ def validate_re(value, groups=None):
                     'the simplest way to define it is {1}.'
                 ).format(group, '(?P<{}>.*)'.format(group))
             )
+
+
+def validate_re_nonempty(value):
+    return validate_re(value, allow_empty=False)
 
 
 def validate_bitmap(value):

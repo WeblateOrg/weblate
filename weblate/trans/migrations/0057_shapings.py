@@ -4,6 +4,7 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 import weblate.trans.fields
+from weblate.utils.validators import validate_re_nonempty
 
 
 class Migration(migrations.Migration):
@@ -17,6 +18,7 @@ class Migration(migrations.Migration):
             field=weblate.trans.fields.RegexField(
                 blank=True,
                 default="",
+                validators=[validate_re_nonempty],
                 help_text="Regular expression used to determine shapings of a string.",
                 max_length=190,
                 verbose_name="Shapings regular expression",
