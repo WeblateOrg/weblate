@@ -36,30 +36,27 @@ USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
 # Reject some suspicious e-mail addresses, based on checks enforced by Exim MTA
 EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
 
-ALLOWED_IMAGES = frozenset((
-    'image/jpeg',
-    'image/png',
-    'image/apng',
-    'image/gif',
-))
+ALLOWED_IMAGES = frozenset(('image/jpeg', 'image/png', 'image/apng', 'image/gif'))
 
 # File formats we do not accept on translation/glossary upload
-FORBIDDEN_EXTENSIONS = frozenset((
-    '.png',
-    '.jpg',
-    '.gif',
-    '.svg',
-    '.doc',
-    '.rtf',
-    '.xls',
-    '.docx',
-    '.html',
-    '.py',
-    '.js',
-    '.exe',
-    '.dll',
-    '.zip',
-))
+FORBIDDEN_EXTENSIONS = frozenset(
+    (
+        '.png',
+        '.jpg',
+        '.gif',
+        '.svg',
+        '.doc',
+        '.rtf',
+        '.xls',
+        '.docx',
+        '.html',
+        '.py',
+        '.js',
+        '.exe',
+        '.dll',
+        '.zip',
+    )
+)
 
 
 def validate_re(value, groups=None):
@@ -67,6 +64,8 @@ def validate_re(value, groups=None):
         compiled = re.compile(value)
     except re.error as error:
         raise ValidationError(_('Failed to compile: {0}').format(error))
+    if compiled.match(""):
+        raise ValidationError(_("Regular expression should not match empty string."))
     if not groups:
         return
     for group in groups:
@@ -75,10 +74,7 @@ def validate_re(value, groups=None):
                 _(
                     'Regular expression is missing named group "{0}", '
                     'the simplest way to define it is {1}.'
-                ).format(
-                    group,
-                    '(?P<{}>.*)'.format(group)
-                )
+                ).format(group, '(?P<{}>.*)'.format(group))
             )
 
 
@@ -112,10 +108,11 @@ def validate_bitmap(value):
         value.file.content_type = Image.MIME.get(image.format)
     except Exception:
         # Pillow doesn't recognize it as an image.
-        six.reraise(ValidationError, ValidationError(
-            _('Invalid image!'),
-            code='invalid_image',
-        ), sys.exc_info()[2])
+        six.reraise(
+            ValidationError,
+            ValidationError(_('Invalid image!'), code='invalid_image'),
+            sys.exc_info()[2],
+        )
     if hasattr(value.file, 'seek') and callable(value.file.seek):
         value.file.seek(0)
 
@@ -165,14 +162,14 @@ def validate_file_extension(value):
 
 def validate_username(value):
     if value.startswith('.'):
-        raise ValidationError(
-            _('Username can not start with a full stop.')
-        )
+        raise ValidationError(_('Username can not start with a full stop.'))
     if not USERNAME_MATCHER.match(value):
-        raise ValidationError(_(
-            'Username may only contain letters, '
-            'numbers or the following characters: @ . + - _'
-        ))
+        raise ValidationError(
+            _(
+                'Username may only contain letters, '
+                'numbers or the following characters: @ . + - _'
+            )
+        )
 
 
 def validate_email(value):
@@ -191,9 +188,7 @@ def validate_pluraleq(value):
     try:
         gettext.c2py(value if value else '0')
     except ValueError as error:
-        raise ValidationError(
-            _('Failed to evaluate plural equation: {}').format(error)
-        )
+        raise ValidationError(_('Failed to evaluate plural equation: {}').format(error))
 
 
 def validate_filename(value):
