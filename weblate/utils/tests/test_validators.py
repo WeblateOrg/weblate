@@ -91,8 +91,8 @@ class FilenameTest(SimpleTestCase):
 class RegexTest(SimpleTestCase):
     def test_empty(self):
         with self.assertRaises(ValidationError):
-            validate_re('(Min|Short|)$')
-        validate_re('(Min|Short)$')
+            validate_re('(Min|Short|)$', allow_empty=False)
+        validate_re('(Min|Short)$', allow_empty=False)
 
     def test_syntax(self):
         with self.assertRaises(ValidationError):
