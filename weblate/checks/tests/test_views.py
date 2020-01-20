@@ -42,6 +42,12 @@ class ChecksViewTest(ViewTestCase):
         )
         self.assertContains(response, '/same/')
 
+        response = self.client.get(
+            reverse('checks'),
+            {'project': self.project.slug, 'component': self.component.slug}
+        )
+        self.assertContains(response, '/same/')
+
     def test_check(self):
         response = self.client.get(
             reverse('show_check', kwargs={'name': 'same'})
