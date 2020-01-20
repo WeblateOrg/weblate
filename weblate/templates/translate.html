@@ -240,93 +240,18 @@
 <div class="tab-content">
 
 <div class="tab-pane active" id="nearby">
-<table class="table table-condensed">
-<thead>
-<tr>
-    <th></th>
-    <th>{% trans "Context" %}</th>
-    {% if not unit.translation.is_source %}
-    <th>{{ unit.translation.component.project.source_language }}</th>
-    {% endif %}
-    <th>{{ unit.translation.language }}</th>
-    <th>{% trans "State" %}</th>
-</tr>
-</thead>
-<tbody>
-{% for item in nearby %}
-<tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
-<td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-<td>{% if unit.context %}<a href="{{ item.get_absolute_url }}">{% format_translation item.context unit.translation.component.project.source_language %}</a>{% endif %}</td>
-{% if not unit.translation.is_source %}
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
-{% endif %}
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
-<td>{% get_state_flags item %}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
+{% include "snippets/embed-units.html" with current_unit=unit units=nearby %}
 </div>
 
 {% if nearby_keys %}
 <div class="tab-pane active" id="keys">
-<table class="table table-condensed">
-<thead>
-<tr>
-    <th></th>
-    <th>{% trans "Context" %}</th>
-    {% if not unit.translation.is_source %}
-    <th>{{ unit.translation.component.project.source_language }}</th>
-    {% endif %}
-    <th>{{ unit.translation.language }}</th>
-    <th>{% trans "State" %}</th>
-</tr>
-</thead>
-<tbody>
-{% for item in nearby_keys %}
-<tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
-<td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-<td>{% if unit.context %}<a href="{{ item.get_absolute_url }}">{% format_translation item.context unit.translation.component.project.source_language %}</a>{% endif %}</td>
-{% if not unit.translation.is_source %}
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
-{% endif %}
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
-<td>{% get_state_flags item %}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
+{% include "snippets/embed-units.html" with current_unit=unit units=nearby_keys %}
 </div>
 {% endif %}
 
 {% if shapings %}
 <div class="tab-pane active" id="shapings">
-<table class="table table-condensed">
-<thead>
-<tr>
-    <th></th>
-    <th>{% trans "Context" %}</th>
-    {% if not unit.translation.is_source %}
-    <th>{{ unit.translation.component.project.source_language }}</th>
-    {% endif %}
-    <th>{{ unit.translation.language }}</th>
-    <th>{% trans "State" %}</th>
-</tr>
-</thead>
-<tbody>
-{% for item in shapings %}
-<tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
-<td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
-<td>{% if unit.context %}<a href="{{ item.get_absolute_url }}">{% format_translation item.context unit.translation.component.project.source_language %}</a>{% endif %}</td>
-{% if not unit.translation.is_source %}
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
-{% endif %}
-<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
-<td>{% get_state_flags item %}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
+{% include "snippets/embed-units.html" with current_unit=unit units=shapings %}
 </div>
 {% endif %}
 
