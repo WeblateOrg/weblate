@@ -43,7 +43,7 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-{% with unit.get_comments as comments and unit.nearby as nearby %}
+{% with comments=unit.get_comments nearby=unit.nearby nearby_keys=unit.nearby_keys %}
 
 <div class="btn-group">
 <ul class="pagination unit-navi">
@@ -212,6 +212,9 @@
 
 <ul class="nav nav-pills translation-tabs">
 <li class="active"><a href="#nearby" data-toggle="tab" id="toggle-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a></li>
+{% if nearby_keys %}
+<li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
+{% endif %}
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions|length }}</span></a></li>
 {% endif %}
@@ -261,6 +264,37 @@
 </tbody>
 </table>
 </div>
+
+{% if nearby_keys %}
+<div class="tab-pane active" id="keys">
+<table class="table table-condensed">
+<thead>
+<tr>
+    <th></th>
+    <th>{% trans "Context" %}</th>
+    {% if not unit.translation.is_source %}
+    <th>{{ unit.translation.component.project.source_language }}</th>
+    {% endif %}
+    <th>{{ unit.translation.language }}</th>
+    <th>{% trans "State" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for item in nearby_keys %}
+<tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
+<td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
+<td>{% if unit.context %}<a href="{{ item.get_absolute_url }}">{% format_translation item.context unit.translation.component.project.source_language %}</a>{% endif %}</td>
+{% if not unit.translation.is_source %}
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
+{% endif %}
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
+<td>{% get_state_flags item %}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
 
 {% if unit.suggestions %}
 <div class="tab-pane" id="suggestions">

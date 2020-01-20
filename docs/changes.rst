@@ -7,6 +7,7 @@ Not yet released.
 * Fixed links in notifications mails.
 * Improved look of plain text mails.
 * Display ignored checks and allow to make them active again.
+* Display nearby keys on monolingual translations.
 
 Weblate 3.10.3
 --------------

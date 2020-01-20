@@ -23,6 +23,7 @@ from __future__ import unicode_literals
 import codecs
 import os
 
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models.aggregates import Max
@@ -383,6 +384,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Store change entry
         Change.objects.create(translation=self, action=change, user=user, author=user)
+
+        # Invalidate keys cache
+        transaction.on_commit(lambda: self.invalidate_keys())
 
     def get_last_remote_commit(self):
         return self.component.get_last_remote_commit()
@@ -908,6 +912,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Invalidate any cached stats."""
         # Invalidate summary stats
         transaction.on_commit(lambda: self.stats.invalidate())
+
+    @property
+    def keys_cache_key(self):
+        return 'translation-keys-{}'.format(self.pk)
+
+    def invalidate_keys(self):
+        cache.delete(self.keys_cache_key)
 
     def get_export_url(self):
         """Return URL of exported git repository."""

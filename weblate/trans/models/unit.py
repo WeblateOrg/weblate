@@ -25,6 +25,7 @@ from copy import copy
 
 import six
 from django.conf import settings
+from django.core.cache import cache
 from django.db import models, transaction
 from django.db.models import Q
 from django.utils import timezone
@@ -734,6 +735,29 @@ class Unit(models.Model, LoggerMixin):
                 position__gte=self.position - settings.NEARBY_MESSAGES,
                 position__lte=self.position + settings.NEARBY_MESSAGES,
             )
+        )
+
+    def nearby_keys(self):
+        # Do not show nearby keys on bilingual
+        if not self.translation.component.has_template():
+            return []
+        key = self.translation.keys_cache_key
+        key_list = cache.get(key)
+        if key_list is None or self.pk not in key_list or True:
+            key_list = list(
+                Unit.objects.filter(translation=self.translation)
+                .order_by('context')
+                .values_list('id', flat=True)
+            )
+            cache.set(key, key_list)
+        offset = key_list.index(self.pk)
+        nearby = key_list[
+            offset - settings.NEARBY_MESSAGES:offset + settings.NEARBY_MESSAGES
+        ]
+        return (
+            Unit.objects.filter(translation=self.translation, id__in=nearby)
+            .prefetch()
+            .order_by('context')
         )
 
     @transaction.atomic
