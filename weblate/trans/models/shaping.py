@@ -34,3 +34,6 @@ class Shaping(models.Model):
 
     class Meta(object):
         unique_together = (("key", "component", "shaping_regex"),)
+
+    def __str__(self):
+        return '{}: {}'.format(self.component, self.key)
