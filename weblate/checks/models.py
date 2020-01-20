@@ -169,9 +169,9 @@ class Check(models.Model):
             return self.check_obj.get_doc_url()
         return ''
 
-    def set_ignore(self):
+    def set_ignore(self, state=True):
         """Set ignore flag."""
-        self.ignore = True
+        self.ignore = state
         self.save()
 
 

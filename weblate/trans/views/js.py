@@ -153,7 +153,7 @@ def ignore_check(request, check_id):
         raise PermissionDenied()
 
     # Mark check for ignoring
-    obj.set_ignore()
+    obj.set_ignore('revert' not in request.GET)
     # response for AJAX
     return HttpResponse('ok')
 

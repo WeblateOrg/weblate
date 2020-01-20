@@ -712,8 +712,22 @@ svg {
     padding: 5px;
 }
 .check .list-buttons {
-    TODO
     margin: 10px 0 5px 0;
+}
+.check-disabled {
+    color: #bfc3c7;
+}
+.check-disabled .check-number, .check-disabled .check-dismiss {
+    display: none;
+}
+.check .check-revert {
+    display: none;
+}
+.check-disabled .check-dismiss.check-revert {
+    display: inherit;
+}
+.check-disabled .red path {
+    fill: #bfc3c7;
 }
 .string-info .list-group-item h5 {
     font-weight: 600;

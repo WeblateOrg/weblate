@@ -898,7 +898,7 @@ $(function () {
     });
 
     /* Check ignoring */
-    $('.dismiss-single,.dismiss-all').click(function () {
+    $('.check-dismiss').click(function () {
         var $this = $(this);
         var $form = $('#link-post');
 
@@ -912,7 +912,11 @@ $(function () {
                 addAlert(errorThrown);
             },
         });
-        $this.closest('.check').remove();
+        if ($this.hasClass("check-dismiss-all")) {
+            $this.closest('.check').remove();
+        } else {
+            $this.closest('.check').toggleClass("check-disabled");
+        }
         return false;
     });
 
