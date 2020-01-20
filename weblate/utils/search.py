@@ -236,9 +236,9 @@ def has_sql(text):
         return Q(has_suggestion=True)
     if text == "comment":
         return Q(has_comment=True)
-    if text == "check":
+    if text in ("check", "failing-check", "failing_check"):
         return Q(has_failing_check=True)
-    if text == "ignored-check":
+    if text in ("ignored-check", "ignored_check"):
         return Q(check__ignore=True)
     if text == "translation":
         return Q(state__gte=STATE_TRANSLATED)
