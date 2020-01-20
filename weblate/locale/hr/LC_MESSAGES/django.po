@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-16 08:45+0000\n"
-"PO-Revision-Date: 2020-01-20 04:32+0000\n"
+"PO-Revision-Date: 2020-01-20 21:23+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
@@ -830,7 +830,7 @@ msgstr "Ovaj dodatak ne radi ništa, on je samo primjer."
 
 #: weblate/addons/example_pre.py:38
 msgid "Execute script before commit"
-msgstr "Izvrši skriptu prije slanja obveze"
+msgstr "Izvrši skriptu prije objave promjena"
 
 #: weblate/addons/example_pre.py:39
 msgid "This addon executes a script."
@@ -930,11 +930,11 @@ msgstr "Koristi netočno poklapanje"
 
 #: weblate/addons/forms.py:132
 msgid "Commit squashing"
-msgstr "Pošalji obvezu združivanja"
+msgstr "Objavi združivanje"
 
 #: weblate/addons/forms.py:135
 msgid "All commits into one"
-msgstr "Sve obveze u jednu"
+msgstr "Sve objave promjena u jednu"
 
 #: weblate/addons/forms.py:136
 msgid "Per language"
@@ -1148,11 +1148,11 @@ msgstr ""
 
 #: weblate/addons/git.py:37
 msgid "Squash Git commits"
-msgstr "Združi Git obveze"
+msgstr "Združi Git objave promjena"
 
 #: weblate/addons/git.py:38
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Združi Git obveze prije guranja promjena."
+msgstr "Združi Git objave promjena prije guranja promjena."
 
 #: weblate/addons/json.py:31
 msgid "Customize JSON output"
@@ -1396,7 +1396,7 @@ msgstr "Pristupi unutrašnjem repozitoriju"
 
 #: weblate/auth/data.py:89
 msgid "Commit changes to the internal repository"
-msgstr "Pošalji obvezu za promjene u unutarnji repozitorij"
+msgstr "Objavi promjene u unutarnji repozitorij"
 
 #: weblate/auth/data.py:90
 msgid "Push change from the internal repository"
@@ -1992,11 +1992,11 @@ msgstr "Ovaj izraz ima više od jednog prijevoda u ovom projektu"
 
 #: weblate/checks/consistency.py:110
 msgid "Has been translated"
-msgstr "Preveden"
+msgstr "Prevedeno"
 
 #: weblate/checks/consistency.py:112
 msgid "This string has been translated in the past"
-msgstr "Ovaj izraz je preveden u prošlosti"
+msgstr "Ovaj izraz je već prije preveden"
 
 #: weblate/checks/flags.py:39
 msgid "RST text"
@@ -3238,7 +3238,7 @@ msgstr "SSH ključ nije dostupan."
 
 #: weblate/templates/about/keys.html:36
 msgid "Commit signing"
-msgstr "Pošalji obvezu za potpisivanje"
+msgstr "Objavi potpisivanje"
 
 #: weblate/templates/about/keys.html:42
 #, python-format
@@ -3246,12 +3246,12 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Sve obveze napravljene s Weblateom potpisuju se s GPG ključem "
+"Sve objave promjena napravljene s Weblateom potpisuju se s GPG ključem "
 "%(gpg_key_id)s, za koji se odgovarajući javni ključ nalazi niže dolje."
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
-msgstr "Slanje obveze nije podešeno."
+msgstr "Objava potpisivanja nije konfigurirana."
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:64
 #: weblate/templates/dashboard/user.html:36 weblate/templates/data.html:51
@@ -3468,8 +3468,9 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"Registriranjem pristaješ koristiti svoje ime i e-adresu u obvezama i pružiti "
-"svoj doprinos pod licencom koja je definirana za svaki prevedeni projekt."
+"Registriranjem pristaješ koristiti svoje ime i e-adresu u objavama promjena "
+"i pružiti svoj doprinos pod licencom koja je definirana za svaki prevedeni "
+"projekt."
 
 #: weblate/templates/accounts/email.html:30
 #: weblate/templates/accounts/register.html:47 weblate/templates/base.html:167
@@ -3843,9 +3844,9 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Registriranjem pristaješ koristiti svoje ime i e-adresu u obvezama i pružiti "
-"svoj doprinos pod licencom koja je definirana za svaki lokalizacijski "
-"projekt."
+"Registriranjem pristaješ koristiti svoje ime i e-adresu u objavama promjena "
+"i pružiti svoj doprinos pod licencom koja je definirana za svaki "
+"lokalizacijski projekt."
 
 #: weblate/templates/accounts/profile.html:330
 msgid "You have agreed to the following as a contributor:"
@@ -4153,15 +4154,17 @@ msgstr "Kratki URL naziv projekta"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "Weblate obveze iz komponenata u ovom repozitoriju bit će spojene."
+msgstr ""
+"Weblate objave promjena komponenata u ovom repozitoriju bit će združene."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
 msgstr ""
-"Izvorne poruke obveze se čuvaju, ali autorstvo se gubi, ako nije odabrano "
-"„Po autoru” ili ako poruka obveze nije prilagođena da ga uključi."
+"Izvorne poruke objava promjena se čuvaju, ali autorstvo se gubi, ako nije "
+"odabrano „Po autoru” ili ako poruka objave promjene nije prilagođena da ga "
+"uključi."
 
 #: weblate/templates/base.html:107
 msgid "Toggle navigation"
@@ -4453,7 +4456,7 @@ msgid ""
 "which are hard to translate."
 msgstr ""
 "Provjere ti mogu pomoći prepoznati problematične prijevode ili izvorne "
-"nizove koje je teško prevesti."
+"izraze koje je teško prevesti."
 
 #: weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16
@@ -4663,7 +4666,7 @@ msgstr "Upravljaj"
 #: weblate/templates/snippets/project-nav.html:90
 #: weblate/templates/translation.html:83
 msgid "Commit"
-msgstr "Pošalji obvezu"
+msgstr "Objavi promjene"
 
 #: weblate/templates/component.html:92
 #: weblate/templates/snippets/project-nav.html:94
@@ -4748,7 +4751,7 @@ msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Možeš zamijeniti sve slučajeve niza. Pretraživanje je jednostavna pretraga "
+"Možeš zamijeniti sve slučajeve izraza. Pretraživanje je jednostavna pretraga "
 "podnizova, osjetljiva na velika/mala slova."
 
 #: weblate/templates/component.html:192 weblate/templates/project.html:92
@@ -4834,10 +4837,10 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Navodi sve prevoditelje koji su doprinijeli ovoj komponenti u određenom "
-"vremenskom razdoblju. Korisno za uključivanje prevoditelja u dokumentaciju "
+"Navodi sve prevodioce koji su doprinijeli ovoj komponenti u određenom "
+"vremenskom razdoblju. Korisno za uključivanje prevodilaca u dokumentaciju "
 "ili samu aplikaciju, kao i za zahvalu i generiranje povratnih informacija "
-"prevoditeljima."
+"prevodiocima."
 
 #: weblate/templates/component.html:311 weblate/templates/component.html:330
 #: weblate/templates/dashboard/user.html:125
@@ -4936,7 +4939,7 @@ msgstr "Ugovor za doprinositelje"
 #: weblate/templates/screenshots/screenshot_sources_body.html:14
 #: weblate/templates/translate.html:424 weblate/templates/translate.html:465
 msgid "View"
-msgstr "Prikaz"
+msgstr "Prikaži"
 
 #: weblate/templates/component_info.html:70
 #: weblate/trans/models/component.py:255
@@ -5010,10 +5013,9 @@ msgid ""
 "inclusion in documentation or the app itself, to thank translators and "
 "generate feedback to them."
 msgstr ""
-"Navodi sve prevoditelje koji su doprinijeli u određenom vremenskom "
-"razdoblju. Korisno za uključivanje prevoditelja u dokumentaciju ili samu "
-"aplikaciju, kao i za zahvalu i generiranje povratnih informacija "
-"prevoditeljima."
+"Navodi sve prevodioce koji su doprinijeli u određenom vremenskom razdoblju. "
+"Korisno za uključivanje prevodilaca u dokumentaciju ili samu aplikaciju, kao "
+"i za zahvalu i generiranje povratnih informacija prevodiocima."
 
 #: weblate/templates/data.html:7
 msgid "data exports"
@@ -5336,7 +5338,7 @@ msgstr "Prevedi"
 
 #: weblate/templates/engage.html:61
 msgid "View project languages"
-msgstr "Prikaz jezika projekta"
+msgstr "Prikaži jezike projekta"
 
 #: weblate/templates/fonts/font_detail.html:9
 #: weblate/templates/fonts/font_list.html:9
@@ -5556,7 +5558,7 @@ msgstr "Stanje repozitorija"
 
 #: weblate/templates/js/git-status.html:20
 msgid "There are some uncommitted changes!"
-msgstr ""
+msgstr "Postoje još neke nepreuzete promjene!"
 
 #: weblate/templates/js/git-status.html:24
 msgid "There has been a merge failure in the repository"
@@ -5574,7 +5576,7 @@ msgstr "Udaljeni repozitorij se mora sjediniti!"
 
 #: weblate/templates/js/git-status.html:33
 msgid "There are some new commits in the local repository."
-msgstr "U lokalnom repozitoriju postoje neke nove obveze."
+msgstr "U lokalnom repozitoriju postoje neke nove objave promjena."
 
 #: weblate/templates/js/git-status.html:36
 msgid "The local repository is up to date."
@@ -5594,7 +5596,7 @@ msgstr "Alati za repozitorij"
 
 #: weblate/templates/js/git-status.html:84
 msgid "Commit pending changes to the local repository"
-msgstr ""
+msgstr "Objavi promjene na čekanju u lokalni repozitorij"
 
 #: weblate/templates/js/git-status.html:94
 msgid "Pull"
@@ -5602,7 +5604,7 @@ msgstr "Povuci"
 
 #: weblate/templates/js/git-status.html:98
 msgid "Pull changes from the remote repository"
-msgstr "Povuci promjene iz udaljenog repozitorija"
+msgstr "Preuzmi promjene iz udaljenog repozitorija"
 
 #: weblate/templates/js/git-status.html:108
 msgid "Push"
@@ -5610,20 +5612,20 @@ msgstr "Gurni"
 
 #: weblate/templates/js/git-status.html:112
 msgid "Push changes to the remote repository"
-msgstr "Povuci promjene u udaljeni repozitorij"
+msgstr "Prenesi promjene u udaljeni repozitorij"
 
 #: weblate/templates/js/git-status.html:122
 #: weblate/trans/models/component.py:117
 msgid "Rebase"
-msgstr ""
+msgstr "Prebaziraj"
 
 #: weblate/templates/js/git-status.html:126
 msgid "Rebase local changes onto the remote repository"
-msgstr ""
+msgstr "Presloži lokalne promjene u udaljeni repozitorij"
 
 #: weblate/templates/js/git-status.html:136
 msgid "Reset"
-msgstr "Postavi ponovo"
+msgstr "Resetiraj"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Reset all changes in the local repository"
@@ -5702,7 +5704,7 @@ msgstr "Vrati natrag"
 
 #: weblate/templates/last-changes-content.html:62
 msgid "No matching activity found."
-msgstr "Nema poklapajuće radnje."
+msgstr "Nema odgovarajuće radnje."
 
 #: weblate/templates/list-comments.html:13
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -6206,6 +6208,8 @@ msgid ""
 "You can safely permanently ignore errors for file formats you do not intend "
 "to use. These are usually caused by missing or outdated dependencies."
 msgstr ""
+"Greške za formate datoteka koje ne namjeravaš koristiti možeš slobodno "
+"zanemariti. Obično ih uzrokuju nedostajuće ili zastarjele ovisnosti."
 
 #: weblate/templates/manage/performance.html:61
 msgid "System checks"
@@ -6514,18 +6518,18 @@ msgid ""
 "Useful for inclusion in documentation or the app itself, to thank "
 "translators and generate feedback to them."
 msgstr ""
-"Navodi sve prevoditelje koji su doprinijeli ovom projektu u određenom "
-"vremenskom razdoblju. Korisno za uključivanje prevoditelja u dokumentaciju "
+"Navodi sve prevodioce koji su doprinijeli ovom projektu u određenom "
+"vremenskom razdoblju. Korisno za uključivanje prevodilaca u dokumentaciju "
 "ili samu aplikaciju, kao i za zahvalu i generiranje povratnih informacija "
-"prevoditeljima."
+"prevodiocima."
 
 #: weblate/templates/project_info.html:11
 msgid "Mailing list for translators"
-msgstr "Mailing lista za prevoditelje"
+msgstr "Mailing lista za prevodioce"
 
 #: weblate/templates/project_info.html:18
 msgid "Instructions for translators"
-msgstr "Upute za prevoditelje"
+msgstr "Upute za prevodioce"
 
 #: weblate/templates/project_stats.html:10
 msgid "Number of words"
@@ -6676,7 +6680,7 @@ msgstr "Grana repozitorija"
 
 #: weblate/templates/snippets/git-info.html:26
 msgid "Last remote commit"
-msgstr ""
+msgstr "Zadnja udaljena objava"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:33
@@ -7221,6 +7225,7 @@ msgstr ""
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
+"U porukama objava promjena možeš koristiti kodne oznake Django predložaka."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -7450,11 +7455,11 @@ msgstr "Sličnost"
 #: weblate/templates/translate.html:389
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr ""
-"Napiši komentar za ovaj izraz, namijenjen prevoditeljima i razvijateljima."
+"Napiši komentar za ovaj izraz, namijenjen prevodiocima i razvijateljima."
 
 #: weblate/templates/translate.html:412
 msgid "Things to check"
-msgstr "Sljedeće pregledati"
+msgstr "Treba pregledati"
 
 #: weblate/templates/translate.html:422
 #, python-format
@@ -7594,7 +7599,7 @@ msgstr "Prevodilačke informacije"
 #: weblate/templates/translation.html:204
 #: weblate/templates/translation.html:316
 msgid "Download"
-msgstr "Preuzimanje"
+msgstr "Preuzmi"
 
 #: weblate/templates/translation.html:225
 msgid "Browse all translation changes"
@@ -7738,7 +7743,7 @@ msgid ""
 "Besides promoting the whole translation project, you can also choose a "
 "specific language or component to promote:"
 msgstr ""
-"Osim oglašavanja čitavog prevoditeljskog projekta, možeš odabrati i "
+"Osim oglašavanja čitavog prevodilačkog projekta, možeš odabrati i "
 "oglašavanje određenog jezika ili komponente:"
 
 #: weblate/templates/widgets.html:24
@@ -8528,7 +8533,7 @@ msgstr "Sjedinjen repozitorij"
 
 #: weblate/trans/models/change.py:242
 msgid "Rebased repository"
-msgstr ""
+msgstr "Presloženi repozitorij"
 
 #: weblate/trans/models/change.py:243
 msgid "Failed merge on repository"
@@ -8536,7 +8541,7 @@ msgstr "Neuspjelo sjedinjavanje na repozitoriju"
 
 #: weblate/trans/models/change.py:244
 msgid "Failed rebase on repository"
-msgstr ""
+msgstr "Neuspjelo preslaganje na repozitoriju"
 
 #: weblate/trans/models/change.py:245
 msgid "Failed push on repository"
@@ -8782,7 +8787,7 @@ msgstr "Zaključana komponenta neće dobiti aktualizirane prijevode."
 
 #: weblate/trans/models/component.py:296
 msgid "Allow translation propagation"
-msgstr "Dopusti preuzimanje prijevoda"
+msgstr "Dopusti propagiranje prijevoda"
 
 #: weblate/trans/models/component.py:300
 msgid ""
@@ -8865,12 +8870,12 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Odredi, hoće li Weblate sjediniti izvorni repozitorij ili izvršiti rebase za "
-"promjene."
+"Odredi, hoće li Weblate sjediniti izvorni repozitorij ili presložiti "
+"promjene na repozitorij."
 
 #: weblate/trans/models/component.py:386
 msgid "Commit message when translating"
-msgstr ""
+msgstr "Poruka objave promjena za prijevode"
 
 #: weblate/trans/models/component.py:388 weblate/trans/models/component.py:397
 #: weblate/trans/models/component.py:406 weblate/trans/models/component.py:415
@@ -8884,46 +8889,46 @@ msgstr ""
 
 #: weblate/trans/models/component.py:395
 msgid "Commit message when adding translation"
-msgstr ""
+msgstr "Poruka objave promjena za dodavanje prijevoda"
 
 #: weblate/trans/models/component.py:404
 msgid "Commit message when removing translation"
-msgstr ""
+msgstr "Poruka objave promjena za uklanjanje prijevoda"
 
 #: weblate/trans/models/component.py:413
 msgid "Commit message when merging translation"
-msgstr ""
+msgstr "Poruka objave promjena za sjedinjavanje prijevoda"
 
 #: weblate/trans/models/component.py:422
 msgid "Commit message when addon makes a change"
-msgstr ""
+msgstr "Poruka objave promjena za dodatak koji nešto mijenja"
 
 #: weblate/trans/models/component.py:431
 msgid "Committer name"
-msgstr ""
+msgstr "Ime objavitelja"
 
 #: weblate/trans/models/component.py:436
 msgid "Committer e-mail"
-msgstr ""
+msgstr "E-mail objavitelja"
 
 #: weblate/trans/models/component.py:441
 msgid "Push on commit"
-msgstr ""
+msgstr "Gurni pri objavi promjena"
 
 #: weblate/trans/models/component.py:444
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Treba li gurnuti repozitorij uzlazno pri svakoj objavi promjena."
 
 #: weblate/trans/models/component.py:448
 msgid "Age of changes to commit"
-msgstr ""
+msgstr "Starost promjena koje želiš objaviti"
 
 #: weblate/trans/models/component.py:451
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"Vrijeme u satima, nakon kojeg će bilo koje promjene na čekanju biti poslane "
-"kao obveza sustavu za kontrolu verzija."
+"Vrijeme u satima, nakon kojeg će bilo koje promjene na čekanju biti "
+"objavljene sustavu za kontrolu verzija."
 
 #: weblate/trans/models/component.py:461
 msgid ""
@@ -8934,7 +8939,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:471
 msgid "Components with higher priority are offered first to translators."
-msgstr "Provoditeljima se najprije predlažu komponente s višim prioritetom."
+msgstr "Prevodiocima se najprije predlažu komponente s višim prioritetom."
 
 #: weblate/trans/models/component.py:743
 msgid ""
@@ -8972,7 +8977,7 @@ msgstr "Nije bilo moguće počistiti repozitorij na %s."
 #: weblate/trans/models/component.py:1099
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
-msgstr ""
+msgstr "Nije moguće presložiti lokalnu granu na udaljenu granu %s."
 
 #: weblate/trans/models/component.py:1105
 #, python-format
@@ -9966,7 +9971,7 @@ msgstr "Stvaranje zajednice"
 
 #: weblate/trans/views/guide.py:130
 msgid "Define translation instructions to give translators a guideline."
-msgstr "Definiraj upute kako bi prevoditelji imali smjernice za prevođenje."
+msgstr "Definiraj upute za prevodioce."
 
 #: weblate/trans/views/guide.py:146
 msgid "Make your translations available under a libre license."
