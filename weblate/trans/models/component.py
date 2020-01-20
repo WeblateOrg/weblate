@@ -589,7 +589,7 @@ class Component(models.Model, URLMixin, PathMixin):
             source = None
 
         try:
-            if not self._sources_prefetched:
+            if not self._sources_prefetched or self.template:
                 # Get existing if not prefetch was done, this will raise an
                 # exception in case of error
                 source = self.source_translation.unit_set.get(id_hash=id_hash)
