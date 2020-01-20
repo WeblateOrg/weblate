@@ -248,7 +248,7 @@ def cleanup_stale_repos():
             continue
 
         # Parse path
-        project, component = os.path.split(path[len(prefix) + 1:])
+        project, component = os.path.split(path[len(prefix) + 1 :])
 
         # Find matching components
         objects = Component.objects.with_repo().filter(
@@ -297,9 +297,13 @@ def component_alerts():
 
 
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
-def component_after_save(pk, changed_git, changed_setup, changed_template, skip_push):
+def component_after_save(
+    pk, changed_git, changed_setup, changed_template, changed_shaping, skip_push
+):
     component = Component.objects.get(pk=pk)
-    component.after_save(changed_git, changed_setup, changed_template, skip_push)
+    component.after_save(
+        changed_git, changed_setup, changed_template, changed_shaping, skip_push
+    )
 
 
 @app.task(trail=False)

@@ -273,6 +273,9 @@ Language filter
     file mask. This can be used to limit the list of languages managed by Weblate
     (e.g. ``^(cs|de|es)$`` will include only these languages. Please note
     that you need to list language codes as they appear in the filename.
+Shapings regular expression
+    Regular expression used to determine shapings of a string, see 
+    :ref:`shapings` for more details.
 
 .. note::
 

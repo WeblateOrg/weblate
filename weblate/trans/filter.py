@@ -37,6 +37,7 @@ class FilterRegistry(object):
             ("translated", _("Translated strings"), "state:>=translated"),
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
+            ("shapings", _("Strings with shapings"), "has:shaping"),
             (
                 "nosuggestions",
                 _("Strings needing action without suggestions"),
@@ -95,10 +96,7 @@ def get_filter_choice():
         ("unapproved", _("Strings waiting for review")),
     ]
     result.extend(
-        (
-            CHECKS[check].url_id,
-            format_lazy(_("Failed check: {}"), CHECKS[check].name),
-        )
+        (CHECKS[check].url_id, format_lazy(_("Failed check: {}"), CHECKS[check].name))
         for check in CHECKS
     )
     return result

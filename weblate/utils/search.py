@@ -242,6 +242,8 @@ def has_sql(text):
         return Q(check__ignore=True)
     if text == "translation":
         return Q(state__gte=STATE_TRANSLATED)
+    if text == "shaping":
+        return Q(shaping__isnull=False)
 
     raise ValueError("Unsupported has lookup: {}".format(text))
 

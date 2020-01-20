@@ -43,7 +43,7 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-{% with comments=unit.get_comments nearby=unit.nearby nearby_keys=unit.nearby_keys %}
+{% with comments=unit.get_comments nearby=unit.nearby nearby_keys=unit.nearby_keys shapings=unit.shapings%}
 
 <div class="btn-group">
 <ul class="pagination unit-navi">
@@ -215,6 +215,9 @@
 {% if nearby_keys %}
 <li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
 {% endif %}
+{% if shapings %}
+<li><a href="#shapings" data-toggle="tab" id="toggle-shapings" title="{% trans "Shapings of the string" %}">{% trans "Shapings" %} <span class="badge">{{ shapings|length }}</span></a></li>
+{% endif %}
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions|length }}</span></a></li>
 {% endif %}
@@ -281,6 +284,37 @@
 </thead>
 <tbody>
 {% for item in nearby_keys %}
+<tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
+<td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
+<td>{% if unit.context %}<a href="{{ item.get_absolute_url }}">{% format_translation item.context unit.translation.component.project.source_language %}</a>{% endif %}</td>
+{% if not unit.translation.is_source %}
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.source unit.translation.component.project.source_language %}</a></td>
+{% endif %}
+<td><a href="{{ item.get_absolute_url }}">{% format_translation item.target unit.translation.language unit.translation.plural %}</a></td>
+<td>{% get_state_flags item %}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% endif %}
+
+{% if shapings %}
+<div class="tab-pane active" id="shapings">
+<table class="table table-condensed">
+<thead>
+<tr>
+    <th></th>
+    <th>{% trans "Context" %}</th>
+    {% if not unit.translation.is_source %}
+    <th>{{ unit.translation.component.project.source_language }}</th>
+    {% endif %}
+    <th>{{ unit.translation.language }}</th>
+    <th>{% trans "State" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for item in shapings %}
 <tr {% if unit.position == item.position %}class="current_translation"{% endif %}>
 <td class="number"><a href="{{ item.get_absolute_url }}">{{ item.position }}</a></td>
 <td>{% if unit.context %}<a href="{{ item.get_absolute_url }}">{% format_translation item.context unit.translation.component.project.source_language %}</a>{% endif %}</td>
@@ -441,7 +475,7 @@
 <div class="col-sm-3 source-info">
 
 {% with unit.check_set.all as checks %}
-{% if checks or unit.suggestions %}
+{% if checks or unit.suggestions or shapings %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
 
@@ -498,6 +532,20 @@
         <p class="list-group-item-text">{% blocktrans count count=comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
             <a href="#comments" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
+        </p>
+    </div>
+  {% endif %}
+
+  {% if shapings %}
+    <div class="list-group-item check">
+        <h5 class="list-group-item-heading">
+            {% documentation_icon 'user/translating' 'shapings' right=True %}
+            {% icon "shaping.svg" %}
+            {% trans "Shapings" %}
+        </h5>
+        <p class="list-group-item-text">{% blocktrans count count=shapings|length %}There is {{ count }} shaping for this string.{% plural %}There are {{ count }} shapings for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text list-buttons">
+            <a href="#shapings" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
         </p>
     </div>
   {% endif %}

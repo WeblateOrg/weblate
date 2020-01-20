@@ -8,6 +8,7 @@ Not yet released.
 * Improved look of plain text mails.
 * Display ignored checks and allow to make them active again.
 * Display nearby keys on monolingual translations.
+* Added support for groupping string shapings.
 
 Weblate 3.10.3
 --------------

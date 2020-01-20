@@ -57,6 +57,7 @@ from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
 from weblate.trans.models.change import Change
+from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.translation import Translation
 from weblate.trans.signals import (
     translation_post_add,
@@ -460,6 +461,15 @@ class Component(models.Model, URLMixin, PathMixin):
         help_text=ugettext_lazy(
             "Regular expression used to filter "
             "translation when scanning for filemask."
+        ),
+    )
+    shaping_regex = RegexField(
+        verbose_name=ugettext_lazy("Shapings regular expression"),
+        max_length=190,
+        default="",
+        blank=True,
+        help_text=ugettext_lazy(
+            "Regular expression used to determine shapings of a string."
         ),
     )
 
@@ -1374,6 +1384,9 @@ class Component(models.Model, URLMixin, PathMixin):
         for translation in translations.values():
             translation.notify_new(request)
 
+        if was_change:
+            self.update_shapings()
+
         self.log_info("updating completed")
         return was_change
 
@@ -1678,6 +1691,7 @@ class Component(models.Model, URLMixin, PathMixin):
         changed_git = True
         changed_setup = False
         changed_template = False
+        changed_shaping = False
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -1693,6 +1707,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 or (old.template != self.template)
             )
             changed_template = old.template != self.template
+            changed_shaping = old.shaping_regex != self.shaping_regex
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
@@ -1718,11 +1733,14 @@ class Component(models.Model, URLMixin, PathMixin):
             changed_git,
             changed_setup,
             changed_template,
+            changed_shaping,
             skip_push=kwargs.get("force_insert", False),
         )
         self.store_background_task(task)
 
-    def after_save(self, changed_git, changed_setup, changed_template, skip_push):
+    def after_save(
+        self, changed_git, changed_setup, changed_template, changed_shaping, skip_push
+    ):
         self.store_background_task()
         self.translations_progress = 0
         self.translations_count = 0
@@ -1733,14 +1751,43 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
+        was_change = False
         if changed_setup:
-            self.create_translations(force=True, changed_template=changed_template)
+            was_change = self.create_translations(
+                force=True, changed_template=changed_template
+            )
         elif changed_git:
-            self.create_translations()
+            was_change = self.create_translations()
+
+        # Update shapings (create_translation does this on change)
+        if changed_shaping and not was_change:
+            self.update_shapings()
 
         self.update_alerts()
         self.progress_step(100)
         self.translations_count = None
+
+    def update_shapings(self):
+        from weblate.trans.models import Unit
+
+        Shaping.objects.exclude(
+            shaping_regex=self.shaping_regex, component=self
+        ).delete()
+        if not self.shaping_regex:
+            return
+        shaping_re = re.compile(self.shaping_regex)
+        units = Unit.objects.filter(context__regex=self.shaping_regex, shaping=None)
+        for unit in units.iterator():
+            if shaping_re.findall(unit.context):
+                key = shaping_re.sub('', unit.context)
+                unit.shaping = Shaping.objects.get_or_create(
+                    key=key, component=self, shaping_regex=self.shaping_regex
+                )[0]
+                unit.save(update_fields=['shaping'])
+        for shaping in Shaping.objects.filter(component=self).iterator():
+            Unit.objects.filter(
+                translation__component=self, shaping=None, context=shaping.key
+            ).update(shaping=shaping)
 
     def update_alerts(self):
         from weblate.trans.models import Unit

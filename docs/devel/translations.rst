@@ -26,3 +26,22 @@ incredibly easy:
 2. Let Weblate update the repository (usually set up automatically, see
    :ref:`update-vcs`).
 
+
+.. _shapings:
+
+String shapings
+---------------
+
+Shapings are useful to group several strings together so that translators can
+see all variants of the string at one place. You can define regular expression
+to group the strings in the :ref:`component`. In addition to matching keys, the
+string with key without the expression is also included in the shapings.
+Following table lists some usage examples:
+
++---------------------------+-------------------------------+-----------------------------------------------+
+| Use case                  | Shapings regular expression   | Matched keys                                  |
++===========================+===============================+===============================================+
+| Suffix identification     | ``(Short|Min)$``              | ``monthShort``, ``monthMin``, ``month``       |
++---------------------------+-------------------------------+-----------------------------------------------+
+| Inline identification     | ``#[SML]``                    | ``dial#S.key``, ``dial#M.key``, ``dial.key``  |
++---------------------------+-------------------------------+-----------------------------------------------+

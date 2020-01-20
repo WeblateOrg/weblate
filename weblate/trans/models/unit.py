@@ -203,6 +203,13 @@ class Unit(models.Model, LoggerMixin):
     extra_context = models.TextField(
         verbose_name=ugettext_lazy("Additional context"), default="", blank=True
     )
+    shaping = models.ForeignKey(
+        "Shaping",
+        on_delete=models.deletion.SET_NULL,
+        blank=True,
+        null=True,
+        default=None,
+    )
 
     objects = UnitQuerySet.as_manager()
 
@@ -752,10 +759,19 @@ class Unit(models.Model, LoggerMixin):
             cache.set(key, key_list)
         offset = key_list.index(self.pk)
         nearby = key_list[
-            offset - settings.NEARBY_MESSAGES:offset + settings.NEARBY_MESSAGES
+            offset - settings.NEARBY_MESSAGES : offset + settings.NEARBY_MESSAGES
         ]
         return (
             Unit.objects.filter(translation=self.translation, id__in=nearby)
+            .prefetch()
+            .order_by('context')
+        )
+
+    def shapings(self):
+        if not self.shaping:
+            return []
+        return (
+            self.shaping.unit_set.filter(translation=self.translation)
             .prefetch()
             .order_by('context')
         )

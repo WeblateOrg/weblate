@@ -1218,6 +1218,7 @@ class ComponentSettingsForm(SettingsBaseForm):
             'filemask',
             'template',
             'language_regex',
+            'shaping_regex',
         )
 
     def __init__(self, request, *args, **kwargs):
@@ -1243,6 +1244,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                         _('Translation settings'),
                         'allow_translation_propagation',
                         'check_flags',
+                        'shaping_regex',
                     ),
                     css_id='translation',
                 ),
