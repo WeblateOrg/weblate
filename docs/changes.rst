@@ -68,7 +68,7 @@ Released on December 20th 2019.
 * Added support for automatic translation strings marked for editing.
 * Avoid sending duplicate notifications for linked component alerts.
 * Improve default merge request message.
-* Better indicate string state in zen mode.
+* Better indicate string state in Zen mode.
 * Added support for more languages in Yandex Translate.
 * Improved look of notification e-mails.
 * Provide choice for translation license.
@@ -150,7 +150,7 @@ Released on August 15th 2019.
 * Avoid sending multiple notifications for single event.
 * Add support for filtering changes.
 * Extended predefined periods for reporting.
-* Added support for Azure repository webhooks.
+* Added webhook support for Azure Repos.
 * New opt-in notifications on pending suggestions or untranslated strings.
 * Add one click unsubscribe link to notification e-mails.
 * Fixed false positives with Has been translated check.
