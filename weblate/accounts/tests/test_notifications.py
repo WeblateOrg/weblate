@@ -287,6 +287,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         AuditLog.objects.create(request.user, request, 'password')
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
+        # Verify site root expansion in email
+        content = mail.outbox[0].alternatives[0][0]
+        self.assertNotIn('href="/', content)
 
     def test_notify_html_language(self):
         self.user.profile.language = 'cs'
@@ -326,6 +329,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         # Trigger notification
         notify()
         self.validate_notifications(1, '[Weblate] Digest: {}'.format(subj))
+        content = mail.outbox[0].alternatives[0][0]
+        self.assertNotIn('img src="/', content)
 
     def test_digest_weekly(self):
         self.test_digest(FREQ_WEEKLY, notify_weekly)

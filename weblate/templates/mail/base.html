@@ -2,12 +2,12 @@
 {% load static %}
 {% load humanize %}
 {% load compress %}
+{% load site_url %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <base href="{{ current_site_url }}" />
   <title>{{ subject }}</title>
 {% compress css inline %}
   <style>
@@ -228,6 +228,7 @@ img {
  </head>
 
  <body>
+ {% filter add_site_url %}
     <div class="content">
     <div class="container">
         <div class="box">
@@ -313,5 +314,6 @@ img {
         <p style="opacity: 0" class="text-muted">Generated on {% now "DATETIME_FORMAT" %}</p>
     </div>
     </div>
+{% endfilter %}
  </body>
 </html>
