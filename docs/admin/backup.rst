@@ -8,7 +8,7 @@ Automated backup
 
 .. versionadded:: 3.9
 
-Weblate has built in support for creating service backups using `Borg backup`_.
+Weblate has built in support for creating service backups using `BorgBackup`_.
 Borg creates space effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface on the
 :guilabel:`Backups` tab.
@@ -48,7 +48,7 @@ Using custom backup storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can also use own storage for the backups. SSH can be used to store backups
-on the remote destination, the target server needs to have `Borg backup`_
+on the remote destination, the target server needs to have `BorgBackup`_
 installed.
 
 .. seealso::
@@ -60,7 +60,7 @@ installed.
 Borg encryption key
 ~~~~~~~~~~~~~~~~~~~
 
-`Borg backup`_ creates encrypted backups and without a passphrase you will not
+`BorgBackup`_ creates encrypted backups and without a passphrase you will not
 be able to restore the backup. The passphrase is generated when adding new
 backup service and you should copy it and keep it in a secure place.
 
@@ -71,8 +71,8 @@ well — it is used to access your backups.
 
    :doc:`borg:usage/init`
 
-Restoring from Borg backup
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Restoring from BorgBackup
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Restore access to your backup repository and prepare your backup passphrase.
 
@@ -100,7 +100,7 @@ The borg session might look like:
    :doc:`borg:usage/extract`
 
 
-.. _Borg backup: https://www.borgbackup.org/
+.. _BorgBackup: https://www.borgbackup.org/
 
 
 Manual backup
