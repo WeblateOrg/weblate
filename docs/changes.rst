@@ -5,6 +5,7 @@ Not yet released.
 
 * Rendered width check now shows image with the render.
 * Fixed links in notifications mails.
+* Improved look of plain text mails.
 
 Weblate 3.10.3
 --------------

@@ -29,7 +29,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.utils.timezone import now
-from html2text import html2text
+from html2text import HTML2Text
 from social_django.models import Code, Partial
 
 from weblate.celery import app
@@ -145,11 +145,16 @@ def send_mails(mails):
         connection.close()
         return
 
+    html2text = HTML2Text(bodywidth=78)
+    html2text.unicode_snob = True
+    html2text.ignore_images = True
+    html2text.pad_tables = True
+
     try:
         for mail in mails:
             email = EmailMultiAlternatives(
                 settings.EMAIL_SUBJECT_PREFIX + mail['subject'],
-                html2text(mail['body']),
+                html2text.handle(mail['body']),
                 to=[mail['address']],
                 headers=mail['headers'],
                 connection=connection,
