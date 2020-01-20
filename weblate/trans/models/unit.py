@@ -759,7 +759,8 @@ class Unit(models.Model, LoggerMixin):
             cache.set(key, key_list)
         offset = key_list.index(self.pk)
         nearby = key_list[
-            offset - settings.NEARBY_MESSAGES : offset + settings.NEARBY_MESSAGES
+            max(offset - settings.NEARBY_MESSAGES, 0) : offset
+            + settings.NEARBY_MESSAGES
         ]
         return (
             Unit.objects.filter(translation=self.translation, id__in=nearby)
