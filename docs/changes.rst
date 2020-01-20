@@ -18,13 +18,13 @@ Weblate 3.10.2
 Released on January 18th 2020.
 
 * Add lock indication to projects.
-* Fixed CSS bug caused flicker in some browsers.
-* Fixed searching on systems with non English locales.
-* Improved GitHub and Bitbucket hooks repositories matching.
+* Fixed CSS bug causing flickering in some web browsers.
+* Fixed searching on systems with non-English locales.
+* Improved repository matching for GitHub and Bitbucket hooks.
 * Fixed data migration on some Python 2.7 installations.
-* Allow to configure git shallow clones.
-* Improved background notifications processing.
-* Fixed broken form submissing when navigating back in browser.
+* Allow configuration of Git shallow cloning.
+* Improved background notification processing.
+* Fixed broken form submission when navigating back in web browser.
 * New addon to configure YAML formatting.
 * Fixed same plurals check to not fire on single plural form languages.
 * Fixed regex search on some fields.
@@ -32,16 +32,16 @@ Released on January 18th 2020.
 Weblate 3.10.1
 --------------
 
-Released on January 09th 2020.
+Released on January 9th 2020.
 
 * Extended API with translation creation.
 * Fixed several corner cases in data migrations.
 * Compatibility with Django 3.0.
 * Improved data cleanup performance.
 * Added support for customizable security.txt.
-* Improved breadcrumbs in changes log.
+* Improved breadcrumbs in changelog.
 * Improved translations listing on dashboard.
-* Improved HTTP responses for web hooks.
+* Improved HTTP responses for webhooks.
 * Added support for GitLab pull requests in Docker container.
 
 Weblate 3.10
@@ -54,21 +54,21 @@ Released on December 20th 2019.
 * Fixed creating new languages.
 * Avoid sending auditlog notifications to deleted e-mails.
 * Added support for read only strings.
-* Added support for markdown in comments.
-* Allow to place translation instructions text into project info.
+* Added support for Markdown in comments.
+* Allow placing translation instruction text in project info.
 * Add copy to clipboard for secondary languages.
 * Improved support for Mercurial.
-* Improved performance in fetching Git repositories.
+* Improved Git repository fetching performance.
 * Add search lookup for age of string.
 * Show source language for all translations.
 * Show context for nearby strings.
 * Added support for notifications on repository operations.
 * Improved translation listings.
 * Extended search capabilities.
-* Added support for automatic translation strings marked for edit.
+* Added support for automatic translation strings marked for editing.
 * Avoid sending duplicate notifications for linked component alerts.
 * Improve default merge request message.
-* Better indicate string state in Zen mode.
+* Better indicate string state in zen mode.
 * Added support for more languages in Yandex Translate.
 * Improved look of notification e-mails.
 * Provide choice for translation license.
@@ -119,7 +119,7 @@ Released on October 15th 2019.
 * Display addon parameters on overview.
 * Sentry is now supported through modern Sentry SDK instead of Raven.
 * Changed example settings to be better fit for production environment.
-* Added automated backups using Borg backup.
+* Added automated backups using BorgBackup.
 * Split cleanup addon for RESX to avoid unwanted file updates.
 * Added advanced search capabilities.
 * Allow users to download their own reports.
@@ -150,7 +150,7 @@ Released on August 15th 2019.
 * Avoid sending multiple notifications for single event.
 * Add support for filtering changes.
 * Extended predefined periods for reporting.
-* Added support for Azure Repos webhooks.
+* Added support for Azure repository webhooks.
 * New opt-in notifications on pending suggestions or untranslated strings.
 * Add one click unsubscribe link to notification e-mails.
 * Fixed false positives with Has been translated check.
