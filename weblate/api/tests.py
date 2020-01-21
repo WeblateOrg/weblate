@@ -712,6 +712,7 @@ class TranslationAPITest(APIBaseTest):
         )
 
     def test_statistics(self):
+        self.maxDiff = None
         self.do_request(
             'api:translation-statistics',
             self.translation_kwargs,
