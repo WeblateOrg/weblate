@@ -9,13 +9,14 @@
 # Hannu Martinet <swann.ranskassa@laposte.net>, 2019.
 # Allan Nordhøy <epost@anotheragency.no>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
+# odamite <odamite@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-16 08:45+0000\n"
-"PO-Revision-Date: 2020-01-03 08:21+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"PO-Revision-Date: 2020-01-22 23:11+0000\n"
+"Last-Translator: odamite <odamite@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -978,54 +979,44 @@ msgid "JSON indentation"
 msgstr "JSON-sisennys"
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "YAML indentation"
-msgstr "JSON-sisennys"
+msgstr "YAML-sisennys"
 
 #: weblate/addons/forms.py:166
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
-msgstr ""
-"Rivitä rivit sekä 77 merkkin kohdalta että rivinvaihtomerkkien kohdalta"
+msgstr "Rivitä rivit 80 merkin kohdalta"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
-msgstr ""
-"Rivitä rivit sekä 77 merkkin kohdalta että rivinvaihtomerkkien kohdalta"
+msgstr "Rivitä rivit 100 merkin kohdalta"
 
 #: weblate/addons/forms.py:168
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
-msgstr ""
-"Rivitä rivit sekä 77 merkkin kohdalta että rivinvaihtomerkkien kohdalta"
+msgstr "Rivitä rivit 120 merkin kohdalta"
 
 #: weblate/addons/forms.py:169
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
-msgstr ""
-"Rivitä rivit sekä 77 merkkin kohdalta että rivinvaihtomerkkien kohdalta"
+msgstr "Rivitä rivit 180 merkin kohdalta"
 
 #: weblate/addons/forms.py:176
 msgid "Line breaks"
-msgstr ""
+msgstr "Rivinvaihdot"
 
 #: weblate/addons/forms.py:178
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:179
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:180
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:189
 msgid "Days to keep"
@@ -1244,22 +1235,16 @@ msgid "Invalid addon name specified!"
 msgstr "Virheellinen lisäosan nimi!"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid "Customize JSON output"
 msgid "Customize YAML output"
-msgstr "Muokkaa JSON-tulostusta"
+msgstr "Muokkaa YAML-tulostusta"
 
 #: weblate/addons/yaml.py:35
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows to customize YAML output behavior, for example line length or "
 "newlines."
 msgstr ""
-"Salli muokata JSON-tulostuksen toimintaa, esimerkiksi sisennyksiä tai "
-"lajittelua."
+"Salli muokata YAML-tulostuksen toimintaa, kuten rivin pituutta ja "
+"rivinvaihtoja."
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -5001,7 +4986,7 @@ msgstr "Osallistujasopimus"
 #: weblate/templates/screenshots/screenshot_sources_body.html:14
 #: weblate/templates/translate.html:424 weblate/templates/translate.html:465
 msgid "View"
-msgstr "Näkymä"
+msgstr "Näytä"
 
 #: weblate/templates/component_info.html:70
 #: weblate/trans/models/component.py:255
@@ -5046,7 +5031,7 @@ msgstr[1] "Selaa kaikkia %(count)s projektia"
 
 #: weblate/templates/dashboard/user.html:13
 msgid "Configure dashboard"
-msgstr "Määritä kojelaudan asetukset"
+msgstr "Muuta kojelaudan asetuksia"
 
 #: weblate/templates/dashboard/user.html:50
 msgid "Checks overview"
@@ -6133,10 +6118,10 @@ msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
 msgstr ""
+"Kun käyttäjän kaikki käyttöoikeudet ovat poistettu, käyttäjä poistetaan "
+"projektista."
 
 #: weblate/templates/manage-access.html:69
-#, fuzzy
-#| msgid "Add an user"
 msgid "Add a user"
 msgstr "Lisää käyttäjä"
 
@@ -6775,10 +6760,8 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s / %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Completed translation"
-msgstr "Duplikaattikäännös."
+msgstr "Valmis käännös"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
@@ -7334,7 +7317,7 @@ msgstr "Zen"
 
 #: weblate/templates/translate.html:43 weblate/templates/zen.html:29
 msgid "Configure editor"
-msgstr "Määrittele muokkain"
+msgstr "Muuta muokkaimen asetuksia"
 
 #: weblate/templates/translate.html:50
 msgid "First"
@@ -7713,7 +7696,7 @@ msgstr "Prosenttia"
 
 #: weblate/templates/translation.html:394
 msgid "Chars"
-msgstr "Tegn"
+msgstr "Merkit"
 
 #: weblate/templates/translation.html:399
 msgid "Total"
@@ -8120,6 +8103,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
+"Ota projektissa käyttöön jaettu käännösmuisti päästäksesi käsiksi muihin "
+"komponentteihin."
 
 #: weblate/trans/forms.py:790
 msgid "Machine translation engines"
@@ -9328,7 +9313,7 @@ msgstr "Luokka"
 
 #: weblate/trans/models/whiteboard.py:102
 msgid "Category defines color used for the message."
-msgstr "Luokka määrittää värin jota käytetään viestissä."
+msgstr "Luokka määrittelee viestissä käytettävän värin."
 
 #: weblate/trans/models/whiteboard.py:104
 msgid "Info (light blue)"
@@ -9994,15 +9979,17 @@ msgstr "Integrointi versionhallintaan"
 
 #: weblate/trans/views/guide.py:90
 msgid "Configure repository hooks for automated flow of updates to Weblate."
-msgstr ""
+msgstr "Määrittele arkistoon koukut päivittääksesi Weblatea automaattisesti."
 
 #: weblate/trans/views/guide.py:108
 msgid "Configure push URL for automated flow of translations from Weblate."
 msgstr ""
+"Aseta etäarkiston push-osoite viedäksesi käännökset Weblatesta "
+"automaattisesti."
 
 #: weblate/trans/views/guide.py:122
 msgid "Building community"
-msgstr ""
+msgstr "Yhteisön rakentaminen"
 
 #: weblate/trans/views/guide.py:130
 msgid "Define translation instructions to give translators a guideline."
@@ -10018,7 +10005,7 @@ msgstr "Anna kääntäjille tietoa asiayhteydestä"
 
 #: weblate/trans/views/guide.py:180
 msgid "Add screenshots to show where strings are being used."
-msgstr ""
+msgstr "Lisää ruudunkaappaus, joka näyttää missä tekstiä käytetään."
 
 #: weblate/trans/views/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
@@ -10026,7 +10013,7 @@ msgstr "Merkitse käännöksessä käytettävät erikoismerkkijonot lippujen avu
 
 #: weblate/trans/views/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
-msgstr ""
+msgstr "Lisää safe-html-asetus välttääksesi vaarallinen HTML kääntäjiltä."
 
 #: weblate/trans/views/guide.py:233
 msgid "Workflow customization"
@@ -10130,11 +10117,11 @@ msgstr "käännetty"
 
 #: weblate/trans/widgets.py:411
 msgid "Vertical multi language status widget"
-msgstr ""
+msgstr "Pystysuuntainen monikielisyyden tila -vimpain"
 
 #: weblate/trans/widgets.py:473
 msgid "Horizontal multi language status widget"
-msgstr ""
+msgstr "Vaakasuuntainen monikielisyyden tila -vimpain"
 
 #: weblate/utils/render.py:46
 #, python-format
@@ -10243,7 +10230,7 @@ msgstr "Ei etäarkistoa"
 
 #: weblate/vcs/git.py:763
 msgid "Git with force push"
-msgstr ""
+msgstr "Git käyttäen force push -asetusta"
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:70
@@ -10288,7 +10275,7 @@ msgstr "Aktivointitunnus"
 #: weblate/wladmin/forms.py:37
 msgid ""
 "Please enter the activation token obtained when making the subscription."
-msgstr ""
+msgstr "Anna tilauksen yhteydessä saatu aktivointipoletti."
 
 #: weblate/wladmin/forms.py:45
 msgid "Port"
