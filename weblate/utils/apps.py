@@ -37,6 +37,7 @@ from weblate.utils.checks import (
 )
 from weblate.utils.django_hacks import monkey_patch_translate
 from weblate.utils.errors import init_error_collection
+from weblate.utils.version import check_version
 
 
 class UtilsConfig(AppConfig):
@@ -57,6 +58,7 @@ class UtilsConfig(AppConfig):
         register(check_perms, deploy=True)
         register(check_errors, deploy=True)
         register(check_python, deploy=True)
+        register(check_version)
 
         monkey_patch_translate()
 

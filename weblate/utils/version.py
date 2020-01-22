@@ -1,0 +1,95 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+from __future__ import unicode_literals
+
+from collections import namedtuple
+from datetime import datetime, timedelta
+from distutils.version import LooseVersion
+
+from dateutil.parser import parse
+from django.core.cache import cache
+from django.core.checks import Critical, Info
+from requests import request
+
+from weblate import USER_AGENT, VERSION_BASE
+from weblate.utils.docs import get_doc_url
+
+PYPI = "https://pypi.org/pypi/Weblate/json"
+CACHE_KEY = "version-check"
+
+
+Release = namedtuple("Release", ["version", "timestamp"])
+
+
+def download_version_info():
+    headers = {"User-Agent": USER_AGENT}
+    response = request("get", PYPI, headers=headers)
+    result = []
+    for version, info in response.json()["releases"].items():
+        if not info:
+            continue
+        result.append(Release(version, parse(info[0]["upload_time"])))
+    return sorted(result, key=lambda x: x[1], reverse=True)
+
+
+def flush_version_cache():
+    cache.delete(CACHE_KEY)
+
+
+def get_version_info():
+    result = cache.get(CACHE_KEY)
+    if not result:
+        result = download_version_info()
+        cache.set(CACHE_KEY, result, 86400)
+    return result
+
+
+def get_latest_version():
+    return get_version_info()[0]
+
+
+def check_version(app_configs=None, **kwargs):
+    try:
+        latest = get_latest_version()
+    except (ValueError, IOError):
+        return []
+    if LooseVersion(latest.version) > LooseVersion(VERSION_BASE):
+        # With release every two months, this get's triggered after three releases
+        if latest.timestamp + timedelta(days=180) < datetime.now():
+            return [
+                Critical(
+                    "You Weblate version is outdated, please upgrade to {}.".format(
+                        latest.version
+                    ),
+                    hint=get_doc_url("admin/upgrade"),
+                    id="weblate.C031",
+                )
+            ]
+        return [
+            Info(
+                "New Weblate version is available, please upgrade to {}.".format(
+                    latest.version
+                ),
+                hint=get_doc_url("admin/upgrade"),
+                id="weblate.I031",
+            )
+        ]
+    return []
