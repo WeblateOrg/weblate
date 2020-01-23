@@ -104,10 +104,11 @@ class SecurityMiddleware(object):
 
         # Matomo (Piwik) analytics
         if settings.PIWIK_URL:
+            domain = urlparse(settings.PIWIK_URL).hostname
             script.add("'unsafe-inline'")
-            script.add(settings.PIWIK_URL)
-            image.add(settings.PIWIK_URL)
-            connect.add(settings.PIWIK_URL)
+            script.add(domain)
+            image.add(domain)
+            connect.add(domain)
 
         # Google Analytics
         if settings.GOOGLE_ANALYTICS_ID:

@@ -982,7 +982,8 @@ How many messages around current one to show during translating.
 PIWIK_SITE_ID
 -------------
 
-ID of a site in Matomo you want to track.
+ID of a site in Matomo you want to track. Please note that this integration
+does not support Matomo Tag Manager.
 
 .. seealso::
 
@@ -993,8 +994,10 @@ ID of a site in Matomo you want to track.
 PIWIK_URL
 ---------
 
-URL of a Matomo installation you want to use to track Weblate users. For more
-information about Matomo see <https://matomo.org/>.
+Full URL including trailing slash of a Matomo installation you want to use to
+track Weblate users. For more information about Matomo see
+<https://matomo.org/>. Please note that this integration does not support
+Matomo Tag Manager.
 
 .. seealso::
 
