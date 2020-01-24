@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.10.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-16 08:45+0000\n"
-"PO-Revision-Date: 2020-01-19 11:50+0000\n"
+"PO-Revision-Date: 2020-01-24 05:29+0000\n"
 "Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10.2\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -41,7 +41,8 @@ msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
-"Cette adresse courriel est déjà utilisée. Veuillez saisir un autre courriel."
+"Cette adresse de courriel est déjà utilisée. Veuillez saisir une adresse de "
+"courriel différente."
 
 #: weblate/accounts/forms.py:121 weblate/auth/models.py:309
 #: weblate/utils/validators.py:173
@@ -75,7 +76,7 @@ msgstr "Courriel"
 
 #: weblate/accounts/forms.py:258
 msgid "You can add another e-mail address below."
-msgstr "Vous pouvez ajouter un autre courriel ci-dessous."
+msgstr "Vous pouvez ajouter une autre adresse de courriel ci-dessous."
 
 #: weblate/accounts/forms.py:308
 msgid "Subject"
@@ -87,7 +88,7 @@ msgstr "Votre nom"
 
 #: weblate/accounts/forms.py:318 weblate/accounts/forms.py:604
 msgid "Your e-mail"
-msgstr "Votre adresse courriel"
+msgstr "Votre adresse de courriel"
 
 #: weblate/accounts/forms.py:322 weblate/templates/mail/new_whiteboard.html:7
 #: weblate/templates/manage/performance.html:26
@@ -110,7 +111,7 @@ msgstr "Le courriel de confirmation vous sera envoyé ici."
 
 #: weblate/accounts/forms.py:386
 msgid "Too many failed registration attempts from this location!"
-msgstr "Trop nombreux échecs d’inscription depuis cet emplacement !"
+msgstr "Trop nombreux échecs d’inscription depuis cet emplacement !"
 
 #: weblate/accounts/forms.py:393
 msgid "New password"
@@ -129,7 +130,7 @@ msgstr "Votre mot de passe a été modifié."
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
-msgstr "Quel est le résultat de %s ?"
+msgstr "Quel est le résultat de %s ?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:466
@@ -150,7 +151,7 @@ msgstr "Vous avez saisi un mot de passe non valide."
 
 #: weblate/accounts/forms.py:522
 msgid "Username or e-mail"
-msgstr "Nom d’utilisateur ou adresse courriel"
+msgstr "Nom d’utilisateur ou adresse de courriel"
 
 #: weblate/accounts/forms.py:525 weblate/accounts/templatetags/authnames.py:39
 msgid "Password"
@@ -170,7 +171,7 @@ msgstr "Ce compte est inactif."
 
 #: weblate/accounts/forms.py:550
 msgid "Too many authentication attempts from this location!"
-msgstr "Trop de tentatives d’authentification depuis cette localisation !"
+msgstr "Trop de tentatives d’authentification depuis cet endroit !"
 
 #: weblate/accounts/forms.py:608 weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:66
@@ -202,8 +203,8 @@ msgid ""
 "Path of files to translate, use * instead of language code, for example: po/"
 "*.po or locale/*/LC_MESSAGES/django.po."
 msgstr ""
-"Chemin des fichiers à traduire, utilisez * à la place du code de langue, par "
-"exemple : po/*.po ou locale/*/LC_MESSAGES/django.po."
+"Chemin vers les fichiers à traduire, utilisez * à la place du code de "
+"langue, par exemple : po/*.po ou locale/*/LC_MESSAGES/django.po."
 
 #: weblate/accounts/forms.py:636
 msgid "Additional message"
@@ -211,7 +212,7 @@ msgstr "Message supplémentaire"
 
 #: weblate/accounts/forms.py:641
 msgid "Please describe the project and your relation to it."
-msgstr "Veuillez décrire le projet ainsi que vos liens avec celui-ci."
+msgstr "Veuillez décrire le projet ainsi que votre lien avec celui-ci."
 
 #: weblate/accounts/forms.py:705
 msgid "Component wide notifications"
@@ -270,7 +271,7 @@ msgstr "Nom d’utilisateur modifié de {old} en {new}."
 #: weblate/accounts/models.py:84
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "E-mail modifié de {old} en {new}."
+msgstr "Adresse de courriel modifiée de {old} en {new}."
 
 #: weblate/accounts/models.py:85
 #, python-brace-format
@@ -279,7 +280,7 @@ msgstr "Nom complet modifié de {old} en {new}."
 
 #: weblate/accounts/models.py:86
 msgid "Password reset requested."
-msgstr "Réinitialisation du mot demandée."
+msgstr "Réinitialisation du mot de passe demandée."
 
 #: weblate/accounts/models.py:87
 msgid "Password reset confirmed, password turned off."
@@ -309,11 +310,11 @@ msgstr "Connecté en utilisant {method} ({name}) à partir d’un nouvel apparei
 
 #: weblate/accounts/models.py:92
 msgid "Somebody has attempted to register with your e-mail."
-msgstr "Quelqu’un a tenté de s’inscrire avec votre adresse courriel."
+msgstr "Quelqu’un a tenté de s’inscrire avec votre adresse de courriel."
 
 #: weblate/accounts/models.py:93
 msgid "Somebody has attempted to register using your e-mail address."
-msgstr "Quelqu’un a tenté de s’inscrire avec votre adresse courriel."
+msgstr "Quelqu’un a tenté de s’inscrire avec votre adresse de courriel."
 
 #: weblate/accounts/models.py:94
 #, python-brace-format
@@ -452,7 +453,7 @@ msgid ""
 "are hard to type on your keyboard."
 msgstr ""
 "Vous pouvez indiquer des caractères spéciaux à afficher sur le clavier "
-"visuel pendant la traduction. Cela peut-être utile pour saisir rapidement "
+"visuel pendant la traduction. Cela peut être utile pour saisir rapidement "
 "des caractères difficiles à taper avec votre clavier."
 
 #: weblate/accounts/models.py:366 weblate/templates/dashboard/user.html:20
@@ -509,7 +510,7 @@ msgid ""
 "address."
 msgstr ""
 "Vous ne pouvez pas effectuer de traduction car vous n’avez pas renseigné "
-"votre adresse courriel."
+"votre adresse de courriel."
 
 #: weblate/accounts/notifications.py:54
 msgid "Do not notify"
@@ -517,7 +518,7 @@ msgstr "Ne pas notifier"
 
 #: weblate/accounts/notifications.py:55
 msgid "Instant notification"
-msgstr "Notification immédiate"
+msgstr "Notification instantanée"
 
 #: weblate/accounts/notifications.py:56
 msgid "Daily digest"
@@ -625,7 +626,7 @@ msgstr "Le mot de passe ne doit pas avoir été utilisé par le passé."
 
 #: weblate/accounts/pipeline.py:294
 msgid "You can not complete password reset while logged in!"
-msgstr "Vous ne pouvez pas réinitialiser votre mot de passe en étant connecté !"
+msgstr "Vous ne pouvez pas réinitialiser votre mot de passe en étant connecté !"
 
 #: weblate/accounts/pipeline.py:297 weblate/accounts/pipeline.py:320
 msgid "The registration link has been invalidated."
@@ -633,11 +634,11 @@ msgstr "Le lien d’inscription n’est plus valide."
 
 #: weblate/accounts/pipeline.py:312
 msgid "You can not complete registration while logged in!"
-msgstr "Vous ne pouvez pas terminer l’inscription en étant connecté !"
+msgstr "Vous ne pouvez pas terminer l’inscription en étant connecté !"
 
 #: weblate/accounts/pipeline.py:317
 msgid "You can confirm your registration only while logged in!"
-msgstr "Vous ne pouvez confirmer votre inscription qu’en en étant connecté !"
+msgstr "Vous ne pouvez confirmer votre inscription qu’en en étant connecté !"
 
 #: weblate/accounts/pipeline.py:444
 #, python-brace-format
@@ -645,8 +646,8 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Votre adresse courriel n’est plus associée à un compte vérifié, elle a été "
-"modifiée pour {0}."
+"Votre adresse de courriel n’est plus associée à un compte vérifié, elle a "
+"été modifiée pour {0}."
 
 #: weblate/accounts/views.py:160 weblate/accounts/views.py:750
 #: weblate/accounts/views.py:796 weblate/templates/accounts/reset.html:7
@@ -664,7 +665,7 @@ msgstr "Enregistrement utilisateur"
 
 #: weblate/accounts/views.py:194
 msgid "Message could not be sent to administrator!"
-msgstr "Le message n’a pu être envoyé à l’administrateur !"
+msgstr "Le message n’a pu être envoyé à l’administrateur !"
 
 #: weblate/accounts/views.py:214
 msgid "Message has been sent to administrator."
