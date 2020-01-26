@@ -10,15 +10,15 @@
 # Burak Yavuz <hitowerdigit@hotmail.com>, 2019, 2020.
 # anonymous <noreply@weblate.org>, 2019.
 # Oguz Ersen <oguzersen@protonmail.com>, 2019.
-# Oğuz Ersen <oguzersen@protonmail.com>, 2019.
+# Oğuz Ersen <oguzersen@protonmail.com>, 2019, 2020.
 # Orhan <orya@pm.me>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 08:56+0000\n"
-"PO-Revision-Date: 2020-01-19 11:49+0000\n"
-"Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
+"PO-Revision-Date: 2020-01-26 12:56+0000\n"
+"Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
 "Language: tr\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.2\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -383,10 +383,8 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Tamamlanan çevirileri panelde gizle"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
-msgstr "İkincil çevirileri zen kipinde göster"
+msgstr "Zen modunda ikincil çevirileri göster"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
@@ -1475,7 +1473,7 @@ msgstr "Havuza erişim"
 #: weblate/auth/data.py:148
 msgctxt "Access control role"
 msgid "Power user"
-msgstr "Yetkili kullanıcı"
+msgstr "Usta kullanıcı"
 
 #: weblate/auth/data.py:157
 msgctxt "Access control role"
@@ -7376,28 +7374,20 @@ msgid "Nearby strings"
 msgstr "Yakınındaki satırlar"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Yorumları olan satırlar"
+msgstr "Benzer harflere sahip dizeler"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Yakındaki iletiler"
+msgstr "Yakındaki harfler"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Değiştirilen satır"
+msgstr "Dizenin şekillendirmeleri"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Satırlar"
+msgstr "Şekillendirmeler"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7490,13 +7480,11 @@ msgstr[0] "Bu satır için %(count)s yorum var."
 msgstr[1] "Bu satır için %(count)s yorum var."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Bu satır için %(count)s öneri var."
-msgstr[1] "Bu satır için %(count)s öneri var."
+msgstr[0] "Bu dize için %(count)s şekillendirme var."
+msgstr[1] "Bu dize için %(count)s şekillendirme var."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7894,10 +7882,8 @@ msgid "Strings marked for edit"
 msgstr "Düzenlenmesi için işaretlenen satırlar"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Önerileri olan satırlar"
+msgstr "Şekillendirmeleri olan dizeler"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -8963,18 +8949,13 @@ msgstr ""
 "Dosya maskesi için taranırken çeviriyi süzmek için kullanılan düzenli ifade."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Eposta düzenli ifadesi"
+msgstr "Şekillendirme düzenli ifadesi"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
 msgstr ""
-"Dosya maskesi için taranırken çeviriyi süzmek için kullanılan düzenli ifade."
+"Bir dizenin şekillendirmelerini belirlemek için kullanılan düzenli ifade."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10162,10 +10143,8 @@ msgid "Failed to compile: {0}"
 msgstr "Derleme başarısız: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr "Kullanıcı epostasını eşleştirmek için kullanılan düzenli ifade."
+msgstr "Düzenli ifade, boş dize ile eşleşmemelidir."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
