@@ -112,12 +112,15 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         )
 
     def do_request(self, name, kwargs=None, data=None, code=200, superuser=False,
-                   method="get", request=None, skip=()):
+                   method="get", request=None, skip=(), debug=False):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
         response = getattr(self.client, method)(url, request)
         self.assertEqual(response.status_code, code)
         if data is not None:
+            if debug:
+                print(response.data)
+                print(data)
             for item in skip:
                 del response.data[item]
             self.assertEqual(response.data, data)
@@ -733,7 +736,8 @@ class TranslationAPITest(APIBaseTest):
                 'last_change': None,
                 'name': 'Czech',
                 'recent_changes': 0,
-            }
+            },
+            debug=True
         )
 
     def test_changes(self):
