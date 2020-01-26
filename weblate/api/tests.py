@@ -730,10 +730,10 @@ class TranslationAPITest(APIBaseTest):
                 'translated': 0,
                 'fuzzy': 0,
                 'total': 4,
-                'last_change': None,
                 'name': 'Czech',
                 'recent_changes': 0,
-            }
+            },
+            skip=('last_change',),
         )
 
     def test_changes(self):
