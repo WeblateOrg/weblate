@@ -12,8 +12,11 @@ for tag in $TAGS ; do
     git fetch --depth 1 origin tag $tag
     check
     git checkout $tag
+    check
     pip install 'Django>=2.1,<2.2'
+    check
     pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
+    check
     echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
     check
     run_coverage ./manage.py migrate
