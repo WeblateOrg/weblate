@@ -472,7 +472,7 @@ class CaptchaForm(forms.Form):
             mail = 'NONE'
 
         LOGGER.info(
-            'Passed captcha for %s (%s = %s)',
+            'Correct CAPTCHA for %s (%s = %s)',
             mail,
             self.captcha.question,
             self.cleaned_data['captcha']
