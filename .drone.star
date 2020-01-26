@@ -19,7 +19,7 @@ cmd_pip_postgresql_old = "pip install psycopg2-binary==2.7.7"
 cmd_pip_deps = "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt"
 cmd_pip_deps_min = [
     "pip install requirements-builder",
-    "requirements-builder --req requirements.txt --req requirements-optional.txt --req requirements-postgresql.txt --level min > requirements-min.txt",
+    "requirements-builder --req requirements.txt --req requirements-optional.txt --req requirements-postgresql.txt --req requirements-test.txt --level min > requirements-min.txt",
     "pip install -r requirements-min.txt",
 ]
 
