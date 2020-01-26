@@ -6,6 +6,7 @@
 TAGS="weblate-3.1.1 weblate-3.2.2 weblate-3.3 weblate-3.4 weblate-3.5.1 weblate-3.7.1 weblate-3.8 weblate-3.9.1 weblate-3.10.3"
 
 HEAD_COMMIT=$(git rev-parse HEAD)
+PYTHON_VERSION=$(python -c 'import sys; print(sys.version_info[0])')
 
 for tag in $TAGS ; do
     echo
@@ -15,7 +16,7 @@ for tag in $TAGS ; do
     check
     git checkout $tag
     check
-    pip install 'Django>=2.1,<2.2'
+    if [ $PYTHON_VERSION -eq 3 ] ; then pip install 'Django>=2.1,<2.2' ; else pip install 'Django>1.11' ; fi
     check
     pip install -r requirements-optional.txt -r docs/requirements.txt
     check
