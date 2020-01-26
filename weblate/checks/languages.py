@@ -3347,7 +3347,6 @@ LANGUAGES = {
     "exotique",
     "extremadura",
     "extremaduran",
-    "extremadurian",
     "exuma",
     "eyak",
     "eystra",

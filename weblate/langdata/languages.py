@@ -751,7 +751,7 @@ LANGUAGES = (
     (
         "ext",
         # Translators: Language name, ISO code: ext
-        _("Extremadurian"),
+        _("Extremaduran"),
         2,
         "n != 1",
     ),
