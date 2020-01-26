@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 08:56+0000\n"
-"PO-Revision-Date: 2020-01-19 11:50+0000\n"
+"PO-Revision-Date: 2020-01-26 12:56+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10.2\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -379,8 +379,6 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Ocultar traduções completas no painel"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
 msgstr "Mostrar traduções secundárias no modo Zen"
 
@@ -7424,28 +7422,20 @@ msgid "Nearby strings"
 msgstr "Textos próximos"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Textos com comentários"
+msgstr "Textos com chaves similares"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Mensagens próximas"
+msgstr "Chaves próximas"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Texto alterado"
+msgstr "Formas do texto"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Textos"
+msgstr "Formas"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7538,13 +7528,11 @@ msgstr[0] "Existe %(count)s comentário para este texto."
 msgstr[1] "Existe %(count)s comentários para estes textos."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Existe %(count)s sugestão para este texto."
-msgstr[1] "Existe %(count)s sugestões para estes textos."
+msgstr[0] "Existe %(count)s forma para este texto."
+msgstr[1] "Existem %(count)s formas para estes textos."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7943,10 +7931,8 @@ msgid "Strings marked for edit"
 msgstr "Textos marcados para edição"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Textos com sugestões"
+msgstr "Textos com formas"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -9015,19 +9001,12 @@ msgstr ""
 "máscara de arquivo."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Expressão regular de e-mail"
+msgstr "Expressão regular de formas"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Expressão regular usada para filtrar as traduções ao examinar por uma "
-"máscara de arquivo."
+msgstr "Expressão regular usada para determinar formas de um texto."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10226,10 +10205,8 @@ msgid "Failed to compile: {0}"
 msgstr "Falha ao compilar: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr "Expressão regular usada para corresponder a um e-mail de usuário."
+msgstr "Expressão regular não deve corresponder a um texto vazio."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
