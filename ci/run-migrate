@@ -5,6 +5,8 @@
 
 TAGS="weblate-3.1.1 weblate-3.2.2 weblate-3.3 weblate-3.4 weblate-3.5.1 weblate-3.7.1 weblate-3.8 weblate-3.9.1 weblate-3.10.3"
 
+HEAD_COMMIT=$(git rev-parse HEAD)
+
 for tag in $TAGS ; do
     echo
     echo "Testing migration from $tag on $CI_DATABASE..."
@@ -36,8 +38,11 @@ for tag in $TAGS ; do
     ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
     check
     git reset --hard
-    git checkout $TRAVIS_COMMIT$DRONE_COMMIT
+    check
+    git checkout $HEAD_COMMIT
+    check
     pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
+    check
     run_coverage ./manage.py migrate
     check
     # Check migrated vote exists
