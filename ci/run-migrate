@@ -21,6 +21,8 @@ for tag in $TAGS ; do
     check
     if [ -f requirements-test.txt ] ; then pip install -r requirements-test.txt ; fi
     check
+    if pip show Django  | grep -q '^Version: 3' ; then pip install django-compressor==2.4 ; fi
+    check
     echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
     check
     run_coverage ./manage.py migrate
