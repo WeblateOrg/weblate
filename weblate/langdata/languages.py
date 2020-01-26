@@ -287,6 +287,13 @@ LANGUAGES = (
         "n > 1",
     ),
     (
+        "bho",
+        # Translators: Language name, ISO code: bho
+        _("Bhojpuri"),
+        2,
+        "n > 1",
+    ),
+    (
         "bi",
         # Translators: Language name, ISO code: bi
         _("Bislama"),
@@ -738,6 +745,13 @@ LANGUAGES = (
         "eu",
         # Translators: Language name, ISO code: eu
         _("Basque"),
+        2,
+        "n != 1",
+    ),
+    (
+        "ext",
+        # Translators: Language name, ISO code: ext
+        _("Extremadurian"),
         2,
         "n != 1",
     ),
@@ -1713,6 +1727,13 @@ LANGUAGES = (
         _("Ossetian"),
         2,
         "n != 1",
+    ),
+    (
+        "osa",
+        # Translators: Language name, ISO code: osa
+        _("Osage"),
+        1,
+        "0",
     ),
     (
         "otk",
