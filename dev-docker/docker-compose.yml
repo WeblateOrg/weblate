@@ -15,6 +15,9 @@ services:
     build:
       context: ../
       dockerfile: dev-docker/Dockerfile
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
     ports:
       - ${WEBLATE_HOST}:8080
     user: $USER_ID:$GROUP_ID
