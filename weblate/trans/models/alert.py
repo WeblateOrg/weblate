@@ -28,6 +28,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from six import python_2_unicode_compatible
 
+from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.utils.fields import JSONField
 
 ALERTS = {}
@@ -84,12 +85,16 @@ class BaseAlert(object):
     def __init__(self, instance):
         self.instance = instance
 
+    def get_analysis(self):
+        return {}
+
     def get_context(self):
         result = {
             'alert': self.instance,
             'component': self.instance.component,
             'timestamp': self.instance.timestamp,
             'details': self.instance.details,
+            'analysis': self.get_analysis(),
         }
         result.update(self.instance.details)
         return result
@@ -148,6 +153,20 @@ class DuplicateLanguage(MultiAlert):
     # Translators: Name of an alert
     verbose = _('Duplicated translation.')
     on_import = True
+
+    def get_analysis(self):
+        result = {}
+        source = self.instance.component.project.source_language
+        for occurrence in self.occurrences:
+            if occurrence['language'] == source:
+                result['source_language'] = True
+            codes = {
+                code.strip().replace('-', '_').lower()
+                for code in occurrence['codes'].split(',')
+            }
+            if codes.intersection(DEFAULT_LANGS):
+                result['default_country'] = True
+        return result
 
 
 @register

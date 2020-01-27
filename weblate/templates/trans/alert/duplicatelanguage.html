@@ -1,5 +1,23 @@
 {% load i18n %}
-<p>{% trans "The component contains several translation files mapped to single language in Weblate." %}</p>
+<p>
+    {% trans "The component contains several translation files mapped to single language in Weblate." %}
+    {% trans "Please fix this by removing one of the translation files." %}
+</p>
+
+{% if analysis %}
+
+<p>{% trans "Please consider following steps:" %}</p>
+
+<ul>
+{% if analysis.source_language %}
+<li>{% trans "Remove the translation file for the source language or change the source language in the project settings." %}</li>
+{% endif %}
+{% if analysis.default_country %}
+<li>{% trans "Avoid having translation files for both plain language code and code with default country (for example de and de_DE)." %}</li>
+{% endif %}
+</ul>
+
+{% endif %}
 
 <p>{% trans "The following occurrences were found:" %}</p>
 
@@ -9,9 +27,10 @@
 </thead>
 <tbody>
 {% for occurrence in occurrences %}
-<tr><td>{{ occurrence.language }}</td><td>{{ occurrence.codes }}</td></tr>
+<tr>
+    <td>{{ occurrence.language }}</td>
+    <td>{{ occurrence.codes }}</td>
+</tr>
 {% endfor %}
 </tbody>
 </table>
-
-<p>{% trans "Please fix this by removing one of the duplicated strings from the translation files." %}</p>
