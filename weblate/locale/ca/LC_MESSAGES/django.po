@@ -7,13 +7,14 @@
 # Marc Riera <marc.riera.irigoyen@gmail.com>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
+# Ecron <ecron_89@hotmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-20 20:37+0000\n"
-"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
+"PO-Revision-Date: 2020-01-27 18:37+0000\n"
+"Last-Translator: Ecron <ecron_89@hotmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
 "Language: ca\n"
@@ -387,8 +388,6 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Amaga les traduccions completades al tauler principal"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
 msgstr "Mostra les traduccions secundàries en mode zen"
 
@@ -7472,28 +7471,20 @@ msgid "Nearby strings"
 msgstr "Cadenes properes"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Cadenes amb comentaris"
+msgstr "Cadenes amb claus semblants"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Missatges propers"
+msgstr "Claus properes"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Cadena modificada"
+msgstr "Formes de la cadena"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Cadenes"
+msgstr "Formes"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7588,13 +7579,11 @@ msgstr[0] "Hi ha %(count)s comentari per a aquesta cadena."
 msgstr[1] "Hi ha %(count)s comentaris per a aquesta cadena."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Hi ha %(count)s suggeriment per a aquesta cadena."
-msgstr[1] "Hi ha %(count)s suggeriments per a aquesta cadena."
+msgstr[0] "Hi ha %(count)s forma per a aquesta cadena."
+msgstr[1] "Hi ha %(count)s formes per a aquesta cadena."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7993,10 +7982,8 @@ msgid "Strings marked for edit"
 msgstr "Cadenes que cal editar"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Cadenes amb suggeriments"
+msgstr "Cadenes amb formes"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -9070,19 +9057,12 @@ msgstr ""
 "fitxer."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Expressió regular del correu electrònic"
+msgstr "Expressió regular de les formes"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Expressió regular per a filtrar traduccions quan s'escanegen els noms de "
-"fitxer."
+msgstr "Expressió regular per a determinar formes de la cadena."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10297,11 +10277,8 @@ msgid "Failed to compile: {0}"
 msgstr "No s'ha pogut compilar: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr ""
-"Expressió regular amb què ha de coincidir el correu electrònic dels usuaris."
+msgstr "L'expressió regular no hauria de trobar cadenes buides."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
