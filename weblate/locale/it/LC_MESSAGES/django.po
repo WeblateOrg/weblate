@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-20 09:55+0000\n"
+"PO-Revision-Date: 2020-01-27 18:37+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -386,10 +386,8 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Nascondi la traduzione completa dal cruscotto"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
-msgstr "Visualizza le traduzioni secondarie in modalità Zen"
+msgstr "Visualizza le traduzioni secondarie nella modalità Zen"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
@@ -7450,28 +7448,20 @@ msgid "Nearby strings"
 msgstr "Stringhe simili"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Stringhe con commenti"
+msgstr "Stringhe con chiavi simili"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Messaggi vicini"
+msgstr "Chiavi simili"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Stringa modificata"
+msgstr "Forma dell stringa"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Stringhe"
+msgstr "Forme"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7568,13 +7558,11 @@ msgstr[0] "C'è %(count)s commento per questa stringa."
 msgstr[1] "Ci sono %(count)s commenti per questa stringa."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "C'è %(count)s suggerimento per questa stringa."
-msgstr[1] "Ci sono %(count)s suggerimenti per questa stringa."
+msgstr[0] "%(count)s forma per questa stringa."
+msgstr[1] "%(count)s forme per questa stringa."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7974,10 +7962,8 @@ msgid "Strings marked for edit"
 msgstr "Stringhe contrassegnate per la modifica"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Stringhe con suggerimenti"
+msgstr "Stringhe con forme"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -9049,19 +9035,12 @@ msgstr ""
 "per una maschera file."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Espressione regolare email"
+msgstr "Forma espressione regolare"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Espressione regolare usata per filtrare la traduzione quando si scansiona "
-"per una maschera file."
+msgstr "Espressione regolare usata per determinare la forma della stringa."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10282,10 +10261,8 @@ msgid "Failed to compile: {0}"
 msgstr "Compilazione non riuscita: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr "Espressione regolare usata per controllare l'email dell'utente."
+msgstr "Espressione regolare per la verifica di un stringa non vuota."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
