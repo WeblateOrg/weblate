@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-20 21:23+0000\n"
+"PO-Revision-Date: 2020-01-27 18:37+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -383,8 +383,6 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Ocultar traducciones completas en el cuadro de mando"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
 msgstr "Mostrar traducciones secundarias en modo zen"
 
@@ -7472,28 +7470,20 @@ msgid "Nearby strings"
 msgstr "Cadenas cercanas"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Cadenas con comentarios"
+msgstr "Cadenas con claves similares"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Mensajes adyacentes"
+msgstr "Claves adyacentes"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Cadena cambiada"
+msgstr "Formas de la cadena"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Cadenas"
+msgstr "Formas"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7586,13 +7576,11 @@ msgstr[0] "Hay %(count)s comentario para esta cadena."
 msgstr[1] "Hay %(count)s comentarios para esta cadena."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Hay %(count)s sugerencia para esta cadena."
-msgstr[1] "Hay %(count)s sugerencias para esta cadena."
+msgstr[0] "Hay %(count)s forma para esta cadena."
+msgstr[1] "Hay %(count)s formas para esta cadena."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7991,10 +7979,8 @@ msgid "Strings marked for edit"
 msgstr "Cadenas marcadas para edición"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Cadenas con sugerencias"
+msgstr "Cadenas con formas"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -9071,19 +9057,12 @@ msgstr ""
 "archivo."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Expresión regular del correo electrónico"
+msgstr "Expresión regular de formas"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Expresión regular utilizada para filtrar la traducción al buscar máscaras de "
-"archivo."
+msgstr "Expresión regular utilizada para determinar las formas de una cadena."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10297,11 +10276,8 @@ msgid "Failed to compile: {0}"
 msgstr "Error al compilar: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr ""
-"Expresión regular usada para coincidir con el correo electrónico del usuario."
+msgstr "La expresión regular no debería encontrar cadenas vacías."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
