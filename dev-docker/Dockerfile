@@ -13,6 +13,9 @@ FROM weblate/weblate:edge
 
 # TODO: put some new dependencies here
 
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
 USER root
 # Following are removed during cleanup of weblate/weblate
 RUN apt-get update && apt-get install -y \
@@ -28,7 +31,14 @@ RUN apt-get update && apt-get install -y \
     g++ \
     libsasl2-dev \
     libldap2-dev \
-    libssl-dev
+    libssl-dev \
+    &&  if ! getent group "${GROUP_ID}"; then \
+            groupadd --gid "${GROUP_ID}" developer; \
+        fi \
+    &&  if ! getent passwd "${USER_ID}"; then \
+            useradd --gid "${GROUP_ID}" --uid "${USER_ID}" --shell /bin/bash developer; \
+        fi
+
 COPY requirements.txt /tmp/
 RUN pip3 install -r /tmp/requirements.txt
 # List should match weblate/weblate
