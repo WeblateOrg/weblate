@@ -83,6 +83,15 @@ def add_optional_context(context):
         context['has_{}'.format(name)] = appname in settings.INSTALLED_APPS
 
 
+def get_preconnect_list():
+    result = []
+    if settings.PIWIK_URL:
+        result.append(settings.PIWIK_URL)
+    if settings.GOOGLE_ANALYTICS_ID:
+        result.append("www.google-analytics.com")
+    return result
+
+
 def get_bread_image(path):
     if path == '/':
         return 'dashboard.svg'
@@ -151,6 +160,7 @@ def weblate_context(request):
         'configuration_errors': ConfigurationError.objects.filter(
             ignored=False
         ).order_by('-timestamp'),
+        'preconnect_list': get_preconnect_list(),
     }
 
     add_error_logging_context(context)

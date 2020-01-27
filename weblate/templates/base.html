@@ -32,6 +32,9 @@
   <meta property="og:image" content="{{ site_url }}{% url 'og-image' %}" />
   <link rel="alternate" type="application/rss+xml" title="RSS feed" href="{% url 'rss' %}" />
   {% endif %}
+  {% for domain in preconnect_list %}
+  <link rel="preconnect" href="https://{{ domain }}">
+  {% endfor %}
 
 {% include "snippets/meta-css.html" %}
 
