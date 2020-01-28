@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-06 19:16+0000\n"
+"PO-Revision-Date: 2020-01-29 14:50+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -378,10 +378,8 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Dölj fullständiga översättningar från instrumentpanelen"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
-msgstr "Visa sekundära översättningar i zen-läge"
+msgstr "Visa sekundära översättningar i Zen-läget"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
@@ -964,50 +962,44 @@ msgid "JSON indentation"
 msgstr "JSON-indentering"
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "YAML indentation"
-msgstr "JSON-indentering"
+msgstr "YAML-indentering"
 
 #: weblate/addons/forms.py:166
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
-msgstr "Radbryt efter 77 tecken och vid newlines"
+msgstr "Radbryt efter 80 tecken"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
-msgstr "Radbryt efter 77 tecken och vid newlines"
+msgstr "Radbyte efter 100 tecken"
 
 #: weblate/addons/forms.py:168
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
-msgstr "Radbryt efter 77 tecken och vid newlines"
+msgstr "Radbyte efter 120 tecken"
 
 #: weblate/addons/forms.py:169
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
-msgstr "Radbryt efter 77 tecken och vid newlines"
+msgstr "Radbyte efter 180 tecken"
 
 #: weblate/addons/forms.py:176
 msgid "Line breaks"
-msgstr ""
+msgstr "Radbrytningar"
 
 #: weblate/addons/forms.py:178
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:179
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:180
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:189
 msgid "Days to keep"
@@ -1224,22 +1216,16 @@ msgid "Invalid addon name specified!"
 msgstr "Ogiltigt tilläggsnamn angivet!"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid "Customize JSON output"
 msgid "Customize YAML output"
-msgstr "Anpassa JSON-utmatning"
+msgstr "Anpassa YAML-utmatning"
 
 #: weblate/addons/yaml.py:35
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows to customize YAML output behavior, for example line length or "
 "newlines."
 msgstr ""
-"Gör det möjligt att anpassa JSON-utmatningen, till exempel indrag eller "
-"sortering."
+"Gör det möjligt att anpassa YAML-utmatningen, till exempel radlängd eller "
+"radbrytning."
 
 #: weblate/auth/admin.py:108 weblate/auth/admin.py:113
 msgid "Personal info"
@@ -6083,10 +6069,10 @@ msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
 msgstr ""
+"När alla behörigheter har tagits bort kommer användaren att tas bort från "
+"projektet."
 
 #: weblate/templates/manage-access.html:69
-#, fuzzy
-#| msgid "Add an user"
 msgid "Add a user"
 msgstr "Lägg till en användare"
 
@@ -6733,10 +6719,8 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s av %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Completed translation"
-msgstr "Duplicerad översättning."
+msgstr "Slutförd översättning"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
@@ -7410,28 +7394,20 @@ msgid "Nearby strings"
 msgstr "Närliggande strängar"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Strängar med kommentarer"
+msgstr "Strängar med liknande nycklar"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Närliggande meddelanden"
+msgstr "Närliggande nycklar"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Ändrade sträng"
+msgstr "Utformningen av strängen"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Strängar"
+msgstr "Utformningen"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7523,13 +7499,11 @@ msgstr[0] "Det finns %(count)s kommentar för den här strängen."
 msgstr[1] "Det finns %(count)s kommentarer för den här strängen."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Det finns %(count)s förslag för den här strängen."
-msgstr[1] "Det finns %(count)s förslag för den här strängen."
+msgstr[0] "Det finns %(count)s utformning för den här strängen."
+msgstr[1] "Det finns %(count)s utformningar för den här strängen."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7926,10 +7900,8 @@ msgid "Strings marked for edit"
 msgstr "Strängar som behöver redigeras"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Strängar med förslag"
+msgstr "Strängar med utformningar"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -8993,19 +8965,12 @@ msgstr ""
 "filmask."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Reguljärt uttryck för e-post"
+msgstr "Reguljärt uttryck för utformningar"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Reguljärt uttryck används för att filtrera översättningar vid sökning efter "
-"filmask."
+msgstr "Reguljärt uttryck för att bestämma utformningen av en sträng."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10193,10 +10158,8 @@ msgid "Failed to compile: {0}"
 msgstr "Kunde inte kompilera: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr "Reguljärt uttryck för att matcha en användares e-postadress."
+msgstr "Reguljärt uttryck ska inte matcha en tom sträng."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
