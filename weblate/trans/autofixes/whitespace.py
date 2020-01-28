@@ -45,7 +45,7 @@ class SameBookendingWhitespace(AutoFix):
         stripped = target
 
         # Capture and strip leading space
-        if 'ignore-start-space' in flags:
+        if 'ignore-begin-space' in flags:
             head = ''
         else:
             start = START.search(source)

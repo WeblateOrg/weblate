@@ -95,7 +95,7 @@ class AutoFixTest(TestCase):
 
     def test_whitespace_flags(self):
         fix = SameBookendingWhitespace()
-        unit = MockUnit(source='str', flags='ignore-start-space')
+        unit = MockUnit(source='str', flags='ignore-begin-space')
         self.assertEqual(
             fix.fix_target(['  str'], unit),
             (['  str'], False)
