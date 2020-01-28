@@ -201,10 +201,22 @@ class XMLTagsCheck(BaseXMLCheck):
             self.parse_xml(source)
         except SyntaxError:
             return ret
+        # Include XML markup
         for match in XML_MATCH.finditer(source):
             ret.append((match.start(), match.end(), match.group()))
+        # Add XML entities
+        skipranges = [x[:2] for x in ret]
+        skipranges.append((len(source), len(source)))
+        offset = 0
         for match in XML_ENTITY_MATCH.finditer(source):
-            ret.append((match.start(), match.end(), match.group()))
+            start = match.start()
+            end = match.end()
+            while skipranges[offset][1] < end:
+                offset += 1
+            # Avoid including entities inside markup
+            if start > skipranges[offset][0] and end < skipranges[offset][1]:
+                continue
+            ret.append((start, end, match.group()))
         return ret
 
 

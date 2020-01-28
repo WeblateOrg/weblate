@@ -15,6 +15,7 @@ Not yet released.
 * Automatically unshallow local copies if needed.
 * Fixed downloads of strings needing action.
 * New alert to warn about using same filemask twice.
+* Improve XML placeables extraction.
 
 Weblate 3.10.3
 --------------
