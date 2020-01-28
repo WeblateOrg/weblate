@@ -14,6 +14,7 @@ Not yet released.
 * Include more detailed license information on the project pages.
 * Automatically unshallow local copies if needed.
 * Fixed downloads of strings needing action.
+* New alert to warn about using same filemask twice.
 
 Weblate 3.10.3
 --------------

@@ -13,6 +13,7 @@ Currently the following is covered:
 * Merge or update failures in the source repository
 * Unused new base in component settings
 * Parse errors in the translation files
+* Duplicate filemask used for linked components
 
 Alerts are listed on each respective component page as :guilabel:`Alerts`.
 If it is missing, the component clears all current checks. Alerts can not be ignored,

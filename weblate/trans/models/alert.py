@@ -170,6 +170,17 @@ class DuplicateLanguage(MultiAlert):
 
 
 @register
+class DuplicateFilemask(BaseAlert):
+    # Translators: Name of an alert
+    verbose = _('Duplicated filemask.')
+    link_wide = True
+
+    def __init__(self, instance, duplicates):
+        super(DuplicateFilemask, self).__init__(instance)
+        self.duplicates = duplicates
+
+
+@register
 class MergeFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = _('Could not merge the repository.')

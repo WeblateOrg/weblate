@@ -186,6 +186,13 @@ def post_save_update_checks(sender, instance, **kwargs):
     update_checks.delay(instance.pk)
 
 
+@receiver(post_delete, sender=Component)
+@disable_for_loaddata
+def post_delete_linked(sender, instance, **kwargs):
+    if instance.linked_component:
+        instance.linked_component.update_alerts()
+
+
 @app.task(trail=False)
 def update_checks(pk):
     component = Component.objects.get(pk=pk)

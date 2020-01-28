@@ -26,6 +26,7 @@ import re
 import time
 from copy import copy
 from glob import glob
+from collections import Counter
 
 from celery import current_task
 from celery.result import AsyncResult
@@ -1843,6 +1844,15 @@ class Component(models.Model, URLMixin, PathMixin):
             )
         else:
             self.delete_alert("UnsupportedConfiguration")
+
+        base = self.linked_component if self.is_repo_link else self
+        masks = [base.filemask]
+        masks.extend(base.linked_childs.values_list('filemask', flat=True))
+        duplicates = [item for item, count in Counter(masks).items() if count > 1]
+        if duplicates:
+            self.add_alert("DuplicateFilemask", duplicates=duplicates)
+        else:
+            self.delete_alert("DuplicateFilemask")
 
     def needs_commit(self):
         """Check for uncommitted changes."""
