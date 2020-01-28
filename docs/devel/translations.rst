@@ -34,8 +34,12 @@ String shapings
 
 Shapings are useful to group several strings together so that translators can
 see all variants of the string at one place. You can define regular expression
-to group the strings in the :ref:`component`. In addition to matching keys, the
-string with key without the expression is also included in the shapings.
+to group the strings in the :ref:`component`. The expression is matched against
+:guilabel:`Context` to generate root key of the shaping. All strings with same
+root key are then part of single shapings group, including the translation
+exactly matching the root key, even if that is not matched by the regular
+expression.
+
 Following table lists some usage examples:
 
 +---------------------------+-------------------------------+-----------------------------------------------+
