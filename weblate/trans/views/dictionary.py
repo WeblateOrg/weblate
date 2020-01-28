@@ -282,7 +282,7 @@ def add_dictionary(request, unit_id):
         data={
             'responseCode': code,
             'results': results,
-            'words': ','.join([str(x) for x in words])
+            'words': ','.join(str(x) for x in words)
         }
     )
 

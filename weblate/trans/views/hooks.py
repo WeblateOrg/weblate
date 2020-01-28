@@ -208,7 +208,7 @@ def vcs_service_hook(request, service):
         return hook_response('No matching repositories found!', 'failure', status=202)
 
     return hook_response(
-        'Update triggered: {}'.format(', '.join([obj.full_slug for obj in components]))
+        'Update triggered: {}'.format(', '.join(obj.full_slug for obj in components))
     )
 
 

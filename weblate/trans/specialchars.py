@@ -445,10 +445,10 @@ def format_char(char):
         # Various control and space characters
         try:
             name = unicodedata.name(char)
-            display = ''.join([
+            display = ''.join(
                 x[0] for x in
                 name.replace('-TO-', ' ').replace('-', ' ').split()
-            ])
+            )
             name = _('Insert {0}').format(name)
         except ValueError:
             # Char now known to unicode data

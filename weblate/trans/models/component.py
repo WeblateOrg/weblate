@@ -1343,7 +1343,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 with transaction.atomic():
                     self.log_info(
                         "removing stale translations: %s",
-                        ",".join([trans.language.code for trans in todelete]),
+                        ",".join(trans.language.code for trans in todelete),
                     )
                     todelete.delete()
 

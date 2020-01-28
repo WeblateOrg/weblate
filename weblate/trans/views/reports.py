@@ -269,7 +269,7 @@ def get_counts(request, project=None, component=None):
 
     if form.cleaned_data['style'] == 'html':
         start = HTML_HEADING.format(
-            ''.join(['<th>{0}</th>'.format(h) for h in headers])
+            ''.join('<th>{0}</th>'.format(h) for h in headers)
         )
         row_start = '<tr>'
         cell_name = cell_count = '<td>{0}</td>\n'
@@ -279,8 +279,8 @@ def get_counts(request, project=None, component=None):
     else:
         start = '{0}\n{1} {2}\n{0}'.format(
             RST_HEADING,
-            ' '.join(['{0:40}'.format(h) for h in headers[:2]]),
-            ' '.join(['{0:24}'.format(h) for h in headers[2:]]),
+            ' '.join('{0:40}'.format(h) for h in headers[:2]),
+            ' '.join('{0:24}'.format(h) for h in headers[2:]),
         )
         row_start = ''
         cell_name = '{0:40} '

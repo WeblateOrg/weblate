@@ -178,9 +178,9 @@ class Billing(models.Model):
         projects = self.projects.order()
         owners = self.owners.order()
         if projects:
-            base = ', '.join([str(x) for x in projects])
+            base = ', '.join(str(x) for x in projects)
         elif owners:
-            base = ', '.join([x.get_author_name(False) for x in owners])
+            base = ', '.join(x.get_author_name(False) for x in owners)
         else:
             base = 'Unassigned'
         return '{0} ({1})'.format(base, self.plan)
@@ -449,7 +449,7 @@ class Invoice(models.Model):
         if overlapping.exists():
             raise ValidationError(
                 'Overlapping invoices exist: {0}'.format(
-                    ', '.join([str(x) for x in overlapping])
+                    ', '.join(str(x) for x in overlapping)
                 )
             )
 

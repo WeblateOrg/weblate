@@ -200,7 +200,7 @@ class WeblateViewSet(DownloadViewSet):
 
             storage = get_messages(request)
             if storage:
-                data['detail'] = '\n'.join([m.message for m in storage])
+                data['detail'] = '\n'.join(m.message for m in storage)
 
             return Response(data)
 

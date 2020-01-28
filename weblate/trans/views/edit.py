@@ -219,7 +219,7 @@ def perform_translation(unit, form, request):
         messages.info(
             request,
             _('Following fixups were applied to translation: %s')
-            % ', '.join([force_text(f) for f in fixups]),
+            % ', '.join(force_text(f) for f in fixups),
         )
 
     # Get new set of checks
@@ -234,7 +234,7 @@ def perform_translation(unit, form, request):
                 'The translation has been saved, however there '
                 'are some newly failing checks: {0}'
             ).format(
-                ', '.join([force_text(CHECKS[check].name) for check in newchecks])
+                ', '.join(force_text(CHECKS[check].name) for check in newchecks)
             ),
         )
         # Stay on same entry
