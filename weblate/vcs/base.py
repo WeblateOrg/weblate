@@ -130,7 +130,7 @@ class Repository(object):
         if not real_path.startswith(repository_path):
             raise ValueError('Too many symlinks or link outside tree')
 
-        return real_path[len(repository_path):].lstrip('/')
+        return real_path[len(repository_path) :].lstrip('/')
 
     @staticmethod
     def _getenv():
