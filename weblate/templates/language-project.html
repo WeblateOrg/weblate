@@ -61,12 +61,7 @@
 {% with object=project %}
 <table class="table table-striped">
 {% include "project_info.html" %}
-{% if licenses %}
-<tr>
-<th>{% trans "Translation license" %}</th>
-<td colspan="2">{{ licenses }}</td>
-</tr>
-{% endif %}
+{% include "snippets/license_info.html" %}
 {% include "project_stats.html" %}
 </table>
 {% endwith %}

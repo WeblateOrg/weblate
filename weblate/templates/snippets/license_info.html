@@ -1,0 +1,16 @@
+{% load i18n %}
+
+{% if licenses %}
+{% regroup licenses by license as license_list %}
+<tr>
+<th>{% trans "Translation license" %}</th>
+<td colspan="2">
+{% for dummy, items in license_list %}
+    <a href="{{ items.0.get_license_url }}">{{ items.0.get_license_display }}</a>
+    {% for component in items %}
+        <sup><a href="{{ component.get_absolute_url }}">{{ component.name }}</a></sup>
+    {% endfor %}
+{% endfor %}
+</td>
+</tr>
+{% endif %}

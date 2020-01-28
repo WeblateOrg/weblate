@@ -11,6 +11,7 @@ Not yet released.
 * Added support for groupping string shapings.
 * Recommend upgrade to new Weblate version in the system checks.
 * Provide more detailed analysis for duplicate language alert.
+* Include more detailed license information on the project pages.
 
 Weblate 3.10.3
 --------------

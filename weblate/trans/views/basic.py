@@ -164,7 +164,7 @@ def show_project(request, project):
                 BulkStateForm, user, 'translation.auto', obj, user=user, obj=obj
             ),
             'components': components,
-            'licenses': ', '.join(sorted(obj.get_licenses())),
+            'licenses': obj.component_set.exclude(license='').order_by('license'),
         },
     )
 

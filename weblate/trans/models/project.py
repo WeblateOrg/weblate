@@ -389,9 +389,6 @@ class Project(models.Model, URLMixin, PathMixin):
         for translation in translations.iterator():
             translation.invalidate_cache()
 
-    def get_licenses(self):
-        return {x for x in self.component_set.values_list('license', flat=True) if x}
-
     def get_stats(self):
         """Return stats dictionary"""
         return {
