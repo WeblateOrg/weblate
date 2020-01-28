@@ -24,9 +24,9 @@ import fnmatch
 import os
 import re
 import time
+from collections import Counter
 from copy import copy
 from glob import glob
-from collections import Counter
 
 from celery import current_task
 from celery.result import AsyncResult
