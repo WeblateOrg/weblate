@@ -21,7 +21,7 @@
 """
 License data definitions.
 
-This is an automatically generated file, see scripts/generate-language-data
+This is an automatically generated file, see scripts/generate-license-data
 """
 
 LICENSES = (
