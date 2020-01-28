@@ -372,6 +372,9 @@ class GitRepository(Repository):
         """Push given branch to remote repository."""
         self.execute(['push', 'origin', self.branch])
 
+    def unshallow(self):
+        self.execute(['fetch', '--unshallow'])
+
     def parse_changed_files(self, lines):
         """Parses output with chanaged files."""
         # Strip action prefix we do not use

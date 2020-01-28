@@ -735,19 +735,25 @@ class Component(models.Model, URLMixin, PathMixin):
             return message
         return cleanup_repo_url(self.repo, message)
 
+    def add_ssh_host_key(self):
+        """Add SSH key for current repo as trusted.
+
+        This is essentailly a TOFU appproach."""
+        parsed = urlparse(self.repo)
+        if not parsed.hostname:
+            parsed = urlparse("ssh://{}".format(self.repo))
+        if parsed.hostname:
+            try:
+                port = parsed.port
+            except ValueError:
+                port = ""
+            add_host_key(None, parsed.hostname, port)
+
     def handle_update_error(self, error_text, retry):
         if "Host key verification failed" in error_text:
             if retry:
                 # Add ssh key and retry
-                parsed = urlparse(self.repo)
-                if not parsed.hostname:
-                    parsed = urlparse("ssh://{}".format(self.repo))
-                if parsed.hostname:
-                    try:
-                        port = parsed.port
-                    except ValueError:
-                        port = ""
-                    add_host_key(None, parsed.hostname, port)
+                self.add_ssh_host_key()
                 return
             raise ValidationError(
                 {
@@ -919,7 +925,7 @@ class Component(models.Model, URLMixin, PathMixin):
             perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
 
     @perform_on_link
-    def do_push(self, request, force_commit=True, do_update=True):
+    def do_push(self, request, force_commit=True, do_update=True, retry=True):
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
         if not self.can_push():
@@ -965,6 +971,14 @@ class Component(models.Model, URLMixin, PathMixin):
                 target=error_text,
                 user=request.user if request else None,
             )
+            if retry:
+                if "Host key verification failed" in error_text:
+                    self.add_ssh_host_key()
+                    self.do_push(request, force_commit, do_update, retry=False)
+                if "shallow update not allowed" in error_text or "expected old/new/ref, got 'shallow" in error_text:
+                    with self.repository.lock:
+                        self.repository.unshallow()
+                    self.do_push(request, force_commit, do_update, retry=False)
             messages.error(
                 request, _("Could not push to remote branch on %s.") % force_text(self)
             )

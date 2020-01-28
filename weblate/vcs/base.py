@@ -241,6 +241,10 @@ class Repository(object):
         """Push given branch to remote repository."""
         raise NotImplementedError()
 
+    def unshallow(self):
+        """Unshallow working copy."""
+        return
+
     def reset(self):
         """Reset working copy to match remote branch."""
         raise NotImplementedError()

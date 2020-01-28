@@ -12,6 +12,7 @@ Not yet released.
 * Recommend upgrade to new Weblate version in the system checks.
 * Provide more detailed analysis for duplicate language alert.
 * Include more detailed license information on the project pages.
+* Automatically unshallow local copies if needed.
 
 Weblate 3.10.3
 --------------
