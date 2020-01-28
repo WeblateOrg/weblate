@@ -51,7 +51,7 @@ class FilterRegistry(object):
                 _("Approved strings with suggestions"),
                 "state:approved AND has:suggestion",
             ),
-            ("unapproved", _("Strings waiting for review"), "state:transalted"),
+            ("unapproved", _("Strings waiting for review"), "state:translated"),
         ]
         result.extend(
             (
