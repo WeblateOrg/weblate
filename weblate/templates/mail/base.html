@@ -301,14 +301,14 @@ img {
                 <img src="{% if request %}{% static "email-logo-footer.png" %}{% else %}cid:email-logo-footer.png@cid.weblate.org{% endif %}" /><br />
                 <a href="https://weblate.org/">{% trans "Weblate, the libre continuous localization system." %}</a>
             </p>
+            {% if unsubscribe_nonce %}
             <p>
                 ▸ <a href="{% url 'profile' %}#notifications">{% trans "Notification settings" %}</a>
             </p>
-                {% if unsubscribe_nonce %}
             <p>
                 ▸ <a href="{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
             </p>
-                {% endif %}
+            {% endif %}
         </div>
         {% comment %}This avoids Gmail hiding the footer, as it finds unique content here{% endcomment %}
         <p style="opacity: 0" class="text-muted">Generated on {% now "DATETIME_FORMAT" %}</p>
