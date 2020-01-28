@@ -13,6 +13,7 @@ Not yet released.
 * Provide more detailed analysis for duplicate language alert.
 * Include more detailed license information on the project pages.
 * Automatically unshallow local copies if needed.
+* Fixed downloads of strings needing action.
 
 Weblate 3.10.3
 --------------

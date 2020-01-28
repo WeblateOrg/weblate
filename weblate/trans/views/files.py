@@ -88,13 +88,13 @@ def download_translation(request, project, component, lang):
 
     kwargs = {}
 
-    if "format" in request.GET or "type" in request.GET:
+    if "format" in request.GET or "q" in request.GET:
         form = DownloadForm(request.GET)
         if not form.is_valid():
             show_form_errors(request, form)
             return redirect(obj)
 
-        kwargs["units"] = obj.unit_set.filter_type(form.cleaned_data["type"])
+        kwargs["units"] = obj.unit_set.search(form.cleaned_data["q"])
         kwargs["fmt"] = form.cleaned_data["format"]
 
     return download_translation_file(obj, **kwargs)
