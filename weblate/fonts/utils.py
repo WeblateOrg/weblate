@@ -100,9 +100,9 @@ def configure_fontconfig():
             FONTCONFIG_CONFIG.format(
                 data_dir("cache", "fonts"),
                 fonts_dir,
-                os.path.join(settings.STATIC_ROOT, 'font-source', 'TTF'),
-                os.path.join(settings.STATIC_ROOT, 'font-dejavu'),
-                os.path.join(settings.STATIC_ROOT, 'font-droid'),
+                os.path.join(settings.STATIC_ROOT, "font-source", "TTF"),
+                os.path.join(settings.STATIC_ROOT, "font-dejavu"),
+                os.path.join(settings.STATIC_ROOT, "font-droid"),
             )
         )
 
@@ -203,8 +203,8 @@ def check_fonts(app_configs=None, **kwargs):
     except Exception as error:
         return [
             Critical(
-                'Failed to use Pango: {}'.format(error),
-                hint=get_doc_url('admin/install', 'pangocairo'),
-                id='weblate.C024',
+                "Failed to use Pango: {}".format(error),
+                hint=get_doc_url("admin/install", "pangocairo"),
+                id="weblate.C024",
             )
         ]

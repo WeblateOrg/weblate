@@ -114,7 +114,7 @@ class MaxSizeCheck(TargetCheckParametrized):
 
     def render(self, request, unit):
         try:
-            pos = int(request.GET.get('pos', '0'))
+            pos = int(request.GET.get("pos", "0"))
         except ValueError:
             pos = 0
         key = "check:render:{}:{}".format(unit.pk, pos)
@@ -125,7 +125,7 @@ class MaxSizeCheck(TargetCheckParametrized):
             )
             result = cache.get(key)
         if result is None:
-            raise Http404('Invalid check')
-        response = HttpResponse(content_type='image/png')
+            raise Http404("Invalid check")
+        response = HttpResponse(content_type="image/png")
         response.write(result)
         return response
