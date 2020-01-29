@@ -14,13 +14,14 @@
 # Yuping Zuo <git@yupingzuo.me>, 2019.
 # chr56 <chr0056@gmail.com>, 2019, 2020.
 # ccc1924 <bhy1924@live.com>, 2019.
+# Changpeng Sun <zzjbcn@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-22 23:11+0000\n"
-"Last-Translator: chr56 <chr0056@gmail.com>\n"
+"PO-Revision-Date: 2020-01-29 14:50+0000\n"
+"Last-Translator: Changpeng Sun <zzjbcn@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -374,8 +375,6 @@ msgid "Hide completed translations on the dashboard"
 msgstr "在控制面板上隐藏已完成的翻译"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
 msgstr "在禅模式下显示第二语言翻译"
 
@@ -1921,7 +1920,7 @@ msgstr "标点间距"
 
 #: weblate/checks/chars.py:392
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "双引号前缺少不可换行的空格"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -2029,10 +2028,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "缺少的翻译标记：“%s”"
 
 #: weblate/checks/format.py:268
-#, fuzzy, python-format
-#| msgid "Following fixups were applied to translation: %s"
+#, python-format
 msgid "Following format strings are wrong: %s"
-msgstr "以下格式字符串错误： %s"
+msgstr "以下格式字符串错误：%s"
 
 #: weblate/checks/format.py:278
 msgid "Python format"
@@ -2135,8 +2133,6 @@ msgid "Markdown references"
 msgstr "Markdown 引用"
 
 #: weblate/checks/markup.py:222
-#, fuzzy
-#| msgid "Markdown link references does not match source"
 msgid "Markdown link references do not match source"
 msgstr "Markdown 链接引用和原文不一致"
 
@@ -2165,10 +2161,8 @@ msgid "Unsafe HTML"
 msgstr "不安全的 HTML 网站"
 
 #: weblate/checks/markup.py:318
-#, fuzzy
-#| msgid "The translation is using bilingual files."
 msgid "The translation uses unsafe HTML markup"
-msgstr "翻译使用不安全的 HTML 标记"
+msgstr "这条翻译使用了不安全的 HTML 标记"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
@@ -2200,10 +2194,8 @@ msgid "Qt plural format"
 msgstr "Qt 复数格式"
 
 #: weblate/checks/qt.py:62
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Qt plural format string does not match source"
-msgstr "Perl 格式的字符串与源文不匹配"
+msgstr "Qt 复数格式的字符串与原文不匹配"
 
 #: weblate/checks/render.py:55
 msgid "Maximum size of translation"
@@ -5594,11 +5586,10 @@ msgid "Plural: %(source_description)s"
 msgstr "复数形式：%(source_description)s"
 
 #: weblate/templates/language.html:73
-#, fuzzy, python-format
-#| msgid "Your translations"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "%(count)s 翻译"
+msgstr[0] "%(count)s 个翻译"
 
 #: weblate/templates/language.html:85
 msgid "Plurals"
