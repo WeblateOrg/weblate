@@ -141,6 +141,11 @@ class RepoURLField(serializers.CharField):
         return instance.get_repo_url()
 
 
+class RepoPushField(serializers.CharField):
+    def get_attribute(self, instance):
+        return instance.get_push_url()
+
+
 class ComponentSerializer(RemovableSerializer):
     web_url = AbsoluteURLField(source='get_absolute_url', read_only=True)
     project = ProjectSerializer(read_only=True)
@@ -168,6 +173,8 @@ class ComponentSerializer(RemovableSerializer):
 
     repo = RepoURLField()
 
+    push = RepoPushField()
+
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
     class Meta(object):
@@ -177,7 +184,7 @@ class ComponentSerializer(RemovableSerializer):
             'branch', 'filemask', 'template', 'new_base', 'file_format',
             'license', 'license_url', 'web_url', 'url',
             'repository_url', 'translations_url', 'statistics_url',
-            'lock_url', 'changes_list_url', 'new_lang',
+            'lock_url', 'changes_list_url', 'new_lang', 'push',
         )
         extra_kwargs = {
             'url': {
@@ -195,6 +202,7 @@ class ComponentSerializer(RemovableSerializer):
             result['repo'] = None
             result['branch'] = None
             result['filemask'] = None
+            result['push'] = None
         return result
 
 

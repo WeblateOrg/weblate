@@ -712,6 +712,13 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return URL of exported VCS repository."""
         return self.git_export
 
+    @perform_on_link
+    def get_push_url(self):
+        """Return URL of a push repository."""
+        if not settings.HIDE_REPO_CREDENTIALS:
+            return self.push
+        return cleanup_repo_url(self.push)
+
     def get_repoweb_link(self, filename, line, template=None):
         """Generate link to source code browser for given file and line.
 

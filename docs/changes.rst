@@ -3,6 +3,7 @@ Weblate 3.11
 
 Not yet released.
 
+* Allow to use vcs push url during component creation via API.
 * Rendered width check now shows image with the render.
 * Fixed links in notifications mails.
 * Improved look of plain text mails.

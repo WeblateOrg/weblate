@@ -280,7 +280,7 @@ class ProjectAPITest(APIBaseTest):
                 'web': 'https://weblate.org/',
             },
         )
-        self.do_request(
+        response = self.do_request(
             'api:project-components',
             self.project_kwargs,
             method="post",
@@ -292,9 +292,21 @@ class ProjectAPITest(APIBaseTest):
                 'repo': self.format_local_path(self.git_repo_path),
                 'filemask': 'po/*.po',
                 'file_format': 'po',
+                'push': 'https://username:password@github.com/example/push.git',
             },
         )
         self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(
+            Component.objects.get(
+                slug='api-project',
+                project__slug='test'
+            ).push,
+            'https://username:password@github.com/example/push.git'
+        )
+        self.assertEqual(
+            response.data['push'],
+            'https://github.com/example/push.git'
+        )
 
 
 class ComponentAPITest(APIBaseTest):
