@@ -237,7 +237,7 @@ How can I check whether my Weblate is set up properly?
 
 Weblate includes a set of configuration checks which you can see in the admin
 interface, just follow the :guilabel:`Performance report` link in the admin interface, or
-open the ``/admin/performance/`` URL directly.
+open the ``/manage/performance/`` URL directly.
 
 .. _faq-site:
 
