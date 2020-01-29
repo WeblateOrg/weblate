@@ -1796,7 +1796,9 @@ class Component(models.Model, URLMixin, PathMixin):
         if not self.shaping_regex:
             return
         shaping_re = re.compile(self.shaping_regex)
-        units = Unit.objects.filter(context__regex=self.shaping_regex, shaping=None)
+        units = Unit.objects.filter(
+            translation__component=self, context__regex=self.shaping_regex, shaping=None
+        )
         for unit in units.iterator():
             if shaping_re.findall(unit.context):
                 key = shaping_re.sub('', unit.context)
