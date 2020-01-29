@@ -46,7 +46,9 @@ class FontListView(ProjectViewMixin, ListView):
         result["font_list"] = result["object_list"]
         result["group_list"] = self.project.fontgroup_set.order()
         result["font_form"] = self._font_form or FontForm()
-        result["group_form"] = self._group_form or FontGroupForm(auto_id="id_group_%s")
+        result["group_form"] = self._group_form or FontGroupForm(
+            auto_id="id_group_%s", project=self.project
+        )
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
         return result
 
@@ -56,7 +58,9 @@ class FontListView(ProjectViewMixin, ListView):
         if request.FILES:
             form = self._font_form = FontForm(request.POST, request.FILES)
         else:
-            form = self._group_form = FontGroupForm(request.POST, auto_id="id_group_%s")
+            form = self._group_form = FontGroupForm(
+                request.POST, auto_id="id_group_%s", project=self.project
+            )
         if form.is_valid():
             instance = form.save(commit=False)
             instance.project = self.project
@@ -105,7 +109,9 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         result = super(FontGroupDetailView, self).get_context_data(**kwargs)
-        result["form"] = self._form or FontGroupForm(instance=self.object)
+        result["form"] = self._form or FontGroupForm(
+            instance=self.object, project=self.project
+        )
         result["override_form"] = self._override_form or FontOverrideForm()
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
         return result
@@ -116,7 +122,9 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
             raise PermissionDenied()
 
         if "name" in request.POST:
-            form = self._form = FontGroupForm(request.POST, instance=self.object)
+            form = self._form = FontGroupForm(
+                request.POST, instance=self.object, project=self.project
+            )
             if form.is_valid():
                 instance = form.save(commit=False)
                 try:

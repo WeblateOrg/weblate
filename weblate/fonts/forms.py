@@ -36,6 +36,12 @@ class FontGroupForm(forms.ModelForm):
         model = FontGroup
         fields = ("name", "font")
 
+    def __init__(self, data=None, project=None, **kwargs):
+        super(FontGroupForm, self).__init__(data, **kwargs)
+        self.fields["font"].queryset = self.fields["font"].queryset.filter(
+            project=project
+        )
+
 
 class FontOverrideForm(forms.ModelForm):
     class Meta(object):
