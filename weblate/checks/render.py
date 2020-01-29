@@ -28,11 +28,11 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
-from weblate.fonts.utils import FONT_WEIGHTS, check_render_size
+from weblate.fonts.utils import check_render_size
 
 FONT_PARAMS = (
     ("font-family", "sans"),
-    ("font-weight", FONT_WEIGHTS["normal"]),
+    ("font-weight", None),
     ("font-size", 10),
     ("font-spacing", 0),
 )
@@ -73,9 +73,9 @@ class MaxSizeCheck(TargetCheckParametrized):
             return "sans"
         try:
             override = group.fontoverride_set.get(language=language)
-            return override.font.family
+            return "{} {}".format(override.font.family, override.font.style)
         except ObjectDoesNotExist:
-            return group.font.family
+            return "{} {}".format(group.font.family, group.font.style)
 
     def check_target_params(self, sources, targets, unit, value):
         if isinstance(value, tuple):

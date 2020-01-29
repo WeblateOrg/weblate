@@ -79,6 +79,7 @@ FONT_WEIGHTS = {
     "normal": Pango.Weight.NORMAL,
     "light": Pango.Weight.LIGHT,
     "bold": Pango.Weight.BOLD,
+    "": None,
 }
 
 
@@ -127,7 +128,8 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_ke
     # Load and configure font
     fontdesc = Pango.FontDescription.from_string(font)
     fontdesc.set_size(size * Pango.SCALE)
-    fontdesc.set_weight(weight)
+    if weight:
+        fontdesc.set_weight(weight)
     layout.set_font_description(fontdesc)
 
     # This seems to be only way to set letter spacing
