@@ -63,7 +63,7 @@ class MaxSizeCheckTest(FontTestCase):
     def test_custom_font(self):
         self.add_font_group()
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, "Droid Sans Fallback")
+        self.assertEqual(self.check.last_font, "Droid Sans Fallback Regular")
 
     def test_custom_font_override(self):
         group = self.add_font_group()
@@ -71,4 +71,4 @@ class MaxSizeCheckTest(FontTestCase):
             group=group, language=self.get_translation().language, font=group.font
         )
         self.assertFalse(self.perform_check("short", "max-size:500,font-family:droid"))
-        self.assertEqual(self.check.last_font, "Droid Sans Fallback")
+        self.assertEqual(self.check.last_font, "Droid Sans Fallback Regular")
