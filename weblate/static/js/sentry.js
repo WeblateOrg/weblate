@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.11.1 (0ee470b3) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.11.2 (bc97f92f) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2357,6 +2357,9 @@ var Sentry = (function (exports) {
          */
         Scope.prototype.setTransaction = function (transaction) {
             this._transaction = transaction;
+            if (this._span) {
+                this._span.transaction = transaction;
+            }
             this._notifyScopeListeners();
             return this;
         };
@@ -3491,7 +3494,7 @@ var Sentry = (function (exports) {
                 request.url = truncate(request.url, maxValueLength);
             }
             if (prepared.event_id === undefined) {
-                prepared.event_id = uuid4();
+                prepared.event_id = hint && hint.event_id ? hint.event_id : uuid4();
             }
             this._addIntegrations(prepared.sdk);
             // We prepare the result here with a resolved Event.
@@ -3891,7 +3894,7 @@ var Sentry = (function (exports) {
     // global reference to slice
     var UNKNOWN_FUNCTION = '?';
     // Chromium based browsers: Chrome, Brave, new Opera, new Edge
-    var chrome = /^\s*at (?:(.*?) ?\()?((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[-a-z]+:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
+    var chrome = /^\s*at (?:(.*?) ?\()?((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
     // gecko regex: `(?:bundle|\d+\.js)`: `bundle` is for react native, `\d+\.js` also but specifically for ram bundles because it
     // generates filenames without a prefix like `file://` the filenames in the stacktrace are just 42.js
     // We need this specific case for now because we want no other regex to match.
@@ -4451,7 +4454,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.11.1';
+    var SDK_VERSION = '5.11.2';
 
     /**
      * The Sentry Browser SDK Client.
