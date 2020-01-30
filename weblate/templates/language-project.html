@@ -77,8 +77,7 @@
 <div class="tab-pane" id="search">
 
 <form action="{% url 'search' project=project.slug lang=language.code %}" method="GET">
-{{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
+{% include "snippets/search-form.html" %}
 </form>
 
 </div>
