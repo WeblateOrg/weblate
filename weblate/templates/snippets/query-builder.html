@@ -95,5 +95,10 @@
         <td><code>state:approved AND has:suggestion</code></td>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
+    <tr>
+        <th>{% trans "All untranslated strings added in the past month" %}</th>
+        <td><code>added:&gt;={{ month_ago|date:"Y-m-d" }} AND state:&gt;=untranslated</code>
+        <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
+    </tr>
     </table>
 </div>
