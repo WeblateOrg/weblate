@@ -4,21 +4,22 @@
 # Michal Čihař <michal@cihar.com>, 2019.
 # Milo Ivir <mail@milotype.de>, 2019, 2020.
 # anonymous <noreply@weblate.org>, 2019.
+# Marino <mrabach@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-25 12:21+0000\n"
-"Last-Translator: Milo Ivir <mail@milotype.de>\n"
+"PO-Revision-Date: 2020-01-31 10:21+0000\n"
+"Last-Translator: Marino <mrabach@gmail.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -376,10 +377,8 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Sakrij završene prijevode u preglednoj ploči"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
-msgstr "Prikaži sekundarne prijevode u zen modusu"
+msgstr "Prikaži sekundarne prijevode u Zen načinu rada"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
@@ -7384,32 +7383,24 @@ msgid "Nearby strings"
 msgstr "Okolni izrazi"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Izrazi s komentarima"
+msgstr "Nizovi sa sličnim ključevima"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Nearby keys"
-msgstr "Okolni izrazi"
+msgstr "Ključevi u blizini"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Promijenjeni izraz"
+msgstr "Oblikovanje niza"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Br. izraza"
+msgstr "Oblikovanje"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
-msgstr "Druga pojavljivanja"
+msgstr "Ostala pojavljivanja"
 
 #: weblate/templates/translate.html:231
 msgid "Machine translation suggestions"
@@ -7502,14 +7493,12 @@ msgstr[1] "Postoje %(count)s komentara za ovaj izraz."
 msgstr[2] "Postoji %(count)s komentara za ovaj izraz."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Postoji %(count)s prijedlog za ovaj izraz."
-msgstr[1] "Postoje %(count)s prijedloga za ovaj izraz."
-msgstr[2] "Postoji %(count)s prijedloga za ovaj izraz."
+msgstr[0] "Postoji %(count)s oblikovanje za ovaj izraz."
+msgstr[1] "Postoje %(count)s oblikovanja za ovaj izraz."
+msgstr[2] "Postoji %(count)s oblikovanja za ovaj izraz."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7907,10 +7896,8 @@ msgid "Strings marked for edit"
 msgstr "Izrazi označeni za uređivanje"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Izrazi s prijedlozima"
+msgstr "Nizovi s oblikovanjima"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -8970,19 +8957,12 @@ msgstr ""
 "datoteke."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Regularni izraz e-poruke"
+msgstr "Oblikovanje regularnog izraza"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Regularni izraz korišten za filtriranje prijevoda prilikom traženja maske "
-"datoteke."
+msgstr "Regularni izraz koji se koristi kako bi se utvrdila oblikovanja u nizu."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10196,10 +10176,8 @@ msgid "Failed to compile: {0}"
 msgstr "Neuspjelo kompiliranje: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr "Regularni izraz koji se koristi za poklapanje e-poruke."
+msgstr "Regularni izraz ne bi trebao odgovarati praznom nizu."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
