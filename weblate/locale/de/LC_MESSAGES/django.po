@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-19 11:50+0000\n"
+"PO-Revision-Date: 2020-02-03 09:33+0000\n"
 "Last-Translator: nautilusx <mail.ka@mailbox.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.2\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -400,8 +400,6 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Abgeschlossene Übersetzungen in der Übersicht ausblenden"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
 msgstr "Zweitsprachen im Zen-Modus anzeigen"
 
@@ -7583,28 +7581,20 @@ msgid "Nearby strings"
 msgstr "Benachbarte Zeichenketten"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Zeichenketten mit Kommentaren"
+msgstr "Zeichenketten mit ähnlichen Werten"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Benachbarte Zeichenketten"
+msgstr "Ähnliche Werte"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Geänderte Zeichenkette"
+msgstr "Formen einer Zeichenkette"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Zeichenketten"
+msgstr "Formen"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7703,13 +7693,11 @@ msgstr[0] "Es gibt %(count)s Kommentar für diese Zeichenfolge."
 msgstr[1] "Es gibt %(count)s Kommentare für diese Zeichenfolge."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Es gibt %(count)s Vorschlag für diese Zeichenfolge."
-msgstr[1] "Es gibt %(count)s Vorschläge für diese Zeichenfolge."
+msgstr[0] "Es gibt %(count)s Form für diese Zeichenkette."
+msgstr[1] "Es gibt %(count)s Formen für diese Zeichenkette."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -8113,10 +8101,8 @@ msgid "Strings marked for edit"
 msgstr "Zur Bearbeitung markierte Zeichenketten"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Zeichenketten mit Übersetzungsvorschlägen"
+msgstr "Zeichenketten mit Formen"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -9197,19 +9183,14 @@ msgstr ""
 "finden."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Email Regulärer Ausdruck"
+msgstr "Formen regulärer Ausdruck"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
 msgstr ""
-"Regulärer Ausdruck, um bei der Suche nach Dateien nur Übersetzungen zu "
-"finden."
+"Regulärer Ausdruck, der zur Bestimmung der Form einer Zeichenkette verwendet "
+"wird."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10445,12 +10426,9 @@ msgid "Failed to compile: {0}"
 msgstr "Fehler beim Kompilieren: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
 msgstr ""
-"Regulärer Ausdruck, der zum Vergleich mit der E-Mail-Adresse des Benutzers "
-"genutzt wird."
+"Reguläre Ausdrücke sollten nicht mit leeren Zeichenketten übereinstimmen."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
