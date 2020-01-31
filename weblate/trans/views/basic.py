@@ -246,7 +246,7 @@ def show_translation(request, project, component, lang):
             'object': obj,
             'project': obj.component.project,
             'form': form,
-            'download_form': DownloadForm(),
+            'download_form': DownloadForm(auto_id="id_dl_%s"),
             'autoform': optional_form(
                 AutoForm, user, 'translation.auto', obj, obj=obj.component
             ),
