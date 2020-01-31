@@ -104,10 +104,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         if not os.path.exists(cls.image_path):
             os.makedirs(cls.image_path)
         # Build Chrome driver
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        options = Options()
+        options.add_argument("--headless")
         try:
-            cls.driver = webdriver.Chrome(chrome_options=chrome_options)
+            cls.driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
             cls.driver_error = str(error)
 
