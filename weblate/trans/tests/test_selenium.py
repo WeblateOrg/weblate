@@ -105,7 +105,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             os.makedirs(cls.image_path)
         # Build Chrome driver
         options = Options()
+        # Run headless
         options.add_argument("--headless")
+        # Seems to help in some corner cases, see
+        # https://stackoverflow.com/a/50642913/225718
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
         try:
             cls.driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
