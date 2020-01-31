@@ -119,6 +119,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def setUp(self):
         if self.driver is None:
+            print("Selenium error: {}".format(self.driver_error))
             raise SkipTest("Webdriver not available: {}".format(self.driver_error))
         super(SeleniumTests, self).setUp()
         self.driver.get("{0}{1}".format(self.live_server_url, reverse("home")))
