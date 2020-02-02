@@ -631,11 +631,11 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(
             response.data,
             {
-                'accepted': 1,
+                'accepted': 0,
                 'count': 4,
                 'not_found': 0,
-                'result': True,
-                'skipped': 0,
+                'result': False,
+                'skipped': 1,
                 'total': 4
             }
         )
