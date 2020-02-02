@@ -36,6 +36,7 @@ from six import python_2_unicode_compatible
 from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
+from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import update_memory
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
@@ -285,6 +286,10 @@ class Unit(models.Model, LoggerMixin):
             return STATE_APPROVED
         return STATE_TRANSLATED
 
+    def check_valid(self, text):
+        if any(char in text for char in CONTROLCHARS):
+            raise ValueError('String contains control char')
+
     def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
         component = self.translation.component
@@ -294,8 +299,11 @@ class Unit(models.Model, LoggerMixin):
             location = unit.locations
             flags = unit.flags
             target = unit.target
+            self.check_valid(target)
             source = unit.source
+            self.check_valid(source)
             context = unit.context
+            self.check_valid(context)
             note = unit.notes
             previous_source = unit.previous_source
             content_hash = unit.content_hash
