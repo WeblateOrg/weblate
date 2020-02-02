@@ -644,7 +644,7 @@ For example:
 LICENSE_FILTER
 --------------
 
-Optional filter for licenses to show.
+Optional filter for licenses to show, matches against their short names.
 
 For example:
 
