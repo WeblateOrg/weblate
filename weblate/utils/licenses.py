@@ -26,6 +26,8 @@ from weblate.utils.licensedata import LICENSES
 
 LIBRE_IDS = {license[0] for license in LICENSES if license[3]}
 LICENSE_URLS = {license[0]: license[2] for license in LICENSES}
+for license in settings.LICENSE_EXTRA:
+    LICENSE_URLS[license[0]] = license[2]
 LOWER_LICENSES = {license[0].lower(): license[0] for license in LICENSES}
 
 FIXUPS = (
@@ -57,10 +59,13 @@ def get_license_url(license):
 
 def get_license_choices():
     result = [("proprietary", "Proprietary")]
+    license_filter = settings.LICENSE_FILTER
     for license in LICENSES:
+        if license_filter is not None and license[0] not in license_filter:
+            continue
         result.append((license[0], license[1]))
 
-    for license in settings.EXTRA_LICENSES:
+    for license in settings.LICENSE_EXTRA:
         result.append((license[0], license[1]))
 
     return result

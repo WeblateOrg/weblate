@@ -338,7 +338,7 @@ class Component(models.Model, URLMixin, PathMixin):
     license = models.CharField(
         verbose_name=ugettext_lazy("Translation license"),
         max_length=150,
-        blank=True,
+        blank=not settings.LICENSE_REQUIRED,
         default="",
         choices=get_license_choices(),
     )

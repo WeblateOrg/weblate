@@ -620,6 +620,45 @@ URL where your Weblate instance shows it's legal documents. This is useful if
 you host your legal documents outside Weblate for embedding inside Weblate
 please see :ref:`legal`.
 
+.. setting:: LICENSE_EXTRA
+
+LICENSE_EXTRA
+-------------
+
+Additional licenses to include in the license choices. Each license definition should be tuple of short name, long name and an URL.
+
+For example:
+
+.. code-block:: python
+
+    LICENSE_EXTRA = [
+        (
+            "GPL-3.0-only",
+            "GNU General Public License v3.0 only",
+            "https://www.gnu.org/licenses/gpl-3.0-standalone.html",
+        ),
+    ]
+
+.. setting:: LICENSE_FILTER
+
+LICENSE_FILTER
+--------------
+
+Optional filter for licenses to show.
+
+For example:
+
+.. code-block:: python
+
+    LICENSE_FILTER = {"GPL-3.0-only", "GPL-3.0-or-later"}
+
+.. setting:: LICENSE_REQUIRED
+
+LICENSE_REQUIRED
+----------------
+
+Defines whethere license attribute in :ref:`component` is required. Defaults to false.
+
 .. setting:: LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 
 LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH

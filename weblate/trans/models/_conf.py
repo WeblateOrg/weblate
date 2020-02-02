@@ -164,7 +164,9 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     COMMENT_CLEANUP_DAYS = None
 
     SINGLE_PROJECT = False
-    EXTRA_LICENSES = []
+    LICENSE_EXTRA = []
+    LICENSE_FILTER = None
+    LICENSE_REQUIRED = False
     FONTS_CDN_URL = None
 
     class Meta(object):
