@@ -734,10 +734,17 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 not_found += 1
                 continue
 
+            state = STATE_TRANSLATED
+            if add_fuzzy or set_fuzzy:
+                state = STATE_FUZZY
+            elif add_approve:
+                state = STATE_APPROVED
+
             if (
                 (unit.translated and not overwrite)
                 or unit.readonly
                 or (not request.user.has_perm('unit.edit', unit))
+                or (unit.target == unit2.target and unit.state == state)
             ):
                 skipped += 1
                 continue
@@ -750,11 +757,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # - it brings locking issues as import is
             #   executed with lock held and linked repos
             #   can't obtain the lock
-            state = STATE_TRANSLATED
-            if add_fuzzy or set_fuzzy:
-                state = STATE_FUZZY
-            elif add_approve:
-                state = STATE_APPROVED
             unit.translate(
                 request.user,
                 split_plural(unit2.target),
