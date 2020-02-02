@@ -286,9 +286,10 @@ class Unit(models.Model, LoggerMixin):
             return STATE_APPROVED
         return STATE_TRANSLATED
 
-    def check_valid(self, text):
-        if any(char in text for char in CONTROLCHARS):
-            raise ValueError('String contains control char')
+    def check_valid(self, texts):
+        for text in texts:
+            if any(char in text for char in CONTROLCHARS):
+                raise ValueError('String contains control char')
 
     def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
@@ -299,11 +300,11 @@ class Unit(models.Model, LoggerMixin):
             location = unit.locations
             flags = unit.flags
             target = unit.target
-            self.check_valid(target)
+            self.check_valid(split_plural(target))
             source = unit.source
-            self.check_valid(source)
+            self.check_valid(split_plural(source))
             context = unit.context
-            self.check_valid(context)
+            self.check_valid([context])
             note = unit.notes
             previous_source = unit.previous_source
             content_hash = unit.content_hash
