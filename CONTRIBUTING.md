@@ -22,14 +22,10 @@ their versions as well. You can collect them all using:
 ## Patch submission
 
 Patches are welcome, either as [pull requests on GitHub][2] or using e-mail on
-[the mailing list][3]. Please include a Signed-off-by tag in the commit message
-(you can do this by passing the `--signoff` parameter to Git). Note that by
-submitting patches with the Signed-off-by tag, you are giving permission to
-license the patch as GPLv3-or-later. See [the DCO file][4] for details.
+[the mailing list][3]
 
 [2]: https://github.com/WeblateOrg/weblate/pulls
 [3]: https://lists.cihar.com/cgi-bin/mailman/listinfo/weblate
-[4]: https://github.com/WeblateOrg/weblate/blob/master/DCO
 
 ## Running the development version locally
 
