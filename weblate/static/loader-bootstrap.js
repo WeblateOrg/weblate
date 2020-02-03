@@ -413,7 +413,9 @@ function processMachineTranslation(data, scope) {
 
 function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
     decreaseLoading(scope);
-    addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
+    if (jqXHR.state() !== 'rejected') {
+        addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
+    }
 }
 
 function loadMachineTranslations(data, textStatus) {
