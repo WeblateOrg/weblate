@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-19 11:50+0000\n"
+"PO-Revision-Date: 2020-02-04 09:16+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.10.2\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -7370,28 +7370,20 @@ msgid "Nearby strings"
 msgstr "Okolní řetězce"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Řetězce s komentáři"
+msgstr "Řetězce s podobnými klíči"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Okolní řetězce"
+msgstr "Okolní klíče"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Změněný řetězec"
+msgstr "Tvarování řetězce"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Řetězců"
+msgstr "Tvarování"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7489,14 +7481,12 @@ msgstr[1] "Pro tento řetězec jsou %(count)s komentáře."
 msgstr[2] "Pro tento řetězec je %(count)s komentářů."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Pro tento řetězec je %(count)s návrh."
-msgstr[1] "Pro tento řetězec jsou %(count)s návrhy."
-msgstr[2] "Pro tento řetězec je %(count)s návrhů."
+msgstr[0] "Tento řetězec má %(count)s tvar."
+msgstr[1] "Tento řetězec má %(count)s tvary."
+msgstr[2] "Tento řetězec má %(count)s tvarů."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7893,10 +7883,8 @@ msgid "Strings marked for edit"
 msgstr "Řetězce označené pro úpravu"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Řetězce s návrhy"
+msgstr "Řetězce s tvarováním"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -8949,18 +8937,12 @@ msgstr ""
 "Regulární výraz, kterým můžete omezit jazyky, při hledání maskou souborů."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Regulární výraz pro e-mail"
+msgstr "Regulární výraz pro tvarování"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Regulární výraz, kterým můžete omezit jazyky, při hledání maskou souborů."
+msgstr "Regulární výraz, kterým se určí tvarování řetězců."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10168,10 +10150,8 @@ msgid "Failed to compile: {0}"
 msgstr "Nepodařilo se zkompilovat: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr "Regulární výraz sloužící pro kontrolu uživatelova e-mailu."
+msgstr "Regulární výraz by neměl odpovídat prázdnému řetězci."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
