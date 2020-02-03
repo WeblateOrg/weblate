@@ -1394,8 +1394,15 @@ $(function () {
     $.fn.modal.Constructor.prototype.enforceFocus = function() {};
 
     /* Focus first input in modal */
-    $(document).on('shown.bs.modal', function(e) {
-        $('input:visible:enabled:first', e.target).focus();
+    $(document).on('shown.bs.modal', function(event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var target = button.data('focus');
+        if (target) {
+            /* Modal context focusing */
+            $(target).focus();
+        } else {
+            $('input:visible:enabled:first', event.target).focus();
+        }
     });
 
     /* Copy to clipboard */

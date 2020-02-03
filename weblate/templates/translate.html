@@ -551,7 +551,7 @@
     {% if unit.context or unit.extra_context or user_can_edit_source %}
     <div class="list-group-item">
     <h5>
-    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-focus="#id_extra_context" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Context" %}
     </h5>
     {% if user_can_edit_source and not unit.extra_context and not unit.context %}
@@ -568,7 +568,7 @@
     {% if unit.all_flags or user_can_edit_source %}
     <div class="list-group-item">
     <h5>
-    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-focus="#id_extra_flags" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Flags" %}
     </h5>
     {% if unit.all_flags %}

@@ -1006,7 +1006,7 @@ def get_new_language_form(request, component):
 class ContextForm(forms.ModelForm):
     class Meta(object):
         model = Unit
-        fields = ('extra_flags', 'extra_context')
+        fields = ('extra_context', 'extra_flags')
 
 
 class UserManageForm(forms.Form):
