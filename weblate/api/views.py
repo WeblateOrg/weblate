@@ -218,7 +218,6 @@ class WeblateViewSet(DownloadViewSet):
                 'api:project-repository', kwargs={'slug': obj.slug}, request=request
             )
         else:
-            data['remote_commit'] = obj.get_last_remote_commit()
 
             if isinstance(obj, Translation):
                 component = obj.component
@@ -231,20 +230,19 @@ class WeblateViewSet(DownloadViewSet):
                     },
                     request=request,
                 )
-                data['status'] = obj.component.repository.status()
-                changes = Change.objects.filter(
-                    action__in=Change.ACTIONS_REPOSITORY, component=obj.component
-                ).order_by('-id')
             else:
+                component = obj
                 data['url'] = reverse(
                     'api:component-repository',
                     kwargs={'project__slug': obj.project.slug, 'slug': obj.slug},
                     request=request,
                 )
-                data['status'] = obj.repository.status()
-                changes = Change.objects.filter(
-                    action__in=Change.ACTIONS_REPOSITORY, component=obj
-                ).order_by('-id')
+
+            data['remote_commit'] = component.get_last_remote_commit()
+            data['status'] = component.repository.status()
+            changes = Change.objects.filter(
+                action__in=Change.ACTIONS_REPOSITORY, component=component
+            ).order_by('-id')
 
             if changes.exists() and changes[0].is_merge_failure():
                 data['merge_failure'] = changes[0].target
