@@ -161,7 +161,13 @@ def show_project(request, project):
             ),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'bulk_state_form': optional_form(
-                BulkEditForm, user, 'translation.auto', obj, user=user, obj=obj, auto_id="id_bulk_%s"
+                BulkEditForm,
+                user,
+                'translation.auto',
+                obj,
+                user=user,
+                obj=obj,
+                auto_id="id_bulk_%s",
             ),
             'components': components,
             'licenses': obj.component_set.exclude(license='').order_by('license'),
@@ -196,7 +202,13 @@ def show_component(request, project, component):
             .count(),
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'bulk_state_form': optional_form(
-                BulkEditForm, user, 'translation.auto', obj, user=user, obj=obj, auto_id="id_bulk_%s"
+                BulkEditForm,
+                user,
+                'translation.auto',
+                obj,
+                user=user,
+                obj=obj,
+                auto_id="id_bulk_%s",
             ),
             'whiteboard_form': optional_form(
                 WhiteboardForm, user, 'component.edit', obj
@@ -253,7 +265,13 @@ def show_translation(request, project, component, lang):
             'search_form': search_form,
             'replace_form': optional_form(ReplaceForm, user, 'unit.edit', obj),
             'bulk_state_form': optional_form(
-                BulkEditForm, user, 'translation.auto', obj, user=user, obj=obj, auto_id="id_bulk_%s"
+                BulkEditForm,
+                user,
+                'translation.auto',
+                obj,
+                user=user,
+                obj=obj,
+                auto_id="id_bulk_%s",
             ),
             'new_unit_form': NewUnitForm(
                 user, initial={'value': Unit(translation=obj, id_hash=-1)}

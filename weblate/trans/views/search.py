@@ -41,7 +41,6 @@ from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
-from weblate.utils.state import STATE_EMPTY
 from weblate.utils.views import (
     get_component,
     get_paginator,

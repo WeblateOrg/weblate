@@ -154,8 +154,12 @@ class UserField(forms.CharField):
 
 
 class QueryField(forms.CharField):
-    def __init__(self, label=_('Query'), required=False, **kwargs):
-        super(QueryField, self).__init__(label=label, required=required, **kwargs)
+    def __init__(self, **kwargs):
+        if 'label' not in kwargs:
+            kwargs['label'] = _('Query')
+        if 'required' not in kwargs:
+            kwargs['required'] = False
+        super(QueryField, self).__init__(**kwargs)
 
     def clean(self, value):
         if not value:

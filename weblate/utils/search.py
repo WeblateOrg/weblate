@@ -27,9 +27,8 @@ import whoosh.qparser
 import whoosh.qparser.dateparse
 import whoosh.query
 from django.db.models import Q
-from django.utils import timezone
+from django.utils import lru_cache, timezone
 from django.utils.translation import ugettext as _
-from django.utils import lru_cache
 from jellyfish import damerau_levenshtein_distance
 from jellyfish._jellyfish import (
     damerau_levenshtein_distance as py_damerau_levenshtein_distance,
