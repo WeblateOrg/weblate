@@ -84,6 +84,16 @@ class Flags(object):
             else:
                 self._items[flag] = flag
 
+    def remove(self, flags):
+        for flag in flags.items():
+            if ":" in flag:
+                key, value = flag.split(":", 1)
+                if key in self._values and self._values[key] == value:
+                    del self._values[key]
+                    del self._items[key]
+            else:
+                self._items.pop(flag, None)
+
     @staticmethod
     def parse(flags):
         """Parse comma separated list of flags."""

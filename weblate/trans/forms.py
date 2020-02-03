@@ -56,6 +56,7 @@ from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Change, Component, Project, Unit, WhiteboardMessage
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
+from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
@@ -172,6 +173,10 @@ class QueryField(forms.CharField):
         except Exception as error:
             report_error(error)
             raise ValidationError(_('Failed to parse query string: {}').format(error))
+
+
+class FlagField(forms.CharField):
+    default_validators = [validate_check_flags]
 
 
 class PluralTextarea(forms.Textarea):
@@ -1738,8 +1743,10 @@ class NewUnitForm(forms.Form):
 class BulkEditForm(forms.Form):
     q = QueryField(required=True)
     state = forms.ChoiceField(
-        label=_('State to set'), choices=((0, _('Do not change')),) + STATE_CHOICES
+        label=_('State to set'), choices=((-1, _('Do not change')),) + STATE_CHOICES
     )
+    add_flags = FlagField(label=_('Translation flags to add'), required=False)
+    remove_flags = FlagField(label=_('Translation flags to remove'), required=False)
 
     def __init__(self, user, obj, *args, **kwargs):
         super(BulkEditForm, self).__init__(*args, **kwargs)

@@ -19,6 +19,7 @@ Not yet released.
 * Improve XML placeables extraction.
 * The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project.
 * Added option to resolve comments.
+* Added bulk editing of flags.
 
 Weblate 3.10.3
 --------------

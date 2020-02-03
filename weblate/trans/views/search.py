@@ -30,6 +30,7 @@ from django.utils.translation import ungettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
+from weblate.checks.flags import Flags
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     BulkEditForm,
@@ -225,6 +226,8 @@ def bulk_edit(request, project, component=None, lang=None):
         return redirect(obj)
 
     target_state = int(form.cleaned_data['state'])
+    add_flags = Flags(form.cleaned_data['add_flags'])
+    remove_flags = Flags(form.cleaned_data['remove_flags'])
 
     matching = unit_set.search(form.cleaned_data['q'])
 
@@ -233,13 +236,20 @@ def bulk_edit(request, project, component=None, lang=None):
         for unit in matching.select_for_update():
             if not request.user.has_perm('unit.edit', unit):
                 continue
-            if target_state and unit.state:
+            if target_state != -1 and unit.state:
                 unit.translate(
                     request.user,
                     unit.target,
                     target_state,
                     change_action=Change.ACTION_MASS_STATE,
                 )
+                updated += 1
+            if add_flags or remove_flags:
+                flags = Flags(unit.source_info.extra_flags)
+                flags.merge(add_flags)
+                flags.remove(remove_flags)
+                unit.source_info.extra_flags = flags.format()
+                unit.source_info.save(update_fields=['extra_flags'])
                 updated += 1
 
     import_message(
