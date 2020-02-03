@@ -153,6 +153,23 @@ class UserField(forms.CharField):
             raise ValidationError(_('More users matched.'))
 
 
+class QueryField(forms.CharField):
+    def __init__(self, label=_('Query'), required=False, **kwargs):
+        super(QueryField, self).__init__(label=label, required=required, **kwargs)
+
+    def clean(self, value):
+        if not value:
+            if self.required:
+                raise ValidationError(_("Missing query string."))
+            return ""
+        try:
+            parse_query(value)
+            return value
+        except Exception as error:
+            report_error(error)
+            raise ValidationError(_('Failed to parse query string: {}').format(error))
+
+
 class PluralTextarea(forms.Textarea):
     """Text area extension which possibly handles plurals."""
 
@@ -515,7 +532,7 @@ class AntispamForm(forms.Form):
 
 
 class DownloadForm(forms.Form):
-    q = forms.CharField(label=_('Query'), min_length=1, required=False)
+    q = QueryField(required=True)
     format = forms.ChoiceField(
         label=_('File format'),
         choices=[(x.name, x.verbose) for x in EXPORTERS.values()],
@@ -613,7 +630,7 @@ class SearchForm(forms.Form):
     """Text searching form."""
 
     # pylint: disable=invalid-name
-    q = forms.CharField(label=_('Query'), min_length=1, required=False)
+    q = QueryField()
     checksum = ChecksumField(required=False)
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
 
@@ -694,20 +711,6 @@ class SearchForm(forms.Form):
         data['checksum'] = ''
         self.data = data
         return self
-
-    def clean(self):
-        """Sanity checking query string."""
-        # Try to parse query string
-        query = self.cleaned_data.get('q')
-        if query:
-            try:
-                parse_query(query)
-            except Exception as error:
-                report_error(error)
-                raise ValidationError(
-                    {'q': _('Failed to parse query string: {}').format(error)}
-                )
-        return self.cleaned_data
 
 
 class MergeForm(ChecksumForm):

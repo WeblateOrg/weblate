@@ -29,6 +29,7 @@ import whoosh.query
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import ugettext as _
+from django.utils import lru_cache
 from jellyfish import damerau_levenshtein_distance
 from jellyfish._jellyfish import (
     damerau_levenshtein_distance as py_damerau_levenshtein_distance,
@@ -291,5 +292,6 @@ def query_sql(obj):
     raise ValueError("Unsupported: {!r}".format(obj))
 
 
+@lru_cache.lru_cache(maxsize=512)
 def parse_query(text):
     return query_sql(PARSER.parse(text))
