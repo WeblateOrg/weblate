@@ -27,7 +27,7 @@ import whoosh.qparser
 import whoosh.qparser.dateparse
 import whoosh.query
 from django.db.models import Q
-from django.utils import lru_cache, timezone
+from django.utils import timezone
 from django.utils.translation import ugettext as _
 from jellyfish import damerau_levenshtein_distance
 from jellyfish._jellyfish import (
@@ -37,6 +37,12 @@ from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
 
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import STATE_NAMES, STATE_TRANSLATED
+
+# Can be removed once we support Python 3 only
+try:
+    from functools import lru_cache
+except ImportError:
+    from django.utils.lru_cache import lru_cach
 
 
 class Comparer(object):
@@ -291,6 +297,6 @@ def query_sql(obj):
     raise ValueError("Unsupported: {!r}".format(obj))
 
 
-@lru_cache.lru_cache(maxsize=512)
+@lru_cache(maxsize=512)
 def parse_query(text):
     return query_sql(PARSER.parse(text))
