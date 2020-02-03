@@ -32,7 +32,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
 from weblate.trans.forms import (
-    BulkStateForm,
+    BulkEditForm,
     ReplaceConfirmForm,
     ReplaceForm,
     SearchForm,
@@ -231,13 +231,13 @@ def search(request, project=None, component=None, lang=None):
 @login_required
 @require_POST
 @never_cache
-def state_change(request, project, component=None, lang=None):
+def bulk_edit(request, project, component=None, lang=None):
     obj, unit_set, context = parse_url(request, project, component, lang)
 
     if not request.user.has_perm('translation.auto', obj):
         raise PermissionDenied()
 
-    form = BulkStateForm(request.user, obj, request.POST)
+    form = BulkEditForm(request.user, obj, request.POST)
 
     if not form.is_valid():
         messages.error(request, _('Failed to process form!'))
@@ -265,10 +265,10 @@ def state_change(request, project, component=None, lang=None):
 
     import_message(
         request, updated,
-        _('Bulk status change completed, no strings were updated.'),
+        _('Bulk edit completed, no strings were updated.'),
         ungettext(
-            'Bulk status change completed, %d string was updated.',
-            'Bulk status change completed, %d strings were updated.',
+            'Bulk edit completed, %d string was updated.',
+            'Bulk edit completed, %d strings were updated.',
             updated
         )
     )

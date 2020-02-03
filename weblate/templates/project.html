@@ -92,10 +92,10 @@
 {% endif %}
 
 {% if bulk_state_form %}
-<div class="tab-pane" id="bulk-state">
-<form action="{% url 'state-change' project=object.slug %}" method="post" enctype="multipart/form-data">
+<div class="tab-pane" id="bulk-edit">
+<form action="{% url 'bulk-edit' project=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change the state of all strings matching given type at once." %}</p>
 {% csrf_token %}

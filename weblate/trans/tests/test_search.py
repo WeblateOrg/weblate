@@ -482,13 +482,13 @@ class BulkStateTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Bulk status change completed, 1 string was updated.'
+            'Bulk edit completed, 1 string was updated.'
         )
         self.assertEqual(self.get_unit().state, STATE_TRANSLATED)
 
     def test_no_match(self):
         response = self.client.post(
-            reverse('state-change', kwargs=self.kw_project),
+            reverse('bulk-edit', kwargs=self.kw_project),
             {
                 'q': 'state:approved',
                 'state': STATE_FUZZY,
@@ -497,22 +497,22 @@ class BulkStateTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            'Bulk status change completed, no strings were updated.'
+            'Bulk edit completed, no strings were updated.'
         )
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_FUZZY)
 
     def test_mass_state(self):
         self.do_mass_state_test(
-            reverse('state-change', kwargs=self.kw_translation),
+            reverse('bulk-edit', kwargs=self.kw_translation),
         )
 
     def test_mass_state_project(self):
         self.do_mass_state_test(
-            reverse('state-change', kwargs=self.kw_project),
+            reverse('bulk-edit', kwargs=self.kw_project),
         )
 
     def test_mass_state_component(self):
         self.do_mass_state_test(
-            reverse('state-change', kwargs=self.kw_component),
+            reverse('bulk-edit', kwargs=self.kw_component),
         )

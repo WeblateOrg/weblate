@@ -68,7 +68,7 @@
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
       {% if bulk_state_form %}
-      <li><a href="#bulk-state" data-toggle="tab">{% trans "Bulk status change" %}</a></li>
+      <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
       {% endif %}
       <li><a href="{% url 'data_project' project=object.project.slug %}">{% trans "Data exports" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.project.slug}}&amp;component={{ object.slug }}">{% trans "Failing checks" %}</a></li>
@@ -197,10 +197,10 @@
 {% endif %}
 
 {% if bulk_state_form %}
-<div class="tab-pane" id="bulk-state">
-<form action="{% url 'state-change' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
+<div class="tab-pane" id="bulk-edit">
+<form action="{% url 'bulk-edit' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
 {% csrf_token %}

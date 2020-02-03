@@ -66,7 +66,7 @@
       <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
       {% endif %}
       {% if bulk_state_form %}
-      <li><a href="#bulk-state" data-toggle="tab">{% trans "Bulk status change" %}</a></li>
+      <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
       {% endif %}
       {% if user_can_add_unit %}
       <li><a href="#new" data-toggle="tab">{% trans "Add new translation string" %}</a></li>
@@ -269,10 +269,10 @@
 {% endif %}
 
 {% if bulk_state_form %}
-<div class="tab-pane" id="bulk-state">
-<form action="{% url 'state-change' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
+<div class="tab-pane" id="bulk-edit">
+<form action="{% url 'bulk-edit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk status change" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change the state of all strings matching given type at once." %}</p>
 {% csrf_token %}

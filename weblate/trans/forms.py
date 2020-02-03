@@ -1731,12 +1731,12 @@ class NewUnitForm(forms.Form):
         self.fields['value'].widget.profile = user.profile
 
 
-class BulkStateForm(forms.Form):
+class BulkEditForm(forms.Form):
     q = QueryField(required=True)
     state = forms.ChoiceField(label=_('State to set'), choices=STATE_CHOICES)
 
     def __init__(self, user, obj, *args, **kwargs):
-        super(BulkStateForm, self).__init__(*args, **kwargs)
+        super(BulkEditForm, self).__init__(*args, **kwargs)
 
         excluded = {STATE_EMPTY}
         if not user.has_perm('unit.review', obj):

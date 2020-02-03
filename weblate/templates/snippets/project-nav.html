@@ -62,7 +62,7 @@
                 <li><a href="{% url 'project' project=object.slug %}#replace">{% trans "Search and replace" %}</a></li>
             {% endif %}
             {% if bulk_state_form %}
-                <li><a href="{% url 'project' project=object.slug %}#bulk-state">{% trans "Bulk status change" %}</a></li>
+                <li><a href="{% url 'project' project=object.slug %}#bulk-edit">{% trans "Bulk edit" %}</a></li>
             {% endif %}
                 <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
                 <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
@@ -72,7 +72,7 @@
                 <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
             {% endif %}
             {% if bulk_state_form %}
-                <li><a href="#bulk-state" data-toggle="tab">{% trans "Bulk status change" %}</a></li>
+                <li><a href="#bulk-edit" data-toggle="tab">{% trans "Bulk edit" %}</a></li>
             {% endif %}
                 <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
                 <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
