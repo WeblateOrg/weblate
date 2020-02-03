@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-01-29 14:50+0000\n"
+"PO-Revision-Date: 2020-02-03 09:33+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -7362,28 +7362,20 @@ msgid "Nearby strings"
 msgstr "前後の文字列"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "コメントがある文字列"
+msgstr "キーと同じ文字列"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "前後の翻訳"
+msgstr "キーの前後"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "文字列変更"
+msgstr "文字列の自動修正"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "文字列"
+msgstr "自動修正"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7465,7 +7457,7 @@ msgstr "文字列の補正"
 
 #: weblate/templates/translate.html:442
 msgid "Dismiss for all languages"
-msgstr "すべての言語を非表示"
+msgstr "すべての言語で無視する"
 
 #: weblate/templates/translate.html:457
 #, python-format
@@ -7474,12 +7466,10 @@ msgid_plural "There are %(count)s comments for this string."
 msgstr[0] "この文字列には %(count)s 件のコメントがあります。"
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "この文字列には %(count)s 件の提案があります。"
+msgstr[0] "自動修正した文字列が %(count)s 件あります。"
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7873,10 +7863,8 @@ msgid "Strings marked for edit"
 msgstr "要編集マーク付きの文字列"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "提案がある文字列"
+msgstr "自動修正した文字列"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -8922,17 +8910,12 @@ msgid ""
 msgstr "ファイル マスクをスキャンするときに翻訳をフィルタ処理する正規表現。"
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "電子メールの正規表現"
+msgstr "自動修正に使用する正規表現"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr "ファイル マスクをスキャンするときに翻訳をフィルタ処理する正規表現。"
+msgstr "文字列を自動修正するために使用する正規表現。"
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -10100,7 +10083,7 @@ msgstr "コンパイルに失敗しました: {0}"
 
 #: weblate/utils/validators.py:68
 msgid "Regular expression should not match empty string."
-msgstr "正規表現は空白文字列にマッチしてはいけません。"
+msgstr "正規表現は空白文字列と一致してはいけません。"
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
