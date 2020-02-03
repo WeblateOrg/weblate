@@ -33,11 +33,7 @@ class CommentManager(models.Manager):
 
     def add(self, unit, user, text):
         """Add comment to this unit."""
-        new_comment = self.create(
-            user=user,
-            unit=unit,
-            comment=text,
-        )
+        new_comment = self.create(user=user, unit=unit, comment=text)
         Change.objects.create(
             unit=unit,
             comment=new_comment,
@@ -55,10 +51,7 @@ class CommentQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Comment(models.Model, UserDisplayMixin):
-    unit = models.ForeignKey(
-        "trans.Unit",
-        on_delete=models.deletion.CASCADE,
-    )
+    unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     comment = models.TextField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

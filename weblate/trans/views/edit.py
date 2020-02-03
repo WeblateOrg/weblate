@@ -233,9 +233,7 @@ def perform_translation(unit, form, request):
             _(
                 'The translation has been saved, however there '
                 'are some newly failing checks: {0}'
-            ).format(
-                ', '.join(force_text(CHECKS[check].name) for check in newchecks)
-            ),
+            ).format(', '.join(force_text(CHECKS[check].name) for check in newchecks)),
         )
         # Stay on same entry
         return False
@@ -358,8 +356,7 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     # Fetch suggestion
     try:
         suggestion = Suggestion.objects.get(
-            pk=int(sugid),
-            unit__translation=translation,
+            pk=int(sugid), unit__translation=translation
         )
     except (Suggestion.DoesNotExist, ValueError):
         messages.error(request, _('Invalid suggestion!'))
@@ -636,7 +633,7 @@ def get_zen_unitdata(translation, request):
     search_result['last_section'] = offset + 20 >= len(search_result['ids'])
 
     units = translation.unit_set.filter(
-        pk__in=search_result['ids'][offset:offset + 20]
+        pk__in=search_result['ids'][offset : offset + 20]
     ).order()
 
     unitdata = [

@@ -31,9 +31,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 class CommentViewTest(FixtureTestCase):
     def setUp(self):
         super(CommentViewTest, self).setUp()
-        self.translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        self.translation = self.component.translation_set.get(language_code='cs')
 
     def test_add_target_comment(self):
         unit = self.get_unit()
@@ -41,10 +39,7 @@ class CommentViewTest(FixtureTestCase):
         # Add comment
         response = self.client.post(
             reverse('comment', kwargs={'pk': unit.id}),
-            {
-                'comment': 'New target testing comment',
-                'scope': 'translation',
-            }
+            {'comment': 'New target testing comment', 'scope': 'translation'},
         )
         self.assertRedirects(response, unit.get_absolute_url())
 
@@ -54,15 +49,10 @@ class CommentViewTest(FixtureTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         # Check number of comments
         self.assertTrue(unit.has_comment)
-        self.assertEqual(
-            translation.stats.comments,
-            1
-        )
+        self.assertEqual(translation.stats.comments, 1)
 
     def test_add_source_comment(self):
         unit = self.get_unit()
@@ -70,10 +60,7 @@ class CommentViewTest(FixtureTestCase):
         # Add comment
         response = self.client.post(
             reverse('comment', kwargs={'pk': unit.id}),
-            {
-                'comment': 'New source testing comment',
-                'scope': 'global',
-            }
+            {'comment': 'New source testing comment', 'scope': 'global'},
         )
         self.assertRedirects(response, unit.get_absolute_url())
 
@@ -83,15 +70,10 @@ class CommentViewTest(FixtureTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         # Check number of comments
         self.assertFalse(unit.has_comment)
-        self.assertEqual(
-            translation.stats.comments,
-            0
-        )
+        self.assertEqual(translation.stats.comments, 0)
 
     def test_delete_comment(self):
         unit = self.get_unit()
@@ -100,10 +82,7 @@ class CommentViewTest(FixtureTestCase):
         # Add comment
         response = self.client.post(
             reverse('comment', kwargs={'pk': unit.id}),
-            {
-                'comment': 'New target testing comment',
-                'scope': 'translation',
-            }
+            {'comment': 'New target testing comment', 'scope': 'translation'},
         )
 
         comment = Comment.objects.all()[0]
