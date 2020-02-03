@@ -56,9 +56,7 @@ def get_untranslated(base, limit=None):
 def get_suggestions(request, user, base, filtered=False):
     """Return suggested translations for user"""
     if not filtered:
-        non_alerts = base.annotate(
-            alert_count=Count('component__alert__pk')
-        ).filter(
+        non_alerts = base.annotate(alert_count=Count('component__alert__pk')).filter(
             alert_count=0
         )
         result = get_suggestions(request, user, non_alerts, True)
@@ -67,10 +65,7 @@ def get_suggestions(request, user, base, filtered=False):
     if user.is_authenticated and user.profile.languages.exists():
         # Remove user subscriptions
         result = get_untranslated(
-            base.exclude(
-                component__project__in=user.profile.watched.all()
-            ),
-            10
+            base.exclude(component__project__in=user.profile.watched.all()), 10
         )
         if result:
             return result
@@ -120,23 +115,17 @@ def get_user_translations(request, user):
 
     Works also for anonymous users based on current UI language.
     """
-    result = Translation.objects.prefetch().filter(
-        component__project__in=user.allowed_projects
-    ).order_by(
-        'component__priority',
-        'component__project__name',
-        'component__name'
+    result = (
+        Translation.objects.prefetch()
+        .filter(component__project__in=user.allowed_projects)
+        .order_by('component__priority', 'component__project__name', 'component__name')
     )
 
     if user.is_authenticated and user.profile.languages.exists():
-        result = result.filter(
-            language__in=user.profile.languages.all(),
-        )
+        result = result.filter(language__in=user.profile.languages.all())
     else:
         # Filter based on session language
-        tmp = result.filter(
-            language=guess_user_language(request, result)
-        )
+        tmp = result.filter(language=guess_user_language(request, result))
         if tmp:
             return tmp
 
@@ -156,7 +145,7 @@ def home(request):
             _(
                 'The project you were looking for has been removed, '
                 'however you are welcome to contribute to other ones.'
-            )
+            ),
         )
 
     if 'show_set_password' in request.session:
@@ -165,7 +154,7 @@ def home(request):
             _(
                 'You have activated your account, now you should set '
                 'the password to be able to login next time.'
-            )
+            ),
         )
         return redirect('password')
 
@@ -174,12 +163,12 @@ def home(request):
     if user.is_authenticated and (not user.full_name or not user.email):
         messages.warning(
             request,
-            mark_safe('<a href="{0}">{1}</a>'.format(
-                reverse('profile') + '#account',
-                escape(
-                    _('Please set your full name and e-mail in your profile.')
+            mark_safe(
+                '<a href="{0}">{1}</a>'.format(
+                    reverse('profile') + '#account',
+                    escape(_('Please set your full name and e-mail in your profile.')),
                 )
-            ))
+            ),
         )
 
     # Redirect to single project or component
@@ -211,15 +200,16 @@ def dashboard_user(request):
 
     usersubscriptions = None
 
-    componentlists = list(ComponentList.objects.filter(
-        show_dashboard=True,
-        components__project__in=request.user.allowed_projects
-    ).distinct().order())
+    componentlists = list(
+        ComponentList.objects.filter(
+            show_dashboard=True, components__project__in=request.user.allowed_projects
+        )
+        .distinct()
+        .order()
+    )
     for componentlist in componentlists:
         componentlist.translations = prefetch_stats(
-            user_translations.filter(
-                component__in=componentlist.components.all()
-            )
+            user_translations.filter(component__in=componentlist.components.all())
         )
     # Filter out component lists with translations
     # This will remove the ones where user doesn't have access to anything
@@ -227,16 +217,16 @@ def dashboard_user(request):
 
     active_tab_id = user.profile.dashboard_view
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
-    if (active_tab_id == Profile.DASHBOARD_COMPONENT_LIST
-            and user.profile.dashboard_component_list):
+    if (
+        active_tab_id == Profile.DASHBOARD_COMPONENT_LIST
+        and user.profile.dashboard_component_list
+    ):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
         # Ensure ACL filtering applies (user could have been removed
         # from the project meanwhile)
-        watched_projects = user.allowed_projects.filter(
-            profile=user.profile
-        )
+        watched_projects = user.allowed_projects.filter(profile=user.profile)
 
         usersubscriptions = user_translations.filter(
             component__project__in=watched_projects
@@ -259,12 +249,16 @@ def dashboard_user(request):
             'search_form': SearchForm(request.user),
             'usersubscriptions': get_paginator(request, usersubscriptions),
             'componentlists': componentlists,
-            'all_componentlists': prefetch_stats(ComponentList.objects.filter(
-                components__project__in=request.user.allowed_projects
-            ).distinct().order()),
+            'all_componentlists': prefetch_stats(
+                ComponentList.objects.filter(
+                    components__project__in=request.user.allowed_projects
+                )
+                .distinct()
+                .order()
+            ),
             'active_tab_slug': active_tab_slug,
             'reports_form': ReportsForm(),
-        }
+        },
     )
 
 
@@ -272,16 +266,10 @@ def dashboard_anonymous(request):
     """Home page of Weblate showing list of projects for anonymous user."""
 
     all_projects = prefetch_stats(request.user.allowed_projects)
-    top_projects = sorted(
-        all_projects,
-        key=lambda prj: -prj.stats.monthly_changes
-    )
+    top_projects = sorted(all_projects, key=lambda prj: -prj.stats.monthly_changes)
 
     return render(
         request,
         'dashboard/anonymous.html',
-        {
-            'top_projects': top_projects[:20],
-            'all_projects': len(all_projects),
-        }
+        {'top_projects': top_projects[:20], 'all_projects': len(all_projects)},
     )
