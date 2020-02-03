@@ -28,7 +28,6 @@ import six
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
-from django.templatetags.static import static
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_text
@@ -134,7 +133,7 @@ def fmt_highlights(raw_value, value, unit):
         find_highlight = value.find(htext, start_search)
         if find_highlight >= 0:
             newpart = HL_CHECK.format(htext)
-            next_part = value[(find_highlight + len(htext)):]
+            next_part = value[(find_highlight + len(htext)) :]
             value = value[:find_highlight] + newpart + next_part
             start_search = find_highlight + len(newpart)
     return value
