@@ -42,7 +42,7 @@ from weblate.utils.state import STATE_NAMES, STATE_TRANSLATED
 try:
     from functools import lru_cache
 except ImportError:
-    from django.utils.lru_cache import lru_cach
+    from django.utils.lru_cache import lru_cache
 
 
 class Comparer(object):
