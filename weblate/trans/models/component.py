@@ -693,7 +693,12 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def get_last_remote_commit(self):
         """Return latest locally known remote commit."""
-        return self.repository.get_revision_info(self.repository.last_remote_revision)
+        try:
+            revision = self.repository.last_remote_revision
+        except RepositoryException as error:
+            report_error(error, prefix="Could not get remote revision")
+            return None
+        return self.repository.get_revision_info(revision)
 
     @perform_on_link
     def get_repo_url(self):

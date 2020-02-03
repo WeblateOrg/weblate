@@ -22,6 +22,7 @@
 </tr>
 
 {% with object.get_last_remote_commit as commit %}
+{% if commit %}
 <tr>
 <th>{% trans "Last remote commit" %}</th>
 <td colspan="2">
@@ -33,6 +34,7 @@
 {% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
 </td>
 </tr>
+{% endif %}
 {% endwith %}
 
 {% with object.get_export_url as export_url %}
