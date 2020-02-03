@@ -104,22 +104,18 @@ def search_replace(request, project, component=None, lang=None):
 
         if not confirm.is_valid():
             for unit in matching:
-                unit.replacement = unit.target.replace(
-                    search_text, replacement
-                )
-            context.update({
-                'matching': matching,
-                'search_query': search_text,
-                'replacement': replacement,
-                'form': form,
-                'limited': limited,
-                'confirm': ReplaceConfirmForm(matching),
-            })
-            return render(
-                request,
-                'replace.html',
-                context
+                unit.replacement = unit.target.replace(search_text, replacement)
+            context.update(
+                {
+                    'matching': matching,
+                    'search_query': search_text,
+                    'replacement': replacement,
+                    'form': form,
+                    'limited': limited,
+                    'confirm': ReplaceConfirmForm(matching),
+                }
             )
+            return render(request, 'replace.html', context)
 
         matching = confirm.cleaned_data['units']
 
@@ -131,18 +127,19 @@ def search_replace(request, project, component=None, lang=None):
                     request.user,
                     unit.target.replace(search_text, replacement),
                     unit.state,
-                    change_action=Change.ACTION_REPLACE
+                    change_action=Change.ACTION_REPLACE,
                 )
                 updated += 1
 
     import_message(
-        request, updated,
+        request,
+        updated,
         _('Search and replace completed, no strings were updated.'),
         ungettext(
             'Search and replace completed, %d string was updated.',
             'Search and replace completed, %d strings were updated.',
-            updated
-        )
+            updated,
+        ),
     )
 
     return redirect(obj)
@@ -153,9 +150,7 @@ def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit('search', request)
     search_form = SearchForm(request.user, request.GET)
-    context = {
-        'search_form': search_form,
-    }
+    context = {'search_form': search_form}
     if component:
         obj = get_component(request, project, component)
         context['component'] = obj
@@ -178,11 +173,7 @@ def search(request, project=None, component=None, lang=None):
                 ).get_absolute_url()
             else:
                 context['back_url'] = reverse(
-                    'project-language',
-                    kwargs={
-                        'project': project,
-                        'lang': lang,
-                    }
+                    'project-language', kwargs={'project': project, 'lang': lang}
                 )
         else:
             context['back_url'] = s_language.get_absolute_url()
@@ -200,32 +191,22 @@ def search(request, project=None, component=None, lang=None):
             )
         units = units.search(search_form.cleaned_data.get("q", ""))
         if lang:
-            units = units.filter(
-                translation__language=context['language']
-            )
+            units = units.filter(translation__language=context['language'])
 
         units = get_paginator(request, units.order())
 
         context['show_results'] = True
         context['page_obj'] = units
-        context['title'] = _('Search for %s') % (
-            search_form.cleaned_data['q']
-        )
+        context['title'] = _('Search for %s') % (search_form.cleaned_data['q'])
         context['query_string'] = search_form.urlencode()
         context['search_query'] = search_form.cleaned_data['q']
     elif is_ratelimited:
-        messages.error(
-            request, _('Too many search queries, please try again later.')
-        )
+        messages.error(request, _('Too many search queries, please try again later.'))
     elif request.GET:
         messages.error(request, _('Invalid search query!'))
         show_form_errors(request, search_form)
 
-    return render(
-        request,
-        'search.html',
-        context
-    )
+    return render(request, 'search.html', context)
 
 
 @login_required
@@ -244,33 +225,33 @@ def bulk_edit(request, project, component=None, lang=None):
         show_form_errors(request, form)
         return redirect(obj)
 
-    matching = unit_set.search(
-        form.cleaned_data['q'],
-    ).exclude(
-        state=STATE_EMPTY
-    )
+    target_state = int(form.cleaned_data['state'])
+
+    matching = unit_set.search(form.cleaned_data['q'])
 
     updated = 0
     with transaction.atomic():
         for unit in matching.select_for_update():
             if not request.user.has_perm('unit.edit', unit):
                 continue
-            unit.translate(
-                request.user,
-                unit.target,
-                int(form.cleaned_data['state']),
-                change_action=Change.ACTION_MASS_STATE,
-            )
-            updated += 1
+            if target_state and unit.state:
+                unit.translate(
+                    request.user,
+                    unit.target,
+                    target_state,
+                    change_action=Change.ACTION_MASS_STATE,
+                )
+                updated += 1
 
     import_message(
-        request, updated,
+        request,
+        updated,
         _('Bulk edit completed, no strings were updated.'),
         ungettext(
             'Bulk edit completed, %d string was updated.',
             'Bulk edit completed, %d strings were updated.',
-            updated
-        )
+            updated,
+        ),
     )
 
     return redirect(obj)

@@ -1733,7 +1733,9 @@ class NewUnitForm(forms.Form):
 
 class BulkEditForm(forms.Form):
     q = QueryField(required=True)
-    state = forms.ChoiceField(label=_('State to set'), choices=STATE_CHOICES)
+    state = forms.ChoiceField(
+        label=_('State to set'), choices=((0, _('Do not change')),) + STATE_CHOICES
+    )
 
     def __init__(self, user, obj, *args, **kwargs):
         super(BulkEditForm, self).__init__(*args, **kwargs)
