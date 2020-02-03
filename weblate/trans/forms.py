@@ -1732,7 +1732,7 @@ class NewUnitForm(forms.Form):
 
 
 class BulkStateForm(forms.Form):
-    type = FilterField(required=True, initial='all', widget=forms.RadioSelect)
+    q = QueryField(required=True)
     state = forms.ChoiceField(label=_('State to set'), choices=STATE_CHOICES)
 
     def __init__(self, user, obj, *args, **kwargs):

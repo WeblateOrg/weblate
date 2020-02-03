@@ -475,7 +475,7 @@ class BulkStateTest(ViewTestCase):
         response = self.client.post(
             url,
             {
-                'type': 'fuzzy',
+                "q": "state:needs-editing",
                 'state': STATE_TRANSLATED,
             },
             follow=True
@@ -490,7 +490,7 @@ class BulkStateTest(ViewTestCase):
         response = self.client.post(
             reverse('state-change', kwargs=self.kw_project),
             {
-                'type': 'approved',
+                'q': 'state:approved',
                 'state': STATE_FUZZY,
             },
             follow=True

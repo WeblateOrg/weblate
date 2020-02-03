@@ -244,8 +244,8 @@ def state_change(request, project, component=None, lang=None):
         show_form_errors(request, form)
         return redirect(obj)
 
-    matching = unit_set.filter_type(
-        form.cleaned_data['type'],
+    matching = unit_set.search(
+        form.cleaned_data['q'],
     ).exclude(
         state=STATE_EMPTY
     )
