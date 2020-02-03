@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+import six
 from django.conf import settings
 from django.db.models import Count
 from django.shortcuts import redirect
@@ -182,6 +183,8 @@ def home(request):
         )
 
     # Redirect to single project or component
+    if isinstance(settings.SINGLE_PROJECT, six.text_type):
+        return redirect(Project.objects.get(slug=settings.SINGLE_PROJECT))
     if settings.SINGLE_PROJECT:
         if Component.objects.count() == 1:
             return redirect(Component.objects.first())

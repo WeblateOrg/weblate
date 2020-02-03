@@ -682,6 +682,11 @@ class DashboardTest(ViewTestCase):
         response = self.client.get(reverse('home'))
         self.assertRedirects(response, reverse('component', kwargs=self.kw_component))
 
+    @override_settings(SINGLE_PROJECT="test")
+    def test_single_project_slug(self):
+        response = self.client.get(reverse('home'))
+        self.assertRedirects(response, reverse('project', kwargs=self.kw_project))
+
 
 class SourceStringsTest(ViewTestCase):
     def test_edit_priority(self):

@@ -1141,14 +1141,20 @@ SINGLE_PROJECT
 .. versionadded:: 3.8
 
 Redirect user directly to single project or component instead of showing
-dashboard. It only works in case there is actually only single project in
-Weblate.
+dashboard. You can either set it to ``True`` and in this case it only works in
+case there is actually only single project in Weblate. Alternatively set
+project slug and it will redirect unconditionally to this project.
+
+.. versionchanged:: 3.11
+
+   The setting now accept project slug as well to force displaying of that
+   single project.
 
 Example:
 
 .. code-block:: python
 
-    SINGLE_PROJECT = True
+    SINGLE_PROJECT = "test"
 
 .. setting:: STATUS_URL
 

@@ -17,6 +17,7 @@ Not yet released.
 * Fixed downloads of strings needing action.
 * New alert to warn about using same filemask twice.
 * Improve XML placeables extraction.
+* The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project.
 
 Weblate 3.10.3
 --------------
