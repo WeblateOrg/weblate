@@ -388,9 +388,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Invalidate keys cache
         transaction.on_commit(lambda: self.invalidate_keys())
 
-    def get_last_remote_commit(self):
-        return self.component.get_last_remote_commit()
-
     def do_update(self, request=None, method=None):
         return self.component.do_update(request, method=method)
 
