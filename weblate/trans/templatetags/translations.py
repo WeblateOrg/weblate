@@ -296,18 +296,6 @@ def documentation_icon(page, anchor="", right=False):
     return {"right": right, "doc_url": get_doc_url(page, anchor)}
 
 
-@register.simple_tag
-def admin_boolean_icon(val):
-    """Admin icon wrapper."""
-    ext = "svg"
-    icon_url = static("admin/img/icon-{0}.{1}".format(TYPE_MAPPING[val], ext))
-    return mark_safe(
-        '<img src="{url}" alt="{text}" title="{text}" />'.format(
-            url=icon_url, text=NAME_MAPPING[val]
-        )
-    )
-
-
 @register.inclusion_tag("message.html")
 def show_message(tags, message):
     tags = tags.split()
