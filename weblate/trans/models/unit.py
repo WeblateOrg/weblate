@@ -734,7 +734,7 @@ class Unit(models.Model, LoggerMixin):
 
     def update_has_comment(self):
         """Update flag counting comments."""
-        has_comment = len(self.get_comments()) > 0
+        has_comment = len(self.get_comments().filter(resolved=False)) > 0
         if has_comment != self.has_comment:
             self.has_comment = has_comment
             self.save(same_content=True, same_state=True, update_fields=['has_comment'])

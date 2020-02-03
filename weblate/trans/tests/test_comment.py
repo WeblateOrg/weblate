@@ -111,3 +111,23 @@ class CommentViewTest(FixtureTestCase):
             reverse('delete-comment', kwargs={'pk': comment.pk})
         )
         self.assertRedirects(response, unit.get_absolute_url())
+
+    def test_resolve_comment(self):
+        unit = self.get_unit()
+        self.make_manager()
+
+        # Add comment
+        response = self.client.post(
+            reverse('comment', kwargs={'pk': unit.id}),
+            {'comment': 'New target testing comment', 'scope': 'translation'},
+        )
+
+        comment = Comment.objects.all()[0]
+        response = self.client.post(
+            reverse('resolve-comment', kwargs={'pk': comment.pk})
+        )
+        self.assertRedirects(response, unit.get_absolute_url())
+
+        comment.refresh_from_db()
+        self.assertTrue(comment.resolved)
+        self.assertFalse(comment.unit.has_comment)

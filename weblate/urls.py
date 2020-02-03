@@ -461,6 +461,11 @@ real_patterns = [
         weblate.trans.views.edit.delete_comment,
         name="delete-comment",
     ),
+    url(
+        r"^comment/(?P<pk>[0-9]+)/resolve/$",
+        weblate.trans.views.edit.resolve_comment,
+        name="resolve-comment",
+    ),
     # VCS manipulation - commit
     url(
         r"^commit/" + PROJECT + "$",

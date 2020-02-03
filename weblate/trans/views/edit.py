@@ -603,6 +603,26 @@ def delete_comment(request, pk):
     return redirect_next(request.POST.get('next'), fallback_url)
 
 
+@login_required
+@require_POST
+def resolve_comment(request, pk):
+    """Resolve comment."""
+    comment_obj = get_object_or_404(Comment, pk=pk)
+    project = comment_obj.unit.translation.component.project
+    request.user.check_access(project)
+
+    if not request.user.has_perm('comment.delete', comment_obj, project):
+        raise PermissionDenied()
+
+    fallback_url = comment_obj.unit.get_absolute_url()
+
+    comment_obj.resolved = True
+    comment_obj.save(update_fields=['resolved'])
+    messages.info(request, _('Translation comment has been resolved.'))
+
+    return redirect_next(request.POST.get('next'), fallback_url)
+
+
 def get_zen_unitdata(translation, request):
     """Load unit data for zen mode."""
     # Search results

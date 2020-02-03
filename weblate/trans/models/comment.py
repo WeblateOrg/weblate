@@ -67,6 +67,7 @@ class Comment(models.Model, UserDisplayMixin):
         on_delete=models.deletion.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    resolved = models.BooleanField(default=False, db_index=True)
 
     objects = CommentManager.from_queryset(CommentQuerySet)()
 
