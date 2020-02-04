@@ -18,13 +18,14 @@
 # Deleted User <noreply+16022@weblate.org>, 2019.
 # tinect <s.koenig@tinect.de>, 2019.
 # Mr-Update <mr.update@yahoo.de>, 2019.
+# iLocIT! <matthiasc@ilocit.de>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-02-03 09:33+0000\n"
-"Last-Translator: nautilusx <mail.ka@mailbox.org>\n"
+"PO-Revision-Date: 2020-02-05 10:37+0000\n"
+"Last-Translator: iLocIT! <matthiasc@ilocit.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -193,7 +194,7 @@ msgstr "Projektseite"
 #: weblate/accounts/forms.py:618 weblate/trans/forms.py:1463
 #: weblate/trans/models/component.py:191
 msgid "Source code repository"
-msgstr "Quellcode-Paketquelle"
+msgstr "Quellcode-Repository"
 
 #: weblate/accounts/forms.py:620
 msgid "URL of source code repository, for example Git or Mercurial."
@@ -405,7 +406,7 @@ msgstr "Zweitsprachen im Zen-Modus anzeigen"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
-msgstr "Quelle ausblenden, wenn bereits eine Übersetzung vorhanden ist"
+msgstr "Ausgangssprache ausblenden, wenn bereits eine Übersetzung vorhanden ist"
 
 #: weblate/accounts/models.py:323
 msgid "Editor link"
@@ -979,7 +980,7 @@ msgstr "Fuzzy-Matching verwenden"
 
 #: weblate/addons/forms.py:132
 msgid "Commit squashing"
-msgstr "Commits quetschen"
+msgstr "Commits konsolidieren"
 
 #: weblate/addons/forms.py:135
 msgid "All commits into one"
@@ -1173,7 +1174,7 @@ msgid ""
 msgstr ""
 "Aktualisieren Sie alle PO-Dateien mit msgmerge so, dass sie mit der POT-"
 "Datei übereinstimmen. Dies wird immer dann ausgelöst, wenn neue Änderungen "
-"aus dem übergeordneten Paketquellen übernommen werden."
+"aus dem übergeordneten Repository übernommen werden."
 
 #: weblate/addons/gettext.py:232
 msgid "Customize gettext output"
@@ -1200,11 +1201,11 @@ msgstr ""
 
 #: weblate/addons/git.py:37
 msgid "Squash Git commits"
-msgstr "Git-Commits zusammenfassen"
+msgstr "Git-Commits konsolidieren"
 
 #: weblate/addons/git.py:38
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Git-Commits vor dem Pushen der Änderungen zusammenfassen."
+msgstr "Git-Commits vor dem Pushen der Änderungen konsolidieren."
 
 #: weblate/addons/json.py:31
 msgid "Customize JSON output"
@@ -1448,7 +1449,7 @@ msgstr "Zugriff auf das interne Repository"
 
 #: weblate/auth/data.py:89
 msgid "Commit changes to the internal repository"
-msgstr "Änderungen am internen Repository committen"
+msgstr "Commit für Änderungen am internen Repository durchführen"
 
 #: weblate/auth/data.py:90
 msgid "Push change from the internal repository"
@@ -1529,7 +1530,7 @@ msgstr "Übersetzen"
 #: weblate/auth/data.py:161
 msgctxt "Access control role"
 msgid "Edit source"
-msgstr "Quelle bearbeiten"
+msgstr "Ausgangssprache bearbeiten"
 
 #: weblate/auth/data.py:165
 msgctxt "Access control role"
@@ -3343,7 +3344,7 @@ msgstr "SSH Schlüssel ist nicht verfügbar."
 
 #: weblate/templates/about/keys.html:36
 msgid "Commit signing"
-msgstr "Commitsignatur"
+msgstr "Commit-Signatur"
 
 #: weblate/templates/about/keys.html:42
 #, python-format
@@ -4792,7 +4793,7 @@ msgstr "Verwalten"
 #: weblate/templates/snippets/project-nav.html:90
 #: weblate/templates/translation.html:83
 msgid "Commit"
-msgstr "Einspielen"
+msgstr "Commit"
 
 #: weblate/templates/component.html:92
 #: weblate/templates/snippets/project-nav.html:94
@@ -5712,7 +5713,7 @@ msgstr "Repository-Status"
 
 #: weblate/templates/js/git-status.html:20
 msgid "There are some uncommitted changes!"
-msgstr "Es gibt einige noch nicht gesicherte Änderungen!"
+msgstr "Es gibt noch Änderungen für die kein Commit durchgeführt wurde!"
 
 #: weblate/templates/js/git-status.html:24
 msgid "There has been a merge failure in the repository"
@@ -5725,15 +5726,15 @@ msgstr "Suchen Sie in den FAQs nach Informationen, wie diese zu lösen sind."
 
 #: weblate/templates/js/git-status.html:30
 msgid "The remote repository needs to be merged!"
-msgstr "Die entfernte Paketquelle muss zusammengeführt werden!"
+msgstr "Das entfernte Repository muss zusammengeführt werden!"
 
 #: weblate/templates/js/git-status.html:33
 msgid "There are some new commits in the local repository."
-msgstr "Es gibt einige neue Freischaltungen im lokalen Repository."
+msgstr "Es gibt einige neue Commits im lokalen Repository."
 
 #: weblate/templates/js/git-status.html:36
 msgid "The local repository is up to date."
-msgstr "Die lokale Paketquelle ist aktuell."
+msgstr "Das lokale Repository ist aktuell."
 
 #: weblate/templates/js/git-status.html:49
 msgid "Repository details"
@@ -5749,7 +5750,8 @@ msgstr "Paketquellwerkzeuge"
 
 #: weblate/templates/js/git-status.html:84
 msgid "Commit pending changes to the local repository"
-msgstr "Alle anstehenden Änderungen in die lokale Paketquelle einspielen"
+msgstr ""
+"Commit aller anstehenden Änderungen in das lokale Repository durchführen"
 
 #: weblate/templates/js/git-status.html:94
 msgid "Pull"
@@ -5757,7 +5759,7 @@ msgstr "Ziehen"
 
 #: weblate/templates/js/git-status.html:98
 msgid "Pull changes from the remote repository"
-msgstr "Änderungen aus der entfernten Paketquelle ziehen"
+msgstr "Pull der Änderungen aus dem entfernten Repository durchführen"
 
 #: weblate/templates/js/git-status.html:108
 msgid "Push"
@@ -5774,7 +5776,7 @@ msgstr "Umbasieren (rebase)"
 
 #: weblate/templates/js/git-status.html:126
 msgid "Rebase local changes onto the remote repository"
-msgstr "Lokale Änderungen auf der entfernten Paketquelle umbasieren"
+msgstr "Lokale Änderungen auf dem entfernten Repository umbasieren (rebase)"
 
 #: weblate/templates/js/git-status.html:136
 #: weblate/templates/translate.html:445
@@ -5783,7 +5785,7 @@ msgstr "Zurücksetzen"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Reset all changes in the local repository"
-msgstr "Alle Änderungen in der lokalen Paketquelle zurücksetzen"
+msgstr "Alle Änderungen im lokalen Repository zurücksetzen"
 
 #: weblate/templates/js/git-status.html:148
 msgid "Cleanup"
@@ -5799,7 +5801,7 @@ msgstr "Freigeben"
 
 #: weblate/templates/js/git-status.html:168
 msgid "Allow changes to the local repository"
-msgstr "Änderungen in der lokalen Paketquelle erlauben"
+msgstr "Änderungen im lokalen Repository erlauben"
 
 #: weblate/templates/js/git-status.html:176
 msgid "Lock"
@@ -5807,7 +5809,7 @@ msgstr "Sperren"
 
 #: weblate/templates/js/git-status.html:180
 msgid "Prevent any changes in the local repository"
-msgstr "Jegliche Änderungen an der lokalen Paketquelle verhindern"
+msgstr "Jegliche Änderungen am lokalen Repository verhindern"
 
 #: weblate/templates/js/translations.html:8
 msgid "Status"
@@ -8034,11 +8036,11 @@ msgstr "%(filter_name)s (%(filter_count)s)"
 
 #: weblate/trans/admin.py:39
 msgid "Commit pending changes"
-msgstr "Ausstehende Änderungen einspielen"
+msgstr "Commit für ausstehende Änderungen"
 
 #: weblate/trans/admin.py:47
 msgid "Update VCS repository"
-msgstr "Versionsverwaltungspaketquelle aktualisieren"
+msgstr "VCS-Repository aktualisieren"
 
 #: weblate/trans/admin.py:66
 msgid "Update quality checks"
@@ -8489,7 +8491,7 @@ msgstr "Versionsverwaltungseinstellungen"
 
 #: weblate/trans/forms.py:1271 weblate/trans/forms.py:1273
 msgid "Commit messages"
-msgstr "Einspielmeldungen"
+msgstr "Commit-Nachricht"
 
 #: weblate/trans/forms.py:1286
 msgid "Translation files"
@@ -8532,7 +8534,7 @@ msgstr "ZIP-Datei mit Übersetzungen"
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
-"Versionsverwaltung, die für den Zugriff auf die Paketquelle mit den "
+"Versionsverwaltung, die für den Zugriff auf das Repository mit den "
 "Übersetzungen verwendet werden soll."
 
 #: weblate/trans/forms.py:1466
@@ -8758,7 +8760,7 @@ msgstr "Doppelte Zeichenkette gefunden"
 
 #: weblate/trans/models/change.py:238
 msgid "Committed changes"
-msgstr "Änderungen eingespielt"
+msgstr "Commit für Änderungen"
 
 #: weblate/trans/models/change.py:239
 msgid "Pushed changes"
@@ -8766,23 +8768,23 @@ msgstr "Änderungen angeschoben"
 
 #: weblate/trans/models/change.py:240
 msgid "Reset repository"
-msgstr "Paketquelle zurückgesetzt"
+msgstr "Repository zurückgesetzt"
 
 #: weblate/trans/models/change.py:241
 msgid "Merged repository"
-msgstr "Paketquelle zusammengeführt"
+msgstr "Repository zusammengeführt"
 
 #: weblate/trans/models/change.py:242
 msgid "Rebased repository"
-msgstr "Paketquelle umbasiert"
+msgstr "Repository umbasiert"
 
 #: weblate/trans/models/change.py:243
 msgid "Failed merge on repository"
-msgstr "Zusammenführen auf der Paketquelle ist fehlgeschlagen"
+msgstr "Zusammenführen auf das Repository ist fehlgeschlagen"
 
 #: weblate/trans/models/change.py:244
 msgid "Failed rebase on repository"
-msgstr "Umbasieren auf der Paketquelle ist fehlgeschlagen"
+msgstr "Umbasieren auf das Repository ist fehlgeschlagen"
 
 #: weblate/trans/models/change.py:245
 msgid "Failed push on repository"
@@ -8944,8 +8946,8 @@ msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"URL einer Paketquelle; mit weblate://projektname/komponente verweisen Sie "
-"auf die Paketquelle einer anderen Komponente."
+"URL eines Repository; mit weblate://projektname/komponente verweisen Sie auf "
+"dieses Repository in einer anderen Komponente."
 
 #: weblate/trans/models/component.py:206
 msgid "Repository push URL"
@@ -8973,8 +8975,7 @@ msgstr "Exportierte Paketquelladresse"
 
 #: weblate/trans/models/component.py:226
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr ""
-"URL einer Paketquelle, von der Nutzer Änderungen von Weblate laden können"
+msgstr "URL des Repository, von dem Nutzer Änderungen von Weblate laden können"
 
 #: weblate/trans/models/component.py:231
 msgid "Source string bug reporting address"
@@ -9137,7 +9138,7 @@ msgstr "Commit-Nachricht für neu hinzugefügte Übersetzung"
 
 #: weblate/trans/models/component.py:406
 msgid "Commit message when removing translation"
-msgstr "Commit-Nachricht bei gelöschter Übersetzung"
+msgstr "Commit-Nachricht für gelöschte Übersetzung"
 
 #: weblate/trans/models/component.py:415
 msgid "Commit message when merging translation"
@@ -9149,11 +9150,11 @@ msgstr "Commit-Nachricht, wenn das Addon eine Änderung vornimmt"
 
 #: weblate/trans/models/component.py:433
 msgid "Committer name"
-msgstr "Name des Einspielers"
+msgstr "Name des Committers"
 
 #: weblate/trans/models/component.py:438
 msgid "Committer e-mail"
-msgstr "E-Mail-Adresse des Einspielers"
+msgstr "E-Mail-Adresse des Committers"
 
 #: weblate/trans/models/component.py:443
 msgid "Push on commit"
@@ -9227,7 +9228,7 @@ msgstr "Konnte den entfernten Branch nicht auf %s zurücksetzen."
 #: weblate/trans/models/component.py:1031
 #, python-format
 msgid "Could not clean the repository on %s."
-msgstr "Konnte die Paketquelle auf %s nicht bereinigen."
+msgstr "Konnte das Repository auf %s nicht bereinigen."
 
 #: weblate/trans/models/component.py:1111
 #, python-format
@@ -9242,8 +9243,8 @@ msgstr "Konnte den entfernten Zweig nicht nach %s mergen."
 #: weblate/trans/models/component.py:1441
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
-"Ungültiger Verweis zu einem Weblate-Projekt, Verbindung zu einer verbundenen "
-"Paketquelle nicht möglich!"
+"Ungültiger Verweis zu einem Weblate-Projekt, Verbindung zu einem verbundenen "
+"Repository nicht möglich!"
 
 #: weblate/trans/models/component.py:1450
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
@@ -9481,7 +9482,7 @@ msgstr "Hooks aktivieren"
 #: weblate/trans/models/project.py:134
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
-"Ob das Aktualisieren dieser Paketquelle durch entfernte Hooks erlaubt ist."
+"Ob das Aktualisieren dieses Repository durch entfernte Hooks erlaubt ist."
 
 #: weblate/trans/models/project.py:139
 msgid "Source language"
@@ -9511,8 +9512,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Dateiname %s nicht in der Paketquelle gefunden! Um eine neue Übersetzung "
-"hinzuzufügen, bitte Sprachdatei in Paketquelle anlegen."
+"Dateiname %s nicht im Repository gefunden! Um eine neue Übersetzung "
+"hinzuzufügen, bitte Sprachdatei im Repository anlegen."
 
 #: weblate/trans/models/translation.py:192
 #, python-format
@@ -10191,11 +10192,11 @@ msgstr[1] ""
 #: weblate/trans/views/git.py:43
 msgid "Failed to lock the repository, another operation is in progress."
 msgstr ""
-"Fehler beim Sperren der Paketquelle, ein anderer Vorgang ist in Bearbeitung."
+"Fehler beim Sperren des Repository, ein anderer Vorgang ist in Bearbeitung."
 
 #: weblate/trans/views/git.py:55
 msgid "All pending translations were committed."
-msgstr "Alle ausstehenden Übersetzungen wurden eingespielt."
+msgstr "Commit für alle ausstehenden Übersetzungen durchgeführt."
 
 #: weblate/trans/views/git.py:67
 msgid "All repositories were updated."
@@ -10203,7 +10204,7 @@ msgstr "Alle Repositories wurden aktualisiert."
 
 #: weblate/trans/views/git.py:79
 msgid "All repositories were pushed."
-msgstr "Alle Paketquellen wurden angeschoben."
+msgstr "Alle Repositories wurden gepushed."
 
 #: weblate/trans/views/git.py:90
 msgid "All repositories have been reset."
