@@ -40,7 +40,7 @@ class InlineAutoGroupAdmin(admin.TabularInline):
     model = AutoGroup
     extra = 0
 
-    def has_add_permission(self, request, obj):
+    def has_add_permission(self, request, obj=None):
         if block_group_edit(obj):
             return False
         return super(InlineAutoGroupAdmin, self).has_add_permission(request, obj)
