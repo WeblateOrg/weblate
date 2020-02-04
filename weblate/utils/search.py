@@ -107,6 +107,8 @@ class StateField(NUMERIC):
 
 
 def state_to_int(text):
+    if text is None:
+        return None
     try:
         return STATE_NAMES[text]
     except KeyError:
