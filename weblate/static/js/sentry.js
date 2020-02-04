@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.11.2 (bc97f92f) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.12.0 (31bf714c) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2298,7 +2298,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Scope.prototype.setUser = function (user) {
-            this._user = normalize(user);
+            this._user = user || {};
             this._notifyScopeListeners();
             return this;
         };
@@ -2306,7 +2306,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Scope.prototype.setTags = function (tags) {
-            this._tags = __assign({}, this._tags, normalize(tags));
+            this._tags = __assign({}, this._tags, tags);
             this._notifyScopeListeners();
             return this;
         };
@@ -2315,15 +2315,15 @@ var Sentry = (function (exports) {
          */
         Scope.prototype.setTag = function (key, value) {
             var _a;
-            this._tags = __assign({}, this._tags, (_a = {}, _a[key] = normalize(value), _a));
+            this._tags = __assign({}, this._tags, (_a = {}, _a[key] = value, _a));
             this._notifyScopeListeners();
             return this;
         };
         /**
          * @inheritDoc
          */
-        Scope.prototype.setExtras = function (extra) {
-            this._extra = __assign({}, this._extra, normalize(extra));
+        Scope.prototype.setExtras = function (extras) {
+            this._extra = __assign({}, this._extra, extras);
             this._notifyScopeListeners();
             return this;
         };
@@ -2332,7 +2332,7 @@ var Sentry = (function (exports) {
          */
         Scope.prototype.setExtra = function (key, extra) {
             var _a;
-            this._extra = __assign({}, this._extra, (_a = {}, _a[key] = normalize(extra), _a));
+            this._extra = __assign({}, this._extra, (_a = {}, _a[key] = extra, _a));
             this._notifyScopeListeners();
             return this;
         };
@@ -2340,7 +2340,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Scope.prototype.setFingerprint = function (fingerprint) {
-            this._fingerprint = normalize(fingerprint);
+            this._fingerprint = fingerprint;
             this._notifyScopeListeners();
             return this;
         };
@@ -2348,7 +2348,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Scope.prototype.setLevel = function (level) {
-            this._level = normalize(level);
+            this._level = level;
             this._notifyScopeListeners();
             return this;
         };
@@ -2366,8 +2366,9 @@ var Sentry = (function (exports) {
         /**
          * @inheritDoc
          */
-        Scope.prototype.setContext = function (name, context) {
-            this._context[name] = context ? normalize(context) : undefined;
+        Scope.prototype.setContext = function (key, context) {
+            var _a;
+            this._context = __assign({}, this._context, (_a = {}, _a[key] = context, _a));
             this._notifyScopeListeners();
             return this;
         };
@@ -2426,12 +2427,11 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Scope.prototype.addBreadcrumb = function (breadcrumb, maxBreadcrumbs) {
-            var timestamp = timestampWithMs();
-            var mergedBreadcrumb = __assign({ timestamp: timestamp }, breadcrumb);
+            var mergedBreadcrumb = __assign({ timestamp: timestampWithMs() }, breadcrumb);
             this._breadcrumbs =
                 maxBreadcrumbs !== undefined && maxBreadcrumbs >= 0
-                    ? __spread(this._breadcrumbs, [normalize(mergedBreadcrumb)]).slice(-maxBreadcrumbs)
-                    : __spread(this._breadcrumbs, [normalize(mergedBreadcrumb)]);
+                    ? __spread(this._breadcrumbs, [mergedBreadcrumb]).slice(-maxBreadcrumbs)
+                    : __spread(this._breadcrumbs, [mergedBreadcrumb]);
             this._notifyScopeListeners();
             return this;
         };
@@ -3471,7 +3471,8 @@ var Sentry = (function (exports) {
          * @returns A new event with more information.
          */
         BaseClient.prototype._prepareEvent = function (event, scope, hint) {
-            var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b;
+            var _this = this;
+            var _a = this.getOptions(), environment = _a.environment, release = _a.release, dist = _a.dist, _b = _a.maxValueLength, maxValueLength = _b === void 0 ? 250 : _b, _c = _a.normalizeDepth, normalizeDepth = _c === void 0 ? 3 : _c;
             var prepared = __assign({}, event);
             if (prepared.environment === undefined && environment !== undefined) {
                 prepared.environment = environment;
@@ -3505,7 +3506,40 @@ var Sentry = (function (exports) {
                 // In case we have a hub we reassign it.
                 result = scope.applyToEvent(prepared, hint);
             }
-            return result;
+            return result.then(function (evt) {
+                // tslint:disable-next-line:strict-type-predicates
+                if (typeof normalizeDepth === 'number' && normalizeDepth > 0) {
+                    return _this._normalizeEvent(evt, normalizeDepth);
+                }
+                return evt;
+            });
+        };
+        /**
+         * Applies `normalize` function on necessary `Event` attributes to make them safe for serialization.
+         * Normalized keys:
+         * - `breadcrumbs.data`
+         * - `user`
+         * - `contexts`
+         * - `extra`
+         * @param event Event
+         * @returns Normalized event
+         */
+        BaseClient.prototype._normalizeEvent = function (event, depth) {
+            if (!event) {
+                return null;
+            }
+            // tslint:disable:no-unsafe-any
+            return __assign({}, event, (event.breadcrumbs && {
+                breadcrumbs: event.breadcrumbs.map(function (b) { return (__assign({}, b, (b.data && {
+                    data: normalize(b.data, depth),
+                }))); }),
+            }), (event.user && {
+                user: normalize(event.user, depth),
+            }), (event.contexts && {
+                contexts: normalize(event.contexts, depth),
+            }), (event.extra && {
+                extra: normalize(event.extra, depth),
+            }));
         };
         /**
          * This function adds all used integrations to the SDK info in the event.
@@ -4454,7 +4488,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.11.2';
+    var SDK_VERSION = '5.12.0';
 
     /**
      * The Sentry Browser SDK Client.
@@ -4601,7 +4635,7 @@ var Sentry = (function (exports) {
                             addExceptionTypeValue(processedEvent, undefined, undefined);
                             addExceptionMechanism(processedEvent, options.mechanism);
                         }
-                        processedEvent.extra = __assign({}, processedEvent.extra, { arguments: normalize(args, 3) });
+                        processedEvent.extra = __assign({}, processedEvent.extra, { arguments: args });
                         return processedEvent;
                     });
                     captureException(ex);
@@ -5062,9 +5096,7 @@ var Sentry = (function (exports) {
             var breadcrumb = {
                 category: 'console',
                 data: {
-                    extra: {
-                        arguments: normalize(handlerData.args, 3),
-                    },
+                    arguments: handlerData.args,
                     logger: 'console',
                 },
                 level: exports.Severity.fromString(handlerData.level),
@@ -5073,7 +5105,7 @@ var Sentry = (function (exports) {
             if (handlerData.level === 'assert') {
                 if (handlerData.args[0] === false) {
                     breadcrumb.message = "Assertion failed: " + (safeJoin(handlerData.args.slice(1), ' ') || 'console.assert');
-                    breadcrumb.data.extra.arguments = normalize(handlerData.args.slice(1), 3);
+                    breadcrumb.data.arguments = handlerData.args.slice(1);
                 }
                 else {
                     // Don't capture a breadcrumb for passed assertions
