@@ -166,7 +166,6 @@ class QueryParserTest(TestCase):
         self.assert_query("pending:true", Q(pending=True))
 
     def test_state(self):
-        self.assert_query("state:>=20", Q(state__gte=20))
         self.assert_query("state:>=translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("state:<translated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
