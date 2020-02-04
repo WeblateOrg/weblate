@@ -620,6 +620,12 @@ URL where your Weblate instance shows it's legal documents. This is useful if
 you host your legal documents outside Weblate for embedding inside Weblate
 please see :ref:`legal`.
 
+Example:
+
+.. code-block:: python
+
+    LEGAL_URL = "https://weblate.org/terms/"
+
 .. setting:: LICENSE_EXTRA
 
 LICENSE_EXTRA
