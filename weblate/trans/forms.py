@@ -541,7 +541,7 @@ class AntispamForm(forms.Form):
 
 
 class DownloadForm(forms.Form):
-    q = QueryField(required=True)
+    q = QueryField()
     format = forms.ChoiceField(
         label=_('File format'),
         choices=[(x.name, x.verbose) for x in EXPORTERS.values()],
