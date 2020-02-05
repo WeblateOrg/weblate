@@ -448,8 +448,8 @@ LANGUAGES = (
         "n != 1",
     ),
     (
-        "ckb_IN",
-        # Translators: Language name, ISO code: ckb_IN
+        "ckb_IR",
+        # Translators: Language name, ISO code: ckb_IR
         _("Sorani (Iran)"),
         2,
         "n != 1",
