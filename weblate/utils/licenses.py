@@ -58,8 +58,11 @@ def get_license_url(license):
 
 
 def get_license_choices():
-    result = [("proprietary", "Proprietary")]
     license_filter = settings.LICENSE_FILTER
+    if not license_filter or "proprietary" in license_filter:
+        result = [("proprietary", "Proprietary")]
+    else:
+        result = []
     for license in LICENSES:
         if license_filter is not None and license[0] not in license_filter:
             continue
