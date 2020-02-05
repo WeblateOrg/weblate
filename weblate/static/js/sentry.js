@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.12.0 (31bf714c) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.12.1 (16de493d) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3928,7 +3928,7 @@ var Sentry = (function (exports) {
     // global reference to slice
     var UNKNOWN_FUNCTION = '?';
     // Chromium based browsers: Chrome, Brave, new Opera, new Edge
-    var chrome = /^\s*at (?:(.*?) ?\()?((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
+    var chrome = /^\s*at (?:(.*?) ?\()?((?:file|https?|blob|chrome-extension|address|native|eval|webpack|<anonymous>|[-a-z]+:|.*bundle|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i;
     // gecko regex: `(?:bundle|\d+\.js)`: `bundle` is for react native, `\d+\.js` also but specifically for ram bundles because it
     // generates filenames without a prefix like `file://` the filenames in the stacktrace are just 42.js
     // We need this specific case for now because we want no other regex to match.
@@ -3993,7 +3993,9 @@ var Sentry = (function (exports) {
                     parts[4] = submatch[3]; // column
                 }
                 element = {
-                    url: parts[2],
+                    // working with the regexp above is super painful. it is quite a hack, but just stripping the `address at `
+                    // prefix here seems like the quickest solution for now.
+                    url: parts[2] && parts[2].indexOf('address at ') === 0 ? parts[2].substr('address at '.length) : parts[2],
                     func: parts[1] || UNKNOWN_FUNCTION,
                     args: isNative ? [parts[2]] : [],
                     line: parts[3] ? +parts[3] : null,
@@ -4488,7 +4490,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.12.0';
+    var SDK_VERSION = '5.12.1';
 
     /**
      * The Sentry Browser SDK Client.
