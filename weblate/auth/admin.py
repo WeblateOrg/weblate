@@ -43,6 +43,9 @@ class InlineAutoGroupAdmin(admin.TabularInline):
     def has_add_permission(self, request, obj=None):
         if block_group_edit(obj):
             return False
+        # On Django 1.11 the obj is not present
+        if obj is None:
+            return super(InlineAutoGroupAdmin, self).has_add_permission(request)
         return super(InlineAutoGroupAdmin, self).has_add_permission(request, obj)
 
     def has_change_permission(self, request, obj=None):
