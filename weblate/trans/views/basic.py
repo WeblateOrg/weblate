@@ -167,6 +167,7 @@ def show_project(request, project):
                 obj,
                 user=user,
                 obj=obj,
+                project=obj,
                 auto_id="id_bulk_%s",
             ),
             'components': components,
@@ -208,6 +209,7 @@ def show_component(request, project, component):
                 obj,
                 user=user,
                 obj=obj,
+                project=obj.project,
                 auto_id="id_bulk_%s",
             ),
             'whiteboard_form': optional_form(
@@ -271,6 +273,7 @@ def show_translation(request, project, component, lang):
                 obj,
                 user=user,
                 obj=obj,
+                project=obj.component.project,
                 auto_id="id_bulk_%s",
             ),
             'new_unit_form': NewUnitForm(

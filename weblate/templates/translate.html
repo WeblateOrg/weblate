@@ -565,6 +565,19 @@
     {% endif %}
     </div>
     {% endif %}
+    {% if unit.labels or user_can_edit_source %}
+    <div class="list-group-item">
+    <h5>
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" href="#" data-toggle="modal" data-focus="#id_labels" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
+    {% trans "Labels" %}
+    </h5>
+    {% for label in unit.labels.all %}
+    {{ label }}
+    {% empty %}
+    {% trans "No labels currently set!" %}
+    {% endfor %}
+    </div>
+    {% endif %}
     {% if unit.all_flags or user_can_edit_source %}
     <div class="list-group-item">
     <h5>

@@ -200,6 +200,7 @@ class QueryParserTest(TestCase):
         self.assert_query("has:ignored-check", Q(check__ignore=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:shaping", Q(shaping__isnull=False))
+        self.assert_query("has:label", Q(labels__isnull=False))
 
     def test_suggestions(self):
         self.assert_query(
@@ -215,3 +216,6 @@ class QueryParserTest(TestCase):
             "ignored_check:ellipsis",
             Q(check__check__iexact="ellipsis") & Q(check__ignore=True),
         )
+
+    def test_labels(self):
+        self.assert_query("label:'test label'", Q(labels__name__iexact="test label"))

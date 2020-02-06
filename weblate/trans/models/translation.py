@@ -663,12 +663,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return result
 
-    @cached_property
-    def list_translation_checks(self):
-        """Return list of failing checks on current translation."""
-        if self.is_source:
-            return self.get_source_checks()
-
+    def get_target_checks(self):
+        """Return list of failing checks on current component."""
         result = TranslationChecklist()
 
         # All strings
@@ -710,6 +706,20 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Grab comments
         result.add_if(self.stats, 'comments', 'info')
+
+        return result
+
+    @cached_property
+    def list_translation_checks(self):
+        """Return list of failing checks on current translation."""
+        if self.is_source:
+            result = self.get_source_checks()
+        else:
+            result = self.get_target_checks()
+
+        # Include labels
+        for label in self.component.project.label_set.all():
+            result.add_if(self.stats, 'label:{}'.format(label.name), 'info')
 
         return result
 

@@ -54,6 +54,7 @@ import weblate.trans.views.git
 import weblate.trans.views.guide
 import weblate.trans.views.hooks
 import weblate.trans.views.js
+import weblate.trans.views.labels
 import weblate.trans.views.lock
 import weblate.trans.views.manage
 import weblate.trans.views.reports
@@ -321,6 +322,21 @@ real_patterns = [
         r"^settings/" + COMPONENT + "$",
         weblate.trans.views.settings.change_component,
         name="settings",
+    ),
+    url(
+        r"^labels/" + PROJECT + "$",
+        weblate.trans.views.labels.project_labels,
+        name="labels",
+    ),
+    url(
+        r"^labels/" + PROJECT + "edit/(?P<pk>[0-9]+)/$",
+        weblate.trans.views.labels.label_edit,
+        name="label_edit",
+    ),
+    url(
+        r"^labels/" + PROJECT + "delete/(?P<pk>[0-9]+)/$",
+        weblate.trans.views.labels.label_delete,
+        name="label_delete",
     ),
     url(
         r"^fonts/" + PROJECT + "$",

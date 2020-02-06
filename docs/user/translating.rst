@@ -77,6 +77,17 @@ frontend can use different strings depending on the screen or window size.
 
     :ref:`shapings`
 
+Labels
+------
+
+Labels are used to categorize strings within a project. These can be used to
+further customize the localization workflow, for example to define categories
+of strings.
+
+.. seealso::
+
+    :ref:`labels`
+
 Translating
 -----------
 

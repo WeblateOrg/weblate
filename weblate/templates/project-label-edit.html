@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'labels' project=object.slug %}">{% trans "Labels" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<form method="POST">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Edit label" %}</h4></div>
+<div class="panel-body">
+{% crispy form %}
+</div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}
+
+

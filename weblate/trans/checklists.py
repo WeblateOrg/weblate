@@ -31,10 +31,12 @@ class TranslationChecklist(list):
 
     def add(self, stats, name, level):
         """Add item to the list"""
-        self.append((
-            FILTERS.id_query[name],
-            FILTERS.id_name[name],
-            getattr(stats, name),
-            level,
-            getattr(stats, '{}_words'.format(name))
-        ))
+        self.append(
+            (
+                FILTERS.get_filter_query(name),
+                FILTERS.get_filter_name(name),
+                getattr(stats, name),
+                level,
+                getattr(stats, '{}_words'.format(name)),
+            )
+        )

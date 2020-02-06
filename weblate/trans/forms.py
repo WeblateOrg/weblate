@@ -53,7 +53,14 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import Change, Component, Project, Unit, WhiteboardMessage
+from weblate.trans.models import (
+    Change,
+    Component,
+    Label,
+    Project,
+    Unit,
+    WhiteboardMessage,
+)
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
 from weblate.trans.validators import validate_check_flags
@@ -666,10 +673,7 @@ class SearchForm(forms.Form):
 
     def get_name(self):
         """Return verbose name for a search."""
-        try:
-            return FILTERS.search_name[self.cleaned_data['q']]
-        except KeyError:
-            return self.cleaned_data['q']
+        return FILTERS.get_search_name(self.cleaned_data['q'])
 
     def get_search_query(self):
         return self.cleaned_data['q']
@@ -1018,7 +1022,14 @@ def get_new_language_form(request, component):
 class ContextForm(forms.ModelForm):
     class Meta(object):
         model = Unit
-        fields = ('extra_context', 'extra_flags')
+        fields = ('extra_context', 'labels', 'extra_flags')
+        widgets = {'labels': forms.CheckboxSelectMultiple()}
+
+    def __init__(self, data=None, instance=None, **kwargs):
+        super(ContextForm, self).__init__(data=data, instance=instance, **kwargs)
+        self.fields[
+            'labels'
+        ].queryset = instance.translation.component.project.label_set.all()
 
 
 class UserManageForm(forms.Form):
@@ -1747,9 +1758,24 @@ class BulkEditForm(forms.Form):
     )
     add_flags = FlagField(label=_('Translation flags to add'), required=False)
     remove_flags = FlagField(label=_('Translation flags to remove'), required=False)
+    add_labels = forms.ModelMultipleChoiceField(
+        queryset=Label.objects.none(),
+        label=_('Labels to add'),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+    )
+    remove_labels = forms.ModelMultipleChoiceField(
+        queryset=Label.objects.none(),
+        label=_('Labels to remove'),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+    )
 
     def __init__(self, user, obj, *args, **kwargs):
+        project = kwargs.pop("project")
         super(BulkEditForm, self).__init__(*args, **kwargs)
+        self.fields['remove_labels'].queryset = project.label_set.all()
+        self.fields['add_labels'].queryset = project.label_set.all()
 
         excluded = {STATE_EMPTY}
         if not user.has_perm('unit.review', obj):
@@ -1822,3 +1848,15 @@ class ChangesForm(forms.Form):
         self.fields['project'].choices += [
             (p.slug, p.name) for p in request.user.allowed_projects
         ]
+
+
+class LabelForm(forms.ModelForm):
+    class Meta(object):
+        model = Label
+        fields = ('name', 'color')
+        widgets = {'color': forms.RadioSelect()}
+
+    def __init__(self, *args, **kwargs):
+        super(LabelForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False

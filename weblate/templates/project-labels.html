@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+<li><a href="{% url 'labels' project=object.slug %}">{% trans "Labels" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<table class="table sort">
+<thead>
+<tr>
+<th>{% trans "Label name" %}</th>
+<th>{% trans "Color" %}</th>
+<th></th>
+</tr>
+<tbody>
+{% for label in object.label_set.all %}
+<tr>
+<td>{{ label.name }}</td>
+<td><span class="label label-{{label.color }}">{{ label.get_color_display }}</span></td>
+<td>
+    <a href="{% url 'label_edit' project=object.slug pk=label.pk %}" class="btn btn-primary">{% trans "Edit" %}</a>
+    <a href="{% url 'label_delete' project=object.slug pk=label.pk %}" class="btn link-post btn-danger">{% trans "Delete" %}</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+<form method="POST">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add label" %}</h4></div>
+<div class="panel-body">
+{% crispy form %}
+</div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}
+

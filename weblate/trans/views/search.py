@@ -218,7 +218,7 @@ def bulk_edit(request, project, component=None, lang=None):
     if not request.user.has_perm('translation.auto', obj):
         raise PermissionDenied()
 
-    form = BulkEditForm(request.user, obj, request.POST)
+    form = BulkEditForm(request.user, obj, request.POST, project=context['project'])
 
     if not form.is_valid():
         messages.error(request, _('Failed to process form!'))
@@ -228,6 +228,8 @@ def bulk_edit(request, project, component=None, lang=None):
     target_state = int(form.cleaned_data['state'])
     add_flags = Flags(form.cleaned_data['add_flags'])
     remove_flags = Flags(form.cleaned_data['remove_flags'])
+    add_labels = form.cleaned_data['add_labels']
+    remove_labels = form.cleaned_data['remove_labels']
 
     matching = unit_set.search(form.cleaned_data['q'])
 
@@ -250,6 +252,12 @@ def bulk_edit(request, project, component=None, lang=None):
                 flags.remove(remove_flags)
                 unit.source_info.extra_flags = flags.format()
                 unit.source_info.save(update_fields=['extra_flags'])
+                updated += 1
+            if add_labels:
+                unit.source_info.labels.add(*add_labels)
+                updated += 1
+            if remove_labels:
+                unit.source_info.labels.remove(*remove_labels)
                 updated += 1
 
     import_message(

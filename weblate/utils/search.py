@@ -151,6 +151,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             suggestion_author=TEXT,
             comment=TEXT,
             comment_author=TEXT,
+            label=TEXT,
         )
         # Features to implement and corresponding blockers
         # - unitdata lookups, https://github.com/WeblateOrg/weblate/issues/3007
@@ -193,6 +194,7 @@ EXACT_FIELD_MAP = {
     "changed_by": "change__author__username",
     "suggestion_author": "suggestion__user__username",
     "comment_author": "comment__user__username",
+    "label": "labels__name",
 }
 
 
@@ -252,6 +254,8 @@ def has_sql(text):
         return Q(state__gte=STATE_TRANSLATED)
     if text == "shaping":
         return Q(shaping__isnull=False)
+    if text == "label":
+        return Q(labels__isnull=False)
 
     raise ValueError("Unsupported has lookup: {}".format(text))
 

@@ -20,6 +20,7 @@ Not yet released.
 * The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project.
 * Added option to resolve comments.
 * Added bulk editing of flags.
+* Added support for :ref:`labels`.
 
 Weblate 3.10.3
 --------------

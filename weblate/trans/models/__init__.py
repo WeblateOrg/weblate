@@ -35,6 +35,7 @@ from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
 from weblate.trans.models.componentlist import AutoComponentList, ComponentList
 from weblate.trans.models.dictionary import Dictionary
+from weblate.trans.models.label import Label
 from weblate.trans.models.project import Project
 from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.suggestion import Suggestion, Vote
@@ -61,6 +62,7 @@ __all__ = [
     'ContributorAgreement',
     'Alert',
     'Shaping',
+    'Label',
 ]
 
 
@@ -110,6 +112,38 @@ def update_source(sender, instance, **kwargs):
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
+            unit.translation.invalidate_cache()
+
+
+@receiver(m2m_changed, sender=Unit.labels.through)
+def change_labels(sender, instance, **kwargs):
+    """Update unit labels"""
+    if not instance.translation.is_source:
+        return
+    units = Unit.objects.filter(
+        translation__component=instance.translation.component, id_hash=instance.id_hash
+    ).exclude(pk=instance.pk)
+
+    # Force fetching labels
+    labels = instance.labels.all()
+    list(labels)
+
+    for unit in units.iterator():
+        # This emulates set in ManyRelatedManager, we just need to know if there was
+        # any change to effectively invalidate caches
+        old_labels = set(unit.labels.all())
+        new_labels = []
+        for label in labels:
+            if label in old_labels:
+                old_labels.remove(label)
+            else:
+                new_labels.append(label)
+
+        if old_labels:
+            unit.labels.remove(*old_labels)
+        if new_labels:
+            unit.labels.add(*new_labels)
+        if old_labels or new_labels:
             unit.translation.invalidate_cache()
 
 

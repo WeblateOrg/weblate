@@ -415,9 +415,7 @@ class TranslationStats(BaseStats):
         if item.endswith("_chars"):
             item = item[:-6]
         translation = self._object
-        stats = translation.unit_set.filter_type(
-            item
-        ).aggregate(
+        stats = translation.unit_set.filter_type(item).aggregate(
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
         self.store(item, stats["strings"])
@@ -429,7 +427,7 @@ class TranslationStats(BaseStats):
         # Prefetch basic stats at once
         save = self.ensure_basic(save=False)
         # Fetch remaining ones
-        for item, _unused in get_filter_choice():
+        for item, _unused in get_filter_choice(self.obj.component.project):
             if item not in self._data:
                 self.calculate_item(item)
                 save = True

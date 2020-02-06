@@ -49,3 +49,11 @@ Following table lists some usage examples:
 +---------------------------+-------------------------------+-----------------------------------------------+
 | Inline identification     | ``#[SML]``                    | ``dial#S.key``, ``dial#M.key``, ``dial.key``  |
 +---------------------------+-------------------------------+-----------------------------------------------+
+
+.. _labels:
+
+String labels
+-------------
+
+The labels can be defined in the project configuration and can be used to split
+translation strings into categories.

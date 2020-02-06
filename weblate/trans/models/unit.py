@@ -89,6 +89,8 @@ class UnitQuerySet(models.QuerySet):
             if strict and check_id not in CHECKS:
                 raise ValueError('Unknown check: {}'.format(check_id))
             return self.filter(check__check=check_id, check__ignore=ignored)
+        elif rqtype.startswith('label:'):
+            return self.filter(labels__name=rqtype[6:])
         elif rqtype == 'all':
             return self.all()
         elif strict:
@@ -211,6 +213,7 @@ class Unit(models.Model, LoggerMixin):
         null=True,
         default=None,
     )
+    labels = models.ManyToManyField("Label", blank=True)
 
     objects = UnitQuerySet.as_manager()
 
@@ -398,6 +401,9 @@ class Unit(models.Model, LoggerMixin):
         # Track updated sources for source checks
         if self.translation.is_template:
             component.updated_sources[self.id_hash] = self
+        # Update unit labels
+        if not self.translation.is_source:
+            self.labels.set(self.source_info.labels.all())
 
     def update_state(self):
         """Update state based on flags."""

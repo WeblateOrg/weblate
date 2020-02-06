@@ -356,3 +356,22 @@ class BulkStateTest(ViewTestCase):
         self.assertContains(response, 'Bulk edit completed, 1 string was updated.')
         unit = self.get_unit()
         self.assertFalse('python-format' in unit.all_flags)
+
+    def test_bulk_labels(self):
+        label = self.project.label_set.create(name="Test label", color="black")
+        response = self.client.post(
+            reverse('bulk-edit', kwargs=self.kw_project),
+            {'q': 'state:needs-editing', 'state': -1, 'add_labels': label.pk},
+            follow=True,
+        )
+        self.assertContains(response, 'Bulk edit completed, 1 string was updated.')
+        unit = self.get_unit()
+        self.assertTrue(label in unit.labels.all())
+        response = self.client.post(
+            reverse('bulk-edit', kwargs=self.kw_project),
+            {'q': 'state:needs-editing', 'state': -1, 'remove_labels': label.pk},
+            follow=True,
+        )
+        self.assertContains(response, 'Bulk edit completed, 1 string was updated.')
+        unit = self.get_unit()
+        self.assertFalse(label in unit.labels.all())

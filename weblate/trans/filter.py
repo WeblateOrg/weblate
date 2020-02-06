@@ -38,6 +38,7 @@ class FilterRegistry(object):
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
             ("shapings", _("Strings with shapings"), "has:shaping"),
+            ("labels", _("Strings with labels"), "has:label"),
             (
                 "nosuggestions",
                 _("Strings needing action without suggestions"),
@@ -67,19 +68,41 @@ class FilterRegistry(object):
     def search_name(self):
         return {x[2]: x[1] for x in self.full_list}
 
+    def get_search_name(self, query):
+        try:
+            return self.search_name[query]
+        except KeyError:
+            return query
+
     @cached_property
     def id_name(self):
         return {x[0]: x[1] for x in self.full_list}
+
+    def get_filter_name(self, name):
+        try:
+            return self.id_name[name]
+        except KeyError:
+            if name.startswith('label:'):
+                return _("Labeled: {}").format(name[6:])
+            raise
 
     @cached_property
     def id_query(self):
         return {x[0]: x[2] for x in self.full_list}
 
+    def get_filter_query(self, name):
+        try:
+            return self.id_query[name]
+        except KeyError:
+            if name.startswith('label:'):
+                return 'label:"{}"'.format(name[6:])
+            raise
+
 
 FILTERS = FilterRegistry()
 
 
-def get_filter_choice():
+def get_filter_choice(project=None):
     """Return all filtering choices"""
     result = [
         ("all", _("All strings")),
@@ -99,4 +122,9 @@ def get_filter_choice():
         (CHECKS[check].url_id, format_lazy(_("Failed check: {}"), CHECKS[check].name))
         for check in CHECKS
     )
+    if project is not None:
+        result.extend(
+            ('label:{}'.format(label.name), format_lazy(_("Labeled: {}"), label.name))
+            for label in project.label_set.all()
+        )
     return result
