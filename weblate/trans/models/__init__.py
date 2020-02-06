@@ -98,9 +98,10 @@ def update_source(sender, instance, **kwargs):
     """Update unit priority or checks based on source change."""
     if not instance.translation.is_source:
         return
+    # We can not exclude current unit here as we need to trigger the updates below
     units = Unit.objects.filter(
         translation__component=instance.translation.component, id_hash=instance.id_hash
-    ).exclude(pk=instance.pk)
+    )
     # Propagate attributes
     units.update(extra_flags=instance.extra_flags, extra_context=instance.extra_context)
     # Run checks, update state and priority if flags changed
