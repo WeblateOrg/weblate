@@ -100,7 +100,7 @@ def update_source(sender, instance, **kwargs):
         return
     units = Unit.objects.filter(
         translation__component=instance.translation.component, id_hash=instance.id_hash
-    )
+    ).exclude(pk=instance.pk)
     # Propagate attributes
     units.update(extra_flags=instance.extra_flags, extra_context=instance.extra_context)
     # Run checks, update state and priority if flags changed
