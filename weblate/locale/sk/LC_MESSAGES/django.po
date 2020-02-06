@@ -7,15 +7,15 @@
 # Vladimir Jendrol <vladimir.jendrol@protonmail.com>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
-# Ivan Pleva <ivan.pleva@tutanota.com>, 2019.
+# Ivan Pleva <ivan.pleva@tutanota.com>, 2019, 2020.
 # Alexander Danilov <git@modos189.ru>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-02-05 10:37+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-02-07 15:50+0000\n"
+"Last-Translator: Ivan Pleva <ivan.pleva@tutanota.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
 ">\n"
 "Language: sk\n"
@@ -259,17 +259,17 @@ msgstr "Heslo bolo zmenené."
 #: weblate/accounts/models.py:83
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Používateľské meno sa zmenillo z {old} na {new}."
 
 #: weblate/accounts/models.py:84
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "E-mail sa zmenil z {old} na {new}."
 
 #: weblate/accounts/models.py:85
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "Celé meno sa zmenilo z {old} na {new}."
 
 #: weblate/accounts/models.py:86
 #, fuzzy
@@ -817,7 +817,7 @@ msgstr "Autentifikácia bola zrušená."
 
 #: weblate/accounts/views.py:1024
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Server neumožňuje overenie."
 
 #: weblate/accounts/views.py:1029
 #, fuzzy
@@ -842,6 +842,8 @@ msgid ""
 "The notification change link is no longer valid, please log in to configure "
 "notifications."
 msgstr ""
+"Odkaz na zmenu oznámení už nie je platný. Pre nastavenie oznámení sa, "
+"prosím, prihláste."
 
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:63
 #: weblate/templates/translation.html:236 weblate/trans/models/change.py:227
@@ -853,12 +855,16 @@ msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
 msgstr ""
+"Tento doplnok automaticky prekladá reťazce prostredníctvom strojového "
+"prekladu alebo iných súčasti."
 
 #: weblate/addons/base.py:282
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Odkladací priestor je zastaraný. Pokým ho neaktualizujete, výsledky nemusia "
+"spĺňať vaše očakávania."
 
 #: weblate/addons/cleanup.py:63
 msgid "Cleanup translation files"
@@ -1074,19 +1080,23 @@ msgstr "Zalamovať riadky po 77. znakoch a na nových riadkoch"
 
 #: weblate/addons/forms.py:176
 msgid "Line breaks"
-msgstr ""
+msgstr "Zlomy riadkov"
 
 #: weblate/addons/forms.py:178
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:179
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:180
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:189
 msgid "Days to keep"
@@ -1156,7 +1166,7 @@ msgstr "Regulárny výraz pre filtrovanie prekladu počas vyhľadávania filemas
 
 #: weblate/addons/forms.py:245
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "Klonovať doplnky z hlavnej súčasti do novovytvorených súčástí"
 
 #: weblate/addons/forms.py:250
 msgid "Remove components for inexistant files"
@@ -1580,7 +1590,7 @@ msgstr "Spravovať definície jazyka (globálne)"
 
 #: weblate/auth/data.py:105
 msgid "Add groups (on the entire platform)"
-msgstr ""
+msgstr "Pridať skupiny (na celej platforme)"
 
 #: weblate/auth/data.py:106
 #, fuzzy
@@ -1590,11 +1600,11 @@ msgstr "Spravovať skupiny (globálne)"
 
 #: weblate/auth/data.py:108
 msgid "Add users (on the entire platform)"
-msgstr ""
+msgstr "Pridať používateľov (na celej platforme)"
 
 #: weblate/auth/data.py:109
 msgid "Manage users (on the entire platform)"
-msgstr ""
+msgstr "Spravovať používateľov (na celej platforme)"
 
 #: weblate/auth/data.py:111
 #, fuzzy
@@ -2032,7 +2042,7 @@ msgstr "Oba preklad aj zdroj nekončia medzerou"
 
 #: weblate/checks/chars.py:152
 msgid "Double space"
-msgstr ""
+msgstr "Dvojitá medzera"
 
 #: weblate/checks/chars.py:153
 #, fuzzy
@@ -2134,7 +2144,7 @@ msgstr "Rozstup písma"
 
 #: weblate/checks/chars.py:392
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Chýbajúca pevná medzera pred dvomi interpunkčnými znamienkami"
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
@@ -2388,7 +2398,7 @@ msgstr "Tento preklad neobsahuje URL"
 
 #: weblate/checks/markup.py:317 weblate/trans/autofixes/html.py:34
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "Nebezpečný kód HTML"
 
 #: weblate/checks/markup.py:318
 #, fuzzy
@@ -2398,7 +2408,7 @@ msgstr "Tento preklad nie je platné XML"
 
 #: weblate/checks/placeholders.py:45
 msgid "Placeholders"
-msgstr ""
+msgstr "Zástupné objekty"
 
 #: weblate/checks/placeholders.py:46
 #, fuzzy
@@ -3508,7 +3518,7 @@ msgstr "Kontaktujte nás ohľadom komerčného hostingu"
 
 #: weblate/templates/about/index.html:53
 msgid "Weblate is built on libre software"
-msgstr ""
+msgstr "Weblate je postavené na slobodnom softvéri"
 
 #: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:113
 msgid "Weblate keys"
@@ -3714,6 +3724,8 @@ msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions in your inbox."
 msgstr ""
+"Ak sa vaša e-mailová adresa nachádza v našej databáze, prídu vám do schránky "
+"ďalšie pokyny týkajúce sa obnovenia hesla."
 
 #: weblate/templates/accounts/email-sent.html:26
 msgid ""
@@ -3825,6 +3837,7 @@ msgstr ""
 msgid ""
 "Looking for commercial hosting? Our prices start at %(price)s EUR per month."
 msgstr ""
+"Hľadáte komerčné hosťovanie? Naše ceny začínajú na %(price)s EUR za mesiac."
 
 #: weblate/templates/accounts/login.html:14
 msgid "This username/password combination was not found. Please try again."
@@ -3860,15 +3873,15 @@ msgstr "Môžete ho posúdiť na:"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
-msgstr ""
+msgstr "Pre zabezpečenie účtu zapnite, prosím, overovanie heslom."
 
 #: weblate/templates/accounts/password-warning.html:8
 msgid "You will be still able to authenticate using third party services."
-msgstr ""
+msgstr "Stále sa budete môcť prihlasovať pomocou služieb tretích strán."
 
 #: weblate/templates/accounts/password-warning.html:9
 msgid "The password is used to verify important changes on your account."
-msgstr ""
+msgstr "Heslo sa používa na overenie dôležitých zmien vo vašom účte."
 
 #: weblate/templates/accounts/password-warning.html:14
 #, fuzzy
@@ -3917,7 +3930,7 @@ msgstr "Licencie"
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:225
 msgid "Audit log"
-msgstr ""
+msgstr "Denník auditu"
 
 #: weblate/templates/accounts/profile.html:31
 #: weblate/templates/accounts/profile.html:257
@@ -3929,6 +3942,8 @@ msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
 msgstr ""
+"Pre pridanie chýbajúceho jazyka pošlite žiadosť projektu, ktorý chcete "
+"prekladať."
 
 #: weblate/templates/accounts/profile.html:46
 #: weblate/templates/accounts/profile.html:59
@@ -3957,6 +3972,8 @@ msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
 msgstr ""
+"Pridajte všetky projekty, ktoré chcete prekladať a budú sa vám zobrazovať v "
+"ovládacom paneli ako sledované projekty."
 
 #: weblate/templates/accounts/profile.html:78
 #: weblate/templates/mail/base.html:305
@@ -4069,7 +4086,7 @@ msgstr "Popis"
 
 #: weblate/templates/accounts/profile.html:220
 msgid "Contact us immediately if you see anything suspicious in the audit log."
-msgstr ""
+msgstr "Kontaktujte nás hneď ako zbadáte v denníku auditu niečo podozrivé."
 
 #: weblate/templates/accounts/profile.html:229
 msgid "When"
@@ -4098,7 +4115,7 @@ msgstr "Nebola zaznamenaná žiadna nedávna aktivita."
 #: weblate/templates/accounts/profile.html:249
 #: weblate/templates/mail/account_activity.html:36
 msgid "Report suspicious activity"
-msgstr ""
+msgstr "Nahlásiť podozrivú aktivitu"
 
 #: weblate/templates/accounts/profile.html:260
 #, fuzzy
@@ -4124,7 +4141,7 @@ msgstr "Váš osobný kľúč pre API:"
 #: weblate/templates/snippets/git-info.html:30
 #: weblate/templates/snippets/git-info.html:44
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "Kopírovať do schránky"
 
 #: weblate/templates/accounts/profile.html:271
 #, fuzzy
