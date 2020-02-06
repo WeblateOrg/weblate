@@ -313,7 +313,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Ensure we track source string for bilingual
         if not self.translation.is_source:
-            source_unit = component.get_source(
+            source_info = component.get_source(
                 self.id_hash,
                 source=source,
                 target=source,
@@ -323,8 +323,9 @@ class Unit(models.Model, LoggerMixin):
                 location=location,
                 flags=flags,
             )
-            self.extra_context = source_unit.extra_context
-            self.extra_flags = source_unit.extra_flags
+            self.extra_context = source_info.extra_context
+            self.extra_flags = source_info.extra_flags
+            self.__dict__["source_info"] = source_info
 
         # Calculate state
         state = self.get_unit_state(unit, flags)
