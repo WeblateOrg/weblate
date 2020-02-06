@@ -50,7 +50,7 @@ class BaiduTranslation(MachineTranslation):
         'da': 'dan',
         'fi': 'fin',
         'ro': 'rom',
-        # The slo should map to Slovak, but apparently Baidu uses this code for Slovenian
+        # The slo should map to Slovak, but Baidu uses this code for Slovenian
         'sl': 'slo',
         'sw': 'swe',
         'zh_Hant': 'cht',
