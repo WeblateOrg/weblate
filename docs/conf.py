@@ -22,8 +22,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext"))
 
 
 def setup(app):
-    app.add_stylesheet("font-source/source-sans-pro.css")
-    app.add_stylesheet("font-source/source-code-pro.css")
+    app.add_stylesheet("https://s.weblate.org/cdn/font-source/source-sans-pro.css")
+    app.add_stylesheet("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     app.add_stylesheet("docs.css")
 
 
