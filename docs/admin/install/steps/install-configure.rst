@@ -15,7 +15,7 @@ Configuring Weblate
    .. include:: steps/adjust-config.rst
 
 #. Create the database and its structure for Weblate (the example settings use
-   SQLite, check :ref:`database-setup` for pruduction ready setup):
+   SQLite, check :ref:`database-setup` for production ready setup):
 
    .. code-block:: sh
 
