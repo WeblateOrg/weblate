@@ -89,6 +89,20 @@ so you can check whether the configuration actually matches your needs:
 
     :ref:`markup`
 
+.. _addon-weblate.flags.bulk:
+
+Bulk edit
+---------
+
+.. versionadded:: 3.11
+
+This addon allow to bulk edit flags, labels or state.
+
+It can be useful in automating labeling of new strings (use search query ``NOT
+has:label`` and add desired labels) or any other automated operations on
+Weblate metadata.
+
+
 .. _addon-weblate.flags.same_edit:
 
 Flag unchanged translations as "Needs editing"

@@ -1778,7 +1778,9 @@ class BulkEditForm(forms.Form):
         self.fields['add_labels'].queryset = project.label_set.all()
 
         excluded = {STATE_EMPTY}
-        if not user.has_perm('unit.review', obj):
+        if (
+            user is not None and not user.has_perm('unit.review', obj)
+        ) or not project.enable_review:
             excluded.add(STATE_APPROVED)
 
         # Filter offered states

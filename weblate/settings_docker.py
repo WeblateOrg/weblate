@@ -889,6 +889,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.flags.SourceEditAddon",
     "weblate.addons.flags.TargetEditAddon",
     "weblate.addons.flags.SameEditAddon",
+    "weblate.addons.flags.BulkEditAddon",
     "weblate.addons.generate.GenerateFileAddon",
     "weblate.addons.json.JSONCustomizeAddon",
     "weblate.addons.properties.PropertiesSortAddon",

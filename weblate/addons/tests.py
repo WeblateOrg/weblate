@@ -37,7 +37,12 @@ from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.addons.example import ExampleAddon
 from weblate.addons.example_pre import ExamplePreAddon
-from weblate.addons.flags import SameEditAddon, SourceEditAddon, TargetEditAddon
+from weblate.addons.flags import (
+    BulkEditAddon,
+    SameEditAddon,
+    SourceEditAddon,
+    TargetEditAddon,
+)
 from weblate.addons.generate import GenerateFileAddon
 from weblate.addons.gettext import (
     GenerateMoAddon,
@@ -799,3 +804,22 @@ class AutoTranslateAddonTest(FixtureTestCase):
             },
         )
         addon.post_update(self.component, '')
+
+
+class BulkEditAddonTest(FixtureTestCase):
+    def test_bulk(self):
+        label = self.project.label_set.create(name='test', color="navy")
+        self.assertTrue(BulkEditAddon.can_install(self.component, None))
+        addon = BulkEditAddon.create(
+            self.component,
+            configuration={
+                'q': 'state:translated',
+                'state': -1,
+                'add_labels': ['test'],
+                'remove_labels': [],
+                'add_flags': '',
+                'remove_flags': '',
+            },
+        )
+        addon.post_update(self.component, '')
+        self.assertEqual(label.unit_set.count(), 4)

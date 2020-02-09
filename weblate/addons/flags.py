@@ -23,7 +23,10 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_UNIT_PRE_CREATE
+from weblate.addons.events import EVENT_POST_UPDATE, EVENT_UNIT_PRE_CREATE
+from weblate.addons.forms import BulkEditAddonForm
+from weblate.trans.bulk import bulk_perform
+from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 SUPPORT_FUZZY = {'ts', 'po', 'po-mono'}
@@ -88,3 +91,29 @@ class SameEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
         ):
             unit.state = STATE_FUZZY
+
+
+class BulkEditAddon(BaseAddon):
+    events = (EVENT_POST_UPDATE,)
+    name = "weblate.flags.bulk"
+    verbose = _("Bulk edit")
+    description = _("This addon allow to bulk edit flags, labels or state.")
+    settings_form = BulkEditAddonForm
+    multiple = True
+
+    def post_update(self, component, previous_head):
+        label_set = component.project.label_set
+        bulk_perform(
+            None,
+            Unit.objects.filter(translation__component=component),
+            query=self.instance.configuration['q'],
+            target_state=self.instance.configuration['state'],
+            add_flags=self.instance.configuration['add_flags'],
+            remove_flags=self.instance.configuration['remove_flags'],
+            add_labels=label_set.filter(
+                name__in=self.instance.configuration['add_labels']
+            ),
+            remove_labels=label_set.filter(
+                name__in=self.instance.configuration['remove_labels']
+            ),
+        )

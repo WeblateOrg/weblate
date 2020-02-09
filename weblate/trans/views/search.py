@@ -30,8 +30,8 @@ from django.utils.translation import ungettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.checks.flags import Flags
 from weblate.lang.models import Language
+from weblate.trans.bulk import bulk_perform
 from weblate.trans.forms import (
     BulkEditForm,
     ReplaceConfirmForm,
@@ -225,40 +225,16 @@ def bulk_edit(request, project, component=None, lang=None):
         show_form_errors(request, form)
         return redirect(obj)
 
-    target_state = int(form.cleaned_data['state'])
-    add_flags = Flags(form.cleaned_data['add_flags'])
-    remove_flags = Flags(form.cleaned_data['remove_flags'])
-    add_labels = form.cleaned_data['add_labels']
-    remove_labels = form.cleaned_data['remove_labels']
-
-    matching = unit_set.search(form.cleaned_data['q'])
-
-    updated = 0
-    with transaction.atomic():
-        for unit in matching.select_for_update():
-            if not request.user.has_perm('unit.edit', unit):
-                continue
-            if target_state != -1 and unit.state:
-                unit.translate(
-                    request.user,
-                    unit.target,
-                    target_state,
-                    change_action=Change.ACTION_MASS_STATE,
-                )
-                updated += 1
-            if add_flags or remove_flags:
-                flags = Flags(unit.source_info.extra_flags)
-                flags.merge(add_flags)
-                flags.remove(remove_flags)
-                unit.source_info.extra_flags = flags.format()
-                unit.source_info.save(update_fields=['extra_flags'])
-                updated += 1
-            if add_labels:
-                unit.source_info.labels.add(*add_labels)
-                updated += 1
-            if remove_labels:
-                unit.source_info.labels.remove(*remove_labels)
-                updated += 1
+    updated = bulk_perform(
+        request.user,
+        unit_set,
+        query=form.cleaned_data['q'],
+        target_state=form.cleaned_data['state'],
+        add_flags=form.cleaned_data['add_flags'],
+        remove_flags=form.cleaned_data['remove_flags'],
+        add_labels=form.cleaned_data['add_labels'],
+        remove_labels=form.cleaned_data['remove_labels'],
+    )
 
     import_message(
         request,

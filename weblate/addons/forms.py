@@ -29,15 +29,18 @@ from django.utils.translation import ugettext_lazy as _
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.discovery import ComponentDiscovery
-from weblate.trans.forms import AutoForm
+from weblate.trans.forms import AutoForm, BulkEditForm
 from weblate.utils.forms import ContextDiv
 from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
 
 class AddonFormMixin(object):
+    def serialize_form(self):
+        return self.cleaned_data
+
     def save(self):
-        self._addon.configure(self.cleaned_data)
+        self._addon.configure(self.serialize_form())
         return self._addon.instance
 
 
@@ -344,3 +347,18 @@ class AutoAddonForm(AutoForm, AddonFormMixin):
         super(AutoAddonForm, self).__init__(
             obj=addon.instance.component, *args, **kwargs
         )
+
+
+class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
+    def __init__(self, addon, instance=None, *args, **kwargs):
+        self._addon = addon
+        component = addon.instance.component
+        super(BulkEditAddonForm, self).__init__(
+            obj=component, project=component.project, user=None, *args, **kwargs
+        )
+
+    def serialize_form(self):
+        result = dict(self.cleaned_data)
+        result["add_labels"] = result["add_labels"].values_list("name", flat=True)
+        result["remove_labels"] = result["remove_labels"].values_list("name", flat=True)
+        return result

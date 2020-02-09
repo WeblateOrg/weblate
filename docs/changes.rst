@@ -21,6 +21,7 @@ Not yet released.
 * Added option to resolve comments.
 * Added bulk editing of flags.
 * Added support for :ref:`labels`.
+* Added bulk edit addon.
 
 Weblate 3.10.3
 --------------
