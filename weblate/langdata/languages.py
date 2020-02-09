@@ -534,7 +534,7 @@ LANGUAGES = (
     (
         "de_CH",
         # Translators: Language name, ISO code: de_CH
-        _("German (Swiss High)"),
+        _("German (Switzerland)"),
         2,
         "n != 1",
     ),
@@ -919,7 +919,7 @@ LANGUAGES = (
     (
         "gsw",
         # Translators: Language name, ISO code: gsw
-        _("German (Swiss)"),
+        _("Alemannic"),
         2,
         "n != 1",
     ),
