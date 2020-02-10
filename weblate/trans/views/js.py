@@ -61,10 +61,7 @@ def handle_machinery(request, service, unit, source):
 
     try:
         response['translations'] = translation_service.translate(
-            unit.translation.language.code,
-            source,
-            unit,
-            request.user
+            unit.translation.language.code, source, unit, request.user
         )
         response['responseStatus'] = 200
     except MachineTranslationError as exc:
@@ -72,8 +69,7 @@ def handle_machinery(request, service, unit, source):
     except Exception as exc:
         report_error(exc, request)
         response['responseDetails'] = '{0}: {1}'.format(
-            exc.__class__.__name__,
-            str(exc)
+            exc.__class__.__name__, str(exc)
         )
 
     return JsonResponse(data=response)
@@ -86,12 +82,7 @@ def translate(request, unit_id, service):
         raise Http404('Invalid service specified')
 
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    return handle_machinery(
-        request,
-        service,
-        unit,
-        unit.get_source_plurals()[0]
-    )
+    return handle_machinery(request, service, unit, unit.get_source_plurals()[0])
 
 
 @require_POST
@@ -115,10 +106,8 @@ def get_unit_changes(request, unit_id):
         'js/changes.html',
         {
             'last_changes': unit.change_set.order()[:10],
-            'last_changes_url': urlencode(
-                unit.translation.get_reverse_url_kwargs()
-            ),
-        }
+            'last_changes_url': urlencode(unit.translation.get_reverse_url_kwargs()),
+        },
     )
 
 
@@ -135,11 +124,9 @@ def get_unit_translations(request, unit_id):
                 Unit.objects.filter(
                     id_hash=unit.id_hash,
                     translation__component=unit.translation.component,
-                ).exclude(
-                    pk=unit.pk
-                )
-            ),
-        }
+                ).exclude(pk=unit.pk)
+            )
+        },
     )
 
 
@@ -199,12 +186,11 @@ def git_status_project(request, project):
             'object': obj,
             'project': obj,
             'changes': Change.objects.filter(
-                component__project=obj,
-                action__in=Change.ACTIONS_REPOSITORY,
+                component__project=obj, action__in=Change.ACTIONS_REPOSITORY
             ).order()[:10],
             'statuses': statuses,
             'component': None,
-        }
+        },
     )
 
 
@@ -225,12 +211,11 @@ def git_status_component(request, project, component):
             'object': obj,
             'project': obj.project,
             'changes': Change.objects.filter(
-                action__in=Change.ACTIONS_REPOSITORY,
-                component=target,
+                action__in=Change.ACTIONS_REPOSITORY, component=target
             ).order()[:10],
             'statuses': [(None, obj.repository.status)],
             'component': obj,
-        }
+        },
     )
 
 
@@ -252,12 +237,11 @@ def git_status_translation(request, project, component, lang):
             'translation': obj,
             'project': obj.component.project,
             'changes': Change.objects.filter(
-                action__in=Change.ACTIONS_REPOSITORY,
-                component=target,
+                action__in=Change.ACTIONS_REPOSITORY, component=target
             ).order()[:10],
             'statuses': [(None, obj.component.repository.status)],
             'component': obj.component,
-        }
+        },
     )
 
 
@@ -266,17 +250,16 @@ def mt_services(request):
     # Machine translation
     machine_services = list(MACHINE_TRANSLATION_SERVICES.keys())
 
-    return JsonResponse(
-        data=machine_services,
-        safe=False,
-    )
+    return JsonResponse(data=machine_services, safe=False)
 
 
 @login_required
 def task_progress(request, task_id):
     task = AsyncResult(task_id)
-    return JsonResponse({
-        'completed': is_task_ready(task),
-        'progress': get_task_progress(task),
-        'result': task.result,
-    })
+    return JsonResponse(
+        {
+            'completed': is_task_ready(task),
+            'progress': get_task_progress(task),
+            'result': task.result,
+        }
+    )
