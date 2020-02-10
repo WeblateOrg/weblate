@@ -52,7 +52,7 @@ In case adjustment is needed, do so from the Weblate admin interface:
 
 .. _weblate-ssh-key:
 
-Public Weblate SSH key
+Weblate SSH key
 ~~~~~~~~~~~~~~~
 
 Generate or display the public key currently used by Weblate in the (from :guilabel:`SSH keys`)
@@ -75,11 +75,14 @@ The Weblate public key is visible to all users browsing the :guilabel:`About` pa
 Verifying SSH host keys
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Before connecting to the repository, verify the SSH host keys of the
-servers you are going to access in :guilabel:`Add host key`, from the same section
-of the admin interface. Enter the hostname you are going to access
-(e.g. ``gitlab.com``), and press :guilabel:`Submit`.
-Verify its fingerprint matches the server you added. They are shown in the
+Weblate automatically remembers the SSH host keys on first access and remembers
+them for further use.
+
+In case you want to verify them before connecting to the repository, verify the
+SSH host keys of the servers you are going to access in :guilabel:`Add host
+key`, from the same section of the admin interface. Enter the hostname you are
+going to access (e.g. ``gitlab.com``), and press :guilabel:`Submit`.  Verify
+its fingerprint matches the server you added. They are shown in the
 confirmation message:
 
 .. image:: images/ssh-keys-added.png
@@ -117,9 +120,9 @@ or by enforcing it in the VCS configuration, for example:
 
 .. note::
 
-    The proxy setting needs to be done in the same context used to run Weblate.
-    For the environment it should be set for both WSGI and Celery servers.
-    The VCS configuration has to be set for the user running Weblate.
+    The proxy configuration needs to be done under user running Weblate (see
+    also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see
+    :setting:`DATA_DIR`), otherwise Git executed by Weblate will not use it.
 
 .. seealso::
 
@@ -170,13 +173,12 @@ On Hosted Weblate, adding the ``weblate`` user is enough to grant the service
 access to a repository. Once invited, the bot accepts the invitation
 within five minutes, and as with :ref:`hosted-push`, you can use the SSH URL
 to access your repo (for example ``git@github.com:WeblateOrg/weblate.git```).
-.
 
 Customizing Git configuration
 +++++++++++++++++++++++++++++
 
-Weblate invokes all VCS commands with `$HOME` pointed to he ``home`` directory in
-:setting:`DATA_DIR`, therefore editing the user configuration needs to be done
+Weblate invokes all VCS commands with ``HOME=$DATA_DIR/home`` (see
+:setting:`DATA_DIR`), therefore editing the user configuration needs to be done
 in ``DATA_DIR/home/.git``.
 
 .. _vcs-git-helpers:
@@ -221,8 +223,7 @@ GitHub
 .. versionadded:: 2.3
 
 This adds a thin layer atop :ref:`vcs-git` using the `hub`_ tool to allow pushing
-translation changes as pull requests, instead of
-pushing the directory to the repository.
+translation changes as pull requests, instead of pushing directly to the repository.
 
 :ref:`vcs-git` pushes changes directly to a repository, while
 :ref:`vcs-github` creates pull requests.
@@ -231,7 +232,7 @@ The latter is not needed for merely accessing Git repositories.
 .. _github-push:
 
 Pushing changes to GitHub as pull requests
-+++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++
 
 If not wanting to push translations to a GitHub repository, they can be sent as either
 one or many pull requests instead.
@@ -244,7 +245,7 @@ Configure the `hub`_ command line tool and set :setting:`GITHUB_USERNAME` for th
 
 .. _hub-setup:
 
-Setting up Hub
+Setting up hub
 ++++++++++++++
 
 :ref:`github-push` requires a configured `hub`_ installation on your server.
@@ -253,8 +254,7 @@ finish the configuration, for example:
 
 .. code-block:: sh
 
-    # DATA_DIR is configured in Weblate settings.py, set it accordingy.
-    # Is is /app/data in Docker
+    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
     HOME=${DATA_DIR}/home hub clone octocat/Spoon-Knife
 
 The `hub`_ will ask you for your GitHub credentials, retrieve a token and store
@@ -336,8 +336,11 @@ Subversion credentials
 
 Weblate expects you to have accepted the certificate up-front and if needed,
 your credentials. It will look to insert them into the DATA_DIR directory.
-Accept the certificate by using `svn` once with the `$HOME` environment variable set to the DATA_DIR::
+Accept the certificate by using `svn` once with the `$HOME` environment variable set to the DATA_DIR:
 
+.. code-block:: sh
+
+    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
     HOME=${DATA_DIR}/home svn co https://svn.example.com/example
 
 .. seealso::
@@ -380,7 +383,7 @@ while :ref:`vcs-gitlab` creates merge request.
 .. _gitlab-push:
 
 Pushing changes to GitLab as merge requests
-++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++
 
 If not wanting to push translations to a GitLab repository, they can be sent as either
 one or many merge requests instead.
@@ -403,13 +406,12 @@ finish the configuration, for example:
 
 .. code-block:: sh
 
-    # DATA_DIR is set in Weblate settings.py, set it accordingy.
-    # It is /app/data in Docker
+    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
     $ HOME=${DATA_DIR}/home lab
-    Enter the GitLab host (default: https://gitlab.com):
+    Enter GitLab host (default: https://gitlab.com):
     Create a token here: https://gitlab.com/profile/personal_access_tokens
-    Enter the default GitLab token (scope: api):
-    (The config is saved to ~/.config/lab.hcl)
+    Enter default GitLab token (scope: api):
+    (Config is saved to ~/.config/lab.hcl)
 
 
 The `lab`_ will ask you for your GitLab access token, retrieve it and
