@@ -75,6 +75,7 @@ class MockUnit(object):
         self.source = source
         self.fuzzy = False
         self.translated = True
+        self.state = 20
         self.note = note
 
     @property
