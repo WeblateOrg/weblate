@@ -358,8 +358,12 @@ Generic settings
           WEBLATE_REQUIRE_LOGIN: 1
 
 .. envvar:: WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS
+.. envvar:: WEBLATE_ADD_LOGIN_REQUIRED_URLS_EXCEPTIONS
+.. envvar:: WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS
 
     Adds URL exceptions for login required for the whole Weblate installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`.
+
+    You can either replace whole settings, or modify default value using ``ADD`` and ``REMOVE`` variables.
 
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
