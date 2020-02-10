@@ -4,7 +4,7 @@ Python modules
 .. hint::
    
    We're using virtualenv to install Weblate in a separate environment from your
-   system. If you are not familiar with it, check virtualenv :doc:`venv:userguide`.
+   system. If you are not familiar with it, check virtualenv :doc:`venv:user_guide`.
 
 
 #. Create the virtualenv for Weblate:
