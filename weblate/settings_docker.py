@@ -1000,7 +1000,7 @@ if get_env_bool("WEBLATE_REQUIRE_LOGIN", False):
             rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
         ),
     )
-    modify_env_list(LOGIN_REQUIRE_URLS_EXCEPTIONS, "LOGIN_REQUIRE_URLS_EXCEPTIONS")
+    modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
 
 # Email server
 EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)
