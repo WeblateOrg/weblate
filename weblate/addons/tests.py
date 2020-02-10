@@ -823,3 +823,29 @@ class BulkEditAddonTest(FixtureTestCase):
         )
         addon.post_update(self.component, '')
         self.assertEqual(label.unit_set.count(), 4)
+
+    def test_create(self):
+        self.user.is_superuser = True
+        self.user.save()
+        label = self.project.label_set.create(name='test', color="navy")
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_component),
+            {'name': 'weblate.flags.bulk'},
+            follow=True,
+        )
+        self.assertContains(response, 'Configure addon')
+        response = self.client.post(
+            reverse('addons', kwargs=self.kw_component),
+            {
+                'name': 'weblate.flags.bulk',
+                'form': '1',
+                'q': 'state:translated',
+                'state': -1,
+                'add_labels': [label.pk],
+                'remove_labels': [],
+                'add_flags': '',
+                'remove_flags': '',
+            },
+            follow=True,
+        )
+        self.assertContains(response, '1 addon installed')

@@ -359,6 +359,9 @@ class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
 
     def serialize_form(self):
         result = dict(self.cleaned_data)
-        result["add_labels"] = result["add_labels"].values_list("name", flat=True)
-        result["remove_labels"] = result["remove_labels"].values_list("name", flat=True)
+        # Need to convert to JSON serializable objects
+        result["add_labels"] = list(result["add_labels"].values_list("name", flat=True))
+        result["remove_labels"] = list(
+            result["remove_labels"].values_list("name", flat=True)
+        )
         return result
