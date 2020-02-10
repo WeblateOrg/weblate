@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-10 15:16+0000\n"
-"PO-Revision-Date: 2020-01-29 21:34+0000\n"
+"PO-Revision-Date: 2020-02-11 21:29+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
@@ -905,10 +905,8 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:65
 #: weblate/templates/snippets/project-nav.html:75
 #: weblate/templates/translation.html:69 weblate/templates/translation.html:275
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "Teljes szerkesztő"
+msgstr "Tömeges szerkesztés"
 
 #: weblate/addons/flags.py:100
 msgid "This addon allow to bulk edit flags, labels or state."
@@ -6575,26 +6573,20 @@ msgid "Labels"
 msgstr ""
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "Alapfájl szerkesztése"
+msgstr "Címke szerkesztése"
 
 #: weblate/templates/project-labels.html:17 weblate/trans/models/label.py:33
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "Nyelvnév"
+msgstr "Címke neve"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:35
 msgid "Color"
 msgstr ""
 
 #: weblate/templates/project-labels.html:37
-#, fuzzy
-#| msgid "Add language"
 msgid "Add label"
-msgstr "Nyelv hozzáadása"
+msgstr "Címke hozzáadása"
 
 #: weblate/templates/project.html:63
 msgid "Browse all project changes"
@@ -7091,20 +7083,12 @@ msgid "The linked component contains some componnets with same file mask."
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of them."
-msgstr ""
-"Javítsa ezt a kettőzött szövegek egyikének eltávolításával a fordítási "
-"fájlokból."
+msgstr "Javítsa ezt az egyikük eltávolításával."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following filemasks were found multiple times:"
-msgstr "A következő előfordulások találhatók:"
+msgstr "A következő fájlmaszkok többször találhatók:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
 msgid ""
@@ -7115,20 +7099,12 @@ msgstr ""
 "leképezve a Weblate-ben."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of the translation files."
-msgstr ""
-"Javítsa ezt a kettőzött szövegek egyikének eltávolításával a fordítási "
-"fájlokból."
+msgstr "Javítsa ezt a fordítási fájlok egyikének eltávolításával."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please confirm your logout."
 msgid "Please consider following steps:"
-msgstr "Erősítse meg a kijelentkezését."
+msgstr "Fontolja meg a következő lépéseket:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
@@ -7708,10 +7684,8 @@ msgid "No context currently associated!"
 msgstr "Jelenleg nincs környezet hozzárendelve!"
 
 #: weblate/templates/translate.html:579
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No labels currently set!"
-msgstr "Jelenleg nincsenek jelzők beállítva!"
+msgstr "Jelenleg nincsenek címkék beállítva!"
 
 #: weblate/templates/translate.html:587
 msgid "Flags"
@@ -8090,10 +8064,8 @@ msgid "Strings with shapings"
 msgstr "Formázásokkal rendelkező szövegek"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with similar keys"
 msgid "Strings with labels"
-msgstr "Hasonló kulcsokkal rendelkező szövegek"
+msgstr "Címkékkel rendelkező szövegek"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8112,11 +8084,8 @@ msgid "Failed check: {}"
 msgstr "Sikertelen ellenőrzés: {}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Shared: {}"
 msgid "Labeled: {}"
-msgstr "Megosztva: {}"
+msgstr "Címkézve: {}"
 
 #: weblate/trans/forms.py:151
 msgid "Invalid checksum specified!"
@@ -8135,10 +8104,8 @@ msgid "Query"
 msgstr "Lekérdezés"
 
 #: weblate/trans/forms.py:177
-#, fuzzy
-#| msgid "Missing translated string!"
 msgid "Missing query string."
-msgstr "Hiányzó lefordított szöveg!"
+msgstr "Hiányzó lekérdezési szöveg."
 
 #: weblate/trans/forms.py:184
 msgid "Failed to parse query string: {}"
@@ -8598,34 +8565,24 @@ msgid "State to set"
 msgstr "Beállítandó állapot"
 
 #: weblate/trans/forms.py:1777
-#, fuzzy
-#| msgid "Download changes"
 msgid "Do not change"
-msgstr "Változtatások letöltése"
+msgstr "Ne változtassa"
 
 #: weblate/trans/forms.py:1779
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation flags to add"
-msgstr "Fordítási jelzők"
+msgstr "Hozzáadandó fordítási jelzők"
 
 #: weblate/trans/forms.py:1780
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation flags to remove"
-msgstr "A fordítás el lett távolítva."
+msgstr "Eltávolítandó fordítási jelzők"
 
 #: weblate/trans/forms.py:1783
-#, fuzzy
-#| msgid "User to add"
 msgid "Labels to add"
-msgstr "Hozzáadandó felhasználó"
+msgstr "Hozzáadandó címkék"
 
 #: weblate/trans/forms.py:1789
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Labels to remove"
-msgstr "Javaslat eltávolítva"
+msgstr "Eltávolítandó címkék"
 
 #: weblate/trans/forms.py:1814
 msgid "I accept the contributor agreement"
@@ -8663,10 +8620,8 @@ msgstr "Kettőzött fordítás."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:175
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated filemask."
-msgstr "Kettőzött fordítás."
+msgstr "Kettőzött fájlmaszk."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:186
@@ -9450,69 +9405,67 @@ msgstr "Automatikus összetevőlisták hozzárendelése"
 
 #: weblate/trans/models/label.py:38
 msgid "Navy"
-msgstr ""
+msgstr "Tengerészkék"
 
 #: weblate/trans/models/label.py:39
 msgid "Blue"
-msgstr ""
+msgstr "Kék"
 
 #: weblate/trans/models/label.py:40
 msgid "Aqua"
-msgstr ""
+msgstr "Vízkék"
 
 #: weblate/trans/models/label.py:41
 msgid "Teal"
-msgstr ""
+msgstr "Récezöld"
 
 #: weblate/trans/models/label.py:42
 msgid "Olive"
-msgstr ""
+msgstr "Olajzöld"
 
 #: weblate/trans/models/label.py:43
 msgid "Green"
-msgstr ""
+msgstr "Zöld"
 
 #: weblate/trans/models/label.py:44
 msgid "Lime"
-msgstr ""
+msgstr "Limezöld"
 
 #: weblate/trans/models/label.py:45
 msgid "Yellow"
-msgstr ""
+msgstr "Sárga"
 
 #: weblate/trans/models/label.py:46
-#, fuzzy
-#| msgid "Change"
 msgid "Orange"
-msgstr "Változtatás"
+msgstr "Narancssárga"
 
 #: weblate/trans/models/label.py:47
 msgid "Red"
-msgstr ""
+msgstr "Piros"
 
 #: weblate/trans/models/label.py:48
 msgid "Maroon"
-msgstr ""
+msgstr "Gesztenyebarna"
 
 #: weblate/trans/models/label.py:49
 msgid "Fuchsia"
-msgstr ""
+msgstr "Fukszia"
 
 #: weblate/trans/models/label.py:50
 msgid "Purple"
-msgstr ""
+msgstr "Lila"
 
 #: weblate/trans/models/label.py:51
 msgid "Black"
-msgstr ""
+msgstr "Fekete"
 
 #: weblate/trans/models/label.py:52
 msgid "Gray"
-msgstr ""
+msgstr "Szürke"
 
 #: weblate/trans/models/label.py:53
 msgid "Silver"
-msgstr ""
+msgstr "Ezüst"
 
 #: weblate/trans/models/project.py:79
 msgid "Main website of translated project."
