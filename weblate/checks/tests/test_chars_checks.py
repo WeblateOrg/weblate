@@ -38,9 +38,10 @@ from weblate.checks.chars import (
     EndSemicolonCheck,
     EndSpaceCheck,
     EndStopCheck,
+    EscapedNewlineCountingCheck,
     KashidaCheck,
     MaxLengthCheck,
-    NewlineCountingCheck,
+    NewLineCountCheck,
     PuctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
@@ -203,14 +204,24 @@ class EndEllipsisCheckTest(CheckTestCase):
         self.do_test(False, ('string...', 'string…', ''))
 
 
-class NewlineCountingCheckTest(CheckTestCase):
-    check = NewlineCountingCheck()
+class EscapedNewlineCountingCheckTest(CheckTestCase):
+    check = EscapedNewlineCountingCheck()
 
     def setUp(self):
-        super(NewlineCountingCheckTest, self).setUp()
+        super(EscapedNewlineCountingCheckTest, self).setUp()
         self.test_good_matching = ('string\\nstring', 'string\\nstring', '')
         self.test_failure_1 = ('string\\nstring', 'string\\n\\nstring', '')
         self.test_failure_2 = ('string\\n\\nstring', 'string\\nstring', '')
+
+
+class NewLineCountCheckTest(CheckTestCase):
+    check = NewLineCountCheck()
+
+    def setUp(self):
+        super(NewLineCountCheckTest, self).setUp()
+        self.test_single_good_matching = ('string\n\nstring', 'string\n\nstring', '')
+        self.test_failure_1 = ('string\nstring', 'string\n\n\nstring', '')
+        self.test_failure_2 = ('string\nstring\n\nstring', 'string\nstring\nstring', '')
 
 
 class ZeroWidthSpaceCheckTest(CheckTestCase):
