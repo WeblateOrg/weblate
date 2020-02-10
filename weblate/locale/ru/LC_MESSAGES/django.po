@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-01-26 12:56+0000\n"
-"PO-Revision-Date: 2020-02-03 09:33+0000\n"
-"Last-Translator: Alexander Danilov <git@modos189.ru>\n"
+"PO-Revision-Date: 2020-02-10 15:16+0000\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
@@ -45,7 +45,7 @@ msgstr "Без имени"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "Этот адрес э-почты уже используется. Укажите другой."
+msgstr "Этот адрес e-mail уже используется. Укажите другой."
 
 #: weblate/accounts/forms.py:121 weblate/auth/models.py:309
 #: weblate/utils/validators.py:173
@@ -78,7 +78,7 @@ msgstr "Электронная почта"
 
 #: weblate/accounts/forms.py:258
 msgid "You can add another e-mail address below."
-msgstr "Вы можете добавить ниже другой адрес э-почты."
+msgstr "Вы можете добавить ниже другой адрес e-mail."
 
 #: weblate/accounts/forms.py:308
 msgid "Subject"
@@ -151,7 +151,7 @@ msgstr "Вы ввели недопустимый пароль."
 
 #: weblate/accounts/forms.py:522
 msgid "Username or e-mail"
-msgstr "Имя пользователя или email"
+msgstr "Имя пользователя или e-mail"
 
 #: weblate/accounts/forms.py:525 weblate/accounts/templatetags/authnames.py:39
 msgid "Password"
@@ -312,7 +312,8 @@ msgstr "Кто-то пробовал зарегистрироваться с в�
 
 #: weblate/accounts/models.py:93
 msgid "Somebody has attempted to register using your e-mail address."
-msgstr "Кто-то пытался зарегистрироваться, используя адрес вашей э-почты."
+msgstr ""
+"Кто-то пытался зарегистрироваться, используя ваш адрес электронной почты."
 
 #: weblate/accounts/models.py:94
 #, python-brace-format
@@ -389,10 +390,8 @@ msgid "Hide completed translations on the dashboard"
 msgstr "Скрывать завершённые переводы с панели управления"
 
 #: weblate/accounts/models.py:314
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
-msgstr "Выводить вспомогательные переводы в Дзен-режиме"
+msgstr "Выводить вспомогательные переводы в дзен-режиме"
 
 #: weblate/accounts/models.py:317
 msgid "Hide source if a secondary translation exists"
@@ -636,7 +635,7 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Ваш email больше не принадлежит подтвержденному аккаунту, он был изменен на "
+"Ваш e-mail больше не принадлежит подтвержденному аккаунту, он был изменен на "
 "{0}."
 
 #: weblate/accounts/views.py:160 weblate/accounts/views.py:750
@@ -702,7 +701,7 @@ msgstr "Благодарим за использование Weblate."
 
 #: weblate/accounts/views.py:690 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
-msgstr "Регистрация э-почты"
+msgstr "Регистрация e-mail"
 
 #: weblate/accounts/views.py:726 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:132
@@ -743,7 +742,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:965
 msgid "Please register using e-mail instead."
-msgstr "Вместо этого зарегистрируйтесь, используя email."
+msgstr "Вместо этого зарегистрируйтесь, используя e-mail."
 
 #: weblate/accounts/views.py:972
 msgid "New registrations are turned off."
@@ -769,7 +768,7 @@ msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
 msgstr ""
-"Завершить регистрацию не удалось! Предоставленные аутентификация, email или "
+"Завершить регистрацию не удалось! Предоставленные аутентификация, e-mail или "
 "имя пользователя уже используются другой учетной записью."
 
 #: weblate/accounts/views.py:1044
@@ -1736,12 +1735,12 @@ msgstr ""
 
 #: weblate/auth/models.py:525
 msgid "E-mail regular expression"
-msgstr "Регулярное выражение э-почты"
+msgstr "Регулярное выражение e-mail"
 
 #: weblate/auth/models.py:529
 msgid "Regular expression used to match user e-mail."
 msgstr ""
-"Регулярное выражение, используемое для сопоставления э-почты пользователя."
+"Регулярное выражение, используемое для сопоставления e-mail пользователя."
 
 #: weblate/auth/models.py:534
 msgid "Group to assign"
@@ -3501,7 +3500,7 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"Регистрируясь, вы соглашаетесь на использование вашего имени и э-почты в "
+"Регистрируясь, вы соглашаетесь на использование вашего имени и e-mail в "
 "коммитах и предоставляете свой вклад под лицензией, определённой каждым "
 "переводимым проектом."
 
@@ -3925,7 +3924,7 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"Регистрируясь, вы соглашаетесь с использованием вашего имени и э-почты в "
+"Регистрируясь, вы соглашаетесь с использованием вашего имени и e-mail в "
 "коммитах системы контроля версий и предоставлением вашего вклада под "
 "лицензией, определенной каждым переводимым проектом."
 
@@ -3977,8 +3976,8 @@ msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
 msgstr ""
-"Забыли пароль? Введите адрес  э-почты, а мы пришлем письмо с инструкцими по "
-"установке нового пароля."
+"Забыли пароль? Введите адрес электронной почты, а мы пришлем письмо с "
+"инструкцими по установке нового пароля."
 
 #: weblate/templates/accounts/reset.html:36
 msgid "Set my password"
@@ -7429,28 +7428,20 @@ msgid "Nearby strings"
 msgstr "Соседние строки"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Строки с комментариями"
+msgstr "Строки с похожими ключами"
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Соседние сообщения"
+msgstr "Соседние ключи"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Измененная строка"
+msgstr "Фасоны (Shapings) строки"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:469
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Строки"
+msgstr "Фасоны"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7546,14 +7537,12 @@ msgstr[1] "%(count)s комментария этой строки."
 msgstr[2] "%(count)s комментариев этой строки."
 
 #: weblate/templates/translate.html:471
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "%(count)s предложение для этой строки."
-msgstr[1] "%(count)s предложения для этой строки."
-msgstr[2] "%(count)s предложений для этой строки."
+msgstr[0] "Доступен %(count)s фасон для этой строки."
+msgstr[1] "Доступно %(count)s фасона для этой строки."
+msgstr[2] "Доступно %(count)s фасонов для этой строки."
 
 #: weblate/templates/translate.html:486
 msgid "Manage glossary"
@@ -7953,10 +7942,8 @@ msgid "Strings marked for edit"
 msgstr "Строки, помеченные для правки"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Строки с предложениями"
+msgstr "Строки с фасонами"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:91
 msgid "Strings needing action without suggestions"
@@ -8104,7 +8091,7 @@ msgstr "Оставить пустым для использования имен
 
 #: weblate/trans/forms.py:584
 msgid "Author e-mail"
-msgstr "Email автора"
+msgstr "E-mail автора"
 
 #: weblate/trans/forms.py:616
 msgid "Query"
@@ -8236,7 +8223,7 @@ msgid ""
 "Please provide username or e-mail. User needs to already have an active "
 "account in Weblate."
 msgstr ""
-"Укажите имя пользователя или э-почту. Пользователь должен иметь активную "
+"Укажите имя пользователя или e-mail. Пользователь должен иметь активную "
 "учетную запись в Weblate."
 
 #: weblate/trans/forms.py:1065
@@ -8313,7 +8300,7 @@ msgstr "Базовый"
 
 #: weblate/trans/forms.py:1232
 msgid "Upstream links"
-msgstr "Ссылки на верхний репозиторий"
+msgstr "Ссылки на вышестоящий репозиторий"
 
 #: weblate/trans/forms.py:1244
 msgid "Translation settings"
@@ -8821,7 +8808,7 @@ msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
 msgstr ""
-"Адрес э-почты для отчетов об ошибках в исходных строках. Оставьте пустым, "
+"Адрес e-mail для отчетов об ошибках в исходных строках. Оставьте пустым, "
 "чтобы не было писем."
 
 #: weblate/trans/models/component.py:251
@@ -8987,7 +8974,7 @@ msgstr "Имя произведшего коммит"
 
 #: weblate/trans/models/component.py:438
 msgid "Committer e-mail"
-msgstr "Email делающего коммит"
+msgstr "E-mail делающего коммит"
 
 #: weblate/trans/models/component.py:443
 msgid "Push on commit"
@@ -9014,23 +9001,16 @@ msgstr ""
 msgid ""
 "Regular expression used to filter translation when scanning for filemask."
 msgstr ""
-"Регулярное выражение используется для фильтрации перевода при сканировании "
+"Регулярное выражение, используемое для фильтрации перевода при сканировании "
 "по файловой маске."
 
 #: weblate/trans/models/component.py:468
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Регулярное выражение э-почты"
+msgstr "Регулярное выражение фасонов"
 
 #: weblate/trans/models/component.py:474
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Регулярное выражение используется для фильтрации перевода при сканировании "
-"по файловой маске."
+msgstr "Регулярное выражение, которое определяет фасон (shapings) строки."
 
 #: weblate/trans/models/component.py:483
 msgid "Components with higher priority are offered first to translators."
@@ -9878,7 +9858,7 @@ msgstr ""
 
 #: weblate/trans/views/dashboard.py:179
 msgid "Please set your full name and e-mail in your profile."
-msgstr "Укажите в профиле ваше полное имя и э-почту."
+msgstr "Укажите в профиле ваше полное имя и e-mail."
 
 #: weblate/trans/views/dictionary.py:48
 #, python-format
@@ -10250,11 +10230,8 @@ msgid "Failed to compile: {0}"
 msgstr "Ошибка компиляции: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr ""
-"Регулярное выражение, используемое для сопоставления э-почты пользователя."
+msgstr "Регулярное выражение не должно сопоставлять пустую строку."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
@@ -10291,11 +10268,11 @@ msgstr "Имя пользователя не может начинаться с 
 
 #: weblate/utils/validators.py:183 weblate/utils/validators.py:186
 msgid "Enter a valid e-mail address."
-msgstr "Введите действительный адрес э-почты."
+msgstr "Введите действительный адрес e-mail."
 
 #: weblate/utils/validators.py:188
 msgid "This e-mail address is not allowed."
-msgstr "Такой адрес э-почты недопустим."
+msgstr "Такой адрес e-mail недопустим."
 
 #: weblate/utils/validators.py:195
 msgid "Failed to evaluate plural equation: {}"
