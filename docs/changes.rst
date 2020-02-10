@@ -22,6 +22,7 @@ Not yet released.
 * Added bulk editing of flags.
 * Added support for :ref:`labels`.
 * Added bulk edit addon.
+* Added option for :ref:`enforcing-checks`.
 
 Weblate 3.10.3
 --------------

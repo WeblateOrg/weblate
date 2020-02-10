@@ -25,6 +25,7 @@ import json
 from datetime import date, datetime, timedelta
 from uuid import uuid4
 
+import six
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
@@ -47,6 +48,7 @@ from django.utils.translation import ugettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
+from weblate.checks import CHECKS
 from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
@@ -1205,6 +1207,21 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
         self.helper.form_tag = False
 
 
+class SelectChecksWidget(SortedSelectMultiple):
+    def __init__(self, attrs=None, choices=()):
+        choices = CHECKS.get_choices()
+        super(SelectChecksWidget, self).__init__(attrs=attrs, choices=choices)
+
+    def value_from_datadict(self, data, files, name):
+        value = super(SelectChecksWidget, self).value_from_datadict(data, files, name)
+        if isinstance(value, six.text_type):
+            return json.loads(value)
+        return value
+
+    def format_value(self, value):
+        return json.dumps(super(SelectChecksWidget, self).format_value(value))
+
+
 class ComponentSettingsForm(SettingsBaseForm):
     """Component settings form."""
 
@@ -1220,6 +1237,7 @@ class ComponentSettingsForm(SettingsBaseForm):
             'suggestion_voting',
             'suggestion_autoaccept',
             'check_flags',
+            'enforced_checks',
             'commit_message',
             'add_message',
             'delete_message',
@@ -1243,6 +1261,7 @@ class ComponentSettingsForm(SettingsBaseForm):
             'language_regex',
             'shaping_regex',
         )
+        widgets = {"enforced_checks": SelectChecksWidget()}
 
     def __init__(self, request, *args, **kwargs):
         super(ComponentSettingsForm, self).__init__(request, *args, **kwargs)
@@ -1268,6 +1287,7 @@ class ComponentSettingsForm(SettingsBaseForm):
                         'allow_translation_propagation',
                         'check_flags',
                         'shaping_regex',
+                        'enforced_checks',
                     ),
                     css_id='translation',
                 ),
