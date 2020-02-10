@@ -136,7 +136,7 @@ def ignore_check(request, check_id):
     project = obj.unit.translation.component.project
     request.user.check_access(project)
 
-    if not request.user.has_perm('unit.check', project):
+    if not request.user.has_perm('unit.check', project) or obj.is_enforced():
         raise PermissionDenied()
 
     # Mark check for ignoring
@@ -152,8 +152,11 @@ def ignore_check_source(request, check_id):
     project = unit.translation.component.project
     request.user.check_access(project)
 
-    if (not request.user.has_perm('unit.check', project)
-            or not request.user.has_perm('source.edit', unit.translation.component)):
+    if (
+        not request.user.has_perm('unit.check', project)
+        or obj.is_enforced()
+        or not request.user.has_perm('source.edit', unit.translation.component)
+    ):
         raise PermissionDenied()
 
     # Mark check for ignoring

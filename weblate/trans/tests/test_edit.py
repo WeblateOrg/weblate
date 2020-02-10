@@ -535,6 +535,7 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, 'Hello, world!\n')
         self.assertTrue(unit.has_failing_check)
+        self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(len(unit.checks()), 1)
         self.assertEqual(len(unit.active_checks()), 1)
         self.assertEqual(unit.translation.stats.allchecks, 1)
@@ -576,6 +577,22 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         self.assert_backend(1)
+
+    def test_enforced_check(self):
+        # Enforce same check
+        self.component.enforced_checks = ["same"]
+        self.component.save(update_fields=["enforced_checks"])
+        # Save with failing check
+        response = self.edit_unit('Hello, world!\n', 'Hello, world!\n')
+        # We should stay on current message
+        self.assert_redirects_offset(response, self.translate_url, 1)
+        unit = self.get_unit()
+        self.assertEqual(unit.target, 'Hello, world!\n')
+        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertTrue(unit.has_failing_check)
+        self.assertEqual(len(unit.checks()), 1)
+        self.assertEqual(len(unit.active_checks()), 1)
+        self.assertEqual(unit.translation.stats.allchecks, 1)
 
     def test_commit_push(self):
         response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')

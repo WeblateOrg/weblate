@@ -821,6 +821,17 @@ class Unit(models.Model, LoggerMixin):
         saved = self.save_backend(
             user, change_action=change_action, propagate=propagate
         )
+
+        # Enforced checks can revert the state to needs editing (fuzzy)
+        if (
+            self.state >= STATE_TRANSLATED
+            and self.check_set.filter(
+                check__in=self.translation.component.enforced_checks
+            ).exists()
+        ):
+            self.state = self.original_state = STATE_FUZZY
+            self.save(same_state=True, same_content=True, update_fields=['state'])
+
         if (
             propagate
             and user

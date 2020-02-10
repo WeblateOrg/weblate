@@ -132,6 +132,9 @@ class Check(models.Model):
     def __str__(self):
         return '{0}: {1}'.format(self.unit, self.check)
 
+    def is_enforced(self):
+        return self.check in self.unit.translation.component.enforced_checks
+
     def get_description(self):
         if self.check_obj:
             try:
