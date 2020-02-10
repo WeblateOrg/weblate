@@ -147,6 +147,18 @@ Here is a list of flags currently accepted:
 These flags are understood both in :ref:`component` settings, per source string
 settings and in translation file itself (eg. in GNU Gettext).
 
+.. _enforcing-checks:
+
+Enforcing checks
+----------------
+
+.. versionadded:: 3.11
+
+You can configure list of checks which can not be ignored by setting
+:guilabel:`Enforced checks` in :ref:`component`. Each listed check can not be
+ignored in the user interface and any string failing this check is marked as
+:guilabel:`Needs editing` (see :ref:`states`).
+
 .. _fonts:
 
 Managing fonts

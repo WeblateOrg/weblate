@@ -18,6 +18,8 @@ In the following chapters, *any user* means any user who has access to the
 translation. It can be any authenticated user if project is public or user
 having :guilabel:`Translate` permission on the project.
 
+.. _states:
+
 Translation states
 ------------------
 

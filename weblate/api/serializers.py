@@ -167,11 +167,30 @@ class ComponentSerializer(RemovableSerializer):
     class Meta(object):
         model = Component
         fields = (
-            'name', 'slug', 'project', 'vcs', 'repo', 'git_export',
-            'branch', 'filemask', 'template', 'new_base', 'file_format',
-            'license', 'license_url', 'web_url', 'url',
-            'repository_url', 'translations_url', 'statistics_url',
-            'lock_url', 'changes_list_url', 'new_lang', 'push',
+            'name',
+            'slug',
+            'project',
+            'vcs',
+            'repo',
+            'git_export',
+            'branch',
+            'filemask',
+            'template',
+            'new_base',
+            'file_format',
+            'license',
+            'license_url',
+            'web_url',
+            'url',
+            'repository_url',
+            'translations_url',
+            'statistics_url',
+            'lock_url',
+            'changes_list_url',
+            'new_lang',
+            'push',
+            'check_flags',
+            'enforced_checks',
         )
         extra_kwargs = {
             'url': {

@@ -84,6 +84,7 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.errors import report_error
+from weblate.utils.fields import JSONField
 from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
 from weblate.utils.render import (
     render_template,
@@ -332,6 +333,12 @@ class Component(models.Model, URLMixin, PathMixin):
             "Possible values can be found in the documentation."
         ),
         validators=[validate_check_flags],
+        blank=True,
+    )
+    enforced_checks = JSONField(
+        verbose_name=ugettext_lazy("Enforced checks"),
+        help_text=ugettext_lazy("List of checks which can not be ignored."),
+        default=[],
         blank=True,
     )
 

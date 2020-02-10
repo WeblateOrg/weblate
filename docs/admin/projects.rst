@@ -232,6 +232,8 @@ Autoaccept suggestions
     Automatically accept voted suggestions, see :ref:`voting`.
 Translation flags
     Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
+Enforced checks
+    List of checks which can not be ignored, see :ref:`enforcing-checks`.
 Translation license
     License of the translation, (does not need to be the same as the source code license).
 License URL
