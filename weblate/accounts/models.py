@@ -220,7 +220,7 @@ class AuditLog(models.Model):
         return None
 
     def should_notify(self):
-        return self.activity in NOTIFY_ACTIVITY
+        return self.user.is_active and self.activity in NOTIFY_ACTIVITY
 
     def __str__(self):
         return '{0} for {1} from {2}'.format(
