@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name="enforced_checks",
             field=weblate.utils.fields.JSONField(
                 blank=True,
-                default={},
+                default=[],
                 help_text="List of checks which can not be ignored.",
                 verbose_name="Enforced checks",
             ),
