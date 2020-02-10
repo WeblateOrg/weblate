@@ -33,6 +33,7 @@ from six import python_2_unicode_compatible
 
 from weblate.addons.events import (
     EVENT_CHOICES,
+    EVENT_COMPONENT_UPDATE,
     EVENT_POST_ADD,
     EVENT_POST_COMMIT,
     EVENT_POST_PUSH,
@@ -46,6 +47,7 @@ from weblate.addons.events import (
 )
 from weblate.trans.models import Component, Unit
 from weblate.trans.signals import (
+    component_post_update,
     store_post_load,
     translation_post_add,
     unit_pre_create,
@@ -185,6 +187,13 @@ def post_update(sender, component, previous_head, child=False, **kwargs):
             continue
         component.log_debug('running post_update addon: %s', addon.name)
         addon.addon.post_update(component, previous_head)
+
+
+@receiver(component_post_update)
+def component_update(sender, component, **kwargs):
+    for addon in Addon.objects.filter_event(component, EVENT_COMPONENT_UPDATE):
+        component.log_debug('running component_update addon: %s', addon.name)
+        addon.addon.component_update(component)
 
 
 @receiver(vcs_pre_update)

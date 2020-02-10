@@ -61,6 +61,7 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.translation import Translation
 from weblate.trans.signals import (
+    component_post_update,
     translation_post_add,
     vcs_post_commit,
     vcs_post_push,
@@ -1418,6 +1419,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         if was_change:
             self.update_shapings()
+            component_post_update.send(sender=self.__class__, component=self)
 
         self.log_info("updating completed")
         return was_change

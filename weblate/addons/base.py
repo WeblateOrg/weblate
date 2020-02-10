@@ -200,6 +200,9 @@ class BaseAddon(object):
     def daily(self, component):
         return
 
+    def component_update(self, component):
+        return
+
     def execute_process(self, component, cmd, env=None):
         component.log_debug('%s addon exec: %s', self.name, repr(cmd))
         try:
