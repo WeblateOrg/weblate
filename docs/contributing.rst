@@ -77,7 +77,7 @@ Security by Design Principles
 Any code for Weblate should be writted with `Security by Design Principles`_ in
 mind.
 
-.. _Security by Design Principles: https://www.owasp.org/index.php/Security_by_Design_Principles
+.. _Security by Design Principles: https://wiki.owasp.org/index.php/Security_by_Design_Principles
 
 Testsuite
 ---------

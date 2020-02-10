@@ -450,7 +450,7 @@ cause problems, therefore it's suggested to put it:
 
 .. seealso::
 
-    `Django CAS NG <https://github.com/mingchen/django-cas-ng>`_
+    `Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_
 
 Configuring third party Django authentication
 ---------------------------------------------

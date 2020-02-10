@@ -285,7 +285,7 @@ PHP format
 
 .. seealso::
 
-    `PHP sprintf documentation <https://secure.php.net/manual/en/function.sprintf.php>`_,
+    `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
     `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
 
 C format
