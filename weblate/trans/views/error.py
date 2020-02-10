@@ -68,7 +68,7 @@ def server_error(request):
             {
                 "title": _("Internal Server Error"),
                 "sentry_dsn": settings.SENTRY_DSN,
-                'sentry_event_id': last_event_id(),
+                "sentry_event_id": last_event_id(),
             },
             status=500,
         )

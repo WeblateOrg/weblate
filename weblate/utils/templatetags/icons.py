@@ -37,7 +37,8 @@ SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
 
 @register.simple_tag()
-def icon(name):
+def icon(name, fallback=None):
+    name = name or fallback
     if name not in CACHE:
         with open(os.path.join(PATH, name), "r") as handle:
             CACHE[name] = mark_safe(handle.read())
