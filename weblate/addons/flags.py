@@ -23,7 +23,7 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_POST_UPDATE, EVENT_UNIT_PRE_CREATE
+from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_UNIT_PRE_CREATE
 from weblate.addons.forms import BulkEditAddonForm
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
@@ -94,14 +94,14 @@ class SameEditAddon(FlagBase):
 
 
 class BulkEditAddon(BaseAddon):
-    events = (EVENT_POST_UPDATE,)
+    events = (EVENT_COMPONENT_UPDATE,)
     name = "weblate.flags.bulk"
     verbose = _("Bulk edit")
     description = _("This addon allow to bulk edit flags, labels or state.")
     settings_form = BulkEditAddonForm
     multiple = True
 
-    def post_update(self, component, previous_head):
+    def component_update(self, component):
         label_set = component.project.label_set
         bulk_perform(
             None,

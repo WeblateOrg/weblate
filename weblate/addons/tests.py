@@ -803,7 +803,7 @@ class AutoTranslateAddonTest(FixtureTestCase):
                 'mode': 'translate',
             },
         )
-        addon.post_update(self.component, '')
+        addon.component_update(self.component)
 
 
 class BulkEditAddonTest(FixtureTestCase):
@@ -821,7 +821,7 @@ class BulkEditAddonTest(FixtureTestCase):
                 'remove_flags': '',
             },
         )
-        addon.post_update(self.component, '')
+        addon.component_update(self.component)
         self.assertEqual(label.unit_set.count(), 4)
 
     def test_create(self):

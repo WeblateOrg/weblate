@@ -23,13 +23,13 @@ from __future__ import unicode_literals
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
-from weblate.addons.events import EVENT_DAILY, EVENT_POST_UPDATE
+from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY
 from weblate.addons.forms import AutoAddonForm
 from weblate.trans.tasks import auto_translate
 
 
 class AutoTranslateAddon(BaseAddon):
-    events = (EVENT_POST_UPDATE, EVENT_DAILY)
+    events = (EVENT_COMPONENT_UPDATE, EVENT_DAILY)
     name = "weblate.autotranslate.autotranslate"
     verbose = _("Automatic translation")
     description = _(
@@ -40,7 +40,7 @@ class AutoTranslateAddon(BaseAddon):
     multiple = True
     icon = "language.svg"
 
-    def post_update(self, component, previous_head):
+    def component_update(self, component):
         self.daily(component)
 
     def daily(self, component):

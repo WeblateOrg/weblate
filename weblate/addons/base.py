@@ -29,6 +29,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from weblate.addons.events import (
+    EVENT_COMPONENT_UPDATE,
     EVENT_DAILY,
     EVENT_POST_COMMIT,
     EVENT_POST_PUSH,
@@ -60,6 +61,7 @@ class BaseAddon(object):
     trigger_update = False
 
     """Base class for Weblate addons."""
+
     def __init__(self, storage=None):
         self.instance = storage
         self.alerts = []
@@ -83,6 +85,7 @@ class BaseAddon(object):
     @classmethod
     def create_object(cls, component, **kwargs):
         from weblate.addons.models import Addon
+
         if component:
             # Reallocate to repository
             if cls.repo_scope and component.linked_component:
@@ -151,6 +154,9 @@ class BaseAddon(object):
         if EVENT_POST_UPDATE in self.events:
             for component in components:
                 self.post_update(component, '')
+        if EVENT_COMPONENT_UPDATE in self.events:
+            for component in components:
+                self.component_update(component)
         if EVENT_POST_PUSH in self.events:
             for component in components:
                 self.post_push(component)
@@ -218,12 +224,14 @@ class BaseAddon(object):
             component.log_error('failed to exec %s: %s', repr(cmd), err)
             for line in output.splitlines():
                 component.log_error('program output: %s', line)
-            self.alerts.append({
-                'addon': self.name,
-                'command': ' '.join(cmd),
-                'output': output,
-                'error': str(err),
-            })
+            self.alerts.append(
+                {
+                    'addon': self.name,
+                    'command': ' '.join(cmd),
+                    'output': output,
+                    'error': str(err),
+                }
+            )
 
     def trigger_alerts(self, component):
         if self.alerts:
@@ -267,9 +275,7 @@ class BaseAddon(object):
             if os.path.exists(filename):
                 component.repository.resolve_symlinks(filename)
         except ValueError:
-            component.log_error(
-                'refused to write out of repository: %s', filename
-            )
+            component.log_error('refused to write out of repository: %s', filename)
             return None
 
         return filename
@@ -284,7 +290,7 @@ class BaseAddon(object):
                     _(
                         'The repository is outdated, you might not get '
                         'expected results until you update it.'
-                    )
+                    ),
                 )
 
 
@@ -303,7 +309,7 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
 
-    events = (EVENT_POST_UPDATE, )
+    events = (EVENT_POST_UPDATE,)
 
     def __init__(self, storage=None):
         super(UpdateBaseAddon, self).__init__(storage)
@@ -316,14 +322,18 @@ class UpdateBaseAddon(BaseAddon):
         repository = component.repository
         with repository.lock:
             if repository.needs_commit():
-                files = list(chain.from_iterable((
-                    translation.filenames
-                    for translation in component.translation_set.iterator()
-                ))) + self.extra_files
-                repository.commit(
-                    self.get_commit_message(component),
-                    files=files
+                files = (
+                    list(
+                        chain.from_iterable(
+                            (
+                                translation.filenames
+                                for translation in component.translation_set.iterator()
+                            )
+                        )
+                    )
+                    + self.extra_files
                 )
+                repository.commit(self.get_commit_message(component), files=files)
                 component.push_if_needed(None)
 
     def post_update(self, component, previous_head):
