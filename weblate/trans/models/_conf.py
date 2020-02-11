@@ -148,7 +148,9 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     IP_BEHIND_REVERSE_PROXY = False
     IP_PROXY_HEADER = 'HTTP_X_FORWARDED_FOR'
     IP_PROXY_OFFSET = 0
-    AUTH_TOKEN_VALID = 3600
+
+    # Authentication
+    AUTH_TOKEN_VALID = 86400
     AUTH_LOCK_ATTEMPTS = 10
     AUTH_PASSWORD_DAYS = 180
 

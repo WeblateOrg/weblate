@@ -165,7 +165,7 @@ AUTH_TOKEN_VALID
 
 Validity of token in activation and password reset mails in seconds.
 
-Defaults to 3600 (1 hour).
+Defaults to 86400 (1 day).
 
 
 AUTH_PASSWORD_DAYS

@@ -23,6 +23,7 @@ Not yet released.
 * Added support for :ref:`labels`.
 * Added bulk edit addon.
 * Added option for :ref:`enforcing-checks`.
+* Increased default validity of confirmation links.
 
 Weblate 3.10.3
 --------------
