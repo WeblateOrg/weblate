@@ -103,8 +103,8 @@ class SecurityMiddleware(object):
             image.add("data:")
 
         # Matomo (Piwik) analytics
-        if settings.PIWIK_URL:
-            domain = urlparse(settings.PIWIK_URL).hostname
+        if settings.MATOMO_URL:
+            domain = urlparse(settings.MATOMO_URL).hostname
             script.add("'unsafe-inline'")
             script.add(domain)
             image.add(domain)

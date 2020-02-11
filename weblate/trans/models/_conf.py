@@ -69,9 +69,9 @@ class WeblateConf(AppConf):
         'weblate.trans.autofixes.html.BleachHTML',
     )
 
-    # Matomo
-    PIWIK_SITE_ID = None
-    PIWIK_URL = None
+    # Matomo (Piwik)
+    MATOMO_SITE_ID = None
+    MATOMO_URL = None
 
     # Google Analytics
     GOOGLE_ANALYTICS_ID = None

@@ -977,31 +977,31 @@ NEARBY_MESSAGES
 
 How many messages around current one to show during translating.
 
-.. setting:: PIWIK_SITE_ID
+.. setting:: MATOMO_SITE_ID
 
-PIWIK_SITE_ID
--------------
+MATOMO_SITE_ID
+--------------
 
-ID of a site in Matomo you want to track. Please note that this integration
-does not support Matomo Tag Manager.
+ID of a site in Matomo (Piwik) you want to track. Please note that this
+integration does not support Matomo Tag Manager.
 
 .. seealso::
 
-   :setting:`PIWIK_URL`
+   :setting:`MATOMO_URL`
 
-.. setting:: PIWIK_URL
+.. setting:: MATOMO_URL
 
-PIWIK_URL
----------
+MATOMO_URL
+----------
 
-Full URL including trailing slash of a Matomo installation you want to use to
-track Weblate users. For more information about Matomo see
+Full URL (including trailing slash) of a Matomo (Piwik) installation you want
+to use to track Weblate users. For more information about Matomo see
 <https://matomo.org/>. Please note that this integration does not support
 Matomo Tag Manager.
 
 .. seealso::
 
-   :setting:`PIWIK_SITE_ID`
+   :setting:`MATOMO_SITE_ID`
 
 .. setting:: REGISTRATION_CAPTCHA
 

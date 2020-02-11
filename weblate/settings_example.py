@@ -857,8 +857,8 @@ AUTO_UPDATE = False
 WEBLATE_GPG_IDENTITY = None
 
 # Third party services integration
-PIWIK_SITE_ID = None
-PIWIK_URL = None
+MATOMO_SITE_ID = None
+MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
 AKISMET_API_KEY = None
