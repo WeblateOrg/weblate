@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-10 15:16+0000\n"
-"PO-Revision-Date: 2020-02-10 15:16+0000\n"
+"PO-Revision-Date: 2020-02-11 21:29+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -32,8 +32,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -906,14 +906,12 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:65
 #: weblate/templates/snippets/project-nav.html:75
 #: weblate/templates/translation.html:69 weblate/templates/translation.html:275
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "Полноценный редактор"
+msgstr "Массовая правка"
 
 #: weblate/addons/flags.py:100
 msgid "This addon allow to bulk edit flags, labels or state."
-msgstr ""
+msgstr "Эта надстройка позволяет массово править флаги, метки или состояния."
 
 #: weblate/addons/forms.py:55
 msgid "Path of generated MO file"
@@ -5750,10 +5748,8 @@ msgid "No matching activity found."
 msgstr "Соответствующей деятельности не найдено."
 
 #: weblate/templates/list-comments.html:13
-#, fuzzy
-#| msgid "Remove old comments"
 msgid "Resolved comment"
-msgstr "Удалить старые комментарии"
+msgstr "Комментарий с решённой проблемой"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -5766,10 +5762,8 @@ msgid "Translation comment"
 msgstr "Комментарий к переводу"
 
 #: weblate/templates/list-comments.html:29
-#, fuzzy
-#| msgid "Resource update"
 msgid "Resolve"
-msgstr "Обновление ресурса"
+msgstr "Проблема решена"
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -6546,29 +6540,23 @@ msgstr "На правку"
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/translate.html:574
 msgid "Labels"
-msgstr ""
+msgstr "Метки"
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "Правка базового файла"
+msgstr "Править метку"
 
 #: weblate/templates/project-labels.html:17 weblate/trans/models/label.py:33
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "Название языка"
+msgstr "Имя метки"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:35
 msgid "Color"
-msgstr ""
+msgstr "Цвет"
 
 #: weblate/templates/project-labels.html:37
-#, fuzzy
-#| msgid "Add language"
 msgid "Add label"
-msgstr "Добавить язык"
+msgstr "Добавить метку"
 
 #: weblate/templates/project.html:63
 msgid "Browse all project changes"
@@ -6951,7 +6939,7 @@ msgstr "Одобренные строки с предложениями"
 
 #: weblate/templates/snippets/query-builder.html:99
 msgid "All untranslated strings added in the past month"
-msgstr ""
+msgstr "Все не переведённые строки, добавленные за прошедший месяц"
 
 #: weblate/templates/snippets/suggestions.html:12
 #: weblate/trans/models/change.py:226
@@ -7059,21 +7047,15 @@ msgstr ""
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "The linked component contains some componnets with same file mask."
-msgstr ""
+msgstr "У некоторые связанных компонентов одинаковые маски файлов."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of them."
-msgstr "Исправьте это, удалив одну из повторяющихся строк из файлов перевода."
+msgstr "Исправьте это, удалив один из них."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following filemasks were found multiple times:"
-msgstr "Найдены следующие проблемные случаи:"
+msgstr "Следующие маски файлов встречаются несколько раз:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
 msgid ""
@@ -7084,30 +7066,28 @@ msgstr ""
 "языку в Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of the translation files."
-msgstr "Исправьте это, удалив одну из повторяющихся строк из файлов перевода."
+msgstr "Исправьте это, удалив один из файлов перевода."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please confirm your logout."
 msgid "Please consider following steps:"
-msgstr "Подтвердите выход."
+msgstr "Возможны следующие решения:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Remove the translation file for the source language or change the source "
 "language in the project settings."
 msgstr ""
+"Удалить файл перевода для исходного языка или изменить исходный язык в "
+"настройках проекта."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
 "Avoid having translation files for both plain language code and code with "
 "default country (for example de and de_DE)."
 msgstr ""
+"Избегать добавления в репозиторий файлов перевода одновременно для основного "
+"кода языка и кода языка страны по умолчанию (например, ru и ru_RU)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -7530,7 +7510,7 @@ msgstr "Соседние ключи"
 
 #: weblate/templates/translate.html:219
 msgid "Shapings of the string"
-msgstr "Фасоны (Shapings) строки"
+msgstr "Фасоны (shapings) строки"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:471
 msgid "Shapings"
@@ -7662,10 +7642,8 @@ msgid "No context currently associated!"
 msgstr "Ни одного контекста в настоящее время не связано!"
 
 #: weblate/templates/translate.html:579
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No labels currently set!"
-msgstr "Ни одного флага в настоящее время не установлено!"
+msgstr "Ни одной метки в настоящее время не установлено!"
 
 #: weblate/templates/translate.html:587
 msgid "Flags"
@@ -8045,10 +8023,8 @@ msgid "Strings with shapings"
 msgstr "Строки с фасонами"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with similar keys"
 msgid "Strings with labels"
-msgstr "Строки с похожими ключами"
+msgstr "Строки с метками"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8067,11 +8043,8 @@ msgid "Failed check: {}"
 msgstr "Неудачные проверки: {}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Shared: {}"
 msgid "Labeled: {}"
-msgstr "Совместный: {}"
+msgstr "С меткой: {}"
 
 #: weblate/trans/forms.py:151
 msgid "Invalid checksum specified!"
@@ -8090,10 +8063,8 @@ msgid "Query"
 msgstr "Запрос"
 
 #: weblate/trans/forms.py:177
-#, fuzzy
-#| msgid "Missing translated string!"
 msgid "Missing query string."
-msgstr "Нет переведённой строки!"
+msgstr "Строка запроса не задана."
 
 #: weblate/trans/forms.py:184
 msgid "Failed to parse query string: {}"
@@ -8549,34 +8520,24 @@ msgid "State to set"
 msgstr "Задаваемое состояние"
 
 #: weblate/trans/forms.py:1777
-#, fuzzy
-#| msgid "Download changes"
 msgid "Do not change"
-msgstr "Скачать изменения"
+msgstr "Не изменять"
 
 #: weblate/trans/forms.py:1779
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation flags to add"
-msgstr "Флаги перевода"
+msgstr "Добавляемые флаги перевода"
 
 #: weblate/trans/forms.py:1780
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation flags to remove"
-msgstr "Перевод был удален."
+msgstr "Удаляемые флаги перевода"
 
 #: weblate/trans/forms.py:1783
-#, fuzzy
-#| msgid "User to add"
 msgid "Labels to add"
-msgstr "Добавляемый пользователь"
+msgstr "Добавляемые метки"
 
 #: weblate/trans/forms.py:1789
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Labels to remove"
-msgstr "Предложение удалено"
+msgstr "Удаляемые метки"
 
 #: weblate/trans/forms.py:1814
 msgid "I accept the contributor agreement"
@@ -8614,10 +8575,8 @@ msgstr "Повторяющийся перевод."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:175
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated filemask."
-msgstr "Повторяющийся перевод."
+msgstr "Повторяющиеся маски файлов."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:186
@@ -9061,14 +9020,12 @@ msgstr ""
 "Возможные значения описаны в документации."
 
 #: weblate/trans/models/component.py:339
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced checks"
-msgstr "Игнорируемые проверки"
+msgstr "Принудительные проверки"
 
 #: weblate/trans/models/component.py:340
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "Список проверок, которые не могут быть проигнорированы."
 
 #: weblate/trans/models/component.py:358
 msgid ""
@@ -9398,71 +9355,67 @@ msgstr "Автоматические прикрепления списка ко�
 
 #: weblate/trans/models/label.py:38
 msgid "Navy"
-msgstr ""
+msgstr "Тёмно-синий"
 
 #: weblate/trans/models/label.py:39
 msgid "Blue"
-msgstr ""
+msgstr "Синий"
 
 #: weblate/trans/models/label.py:40
 msgid "Aqua"
-msgstr ""
+msgstr "Голубой"
 
 #: weblate/trans/models/label.py:41
 msgid "Teal"
-msgstr ""
+msgstr "Сине-зелёный"
 
 #: weblate/trans/models/label.py:42
 msgid "Olive"
-msgstr ""
+msgstr "Оливковый"
 
 #: weblate/trans/models/label.py:43
-#, fuzzy
-#| msgid "Greek"
 msgid "Green"
-msgstr "Греческий"
+msgstr "Зелёный"
 
 #: weblate/trans/models/label.py:44
 msgid "Lime"
-msgstr ""
+msgstr "Жёлто-зелёный"
 
 #: weblate/trans/models/label.py:45
 msgid "Yellow"
-msgstr ""
+msgstr "Жёлтый"
 
 #: weblate/trans/models/label.py:46
-#, fuzzy
-#| msgid "Change"
 msgid "Orange"
-msgstr "Изменение"
+msgstr "Оранжевый"
 
 #: weblate/trans/models/label.py:47
 msgid "Red"
-msgstr ""
+msgstr "Красный"
 
 #: weblate/trans/models/label.py:48
 msgid "Maroon"
-msgstr ""
+msgstr "Тёмно-бордовый"
 
 #: weblate/trans/models/label.py:49
 msgid "Fuchsia"
-msgstr ""
+msgstr "Фуксия"
 
 #: weblate/trans/models/label.py:50
 msgid "Purple"
-msgstr ""
+msgstr "Фиолетовый"
 
 #: weblate/trans/models/label.py:51
 msgid "Black"
-msgstr ""
+msgstr "Чёрный"
 
 #: weblate/trans/models/label.py:52
 msgid "Gray"
-msgstr ""
+msgstr "Серый"
 
 #: weblate/trans/models/label.py:53
 msgid "Silver"
-msgstr ""
+msgstr "Серебряный"
 
 #: weblate/trans/models/project.py:79
 msgid "Main website of translated project."
@@ -10205,10 +10158,8 @@ msgid "Translation comment has been deleted."
 msgstr "Комментарий к переводу был удален."
 
 #: weblate/trans/views/edit.py:618
-#, fuzzy
-#| msgid "Translation component has been removed."
 msgid "Translation comment has been resolved."
-msgstr "Переводимый компонент был удален."
+msgstr "Проблема из комментария к переводу была решена."
 
 #: weblate/trans/views/edit.py:765
 msgid "Translation with this key seem to already exist!"
@@ -10377,20 +10328,16 @@ msgid "Invalid search query!"
 msgstr "Неверный поисковый запрос!"
 
 #: weblate/trans/views/search.py:242
-#, fuzzy
-#| msgid "Bulk status change completed, no strings were updated."
 msgid "Bulk edit completed, no strings were updated."
-msgstr "Массовая смена статуса завершена, строки не были обновлены."
+msgstr "Массовая правка завершена, ни одна строка не была обновлена."
 
 #: weblate/trans/views/search.py:244
-#, fuzzy, python-format
-#| msgid "Bulk status change completed, %d string was updated."
-#| msgid_plural "Bulk status change completed, %d strings were updated."
+#, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Массовая смена статуса завершена, %d строка была обновлена."
-msgstr[1] "Массовая смена статуса завершена, %d строки были обновлены."
-msgstr[2] "Массовая смена статуса завершена, %d строк были обновлены."
+msgstr[0] "Массовая правка завершена, %d строка была обновлена."
+msgstr[1] "Массовая правка завершена, %d строки были обновлены."
+msgstr[2] "Массовая правка завершена, %d строк были обновлены."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
@@ -10458,10 +10405,8 @@ msgid "Forbidden URL scheme!"
 msgstr "Запрещено спецификацией «URL scheme»!"
 
 #: weblate/utils/search.py:115
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported state: {}"
-msgstr "Неподдерживаемый формат файла: {0}"
+msgstr "Неподдерживаемое состояние: {0}"
 
 #: weblate/utils/search.py:299
 msgid "Invalid regular expression: {}"
