@@ -71,11 +71,6 @@ def perform_update(cls, pk, auto=False):
             obj.do_update()
         elif settings.AUTO_UPDATE in ("remote", False):
             obj.update_remote_branch()
-        elif settings.AUTO_UPDATE == "none":
-            pass
-        else:
-            # TODO: raise some warning error.
-            pass
     except FileParseError:
         # This is stored as alert, so we can silently ignore here
         return
@@ -232,8 +227,14 @@ def cleanup_suggestions():
 def update_remotes():
     """Update all remote branches (without attempt to merge)."""
     non_linked = Component.objects.with_repo()
-    for component in non_linked.iterator():
-        perform_update.delay("Component", component.pk, auto=True)
+    if settings.AUTO_UPDATE == "none":
+        pass
+    elif settings.AUTO_UPDATE not in ("none", "full", "remote", True, False):
+        # some warning
+        pass
+    else:
+        for component in non_linked.iterator():
+            perform_update.delay("Component", component.pk, auto=True)
 
 
 @app.task(trail=False)

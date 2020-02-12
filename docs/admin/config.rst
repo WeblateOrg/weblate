@@ -85,9 +85,9 @@ do not use :ref:`hooks` to update Weblate repositories automatically.
     There are both boolean options or string due to backwards compatibility.
 
 Options are:
-* `"none"` - no daily updates
-* `"remote"` also `False` - update remotes only
-* `"full"` also `True` - update remotes and merge working copy
+* ``"none"`` - no daily updates
+* ``"remote"`` also ``False`` - update remotes only
+* ``"full"`` also ``True`` - update remotes and merge working copy
 
 .. note::
 
