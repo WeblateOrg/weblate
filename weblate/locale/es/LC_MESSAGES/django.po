@@ -9,13 +9,14 @@
 # anonymous <noreply@weblate.org>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019.
 # Andrés S <andres.segovia.dev@gmail.com>, 2019.
+# Jorge Ruiz Calpe <loquiyoz@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-12 10:36+0000\n"
-"PO-Revision-Date: 2020-02-11 21:30+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2020-02-14 03:18+0000\n"
+"Last-Translator: Jorge Ruiz Calpe <loquiyoz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
 "Language: es\n"
@@ -1974,14 +1975,12 @@ msgstr ""
 
 #: weblate/checks/chars.py:334
 msgid "Newline charater count mismatch"
-msgstr ""
+msgstr "No coinciden los caracteres de salto de linea"
 
 #: weblate/checks/chars.py:335
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
 msgstr ""
-"La cantidad de \\n en la traducción no corresponde con la cantidad en el "
+"La cantidad de lineas nuevas en la traducción no corresponde con la del "
 "original"
 
 #: weblate/checks/chars.py:343 weblate/trans/autofixes/chars.py:45
@@ -2763,12 +2762,9 @@ msgid "Unknown"
 msgstr "Desconocidos"
 
 #: weblate/lang/models.py:487
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr "Uno/dos/pocos/muchos/otro"
+msgstr "Cero/uno/dos/pocos/muchos/otro"
 
 #: weblate/lang/models.py:495
 msgid "Plural definition source"
@@ -5790,10 +5786,8 @@ msgid "No matching activity found."
 msgstr "No se encontró la actividad buscada."
 
 #: weblate/templates/list-comments.html:13
-#, fuzzy
-#| msgid "Create component"
 msgid "Resolved comment"
-msgstr "Crear componente"
+msgstr "Comentario de la resolución"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -6117,8 +6111,8 @@ msgstr ""
 #, python-format
 msgid "The confirmation URL will expire after %(count)s hour."
 msgid_plural "The confirmation URL will expire after %(count)s hours."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "La URL de confirmación caducará en %(count)s hora."
+msgstr[1] "La URL de confirmación caducará en %(count)s horas."
 
 #: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
@@ -6170,10 +6164,8 @@ msgid "Not yet logged in"
 msgstr "Aún no ha accedido a su cuenta"
 
 #: weblate/templates/manage-access.html:53
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend invitation"
-msgstr "Administración"
+msgstr "Reenviar invitación"
 
 #: weblate/templates/manage-access.html:64
 msgid ""
@@ -7111,26 +7103,16 @@ msgstr ""
 "servicio, pero se recomienda que lo suba de categoría."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some linked components have the same filemask."
-msgstr "Algún componente de este proyecto tiene alertas."
+msgstr "Algún componente enlazado tiene el mismo filtro de ficheros."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of them."
-msgstr ""
-"Arregle esto quitando una de las cadenas duplicadas de los archivos de "
-"traducción."
+msgstr "Arregle esto quitando uno de ellos."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following filemasks were found multiple times:"
-msgstr "Se han encontrado las siguientes ocurrencias:"
+msgstr "Se encontraros los siguientes filtros varias veces:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
 msgid ""
@@ -7141,14 +7123,8 @@ msgstr ""
 "idioma en Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of the translation files."
-msgstr ""
-"Arregle esto quitando una de las cadenas duplicadas de los archivos de "
-"traducción."
+msgstr "Arregle esto quitando uno de los ficheros de traducción."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
 msgid "Please consider following steps:"
