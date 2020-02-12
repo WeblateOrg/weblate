@@ -67,11 +67,15 @@ def perform_update(cls, pk, auto=False):
             obj = Project.objects.get(pk=pk)
         else:
             obj = Component.objects.get(pk=pk)
-
-        if not auto or settings.AUTO_UPDATE:
+        if settings.AUTO_UPDATE in ("full", True) or auto:
             obj.do_update()
-        else:
+        elif settings.AUTO_UPDATE in ("remote", False):
             obj.update_remote_branch()
+        elif settings.AUTO_UPDATE == "none":
+            pass
+        else:
+            # TODO: raise some warning error.
+            pass
     except FileParseError:
         # This is stored as alert, so we can silently ignore here
         return
