@@ -7,5 +7,5 @@
 {% endfor %}
 
 {% if component.license and component.license != "proprietary" %}
-<span title="{{ component.license }}" class="license badge">{{ component.license_badge }}</span>
+<span title="{{ component.get_license_display }}" class="license badge">{{ component.license_badge }}</span>
 {% endif %}

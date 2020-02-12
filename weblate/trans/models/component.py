@@ -2045,7 +2045,8 @@ class Component(models.Model, URLMixin, PathMixin):
 
     @property
     def license_badge(self):
-        return self.license.split('-')[0]
+        """Simplified license short name to be used in badge."""
+        return self.license.replace("-or-later", "").replace("-only", "")
 
     def post_create(self, user):
         from weblate.trans.models import Change
