@@ -887,8 +887,7 @@ class SuggestionView(ListView):
             user = get_object_or_404(User, username=self.kwargs['user'])
         allowed_projects = self.request.user.allowed_projects
         return Suggestion.objects.filter(
-            user=user,
-            unit__translation__component__project__in=allowed_projects
+            user=user, unit__translation__component__project__in=allowed_projects
         ).order()
 
     def get_context_data(self):
