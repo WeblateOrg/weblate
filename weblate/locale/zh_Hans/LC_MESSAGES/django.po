@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-12 10:36+0000\n"
-"PO-Revision-Date: 2020-02-12 05:46+0000\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"PO-Revision-Date: 2020-02-14 03:18+0000\n"
+"Last-Translator: Changpeng Sun <zzjbcn@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -858,14 +858,12 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:65
 #: weblate/templates/snippets/project-nav.html:75
 #: weblate/templates/translation.html:69 weblate/templates/translation.html:275
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "完整编辑器"
+msgstr "批量编辑"
 
 #: weblate/addons/flags.py:100
 msgid "This addon allow to bulk edit flags, labels or state."
-msgstr ""
+msgstr "这个插件允许批量编辑标志、标签或状态。"
 
 #: weblate/addons/forms.py:55
 msgid "Path of generated MO file"
@@ -1899,13 +1897,11 @@ msgstr "译文中的 \\n 数量和原文不一致"
 
 #: weblate/checks/chars.py:334
 msgid "Newline charater count mismatch"
-msgstr ""
+msgstr "换行符数量不匹配"
 
 #: weblate/checks/chars.py:335
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
-msgstr "译文中的 \\n 数量和原文不一致"
+msgstr "译文中的换行数量和原文不一致"
 
 #: weblate/checks/chars.py:343 weblate/trans/autofixes/chars.py:45
 msgid "Zero-width space"
@@ -2675,12 +2671,9 @@ msgid "Unknown"
 msgstr "未知"
 
 #: weblate/lang/models.py:487
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr "一/二/几/多/其他"
+msgstr "零/一/二/少/多/其他"
 
 #: weblate/lang/models.py:495
 msgid "Plural definition source"
@@ -5531,10 +5524,8 @@ msgid "No matching activity found."
 msgstr "未找到匹配的活动。"
 
 #: weblate/templates/list-comments.html:13
-#, fuzzy
-#| msgid "Removed component"
 msgid "Resolved comment"
-msgstr "组件已删除"
+msgstr "已解决的评论"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -5547,10 +5538,8 @@ msgid "Translation comment"
 msgstr "翻译注释"
 
 #: weblate/templates/list-comments.html:29
-#, fuzzy
-#| msgid "source"
 msgid "Resolve"
-msgstr "源条目"
+msgstr "解决"
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -5841,7 +5830,7 @@ msgstr ""
 #, python-format
 msgid "The confirmation URL will expire after %(count)s hour."
 msgid_plural "The confirmation URL will expire after %(count)s hours."
-msgstr[0] ""
+msgstr[0] "确认 URL 将在 %(count)s 小时后过期。"
 
 #: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
@@ -5893,10 +5882,8 @@ msgid "Not yet logged in"
 msgstr "尚未登录"
 
 #: weblate/templates/manage-access.html:53
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend invitation"
-msgstr "管理"
+msgstr "重新发送邀请"
 
 #: weblate/templates/manage-access.html:64
 msgid ""
@@ -6299,29 +6286,23 @@ msgstr "需要编辑"
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/translate.html:574
 msgid "Labels"
-msgstr ""
+msgstr "标签"
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "编辑译文模版文件"
+msgstr "编辑标签"
 
 #: weblate/templates/project-labels.html:17 weblate/trans/models/label.py:33
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "语言名称"
+msgstr "标签名称"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:35
 msgid "Color"
-msgstr ""
+msgstr "颜色"
 
 #: weblate/templates/project-labels.html:37
-#, fuzzy
-#| msgid "Add language"
 msgid "Add label"
-msgstr "添加语言"
+msgstr "添加标签"
 
 #: weblate/templates/project.html:63
 msgid "Browse all project changes"
@@ -6690,7 +6671,7 @@ msgstr "带建议，已复核批准的字符串"
 
 #: weblate/templates/snippets/query-builder.html:99
 msgid "All untranslated strings added in the past month"
-msgstr ""
+msgstr "过去一个月添加的所有未翻译字符串"
 
 #: weblate/templates/snippets/suggestions.html:12
 #: weblate/trans/models/change.py:226
@@ -6793,24 +6774,16 @@ msgid ""
 msgstr "您已超出付费套餐的限额。您仍然可以使用该服务，但建议升级它。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some linked components have the same filemask."
-msgstr "此项目中的某些组件有警报。"
+msgstr "某些链接的组件具有相同的文件掩码。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of them."
-msgstr "请通过移除译文文件中一个重复的字符串来修复这个问题。"
+msgstr "请通过删除其中一个来解决此问题。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following filemasks were found multiple times:"
-msgstr "发现以下情况："
+msgstr "多次找到以下文件掩码："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
 msgid ""
@@ -6819,30 +6792,24 @@ msgid ""
 msgstr "该组件包含多个翻译文件，映射到 Weblate 中的同一语言。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of the translation files."
-msgstr "请通过移除译文文件中一个重复的字符串来修复这个问题。"
+msgstr "请通过删除其中一个翻译文件来解决此问题。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please confirm your logout."
 msgid "Please consider following steps:"
-msgstr "请确认您的登出。"
+msgstr "请考虑以下步骤："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Remove the translation file for the source language or change the source "
 "language in the project settings."
-msgstr ""
+msgstr "删除源语言的翻译文件或在项目设置中更改源语言。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
 "Avoid having translation files for both plain language code and code with "
 "default country (for example de and de_DE)."
-msgstr ""
+msgstr "避免同时具有普通语言代码和具有默认国家/地区代码的翻译文件（例如de和de_DE）。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -7354,10 +7321,8 @@ msgid "No context currently associated!"
 msgstr "目前没有关联任何内容！"
 
 #: weblate/templates/translate.html:579
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No labels currently set!"
-msgstr "目前未设置旗标！"
+msgstr "当前未设置标签！"
 
 #: weblate/templates/translate.html:587
 msgid "Flags"
@@ -7721,10 +7686,8 @@ msgid "Strings with shapings"
 msgstr "有变形的字符串"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with similar keys"
 msgid "Strings with labels"
-msgstr "具有相似键的字符串"
+msgstr "带标签的字符串"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -7743,11 +7706,8 @@ msgid "Failed check: {}"
 msgstr "未通过的检查：{}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Shared: {}"
 msgid "Labeled: {}"
-msgstr "分享：{}"
+msgstr "有标签：{}"
 
 #: weblate/trans/forms.py:151
 msgid "Invalid checksum specified!"
@@ -7766,10 +7726,8 @@ msgid "Query"
 msgstr "查询"
 
 #: weblate/trans/forms.py:177
-#, fuzzy
-#| msgid "Missing translated string!"
 msgid "Missing query string."
-msgstr "缺少已翻译字符串！"
+msgstr "缺少查询字符串。"
 
 #: weblate/trans/forms.py:184
 msgid "Failed to parse query string: {}"
@@ -8208,34 +8166,24 @@ msgid "State to set"
 msgstr "要设置的状态"
 
 #: weblate/trans/forms.py:1777
-#, fuzzy
-#| msgid "Download changes"
 msgid "Do not change"
-msgstr "下载改动"
+msgstr "不更改"
 
 #: weblate/trans/forms.py:1779
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation flags to add"
-msgstr "翻译标记"
+msgstr "要添加的翻译标记"
 
 #: weblate/trans/forms.py:1780
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation flags to remove"
-msgstr "翻译已移除。"
+msgstr "要删除的翻译标记"
 
 #: weblate/trans/forms.py:1783
-#, fuzzy
-#| msgid "User to add"
 msgid "Labels to add"
-msgstr "要添加的用户"
+msgstr "要添加的标签"
 
 #: weblate/trans/forms.py:1789
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Labels to remove"
-msgstr "建议已移除"
+msgstr "要删除的标签"
 
 #: weblate/trans/forms.py:1814
 msgid "I accept the contributor agreement"
@@ -8271,10 +8219,8 @@ msgstr "重复译文。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:175
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated filemask."
-msgstr "重复译文。"
+msgstr "重复的文件掩码。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:186
@@ -8706,14 +8652,12 @@ msgid ""
 msgstr "用逗号分割的标记会影响品质检查，请参阅文档以观其详。"
 
 #: weblate/trans/models/component.py:339
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced checks"
-msgstr "已忽略检查"
+msgstr "强制检查"
 
 #: weblate/trans/models/component.py:340
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "不能忽略的检查列表。"
 
 #: weblate/trans/models/component.py:358
 msgid ""
@@ -9007,86 +8951,82 @@ msgstr "自动分配组件列表"
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:39
 msgid "Navy"
-msgstr ""
+msgstr "海军蓝"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:41
 msgid "Blue"
-msgstr ""
+msgstr "蓝色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:43
 msgid "Aqua"
-msgstr ""
+msgstr "青色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:45
 msgid "Teal"
-msgstr ""
+msgstr "蓝绿色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:47
 msgid "Olive"
-msgstr ""
+msgstr "橄榄色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:49
-#, fuzzy
-#| msgid "Greek"
 msgid "Green"
-msgstr "希腊语（ελληνικά）"
+msgstr "绿色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:51
 msgid "Lime"
-msgstr ""
+msgstr "亮绿色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:53
 msgid "Yellow"
-msgstr ""
+msgstr "黄色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:55
-#, fuzzy
-#| msgid "Change"
 msgid "Orange"
-msgstr "修改"
+msgstr "橙色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:57
 msgid "Red"
-msgstr ""
+msgstr "红色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:59
 msgid "Maroon"
-msgstr ""
+msgstr "褐红色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:61
 msgid "Fuchsia"
-msgstr ""
+msgstr "紫红色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:63
 msgid "Purple"
-msgstr ""
+msgstr "紫色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:65
 msgid "Black"
-msgstr ""
+msgstr "黑色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:67
 msgid "Gray"
-msgstr ""
+msgstr "灰色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:69
 msgid "Silver"
-msgstr ""
+msgstr "银色"
 
 #: weblate/trans/models/project.py:79
 msgid "Main website of translated project."
@@ -9784,10 +9724,8 @@ msgid "Translation comment has been deleted."
 msgstr "翻译评论已删除。"
 
 #: weblate/trans/views/edit.py:618
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translation comment has been resolved."
-msgstr "翻译评论已删除。"
+msgstr "翻译评论已解决。"
 
 #: weblate/trans/views/edit.py:765
 msgid "Translation with this key seem to already exist!"
@@ -9940,18 +9878,14 @@ msgid "Invalid search query!"
 msgstr "无效的搜索请求！"
 
 #: weblate/trans/views/search.py:242
-#, fuzzy
-#| msgid "Bulk status change completed, no strings were updated."
 msgid "Bulk edit completed, no strings were updated."
-msgstr "批量状态更改已完成，未更新任何字符串。"
+msgstr "批量编辑已完成，未更新任何字符串。"
 
 #: weblate/trans/views/search.py:244
-#, fuzzy, python-format
-#| msgid "Bulk status change completed, %d string was updated."
-#| msgid_plural "Bulk status change completed, %d strings were updated."
+#, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "批量状态更改已完成，已更新 %d 个字符串。"
+msgstr[0] "批量编辑已完成，已更新 %d 个字符串。"
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
