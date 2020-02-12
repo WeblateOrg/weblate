@@ -1530,7 +1530,6 @@ $(function () {
         $button.find('span.search-label').text($this.text());
     });
     $('.search-group input').on('keydown', function (event) {
-        console.log(event, event.key, event.keyCode);
         if (event.key === "Enter") {
             $(this).closest('.input-group').find('.search-add').click();
             event.preventDefault();
