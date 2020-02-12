@@ -33,8 +33,7 @@ from weblate.utils.html import extract_bleach
 from weblate.utils.xml import parse_xml
 
 BBCODE_MATCH = re.compile(
-    r'(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])',
-    re.MULTILINE
+    r'(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])', re.MULTILINE
 )
 
 MD_LINK = re.compile(
@@ -45,22 +44,22 @@ MD_LINK = re.compile(
     r'\)'
 )
 MD_REFLINK = re.compile(
-    r'!?\[('
-    r'(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*'
-    r')\]\s*\[([^^\]]*)\]'
+    r'!?\[('  # leading [
+    r'(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*'  # link text
+    r')\]\s*\[([^^\]]*)\]'  # trailing ] with optional target
 )
 MD_SYNTAX = re.compile(
-    r'(_{2})(?:[\s\S]+?)_{2}(?!_)'        # __word__
+    r'(_{2})(?:[\s\S]+?)_{2}(?!_)'  # __word__
     r'|'
-    r'(\*{2})(?:[\s\S]+?)\*{2}(?!\*)'     # **word**
+    r'(\*{2})(?:[\s\S]+?)\*{2}(?!\*)'  # **word**
     r'|'
-    r'\b(_)(?:(?:__|[^_])+?)_\b'          # _word_
+    r'\b(_)(?:(?:__|[^_])+?)_\b'  # _word_
     r'|'
-    r'(\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)'   # *word*
+    r'(\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)'  # *word*
     r'|'
     r'(`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)'  # `code`
     r'|'
-    r'(~~)(?=\S)(?:[\s\S]*?\S)~~'         # ~~word~~
+    r'(~~)(?=\S)(?:[\s\S]*?\S)~~'  # ~~word~~
 )
 
 XML_MATCH = re.compile(r'<[^>]+>')
@@ -74,6 +73,7 @@ def strip_entities(text):
 
 class BBCodeCheck(TargetCheck):
     """Check for matching bbcode tags."""
+
     check_id = 'bbcode'
     name = _('BBcode markup')
     description = _('BBcode in translation does not match source')
@@ -101,11 +101,7 @@ class BBCodeCheck(TargetCheck):
         ret = []
         for match in BBCODE_MATCH.finditer(source):
             for tag in ('start', 'end'):
-                ret.append((
-                    match.start(tag),
-                    match.end(tag),
-                    match.group(tag)
-                ))
+                ret.append((match.start(tag), match.end(tag), match.group(tag)))
         return ret
 
 
@@ -137,6 +133,7 @@ class BaseXMLCheck(TargetCheck):
 
 class XMLValidityCheck(BaseXMLCheck):
     """Check whether XML in target is valid."""
+
     check_id = 'xml-invalid'
     name = _('XML syntax')
     description = _('The translation is not valid XML')
@@ -165,6 +162,7 @@ class XMLValidityCheck(BaseXMLCheck):
 
 class XMLTagsCheck(BaseXMLCheck):
     """Check whether XML in target matches source."""
+
     check_id = 'xml-tags'
     name = _('XML markup')
     description = _('XML tags in translation do not match source')

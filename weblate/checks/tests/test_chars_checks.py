@@ -237,23 +237,15 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
 class MaxLengthCheckTest(TestCase):
     def setUp(self):
         self.check = MaxLengthCheck()
-        self.test_good_matching = (
-            'strings',
-            'less than 21',
-            'max-length:12'
-        )
-        self.test_good_matching_unicode = (
-            'strings',
-            'less than 21',
-            'max-length:12'
-        )
+        self.test_good_matching = ('strings', 'less than 21', 'max-length:12')
+        self.test_good_matching_unicode = ('strings', 'less than 21', 'max-length:12')
 
     def test_check(self):
         self.assertFalse(
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags=self.test_good_matching[2])
+                MockUnit(flags=self.test_good_matching[2]),
             )
         )
 
@@ -262,7 +254,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
-                MockUnit(flags=self.test_good_matching_unicode[2])
+                MockUnit(flags=self.test_good_matching_unicode[2]),
             )
         )
 
@@ -271,7 +263,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags='max-length:10')
+                MockUnit(flags='max-length:10'),
             )
         )
 
@@ -280,7 +272,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
-                MockUnit(flags='max-length:10')
+                MockUnit(flags='max-length:10'),
             )
         )
 
