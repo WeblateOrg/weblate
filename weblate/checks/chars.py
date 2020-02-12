@@ -327,10 +327,10 @@ class EscapedNewlineCountingCheck(CountingCheck):
 
 
 class NewLineCountCheck(CountingCheck):
-    r"""Check whether there is same amount of new lines"""
+    r"""Check whether the amount of newlines matches"""
     string = '\n'
     check_id = 'newline-count'
-    name = _('Newline charater count mismatch')
+    name = _('Mismatching newline character count')
     description = _('Number of new lines in translation does not match source')
     severity = 'warning'
 
