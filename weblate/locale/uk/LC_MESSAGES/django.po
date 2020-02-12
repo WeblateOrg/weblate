@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-02-12 09:20+0000\n"
+"POT-Creation-Date: 2020-02-12 10:36+0000\n"
 "PO-Revision-Date: 2020-02-12 10:36+0000\n"
 "Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -22,8 +22,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -778,12 +778,12 @@ msgstr ""
 "Посилання про зміну сповіщень більше не діє, увійдіть в устрій, щоб "
 "налаштувати сповіщення."
 
-#: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:63
+#: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:63
 #: weblate/templates/translation.html:236 weblate/trans/models/change.py:227
 msgid "Automatic translation"
 msgstr "Самочинний переклад"
 
-#: weblate/addons/autotranslate.py:36
+#: weblate/addons/autotranslate.py:37
 msgid ""
 "This addon automatically translates strings using machine translation or "
 "other components."
@@ -1950,43 +1950,53 @@ msgstr "Не збіглися \\n"
 msgid "Number of \\n in translation does not match source"
 msgstr "Число \\n у перекладі не відповідає оригіналу"
 
-#: weblate/checks/chars.py:334 weblate/trans/autofixes/chars.py:45
+#: weblate/checks/chars.py:334
+msgid "Newline charater count mismatch"
+msgstr ""
+
+#: weblate/checks/chars.py:335
+#, fuzzy
+#| msgid "Number of \\n in translation does not match source"
+msgid "Number of new lines in translation does not match source"
+msgstr "Число \\n у перекладі не відповідає оригіналу"
+
+#: weblate/checks/chars.py:343 weblate/trans/autofixes/chars.py:45
 msgid "Zero-width space"
 msgstr "Простір нульової ширини"
 
-#: weblate/checks/chars.py:335
+#: weblate/checks/chars.py:344
 msgid "Translation contains extra zero-width space character"
 msgstr "Переклад містить зайві символи пропуску нульової ширини"
 
-#: weblate/checks/chars.py:351 weblate/checks/flags.py:59
+#: weblate/checks/chars.py:360 weblate/checks/flags.py:59
 msgid "Maximum length of translation"
 msgstr "Максимальна довжина перекладу"
 
-#: weblate/checks/chars.py:352
+#: weblate/checks/chars.py:361
 msgid "Translation should not exceed given length"
 msgstr "Переклад не перевищує заданої довжини"
 
-#: weblate/checks/chars.py:365
+#: weblate/checks/chars.py:374
 msgid "Trailing semicolon"
 msgstr "Кінцева крапка з комою"
 
-#: weblate/checks/chars.py:366
+#: weblate/checks/chars.py:375
 msgid "Source and translation do not both end with a semicolon"
 msgstr "Джерело і переклад не завершуються крапкою з комою"
 
-#: weblate/checks/chars.py:378
+#: weblate/checks/chars.py:387
 msgid "Kashida used"
 msgstr "Використовується кашида"
 
-#: weblate/checks/chars.py:379
+#: weblate/checks/chars.py:388
 msgid "The decorative kashida letters should not be used"
 msgstr "Декоративні букви кашиди не повинні використовуватися"
 
-#: weblate/checks/chars.py:391
+#: weblate/checks/chars.py:400
 msgid "Punctuation spacing"
 msgstr "Щільність знаків"
 
-#: weblate/checks/chars.py:392
+#: weblate/checks/chars.py:401
 msgid "Missing non breakable space before double punctuation sign"
 msgstr "Пропущений нерозривний пробіл перед подвійним знаком пунктуації"
 
@@ -2567,60 +2577,60 @@ msgstr "Файли метаданих крамниці застосунків"
 msgid "Weblate languages"
 msgstr "Weblate мови"
 
-#: weblate/lang/data.py:165
+#: weblate/lang/data.py:173
 msgctxt "Plural form description"
 msgid "Singular"
 msgstr "Однина"
 
-#: weblate/lang/data.py:166
+#: weblate/lang/data.py:174
 msgctxt "Plural form description"
 msgid "Plural"
 msgstr "Множина"
 
-#: weblate/lang/data.py:169 weblate/lang/data.py:175 weblate/lang/data.py:183
-#: weblate/lang/data.py:187 weblate/lang/data.py:192 weblate/lang/data.py:197
-#: weblate/lang/data.py:203 weblate/lang/data.py:210 weblate/lang/data.py:215
-#: weblate/lang/data.py:220 weblate/lang/data.py:226 weblate/lang/data.py:238
+#: weblate/lang/data.py:177 weblate/lang/data.py:183 weblate/lang/data.py:191
+#: weblate/lang/data.py:195 weblate/lang/data.py:200 weblate/lang/data.py:205
+#: weblate/lang/data.py:211 weblate/lang/data.py:218 weblate/lang/data.py:223
+#: weblate/lang/data.py:228 weblate/lang/data.py:234 weblate/lang/data.py:246
 msgctxt "Plural form description"
 msgid "One"
 msgstr "Однина"
 
-#: weblate/lang/data.py:170 weblate/lang/data.py:177 weblate/lang/data.py:205
-#: weblate/lang/data.py:212 weblate/lang/data.py:221 weblate/lang/data.py:228
-#: weblate/lang/data.py:240
+#: weblate/lang/data.py:178 weblate/lang/data.py:185 weblate/lang/data.py:213
+#: weblate/lang/data.py:220 weblate/lang/data.py:229 weblate/lang/data.py:236
+#: weblate/lang/data.py:248
 msgctxt "Plural form description"
 msgid "Few"
 msgstr "Декілька"
 
-#: weblate/lang/data.py:171 weblate/lang/data.py:179 weblate/lang/data.py:184
-#: weblate/lang/data.py:189 weblate/lang/data.py:193 weblate/lang/data.py:200
-#: weblate/lang/data.py:206 weblate/lang/data.py:209 weblate/lang/data.py:216
-#: weblate/lang/data.py:223 weblate/lang/data.py:230 weblate/lang/data.py:234
-#: weblate/lang/data.py:242
+#: weblate/lang/data.py:179 weblate/lang/data.py:187 weblate/lang/data.py:192
+#: weblate/lang/data.py:197 weblate/lang/data.py:201 weblate/lang/data.py:208
+#: weblate/lang/data.py:214 weblate/lang/data.py:217 weblate/lang/data.py:224
+#: weblate/lang/data.py:231 weblate/lang/data.py:238 weblate/lang/data.py:242
+#: weblate/lang/data.py:250
 msgctxt "Plural form description"
 msgid "Other"
 msgstr "Інше"
 
-#: weblate/lang/data.py:174 weblate/lang/data.py:182 weblate/lang/data.py:217
-#: weblate/lang/data.py:237
+#: weblate/lang/data.py:182 weblate/lang/data.py:190 weblate/lang/data.py:225
+#: weblate/lang/data.py:245
 msgctxt "Plural form description"
 msgid "Zero"
 msgstr "Нуль"
 
-#: weblate/lang/data.py:176 weblate/lang/data.py:188 weblate/lang/data.py:194
-#: weblate/lang/data.py:198 weblate/lang/data.py:204 weblate/lang/data.py:211
-#: weblate/lang/data.py:227 weblate/lang/data.py:233 weblate/lang/data.py:239
+#: weblate/lang/data.py:184 weblate/lang/data.py:196 weblate/lang/data.py:202
+#: weblate/lang/data.py:206 weblate/lang/data.py:212 weblate/lang/data.py:219
+#: weblate/lang/data.py:235 weblate/lang/data.py:241 weblate/lang/data.py:247
 msgctxt "Plural form description"
 msgid "Two"
 msgstr "Два"
 
-#: weblate/lang/data.py:178 weblate/lang/data.py:222 weblate/lang/data.py:229
-#: weblate/lang/data.py:241
+#: weblate/lang/data.py:186 weblate/lang/data.py:230 weblate/lang/data.py:237
+#: weblate/lang/data.py:249
 msgctxt "Plural form description"
 msgid "Many"
 msgstr "Багато"
 
-#: weblate/lang/data.py:199
+#: weblate/lang/data.py:207
 msgctxt "Plural form description"
 msgid "Three"
 msgstr "Три"
@@ -2722,9 +2732,12 @@ msgid "Unknown"
 msgstr "Невідомо"
 
 #: weblate/lang/models.py:487
+#, fuzzy
+#| msgctxt "Plural type"
+#| msgid "One/two/few/many/other"
 msgctxt "Plural type"
-msgid "Zero/one/two/three/six/other"
-msgstr "Нуль/один/два/три/шість/інше"
+msgid "Zero/one/two/few/many/other"
+msgstr "Один/два/декілька/багато/інше"
 
 #: weblate/lang/models.py:495
 msgid "Plural definition source"
@@ -10651,6 +10664,10 @@ msgstr "Процес резервного копіювання запустив�
 #: weblate/wladmin/views.py:182
 msgid "Could not dismiss the configuration error!"
 msgstr "Не вдалося відхилити помилку конфігурації!"
+
+#~ msgctxt "Plural type"
+#~ msgid "Zero/one/two/three/six/other"
+#~ msgstr "Нуль/один/два/три/шість/інше"
 
 #~ msgid ""
 #~ "Weblate does not support Microsoft Internet Explorer 8 and older, please "
