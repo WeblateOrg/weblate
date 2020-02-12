@@ -122,6 +122,13 @@ EXTRAPLURALS = (
         "kw",
         # Translators: Language name, ISO code: kw
         _("Cornish"),
+        3,
+        "(n == 1) ? 0 : ((n == 2) ? 1 : 2)",
+    ),
+    (
+        "kw",
+        # Translators: Language name, ISO code: kw
+        _("Cornish"),
         4,
         "(n==1) ? 0 : (n==2) ? 1 : (n == 3) ? 2 : 3",
     ),
@@ -166,5 +173,12 @@ EXTRAPLURALS = (
         _("Slovenian"),
         4,
         "(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0)",
+    ),
+    (
+        "ro_MD",
+        # Translators: Language name, ISO code: ro_MD
+        _("Moldavian"),
+        3,
+        "(n == 1) ? 0 : ((n == 0 || n != 1 && n % 100 >= 1 && n % 100 <= 19) ? 1 : 2)",
     ),
 )
