@@ -317,13 +317,22 @@ class EndEllipsisCheck(TargetCheck):
         return self.check_chars(source, target, -1, ('…',))
 
 
-class NewlineCountingCheck(CountingCheck):
-    r"""Check whether there is same amount of \n strings."""
+class EscapedNewlineCountingCheck(CountingCheck):
+    r"""Check whether there is same amount of escaped \n strings."""
 
     string = '\\n'
     check_id = 'escaped_newline'
     name = _('Mismatched \\n')
     description = _('Number of \\n in translation does not match source')
+    severity = 'warning'
+
+
+class NewLineCountCheck(CountingCheck):
+    r"""Check whether there is same amount of new lines"""
+    string = '\n'
+    check_id = 'newline-count'
+    name = _('Newline charater count mismatch')
+    description = _('Number of new lines in translation does not match source')
     severity = 'warning'
 
 
