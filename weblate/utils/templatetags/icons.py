@@ -28,7 +28,6 @@ from django.utils.safestring import mark_safe
 
 from weblate.logger import LOGGER
 
-
 register = template.Library()
 
 CACHE = {}
@@ -50,7 +49,7 @@ def icon(name, fallback=None):
             with open(icon_file, "r") as handle:
                 CACHE[name] = mark_safe(handle.read())
         except OSError as e:
-            LOGGER.error(e)
+            LOGGER.error(str(e))
             return ""
 
     return CACHE[name]
