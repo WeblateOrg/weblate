@@ -23,36 +23,35 @@ Weblate
 .. image:: https://img.shields.io/readthedocs/weblate.svg 
     :target: https://docs.weblate.org/
 
-Weblate is a libre software web-based continuous localization system used by
-over 1150+ opensource projects & companies in over 115+ countries around the
-World.
+Weblate is a copylefted libre software web-based continuous localization system,
+used by over 1150 libre projects and companies in more than 115 countries.
 
-The Weblate is to be found at https://weblate.org/
+Install it, or use the Hosted Weblate service at https://weblate.org
 
 Documentation
 -------------
 
-Detailed documentation is available in the ``docs`` directory of the sources.
-
-The documentation can be also viewed online on https://docs.weblate.org/.
+To be found in the ``docs`` directory the source code, or
+viewed online on https://docs.weblate.org/
 
 Installation
 ------------
 
-Installation and setup instructions are provided in the manual, check
-the quick setup guide:
+Setup instructions:
 
 https://docs.weblate.org/en/latest/admin/quick.html
 
 Bugs
 ----
 
-Please report bugs to https://github.com/WeblateOrg/weblate/issues
+Please report feature requests and problems to:
+
+https://github.com/WeblateOrg/weblate/issues
 
 License
 -------
 
-Copyright © 2012 - 2020 Michal Čihař michal@cihar.com
+Copyright © 2012–2020 Michal Čihař michal@cihar.com
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
