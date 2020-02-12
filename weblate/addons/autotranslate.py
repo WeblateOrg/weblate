@@ -20,6 +20,7 @@
 
 from __future__ import unicode_literals
 
+from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 
 from weblate.addons.base import BaseAddon
@@ -47,4 +48,8 @@ class AutoTranslateAddon(BaseAddon):
         for translation in component.translation_set.iterator():
             if translation.is_source:
                 continue
-            auto_translate.delay(None, translation.pk, **self.instance.configuration)
+            transaction.on_commit(
+                lambda: auto_translate.delay(
+                    None, translation.pk, **self.instance.configuration
+                )
+            )
