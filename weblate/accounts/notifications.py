@@ -669,7 +669,9 @@ def get_notification_emails(
     context = context or {}
     headers = {}
 
-    LOGGER.info('sending notification %s on %s to %s', notification, info, ', '.join(recipients))
+    LOGGER.info(
+        'sending notification %s on %s to %s', notification, info, ', '.join(recipients)
+    )
 
     with override('en' if language is None else language):
         # Template name
