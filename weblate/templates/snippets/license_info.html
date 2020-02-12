@@ -6,7 +6,7 @@
 <th>{% trans "Translation license" %}</th>
 <td colspan="2">
 {% for dummy, items in license_list %}
-    <a href="{{ items.0.license_url }}">{{ items.0.get_license_display }}</a>
+    <span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.license_badge }}</span>
     {% for component in items %}
         <sup><a href="{{ component.get_absolute_url }}">{{ component.name }}</a></sup>
     {% endfor %}
