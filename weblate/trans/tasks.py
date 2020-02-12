@@ -67,9 +67,9 @@ def perform_update(cls, pk, auto=False):
             obj = Project.objects.get(pk=pk)
         else:
             obj = Component.objects.get(pk=pk)
-        if settings.AUTO_UPDATE in ("full", True) or auto:
+        if settings.AUTO_UPDATE in ("full", True) or not auto:
             obj.do_update()
-        elif settings.AUTO_UPDATE in ("remote", False):
+        else:
             obj.update_remote_branch()
     except FileParseError:
         # This is stored as alert, so we can silently ignore here
@@ -230,9 +230,9 @@ def update_remotes():
 
     if settings.AUTO_UPDATE not in ("full", "remote", True, False):
         return
-    else:
-        for component in non_linked.iterator():
-            perform_update.delay("Component", component.pk, auto=True)
+
+    for component in non_linked.iterator():
+        perform_update.delay("Component", component.pk, auto=True)
 
 
 @app.task(trail=False)
