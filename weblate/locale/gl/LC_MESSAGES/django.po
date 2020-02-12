@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-02-12 05:53+0000\n"
+"POT-Creation-Date: 2020-02-12 09:20+0000\n"
 "PO-Revision-Date: 2020-02-03 09:33+0000\n"
 "Last-Translator: Alexander Danilov <git@modos189.ru>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -3792,7 +3792,7 @@ msgstr ""
 "connosco."
 
 #: weblate/templates/accounts/email-sent.html:40
-#: weblate/templates/mail/shared-registration.html:22
+#: weblate/templates/mail/shared-registration.html:23
 msgid "Report an issue with registration"
 msgstr "Informar dun problema co rexistro"
 
@@ -4572,7 +4572,7 @@ msgstr "Confirmación do novo contrasinal"
 
 #: weblate/templates/base.html:178 weblate/templates/component.html:235
 #: weblate/templates/dictionary.html:100 weblate/templates/lang/create.html:16
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:124
 #: weblate/templates/snippets/query-builder.html:25
 #: weblate/templates/snippets/query-builder.html:42
@@ -4661,7 +4661,7 @@ msgid "Close"
 msgstr ""
 
 #: weblate/templates/billing-failure.html:10
-#: weblate/templates/manage-access.html:126
+#: weblate/templates/manage-access.html:135
 msgid "Check your billing status"
 msgstr "Comproba o estado do teu pagamento"
 
@@ -5088,7 +5088,7 @@ msgid "Add a component message"
 msgstr "Tódolos compoñentes"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
-#: weblate/templates/manage-access.html:101
+#: weblate/templates/manage-access.html:110
 #: weblate/templates/snippets/project-nav.html:109
 msgid "Users"
 msgstr "Usuarios"
@@ -6516,24 +6516,31 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/shared-registration.html:11
+#, python-format
+msgid "The confirmation URL will expire after %(count)s hour."
+msgid_plural "The confirmation URL will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: weblate/templates/mail/shared-registration.html:12
 #, fuzzy
 #| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Se hai algún problema co teu proceso do rexistro, contacta connosco:"
 
-#: weblate/templates/mail/shared-registration.html:16
+#: weblate/templates/mail/shared-registration.html:17
 #, fuzzy
 #| msgid "Password reset"
 msgid "Confirm password reset"
 msgstr "Restabelecer o contrasinal"
 
-#: weblate/templates/mail/shared-registration.html:18
+#: weblate/templates/mail/shared-registration.html:19
 #, fuzzy
 #| msgid "Account"
 msgid "Confirm account removal"
 msgstr "Conta"
 
-#: weblate/templates/mail/shared-registration.html:20
+#: weblate/templates/mail/shared-registration.html:21
 #, fuzzy
 #| msgid "User registration"
 msgid "Confirm registration"
@@ -6575,29 +6582,35 @@ msgstr "Último acceso á sesión"
 msgid "Not yet logged in"
 msgstr ""
 
-#: weblate/templates/manage-access.html:55
+#: weblate/templates/manage-access.html:53
+#, fuzzy
+#| msgid "Administration"
+msgid "Resend invitation"
+msgstr "Administración"
+
+#: weblate/templates/manage-access.html:64
 msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
 msgstr ""
 
-#: weblate/templates/manage-access.html:69
+#: weblate/templates/manage-access.html:78
 #, fuzzy
 #| msgid "Add new word"
 msgid "Add a user"
 msgstr "Engadir unha nova palabra"
 
-#: weblate/templates/manage-access.html:85
+#: weblate/templates/manage-access.html:94
 #, fuzzy
 #| msgid "Add new word"
 msgid "Invite new user"
 msgstr "Engadir unha nova palabra"
 
-#: weblate/templates/manage-access.html:91
+#: weblate/templates/manage-access.html:100
 msgid "Invite"
 msgstr ""
 
-#: weblate/templates/manage-access.html:104
+#: weblate/templates/manage-access.html:113
 #, fuzzy
 #| msgid ""
 #| "The user management in Weblate is disabled, you can change permissions in "
@@ -6609,15 +6622,15 @@ msgstr ""
 "A xestión de usuarios no Weblate está desactivada, podes mudar os permisos "
 "na interface de administración do Django."
 
-#: weblate/templates/manage-access.html:116
+#: weblate/templates/manage-access.html:125
 msgid "Project access control"
 msgstr "Control do acceso ó proxecto"
 
-#: weblate/templates/manage-access.html:123
+#: weblate/templates/manage-access.html:132
 msgid "Change"
 msgstr "Mudanza"
 
-#: weblate/templates/manage-access.html:128
+#: weblate/templates/manage-access.html:137
 #, fuzzy
 #| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to change project access control."
@@ -8566,7 +8579,7 @@ msgstr ""
 msgid "Trailing and leading whitespace"
 msgstr "Espazo no comezo e no remate"
 
-#: weblate/trans/context_processors.py:127
+#: weblate/trans/context_processors.py:128
 #, fuzzy
 #| msgid ""
 #| "This site runs <a href=\"%(weblate_url)s\">Weblate</a> for translating "
@@ -8578,7 +8591,7 @@ msgstr ""
 "dos proxectos de software que se listan a seguir. Cómpre que acceda para "
 "realizar traducións ou soamente poderá facer suxestión."
 
-#: weblate/trans/context_processors.py:130
+#: weblate/trans/context_processors.py:131
 #, fuzzy
 #| msgid "This site runs Weblate for translating various software projects."
 msgid "This site runs Weblate for localizing various software projects."
@@ -10803,31 +10816,31 @@ msgstr "Estatísticas do Weblate"
 msgid "Invalid parameters!"
 msgstr "Suxestión incorrecta!"
 
-#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:207
 msgid "You can not remove last owner!"
 msgstr ""
 
-#: weblate/trans/views/acl.py:142
+#: weblate/trans/views/acl.py:137
 msgid "User has been added to this project."
 msgstr ""
 
-#: weblate/trans/views/acl.py:146 weblate/trans/views/acl.py:188
+#: weblate/trans/views/acl.py:139 weblate/trans/views/acl.py:178
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to find group to add a user!"
 msgstr "Fallou ao procesar os %d ficheiros atopados!"
 
-#: weblate/trans/views/acl.py:184
+#: weblate/trans/views/acl.py:176 weblate/trans/views/acl.py:191
 #, fuzzy
 #| msgid "Billed projects"
 msgid "User has been invited to this project."
 msgstr "Proxectos de pagamentos"
 
-#: weblate/trans/views/acl.py:218
+#: weblate/trans/views/acl.py:216
 msgid "User has been removed from this project."
 msgstr ""
 
-#: weblate/trans/views/acl.py:250
+#: weblate/trans/views/acl.py:243
 msgid "Project access control has been changed."
 msgstr "O control de acceso ó proxecto mudou."
 

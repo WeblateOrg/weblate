@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-02-12 05:53+0000\n"
+"POT-Creation-Date: 2020-02-12 09:20+0000\n"
 "PO-Revision-Date: 2020-02-12 09:19+0000\n"
 "Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -22,8 +22,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.11-dev\n"
 
 #: weblate/accounts/avatar.py:122
@@ -3488,7 +3488,7 @@ msgstr ""
 "пройдіть реєстрацію заново. Якщо проблема не зникне зв'яжіться з нами."
 
 #: weblate/templates/accounts/email-sent.html:40
-#: weblate/templates/mail/shared-registration.html:22
+#: weblate/templates/mail/shared-registration.html:23
 msgid "Report an issue with registration"
 msgstr "Звіт про помилку з реєстрацією"
 
@@ -4241,7 +4241,7 @@ msgstr "Помилкові налаштування"
 
 #: weblate/templates/base.html:178 weblate/templates/component.html:235
 #: weblate/templates/dictionary.html:100 weblate/templates/lang/create.html:16
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:124
 #: weblate/templates/snippets/query-builder.html:25
 #: weblate/templates/snippets/query-builder.html:42
@@ -4330,7 +4330,7 @@ msgid "Close"
 msgstr "Закрити"
 
 #: weblate/templates/billing-failure.html:10
-#: weblate/templates/manage-access.html:126
+#: weblate/templates/manage-access.html:135
 msgid "Check your billing status"
 msgstr "Перевірте стан платежів"
 
@@ -4717,7 +4717,7 @@ msgid "Add a component message"
 msgstr "Додати повідомлення складника"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
-#: weblate/templates/manage-access.html:101
+#: weblate/templates/manage-access.html:110
 #: weblate/templates/snippets/project-nav.html:109
 msgid "Users"
 msgstr "Користувачі"
@@ -6056,18 +6056,26 @@ msgstr ""
 "веб-переглядача, щоб продовжити."
 
 #: weblate/templates/mail/shared-registration.html:11
+#, python-format
+msgid "The confirmation URL will expire after %(count)s hour."
+msgid_plural "The confirmation URL will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Якщо є проблеми з реєстрацією, будь ласка, зв'яжіться з нами."
 
-#: weblate/templates/mail/shared-registration.html:16
+#: weblate/templates/mail/shared-registration.html:17
 msgid "Confirm password reset"
 msgstr "Підтвердження скидання пароля"
 
-#: weblate/templates/mail/shared-registration.html:18
+#: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm account removal"
 msgstr "Підтвердження видалення облікового запису"
 
-#: weblate/templates/mail/shared-registration.html:20
+#: weblate/templates/mail/shared-registration.html:21
 msgid "Confirm registration"
 msgstr "Підтвердити реєстрацію"
 
@@ -6104,26 +6112,32 @@ msgstr "Останній вхід"
 msgid "Not yet logged in"
 msgstr "Ще не ввійшли в устрій"
 
-#: weblate/templates/manage-access.html:55
+#: weblate/templates/manage-access.html:53
+#, fuzzy
+#| msgid "Administration"
+msgid "Resend invitation"
+msgstr "Управління"
+
+#: weblate/templates/manage-access.html:64
 msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
 msgstr ""
 "Як тільки всі дозволи видалитимуться, користувача буде видалено з проєкту."
 
-#: weblate/templates/manage-access.html:69
+#: weblate/templates/manage-access.html:78
 msgid "Add a user"
 msgstr "Додати користувача"
 
-#: weblate/templates/manage-access.html:85
+#: weblate/templates/manage-access.html:94
 msgid "Invite new user"
 msgstr "Запросити нового користувача"
 
-#: weblate/templates/manage-access.html:91
+#: weblate/templates/manage-access.html:100
 msgid "Invite"
 msgstr "Запросити"
 
-#: weblate/templates/manage-access.html:104
+#: weblate/templates/manage-access.html:113
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
@@ -6131,15 +6145,15 @@ msgstr ""
 "Керування користувачами вимкнено у Weblate. Ви можете змінити права доступу "
 "через інтерфейс управління Django."
 
-#: weblate/templates/manage-access.html:116
+#: weblate/templates/manage-access.html:125
 msgid "Project access control"
 msgstr "Управління доступом до проєкту"
 
-#: weblate/templates/manage-access.html:123
+#: weblate/templates/manage-access.html:132
 msgid "Change"
 msgstr "Зміна"
 
-#: weblate/templates/manage-access.html:128
+#: weblate/templates/manage-access.html:137
 msgid "You do not have permission to change project access control."
 msgstr "У вас немає права змінювати доступ до проєкту."
 
@@ -7967,12 +7981,12 @@ msgstr "Апострофи у Java MessageFormat"
 msgid "Trailing and leading whitespace"
 msgstr "Кінцеві і початкові пропуски"
 
-#: weblate/trans/context_processors.py:127
+#: weblate/trans/context_processors.py:128
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 "Хостинг Weblate — це місце для локалізації вашого програмного забезпечення."
 
-#: weblate/trans/context_processors.py:130
+#: weblate/trans/context_processors.py:131
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Цей сайт запускає Weblate для локалізації різноманітних проєктів програмного "
@@ -9932,27 +9946,27 @@ msgstr "Статистика Weblate"
 msgid "Invalid parameters!"
 msgstr "Неправильні параметри!"
 
-#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:207
 msgid "You can not remove last owner!"
 msgstr "Ви не можете вилучити останнього власника!"
 
-#: weblate/trans/views/acl.py:142
+#: weblate/trans/views/acl.py:137
 msgid "User has been added to this project."
 msgstr "Користувача додано до поточного проєкту."
 
-#: weblate/trans/views/acl.py:146 weblate/trans/views/acl.py:188
+#: weblate/trans/views/acl.py:139 weblate/trans/views/acl.py:178
 msgid "Failed to find group to add a user!"
 msgstr "Не вдалося знайти групу, щоб додати користувача!"
 
-#: weblate/trans/views/acl.py:184
+#: weblate/trans/views/acl.py:176 weblate/trans/views/acl.py:191
 msgid "User has been invited to this project."
 msgstr "Користувача запрошено до цього проєкту."
 
-#: weblate/trans/views/acl.py:218
+#: weblate/trans/views/acl.py:216
 msgid "User has been removed from this project."
 msgstr "Користувача видалено з поточного проєкту."
 
-#: weblate/trans/views/acl.py:250
+#: weblate/trans/views/acl.py:243
 msgid "Project access control has been changed."
 msgstr "Права доступу до проєкту змінилися."
 

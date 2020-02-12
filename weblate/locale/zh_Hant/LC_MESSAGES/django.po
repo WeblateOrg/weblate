@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-02-12 05:53+0000\n"
+"POT-Creation-Date: 2020-02-12 09:20+0000\n"
 "PO-Revision-Date: 2020-02-03 09:33+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -3387,7 +3387,7 @@ msgstr ""
 "無法解決，請聯絡我們。"
 
 #: weblate/templates/accounts/email-sent.html:40
-#: weblate/templates/mail/shared-registration.html:22
+#: weblate/templates/mail/shared-registration.html:23
 msgid "Report an issue with registration"
 msgstr "回報註冊問題"
 
@@ -4093,7 +4093,7 @@ msgstr "組態設定錯誤"
 
 #: weblate/templates/base.html:178 weblate/templates/component.html:235
 #: weblate/templates/dictionary.html:100 weblate/templates/lang/create.html:16
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:124
 #: weblate/templates/snippets/query-builder.html:25
 #: weblate/templates/snippets/query-builder.html:42
@@ -4182,7 +4182,7 @@ msgid "Close"
 msgstr "關閉"
 
 #: weblate/templates/billing-failure.html:10
-#: weblate/templates/manage-access.html:126
+#: weblate/templates/manage-access.html:135
 msgid "Check your billing status"
 msgstr "檢查您的帳單狀態"
 
@@ -4564,7 +4564,7 @@ msgid "Add a component message"
 msgstr "新增組件訊息"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
-#: weblate/templates/manage-access.html:101
+#: weblate/templates/manage-access.html:110
 #: weblate/templates/snippets/project-nav.html:109
 msgid "Users"
 msgstr "使用者"
@@ -5840,18 +5840,24 @@ msgstr ""
 "方可繼續。"
 
 #: weblate/templates/mail/shared-registration.html:11
+#, python-format
+msgid "The confirmation URL will expire after %(count)s hour."
+msgid_plural "The confirmation URL will expire after %(count)s hours."
+msgstr[0] ""
+
+#: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
 msgstr "如果您的註冊發生問題，請連絡我們。"
 
-#: weblate/templates/mail/shared-registration.html:16
+#: weblate/templates/mail/shared-registration.html:17
 msgid "Confirm password reset"
 msgstr "重設密碼確認"
 
-#: weblate/templates/mail/shared-registration.html:18
+#: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm account removal"
 msgstr "帳號移除確認"
 
-#: weblate/templates/mail/shared-registration.html:20
+#: weblate/templates/mail/shared-registration.html:21
 msgid "Confirm registration"
 msgstr "確認註冊"
 
@@ -5888,39 +5894,45 @@ msgstr "上次登入"
 msgid "Not yet logged in"
 msgstr "尚未登入"
 
-#: weblate/templates/manage-access.html:55
+#: weblate/templates/manage-access.html:53
+#, fuzzy
+#| msgid "Administration"
+msgid "Resend invitation"
+msgstr "管理"
+
+#: weblate/templates/manage-access.html:64
 msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
 msgstr "移除使用者的所有許可權後，則使用者會從專案中移除。"
 
-#: weblate/templates/manage-access.html:69
+#: weblate/templates/manage-access.html:78
 msgid "Add a user"
 msgstr "加入使用者"
 
-#: weblate/templates/manage-access.html:85
+#: weblate/templates/manage-access.html:94
 msgid "Invite new user"
 msgstr "邀請新使用者"
 
-#: weblate/templates/manage-access.html:91
+#: weblate/templates/manage-access.html:100
 msgid "Invite"
 msgstr "邀請"
 
-#: weblate/templates/manage-access.html:104
+#: weblate/templates/manage-access.html:113
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
 msgstr "Weblate 使用者管理已關閉，您可以在 Django 管理介面中更動許可權。"
 
-#: weblate/templates/manage-access.html:116
+#: weblate/templates/manage-access.html:125
 msgid "Project access control"
 msgstr "專案存取控制"
 
-#: weblate/templates/manage-access.html:123
+#: weblate/templates/manage-access.html:132
 msgid "Change"
 msgstr "更動"
 
-#: weblate/templates/manage-access.html:128
+#: weblate/templates/manage-access.html:137
 msgid "You do not have permission to change project access control."
 msgstr "您沒有獲得更改專案存取控制的許可。"
 
@@ -7686,11 +7698,11 @@ msgstr "Java MessageFormat 中的撇號 '"
 msgid "Trailing and leading whitespace"
 msgstr "結尾和開頭空白"
 
-#: weblate/trans/context_processors.py:127
+#: weblate/trans/context_processors.py:128
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr "Hosted Weblate，是您軟體專案發展在地化的好地方。"
 
-#: weblate/trans/context_processors.py:130
+#: weblate/trans/context_processors.py:131
 msgid "This site runs Weblate for localizing various software projects."
 msgstr "本站採用 Weblate 本地化各種軟體專案。"
 
@@ -9578,27 +9590,27 @@ msgstr "Weblate 統計數據"
 msgid "Invalid parameters!"
 msgstr "無效的參數！"
 
-#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:207
 msgid "You can not remove last owner!"
 msgstr "您不能移除最後一位擁有者！"
 
-#: weblate/trans/views/acl.py:142
+#: weblate/trans/views/acl.py:137
 msgid "User has been added to this project."
 msgstr "使用者此專案。"
 
-#: weblate/trans/views/acl.py:146 weblate/trans/views/acl.py:188
+#: weblate/trans/views/acl.py:139 weblate/trans/views/acl.py:178
 msgid "Failed to find group to add a user!"
 msgstr "未能找到要加入使用者的群組！"
 
-#: weblate/trans/views/acl.py:184
+#: weblate/trans/views/acl.py:176 weblate/trans/views/acl.py:191
 msgid "User has been invited to this project."
 msgstr "使用者已邀進此專案。"
 
-#: weblate/trans/views/acl.py:218
+#: weblate/trans/views/acl.py:216
 msgid "User has been removed from this project."
 msgstr "使用者已從這個專案中移除。"
 
-#: weblate/trans/views/acl.py:250
+#: weblate/trans/views/acl.py:243
 msgid "Project access control has been changed."
 msgstr "專案存取控制已更動。"
 

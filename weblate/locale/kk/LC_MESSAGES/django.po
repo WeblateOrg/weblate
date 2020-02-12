@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-02-12 05:53+0000\n"
+"POT-Creation-Date: 2020-02-12 09:20+0000\n"
 "PO-Revision-Date: 2019-11-28 09:58+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
@@ -3729,7 +3729,7 @@ msgstr ""
 "qaıtalańyz. Másele saqtalsa, bizge habarlasyńyz."
 
 #: weblate/templates/accounts/email-sent.html:40
-#: weblate/templates/mail/shared-registration.html:22
+#: weblate/templates/mail/shared-registration.html:23
 msgid "Report an issue with registration"
 msgstr "Tirkelý aqaýyn baıandaý"
 
@@ -4504,7 +4504,7 @@ msgstr "Konfigýrasıa qateleri"
 
 #: weblate/templates/base.html:178 weblate/templates/component.html:235
 #: weblate/templates/dictionary.html:100 weblate/templates/lang/create.html:16
-#: weblate/templates/manage-access.html:75
+#: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:124
 #: weblate/templates/snippets/query-builder.html:25
 #: weblate/templates/snippets/query-builder.html:42
@@ -4595,7 +4595,7 @@ msgid "Close"
 msgstr "Jabý"
 
 #: weblate/templates/billing-failure.html:10
-#: weblate/templates/manage-access.html:126
+#: weblate/templates/manage-access.html:135
 msgid "Check your billing status"
 msgstr "Bılıń mártebesin tekserińiz"
 
@@ -4993,7 +4993,7 @@ msgid "Add a component message"
 msgstr "Quramdas habaryn ústeý"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
-#: weblate/templates/manage-access.html:101
+#: weblate/templates/manage-access.html:110
 #: weblate/templates/snippets/project-nav.html:109
 msgid "Users"
 msgstr "Paıdalanushylar"
@@ -6378,24 +6378,31 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/shared-registration.html:11
+#, python-format
+msgid "The confirmation URL will expire after %(count)s hour."
+msgid_plural "The confirmation URL will expire after %(count)s hours."
+msgstr[0] ""
+msgstr[1] ""
+
+#: weblate/templates/mail/shared-registration.html:12
 #, fuzzy
 #| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
 msgstr "Tirkelýde aqaý bolsa, bizge habarlasyńyz:"
 
-#: weblate/templates/mail/shared-registration.html:16
+#: weblate/templates/mail/shared-registration.html:17
 #, fuzzy
 #| msgid "Password reset"
 msgid "Confirm password reset"
 msgstr "Paróldi ysyrý"
 
-#: weblate/templates/mail/shared-registration.html:18
+#: weblate/templates/mail/shared-registration.html:19
 #, fuzzy
 #| msgid "Account removal"
 msgid "Confirm account removal"
 msgstr "Tirkelgi alastaýy"
 
-#: weblate/templates/mail/shared-registration.html:20
+#: weblate/templates/mail/shared-registration.html:21
 #, fuzzy
 #| msgid "User registration"
 msgid "Confirm registration"
@@ -6435,29 +6442,35 @@ msgstr "Sońǵy kirý"
 msgid "Not yet logged in"
 msgstr ""
 
-#: weblate/templates/manage-access.html:55
+#: weblate/templates/manage-access.html:53
+#, fuzzy
+#| msgid "Administration"
+msgid "Resend invitation"
+msgstr "Ákimshilik"
+
+#: weblate/templates/manage-access.html:64
 msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
 msgstr ""
 
-#: weblate/templates/manage-access.html:69
+#: weblate/templates/manage-access.html:78
 #, fuzzy
 #| msgid "Add new user"
 msgid "Add a user"
 msgstr "Jańa paıdalanushyny ústeý"
 
-#: weblate/templates/manage-access.html:85
+#: weblate/templates/manage-access.html:94
 #, fuzzy
 #| msgid "Add new user"
 msgid "Invite new user"
 msgstr "Jańa paıdalanushyny ústeý"
 
-#: weblate/templates/manage-access.html:91
+#: weblate/templates/manage-access.html:100
 msgid "Invite"
 msgstr ""
 
-#: weblate/templates/manage-access.html:104
+#: weblate/templates/manage-access.html:113
 #, fuzzy
 #| msgid ""
 #| "The user management in Weblate is disabled, you can change permissions in "
@@ -6469,15 +6482,15 @@ msgstr ""
 "Weblate paıdalanýshy basqarýy óshirilgen, ruqsattardy Django ákimshilik "
 "ınterfeısinde ózgerte alasyz."
 
-#: weblate/templates/manage-access.html:116
+#: weblate/templates/manage-access.html:125
 msgid "Project access control"
 msgstr "Jobaǵa qatynaýdy basqarý"
 
-#: weblate/templates/manage-access.html:123
+#: weblate/templates/manage-access.html:132
 msgid "Change"
 msgstr "Ózgertý"
 
-#: weblate/templates/manage-access.html:128
+#: weblate/templates/manage-access.html:137
 msgid "You do not have permission to change project access control."
 msgstr "Jobaǵa qatynaýdy basqarýyn ózgertýge ruqsatyńyz joq."
 
@@ -8416,12 +8429,12 @@ msgstr "Java MessageFormat ishindegi apostroftar"
 msgid "Trailing and leading whitespace"
 msgstr "Shubatylǵan jáne ozyq bosoryn"
 
-#: weblate/trans/context_processors.py:127
+#: weblate/trans/context_processors.py:128
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 "Hosted Weblate, baǵdarlamalyq jasaqtama jobańyzdy jersindirýge arnalǵan oryn."
 
-#: weblate/trans/context_processors.py:130
+#: weblate/trans/context_processors.py:131
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Bul saıtta ártúrli baǵdarlamalyq jasaqtama jobalaryn jersindirý úshin "
@@ -10480,29 +10493,29 @@ msgstr "Weblate statıstıkasy"
 msgid "Invalid parameters!"
 msgstr "Jaramsyz parametrler!"
 
-#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:92 weblate/trans/views/acl.py:207
 msgid "You can not remove last owner!"
 msgstr "Sońǵy ıelenýshini joıýyńyz múmkin emes!"
 
-#: weblate/trans/views/acl.py:142
+#: weblate/trans/views/acl.py:137
 msgid "User has been added to this project."
 msgstr "Paıdalanýshy osy jobaǵa ústelgen."
 
-#: weblate/trans/views/acl.py:146 weblate/trans/views/acl.py:188
+#: weblate/trans/views/acl.py:139 weblate/trans/views/acl.py:178
 msgid "Failed to find group to add a user!"
 msgstr "Paıdalanýshy qosýlatyn topty tabýy sátsiz aıaqtaldy!"
 
-#: weblate/trans/views/acl.py:184
+#: weblate/trans/views/acl.py:176 weblate/trans/views/acl.py:191
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
 msgstr "Paıdalanýshy osy jobaǵa ústelgen."
 
-#: weblate/trans/views/acl.py:218
+#: weblate/trans/views/acl.py:216
 msgid "User has been removed from this project."
 msgstr "Paıdalanýshy osy jobadan alastaldy."
 
-#: weblate/trans/views/acl.py:250
+#: weblate/trans/views/acl.py:243
 msgid "Project access control has been changed."
 msgstr "Jobanyń qatynaý basqarýy ózgertildi."
 
