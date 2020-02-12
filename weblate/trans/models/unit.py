@@ -479,7 +479,7 @@ class Unit(models.Model, LoggerMixin):
 
         Optional user parameters defines authorship of a change.
 
-        This should be always called in a trasaction with updated unit
+        This should be always called in a transaction with updated unit
         locked for update.
         """
         # For case when authorship specified, use user
