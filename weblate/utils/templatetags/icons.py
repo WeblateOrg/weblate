@@ -23,13 +23,13 @@ from __future__ import unicode_literals
 import os
 
 from django import template
+from django.conf import settings
 from django.utils.safestring import mark_safe
 
-register = template.Library()
+from weblate.logger import LOGGER
 
-PATH = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "static", "icons"
-)
+
+register = template.Library()
 
 CACHE = {}
 
@@ -38,10 +38,21 @@ SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
 @register.simple_tag()
 def icon(name, fallback=None):
-    name = name or fallback
+    if fallback is not None:
+        name = fallback
+
+    if not name:
+        return ""
+
     if name not in CACHE:
-        with open(os.path.join(PATH, name), "r") as handle:
-            CACHE[name] = mark_safe(handle.read())
+        icon_file = os.path.join(settings.STATIC_ROOT, "icons", name)
+        try:
+            with open(icon_file, "r") as handle:
+                CACHE[name] = mark_safe(handle.read())
+        except OSError as e:
+            LOGGER.error(e)
+            return ""
+
     return CACHE[name]
 
 
