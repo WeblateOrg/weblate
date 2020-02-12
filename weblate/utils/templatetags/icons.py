@@ -27,6 +27,7 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 
 from weblate.logger import LOGGER
+from weblate.utils.errors import report_error
 
 register = template.Library()
 
@@ -41,6 +42,7 @@ def icon(name, fallback=None):
         name = fallback
 
     if not name:
+        LOGGER.error("Empty icon name")
         return ""
 
     if name not in CACHE:
@@ -48,8 +50,8 @@ def icon(name, fallback=None):
         try:
             with open(icon_file, "r") as handle:
                 CACHE[name] = mark_safe(handle.read())
-        except OSError as e:
-            LOGGER.error(str(e))
+        except OSError as error:
+            report_error(error, prefix="Failed to load icon")
             return ""
 
     return CACHE[name]
