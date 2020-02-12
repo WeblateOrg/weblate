@@ -116,7 +116,7 @@ class Migration(migrations.Migration):
                             (9, "Two/other"),
                             (10, "One/two/few/many/other"),
                             (666, "Unknown"),
-                            (12, "Zero/one/two/three/six/other"),
+                            (12, "Zero/one/two/few/many/other"),
                         ],
                         default=1,
                         editable=False,

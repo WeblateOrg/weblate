@@ -60,6 +60,7 @@ ONE_FEW_OTHER_PLURALS = (
     '(n % 10 == 1 && (n % 100 < 11 || n % 100 > 19)) ? 0 : '
     '((n % 10 >= 2 && n % 10 <= 9 && (n % 100 < 11 || n % 100 > 19)) ? 1 : 2)',
     '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2)',
+    '(n == 1) ? 0 : ((n == 0 || n % 100 >= 2 && n % 100 <= 19) ? 1 : 2)',
 )
 
 ZERO_ONE_OTHER_PLURALS = (
@@ -111,11 +112,18 @@ ONE_FEW_MANY_OTHER_PLURALS = (
 
 ONE_OTHER_ZERO_PLURALS = ('n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2',)
 
-ZERO_ONE_TWO_THREE_SIX_OTHER = (
+ZERO_ONE_TWO_FEW_MANY_OTHER = (
     '(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : (n==3) ? 3 :(n==6) ? 4 : 5',
     '(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : '
     '((n % 100 >= 3 && n % 100 <= 10) ? 3 : '
     '((n % 100 >= 11 && n % 100 <= 99) ? 4 : 5))))',
+    '(n == 0) ? 0 : ((n == 1) ? 1 : (((n % 100 == 2 || n % 100 == 22 || n % 100 == 42'
+    ' || n % 100 == 62 || n % 100 == 82) || n % 1000 == 0 && (n % 100000 >= 1000 && '
+    'n % 100000 <= 20000 || n % 100000 == 40000 || n % 100000 == 60000 || '
+    'n % 100000 == 80000) || n != 0 && n % 1000000 == 100000) ? 2 : ((n % 100 == 3 '
+    '|| n % 100 == 23 || n % 100 == 43 || n % 100 == 63 || n % 100 == 83) ? 3 : '
+    '((n != 1 && (n % 100 == 1 || n % 100 == 21 || n % 100 == 41 || '
+    'n % 100 == 61 || n % 100 == 81)) ? 4 : 5))))',
 )
 
 # Plural types definition
@@ -131,7 +139,7 @@ PLURAL_ONE_FEW_MANY_OTHER = 8
 PLURAL_TWO_OTHER = 9
 PLURAL_ONE_TWO_FEW_MANY_OTHER = 10
 PLURAL_ZERO_ONE_OTHER = 11
-PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER = 12
+PLURAL_ZERO_ONE_TWO_FEW_MANY_OTHER = 12
 PLURAL_OTHER_ONE_TWO_FEW = 13
 PLURAL_ONE_OTHER_TWO = 14
 PLURAL_UNKNOWN = 666
@@ -155,7 +163,7 @@ PLURAL_MAPPINGS = (
     (nospace_set(ONE_FEW_MANY_OTHER_PLURALS), PLURAL_ONE_FEW_MANY_OTHER),
     (nospace_set(TWO_OTHER_PLURALS), PLURAL_TWO_OTHER),
     (nospace_set(ONE_TWO_FEW_MANY_OTHER_PLURALS), PLURAL_ONE_TWO_FEW_MANY_OTHER),
-    (nospace_set(ZERO_ONE_TWO_THREE_SIX_OTHER), PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER),
+    (nospace_set(ZERO_ONE_TWO_FEW_MANY_OTHER), PLURAL_ZERO_ONE_TWO_FEW_MANY_OTHER),
 )
 
 # Plural names mapping
@@ -233,7 +241,7 @@ PLURAL_NAMES = {
         pgettext_lazy('Plural form description', 'Two'),
         pgettext_lazy('Plural form description', 'Other'),
     ),
-    PLURAL_ZERO_ONE_TWO_THREE_SIX_OTHER: (
+    PLURAL_ZERO_ONE_TWO_FEW_MANY_OTHER: (
         pgettext_lazy('Plural form description', 'Zero'),
         pgettext_lazy('Plural form description', 'One'),
         pgettext_lazy('Plural form description', 'Two'),
