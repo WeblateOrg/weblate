@@ -49,8 +49,10 @@ def check_user_form(request, project, verbose=False, form_class=UserManageForm):
     """
     obj = get_project(request, project)
 
-    if (not request.user.has_perm('project.permissions', obj)
-            or obj.access_control == obj.ACCESS_CUSTOM):
+    if (
+        not request.user.has_perm('project.permissions', obj)
+        or obj.access_control == obj.ACCESS_CUSTOM
+    ):
         raise PermissionDenied()
 
     form = form_class(request.POST)
@@ -70,9 +72,7 @@ def set_groups(request, project):
 
     try:
         group = obj.group_set.get(
-            name__contains='@',
-            internal=True,
-            pk=int(request.POST.get('group', '')),
+            name__contains='@', internal=True, pk=int(request.POST.get('group', ''))
         )
     except (Group.DoesNotExist, ValueError):
         group = None
@@ -114,11 +114,7 @@ def set_groups(request, project):
         status = user.groups.filter(pk=group.pk).exists()
 
     return JsonResponse(
-        data={
-            'responseCode': code,
-            'message': message,
-            'state': status,
-        }
+        data={'responseCode': code, 'message': message, 'state': status}
     )
 
 
@@ -138,18 +134,11 @@ def add_user(request, project):
                 user=request.user,
                 details={'username': user.username},
             )
-            messages.success(
-                request, _('User has been added to this project.')
-            )
+            messages.success(request, _('User has been added to this project.'))
         except Group.DoesNotExist:
-            messages.error(
-                request, _('Failed to find group to add a user!')
-            )
+            messages.error(request, _('Failed to find group to add a user!'))
 
-    return redirect(
-        'manage-access',
-        project=obj.slug,
-    )
+    return redirect('manage-access', project=obj.slug)
 
 
 @require_POST
@@ -214,14 +203,9 @@ def delete_user(request, project):
                 user=request.user,
                 details={'username': user.username},
             )
-            messages.success(
-                request, _('User has been removed from this project.')
-            )
+            messages.success(request, _('User has been removed from this project.'))
 
-    return redirect(
-        'manage-access',
-        project=obj.slug,
-    )
+    return redirect('manage-access', project=obj.slug)
 
 
 @require_POST
@@ -246,14 +230,9 @@ def change_access(request, project):
             user=request.user,
             details={'access_control': obj.access_control},
         )
-        messages.success(
-            request, _('Project access control has been changed.')
-        )
+        messages.success(request, _('Project access control has been changed.'))
 
-    return redirect(
-        'manage-access',
-        project=obj.slug,
-    )
+    return redirect('manage-access', project=obj.slug)
 
 
 @login_required
@@ -280,5 +259,5 @@ def manage_access(request, project):
             'add_user_form': UserManageForm(),
             'invite_user_form': InviteUserForm(),
             'access_form': access_form,
-        }
+        },
     )
