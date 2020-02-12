@@ -582,6 +582,21 @@ class Component(models.Model, URLMixin, PathMixin):
             and not is_task_ready(self.background_task)
         )
 
+    def get_source_translation(self):
+        """Return source translation object if it exists.
+
+        In some cases we do not want to create source translation object as
+        source_translation property does, but we want to utilize its cache.
+        """
+        if "source_translation" in self.__dict__:
+            return self.__dict__["source_translation"]
+        try:
+            result = self.translation_set.get(language=self.project.source_language)
+            self.__dict__["source_translation"] = result
+            return result
+        except ObjectDoesNotExist:
+            return None
+
     @cached_property
     def source_translation(self):
         language = self.project.source_language

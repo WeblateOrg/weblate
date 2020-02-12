@@ -484,10 +484,16 @@ class ComponentStats(LanguageStats):
         return
 
     def prefetch_source(self):
-        stats_obj = self._object.source_translation.stats
-        self.store("source_chars", stats_obj.all_chars)
-        self.store("source_words", stats_obj.all_words)
-        self.store("source_strings", stats_obj.all)
+        source_translation = self._object.get_source_translation()
+        if source_translation is None:
+            self.store("source_chars", 0)
+            self.store("source_words", 0)
+            self.store("source_strings", 0)
+        else:
+            stats_obj = source_translation.stats
+            self.store("source_chars", stats_obj.all_chars)
+            self.store("source_words", stats_obj.all_words)
+            self.store("source_strings", stats_obj.all)
 
     def invalidate(self, language=None):
         super(ComponentStats, self).invalidate()
