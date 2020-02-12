@@ -1213,6 +1213,12 @@ LICENSES = (
         False,
     ),
     (
+        "libselinux-1.0",
+        "libselinux public domain notice",
+        "https://github.com/SELinuxProject/selinux/blob/master/libselinux/LICENSE",
+        False,
+    ),
+    (
         "libtiff",
         "libtiff License",
         "https://fedoraproject.org/wiki/Licensing/libtiff",
@@ -1292,7 +1298,7 @@ LICENSES = (
         False,
     ),
     ("MIT", "MIT License", "https://opensource.org/licenses/MIT", True),
-    ("MIT-0", "MIT No Attribution", "https://github.com/aws/mit-0", True),
+    ("MIT-0", "MIT No Attribution", "https://github.com/aws/mit-0", False),
     ("Motosoto", "Motosoto License", "https://opensource.org/licenses/Motosoto", True),
     (
         "MPL-1.0",
@@ -1404,6 +1410,12 @@ LICENSES = (
     ("Noweb", "Noweb License", "https://fedoraproject.org/wiki/Licensing/Noweb", False),
     ("NRL", "NRL License", "http://web.mit.edu/network/isakmp/nrllicense.html", False),
     ("NTP", "NTP License", "https://opensource.org/licenses/NTP", True),
+    (
+        "NTP-0",
+        "NTP No Attribution",
+        "https://github.com/tytso/e2fsprogs/blob/master/lib/et/et_name.c",
+        False,
+    ),
     (
         "OCLC-2.0",
         "OCLC Research Public License 2.0",
@@ -1648,6 +1660,12 @@ LICENSES = (
         True,
     ),
     (
+        "PSF-2.0",
+        "Python Software Foundation License 2.0",
+        "https://opensource.org/licenses/Python-2.0",
+        False,
+    ),
+    (
         "QPL-1.0",
         "Q Public License 1.0",
         "http://doc.qt.nokia.com/3.3/license.html",
@@ -1770,8 +1788,32 @@ LICENSES = (
         True,
     ),
     (
+        "OFL-1.0-no-RFN",
+        "SIL Open Font License 1.0 with no Reserved Font Name",
+        "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL10_web",
+        False,
+    ),
+    (
+        "OFL-1.0-RFN",
+        "SIL Open Font License 1.0 with Reserved Font Name",
+        "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL10_web",
+        False,
+    ),
+    (
         "OFL-1.1",
         "SIL Open Font License 1.1",
+        "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web",
+        True,
+    ),
+    (
+        "OFL-1.1-no-RFN",
+        "SIL Open Font License 1.1 with no Reserved Font Name",
+        "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web",
+        True,
+    ),
+    (
+        "OFL-1.1-RFN",
+        "SIL Open Font License 1.1 with Reserved Font Name",
         "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web",
         True,
     ),
