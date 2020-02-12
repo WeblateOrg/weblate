@@ -1529,6 +1529,14 @@ $(function () {
         $button.data('field', $this.data('field'));
         $button.find('span.search-label').text($this.text());
     });
+    $('.search-group input').on('keydown', function (event) {
+        console.log(event, event.key, event.keyCode);
+        if (event.key === "Enter") {
+            $(this).closest('.input-group').find('.search-add').click();
+            event.preventDefault();
+            return false;
+        }
+    });
     $('.search-add').click(function () {
         var group = $(this).closest('.input-group');
         var button = group.find('button');
