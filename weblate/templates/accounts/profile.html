@@ -339,28 +339,24 @@ git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain 
 </div>
 
 {% if licenses %}
+{% regroup licenses by license as license_list %}
 <div class="tab-pane" id="licenses">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Licenses for individual translations" %}</h4></div>
-<table class="table">
-<thead>
-<tr><th>{% trans "Project" %}</th><th>{% trans "License" %}</th></tr>
-</thead>
-<tbody>
-{% for component in licenses %}
-<tr>
-<th><a href="{{ component.get_absolute_url }}">{{ component }}</a></th>
-<td>
-{% if component.license_url %}
-<a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
-{% else %}
-{{ component.get_license_display }}
-{% endif %}
-</td>
-</tr>
+<div class="panel-body">
+{% for dummy, items in license_list %}
+<h4>
+{{ items.0.get_license_display }}
+<span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.license_badge }}</span>
+<a class="doc-link" href="{{ items.0.license_url }}">{% icon "info.svg" %}</a>
+</h4>
+<p>
+    {% for component in items %}
+        <a href="{{ component.get_absolute_url }}" class="btn btn-link">{{ component }}</a>
+    {% endfor %}
+</p>
 {% endfor %}
-</tbody>
-</table>
+</div>
 {% endif %}
 </div>
 </div>

@@ -350,7 +350,8 @@ def user_profile(request):
     license_projects = (
         Component.objects.filter(project__in=request.user.allowed_projects)
         .exclude(license='')
-        .order_project()
+        .prefetch()
+        .order_by('license')
     )
 
     result = render(
