@@ -35,21 +35,37 @@ class Label(models.Model):
         verbose_name=ugettext_lazy("Color"),
         max_length=30,
         choices=(
+            # Translators: Name of a color
             ("navy", ugettext_lazy("Navy")),
+            # Translators: Name of a color
             ("blue", ugettext_lazy("Blue")),
+            # Translators: Name of a color
             ("aqua", ugettext_lazy("Aqua")),
+            # Translators: Name of a color
             ("teal", ugettext_lazy("Teal")),
+            # Translators: Name of a color
             ("olive", ugettext_lazy("Olive")),
+            # Translators: Name of a color
             ("green", ugettext_lazy("Green")),
+            # Translators: Name of a color
             ("lime", ugettext_lazy("Lime")),
+            # Translators: Name of a color
             ("yellow", ugettext_lazy("Yellow")),
+            # Translators: Name of a color
             ("orange", ugettext_lazy("Orange")),
+            # Translators: Name of a color
             ("red", ugettext_lazy("Red")),
+            # Translators: Name of a color
             ("maroon", ugettext_lazy("Maroon")),
+            # Translators: Name of a color
             ("fuchsia", ugettext_lazy("Fuchsia")),
+            # Translators: Name of a color
             ("purple", ugettext_lazy("Purple")),
+            # Translators: Name of a color
             ("black", ugettext_lazy("Black")),
+            # Translators: Name of a color
             ("gray", ugettext_lazy("Gray")),
+            # Translators: Name of a color
             ("silver", ugettext_lazy("Silver")),
         ),
         blank=False,
