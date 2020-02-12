@@ -34,32 +34,32 @@ class PluralsCheckTest(TestCase):
         self.check = PluralsCheck()
 
     def test_none(self):
-        self.assertFalse(self.check.check_target(
-            ['string'],
-            ['string'],
-            MockUnit('plural_none'),
-        ))
+        self.assertFalse(
+            self.check.check_target(['string'], ['string'], MockUnit('plural_none'))
+        )
 
     def test_empty(self):
-        self.assertFalse(self.check.check_target(
-            ['string', 'plural'],
-            ['', ''],
-            MockUnit('plural_empty'),
-        ))
+        self.assertFalse(
+            self.check.check_target(
+                ['string', 'plural'], ['', ''], MockUnit('plural_empty')
+            )
+        )
 
     def test_hit(self):
-        self.assertTrue(self.check.check_target(
-            ['string', 'plural'],
-            ['string', ''],
-            MockUnit('plural_partial_empty'),
-        ))
+        self.assertTrue(
+            self.check.check_target(
+                ['string', 'plural'], ['string', ''], MockUnit('plural_partial_empty')
+            )
+        )
 
     def test_good(self):
-        self.assertFalse(self.check.check_target(
-            ['string', 'plural'],
-            ['translation', 'trplural'],
-            MockUnit('plural_good'),
-        ))
+        self.assertFalse(
+            self.check.check_target(
+                ['string', 'plural'],
+                ['translation', 'trplural'],
+                MockUnit('plural_good'),
+            )
+        )
 
 
 class SamePluralsCheckTest(PluralsCheckTest):
@@ -67,11 +67,13 @@ class SamePluralsCheckTest(PluralsCheckTest):
         self.check = SamePluralsCheck()
 
     def test_hit(self):
-        self.assertTrue(self.check.check_target(
-            ['string', 'plural'],
-            ['string', 'string'],
-            MockUnit('plural_partial_empty'),
-        ))
+        self.assertTrue(
+            self.check.check_target(
+                ['string', 'plural'],
+                ['string', 'string'],
+                MockUnit('plural_partial_empty'),
+            )
+        )
 
 
 class TranslatedCheckTest(ViewTestCase):
@@ -82,28 +84,17 @@ class TranslatedCheckTest(ViewTestCase):
     def run_check(self):
         unit = self.get_unit()
         return self.check.check_target(
-            unit.get_source_plurals(),
-            unit.get_target_plurals(),
-            unit
+            unit.get_source_plurals(), unit.get_target_plurals(), unit
         )
 
     def test_none(self):
         self.assertFalse(self.run_check())
 
     def test_translated(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.assertFalse(self.run_check())
 
     def test_untranslated(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
-        self.edit_unit(
-            'Hello, world!\n',
-            ''
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.edit_unit('Hello, world!\n', '')
         self.assertTrue(self.run_check())
