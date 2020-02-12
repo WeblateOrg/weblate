@@ -69,7 +69,7 @@ XML_ENTITY_MATCH = re.compile(r'&#?\w+;')
 
 def strip_entities(text):
     """Strip all HTML entities (we don't care about them)."""
-    return XML_ENTITY_MATCH.sub('', text)
+    return XML_ENTITY_MATCH.sub(' ', text)
 
 
 class BBCodeCheck(TargetCheck):

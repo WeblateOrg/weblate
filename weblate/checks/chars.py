@@ -21,9 +21,9 @@
 from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
-from six.moves.html_parser import HTMLParser
 
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
+from weblate.checks.markup import strip_entities
 
 KASHIDA_CHARS = (
     '\u0640',
@@ -38,7 +38,6 @@ KASHIDA_CHARS = (
     '\uFE7F',
 )
 FRENCH_PUNCTUATION = {';', ':', '?', '!'}
-HTML_PARSER = HTMLParser()
 
 
 class BeginNewlineCheck(TargetCheck):
@@ -405,8 +404,8 @@ class PuctuationSpacingCheck(TargetCheck):
         if not self.is_language(unit, ('fr', 'br')):
             return False
 
-        # Replace HTML markup to simplify parsing
-        target = HTML_PARSER.unescape(target)
+        # Remove XML/HTML entities to simplify parsing
+        target = strip_entities(target)
 
         whitespace = {' ', '\u00A0', '\u202F', '\u2009'}
 
