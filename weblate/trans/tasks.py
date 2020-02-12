@@ -67,8 +67,7 @@ def perform_update(cls, pk, auto=False):
             obj = Project.objects.get(pk=pk)
         else:
             obj = Component.objects.get(pk=pk)
-
-        if not auto or settings.AUTO_UPDATE:
+        if settings.AUTO_UPDATE in ("full", True) or not auto:
             obj.do_update()
         else:
             obj.update_remote_branch()
@@ -228,6 +227,10 @@ def cleanup_suggestions():
 def update_remotes():
     """Update all remote branches (without attempt to merge)."""
     non_linked = Component.objects.with_repo()
+
+    if settings.AUTO_UPDATE not in ("full", "remote", True, False):
+        return
+
     for component in non_linked.iterator():
         perform_update.delay("Component", component.pk, auto=True)
 
