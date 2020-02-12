@@ -39,13 +39,22 @@
   <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet logged in" %}{% endif %}</td>
   {% user_permissions user groups %}
   <td>
-<form action="{% url "delete-user" project=object.slug %}" method="post">
+<form action="{% url "delete-user" project=object.slug %}" method="post" class="inlineform">
 {% csrf_token %}
 <input type="hidden" name="user" value="{{ user.username }}" />
 <button type="submit" class="btn btn-link btn-xs red" title="{% trans "Remove" %}">
 {% icon 'delete.svg' %}
 </button>
 </form>
+{% if not user.last_login %}
+<form action="{% url "resend_invitation" project=object.slug %}" method="post" class="inlineform">
+{% csrf_token %}
+<input type="hidden" name="user" value="{{ user.username }}" />
+<button type="submit" class="btn btn-link btn-xs" title="{% trans "Resend invitation" %}">
+{% icon 'refresh.svg' %}
+</button>
+</form>
+{% endif %}
   </td>
   </tr>
 {% endfor %}

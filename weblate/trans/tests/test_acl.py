@@ -155,6 +155,18 @@ class ACLTest(FixtureTestCase):
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
         self.assertEqual(message.subject, '[Weblate] Invitation to Weblate')
+        mail.outbox = []
+
+        # Resend invitation
+        response = self.client.post(
+            reverse('resend_invitation', kwargs=self.kw_project),
+            {'user': 'user@example.com'},
+            follow=True
+        )
+        # Check invitation mail
+        self.assertEqual(len(mail.outbox), 1)
+        message = mail.outbox[0]
+        self.assertEqual(message.subject, '[Weblate] Invitation to Weblate')
 
     def remove_user(self):
         # Remove user

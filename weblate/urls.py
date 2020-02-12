@@ -394,6 +394,11 @@ real_patterns = [
         name="delete-user",
     ),
     url(
+        r"^access/" + PROJECT + "resend/$",
+        weblate.trans.views.acl.resend_invitation,
+        name="resend_invitation",
+    ),
+    url(
         r"^access/" + PROJECT + "set/$",
         weblate.trans.views.acl.set_groups,
         name="set-groups",

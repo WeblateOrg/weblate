@@ -141,6 +141,21 @@ def add_user(request, project):
     return redirect('manage-access', project=obj.slug)
 
 
+def send_invitation(request, project, user):
+    fake = HttpRequest()
+    fake.user = get_anonymous()
+    fake.method = 'POST'
+    fake.session = create_session()
+    fake.session['invitation_context'] = {
+        'from_user': request.user.full_name,
+        'project_name': project.name,
+    }
+    fake.POST['email'] = user.email
+    fake.META = request.META
+    store_userid(fake, invite=True)
+    complete(fake, 'email')
+
+
 @require_POST
 @login_required
 def invite_user(request, project):
@@ -157,30 +172,25 @@ def invite_user(request, project):
                 user=request.user,
                 details={'username': user.username},
             )
-            fake = HttpRequest()
-            fake.user = get_anonymous()
-            fake.method = 'POST'
-            fake.session = create_session()
-            fake.session['invitation_context'] = {
-                'from_user': request.user.full_name,
-                'project_name': obj.name,
-            }
-            fake.POST['email'] = form.cleaned_data['email']
-            fake.META = request.META
-            store_userid(fake, invite=True)
-            complete(fake, 'email')
-            messages.success(
-                request, _('User has been invited to this project.')
-            )
+            send_invitation(request, obj, user)
+            messages.success(request, _('User has been invited to this project.'))
         except Group.DoesNotExist:
-            messages.error(
-                request, _('Failed to find group to add a user!')
-            )
+            messages.error(request, _('Failed to find group to add a user!'))
 
-    return redirect(
-        'manage-access',
-        project=obj.slug,
-    )
+    return redirect('manage-access', project=obj.slug)
+
+
+@require_POST
+@login_required
+def resend_invitation(request, project):
+    """Remove user from a project."""
+    obj, form = check_user_form(request, project, True)
+
+    if form is not None:
+        send_invitation(request, obj, form.cleaned_data['user'])
+        messages.success(request, _('User has been invited to this project.'))
+
+    return redirect('manage-access', project=obj.slug)
 
 
 @require_POST
