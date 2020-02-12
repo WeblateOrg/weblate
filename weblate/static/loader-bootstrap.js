@@ -640,6 +640,20 @@ function adjustColspan() {
 
 }
 
+function quoteSearch(value) {
+    if (value.indexOf(' ') === -1) {
+        return value;
+    }
+    if (value.indexOf('"') === -1) {
+        return '"' + value + '"';
+    }
+    if (value.indexOf("'") === -1) {
+        return "'" + value + "'";
+    }
+    /* We should do some escaping here */
+    return value;
+}
+
 $(function () {
     var $window = $(window), $document = $(document);
 
@@ -1523,7 +1537,7 @@ $(function () {
         if (input.length === 0) {
             $('#id_q').insertAtCaret(' ' + button.data('field') + ' ');
         } else if (input.val() !== '') {
-            $('#id_q').insertAtCaret(' ' + button.data('field') + input.val() + ' ');
+            $('#id_q').insertAtCaret(' ' + button.data('field') + quoteSearch(input.val()) + ' ');
         }
     });
     $('.search-insert').click(function () {
