@@ -127,7 +127,20 @@ class TranslatedCheck(TargetCheck):
         if unit.translated:
             return False
 
-        return unit.change_set.content().exists()
+        from weblate.trans.models import Change
+
+        states = {Change.ACTION_SOURCE_CHANGE}
+        states.update(Change.ACTIONS_CONTENT)
+
+        changes = unit.change_set.filter(action__in=states).order()
+
+        for action in changes.values_list('action', flat=True):
+            if action in Change.ACTIONS_CONTENT:
+                return True
+            if action == Change.ACTION_SOURCE_CHANGE:
+                break
+
+        return False
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""

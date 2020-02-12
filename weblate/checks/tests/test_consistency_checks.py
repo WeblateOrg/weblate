@@ -26,6 +26,7 @@ from django.test import TestCase
 
 from weblate.checks.consistency import PluralsCheck, SamePluralsCheck, TranslatedCheck
 from weblate.checks.tests.test_checks import MockUnit
+from weblate.trans.models import Change
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -98,3 +99,10 @@ class TranslatedCheckTest(ViewTestCase):
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.edit_unit('Hello, world!\n', '')
         self.assertTrue(self.run_check())
+
+    def test_source_change(self):
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.edit_unit('Hello, world!\n', '')
+        unit = self.get_unit()
+        unit.change_set.create(action=Change.ACTION_SOURCE_CHANGE)
+        self.assertFalse(self.run_check())
