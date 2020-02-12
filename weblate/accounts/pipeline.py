@@ -128,7 +128,7 @@ def send_validation(strategy, backend, code, partial_token):
         reverse('social:complete', args=(backend.name,)), code.code, partial_token
     )
 
-    context = {'url': url}
+    context = {'url': url, 'validity': settings.AUTH_TOKEN_VALID // 3600}
 
     template = 'activation'
     if session.get('password_reset'):
