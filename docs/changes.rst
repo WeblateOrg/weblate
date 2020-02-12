@@ -24,6 +24,7 @@ Not yet released.
 * Added bulk edit addon.
 * Added option for :ref:`enforcing-checks`.
 * Increased default validity of confirmation links.
+* Improved Matomo integration.
 
 Weblate 3.10.3
 --------------
