@@ -26,6 +26,7 @@ Not yet released.
 * Increased default validity of confirmation links.
 * Improved Matomo integration.
 * Fixed :ref:`check-translated` to correctly handle source string change.
+* Extended automatic updates configuration by :setting:`AUTO_UPDATE`.
 
 Weblate 3.10.3
 --------------

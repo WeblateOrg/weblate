@@ -77,6 +77,10 @@ AUTO_UPDATE
 
 .. versionadded:: 3.2
 
+.. versionchanged:: 3.11
+
+   The originally boolean option was changed to accept more options as strings.
+
 Update all repositories on daily basis. This can be useful if you
 do not use :ref:`hooks` to update Weblate repositories automatically.
 
@@ -85,9 +89,13 @@ do not use :ref:`hooks` to update Weblate repositories automatically.
     There are both boolean options or string due to backwards compatibility.
 
 Options are:
-* ``"none"`` - no daily updates
-* ``"remote"`` also ``False`` - update remotes only
-* ``"full"`` also ``True`` - update remotes and merge working copy
+
+``"none"``
+    no daily updates
+``"remote"`` also ``False``
+    update remotes only
+``"full"`` also ``True``
+    update remotes and merge working copy
 
 .. note::
 
