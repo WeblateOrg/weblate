@@ -227,11 +227,9 @@ def cleanup_suggestions():
 def update_remotes():
     """Update all remote branches (without attempt to merge)."""
     non_linked = Component.objects.with_repo()
-    if settings.AUTO_UPDATE == "none":
-        pass
-    elif settings.AUTO_UPDATE not in ("none", "full", "remote", True, False):
-        # some warning
-        pass
+
+    if settings.AUTO_UPDATE not in ("full", "remote", True, False):
+        return
     else:
         for component in non_linked.iterator():
             perform_update.delay("Component", component.pk, auto=True)
