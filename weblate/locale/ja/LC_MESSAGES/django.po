@@ -18,9 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-12 10:36+0000\n"
-"PO-Revision-Date: 2020-02-12 10:36+0000\n"
-"Last-Translator: YAMADA Shinichirou <yamada_strong_yamada_nice_64bit@yahoo."
-"co.jp>\n"
+"PO-Revision-Date: 2020-02-14 03:17+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -1936,17 +1935,17 @@ msgstr "\\n が合っていないもの"
 
 #: weblate/checks/chars.py:326
 msgid "Number of \\n in translation does not match source"
-msgstr "改行(\\n)の数が翻訳元と一致しないもの"
+msgstr ""
+"改行 (\\n"
+") の数が原文と一致しないもの"
 
 #: weblate/checks/chars.py:334
 msgid "Newline charater count mismatch"
-msgstr ""
+msgstr "改行コードの数が合っていない"
 
 #: weblate/checks/chars.py:335
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
-msgstr "改行(\\n)の数が翻訳元と一致しないもの"
+msgstr "改行の数が原文と一致しないもの"
 
 #: weblate/checks/chars.py:343 weblate/trans/autofixes/chars.py:45
 msgid "Zero-width space"
@@ -2720,12 +2719,9 @@ msgid "Unknown"
 msgstr "未知"
 
 #: weblate/lang/models.py:487
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr "1つ/2つ/少数/多数/その他"
+msgstr "ゼロ/1つ/2つ/少数/多数/その他"
 
 #: weblate/lang/models.py:495
 msgid "Plural definition source"
@@ -3238,7 +3234,7 @@ msgstr "商用ホスティングに関する連絡先"
 
 #: weblate/templates/about/index.html:53
 msgid "Weblate is built on libre software"
-msgstr "Weblate はリブレ ソフトウェアとして作成されています"
+msgstr "Weblate はリブレ ソフトウェアを用いて作られています"
 
 #: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:113
 msgid "Weblate keys"
@@ -4784,7 +4780,7 @@ msgstr "適用"
 
 #: weblate/templates/component.html:219 weblate/templates/js/changes.html:5
 msgid "Browse all component changes"
-msgstr "すべてのコンポーネントの変更を参照"
+msgstr "コンポーネントの変更をすべて表示"
 
 #: weblate/templates/component.html:232
 msgid ""
@@ -4983,7 +4979,7 @@ msgstr ""
 #, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "全 %(count)s 個のプロジェクトを参照"
+msgstr[0] "全 %(count)s 個のプロジェクトを表示"
 
 #: weblate/templates/dashboard/user.html:13
 msgid "Configure dashboard"
@@ -5221,7 +5217,7 @@ msgstr "インポート"
 
 #: weblate/templates/dictionary.html:120
 msgid "Browse all glossary changes"
-msgstr "すべての用語集の変更を参照する"
+msgstr "用語集の変更をすべて表示"
 
 #: weblate/templates/edit_dictionary.html:20
 msgid "Change word"
@@ -5667,7 +5663,7 @@ msgstr "言語の追加"
 #: weblate/templates/language-project.html:72
 #: weblate/templates/language.html:110
 msgid "Browse all language changes"
-msgstr "すべての言語の変更を参照する"
+msgstr "言語の変更をすべて表示"
 
 #: weblate/templates/language.html:72
 #, python-format
@@ -6531,7 +6527,7 @@ msgstr "言語の追加"
 
 #: weblate/templates/project.html:63
 msgid "Browse all project changes"
-msgstr "すべてのプロジェクトの変更を参照する"
+msgstr "プロジェクトの変更をすべて表示"
 
 #: weblate/templates/project.html:100 weblate/templates/translation.html:277
 msgid "You can change the state of all strings matching given type at once."
@@ -6739,7 +6735,7 @@ msgstr "最後のリモート コミット"
 #: weblate/templates/snippets/git-info.html:34
 #, python-format
 msgid "%(author)s authored %(date)s"
-msgstr "%(author)s が記述 %(date)s"
+msgstr "%(date)s %(author)s が記述しました"
 
 #: weblate/templates/snippets/git-info.html:43
 msgid "Repository containing Weblate translations"
@@ -7709,7 +7705,7 @@ msgstr "ダウンロード"
 
 #: weblate/templates/translation.html:225
 msgid "Browse all translation changes"
-msgstr "翻訳の変更をすべて確認"
+msgstr "翻訳の変更をすべて表示"
 
 #: weblate/templates/translation.html:240
 msgid ""
@@ -7788,7 +7784,7 @@ msgstr "直前の作者"
 
 #: weblate/templates/user-activity.html:15
 msgid "Browse pending"
-msgstr "保留中のものを参照"
+msgstr "保留中のものを表示"
 
 #: weblate/templates/user-activity.html:20
 msgid "Screenshots uploaded"
@@ -8619,11 +8615,11 @@ msgstr "リソースの更新"
 
 #: weblate/trans/models/change.py:222
 msgid "Translation completed"
-msgstr "完了した翻訳"
+msgstr "翻訳完了"
 
 #: weblate/trans/models/change.py:223
 msgid "Translation changed"
-msgstr "変更された翻訳"
+msgstr "翻訳の変更"
 
 #: weblate/trans/models/change.py:224 weblate/trans/models/component.py:365
 msgid "New translation"
@@ -8631,31 +8627,31 @@ msgstr "新しい翻訳"
 
 #: weblate/trans/models/change.py:225
 msgid "Comment added"
-msgstr "追加されたコメント"
+msgstr "コメントの追加"
 
 #: weblate/trans/models/change.py:228
 msgid "Suggestion accepted"
-msgstr "採用された提案"
+msgstr "提案の採用"
 
 #: weblate/trans/models/change.py:229
 msgid "Translation reverted"
-msgstr "元に戻された翻訳"
+msgstr "翻訳の差し戻し"
 
 #: weblate/trans/models/change.py:230
 msgid "Translation uploaded"
-msgstr "アップロードされた翻訳"
+msgstr "翻訳のアップロード"
 
 #: weblate/trans/models/change.py:231
 msgid "Glossary added"
-msgstr "追加された用語集"
+msgstr "用語集への追加"
 
 #: weblate/trans/models/change.py:232
 msgid "Glossary updated"
-msgstr "更新された用語集"
+msgstr "用語集の更新"
 
 #: weblate/trans/models/change.py:233
 msgid "Glossary uploaded"
-msgstr "アップロードされた用語集"
+msgstr "用語集のアップロード"
 
 #: weblate/trans/models/change.py:234
 msgid "New source string"
@@ -8663,23 +8659,23 @@ msgstr "新しい原文"
 
 #: weblate/trans/models/change.py:235
 msgid "Component locked"
-msgstr "ロックされたコンポーネント"
+msgstr "コンポーネントのロック"
 
 #: weblate/trans/models/change.py:236
 msgid "Component unlocked"
-msgstr "アンロックされたコンポーネント"
+msgstr "コンポーネントのアンロック"
 
 #: weblate/trans/models/change.py:237
 msgid "Found duplicated string"
-msgstr "発見した重複する文字列"
+msgstr "重複した文字列の検出"
 
 #: weblate/trans/models/change.py:238
 msgid "Committed changes"
-msgstr "変更がコミットされました"
+msgstr "変更点のコミット"
 
 #: weblate/trans/models/change.py:239
 msgid "Pushed changes"
-msgstr "プッシュされた変更"
+msgstr "変更点のプッシュ"
 
 #: weblate/trans/models/change.py:240
 msgid "Reset repository"
@@ -8687,43 +8683,43 @@ msgstr "リポジトリのリセット"
 
 #: weblate/trans/models/change.py:241
 msgid "Merged repository"
-msgstr "マージされたリポジトリ"
+msgstr "リポジトリのマージ"
 
 #: weblate/trans/models/change.py:242
 msgid "Rebased repository"
-msgstr "リベースされたリポジトリ"
+msgstr "リポジトリのリベース"
 
 #: weblate/trans/models/change.py:243
 msgid "Failed merge on repository"
-msgstr "マージに失敗したリポジトリ"
+msgstr "リポジトリ内でのマージ失敗"
 
 #: weblate/trans/models/change.py:244
 msgid "Failed rebase on repository"
-msgstr "リベースに失敗したリポジトリ"
+msgstr "リポジトリ内でのリベースの失敗"
 
 #: weblate/trans/models/change.py:245
 msgid "Failed push on repository"
-msgstr "プッシュに失敗したリポジトリ"
+msgstr "リポジトリ内でのプッシュの失敗"
 
 #: weblate/trans/models/change.py:247
 msgid "Removed translation"
-msgstr "削除された翻訳"
+msgstr "翻訳の削除"
 
 #: weblate/trans/models/change.py:248
 msgid "Suggestion removed"
-msgstr "削除された提案"
+msgstr "提案の削除"
 
 #: weblate/trans/models/change.py:250
 msgid "Suggestion removed during cleanup"
-msgstr "クリーンアップ中に削除された提案"
+msgstr "クリーンアップ処理での提案の削除"
 
 #: weblate/trans/models/change.py:251
 msgid "Source string changed"
-msgstr "変更された原文"
+msgstr "原文の変更"
 
 #: weblate/trans/models/change.py:252
 msgid "New string added"
-msgstr "追加された新しい文字列"
+msgstr "新しい文字列の追加"
 
 #: weblate/trans/models/change.py:253
 msgid "Bulk status change"
@@ -8731,75 +8727,75 @@ msgstr "状態の一括変更"
 
 #: weblate/trans/models/change.py:254
 msgid "Changed visibility"
-msgstr "変更された表示可否項目"
+msgstr "表示可否の変更"
 
 #: weblate/trans/models/change.py:255
 msgid "Added user"
-msgstr "追加されたユーザ"
+msgstr "ユーザの追加"
 
 #: weblate/trans/models/change.py:256
 msgid "Removed user"
-msgstr "削除されたユーザ"
+msgstr "ユーザの削除"
 
 #: weblate/trans/models/change.py:257
 msgid "Translation approved"
-msgstr "承認された翻訳"
+msgstr "翻訳の承認"
 
 #: weblate/trans/models/change.py:258
 msgid "Marked for edit"
-msgstr "マークされた要編集"
+msgstr "要編集としてマーク"
 
 #: weblate/trans/models/change.py:259
 msgid "Removed component"
-msgstr "削除されたコンポーネント"
+msgstr "コンポーネントの削除"
 
 #: weblate/trans/models/change.py:260
 msgid "Removed project"
-msgstr "削除されたプロジェクト"
+msgstr "プロジェクトの削除"
 
 #: weblate/trans/models/change.py:261
 msgid "Found duplicated language"
-msgstr "発見した重複する言語"
+msgstr "重複した言語の検出"
 
 #: weblate/trans/models/change.py:262
 msgid "Renamed project"
-msgstr "変更されたプロジェクト名"
+msgstr "プロジェクト名の変更"
 
 #: weblate/trans/models/change.py:263
 msgid "Renamed component"
-msgstr "変更されたコンポーネント名"
+msgstr "コンポーネント名の変更"
 
 #: weblate/trans/models/change.py:264
 msgid "Moved component"
-msgstr "移動されたコンポーネント"
+msgstr "コンポーネントの移動"
 
 #: weblate/trans/models/change.py:265
 msgid "New string to translate"
-msgstr "新しい原文"
+msgstr "新しい翻訳対象の文字列"
 
 #: weblate/trans/models/change.py:269
 msgid "Added new language"
-msgstr "追加された新しい言語"
+msgstr "新しい言語の追加"
 
 #: weblate/trans/models/change.py:270
 msgid "Requested new language"
-msgstr "リクエストされた新しい言語"
+msgstr "新しい言語のリクエスト"
 
 #: weblate/trans/models/change.py:271
 msgid "Created project"
-msgstr "作成されたプロジェクト"
+msgstr "プロジェクトの作成"
 
 #: weblate/trans/models/change.py:272
 msgid "Created component"
-msgstr "作成されたコンポーネント"
+msgstr "コンポーネントの作成"
 
 #: weblate/trans/models/change.py:273
 msgid "Invited user"
-msgstr "招待されたユーザ"
+msgstr "ユーザの招待"
 
 #: weblate/trans/models/change.py:274
 msgid "Received repository notification"
-msgstr "受信したリポジトリの通知"
+msgstr "リポジトリ通知の受信"
 
 #: weblate/trans/models/change.py:392
 #, python-format
