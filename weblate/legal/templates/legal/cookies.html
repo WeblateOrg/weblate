@@ -30,7 +30,7 @@
 <ul>
 <li>{% trans "Authentication cookies which are required for recognizing authenticated users." %}</li>
 <li>{% trans "Preferences cookie to store user preferences in certain situations." %}</li>
-{% if piwik_site_id and piwik_url %}
+{% if matomo_site_id and matomo_url %}
 <li>{% blocktrans %}This site uses Matomo to analyze website traffic. It honours "Do Not Track" settings in your browser.{% endblocktrans %}</li>
 {% endif %}
 {% if google_analytics_id %}

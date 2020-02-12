@@ -1064,8 +1064,8 @@ AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
 
 # Third party services integration
-PIWIK_SITE_ID = os.environ.get("WEBLATE_PIWIK_SITE_ID", None)
-PIWIK_URL = os.environ.get("WEBLATE_PIWIK_URL", None)
+MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
+MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
