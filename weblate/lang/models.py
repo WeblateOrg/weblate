@@ -503,7 +503,7 @@ class Plural(models.Model):
         default=2, verbose_name=ugettext_lazy('Number of plurals')
     )
     equation = models.CharField(
-        max_length=400,
+        max_length=600,
         default='n != 1',
         validators=[validate_pluraleq],
         blank=False,
