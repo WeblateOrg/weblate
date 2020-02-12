@@ -720,6 +720,42 @@ Some of exceptions you might want to include:
         r'/js/i18n/$',      # JavaScript localization
     )
 
+.. setting:: PIWIK_SITE_ID
+.. setting:: MATOMO_SITE_ID
+
+MATOMO_SITE_ID
+--------------
+
+ID of a site in Matomo (Piwik) you want to track. Please note that this
+integration does not support Matomo Tag Manager.
+
+.. seealso::
+
+   :setting:`MATOMO_URL`
+
+.. setting:: PIWIK_URL
+.. setting:: MATOMO_URL
+
+MATOMO_URL
+----------
+
+Full URL (including trailing slash) of a Matomo (Piwik) installation you want
+to use to track Weblate users. For more information about Matomo see
+<https://matomo.org/>. Please note that this integration does not support
+Matomo Tag Manager.
+
+For example:
+
+.. code-block:: python
+
+    MATOMO_SITE_ID = 1
+    MATOMO_URL = "https://example.matomo.cloud/"
+
+.. seealso::
+
+   :setting:`MATOMO_SITE_ID`
+
+
 .. setting:: MT_SERVICES
 .. setting:: MACHINE_TRANSLATION_SERVICES
 
@@ -1021,32 +1057,6 @@ NEARBY_MESSAGES
 ---------------
 
 How many messages around current one to show during translating.
-
-.. setting:: MATOMO_SITE_ID
-
-MATOMO_SITE_ID
---------------
-
-ID of a site in Matomo (Piwik) you want to track. Please note that this
-integration does not support Matomo Tag Manager.
-
-.. seealso::
-
-   :setting:`MATOMO_URL`
-
-.. setting:: MATOMO_URL
-
-MATOMO_URL
-----------
-
-Full URL (including trailing slash) of a Matomo (Piwik) installation you want
-to use to track Weblate users. For more information about Matomo see
-<https://matomo.org/>. Please note that this integration does not support
-Matomo Tag Manager.
-
-.. seealso::
-
-   :setting:`MATOMO_SITE_ID`
 
 .. setting:: REGISTRATION_CAPTCHA
 

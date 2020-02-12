@@ -69,7 +69,7 @@ class WeblateConf(AppConf):
         'weblate.trans.autofixes.html.BleachHTML',
     )
 
-    # Matomo (Piwik)
+    # Matomo, formerly known as Piwik
     MATOMO_SITE_ID = None
     MATOMO_URL = None
 
