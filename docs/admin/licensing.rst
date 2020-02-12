@@ -1,27 +1,26 @@
 Licensing translations
 ======================
+You can specify which license translations are contributed under.
+This is especially important to do if translations are
+open to the public, to stipulate what they can be used for.
 
-Weblate allows you to specify which license translations are
-contributed under. This is especially important to do if the translations are
-open to the public in order stipulate what they can be used for.
+You should specify :ref:`component` license info.
+You should avoid requiring a contributor license agreement, though it is possible.
 
-There are two things you specify on the :ref:`component` - license info
-and if applicable, a contributor license agreement.
-
-License information
--------------------
+License info
+------------
 
 Upon specifying license info (license name and URL), this info is
-shown in the translation info section.
+shown in the translation info section of the respective :ref:`component`.
 
-Usually this is best location to place info on licensing where no
-explicit consent is required, like if your project or translation is not libre.
+Usually this is best place to post licensing info if no explicit consent is required.
+If your project or translation is not libre you most probably need prior consent.
 
 Contributor agreement
 ---------------------
 
-Once you specify a contributor license agreement, only users who have agreed to it will
-be able to contribute. This is clearly visible when accessing the translation:
+If you specify a contributor license agreement, only users who have agreed to it will
+be able to contribute. This is a clearly visible step when accessing the translation:
 
 .. image:: /images/contributor-agreement.png
 
@@ -31,6 +30,6 @@ HTML markup can not be used.
 User licenses
 -------------
 
-Any user can review the translation licenses of all public projects on the instance in their profile:
+Any user can review all translation licenses of all public projects on the instance from their profile:
 
 .. image:: /images/profile-licenses.png
