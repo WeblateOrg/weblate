@@ -3,20 +3,18 @@
 from django.db import migrations
 
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_POST_UPDATE
+from weblate.addons.utils import adjust_addon_events
 
 
 def update_addon(apps, schema_editor):
     """Update the repo_scope flag."""
-    Addon = apps.get_model("addons", "Addon")
-    Event = apps.get_model("addons", "Event")
-    db_alias = schema_editor.connection.alias
-    for addon in Addon.objects.using(db_alias).filter(
-        name__in=("weblate.autotranslate.autotranslate", "weblate.flags.bulk")
-    ):
-        Event.objects.using(db_alias).get_or_create(
-            addon=addon, event=EVENT_COMPONENT_UPDATE
-        )
-        addon.event_set.filter(event=EVENT_POST_UPDATE).delete()
+    adjust_addon_events(
+        apps,
+        schema_editor,
+        ("weblate.autotranslate.autotranslate", "weblate.flags.bulk"),
+        [EVENT_COMPONENT_UPDATE],
+        [EVENT_POST_UPDATE],
+    )
 
 
 class Migration(migrations.Migration):
