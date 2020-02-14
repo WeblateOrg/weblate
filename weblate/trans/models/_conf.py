@@ -150,7 +150,7 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     IP_PROXY_OFFSET = 0
 
     # Authentication
-    AUTH_TOKEN_VALID = 86400
+    AUTH_TOKEN_VALID = 172800
     AUTH_LOCK_ATTEMPTS = 10
     AUTH_PASSWORD_DAYS = 180
 
