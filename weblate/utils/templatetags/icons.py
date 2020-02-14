@@ -26,7 +26,6 @@ from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
-from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 
 register = template.Library()
@@ -60,8 +59,8 @@ def icon(name, fallback=None):
 def loading_icon(name=None, hidden=True):
     return mark_safe(
         SPIN.format(
-            'id="loading-{}"'.format(name) if name else '',
-            'style="display: none"' if hidden else '',
-            icon('loading.svg')
+            'id="loading-{}"'.format(name) if name else "",
+            'style="display: none"' if hidden else "",
+            icon("loading.svg"),
         )
     )
