@@ -95,6 +95,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
             lines = handle.readlines()
 
         add = True
+        added = False
         for i, line in enumerate(lines):
             stripped = line.strip()
             # Comment
@@ -105,6 +106,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
                 lines[i] = '{} {}\n'.format(
                     stripped, translation.language_code
                 )
+                added = True
                 add = False
                 break
             # Language is already there
@@ -113,11 +115,13 @@ class UpdateLinguasAddon(GettextBaseAddon):
                 break
         if add:
             lines.append('{}\n'.format(translation.language_code))
+            added = True
 
-        with io.open(path, 'w', encoding='utf-8') as handle:
-            handle.writelines(lines)
+        if added:
+            with io.open(path, 'w', encoding='utf-8') as handle:
+                handle.writelines(lines)
 
-        translation.addon_commit_files.append(path)
+            translation.addon_commit_files.append(path)
 
 
 class UpdateConfigureAddon(GettextBaseAddon):
@@ -162,6 +166,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
             with io.open(path, 'r', encoding='utf-8') as handle:
                 lines = handle.readlines()
 
+            added = False
             for i, line in enumerate(lines):
                 stripped = line.strip()
                 # Comment
@@ -174,11 +179,13 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     translation.language_code,
                     stripped[13:],
                 )
+                added = True
 
-            with io.open(path, 'w', encoding='utf-8') as handle:
-                handle.writelines(lines)
+            if added:
+                with io.open(path, 'w', encoding='utf-8') as handle:
+                    handle.writelines(lines)
 
-            translation.addon_commit_files.append(path)
+                translation.addon_commit_files.append(path)
 
 
 class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
