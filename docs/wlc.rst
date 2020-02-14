@@ -199,7 +199,7 @@ The following subcommands are available:
 
     .. option:: --input
 
-        File from which content is read, if left unspecified the input is read from stdin.
+        File from which content is read, if left unspecified it is read from stdin.
 
 .. _files:
 
