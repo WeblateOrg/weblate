@@ -3,19 +3,19 @@ Weblate 3.11
 
 Not yet released.
 
-* Allow to use vcs push url during component creation via API.
+* Allow using VCS push URL during component creation via API.
 * Rendered width check now shows image with the render.
-* Fixed links in notifications mails.
-* Improved look of plain text mails.
+* Fixed links in notifications e-mails.
+* Improved look of plaintext e-mails.
 * Display ignored checks and allow to make them active again.
 * Display nearby keys on monolingual translations.
 * Added support for groupping string shapings.
-* Recommend upgrade to new Weblate version in the system checks.
+* Recommend upgrade to new Weblate versions in the system checks.
 * Provide more detailed analysis for duplicate language alert.
-* Include more detailed license information on the project pages.
+* Include more detailed license info on the project pages.
 * Automatically unshallow local copies if needed.
-* Fixed downloads of strings needing action.
-* New alert to warn about using same filemask twice.
+* Fixed download of strings needing action.
+* New alert to warn about using the same filemask twice.
 * Improve XML placeables extraction.
 * The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project.
 * Added option to resolve comments.
@@ -33,7 +33,7 @@ Weblate 3.10.3
 
 Released on January 18th 2020.
 
-* Support translate-toolkit 2.5.0.
+* Support for translate-toolkit 2.5.0.
 
 Weblate 3.10.2
 --------------
