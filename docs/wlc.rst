@@ -183,7 +183,7 @@ The following subcommands are available:
 
     .. option:: --output
 
-        Specifies file to save output in, if left unspecified output is printed to stdout.
+        Specifies file to save output in, if left unspecified it is printed to stdout.
 
 .. option:: upload
 
