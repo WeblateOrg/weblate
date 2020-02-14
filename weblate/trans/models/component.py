@@ -1518,7 +1518,8 @@ class Component(models.Model, URLMixin, PathMixin):
                 }
             )
         for setting in ("push", "branch", "git_export"):
-            if getattr(self, setting):
+            # The git_export might be missing in case of form validation
+            if getattr(self, setting, None):
                 raise ValidationError(
                     {setting: _("Option is not available for linked repositories.")}
                 )
