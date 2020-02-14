@@ -27,6 +27,7 @@ Not yet released.
 * Improved Matomo integration.
 * Fixed :ref:`check-translated` to correctly handle source string change.
 * Extended automatic updates configuration by :setting:`AUTO_UPDATE`.
+* LINGUAS addons now do full sync of translations in Weblate.
 
 Weblate 3.10.3
 --------------

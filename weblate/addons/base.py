@@ -249,6 +249,21 @@ class BaseAddon(object):
             component=component,
         )
 
+    def commit_and_push(self, component, files=None):
+        if files is None:
+            files = list(
+                chain.from_iterable(
+                    translation.filenames
+                    for translation in component.translation_set.iterator()
+                )
+            )
+            files += self.extra_files
+        repository = component.repository
+        with repository.lock:
+            if repository.needs_commit():
+                repository.commit(self.get_commit_message(component), files=files)
+                component.push_if_needed(None)
+
     def render_repo_filename(self, template, translation):
         component = translation.component
 
@@ -317,24 +332,6 @@ class UpdateBaseAddon(BaseAddon):
 
     def update_translations(self, component, previous_head):
         raise NotImplementedError()
-
-    def commit_and_push(self, component):
-        repository = component.repository
-        with repository.lock:
-            if repository.needs_commit():
-                files = (
-                    list(
-                        chain.from_iterable(
-                            (
-                                translation.filenames
-                                for translation in component.translation_set.iterator()
-                            )
-                        )
-                    )
-                    + self.extra_files
-                )
-                repository.commit(self.get_commit_message(component), files=files)
-                component.push_if_needed(None)
 
     def post_update(self, component, previous_head):
         component.commit_pending('addon', None, skip_push=True)

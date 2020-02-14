@@ -173,15 +173,27 @@ class GettextAddonTest(ViewTestCase):
         translation = self.get_translation()
         self.assertTrue(UpdateLinguasAddon.can_install(translation.component, None))
         addon = UpdateLinguasAddon.create(translation.component)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn('LINGUAS', commit)
+        self.assertIn("\n+cs\n", commit)
         addon.post_add(translation)
-        self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
+        self.assertEqual(translation.addon_commit_files, [])
+
+        other = self._create_component(
+            'po', 'po-duplicates/*.dpo', name="Other", project=self.project
+        )
+        self.assertTrue(UpdateLinguasAddon.can_install(other, None))
+        addon = UpdateLinguasAddon.create(other)
+        commit = other.repository.show(other.repository.last_revision)
+        self.assertIn("LINGUAS", commit)
+        self.assertIn("\n+cs de it", commit)
 
     def test_update_configure(self):
         translation = self.get_translation()
         self.assertTrue(UpdateConfigureAddon.can_install(translation.component, None))
         addon = UpdateConfigureAddon.create(translation.component)
         addon.post_add(translation)
-        self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
+        self.assertEqual(translation.addon_commit_files, [])
 
     def test_msgmerge(self, wrapped=True):
         self.assertTrue(MsgmergeAddon.can_install(self.component, None))
