@@ -45,11 +45,7 @@ OPERATORS = {
 class MathCaptcha(object):
     """Simple match captcha object."""
     operators = ('+', '-', '*')
-    operators_display = {
-        '+': icon('plus.svg'),
-        '-': icon('minus.svg'),
-        '*': icon('close.svg'),
-    }
+    operators_display = {}
     interval = (1, 10)
 
     def __init__(self, question=None, timestamp=None):
@@ -61,6 +57,12 @@ class MathCaptcha(object):
             self.timestamp = time.time()
         else:
             self.timestamp = timestamp
+        if not self.operators_display:
+            self.operators_display = {
+                '+': icon('plus.svg'),
+                '-': icon('minus.svg'),
+                '*': icon('close.svg'),
+            }
 
     def generate_question(self):
         """Generate random question."""
