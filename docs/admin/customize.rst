@@ -90,6 +90,19 @@ into :setting:`django:INSTALLED_APPS`:
       # Weblate apps are here...
    )
 
+To adjust branding, you will most likely want to override following files:
+
+:file:`weblate.svg`
+    Logo shown in the navigation bar.
+:file:`logo-*.png`
+    Web icons depending on screen resolution and browser.
+:file:`favicon.ico`
+    Web icon used by legacy browsers.
+:file:`weblate-*.png`
+    In application avatars for bot or anonymous users. Also used by some browsers as a shortcut icon.
+:file:`email-logo.png`
+    Used in notifications emails.
+
 And then execute :samp:`./manage.py collectstatic --noinput`, this will collect
 static files served to clients.
 
