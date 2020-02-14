@@ -92,7 +92,7 @@ into :setting:`django:INSTALLED_APPS`:
 
 To adjust branding, you will most likely want to override following files:
 
-:file:`weblate.svg`
+:file:`icons/weblate.svg`
     Logo shown in the navigation bar.
 :file:`logo-*.png`
     Web icons depending on screen resolution and browser.
