@@ -128,7 +128,7 @@ def check_celery(app_configs, **kwargs):
     heartbeat = cache.get('celery_heartbeat')
     loaded = cache.get('celery_loaded')
     now = time.time()
-    if now - loaded > 60 and (not heartbeat or now - heartbeat > 600):
+    if loaded and now - loaded > 60 and (not heartbeat or now - heartbeat > 600):
         errors.append(
             Critical(
                 'The Celery beats scheduler is not executing periodic tasks '
