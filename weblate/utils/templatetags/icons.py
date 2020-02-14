@@ -42,8 +42,7 @@ def icon(name, fallback=None):
         name = fallback
 
     if not name:
-        LOGGER.error("Empty icon name")
-        return ""
+        raise ValueError("Empty icon name")
 
     if name not in CACHE:
         icon_file = os.path.join(settings.STATIC_ROOT, "icons", name)
