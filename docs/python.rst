@@ -10,8 +10,8 @@ Weblate's Python API
 Installation
 ============
 
-The Python API is shipped separately, you need to install
-:ref:`wlc`:, wlc, to have it.
+The Python API is shipped separately, you need to install the
+:ref:`wlc`: (wlc) to have it.
 
 .. code-block:: sh
 
@@ -50,7 +50,7 @@ The Python API is shipped separately, you need to install
         :type path: str
         :rtype: object
 
-        Performs single API GET call.
+        Performs a single API GET call.
 
     .. method:: post(path, **kwargs)
 
@@ -58,7 +58,7 @@ The Python API is shipped separately, you need to install
         :type path: str
         :rtype: object
 
-        Performs single API GET call.
+        Performs a single API GET call.
 
 
 :mod:`wlc.config`
@@ -83,27 +83,27 @@ The Python API is shipped separately, you need to install
         :param path: Path from which to load configuration.
         :type path: str
 
-        Loads configuration from a file, if none is specified it loads from
-        `wlc` configuration file placed in XDG configuration path
-        (:file:`~/.config/wlc` and :file:`/etc/xdg/wlc`).
+        Loads configuration from a file, if none is specified, it loads from
+        the `wlc` configuration file (:file:`~/.config/wlc`) placed in your
+        XDG configuration path (:file:`/etc/xdg/wlc`).
 
 
 :mod:`wlc.main`
 ===============
 
 .. module:: wlc.main
-    :synopsis: Command line interface
+    :synopsis: Command-line interface
 
 .. function:: main(settings=None, stdout=None, args=None)
 
-    :param settings: settings to override as list of tuples
+    :param settings: Settings to override as list of tuples
     :type settings: list
     :param stdout: stdout file object for printing output, uses ``sys.stdout`` as default
     :type stdout: object
-    :param args: command line arguments to process, uses ``sys.args`` as default
+    :param args: Command-line arguments to process, uses ``sys.args`` as default
     :type args: list
 
-    Main entry point for command line interface.
+    Main entry point for command-line interface.
 
 .. decorator:: register_command(command)
 
