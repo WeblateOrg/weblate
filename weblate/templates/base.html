@@ -232,7 +232,11 @@ var _rollbarConfig = {
 <h1>
 <ol class="breadcrumb">
 <li class="bread-icon">
-{% icon bread_image "error.svg" %}
+{% if bread_image %}
+{% icon bread_image %}
+{% else %}
+{% icon "error.svg" %}
+{% endif %}
 </li>
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">{% trans "Dashboard" %}</a></li>

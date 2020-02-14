@@ -36,10 +36,11 @@ SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
 
 @register.simple_tag()
-def icon(name, fallback=None):
-    if not name and fallback is not None:
-        name = fallback
+def icon(name):
+    """Inlines SVG icon.
 
+    Inlining is necessary to be able to apply CSS styles on the path.
+    """
     if not name:
         raise ValueError("Empty icon name")
 
