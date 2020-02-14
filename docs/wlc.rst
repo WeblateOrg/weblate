@@ -43,7 +43,7 @@ built on :mod:`wlc`.
 Instance wide options
 --------------
 
-The program accepts the following global options, which must be entered before any subcommand.
+The program accepts the following options for a whole instance, which must be entered before any subcommand.
 
 .. option:: --format {csv,json,text,html}
 
