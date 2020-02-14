@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-12 10:36+0000\n"
-"PO-Revision-Date: 2020-02-11 21:29+0000\n"
+"PO-Revision-Date: 2020-02-15 15:18+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
@@ -911,6 +911,8 @@ msgstr "Tömeges szerkesztés"
 #: weblate/addons/flags.py:100
 msgid "This addon allow to bulk edit flags, labels or state."
 msgstr ""
+"Ez a kiegészítő lehetővé teszi a jelzők, a címkék vagy az állapot tömeges "
+"szerkesztését."
 
 #: weblate/addons/forms.py:55
 msgid "Path of generated MO file"
@@ -1964,13 +1966,11 @@ msgstr "A \\n száma a fordításban nem egyezik a forrással"
 
 #: weblate/checks/chars.py:334
 msgid "Newline charater count mismatch"
-msgstr ""
+msgstr "Nem egyező új sor karakter szám"
 
 #: weblate/checks/chars.py:335
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
-msgstr "A \\n száma a fordításban nem egyezik a forrással"
+msgstr "Az új sorok száma a fordításban nem egyezik a forrással"
 
 #: weblate/checks/chars.py:343 weblate/trans/autofixes/chars.py:45
 msgid "Zero-width space"
@@ -2747,12 +2747,9 @@ msgid "Unknown"
 msgstr "Ismeretlen"
 
 #: weblate/lang/models.py:487
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr "Egy/kettő/néhány/sok/egyéb"
+msgstr "Nulla/egy/kettő/néhány/sok/egyéb"
 
 #: weblate/lang/models.py:495
 msgid "Plural definition source"
@@ -5783,10 +5780,8 @@ msgid "No matching activity found."
 msgstr "Nem található megfelelő tevékenység."
 
 #: weblate/templates/list-comments.html:13
-#, fuzzy
-#| msgid "Removed component"
 msgid "Resolved comment"
-msgstr "Eltávolított összetevő"
+msgstr "Megoldott megjegyzés"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -5800,7 +5795,7 @@ msgstr "Fordítási megjegyzés"
 
 #: weblate/templates/list-comments.html:29
 msgid "Resolve"
-msgstr ""
+msgstr "Megoldás"
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -6112,8 +6107,8 @@ msgstr ""
 #, python-format
 msgid "The confirmation URL will expire after %(count)s hour."
 msgid_plural "The confirmation URL will expire after %(count)s hours."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "A megerősítő URL %(count)s óra után le fog járni."
+msgstr[1] "A megerősítő URL %(count)s óra után le fog járni."
 
 #: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
@@ -6165,10 +6160,8 @@ msgid "Not yet logged in"
 msgstr "Még nincs bejelentkezve"
 
 #: weblate/templates/manage-access.html:53
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend invitation"
-msgstr "Adminisztráció"
+msgstr "Meghívás újraküldése"
 
 #: weblate/templates/manage-access.html:64
 msgid ""
@@ -6596,7 +6589,7 @@ msgstr "Szerkesztést igényel"
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/translate.html:574
 msgid "Labels"
-msgstr ""
+msgstr "Címkék"
 
 #: weblate/templates/project-label-edit.html:16
 msgid "Edit label"
@@ -6608,7 +6601,7 @@ msgstr "Címke neve"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:35
 msgid "Color"
-msgstr ""
+msgstr "Szín"
 
 #: weblate/templates/project-labels.html:37
 msgid "Add label"
@@ -6999,7 +6992,7 @@ msgstr "Jóváhagyott szövegek javaslatokkal"
 
 #: weblate/templates/snippets/query-builder.html:99
 msgid "All untranslated strings added in the past month"
-msgstr ""
+msgstr "Az elmúlt hónapban hozzáadott összes lefordítatlan szöveg"
 
 #: weblate/templates/snippets/suggestions.html:12
 #: weblate/trans/models/change.py:226
@@ -7105,10 +7098,8 @@ msgstr ""
 "szolgáltatást, de javasolt a csomag növelése."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some linked components have the same filemask."
-msgstr "Ezen projekten belül néhány összetevő riasztásokkal rendelkezik."
+msgstr "Néhány kapcsolt összetevő ugyanazzal a fájlmaszkkal rendelkezik."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid "Please fix this by removing one of them."
@@ -7139,12 +7130,16 @@ msgid ""
 "Remove the translation file for the source language or change the source "
 "language in the project settings."
 msgstr ""
+"Távolítsa el a fordítási fájlt a forrásnyelvnél, vagy változtassa meg a "
+"forrásnyelvet a projekt beállításaiban."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
 "Avoid having translation files for both plain language code and code with "
 "default country (for example de and de_DE)."
 msgstr ""
+"Kerülje el, hogy a fordítási fájlok egyszerű nyelvkódot és alapértelmezett "
+"országgal rendelkező kódot is tartalmazzanak (például „de” és „de_DE”)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -9097,14 +9092,12 @@ msgstr ""
 "befolyásolására. A lehetséges értékek megtalálhatók a dokumentációban."
 
 #: weblate/trans/models/component.py:339
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced checks"
-msgstr "Figyelmen kívül hagyott ellenőrzések"
+msgstr "Kényszerített ellenőrzések"
 
 #: weblate/trans/models/component.py:340
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "Ellenőrzések listája, amelyeket nem lehet figyelmen kívül hagyni."
 
 #: weblate/trans/models/component.py:358
 msgid ""
@@ -9267,7 +9260,7 @@ msgstr "Nem sikerült beolvasztani a távoli ágat ebbe: %s."
 #: weblate/trans/models/component.py:1482
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
-"Érvénytelen Weblate projekt hivatkozás, nem lehet hivatkozni csatolt "
+"Érvénytelen Weblate projekt hivatkozás, nem lehet hivatkozni kapcsolt "
 "tárolóra!"
 
 #: weblate/trans/models/component.py:1491
@@ -10237,10 +10230,8 @@ msgid "Translation comment has been deleted."
 msgstr "A fordítási megjegyzés törölve lett."
 
 #: weblate/trans/views/edit.py:618
-#, fuzzy
-#| msgid "Translation comment has been deleted."
 msgid "Translation comment has been resolved."
-msgstr "A fordítási megjegyzés törölve lett."
+msgstr "A fordítási megjegyzés meg lett oldva."
 
 #: weblate/trans/views/edit.py:765
 msgid "Translation with this key seem to already exist!"
@@ -10408,20 +10399,15 @@ msgid "Invalid search query!"
 msgstr "Érvénytelen keresési lekérdezés!"
 
 #: weblate/trans/views/search.py:242
-#, fuzzy
-#| msgid "Bulk status change completed, no strings were updated."
 msgid "Bulk edit completed, no strings were updated."
-msgstr ""
-"A tömeges állapotváltoztatás befejeződött, egyetlen szöveg sem frissült."
+msgstr "A tömeges szerkesztés befejeződött, egyetlen szöveg sem frissült."
 
 #: weblate/trans/views/search.py:244
-#, fuzzy, python-format
-#| msgid "Bulk status change completed, %d string was updated."
-#| msgid_plural "Bulk status change completed, %d strings were updated."
+#, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "A tömeges állapotváltoztatás befejeződött, %d szöveg frissült."
-msgstr[1] "A tömeges állapotváltoztatás befejeződött, %d szöveg frissült."
+msgstr[0] "A tömeges szerkesztés befejeződött, %d szöveg frissült."
+msgstr[1] "A tömeges szerkesztés befejeződött, %d szöveg frissült."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
@@ -10489,10 +10475,8 @@ msgid "Forbidden URL scheme!"
 msgstr "Tiltott URL séma!"
 
 #: weblate/utils/search.py:115
-#, fuzzy
-#| msgid "Unsupported file!"
 msgid "Unsupported state: {}"
-msgstr "Nem támogatott fájl!"
+msgstr "Nem támogatott állapot: {}"
 
 #: weblate/utils/search.py:299
 msgid "Invalid regular expression: {}"
