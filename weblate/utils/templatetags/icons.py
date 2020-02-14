@@ -38,7 +38,7 @@ SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
 @register.simple_tag()
 def icon(name, fallback=None):
-    if fallback is not None:
+    if not name and fallback is not None:
         name = fallback
 
     if not name:
