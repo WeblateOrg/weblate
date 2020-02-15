@@ -37,13 +37,13 @@ def cache_key(*args):
         if hasattr(val, 'id'):
             return str(val.id)
         return str(val)
-    return 'activity-{}'.format('-'.join(
-        [makekey(arg) for arg in args]
-    ))
+
+    return 'activity-{}'.format('-'.join(makekey(arg) for arg in args))
 
 
-def get_json_stats(request, days, step, project=None, component=None,
-                   lang=None, user=None):
+def get_json_stats(
+    request, days, step, project=None, component=None, lang=None, user=None
+):
     """Parse json stats URL params."""
     if project is None and lang is None and user is None:
         project = None
@@ -66,17 +66,12 @@ def get_json_stats(request, days, step, project=None, component=None,
     else:
         # Process parameters
         project, component, translation = get_project_translation(
-            request,
-            project,
-            component,
-            lang
+            request, project, component, lang
         )
         language = None
         user = None
 
-    key = cache_key(
-        days, step, project, component, translation, language, user
-    )
+    key = cache_key(days, step, project, component, translation, language, user)
     result = cache.get(key)
     if not result or True:
         # Get actual stats
@@ -87,13 +82,9 @@ def get_json_stats(request, days, step, project=None, component=None,
     return result
 
 
-def yearly_activity(request, project=None, component=None, lang=None,
-                    user=None):
+def yearly_activity(request, project=None, component=None, lang=None, user=None):
     """Return yearly activity for matching changes as json."""
-    activity = get_json_stats(
-        request, 364, 7,
-        project, component, lang, user,
-    )
+    activity = get_json_stats(request, 364, 7, project, component, lang, user)
 
     # Format
     serie = []
@@ -104,29 +95,19 @@ def yearly_activity(request, project=None, component=None, lang=None,
         if month != item[0].month:
             labels.append(
                 pgettext(
-                    'Format string for yearly activity chart',
-                    '{month}/{year}'
-                ).format(
-                    month=item[0].month,
-                    year=item[0].year,
-                )
+                    'Format string for yearly activity chart', '{month}/{year}'
+                ).format(month=item[0].month, year=item[0].year)
             )
             month = item[0].month
         else:
             labels.append('')
 
-    return JsonResponse(
-        data={'series': [serie], 'labels': labels}
-    )
+    return JsonResponse(data={'series': [serie], 'labels': labels})
 
 
-def monthly_activity(request, project=None, component=None, lang=None,
-                     user=None):
+def monthly_activity(request, project=None, component=None, lang=None, user=None):
     """Return monthly activity for matching changes as json."""
-    activity = get_json_stats(
-        request, 31, 1,
-        project, component, lang, user
-    )
+    activity = get_json_stats(request, 31, 1, project, component, lang, user)
 
     # Format
     serie = []
@@ -136,17 +117,10 @@ def monthly_activity(request, project=None, component=None, lang=None,
         if pos % 5 == 0:
             labels.append(
                 pgettext(
-                    'Format string for monthly activity chart',
-                    '{day}/{month}'
-                ).format(
-                    day=item[0].day,
-                    month=item[0].month,
-                    year=item[0].year,
-                )
+                    'Format string for monthly activity chart', '{day}/{month}'
+                ).format(day=item[0].day, month=item[0].month, year=item[0].year)
             )
         else:
             labels.append('')
 
-    return JsonResponse(
-        data={'series': [serie], 'labels': labels}
-    )
+    return JsonResponse(data={'series': [serie], 'labels': labels})
