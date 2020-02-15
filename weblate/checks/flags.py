@@ -152,7 +152,7 @@ class Flags(object):
         return ", ".join(sorted(self._items.values()))
 
     def validate(self):
-        for name in self._items.keys():
+        for name in self._items:
             is_typed = name in TYPED_FLAGS
             is_plain = name in PLAIN_FLAGS or name in IGNORE_CHECK_FLAGS
             if not is_typed and not is_plain:
