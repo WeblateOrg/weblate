@@ -7,6 +7,7 @@ default_env = {
     "DJANGO_SETTINGS_MODULE": "weblate.settings_test",
     "CI_DATABASE": "postgresql",
     "CI_DB_HOST": "database",
+    "CI_SELENIUM": "1",
 }
 
 # Basic set of installation files, usually used to update base docker image
@@ -150,6 +151,8 @@ def main(ctx):
             "tests:migrations-3.7", [migrations_step, codecov_step], [database_service]
         ),
         pipeline(
-            "tests:migrations-2.7", [migrations_step_27, codecov_step], [database_service]
+            "tests:migrations-2.7",
+            [migrations_step_27, codecov_step],
+            [database_service],
         ),
     ]

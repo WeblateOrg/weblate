@@ -115,6 +115,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             cls.driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
             cls.driver_error = str(error)
+            if 'DO_SELENIUM' in os.environ:
+                raise
 
         if cls.driver is not None:
             cls.driver.implicitly_wait(5)
