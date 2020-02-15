@@ -293,7 +293,7 @@ class CreateTest(ViewTestCase):
                 'discovery': '0',
             }
         )
-        self.assertContains(response, 'New translation')
+        self.assertContains(response, 'Adding new translation')
         self.assertContains(response, '*.po')
 
     @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
