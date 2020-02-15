@@ -218,59 +218,113 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_HOOK = 53
 
     ACTION_CHOICES = (
+        # Translators: Name of event in the history
         (ACTION_UPDATE, ugettext_lazy('Resource update')),
+        # Translators: Name of event in the history
         (ACTION_COMPLETE, ugettext_lazy('Translation completed')),
+        # Translators: Name of event in the history
         (ACTION_CHANGE, ugettext_lazy('Translation changed')),
+        # Translators: Name of event in the history
         (ACTION_NEW, ugettext_lazy('New translation')),
+        # Translators: Name of event in the history
         (ACTION_COMMENT, ugettext_lazy('Comment added')),
+        # Translators: Name of event in the history
         (ACTION_SUGGESTION, ugettext_lazy('Suggestion added')),
+        # Translators: Name of event in the history
         (ACTION_AUTO, ugettext_lazy('Automatic translation')),
+        # Translators: Name of event in the history
         (ACTION_ACCEPT, ugettext_lazy('Suggestion accepted')),
+        # Translators: Name of event in the history
         (ACTION_REVERT, ugettext_lazy('Translation reverted')),
+        # Translators: Name of event in the history
         (ACTION_UPLOAD, ugettext_lazy('Translation uploaded')),
+        # Translators: Name of event in the history
         (ACTION_DICTIONARY_NEW, ugettext_lazy('Glossary added')),
+        # Translators: Name of event in the history
         (ACTION_DICTIONARY_EDIT, ugettext_lazy('Glossary updated')),
+        # Translators: Name of event in the history
         (ACTION_DICTIONARY_UPLOAD, ugettext_lazy('Glossary uploaded')),
+        # Translators: Name of event in the history
         (ACTION_NEW_SOURCE, ugettext_lazy('New source string')),
+        # Translators: Name of event in the history
         (ACTION_LOCK, ugettext_lazy('Component locked')),
+        # Translators: Name of event in the history
         (ACTION_UNLOCK, ugettext_lazy('Component unlocked')),
+        # Translators: Name of event in the history
         (ACTION_DUPLICATE_STRING, ugettext_lazy('Found duplicated string')),
+        # Translators: Name of event in the history
         (ACTION_COMMIT, ugettext_lazy('Committed changes')),
+        # Translators: Name of event in the history
         (ACTION_PUSH, ugettext_lazy('Pushed changes')),
+        # Translators: Name of event in the history
         (ACTION_RESET, ugettext_lazy('Reset repository')),
+        # Translators: Name of event in the history
         (ACTION_MERGE, ugettext_lazy('Merged repository')),
+        # Translators: Name of event in the history
         (ACTION_REBASE, ugettext_lazy('Rebased repository')),
+        # Translators: Name of event in the history
         (ACTION_FAILED_MERGE, ugettext_lazy('Failed merge on repository')),
+        # Translators: Name of event in the history
         (ACTION_FAILED_REBASE, ugettext_lazy('Failed rebase on repository')),
+        # Translators: Name of event in the history
         (ACTION_FAILED_PUSH, ugettext_lazy('Failed push on repository')),
+        # Translators: Name of event in the history
         (ACTION_PARSE_ERROR, ugettext_lazy('Parse error')),
+        # Translators: Name of event in the history
         (ACTION_REMOVE_TRANSLATION, ugettext_lazy('Removed translation')),
+        # Translators: Name of event in the history
         (ACTION_SUGGESTION_DELETE, ugettext_lazy('Suggestion removed')),
+        # Translators: Name of event in the history
         (ACTION_REPLACE, ugettext_lazy('Search and replace')),
+        # Translators: Name of event in the history
         (ACTION_SUGGESTION_CLEANUP, ugettext_lazy('Suggestion removed during cleanup')),
+        # Translators: Name of event in the history
         (ACTION_SOURCE_CHANGE, ugettext_lazy('Source string changed')),
+        # Translators: Name of event in the history
         (ACTION_NEW_UNIT, ugettext_lazy('New string added')),
+        # Translators: Name of event in the history
         (ACTION_MASS_STATE, ugettext_lazy('Bulk status change')),
+        # Translators: Name of event in the history
         (ACTION_ACCESS_EDIT, ugettext_lazy('Changed visibility')),
+        # Translators: Name of event in the history
         (ACTION_ADD_USER, ugettext_lazy('Added user')),
+        # Translators: Name of event in the history
         (ACTION_REMOVE_USER, ugettext_lazy('Removed user')),
+        # Translators: Name of event in the history
         (ACTION_APPROVE, ugettext_lazy('Translation approved')),
+        # Translators: Name of event in the history
         (ACTION_MARKED_EDIT, ugettext_lazy('Marked for edit')),
+        # Translators: Name of event in the history
         (ACTION_REMOVE_COMPONENT, ugettext_lazy('Removed component')),
+        # Translators: Name of event in the history
         (ACTION_REMOVE_PROJECT, ugettext_lazy('Removed project')),
+        # Translators: Name of event in the history
         (ACTION_DUPLICATE_LANGUAGE, ugettext_lazy('Found duplicated language')),
+        # Translators: Name of event in the history
         (ACTION_RENAME_PROJECT, ugettext_lazy('Renamed project')),
+        # Translators: Name of event in the history
         (ACTION_RENAME_COMPONENT, ugettext_lazy('Renamed component')),
+        # Translators: Name of event in the history
         (ACTION_MOVE_COMPONENT, ugettext_lazy('Moved component')),
+        # Translators: Name of event in the history
         (ACTION_NEW_STRING, ugettext_lazy('New string to translate')),
+        # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, ugettext_lazy('New contributor')),
+        # Translators: Name of event in the history
         (ACTION_MESSAGE, ugettext_lazy('New whiteboard message')),
+        # Translators: Name of event in the history
         (ACTION_ALERT, ugettext_lazy('New alert')),
+        # Translators: Name of event in the history
         (ACTION_ADDED_LANGUAGE, ugettext_lazy('Added new language')),
+        # Translators: Name of event in the history
         (ACTION_REQUESTED_LANGUAGE, ugettext_lazy('Requested new language')),
+        # Translators: Name of event in the history
         (ACTION_CREATE_PROJECT, ugettext_lazy('Created project')),
+        # Translators: Name of event in the history
         (ACTION_CREATE_COMPONENT, ugettext_lazy('Created component')),
+        # Translators: Name of event in the history
         (ACTION_INVITE_USER, ugettext_lazy('Invited user')),
+        # Translators: Name of event in the history
         (ACTION_HOOK, ugettext_lazy('Received repository notification')),
     )
 
