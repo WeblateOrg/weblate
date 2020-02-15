@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-12 10:36+0000\n"
 "PO-Revision-Date: 2020-02-15 15:18+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -889,14 +889,12 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:65
 #: weblate/templates/snippets/project-nav.html:75
 #: weblate/templates/translation.html:69 weblate/templates/translation.html:275
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "フル エディタ"
+msgstr "一括編集"
 
 #: weblate/addons/flags.py:100
 msgid "This addon allow to bulk edit flags, labels or state."
-msgstr ""
+msgstr "フラグ、ラベル、または状態を一括編集できるアドオンです。"
 
 #: weblate/addons/forms.py:55
 msgid "Path of generated MO file"
@@ -1941,7 +1939,7 @@ msgstr ""
 
 #: weblate/checks/chars.py:334
 msgid "Newline charater count mismatch"
-msgstr "改行コードの数が合っていない"
+msgstr "改行コードの数が一致しない"
 
 #: weblate/checks/chars.py:335
 msgid "Number of new lines in translation does not match source"
@@ -2721,7 +2719,7 @@ msgstr "未知"
 #: weblate/lang/models.py:487
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr "ゼロ/1つ/2つ/少数/多数/その他"
+msgstr "ゼロ/ 1 つ/ 2 つ/少数/多数/その他"
 
 #: weblate/lang/models.py:495
 msgid "Plural definition source"
@@ -3234,29 +3232,28 @@ msgstr "商用ホスティングに関する連絡先"
 
 #: weblate/templates/about/index.html:53
 msgid "Weblate is built on libre software"
-msgstr "Weblate はリブレ ソフトウェアを用いて作られています"
+msgstr "Weblate はリブレ ソフトウェアを基に作られています"
 
 #: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:113
 msgid "Weblate keys"
-msgstr "Weblate キー"
+msgstr "Weblate 暗号鍵"
 
 #: weblate/templates/about/keys.html:16
 #: weblate/templates/manage/snippets/backup-credentials.html:14
 msgid "SSH key"
-msgstr "SSH 鍵"
+msgstr "SSH 暗号鍵"
 
 #: weblate/templates/about/keys.html:22
 msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"Weblate は、リモートリポジトリにアクセスするのに SSH キーを使用します。一致す"
-"る公開鍵は以下の通りです。Weblate にリポジトリへのアクセスを許可する際にご利"
-"用いただけます。"
+"Weblate は、SSH 暗号鍵を使用してリモート リポジトリにアクセスします。対応する公開鍵は以下の通りです。これを使用して、Weblate "
+"にリポジトリへのアクセス権を付与できます。"
 
 #: weblate/templates/about/keys.html:27
 msgid "SSH key not available."
-msgstr "SSH 鍵はご利用いただけません。"
+msgstr "SSH 暗号鍵は無効です。"
 
 #: weblate/templates/about/keys.html:36
 msgid "Commit signing"
@@ -5349,7 +5346,7 @@ msgstr "アップロード者"
 
 #: weblate/templates/fonts/font_detail.html:23
 msgid "Used in groups"
-msgstr "グループで使用"
+msgstr "使われているグループ"
 
 #: weblate/templates/fonts/font_list.html:15
 #: weblate/templates/fonts/fontgroup_detail.html:9
@@ -5837,9 +5834,7 @@ msgstr "要約 : %(notification_name)s"
 msgid ""
 "%(from_user)s invites you to collaborate on the %(project_name)s translation "
 "project at %(site_title)s."
-msgstr ""
-"%(from_user)s は、%(project_name)s の翻訳プロジェクトを %(site_title)s で共同"
-"作業することを勧めます。"
+msgstr "%(from_user)s から、%(site_title)s での %(project_name)s の翻訳プロジェクトに招待されました。"
 
 #: weblate/templates/mail/invite_subject.txt:4
 #, python-format
@@ -6026,7 +6021,7 @@ msgstr ""
 #, python-format
 msgid "The confirmation URL will expire after %(count)s hour."
 msgid_plural "The confirmation URL will expire after %(count)s hours."
-msgstr[0] ""
+msgstr[0] "確認 URL は、%(count)s 時間後に期限が切れます。"
 
 #: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
@@ -6078,10 +6073,8 @@ msgid "Not yet logged in"
 msgstr "まだログインしていません"
 
 #: weblate/templates/manage-access.html:53
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend invitation"
-msgstr "管理"
+msgstr "招待状の再送信"
 
 #: weblate/templates/manage-access.html:64
 msgid ""
@@ -6501,29 +6494,23 @@ msgstr "要編集"
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/translate.html:574
 msgid "Labels"
-msgstr ""
+msgstr "ラベル"
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "基本ファイルの編集"
+msgstr "ラベルの編集"
 
 #: weblate/templates/project-labels.html:17 weblate/trans/models/label.py:33
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "言語名"
+msgstr "ラベル名"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:35
 msgid "Color"
-msgstr ""
+msgstr "色"
 
 #: weblate/templates/project-labels.html:37
-#, fuzzy
-#| msgid "Add language"
 msgid "Add label"
-msgstr "言語の追加"
+msgstr "ラベルの追加"
 
 #: weblate/templates/project.html:63
 msgid "Browse all project changes"
@@ -7008,10 +6995,8 @@ msgstr ""
 "すが、更新を行うことを推奨します。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some linked components have the same filemask."
-msgstr "プロジェクト内の一部のコンポーネントに警告があります。"
+msgstr "リンクされたコンポーネントの中には、同じファイルマスクを持つものがあります。"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 #, fuzzy
@@ -7060,7 +7045,7 @@ msgstr ""
 msgid ""
 "Avoid having translation files for both plain language code and code with "
 "default country (for example de and de_DE)."
-msgstr ""
+msgstr "言語コードと、言語_国コード（例えば、de と de_DE）の両方の翻訳ファイルを用意しないでください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -7243,9 +7228,7 @@ msgstr ""
 msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
-msgstr ""
-"翻訳用の文字列を含む、アップロード済みの ZIP ファイルから、新しい翻訳コンポー"
-"ネントを作成します。"
+msgstr "翻訳する文字列を含む ZIP ファイルをアップロードして、新しい翻訳コンポーネントを作成します。"
 
 #: weblate/templates/trans/component_create.html:101
 msgid "Create a new empty translation component to start from scratch."
@@ -7262,9 +7245,7 @@ msgstr "既存の翻訳ファイルを含む ZIP ファイルを作成し、%(li
 msgid ""
 "You will be able to edit more options in the component settings after "
 "creating it."
-msgstr ""
-"コンポーネントを作成すると、コンポーネントの設定でオプションをさらに編集でき"
-"るようになります。"
+msgstr "コンポーネントの作成後は、コンポーネント設定でさらにオプションを編集できます。"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "The following translation components will be also removed:"
@@ -7606,10 +7587,8 @@ msgid "No context currently associated!"
 msgstr "現時点ではコンテキストが割り当てられていません！"
 
 #: weblate/templates/translate.html:579
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No labels currently set!"
-msgstr "現時点ではフラグが設定されていません！"
+msgstr "現在ラベルは設定されていません！"
 
 #: weblate/templates/translate.html:587
 msgid "Flags"
@@ -7983,10 +7962,8 @@ msgid "Strings with shapings"
 msgstr "キーワードの抽出"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with similar keys"
 msgid "Strings with labels"
-msgstr "翻訳キーに近い文字列"
+msgstr "ラベル付き文字列"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8005,11 +7982,8 @@ msgid "Failed check: {}"
 msgstr "チェック不良: {}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Shared: {}"
 msgid "Labeled: {}"
-msgstr "共有: {}"
+msgstr "付加したラベル: {}"
 
 #: weblate/trans/forms.py:151
 msgid "Invalid checksum specified!"
@@ -8028,10 +8002,8 @@ msgid "Query"
 msgstr "検索文字列"
 
 #: weblate/trans/forms.py:177
-#, fuzzy
-#| msgid "Missing translated string!"
 msgid "Missing query string."
-msgstr "翻訳文がありません！"
+msgstr "クエリ文字列がありません。"
 
 #: weblate/trans/forms.py:184
 msgid "Failed to parse query string: {}"
@@ -8482,34 +8454,24 @@ msgid "State to set"
 msgstr "設定する状態"
 
 #: weblate/trans/forms.py:1777
-#, fuzzy
-#| msgid "Download changes"
 msgid "Do not change"
-msgstr "変更点のダウンロード"
+msgstr "変更不可"
 
 #: weblate/trans/forms.py:1779
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation flags to add"
-msgstr "翻訳フラグ"
+msgstr "翻訳フラグの追加"
 
 #: weblate/trans/forms.py:1780
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation flags to remove"
-msgstr "翻訳を削除しました。"
+msgstr "翻訳フラグの削除"
 
 #: weblate/trans/forms.py:1783
-#, fuzzy
-#| msgid "User to add"
 msgid "Labels to add"
-msgstr "追加するユーザ"
+msgstr "ラベルの追加"
 
 #: weblate/trans/forms.py:1789
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Labels to remove"
-msgstr "削除された提案"
+msgstr "ラベルの削除"
 
 #: weblate/trans/forms.py:1814
 msgid "I accept the contributor agreement"
@@ -8547,10 +8509,8 @@ msgstr "重複した翻訳。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:175
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated filemask."
-msgstr "重複した翻訳。"
+msgstr "重複したファイルマスク。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:186
@@ -8994,14 +8954,12 @@ msgstr ""
 "は、ドキュメントを参照してください。"
 
 #: weblate/trans/models/component.py:339
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced checks"
-msgstr "検査除外数"
+msgstr "強制検査"
 
 #: weblate/trans/models/component.py:340
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "無視できない検査項目。"
 
 #: weblate/trans/models/component.py:358
 msgid ""
@@ -9317,86 +9275,82 @@ msgstr "コンポーネントリストの自動割り当て"
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:39
 msgid "Navy"
-msgstr ""
+msgstr "ネイビー"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:41
 msgid "Blue"
-msgstr ""
+msgstr "青"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:43
 msgid "Aqua"
-msgstr ""
+msgstr "アクア"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:45
 msgid "Teal"
-msgstr ""
+msgstr "ティール"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:47
 msgid "Olive"
-msgstr ""
+msgstr "オリーブ"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:49
-#, fuzzy
-#| msgid "Greek"
 msgid "Green"
-msgstr "ギリシャ語"
+msgstr "緑"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:51
 msgid "Lime"
-msgstr ""
+msgstr "ライム"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:53
 msgid "Yellow"
-msgstr ""
+msgstr "黄色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:55
-#, fuzzy
-#| msgid "Change"
 msgid "Orange"
-msgstr "変更"
+msgstr "オレンジ"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:57
 msgid "Red"
-msgstr ""
+msgstr "赤"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:59
 msgid "Maroon"
-msgstr ""
+msgstr "マルーン"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:61
 msgid "Fuchsia"
-msgstr ""
+msgstr "赤紫"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:63
 msgid "Purple"
-msgstr ""
+msgstr "紫"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:65
 msgid "Black"
-msgstr ""
+msgstr "黒"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:67
 msgid "Gray"
-msgstr ""
+msgstr "灰色"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:69
 msgid "Silver"
-msgstr ""
+msgstr "銀"
 
 #: weblate/trans/models/project.py:79
 msgid "Main website of translated project."
@@ -9817,7 +9771,7 @@ msgstr "このコンポーネントは、%(target)s リポジトリとリンク�
 #: weblate/trans/templatetags/translations.py:742
 #: weblate/trans/views/guide.py:159
 msgid "Fix this component to clear its alerts."
-msgstr "警告を無効化できるように、コンポーネントを修正してください。"
+msgstr "警告が出ないように、コンポーネントを修正してください。"
 
 #: weblate/trans/templatetags/translations.py:749
 #: weblate/trans/templatetags/translations.py:775
@@ -9879,7 +9833,7 @@ msgstr ""
 
 #: weblate/trans/views/about.py:47
 msgid "Keys"
-msgstr "キー"
+msgstr "暗号鍵"
 
 #: weblate/trans/views/about.py:80
 msgid "Weblate statistics"
@@ -10263,18 +10217,14 @@ msgid "Invalid search query!"
 msgstr "検索文字列が無効です！"
 
 #: weblate/trans/views/search.py:242
-#, fuzzy
-#| msgid "Bulk status change completed, no strings were updated."
 msgid "Bulk edit completed, no strings were updated."
-msgstr "状態の一括変更が完了しました。文字列は更新されていません。"
+msgstr "一括編集が完了しましたが、1 文字も更新されていません。"
 
 #: weblate/trans/views/search.py:244
-#, fuzzy, python-format
-#| msgid "Bulk status change completed, %d string was updated."
-#| msgid_plural "Bulk status change completed, %d strings were updated."
+#, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "状態の一括変更が完了しました。%d 個の文字列を更新しました。"
+msgstr[0] "一括編集が完了し、%d 文字列が更新されました。"
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
@@ -10342,10 +10292,8 @@ msgid "Forbidden URL scheme!"
 msgstr "禁止されている URL スキームです！"
 
 #: weblate/utils/search.py:115
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported state: {}"
-msgstr "未対応のファイル形式です: {0}"
+msgstr "未対応の状態: {}"
 
 #: weblate/utils/search.py:299
 msgid "Invalid regular expression: {}"
