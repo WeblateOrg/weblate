@@ -638,19 +638,18 @@ class Component(models.Model, URLMixin, PathMixin):
                 # Can not create without kwargs
                 raise
 
+            # Set correct state depending on template editing
+            if self.template and self.edit_template:
+                kwargs['state'] = STATE_TRANSLATED
             else:
-                # Set correct state depending on template editing
-                if self.template and self.edit_template:
-                    kwargs['state'] = STATE_TRANSLATED
-                else:
-                    kwargs['state'] = STATE_READONLY
+                kwargs['state'] = STATE_READONLY
 
-                # Create source unit
-                source = self.source_translation.unit_set.create(
-                    id_hash=id_hash, **kwargs
-                )
-                Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
-                self.updated_sources[id_hash] = source
+            # Create source unit
+            source = self.source_translation.unit_set.create(
+                id_hash=id_hash, **kwargs
+            )
+            Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
+            self.updated_sources[id_hash] = source
         self._sources[id_hash] = source
         return source
 
