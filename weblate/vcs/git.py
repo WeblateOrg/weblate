@@ -260,11 +260,7 @@ class GitRepository(Repository):
             # Push url
             ('remote "origin"', 'pushurl', push_url or ''),
             # Fetch all branches (needed for clone branch)
-            (
-                'remote "origin"',
-                'fetch',
-                '+refs/heads/*:refs/remotes/origin/*'.format(branch),
-            ),
+            ('remote "origin"', 'fetch', '+refs/heads/*:refs/remotes/origin/*'),
             # Disable fetching tags
             ('remote "origin"', 'tagOpt', '--no-tags'),
             # Set branch to track
