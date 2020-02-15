@@ -501,11 +501,11 @@ class Change(models.Model, UserDisplayMixin):
                 if number == self.details['access_control']:
                     return name
             return 'Unknonwn {}'.format(self.details['access_control'])
-        elif self.action in user_actions:
+        if self.action in user_actions:
             if 'group' in self.details:
                 return '{username} ({group})'.format(**self.details)
             return self.details['username']
-        elif self.action in (
+        if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
         ):  # noqa: E501
@@ -513,16 +513,16 @@ class Change(models.Model, UserDisplayMixin):
                 return Language.objects.get(code=self.details['language'])
             except Language.DoesNotExist:
                 return self.details['language']
-        elif self.action == self.ACTION_ALERT:
+        if self.action == self.ACTION_ALERT:
             try:
                 return ALERTS[self.details['alert']].verbose
             except KeyError:
                 return self.details['alert']
-        elif self.action == self.ACTION_PARSE_ERROR:
+        if self.action == self.ACTION_PARSE_ERROR:
             return '{filename}: {error_message}'.format(**self.details)
-        elif self.action == self.ACTION_HOOK:
+        if self.action == self.ACTION_HOOK:
             return '{service_long_name}: {repo_url}, {branch}'.format(**self.details)
-        elif self.action == self.ACTION_COMMENT and 'comment' in self.details:
+        if self.action == self.ACTION_COMMENT and 'comment' in self.details:
             return render_markdown(self.details['comment'])
 
         return ''

@@ -363,7 +363,7 @@ class CreateComponentSelection(CreateComponent):
     def get_form_class(self):
         if self.origin == 'branch':
             return ComponentBranchForm
-        elif self.origin == 'scratch':
+        if self.origin == 'scratch':
             return ComponentScratchCreateForm
         return ComponentSelectForm
 

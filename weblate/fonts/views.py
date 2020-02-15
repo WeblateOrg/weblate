@@ -134,7 +134,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                 except ValidationError:
                     messages.error(request, _("Entry by the same name already exists."))
             return self.get(request, **kwargs)
-        elif "language" in request.POST:
+        if "language" in request.POST:
             form = self._form = FontOverrideForm(request.POST)
             if form.is_valid():
                 instance = form.save(commit=False)
@@ -146,7 +146,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
                 except ValidationError:
                     messages.error(request, _("Entry by the same name already exists."))
             return self.get(request, **kwargs)
-        elif "override" in request.POST:
+        if "override" in request.POST:
             try:
                 self.object.fontoverride_set.filter(
                     pk=int(request.POST["override"])

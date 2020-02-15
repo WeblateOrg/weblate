@@ -84,16 +84,16 @@ class UnitQuerySet(models.QuerySet):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
-        elif rqtype.startswith('check:'):
+        if rqtype.startswith('check:'):
             check_id = rqtype[6:]
             if strict and check_id not in CHECKS:
                 raise ValueError('Unknown check: {}'.format(check_id))
             return self.filter(check__check=check_id, check__ignore=ignored)
-        elif rqtype.startswith('label:'):
+        if rqtype.startswith('label:'):
             return self.filter(labels__name=rqtype[6:])
-        elif rqtype == 'all':
+        if rqtype == 'all':
             return self.all()
-        elif strict:
+        if strict:
             raise ValueError('Unknown filter: {}'.format(rqtype))
         # Catch anything not matching
         return self.all()

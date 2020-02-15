@@ -172,22 +172,20 @@ class SameCheck(TargetCheck):
                 or '(c) copyright' in lower_source
                 or '©' in source):
             return True
-        else:
-            # Strip format strings
-            stripped = strip_string(source, unit.all_flags)
+        # Strip format strings
+        stripped = strip_string(source, unit.all_flags)
 
-            # Ignore strings which don't contain any string to translate
-            # or just single letter (usually unit or something like that)
-            # or are whole uppercase (abbreviations)
-            if len(stripped) <= 1 or stripped.isupper():
-                return True
-            else:
-                # Check if we have any word which is not in blacklist
-                # (words which are often same in foreign language)
-                for word in SPLIT_RE.split(stripped.lower()):
-                    if not test_word(word):
-                        return False
-                return True
+        # Ignore strings which don't contain any string to translate
+        # or just single letter (usually unit or something like that)
+        # or are whole uppercase (abbreviations)
+        if len(stripped) <= 1 or stripped.isupper():
+            return True
+        # Check if we have any word which is not in blacklist
+        # (words which are often same in foreign language)
+        for word in SPLIT_RE.split(stripped.lower()):
+            if not test_word(word):
+                return False
+        return True
 
     def should_skip(self, unit):
         if super(SameCheck, self).should_skip(unit):

@@ -153,8 +153,7 @@ class CreateLanguageView(CreateView):
         forms = self.get_form()
         if all(form.is_valid() for form in forms):
             return self.form_valid(forms)
-        else:
-            return self.form_invalid(forms)
+        return self.form_invalid(forms)
 
     def form_valid(self, form):
         """If the form is valid, save the associated model."""

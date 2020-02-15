@@ -133,7 +133,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             return
 
         # Skip if there is no change
-        elif self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
+        if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
             self.unit.target = self.target
             self.unit.state = STATE_TRANSLATED
             self.unit.save_backend(request.user, change_action=Change.ACTION_ACCEPT)
