@@ -57,9 +57,9 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="check",
-            unique_together=set([("content_hash", "project", "language", "check")]),
+            unique_together={("content_hash", "project", "language", "check")},
         ),
         migrations.AlterIndexTogether(
-            name="check", index_together=set([("project", "language", "content_hash")])
+            name="check", index_together={("project", "language", "content_hash")}
         ),
     ]

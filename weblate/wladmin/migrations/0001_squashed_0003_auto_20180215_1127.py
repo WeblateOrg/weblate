@@ -39,6 +39,6 @@ class Migration(migrations.Migration):
             options={"ordering": ["-timestamp"]},
         ),
         migrations.AlterIndexTogether(
-            name="configurationerror", index_together=set([("ignored", "timestamp")])
+            name="configurationerror", index_together={("ignored", "timestamp")}
         ),
     ]

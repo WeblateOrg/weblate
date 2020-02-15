@@ -83,7 +83,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AlterUniqueTogether(
-            name="event", unique_together=set([("addon", "event")])
+            name="event", unique_together={("addon", "event")}
         ),
         migrations.AddField(
             model_name="addon",
@@ -91,6 +91,6 @@ class Migration(migrations.Migration):
             field=models.BooleanField(db_index=True, default=False),
         ),
         migrations.AlterUniqueTogether(
-            name="addon", unique_together=set([("component", "name")])
+            name="addon", unique_together={("component", "name")}
         ),
     ]

@@ -89,6 +89,6 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterUniqueTogether(
-            name="alert", unique_together=set([("component", "name")])
+            name="alert", unique_together={("component", "name")}
         ),
     ]

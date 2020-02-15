@@ -798,7 +798,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AlterUniqueTogether(
-            name="vote", unique_together=set([("suggestion", "user")])
+            name="vote", unique_together={("suggestion", "user")}
         ),
         migrations.AddField(
             model_name="suggestion",
@@ -810,8 +810,7 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterUniqueTogether(
-            name="component",
-            unique_together=set([("project", "name"), ("project", "slug")]),
+            name="component", unique_together={("project", "name"), ("project", "slug")}
         ),
         migrations.AddField(
             model_name="source",
@@ -1096,7 +1095,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AlterUniqueTogether(
-            name="unit", unique_together=set([("translation", "id_hash")])
+            name="unit", unique_together={("translation", "id_hash")}
         ),
         migrations.AddField(
             model_name="whiteboardmessage",
@@ -1274,15 +1273,13 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterIndexTogether(
             name="unit",
-            index_together=set([("priority", "position"), ("translation", "pending")]),
+            index_together={("priority", "position"), ("translation", "pending")},
         ),
         migrations.AlterIndexTogether(
-            name="comment",
-            index_together=set([("project", "language", "content_hash")]),
+            name="comment", index_together={("project", "language", "content_hash")}
         ),
         migrations.AlterIndexTogether(
-            name="suggestion",
-            index_together=set([("project", "language", "content_hash")]),
+            name="suggestion", index_together={("project", "language", "content_hash")}
         ),
         migrations.AddField(
             model_name="whiteboardmessage",
@@ -1305,10 +1302,10 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterUniqueTogether(
-            name="source", unique_together=set([("id_hash", "component")])
+            name="source", unique_together={("id_hash", "component")}
         ),
         migrations.AlterUniqueTogether(
-            name="translation", unique_together=set([("component", "language")])
+            name="translation", unique_together={("component", "language")}
         ),
         migrations.AddField(
             model_name="change",
@@ -1356,7 +1353,7 @@ class Migration(migrations.Migration):
             options={"ordering": ["user__username"]},
         ),
         migrations.AlterUniqueTogether(
-            name="contributoragreement", unique_together=set([("user", "component")])
+            name="contributoragreement", unique_together={("user", "component")}
         ),
         migrations.AddField(
             model_name="source",
