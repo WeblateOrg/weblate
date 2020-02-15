@@ -159,8 +159,8 @@ def check_cache(app_configs, **kwargs):
     """Check for sane caching"""
     errors = []
 
-    cache = settings.CACHES['default']['BACKEND'].split('.')[-1]
-    if cache not in GOOD_CACHE:
+    cache_backend = settings.CACHES['default']['BACKEND'].split('.')[-1]
+    if cache_backend not in GOOD_CACHE:
         errors.append(
             Critical(
                 'The configured cache backend will lead to serious '
