@@ -35,15 +35,12 @@ from weblate.utils.templatetags.icons import icon
 TIMEDELTA = 600
 
 # Supported operators
-OPERATORS = {
-    ast.Add: operator.add,
-    ast.Sub: operator.sub,
-    ast.Mult: operator.mul,
-}
+OPERATORS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul}
 
 
 class MathCaptcha(object):
     """Simple match captcha object."""
+
     operators = ('+', '-', '*')
     operators_display = {}
     interval = (1, 10)
@@ -75,11 +72,7 @@ class MathCaptcha(object):
         if operation == '-':
             first += self.interval[1]
 
-        return ' '.join((
-            str(first),
-            operation,
-            str(second)
-        ))
+        return str(first) + " " + operation + " " + str(second)
 
     @staticmethod
     def from_hash(hashed):
@@ -94,9 +87,7 @@ class MathCaptcha(object):
 
     def validate(self, answer):
         """Validate answer."""
-        return (
-            self.result == answer and self.timestamp + TIMEDELTA > time.time()
-        )
+        return self.result == answer and self.timestamp + TIMEDELTA > time.time()
 
     @property
     def result(self):
@@ -107,11 +98,7 @@ class MathCaptcha(object):
     def display(self):
         """Get unicode for display."""
         parts = self.question.split()
-        return ' '.join((
-            parts[0],
-            self.operators_display[parts[1]],
-            parts[2],
-        ))
+        return parts[0] + " " + self.operators_display[parts[1]] + " " + parts[2]
 
 
 def format_timestamp(timestamp):
@@ -121,7 +108,7 @@ def format_timestamp(timestamp):
 
 def checksum_question(question, timestamp):
     """Return checksum for a question."""
-    challenge = ''.join((settings.SECRET_KEY, question, timestamp))
+    challenge = settings.SECRET_KEY + question + timestamp
     sha = hashlib.sha1(challenge.encode('utf-8'))
     return sha.hexdigest()
 
@@ -130,11 +117,7 @@ def hash_question(question, timestamp):
     """Hashe question so that it can be later verified."""
     timestamp = format_timestamp(timestamp)
     hexsha = checksum_question(question, timestamp)
-    return ''.join((
-        hexsha,
-        timestamp,
-        b64encode(question.encode('utf-8')).decode('ascii')
-    ))
+    return hexsha + timestamp + b64encode(question.encode('utf-8')).decode('ascii')
 
 
 def unhash_question(question):
@@ -173,8 +156,5 @@ def eval_node(node):
         return OPERATORS[type(node)]
     if isinstance(node, ast.BinOp):
         # binary operation
-        return eval_node(node.op)(
-            eval_node(node.left),
-            eval_node(node.right)
-        )
+        return eval_node(node.op)(eval_node(node.left), eval_node(node.right))
     raise ValueError(node)

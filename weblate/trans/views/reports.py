@@ -47,7 +47,7 @@ def generate_credits(user, start_date, end_date, **kwargs):
 
     for language in Language.objects.filter(**kwargs).distinct().iterator():
         authors = base.filter(translation__language=language, **kwargs).authors_list(
-            (start_date, end_date),
+            (start_date, end_date)
         )
         if not authors:
             continue
@@ -118,21 +118,16 @@ def get_credits(request, project=None, component=None):
         result.append(row_start)
         result.append(language_format.format(name))
         result.append(
-            ''.join((
-                translator_start,
-                '\n'.join(
-                    [translator_format.format(*t) for t in translators]
-                ),
-                translator_end,
-            ))
+            translator_start
+            + '\n'.join(translator_format.format(*t) for t in translators)
+            + translator_end
         )
         result.append(row_end)
 
     result.append(end)
 
     return HttpResponse(
-        '\n'.join(result),
-        content_type='{0}; charset=utf-8'.format(mime),
+        '\n'.join(result), content_type='{0}; charset=utf-8'.format(mime)
     )
 
 
@@ -140,21 +135,21 @@ def generate_counts(user, start_date, end_date, **kwargs):
     """Generate credits data for given component."""
 
     result = {}
-    action_map = {
-        Change.ACTION_NEW: 'new',
-        Change.ACTION_APPROVE: 'approve',
-    }
+    action_map = {Change.ACTION_NEW: 'new', Change.ACTION_APPROVE: 'approve'}
 
     base = Change.objects.content()
     if user:
         base = base.filter(author=user)
 
     authors = base.filter(
-        timestamp__range=(start_date, end_date),
-        **kwargs
+        timestamp__range=(start_date, end_date), **kwargs
     ).values_list(
-        'author__email', 'author__full_name', 'unit__num_words', 'action',
-        'target', 'unit__source',
+        'author__email',
+        'author__full_name',
+        'unit__num_words',
+        'action',
+        'target',
+        'unit__source',
     )
     for email, name, src_words, action, target, source in authors:
         if src_words is None:
@@ -163,25 +158,21 @@ def generate_counts(user, start_date, end_date, **kwargs):
             result[email] = {
                 'name': name,
                 'email': email,
-
                 't_chars': 0,
                 't_words': 0,
                 'chars': 0,
                 'words': 0,
                 'count': 0,
-
                 't_chars_new': 0,
                 't_words_new': 0,
                 'chars_new': 0,
                 'words_new': 0,
                 'count_new': 0,
-
                 't_chars_approve': 0,
                 't_words_approve': 0,
                 'chars_approve': 0,
                 'words_approve': 0,
                 'count_approve': 0,
-
                 't_chars_edit': 0,
                 't_words_edit': 0,
                 'chars_edit': 0,
@@ -247,19 +238,16 @@ def get_counts(request, project=None, component=None):
         'Source chars total',
         'Target words total',
         'Target chars total',
-
         'Count new',
         'Source words new',
         'Source chars new',
         'Target words new',
         'Target chars new',
-
         'Count approved',
         'Source words approved',
         'Source chars approved',
         'Target words approved',
         'Target chars approved',
-
         'Count edited',
         'Source words edited',
         'Source chars edited',
@@ -268,9 +256,7 @@ def get_counts(request, project=None, component=None):
     )
 
     if form.cleaned_data['style'] == 'html':
-        start = HTML_HEADING.format(
-            ''.join('<th>{0}</th>'.format(h) for h in headers)
-        )
+        start = HTML_HEADING.format(''.join('<th>{0}</th>'.format(h) for h in headers))
         row_start = '<tr>'
         cell_name = cell_count = '<td>{0}</td>\n'
         row_end = '</tr>'
@@ -297,34 +283,28 @@ def get_counts(request, project=None, component=None):
         if row_start:
             result.append(row_start)
         result.append(
-            ''.join((
-                cell_name.format(item['name'] or "Anonymous"),
-                cell_name.format(item['email'] or ""),
-
-                cell_count.format(item['count']),
-                cell_count.format(item['words']),
-                cell_count.format(item['chars']),
-                cell_count.format(item['t_words']),
-                cell_count.format(item['t_chars']),
-
-                cell_count.format(item['count_new']),
-                cell_count.format(item['words_new']),
-                cell_count.format(item['chars_new']),
-                cell_count.format(item['t_words_new']),
-                cell_count.format(item['t_chars_new']),
-
-                cell_count.format(item['count_approve']),
-                cell_count.format(item['words_approve']),
-                cell_count.format(item['chars_approve']),
-                cell_count.format(item['t_words_approve']),
-                cell_count.format(item['t_chars_approve']),
-
-                cell_count.format(item['count_edit']),
-                cell_count.format(item['words_edit']),
-                cell_count.format(item['chars_edit']),
-                cell_count.format(item['t_words_edit']),
-                cell_count.format(item['t_chars_edit']),
-            ))
+            cell_name.format(item['name'] or "Anonymous")
+            + cell_name.format(item['email'] or "")
+            + cell_count.format(item['count'])
+            + cell_count.format(item['words'])
+            + cell_count.format(item['chars'])
+            + cell_count.format(item['t_words'])
+            + cell_count.format(item['t_chars'])
+            + cell_count.format(item['count_new'])
+            + cell_count.format(item['words_new'])
+            + cell_count.format(item['chars_new'])
+            + cell_count.format(item['t_words_new'])
+            + cell_count.format(item['t_chars_new'])
+            + cell_count.format(item['count_approve'])
+            + cell_count.format(item['words_approve'])
+            + cell_count.format(item['chars_approve'])
+            + cell_count.format(item['t_words_approve'])
+            + cell_count.format(item['t_chars_approve'])
+            + cell_count.format(item['count_edit'])
+            + cell_count.format(item['words_edit'])
+            + cell_count.format(item['chars_edit'])
+            + cell_count.format(item['t_words_edit'])
+            + cell_count.format(item['t_chars_edit'])
         )
         if row_end:
             result.append(row_end)
@@ -332,6 +312,5 @@ def get_counts(request, project=None, component=None):
     result.append(end)
 
     return HttpResponse(
-        '\n'.join(result),
-        content_type='{0}; charset=utf-8'.format(mime),
+        '\n'.join(result), content_type='{0}; charset=utf-8'.format(mime)
     )

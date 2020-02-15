@@ -62,6 +62,6 @@ class SameBookendingWhitespace(AutoFix):
 
         # add the whitespace around the target translation (ignore blanks)
         if stripped:
-            newtarget = ''.join((head, stripped, tail))
+            newtarget = head + stripped + tail
             return newtarget, newtarget != target
         return target, False

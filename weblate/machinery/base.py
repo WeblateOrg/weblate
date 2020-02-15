@@ -307,7 +307,7 @@ class MachineTranslation(object):
 
         salt = str(random.randint(0, 10000000000))
 
-        payload = ''.join((appid, text, salt, secret))
+        payload = appid + text + salt + secret
         digest = md5(payload.encode('utf-8')).hexdigest()
 
         return salt, digest
