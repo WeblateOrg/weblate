@@ -20,14 +20,16 @@
 
 from __future__ import unicode_literals
 
+from itertools import chain
+
 from django.conf import settings
 
 from weblate.utils.licensedata import LICENSES
 
 LIBRE_IDS = {license[0] for license in LICENSES if license[3]}
-LICENSE_URLS = {license[0]: license[2] for license in LICENSES}
-for license in settings.LICENSE_EXTRA:
-    LICENSE_URLS[license[0]] = license[2]
+LICENSE_URLS = {
+    license[0]: license[2] for license in chain(LICENSES, settings.LICENSE_EXTRA)
+}
 LOWER_LICENSES = {license[0].lower(): license[0] for license in LICENSES}
 
 FIXUPS = (
