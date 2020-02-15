@@ -11,7 +11,7 @@ Weblate Client
 
 .. versionadded:: 2.7
 
-    The wlc utility is fully supported since Weblate 2.7. If you are using an older version
+    There has been full wlc utility support ever since Weblate 2.7. If you are using an older version
     some incompatibilities with the API might occur.
 
 Installation
@@ -36,61 +36,61 @@ Commands actually indicate which operation should be performed.
 Description
 +++++++++++
 
-Weblate Client is Python library and command line utility to manage Weblate remotely
-using :ref:`api`. The command line utility can be invoked as :command:`wlc` and is
+Weblate Client is a Python library and command-line utility to manage Weblate remotely
+using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and is
 built on :mod:`wlc`.
 
-Global options
+Instance wide options
 --------------
 
-The program accepts the following global options, which must be entered before subcommand.
+The program accepts the following options for a whole instance, which must be entered before any subcommand.
 
 .. option:: --format {csv,json,text,html}
 
-    Specify output format.
+    Specify the output format.
 
 .. option:: --url URL
 
-    Specify API URL. Overrides value from configuration file, see :ref:`files`.
+    Specify the API URL. Overrides any value found in the configuration file, see :ref:`files`.
     The URL should end with ``/api/``, for example ``https://hosted.weblate.org/api/``.
 
 .. option:: --key KEY
 
-    Specify API user key to use. Overrides value from configuration file, see :ref:`files`.
-    You can figure out your key in your profile in Weblate.
+    Specify the API user key to use. Overrides any value found in the configuration file, see :ref:`files`.
+    You can find your key in your profile on Weblate.
 
 .. option:: --config PATH
 
-    Override path to configuration file, see :ref:`files`.
+    Overrides the configuration file path, see :ref:`files`.
 
 .. option:: --config-section SECTION
 
-    Override section to use in configuration file, see :ref:`files`.
+    Overrides configuration file section in use, see :ref:`files`.
 
 Subcommands
 -----------
 
-Currently the following subcommands are available:
+The following subcommands are available:
 
 .. option:: version
 
-    Prints current version.
+    Prints the current version.
 
 .. option:: list-languages
 
-    List used languages in Weblate.
+    Lists used languages in Weblate.
 
 .. option:: list-projects
 
-    List projects in Weblate.
+    Lists projects in Weblate.
 
 .. option:: list-components
 
-    List components in Weblate.
+    Lists components in Weblate.
 
 .. option:: list-translations
 
-    List translations in Weblate.
+    Lists translations in Weblate.
 
 .. option:: show
 
@@ -102,7 +102,7 @@ Currently the following subcommands are available:
 
 .. option:: commit
 
-    Commits changes in Weblate object (translation, component or project).
+    Commits changes made in a Weblate object (translation, component or project).
 
 .. option:: pull
 
@@ -110,7 +110,7 @@ Currently the following subcommands are available:
 
 .. option:: push
 
-    Pushes changes in Weblate object into remote repository (translation, component or project).
+    Pushes Weblate object changes into remote repository (translation, component or project).
 
 .. option:: reset
 
@@ -126,15 +126,15 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.9.
 
-    Removes any untracked changes in Weblate object to match remote repository (translation, component or project).
+    Removes any untracked changes in a Weblate object to match the remote repository (translation, component or project).
 
 .. option:: repo
 
-    Displays repository status for given Weblate object (translation, component or project).
+    Displays repository status for a given Weblate object (translation, component or project).
 
 .. option:: statistics
 
-    Displays detailed statistics for given Weblate object (translation, component or project).
+    Displays detailed statistics for a given Weblate object (translation, component or project).
 
 .. option:: lock-status
 
@@ -150,7 +150,7 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.5.
 
-    Locks component from translating in Weblate.
+    Locks component from further translation in Weblate.
 
 .. option:: unlock
 
@@ -158,7 +158,7 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.5.
 
-    Unlocks component from translating in Weblate.
+    Unlocks translation of Weblate component.
 
 .. option:: changes
 
@@ -166,7 +166,7 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.7 and Weblate 2.10.
 
-    Displays changes for given object.
+    Displays changes for a given object.
 
 .. option:: download
 
@@ -174,16 +174,16 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.7.
 
-    Downloads translation file.
+    Downloads a translation file.
 
     .. option:: --convert
 
-        Convert file format, if not specified no conversion happens on server
-        and file is downloaded as is in the repository.
+        Converts file format, if unspecified no conversion happens on the server
+        and the file is downloaded as is to the repository.
 
     .. option:: --output
 
-        File where to store output, if not specified file is printed to stdout.
+        Specifies file to save output in, if left unspecified it is printed to stdout.
 
 .. option:: upload
 
@@ -191,15 +191,15 @@ Currently the following subcommands are available:
 
         Supported since wlc 0.9.
 
-    Uploads translation file.
+    Uploads a translation file.
 
     .. option:: --overwrite
 
-        Overwrite existing translations on upload.
+        Overwrite existing translations upon uploading.
 
     .. option:: --input
 
-        File where to read content, if not specified file is read from stdin.
+        File from which content is read, if left unspecified it is read from stdin.
 
 .. _files:
 
@@ -211,9 +211,9 @@ Files
 :file:`~/.config/weblate`
     User configuration file
 :file:`/etc/xdg/weblate`
-    Global configuration file
+    Instance wide configuration file
 
-The program follows XDG specification, so you can adjust placement of config files
+The program follows the XDG specification, so you can adjust placement of config files
 by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``.
 
 Following settings can be configured in the ``[weblate]`` section (you can
@@ -229,9 +229,9 @@ customize this by :option:`--config-section`):
 
 .. describe:: translation
 
-    Path of default translation, component or project.
+    Path to the default translation - component or project.
 
-The configuration file is INI file, for example:
+The configuration file is an INI file, for example:
 
 .. code-block:: ini
 
@@ -247,9 +247,9 @@ Additionally API keys can be stored in the ``[keys]`` section:
     [keys]
     https://hosted.weblate.org/api/ = APIKEY
 
-This allows you to store keys in your personal settings, while having
-:file:`.weblate` configuration in the VCS repository so that wlc knows to which
-server it should talk.
+This allows you to store keys in your personal settings, while using the
+:file:`.weblate` configuration in the VCS repository so that wlc knows which
+server it should talk to.
 
 Examples
 ++++++++
@@ -273,7 +273,7 @@ List all projects:
     web: https://weblate.org/
     web_url: http://example.com/projects/hello/
 
-You can also let wlc know current project and it will then operate on it:
+You can also designate what project wlc should work on:
 
 .. code-block:: sh
 
@@ -300,7 +300,7 @@ You can also let wlc know current project and it will then operate on it:
     web_url: https://hosted.weblate.org/projects/weblate/master/
 
 
-With such setup it is easy to commit pending changes in current project:
+With this setup it is easy to commit pending changes in the current project:
 
 .. code-block:: sh
 
