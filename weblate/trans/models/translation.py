@@ -386,7 +386,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         Change.objects.create(translation=self, action=change, user=user, author=user)
 
         # Invalidate keys cache
-        transaction.on_commit(lambda: self.invalidate_keys())
+        transaction.on_commit(self.invalidate_keys)
 
     def do_update(self, request=None, method=None):
         return self.component.do_update(request, method=method)
@@ -920,7 +920,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def invalidate_cache(self):
         """Invalidate any cached stats."""
         # Invalidate summary stats
-        transaction.on_commit(lambda: self.stats.invalidate())
+        transaction.on_commit(self.stats.invalidate)
 
     @property
     def keys_cache_key(self):
