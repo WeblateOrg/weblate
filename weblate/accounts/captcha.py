@@ -22,13 +22,9 @@
 from __future__ import unicode_literals
 
 import ast
-import hashlib
 import operator
 import time
-from base64 import b64decode, b64encode
 from random import SystemRandom
-
-from django.conf import settings
 
 from weblate.utils.templatetags.icons import icon
 
@@ -75,15 +71,13 @@ class MathCaptcha(object):
         return str(first) + " " + operation + " " + str(second)
 
     @staticmethod
-    def from_hash(hashed):
-        """Create object from hash."""
-        question, timestamp = unhash_question(hashed)
-        return MathCaptcha(question, timestamp)
+    def unserialize(value):
+        """Create object from serialized."""
+        return MathCaptcha(*value)
 
-    @property
-    def hashed(self):
-        """Return hashed question."""
-        return hash_question(self.question, self.timestamp)
+    def serialize(self):
+        """Serialize captcha settings"""
+        return (self.question, self.timestamp)
 
     def validate(self, answer):
         """Validate answer."""
@@ -99,40 +93,6 @@ class MathCaptcha(object):
         """Get unicode for display."""
         parts = self.question.split()
         return parts[0] + " " + self.operators_display[parts[1]] + " " + parts[2]
-
-
-def format_timestamp(timestamp):
-    """Format timestamp in a form usable in captcha."""
-    return '{0:>010x}'.format(int(timestamp))
-
-
-def checksum_question(question, timestamp):
-    """Return checksum for a question."""
-    challenge = settings.SECRET_KEY + question + timestamp
-    sha = hashlib.sha1(challenge.encode('utf-8'))
-    return sha.hexdigest()
-
-
-def hash_question(question, timestamp):
-    """Hashe question so that it can be later verified."""
-    timestamp = format_timestamp(timestamp)
-    hexsha = checksum_question(question, timestamp)
-    return hexsha + timestamp + b64encode(question.encode('utf-8')).decode('ascii')
-
-
-def unhash_question(question):
-    """Unhashe question, verifying its content."""
-    if len(question) < 40:
-        raise ValueError('Invalid data')
-    hexsha = question[:40]
-    timestamp = question[40:50]
-    try:
-        question = b64decode(question[50:]).decode('utf-8')
-    except (TypeError, UnicodeError):
-        raise ValueError('Invalid encoding')
-    if hexsha != checksum_question(question, timestamp):
-        raise ValueError('Tampered question!')
-    return question, int(timestamp, 16)
 
 
 def eval_expr(expr):

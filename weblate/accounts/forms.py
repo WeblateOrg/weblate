@@ -442,13 +442,13 @@ class CaptchaForm(forms.Form):
             self.generate_captcha()
             self.fresh = True
         else:
-            self.captcha = MathCaptcha.from_hash(
+            self.captcha = MathCaptcha.unserialize(
                 request.session.pop('captcha')
             )
 
     def generate_captcha(self):
         self.captcha = MathCaptcha()
-        self.request.session['captcha'] = self.captcha.hashed
+        self.request.session['captcha'] = self.captcha.serialize()
         # Set correct label
         self.fields['captcha'].label = pgettext(
             'Question for a mathematics-based CAPTCHA, '
