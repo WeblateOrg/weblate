@@ -41,7 +41,7 @@ using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and 
 built on :mod:`wlc`.
 
 Instance wide options
---------------
+---------------------
 
 The program accepts the following options for a whole instance, which must be entered before any subcommand.
 
@@ -211,7 +211,7 @@ Files
 :file:`~/.config/weblate`
     User configuration file
 :file:`/etc/xdg/weblate`
-    Instance wide configuration file
+    System wide configuration file
 
 The program follows the XDG specification, so you can adjust placement of config files
 by environment variables ``XDG_CONFIG_HOME`` or ``XDG_CONFIG_DIRS``.
