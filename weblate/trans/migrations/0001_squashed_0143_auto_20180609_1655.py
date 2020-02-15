@@ -969,7 +969,7 @@ class Migration(migrations.Migration):
                 default="add",
                 help_text="How to handle requests for creating new translations.",
                 max_length=10,
-                verbose_name="New translation",
+                verbose_name="Adding new translation",
             ),
         ),
         migrations.AddField(

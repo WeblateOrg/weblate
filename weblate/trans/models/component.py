@@ -362,7 +362,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     # Adding new language
     new_lang = models.CharField(
-        verbose_name=ugettext_lazy("New translation"),
+        verbose_name=ugettext_lazy("Adding new translation"),
         max_length=10,
         choices=NEW_LANG_CHOICES,
         default="add",
