@@ -8,6 +8,7 @@ default_env = {
     "CI_DATABASE": "postgresql",
     "CI_DB_HOST": "database",
     "CI_SELENIUM": "1",
+    "DEEPSOURCE_DSN": "https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io",
 }
 
 # Basic set of installation files, usually used to update base docker image
@@ -55,7 +56,13 @@ codecov_step = {
     "name": "codecov",
     "image": "weblate/cidocker:3.7",
     "environment": {"CODECOV_TOKEN": secret("CODECOV_TOKEN"), "CI": "drone"},
-    "commands": ["export CI=drone", "codecov"],
+    "commands": [
+        "export CI=drone",
+        "codecov",
+        "coverage xml",
+        "curl https://deepsource.io/cli | sh",
+        "./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml",
+    ],
 }
 flake_step = {
     "name": "flake8",
