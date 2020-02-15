@@ -113,13 +113,6 @@ def get_version_module(name, optional=False):
         )
 
 
-def get_optional_module(result, name, url):
-    """Get metadata for optional dependency"""
-    version = get_version_module(name, url, True)
-    if version is not None:
-        result.append((name, url, version, None))
-
-
 def get_optional_versions():
     """Return versions of optional modules."""
     result = []
