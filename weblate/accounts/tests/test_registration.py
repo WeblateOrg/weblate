@@ -185,7 +185,6 @@ class RegistrationTest(BaseRegistrationTest):
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_double_register_logout(self, logout=True):
         """Test double registration from single browser with logout."""
-
         # First registration
         response = self.do_register()
         first_url = self.assert_registration_mailbox()

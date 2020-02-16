@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for sugestion views.
-"""
+"""Tests for sugestion views."""
 
 from django.conf import settings
 from django.urls import reverse

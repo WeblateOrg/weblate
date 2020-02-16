@@ -40,7 +40,6 @@ from weblate.utils.errors import report_error
 
 def avatar_for_email(email, size=80):
     """Generate url for avatar."""
-
     # Safely handle blank e-mail
     if not email:
         email = 'noreply@weblate.org'
@@ -69,7 +68,6 @@ def get_fallback_avatar(size):
 
 def get_avatar_image(request, user, size):
     """Return avatar image from cache (if available) or download it."""
-
     cache_key = '-'.join(('avatar-img', user.username, str(size)))
 
     # Try using avatar specific cache if available

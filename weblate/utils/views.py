@@ -113,7 +113,6 @@ def get_project(request, project, skip_acl=False):
 
 def get_project_translation(request, project=None, component=None, lang=None):
     """Return project, component, translation tuple for given parameters."""
-
     if lang and component:
         # Language defined? We can get all
         translation = get_translation(request, project, component, lang)
@@ -135,7 +134,6 @@ def get_project_translation(request, project=None, component=None, lang=None):
 
 def try_set_language(lang):
     """Try to activate language"""
-
     try:
         activate(lang)
     except Exception:

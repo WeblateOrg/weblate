@@ -30,9 +30,7 @@ from weblate.logger import LOGGER
 
 
 class URLMixin(object):
-    """
-    Mixin for models providing standard shortcut API for few standard URLs
-    """
+    """Mixin for models providing standard shortcut API for few standard URLs"""
 
     _reverse_url_name = None
 

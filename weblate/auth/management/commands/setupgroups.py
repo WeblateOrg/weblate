@@ -44,8 +44,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create default set of groups and optionally updates them and moves
-        users around to default group.
+        """Create or update default set of groups
+
+        It also optionally updates them and moves users around to default group.
         """
         create_groups(options['update'])
         if options['projects']:

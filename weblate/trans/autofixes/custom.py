@@ -17,9 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""
-Auto fixes implemeted for specific environments and not enabled by default.
-"""
+"""Auto fixes implemeted for specific environments and not enabled by default."""
 
 from __future__ import unicode_literals
 

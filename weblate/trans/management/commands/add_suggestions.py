@@ -27,9 +27,7 @@ from weblate.trans.management.commands import WeblateTranslationCommand
 
 
 class Command(WeblateTranslationCommand):
-    """WeblateTranslationCommand
-    Command for mass importing suggestions.
-    """
+    """Command for mass importing suggestions."""
 
     help = 'imports suggestions'
 

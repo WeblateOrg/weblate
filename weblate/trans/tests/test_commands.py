@@ -332,8 +332,7 @@ class CleanupCommandTest(RepoTestCase):
 
 
 class CheckGitTest(ViewTestCase):
-    """Base class for handling tests of WeblateComponentCommand
-    based commands."""
+    """Base class for handling tests of WeblateComponentCommand based commands."""
 
     command_name = 'checkgit'
     expected_string = 'On branch master'

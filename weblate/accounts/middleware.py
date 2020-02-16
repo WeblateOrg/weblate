@@ -61,8 +61,9 @@ class AuthenticationMiddleware(object):
 
 class RequireLoginMiddleware(object):
     """
-    Middleware component that wraps the login_required decorator around
-    matching URL patterns. To use, add the class to MIDDLEWARE and
+    Middleware that applies the login_required decorator to matching URL patterns.
+
+    To use, add the class to MIDDLEWARE and
     define LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS in your
     settings.py. For example:
     ------
@@ -91,9 +92,7 @@ class RequireLoginMiddleware(object):
         return tuple(re.compile(url) for url in setting)
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        """Check request whether it needs to enforce login for this URL based
-        on defined parameters.
-        """
+        """Check request whether it needs to enforce login for this URL"""
         # No need to process URLs if not configured
         if not self.required:
             return None

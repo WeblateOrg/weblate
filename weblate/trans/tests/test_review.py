@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for review workflow.
-"""
+"""Tests for review workflow."""
 
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_APPROVED

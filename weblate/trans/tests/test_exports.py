@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for data exports.
-"""
+"""Tests for data exports."""
 
 import json
 

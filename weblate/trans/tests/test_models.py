@@ -416,10 +416,7 @@ class WhiteboardMessageTest(ModelTestCase):
         WhiteboardMessage.objects.create(message='test global')
 
     def verify_filter(self, messages, count, message=None):
-        """
-        Verifies whether messages have given count and first
-        contains string.
-        """
+        """Verify whether messages have given count and first contains string."""
         self.assertEqual(len(messages), count)
         if message is not None:
             self.assertEqual(messages[0].message, message)

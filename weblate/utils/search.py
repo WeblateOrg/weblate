@@ -48,7 +48,8 @@ except ImportError:
 class Comparer(object):
     """String comparer abstraction.
 
-    The reason is to be able to change implementation."""
+    The reason is to be able to change implementation.
+    """
 
     def similarity(self, first, second):
         """Returns string similarity in range 0 - 100%."""

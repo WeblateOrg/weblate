@@ -32,7 +32,6 @@ from weblate.trans.signals import user_pre_delete
 
 def remove_user(user, request):
     """Remove user account."""
-
     # Send signal (to commit any pending changes)
     user_pre_delete.send(instance=user, sender=user.__class__)
 

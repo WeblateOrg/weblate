@@ -41,7 +41,8 @@ class ProxyMiddleware(object):
     """Middleware that updates REMOTE_ADDR from proxy
 
     Note that this can have security implications and settings
-    have to match your actual proxy setup."""
+    have to match your actual proxy setup.
+    """
 
     def __init__(self, get_response=None):
         self.get_response = get_response

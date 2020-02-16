@@ -30,9 +30,7 @@ from weblate.utils import messages
 
 
 class RequireTOSMiddleware(object):
-    """
-    Middleware to enforce TOS confirmation on certain requests.
-    """
+    """Middleware to enforce TOS confirmation on certain requests."""
 
     def __init__(self, get_response=None):
         self.get_response = get_response

@@ -31,10 +31,7 @@ from weblate.trans.models import Component, Project
 
 
 class Command(BaseCommand):
-    """
-    Command for mass importing of repositories into Weblate
-    based on JSON data.
-    """
+    """Command for mass importing of repositories into Weblate based on JSON data."""
 
     help = 'imports projects based on JSON data'
 

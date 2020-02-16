@@ -71,9 +71,7 @@ class UniqueEmailMixin(object):
     validate_unique_mail = False
 
     def clean_email(self):
-        """Validate that the supplied email address is not already in use on
-        this site.
-        """
+        """Validate whether email address is not already in use"""
         self.cleaned_data['email_user'] = None
         mail = self.cleaned_data['email']
         users = User.objects.filter(
@@ -104,7 +102,8 @@ class PasswordField(forms.CharField):
 class EmailField(forms.CharField):
     """Slightly restricted EmailField.
 
-    We blacklist some additional local parts."""
+    We blacklist some additional local parts.
+    """
 
     widget = EmailInput
     default_validators = [validate_email]
@@ -344,10 +343,8 @@ class RegistrationForm(EmailForm):
     content = forms.CharField(required=False)
 
     def __init__(self, request=None, *args, **kwargs):
-        """
-        The 'request' parameter is set for custom auth use by subclasses.
-        The form data comes in via the standard 'data' kwarg.
-        """
+        # The 'request' parameter is set for custom auth use by subclasses.
+        # The form data comes in via the standard 'data' kwarg.
         self.request = request
         super(RegistrationForm, self).__init__(*args, **kwargs)
 
@@ -495,10 +492,8 @@ class LoginForm(forms.Form):
     }
 
     def __init__(self, request=None, *args, **kwargs):
-        """
-        The 'request' parameter is set for custom auth use by subclasses.
-        The form data comes in via the standard 'data' kwarg.
-        """
+        # The 'request' parameter is set for custom auth use by subclasses.
+        # The form data comes in via the standard 'data' kwarg.
         self.request = request
         self.user_cache = None
         super(LoginForm, self).__init__(*args, **kwargs)

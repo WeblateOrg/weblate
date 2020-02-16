@@ -203,8 +203,9 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(translation.stats.all, 1)
 
     def test_deleted_stale_unit(self):
-        """Test removing several units from remote repo with no
-        other reference, so full cleanup has to happen.
+        """Test removing several units from remote repo
+
+        There is no other reference, so full cleanup has to happen.
         """
         self.push_replace(MINIMAL_PO, 'w')
         self.component.delete()

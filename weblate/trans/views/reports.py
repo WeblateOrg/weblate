@@ -38,7 +38,6 @@ HTML_HEADING = '<table>\n<tr>{0}</tr>'
 
 def generate_credits(user, start_date, end_date, **kwargs):
     """Generate credits data for given component."""
-
     result = []
 
     base = Change.objects.content()
@@ -133,7 +132,6 @@ def get_credits(request, project=None, component=None):
 
 def generate_counts(user, start_date, end_date, **kwargs):
     """Generate credits data for given component."""
-
     result = {}
     action_map = {Change.ACTION_NEW: 'new', Change.ACTION_APPROVE: 'approve'}
 

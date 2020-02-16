@@ -46,14 +46,12 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, '@Translate')
 
     def test_acl_denied(self):
-        """No access to the project without ACL.
-        """
+        """No access to the project without ACL."""
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
 
     def test_acl_disable(self):
-        """Test disabling ACL.
-        """
+        """Test disabling ACL."""
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
         self.project.access_control = Project.ACCESS_PUBLIC
@@ -64,8 +62,7 @@ class ACLTest(FixtureTestCase):
         self.assertContains(response, 'type="submit" name="save"')
 
     def test_acl_protected(self):
-        """Test ACL protected project.
-        """
+        """Test ACL protected project."""
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
         self.project.access_control = Project.ACCESS_PROTECTED
@@ -78,23 +75,20 @@ class ACLTest(FixtureTestCase):
         )
 
     def test_acl(self):
-        """Regular user should not have access to user management.
-        """
+        """Regular user should not have access to user management."""
         self.add_acl()
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
 
     def test_edit_acl(self):
-        """Manager should have access to user management.
-        """
+        """Manager should have access to user management."""
         self.add_acl()
         self.make_manager()
         response = self.client.get(self.access_url)
         self.assertContains(response, 'Users')
 
     def test_edit_acl_owner(self):
-        """Owner should have access to user management.
-        """
+        """Owner should have access to user management."""
         self.add_acl()
         self.project.add_user(self.user, '@Administration')
         response = self.client.get(self.access_url)
@@ -178,14 +172,12 @@ class ACLTest(FixtureTestCase):
         self.assertNotContains(response, self.second_user.email)
 
     def test_add_acl(self):
-        """Adding and removing user from the ACL project.
-        """
+        """Adding and removing user from the ACL project."""
         self.add_user()
         self.remove_user()
 
     def test_add_owner(self):
-        """Adding and removing owner from the ACL project.
-        """
+        """Adding and removing owner from the ACL project."""
         self.add_user()
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
@@ -216,8 +208,7 @@ class ACLTest(FixtureTestCase):
         self.remove_user()
 
     def test_delete_owner(self):
-        """Adding and deleting owner from the ACL project.
-        """
+        """Adding and deleting owner from the ACL project."""
         self.add_user()
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
@@ -312,8 +303,7 @@ class ACLTest(FixtureTestCase):
         self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
 
     def test_acl_groups(self):
-        """Test handling of ACL groups.
-        """
+        """Test handling of ACL groups."""
         if 'weblate.billing' in settings.INSTALLED_APPS:
             billing_group = 1
         else:

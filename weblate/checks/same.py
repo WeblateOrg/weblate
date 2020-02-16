@@ -78,9 +78,9 @@ DB_TAGS = ('screen', 'indexterm', 'programlisting')
 
 
 def strip_format(msg, flags):
-    """Check whether given string contains only format strings
-    and possible punctation. These are quite often not changed
-    by translators.
+    """Remove format strings from the strings.
+
+    These are quite often not changed by translators.
     """
     if 'python-format' in flags:
         regex = PYTHON_PRINTF_MATCH

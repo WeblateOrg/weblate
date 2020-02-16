@@ -499,9 +499,7 @@ class VCSSubversionBranchTest(VCSSubversionTest):
 
 
 class VCSHgTest(VCSGitTest):
-    """
-    Mercurial repository testing.
-    """
+    """Mercurial repository testing."""
 
     _class = HgRepository
     _vcs = 'mercurial'
@@ -539,9 +537,7 @@ class VCSHgTest(VCSGitTest):
 
 
 class VCSLocalTest(VCSGitTest):
-    """
-    Local repository testing.
-    """
+    """Local repository testing."""
 
     _class = LocalRepository
     _vcs = 'local'

@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for user handling.
-"""
+"""Tests for user handling."""
 
 from io import BytesIO
 

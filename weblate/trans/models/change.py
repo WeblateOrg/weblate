@@ -47,10 +47,7 @@ class ChangeQuerySet(models.QuerySet):
 
     @staticmethod
     def count_stats(days, step, dtstart, base):
-        """Count number of changes in given dataset and period grouped by
-        step days.
-        """
-
+        """Count number of changes in given dataset and period grouped by step days."""
         # Count number of changes
         result = []
         for _unused in six.moves.range(0, days, step):
@@ -81,7 +78,6 @@ class ChangeQuerySet(models.QuerySet):
         user=None,
     ):
         """Core of daily/weekly/monthly stats calculation."""
-
         # Get range (actually start)
         dtstart = timezone.now() - timezone.timedelta(days=days + 1)
 
@@ -107,9 +103,7 @@ class ChangeQuerySet(models.QuerySet):
         return self.count_stats(days, step, dtstart, base)
 
     def prefetch(self):
-        """Fetch related fields in a big chungs to avoid loading them
-        individually.
-        """
+        """Fetch related fields in a big chungs to avoid loading them individually."""
         return self.select_related(
             'user',
             'translation',
@@ -129,8 +123,10 @@ class ChangeQuerySet(models.QuerySet):
         )
 
     def last_changes(self, user):
-        """Prefilter Changes by ACL for users and fetches related fields
-        for last changes display.
+        """Return last changes for an user
+
+        Prefilter Changes by ACL for users and fetches related fields for last
+        changes display.
         """
         return (
             self.prefetch()

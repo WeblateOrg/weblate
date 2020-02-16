@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for unitdata models.
-"""
+"""Tests for unitdata models."""
 
 from __future__ import unicode_literals
 

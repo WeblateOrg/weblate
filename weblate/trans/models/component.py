@@ -771,7 +771,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def add_ssh_host_key(self):
         """Add SSH key for current repo as trusted.
 
-        This is essentailly a TOFU appproach."""
+        This is essentailly a TOFU appproach.
+        """
         parsed = urlparse(self.repo)
         if not parsed.hostname:
             parsed = urlparse("ssh://{}".format(self.repo))

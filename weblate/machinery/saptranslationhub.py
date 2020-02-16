@@ -62,7 +62,6 @@ class SAPTranslationHub(MachineTranslation):
 
     def download_languages(self):
         """Get all available languages from SAP Translation Hub"""
-
         # get all available languages
         languages_url = settings.MT_SAP_BASE_URL + 'languages'
         response = self.json_req(languages_url)
@@ -71,7 +70,6 @@ class SAPTranslationHub(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-
         # should the machine translation service be used?
         # (rather than only the term database)
         enable_mt = False

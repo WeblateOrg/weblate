@@ -26,9 +26,7 @@ from weblate.memory.storage import TranslationMemory
 
 
 class Command(BaseCommand):
-    """
-    Command for optimizing translation memory content.
-    """
+    """Command for optimizing translation memory content."""
 
     help = 'optimizes translation memory content'
 

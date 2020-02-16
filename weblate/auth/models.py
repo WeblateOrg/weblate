@@ -191,9 +191,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, username, email, password, **extra_fields):
-        """
-        Creates and saves a User with the given username, e-mail and password.
-        """
+        """Create and save a User with the given username, e-mail and password."""
         if not username:
             raise ValueError('The given username must be set')
         email = self.normalize_email(email)
@@ -223,7 +221,8 @@ class UserManager(BaseUserManager):
     def having_perm(self, perm, project):
         """All users having explicit permission on a project.
 
-        Note: This intentionally does not list superusers."""
+        Note: This intentionally does not list superusers.
+        """
         groups = Group.objects.filter(
             roles__permissions__codename=perm, projects=project
         )
@@ -366,9 +365,7 @@ class User(AbstractBaseUser):
         return self.full_name
 
     def __setattr__(self, name, value):
-        """Mimic first/last name for third party auth
-        and ignore is_staff flag.
-        """
+        """Mimic first/last name for third party auth and ignore is_staff flag."""
         if name in self.DUMMY_FIELDS:
             self.extra_data[name] = value
         else:
@@ -514,7 +511,6 @@ class AutoGroup(models.Model):
 
 def create_groups(update):
     """Creates standard groups and gives them permissions."""
-
     # Create permissions and roles
     migrate_permissions(Permission)
     new_roles = migrate_roles(Role, Permission)
@@ -584,7 +580,6 @@ def setup_language_groups(sender, instance, **kwargs):
 @disable_for_loaddata
 def setup_project_groups(sender, instance, **kwargs):
     """Set up group objects upon saving project."""
-
     # Handle group automation to set project visibility
     auto_projects = Group.objects.filter(
         project_selection__in=(

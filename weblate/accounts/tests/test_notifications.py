@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for user handling.
-"""
+"""Tests for notitifications."""
 
 from __future__ import unicode_literals
 

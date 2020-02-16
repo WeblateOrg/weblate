@@ -170,10 +170,12 @@ class LanguageQuerySet(models.QuerySet):
         return None
 
     def fuzzy_get(self, code, strict=False):
-        """Get matching language for code (the code does not have to be exactly
-        same, cs_CZ is same as cs-CZ) or returns None
+        """Get matching language for code
 
-        It also handles Android special naming of regional locales like pt-rBR
+        The code does not have to be exactly same (cs_CZ is trteated same as
+        cs-CZ) or returns None.
+
+        It also handles Android special naming of regional locales like pt-rBR.
         """
         code = self.sanitize_code(code)
 
@@ -240,8 +242,9 @@ class LanguageQuerySet(models.QuerySet):
         return self.auto_create(ret, create)
 
     def auto_create(self, code, create=True):
-        """Automatically create new language based on code and best guess
-        of parameters.
+        """Automatically create new language
+
+        It is based on code and best guess of parameters.
         """
         # Create standard language
         name = '{0} (generated)'.format(code)
@@ -281,8 +284,9 @@ class LanguageQuerySet(models.QuerySet):
         return lang
 
     def setup(self, update, logger=lambda x: x):
-        """Create basic set of languages based on languages defined in the
-        languages-data repo.
+        """Create basic set of languages
+
+        It is based on languages defined in the languages-data repo.
         """
         # Create Weblate languages
         for code, name, nplurals, pluraleq in LANGUAGES:
@@ -413,8 +417,9 @@ class Language(models.Model):
         return reverse('show_language', kwargs={'lang': self.code})
 
     def get_html(self):
-        """Return html attributes for markup in this language, includes
-        language and direction.
+        """Return html attributes for markup in this language
+
+        Includes language and direction HTML.
         """
         return mark_safe('lang="{0}" dir="{1}"'.format(self.code, self.direction))
 

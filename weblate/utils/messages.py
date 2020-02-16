@@ -18,8 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """
-Wrapper around django.contrib.messages to work with Django REST Framework as
-well. And ignoring messages without request object (eg. from CLI).
+Wrapper around django.contrib.messages to work with Django REST Framework
+
+It also ignories messages without request object (eg. from CLI).
 """
 
 from __future__ import unicode_literals

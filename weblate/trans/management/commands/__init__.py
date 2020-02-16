@@ -42,10 +42,7 @@ class WeblateCommand(BaseCommand):
         super(WeblateCommand, self).execute(*args, **options)
 
     def handle(self, *args, **options):
-        """
-        The actual logic of the command. Subclasses must implement
-        this method.
-        """
+        """The actual logic of the command. Subclasses must implement this method."""
         raise NotImplementedError()
 
 
@@ -150,17 +147,14 @@ class WeblateComponentCommand(WeblateCommand):
         return result
 
     def handle(self, *args, **options):
-        """
-        The actual logic of the command. Subclasses must implement
-        this method.
-        """
+        """The actual logic of the command. Subclasses must implement this method."""
         raise NotImplementedError()
 
 
 class WeblateLangCommand(WeblateComponentCommand):
-    """
-    Command accepting additional language parameter to filter
-    list of languages to process.
+    """Command accepting additional language parameter
+
+    It can filter list of languages to process.
     """
 
     def add_arguments(self, parser):
@@ -193,10 +187,7 @@ class WeblateLangCommand(WeblateComponentCommand):
         return result
 
     def handle(self, *args, **options):
-        """
-        The actual logic of the command. Subclasses must implement
-        this method.
-        """
+        """The actual logic of the command. Subclasses must implement this method."""
         raise NotImplementedError()
 
 
@@ -230,8 +221,5 @@ class WeblateTranslationCommand(BaseCommand):
             raise CommandError('No matching translation project found!')
 
     def handle(self, *args, **options):
-        """
-        The actual logic of the command. Subclasses must implement
-        this method.
-        """
+        """The actual logic of the command. Subclasses must implement this method."""
         raise NotImplementedError()

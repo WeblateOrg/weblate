@@ -19,9 +19,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for AngularJS checks.
-"""
+"""Tests for AngularJS checks."""
 
 from unittest import TestCase
 

@@ -174,9 +174,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return 'read-only' in self.all_flags
 
     def clean(self):
-        """Validate that filename exists and can be opened using
-        translate-toolkit.
-        """
+        """Validate that filename exists and can be opened using translate-toolkit."""
         if not os.path.exists(self.get_filename()):
             raise ValidationError(
                 _(
@@ -273,7 +271,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def check_sync(self, force=False, request=None, change=None):
         """Check whether database is in sync with git and possibly updates"""
-
         if change is None:
             change = Change.ACTION_UPDATE
         if request is None:
@@ -479,7 +476,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def __git_commit(self, author, timestamp, signals=True):
         """Commit translation to git."""
-
         # Format commit message
         msg = self.get_commit_message(author)
 

@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for automatix fixups.
-"""
+"""Tests for automatix fixups."""
 
 from __future__ import unicode_literals
 

@@ -190,7 +190,8 @@ class TranslationFormat(object):
         """Parse store and returns TranslationFormat instance.
 
         This wrapper is needed for AutodetectFormat to be able to return
-        instance of different class."""
+        instance of different class.
+        """
         return cls(storefile, template_store, language_code, is_template)
 
     def __init__(
@@ -400,9 +401,9 @@ class TranslationFormat(object):
 
     @classmethod
     def get_language_filename(cls, mask, code):
-        """
-        Return full filename of a language file for given
-        path, filemask and language code.
+        """Return full filename of a language file
+
+        Calculated forfor given path, filemask and language code.
         """
         return mask.replace('*', cls.get_language_code(code))
 

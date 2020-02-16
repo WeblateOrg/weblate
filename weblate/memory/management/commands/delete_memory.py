@@ -26,9 +26,7 @@ from weblate.memory.storage import TranslationMemory
 
 
 class Command(BaseCommand):
-    """
-    Command for deleting translation memory content.
-    """
+    """Command for deleting translation memory content."""
 
     help = 'deletes translation memory content'
 

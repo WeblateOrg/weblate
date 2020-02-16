@@ -70,7 +70,6 @@ def optional_form(form, perm_user, perm, perm_obj, **kwargs):
 @never_cache
 def list_projects(request):
     """List all projects"""
-
     return render(
         request,
         'projects.html',

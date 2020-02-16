@@ -28,9 +28,7 @@ from weblate.accounts.models import AuditLog
 
 
 class CharsPasswordValidator(object):
-    """
-    Validate whether the password is not only whitespace or single char.
-    """
+    """Validate whether the password is not only whitespace or single char."""
 
     def validate(self, password, user=None):
         if not password:
@@ -54,9 +52,7 @@ class CharsPasswordValidator(object):
 
 
 class PastPasswordsValidator(object):
-    """
-    Validate whether the password was not used before.
-    """
+    """Validate whether the password was not used before."""
 
     def validate(self, password, user=None):
         if user is not None:

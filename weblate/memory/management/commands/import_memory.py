@@ -28,9 +28,7 @@ from weblate.memory.storage import MemoryImportError, TranslationMemory
 
 
 class Command(BaseCommand):
-    """
-    Command for importing translation memory.
-    """
+    """Command for importing translation memory."""
 
     help = 'imports translation memory'
 

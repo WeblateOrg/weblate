@@ -128,7 +128,8 @@ def translation_percent(translated, total, zero_complete=True):
 def add_configuration_error(name, message, force_cache=False):
     """Log configuration error.
 
-    Uses cache in case database is not yet ready."""
+    Uses cache in case database is not yet ready.
+    """
     if apps.models_ready and not force_cache:
         from weblate.wladmin.models import ConfigurationError
 
@@ -147,7 +148,8 @@ def add_configuration_error(name, message, force_cache=False):
 def delete_configuration_error(name, force_cache=False):
     """Delete configuration error.
 
-    Uses cache in case database is not yet ready."""
+    Uses cache in case database is not yet ready.
+    """
     if apps.models_ready and not force_cache:
         from weblate.wladmin.models import ConfigurationError
 

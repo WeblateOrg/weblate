@@ -27,9 +27,7 @@ from weblate.memory.tasks import memory_backup
 
 
 class Command(BaseCommand):
-    """
-    Command for exporting translation memory.
-    """
+    """Command for exporting translation memory."""
 
     help = 'exports translation memory in JSON format'
 

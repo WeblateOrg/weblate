@@ -277,13 +277,15 @@ class Repository(object):
 
     def needs_merge(self):
         """Check whether repository needs merge with upstream
-        (is missing some revisions).
+
+        It is missing some revisions.
         """
         return self.count_missing() > 0
 
     def needs_push(self):
         """Check whether repository needs push to upstream
-        (has additional revisions).
+
+        It has additional revisions.
         """
         return self.count_outgoing() > 0
 
@@ -379,7 +381,8 @@ class Repository(object):
 
         For files in a way compatible with Git (equivalent to git ls-tree
         HEAD), for dirs it behaves differently as we do not need to track some
-        attributes (eg. permissions)."""
+        attributes (eg. permissions).
+        """
         real_path = os.path.join(self.path, self.resolve_symlinks(path))
         objhash = hashlib.sha1()
 

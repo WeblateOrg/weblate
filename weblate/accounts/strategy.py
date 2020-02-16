@@ -35,9 +35,7 @@ def create_session(*args):
 
 class WeblateStrategy(DjangoStrategy):
     def __init__(self, storage, request=None, tpl=None):
-        """
-        Restores session data based on passed ID.
-        """
+        """Restore session data based on passed ID"""
         super(WeblateStrategy, self).__init__(storage, request, tpl)
         if request and 'verification_code' in request.GET and 'id' in request.GET:
             self.session = create_session(request.GET['id'])

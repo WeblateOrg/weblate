@@ -446,7 +446,6 @@ class XliffUnit(TTKitUnit):
     @cached_property
     def source(self):
         """Return source string from a Translate Toolkit unit."""
-
         if self.template is not None:
             # Use target if set, otherwise fall back to source
             if self.template.target:
@@ -499,7 +498,8 @@ class XliffUnit(TTKitUnit):
         """Return context of message.
 
         Use resname if available as it usually is more interesting
-        for the translator than ID."""
+        for the translator than ID.
+        """
         resname = self.mainunit.xmlelement.get('resname')
         if resname:
             return resname
@@ -531,7 +531,8 @@ class XliffUnit(TTKitUnit):
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit.
 
-        We handle this on our own."""
+        We handle this on our own.
+        """
         if fuzzy:
             self.xliff_node.set('state', 'needs-translation')
         elif self.xliff_state:

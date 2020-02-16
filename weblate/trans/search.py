@@ -102,7 +102,6 @@ class Fulltext(WhooshIndex):
 
     def update_index(self, units):
         """Update fulltext index for given set of units."""
-
         # Update source index
         index = self.get_source_index()
         with index.writer() as writer:

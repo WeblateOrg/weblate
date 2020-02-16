@@ -20,6 +20,7 @@
 
 """
 Django settings for running testsuite using django-nose.
+
 Django-nose have some advantages over default django test suite, most notable
 are:
 - It will testing just your weblate by default, not all the standard things

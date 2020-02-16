@@ -188,10 +188,7 @@ def home(request):
 
 
 def dashboard_user(request):
-    """Home page of Weblate showing list of projects, stats
-    and user links if logged in.
-    """
-
+    """Home page of Weblate for authenticated user"""
     user = request.user
 
     user_translations = get_user_translations(request, user)
@@ -264,7 +261,6 @@ def dashboard_user(request):
 
 def dashboard_anonymous(request):
     """Home page of Weblate showing list of projects for anonymous user."""
-
     all_projects = prefetch_stats(request.user.allowed_projects)
     top_projects = sorted(all_projects, key=lambda prj: -prj.stats.monthly_changes)
 

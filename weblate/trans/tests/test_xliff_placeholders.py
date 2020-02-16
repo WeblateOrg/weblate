@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for XLIFF rich string.
-"""
+"""Tests for XLIFF rich string."""
 
 from django.test import TestCase
 from translate.storage.placeables.strelem import StringElem

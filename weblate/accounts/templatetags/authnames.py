@@ -68,7 +68,6 @@ SOCIAL_TEMPLATE = '''
 @register.simple_tag
 def auth_name(auth, separator='<br />'):
     """Create HTML markup for social authentication method."""
-
     params = {'name': auth, 'separator': separator, 'image': 'password.svg'}
 
     if auth in SOCIALS:

@@ -92,7 +92,6 @@ class MachineTranslation(object):
         **kwargs
     ):
         """Perform JSON request."""
-
         # JSON body requires using POST
         if json_body:
             http_post = True
@@ -255,7 +254,6 @@ class MachineTranslation(object):
 
     def translate(self, language, text, unit, user, source=None):
         """Return list of machine translations."""
-
         self.get_supported_languages()
 
         if source is None:
@@ -304,7 +302,6 @@ class MachineTranslation(object):
 
     def signed_salt(self, appid, secret, text):
         """Generates salt and sign as used by Chinese services."""
-
         salt = str(random.randint(0, 10000000000))
 
         payload = appid + text + salt + secret

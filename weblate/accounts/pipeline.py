@@ -50,7 +50,6 @@ CLEANUP_MATCHER = re.compile(r'[-\s]+')
 
 def get_github_email(access_token):
     """Get real e-mail from GitHub"""
-
     request = Request('https://api.github.com/user/emails')
     request.add_header('User-Agent', USER_AGENT)
     request.add_header('Authorization', 'token {0}'.format(access_token))
@@ -89,7 +88,6 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action, **kwarg
 @partial
 def require_email(backend, details, weblate_action, user=None, is_new=False, **kwargs):
     """Force entering e-mail for backends which don't provide it."""
-
     if backend.name == 'github':
         email = get_github_email(kwargs['response']['access_token'])
         if email is not None:
@@ -281,7 +279,6 @@ def ensure_valid(
     **kwargs
 ):
     """Ensure the activation link is still."""
-
     # Didn't the link expire?
     if weblate_expires < time.time():
         raise AuthMissingParameter(backend, 'expires')

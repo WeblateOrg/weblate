@@ -44,10 +44,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create default set of groups and optionally updates them and moves
-        users around to default group.
-        """
-
         data = json.load(options['json-file'])
         options['json-file'].close()
 

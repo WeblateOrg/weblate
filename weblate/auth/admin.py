@@ -139,9 +139,7 @@ class WeblateUserAdmin(UserAdmin):
         return super(WeblateUserAdmin, self).has_delete_permission(request, obj)
 
     def delete_model(self, request, obj):
-        """
-        Given a model instance delete it from the database.
-        """
+        """Given a model instance delete it from the database."""
         remove_user(obj, request)
 
     def delete_queryset(self, request, queryset):

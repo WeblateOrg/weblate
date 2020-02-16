@@ -310,7 +310,6 @@ def show_message(tags, message):
 
 def naturaltime_past(value, now):
     """Handling of past dates for naturaltime."""
-
     # this function is huge
     # pylint: disable=too-many-branches,too-many-return-statements
 
@@ -368,7 +367,6 @@ def naturaltime_past(value, now):
 
 def naturaltime_future(value, now):
     """Handling of future dates for naturaltime."""
-
     # this function is huge
     # pylint: disable=too-many-branches,too-many-return-statements
 
@@ -427,8 +425,7 @@ def naturaltime_future(value, now):
 @register.filter
 def naturaltime(value, now=None):
     """
-    Heavily based on Django's django.contrib.humanize
-    implementation of naturaltime
+    Heavily based on Django's django.contrib.humanize implementation of naturaltime
 
     For date and time values shows how many seconds, minutes or hours ago
     compared to current timestamp returns representing string.
@@ -653,7 +650,6 @@ def get_translate_url(context, obj):
 @register.simple_tag(takes_context=True)
 def get_browse_url(context, obj):
     """Get translate URL based on user preference."""
-
     # Project listing on language page
     if "language" in context and isinstance(obj, Project):
         return reverse(
@@ -791,8 +787,9 @@ def markdown(text):
 @register.filter
 def choiceval(boundfield):
     """
-    Get literal value from field's choices. Empty value is returned if value is
-    not selected or invalid.
+    Get literal value from field's choices.
+
+    Empty value is returned if value is not selected or invalid.
     """
     value = boundfield.value()
     if not hasattr(boundfield.field, "choices"):

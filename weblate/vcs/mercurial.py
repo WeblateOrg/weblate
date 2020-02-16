@@ -235,7 +235,8 @@ class HgRepository(Repository):
 
     def needs_ff(self):
         """Check whether repository needs a fast-forward to upstream
-        (the path to the upstream is linear).
+
+        Checks whether the path to the upstream is linear.
         """
         return bool(self.log_revisions('.::remote(.) - .'))
 

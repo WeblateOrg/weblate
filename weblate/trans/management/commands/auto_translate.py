@@ -30,9 +30,7 @@ from weblate.trans.models import Component
 
 
 class Command(WeblateTranslationCommand):
-    """
-    Command for mass automatic translation.
-    """
+    """Command for mass automatic translation."""
 
     help = 'performs automatic translation based on other components'
 

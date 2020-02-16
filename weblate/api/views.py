@@ -92,8 +92,8 @@ description of the API.</p>
 def get_view_description(view_cls, html=False):
     """
     Given a view class, return a textual description to represent the view.
-    This name is used in the browsable API, and in OPTIONS responses.
 
+    This name is used in the browsable API, and in OPTIONS responses.
     This function is the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
     """
     description = view_cls.__doc__ or ''
@@ -115,6 +115,8 @@ def get_view_description(view_cls, html=False):
 
 class MultipleFieldMixin(object):
     """
+    Multiple field filtering mixin
+
     Apply this mixin to any view or viewset to get multiple field filtering
     based on a `lookup_fields` attribute, instead of the default single field
     filtering.
@@ -666,9 +668,7 @@ class Metrics(APIView):
 
     # pylint: disable=redefined-builtin
     def get(self, request, format=None):
-        """
-        Return a list of all users.
-        """
+        """Return a list of all users."""
         stats = GlobalStats()
         queues = get_queue_stats()
 

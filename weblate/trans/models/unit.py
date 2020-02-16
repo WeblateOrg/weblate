@@ -613,10 +613,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def save(self, same_content=False, same_state=False, force_insert=False, **kwargs):
-        """
-        Wrapper around save to warn when save did not come from
-        git backend (eg. commit or by parsing file).
-        """
+        """Wrapper around save to run checks or update fulltext"""
         # Store number of words
         if not same_content or not self.num_words:
             self.num_words = len(self.get_source_plurals()[0].split())

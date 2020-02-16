@@ -18,9 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Tests for quality checks.
-"""
+"""Tests for char based quality checks."""
 
 from __future__ import unicode_literals
 
