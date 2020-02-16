@@ -1,7 +1,7 @@
 Weblate 3.11
 ------------
 
-Not yet released.
+Released on February 17th 2020.
 
 * Allow using VCS push URL during component creation via API.
 * Rendered width check now shows image with the render.
