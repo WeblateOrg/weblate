@@ -26,6 +26,13 @@ here. Depending on installation these can be executed in different way, please
 consult https://docs.weblate.org/en/latest/admin/management.html for more
 details.
 
+On pip installed Weblate:
+
+```
+weblate list_versions
+weblate check --deploy
+```
+
 On Git checkout:
 
 ```
