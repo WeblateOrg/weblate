@@ -398,6 +398,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             new_base="weblate/locale/django.pot",
             file_format="po",
         )
+        return project
 
     def view_site(self):
         try:
@@ -1065,7 +1066,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.remove_temp()
 
     def test_extra_context(self):
-        self.create_component()
+        project = self.create_component()
+        Component.objects.create(
+            name="Android",
+            slug="android",
+            project=project,
+            repo="weblate://weblateorg/language-names",
+            filemask="app/src/main/res/values-*/strings.xml",
+            template="app/src/main/res/values/strings.xml",
+            file_format="aresource",
+        )
+
         self.do_login(superuser=True)
         self.click("Tools")
         with self.wait_for_page_load():
@@ -1087,21 +1098,47 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
         self.screenshot("labels.png")
 
-        # Context editing
+        # Navigate to component
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         with self.wait_for_page_load():
-            self.click("Django")
+            self.click("Android")
+
+        # Edit shaping configuration
+        self.click("Manage")
+        with self.wait_for_page_load():
+            self.click("Settings")
+        self.click("Translation")
+        element = self.driver.find_element_by_id("id_shaping_regex")
+        element.send_keys("_(short|min)$")
+        self.screenshot("shapings-settings.png")
+        with self.wait_for_page_load():
+            element.submit()
+
+        # Navigate to the source language
+        with self.wait_for_page_load():
+            self.click("Android")
         with self.wait_for_page_load():
             self.click("English")
         self.screenshot("source-review.png")
+
+        # Find string with shapings
+        self.click("Search")
+        element = self.driver.find_element_by_id("id_q")
+        element.send_keys("Monday")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_partial_link_text("All strings"))
-        self.click("Comments")
+            element.submit()
         self.screenshot("source-review-detail.png")
+
+        # Display shapings
+        self.click(self.driver.find_element_by_id("toggle-shapings"))
+        self.screenshot("shapings-translate.png")
+
+        # Edit context
         self.click(self.driver.find_element_by_id("edit-context"))
         time.sleep(0.5)
         self.screenshot("source-review-edit.png")
+
         # Close modal dialog
         self.driver.find_element_by_id("id_extra_context").send_keys(Keys.ESCAPE)
         time.sleep(0.5)
