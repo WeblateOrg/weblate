@@ -860,22 +860,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(self.driver.find_element_by_partial_link_text("All strings"))
         self.screenshot("visual-keyboard.png")
 
-        # Source review
-        with self.wait_for_page_load():
-            self.click("Django")
-        with self.wait_for_page_load():
-            self.click("English")
-        self.screenshot("source-review.png")
-        with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_partial_link_text("All strings"))
-        self.screenshot("source-review-detail.png")
-        self.click(self.driver.find_element_by_id("edit-context"))
-        time.sleep(0.5)
-        self.screenshot("source-review-edit.png")
-        # Close modal dialog
-        self.driver.find_element_by_id("id_extra_context").send_keys(Keys.ESCAPE)
-        time.sleep(0.5)
-
         # Profile
         self.click(self.driver.find_element_by_id("user-dropdown"))
         with self.wait_for_page_load():
@@ -1071,3 +1055,44 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("backups.png")
         finally:
             self.remove_temp()
+
+    def test_extra_context(self):
+        self.create_component()
+        self.do_login(superuser=True)
+        self.click("Tools")
+        with self.wait_for_page_load():
+            self.click("All projects")
+        with self.wait_for_page_load():
+            self.click("WeblateOrg")
+        self.click("Manage")
+        with self.wait_for_page_load():
+            self.click("Labels")
+        element = self.driver.find_element_by_id("id_name")
+        element.send_keys("Current")
+        self.click("Green")
+        with self.wait_for_page_load():
+            element.submit()
+        element = self.driver.find_element_by_id("id_name")
+        elemnt.send_keys("Next")
+        self.click("Aqua")
+        with self.wait_for_page_load():
+            element.submit()
+        self.screenshot("labels.png")
+
+        # Context editing
+        with self.wait_for_page_load():
+            self.click("WeblateOrg")
+        with self.wait_for_page_load():
+            self.click("Django")
+        with self.wait_for_page_load():
+            self.click("English")
+        self.screenshot("source-review.png")
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element_by_partial_link_text("All strings"))
+        self.screenshot("source-review-detail.png")
+        self.click(self.driver.find_element_by_id("edit-context"))
+        time.sleep(0.5)
+        self.screenshot("source-review-edit.png")
+        # Close modal dialog
+        self.driver.find_element_by_id("id_extra_context").send_keys(Keys.ESCAPE)
+        time.sleep(0.5)
