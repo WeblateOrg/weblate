@@ -511,7 +511,7 @@ def translate(request, project, component, lang):
                     'scope': 'global' if unit.translation.is_source else 'translation'
                 }
             ),
-            'context_form': ContextForm(instance=unit.source_info),
+            'context_form': ContextForm(instance=unit.source_info, user=request.user),
             'search_form': search_result['form'].reset_offset(),
             'secondary': secondary,
             'locked': locked,

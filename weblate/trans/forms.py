@@ -1027,11 +1027,22 @@ class ContextForm(forms.ModelForm):
         fields = ('extra_context', 'labels', 'extra_flags')
         widgets = {'labels': forms.CheckboxSelectMultiple()}
 
-    def __init__(self, data=None, instance=None, **kwargs):
+    def __init__(self, data=None, instance=None, user=None, **kwargs):
         super(ContextForm, self).__init__(data=data, instance=instance, **kwargs)
-        self.fields[
-            'labels'
-        ].queryset = instance.translation.component.project.label_set.all()
+        project = instance.translation.component.project
+        self.fields['labels'].queryset = project.label_set.all()
+        self.helper = FormHelper(self)
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field('extra_context'),
+            Field('labels'),
+            ContextDiv(
+                template='snippets/labels_description.html',
+                context={'project': project, 'user': user},
+            ),
+            Field('extra_flags'),
+        )
 
 
 class UserManageForm(forms.Form):

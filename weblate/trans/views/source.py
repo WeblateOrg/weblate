@@ -44,7 +44,7 @@ def edit_context(request, pk):
     if not request.user.has_perm('source.edit', unit.translation.component):
         raise PermissionDenied()
 
-    form = ContextForm(request.POST, instance=unit)
+    form = ContextForm(request.POST, instance=unit, user=request.user)
 
     if form.is_valid():
         form.save()

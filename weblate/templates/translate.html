@@ -646,7 +646,7 @@
         <h4 class="modal-title">{% trans "Edit additional string info" %}</h4>
       </div>
       <div class="modal-body">
-        {{ context_form|crispy }}
+        {% crispy context_form %}
       </div>
       <div class="modal-footer">
         <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
