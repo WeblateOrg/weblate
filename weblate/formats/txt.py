@@ -36,6 +36,7 @@ from weblate.utils.errors import report_error
 
 class TextItem(object):
     """Actual text unit object."""
+
     def __init__(self, filename, line, text, flags=None):
         self.filename = filename
         self.line = line
@@ -52,6 +53,7 @@ class TextItem(object):
 
 class TextParser(object):
     """Simple text parser returning all content as single unit."""
+
     def __init__(self, storefile, filename=None, flags=None):
         with open(storefile, 'rb') as handle:
             content = handle.read().decode('utf-8')
@@ -81,9 +83,9 @@ class MultiParser(object):
 
         self.base = storefile
         self.parsers = self.load_parser()
-        self.units = list(chain.from_iterable(
-            parser.units for parser in self.parsers.values()
-        ))
+        self.units = list(
+            chain.from_iterable(parser.units for parser in self.parsers.values())
+        )
 
     def file_key(self, filename):
         return filename
@@ -208,14 +210,11 @@ class AppStoreFormat(TranslationFormat):
                 continue
             self.save_atomic(
                 self.store.get_filename(unit.filename),
-                TextSerializer(unit.filename, self.store.units)
+                TextSerializer(unit.filename, self.store.units),
             )
 
     def get_filenames(self):
-        return [
-            self.store.get_filename(unit.filename)
-            for unit in self.store.units
-        ]
+        return [self.store.get_filename(unit.filename) for unit in self.store.units]
 
     @classmethod
     def get_class(cls):

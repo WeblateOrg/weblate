@@ -64,20 +64,19 @@ TEST_DATA = (
 
 class NaturalTimeTest(SimpleTestCase):
     """Testing of natural time conversion."""
+
     def test_natural(self):
         now = timezone.now()
         for diff, expected in TEST_DATA:
             testdate = now + datetime.timedelta(seconds=diff)
             result = naturaltime(testdate, now)
             expected = '<span title="{0}">{1}</span>'.format(
-                testdate.replace(microsecond=0).isoformat(),
-                expected,
+                testdate.replace(microsecond=0).isoformat(), expected
             )
             self.assertEqual(
-                expected, result,
-                'naturaltime({0}) "{1}" != "{2}"'.format(
-                    testdate, result, expected
-                )
+                expected,
+                result,
+                'naturaltime({0}) "{1}" != "{2}"'.format(testdate, result, expected),
             )
 
 
@@ -86,11 +85,7 @@ class LocationLinksTest(TestCase):
         self.unit = Unit(
             translation=Translation(
                 component=Component(
-                    project=Project(
-                        source_language=Language(),
-                        slug='p',
-                        name='p',
-                    ),
+                    project=Project(source_language=Language(), slug='p', name='p'),
                     slug='c',
                     name='c',
                 ),
@@ -100,30 +95,22 @@ class LocationLinksTest(TestCase):
         self.profile = Profile()
 
     def test_empty(self):
-        self.assertEqual(
-            get_location_links(self.profile, self.unit),
-            ''
-        )
+        self.assertEqual(get_location_links(self.profile, self.unit), '')
 
     def test_numeric(self):
         self.unit.location = '123'
-        self.assertEqual(
-            get_location_links(self.profile, self.unit),
-            'string ID 123'
-        )
+        self.assertEqual(get_location_links(self.profile, self.unit), 'string ID 123')
 
     def test_filename(self):
         self.unit.location = 'f&oo.bar:123'
         self.assertEqual(
-            get_location_links(self.profile, self.unit),
-            'f&amp;oo.bar:123'
+            get_location_links(self.profile, self.unit), 'f&amp;oo.bar:123'
         )
 
     def test_filenames(self):
         self.unit.location = 'foo.bar:123,bar.foo:321'
         self.assertEqual(
-            get_location_links(self.profile, self.unit),
-            'foo.bar:123\nbar.foo:321'
+            get_location_links(self.profile, self.unit), 'foo.bar:123\nbar.foo:321'
         )
 
     def test_repowebs(self):
@@ -144,7 +131,7 @@ class LocationLinksTest(TestCase):
                 dir="ltr" rel="noopener noreferrer">
             bar.foo:321
             </a>
-            '''
+            ''',
         )
 
     def test_repoweb(self):
@@ -160,7 +147,7 @@ class LocationLinksTest(TestCase):
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
-            '''
+            ''',
         )
 
     def test_user_url(self):
@@ -177,5 +164,5 @@ class LocationLinksTest(TestCase):
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
-            '''
+            ''',
         )

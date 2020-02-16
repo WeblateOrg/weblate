@@ -31,6 +31,7 @@ from weblate.utils.docs import get_doc_url
 def check_avatars(app_configs, **kwargs):
     from weblate.auth.models import get_anonymous
     from weblate.accounts.avatar import download_avatar_image
+
     if not settings.ENABLE_AVATARS:
         return []
     try:

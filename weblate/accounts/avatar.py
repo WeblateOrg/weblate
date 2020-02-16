@@ -57,10 +57,7 @@ def avatar_for_email(email, size=80):
 
 def get_fallback_avatar_url(size):
     """Return URL of fallback avatar."""
-    return os.path.join(
-        settings.STATIC_URL,
-        'weblate-{0}.png'.format(size)
-    )
+    return os.path.join(settings.STATIC_URL, 'weblate-{0}.png'.format(size))
 
 
 def get_fallback_avatar(size):
@@ -73,11 +70,7 @@ def get_fallback_avatar(size):
 def get_avatar_image(request, user, size):
     """Return avatar image from cache (if available) or download it."""
 
-    cache_key = '-'.join((
-        'avatar-img',
-        user.username,
-        str(size)
-    ))
+    cache_key = '-'.join(('avatar-img', user.username, str(size)))
 
     # Try using avatar specific cache if available
     try:
@@ -92,7 +85,8 @@ def get_avatar_image(request, user, size):
             cache.set(cache_key, image)
         except (IOError, CertificateError) as error:
             report_error(
-                error, request,
+                error,
+                request,
                 extra_data={'avatar': user.username},
                 prefix='Failed to fetch avatar',
             )
@@ -138,14 +132,10 @@ def get_user_display(user, icon=True, link=False, prefix=''):
         if user is None or user.email == 'noreply@weblate.org':
             avatar = get_fallback_avatar_url(32)
         else:
-            avatar = reverse(
-                'user_avatar', kwargs={'user': user.username, 'size': 32}
-            )
+            avatar = reverse('user_avatar', kwargs={'user': user.username, 'size': 32})
 
         username = '<img src="{avatar}" class="avatar" /> {prefix}{name}'.format(
-            name=username,
-            avatar=avatar,
-            prefix=prefix
+            name=username, avatar=avatar, prefix=prefix
         )
     else:
         username = prefix + username
@@ -153,12 +143,11 @@ def get_user_display(user, icon=True, link=False, prefix=''):
     if link and user is not None:
         return mark_safe(
             '<a href="{link}" title="{name}">{username}</a>'.format(
-                name=full_name,
-                username=username,
-                link=user.get_absolute_url(),
+                name=full_name, username=username, link=user.get_absolute_url()
             )
         )
-    return mark_safe('<span title="{name}">{username}</span>'.format(
-        name=full_name,
-        username=username,
-    ))
+    return mark_safe(
+        '<span title="{name}">{username}</span>'.format(
+            name=full_name, username=username
+        )
+    )

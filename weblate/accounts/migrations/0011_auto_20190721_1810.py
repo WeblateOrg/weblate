@@ -7,29 +7,48 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('accounts', '0010_auto_20190516_1153'),
-    ]
+    dependencies = [('accounts', '0010_auto_20190516_1153')]
 
     operations = [
         migrations.AlterField(
             model_name='profile',
             name='editor_link',
-            field=models.CharField(blank=True, default='', help_text='Enter a custom URL to be used as link to the source code. You can use {{branch}} for branch, {{filename}} and {{line}} as filename and line placeholders.', max_length=200, validators=[weblate.utils.render.validate_editor], verbose_name='Editor link'),
+            field=models.CharField(
+                blank=True,
+                default='',
+                help_text='Enter a custom URL to be used as link to the source code. You can use {{branch}} for branch, {{filename}} and {{line}} as filename and line placeholders.',
+                max_length=200,
+                validators=[weblate.utils.render.validate_editor],
+                verbose_name='Editor link',
+            ),
         ),
         migrations.AlterField(
             model_name='profile',
             name='hide_source_secondary',
-            field=models.BooleanField(default=False, verbose_name='Hide source if a secondary translation exists'),
+            field=models.BooleanField(
+                default=False,
+                verbose_name='Hide source if a secondary translation exists',
+            ),
         ),
         migrations.AlterField(
             model_name='profile',
             name='languages',
-            field=models.ManyToManyField(blank=True, help_text='Choose the languages you can translate to. These will be offered to you on the dashboard for easier access to your chosen translations.', to='lang.Language', verbose_name='Translated languages'),
+            field=models.ManyToManyField(
+                blank=True,
+                help_text='Choose the languages you can translate to. These will be offered to you on the dashboard for easier access to your chosen translations.',
+                to='lang.Language',
+                verbose_name='Translated languages',
+            ),
         ),
         migrations.AlterField(
             model_name='profile',
             name='special_chars',
-            field=models.CharField(blank=True, default='', help_text='You can specify additional special visual keyboard characters to be shown while translating. It can be useful for characters you use frequently, but are hard to type on your keyboard.', max_length=30, verbose_name='Special characters'),
+            field=models.CharField(
+                blank=True,
+                default='',
+                help_text='You can specify additional special visual keyboard characters to be shown while translating. It can be useful for characters you use frequently, but are hard to type on your keyboard.',
+                max_length=30,
+                verbose_name='Special characters',
+            ),
         ),
     ]

@@ -35,17 +35,11 @@ class ReportFilterTest(TestCase):
         reporter = WeblateExceptionReporterFilter()
         request = HttpRequest()
         reporter.get_post_parameters(request)
-        self.assertIn(
-            'WEBLATE_VERSION:Weblate',
-            request.META
-        )
+        self.assertIn('WEBLATE_VERSION:Weblate', request.META)
 
     def test_report_language(self):
         reporter = WeblateExceptionReporterFilter()
         request = HttpRequest()
         request.session = {'django_language': 'testlang'}
         reporter.get_post_parameters(request)
-        self.assertIn(
-            'WEBLATE_LANGUAGE',
-            request.META
-        )
+        self.assertIn('WEBLATE_LANGUAGE', request.META)

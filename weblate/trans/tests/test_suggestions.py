@@ -31,27 +31,15 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class SuggestionsTest(ViewTestCase):
     def add_suggestion_1(self):
-        return self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            suggest='yes'
-        )
+        return self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', suggest='yes')
 
     def add_suggestion_2(self):
-        return self.edit_unit(
-            'Hello, world!\n',
-            'Ahoj svete!\n',
-            suggest='yes'
-        )
+        return self.edit_unit('Hello, world!\n', 'Ahoj svete!\n', suggest='yes')
 
     def test_add(self):
         translate_url = reverse('translate', kwargs=self.kw_translation)
         # Try empty suggestion (should not be added)
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            suggest='yes'
-        )
+        response = self.edit_unit('Hello, world!\n', '', suggest='yes')
         # We should stay on same message
         self.assert_redirects_offset(response, translate_url, 1)
 
@@ -67,9 +55,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         # Check number of suggestions
         self.assertEqual(translation.stats.suggestions, 1)
         self.assert_backend(0)
@@ -93,9 +79,7 @@ class SuggestionsTest(ViewTestCase):
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
 
         # Check number of suggestions
         self.assertEqual(translation.stats.suggestions, 1)
@@ -114,24 +98,17 @@ class SuggestionsTest(ViewTestCase):
         self.add_suggestion_2()
 
         # Get ids of created suggestions
-        suggestions = self.get_unit().suggestions.values_list(
-            'pk', flat=True
-        )
+        suggestions = self.get_unit().suggestions.values_list('pk', flat=True)
         self.assertEqual(len(suggestions), 2)
 
         # Delete one of suggestions
         response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            delete=suggestions[0],
-            **kwargs
+            'Hello, world!\n', '', delete=suggestions[0], **kwargs
         )
         self.assert_redirects_offset(response, translate_url, 1)
 
         # Ensure we have just one
-        suggestions = self.get_unit().suggestions.values_list(
-            'pk', flat=True
-        )
+        suggestions = self.get_unit().suggestions.values_list('pk', flat=True)
         self.assertEqual(len(suggestions), 1)
 
     def test_delete_spam(self):
@@ -146,11 +123,7 @@ class SuggestionsTest(ViewTestCase):
         suggestion = self.get_unit().suggestions[0].pk
 
         # Accept one of suggestions
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            accept_edit=suggestion,
-        )
+        response = self.edit_unit('Hello, world!\n', '', accept_edit=suggestion)
         self.assert_redirects_offset(response, translate_url, 1)
 
     def test_accept(self):
@@ -165,17 +138,13 @@ class SuggestionsTest(ViewTestCase):
 
         # Accept one of suggestions
         response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            accept=suggestions.get(target='Ahoj svete!\n').pk,
+            'Hello, world!\n', '', accept=suggestions.get(target='Ahoj svete!\n').pk
         )
         self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         # Check number of suggestions
         self.assertEqual(translation.stats.suggestions, 1)
 
@@ -199,24 +168,15 @@ class SuggestionsTest(ViewTestCase):
         suggestions = list(self.get_unit().suggestions)
         self.assertEqual(len(suggestions), 1)
 
-        self.assertEqual(
-            suggestions[0].user.username,
-            settings.ANONYMOUS_USER_NAME
-        )
+        self.assertEqual(suggestions[0].user.username, settings.ANONYMOUS_USER_NAME)
 
         # Accept one of suggestions
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            accept=suggestions[0].pk,
-        )
+        response = self.edit_unit('Hello, world!\n', '', accept=suggestions[0].pk)
         self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         # Check number of suggestions
         self.assertEqual(translation.stats.suggestions, 0)
 
@@ -233,31 +193,17 @@ class SuggestionsTest(ViewTestCase):
 
         suggestion_id = self.get_unit().suggestions[0].pk
 
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            upvote=suggestion_id,
-        )
+        response = self.edit_unit('Hello, world!\n', '', upvote=suggestion_id)
         self.assert_redirects_offset(response, translate_url, 2)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
-        self.assertEqual(
-            suggestion.get_num_votes(),
-            1
-        )
+        self.assertEqual(suggestion.get_num_votes(), 1)
 
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            downvote=suggestion_id,
-        )
+        response = self.edit_unit('Hello, world!\n', '', downvote=suggestion_id)
         self.assert_redirects_offset(response, translate_url, 1)
 
         suggestion = Suggestion.objects.get(pk=suggestion_id)
-        self.assertEqual(
-            suggestion.get_num_votes(),
-            -1
-        )
+        self.assertEqual(suggestion.get_num_votes(), -1)
 
     def test_vote_autoaccept(self):
         self.add_suggestion_1()
@@ -269,18 +215,12 @@ class SuggestionsTest(ViewTestCase):
 
         suggestion_id = self.get_unit().suggestions[0].pk
 
-        response = self.edit_unit(
-            'Hello, world!\n',
-            '',
-            upvote=suggestion_id,
-        )
+        response = self.edit_unit('Hello, world!\n', '', upvote=suggestion_id)
         self.assert_redirects_offset(response, translate_url, 2)
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         # Check number of suggestions
         self.assertEqual(translation.stats.suggestions, 0)
 
@@ -303,10 +243,7 @@ class SuggestionsTest(ViewTestCase):
         suggestion = Suggestion.objects.get(pk=suggestion_id)
 
         # Suggestion get vote from the user that makes suggestion
-        self.assertEqual(
-            suggestion.get_num_votes(),
-            1
-        )
+        self.assertEqual(suggestion.get_num_votes(), 1)
 
         # Add suggestion as second user
         self.log_as_jane()
@@ -317,7 +254,4 @@ class SuggestionsTest(ViewTestCase):
         suggestion = Suggestion.objects.get(pk=suggestion_id)
 
         # and the suggestion gets an upvote
-        self.assertEqual(
-            suggestion.get_num_votes(),
-            2
-        )
+        self.assertEqual(suggestion.get_num_votes(), 2)

@@ -45,11 +45,7 @@ class BBCodeCheckTest(CheckTestCase):
         self.test_good_matching = ('[a]string[/a]', '[a]string[/a]', '')
         self.test_failure_1 = ('[a]string[/a]', '[b]string[/b]', '')
         self.test_failure_2 = ('[a]string[/a]', 'string', '')
-        self.test_highlight = (
-            '',
-            '[a]string[/a]',
-            [(0, 3, '[a]'), (9, 13, '[/a]')]
-        )
+        self.test_highlight = ('', '[a]string[/a]', [(0, 3, '[a]'), (9, 13, '[/a]')])
 
 
 class XMLValidityCheckTest(CheckTestCase):
@@ -57,13 +53,9 @@ class XMLValidityCheckTest(CheckTestCase):
 
     def setUp(self):
         super(XMLValidityCheckTest, self).setUp()
-        self.test_good_matching = (
-            '<a>string</a>', '<a>string</a>', 'xml-text'
-        )
+        self.test_good_matching = ('<a>string</a>', '<a>string</a>', 'xml-text')
         self.test_good_none = ('string', 'string', '')
-        self.test_good_ignore = (
-            '<http://weblate.org/>', '<http://weblate.org/>', ''
-        )
+        self.test_good_ignore = ('<http://weblate.org/>', '<http://weblate.org/>', '')
         self.test_failure_1 = ('<a>string</a>', '<a>string</b>', 'xml-text')
         self.test_failure_2 = ('<a>string</a>', '<a>string', '')
         self.test_failure_3 = ('<a>string</a>', '<b>string</a>', 'xml-text')
@@ -73,12 +65,10 @@ class XMLValidityCheckTest(CheckTestCase):
 
     def test_not_well_formed(self):
         self.do_test(
-            True,
-            ('<emphasis>1st</emphasis>', '<emphasis>not</ emphasis>', '')
+            True, ('<emphasis>1st</emphasis>', '<emphasis>not</ emphasis>', '')
         )
         self.do_test(
-            True,
-            ('<emphasis>2nd</emphasis>', '<emphasis>not< /emphasis>', '')
+            True, ('<emphasis>2nd</emphasis>', '<emphasis>not< /emphasis>', '')
         )
 
     def test_root(self):
@@ -87,7 +77,7 @@ class XMLValidityCheckTest(CheckTestCase):
             (
                 '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
                 '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
-                ''
+                '',
             ),
         )
         self.do_test(
@@ -95,15 +85,12 @@ class XMLValidityCheckTest(CheckTestCase):
             (
                 '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
                 '<?xml version="1.0" encoding="UTF-8"?><b>test',
-                ''
+                '',
             ),
         )
 
     def test_html(self):
-        self.do_test(
-            False,
-            ('This is<br>valid HTML', 'Toto je<br>platne HTML', '')
-        )
+        self.do_test(False, ('This is<br>valid HTML', 'Toto je<br>platne HTML', ''))
 
 
 class XMLTagsCheckTest(CheckTestCase):
@@ -123,20 +110,16 @@ class XMLTagsCheckTest(CheckTestCase):
                 (30, 34, '</a>'),
                 (34, 38, '</b>'),
                 (24, 30, '&copy;'),
-            ]
+            ],
         )
 
     def test_unicode(self):
         self.do_test(False, ('<a>zkouška</a>', '<a>zkouška</a>', ''))
 
     def test_attributes(self):
+        self.do_test(False, ('<a href="#">a</a>', '<a href="other">z</a>', ''))
         self.do_test(
-            False,
-            ('<a href="#">a</a>', '<a href="other">z</a>', '')
-        )
-        self.do_test(
-            True,
-            ('<a href="#">a</a>', '<a href="#" onclick="alert()">z</a>', '')
+            True, ('<a href="#">a</a>', '<a href="#" onclick="alert()">z</a>', '')
         )
 
     def test_root(self):
@@ -145,7 +128,7 @@ class XMLTagsCheckTest(CheckTestCase):
             (
                 '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
                 '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
-                ''
+                '',
             ),
         )
         self.do_test(
@@ -153,7 +136,7 @@ class XMLTagsCheckTest(CheckTestCase):
             (
                 '<?xml version="1.0" encoding="UTF-8"?><b>test</b>',
                 '<?xml version="1.0" encoding="UTF-8"?><a>test</a>',
-                ''
+                '',
             ),
         )
 
@@ -177,23 +160,23 @@ class MarkdownLinkCheckTest(CheckTestCase):
         self.test_good_matching = (
             '[Use Weblate](https://weblate.org/)',
             '[Použij Weblate](https://weblate.org/)',
-            'md-text'
+            'md-text',
         )
         self.test_good_none = ('string', 'string', 'md-text')
         self.test_failure_1 = (
             '[Use Weblate](https://weblate.org/)',
             '[Použij Weblate]',
-            'md-text'
+            'md-text',
         )
         self.test_failure_2 = (
             '[Use Weblate](https://weblate.org/)',
             '[Použij Weblate] (https://weblate.org/)',
-            'md-text'
+            'md-text',
         )
         self.test_failure_3 = (
             '[Use Weblate](../demo/)',
             '[Použij Weblate](https://example.com/)',
-            'md-text'
+            'md-text',
         )
 
     def test_template(self):
@@ -228,7 +211,7 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
                 (19, 21, '~~'),
                 (22, 23, '`'),
                 (27, 28, '`'),
-            ]
+            ],
         )
 
 

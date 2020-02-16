@@ -52,8 +52,7 @@ def widgets(request, project):
             lang = Language.objects.get(code=form.cleaned_data['lang']).code
         if form.cleaned_data['component']:
             component = Component.objects.get(
-                slug=form.cleaned_data['component'],
-                project=obj
+                slug=form.cleaned_data['component'], project=obj
             ).slug
 
     kwargs = {'project': obj.slug}
@@ -64,9 +63,7 @@ def widgets(request, project):
     engage_link = mark_safe(
         '<a href="{0}" id="engage-link">{0}</a>'.format(escape(engage_url))
     )
-    widget_base_url = get_site_url(
-        reverse('widgets', kwargs={'project': obj.slug})
-    )
+    widget_base_url = get_site_url(reverse('widgets', kwargs={'project': obj.slug}))
     widget_list = []
     for widget_name in sorted(WIDGETS, key=widgets_sorter):
         widget_class = WIDGETS[widget_name]
@@ -85,15 +82,10 @@ def widgets(request, project):
             if component is not None:
                 kwargs['component'] = component
             color_url = reverse('widget-image', kwargs=kwargs)
-            color_list.append({
-                'name': color,
-                'url': get_site_url(color_url),
-            })
-        widget_list.append({
-            'name': widget_name,
-            'colors': color_list,
-            'verbose': widget_class.verbose,
-        })
+            color_list.append({'name': color, 'url': get_site_url(color_url)})
+        widget_list.append(
+            {'name': widget_name, 'colors': color_list, 'verbose': widget_class.verbose}
+        )
 
     return render(
         request,
@@ -108,14 +100,21 @@ def widgets(request, project):
             'project': obj,
             'image_src': widget_list[0]['colors'][0]['url'],
             'form': form,
-        }
+        },
     )
 
 
 @vary_on_cookie
 @cache_control(max_age=3600)
-def render_widget(request, project, widget='287x66', color=None, lang=None,
-                  component=None, extension='png'):
+def render_widget(
+    request,
+    project,
+    widget='287x66',
+    color=None,
+    lang=None,
+    component=None,
+    extension='png',
+):
     # We intentionally skip ACL here to allow widget sharing
     if component is None:
         obj = get_project(request, project, skip_acl=True)

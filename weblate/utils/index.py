@@ -33,6 +33,7 @@ from weblate.utils.data import data_dir
 
 class WhooshIndex(object):
     """Whoosh index abstraction to ease manipulation."""
+
     LOCATION = 'index'
     SCHEMA = None
     THREAD = threading.local()

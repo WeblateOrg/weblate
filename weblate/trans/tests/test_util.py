@@ -26,14 +26,12 @@ from weblate.trans.util import cleanup_repo_url, translation_percent
 class HideCredentialsTest(SimpleTestCase):
     def test_http(self):
         self.assertEqual(
-            cleanup_repo_url('http://foo:bar@example.com'),
-            'http://example.com',
+            cleanup_repo_url('http://foo:bar@example.com'), 'http://example.com'
         )
 
     def test_http_user(self):
         self.assertEqual(
-            cleanup_repo_url('http://foo@example.com'),
-            'http://example.com',
+            cleanup_repo_url('http://foo@example.com'), 'http://example.com'
         )
 
     def test_git(self):
@@ -50,10 +48,8 @@ class HideCredentialsTest(SimpleTestCase):
 
     def test_git_hg(self):
         self.assertEqual(
-            cleanup_repo_url(
-                'hg::https://bitbucket.org/sumwars/sumwars-code'
-            ),
-            'hg::https://bitbucket.org/sumwars/sumwars-code'
+            cleanup_repo_url('hg::https://bitbucket.org/sumwars/sumwars-code'),
+            'hg::https://bitbucket.org/sumwars/sumwars-code',
         )
 
 

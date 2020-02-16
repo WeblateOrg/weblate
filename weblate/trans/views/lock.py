@@ -38,10 +38,7 @@ def lock_component(request, project, component):
 
     obj.do_lock(request.user)
 
-    messages.success(
-        request,
-        _('Component is now locked for translation updates!')
-    )
+    messages.success(request, _('Component is now locked for translation updates!'))
 
     return redirect_param(obj, '#repository')
 
@@ -56,10 +53,7 @@ def unlock_component(request, project, component):
 
     obj.do_lock(request.user, False)
 
-    messages.success(
-        request,
-        _('Component is now open for translation updates.')
-    )
+    messages.success(request, _('Component is now open for translation updates.'))
 
     return redirect_param(obj, '#repository')
 
@@ -76,8 +70,7 @@ def lock_project(request, project):
         component.do_lock(request.user)
 
     messages.success(
-        request,
-        _('All components are now locked for translation updates!')
+        request, _('All components are now locked for translation updates!')
     )
 
     return redirect_param(obj, '#repository')
@@ -94,9 +87,6 @@ def unlock_project(request, project):
     for component in obj.component_set.iterator():
         component.do_lock(request.user, False)
 
-    messages.success(
-        request,
-        _('Project is now open for translation updates.')
-    )
+    messages.success(request, _('Project is now open for translation updates.'))
 
     return redirect_param(obj, '#repository')

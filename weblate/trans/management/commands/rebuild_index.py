@@ -35,14 +35,14 @@ class Command(WeblateComponentCommand):
             action='store_true',
             dest='clean',
             default=False,
-            help='removes also all words from database'
+            help='removes also all words from database',
         )
         parser.add_argument(
             '--optimize',
             action='store_true',
             dest='optimize',
             default=False,
-            help='optimize index without rebuilding it'
+            help='optimize index without rebuilding it',
         )
 
     def process_filtered(self, fulltext, **options):
@@ -58,9 +58,7 @@ class Command(WeblateComponentCommand):
                 lang = unit.translation.language.code
                 # Lazy open writer
                 if lang not in target_writers:
-                    target_writers[lang] = fulltext.get_target_index(
-                        lang
-                    ).writer()
+                    target_writers[lang] = fulltext.get_target_index(lang).writer()
                     target_searchers[lang] = target_writers[lang].searcher()
                 # Update target index
                 if unit.translation:
@@ -68,9 +66,7 @@ class Command(WeblateComponentCommand):
                         target_writers[lang], target_searchers[lang], unit
                     )
                 # Update source index
-                fulltext.update_source_unit_index(
-                    source_writer, source_searcher, unit
-                )
+                fulltext.update_source_unit_index(source_writer, source_searcher, unit)
 
         finally:
             # Close all writers
@@ -86,15 +82,15 @@ class Command(WeblateComponentCommand):
                 languages = Language.objects.have_translation()
                 lang_count = len(languages)
                 for index, language in enumerate(languages):
-                    self.stdout.write('Processing {} ({}/{})'.format(
-                        language.code, index + 1, lang_count
-                    ))
+                    self.stdout.write(
+                        'Processing {} ({}/{})'.format(
+                            language.code, index + 1, lang_count
+                        )
+                    )
                     index = fulltext.get_target_index(language.code)
                     with index.writer() as writer:
                         with writer.searcher() as searcher:
-                            units = Unit.objects.filter(
-                                translation__language=language
-                            )
+                            units = Unit.objects.filter(translation__language=language)
                             for unit in units.iterator():
                                 if unit.translation:
                                     fulltext.update_target_unit_index(

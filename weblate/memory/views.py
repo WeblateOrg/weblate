@@ -78,9 +78,7 @@ class DeleteView(MemoryFormView):
             raise PermissionDenied()
         memory = TranslationMemory()
         memory.delete(**self.objects)
-        messages.success(
-            self.request, _('Entries deleted.')
-        )
+        messages.success(self.request, _('Entries deleted.'))
         return super(DeleteView, self).form_valid(form)
 
 
@@ -93,9 +91,7 @@ class ImportView(MemoryFormView):
             raise PermissionDenied()
         import_memory.delay(self.objects['project'].pk)
 
-        messages.success(
-            self.request, _('Import of strings scheduled.')
-        )
+        messages.success(self.request, _('Import of strings scheduled.'))
         return super(ImportView, self).form_valid(form)
 
 
@@ -110,8 +106,7 @@ class UploadView(MemoryFormView):
                 self.request, form.cleaned_data['file'], **self.objects
             )
             messages.success(
-                self.request,
-                _('File processed, the entries will appear shortly.')
+                self.request, _('File processed, the entries will appear shortly.')
             )
         except MemoryImportError as error:
             messages.error(self.request, force_text(error))
@@ -167,7 +162,7 @@ class DownloadView(MemoryView):
                 request,
                 'memory/dump.tmx',
                 {'data': data},
-                content_type='application/x-tmx'
+                content_type='application/x-tmx',
             )
         else:
             fmt = 'json'

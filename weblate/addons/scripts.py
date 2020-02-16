@@ -82,10 +82,7 @@ class BaseScriptAddon(BaseAddon):
         if self.add_file:
             filename = os.path.join(
                 self.instance.component.full_path,
-                render_template(
-                    self.add_file,
-                    translation=translation
-                )
+                render_template(self.add_file, translation=translation),
             )
             translation.addon_commit_files.append(filename)
 

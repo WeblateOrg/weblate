@@ -58,11 +58,7 @@ class RegexTest(CheckTestCase):
         self.test_good_none = ("string", "string", "regex:")
         self.test_failure_1 = ("string URL", "string", "regex:URL")
         self.test_failure_2 = ("string URL", "string url", "regex:URL")
-        self.test_failure_3 = (
-            "string URL",
-            "string URL",
-            "regex:^URL$",
-        )
+        self.test_failure_3 = ("string URL", "string URL", "regex:^URL$")
         self.test_highlight = ("regex:URL", "See URL", [(4, 7, "URL")])
 
     def do_test(self, expected, data, lang=None):

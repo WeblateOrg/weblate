@@ -52,7 +52,7 @@ RUBY_FORMAT_MATCH = re.compile(
       )
     )
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
@@ -64,6 +64,7 @@ class RubyFormatCheck(BaseFormatCheck):
     - named printf syntax: %<variable>s
     - template style (implicit %s): %{variable}
     """
+
     check_id = 'ruby_format'
     name = _('Ruby format')
     description = _('Ruby format string does not match source')

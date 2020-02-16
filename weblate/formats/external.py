@@ -57,11 +57,7 @@ class XlsxFormat(CSVFormat):
 
         # write headers
         for column, field in enumerate(self.store.fieldnames):
-            worksheet.cell(
-                column=1 + column,
-                row=1,
-                value=field,
-            )
+            worksheet.cell(column=1 + column, row=1, value=field)
 
         for row, unit in enumerate(self.store.units):
             data = unit.todict()

@@ -35,13 +35,9 @@ class SitemapTest(FixtureTestCase):
 
         # Parse it
         tree = ElementTree.fromstring(response.content)
-        sitemaps = tree.findall(
-            '{http://www.sitemaps.org/schemas/sitemap/0.9}sitemap'
-        )
+        sitemaps = tree.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}sitemap')
         for sitemap in sitemaps:
-            location = sitemap.find(
-                '{http://www.sitemaps.org/schemas/sitemap/0.9}loc'
-            )
+            location = sitemap.find('{http://www.sitemaps.org/schemas/sitemap/0.9}loc')
             response = self.client.get(location.text)
             self.assertContains(response, '<urlset')
             # Try if it's a valid XML

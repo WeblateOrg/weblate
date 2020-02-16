@@ -51,6 +51,7 @@ TRANSLATION_PO = 'Ahoj světe!\n'
 
 class ImportBaseTest(ViewTestCase):
     """Base test of file imports."""
+
     test_file = TEST_PO
 
     def setUp(self):
@@ -68,17 +69,15 @@ class ImportBaseTest(ViewTestCase):
             params = {'file': handle, 'method': 'translate'}
             params.update(kwargs)
             return self.client.post(
-                reverse(
-                    'upload_translation',
-                    kwargs=self.kw_translation
-                ),
+                reverse('upload_translation', kwargs=self.kw_translation),
                 params,
-                follow=follow
+                follow=follow,
             )
 
 
 class ImportTest(ImportBaseTest):
     """Testing of file imports."""
+
     test_file = TEST_PO
 
     def test_import_normal(self):
@@ -99,8 +98,7 @@ class ImportTest(ImportBaseTest):
     def test_import_author(self):
         """Test importing normally."""
         response = self.do_import(
-            author_name='Testing User',
-            author_email='john@example.com',
+            author_name='Testing User', author_email='john@example.com'
         )
         self.assertRedirects(response, self.translation_url)
 
@@ -168,10 +166,7 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
-        self.assertEqual(
-            translation.stats.suggestions,
-            1
-        )
+        self.assertEqual(translation.stats.suggestions, 1)
 
     def test_import_xliff(self):
         response = self.do_import(test_file=TEST_XLIFF, follow=True)
@@ -183,6 +178,7 @@ class ImportTest(ImportBaseTest):
 
 class ImportErrorTest(ImportBaseTest):
     """Testing import of broken files."""
+
     def test_mismatched_plurals(self):
         """Test importing a file with different number of plural forms.
 
@@ -206,13 +202,12 @@ class XliffImportTest(ImportTest):
 
 class ImportFuzzyTest(ImportBaseTest):
     """Testing of fuzzy file imports."""
+
     test_file = TEST_FUZZY_PO
 
     def test_import_normal(self):
         """Test importing normally."""
-        response = self.do_import(
-            fuzzy=''
-        )
+        response = self.do_import(fuzzy='')
         self.assertRedirects(response, self.translation_url)
 
         # Verify stats
@@ -223,9 +218,7 @@ class ImportFuzzyTest(ImportBaseTest):
 
     def test_import_process(self):
         """Test importing including fuzzy strings."""
-        response = self.do_import(
-            fuzzy='process'
-        )
+        response = self.do_import(fuzzy='process')
         self.assertRedirects(response, self.translation_url)
 
         # Verify stats
@@ -236,9 +229,7 @@ class ImportFuzzyTest(ImportBaseTest):
 
     def test_import_approve(self):
         """Test importing ignoring fuzzy flag."""
-        response = self.do_import(
-            fuzzy='approve'
-        )
+        response = self.do_import(fuzzy='approve')
         self.assertRedirects(response, self.translation_url)
 
         # Verify stats
@@ -264,11 +255,13 @@ class ImportFuzzyTest(ImportBaseTest):
 
 class ImportMoTest(ImportTest):
     """Testing of mo file imports."""
+
     test_file = TEST_MO
 
 
 class ImportMoPoTest(ImportTest):
     """Testing of mo file imports."""
+
     test_file = TEST_MO
 
     def create_component(self):
@@ -307,11 +300,8 @@ class AndroidImportTest(ViewTestCase):
     def test_import(self):
         with open(TEST_ANDROID, 'rb') as handle:
             self.client.post(
-                reverse(
-                    'upload_translation',
-                    kwargs=self.kw_translation
-                ),
-                {'file': handle, 'method': 'translate'}
+                reverse('upload_translation', kwargs=self.kw_translation),
+                {'file': handle, 'method': 'translate'},
             )
         # Verify stats
         translation = self.get_translation()
@@ -327,7 +317,7 @@ class AndroidImportTest(ViewTestCase):
         with open(TEST_ANDROID, 'rb') as handle:
             self.client.post(
                 reverse('upload_translation', kwargs=kwargs),
-                {'file': handle, 'method': 'replace'}
+                {'file': handle, 'method': 'replace'},
             )
         # Verify stats
         translation = self.get_translation()
@@ -345,11 +335,8 @@ class CSVImportTest(ViewTestCase):
         self.assertEqual(translation.stats.fuzzy, 0)
         with open(self.test_file, 'rb') as handle:
             self.client.post(
-                reverse(
-                    'upload_translation',
-                    kwargs=self.kw_translation
-                ),
-                {'file': handle, 'method': 'translate'}
+                reverse('upload_translation', kwargs=self.kw_translation),
+                {'file': handle, 'method': 'translate'},
             )
         # Verify stats
         translation = self.get_translation()
@@ -371,6 +358,7 @@ class XlsxImportTest(CSVImportTest):
 
 class ExportTest(ViewTestCase):
     """Testing of file export."""
+
     source = 'Hello, world!\n'
     target = 'Nazdar svete!\n'
     test_match_1 = 'Weblate Hello World 2016'
@@ -390,10 +378,7 @@ class ExportTest(ViewTestCase):
 
     def test_export(self):
         response = self.client.get(
-            reverse(
-                'download_translation',
-                kwargs=self.kw_translation
-            )
+            reverse('download_translation', kwargs=self.kw_translation)
         )
         self.assertContains(response, self.test_match_1)
         self.assertContains(response, self.test_match_2)
@@ -402,28 +387,20 @@ class ExportTest(ViewTestCase):
     def export_format(self, fmt, **extra):
         extra['format'] = fmt
         return self.client.get(
-            reverse(
-                'download_translation',
-                kwargs=self.kw_translation,
-            ),
-            extra
+            reverse('download_translation', kwargs=self.kw_translation), extra
         )
 
     def test_export_po(self):
         response = self.export_format('po')
         self.assertContains(response, self.test_source)
         self.assertContains(response, self.test_source_plural)
-        self.assertContains(
-            response, '/projects/test/test/cs/'
-        )
+        self.assertContains(response, '/projects/test/test/cs/')
 
     def test_export_po_todo(self):
         response = self.export_format('po', q='state:<translated')
         self.assertContains(response, self.test_source)
         self.assertContains(response, self.test_source_plural)
-        self.assertContains(
-            response, '/projects/test/test/cs/'
-        )
+        self.assertContains(response, '/projects/test/test/cs/')
 
     def test_export_tmx(self):
         response = self.export_format('tmx')
@@ -436,33 +413,29 @@ class ExportTest(ViewTestCase):
 
     def test_export_xliff11(self):
         response = self.export_format('xliff11')
-        self.assertContains(
-            response, 'urn:oasis:names:tc:xliff:document:1.1'
-        )
+        self.assertContains(response, 'urn:oasis:names:tc:xliff:document:1.1')
         self.assertContains(response, self.test_source)
 
     def test_export_xlsx(self):
         response = self.export_format('xlsx')
         self.assertEqual(
-            response['Content-Disposition'],
-            'attachment; filename=test-test-cs.xlsx'
+            response['Content-Disposition'], 'attachment; filename=test-test-cs.xlsx'
         )
         self.assertEqual(
             response['Content-Type'],
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            '; charset=utf-8'
+            '; charset=utf-8',
         )
 
     def test_export_xlsx_empty(self):
         response = self.export_format('xlsx', q='check:inconsistent')
         self.assertEqual(
-            response['Content-Disposition'],
-            'attachment; filename=test-test-cs.xlsx'
+            response['Content-Disposition'], 'attachment; filename=test-test-cs.xlsx'
         )
         self.assertEqual(
             response['Content-Type'],
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            '; charset=utf-8'
+            '; charset=utf-8',
         )
 
     def test_export_invalid(self):
@@ -489,12 +462,13 @@ class FormTest(SimpleTestCase):
         form.remove_translation_choice('suggest')
         self.assertEqual(
             [x[0] for x in form.fields['method'].choices],
-            ['translate', 'approve', 'fuzzy', 'replace']
+            ['translate', 'approve', 'fuzzy', 'replace'],
         )
 
 
 class ImportReplaceTest(ImportBaseTest):
     """Testing of file imports."""
+
     test_file = TEST_BADPLURALS
 
     def test_import(self):
@@ -521,16 +495,14 @@ class DownloadMultiTest(ViewTestCase):
         self.assert_zip(response)
 
     def test_project(self):
-        response = self.client.get(
-            reverse('download_project', kwargs=self.kw_project)
-        )
+        response = self.client.get(reverse('download_project', kwargs=self.kw_project))
         self.assert_zip(response)
 
     def test_project_lang(self):
         response = self.client.get(
             reverse(
                 'download_lang_project',
-                kwargs={'lang': 'cs', 'project': self.project.slug}
+                kwargs={'lang': 'cs', 'project': self.project.slug},
             )
         )
         self.assert_zip(response)

@@ -26,10 +26,6 @@ from django.utils.translation import ugettext_lazy as _
 
 class TOSForm(forms.Form):
     confirm = forms.BooleanField(
-        label=_("I agree with the Terms of Service document"),
-        required=True
+        label=_("I agree with the Terms of Service document"), required=True
     )
-    next = forms.CharField(
-        required=False,
-        widget=forms.HiddenInput,
-    )
+    next = forms.CharField(required=False, widget=forms.HiddenInput)

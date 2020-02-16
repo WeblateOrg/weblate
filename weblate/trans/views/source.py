@@ -71,9 +71,7 @@ def matrix(request, project, component):
         form = MatrixLanguageForm(obj)
 
     if show:
-        languages = Language.objects.filter(
-            code__in=form.cleaned_data['lang']
-        ).order()
+        languages = Language.objects.filter(code__in=form.cleaned_data['lang']).order()
         language_codes = ','.join(languages.values_list('code', flat=True))
 
     return render(
@@ -85,7 +83,7 @@ def matrix(request, project, component):
             'languages': languages,
             'language_codes': language_codes,
             'languages_form': form,
-        }
+        },
     )
 
 
@@ -110,7 +108,7 @@ def matrix_load(request, project, component):
 
     data = []
 
-    for unit in translations[0].unit_set.all()[offset:offset + 20]:
+    for unit in translations[0].unit_set.all()[offset : offset + 20]:
         units = []
         for translation in translations:
             try:
@@ -126,6 +124,6 @@ def matrix_load(request, project, component):
         {
             'object': obj,
             'data': data,
-            'last': translations[0].unit_set.count() <= offset + 20
-        }
+            'last': translations[0].unit_set.count() <= offset + 20,
+        },
     )

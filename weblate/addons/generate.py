@@ -48,14 +48,12 @@ class GenerateFileAddon(BaseAddon):
 
     def pre_commit(self, translation, author):
         filename = self.render_repo_filename(
-            self.instance.configuration['filename'],
-            translation
+            self.instance.configuration['filename'], translation
         )
         if not filename:
             return
         content = render_template(
-            self.instance.configuration['template'],
-            translation=translation
+            self.instance.configuration['template'], translation=translation
         )
         with open(filename, 'w') as handle:
             handle.write(content)

@@ -31,21 +31,9 @@ from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
 
 MENU = (
-    (
-        'index',
-        'about',
-        _('About Weblate'),
-    ),
-    (
-        'stats',
-        'stats',
-        _('Statistics'),
-    ),
-    (
-        'keys',
-        'keys',
-        _('Keys'),
-    ),
+    ('index', 'about', _('About Weblate')),
+    ('stats', 'stats', _('Statistics')),
+    ('keys', 'keys', _('Keys')),
 )
 
 
@@ -53,11 +41,13 @@ class AboutView(TemplateView):
     page = 'index'
 
     def page_context(self, context):
-        context.update({
-            'title': _('About Weblate'),
-            'versions': get_versions_list(),
-            'allow_index': True,
-        })
+        context.update(
+            {
+                'title': _('About Weblate'),
+                'versions': get_versions_list(),
+                'allow_index': True,
+            }
+        )
 
     def get_context_data(self, **kwargs):
         context = super(AboutView, self).get_context_data(**kwargs)
@@ -109,10 +99,12 @@ class KeysView(AboutView):
     page = 'keys'
 
     def page_context(self, context):
-        context.update({
-            'title': _('Weblate keys'),
-            'gpg_key_id': get_gpg_sign_key(),
-            'gpg_key': get_gpg_public_key(),
-            'ssh_key': get_key_data(),
-            'allow_index': True,
-        })
+        context.update(
+            {
+                'title': _('Weblate keys'),
+                'gpg_key_id': get_gpg_sign_key(),
+                'gpg_key': get_gpg_public_key(),
+                'ssh_key': get_key_data(),
+                'allow_index': True,
+            }
+        )

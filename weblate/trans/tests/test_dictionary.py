@@ -92,20 +92,14 @@ class DictionaryTest(FixtureTestCase):
     """Testing of dictionary manipulations."""
 
     def get_url(self, url, **kwargs):
-        kwargs.update({
-            'lang': 'cs',
-            'project': self.component.project.slug,
-        })
+        kwargs.update({'lang': 'cs', 'project': self.component.project.slug})
         return reverse(url, kwargs=kwargs)
 
     def import_file(self, filename, **kwargs):
         with open(filename, 'rb') as handle:
             params = {'file': handle}
             params.update(kwargs)
-            return self.client.post(
-                self.get_url('upload_dictionary'),
-                params
-            )
+            return self.client.post(self.get_url('upload_dictionary'), params)
 
     def test_import(self):
         """Test for importing of TBX into glossary."""
@@ -187,10 +181,7 @@ class DictionaryTest(FixtureTestCase):
         show_url = self.get_url('show_dictionary')
 
         # Add word
-        response = self.client.post(
-            show_url,
-            {'source': 'source', 'target': 'překlad'}
-        )
+        response = self.client.post(show_url, {'source': 'source', 'target': 'překlad'})
 
         # Check correct response
         self.assertRedirects(response, show_url)
@@ -210,10 +201,7 @@ class DictionaryTest(FixtureTestCase):
         self.assertContains(response, 'překlad')
 
         # Edit translation
-        response = self.client.post(
-            edit_url,
-            {'source': 'src', 'target': 'přkld'}
-        )
+        response = self.client.post(edit_url, {'source': 'src', 'target': 'přkld'})
         self.assertRedirects(response, show_url)
 
         # Check they are shown
@@ -234,13 +222,9 @@ class DictionaryTest(FixtureTestCase):
         self.import_file(TEST_TBX)
 
         response = self.client.get(
-            self.get_url('download_dictionary'),
-            {'format': 'csv'}
+            self.get_url('download_dictionary'), {'format': 'csv'}
         )
-        self.assertContains(
-            response,
-            '"addon","doplněk"'
-        )
+        self.assertContains(response, '"addon","doplněk"')
 
     def test_download_tbx(self):
         """Test for downloading TBX file."""
@@ -248,17 +232,10 @@ class DictionaryTest(FixtureTestCase):
         self.import_file(TEST_TBX)
 
         response = self.client.get(
-            self.get_url('download_dictionary'),
-            {'format': 'tbx'}
+            self.get_url('download_dictionary'), {'format': 'tbx'}
         )
-        self.assertContains(
-            response,
-            '<term>website</term>'
-        )
-        self.assertContains(
-            response,
-            '<term>webové stránky</term>'
-        )
+        self.assertContains(response, '<term>website</term>')
+        self.assertContains(response, '<term>webové stránky</term>')
 
     def test_download_xliff(self):
         """Test for downloading XLIFF file."""
@@ -266,16 +243,11 @@ class DictionaryTest(FixtureTestCase):
         self.import_file(TEST_TBX)
 
         response = self.client.get(
-            self.get_url('download_dictionary'),
-            {'format': 'xliff'}
+            self.get_url('download_dictionary'), {'format': 'xliff'}
         )
+        self.assertContains(response, '<source>website</source>')
         self.assertContains(
-            response,
-            '<source>website</source>'
-        )
-        self.assertContains(
-            response,
-            '<target state="translated">webové stránky</target>'
+            response, '<target state="translated">webové stránky</target>'
         )
 
     def test_download_po(self):
@@ -284,23 +256,16 @@ class DictionaryTest(FixtureTestCase):
         self.import_file(TEST_TBX)
 
         response = self.client.get(
-            self.get_url('download_dictionary'),
-            {'format': 'po'}
+            self.get_url('download_dictionary'), {'format': 'po'}
         )
-        self.assertContains(
-            response,
-            'msgid "wizard"\nmsgstr "průvodce"'
-        )
+        self.assertContains(response, 'msgid "wizard"\nmsgstr "průvodce"')
 
     def test_list(self):
         """Test for listing dictionaries."""
         self.import_file(TEST_TBX)
 
         # List dictionaries
-        response = self.client.get(reverse(
-            'show_dictionaries',
-            kwargs=self.kw_project
-        ))
+        response = self.client.get(reverse('show_dictionaries', kwargs=self.kw_project))
         self.assertContains(response, 'Czech')
         self.assertContains(response, 'Italian')
 
@@ -341,10 +306,7 @@ class DictionaryTest(FixtureTestCase):
             target='děkujeme',
         )
         unit = self.get_unit('Thank you for using Weblate.')
-        self.assertEqual(
-            Dictionary.objects.get_words(unit).count(),
-            1
-        )
+        self.assertEqual(Dictionary.objects.get_words(unit).count(), 1)
         Dictionary.objects.create(
             self.user,
             project=self.project,
@@ -352,10 +314,7 @@ class DictionaryTest(FixtureTestCase):
             source='thank',
             target='díky',
         )
-        self.assertEqual(
-            Dictionary.objects.get_words(unit).count(),
-            2
-        )
+        self.assertEqual(Dictionary.objects.get_words(unit).count(), 2)
         Dictionary.objects.create(
             self.user,
             project=self.project,
@@ -363,10 +322,7 @@ class DictionaryTest(FixtureTestCase):
             source='thank you',
             target='děkujeme vám',
         )
-        self.assertEqual(
-            Dictionary.objects.get_words(unit).count(),
-            3
-        )
+        self.assertEqual(Dictionary.objects.get_words(unit).count(), 3)
         Dictionary.objects.create(
             self.user,
             project=self.project,
@@ -374,20 +330,14 @@ class DictionaryTest(FixtureTestCase):
             source='thank you for using Weblate',
             target='děkujeme vám za použití Weblate',
         )
-        self.assertEqual(
-            Dictionary.objects.get_words(unit).count(),
-            4
-        )
+        self.assertEqual(Dictionary.objects.get_words(unit).count(), 4)
 
     def test_get_long(self):
         """Test parsing long source string."""
         unit = self.get_unit()
         unit.source = LONG
         unit.save()
-        self.assertEqual(
-            Dictionary.objects.get_words(unit).count(),
-            0
-        )
+        self.assertEqual(Dictionary.objects.get_words(unit).count(), 0)
 
     def test_get_dash(self):
         translation = self.get_translation()
@@ -398,12 +348,9 @@ class DictionaryTest(FixtureTestCase):
             project=self.project,
             language=translation.language,
             source='Nordrhein-Westfalen',
-            target='Northrhine Westfalia'
+            target='Northrhine Westfalia',
         )
-        self.assertEqual(
-            Dictionary.objects.get_words(unit).count(),
-            1
-        )
+        self.assertEqual(Dictionary.objects.get_words(unit).count(), 1)
 
     def test_add(self):
         """Test for adding word from translate page"""
@@ -412,7 +359,7 @@ class DictionaryTest(FixtureTestCase):
         # Add word
         response = self.client.post(
             reverse('js-add-glossary', kwargs={'unit_id': unit.pk}),
-            {'source': 'source', 'target': 'překlad'}
+            {'source': 'source', 'target': 'překlad'},
         )
         content = json.loads(response.content.decode('utf-8'))
         self.assertEqual(content['responseCode'], 200)

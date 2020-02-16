@@ -42,45 +42,30 @@ class ChangesTest(ViewTestCase):
         self.assertContains(response, 'timestamp,')
 
     def test_filter(self):
+        response = self.client.get(reverse('changes'), {'project': 'test'})
+        self.assertContains(response, 'Resource update')
+        self.assertNotContains(response, 'Failed to find matching project!')
         response = self.client.get(
-            reverse('changes'),
-            {'project': 'test'}
+            reverse('changes'), {'project': 'test', 'component': 'test'}
         )
         self.assertContains(response, 'Resource update')
         self.assertNotContains(response, 'Failed to find matching project!')
         response = self.client.get(
-            reverse('changes'),
-            {'project': 'test', 'component': 'test'}
+            reverse('changes'), {'project': 'test', 'component': 'test', 'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
         self.assertNotContains(response, 'Failed to find matching project!')
-        response = self.client.get(
-            reverse('changes'),
-            {'project': 'test', 'component': 'test', 'lang': 'cs'}
-        )
-        self.assertContains(response, 'Resource update')
-        self.assertNotContains(response, 'Failed to find matching project!')
-        response = self.client.get(
-            reverse('changes'),
-            {'lang': 'cs'}
-        )
+        response = self.client.get(reverse('changes'), {'lang': 'cs'})
         self.assertContains(response, 'Resource update')
         self.assertNotContains(response, 'Failed to find matching language!')
         response = self.client.get(
-            reverse('changes'),
-            {'project': 'testx', 'component': 'test', 'lang': 'cs'}
+            reverse('changes'), {'project': 'testx', 'component': 'test', 'lang': 'cs'}
         )
         self.assertContains(response, 'Resource update')
         self.assertContains(response, 'Failed to find matching project!')
 
     def test_user(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
-        response = self.client.get(
-            reverse('changes'),
-            {'user': self.user.username}
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        response = self.client.get(reverse('changes'), {'user': self.user.username})
         self.assertContains(response, 'New translation')
         self.assertNotContains(response, 'Invalid search string!')

@@ -56,10 +56,7 @@ class AutoTranslationTest(ViewTestCase):
         self.assertRedirects(response, self.translation_url)
 
     def make_different(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
 
     def perform_auto(self, expected=1, expected_count=None, **kwargs):
         self.make_different()
@@ -74,13 +71,11 @@ class AutoTranslationTest(ViewTestCase):
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
-                response,
-                'Automatic translation completed, 1 string was updated.',
+                response, 'Automatic translation completed, 1 string was updated.'
             )
         else:
             self.assertContains(
-                response,
-                'Automatic translation completed, no strings were updated.',
+                response, 'Automatic translation completed, no strings were updated.'
             )
 
         self.assertRedirects(response, reverse('translation', kwargs=params))
@@ -110,35 +105,21 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto(overwrite='1')
 
     def test_command(self):
-        call_command(
-            'auto_translate',
-            'test',
-            'test',
-            'cs',
-        )
+        call_command('auto_translate', 'test', 'test', 'cs')
 
     def test_command_add_error(self):
         with self.assertRaises(CommandError):
             call_command('auto_translate', 'test', 'test', 'ia', add=True)
 
     def test_command_mt(self):
-        call_command(
-            'auto_translate',
-            '--mt', 'weblate',
-            'test',
-            'test',
-            'cs',
-        )
+        call_command('auto_translate', '--mt', 'weblate', 'test', 'test', 'cs')
 
     def test_command_mt_error(self):
         with self.assertRaises(CommandError):
-            call_command(
-                'auto_translate', '--mt', 'invalid', 'test', 'test', 'ia'
-            )
+            call_command('auto_translate', '--mt', 'invalid', 'test', 'test', 'ia')
         with self.assertRaises(CommandError):
             call_command(
-                'auto_translate', '--threshold', 'invalid',
-                'test', 'test', 'ia'
+                'auto_translate', '--threshold', 'invalid', 'test', 'test', 'ia'
             )
 
     def test_command_add(self):
@@ -147,42 +128,22 @@ class AutoTranslationTest(ViewTestCase):
         self.component.new_base = 'po/cs.po'
         self.component.clean()
         self.component.save()
-        call_command(
-            'auto_translate',
-            'test',
-            'test',
-            'ia',
-            add=True,
-        )
+        call_command('auto_translate', 'test', 'test', 'ia', add=True)
         self.assertTrue(
-            self.component.translation_set.filter(
-                language__code='ia'
-            ).exists()
+            self.component.translation_set.filter(language__code='ia').exists()
         )
 
     def test_command_different(self):
         self.make_different()
-        call_command(
-            'auto_translate',
-            'test',
-            'test-2',
-            'cs',
-            source='test/test',
-        )
+        call_command('auto_translate', 'test', 'test-2', 'cs', source='test/test')
 
     def test_command_errors(self):
         with self.assertRaises(CommandError):
-            call_command(
-                'auto_translate', 'test', 'test', 'cs', user='invalid'
-            )
+            call_command('auto_translate', 'test', 'test', 'cs', user='invalid')
         with self.assertRaises(CommandError):
-            call_command(
-                'auto_translate', 'test', 'test', 'cs', source='invalid'
-            )
+            call_command('auto_translate', 'test', 'test', 'cs', source='invalid')
         with self.assertRaises(CommandError):
-            call_command(
-                'auto_translate', 'test', 'test', 'cs', source='test/invalid'
-            )
+            call_command('auto_translate', 'test', 'test', 'cs', source='test/invalid')
         with self.assertRaises(CommandError):
             call_command('auto_translate', 'test', 'test', 'xxx')
 
@@ -213,16 +174,11 @@ class AutoTranslationMtTest(ViewTestCase):
     def test_none(self):
         """Test for automatic translation with no content."""
         url = reverse('auto_translation', kwargs=self.kw_translation)
-        response = self.client.post(
-            url
-        )
+        response = self.client.post(url)
         self.assertRedirects(response, self.translation_url)
 
     def make_different(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
 
     def perform_auto(self, expected=1, **kwargs):
         self.make_different()
@@ -236,13 +192,11 @@ class AutoTranslationMtTest(ViewTestCase):
         response = self.client.post(url, kwargs, follow=True)
         if expected == 1:
             self.assertContains(
-                response,
-                'Automatic translation completed, 1 string was updated.',
+                response, 'Automatic translation completed, 1 string was updated.'
             )
         else:
             self.assertContains(
-                response,
-                'Automatic translation completed, no strings were updated.',
+                response, 'Automatic translation completed, no strings were updated.'
             )
 
         self.assertRedirects(response, reverse('translation', kwargs=params))

@@ -29,6 +29,7 @@ from weblate.utils.antispam import is_spam, report_spam
 try:
     # pylint: disable=unused-import
     import akismet  # noqa: F401
+
     HAS_AKISMET = True
 except ImportError:
     HAS_AKISMET = False
@@ -41,19 +42,13 @@ class SpamTest(TestCase):
 
     def mock_akismet(self, body):
         httpretty.register_uri(
-            httpretty.POST,
-            'https://key.rest.akismet.com/1.1/comment-check',
-            body=body,
+            httpretty.POST, 'https://key.rest.akismet.com/1.1/comment-check', body=body
         )
         httpretty.register_uri(
-            httpretty.POST,
-            'https://key.rest.akismet.com/1.1/submit-spam',
-            body=body,
+            httpretty.POST, 'https://key.rest.akismet.com/1.1/submit-spam', body=body
         )
         httpretty.register_uri(
-            httpretty.POST,
-            'https://rest.akismet.com/1.1/verify-key',
-            body='valid',
+            httpretty.POST, 'https://rest.akismet.com/1.1/verify-key', body='valid'
         )
 
     @skipIf(not HAS_AKISMET, "akismet module not installed")

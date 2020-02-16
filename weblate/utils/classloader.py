@@ -31,17 +31,13 @@ def load_class(name, setting):
         module, attr = name.rsplit('.', 1)
     except ValueError as error:
         raise ImproperlyConfigured(
-            'Error importing class {0} in {1}: "{2}"'.format(
-                name, setting, error
-            )
+            'Error importing class {0} in {1}: "{2}"'.format(name, setting, error)
         )
     try:
         mod = import_module(module)
     except ImportError as error:
         raise ImproperlyConfigured(
-            'Error importing module {0} in {1}: "{2}"'.format(
-                module, setting, error
-            )
+            'Error importing module {0} in {1}: "{2}"'.format(module, setting, error)
         )
     try:
         return getattr(mod, attr)
@@ -55,6 +51,7 @@ def load_class(name, setting):
 
 class ClassLoader(object):
     """Dict like object to lazy load list of classes."""
+
     def __init__(self, name, construct=True):
         self.name = name
         self.construct = construct

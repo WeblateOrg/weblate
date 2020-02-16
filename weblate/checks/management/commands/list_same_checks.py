@@ -30,27 +30,21 @@ class Command(BaseCommand):
     help = 'lists top not translated failing checks'
 
     def handle(self, *args, **options):
-        results = Check.objects.filter(
-            check='same'
-        ).values(
-            'unit__content_hash'
-        ).annotate(
-            Count('unit__content_hash')
-        ).filter(
-            unit__content_hash__count__gt=1
-        ).order_by(
-            '-unit__content_hash__count'
+        results = (
+            Check.objects.filter(check='same')
+            .values('unit__content_hash')
+            .annotate(Count('unit__content_hash'))
+            .filter(unit__content_hash__count__gt=1)
+            .order_by('-unit__content_hash__count')
         )
 
         for item in results:
             check = Check.objects.filter(
-                check='same',
-                unit__content_hash=item['unit__content_hash']
+                check='same', unit__content_hash=item['unit__content_hash']
             )[0]
 
             self.stdout.write(
                 '{0:5d} {1}'.format(
-                    item['unit__content_hash__count'],
-                    check.unit.source,
+                    item['unit__content_hash__count'], check.unit.source
                 )
             )

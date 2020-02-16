@@ -41,8 +41,7 @@ def check_git_backend(app_configs, **kwargs):
     if find_git_http_backend() is None:
         return [
             Critical(
-                'Failed to find git-http-backend, '
-                'the git exporter will not work.',
+                'Failed to find git-http-backend, ' 'the git exporter will not work.',
                 hint=get_doc_url('admin/optionals', 'git-exporter'),
                 id='weblate.E022',
             )

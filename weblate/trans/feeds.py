@@ -31,6 +31,7 @@ from weblate.utils.views import get_component, get_project, get_translation
 
 class ChangesFeed(Feed):
     """Generic RSS feed for Weblate changes."""
+
     def get_object(self, request, *args, **kwargs):
         return request.user
 
@@ -38,9 +39,7 @@ class ChangesFeed(Feed):
         return _('Recent changes in %s') % settings.SITE_TITLE
 
     def description(self):
-        return _('All recent changes made using Weblate in %s.') % (
-            settings.SITE_TITLE
-        )
+        return _('All recent changes made using Weblate in %s.') % (settings.SITE_TITLE)
 
     def link(self):
         return reverse('home')

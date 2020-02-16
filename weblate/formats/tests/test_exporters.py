@@ -63,9 +63,7 @@ class PoExporterTest(BaseTestCase):
             if created:
                 Plural.objects.create(language=lang)
         return self._class(
-            language=lang,
-            project=Project(slug='test', name='TEST'),
-            **kwargs
+            language=lang, project=Project(slug='test', name='TEST'), **kwargs
         )
 
     def check_export(self, exporter):
@@ -96,29 +94,15 @@ class PoExporterTest(BaseTestCase):
             equation = 'n==0 ? 0 : n==1 ? 1 : 2'
         else:
             equation = '0'
-        lang = Language.objects.create(
-            code='zz',
-        )
+        lang = Language.objects.create(code='zz')
         plural = Plural.objects.create(
-            language=lang,
-            number=nplurals,
-            equation=equation
+            language=lang, number=nplurals, equation=equation
         )
-        project = Project(
-            slug='test',
-            source_language=Language.objects.get(code='en'),
-        )
+        project = Project(slug='test', source_language=Language.objects.get(code='en'))
         component = Component(
-            slug='comp',
-            project=project,
-            file_format='xliff',
-            template=template
+            slug='comp', project=project, file_format='xliff', template=template
         )
-        translation = Translation(
-            language=lang,
-            component=component,
-            plural=plural,
-        )
+        translation = Translation(language=lang, component=component, plural=plural)
         # Fake file format to avoid need for actual files
         translation.store = EmptyFormat(BytesIOMode('', b''))
         unit = Unit(translation=translation, id_hash=-1, **kwargs)
@@ -151,26 +135,17 @@ class PoExporterTest(BaseTestCase):
 
     def test_unit_plural_one(self):
         self.check_unit(
-            nplurals=1,
-            source='xxx\x1e\x1efff',
-            target='yyy',
-            state=STATE_TRANSLATED,
+            nplurals=1, source='xxx\x1e\x1efff', target='yyy', state=STATE_TRANSLATED
         )
 
     def test_unit_not_translated(self):
         self.check_unit(
-            nplurals=1,
-            source='xxx\x1e\x1efff',
-            target='yyy',
-            state=STATE_EMPTY,
+            nplurals=1, source='xxx\x1e\x1efff', target='yyy', state=STATE_EMPTY
         )
 
     def test_context(self):
         result = self.check_unit(
-            source='foo',
-            target='bar',
-            context='context',
-            state=STATE_TRANSLATED,
+            source='foo', target='bar', context='context', state=STATE_TRANSLATED
         )
         if self._has_context:
             self.assertIn(b'context', result)
@@ -262,8 +237,7 @@ class CSVExporterTest(PoExporterTest):
 
     def test_escaping(self):
         output = self.check_unit(
-            source='=HYPERLINK("https://weblate.org/"&A1, "Weblate")',
-            target='yyy',
+            source='=HYPERLINK("https://weblate.org/"&A1, "Weblate")', target='yyy'
         )
         self.assertIn(b'"\'=HYPERLINK', output)
 

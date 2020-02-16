@@ -45,10 +45,7 @@ class AvatarTest(FixtureTestCase):
         self.user.save()
 
     def test_avatar_for_email(self):
-        url = avatar.avatar_for_email(
-            self.user.email,
-            size=32,
-        )
+        url = avatar.avatar_for_email(self.user.email, size=32)
         self.assertEqual(TEST_URL, url)
 
     @httpretty.activate
@@ -57,45 +54,28 @@ class AvatarTest(FixtureTestCase):
         storage = BytesIO()
         image.save(storage, 'PNG')
         imagedata = storage.getvalue()
-        httpretty.register_uri(
-            httpretty.GET,
-            TEST_URL,
-            body=imagedata,
-        )
+        httpretty.register_uri(httpretty.GET, TEST_URL, body=imagedata)
         # Real user
         response = self.client.get(
-            reverse(
-                'user_avatar',
-                kwargs={'user': self.user.username, 'size': 32}
-            )
+            reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
         )
         self.assert_png(response)
         self.assertEqual(response.content, imagedata)
         # Test caching
         response = self.client.get(
-            reverse(
-                'user_avatar',
-                kwargs={'user': self.user.username, 'size': 32}
-            )
+            reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
         )
         self.assert_png(response)
         self.assertEqual(response.content, imagedata)
 
     @httpretty.activate
     def test_avatar_error(self):
-        httpretty.register_uri(
-            httpretty.GET,
-            TEST_URL,
-            status=503,
-        )
+        httpretty.register_uri(httpretty.GET, TEST_URL, status=503)
         # Choose different username to avoid using cache
         self.user.username = 'test2'
         self.user.save()
         response = self.client.get(
-            reverse(
-                'user_avatar',
-                kwargs={'user': self.user.username, 'size': 32}
-            )
+            reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
         )
         self.assert_png(response)
 
@@ -103,17 +83,11 @@ class AvatarTest(FixtureTestCase):
         anonymous = User.objects.get(username='anonymous')
         # Anonymous user
         response = self.client.get(
-            reverse(
-                'user_avatar',
-                kwargs={'user': anonymous.username, 'size': 32}
-            )
+            reverse('user_avatar', kwargs={'user': anonymous.username, 'size': 32})
         )
         self.assertRedirects(
-            response, '/static/weblate-32.png',
-            fetch_redirect_response=False
+            response, '/static/weblate-32.png', fetch_redirect_response=False
         )
 
     def test_fallback_avatar(self):
-        self.assert_png_data(
-            avatar.get_fallback_avatar(32)
-        )
+        self.assert_png_data(avatar.get_fallback_avatar(32))

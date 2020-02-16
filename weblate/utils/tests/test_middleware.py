@@ -34,7 +34,7 @@ class ProxyTest(TestCase):
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=False,
         IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=0
+        IP_PROXY_OFFSET=0,
     )
     def test_direct(self):
         request = HttpRequest()
@@ -45,7 +45,7 @@ class ProxyTest(TestCase):
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=True,
         IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=0
+        IP_PROXY_OFFSET=0,
     )
     def test_proxy(self):
         request = HttpRequest()
@@ -57,7 +57,7 @@ class ProxyTest(TestCase):
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=True,
         IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=1
+        IP_PROXY_OFFSET=1,
     )
     def test_proxy_second(self):
         request = HttpRequest()
@@ -69,7 +69,7 @@ class ProxyTest(TestCase):
     @override_settings(
         IP_BEHIND_REVERSE_PROXY=True,
         IP_PROXY_HEADER='HTTP_X_FORWARDED_FOR',
-        IP_PROXY_OFFSET=0
+        IP_PROXY_OFFSET=0,
     )
     def test_proxy_invalid(self):
         request = HttpRequest()

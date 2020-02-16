@@ -47,17 +47,13 @@ class LegalTest(TestCase, RegistrationTestMixin):
         response = self.client.get(reverse('legal:security'))
         self.assertContains(response, 'Security Policy')
 
-    @modify_settings(SOCIAL_AUTH_PIPELINE={
-        'append': 'weblate.legal.pipeline.tos_confirm',
-    })
+    @modify_settings(
+        SOCIAL_AUTH_PIPELINE={'append': 'weblate.legal.pipeline.tos_confirm'}
+    )
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_confirm(self):
         """TOS confirmation on social auth."""
-        response = self.client.post(
-            reverse('register'),
-            REGISTRATION_DATA,
-            follow=True
-        )
+        response = self.client.post(reverse('register'), REGISTRATION_DATA, follow=True)
         # Check we did succeed
         self.assertContains(response, 'Thank you for registering.')
 
@@ -65,37 +61,25 @@ class LegalTest(TestCase, RegistrationTestMixin):
         url = self.assert_registration_mailbox()
         response = self.client.get(url, follow=True)
         self.assertTrue(
-            response.redirect_chain[-1][0].startswith(
-                reverse('legal:confirm')
-            )
+            response.redirect_chain[-1][0].startswith(reverse('legal:confirm'))
         )
 
         # Extract next URL
         url = response.context['form'].initial['next']
 
         # Try invalid form (not checked)
-        response = self.client.post(
-            reverse('legal:confirm'),
-            {
-                'next': url,
-            }
-        )
+        response = self.client.post(reverse('legal:confirm'), {'next': url})
         self.assertContains(response, 'This field is required')
 
         # Actually confirm the TOS
         response = self.client.post(
-            reverse('legal:confirm'),
-            {
-                'next': url,
-                'confirm': 1
-            },
-            follow=True
+            reverse('legal:confirm'), {'next': url, 'confirm': 1}, follow=True
         )
         self.assertContains(response, 'Your profile')
 
-    @modify_settings(MIDDLEWARE={
-        'append': 'weblate.legal.middleware.RequireTOSMiddleware',
-    })
+    @modify_settings(
+        MIDDLEWARE={'append': 'weblate.legal.middleware.RequireTOSMiddleware'}
+    )
     def test_middleware(self):
         user = create_test_user()
         # Unauthenticated
@@ -106,9 +90,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         # Chck that homepage redirects
         response = self.client.get(reverse('home'), follow=True)
         self.assertTrue(
-            response.redirect_chain[-1][0].startswith(
-                reverse('legal:confirm')
-            )
+            response.redirect_chain[-1][0].startswith(reverse('legal:confirm'))
         )
         # Check that contact works even without TOS
         response = self.client.get(reverse('contact'), follow=True)

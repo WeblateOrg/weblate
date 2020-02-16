@@ -33,63 +33,43 @@ class Command(WeblateTranslationCommand):
     """
     Command for mass automatic translation.
     """
+
     help = 'performs automatic translation based on other components'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
-            '--user',
-            default='anonymous',
-            help=(
-                'User performing the change'
-            )
+            '--user', default='anonymous', help=('User performing the change')
         )
         parser.add_argument(
-            '--source',
-            default='',
-            help=(
-                'Source component <project/component>'
-            )
+            '--source', default='', help=('Source component <project/component>')
         )
         parser.add_argument(
             '--add',
             default=False,
             action='store_true',
-            help=(
-                'Add translations if they do not exist'
-            )
+            help=('Add translations if they do not exist'),
         )
         parser.add_argument(
             '--overwrite',
             default=False,
             action='store_true',
-            help=(
-                'Overwrite existing translations in target component'
-            )
+            help=('Overwrite existing translations in target component'),
         )
         parser.add_argument(
             '--inconsistent',
             default=False,
             action='store_true',
-            help=(
-                'Process only inconsistent translations'
-            )
+            help=('Process only inconsistent translations'),
         )
         parser.add_argument(
-            '--mt',
-            action='append',
-            default=[],
-            help=(
-                'Add machine translation source'
-            )
+            '--mt', action='append', default=[], help=('Add machine translation source')
         )
         parser.add_argument(
             '--threshold',
             default=80,
             type=int,
-            help=(
-                'Set machine translation threshold'
-            )
+            help=('Set machine translation threshold'),
         )
 
     def handle(self, *args, **options):
@@ -107,10 +87,7 @@ class Command(WeblateTranslationCommand):
             if len(parts) != 2:
                 raise CommandError('Invalid source component specified!')
             try:
-                component = Component.objects.get(
-                    project__slug=parts[0],
-                    slug=parts[1],
-                )
+                component = Component.objects.get(project__slug=parts[0], slug=parts[1])
             except Component.DoesNotExist:
                 raise CommandError('No matching source component found!')
             source = component.id
@@ -121,9 +98,7 @@ class Command(WeblateTranslationCommand):
             for translator in options['mt']:
                 if translator not in MACHINE_TRANSLATION_SERVICES.keys():
                     raise CommandError(
-                        'Machine translation {} is not available'.format(
-                            translator
-                        )
+                        'Machine translation {} is not available'.format(translator)
                     )
 
         if options['inconsistent']:

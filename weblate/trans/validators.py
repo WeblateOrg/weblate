@@ -34,10 +34,12 @@ def validate_filemask(val):
 def validate_autoaccept(val):
     """Validate correct value for autoaccept."""
     if val == 1:
-        raise ValidationError(_(
-            'A value of 1 is not allowed for autoaccept as '
-            'it would permit users to vote on their own suggestions.'
-        ))
+        raise ValidationError(
+            _(
+                'A value of 1 is not allowed for autoaccept as '
+                'it would permit users to vote on their own suggestions.'
+            )
+        )
 
 
 def validate_check_flags(val):

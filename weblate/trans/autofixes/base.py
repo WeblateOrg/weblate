@@ -21,6 +21,7 @@
 
 class AutoFix(object):
     """Base class for AutoFixes"""
+
     fix_id = 'auto'
 
     def get_identifier(self):

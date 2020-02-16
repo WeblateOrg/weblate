@@ -30,6 +30,7 @@ class Command(WeblateTranslationCommand):
     """WeblateTranslationCommand
     Command for mass importing suggestions.
     """
+
     help = 'imports suggestions'
 
     def add_arguments(self, parser):
@@ -37,15 +38,9 @@ class Command(WeblateTranslationCommand):
         parser.add_argument(
             '--author',
             default='noreply@weblate.org',
-            help=(
-                'Email address of author (has to be registered in Weblate)'
-            )
+            help=('Email address of author (has to be registered in Weblate)'),
         )
-        parser.add_argument(
-            'file',
-            type=argparse.FileType('rb'),
-            help='File to import',
-        )
+        parser.add_argument('file', type=argparse.FileType('rb'), help='File to import')
 
     def handle(self, *args, **options):
         # Get translation object
@@ -58,8 +53,11 @@ class Command(WeblateTranslationCommand):
         # Process import
         try:
             translation.merge_upload(
-                request, options['file'], False, method='suggest',
-                author_email=options['author']
+                request,
+                options['file'],
+                False,
+                method='suggest',
+                author_email=options['author'],
             )
         except IOError as err:
             raise CommandError('Failed to import translation file: {}'.format(err))

@@ -30,4 +30,5 @@ class AuthConfig(AppConfig):
 
     def ready(self):
         from weblate.auth.models import sync_create_groups
+
         post_migrate.connect(sync_create_groups, sender=self)

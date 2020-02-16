@@ -72,22 +72,27 @@ class ComponentSitemap(WeblateSitemap):
     priority = 0.6
 
     def items(self):
-        return Component.objects.prefetch().filter(
-            project__access_control__lt=Project.ACCESS_PRIVATE
-        ).order_by('id')
+        return (
+            Component.objects.prefetch()
+            .filter(project__access_control__lt=Project.ACCESS_PRIVATE)
+            .order_by('id')
+        )
 
 
 class TranslationSitemap(WeblateSitemap):
     priority = 0.2
 
     def items(self):
-        return Translation.objects.prefetch().filter(
-            component__project__access_control__lt=Project.ACCESS_PRIVATE
-        ).order_by('id')
+        return (
+            Translation.objects.prefetch()
+            .filter(component__project__access_control__lt=Project.ACCESS_PRIVATE)
+            .order_by('id')
+        )
 
 
 class EngageSitemap(ProjectSitemap):
     """Wrapper around ProjectSitemap to point to engage page."""
+
     priority = 1.0
 
     def location(self, obj):
@@ -96,6 +101,7 @@ class EngageSitemap(ProjectSitemap):
 
 class EngageLangSitemap(Sitemap):
     """Wrapper to generate sitemap for all per language engage pages."""
+
     priority = 0.9
 
     def items(self):
@@ -110,10 +116,7 @@ class EngageLangSitemap(Sitemap):
         return ret
 
     def location(self, obj):
-        return reverse(
-            'engage',
-            kwargs={'project': obj[0].slug, 'lang': obj[1].code}
-        )
+        return reverse('engage', kwargs={'project': obj[0].slug, 'lang': obj[1].code})
 
 
 SITEMAPS = {

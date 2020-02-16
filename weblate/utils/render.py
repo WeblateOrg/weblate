@@ -30,15 +30,9 @@ from weblate.utils.site import get_site_url
 # List of schemes not allowed in editor URL
 # This list is not intededed to be complete, just block
 # the possibly dangerous ones.
-FORBIDDEN_URL_SCHEMES = frozenset((
-    'javascript',
-    'data',
-    'vbscript',
-    'mailto',
-    'ftp',
-    'sms',
-    'tel',
-))
+FORBIDDEN_URL_SCHEMES = frozenset(
+    ('javascript', 'data', 'vbscript', 'mailto', 'ftp', 'sms', 'tel')
+)
 
 
 class InvalidString(str):
@@ -61,6 +55,7 @@ class RestrictedEngine(Engine):
 def render_template(template, **kwargs):
     """Helper class to render string template with context."""
     from weblate.trans.models import Project, Component, Translation
+
     translation = kwargs.get('translation')
     component = kwargs.get('component')
     project = kwargs.get('project')
@@ -78,8 +73,9 @@ def render_template(template, **kwargs):
     if isinstance(component, Component):
         kwargs['component_name'] = component.name
         kwargs['component_slug'] = component.slug
-        kwargs['component_remote_branch'] = \
-            component.repository.get_remote_branch_name()
+        kwargs[
+            'component_remote_branch'
+        ] = component.repository.get_remote_branch_name()
         if 'url' not in kwargs:
             kwargs['url'] = get_site_url(component.get_absolute_url())
         project = component.project
@@ -93,11 +89,8 @@ def render_template(template, **kwargs):
         kwargs.pop('project', None)
 
     with override('en'):
-        return Template(
-            template,
-            engine=RestrictedEngine(),
-        ).render(
-            Context(kwargs, autoescape=False),
+        return Template(template, engine=RestrictedEngine()).render(
+            Context(kwargs, autoescape=False)
         )
 
 
@@ -106,20 +99,15 @@ def validate_render(value, **kwargs):
     try:
         return render_template(value, **kwargs)
     except Exception as err:
-        raise ValidationError(
-            _('Failed to render template: {}').format(err)
-        )
+        raise ValidationError(_('Failed to render template: {}').format(err))
 
 
 def validate_render_component(value, translation=None, **kwargs):
     from weblate.trans.models import Project, Component, Translation
     from weblate.lang.models import Language
+
     component = Component(
-        project=Project(
-            name='project',
-            slug='project',
-            id=-1,
-        ),
+        project=Project(name='project', slug='project', id=-1),
         name='component',
         slug='component',
         branch='master',
@@ -152,10 +140,12 @@ def validate_repoweb(val):
     It checks whether it can be filled in using format string.
     """
     if '%(file)s' in val or '%(line)s' in val:
-        raise ValidationError(_(
-            'The format strings are no longer supported, '
-            'please use the template language instead.'
-        ))
+        raise ValidationError(
+            _(
+                'The format strings are no longer supported, '
+                'please use the template language instead.'
+            )
+        )
     validate_render(val, filename='file.po', line=9, branch='master')
 
 
@@ -186,5 +176,5 @@ def migrate_repoweb(val):
         '../../file': '{{filename|parentdir|parentdir}}',
         '../../../file': '{{filename|parentdir|parentdir}}',
         'line': '{{line}}',
-        'branch': '{{branch}}'
+        'branch': '{{branch}}',
     }

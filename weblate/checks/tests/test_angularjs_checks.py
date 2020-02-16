@@ -34,65 +34,80 @@ class AngularJSInterpolationCheckTest(TestCase):
         self.check = AngularJSInterpolationCheck()
 
     def test_no_format(self):
-        self.assertFalse(self.check.check_single(
-            'strins',
-            'string',
-            MockUnit('angularjs_no_format', flags='angularjs-format')
-        ))
+        self.assertFalse(
+            self.check.check_single(
+                'strins',
+                'string',
+                MockUnit('angularjs_no_format', flags='angularjs-format'),
+            )
+        )
 
     def test_format(self):
-        self.assertFalse(self.check.check_single(
-            u'{{name}} string {{other}}',
-            u'{{name}} {{other}} string',
-            MockUnit('angularjs_format', flags='angularjs-format')
-        ))
+        self.assertFalse(
+            self.check.check_single(
+                u'{{name}} string {{other}}',
+                u'{{name}} {{other}} string',
+                MockUnit('angularjs_format', flags='angularjs-format'),
+            )
+        )
 
     def test_format_ignore_position(self):
-        self.assertFalse(self.check.check_single(
-            u'{{name}} string {{other}}',
-            u'{{other}} string {{name}}',
-            MockUnit('angularjs_format_ignore_position',
-                     flags='angularjs-format')
-        ))
+        self.assertFalse(
+            self.check.check_single(
+                u'{{name}} string {{other}}',
+                u'{{other}} string {{name}}',
+                MockUnit('angularjs_format_ignore_position', flags='angularjs-format'),
+            )
+        )
 
     def test_different_whitespace(self):
-        self.assertFalse(self.check.check_single(
-            u'{{ name   }} string',
-            u'{{name}} string',
-            MockUnit('angularjs_different_whitespace',
-                     flags='angularjs-format')
-        ))
+        self.assertFalse(
+            self.check.check_single(
+                u'{{ name   }} string',
+                u'{{name}} string',
+                MockUnit('angularjs_different_whitespace', flags='angularjs-format'),
+            )
+        )
 
     def test_missing_format(self):
-        self.assertTrue(self.check.check_single(
-            u'{{name}} string',
-            u'string',
-            MockUnit('angularjs_missing_format', flags='angularjs-format')
-        ))
+        self.assertTrue(
+            self.check.check_single(
+                u'{{name}} string',
+                u'string',
+                MockUnit('angularjs_missing_format', flags='angularjs-format'),
+            )
+        )
 
     def test_wrong_value(self):
-        self.assertTrue(self.check.check_single(
-            u'{{name}} string',
-            u'{{nameerror}} string',
-            MockUnit('angularjs_wrong_value', flags='angularjs-format')
-        ))
+        self.assertTrue(
+            self.check.check_single(
+                u'{{name}} string',
+                u'{{nameerror}} string',
+                MockUnit('angularjs_wrong_value', flags='angularjs-format'),
+            )
+        )
 
     def test_extended_formatting(self):
-        self.assertFalse(self.check.check_single(
-            u'Value: {{ something.value | currency }}',
-            u'Wert: {{ something.value | currency }}',
-            MockUnit('angularjs_format', flags='angularjs-format')
-        ))
-        self.assertTrue(self.check.check_single(
-            u'Value: {{ something.value | currency }}',
-            u'Value: {{ something.value }}',
-            MockUnit('angularjs_format', flags='angularjs-format')
-        ))
+        self.assertFalse(
+            self.check.check_single(
+                u'Value: {{ something.value | currency }}',
+                u'Wert: {{ something.value | currency }}',
+                MockUnit('angularjs_format', flags='angularjs-format'),
+            )
+        )
+        self.assertTrue(
+            self.check.check_single(
+                u'Value: {{ something.value | currency }}',
+                u'Value: {{ something.value }}',
+                MockUnit('angularjs_format', flags='angularjs-format'),
+            )
+        )
 
     def test_check_highlight(self):
         highlights = self.check.check_highlight(
             u'{{name}} {{ something.value | currency }} string',
-            MockUnit('angularjs_format', flags='angularjs-format'))
+            MockUnit('angularjs_format', flags='angularjs-format'),
+        )
         self.assertEqual(2, len(highlights))
         self.assertEqual(0, highlights[0][0])
         self.assertEqual(8, highlights[0][1])
@@ -102,5 +117,6 @@ class AngularJSInterpolationCheckTest(TestCase):
     def test_check_highlight_ignored(self):
         highlights = self.check.check_highlight(
             u'{{name}} {{other}} string',
-            MockUnit('angularjs_format', flags='ignore-angularjs-format'))
+            MockUnit('angularjs_format', flags='ignore-angularjs-format'),
+        )
         self.assertEqual([], highlights)

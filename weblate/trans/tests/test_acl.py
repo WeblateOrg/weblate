@@ -37,13 +37,9 @@ class ACLTest(FixtureTestCase):
         self.access_url = reverse('manage-access', kwargs=self.kw_project)
         self.translate_url = reverse('translate', kwargs=self.kw_translation)
         self.second_user = User.objects.create_user(
-            'seconduser',
-            'noreply@example.org',
-            'testpassword'
+            'seconduser', 'noreply@example.org', 'testpassword'
         )
-        self.admin_group = self.project.group_set.get(
-            name__endswith='@Administration'
-        )
+        self.admin_group = self.project.group_set.get(name__endswith='@Administration')
 
     def add_acl(self):
         """Add user to ACL."""
@@ -111,7 +107,7 @@ class ACLTest(FixtureTestCase):
         # Add user
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
-            {'user': self.second_user.username}
+            {'user': self.second_user.username},
         )
         self.assertRedirects(response, self.access_url)
 
@@ -126,7 +122,7 @@ class ACLTest(FixtureTestCase):
         response = self.client.post(
             reverse('invite-user', kwargs=self.kw_project),
             {'email': 'invalid', 'full_name': 'name'},
-            follow=True
+            follow=True,
         )
         # This error comes from Django validation
         self.assertContains(response, 'Enter a valid email addres')
@@ -137,7 +133,7 @@ class ACLTest(FixtureTestCase):
         response = self.client.post(
             reverse('invite-user', kwargs=self.kw_project),
             {'email': self.user.email, 'full_name': 'name'},
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'User with this E-mail already exists')
 
@@ -147,7 +143,7 @@ class ACLTest(FixtureTestCase):
         response = self.client.post(
             reverse('invite-user', kwargs=self.kw_project),
             {'email': 'user@example.com', 'full_name': 'name'},
-            follow=True
+            follow=True,
         )
         # Ensure user is now listed
         self.assertContains(response, 'user@example.com')
@@ -161,7 +157,7 @@ class ACLTest(FixtureTestCase):
         response = self.client.post(
             reverse('resend_invitation', kwargs=self.kw_project),
             {'user': 'user@example.com'},
-            follow=True
+            follow=True,
         )
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
@@ -172,7 +168,7 @@ class ACLTest(FixtureTestCase):
         # Remove user
         response = self.client.post(
             reverse('delete-user', kwargs=self.kw_project),
-            {'user': self.second_user.username}
+            {'user': self.second_user.username},
         )
         self.assertRedirects(response, self.access_url)
 
@@ -197,12 +193,12 @@ class ACLTest(FixtureTestCase):
                 'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'add',
-            }
+            },
         )
         self.assertTrue(
-            User.objects.all_admins(self.project).filter(
-                username=self.second_user.username
-            ).exists()
+            User.objects.all_admins(self.project)
+            .filter(username=self.second_user.username)
+            .exists()
         )
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
@@ -210,12 +206,12 @@ class ACLTest(FixtureTestCase):
                 'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'remove',
-            }
+            },
         )
         self.assertFalse(
-            User.objects.all_admins(self.project).filter(
-                username=self.second_user.username
-            ).exists()
+            User.objects.all_admins(self.project)
+            .filter(username=self.second_user.username)
+            .exists()
         )
         self.remove_user()
 
@@ -229,13 +225,13 @@ class ACLTest(FixtureTestCase):
                 'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'add',
-            }
+            },
         )
         self.remove_user()
         self.assertFalse(
-            User.objects.all_admins(self.project).filter(
-                username=self.second_user.username
-            ).exists()
+            User.objects.all_admins(self.project)
+            .filter(username=self.second_user.username)
+            .exists()
         )
 
     def test_denied_owner_delete(self):
@@ -247,12 +243,12 @@ class ACLTest(FixtureTestCase):
                 'user': self.second_user.username,
                 'group': self.admin_group.pk,
                 'action': 'remove',
-            }
+            },
         )
         self.assertTrue(
-            User.objects.all_admins(self.project).filter(
-                username=self.user.username
-            ).exists()
+            User.objects.all_admins(self.project)
+            .filter(username=self.user.username)
+            .exists()
         )
         self.client.post(
             reverse('set-groups', kwargs=self.kw_project),
@@ -260,12 +256,12 @@ class ACLTest(FixtureTestCase):
                 'user': self.user.username,
                 'group': self.admin_group.pk,
                 'action': 'remove',
-            }
+            },
         )
         self.assertTrue(
-            User.objects.all_admins(self.project).filter(
-                username=self.user.username
-            ).exists()
+            User.objects.all_admins(self.project)
+            .filter(username=self.user.username)
+            .exists()
         )
 
     def test_nonexisting_user(self):
@@ -274,7 +270,7 @@ class ACLTest(FixtureTestCase):
         response = self.client.post(
             reverse('add-user', kwargs=self.kw_project),
             {'user': 'nonexisting'},
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'No matching user found.')
 
@@ -290,29 +286,24 @@ class ACLTest(FixtureTestCase):
 
             # Allow editing by creating billing plan
             from weblate.billing.models import Plan, Billing
+
             plan = Plan.objects.create()
             billing = Billing.objects.create(plan=plan)
             billing.projects.add(self.project)
 
         # Editing should now work, but components do not have a license
         response = self.client.post(
-            url,
-            {'access_control': Project.ACCESS_PROTECTED},
-            follow=True
+            url, {'access_control': Project.ACCESS_PROTECTED}, follow=True
         )
         self.assertRedirects(response, self.access_url)
-        self.assertContains(
-            response, 'You must specify a license for these components'
-        )
+        self.assertContains(response, 'You must specify a license for these components')
 
         # Set component license
         self.project.component_set.update(license='Test license')
 
         # Editing should now work
         response = self.client.post(
-            url,
-            {'access_control': Project.ACCESS_PROTECTED},
-            follow=True
+            url, {'access_control': Project.ACCESS_PROTECTED}, follow=True
         )
         self.assertRedirects(response, self.access_url)
 
@@ -331,40 +322,29 @@ class ACLTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.enable_review = False
         self.project.save()
-        self.assertEqual(
-            1, Group.objects.filter(name__startswith=match).count()
-        )
+        self.assertEqual(1, Group.objects.filter(name__startswith=match).count())
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            9 + billing_group,
-            Group.objects.filter(name__startswith=match).count()
+            9 + billing_group, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.enable_review = True
         self.project.save()
         self.assertEqual(
-            9 + billing_group,
-            Group.objects.filter(name__startswith=match).count()
+            9 + billing_group, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
-        self.assertEqual(
-            0, Group.objects.filter(name__startswith=match).count()
-        )
+        self.assertEqual(0, Group.objects.filter(name__startswith=match).count())
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
-        self.assertEqual(
-            0, Group.objects.filter(name__startswith=match).count()
-        )
+        self.assertEqual(0, Group.objects.filter(name__startswith=match).count())
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.assertEqual(
-            9 + billing_group,
-            Group.objects.filter(name__startswith=match).count()
+            9 + billing_group, Group.objects.filter(name__startswith=match).count()
         )
         self.project.delete()
-        self.assertEqual(
-            0, Group.objects.filter(name__startswith=match).count()
-        )
+        self.assertEqual(0, Group.objects.filter(name__startswith=match).count())

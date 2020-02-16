@@ -38,6 +38,7 @@ class WeblateTranslation(DjangoTranslation):
 
     See https://code.djangoproject.com/ticket/30439
     """
+
     def merge(self, other):
         DjangoTranslation.merge(self, other)
         # Override plural

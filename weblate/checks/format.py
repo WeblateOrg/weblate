@@ -237,8 +237,8 @@ class BaseFormatCheck(TargetCheck):
             for i in range(min(len(src_matches), len(tgt_matches))):
                 if src_matches[i] != tgt_matches[i]:
                     result.append(src_matches[i])
-            result.extend(src_matches[len(tgt_matches):])
-            result.extend(tgt_matches[len(src_matches):])
+            result.extend(src_matches[len(tgt_matches) :])
+            result.extend(tgt_matches[len(src_matches) :])
             return result
         return False
 

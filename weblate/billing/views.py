@@ -34,9 +34,7 @@ def download_invoice(request, pk):
     if not invoice.ref:
         raise Http404('No reference!')
 
-    allowed_billing = Billing.objects.for_user(
-        request.user
-    ).filter(
+    allowed_billing = Billing.objects.for_user(request.user).filter(
         pk=invoice.billing.pk
     )
 
@@ -49,10 +47,7 @@ def download_invoice(request, pk):
     with open(invoice.full_filename, 'rb') as handle:
         data = handle.read()
 
-    response = HttpResponse(
-        data,
-        content_type='application/pdf'
-    )
+    response = HttpResponse(data, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         invoice.filename
     )
@@ -87,9 +82,7 @@ def handle_post(request, billings):
 
 @login_required
 def overview(request):
-    billings = Billing.objects.for_user(
-        request.user
-    ).prefetch_related(
+    billings = Billing.objects.for_user(request.user).prefetch_related(
         'plan', 'projects', 'invoice_set'
     )
     if request.method == 'POST':

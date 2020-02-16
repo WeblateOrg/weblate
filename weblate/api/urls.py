@@ -36,47 +36,18 @@ from weblate.api.views import (
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = WeblateRouter()
-router.register(
-    r'projects',
-    ProjectViewSet
-)
-router.register(
-    r'components',
-    ComponentViewSet,
-    'component',
-)
-router.register(
-    r'translations',
-    TranslationViewSet
-)
-router.register(
-    r'languages',
-    LanguageViewSet
-)
-router.register(
-    r'changes',
-    ChangeViewSet
-)
-router.register(
-    r'units',
-    UnitViewSet
-)
-router.register(
-    r'screenshots',
-    ScreenshotViewSet
-)
+router.register(r'projects', ProjectViewSet)
+router.register(r'components', ComponentViewSet, 'component')
+router.register(r'translations', TranslationViewSet)
+router.register(r'languages', LanguageViewSet)
+router.register(r'changes', ChangeViewSet)
+router.register(r'units', UnitViewSet)
+router.register(r'screenshots', ScreenshotViewSet)
 
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(
-        r'^metrics/$',
-        Metrics.as_view(),
-        name='metrics',
-    ),
-    url(
-        r'^',
-        include(router.urls)
-    ),
+    url(r'^metrics/$', Metrics.as_view(), name='metrics'),
+    url(r'^', include(router.urls)),
 ]

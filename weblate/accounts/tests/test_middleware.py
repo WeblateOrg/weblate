@@ -37,9 +37,7 @@ class MiddlewareTest(TestCase):
     def test_disabled(self):
         middleware = RequireLoginMiddleware()
         request = HttpRequest()
-        self.assertIsNone(
-            middleware.process_view(request, self.view_method, (), {})
-        )
+        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
 
     @override_settings(LOGIN_REQUIRED_URLS=(r'/project/(.*)$',))
     def test_protect_project(self):
@@ -49,22 +47,16 @@ class MiddlewareTest(TestCase):
         request.META['SERVER_NAME'] = 'testserver'
         request.META['SERVER_PORT'] = '80'
         # No protection for not protected path
-        self.assertIsNone(
-            middleware.process_view(request, self.view_method, (), {})
-        )
+        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
         request.path = '/project/foo/'
         # No protection for protected path and logged in user
-        self.assertIsNone(
-            middleware.process_view(request, self.view_method, (), {})
-        )
+        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
         # Protection for protected path and not logged in user
         request.user = get_anonymous()
         self.assertIsInstance(
             middleware.process_view(request, self.view_method, (), {}),
-            HttpResponseRedirect
+            HttpResponseRedirect,
         )
         # No protection for login and not logged in user
         request.path = '/accounts/login/'
-        self.assertIsNone(
-            middleware.process_view(request, self.view_method, (), {})
-        )
+        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))

@@ -38,29 +38,21 @@ class RemovalTest(ViewTestCase):
         url = reverse('remove_translation', kwargs=kwargs)
         response = self.client.post(url, {'confirm': ''}, follow=True)
         self.assertContains(
-            response,
-            'The translation name does not match the one marked for deletion!'
+            response, 'The translation name does not match the one marked for deletion!'
         )
-        response = self.client.post(
-            url, {'confirm': 'test/test/cs'}, follow=True
-        )
-        self.assertContains(
-            response,
-            'Translation has been removed.',
-        )
+        response = self.client.post(url, {'confirm': 'test/test/cs'}, follow=True)
+        self.assertContains(response, 'Translation has been removed.')
 
     def test_component(self):
         self.make_manager()
         url = reverse('remove_component', kwargs=self.kw_component)
         response = self.client.post(url, {'confirm': ''}, follow=True)
         self.assertContains(
-            response,
-            'The translation name does not match the one marked for deletion!'
+            response, 'The translation name does not match the one marked for deletion!'
         )
         response = self.client.post(url, {'confirm': 'test/test'}, follow=True)
         self.assertContains(
-            response,
-            'Translation component was scheduled for removal.'
+            response, 'Translation component was scheduled for removal.'
         )
 
     def test_project(self):
@@ -68,42 +60,33 @@ class RemovalTest(ViewTestCase):
         url = reverse('remove_project', kwargs=self.kw_project)
         response = self.client.post(url, {'confirm': ''}, follow=True)
         self.assertContains(
-            response,
-            'The translation name does not match the one marked for deletion!'
+            response, 'The translation name does not match the one marked for deletion!'
         )
         response = self.client.post(url, {'confirm': 'test'}, follow=True)
-        self.assertContains(
-            response,
-            'Project was scheduled for removal.'
-        )
+        self.assertContains(response, 'Project was scheduled for removal.')
 
 
 class RenameTest(ViewTestCase):
     def test_denied(self):
         self.assertNotContains(
-            self.client.get(reverse('project', kwargs=self.kw_project)),
-            '#rename',
+            self.client.get(reverse('project', kwargs=self.kw_project)), '#rename'
         )
         self.assertNotContains(
-            self.client.get(reverse('component', kwargs=self.kw_component)),
-            '#rename',
+            self.client.get(reverse('component', kwargs=self.kw_component)), '#rename'
         )
         response = self.client.post(
-            reverse('rename', kwargs=self.kw_project),
-            {'slug': 'xxxx'}
+            reverse('rename', kwargs=self.kw_project), {'slug': 'xxxx'}
         )
         self.assertEqual(response.status_code, 403)
 
         response = self.client.post(
-            reverse('rename', kwargs=self.kw_component),
-            {'slug': 'xxxx'}
+            reverse('rename', kwargs=self.kw_component), {'slug': 'xxxx'}
         )
         self.assertEqual(response.status_code, 403)
 
         other = Project.objects.create(name='Other', slug='other')
         response = self.client.post(
-            reverse('move', kwargs=self.kw_component),
-            {'project': other.pk}
+            reverse('move', kwargs=self.kw_component), {'project': other.pk}
         )
         self.assertEqual(response.status_code, 403)
 
@@ -115,8 +98,7 @@ class RenameTest(ViewTestCase):
             'Other project',
         )
         response = self.client.post(
-            reverse('move', kwargs=self.kw_component),
-            {'project': other.pk}
+            reverse('move', kwargs=self.kw_component), {'project': other.pk}
         )
         self.assertRedirects(response, '/projects/other/test/')
         component = Component.objects.get(pk=self.component.pk)
@@ -126,12 +108,10 @@ class RenameTest(ViewTestCase):
     def test_rename_component(self):
         self.make_manager()
         self.assertContains(
-            self.client.get(reverse('component', kwargs=self.kw_component)),
-            '#rename',
+            self.client.get(reverse('component', kwargs=self.kw_component)), '#rename'
         )
         response = self.client.post(
-            reverse('rename', kwargs=self.kw_component),
-            {'slug': 'xxxx'}
+            reverse('rename', kwargs=self.kw_component), {'slug': 'xxxx'}
         )
         self.assertRedirects(response, '/projects/test/xxxx/')
         component = Component.objects.get(pk=self.component.pk)
@@ -147,12 +127,10 @@ class RenameTest(ViewTestCase):
             shutil.rmtree(target)
         self.make_manager()
         self.assertContains(
-            self.client.get(reverse('project', kwargs=self.kw_project)),
-            '#rename',
+            self.client.get(reverse('project', kwargs=self.kw_project)), '#rename'
         )
         response = self.client.post(
-            reverse('rename', kwargs=self.kw_project),
-            {'slug': 'xxxx'}
+            reverse('rename', kwargs=self.kw_project), {'slug': 'xxxx'}
         )
         self.assertRedirects(response, '/projects/xxxx/')
         project = Project.objects.get(pk=self.project.pk)
@@ -190,14 +168,10 @@ class WhiteboardTest(ViewTestCase):
     def test_delete(self):
         self.test_project()
         message = WhiteboardMessage.objects.all()[0]
-        self.client.post(
-            reverse('whiteboard-delete', kwargs={'pk': message.pk})
-        )
+        self.client.post(reverse('whiteboard-delete', kwargs={'pk': message.pk}))
         self.assertEqual(WhiteboardMessage.objects.count(), 0)
 
     def test_delete_deny(self):
         message = WhiteboardMessage.objects.create(message='test')
-        self.client.post(
-            reverse('whiteboard-delete', kwargs={'pk': message.pk})
-        )
+        self.client.post(reverse('whiteboard-delete', kwargs={'pk': message.pk}))
         self.assertEqual(WhiteboardMessage.objects.count(), 1)

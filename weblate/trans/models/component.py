@@ -645,9 +645,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 kwargs['state'] = STATE_READONLY
 
             # Create source unit
-            source = self.source_translation.unit_set.create(
-                id_hash=id_hash, **kwargs
-            )
+            source = self.source_translation.unit_set.create(id_hash=id_hash, **kwargs)
             Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
             self.updated_sources[id_hash] = source
         self._sources[id_hash] = source

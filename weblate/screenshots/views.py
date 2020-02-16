@@ -51,7 +51,7 @@ def try_add_source(request, obj):
 
     try:
         source = obj.component.source_translation.unit_set.get(
-            pk=int(request.POST['source']),
+            pk=int(request.POST['source'])
         )
     except (Unit.DoesNotExist, ValueError):
         return False
@@ -87,9 +87,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
         self._add_form = ScreenshotForm(request.POST, request.FILES)
         if self._add_form.is_valid():
             obj = Screenshot.objects.create(
-                component=component,
-                user=request.user,
-                **self._add_form.cleaned_data
+                component=component, user=request.user, **self._add_form.cleaned_data
             )
             request.user.profile.uploaded += 1
             request.user.profile.save(update_fields=['uploaded'])
@@ -100,12 +98,11 @@ class ScreenshotList(ListView, ComponentViewMixin):
                 _(
                     'Screenshot has been uploaded, '
                     'you can now assign it to source strings.'
-                )
+                ),
             )
             return redirect(obj)
         messages.error(
-            request,
-            _('Failed to upload screenshot, please fix errors below.')
+            request, _('Failed to upload screenshot, please fix errors below.')
         )
         return self.get(request, **kwargs)
 
@@ -132,9 +129,7 @@ class ScreenshotDetail(DetailView):
     def post(self, request, **kwargs):
         obj = self.get_object()
         if request.user.has_perm('screenshot.edit', obj.component):
-            self._edit_form = ScreenshotForm(
-                request.POST, request.FILES, instance=obj
-            )
+            self._edit_form = ScreenshotForm(request.POST, request.FILES, instance=obj)
             if self._edit_form.is_valid():
                 if request.FILES:
                     obj.user = request.user
@@ -154,10 +149,7 @@ def delete_screenshot(request, pk):
     if not request.user.has_perm('screenshot.delete', obj.component):
         raise PermissionDenied()
 
-    kwargs = {
-        'project': obj.component.project.slug,
-        'component': obj.component.slug,
-    }
+    kwargs = {'project': obj.component.project.slug, 'component': obj.component.slug}
 
     obj.delete()
 
@@ -190,23 +182,19 @@ def search_results(code, obj, units=None):
     if units is None:
         units = []
     else:
-        units = units.exclude(
-            id_hash__in=obj.units.values_list('id_hash', flat=True)
-        )
+        units = units.exclude(id_hash__in=obj.units.values_list('id_hash', flat=True))
 
     results = [
         {
             'text': unit.get_source_plurals()[0],
             'pk': unit.pk,
             'context': unit.context,
-            'location': unit.location
+            'location': unit.location,
         }
         for unit in units
     ]
 
-    return JsonResponse(
-        data={'responseCode': code, 'results': results}
-    )
+    return JsonResponse(data={'responseCode': code, 'results': results})
 
 
 @login_required
@@ -224,9 +212,7 @@ def ocr_extract(api, image, strings):
     """Extract closes matches from an image"""
     api.SetImage(image)
     for item in api.GetComponentImages(RIL.TEXTLINE, True):
-        api.SetRectangle(
-            item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h']
-        )
+        api.SetRectangle(item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h'])
         ocr_result = api.GetUTF8Text()
         parts = [ocr_result] + ocr_result.split('|') + ocr_result.split()
         for part in parts:
@@ -249,8 +235,7 @@ def ocr_search(request, pk):
     original_image = original_image.convert("L")
     # Resize image (tesseract works best around 300dpi)
     scaled_image = original_image.copy().resize(
-        [size * 4 for size in original_image.size],
-        Image.BICUBIC
+        [size * 4 for size in original_image.size], Image.BICUBIC
     )
 
     # Find all our strings
@@ -269,11 +254,7 @@ def ocr_search(request, pk):
     original_image.close()
     scaled_image.close()
 
-    return search_results(
-        200,
-        obj,
-        translation.unit_set.filter(pk__in=results)
-    )
+    return search_results(200, obj, translation.unit_set.filter(pk__in=results))
 
 
 @login_required
@@ -281,15 +262,14 @@ def ocr_search(request, pk):
 def add_source(request, pk):
     obj = get_screenshot(request, pk)
     result = try_add_source(request, obj)
-    return JsonResponse(
-        data={'responseCode': 200, 'status': result}
-    )
+    return JsonResponse(data={'responseCode': 200, 'status': result})
 
 
 @login_required
 def get_sources(request, pk):
     obj = get_screenshot(request, pk)
     return render(
-        request, 'screenshots/screenshot_sources_body.html',
-        {'sources': obj.units.all(), 'object': obj}
+        request,
+        'screenshots/screenshot_sources_body.html',
+        {'sources': obj.units.all(), 'object': obj},
     )

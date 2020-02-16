@@ -70,11 +70,7 @@ def database_backup():
     database = settings.DATABASES["default"]
     if database["ENGINE"] != "django.db.backends.postgresql":
         return
-    cmd = [
-        "pg_dump",
-        "--dbname",
-        database["NAME"],
-    ]
+    cmd = ["pg_dump", "--dbname", database["NAME"]]
     if database["HOST"]:
         cmd += ["--host", database["HOST"]]
     if database["PORT"]:

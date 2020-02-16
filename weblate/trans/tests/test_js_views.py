@@ -33,6 +33,7 @@ from weblate.utils.classloader import load_class
 
 class JSViewsTest(FixtureTestCase):
     """Testing of AJAX/JS views."""
+
     @staticmethod
     def ensure_dummy_mt():
         """Ensure we have dummy mt installed"""
@@ -46,10 +47,7 @@ class JSViewsTest(FixtureTestCase):
         self.ensure_dummy_mt()
         unit = self.get_unit()
         response = self.client.post(
-            reverse(
-                'js-translate',
-                kwargs={'unit_id': unit.id, 'service': 'dummy'}
-            )
+            reverse('js-translate', kwargs={'unit_id': unit.id, 'service': 'dummy'})
         )
         self.assertContains(response, 'Ahoj')
         data = json.loads(response.content.decode('utf-8'))
@@ -68,15 +66,12 @@ class JSViewsTest(FixtureTestCase):
                     'text': 'Ahoj světe!',
                     'source': 'Hello, world!\n',
                 },
-            ]
+            ],
         )
 
         # Invalid service
         response = self.client.post(
-            reverse(
-                'js-translate',
-                kwargs={'unit_id': unit.id, 'service': 'invalid'}
-            )
+            reverse('js-translate', kwargs={'unit_id': unit.id, 'service': 'invalid'})
         )
         self.assertEqual(response.status_code, 404)
 
@@ -95,14 +90,14 @@ class JSViewsTest(FixtureTestCase):
     def test_get_unit_changes(self):
         unit = self.get_unit()
         response = self.client.get(
-            reverse('js-unit-changes', kwargs={'unit_id': unit.id}),
+            reverse('js-unit-changes', kwargs={'unit_id': unit.id})
         )
         self.assertContains(response, 'href="/changes/?')
 
     def test_get_unit_translations(self):
         unit = self.get_unit()
         response = self.client.get(
-            reverse('js-unit-translations', kwargs={'unit_id': unit.id}),
+            reverse('js-unit-translations', kwargs={'unit_id': unit.id})
         )
         self.assertContains(response, 'href="/translate/')
 

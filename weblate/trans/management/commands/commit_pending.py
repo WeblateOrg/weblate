@@ -35,7 +35,7 @@ class Command(WeblateLangCommand):
             type=int,
             dest='age',
             default=None,
-            help='Age of changes to commit in hours'
+            help='Age of changes to commit in hours',
         )
 
     def handle(self, *args, **options):

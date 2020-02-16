@@ -35,41 +35,32 @@ class Command(BaseCommand):
     Command for mass importing of repositories into Weblate
     based on JSON data.
     """
+
     help = 'imports projects based on JSON data'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
-            '--project',
-            default=None,
-            required=True,
-            help=(
-                'Project where to operate'
-            )
+            '--project', default=None, required=True, help=('Project where to operate')
         )
         parser.add_argument(
             '--ignore',
             default=False,
             action='store_true',
-            help=(
-                'Ignore already existing entries'
-            )
+            help=('Ignore already existing entries'),
         )
         parser.add_argument(
             '--update',
             default=False,
             action='store_true',
-            help=(
-                'Update already existing entries'
-            )
+            help=('Update already existing entries'),
         )
         parser.add_argument(
             '--main-component',
             default=None,
             help=(
-                'Define which component will be used as main for the'
-                ' VCS repository'
-            )
+                'Define which component will be used as main for the' ' VCS repository'
+            ),
         )
         parser.add_argument(
             'json-file',
@@ -90,8 +81,7 @@ class Command(BaseCommand):
         if options['main_component']:
             try:
                 main_component = Component.objects.get(
-                    project=project,
-                    slug=options['main_component']
+                    project=project, slug=options['main_component']
                 )
             except Component.DoesNotExist:
                 raise CommandError('Main component does not exist!')
@@ -122,18 +112,12 @@ class Command(BaseCommand):
 
             if 'repo' not in item:
                 if main_component is None:
-                    raise CommandError(
-                        'No main component and no repository URL!'
-                    )
+                    raise CommandError('No main component and no repository URL!')
                 item['repo'] = main_component.get_repo_link_url()
 
             try:
-                component = Component.objects.get(
-                    slug=item['slug'], project=project
-                )
-                self.stderr.write(
-                    'Component {0} already exists'.format(component)
-                )
+                component = Component.objects.get(slug=item['slug'], project=project)
+                self.stderr.write('Component {0} already exists'.format(component))
                 if options['ignore']:
                     continue
                 if options['update']:
@@ -161,7 +145,6 @@ class Command(BaseCommand):
                 component.save(force_insert=True)
                 self.stdout.write(
                     'Imported {0} with {1} translations'.format(
-                        component,
-                        component.translation_set.count()
+                        component, component.translation_set.count()
                     )
                 )

@@ -38,6 +38,7 @@ from weblate.vcs.models import VCS_REGISTRY
 
 class Command(BaseCommand):
     """Command for mass importing of repositories into Weblate."""
+
     help = 'imports projects with more components'
 
     def add_arguments(self, parser):
@@ -46,9 +47,8 @@ class Command(BaseCommand):
             '--name-template',
             default='{{ component }}',
             help=(
-                'Template string, transforming the filemask '
-                'match to a project name'
-            )
+                'Template string, transforming the filemask ' 'match to a project name'
+            ),
         )
         parser.add_argument(
             '--base-file-template',
@@ -56,7 +56,7 @@ class Command(BaseCommand):
             help=(
                 'Template string, transforming the filemask '
                 'match to a monolingual base filename'
-            )
+            ),
         )
         parser.add_argument(
             '--new-base-template',
@@ -64,7 +64,7 @@ class Command(BaseCommand):
             help=(
                 'Template string, transforming the filemask '
                 'match to a base filename for new translations'
-            )
+            ),
         )
         parser.add_argument(
             '--file-format',
@@ -80,24 +80,16 @@ class Command(BaseCommand):
             ),
         )
         parser.add_argument(
-            '--license',
-            default='',
-            help='License of imported components',
+            '--license', default='', help='License of imported components'
         )
         parser.add_argument(
-            '--license-url',
-            default='',
-            help='License URL of imported components',
+            '--license-url', default='', help='License URL of imported components'
         )
         parser.add_argument(
-            '--vcs',
-            default=settings.DEFAULT_VCS,
-            help='Version control system to use',
+            '--vcs', default=settings.DEFAULT_VCS, help='Version control system to use'
         )
         parser.add_argument(
-            '--push-url',
-            default='',
-            help='Set push URL for the project',
+            '--push-url', default='', help='Set push URL for the project'
         )
         parser.add_argument(
             '--push-url-same',
@@ -125,24 +117,12 @@ class Command(BaseCommand):
             help=(
                 'Define which component will be used as main - including full'
                 ' VCS repository'
-            )
+            ),
         )
-        parser.add_argument(
-            'project',
-            help='Existing project slug',
-        )
-        parser.add_argument(
-            'repo',
-            help='VCS repository URL',
-        )
-        parser.add_argument(
-            'branch',
-            help='VCS repository branch',
-        )
-        parser.add_argument(
-            'filemask',
-            help='File mask',
-        )
+        parser.add_argument('project', help='Existing project slug')
+        parser.add_argument('repo', help='VCS repository URL')
+        parser.add_argument('branch', help='VCS repository branch')
+        parser.add_argument('filemask', help='File mask')
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
@@ -193,9 +173,7 @@ class Command(BaseCommand):
         self.main_component = options['main_component']
         self.name_template = options['name_template']
         if '%s' in self.name_template:
-            self.name_template = self.name_template.replace(
-                '%s', '{{ component }}'
-            )
+            self.name_template = self.name_template.replace('%s', '{{ component }}')
         self.license = options['license']
         self.push_on_commit = options['push_on_commit']
         self.base_file_template = options['base_file_template']
@@ -213,9 +191,7 @@ class Command(BaseCommand):
 
         # Is vcs supported?
         if self.vcs not in VCS_REGISTRY:
-            raise CommandError(
-                'Invalid vcs: {0}'.format(options['vcs'])
-            )
+            raise CommandError('Invalid vcs: {0}'.format(options['vcs']))
 
         # Do we have correct mask?
         # - if there is **, then it's simple mask (it's invalid in regexp)
@@ -237,8 +213,10 @@ class Command(BaseCommand):
                         self.filemask, error
                     )
                 )
-            if ('component' not in compiled.groupindex
-                    or 'language' not in compiled.groupindex):
+            if (
+                'component' not in compiled.groupindex
+                or 'language' not in compiled.groupindex
+            ):
                 raise CommandError(
                     'Component regular expression lacks named group '
                     '"component" and/or "language"'
@@ -270,10 +248,7 @@ class Command(BaseCommand):
                     component = component.linked_component
             except Component.DoesNotExist:
                 raise CommandError(
-                    'Component "{0}" not found, '
-                    'please create it first!'.format(
-                        repo
-                    )
+                    'Component "{0}" not found, ' 'please create it first!'.format(repo)
                 )
         else:
             component = self.import_initial(project, repo, branch)
@@ -294,19 +269,17 @@ class Command(BaseCommand):
                 base_file_template=self.base_file_template,
                 new_base_template=self.new_base_template,
                 file_format=self.file_format,
-                path=path
+                path=path,
             )
             self.logger.info(
-                'Found %d matching files',
-                len(self.discovery.matched_files)
+                'Found %d matching files', len(self.discovery.matched_files)
             )
 
             if not self.discovery.matched_files:
                 raise CommandError('Your mask did not match any files!')
 
             self.logger.info(
-                'Found %d components',
-                len(self.discovery.matched_components)
+                'Found %d components', len(self.discovery.matched_components)
             )
             langs = set()
             for match in self.discovery.matched_components.values():
@@ -346,9 +319,7 @@ class Command(BaseCommand):
             # Try if one is already there
             for match in discovery.matched_components.values():
                 try:
-                    component = components.get(
-                        repo=repo, filemask=match['mask']
-                    )
+                    component = components.get(repo=repo, filemask=match['mask'])
                 except Component.DoesNotExist:
                     continue
             # Pick random
@@ -361,13 +332,11 @@ class Command(BaseCommand):
             self.logger.warning(
                 'Component %s already exists, skipping and using it '
                 'as a main component',
-                match['slug']
+                match['slug'],
             )
             shutil.rmtree(workdir)
         except Component.DoesNotExist:
-            self.logger.info(
-                'Creating component %s as main one', match['slug']
-            )
+            self.logger.info('Creating component %s as main one', match['slug'])
 
             # Rename gitrepository to new name
             os.rename(workdir, os.path.join(project.full_path, match['slug']))

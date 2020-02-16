@@ -31,13 +31,13 @@ class Command(WeblateLangCommand):
             '--force',
             action='store_true',
             default=False,
-            help='Force rereading files even when they should be up to date'
+            help='Force rereading files even when they should be up to date',
         )
         parser.add_argument(
             '--foreground',
             action='store_true',
             default=False,
-            help='Perform load in foreground (by default backgroud task is used)'
+            help='Perform load in foreground (by default backgroud task is used)',
         )
 
     def handle(self, *args, **options):

@@ -52,18 +52,14 @@ class ViewTest(TestCase):
         reset_rate_limit('message', address='127.0.0.1')
 
     def get_user(self):
-        user = User.objects.create_user(
-            username='testuser',
-            password='testpassword'
-        )
+        user = User.objects.create_user(username='testuser', password='testpassword')
         user.full_name = 'First Second'
         user.email = 'noreply@example.com'
         user.save()
         return user
 
     @override_settings(
-        REGISTRATION_CAPTCHA=False,
-        ADMINS=(('Weblate test', 'noreply@weblate.org'), )
+        REGISTRATION_CAPTCHA=False, ADMINS=(('Weblate test', 'noreply@weblate.org'),)
     )
     def test_contact(self):
         """Test for contact form."""
@@ -77,15 +73,11 @@ class ViewTest(TestCase):
 
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Message from dark side'
-        )
+        self.assertEqual(mail.outbox[0].subject, '[Weblate] Message from dark side')
         self.assertEqual(mail.outbox[0].to, ['noreply@weblate.org'])
 
     @override_settings(
-        REGISTRATION_CAPTCHA=False,
-        ADMINS_CONTACT=['noreply@example.com'],
+        REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=['noreply@example.com']
     )
     def test_contact_separate(self):
         """Test for contact form."""
@@ -95,10 +87,7 @@ class ViewTest(TestCase):
 
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Message from dark side'
-        )
+        self.assertEqual(mail.outbox[0].subject, '[Weblate] Message from dark side')
         self.assertEqual(mail.outbox[0].to, ['noreply@example.com'])
 
     @override_settings(REGISTRATION_CAPTCHA=False)
@@ -110,21 +99,13 @@ class ViewTest(TestCase):
         response = self.client.post(reverse('contact'), data)
         self.assertContains(response, 'Enter a valid e-mail address.')
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=0,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=0)
     def test_contact_rate(self):
         """Test for contact form rate limiting."""
         response = self.client.post(reverse('contact'), CONTACT_DATA)
-        self.assertContains(
-            response,
-            'Too many messages sent, please try again later!'
-        )
+        self.assertContains(response, 'Too many messages sent, please try again later!')
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=1,
-        RATELIMIT_WINDOW=0,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=0)
     def test_contact_rate_window(self):
         """Test for contact form rate limiting."""
         message = 'Too many messages sent, please try again later!'
@@ -164,37 +145,26 @@ class ViewTest(TestCase):
                 'repo': 'https://github.com/WeblateOrg/weblate.git',
                 'mask': 'po/*.po',
                 'message': 'Hi\n\nI want to use it!',
-            }
+            },
         )
         self.assertRedirects(response, reverse('home'))
 
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(
-            mail.outbox[0].subject,
-            '[Weblate] Hosting request for HOST'
-        )
-        self.assertIn(
-            'testuser',
-            mail.outbox[0].body,
-        )
+        self.assertEqual(mail.outbox[0].subject, '[Weblate] Hosting request for HOST')
+        self.assertIn('testuser', mail.outbox[0].body)
         self.assertEqual(mail.outbox[0].to, ['noreply@example.com'])
 
     def test_contact_subject(self):
         # With set subject
-        response = self.client.get(
-            reverse('contact'),
-            {'t': 'reg'}
-        )
+        response = self.client.get(reverse('contact'), {'t': 'reg'})
         self.assertContains(response, 'Registration problems')
 
     def test_contact_user(self):
         user = self.get_user()
         # Login
         self.client.login(username=user.username, password='testpassword')
-        response = self.client.get(
-            reverse('contact'),
-        )
+        response = self.client.get(reverse('contact'))
         self.assertContains(response, 'value="First Second"')
         self.assertContains(response, user.email)
 
@@ -221,9 +191,7 @@ class ViewTest(TestCase):
         )
         self.assertContains(response, 'Suggestions')
 
-        response = self.client.get(
-            reverse('user_suggestions', kwargs={'user': '-'})
-        )
+        response = self.client.get(reverse('user_suggestions', kwargs={'user': '-'}))
         self.assertContains(response, 'Suggestions')
 
     def test_login(self):
@@ -231,8 +199,7 @@ class ViewTest(TestCase):
 
         # Login
         response = self.client.post(
-            reverse('login'),
-            {'username': user.username, 'password': 'testpassword'}
+            reverse('login'), {'username': user.username, 'password': 'testpassword'}
         )
         self.assertRedirects(response, reverse('home'))
 
@@ -253,8 +220,7 @@ class ViewTest(TestCase):
 
         # Login
         response = self.client.post(
-            reverse('login'),
-            {'username': user.email, 'password': 'testpassword'}
+            reverse('login'), {'username': user.email, 'password': 'testpassword'}
         )
         self.assertRedirects(response, reverse('home'))
 
@@ -262,14 +228,10 @@ class ViewTest(TestCase):
         # Login
         response = self.client.post(
             reverse('login'),
-            {
-                'username': settings.ANONYMOUS_USER_NAME,
-                'password': 'testpassword'
-            }
+            {'username': settings.ANONYMOUS_USER_NAME, 'password': 'testpassword'},
         )
         self.assertContains(
-            response,
-            'This username/password combination was not found.'
+            response, 'This username/password combination was not found.'
         )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
@@ -282,15 +244,13 @@ class ViewTest(TestCase):
         # Use auth attempts
         for _unused in range(5):
             response = self.client.post(
-                reverse('login'),
-                {'username': 'testuser', 'password': 'invalid'}
+                reverse('login'), {'username': 'testuser', 'password': 'invalid'}
             )
             self.assertContains(response, 'Please try again.')
 
         # Try login with valid password
         response = self.client.post(
-            reverse('login'),
-            {'username': 'testuser', 'password': 'testpassword'}
+            reverse('login'), {'username': 'testuser', 'password': 'testpassword'}
         )
         self.assertContains(response, 'Please try again.')
 
@@ -304,13 +264,9 @@ class ViewTest(TestCase):
         # Login
         self.client.login(username='testuser', password='testpassword')
         # Change without data
-        response = self.client.post(
-            reverse('password')
-        )
+        response = self.client.post(reverse('password'))
         self.assertContains(response, 'This field is required.')
-        response = self.client.get(
-            reverse('password'),
-        )
+        response = self.client.get(reverse('password'))
         self.assertContains(response, 'Current password')
         # Change with wrong password
         response = self.client.post(
@@ -318,8 +274,8 @@ class ViewTest(TestCase):
             {
                 'password': '123456',
                 'new_password1': '123456',
-                'new_password2': '123456'
-            }
+                'new_password2': '123456',
+            },
         )
         self.assertContains(response, 'You have entered an invalid password.')
         # Change
@@ -328,8 +284,8 @@ class ViewTest(TestCase):
             {
                 'password': 'testpassword',
                 'new_password1': '1pa$$word!',
-                'new_password2': '1pa$$word!'
-            }
+                'new_password2': '1pa$$word!',
+            },
         )
 
         self.assertRedirects(response, reverse('profile') + '#account')
@@ -378,7 +334,7 @@ class ProfileTest(FixtureTestCase):
                 'dashboard_view': Profile.DASHBOARD_WATCHED,
                 'translate_mode': Profile.TRANSLATE_FULL,
                 'zen_mode': Profile.ZEN_VERTICAL,
-            }
+            },
         )
         self.assertRedirects(response, reverse('profile'))
 
@@ -388,12 +344,8 @@ class ProfileTest(FixtureTestCase):
 
         # Add more languages
         self.user.profile.languages.add(Language.objects.get(code='pl'))
-        self.user.profile.secondary_languages.add(
-            Language.objects.get(code='de')
-        )
-        self.user.profile.secondary_languages.add(
-            Language.objects.get(code='uk')
-        )
+        self.user.profile.secondary_languages.add(Language.objects.get(code='de'))
+        self.user.profile.secondary_languages.add(Language.objects.get(code='uk'))
         response = self.client.post(reverse('userdata'))
         self.assertContains(response, '"pl"')
         self.assertContains(response, '"de"')
@@ -441,30 +393,22 @@ class ProfileTest(FixtureTestCase):
         self.assertNotContains(response, 'Component: Test/Test')
         # Configure project
         response = self.client.get(
-            reverse('profile'),
-            {'notify_project': self.project.pk}
+            reverse('profile'), {'notify_project': self.project.pk}
         )
         self.assertContains(response, 'Project: Test')
         self.assertNotContains(response, 'Component: Test/Test')
         # Configure component
         response = self.client.get(
-            reverse('profile'),
-            {'notify_component': self.component.pk}
+            reverse('profile'), {'notify_component': self.component.pk}
         )
         self.assertNotContains(response, 'Project: Test')
         self.assertContains(response, 'Component: Test/Test')
         # Configure invalid
-        response = self.client.get(
-            reverse('profile'),
-            {'notify_component': 'a'}
-        )
+        response = self.client.get(reverse('profile'), {'notify_component': 'a'})
         self.assertNotContains(response, 'Project: Test')
         self.assertNotContains(response, 'Component: Test/Test')
         # Configure invalid
-        response = self.client.get(
-            reverse('profile'),
-            {'notify_project': 'a'}
-        )
+        response = self.client.get(reverse('profile'), {'notify_project': 'a'})
         self.assertNotContains(response, 'Project: Test')
         self.assertNotContains(response, 'Component: Test/Test')
 
@@ -476,38 +420,29 @@ class ProfileTest(FixtureTestCase):
         self.client.post(reverse('watch', kwargs=self.kw_project))
         self.assertEqual(self.user.profile.watched.count(), 1)
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(),
-            0
+            self.user.subscription_set.filter(project=self.project).count(), 0
         )
 
         # Mute notifications for component
         self.client.post(reverse('mute', kwargs=self.kw_component))
         self.assertEqual(
-            self.user.subscription_set.filter(
-                component=self.component
-            ).count(),
-            14
+            self.user.subscription_set.filter(component=self.component).count(), 14
         )
 
         # Mute notifications for project
         self.client.post(reverse('mute', kwargs=self.kw_project))
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(),
-            14
+            self.user.subscription_set.filter(project=self.project).count(), 14
         )
 
         # Unwatch project
         self.client.post(reverse('unwatch', kwargs=self.kw_project))
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(),
-            0
+            self.user.subscription_set.filter(project=self.project).count(), 0
         )
         self.assertEqual(
-            self.user.subscription_set.filter(
-                component=self.component
-            ).count(),
-            0
+            self.user.subscription_set.filter(component=self.component).count(), 0
         )
         self.assertEqual(self.user.subscription_set.count(), 9)
 
@@ -531,7 +466,7 @@ class ProfileTest(FixtureTestCase):
         response = self.client.get(
             reverse('unsubscribe'),
             {'i': TimestampSigner().sign(subscription.pk)},
-            follow=True
+            follow=True,
         )
         self.assertRedirects(response, reverse('profile') + '#notifications')
         self.assertContains(response, 'Notification settings adjusted')

@@ -30,14 +30,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--lower',
-            action='store_true',
-            help='Lowercase translated name',
+            '--lower', action='store_true', help='Lowercase translated name'
         )
-        parser.add_argument(
-            'locale',
-            help='Locale for printing',
-        )
+        parser.add_argument('locale', help='Locale for printing')
 
     def handle(self, *args, **options):
         """Create default set of languages.
@@ -50,10 +45,6 @@ class Command(BaseCommand):
             if options['lower']:
                 name = name[0].lower() + name[1:]
             self.stdout.write(
-                '| {0} || {1} || {2}'.format(
-                    language.code,
-                    language.name,
-                    name,
-                )
+                '| {0} || {1} || {2}'.format(language.code, language.name, name)
             )
             self.stdout.write('|-')

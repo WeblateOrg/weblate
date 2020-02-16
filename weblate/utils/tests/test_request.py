@@ -29,23 +29,14 @@ class RequestTest(TestCase):
     def test_get_ip(self):
         request = HttpRequest()
         request.META['REMOTE_ADDR'] = '1.2.3.4'
-        self.assertEqual(
-            get_ip_address(request),
-            '1.2.3.4'
-        )
+        self.assertEqual(get_ip_address(request), '1.2.3.4')
 
     def test_agent(self):
         request = HttpRequest()
         request.META['HTTP_USER_AGENT'] = 'agent'
-        self.assertEqual(
-            get_user_agent(request),
-            'Other / Other / Other'
-        )
+        self.assertEqual(get_user_agent(request), 'Other / Other / Other')
 
     def test_agent_long(self):
         request = HttpRequest()
         request.META['HTTP_USER_AGENT'] = 'agent ' * 200
-        self.assertLess(
-            len(get_user_agent(request)),
-            200
-        )
+        self.assertLess(len(get_user_agent(request)), 200)

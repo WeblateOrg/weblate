@@ -27,6 +27,7 @@ from weblate.memory.storage import TranslationMemory, get_category_name
 
 class WeblateMemory(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
+
     name = 'Weblate Translation Memory'
     rank_boost = 2
     cache_translations = False
@@ -53,7 +54,9 @@ class WeblateMemory(MachineTranslation):
         memory = TranslationMemory.get_thread_instance()
         memory.refresh()
         results = memory.lookup(
-            source.code, language.code, text,
+            source.code,
+            language.code,
+            text,
             user,
             unit.translation.component.project,
             unit.translation.component.project.use_shared_tm,

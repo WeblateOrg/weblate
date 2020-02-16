@@ -20,8 +20,9 @@ are welcome too.
 Coding standard
 ---------------
 
-The code should follow PEP-8 coding guidelines. It is recommended to format new
-code using :program:`black` code formatter (though existing code is yet formatted).
+The code should follow PEP-8 coding guidelines and should be formatted using
+:program:`black` code formatter (existing code code might need ``-S``
+parameter).
 
 To check the code quality, you can use :program:`flake8`, the recommended
 plugins are listed in :file:`requirements-test.txt`.

@@ -35,35 +35,20 @@ from weblate.utils.views import get_component
 def agreement_confirm(request, project, component):
     component = get_component(request, project, component)
 
-    has_agreed = ContributorAgreement.objects.has_agreed(
-        request.user, component
-    )
+    has_agreed = ContributorAgreement.objects.has_agreed(request.user, component)
 
     if request.method == 'POST':
         form = ContributorAgreementForm(request.POST)
         if form.is_valid() and not has_agreed:
-            ContributorAgreement.objects.create(
-                user=request.user,
-                component=component
-            )
-            return redirect_next(
-                request.GET.get('next'),
-                component.get_absolute_url(),
-            )
+            ContributorAgreement.objects.create(user=request.user, component=component)
+            return redirect_next(request.GET.get('next'), component.get_absolute_url())
     else:
         form = ContributorAgreementForm(
-            initial={
-                'next': request.GET.get('next'),
-                'confirm': has_agreed,
-            }
+            initial={'next': request.GET.get('next'), 'confirm': has_agreed}
         )
 
     return render(
         request,
         'contributor-agreement.html',
-        {
-            'form': form,
-            'object': component,
-            'has_agreed': has_agreed,
-        }
+        {'form': form, 'object': component, 'has_agreed': has_agreed},
     )

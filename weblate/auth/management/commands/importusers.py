@@ -35,7 +35,7 @@ class Command(BaseCommand):
         parser.add_argument(
             '--check',
             action='store_true',
-            help='Only check import, do not actually create users'
+            help='Only check import, do not actually create users',
         )
         parser.add_argument(
             'json-file',
@@ -71,16 +71,11 @@ class Command(BaseCommand):
                 continue
 
             if User.objects.filter(email=line['email']).exists():
-                self.stderr.write(
-                    'Skipping {0}, email exists'.format(line['email'])
-                )
+                self.stderr.write('Skipping {0}, email exists'.format(line['email']))
                 continue
 
             if line['last_name'] not in line['first_name']:
-                full_name = '{0} {1}'.format(
-                    line['first_name'],
-                    line['last_name']
-                )
+                full_name = '{0} {1}'.format(line['first_name'], line['last_name'])
             else:
                 full_name = line['first_name']
 
@@ -89,5 +84,5 @@ class Command(BaseCommand):
                     username=line['username'],
                     full_name=full_name,
                     password=line['password'],
-                    email=line['email']
+                    email=line['email'],
                 )

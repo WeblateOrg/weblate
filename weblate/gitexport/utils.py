@@ -36,9 +36,7 @@ def find_git_http_backend():
         return find_git_http_backend.result
 
     try:
-        path = subprocess.check_output(
-            ['git', '--exec-path']
-        ).decode('utf-8').strip()
+        path = subprocess.check_output(['git', '--exec-path']).decode('utf-8').strip()
         if path:
             GIT_PATHS.insert(0, path)
     except OSError:

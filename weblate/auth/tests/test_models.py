@@ -33,10 +33,7 @@ class ModelTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.translation = self.get_translation()
-        self.group = Group.objects.create(
-            name='Test',
-            language_selection=SELECTION_ALL,
-        )
+        self.group = Group.objects.create(name='Test', language_selection=SELECTION_ALL)
         self.group.projects.add(self.project)
 
     def test_project(self):
@@ -82,9 +79,7 @@ class ModelTest(FixtureTestCase):
         self.group.language_selection = SELECTION_MANUAL
         self.group.save()
         self.group.roles.add(Role.objects.get(name='Power user'))
-        self.group.languages.set(
-            Language.objects.filter(code='de'), clear=True
-        )
+        self.group.languages.set(Language.objects.filter(code='de'), clear=True)
 
         # Permissions should deny access
         self.assertTrue(self.user.can_access_project(self.project))
@@ -120,10 +115,7 @@ class ModelTest(FixtureTestCase):
     def test_user(self):
         # Create user with Django User fields
         user = User.objects.create(
-            first_name='First',
-            last_name='Last',
-            is_staff=True,
-            is_superuser=True
+            first_name='First', last_name='Last', is_staff=True, is_superuser=True
         )
         self.assertEqual(user.full_name, 'First Last')
         self.assertEqual(user.is_superuser, True)

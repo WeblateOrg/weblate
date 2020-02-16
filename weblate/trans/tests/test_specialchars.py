@@ -64,24 +64,13 @@ class SpecialCharsTest(TestCase):
 
     def test_additional(self):
         self.check_chars(
-            Language(code='cs'),
-            13,
-            ['a', 'h', 'o', 'j'],
-            additional='ahoj'
+            Language(code='cs'), 13, ['a', 'h', 'o', 'j'], additional='ahoj'
         )
 
     def test_arrows(self):
-        self.check_chars(
-            Language(code='cs'),
-            11,
-            ['→', '⇒'],
-            source='→⇒→⇒'
-        )
+        self.check_chars(Language(code='cs'), 11, ['→', '⇒'], source='→⇒→⇒')
 
     def test_arrows_rtl(self):
         self.check_chars(
-            Language(code='ar', direction='rtl'),
-            12,
-            ['←', '⇐'],
-            source='→⇒→⇒'
+            Language(code='ar', direction='rtl'), 12, ['←', '⇐'], source='→⇒→⇒'
         )

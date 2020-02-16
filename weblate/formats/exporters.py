@@ -39,9 +39,7 @@ from weblate.trans.util import split_plural
 from weblate.utils.site import get_site_url
 
 # Map to remove control characters except newlines and tabs
-_CHARMAP = dict.fromkeys(
-    x for x in range(32) if x not in (9, 10, 13)
-)
+_CHARMAP = dict.fromkeys(x for x in range(32) if x not in (9, 10, 13))
 
 EXPORTERS = {}
 
@@ -72,8 +70,9 @@ class BaseExporter(object):
     verbose = ''
     set_id = False
 
-    def __init__(self, project=None, language=None, url=None,
-                 translation=None, fieldnames=None):
+    def __init__(
+        self, project=None, language=None, url=None, translation=None, fieldnames=None
+    ):
         if translation is not None:
             self.plural = translation.plural
             self.project = translation.component.project
@@ -93,12 +92,8 @@ class BaseExporter(object):
     @cached_property
     def storage(self):
         storage = self.get_storage()
-        storage.setsourcelanguage(
-            self.project.source_language.code
-        )
-        storage.settargetlanguage(
-            self.language.code
-        )
+        storage.setsourcelanguage(self.project.source_language.code)
+        storage.settargetlanguage(self.language.code)
         return storage
 
     def string_filter(self, text):
@@ -107,9 +102,7 @@ class BaseExporter(object):
     def handle_plurals(self, plurals):
         if len(plurals) == 1:
             return self.string_filter(plurals[0])
-        return multistring(
-            [self.string_filter(plural) for plural in plurals]
-        )
+        return multistring([self.string_filter(plural) for plural in plurals])
 
     def get_storage(self):
         return self.storage_class()
@@ -128,9 +121,7 @@ class BaseExporter(object):
             self.add_unit(unit)
 
     def add_unit(self, unit):
-        output = self.storage.UnitClass(
-            self.handle_plurals(unit.get_source_plurals())
-        )
+        output = self.storage.UnitClass(self.handle_plurals(unit.get_source_plurals()))
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (eg. xliff)
@@ -165,7 +156,7 @@ class BaseExporter(object):
                 'Suggested in Weblate: {}'.format(
                     ', '.join(split_plural(suggestion.target))
                 ),
-                origin='translator'
+                origin='translator',
             )
 
         # Store flags
@@ -182,15 +173,13 @@ class BaseExporter(object):
         filename = filetemplate.format(
             project=self.project.slug,
             language=self.language.code,
-            extension=self.extension
+            extension=self.extension,
         )
 
         response = HttpResponse(
             content_type='{0}; charset=utf-8'.format(self.content_type)
         )
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(
-            filename
-        )
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
 
         # Save to response
         response.write(self.serialize())
@@ -230,10 +219,7 @@ class PoExporter(BaseExporter):
                 self.language.name, self.project.name
             ),
             plural_forms=plural.plural_form,
-            language_team='{0} <{1}>'.format(
-                self.language.name,
-                self.url
-            )
+            language_team='{0} <{1}>'.format(self.language.name, self.url),
         )
         return store
 
@@ -300,8 +286,9 @@ class MoExporter(PoExporter):
     verbose = _('gettext MO')
     storage_class = mofile
 
-    def __init__(self, project=None, language=None, url=None,
-                 translation=None, fieldnames=None):
+    def __init__(
+        self, project=None, language=None, url=None, translation=None, fieldnames=None
+    ):
         super(MoExporter, self).__init__(
             project, language, url, translation, fieldnames
         )

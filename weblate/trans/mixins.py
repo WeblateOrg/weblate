@@ -33,6 +33,7 @@ class URLMixin(object):
     """
     Mixin for models providing standard shortcut API for few standard URLs
     """
+
     _reverse_url_name = None
 
     def get_reverse_url_kwargs(self):
@@ -44,14 +45,8 @@ class URLMixin(object):
         if name is None:
             urlname = self._reverse_url_name
         else:
-            urlname = '{0}_{1}'.format(
-                name,
-                self._reverse_url_name
-            )
-        return reverse(
-            urlname,
-            kwargs=self.get_reverse_url_kwargs()
-        )
+            urlname = '{0}_{1}'.format(name, self._reverse_url_name)
+        return reverse(urlname, kwargs=self.get_reverse_url_kwargs())
 
     def get_absolute_url(self):
         return self.reverse_url()
@@ -83,6 +78,7 @@ class URLMixin(object):
 
 class LoggerMixin(object):
     """Mixin for models with logging."""
+
     @cached_property
     def full_slug(self):
         return self.slug
@@ -92,31 +88,24 @@ class LoggerMixin(object):
 
     def log_debug(self, msg, *args):
         self.log_hook('DEBUG', msg, *args)
-        return LOGGER.debug(
-            ': '.join((self.full_slug, msg)), *args
-        )
+        return LOGGER.debug(': '.join((self.full_slug, msg)), *args)
 
     def log_info(self, msg, *args):
         self.log_hook('INFO', msg, *args)
-        return LOGGER.info(
-            ': '.join((self.full_slug, msg)), *args
-        )
+        return LOGGER.info(': '.join((self.full_slug, msg)), *args)
 
     def log_warning(self, msg, *args):
         self.log_hook('WARNING', msg, *args)
-        return LOGGER.warning(
-            ': '.join((self.full_slug, msg)), *args
-        )
+        return LOGGER.warning(': '.join((self.full_slug, msg)), *args)
 
     def log_error(self, msg, *args):
         self.log_hook('ERROR', msg, *args)
-        return LOGGER.error(
-            ': '.join((self.full_slug, msg)), *args
-        )
+        return LOGGER.error(': '.join((self.full_slug, msg)), *args)
 
 
 class PathMixin(LoggerMixin):
     """Mixin for models with path manipulations."""
+
     def _get_path(self):
         """Actual calculation of path."""
         raise NotImplementedError()
@@ -147,13 +136,9 @@ class PathMixin(LoggerMixin):
                 self.__dict__['full_path'] = old_path
                 return
 
-            self.log_info(
-                'path changed from %s to %s', old_path, new_path
-            )
+            self.log_info('path changed from %s to %s', old_path, new_path)
             if os.path.exists(old_path) and not os.path.exists(new_path):
-                self.log_info(
-                    'renaming "%s" to "%s"', old_path, new_path
-                )
+                self.log_info('renaming "%s" to "%s"', old_path, new_path)
                 os.rename(old_path, new_path)
 
     def create_path(self):

@@ -211,10 +211,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit = self.get_unit()
         Change.objects.create(
             unit=unit,
-            suggestion=Suggestion.objects.create(
-                unit=unit,
-                target='Foo',
-            ),
+            suggestion=Suggestion.objects.create(unit=unit, target='Foo'),
             user=self.second_user(),
             action=Change.ACTION_SUGGESTION,
         )
@@ -226,10 +223,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         unit = self.get_unit()
         Change.objects.create(
             unit=unit,
-            comment=Comment.objects.create(
-                unit=unit.source_info,
-                comment=comment,
-            ),
+            comment=Comment.objects.create(unit=unit.source_info, comment=comment),
             user=self.second_user(),
             action=Change.ACTION_COMMENT,
         )
@@ -366,10 +360,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_reminder_suggestion(self):
         unit = self.get_unit()
-        Suggestion.objects.create(
-            unit=unit,
-            target='Foo',
-        )
+        Suggestion.objects.create(unit=unit, target='Foo')
         self.test_reminder(
             notification='PendingSuggestionsNotification',
             subj='Pending suggestions in Test/Test',

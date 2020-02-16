@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
@@ -53,8 +52,7 @@ def try_load(filename, content, original_format, template_store):
         if file_format.monolingual in (True, None) and template_store:
             try:
                 result = file_format.parse(
-                    BytesIOMode(filename, content),
-                    template_store
+                    BytesIOMode(filename, content), template_store
                 )
                 result.check_valid()
                 # Skip if there is not translated unit

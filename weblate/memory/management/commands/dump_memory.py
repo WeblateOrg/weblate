@@ -30,16 +30,17 @@ class Command(BaseCommand):
     """
     Command for exporting translation memory.
     """
+
     help = 'exports translation memory in JSON format'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
-            '--indent', default=2, dest='indent', type=int,
-            help=(
-                'Specifies the indent level to use when '
-                'pretty-printing output.'
-            ),
+            '--indent',
+            default=2,
+            dest='indent',
+            type=int,
+            help=('Specifies the indent level to use when ' 'pretty-printing output.'),
         )
         parser.add_argument(
             '--backup',

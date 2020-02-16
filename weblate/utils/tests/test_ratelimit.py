@@ -53,107 +53,53 @@ class RateLimitTest(SimpleTestCase):
     def test_basic(self):
         self.assertTrue(check_rate_limit('test', self.get_request()))
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=5,
-        RATELIMIT_WINDOW=60,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=5, RATELIMIT_WINDOW=60)
     def test_limit(self):
         request = self.get_request()
         for _unused in range(5):
-            self.assertTrue(
-                check_rate_limit('test', request)
-            )
+            self.assertTrue(check_rate_limit('test', request))
 
-        self.assertFalse(
-            check_rate_limit('test', request)
-        )
+        self.assertFalse(check_rate_limit('test', request))
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=1,
-        RATELIMIT_WINDOW=2,
-        RATELIMIT_LOCKOUT=1,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=1)
     def test_window(self):
         request = self.get_request()
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
         sleep(1)
-        self.assertFalse(
-            check_rate_limit('test', request)
-        )
+        self.assertFalse(check_rate_limit('test', request))
         sleep(2)
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=1,
-        RATELIMIT_WINDOW=2,
-        RATELIMIT_LOCKOUT=100,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=100)
     def test_lockout(self):
         request = self.get_request()
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
         sleep(1)
-        self.assertFalse(
-            check_rate_limit('test', request)
-        )
+        self.assertFalse(check_rate_limit('test', request))
         sleep(1)
-        self.assertFalse(
-            check_rate_limit('test', request)
-        )
+        self.assertFalse(check_rate_limit('test', request))
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=2,
-        RATELIMIT_WINDOW=2,
-        RATELIMIT_LOCKOUT=100,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=2, RATELIMIT_WINDOW=2, RATELIMIT_LOCKOUT=100)
     def test_interval(self):
         request = self.get_request()
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
         sleep(1.5)
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
         sleep(1.5)
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
         sleep(1.5)
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=2,
-        RATELIMIT_WINDOW=2,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=2, RATELIMIT_WINDOW=2)
     def test_revert(self):
         request = self.get_request()
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
+        self.assertTrue(check_rate_limit('test', request))
         revert_rate_limit('test', request)
-        self.assertTrue(
-            check_rate_limit('test', request)
-        )
-        self.assertFalse(
-            check_rate_limit('test', request)
-        )
+        self.assertTrue(check_rate_limit('test', request))
+        self.assertFalse(check_rate_limit('test', request))
 
-    @override_settings(
-        RATELIMIT_ATTEMPTS=1,
-        RATELIMIT_WINDOW=1,
-        RATELIMIT_LOCKOUT=1,
-    )
+    @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=1, RATELIMIT_LOCKOUT=1)
     def test_post(self):
         request = self.get_request()
 

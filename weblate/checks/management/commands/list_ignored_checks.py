@@ -60,7 +60,5 @@ class Command(BaseCommand):
                     'source': check.unit.source,
                 }
         results = sorted(results.values(), key=lambda x: -x['count'])
-        for result in results[:options['count']]:
-            self.stdout.write(
-                '{count:5d} {check:20} {source}'.format(**result)
-            )
+        for result in results[: options['count']]:
+            self.stdout.write('{count:5d} {check:20} {source}'.format(**result))

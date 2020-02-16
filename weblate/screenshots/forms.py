@@ -27,9 +27,7 @@ from weblate.screenshots.models import Screenshot
 
 class ScreenshotForm(forms.ModelForm):
     """User profile editing."""
+
     class Meta(object):
         model = Screenshot
-        fields = (
-            'name',
-            'image',
-        )
+        fields = ('name', 'image')

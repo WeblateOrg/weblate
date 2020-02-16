@@ -30,29 +30,23 @@ from weblate.trans.views.widgets import WIDGETS
 
 class WidgetsTest(FixtureTestCase):
     """Testing of widgets."""
+
     def test_view_widgets(self):
-        response = self.client.get(
-            reverse('widgets', kwargs=self.kw_project)
-        )
+        response = self.client.get(reverse('widgets', kwargs=self.kw_project))
         self.assertContains(response, 'Test')
 
     def test_view_widgets_lang(self):
         response = self.client.get(
-            reverse('widgets', kwargs=self.kw_project),
-            {'lang': 'cs'}
+            reverse('widgets', kwargs=self.kw_project), {'lang': 'cs'}
         )
         self.assertContains(response, 'Test')
 
     def test_view_engage(self):
-        response = self.client.get(
-            reverse('engage', kwargs=self.kw_project)
-        )
+        response = self.client.get(reverse('engage', kwargs=self.kw_project))
         self.assertContains(response, 'Test')
 
     def test_view_engage_lang(self):
-        response = self.client.get(
-            reverse('engage', kwargs=self.kw_lang_project)
-        )
+        response = self.client.get(reverse('engage', kwargs=self.kw_lang_project))
         self.assertContains(response, 'Test')
 
     def test_site_og(self):
@@ -62,10 +56,10 @@ class WidgetsTest(FixtureTestCase):
 
 class WidgetsMeta(type):
     def __new__(mcs, name, bases, attrs):  # noqa
-
         def gen_test(widget, color):
             def test(self):
                 self.perform_test(widget, color)
+
             return test
 
         for widget in WIDGETS:
@@ -77,7 +71,6 @@ class WidgetsMeta(type):
 
 @six.add_metaclass(WidgetsMeta)
 class WidgetsRenderTest(FixtureTestCase):
-
     def assert_widget(self, widget, response):
         if hasattr(WIDGETS[widget], 'redirect'):
             if hasattr(response, 'redirect_chain'):
@@ -98,7 +91,7 @@ class WidgetsRenderTest(FixtureTestCase):
                     'widget': widget,
                     'color': color,
                     'extension': WIDGETS[widget].extension,
-                }
+                },
             )
         )
 
@@ -120,7 +113,7 @@ class WidgetsPercentRenderTest(WidgetsRenderTest):
                         'widget': widget,
                         'color': color,
                         'extension': WIDGETS[widget].extension,
-                    }
+                    },
                 )
             )
 
@@ -138,7 +131,7 @@ class WidgetsComponentRenderTest(WidgetsRenderTest):
                     'widget': widget,
                     'color': color,
                     'extension': WIDGETS[widget].extension,
-                }
+                },
             )
         )
 
@@ -156,7 +149,7 @@ class WidgetsLanguageRenderTest(WidgetsRenderTest):
                     'color': color,
                     'lang': 'cs',
                     'extension': WIDGETS[widget].extension,
-                }
+                },
             )
         )
 
@@ -172,10 +165,10 @@ class WidgetsRedirectRenderTest(WidgetsRenderTest):
                     'project': self.project.slug,
                     'widget': widget,
                     'color': color,
-                    'extension': 'svg'
-                }
+                    'extension': 'svg',
+                },
             ),
-            follow=True
+            follow=True,
         )
 
         self.assert_widget(widget, response)
@@ -191,10 +184,10 @@ class WidgetsLanguageRedirectRenderTest(WidgetsRenderTest):
                     'widget': widget,
                     'color': color,
                     'lang': 'cs',
-                    'extension': 'svg'
-                }
+                    'extension': 'svg',
+                },
             ),
-            follow=True
+            follow=True,
         )
 
         self.assert_widget(widget, response)

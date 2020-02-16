@@ -43,10 +43,7 @@ class AddonViewMixin(ComponentViewMixin):
         component = self.get_component()
         return reverse(
             'addons',
-            kwargs={
-                'project': component.project.slug,
-                'component': component.slug,
-            }
+            kwargs={'project': component.project.slug, 'component': component.slug},
         )
 
     def redirect_list(self, message=None):
@@ -66,11 +63,12 @@ class AddonList(AddonViewMixin, ListView):
         installed = {x.addon.name for x in result['object_list']}
         result['available'] = sorted(
             (
-                x for x in ADDONS.values()
+                x
+                for x in ADDONS.values()
                 if x.can_install(component, self.request.user)
                 and (x.multiple or x.name not in installed)
             ),
-            key=lambda x: x.name
+            key=lambda x: x.name,
         )
         return result
 
@@ -79,10 +77,12 @@ class AddonList(AddonViewMixin, ListView):
         name = request.POST.get('name')
         addon = ADDONS.get(name)
         installed = {x.addon.name for x in self.get_queryset()}
-        if (not name
-                or addon is None
-                or not addon.can_install(component, request.user)
-                or (name in installed and not addon.multiple)):
+        if (
+            not name
+            or addon is None
+            or not addon.can_install(component, request.user)
+            or (name in installed and not addon.multiple)
+        ):
             return self.redirect_list(_('Invalid addon name specified!'))
 
         form = None
@@ -113,9 +113,7 @@ class AddonDetail(AddonViewMixin, UpdateView):
     template_name_suffix = '_detail'
 
     def get_form(self, form_class=None):
-        return self.object.addon.get_settings_form(
-            **self.get_form_kwargs()
-        )
+        return self.object.addon.get_settings_form(**self.get_form_kwargs())
 
     def get_context_data(self, **kwargs):
         result = super(AddonDetail, self).get_context_data(**kwargs)

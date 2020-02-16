@@ -31,6 +31,7 @@ from weblate.lang.models import Language, Plural
 
 class MockLanguage(Language):
     """Mock language object."""
+
     class Meta(object):
         proxy = True
 
@@ -41,6 +42,7 @@ class MockLanguage(Language):
 
 class MockProject(object):
     """Mock project object."""
+
     def __init__(self):
         self.id = 1
         self.source_language = MockLanguage('en')
@@ -49,6 +51,7 @@ class MockProject(object):
 
 class MockComponent(object):
     """Mock component object."""
+
     def __init__(self):
         self.id = 1
         self.project = MockProject()
@@ -56,6 +59,7 @@ class MockComponent(object):
 
 class MockTranslation(object):
     """Mock translation object."""
+
     def __init__(self, code='cs'):
         self.language = MockLanguage(code)
         self.component = MockComponent()
@@ -65,8 +69,8 @@ class MockTranslation(object):
 
 class MockUnit(object):
     """Mock unit object."""
-    def __init__(self, id_hash=None, flags='', code='cs', source='',
-                 note=''):
+
+    def __init__(self, id_hash=None, flags='', code='cs', source='', note=''):
         if id_hash is None:
             id_hash = random.randint(0, 65536)
         self.id_hash = id_hash
@@ -88,6 +92,7 @@ class MockUnit(object):
 
 class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
+
     check = None
     default_lang = 'cs'
 
@@ -101,7 +106,9 @@ class CheckTestCase(SimpleTestCase):
         self.test_failure_2 = ()
         self.test_failure_3 = ()
         self.test_ignore_check = (
-            'x', 'x', self.check.ignore_string if self.check else ''
+            'x',
+            'x',
+            self.check.ignore_string if self.check else '',
         )
         self.test_highlight = ()
 
@@ -112,19 +119,15 @@ class CheckTestCase(SimpleTestCase):
         if not data or self.check is None:
             return
         result = self.check.check_single(
-            data[0],
-            data[1],
-            MockUnit(None, data[2], lang),
+            data[0], data[1], MockUnit(None, data[2], lang)
         )
         if expected:
             self.assertTrue(
-                result,
-                'Check did not fire for "{0}"/"{1}" ({2})'.format(*data)
+                result, 'Check did not fire for "{0}"/"{1}" ({2})'.format(*data)
             )
         else:
             self.assertFalse(
-                result,
-                'Check did fire for "{0}"/"{1}" ({2})'.format(*data)
+                result, 'Check did fire for "{0}"/"{1}" ({2})'.format(*data)
             )
 
     def test_single_good_matching(self):
@@ -155,7 +158,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_flag[0]],
                 [self.test_good_flag[1]],
-                MockUnit(None, self.test_good_flag[2], self.default_lang)
+                MockUnit(None, self.test_good_flag[2], self.default_lang),
             )
         )
 
@@ -166,7 +169,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(None, self.test_good_matching[2], self.default_lang)
+                MockUnit(None, self.test_good_matching[2], self.default_lang),
             )
         )
 
@@ -177,7 +180,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_good_matching[0]] * 2,
                 [self.test_good_matching[1]] * 3,
-                MockUnit(None, self.test_good_matching[2], self.default_lang)
+                MockUnit(None, self.test_good_matching[2], self.default_lang),
             )
         )
 
@@ -188,7 +191,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_1[0]],
                 [self.test_failure_1[1]],
-                MockUnit(None, self.test_failure_1[2], self.default_lang)
+                MockUnit(None, self.test_failure_1[2], self.default_lang),
             )
         )
 
@@ -199,7 +202,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
-                MockUnit(None, self.test_failure_1[2], self.default_lang)
+                MockUnit(None, self.test_failure_1[2], self.default_lang),
             )
         )
 
@@ -210,7 +213,7 @@ class CheckTestCase(SimpleTestCase):
             self.check.check_target(
                 [self.test_ignore_check[0]] * 2,
                 [self.test_ignore_check[1]] * 3,
-                MockUnit(None, self.test_ignore_check[2], self.default_lang)
+                MockUnit(None, self.test_ignore_check[2], self.default_lang),
             )
         )
 
@@ -221,9 +224,9 @@ class CheckTestCase(SimpleTestCase):
             None,
             self.test_highlight[0],
             self.default_lang,
-            source=self.test_highlight[1]
+            source=self.test_highlight[1],
         )
         self.assertEqual(
             self.check.check_highlight(self.test_highlight[1], unit),
-            self.test_highlight[2]
+            self.test_highlight[2],
         )

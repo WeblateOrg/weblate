@@ -62,6 +62,7 @@ msgstr "Nazdar svete!\n"
 
 class MultiRepoTest(ViewTestCase):
     """Test handling of remote changes, conflicts and so on."""
+
     _vcs = 'git'
     _branch = 'master'
     _filemask = 'po/*.po'
@@ -104,15 +105,13 @@ class MultiRepoTest(ViewTestCase):
     def push_replace(self, content, mode):
         """Replace content of a po file and pushes it to remote repository."""
         # Manually edit po file, adding new unit
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         with open(translation.get_filename(), mode) as handle:
             handle.write(content)
 
         # Do changes in first repo
         translation.git_commit(
-            self.request.user, 'TEST <test@example.net>', timezone.now(),
+            self.request.user, 'TEST <test@example.net>', timezone.now()
         )
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
@@ -123,9 +122,7 @@ class MultiRepoTest(ViewTestCase):
         self.push_first()
 
         # Verify changes got to the second one
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.translated, 1)
 
     def test_failed_update(self):
@@ -136,9 +133,7 @@ class MultiRepoTest(ViewTestCase):
             shutil.rmtree(self.mercurial_repo_path)
         if os.path.exists(self.subversion_repo_path):
             shutil.rmtree(self.subversion_repo_path)
-        translation = self.component.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component.translation_set.get(language_code='cs')
         self.assertFalse(translation.do_update(self.request))
 
     def test_update(self):
@@ -147,16 +142,12 @@ class MultiRepoTest(ViewTestCase):
         self.push_first(False)
 
         # Test pull
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         translation.invalidate_cache()
         self.assertEqual(translation.stats.translated, 0)
 
         translation.do_update(self.request)
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.translated, 1)
 
     def test_rebase(self):
@@ -171,9 +162,7 @@ class MultiRepoTest(ViewTestCase):
         self.push_first(False)
 
         # Do changes in the second repo
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         unit = translation.unit_set.get(source='Hello, world!\n')
         unit.translate(self.user, ['Ahoj svete!\n'], STATE_TRANSLATED)
 
@@ -183,22 +172,16 @@ class MultiRepoTest(ViewTestCase):
 
     def test_more_changes(self):
         """Test more string changes in remote repo."""
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
 
         self.push_first(False, 'Hello, world!\n')
         translation.do_update(self.request)
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.allchecks, 1)
 
         self.push_first(False, 'Nazdar svete\n')
         translation.do_update(self.request)
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.allchecks, 0)
 
     def test_new_unit(self):
@@ -207,9 +190,7 @@ class MultiRepoTest(ViewTestCase):
 
         self.component2.do_update(self.request)
 
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.all, 5)
 
     def test_deleted_unit(self):
@@ -218,9 +199,7 @@ class MultiRepoTest(ViewTestCase):
 
         self.component2.do_update(self.request)
 
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.all, 1)
 
     def test_deleted_stale_unit(self):
@@ -232,9 +211,7 @@ class MultiRepoTest(ViewTestCase):
 
         self.component2.do_update(self.request)
 
-        translation = self.component2.translation_set.get(
-            language_code='cs'
-        )
+        translation = self.component2.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.all, 1)
 
 

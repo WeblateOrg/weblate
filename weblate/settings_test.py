@@ -60,15 +60,13 @@ else:
 
 
 # Configure admins
-ADMINS = (('Weblate test', 'noreply@weblate.org'), )
+ADMINS = (('Weblate test', 'noreply@weblate.org'),)
 
 # Different root for test repos
 DATA_DIR = os.path.join(BASE_DIR, 'data-test')
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
-CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(
-    DATA_DIR, 'celery', 'beat-schedule'
-)
+CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, 'celery', 'beat-schedule')
 CELERY_TASK_ALWAYS_EAGER = True
 CELERY_BROKER_URL = 'memory://'
 CELERY_TASK_EAGER_PROPAGATES = True
@@ -78,26 +76,18 @@ CELERY_RESULT_BACKEND = None
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'formatters': {
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
+    'filters': {'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}},
+    'formatters': {'simple': {'format': '%(levelname)s %(message)s'}},
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'django.utils.log.AdminEmailHandler',
         },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'simple',
         },
     },
     'loggers': {
@@ -106,23 +96,13 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'weblate': {
-            'handlers': [],
-            'level': 'ERROR',
-        },
-        'social': {
-            'handlers': [],
-            'level': 'ERROR',
-        },
-    }
+        'weblate': {'handlers': [], 'level': 'ERROR'},
+        'social': {'handlers': [], 'level': 'ERROR'},
+    },
 }
 
 # Reset caches
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    }
-}
+CACHES = {'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}}
 
 # Selenium can not clear HttpOnly cookies in MSIE
 SESSION_COOKIE_HTTPONLY = False
@@ -135,10 +115,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.db"
 PASSWORD_HASHERS = ['django.contrib.auth.hashers.CryptPasswordHasher']
 
 # Test optional apps as well
-INSTALLED_APPS += (
-    'weblate.billing',
-    'weblate.legal',
-)
+INSTALLED_APPS += ('weblate.billing', 'weblate.legal')
 
 # Test GitHub auth
 AUTHENTICATION_BACKENDS = (
@@ -150,8 +127,10 @@ AUTHENTICATION_BACKENDS = (
 AUTH_VALIDATE_PERMS = True
 
 warnings.filterwarnings(
-    'error', r"DateTimeField .* received a naive datetime",
-    RuntimeWarning, r'django\.db\.models\.fields'
+    'error',
+    r"DateTimeField .* received a naive datetime",
+    RuntimeWarning,
+    r'django\.db\.models\.fields',
 )
 
 # Generate junit compatible XML for AppVeyor

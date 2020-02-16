@@ -41,6 +41,7 @@ USERDATA_JSON = get_test_file('userdata.json')
 
 class CommandTest(TestCase, TempDirMixin):
     """Test for management commands."""
+
     def test_userdata(self):
         # Create test user
         language = Language.objects.get(code='cs')
@@ -49,9 +50,7 @@ class CommandTest(TestCase, TempDirMixin):
         user.profile.languages.add(language)
         user.profile.secondary_languages.add(language)
         user.profile.save()
-        user.profile.watched.add(Project.objects.create(
-            name='name', slug='name'
-        ))
+        user.profile.watched.add(Project.objects.create(name='name', slug='name'))
 
         try:
             self.create_temp()
@@ -67,15 +66,9 @@ class CommandTest(TestCase, TempDirMixin):
 
         profile = Profile.objects.get(user__username='testuser')
         self.assertEqual(profile.translated, 2000)
-        self.assertTrue(
-            profile.languages.filter(code='cs').exists()
-        )
-        self.assertTrue(
-            profile.secondary_languages.filter(code='cs').exists()
-        )
-        self.assertTrue(
-            profile.watched.exists()
-        )
+        self.assertTrue(profile.languages.filter(code='cs').exists())
+        self.assertTrue(profile.secondary_languages.filter(code='cs').exists())
+        self.assertTrue(profile.watched.exists())
 
     def test_userdata_compat(self):
         """Test importing user data from pre 3.6 release."""
@@ -83,15 +76,9 @@ class CommandTest(TestCase, TempDirMixin):
         Project.objects.create(name='test', slug='test')
         call_command('importuserdata', USERDATA_JSON)
         profile = Profile.objects.get(user__username='test-3.6')
-        self.assertTrue(
-            profile.languages.filter(code='cs').exists()
-        )
-        self.assertTrue(
-            profile.secondary_languages.filter(code='cs').exists()
-        )
-        self.assertTrue(
-            profile.watched.exists()
-        )
+        self.assertTrue(profile.languages.filter(code='cs').exists())
+        self.assertTrue(profile.secondary_languages.filter(code='cs').exists())
+        self.assertTrue(profile.watched.exists())
 
     def test_changesite(self):
         call_command('changesite', get_name=True)
@@ -110,10 +97,7 @@ class CommandTest(TestCase, TempDirMixin):
         backend = 'django.core.cache.backends.filebased.FileBasedCache'
         try:
             self.create_temp()
-            settings.CACHES['avatar'] = {
-                'BACKEND': backend,
-                'LOCATION': self.tempdir,
-            }
+            settings.CACHES['avatar'] = {'BACKEND': backend, 'LOCATION': self.tempdir}
             testfile = os.path.join(self.tempdir, 'test.djcache')
             picklefile = os.path.join(self.tempdir, 'pickle.djcache')
             with open(testfile, 'w') as handle:

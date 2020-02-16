@@ -131,6 +131,7 @@ def add_configuration_error(name, message, force_cache=False):
     Uses cache in case database is not yet ready."""
     if apps.models_ready and not force_cache:
         from weblate.wladmin.models import ConfigurationError
+
         try:
             ConfigurationError.objects.add(name, message)
             return
@@ -139,11 +140,7 @@ def add_configuration_error(name, message, force_cache=False):
             # is about to be executed)
             pass
     errors = cache.get('configuration-errors', [])
-    errors.append({
-        'name': name,
-        'message': message,
-        'timestamp': timezone.now(),
-    })
+    errors.append({'name': name, 'message': message, 'timestamp': timezone.now()})
     cache.set('configuration-errors', errors)
 
 
@@ -153,6 +150,7 @@ def delete_configuration_error(name, force_cache=False):
     Uses cache in case database is not yet ready."""
     if apps.models_ready and not force_cache:
         from weblate.wladmin.models import ConfigurationError
+
         try:
             ConfigurationError.objects.remove(name)
             return
@@ -161,10 +159,7 @@ def delete_configuration_error(name, force_cache=False):
             # is about to be executed)
             pass
     errors = cache.get('configuration-errors', [])
-    errors.append({
-        'name': name,
-        'delete': True,
-    })
+    errors.append({'name': name, 'delete': True})
     cache.set('configuration-errors', errors)
 
 
@@ -208,9 +203,7 @@ def get_clean_env(extra=None):
     # Python 2 on Windows doesn't handle Unicode objects in environment
     # even if they can be converted to ASCII string, let's fix it here
     if six.PY2 and sys.platform == 'win32':
-        return {
-            str(key): str(val) for key, val in environ.items()
-        }
+        return {str(key): str(val) for key, val in environ.items()}
     return environ
 
 
@@ -220,23 +213,15 @@ def cleanup_repo_url(url, text=None):
         text = url
     parsed = urlparse(url)
     if parsed.username and parsed.password:
-        return text.replace(
-            '{0}:{1}@'.format(parsed.username, parsed.password),
-            ''
-        )
+        return text.replace('{0}:{1}@'.format(parsed.username, parsed.password), '')
     if parsed.username:
-        return text.replace(
-            '{0}@'.format(parsed.username),
-            ''
-        )
+        return text.replace('{0}@'.format(parsed.username), '')
     return text
 
 
 def redirect_param(location, params, *args, **kwargs):
     """Redirect to a URL with parameters."""
-    return HttpResponseRedirect(
-        resolve_url(location, *args, **kwargs) + params
-    )
+    return HttpResponseRedirect(resolve_url(location, *args, **kwargs) + params)
 
 
 def cleanup_path(path):
@@ -252,11 +237,8 @@ def get_project_description(project):
     """Return verbose description for project translation"""
     return _(
         '{0} is translated into {1} languages using Weblate. '
-        'Join the translation or start translating your own project.',
-    ).format(
-        project,
-        project.stats.languages
-    )
+        'Join the translation or start translating your own project.'
+    ).format(project, project.stats.languages)
 
 
 def render(request, template, context=None, status=None):
@@ -294,9 +276,11 @@ def sort_objects(objects):
 
 def redirect_next(next_url, fallback):
     """Redirect to next URL from request after validating it."""
-    if (next_url is None
-            or not is_safe_url(next_url, allowed_hosts=None)
-            or not next_url.startswith('/')):
+    if (
+        next_url is None
+        or not is_safe_url(next_url, allowed_hosts=None)
+        or not next_url.startswith('/')
+    ):
         return redirect(fallback)
     return HttpResponseRedirect(next_url)
 
@@ -327,7 +311,7 @@ def rich_to_xliff_string(string_elements):
     # Remove any possible namespace
     for child in xml:
         if child.tag.startswith('{'):
-            child.tag = child.tag[child.tag.index('}') + 1:]
+            child.tag = child.tag[child.tag.index('}') + 1 :]
     etree.cleanup_namespaces(xml)
 
     # Convert to string

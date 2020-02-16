@@ -34,6 +34,7 @@ def main(argv=None):
         execute_from_command_line(argv)
     except Exception as error:
         from weblate.utils.errors import report_error
+
         report_error(error)
         raise
 

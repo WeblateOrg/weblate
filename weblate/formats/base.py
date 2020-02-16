@@ -167,6 +167,7 @@ class TranslationUnit(object):
 
 class TranslationFormat(object):
     """Generic object defining file format loader."""
+
     name = ''
     format_id = ''
     monolingual = None
@@ -183,19 +184,22 @@ class TranslationFormat(object):
         return cls.format_id
 
     @classmethod
-    def parse(cls, storefile, template_store=None, language_code=None,
-              is_template=False):
+    def parse(
+        cls, storefile, template_store=None, language_code=None, is_template=False
+    ):
         """Parse store and returns TranslationFormat instance.
 
         This wrapper is needed for AutodetectFormat to be able to return
         instance of different class."""
         return cls(storefile, template_store, language_code, is_template)
 
-    def __init__(self, storefile, template_store=None, language_code=None,
-                 is_template=False):
+    def __init__(
+        self, storefile, template_store=None, language_code=None, is_template=False
+    ):
         """Create file format object, wrapping up translate-toolkit's store."""
-        if (not isinstance(storefile, six.string_types)
-                and not hasattr(storefile, 'mode')):
+        if not isinstance(storefile, six.string_types) and not hasattr(
+            storefile, 'mode'
+        ):
             storefile.mode = 'r'
 
         self.storefile = storefile
@@ -231,9 +235,8 @@ class TranslationFormat(object):
     def has_template(self):
         """Check whether class is using template."""
         return (
-            (self.monolingual or self.monolingual is None)
-            and self.template_store is not None
-        )
+            self.monolingual or self.monolingual is None
+        ) and self.template_store is not None
 
     @cached_property
     def _context_index(self):
@@ -267,10 +270,7 @@ class TranslationFormat(object):
     @cached_property
     def _source_index(self):
         """Context and source based index for units."""
-        return {
-            (unit.context, unit.source): unit
-            for unit in self.all_units
-        }
+        return {(unit.context, unit.source): unit for unit in self.all_units}
 
     def _find_unit_bilingual(self, context, source):
         try:
@@ -300,9 +300,7 @@ class TranslationFormat(object):
         dirname, basename = os.path.split(filename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        temp = tempfile.NamedTemporaryFile(
-            prefix=basename, dir=dirname, delete=False
-        )
+        temp = tempfile.NamedTemporaryFile(prefix=basename, dir=dirname, delete=False)
         try:
             callback(temp)
             temp.close()
@@ -330,9 +328,7 @@ class TranslationFormat(object):
         if not self.has_template:
             return [self.unit_class(self, unit) for unit in self.all_store_units]
         return [
-            self.unit_class(
-                self, self.find_unit_mono(unit.context), unit.template
-            )
+            self.unit_class(self, self.find_unit_mono(unit.context), unit.template)
             for unit in self.template_store.mono_units
         ]
 
@@ -463,9 +459,10 @@ class TranslationFormat(object):
 
 class EmptyFormat(TranslationFormat):
     """For testing purposes."""
+
     @classmethod
     def load(cls, storefile):
-        return type(str(''), (object, ), {"units": []})()
+        return type(str(''), (object,), {"units": []})()
 
     def save(self):
         return

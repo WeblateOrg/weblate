@@ -77,9 +77,7 @@ def remove_component(request, project, component):
         return redirect_param(obj, '#delete')
 
     component_removal.delay(obj.pk, request.user.pk)
-    messages.success(
-        request, _('Translation component was scheduled for removal.')
-    )
+    messages.success(request, _('Translation component was scheduled for removal.'))
 
     return redirect(obj.project)
 
@@ -118,11 +116,7 @@ def perform_rename(form_cls, request, obj, perm, **kwargs):
     # Invalidate new stats
     obj.stats.invalidate()
 
-    Change.objects.create(
-        user=request.user,
-        author=request.user,
-        **kwargs
-    )
+    Change.objects.create(user=request.user, author=request.user, **kwargs)
 
     return redirect(obj)
 
@@ -132,8 +126,13 @@ def perform_rename(form_cls, request, obj, perm, **kwargs):
 def rename_component(request, project, component):
     obj = get_component(request, project, component)
     return perform_rename(
-        ComponentRenameForm, request, obj, 'component.edit',
-        component=obj, target=obj.slug, action=Change.ACTION_RENAME_COMPONENT
+        ComponentRenameForm,
+        request,
+        obj,
+        'component.edit',
+        component=obj,
+        target=obj.slug,
+        action=Change.ACTION_RENAME_COMPONENT,
     )
 
 
@@ -142,9 +141,13 @@ def rename_component(request, project, component):
 def move_component(request, project, component):
     obj = get_component(request, project, component)
     return perform_rename(
-        ComponentMoveForm, request, obj, 'project.edit',
-        component=obj, target=obj.project.slug,
-        action=Change.ACTION_MOVE_COMPONENT
+        ComponentMoveForm,
+        request,
+        obj,
+        'project.edit',
+        component=obj,
+        target=obj.project.slug,
+        action=Change.ACTION_MOVE_COMPONENT,
     )
 
 
@@ -153,8 +156,13 @@ def move_component(request, project, component):
 def rename_project(request, project):
     obj = get_project(request, project)
     return perform_rename(
-        ProjectRenameForm, request, obj, 'project.edit',
-        project=obj, target=obj.slug, action=Change.ACTION_RENAME_PROJECT
+        ProjectRenameForm,
+        request,
+        obj,
+        'project.edit',
+        project=obj,
+        target=obj.slug,
+        action=Change.ACTION_RENAME_PROJECT,
     )
 
 
@@ -195,9 +203,7 @@ def whiteboard_component(request, project, component):
         return redirect_param(obj, '#whiteboard')
 
     WhiteboardMessage.objects.create(
-        project=obj.project,
-        component=obj,
-        **form.cleaned_data
+        project=obj.project, component=obj, **form.cleaned_data
     )
 
     return redirect(obj)
@@ -216,10 +222,7 @@ def whiteboard_project(request, project):
         show_form_errors(request, form)
         return redirect_param(obj, '#whiteboard')
 
-    WhiteboardMessage.objects.create(
-        project=obj,
-        **form.cleaned_data
-    )
+    WhiteboardMessage.objects.create(project=obj, **form.cleaned_data)
 
     return redirect(obj)
 
@@ -229,8 +232,9 @@ def whiteboard_project(request, project):
 def whiteboard_delete(request, pk):
     whiteboard = get_object_or_404(WhiteboardMessage, pk=pk)
 
-    if (request.user.has_perm('component.edit', whiteboard.component)
-            or request.user.has_perm('project.edit', whiteboard.project)):
+    if request.user.has_perm(
+        'component.edit', whiteboard.component
+    ) or request.user.has_perm('project.edit', whiteboard.project):
         whiteboard.delete()
 
     return JsonResponse({'responseStatus': 200})
@@ -253,7 +257,7 @@ def component_progress(request, project, component):
             'progress': progress,
             'log': '\n'.join(log),
             'return_url': return_url,
-        }
+        },
     )
 
 
@@ -272,8 +276,6 @@ def component_progress_terminate(request, project, component):
 def component_progress_js(request, project, component):
     obj = get_component(request, project, component)
     progress, log = obj.get_progress()
-    return JsonResponse({
-        'in_progress': obj.in_progress(),
-        'progress': progress,
-        'log': '\n'.join(log)
-    })
+    return JsonResponse(
+        {'in_progress': obj.in_progress(), 'progress': progress, 'log': '\n'.join(log)}
+    )

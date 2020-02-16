@@ -34,13 +34,12 @@ TEST_MRK = get_test_file('placeholder-mrk.xliff')
 
 
 class XliffPlaceholdersTest(TestCase):
-
     def test_bidirectional_xliff_string(self):
         cases = [
             'foo <x id="INTERPOLATION" equiv-text="{{ angular }}"/> bar',
             '',
             'hello world',
-            'hello <p>world</p>'
+            'hello <p>world</p>',
         ]
 
         for string in cases:
@@ -58,8 +57,7 @@ class XliffPlaceholdersTest(TestCase):
         store = xlifffile.parsestring(source)
         string = rich_to_xliff_string(store.units[0].rich_source)
         self.assertEqual(
-            'T: <x id="INTERPOLATION" equiv-text="{{ angular }}"/>',
-            string
+            'T: <x id="INTERPOLATION" equiv-text="{{ angular }}"/>', string
         )
         store.units[0].rich_source = xliff_string_to_rich(string)
         self.assertEqual(source, bytes(store))
@@ -70,9 +68,6 @@ class XliffPlaceholdersTest(TestCase):
 
         store = xlifffile.parsestring(source)
         string = rich_to_xliff_string(store.units[0].rich_source)
-        self.assertEqual(
-            'T: <mrk mtype="protected">%s</mrk>',
-            string
-        )
+        self.assertEqual('T: <mrk mtype="protected">%s</mrk>', string)
         store.units[0].rich_source = xliff_string_to_rich(string)
         self.assertEqual(source, bytes(store))

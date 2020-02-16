@@ -80,15 +80,12 @@ class Permission(models.Model):
 
 @python_2_unicode_compatible
 class Role(models.Model):
-    name = models.CharField(
-        verbose_name=_('Name'),
-        max_length=200,
-    )
+    name = models.CharField(verbose_name=_('Name'), max_length=200)
     permissions = models.ManyToManyField(
         Permission,
         verbose_name=_('Permissions'),
         blank=True,
-        help_text=_('Choose permissions granted to this role.')
+        help_text=_('Choose permissions granted to this role.'),
     )
 
     def __str__(self):
@@ -109,16 +106,12 @@ class Group(models.Model):
     SELECTION_ALL = 1
     SELECTION_COMPONENT_LIST = 2
 
-    name = models.CharField(
-        _('Name'),
-        max_length=150,
-        unique=True
-    )
+    name = models.CharField(_('Name'), max_length=150, unique=True)
     roles = models.ManyToManyField(
         Role,
         verbose_name=_('Roles'),
         blank=True,
-        help_text=_('Choose roles granted to this group.')
+        help_text=_('Choose roles granted to this group.'),
     )
 
     project_selection = models.IntegerField(
@@ -133,9 +126,7 @@ class Group(models.Model):
         default=SELECTION_MANUAL,
     )
     projects = models.ManyToManyField(
-        'trans.Project',
-        verbose_name=_('Projects'),
-        blank=True,
+        'trans.Project', verbose_name=_('Projects'), blank=True
     )
     componentlist = models.ForeignKey(
         'trans.ComponentList',
@@ -154,14 +145,11 @@ class Group(models.Model):
         default=SELECTION_MANUAL,
     )
     languages = models.ManyToManyField(
-        'lang.Language',
-        verbose_name=_('Languages'),
-        blank=True,
+        'lang.Language', verbose_name=_('Languages'), blank=True
     )
 
     internal = models.BooleanField(
-        verbose_name=_('Weblate internal group'),
-        default=False,
+        verbose_name=_('Weblate internal group'), default=False
     )
 
     objects = GroupManager()
@@ -172,10 +160,7 @@ class Group(models.Model):
     @cached_property
     def short_name(self):
         if '@' in self.name:
-            return pgettext(
-                'Per project access control group',
-                self.name.split('@')[1]
-            )
+            return pgettext('Per project access control group', self.name.split('@')[1])
         return self.__str__()
 
     def save(self, *args, **kwargs):
@@ -186,24 +171,19 @@ class Group(models.Model):
             self.projects.set(Project.objects.all())
         elif self.project_selection == SELECTION_ALL_PUBLIC:
             self.projects.set(
-                Project.objects.filter(access_control=Project.ACCESS_PUBLIC),
-                clear=True
+                Project.objects.filter(access_control=Project.ACCESS_PUBLIC), clear=True
             )
         elif self.project_selection == SELECTION_ALL_PROTECTED:
             self.projects.set(
                 Project.objects.filter(
-                    access_control__in=(
-                        Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED
-                    )
+                    access_control__in=(Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED)
                 ),
-                clear=True
+                clear=True,
             )
         elif self.project_selection == SELECTION_COMPONENT_LIST:
             self.projects.set(
-                Project.objects.filter(
-                    component__componentlist=self.componentlist
-                ),
-                clear=True
+                Project.objects.filter(component__componentlist=self.componentlist),
+                clear=True,
             )
 
 
@@ -245,8 +225,7 @@ class UserManager(BaseUserManager):
 
         Note: This intentionally does not list superusers."""
         groups = Group.objects.filter(
-            roles__permissions__codename=perm,
-            projects=project
+            roles__permissions__codename=perm, projects=project
         )
         return self.filter(groups__in=groups).distinct()
 
@@ -265,6 +244,7 @@ def get_anonymous():
 
 def wrap_group(func):
     """Wrapper to replace Django Group instances by Weblate Group instances."""
+
     def group_wrapper(self, *objs, **kwargs):
         objs = list(objs)
         for idx, obj in enumerate(objs):
@@ -277,10 +257,9 @@ def wrap_group(func):
 
 class GroupManyToManyField(models.ManyToManyField):
     """Customized field to accept Django Groups objects as well."""
+
     def contribute_to_class(self, cls, name, **kwargs):
-        super(GroupManyToManyField, self).contribute_to_class(
-            cls, name, **kwargs
-        )
+        super(GroupManyToManyField, self).contribute_to_class(cls, name, **kwargs)
 
         # Get related descriptor
         descriptor = getattr(cls, self.name)
@@ -310,9 +289,7 @@ class User(AbstractBaseUser):
             'numbers or the following characters: @ . + - _'
         ),
         validators=[validate_username],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
+        error_messages={'unique': _("A user with that username already exists.")},
     )
     full_name = models.CharField(
         _('Full name'),
@@ -402,9 +379,7 @@ class User(AbstractBaseUser):
         # This is needed with LDAP authentication when the
         # server does not contain full name
         if 'first_name' in self.extra_data and 'last_name' in self.extra_data:
-            self.full_name = '{first_name} {last_name}'.format(
-                **self.extra_data
-            )
+            self.full_name = '{first_name} {last_name}'.format(**self.extra_data)
         elif 'first_name' in self.extra_data:
             self.full_name = self.extra_data['first_name']
         elif 'last_name' in self.extra_data:
@@ -496,9 +471,7 @@ class User(AbstractBaseUser):
     def projects_with_perm(self, perm):
         if self.is_superuser:
             return Project.objects.all().order()
-        groups = Group.objects.filter(
-            user=self, roles__permissions__codename=perm
-        )
+        groups = Group.objects.filter(user=self, roles__permissions__codename=perm)
         return Project.objects.filter(group__in=groups).distinct().order()
 
     def get_visible_name(self):
@@ -525,14 +498,10 @@ class AutoGroup(models.Model):
         verbose_name=_('E-mail regular expression'),
         max_length=200,
         default='^.*$',
-        help_text=_(
-            'Regular expression used to match user e-mail.'
-        ),
+        help_text=_('Regular expression used to match user e-mail.'),
     )
     group = models.ForeignKey(
-        Group,
-        verbose_name=_('Group to assign'),
-        on_delete=models.deletion.CASCADE,
+        Group, verbose_name=_('Group to assign'), on_delete=models.deletion.CASCADE
     )
 
     class Meta(object):
@@ -586,15 +555,11 @@ def auto_assign_group(user):
 @receiver(m2m_changed, sender=ComponentList.components.through)
 def change_componentlist(sender, instance, **kwargs):
     groups = Group.objects.filter(
-        componentlist=instance,
-        project_selection=Group.SELECTION_COMPONENT_LIST,
+        componentlist=instance, project_selection=Group.SELECTION_COMPONENT_LIST
     )
     for group in groups:
         group.projects.set(
-            Project.objects.filter(
-                component__componentlist=instance
-            ),
-            clear=True
+            Project.objects.filter(component__componentlist=instance), clear=True
         )
 
 
@@ -610,9 +575,7 @@ def auto_group_upon_save(sender, instance, created=False, **kwargs):
 @disable_for_loaddata
 def setup_language_groups(sender, instance, **kwargs):
     """Set up group objects upon saving language."""
-    auto_languages = Group.objects.filter(
-        language_selection=SELECTION_ALL
-    )
+    auto_languages = Group.objects.filter(language_selection=SELECTION_ALL)
     for group in auto_languages:
         group.languages.add(instance)
 
@@ -625,7 +588,9 @@ def setup_project_groups(sender, instance, **kwargs):
     # Handle group automation to set project visibility
     auto_projects = Group.objects.filter(
         project_selection__in=(
-            SELECTION_ALL, SELECTION_ALL_PUBLIC, SELECTION_ALL_PROTECTED,
+            SELECTION_ALL,
+            SELECTION_ALL_PUBLIC,
+            SELECTION_ALL_PROTECTED,
         )
     )
     for group in auto_projects:
@@ -639,9 +604,7 @@ def setup_project_groups(sender, instance, **kwargs):
             return
         # Do cleanup of previous setup
         Group.objects.filter(
-            name__contains='@',
-            internal=True,
-            projects=instance
+            name__contains='@', internal=True, projects=instance
         ).delete()
         return
 
@@ -679,35 +642,29 @@ def setup_project_groups(sender, instance, **kwargs):
                 defaults={
                     'project_selection': SELECTION_MANUAL,
                     'language_selection': SELECTION_ALL,
-                }
+                },
             )
             if created:
                 group.projects.add(instance)
                 group.roles.set(
-                    Role.objects.filter(name=ACL_GROUPS[group_name]),
-                    clear=True
+                    Role.objects.filter(name=ACL_GROUPS[group_name]), clear=True
                 )
         handled.add(group.pk)
 
     # Remove stale groups
-    instance.group_set.filter(
-        name__contains='@',
-        internal=True,
-    ).exclude(
+    instance.group_set.filter(name__contains='@', internal=True).exclude(
         pk__in=handled
     ).delete()
 
 
 @receiver(pre_delete, sender=Project)
 def cleanup_group_acl(sender, instance, **kwargs):
-    instance.group_set.filter(
-        name__contains='@',
-        internal=True,
-    ).delete()
+    instance.group_set.filter(name__contains='@', internal=True).delete()
 
 
 class WeblateAuthConf(AppConf):
     """Authentication settings."""
+
     AUTH_VALIDATE_PERMS = False
     AUTH_RESTRICT_ADMINS = {}
 

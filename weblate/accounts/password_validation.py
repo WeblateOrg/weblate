@@ -31,6 +31,7 @@ class CharsPasswordValidator(object):
     """
     Validate whether the password is not only whitespace or single char.
     """
+
     def validate(self, password, user=None):
         if not password:
             return
@@ -48,8 +49,7 @@ class CharsPasswordValidator(object):
 
     def get_help_text(self):
         return _(
-            "Your password can't consist of a "
-            "single character or only whitespace."
+            "Your password can't consist of a " "single character or only whitespace."
         )
 
 
@@ -57,6 +57,7 @@ class PastPasswordsValidator(object):
     """
     Validate whether the password was not used before.
     """
+
     def validate(self, password, user=None):
         if user is not None:
             passwords = []
@@ -71,11 +72,8 @@ class PastPasswordsValidator(object):
                 if check_password(password, old):
                     raise ValidationError(
                         _('Can not reuse previously used password!'),
-                        code='password-past'
+                        code='password-past',
                     )
 
     def get_help_text(self):
-        return _(
-            "Your password can't match a password "
-            "you have used in the past."
-        )
+        return _("Your password can't match a password " "you have used in the past.")

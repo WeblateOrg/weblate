@@ -30,24 +30,21 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--set-name',
-            dest='set_name',
-            default=None,
-            help='site name to set'
+            '--set-name', dest='set_name', default=None, help='site name to set'
         )
         parser.add_argument(
             '--site-id',
             type=int,
             dest='site_id',
             default=1,
-            help='site ID to manipulate (1 by default)'
+            help='site ID to manipulate (1 by default)',
         )
         parser.add_argument(
             '--get-name',
             action='store_true',
             dest='get_name',
             default=False,
-            help='just display the site name'
+            help='just display the site name',
         )
 
     def handle(self, *args, **options):
@@ -56,10 +53,7 @@ class Command(BaseCommand):
                 raise CommandError('Please provide valid domain name!')
             site, created = Site.objects.get_or_create(
                 pk=options['site_id'],
-                defaults={
-                    'domain': options['set_name'],
-                    'name': options['set_name']
-                }
+                defaults={'domain': options['set_name'], 'name': options['set_name']},
             )
             if not created:
                 site.domain = options['set_name']

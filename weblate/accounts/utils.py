@@ -47,13 +47,11 @@ def remove_user(user, request):
     user.email = 'noreply+{}@weblate.org'.format(user.pk)
     while User.objects.filter(username=user.username).exists():
         user.username = 'deleted-{0}-{1}'.format(
-            user.pk,
-            binascii.b2a_hex(os.urandom(5))
+            user.pk, binascii.b2a_hex(os.urandom(5))
         )
     while User.objects.filter(email=user.email).exists():
         user.email = 'noreply+{0}-{1}@weblate.org'.format(
-            user.pk,
-            binascii.b2a_hex(os.urandom(5))
+            user.pk, binascii.b2a_hex(os.urandom(5))
         )
 
     # Remove user information

@@ -31,9 +31,7 @@ TEST_SCREENSHOT = get_test_file('screenshot.png')
 
 class ViewTest(FixtureTestCase):
     def test_list_empty(self):
-        response = self.client.get(
-            reverse('screenshots', kwargs=self.kw_component)
-        )
+        response = self.client.get(reverse('screenshots', kwargs=self.kw_component))
         self.assertContains(response, 'Screenshots')
 
     def do_upload(self, **kwargs):
@@ -41,9 +39,7 @@ class ViewTest(FixtureTestCase):
             data = {'image': handle, 'name': 'Obrazek'}
             data.update(kwargs)
             return self.client.post(
-                reverse('screenshots', kwargs=self.kw_component),
-                data,
-                follow=True
+                reverse('screenshots', kwargs=self.kw_component), data, follow=True
             )
 
     def test_upload_denied(self):
@@ -83,9 +79,7 @@ class ViewTest(FixtureTestCase):
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
         response = self.client.post(
-            screenshot.get_absolute_url(),
-            {'name': 'Picture'},
-            follow=True
+            screenshot.get_absolute_url(), {'name': 'Picture'}, follow=True
         )
         self.assertContains(response, 'Picture')
         self.assertEqual(Screenshot.objects.all()[0].name, 'Picture')
@@ -94,9 +88,7 @@ class ViewTest(FixtureTestCase):
         self.make_manager()
         self.do_upload()
         screenshot = Screenshot.objects.all()[0]
-        self.client.post(
-            reverse('screenshot-delete', kwargs={'pk': screenshot.pk})
-        )
+        self.client.post(reverse('screenshot-delete', kwargs={'pk': screenshot.pk}))
         self.assertEqual(Screenshot.objects.count(), 0)
 
     def test_source_manipulations(self):
@@ -107,7 +99,7 @@ class ViewTest(FixtureTestCase):
         # Search for string
         response = self.client.post(
             reverse('screenshot-js-search', kwargs={'pk': screenshot.pk}),
-            {'q': 'hello'}
+            {'q': 'hello'},
         )
         data = response.json()
         self.assertEqual(data['responseCode'], 200)
@@ -127,7 +119,7 @@ class ViewTest(FixtureTestCase):
 
         # Updated listing
         response = self.client.get(
-            reverse('screenshot-js-get', kwargs={'pk': screenshot.pk}),
+            reverse('screenshot-js-get', kwargs={'pk': screenshot.pk})
         )
         self.assertContains(response, 'Hello')
 

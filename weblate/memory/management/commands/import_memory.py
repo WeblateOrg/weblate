@@ -31,18 +31,17 @@ class Command(BaseCommand):
     """
     Command for importing translation memory.
     """
+
     help = 'imports translation memory'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
             '--language-map',
-            help='Map language codes in the TMX to Weblate, eg. en_US:en'
+            help='Map language codes in the TMX to Weblate, eg. en_US:en',
         )
         parser.add_argument(
-            'file',
-            type=argparse.FileType('rb'),
-            help='File to import (TMX or JSON)',
+            'file', type=argparse.FileType('rb'), help='File to import (TMX or JSON)'
         )
 
     def handle(self, *args, **options):
@@ -50,7 +49,8 @@ class Command(BaseCommand):
         langmap = None
         if options['language_map']:
             langmap = {
-                x: y for (x, y) in (
+                x: y
+                for (x, y) in (
                     z.split(':', 1) for z in options['language_map'].split(',')
                 )
             }

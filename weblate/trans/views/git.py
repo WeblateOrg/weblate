@@ -40,7 +40,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
     except Timeout as error:
         messages.error(
             request,
-            _('Failed to lock the repository, another operation is in progress.')
+            _('Failed to lock the repository, another operation is in progress.'),
         )
         report_error(error, request)
 
@@ -74,22 +74,14 @@ def perform_update(request, obj):
 def perform_push(request, obj):
     """Helper function to do the repository push."""
     return execute_locked(
-        request,
-        obj,
-        _('All repositories were pushed.'),
-        obj.do_push,
-        request,
+        request, obj, _('All repositories were pushed.'), obj.do_push, request
     )
 
 
 def perform_reset(request, obj):
     """Helper function to do the repository reset."""
     return execute_locked(
-        request,
-        obj,
-        _('All repositories have been reset.'),
-        obj.do_reset,
-        request,
+        request, obj, _('All repositories have been reset.'), obj.do_reset, request
     )
 
 

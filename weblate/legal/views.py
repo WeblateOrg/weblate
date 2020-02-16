@@ -30,31 +30,11 @@ from weblate.legal.models import Agreement
 from weblate.trans.util import redirect_next
 
 MENU = (
-    (
-        'index',
-        'legal:index',
-        _('Overview'),
-    ),
-    (
-        'terms',
-        'legal:terms',
-        _('Terms of Service'),
-    ),
-    (
-        'cookies',
-        'legal:cookies',
-        _('Cookies'),
-    ),
-    (
-        'security',
-        'legal:security',
-        _('Security'),
-    ),
-    (
-        'privacy',
-        'legal:privacy',
-        _('Privacy'),
-    ),
+    ('index', 'legal:index', _('Overview')),
+    ('terms', 'legal:terms', _('Terms of Service')),
+    ('cookies', 'legal:cookies', _('Cookies')),
+    ('security', 'legal:security', _('Security')),
+    ('privacy', 'legal:privacy', _('Privacy')),
 )
 
 
@@ -112,10 +92,4 @@ def tos_confirm(request):
     else:
         form = TOSForm(initial={'next': request.GET.get('next')})
 
-    return render(
-        request,
-        'legal/confirm.html',
-        {
-            'form': form,
-        }
-    )
+    return render(request, 'legal/confirm.html', {'form': form})

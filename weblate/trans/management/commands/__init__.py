@@ -51,6 +51,7 @@ class WeblateCommand(BaseCommand):
 
 class WeblateComponentCommand(WeblateCommand):
     """Command which accepts project/component/--all params to process."""
+
     needs_repo = False
 
     def add_arguments(self, parser):
@@ -59,12 +60,12 @@ class WeblateComponentCommand(WeblateCommand):
             action='store_true',
             dest='all',
             default=False,
-            help='process all components'
+            help='process all components',
         )
         parser.add_argument(
             'component',
             nargs='*',
-            help='Slug <project/component> of component to process'
+            help='Slug <project/component> of component to process',
         )
 
     def get_units(self, **options):
@@ -89,13 +90,9 @@ class WeblateComponentCommand(WeblateCommand):
 
         # Iterate over chunks
         while current < last:
-            self.stdout.write(
-                'Processing {0:.1f}%'.format(done * 100.0 / count),
-            )
+            self.stdout.write('Processing {0:.1f}%'.format(done * 100.0 / count))
             with transaction.atomic():
-                step_units = units.filter(
-                    pk__gt=current
-                )[:step].prefetch_related(
+                step_units = units.filter(pk__gt=current)[:step].prefetch_related(
                     'translation__language',
                     'translation__component',
                     'translation__component__project',
@@ -117,16 +114,13 @@ class WeblateComponentCommand(WeblateCommand):
         if options['all']:
             # all components
             if self.needs_repo:
-                result = Component.objects.exclude(
-                    repo__startswith='weblate:/'
-                )
+                result = Component.objects.exclude(repo__startswith='weblate:/')
             else:
                 result = Component.objects.all()
         elif not options['component']:
             # no argumets to filter projects
             self.stderr.write(
-                'Please specify either --all '
-                'or at least one <project/component>'
+                'Please specify either --all ' 'or at least one <project/component>'
             )
             raise CommandError('Nothing to process!')
         else:
@@ -147,9 +141,7 @@ class WeblateComponentCommand(WeblateCommand):
 
                 # warn on no match
                 if found.count() == 0:
-                    self.stderr.write(
-                        '"{0}" did not match any components'.format(arg)
-                    )
+                    self.stderr.write('"{0}" did not match any components'.format(arg))
                     raise CommandError('Nothing to process!')
 
                 # merge results
@@ -170,6 +162,7 @@ class WeblateLangCommand(WeblateComponentCommand):
     Command accepting additional language parameter to filter
     list of languages to process.
     """
+
     def add_arguments(self, parser):
         super(WeblateLangCommand, self).add_arguments(parser)
         parser.add_argument(
@@ -177,7 +170,7 @@ class WeblateLangCommand(WeblateComponentCommand):
             action='store',
             dest='lang',
             default=None,
-            help='Limit only to given languages (comma separated list)'
+            help='Limit only to given languages (comma separated list)',
         )
 
     def get_units(self, **options):
@@ -185,17 +178,13 @@ class WeblateLangCommand(WeblateComponentCommand):
         units = super(WeblateLangCommand, self).get_units(**options)
 
         if options['lang'] is not None:
-            units = units.filter(
-                translation__language__code=options['lang']
-            )
+            units = units.filter(translation__language__code=options['lang'])
 
         return units
 
     def get_translations(self, **options):
         """Return list of translations matching parameters."""
-        result = super(WeblateLangCommand, self).get_translations(
-            **options
-        )
+        result = super(WeblateLangCommand, self).get_translations(**options)
 
         if options['lang'] is not None:
             langs = options['lang'].split(',')
@@ -215,40 +204,28 @@ class WeblateTranslationCommand(BaseCommand):
     """Command with target of one translation."""
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            'project',
-            help='Slug of project'
-        )
-        parser.add_argument(
-            'component',
-            help='Slug of component'
-        )
-        parser.add_argument(
-            'language',
-            help='Slug of language'
-        )
+        parser.add_argument('project', help='Slug of project')
+        parser.add_argument('component', help='Slug of component')
+        parser.add_argument('language', help='Slug of language')
 
     def get_translation(self, **options):
         """Get translation object"""
         try:
             component = Component.objects.get(
-                project__slug=options['project'],
-                slug=options['component'],
+                project__slug=options['project'], slug=options['component']
             )
         except Component.DoesNotExist:
             raise CommandError('No matching translation component found!')
         try:
             return Translation.objects.get(
-                component=component,
-                language__code=options['language'],
+                component=component, language__code=options['language']
             )
         except Translation.DoesNotExist:
             if 'add' in options and options['add']:
                 language = Language.objects.fuzzy_get(options['language'])
                 if component.add_new_language(language, None):
                     return Translation.objects.get(
-                        component=component,
-                        language=language,
+                        component=component, language=language
                     )
             raise CommandError('No matching translation project found!')
 

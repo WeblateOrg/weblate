@@ -32,7 +32,7 @@ class Command(WeblateComponentCommand):
             '--foreground',
             action='store_true',
             default=False,
-            help='Perform load in foreground (by default backgroud task is used)'
+            help='Perform load in foreground (by default backgroud task is used)',
         )
 
     def handle(self, *args, **options):

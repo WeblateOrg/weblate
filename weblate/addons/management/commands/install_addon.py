@@ -32,20 +32,12 @@ class Command(WeblateComponentCommand):
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
+        parser.add_argument('--addon', required=True, help='Addon name')
         parser.add_argument(
-            '--addon',
-            required=True,
-            help='Addon name'
+            '--configuration', default='{}', help='Addon configuration in JSON'
         )
         parser.add_argument(
-            '--configuration',
-            default='{}',
-            help='Addon configuration in JSON'
-        )
-        parser.add_argument(
-            '--update',
-            action='store_true',
-            help='Update existing addons configuration'
+            '--update', action='store_true', help='Update existing addons configuration'
         )
 
     def handle(self, *args, **options):
@@ -64,30 +56,20 @@ class Command(WeblateComponentCommand):
                     self.stderr.write(error)
                 for field in form:
                     for error in field.errors:
-                        self.stderr.write(
-                            'Error in {}: {}'.format(field.name, error)
-                        )
-                raise CommandError(
-                    'Invalid addon configuration!'
-                )
+                        self.stderr.write('Error in {}: {}'.format(field.name, error))
+                raise CommandError('Invalid addon configuration!')
         try:
             user = User.objects.filter(is_superuser=True)[0]
         except IndexError:
             user = get_anonymous()
         for component in self.get_components(*args, **options):
-            addons = Addon.objects.filter_component(component).filter(
-                name=addon.name
-            )
+            addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons.exists():
                 if options['update']:
                     addons.update(configuration=configuration)
-                    self.stdout.write(
-                        'Successfully updated on {}'.format(component)
-                    )
+                    self.stdout.write('Successfully updated on {}'.format(component))
                 else:
-                    self.stderr.write(
-                        'Already installed on {}'.format(component)
-                    )
+                    self.stderr.write('Already installed on {}'.format(component))
                 continue
 
             if not addon.can_install(component, user):
@@ -95,6 +77,4 @@ class Command(WeblateComponentCommand):
                 continue
 
             addon.create(component, configuration=configuration)
-            self.stdout.write(
-                'Successfully installed on {}'.format(component)
-            )
+            self.stdout.write('Successfully installed on {}'.format(component))

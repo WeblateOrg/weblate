@@ -251,9 +251,7 @@ class AuditLog(models.Model):
         super(AuditLog, self).save(*args, **kwargs)
         if self.should_notify():
             email = self.user.email
-            transaction.on_commit(
-                lambda: notify_auditlog.delay(self.pk, email)
-            )
+            transaction.on_commit(lambda: notify_auditlog.delay(self.pk, email))
 
 
 @python_2_unicode_compatible

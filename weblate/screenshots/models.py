@@ -38,28 +38,20 @@ class ScreenshotQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Screenshot(models.Model, UserDisplayMixin):
-    name = models.CharField(
-        verbose_name=_('Screenshot name'),
-        max_length=200,
-    )
+    name = models.CharField(verbose_name=_('Screenshot name'), max_length=200)
     image = ScreenshotField(
         verbose_name=_('Image'),
         help_text=_('Upload JPEG or PNG images up to 2000x2000 pixels.'),
         upload_to='screenshots/',
     )
-    component = models.ForeignKey(
-        Component,
-        on_delete=models.deletion.CASCADE,
-    )
-    units = models.ManyToManyField(
-        Unit,
-        blank=True,
-        related_name='screenshots',
-    )
+    component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
+    units = models.ManyToManyField(Unit, blank=True, related_name='screenshots')
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, blank=True,
-        on_delete=models.deletion.SET_NULL
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.deletion.SET_NULL,
     )
 
     objects = ScreenshotQuerySet.as_manager()

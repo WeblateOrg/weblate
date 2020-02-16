@@ -52,9 +52,7 @@ def get_cache_key(scope, request=None, address=None, user=None):
 
 def reset_rate_limit(scope, request=None, address=None, user=None):
     """Resets rate limit."""
-    cache.delete(
-        get_cache_key(scope, request, address, user)
-    )
+    cache.delete(get_cache_key(scope, request, address, user))
 
 
 def get_rate_setting(scope, suffix):
@@ -101,6 +99,7 @@ def check_rate_limit(scope, request):
 def session_ratelimit_post(scope):
     def session_ratelimit_post_inner(function):
         """Session based rate limiting for POST requests."""
+
         def rate_wrap(request, *args, **kwargs):
             if request.method == 'POST' and not check_rate_limit(scope, request):
                 # Rotate session token
@@ -111,11 +110,11 @@ def session_ratelimit_post(scope):
                     logout(request)
                 messages.error(
                     request,
-                    render_to_string(
-                        'ratelimit.html', {'do_logout': do_logout}
-                    )
+                    render_to_string('ratelimit.html', {'do_logout': do_logout}),
                 )
                 return redirect('login')
             return function(request, *args, **kwargs)
+
         return rate_wrap
+
     return session_ratelimit_post_inner

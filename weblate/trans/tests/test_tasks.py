@@ -82,9 +82,7 @@ class CleanupTest(ViewTestCase):
         request = self.get_request()
         unit = self.get_unit()
         Suggestion.objects.add(unit, 'Zkouška', request)
-        Suggestion.objects.all().update(
-            timestamp=timezone.now() - timedelta(days=30)
-        )
+        Suggestion.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
         Suggestion.objects.add(unit, 'Zkouška 2', request)
         cleanup_old_suggestions()
         self.assertEqual(Suggestion.objects.count(), expected)
@@ -96,9 +94,7 @@ class CleanupTest(ViewTestCase):
     def test_cleanup_old_comments(self, expected=2):
         unit = self.get_unit()
         Comment.objects.add(unit.source_info, self.user, 'Zkouška')
-        Comment.objects.all().update(
-            timestamp=timezone.now() - timedelta(days=30)
-        )
+        Comment.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
         Comment.objects.add(unit.source_info, self.user, 'Zkouška 2')
         cleanup_old_comments()
         self.assertEqual(Comment.objects.count(), expected)

@@ -70,9 +70,9 @@ class RemoveSuggestions(RemovalAddon):
         self.delete_older(
             Suggestion.objects.filter(
                 unit__translation__component__project=component.project
-            ).annotate(
-                Sum('vote__value')
-            ).filter(
+            )
+            .annotate(Sum('vote__value'))
+            .filter(
                 Q(vote__value__sum__lte=self.instance.configuration.get('votes', 0))
                 | Q(vote__value__sum=None)
             )

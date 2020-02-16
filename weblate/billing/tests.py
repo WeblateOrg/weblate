@@ -41,22 +41,15 @@ from weblate.billing.tasks import (
 )
 from weblate.trans.models import Project
 
-TEST_DATA = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'test-data'
-)
+TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'test-data')
 
 
 class BillingTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
-            username='bill',
-            password='kill',
-            email='noreply@example.net'
+            username='bill', password='kill', email='noreply@example.net'
         )
-        self.plan = Plan.objects.create(
-            name='test', limit_projects=1, price=1.0
-        )
+        self.plan = Plan.objects.create(name='test', limit_projects=1, price=1.0)
         self.billing = Billing.objects.create(plan=self.plan)
         self.billing.owners.add(self.user)
         self.invoice = Invoice.objects.create(
@@ -81,7 +74,7 @@ class BillingTest(TestCase):
         self.add_project()
         # Not authenticated
         response = self.client.get(reverse('billing'))
-        self.assertEqual(302, response.status_code,)
+        self.assertEqual(302, response.status_code)
 
         # Random user
         User.objects.create_user('foo', 'foo@example.org', 'bar')
@@ -119,8 +112,7 @@ class BillingTest(TestCase):
         call_command('billing_check', stdout=out)
         self.assertEqual(
             out.getvalue(),
-            'Following billings are over limit:\n'
-            ' * test0, test1 (test)\n'
+            'Following billings are over limit:\n' ' * test0, test1 (test)\n',
         )
         out = StringIO()
         call_command('billing_check', '--valid', stdout=out)
@@ -133,7 +125,7 @@ class BillingTest(TestCase):
             'Following billings are over limit:\n'
             ' * test0, test1 (test)\n'
             'Following billings are past due date:\n'
-            ' * test0, test1 (test)\n'
+            ' * test0, test1 (test)\n',
         )
         call_command('billing_check', '--notify', stdout=out)
         self.assertEqual(len(mail.outbox), 1)
@@ -143,7 +135,7 @@ class BillingTest(TestCase):
             billing=self.billing,
             start=self.invoice.start,
             end=self.invoice.end,
-            amount=30
+            amount=30,
         )
         # Full overlap
         with self.assertRaises(ValidationError):
@@ -244,10 +236,7 @@ class BillingTest(TestCase):
         self.assertIsNone(self.billing.removal)
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
         self.assertEqual(self.billing.projects.count(), 1)
-        self.assertEqual(
-            mail.outbox.pop().subject,
-            'Your billing plan has expired'
-        )
+        self.assertEqual(mail.outbox.pop().subject, 'Your billing plan has expired')
 
         # Not paid for long
         self.invoice.start -= timedelta(days=30)
@@ -264,7 +253,7 @@ class BillingTest(TestCase):
         self.assertEqual(self.billing.projects.count(), 1)
         self.assertEqual(
             mail.outbox.pop().subject,
-            'Your translation project is scheduled for removal'
+            'Your translation project is scheduled for removal',
         )
 
         # Final removal
@@ -276,8 +265,7 @@ class BillingTest(TestCase):
         self.assertEqual(self.billing.projects.count(), 0)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
-            mail.outbox.pop().subject,
-            'Your translation project was removed'
+            mail.outbox.pop().subject, 'Your translation project was removed'
         )
 
     @override_settings(EMAIL_SUBJECT_PREFIX='')
@@ -322,7 +310,7 @@ class BillingTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
             mail.outbox.pop().subject,
-            'Your translation project is scheduled for removal'
+            'Your translation project is scheduled for removal',
         )
 
         # Removal
@@ -335,6 +323,5 @@ class BillingTest(TestCase):
         self.assertEqual(self.billing.projects.count(), 0)
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(
-            mail.outbox.pop().subject,
-            'Your translation project was removed'
+            mail.outbox.pop().subject, 'Your translation project was removed'
         )

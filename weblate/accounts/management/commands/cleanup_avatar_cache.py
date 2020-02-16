@@ -31,17 +31,12 @@ class Command(BaseCommand):
     help = 'removes incompatible files from avatar cache'
 
     def handle(self, *args, **options):
-        backends = (
-            'django.core.cache.backends.filebased.FileBasedCache',
-        )
+        backends = ('django.core.cache.backends.filebased.FileBasedCache',)
         if 'avatar' not in settings.CACHES:
             return
         if settings.CACHES['avatar']['BACKEND'] not in backends:
             return
-        mask = os.path.join(
-            settings.CACHES['avatar']['LOCATION'],
-            '*.djcache'
-        )
+        mask = os.path.join(settings.CACHES['avatar']['LOCATION'], '*.djcache')
         for name in glob(mask):
             with open(name, 'rb') as handle:
                 try:

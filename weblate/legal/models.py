@@ -36,8 +36,7 @@ TOS_DATE = date(2017, 7, 2)
 @python_2_unicode_compatible
 class Agreement(models.Model):
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, unique=True,
-        on_delete=models.deletion.CASCADE
+        settings.AUTH_USER_MODEL, unique=True, on_delete=models.deletion.CASCADE
     )
     tos = models.DateField(default=date(1970, 1, 1))
     address = models.GenericIPAddressField(null=True)

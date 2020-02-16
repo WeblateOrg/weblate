@@ -28,24 +28,14 @@ from weblate.billing.tasks import billing_notify
 
 class Command(BaseCommand):
     """Command for billing check."""
+
     help = 'checks billing limits'
 
     def add_arguments(self, parser):
+        parser.add_argument('--grace', type=int, default=30, help='grace period')
+        parser.add_argument('--valid', action='store_true', help='list valid ones')
         parser.add_argument(
-            '--grace',
-            type=int,
-            default=30,
-            help='grace period'
-        )
-        parser.add_argument(
-            '--valid',
-            action='store_true',
-            help='list valid ones',
-        )
-        parser.add_argument(
-            '--notify',
-            action='store_true',
-            help='send email notifications',
+            '--notify', action='store_true', help='send email notifications'
         )
 
     def handle(self, *args, **options):

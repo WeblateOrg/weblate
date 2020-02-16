@@ -81,8 +81,7 @@ class CreateTest(ViewTestCase):
 
         # No more billings left
         self.client_create_project(
-            reverse('create-project'),
-            name='p2', slug='p2', billing=billing.pk
+            reverse('create-project'), name='p2', slug='p2', billing=billing.pk
         )
 
     @modify_settings(INSTALLED_APPS={'remove': 'weblate.billing'})
@@ -204,7 +203,7 @@ class CreateTest(ViewTestCase):
                 'slug': 'create-component',
                 "component": self.component.pk,
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, self.component.get_repo_link_url())
 
@@ -223,7 +222,7 @@ class CreateTest(ViewTestCase):
                 "component": self.component.pk,
                 "branch": "translations",
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, "The filemask did not match any files")
 
@@ -246,7 +245,7 @@ class CreateTest(ViewTestCase):
                 "component": component.pk,
                 "branch": "translations",
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, "Return to the component")
 
@@ -262,7 +261,7 @@ class CreateTest(ViewTestCase):
                     'name': 'Create Component',
                     'slug': 'create-component',
                     'project': self.project.pk,
-                }
+                },
             )
         self.assertContains(response, 'Failed to parse uploaded ZIP file.')
 
@@ -278,7 +277,7 @@ class CreateTest(ViewTestCase):
                     'name': 'Create Component',
                     'slug': 'create-component',
                     'project': self.project.pk,
-                }
+                },
             )
         self.assertContains(response, '*.po')
 
@@ -291,7 +290,7 @@ class CreateTest(ViewTestCase):
                 'vcs': 'local',
                 'repo': 'local:',
                 'discovery': '0',
-            }
+            },
         )
         self.assertContains(response, 'Adding new translation')
         self.assertContains(response, '*.po')
@@ -308,8 +307,9 @@ class CreateTest(ViewTestCase):
                     'project': self.project.pk,
                     "file_format": "po-mono",
                 },
-                follow=True
+                follow=True,
             )
+
         # Make superuser
         self.user.is_superuser = True
         self.user.save()
@@ -335,7 +335,7 @@ class CreateTest(ViewTestCase):
                 'project': self.project.pk,
                 "file_format": "aresource",
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'Test/Create Component')
 
@@ -354,6 +354,6 @@ class CreateTest(ViewTestCase):
                 'project': self.project.pk,
                 "file_format": "strings",
             },
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'Test/Create Component')

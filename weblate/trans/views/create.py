@@ -55,8 +55,7 @@ def scratch_create_component(project, name, slug, file_format):
     fake = Component(project=project, slug=slug, name=name)
     # Create VCS with empty file
     LocalRepository.from_files(
-        fake.full_path,
-        {template: format_cls.get_new_file_content()}
+        fake.full_path, {template: format_cls.get_new_file_content()}
     )
     # Create component
     return Component.objects.create(
@@ -97,9 +96,7 @@ class CreateProject(BaseCreateView):
                 billing_field.initial = int(self.request.GET['billing'])
             except (ValueError, KeyError):
                 pass
-            billing_field.required = (
-                not self.request.user.is_superuser
-            )
+            billing_field.required = not self.request.user.is_superuser
             if self.request.user.is_superuser:
                 billing_field.empty_label = '-- without billing --'
         else:
@@ -117,9 +114,8 @@ class CreateProject(BaseCreateView):
         return result
 
     def can_create(self):
-        return (
-            (self.has_billing and self.billings)
-            or self.request.user.has_perm('project.add')
+        return (self.has_billing and self.billings) or self.request.user.has_perm(
+            'project.add'
         )
 
     def post(self, request, *args, **kwargs):
@@ -132,6 +128,7 @@ class CreateProject(BaseCreateView):
         kwargs['can_create'] = self.can_create()
         if self.has_billing:
             from weblate.billing.models import Billing
+
             kwargs['user_billings'] = Billing.objects.for_user(
                 self.request.user
             ).exists()
@@ -140,6 +137,7 @@ class CreateProject(BaseCreateView):
     def dispatch(self, request, *args, **kwargs):
         if self.has_billing:
             from weblate.billing.models import Billing
+
             billings = Billing.objects.get_valid().for_user(request.user)
             pks = set()
             for billing in billings:
@@ -181,8 +179,7 @@ class CreateComponent(BaseCreateView):
 
     def get_success_url(self):
         return reverse(
-            'component_progress',
-            kwargs=self.object.get_reverse_url_kwargs()
+            'component_progress', kwargs=self.object.get_reverse_url_kwargs()
         )
 
     def form_valid(self, form):
@@ -231,6 +228,7 @@ class CreateComponent(BaseCreateView):
             self.projects = Project.objects.order()
         elif self.has_billing:
             from weblate.billing.models import Billing
+
             self.projects = request.user.owned_projects.filter(
                 billing__in=Billing.objects.get_valid()
             ).order()
@@ -242,9 +240,8 @@ class CreateComponent(BaseCreateView):
                 self.initial[field] = request.GET[field]
 
     def has_all_fields(self):
-        return (
-            self.stage == 'init'
-            and all(field in self.request.GET for field in self.basic_fields)
+        return self.stage == 'init' and all(
+            field in self.request.GET for field in self.basic_fields
         )
 
     def dispatch(self, request, *args, **kwargs):
@@ -310,7 +307,8 @@ class CreateComponentSelection(CreateComponent):
         for component in self.components:
             repo = component.repo
             branches = [
-                branch for branch in component.repository.list_remote_branches()
+                branch
+                for branch in component.repository.list_remote_branches()
                 if branch != component.branch and not branch_exists(repo, branch)
             ]
             if branches:
@@ -319,8 +317,8 @@ class CreateComponentSelection(CreateComponent):
 
     def fetch_params(self, request):
         super(CreateComponentSelection, self).fetch_params(request)
-        self.components = Component.objects.with_repo().prefetch().filter(
-            project__in=self.projects
+        self.components = (
+            Component.objects.with_repo().prefetch().filter(project__in=self.projects)
         )
         if self.selected_project:
             self.components = self.components.filter(project__pk=self.selected_project)
@@ -375,10 +373,9 @@ class CreateComponentSelection(CreateComponent):
     def form_valid(self, form):
         if self.origin == 'scratch':
             component = scratch_create_component(**form.cleaned_data)
-            return redirect(reverse(
-                'component_progress',
-                kwargs=component.get_reverse_url_kwargs()
-            ))
+            return redirect(
+                reverse('component_progress', kwargs=component.get_reverse_url_kwargs())
+            )
         component = form.cleaned_data['component']
         if self.origin == 'existing':
             return self.redirect_create(
@@ -390,10 +387,11 @@ class CreateComponentSelection(CreateComponent):
             )
         if self.origin == 'branch':
             form.instance.save()
-            return redirect(reverse(
-                'component_progress',
-                kwargs=form.instance.get_reverse_url_kwargs()
-            ))
+            return redirect(
+                reverse(
+                    'component_progress', kwargs=form.instance.get_reverse_url_kwargs()
+                )
+            )
 
         return redirect('create-component')
 

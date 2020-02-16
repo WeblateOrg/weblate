@@ -29,23 +29,15 @@ class Command(BaseCommand):
     """
     Command for deleting translation memory content.
     """
+
     help = 'deletes translation memory content'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
+        parser.add_argument('--origin', help='Origin to remove')
+        parser.add_argument('--category', help='Category to remove')
         parser.add_argument(
-            '--origin',
-            help='Origin to remove',
-        )
-        parser.add_argument(
-            '--category',
-            help='Category to remove',
-        )
-        parser.add_argument(
-            '--all',
-            action='store_true',
-            help='Remove all entries',
-            default=False
+            '--all', action='store_true', help='Remove all entries', default=False
         )
 
     def handle(self, *args, **options):

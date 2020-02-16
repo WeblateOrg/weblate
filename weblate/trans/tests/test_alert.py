@@ -27,22 +27,15 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class AlertTest(ViewTestCase):
     def create_component(self):
-        return self._create_component(
-            'po',
-            'po-duplicates/*.dpo',
-        )
+        return self._create_component('po', 'po-duplicates/*.dpo')
 
     def test_duplicates(self):
         self.assertEqual(self.component.alert_set.count(), 3)
         alert = self.component.alert_set.get(name='DuplicateLanguage')
-        self.assertEqual(
-            alert.details['occurrences'][0]['language_code'],
-            'cs',
-        )
+        self.assertEqual(alert.details['occurrences'][0]['language_code'], 'cs')
         alert = self.component.alert_set.get(name='DuplicateString')
         self.assertEqual(
-            alert.details['occurrences'][0]['source'],
-            'Thank you for using Weblate.'
+            alert.details['occurrences'][0]['source'], 'Thank you for using Weblate.'
         )
         alert = self.component.alert_set.get(name='MissingLicense')
 
@@ -89,9 +82,7 @@ class MonolingualAlertTest(ViewTestCase):
 
     def test_monolingual(self):
         def has_monolingual_alert(component):
-            return component.alert_set.filter(
-                name='MonolingualTranslation'
-            ).exists()
+            return component.alert_set.filter(name='MonolingualTranslation').exists()
 
         component = self.component
         component.update_alerts()

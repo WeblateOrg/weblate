@@ -33,11 +33,10 @@ PLURAL_MATCH = re.compile(r'\(s\)(\W|\Z)')
 
 class OptionalPluralCheck(SourceCheck):
     """Check for not used plural form."""
+
     check_id = 'optional_plural'
     name = _('Unpluralised')
-    description = _(
-        'The string is used as plural, but not using plural forms'
-    )
+    description = _('The string is used as plural, but not using plural forms')
     severity = 'info'
 
     def check_source(self, source, unit):
@@ -48,11 +47,11 @@ class OptionalPluralCheck(SourceCheck):
 
 class EllipsisCheck(SourceCheck):
     """Check for using ... instead of …"""
+
     check_id = 'ellipsis'
     name = _('Ellipsis')
     description = _(
-        'The string uses three dots (...) '
-        'instead of an ellipsis character (…)'
+        'The string uses three dots (...) ' 'instead of an ellipsis character (…)'
     )
     severity = 'warning'
 
@@ -62,35 +61,30 @@ class EllipsisCheck(SourceCheck):
 
 class MultipleFailingCheck(SourceCheck):
     """Check whether there are more failing checks on this translation."""
+
     check_id = 'multiple_failures'
     name = _('Multiple failing checks')
-    description = _(
-        'The translations in several languages have failing checks'
-    )
+    description = _('The translations in several languages have failing checks')
     severity = 'warning'
     batch_update = True
 
     def check_source(self, source, unit):
         from weblate.checks.models import Check
+
         related = Check.objects.filter(
             unit__content_hash=unit.content_hash,
             unit__translation__component=unit.translation.component,
-        ).exclude(
-            unit_id=unit.id
-        )
+        ).exclude(unit_id=unit.id)
         return related.count() >= 2
 
     def check_source_project(self, project):
         """Batch check for whole project."""
         from weblate.checks.models import Check
-        return Check.objects.filter(
-            unit__translation__component__project=project,
-        ).exclude(
-            unit__translation__language=project.source_language
-        ).values(
-            content_hash=F('unit__content_hash')
-        ).annotate(
-            Count('unit')
-        ).filter(
-            unit__count__gt=1
+
+        return (
+            Check.objects.filter(unit__translation__component__project=project)
+            .exclude(unit__translation__language=project.source_language)
+            .values(content_hash=F('unit__content_hash'))
+            .annotate(Count('unit'))
+            .filter(unit__count__gt=1)
         )

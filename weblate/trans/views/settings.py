@@ -41,17 +41,14 @@ def change_project(request, project):
         raise Http404()
 
     if request.method == 'POST':
-        settings_form = ProjectSettingsForm(
-            request, request.POST, instance=obj
-        )
+        settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()
             messages.success(request, _('Settings saved'))
             return redirect('settings', project=obj.slug)
         else:
             messages.error(
-                request,
-                _('Invalid settings, please check the form for errors!')
+                request, _('Invalid settings, please check the form for errors!')
             )
     else:
         settings_form = ProjectSettingsForm(request, instance=obj)
@@ -59,10 +56,7 @@ def change_project(request, project):
     return render(
         request,
         'project-settings.html',
-        {
-            'object': obj,
-            'settings_form': settings_form,
-        }
+        {'object': obj, 'settings_form': settings_form},
     )
 
 
@@ -79,13 +73,10 @@ def change_component(request, project, component):
         if form.is_valid():
             form.save()
             messages.success(request, _('Settings saved'))
-            return redirect(
-                'settings', project=obj.project.slug, component=obj.slug
-            )
+            return redirect('settings', project=obj.project.slug, component=obj.slug)
         else:
             messages.error(
-                request,
-                _('Invalid settings, please check the form for errors!')
+                request, _('Invalid settings, please check the form for errors!')
             )
     else:
         form = ComponentSettingsForm(request, instance=obj)
@@ -93,9 +84,5 @@ def change_component(request, project, component):
     return render(
         request,
         'component-settings.html',
-        {
-            'project': obj.project,
-            'object': obj,
-            'form': form,
-        }
+        {'project': obj.project, 'object': obj, 'form': form},
     )

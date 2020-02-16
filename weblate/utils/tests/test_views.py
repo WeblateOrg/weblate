@@ -36,19 +36,10 @@ def fake_request(page, limit):
 
 class PageLimitTest(TestCase):
     def test_defaults(self):
-        self.assertEqual(
-            (1, 42),
-            get_page_limit(fake_request('x', 'x'), 42)
-        )
+        self.assertEqual((1, 42), get_page_limit(fake_request('x', 'x'), 42))
 
     def test_negative(self):
-        self.assertEqual(
-            (1, 10),
-            get_page_limit(fake_request('-1', '-1'), 42)
-        )
+        self.assertEqual((1, 10), get_page_limit(fake_request('-1', '-1'), 42))
 
     def test_valid(self):
-        self.assertEqual(
-            (33, 66),
-            get_page_limit(fake_request('33', '66'), 42)
-        )
+        self.assertEqual((33, 66), get_page_limit(fake_request('33', '66'), 42))

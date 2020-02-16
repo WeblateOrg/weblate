@@ -27,25 +27,19 @@ from django.utils.translation import ugettext_lazy as _
 
 class UploadForm(forms.Form):
     """Uploading file to a dictionary."""
+
     file = forms.FileField(
         label=_('File'),
-        validators=[
-            FileExtensionValidator(allowed_extensions=['json', 'tmx'])
-        ],
-        help_text=_('You can upload a TMX or JSON file.')
+        validators=[FileExtensionValidator(allowed_extensions=['json', 'tmx'])],
+        help_text=_('You can upload a TMX or JSON file.'),
     )
 
 
 class DeleteForm(forms.Form):
     confirm = forms.BooleanField(
-        label=_('Confirm deleting all translation memory entries'),
-        required=True,
+        label=_('Confirm deleting all translation memory entries'), required=True
     )
 
 
 class ImportForm(forms.Form):
-    confirm = forms.BooleanField(
-        required=True,
-        initial=True,
-        widget=forms.HiddenInput,
-    )
+    confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)

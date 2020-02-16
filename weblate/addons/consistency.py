@@ -46,13 +46,11 @@ class LangaugeConsistencyAddon(BaseAddon):
 
     def daily(self, component):
         self.ensure_all_have(
-            component.project,
-            Language.objects.filter(translation__component=component)
+            component.project, Language.objects.filter(translation__component=component)
         )
 
     def post_add(self, translation):
         self.ensure_all_have(
             translation.component.project,
-            Language.objects.filter(pk=translation.language_id)
-
+            Language.objects.filter(pk=translation.language_id),
         )

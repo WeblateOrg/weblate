@@ -24,6 +24,4 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def perm(context, permission, obj=None, *args):
-    return context['user'].has_perm(
-        permission, obj, *args
-    )
+    return context['user'].has_perm(permission, obj, *args)

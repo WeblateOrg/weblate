@@ -30,7 +30,7 @@ QT_FORMAT_MATCH = re.compile(
           L?               # optional localized representation of numbers
           (?P<ord>\d{1,2}) # variable order, like %1
     )''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 QT_PLURAL_MATCH = re.compile(
@@ -39,12 +39,13 @@ QT_PLURAL_MATCH = re.compile(
           L?               # optional localized representation of numbers
           (?P<type>n)      # plural: %n
     )''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
 class QtFormatCheck(BaseFormatCheck):
     """Check for Qt format string"""
+
     check_id = 'qt_format'
     name = _('Qt format')
     description = _('Qt format string does not match source')
@@ -57,6 +58,7 @@ class QtFormatCheck(BaseFormatCheck):
 
 class QtPluralCheck(BaseFormatCheck):
     """Check for Qt plural string"""
+
     check_id = 'qt_plural_format'
     name = _('Qt plural format')
     description = _('Qt plural format string does not match source')

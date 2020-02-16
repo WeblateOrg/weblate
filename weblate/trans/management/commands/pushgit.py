@@ -32,7 +32,7 @@ class Command(WeblateComponentCommand):
             action='store_true',
             dest='force_commit',
             default=False,
-            help='Forces committing pending changes'
+            help='Forces committing pending changes',
         )
 
     def handle(self, *args, **options):

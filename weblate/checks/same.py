@@ -38,10 +38,7 @@ from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
 
 # Email address to ignore
-EMAIL_RE = re.compile(
-    r'[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z0-9-]{2,}',
-    re.IGNORECASE
-)
+EMAIL_RE = re.compile(r'[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z0-9-]{2,}', re.IGNORECASE)
 
 URL_RE = re.compile(
     r'(?:http|ftp)s?://'  # http:// or https://
@@ -51,7 +48,7 @@ URL_RE = re.compile(
     r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
     r'(?::\d+)?'  # optional port
     r'(?:/?|[/?]\S+)$',
-    re.IGNORECASE
+    re.IGNORECASE,
 )
 
 HASH_RE = re.compile(r'#[A-Za-z0-9_-]*')
@@ -59,31 +56,25 @@ HASH_RE = re.compile(r'#[A-Za-z0-9_-]*')
 DOMAIN_RE = re.compile(
     r'(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+'
     r'(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)',
-    re.IGNORECASE
+    re.IGNORECASE,
 )
 
 PATH_RE = re.compile(r'(^|[ ])(/[a-zA-Z0-9=:?._-]+)+')
 
 TEMPLATE_RE = re.compile(r'{[a-z_-]+}|@[A-Z_]@', re.IGNORECASE)
 
-RST_MATCH = re.compile(
-    r'(?::(ref|config:option|file|guilabel):`[^`]+`|``[^`]+``)'
-)
+RST_MATCH = re.compile(r'(?::(ref|config:option|file|guilabel):`[^`]+`|``[^`]+``)')
 
 SPLIT_RE = re.compile(
     r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|'
     + r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
-    re.IGNORECASE
+    re.IGNORECASE,
 )
 
 EMOJI_RE = re.compile(u'[\U00002600-\U000027BF]|[\U0001f000-\U0001fffd]')
 
 # Docbook tags to ignore
-DB_TAGS = (
-    'screen',
-    'indexterm',
-    'programlisting',
-)
+DB_TAGS = ('screen', 'indexterm', 'programlisting')
 
 
 def strip_format(msg, flags):
@@ -153,6 +144,7 @@ def test_word(word):
 
 class SameCheck(TargetCheck):
     """Check for not translated entries."""
+
     check_id = 'same'
     name = _('Unchanged translation')
     description = _('Source and translation are identical')
@@ -168,9 +160,11 @@ class SameCheck(TargetCheck):
         lower_source = source.lower()
 
         # Check special things like 1:4 1/2 or copyright
-        if (len(source.strip('0123456789:/,.')) <= 1
-                or '(c) copyright' in lower_source
-                or '©' in source):
+        if (
+            len(source.strip('0123456789:/,.')) <= 1
+            or '(c) copyright' in lower_source
+            or '©' in source
+        ):
             return True
         # Strip format strings
         stripped = strip_string(source, unit.all_flags)
@@ -191,14 +185,14 @@ class SameCheck(TargetCheck):
         if super(SameCheck, self).should_skip(unit):
             return True
 
-        source_language = unit.translation.component.project.\
-            source_language.base_code
+        source_language = unit.translation.component.project.source_language.base_code
 
         # Ignore the check for source language,
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
-        if (self.is_language(unit, source_language)
-                or (source_language == 'en' and self.is_language(unit, ('en', 'ia')))):
+        if self.is_language(unit, source_language) or (
+            source_language == 'en' and self.is_language(unit, ('en', 'ia'))
+        ):
             return True
 
         return False

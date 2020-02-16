@@ -30,6 +30,7 @@ from weblate.trans.tests.utils import TempDirMixin, get_test_file
 
 class CommandTest(TestCase, TempDirMixin):
     """Test for management commands."""
+
     def test_createadmin(self):
         call_command('createadmin')
         user = User.objects.get(username='admin')
@@ -122,6 +123,4 @@ class CommandTest(TestCase, TempDirMixin):
     def test_setupgroups(self):
         call_command('setupgroups')
         group = Group.objects.get(name='Users')
-        self.assertTrue(
-            group.roles.filter(name='Power user').exists()
-        )
+        self.assertTrue(group.roles.filter(name='Power user').exists())

@@ -33,14 +33,14 @@ class Command(BaseCommand):
             action='store_false',
             dest='update',
             default=True,
-            help='Prevents updates of privileges of existing groups'
+            help='Prevents updates of privileges of existing groups',
         )
         parser.add_argument(
             '--no-projects-update',
             action='store_false',
             dest='projects',
             default=True,
-            help='Prevents updates of groups for existing projects'
+            help='Prevents updates of groups for existing projects',
         )
 
     def handle(self, *args, **options):

@@ -46,7 +46,7 @@ def export_stats_project(request, project):
             'translated_words',
             'words_percent',
         ),
-        get_project_stats(obj)
+        get_project_stats(obj),
     )
 
 
@@ -76,7 +76,7 @@ def export_stats(request, project, component):
             'last_author',
             'recent_changes',
         ),
-        [trans.get_stats() for trans in translations.iterator()]
+        [trans.get_stats() for trans in translations.iterator()],
     )
 
 
@@ -88,13 +88,9 @@ def export_response(request, filename, fields, data):
 
     if output == 'csv':
         response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(
-            filename
-        )
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
 
-        writer = csv.DictWriter(
-            response, fields
-        )
+        writer = csv.DictWriter(response, fields)
 
         writer.writeheader()
         if six.PY2:
@@ -107,8 +103,4 @@ def export_response(request, filename, fields, data):
             for row in data:
                 writer.writerow(row)
         return response
-    return JsonResponse(
-        data=data,
-        safe=False,
-        json_dumps_params={'indent': 2}
-    )
+    return JsonResponse(data=data, safe=False, json_dumps_params={'indent': 2})

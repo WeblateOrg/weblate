@@ -49,11 +49,7 @@ class XlsxFormatTest(AutoFormatTest):
     def assert_same(self, newdata, testdata):
         newworkbook = load_workbook(BytesIO(newdata))
         testworkbook = load_workbook(BytesIO(testdata))
+        self.assertEqual(len(newworkbook.worksheets), len(testworkbook.worksheets))
         self.assertEqual(
-            len(newworkbook.worksheets),
-            len(testworkbook.worksheets)
-        )
-        self.assertEqual(
-            list(newworkbook.active.values),
-            list(testworkbook.active.values)
+            list(newworkbook.active.values), list(testworkbook.active.values)
         )

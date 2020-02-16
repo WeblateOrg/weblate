@@ -47,10 +47,7 @@ class SuggestionManager(models.Manager):
         if unit.translated and unit.target == target:
             return False
 
-        same_suggestions = self.filter(
-            target=target,
-            unit=unit,
-        )
+        same_suggestions = self.filter(target=target, unit=unit)
         # Do not rely on the SQL as MySQL compares strings case insensitive
         for same in same_suggestions:
             if same.target == target:
@@ -99,9 +96,7 @@ class SuggestionQuerySet(models.QuerySet):
 
 @python_2_unicode_compatible
 class Suggestion(models.Model, UserDisplayMixin):
-    unit = models.ForeignKey(
-        "trans.Unit", on_delete=models.deletion.CASCADE
-    )
+    unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     target = models.TextField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

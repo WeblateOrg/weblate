@@ -55,36 +55,24 @@ class MemoryTest(SimpleTestCase):
 
     def test_import_invalid_command(self):
         with self.assertRaises(CommandError):
-            call_command(
-                'import_memory',
-                get_test_file('cs.po')
-            )
+            call_command('import_memory', get_test_file('cs.po'))
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
     def test_import_json_command(self):
-        call_command(
-            'import_memory',
-            get_test_file('memory.json')
-        )
+        call_command('import_memory', get_test_file('memory.json'))
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 1)
 
     def test_import_broken_json_command(self):
         with self.assertRaises(CommandError):
-            call_command(
-                'import_memory',
-                get_test_file('memory-broken.json')
-            )
+            call_command('import_memory', get_test_file('memory-broken.json'))
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
     def test_import_empty_json_command(self):
         with self.assertRaises(CommandError):
-            call_command(
-                'import_memory',
-                get_test_file('memory-empty.json')
-            )
+            call_command('import_memory', get_test_file('memory-empty.json'))
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
@@ -131,10 +119,7 @@ class MemoryTest(SimpleTestCase):
     def test_list_command(self):
         add_document()
         output = StringIO()
-        call_command(
-            'list_memory',
-            stdout=output
-        )
+        call_command('list_memory', stdout=output)
         self.assertIn('test', output.getvalue())
 
     def add_document(self):
@@ -174,32 +159,24 @@ class MemoryDBTest(TestCase):
                     'service': 'Weblate Translation Memory',
                     'origin': 'File: test',
                     'source': 'Hello',
-                    'text': 'Ahoj'
-                },
-            ]
+                    'text': 'Ahoj',
+                }
+            ],
         )
 
     def test_import_tmx_command(self):
-        call_command(
-            'import_memory',
-            get_test_file('memory.tmx')
-        )
+        call_command('import_memory', get_test_file('memory.tmx'))
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 2)
 
     def test_import_tmx2_command(self):
-        call_command(
-            'import_memory',
-            get_test_file('memory2.tmx')
-        )
+        call_command('import_memory', get_test_file('memory2.tmx'))
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 1)
 
     def test_import_map(self):
         call_command(
-            'import_memory',
-            get_test_file('memory.tmx'),
-            language_map='en_US:en',
+            'import_memory', get_test_file('memory.tmx'), language_map='en_US:en'
         )
         self.assertEqual(TranslationMemory().doc_count(), 2)
 
@@ -208,13 +185,10 @@ class MemoryViewTest(FixtureTestCase):
     def upload_file(self, name, **kwargs):
         with open(get_test_file(name), 'rb') as handle:
             return self.client.post(
-                reverse('memory-upload', **kwargs),
-                {'file': handle},
-                follow=True
+                reverse('memory-upload', **kwargs), {'file': handle}, follow=True
             )
 
-    def test_memory(self, match='Number of your entries', fail=False,
-                    **kwargs):
+    def test_memory(self, match='Number of your entries', fail=False, **kwargs):
         response = self.client.get(reverse('memory-delete', **kwargs))
         self.assertRedirects(response, reverse('memory', **kwargs))
 
@@ -237,16 +211,13 @@ class MemoryViewTest(FixtureTestCase):
 
         # Test download
         response = self.client.get(
-            reverse('memory-download', **kwargs),
-            {'format': 'tmx'}
+            reverse('memory-download', **kwargs), {'format': 'tmx'}
         )
         self.assertContains(response, '<tmx')
 
         # Test wipe
         response = self.client.post(
-            reverse('memory-delete', **kwargs),
-            {'confirm': '1'},
-            follow=True
+            reverse('memory-delete', **kwargs), {'confirm': '1'}, follow=True
         )
         if fail:
             self.assertContains(response, 'Permission Denied', status_code=403)
@@ -268,18 +239,12 @@ class MemoryViewTest(FixtureTestCase):
             self.assertContains(response, 'Failed to parse JSON file')
 
     def test_memory_project(self):
-        self.test_memory(
-            'Number of entries for Test', True,
-            kwargs=self.kw_project
-        )
+        self.test_memory('Number of entries for Test', True, kwargs=self.kw_project)
 
     def test_memory_project_superuser(self):
         self.user.is_superuser = True
         self.user.save()
-        self.test_memory(
-            'Number of entries for Test', False,
-            kwargs=self.kw_project
-        )
+        self.test_memory('Number of entries for Test', False, kwargs=self.kw_project)
 
     def test_import(self):
         self.user.is_superuser = True
@@ -287,7 +252,7 @@ class MemoryViewTest(FixtureTestCase):
         response = self.client.post(
             reverse('memory-import', kwargs=self.kw_project),
             {'confirm': '1'},
-            follow=True
+            follow=True,
         )
         self.assertContains(response, 'Import of strings scheduled')
 
@@ -295,6 +260,7 @@ class MemoryViewTest(FixtureTestCase):
         self.user.is_superuser = True
         self.user.save()
         self.test_memory(
-            'Number of entries on the whole platform', False,
-            kwargs={'manage': 'manage'}
+            'Number of entries on the whole platform',
+            False,
+            kwargs={'manage': 'manage'},
         )

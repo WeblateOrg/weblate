@@ -33,7 +33,7 @@ ANGULARJS_INTERPOLATION_MATCH = re.compile(
         \s*         # ignore whitespace
     }}              # end symbol
     ''',
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 WHITESPACE = re.compile(r'\s+')
@@ -41,6 +41,7 @@ WHITESPACE = re.compile(r'\s+')
 
 class AngularJSInterpolationCheck(TargetCheck):
     """Check for AngularJS interpolation string"""
+
     check_id = 'angularjs_format'
     name = _('AngularJS interpolation string')
     description = _('AngularJS interpolation strings do not match source')

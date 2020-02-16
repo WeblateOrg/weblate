@@ -29,14 +29,13 @@ class Command(BaseCommand):
     """
     Command for optimizing translation memory content.
     """
+
     help = 'optimizes translation memory content'
 
     def add_arguments(self, parser):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
-            '--rebuild',
-            help='Rebuild from scratch',
-            action='store_true',
+            '--rebuild', help='Rebuild from scratch', action='store_true'
         )
 
     def optimize(self):

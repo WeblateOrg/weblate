@@ -32,17 +32,13 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'json-file',
-            type=argparse.FileType('w'),
-            help='File where to export',
+            'json-file', type=argparse.FileType('w'), help='File where to export'
         )
 
     def handle(self, *args, **options):
         data = []
 
-        profiles = Profile.objects.select_related(
-            'user'
-        ).prefetch_related(
+        profiles = Profile.objects.select_related('user').prefetch_related(
             'watched', 'languages', 'secondary_languages'
         )
 

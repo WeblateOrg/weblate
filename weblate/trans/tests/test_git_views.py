@@ -42,56 +42,46 @@ class GitNoChangeProjectTest(ViewTestCase):
     def get_test_url(self, prefix):
         return reverse(
             '{0}_{1}'.format(prefix, self.TEST_TYPE),
-            kwargs=getattr(self, 'kw_{0}'.format(self.TEST_TYPE))
+            kwargs=getattr(self, 'kw_{0}'.format(self.TEST_TYPE)),
         )
 
     def get_expected_redirect(self):
         return getattr(self, '{0}_url'.format(self.TEST_TYPE)) + '#repository'
 
     def test_commit(self):
-        response = self.client.post(
-            self.get_test_url('commit')
-        )
+        response = self.client.post(self.get_test_url('commit'))
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_update(self):
-        response = self.client.post(
-            self.get_test_url('update')
-        )
+        response = self.client.post(self.get_test_url('update'))
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_push(self):
-        response = self.client.post(
-            self.get_test_url('push')
-        )
+        response = self.client.post(self.get_test_url('push'))
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_reset(self):
-        response = self.client.post(
-            self.get_test_url('reset')
-        )
+        response = self.client.post(self.get_test_url('reset'))
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_cleanup(self):
-        response = self.client.post(
-            self.get_test_url('cleanup')
-        )
+        response = self.client.post(self.get_test_url('cleanup'))
         self.assertRedirects(response, self.get_expected_redirect())
 
     def test_status(self):
-        response = self.client.get(
-            self.get_test_url('git_status')
-        )
+        response = self.client.get(self.get_test_url('git_status'))
         self.assertContains(response, self.STATUS_CHECK)
 
 
 class GitNoChangeComponentTest(GitNoChangeProjectTest):
     """Testing of component git manipulations."""
+
     TEST_TYPE = 'component'
 
 
 class GitNoChangeTranslationTest(GitNoChangeProjectTest):
     """Testing of translation git manipulations."""
+
     TEST_TYPE = 'translation'
 
 
@@ -107,11 +97,13 @@ class GitChangeProjectTest(GitNoChangeProjectTest):
 
 class GitChangeComponentTest(GitChangeProjectTest):
     """Testing of component git manipulations with not committed change."""
+
     TEST_TYPE = 'component'
 
 
 class GitChangeTranslationTest(GitChangeProjectTest):
     """Testing of translation git manipulations with not committed change."""
+
     TEST_TYPE = 'translation'
 
 
@@ -128,9 +120,11 @@ class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
 
 class GitCommittedChangeComponentTest(GitCommittedChangeProjectTest):
     """Testing of component git manipulations with committed change."""
+
     TEST_TYPE = 'component'
 
 
 class GitCommittedChangeTranslationTest(GitCommittedChangeProjectTest):
     """Testing of translation git manipulations with committed change."""
+
     TEST_TYPE = 'translation'

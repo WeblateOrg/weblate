@@ -29,16 +29,14 @@ def is_spam(text, request):
     """Generic spam checker interface."""
     if settings.AKISMET_API_KEY:
         from akismet import Akismet
-        akismet = Akismet(
-            settings.AKISMET_API_KEY,
-            get_site_url()
-        )
+
+        akismet = Akismet(settings.AKISMET_API_KEY, get_site_url())
         try:
             return akismet.comment_check(
                 get_ip_address(request),
                 request.META.get('HTTP_USER_AGENT', ''),
                 comment_content=text,
-                comment_type='comment'
+                comment_type='comment',
             )
         except OSError as error:
             report_error(error)
@@ -50,16 +48,11 @@ def report_spam(text, user_ip, user_agent):
     if not settings.AKISMET_API_KEY:
         return
     from akismet import Akismet, ProtocolError
-    akismet = Akismet(
-        settings.AKISMET_API_KEY,
-        get_site_url()
-    )
+
+    akismet = Akismet(settings.AKISMET_API_KEY, get_site_url())
     try:
         akismet.submit_spam(
-            user_ip,
-            user_agent,
-            comment_content=text,
-            comment_type='comment'
+            user_ip, user_agent, comment_content=text, comment_type='comment'
         )
     except (ProtocolError, OSError) as error:
         report_error(error)

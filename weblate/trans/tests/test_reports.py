@@ -28,30 +28,32 @@ from django.utils import timezone
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.views.reports import generate_counts, generate_credits
 
-COUNTS_DATA = [{
-    'count': 1,
-    'count_edit': 0,
-    'count_new': 1,
-    'name': 'Weblate Test',
-    'words': 2,
-    'words_edit': 0,
-    'words_new': 2,
-    'chars': 14,
-    'chars_edit': 0,
-    'chars_new': 14,
-    'email': 'weblate@example.org',
-    't_chars': 14,
-    't_chars_edit': 0,
-    't_chars_new': 14,
-    't_words': 2,
-    't_words_edit': 0,
-    't_words_new': 2,
-    'count_approve': 0,
-    'words_approve': 0,
-    'chars_approve': 0,
-    't_chars_approve': 0,
-    't_words_approve': 0,
-}]
+COUNTS_DATA = [
+    {
+        'count': 1,
+        'count_edit': 0,
+        'count_new': 1,
+        'name': 'Weblate Test',
+        'words': 2,
+        'words_edit': 0,
+        'words_new': 2,
+        'chars': 14,
+        'chars_edit': 0,
+        'chars_new': 14,
+        'email': 'weblate@example.org',
+        't_chars': 14,
+        't_chars_edit': 0,
+        't_chars_new': 14,
+        't_words': 2,
+        't_words_edit': 0,
+        't_words_new': 2,
+        'count_approve': 0,
+        'words_approve': 0,
+        'chars_approve': 0,
+        't_chars_approve': 0,
+        't_words_approve': 0,
+    }
+]
 
 
 class BaseReportsTest(ViewTestCase):
@@ -61,10 +63,7 @@ class BaseReportsTest(ViewTestCase):
         self.user.save()
 
     def add_change(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n'
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
 
 
 class ReportsTest(BaseReportsTest):
@@ -85,16 +84,10 @@ class ReportsTest(BaseReportsTest):
             timezone.now() + timedelta(days=1),
             translation__component=self.component,
         )
-        self.assertEqual(
-            data,
-            [{'Czech': [('weblate@example.org', 'Weblate Test')]}]
-        )
+        self.assertEqual(data, [{'Czech': [('weblate@example.org', 'Weblate Test')]}])
 
     def test_credits_more(self):
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete2!\n'
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete2!\n')
         self.test_credits_one()
 
     def test_counts_one(self):
@@ -120,7 +113,7 @@ class ReportsComponentTest(BaseReportsTest):
                 'period': '',
                 'style': style,
                 'start_date': '2000-01-01',
-                'end_date': '2100-01-01'
+                'end_date': '2100-01-01',
             },
         )
 
@@ -129,7 +122,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             response.content.decode('utf-8'),
-            [{'Czech': [['weblate@example.org', 'Weblate Test']]}]
+            [{'Czech': [['weblate@example.org', 'Weblate Test']]}],
         )
 
     def test_credits_view_rst(self):
@@ -137,7 +130,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.content.decode('utf-8'),
-            '\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n'
+            '\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n',
         )
 
     def test_credits_view_html(self):
@@ -149,7 +142,7 @@ class ReportsComponentTest(BaseReportsTest):
             '<tr>\n<th>Czech</th>\n'
             '<td><ul><li><a href="mailto:weblate@example.org">'
             'Weblate Test</a></li></ul></td>\n</tr>\n'
-            '</table>'
+            '</table>',
         )
 
     def get_counts(self, style, **kwargs):
@@ -158,13 +151,10 @@ class ReportsComponentTest(BaseReportsTest):
             'style': style,
             'period': '',
             'start_date': '2000-01-01',
-            'end_date': '2100-01-01'
+            'end_date': '2100-01-01',
         }
         params.update(kwargs)
-        return self.client.post(
-            reverse('counts', kwargs=self.get_kwargs()),
-            params
-        )
+        return self.client.post(reverse('counts', kwargs=self.get_kwargs()), params)
 
     def test_counts_view_json(self):
         response = self.get_counts('json')
@@ -257,7 +247,7 @@ class ReportsComponentTest(BaseReportsTest):
         <td>0</td>
     </tr>
 </table>
-'''
+''',
         )
 
 

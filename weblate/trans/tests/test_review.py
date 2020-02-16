@@ -49,20 +49,13 @@ class ReviewTest(ViewTestCase):
 
     def test_approve(self):
         self.make_manager()
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            review=str(STATE_APPROVED),
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', review=str(STATE_APPROVED))
         unit = self.get_unit()
         self.assertTrue(unit.approved)
 
     def test_edit_approved(self, fail=True):
         self.approve()
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.check_result(fail)
 
     def test_edit_reviewer(self):
@@ -71,21 +64,13 @@ class ReviewTest(ViewTestCase):
 
     def test_suggest(self, fail=True):
         self.approve()
-        self.edit_unit(
-            'Hello, world!\n',
-            'Nazdar svete!\n',
-            suggest='yes'
-        )
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', suggest='yes')
 
         # Get ids of created suggestions
         suggestion = self.get_unit().suggestions[0].pk
 
         # Accept one of suggestions
-        self.edit_unit(
-            'Hello, world!\n',
-            '',
-            accept_edit=suggestion,
-        )
+        self.edit_unit('Hello, world!\n', '', accept_edit=suggestion)
         self.check_result(fail)
 
     def test_suggest_reviewr(self):

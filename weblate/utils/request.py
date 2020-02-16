@@ -32,9 +32,6 @@ def get_ip_address(request):
 def get_user_agent(request, max_length=200):
     """Return user agent for request."""
     uaobj = user_agents.parse(
-        force_text(
-            request.META.get('HTTP_USER_AGENT', ''),
-            errors='replace'
-        )
+        force_text(request.META.get('HTTP_USER_AGENT', ''), errors='replace')
     )
     return force_text(uaobj)[:max_length]

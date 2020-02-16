@@ -28,11 +28,7 @@ from locale import LC_ALL, Error, getlocale, setlocale
 def c_locale():
     """Context to execute something in C locale."""
     # List of locales to reset
-    locales = [
-        ('C', 'UTF-8'),
-        ('en_US', 'UTF-8'),
-        '',
-    ]
+    locales = [('C', 'UTF-8'), ('en_US', 'UTF-8'), '']
     try:
         # If locale is set, insert it to the top
         currlocale = getlocale()
