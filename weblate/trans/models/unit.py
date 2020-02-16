@@ -213,7 +213,9 @@ class Unit(models.Model, LoggerMixin):
         null=True,
         default=None,
     )
-    labels = models.ManyToManyField("Label", blank=True)
+    labels = models.ManyToManyField(
+        "Label", verbose_name=ugettext_lazy("Labels"), blank=True
+    )
 
     objects = UnitQuerySet.as_manager()
 

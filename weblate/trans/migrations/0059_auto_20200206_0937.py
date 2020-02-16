@@ -60,6 +60,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="unit",
             name="labels",
-            field=models.ManyToManyField(blank=True, to="trans.Label"),
+            field=models.ManyToManyField(
+                blank=True,
+                to="trans.Label",
+                verbose_name="Labels",
+            ),
         ),
     ]
