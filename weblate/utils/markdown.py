@@ -41,8 +41,7 @@ def get_mentions(text):
 class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
     def link(self, content, link, title=""):
         result = super(WeblateHtmlRenderer, self).link(content, link, title)
-        result = result.replace(' href="', ' rel="ugc" href="')
-        return result
+        return result.replace(' href="', ' rel="ugc" href="')
 
     def check_url(self, url, is_image_src=False):
         if url.startswith("/user/"):

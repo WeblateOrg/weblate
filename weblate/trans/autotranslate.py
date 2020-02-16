@@ -38,10 +38,10 @@ class AutoTranslate(object):
         self.target_state = STATE_FUZZY if mode == 'fuzzy' else STATE_TRANSLATED
 
     def get_units(self):
-        units = self.translation.unit_set.filter_type(self.filter_type)
+        units = self.translation.unit_set.all()
         if self.mode == 'suggest':
             units = units.exclude(has_suggestion=True)
-        return units
+        return units.filter_type(self.filter_type)
 
     def set_progress(self, current):
         if current_task and current_task.request.id and self.total:

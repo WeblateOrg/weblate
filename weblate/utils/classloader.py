@@ -111,5 +111,5 @@ class ClassLoader(object):
             if x not in exclude and cond(self[x])
         ]
         if empty:
-            result = [('', '')] + result
+            result.insert(0, ('', ''))
         return result
