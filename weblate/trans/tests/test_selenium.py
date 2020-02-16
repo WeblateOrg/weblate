@@ -1073,7 +1073,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             element.submit()
         element = self.driver.find_element_by_id("id_name")
-        elemnt.send_keys("Next")
+        element.send_keys("Next")
         self.click("Aqua")
         with self.wait_for_page_load():
             element.submit()
