@@ -105,8 +105,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="subscription",
-            unique_together=set(
-                [("notification", "scope", "project", "component", "user")]
-            ),
+            unique_together={("notification", "scope", "project", "component", "user")},
         ),
     ]
