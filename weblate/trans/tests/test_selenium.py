@@ -153,7 +153,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def scroll_top(self):
         self.driver.execute_script("window.scrollTo(0, 0)")
 
-    def screenshot(self, name):
+    def screenshot(self, name, scroll=True):
         """Captures named full page screenshot."""
         self.scroll_top()
         # Get window and document dimensions
@@ -171,6 +171,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                     "window.scrollBy(%d,%d)" % (0, window_height)
                 )
             screenshots.append(Image.open(BytesIO(self.driver.get_screenshot_as_png())))
+            if not scroll:
+                scroll_height = window_height
+                break
 
         # Create final image
         stitched = Image.new("RGB", (scroll_width, scroll_height))
@@ -1137,7 +1140,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Edit context
         self.click(self.driver.find_element_by_id("edit-context"))
         time.sleep(0.5)
-        self.screenshot("source-review-edit.png")
+        self.screenshot("source-review-edit.png", scroll=False)
 
         # Close modal dialog
         self.driver.find_element_by_id("id_extra_context").send_keys(Keys.ESCAPE)
