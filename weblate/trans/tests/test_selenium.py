@@ -111,12 +111,20 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # https://stackoverflow.com/a/50642913/225718
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+
+        # Need to revert fontconfig custom config for starting chrome
+        backup = os.environ["FONTCONFIG_FILE"]
+        del os.environ["FONTCONFIG_FILE"]
+
         try:
             cls.driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
             cls.driver_error = str(error)
             if 'CI_SELENIUM' in os.environ:
                 raise
+
+        # Restore custom fontconfig settings
+        os.environ["FONTCONFIG_FILE"] = backup
 
         if cls.driver is not None:
             cls.driver.implicitly_wait(5)
