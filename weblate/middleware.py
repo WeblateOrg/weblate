@@ -38,7 +38,7 @@ INLINE_PATHS = {"social:begin"}
 
 
 class ProxyMiddleware(object):
-    """Middleware that updates REMOTE_ADDR from proxy
+    """Middleware that updates REMOTE_ADDR from proxy.
 
     Note that this can have security implications and settings
     have to match your actual proxy setup.
@@ -64,7 +64,7 @@ class ProxyMiddleware(object):
 
 
 class SecurityMiddleware(object):
-    """Middleware that sets Content-Security-Policy"""
+    """Middleware that sets Content-Security-Policy."""
 
     def __init__(self, get_response=None):
         self.get_response = get_response

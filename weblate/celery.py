@@ -59,7 +59,7 @@ def handle_task_failure(exception=None, **kwargs):
 
 @app.on_after_configure.connect
 def configure_error_handling(sender, **kargs):
-    """Rollbar and Sentry integration
+    """Rollbar and Sentry integration.
 
     Based on
     https://www.mattlayman.com/blog/2017/django-celery-rollbar/
