@@ -20,6 +20,11 @@
 
 from django.utils.translation import trans_real
 
+try:
+    from unittest import mock
+except ImportError:
+    import mock
+
 DjangoTranslation = trans_real.DjangoTranslation
 
 
@@ -49,3 +54,27 @@ class WeblateTranslation(DjangoTranslation):
 def monkey_patch_translate():
     """Monkey patch translation to workaround Django bug in handling plurals"""
     trans_real.DjangoTranslation = WeblateTranslation
+
+
+def immediate_on_commit(cls):
+    """
+    Wrapper to make transaction.on_commit execute immediatelly
+
+    TODO: Remove when immediate_on_commit function is actually implemented
+    Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
+    """
+
+    def handle_immediate_on_commit(func, using=None):
+        func()
+
+    # Context manager executing transaction.on_commit() hooks immediately
+    # This is required when using a subclass of django.test.TestCase as all tests
+    # are wrapped in a transaction that never gets committed.
+    cls.on_commit_mgr = mock.patch(
+        'django.db.transaction.on_commit', side_effect=handle_immediate_on_commit
+    )
+    cls.on_commit_mgr.__enter__()
+
+
+def immediate_on_commit_leave(cls):
+    cls.on_commit_mgr.__exit__()

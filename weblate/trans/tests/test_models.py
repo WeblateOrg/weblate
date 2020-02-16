@@ -41,12 +41,8 @@ from weblate.trans.models import (
     WhiteboardMessage,
 )
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
+from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import STATE_TRANSLATED
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 
 
 def fixup_languages_seq():
@@ -69,27 +65,13 @@ class BaseTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        """
-        TODO: Remove when immediate_on_commit function is actually implemented
-        Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
-        """
         super(BaseTestCase, cls).setUpClass()
-
-        def immediate_on_commit(func, using=None):
-            func()
-
-        # Context manager executing transaction.on_commit() hooks immediately
-        # This is required when using a subclass of django.test.TestCase as all tests
-        # are wrapped in a transaction that never gets committed.
-        cls.on_commit_mgr = mock.patch(
-            'django.db.transaction.on_commit', side_effect=immediate_on_commit
-        )
-        cls.on_commit_mgr.__enter__()
+        immediate_on_commit(cls)
 
     @classmethod
     def tearDownClass(cls):
         super(BaseTestCase, cls).tearDownClass()
-        cls.on_commit_mgr.__exit__()
+        immediate_on_commit_leave(cls)
 
 
 class BaseLiveServerTestCase(LiveServerTestCase):
@@ -99,27 +81,13 @@ class BaseLiveServerTestCase(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        """
-        TODO: Remove when immediate_on_commit function is actually implemented
-        Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1
-        """
         super(BaseLiveServerTestCase, cls).setUpClass()
-
-        def immediate_on_commit(func, using=None):
-            func()
-
-        # Context manager executing transaction.on_commit() hooks immediately
-        # This is required when using a subclass of django.test.TestCase as all tests
-        # are wrapped in a transaction that never gets committed.
-        cls.on_commit_mgr = mock.patch(
-            'django.db.transaction.on_commit', side_effect=immediate_on_commit
-        )
-        cls.on_commit_mgr.__enter__()
+        immediate_on_commit(cls)
 
     @classmethod
     def tearDownClass(cls):
         super(BaseLiveServerTestCase, cls).tearDownClass()
-        cls.on_commit_mgr.__exit__()
+        immediate_on_commit_leave(cls)
 
 
 class RepoTestCase(BaseTestCase, RepoTestMixin):
