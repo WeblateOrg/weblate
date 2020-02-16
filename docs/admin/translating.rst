@@ -40,7 +40,7 @@ You can combine these with :ref:`privileges` into one of the following setups:
 .. _additional:
 
 Additional info on source strings
-----------------------------------------
+---------------------------------
 
 Enhance the translation process with info available in the translation files.
 This includes string prioritization, check flags, or providing visual context.
