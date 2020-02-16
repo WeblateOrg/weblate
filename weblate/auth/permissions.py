@@ -240,9 +240,13 @@ def check_suggestion_add(user, permission, obj):
 @register_perm('upload.perform')
 @cache_perm
 def check_contribute(user, permission, translation):
-    return check_can_edit(user, permission, translation) and (
-        check_edit_approved(user, 'unit.edit', translation)
-        or check_suggestion_add(user, 'suggestion.add', translation)
+    return (
+        translation.filename
+        and check_can_edit(user, permission, translation)
+        and (
+            check_edit_approved(user, 'unit.edit', translation)
+            or check_suggestion_add(user, 'suggestion.add', translation)
+        )
     )
 
 
