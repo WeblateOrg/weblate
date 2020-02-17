@@ -12,6 +12,7 @@ for tag in $TAGS ; do
     echo
     echo "Testing migration from $tag on $CI_DATABASE..."
     cleanup_database
+    check
     git fetch --depth 1 origin tag $tag
     check
     git checkout $tag
