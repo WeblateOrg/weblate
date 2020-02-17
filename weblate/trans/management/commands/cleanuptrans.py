@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from weblate.accounts.tasks import cleanup_social_auth
@@ -32,6 +31,7 @@ from weblate.trans.tasks import (
     cleanup_stale_repos,
     cleanup_suggestions,
 )
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

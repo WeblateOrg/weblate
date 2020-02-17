@@ -20,8 +20,9 @@
 
 
 from django.contrib.sites.models import Site
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import CommandError
 
+from weblate.utils.management.base import BaseCommand
 from weblate.utils.site import check_domain
 
 

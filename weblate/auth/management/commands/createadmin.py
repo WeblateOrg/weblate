@@ -20,11 +20,12 @@
 
 from __future__ import unicode_literals
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import CommandError
 from django.db.models import Q
 
 from weblate.auth.models import User
 from weblate.utils.backup import make_password
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

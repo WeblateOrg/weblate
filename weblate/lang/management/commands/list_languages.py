@@ -19,10 +19,10 @@
 #
 from __future__ import unicode_literals
 
-from django.core.management.base import BaseCommand
 from django.utils.translation import activate, ugettext
 
 from weblate.lang.models import Language
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

@@ -18,9 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.management.base import BaseCommand
-
 from weblate.lang.models import Language, Plural
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

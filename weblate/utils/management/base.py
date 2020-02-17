@@ -18,27 +18,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
+import logging
 
-from weblate.memory.storage import TranslationMemory
-from weblate.utils.management.base import BaseCommand
+from django.core.management.base import BaseCommand as DjangoBaseCommand
 
 
-class Command(BaseCommand):
-    help = 'list translation memory origins'
-
-    def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
-        parser.add_argument(
-            '--type',
-            choices=['origin', 'category'],
-            default='origin',
-            required=False,
-            help='Type of objects to list',
-        )
+class BaseCommand(DjangoBaseCommand):
+    def execute(self, *args, **options):
+        logger = logging.getLogger("weblate")
+        console = logging.StreamHandler()
+        verbosity = int(options["verbosity"])
+        if verbosity > 1:
+            console.setLevel(logging.DEBUG)
+        elif verbosity == 1:
+            console.setLevel(logging.INFO)
+        else:
+            console.setLevel(logging.ERROR)
+        console.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
+        logger.addHandler(console)
+        return super(BaseCommand, self).execute(*args, **options)
 
     def handle(self, *args, **options):
-        """Translation memory cleanup."""
-        memory = TranslationMemory()
-        for item in memory.get_values(options['type']):
-            self.stdout.write(item)
+        """The actual logic of the command. Subclasses must implement this method."""
+        raise NotImplementedError()

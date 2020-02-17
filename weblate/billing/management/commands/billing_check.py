@@ -20,10 +20,9 @@
 
 from __future__ import unicode_literals
 
-from django.core.management.base import BaseCommand
-
 from weblate.billing.models import Billing
 from weblate.billing.tasks import billing_notify
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

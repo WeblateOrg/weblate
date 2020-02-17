@@ -21,9 +21,8 @@ from __future__ import unicode_literals
 
 from textwrap import wrap
 
-from django.core.management.base import BaseCommand
-
 from weblate.addons.models import ADDONS
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

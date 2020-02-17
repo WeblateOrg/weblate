@@ -24,7 +24,6 @@ import sys
 
 def main(argv=None):
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
-    os.environ['DJANGO_IS_MANAGEMENT_COMMAND'] = '1'
 
     from django.core.management import execute_from_command_line
 

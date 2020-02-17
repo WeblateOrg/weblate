@@ -24,7 +24,7 @@ import shutil
 import tempfile
 
 from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import CommandError
 
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
@@ -32,6 +32,7 @@ from weblate.logger import LOGGER
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.models import Component, Project
 from weblate.trans.util import is_repo_link
+from weblate.utils.management.base import BaseCommand
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 

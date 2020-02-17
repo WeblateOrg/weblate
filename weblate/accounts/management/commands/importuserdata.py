@@ -21,11 +21,10 @@
 import argparse
 import json
 
-from django.core.management.base import BaseCommand
-
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import Project
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

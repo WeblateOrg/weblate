@@ -24,10 +24,11 @@ import argparse
 import json
 
 from django.core.exceptions import ValidationError
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import CommandError
 from django.utils.text import slugify
 
 from weblate.trans.models import Component, Project
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

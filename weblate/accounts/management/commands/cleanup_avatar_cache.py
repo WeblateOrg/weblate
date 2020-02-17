@@ -24,7 +24,8 @@ import zlib
 from glob import glob
 
 from django.conf import settings
-from django.core.management.base import BaseCommand
+
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):

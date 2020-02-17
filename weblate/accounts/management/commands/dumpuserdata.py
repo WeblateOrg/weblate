@@ -21,10 +21,10 @@
 import argparse
 import json
 
-from django.core.management.base import BaseCommand
 from django.core.serializers.json import DjangoJSONEncoder
 
 from weblate.accounts.models import Profile
+from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
