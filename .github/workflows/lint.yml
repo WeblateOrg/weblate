@@ -34,3 +34,7 @@ jobs:
           checkName: 'flake8'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check sdist
+        run: |
+          python ./setup.py sdist
+          twine check dist/*
