@@ -70,7 +70,6 @@ jobs:
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
       run: |
-        docker logs postgres
         ./ci/run-test
     - uses: codecov/codecov-action@v1.0.4
       with:
