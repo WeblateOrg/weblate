@@ -26,6 +26,9 @@ cleanup_database() {
     fi
 
     if [ $CI_DATABASE = "postgresql" ] ; then
+        if [ -n "$CI_DB_PASSWORD" ] ; then
+            export PGPASSWORD="CI_DB_PASSWORD"
+        fi
         psql --host=$CI_DB_HOST -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
         psql --host=$CI_DB_HOST -c 'CREATE DATABASE weblate;' -U postgres
     fi
