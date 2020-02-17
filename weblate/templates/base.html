@@ -155,7 +155,7 @@ var _rollbarConfig = {
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
-        
+
         {# Superuser link to admin #}
         {% if user.is_superuser %}
         <li><a class="button" id="admin-button" href="{% url 'manage' %}" title="{% trans "Administration" %}">{% icon "wrench.svg" %}</a></li>
@@ -232,11 +232,7 @@ var _rollbarConfig = {
 <h1>
 <ol class="breadcrumb">
 <li class="bread-icon">
-{% if bread_image %}
-{% icon bread_image %}
-{% else %}
-{% icon "error.svg" %}
-{% endif %}
+{% icon bread_image|default:"error.svg" %}
 </li>
 {% block breadcrumbs %}
 <li><a href="{% url 'home' %}">{% trans "Dashboard" %}</a></li>
