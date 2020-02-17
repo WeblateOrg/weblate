@@ -1,0 +1,68 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.5, 3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+            gir1.2-pango-1.0 \
+            mercurial \
+            git \
+            git-svn \
+            gnupg \
+            subversion \
+            pkg-config \
+            python3-dev \
+            libxml2-dev \
+            libacl1-dev \
+            libxmlsec1-dev \
+            libleptonica-dev \
+            libtesseract-dev \
+            libsasl2-dev \
+            libldap2-dev \
+            libssl-dev \
+            libffi-dev \
+            libenchant1c2a \
+            libgirepository1.0-dev \
+            libcairo-dev \
+            gir1.2-pango-1.0 \
+            cython \
+            tesseract-ocr
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Set up Redis
+      uses: zhulik/redis-action@v1.0.0
+      with:
+        redis version: '5'
+    - name: Set up PostgreSQL
+      uses: Harmon758/postgresql-action@v1.0.0
+      with:
+        postgresql version: '11'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip wheel
+        pip install -r requirements-optional.txt -r requirements-test.txt -r requirements-postgresql.txt
+    - name: Test with Django
+      env:
+        CI_DATABASE: "postgresql"
+        CI_DB_HOST: "localhost"
+        DJANGO_SETTINGS_MODULE: "weblate.settings_test"
+
+      run: |
+        ./ci/run-test
+    - uses: codecov/codecov-action@v1.0.4
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
