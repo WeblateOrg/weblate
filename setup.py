@@ -88,7 +88,7 @@ setup(
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
-    entry_points={"console_scripts": ["weblate = django.core.management:execute_from_command_line"]}
+    entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
     tests_require=("selenium", "httpretty", "boto3"),
     test_suite="runtests.runtests",
 )
