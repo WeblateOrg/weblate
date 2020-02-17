@@ -122,7 +122,11 @@ database_service = {
     "name": "database",
     "image": "postgres:11-alpine",
     "ports": [5432],
-    "environment": {"POSTGRES_USER": "postgres", "POSTGRES_DB": "weblate"},
+    "environment": {
+        "POSTGRES_USER": "postgres",
+        "POSTGRES_DB": "weblate",
+        "POSTGRES_HOST_AUTH_METHOD": "trust",
+    },
 }
 
 # Pipeline template
