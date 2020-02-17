@@ -6,11 +6,13 @@ on:
       - '**.py'
       - 'setup.cfg'
       - 'requirements*.txt'
+      - '.github/workflows/lint.yml'
   pull_request:
     paths:
       - '**.py'
       - 'setup.cfg'
       - 'requirements*.txt'
+      - '.github/workflows/lint.yml'
 
 jobs:
   flake8:
