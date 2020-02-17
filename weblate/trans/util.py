@@ -200,8 +200,11 @@ def get_clean_env(extra=None):
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]
-    # Extend path to include virtualenv
-    environ['PATH'] = '{}/bin:{}'.format(sys.exec_prefix, environ['PATH'])
+    # Extend path to include virtualenv, avoid insert already existing ones to
+    # not break existing ordering (for example PATH injection used in tests)
+    venv_path = os.path.join(sys.exec_prefix, "bin")
+    if venv_path not in environ['PATH']:
+        environ['PATH'] = '{}:{}'.format(venv_path, environ['PATH'])
     # Python 2 on Windows doesn't handle Unicode objects in environment
     # even if they can be converted to ASCII string, let's fix it here
     if six.PY2 and sys.platform == 'win32':
