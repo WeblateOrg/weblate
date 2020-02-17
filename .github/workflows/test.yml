@@ -53,6 +53,7 @@ jobs:
       uses: zhulik/redis-action@v1.0.0
       with:
         redis version: '5'
+        postgresql password: 'postgres'
     - name: Set up PostgreSQL
       uses: Harmon758/postgresql-action@v1.0.0
       with:
@@ -64,6 +65,7 @@ jobs:
     - name: Test with Django
       env:
         CI_DATABASE: "postgresql"
+        CI_DB_PASSWORD: "postgres"
         CI_DB_HOST: "localhost"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 

@@ -49,7 +49,7 @@ elif CI_DATABASE == 'postgresql':
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
     DATABASES['default']['NAME'] = 'weblate'
     DATABASES['default']['USER'] = 'postgres'
-    DATABASES['default']['PASSWORD'] = ''
+    DATABASES['default']['PASSWORD'] = os.environ.get('CI_DB_PASSWORD', '')
 else:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
     DATABASES['default']['NAME'] = 'weblate.db'

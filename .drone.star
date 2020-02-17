@@ -6,6 +6,7 @@ default_env = {
     "LC_ALL": "C.UTF-8",
     "DJANGO_SETTINGS_MODULE": "weblate.settings_test",
     "CI_DATABASE": "postgresql",
+    "CI_DB_PASSWORD": "postgres",
     "CI_DB_HOST": "database",
     "CI_SELENIUM": "1",
     "DEEPSOURCE_DSN": "https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io",
@@ -124,8 +125,8 @@ database_service = {
     "ports": [5432],
     "environment": {
         "POSTGRES_USER": "postgres",
+        "POSTGRES_PASSWORD": "postgres",
         "POSTGRES_DB": "weblate",
-        "POSTGRES_HOST_AUTH_METHOD": "trust",
     },
 }
 
