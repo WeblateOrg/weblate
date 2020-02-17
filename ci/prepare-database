@@ -11,5 +11,5 @@ if [ $CI_DATABASE = "postgresql" ] ; then
     if [ -n "$CI_DB_PASSWORD" ] ; then
         export PGPASSWORD="$CI_DB_PASSWORD"
     fi
-    psql -c 'SELECT version();' -U postgres
+    psql --host=$CI_DB_HOST -c 'SELECT version();' -U postgres
 fi
