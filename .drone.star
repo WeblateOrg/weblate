@@ -9,7 +9,6 @@ default_env = {
     "CI_DB_PASSWORD": "postgres",
     "CI_DB_HOST": "database",
     "CI_SELENIUM": "1",
-    "DEEPSOURCE_DSN": "https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io",
 }
 
 # Basic set of installation files, usually used to update base docker image
@@ -56,7 +55,11 @@ notify_step = {
 codecov_step = {
     "name": "codecov",
     "image": "weblate/cidocker:3.7",
-    "environment": {"CODECOV_TOKEN": secret("CODECOV_TOKEN"), "CI": "drone"},
+    "environment": {
+        "CODECOV_TOKEN": secret("CODECOV_TOKEN"),
+        "CI": "drone",
+        "DEEPSOURCE_DSN": "https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io",
+    },
     "commands": [
         "export CI=drone",
         "codecov",
