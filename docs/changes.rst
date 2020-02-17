@@ -1,7 +1,9 @@
 Weblate 3.11.1
-------------
+--------------
 
 Not yet released.
+
+* Documented Celery setup changes.
 
 Weblate 3.11
 ------------

@@ -242,6 +242,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * The Matomo integration settings were changed, please see :setting:`MATOMO_SITE_ID` and :setting:`MATOMO_URL`.
+* The Celery configuration has changed (Celery app name is different), see :ref:`celery`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
