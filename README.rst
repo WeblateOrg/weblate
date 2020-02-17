@@ -1,17 +1,20 @@
-Weblate
-=======
+.. image:: https://s.weblate.org/cdn/Logo-Darktext-borders.png
+   :alt: Weblate
+   :target: https://weblate.org/
+   :height: 80px
 
-.. image:: https://cloud.drone.io/api/badges/WeblateOrg/weblate/status.svg
-    :alt: Build status
-    :target: https://cloud.drone.io/WeblateOrg/weblate
+**Weblate is a copylefted libre software web-based continuous localization system,
+used by over 1150 libre projects and companies in more than 115 countries.**
+
+Install it, or use the Hosted Weblate service at `weblate.org`_.
+
+.. image:: https://img.shields.io/badge/website-weblate.org-blue.svg
+    :alt: Website
+    :target: https://weblate.org/
 
 .. image:: https://hosted.weblate.org/widgets/weblate/-/svg-badge.svg
     :alt: Translation status
     :target: https://hosted.weblate.org/engage/weblate/?utm_source=widget
-
-.. image:: https://codecov.io/gh/WeblateOrg/weblate/branch/master/graph/badge.svg
-    :alt: Codecov Coverage Status
-    :target: https://codecov.io/gh/WeblateOrg/weblate
 
 .. image:: https://bestpractices.coreinfrastructure.org/projects/552/badge
     :alt: CII Best Practices
@@ -23,10 +26,9 @@ Weblate
 .. image:: https://img.shields.io/readthedocs/weblate.svg 
     :target: https://docs.weblate.org/
 
-Weblate is a copylefted libre software web-based continuous localization system,
-used by over 1150 libre projects and companies in more than 115 countries.
-
-Install it, or use the Hosted Weblate service at https://weblate.org
+.. image:: https://img.shields.io/github/license/WeblateOrg/weblate.svg
+    :alt: License
+    :target: https://github.com/WeblateOrg/weblate/blob/master/COPYING
 
 Documentation
 -------------
@@ -64,3 +66,5 @@ PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 this program. If not, see https://www.gnu.org/licenses/.
+
+.. _weblate.org: https://weblate.org/
