@@ -102,7 +102,9 @@ class Repository(object):
 
     @classmethod
     def add_breadcrumb(cls, message, **data):
-        if getattr(settings, 'SENTRY_DSN', None):
+        # Add breadcrumb only if settings are already loaded,
+        # we do not want to force loading settings early
+        if settings.configured and getattr(settings, 'SENTRY_DSN', None):
             add_breadcrumb(category='vcs', message=message, data=data, level='info')
 
     @classmethod
