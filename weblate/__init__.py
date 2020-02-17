@@ -20,11 +20,8 @@
 
 import os
 
-from weblate.celery import app as celery_app
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
-
-__all__ = ('celery_app',)
 
 
 def get_root_dir():

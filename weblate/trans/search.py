@@ -34,8 +34,7 @@ from whoosh.fields import NUMERIC, TEXT, SchemaClass
 from whoosh.index import LockError
 from whoosh.query import Or, Term
 
-from weblate.celery import app
-from weblate.utils.celery import extract_batch_args, extract_batch_kwargs
+from weblate.utils.celery import app, extract_batch_args, extract_batch_kwargs
 from weblate.utils.index import WhooshIndex
 
 LOGGER = logging.getLogger('weblate.search')

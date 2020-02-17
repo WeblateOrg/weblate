@@ -23,7 +23,7 @@ import os
 from celery.beat import Service
 from django.conf import settings
 
-from weblate.celery import app
+from weblate.utils.celery import app
 from weblate.utils.management.base import BaseCommand
 
 

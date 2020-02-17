@@ -24,8 +24,8 @@ import os.path
 
 from django.core.files.storage import DefaultStorage
 
-from weblate.celery import app
 from weblate.screenshots.models import Screenshot
+from weblate.utils.celery import app
 
 
 @app.task(trail=False)

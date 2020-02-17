@@ -22,10 +22,58 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import logging
+import os
+
+from celery import Celery
+from celery.signals import task_failure
 from celery_batches import SimpleRequest
 from django.conf import settings
 
-from weblate.celery import app as celery_app
+LOGGER = logging.getLogger('weblate.celery')
+
+# set the default Django settings module for the 'celery' program.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'weblate.settings')
+
+app = Celery('weblate')
+
+# Using a string here means the worker doesn't have to serialize
+# the configuration object to child processes.
+# - namespace='CELERY' means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
+app.config_from_object('django.conf:settings', namespace='CELERY')
+
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+
+@task_failure.connect
+def handle_task_failure(exception=None, **kwargs):
+    from weblate.utils.errors import report_error
+
+    report_error(
+        exception,
+        extra_data=kwargs,
+        prefix='Failure while executing task',
+        skip_sentry=True,
+        print_tb=True,
+        logger=LOGGER,
+    )
+
+
+@app.on_after_configure.connect
+def configure_error_handling(sender, **kargs):
+    """Rollbar and Sentry integration.
+
+    Based on
+    https://www.mattlayman.com/blog/2017/django-celery-rollbar/
+    """
+    if not bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
+        return
+
+    from weblate.utils.errors import init_error_collection
+
+    init_error_collection(celery=True)
 
 
 def extract_batch_kwargs(*args, **kwargs):
@@ -53,7 +101,7 @@ def extract_batch_args(*args):
 
 
 def get_queue_length(queue='celery'):
-    with celery_app.connection_or_acquire() as conn:
+    with app.connection_or_acquire() as conn:
         return conn.default_channel.queue_declare(
             queue=queue, durable=True, auto_delete=False
         ).message_count

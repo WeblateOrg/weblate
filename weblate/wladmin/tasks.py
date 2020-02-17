@@ -25,7 +25,7 @@ from django.core.cache import cache
 from django.core.checks import run_checks
 from django.utils.timezone import now
 
-from weblate.celery import app
+from weblate.utils.celery import app
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
 

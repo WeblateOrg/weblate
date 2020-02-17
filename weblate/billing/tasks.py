@@ -30,7 +30,7 @@ from django.utils import timezone
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing
-from weblate.celery import app
+from weblate.utils.celery import app
 from weblate.utils.site import get_site_url
 
 

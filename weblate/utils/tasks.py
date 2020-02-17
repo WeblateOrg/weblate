@@ -29,8 +29,8 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
 
-from weblate.celery import app
 from weblate.trans.util import get_clean_env
+from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 
 

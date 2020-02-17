@@ -26,7 +26,6 @@ import shutil
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 
-from weblate.celery import app
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
@@ -43,6 +42,7 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.signals import user_pre_delete
+from weblate.utils.celery import app
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
 

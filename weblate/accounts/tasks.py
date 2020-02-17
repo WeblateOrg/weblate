@@ -32,7 +32,7 @@ from django.utils.timezone import now
 from html2text import HTML2Text
 from social_django.models import Code, Partial
 
-from weblate.celery import app
+from weblate.utils.celery import app
 from weblate.utils.errors import report_error
 
 

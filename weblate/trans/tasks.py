@@ -38,7 +38,6 @@ from filelock import Timeout
 from whoosh.index import EmptyIndexError
 
 from weblate.auth.models import User, get_anonymous
-from weblate.celery import app
 from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
@@ -52,6 +51,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.search import Fulltext
+from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
 

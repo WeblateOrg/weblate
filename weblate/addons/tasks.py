@@ -24,7 +24,7 @@ from django.db import transaction
 
 from weblate.addons.events import EVENT_DAILY
 from weblate.addons.models import Addon
-from weblate.celery import app
+from weblate.utils.celery import app
 
 
 @app.task(trail=False)

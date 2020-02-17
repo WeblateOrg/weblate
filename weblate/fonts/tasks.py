@@ -20,8 +20,8 @@
 
 from __future__ import absolute_import, unicode_literals
 
-from weblate.celery import app
 from weblate.fonts.models import FONT_STORAGE, Font
+from weblate.utils.celery import app
 
 
 @app.task(trail=False)
