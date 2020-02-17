@@ -19,13 +19,10 @@
 #
 """Helper classes for management commands."""
 
-import logging
-
 from django.core.management.base import CommandError
 from django.db import transaction
 
 from weblate.lang.models import Language
-from weblate.logger import LOGGER
 from weblate.trans.models import Component, Translation, Unit
 from weblate.utils.management.base import BaseCommand
 
