@@ -30,7 +30,7 @@ jobs:
           - python-version: 3.8
             requirements: "latest"
             database: "sqlite"
-    name: Python ${{ matrix.python-version }}, ${{ matrix.requirements }} deps, ${{ matrix.database }}
+    name: py${{ matrix.python-version }}, ${{ matrix.requirements }} deps, ${{ matrix.database }}
 
     services:
       redis:
