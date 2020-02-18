@@ -5,6 +5,7 @@ Not yet released.
 
 * Documented Celery setup changes.
 * Improved filename validation on component creation.
+* Fixed minimal versions of some dependecies.
 
 Weblate 3.11
 ------------
