@@ -7,6 +7,9 @@ INSTALL_DIR=`mktemp -d`
 
 trap "rm -rf $INSTALL_DIR" EXIT
 
+run_coverage ./setup.py compilemessages
+check
+
 run_coverage ./setup.py build
 check
 
