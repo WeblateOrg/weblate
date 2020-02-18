@@ -1,6 +1,20 @@
 name: Test
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - 'weblate/**'
+      - '*.py'
+      - 'requirements*.txt'
+      - 'ci/*'
+      - '.github/workflows/test.yml'
+  pull_request:
+    paths:
+      - 'weblate/**'
+      - '*.py'
+      - 'requirements*.txt'
+      - 'ci/*'
+      - '.github/workflows/test.yml'
 
 jobs:
   test:
