@@ -84,6 +84,7 @@ jobs:
         CI_DB_PASSWORD: "postgres"
         CI_DB_HOST: "127.0.0.1"
         CI_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+        CI_SELENIUM: "1"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
       run: |
@@ -92,3 +93,7 @@ jobs:
     - uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Screenshots
+        path: test-images
