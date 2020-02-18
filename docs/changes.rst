@@ -4,6 +4,7 @@ Weblate 3.11.1
 Not yet released.
 
 * Documented Celery setup changes.
+* Improved filename validation on component creation.
 
 Weblate 3.11
 ------------

@@ -96,7 +96,7 @@ from weblate.utils.render import (
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
-from weblate.utils.validators import validate_re_nonempty
+from weblate.utils.validators import validate_filename, validate_re_nonempty
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -249,7 +249,7 @@ class Component(models.Model, URLMixin, PathMixin):
     filemask = models.CharField(
         verbose_name=ugettext_lazy("Filemask"),
         max_length=FILENAME_LENGTH,
-        validators=[validate_filemask],
+        validators=[validate_filemask, validate_filename],
         help_text=ugettext_lazy(
             "Path of files to translate relative to repository root,"
             " use * instead of language code, "
@@ -265,6 +265,7 @@ class Component(models.Model, URLMixin, PathMixin):
             "and their source; it is recommended "
             "for monolingual translation formats."
         ),
+        validators=[validate_filename],
     )
     edit_template = models.BooleanField(
         verbose_name=ugettext_lazy("Edit base file"),
@@ -282,6 +283,7 @@ class Component(models.Model, URLMixin, PathMixin):
             "Filename of file used for creating new translations. "
             "For gettext choose .pot file."
         ),
+        validators=[validate_filename],
     )
     file_format = models.CharField(
         verbose_name=ugettext_lazy("File format"),
