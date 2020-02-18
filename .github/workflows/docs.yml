@@ -1,6 +1,14 @@
 name: Docs
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
 
 jobs:
   sphinx:
