@@ -50,7 +50,7 @@ jobs:
     - name: Install pip dependencies
       run: |
         ./ci/pip-install
-    - name: Migrate
+    - name: Setup
       env:
         CI_DATABASE: ${{ matrix.database }}
         CI_DB_PASSWORD: "postgres"
