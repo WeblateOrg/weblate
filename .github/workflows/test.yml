@@ -36,7 +36,7 @@ jobs:
       redis:
         image: redis:5-alpine
         ports:
-          - 6379:6379
+          - 6379/tcp
       postgres:
         image: postgres:11
         ports:
@@ -68,7 +68,7 @@ jobs:
       env:
         CI_DATABASE: ${{ matrix.database }}
         CI_DB_PASSWORD: "postgres"
-        CI_DB_HOST: "postgres"
+        CI_DB_HOST: "127.0.0.1"
         CI_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
