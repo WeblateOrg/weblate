@@ -231,11 +231,20 @@ def redirect_param(location, params, *args, **kwargs):
 
 def cleanup_path(path):
     """Remove leading ./ or / from path."""
-    if path.startswith('./'):
-        path = path[2:]
-    if path.startswith('/'):
-        path = path[1:]
-    return path
+    if not path:
+        return path
+
+    # interpret absolute pathname as relative, remove drive letter or
+    # UNC path, redundant separators, "." and ".." components.
+    path = os.path.splitdrive(path)[1]
+    invalid_path_parts = ('', os.path.curdir, os.path.pardir)
+    path = os.path.sep.join(x for x in path.split(os.path.sep)
+                               if x not in invalid_path_parts)
+    if os.path.sep == '\\':
+        # filter illegal characters on Windows
+        path = self._sanitize_windows_name(path, os.path.sep)
+
+    return os.path.normpath(path)
 
 
 def get_project_description(project):

@@ -20,7 +20,7 @@
 
 from django.test import SimpleTestCase
 
-from weblate.trans.util import cleanup_repo_url, translation_percent
+from weblate.trans.util import cleanup_path, cleanup_repo_url, translation_percent
 
 
 class HideCredentialsTest(SimpleTestCase):
@@ -74,3 +74,20 @@ class TranslationPercentTest(SimpleTestCase):
 
     def test_almost_translated_file(self):
         self.assertAlmostEqual(translation_percent(99999999, 100000000), 99.9)
+
+
+class CleanupPathTest(SimpleTestCase):
+    def test_relative(self):
+        self.assertEqual(cleanup_path("../*.po"), "*.po")
+
+    def test_current(self):
+        self.assertEqual(cleanup_path("./*.po"), "*.po")
+
+    def test_mixed(self):
+        self.assertEqual(cleanup_path("./../*.po"), "*.po")
+
+    def test_slash(self):
+        self.assertEqual(cleanup_path("/*.po"), "*.po")
+
+    def test_double_slash(self):
+        self.assertEqual(cleanup_path("foo//*.po"), "foo/*.po")
