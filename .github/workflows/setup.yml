@@ -1,0 +1,87 @@
+name: Distribution
+
+on:
+  push:
+    paths:
+      - 'weblate/**'
+      - '*.py'
+      - 'requirements*.txt'
+      - 'ci/*'
+      - '.github/workflows/setup.yml'
+  pull_request:
+    paths:
+      - 'weblate/**'
+      - '*.py'
+      - 'requirements*.txt'
+      - 'ci/*'
+      - '.github/workflows/setup.yml'
+
+jobs:
+  setup:
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11
+        ports:
+          - 5432/tcp
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache pip
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install pip dependencies
+      run: |
+        ./ci/pip-install
+    - name: Migrate
+      env:
+        CI_DATABASE: ${{ matrix.database }}
+        CI_DB_PASSWORD: "postgres"
+        CI_DB_HOST: "127.0.0.1"
+        CI_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+        CI_SELENIUM: "1"
+        DJANGO_SETTINGS_MODULE: "weblate.settings_test"
+
+      run: |
+        ./ci/run-setup
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+
+  twine:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: pip install twine
+      - name: Twine check
+        run: |
+          python ./setup.py sdist
+          twine check dist/*
