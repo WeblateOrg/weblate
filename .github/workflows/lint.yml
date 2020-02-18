@@ -25,13 +25,10 @@ jobs:
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-          architecture: x64    
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip wheel
@@ -42,7 +39,24 @@ jobs:
           checkName: 'flake8'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check sdist
+
+  twine:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: pip install twine
+      - name: Twine check
         run: |
           python ./setup.py sdist
           twine check dist/*
