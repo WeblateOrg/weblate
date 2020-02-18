@@ -238,11 +238,9 @@ def cleanup_path(path):
     # UNC path, redundant separators, "." and ".." components.
     path = os.path.splitdrive(path)[1]
     invalid_path_parts = ('', os.path.curdir, os.path.pardir)
-    path = os.path.sep.join(x for x in path.split(os.path.sep)
-                               if x not in invalid_path_parts)
-    if os.path.sep == '\\':
-        # filter illegal characters on Windows
-        path = self._sanitize_windows_name(path, os.path.sep)
+    path = os.path.sep.join(
+        x for x in path.split(os.path.sep) if x not in invalid_path_parts
+    )
 
     return os.path.normpath(path)
 
