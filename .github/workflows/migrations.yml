@@ -48,12 +48,14 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - name: Set up Python 3.8
+    - name: Set up Python 3.7
       uses: actions/setup-python@v1
       with:
-        python-version: 3.8
+        python-version: 3.7
     - name: Install pip dependencies
-      run: ./ci/pip-install
+      run: |
+        ./ci/pip-install
+        pip install psycopg2-binary==2.7.7
     - name: Migrate
       env:
         CI_DATABASE: ${{ matrix.database }}
@@ -64,7 +66,7 @@ jobs:
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
       run: |
-        ./ci/run-migrate
+        ./ci/run-migrate ${{ matrix.version }}
     - uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
