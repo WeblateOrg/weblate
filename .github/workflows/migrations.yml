@@ -7,17 +7,17 @@ on:
       - '*.py'
       - 'requirements*.txt'
       - 'ci/*'
-      - '.github/workflows/test.yml'
+      - '.github/workflows/migrations.yml'
   pull_request:
     paths:
       - 'weblate/**'
       - '*.py'
       - 'requirements*.txt'
       - 'ci/*'
-      - '.github/workflows/test.yml'
+      - '.github/workflows/migrations.yml'
 
 jobs:
-  test:
+  migrations:
 
     runs-on: ubuntu-latest
     strategy:
