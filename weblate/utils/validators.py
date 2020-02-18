@@ -30,6 +30,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email as validate_email_django
 from django.utils.translation import ugettext as _
 from PIL import Image
+
 from weblate.trans.util import cleanup_path
 
 USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
@@ -206,4 +207,8 @@ def validate_filename(value):
 
     cleaned = cleanup_path(value)
     if value != cleaned:
-        raise ValidationError(_('Filename should be as simple as possible, perhaps you wanted to use: {}').format(cleaned))
+        raise ValidationError(
+            _(
+                'Filename should be as simple as possible. Maybe you want to use: {}'
+            ).format(cleaned)
+        )
