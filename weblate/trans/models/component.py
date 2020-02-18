@@ -1774,6 +1774,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
         self.template = cleanup_path(self.template)
+        self.new_base = cleanup_path(self.new_base)
 
         # Save/Create object
         super(Component, self).save(*args, **kwargs)
