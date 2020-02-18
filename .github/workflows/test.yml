@@ -77,7 +77,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install pip dependencies
-      run: ./ci/pip-install
+      run: ./ci/pip-install ${{ matrix.requirements }}
     - name: Test with Django
       env:
         CI_DATABASE: ${{ matrix.database }}
