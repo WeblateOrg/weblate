@@ -9,7 +9,7 @@ if [ ${1:-latest} = minimal ] ; then
     pip install requirements-builder
     requirements-builder --req requirements.txt --req requirements-optional.txt --level min > requirements-min.txt
     pip install -r requirements-min.txt
-else:
+else
     pip install Cython pycairo
     pip install -r requirements-optional.txt -r requirements-postgresql.txt
 fi
