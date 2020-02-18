@@ -87,6 +87,13 @@ class FilenameTest(SimpleTestCase):
     def test_good(self):
         validate_filename('path/file')
 
+    def test_simplification(self):
+        with self.assertRaises(ValidationError):
+            validate_filename('path/./file')
+
+    def test_empty(self):
+        validate_filename('')
+
 
 class RegexTest(SimpleTestCase):
     def test_empty(self):
