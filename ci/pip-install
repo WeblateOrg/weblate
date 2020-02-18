@@ -3,6 +3,8 @@
 set -e -x
 
 python -m pip install --upgrade pip wheel
+# Install cython and pycairo first, these are needed during install of others
+pip install Cython pycairo
 pip install -r requirements-optional.txt -r requirements-test.txt -r requirements-postgresql.txt
 if [ ${1:-latest} = minimal ] ; then
     pip install requirements-builder

@@ -31,13 +31,11 @@ install:
   - export LD_LIBRARY_PATH=$TESSERACT_INSTALL/lib:$LD_LIBRARY_PATH
   - export PKG_CONFIG_PATH=$TESSERACT_PKG:$PKG_CONFIG_PATH
   - wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/3.05.02-3/tesseract.tar.xz | tar -C $HOME -xJf -
-  # Get newer pip and whell for binary caching support
-  - pip install --upgrade pip wheel
-  # Install PyPI packages
-  - pip install $CI_DEPS Cython pycairo
+  - ./ci/pip-install
+  - pip install $CI_DEPS
   - if [ -f requirements-$CI_DATABASE.txt ] ; then pip install -r requirements-$CI_DATABASE.txt ; fi
   - pip install -r ci/requirements-travis.txt
-  - pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt
+  - pip install -r docs/requirements.txt
 # create databases
 before_script: &before
   - ./ci/prepare-database
