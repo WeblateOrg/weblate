@@ -11,6 +11,25 @@ jobs:
         python-version: [3.5, 3.6, 3.7, 3.8]
         requirements: ["latest", "minimal"]
         database: ["postgresql", "sqlite"]
+        exclude:
+          - python-version: 3.5
+            requirements: "minimal"
+            database: "sqlite"
+          - python-version: 3.6
+            requirements: "minimal"
+            database: "sqlite"
+          - python-version: 3.8
+            requirements: "minimal"
+            database: "sqlite"
+          - python-version: 3.5
+            requirements: "latest"
+            database: "sqlite"
+          - python-version: 3.6
+            requirements: "latest"
+            database: "sqlite"
+          - python-version: 3.8
+            requirements: "latest"
+            database: "sqlite"
     name: Python ${{ matrix.python-version }}, ${{ matrix.requirements }} deps, ${{ matrix.database }}
 
     services:
