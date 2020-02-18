@@ -12,6 +12,19 @@ jobs:
         requirements: ["latest", "minimal"]
     name: Python ${{ matrix.python-version }}, ${{matrix.requirements}} deps
 
+    services:
+      redis:
+        image: redis:5-alpine
+        ports:
+          - 6379:6379
+      postgresql:
+        image: postgresql:11
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER": postgres
+          POSTGRES_PASSWORD": postgres
+
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v1
@@ -51,15 +64,6 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Set up Redis
-      uses: zhulik/redis-action@v1.0.0
-      with:
-        redis version: '5'
-    - name: Set up PostgreSQL
-      uses: Harmon758/postgresql-action@v1.0.0
-      with:
-        postgresql version: '11'
-        postgresql password: 'postgres'
     - name: Install pip dependencies
       run: |
         python -m pip install --upgrade pip wheel
