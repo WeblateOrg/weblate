@@ -9,7 +9,8 @@ jobs:
     strategy:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
-        minversions: [0, 1]
+        requirements: ["latest", "minimal"]
+    name: Python ${{ matrix.python-version }}, ${{matrix.requirements}} deps
 
     steps:
     - uses: actions/checkout@v2
@@ -63,7 +64,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip wheel
         pip install -r requirements-optional.txt -r requirements-test.txt -r requirements-postgresql.txt
-        if [ ${{matrix.minversions}} = 1 ] ; then
+        if [ ${{matrix.requirements}} = minimal ] ; then
             pip install requirements-builder
             requirements-builder --req requirements.txt --req requirements-optional.txt --req requirements-postgresql.txt --level min > requirements-min.txt
             pip install -r requirements-min.txt
