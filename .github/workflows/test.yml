@@ -10,7 +10,12 @@ jobs:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
         requirements: ["latest", "minimal"]
-    name: Python ${{ matrix.python-version }}, ${{matrix.requirements}} deps
+        database: ["postgresql"]
+        include:
+          - python-version: 3.7
+            requirements: "latest"
+            database: "sqlite"
+    name: Python ${{ matrix.python-version }}, ${{ matrix.requirements }} deps, ${{ matrix.database }}
 
     services:
       redis:
@@ -35,49 +40,16 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: Install apt dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-            gir1.2-pango-1.0 \
-            gettext \
-            git \
-            git-svn \
-            gnupg \
-            subversion \
-            pkg-config \
-            python3-dev \
-            libxml2-dev \
-            libacl1-dev \
-            libxmlsec1-dev \
-            libleptonica-dev \
-            libtesseract-dev \
-            libsasl2-dev \
-            libldap2-dev \
-            libssl-dev \
-            libffi-dev \
-            libenchant1c2a \
-            libgirepository1.0-dev \
-            libcairo-dev \
-            liblz4-dev \
-            gir1.2-pango-1.0 \
-            cython \
-            tesseract-ocr
+      run: sudo ./ci/apt-install
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install pip dependencies
-      run: |
-        python -m pip install --upgrade pip wheel
-        pip install -r requirements-optional.txt -r requirements-test.txt -r requirements-postgresql.txt
-        if [ ${{matrix.requirements}} = minimal ] ; then
-            pip install requirements-builder
-            requirements-builder --req requirements.txt --req requirements-optional.txt --level min > requirements-min.txt
-            pip install -r requirements-min.txt
-        fi
+      run: ./ci/pip-install
     - name: Test with Django
       env:
-        CI_DATABASE: "postgresql"
+        CI_DATABASE: ${{ matrix.database }}
         CI_DB_PASSWORD: "postgres"
         CI_DB_HOST: "localhost"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"

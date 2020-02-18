@@ -18,13 +18,8 @@ cmd_pip_postgresql = "pip install -r requirements-postgresql.txt"
 # Some tests need older binary for Django copatibility
 cmd_pip_postgresql_old = "pip install psycopg2-binary==2.7.7"
 # PIP requirements installation
-cmd_pip_deps = "pip install -r requirements-optional.txt -r requirements-test.txt -r docs/requirements.txt"
-cmd_pip_deps_min = [
-    "pip install requirements-builder",
-    "requirements-builder --req requirements.txt --req requirements-optional.txt --req requirements-postgresql.txt --level min > requirements-min.txt",
-    "pip install -r requirements-min.txt",
-    "pip install -r requirements-test.txt",
-]
+cmd_pip_deps = "./ci/pip-install"
+cmd_pip_deps_min = "./ci/pip-install minimal"
 
 
 def secret(name):
@@ -93,20 +88,18 @@ test_step = {
     "name": "test",
     "image": "weblate/cidocker:3.8",
     "environment": get_test_env(),
-    "commands": basic_install + [cmd_pip_postgresql, cmd_pip_deps, "./ci/run-test"],
+    "commands": basic_install + [cmd_pip_deps, "./ci/run-test"],
 }
 test_step_minversion = dict(test_step)
 test_step_minversion["image"] = "weblate/cidocker:3.7"
-test_step_minversion["commands"] = (
-    basic_install + [cmd_pip_postgresql] + cmd_pip_deps_min + ["./ci/run-test"]
-)
+test_step_minversion["commands"] = basic_install + [cmd_pip_deps_min, "./ci/run-test"]
 test_step_37 = dict(test_step)
 test_step_37["image"] = "weblate/cidocker:3.7"
 test_step_27 = dict(test_step)
 test_step_27["image"] = "weblate/cidocker:2.7"
 test_step_27["commands"] = basic_install + [
-    cmd_pip_postgresql_old,
     cmd_pip_deps,
+    cmd_pip_postgresql_old,
     "./ci/run-test",
 ]
 
@@ -116,7 +109,7 @@ migrations_step = {
     # Need C locale for tesserocr compatibility
     "environment": get_test_env({"LANG": "C", "LC_ALL": "C"}),
     "commands": basic_install
-    + [cmd_pip_postgresql_old, cmd_pip_deps, "./ci/run-migrate"],
+    + [cmd_pip_deps, cmd_pip_postgresql_old, "./ci/run-migrate"],
 }
 migrations_step_27 = dict(migrations_step)
 migrations_step_27["image"] = "weblate/cidocker:2.7"

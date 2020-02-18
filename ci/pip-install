@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e -x
+
+python -m pip install --upgrade pip wheel
+pip install -r requirements-optional.txt -r requirements-test.txt -r requirements-postgresql.txt
+if [ ${1:-latest} = minimal ] ; then
+    pip install requirements-builder
+    requirements-builder --req requirements.txt --req requirements-optional.txt --level min > requirements-min.txt
+    pip install -r requirements-min.txt
+fi
