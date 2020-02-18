@@ -1830,7 +1830,7 @@ class ContributorAgreementForm(forms.Form):
 class DeleteForm(forms.Form):
     confirm = forms.CharField(
         label=_('Name of the translation'),
-        help_text=_('Please type in the name of the translation to confirm.'),
+        help_text=_('Please type in the full name of the translation to confirm.'),
         required=True,
     )
 
