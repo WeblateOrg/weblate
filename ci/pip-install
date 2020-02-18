@@ -5,7 +5,7 @@ set -e -x
 python -m pip install --upgrade pip wheel
 # Install cython and pycairo first, these are needed during install of others
 if [ ${1:-latest} = minimal ] ; then
-    pip install Cython==0.29.14 pycairo==1.11.1
+    pip install Cython==0.29.14 pycairo==1.15.3
     pip install requirements-builder
     requirements-builder --req requirements.txt --req requirements-optional.txt --level min > requirements-min.txt
     pip install -r requirements-min.txt
