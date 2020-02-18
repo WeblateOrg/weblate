@@ -10,11 +10,7 @@ jobs:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
         requirements: ["latest", "minimal"]
-        database: ["postgresql"]
-        include:
-          - python-version: 3.7
-            requirements: "latest"
-            database: "sqlite"
+        database: ["postgresql", "sqlite"]
     name: Python ${{ matrix.python-version }}, ${{ matrix.requirements }} deps, ${{ matrix.database }}
 
     services:
