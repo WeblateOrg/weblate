@@ -66,7 +66,7 @@ jobs:
         pip install -r requirements-optional.txt -r requirements-test.txt -r requirements-postgresql.txt
         if [ ${{matrix.requirements}} = minimal ] ; then
             pip install requirements-builder
-            requirements-builder --req requirements.txt --req requirements-optional.txt --req requirements-postgresql.txt --level min > requirements-min.txt
+            requirements-builder --req requirements.txt --req requirements-optional.txt --level min > requirements-min.txt
             pip install -r requirements-min.txt
         fi
     - name: Test with Django
