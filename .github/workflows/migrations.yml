@@ -28,6 +28,8 @@ jobs:
     services:
       postgres:
         image: postgres:11
+        ports:
+          - 5432/tcp
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         env:
@@ -35,6 +37,8 @@ jobs:
           POSTGRES_PASSWORD: weblate
       mariadb:
         image: mariadb:10
+        ports:
+          - 3306/tcp
         env:
           MYSQL_ROOT_PASSWORD: weblate
 
@@ -57,11 +61,22 @@ jobs:
       run: |
         ./ci/pip-install
         pip install psycopg2-binary==2.7.7
+    - name: Detect database
+      id: database
+      run: |
+        if [ ${{ matrix.database }} = postgres ] ; then
+            echo "::set-output name=port::${{ job.services.postgres.ports['5432'] }}"
+        elif [ ${{ matrix.database }} = postgres ] ; then
+            echo "::set-output name=port::${{ job.services.mysql.ports['3306'] }}"
+        else
+            echo "::set-output name=port::"
+        fi
     - name: Migrate
       env:
         CI_DATABASE: ${{ matrix.database }}
         CI_DB_PASSWORD: "weblate"
-        CI_DB_HOST: ${{ matrix.database }}
+        CI_DB_HOST: "127.0.0.1"
+        CI_DB_PORT: ${{ steps.database.outputs.port }}
         CI_SELENIUM: "1"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
