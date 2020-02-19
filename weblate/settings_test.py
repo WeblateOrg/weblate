@@ -35,6 +35,7 @@ if CI_DATABASE == 'mysql':
     DATABASES['default']['NAME'] = 'weblate'
     DATABASES['default']['USER'] = 'root'
     DATABASES['default']['PASSWORD'] = os.environ.get('CI_DB_PASSWORD', '')
+    DATABASES['default']['PORT'] = os.environ.get('CI_DB_PORT', '')
     DATABASES['default']['OPTIONS'] = {
         'init_command': (
             'SET NAMES utf8, '

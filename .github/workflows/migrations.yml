@@ -28,8 +28,6 @@ jobs:
     services:
       postgres:
         image: postgres:11
-        ports:
-          - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         env:
@@ -37,8 +35,6 @@ jobs:
           POSTGRES_PASSWORD: weblate
       mariadb:
         image: mariadb:10
-        ports:
-          - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: weblate
 
@@ -65,7 +61,7 @@ jobs:
       env:
         CI_DATABASE: ${{ matrix.database }}
         CI_DB_PASSWORD: "weblate"
-        CI_DB_HOST: "127.0.0.1"
+        CI_DB_HOST: ${{ matrix.database }}
         CI_SELENIUM: "1"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 

@@ -19,6 +19,10 @@ cleanup_database() {
     rm -f weblate.db
 
     if [ $CI_DATABASE = "mysql" ] ; then
+        if [ -n "$CI_DB_PORT" ] ; then
+            export MYSQL_TCP_PORT="$CI_DB_PORT"
+        fi
+
         mysql --host=$CI_DB_HOST -e 'SET GLOBAL character_set_server=utf8' -uroot
         mysql --host=$CI_DB_HOST -e 'SET GLOBAL collation_server=utf8_general_ci' -uroot
         mysql --host=$CI_DB_HOST -e 'DROP DATABASE IF EXISTS weblate;' -uroot

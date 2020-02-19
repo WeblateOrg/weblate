@@ -5,7 +5,10 @@
 cleanup_database
 
 if [ $CI_DATABASE = "mysql" ] ; then
-    mysql -e 'SHOW VARIABLES LIKE "%version%";' -uroot
+    if [ -n "$CI_DB_PORT" ] ; then
+        export MYSQL_TCP_PORT="$CI_DB_PORT"
+    fi
+    mysql --host=$CI_DB_HOST -e 'SHOW VARIABLES LIKE "%version%";' -uroot
 fi
 if [ $CI_DATABASE = "postgresql" ] ; then
     if [ -n "$CI_DB_PASSWORD" ] ; then
