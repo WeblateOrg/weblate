@@ -59,8 +59,11 @@ jobs:
         CI_SELENIUM: "1"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
+      run: ./ci/run-setup
+    - name: Coverage
       run: |
-        ./ci/run-setup
+        coverage combine
+        coverage xml
     - uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
