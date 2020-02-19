@@ -46,6 +46,10 @@ for tag in $TAGS ; do
         echo "DATABASES['default']['PASSWORD'] = '$CI_DB_PASSWORD'" >> weblate/settings_test.py
         check
     fi
+    if [ -n "$CI_DB_PORT" ] ; then
+        echo "DATABASES['default']['PORT'] = '$CI_DB_PORT'" >> weblate/settings_test.py
+        check
+    fi
     run_coverage ./manage.py migrate
     check
     ./manage.py shell -c 'from weblate.lang.models import Language; Language.objects.all().delete()'
