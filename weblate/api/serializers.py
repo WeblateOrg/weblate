@@ -19,6 +19,7 @@
 #
 
 from django.core.exceptions import PermissionDenied
+from django.conf import settings
 from rest_framework import serializers
 
 from weblate.lang.models import Language
@@ -26,6 +27,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, Project, Translation, Unit
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
+from weblate.trans.util import cleanup_repo_url
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
@@ -128,14 +130,14 @@ class ProjectSerializer(serializers.ModelSerializer):
         }
 
 
-class RepoURLField(serializers.CharField):
+class RepoField(serializers.CharField):
     def get_attribute(self, instance):
-        return instance.get_repo_url()
-
-
-class RepoPushField(serializers.CharField):
-    def get_attribute(self, instance):
-        return instance.get_push_url()
+        if instance.linked_component:
+            instance = instance.linked_component
+        url = getattr(instance, self.source)
+        if not settings.HIDE_REPO_CREDENTIALS:
+            return url
+        return cleanup_repo_url(url)
 
 
 class ComponentSerializer(RemovableSerializer):
@@ -158,9 +160,9 @@ class ComponentSerializer(RemovableSerializer):
     )
     license_url = serializers.CharField(read_only=True)
 
-    repo = RepoURLField()
+    repo = RepoField()
 
-    push = RepoPushField()
+    push = RepoField()
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 

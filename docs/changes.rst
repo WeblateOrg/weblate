@@ -7,6 +7,7 @@ Not yet released.
 * Improved filename validation on component creation.
 * Fixed minimal versions of some dependecies.
 * Fixed adding groups with certain Django versions.
+* Fixed manual pushing to upstream repository.
 
 Weblate 3.11
 ------------
