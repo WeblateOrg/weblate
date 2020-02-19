@@ -81,7 +81,7 @@ sphinx_step = {
     "name": "sphinx",
     "image": "weblate/cidocker:3.7",
     "commands": basic_install
-    + [cmd_pip_deps, "make -C docs html SPHINXOPTS='-n -W -a'"],
+    + [cmd_pip_deps, "./ci/run-docs"],
 }
 
 test_step = {

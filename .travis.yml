@@ -98,7 +98,7 @@ jobs:
       before_script: skip
       after_script: skip
       script: 
-        - make -C docs html SPHINXOPTS='-n -W -a'
+        - ./ci/run-docs
 
     - stage: "Basic tests"
       name: "Django 2.2, postgresql"

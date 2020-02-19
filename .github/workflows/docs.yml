@@ -36,4 +36,4 @@ jobs:
     - name: Install pip dependencies
       run: pip install -r docs/requirements.txt
     - name: Sphinx build
-      run: make -C docs html SPHINXOPTS='-n -W -a'
+      run: ./ci/run-docs
