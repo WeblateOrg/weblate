@@ -20,7 +20,7 @@ for tag in $TAGS ; do
     check
     git checkout $tag
     check
-    if [ $PYTHON_VERSION -eq 3 ] ; then pip install 'Django>=2.1,<2.2' ; else pip install 'Django>1.11' ; fi
+    if [ $PYTHON_VERSION -eq 3 ] ; then pip install 'Django>=2.2,<3.0' ; else pip install 'Django>1.11' ; fi
     check
     pip install -r requirements-optional.txt -r docs/requirements.txt
     check
