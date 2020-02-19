@@ -242,3 +242,4 @@ Release checklist:
 6. Update Docker image.
 7. Close GitHub milestone.
 8. Once the Docker image is tested, add a tag and push it.
+9. Include new version in ``./ci/run-migrate`` to cover it in migration testing.
