@@ -121,6 +121,7 @@ jobs:
     - uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
+        flags: unittests
     - name: DeepSource
       run: |
         curl https://deepsource.io/cli | sh
