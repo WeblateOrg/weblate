@@ -22,6 +22,7 @@ import json
 import os
 from unittest import skipIf
 
+import django
 import httpretty
 import six
 from django.conf import settings
@@ -49,133 +50,133 @@ class AdminTest(ViewTestCase):
         self.user.save()
 
     def test_index(self):
-        response = self.client.get(reverse('admin:index'))
-        self.assertContains(response, 'SSH')
+        response = self.client.get(reverse("admin:index"))
+        self.assertContains(response, "SSH")
 
     def test_manage_index(self):
-        response = self.client.get(reverse('manage'))
-        self.assertContains(response, 'SSH')
+        response = self.client.get(reverse("manage"))
+        self.assertContains(response, "SSH")
 
     def test_ssh(self):
-        response = self.client.get(reverse('manage-ssh'))
-        self.assertContains(response, 'SSH keys')
+        response = self.client.get(reverse("manage-ssh"))
+        self.assertContains(response, "SSH keys")
 
-    @tempdir_setting('DATA_DIR')
+    @tempdir_setting("DATA_DIR")
     def test_ssh_generate(self):
         self.assertEqual(check_data_writable(), [])
-        response = self.client.get(reverse('manage-ssh'))
-        self.assertContains(response, 'Generate SSH key')
+        response = self.client.get(reverse("manage-ssh"))
+        self.assertContains(response, "Generate SSH key")
 
-        response = self.client.post(reverse('manage-ssh'), {'action': 'generate'})
-        self.assertContains(response, 'Created new SSH key')
-        response = self.client.get(reverse('manage-ssh-key'))
-        self.assertContains(response, 'PRIVATE KEY')
+        response = self.client.post(reverse("manage-ssh"), {"action": "generate"})
+        self.assertContains(response, "Created new SSH key")
+        response = self.client.get(reverse("manage-ssh-key"))
+        self.assertContains(response, "PRIVATE KEY")
 
-    @tempdir_setting('DATA_DIR')
+    @tempdir_setting("DATA_DIR")
     def test_ssh_add(self):
         self.assertEqual(check_data_writable(), [])
         try:
-            oldpath = os.environ['PATH']
-            os.environ['PATH'] = ':'.join((get_test_file(''), os.environ['PATH']))
+            oldpath = os.environ["PATH"]
+            os.environ["PATH"] = ":".join((get_test_file(""), os.environ["PATH"]))
             # Verify there is button for adding
-            response = self.client.get(reverse('manage-ssh'))
-            self.assertContains(response, 'Add host key')
+            response = self.client.get(reverse("manage-ssh"))
+            self.assertContains(response, "Add host key")
 
             # Add the key
             response = self.client.post(
-                reverse('manage-ssh'), {'action': 'add-host', 'host': 'github.com'}
+                reverse("manage-ssh"), {"action": "add-host", "host": "github.com"}
             )
-            self.assertContains(response, 'Added host key for github.com')
+            self.assertContains(response, "Added host key for github.com")
         finally:
-            os.environ['PATH'] = oldpath
+            os.environ["PATH"] = oldpath
 
         # Check the file contains it
-        hostsfile = os.path.join(settings.DATA_DIR, 'ssh', 'known_hosts')
+        hostsfile = os.path.join(settings.DATA_DIR, "ssh", "known_hosts")
         with open(hostsfile) as handle:
-            self.assertIn('github.com', handle.read())
+            self.assertIn("github.com", handle.read())
 
     @tempdir_setting("BACKUP_DIR")
-    @skipIf(six.PY2, 'borgbackup does not support Python 2')
+    @skipIf(six.PY2, "borgbackup does not support Python 2")
     def test_backup(self):
         def do_post(**payload):
-            return self.client.post(reverse('manage-backups'), payload, follow=True)
+            return self.client.post(reverse("manage-backups"), payload, follow=True)
 
         response = do_post(repository=settings.BACKUP_DIR)
         self.assertContains(response, settings.BACKUP_DIR)
         service = BackupService.objects.get()
-        response = do_post(service=service.pk, trigger='1')
-        self.assertContains(response, 'triggered')
-        response = do_post(service=service.pk, toggle='1')
-        self.assertContains(response, 'Turned off')
-        response = do_post(service=service.pk, remove='1')
+        response = do_post(service=service.pk, trigger="1")
+        self.assertContains(response, "triggered")
+        response = do_post(service=service.pk, toggle="1")
+        self.assertContains(response, "Turned off")
+        response = do_post(service=service.pk, remove="1")
         self.assertNotContains(response, settings.BACKUP_DIR)
 
     def test_performace(self):
-        response = self.client.get(reverse('manage-performance'))
-        self.assertContains(response, 'weblate.E005')
+        response = self.client.get(reverse("manage-performance"))
+        self.assertContains(response, "weblate.E005")
 
     def test_error(self):
-        add_configuration_error('Test error', 'FOOOOOOOOOOOOOO')
-        response = self.client.get(reverse('manage-performance'))
-        self.assertContains(response, 'FOOOOOOOOOOOOOO')
-        delete_configuration_error('Test error')
-        response = self.client.get(reverse('manage-performance'))
-        self.assertNotContains(response, 'FOOOOOOOOOOOOOO')
+        add_configuration_error("Test error", "FOOOOOOOOOOOOOO")
+        response = self.client.get(reverse("manage-performance"))
+        self.assertContains(response, "FOOOOOOOOOOOOOO")
+        delete_configuration_error("Test error")
+        response = self.client.get(reverse("manage-performance"))
+        self.assertNotContains(response, "FOOOOOOOOOOOOOO")
 
     def test_report(self):
-        response = self.client.get(reverse('manage-repos'))
-        self.assertContains(response, 'On branch master')
+        response = self.client.get(reverse("manage-repos"))
+        self.assertContains(response, "On branch master")
 
     def test_create_project(self):
-        response = self.client.get(reverse('admin:trans_project_add'))
-        self.assertContains(response, 'Required fields are marked in bold')
+        response = self.client.get(reverse("admin:trans_project_add"))
+        self.assertContains(response, "Required fields are marked in bold")
 
     def test_create_component(self):
-        response = self.client.get(reverse('admin:trans_component_add'))
-        self.assertContains(response, 'Import speed documentation')
+        response = self.client.get(reverse("admin:trans_component_add"))
+        self.assertContains(response, "Import speed documentation")
 
     def test_component(self):
         """Test for custom component actions."""
-        self.assert_custom_admin(reverse('admin:trans_component_changelist'))
+        self.assert_custom_admin(reverse("admin:trans_component_changelist"))
 
     def test_project(self):
         """Test for custom project actions."""
-        self.assert_custom_admin(reverse('admin:trans_project_changelist'))
+        self.assert_custom_admin(reverse("admin:trans_project_changelist"))
 
     def assert_custom_admin(self, url):
         """Test for (sub)project custom admin."""
         response = self.client.get(url)
-        self.assertContains(response, 'Update VCS repository')
-        for action in 'force_commit', 'update_checks', 'update_from_git':
+        self.assertContains(response, "Update VCS repository")
+        for action in "force_commit", "update_checks", "update_from_git":
             response = self.client.post(
-                url, {'_selected_action': '1', 'action': action}
+                url, {"_selected_action": "1", "action": action}
             )
             self.assertRedirects(response, url)
 
     def test_configuration_health_check(self):
-        add_configuration_error('TEST', 'Message', True)
-        add_configuration_error('TEST2', 'Message', True)
+        add_configuration_error("TEST", "Message", True)
+        add_configuration_error("TEST2", "Message", True)
         configuration_health_check(False)
         self.assertEqual(ConfigurationError.objects.count(), 2)
-        delete_configuration_error('TEST2', True)
+        delete_configuration_error("TEST2", True)
         configuration_health_check(False)
         self.assertEqual(ConfigurationError.objects.count(), 1)
         configuration_health_check()
 
-    def test_send_test_email(self, expected='Test e-mail sent'):
-        response = self.client.get(reverse('manage-tools'))
-        self.assertContains(response, 'e-mail')
+    def test_send_test_email(self, expected="Test e-mail sent"):
+        response = self.client.get(reverse("manage-tools"))
+        self.assertContains(response, "e-mail")
         response = self.client.post(
-            reverse('manage-tools'), {'email': 'noreply@example.com'}, follow=True
+            reverse("manage-tools"), {"email": "noreply@example.com"}, follow=True
         )
         self.assertContains(response, expected)
 
     @override_settings(
-        EMAIL_HOST='nonexisting.weblate.org',
-        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend',
+        EMAIL_HOST="nonexisting.weblate.org",
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
     )
     def test_send_test_email_error(self):
-        self.test_send_test_email('Could not send test e-mail')
+        self.test_send_test_email("Could not send test e-mail")
 
     @httpretty.activate
     def test_activation_community(self):
@@ -184,17 +185,17 @@ class AdminTest(ViewTestCase):
             settings.SUPPORT_API_URL,
             body=json.dumps(
                 {
-                    'name': 'community',
-                    'backup_repository': '',
-                    'expiry': timezone.now(),
-                    'in_limits': True,
+                    "name": "community",
+                    "backup_repository": "",
+                    "expiry": timezone.now(),
+                    "in_limits": True,
                 },
                 cls=DjangoJSONEncoder,
             ),
         )
-        self.client.post(reverse('manage-activate'), {'secret': '123456'})
+        self.client.post(reverse("manage-activate"), {"secret": "123456"})
         status = SupportStatus.objects.get()
-        self.assertEqual(status.name, 'community')
+        self.assertEqual(status.name, "community")
         self.assertFalse(BackupService.objects.exists())
 
     @httpretty.activate
@@ -204,19 +205,19 @@ class AdminTest(ViewTestCase):
             settings.SUPPORT_API_URL,
             body=json.dumps(
                 {
-                    'name': 'hosted',
-                    'backup_repository': '/tmp/xxx',
-                    'expiry': timezone.now(),
-                    'in_limits': True,
+                    "name": "hosted",
+                    "backup_repository": "/tmp/xxx",
+                    "expiry": timezone.now(),
+                    "in_limits": True,
                 },
                 cls=DjangoJSONEncoder,
             ),
         )
-        self.client.post(reverse('manage-activate'), {'secret': '123456'})
+        self.client.post(reverse("manage-activate"), {"secret": "123456"})
         status = SupportStatus.objects.get()
-        self.assertEqual(status.name, 'hosted')
+        self.assertEqual(status.name, "hosted")
         backup = BackupService.objects.get()
-        self.assertEqual(backup.repository, '/tmp/xxx')
+        self.assertEqual(backup.repository, "/tmp/xxx")
         self.assertFalse(backup.enabled)
 
     def test_group_management(self):
@@ -241,8 +242,12 @@ class AdminTest(ViewTestCase):
 
         # Edit form
         group = Group.objects.get(name=name)
-        response = self.client.get(
-            reverse("admin:weblate_auth_group_change", kwargs={"object_id": group.pk})
-        )
+        if django.VERSION < (2, 0):
+            url = reverse("admin:weblate_auth_group_change", args=(group.pk,))
+        else:
+            url = reverse(
+                "admin:weblate_auth_group_change", kwargs={"object_id": group.pk}
+            )
+        response = self.client.get(url)
         self.assertContains(response, "Automatic group assignment")
         self.assertContains(response, name)
