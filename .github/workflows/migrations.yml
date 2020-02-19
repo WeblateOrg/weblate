@@ -23,6 +23,7 @@ jobs:
     strategy:
       matrix:
         database: ["postgres", "mariadb", "mysql", "sqlite"]
+      fail-fast: false
     name: ${{ matrix.database }}
 
     services:
