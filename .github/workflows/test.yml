@@ -122,6 +122,7 @@ jobs:
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
+        name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     - name: DeepSource
       env:
         DEEPSOURCE_DSN: https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io
