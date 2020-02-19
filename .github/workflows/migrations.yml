@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: ["postgresql", "mariadb", "sqlite"]
+        database: ["postgres", "mariadb", "sqlite"]
     name: ${{ matrix.database }}
 
     services:

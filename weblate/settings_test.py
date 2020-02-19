@@ -46,7 +46,7 @@ if CI_DATABASE == 'mysql':
         'charset': 'utf8',
         'isolation_level': 'read committed',
     }
-elif CI_DATABASE == 'postgresql':
+elif CI_DATABASE in ('postgresql', 'postgres'):
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
     DATABASES['default']['NAME'] = 'weblate'
     DATABASES['default']['USER'] = 'postgres'
