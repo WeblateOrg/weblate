@@ -39,8 +39,6 @@ jobs:
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python 3.7
@@ -50,6 +48,7 @@ jobs:
     - name: Install pip dependencies
       run: |
         ./ci/pip-install
+        pip install twine
     - name: Setup
       env:
         CI_DATABASE: ${{ matrix.database }}
