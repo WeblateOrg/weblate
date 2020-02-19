@@ -12,5 +12,8 @@ if [ ${1:-latest} = minimal ] ; then
 else
     pip install Cython pycairo
     pip install -r requirements-optional.txt -r requirements-postgresql.txt
+    if [ ${1:-latest} = edge ] ; then
+        pip install https://github.com/translate/translate/archive/master.zip
+    fi
 fi
 pip install -r requirements-test.txt

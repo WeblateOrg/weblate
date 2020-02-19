@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
-        requirements: ["latest", "minimal"]
+        requirements: ["latest", "minimal", "edge"]
         database: ["postgresql", "sqlite"]
         exclude:
           # Reduce testing for sqlite
@@ -48,6 +48,25 @@ jobs:
           # No working combination of psycopg2 and Django 2.2 on Python 3.8
           - python-version: 3.8
             requirements: "minimal"
+            database: "postgresql"
+          # Reduce amount of testing for edge
+          - python-version: 3.5
+            requirements: "edge"
+            database: "sqlite"
+          - python-version: 3.6
+            requirements: "edge"
+            database: "sqlite"
+          - python-version: 3.7
+            requirements: "edge"
+            database: "sqlite"
+          - python-version: 3.8
+            requirements: "edge"
+            database: "sqlite"
+          - python-version: 3.6
+            requirements: "edge"
+            database: "postgresql"
+          - python-version: 3.7
+            requirements: "edge"
             database: "postgresql"
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
 
