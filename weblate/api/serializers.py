@@ -18,16 +18,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.core.exceptions import PermissionDenied
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.util import cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
-from weblate.trans.util import cleanup_repo_url
 
 
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
