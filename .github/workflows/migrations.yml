@@ -22,20 +22,25 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ["3.1.1", "3.2.2", "3.3", "3.4", "3.5.1", "3.7.1", "3.8", "3.9.1", "3.10.3", "3.11"]
-        database: ["postgresql", "sqlite"]
-    name: ${{ matrix.version }}. ${{ matrix.database }}
+        database: ["postgresql", "mariadb", "sqlite"]
+    name: ${{ matrix.database }}
 
     services:
       postgres:
         image: postgres:11
         ports:
-          - 5432/tcp
+          - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: weblate
+      mariadb:
+        image: mariadb:10
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: weblate
 
     steps:
     - uses: actions/checkout@v2
@@ -43,7 +48,7 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
+        key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: Install apt dependencies
@@ -59,13 +64,12 @@ jobs:
     - name: Migrate
       env:
         CI_DATABASE: ${{ matrix.database }}
-        CI_DB_PASSWORD: "postgres"
+        CI_DB_PASSWORD: "weblate"
         CI_DB_HOST: "127.0.0.1"
-        CI_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
         CI_SELENIUM: "1"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
-      run: ./ci/run-migrate ${{ matrix.version }}
+      run: ./ci/run-migrate
     - name: Coverage
       run: |
         coverage combine
