@@ -11,10 +11,10 @@ on:
       - '.github/workflows/docs.yml'
 
 jobs:
-  sphinx:
+  build:
 
     runs-on: ubuntu-latest
-    name: Shpinx
+    name: Sphinx
 
     steps:
     - uses: actions/checkout@v2
@@ -23,8 +23,6 @@ jobs:
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
@@ -37,3 +35,28 @@ jobs:
       run: pip install -r docs/requirements.txt
     - name: Sphinx build
       run: ./ci/run-docs
+
+  linkcheck:
+
+    runs-on: ubuntu-latest
+    name: Linkcheck
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache pip
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install pip dependencies
+      run: pip install -r docs/requirements.txt
+    - name: Sphinx build
+      run: ./ci/run-docs linkcheck
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Linkcheck report
+        path: _build/linkcheck/output.txt

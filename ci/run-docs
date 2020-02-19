@@ -3,4 +3,4 @@
 set -e
 
 # Build documentation with warnings treated as errors
-make -C docs html SPHINXOPTS='-n -W -a'
+make -C docs ${0:-html} SPHINXOPTS='-n -W -a'

@@ -238,3 +238,8 @@ nitpick_ignore = [
     ("http:obj", "string"),
     ("http:obj", "timestamp"),
 ]
+
+# Number of retries and timeout for linkcheck
+linkcheck_ignore = [
+    'http://127.0.0.1:8080/',
+]
