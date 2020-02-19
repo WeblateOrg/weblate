@@ -98,6 +98,11 @@ jobs:
     - uses: codecov/codecov-action@v1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
+    - name: DeepSource
+      run: |
+        coverage xml
+        curl https://deepsource.io/cli | sh
+        ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
     - uses: actions/upload-artifact@v1
       with:
         name: Screenshots
