@@ -24,7 +24,7 @@ jobs:
       matrix:
         python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
         requirements: ["latest", "minimal", "edge"]
-        database: ["postgresql", "sqlite"]
+        database: ["postgres", "sqlite"]
         exclude:
           # Reduce testing for sqlite
           - python-version: 3.5
@@ -48,7 +48,7 @@ jobs:
           # No working combination of psycopg2 and Django 2.2 on Python 3.8
           - python-version: 3.8
             requirements: "minimal"
-            database: "postgresql"
+            database: "postgres"
           # Reduce amount of testing for edge
           - python-version: 3.5
             requirements: "edge"
@@ -64,10 +64,23 @@ jobs:
             database: "sqlite"
           - python-version: 3.6
             requirements: "edge"
-            database: "postgresql"
+            database: "postgres"
           - python-version: 3.7
             requirements: "edge"
-            database: "postgresql"
+            database: "postgres"
+          # Limit tests for 2.7
+          - python-version: 2.7
+            requirements: "minimal"
+            database: "sqlite"
+          - python-version: 2.7
+            requirements: "minimal"
+            database: "postgres"
+          - python-version: 2.7
+            requirements: "edge"
+            database: "sqlite"
+          - python-version: 2.7
+            requirements: "edge"
+            database: "postgres"
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
 
     services:
@@ -79,10 +92,8 @@ jobs:
         image: postgres:11
         ports:
           - 5432/tcp
-        volumes:
-          - /var/lib/postgresql/data
         # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: --health-cmd "pg_isready --user=postgres" --health-interval 10s --health-timeout 5s --health-retries 5
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
