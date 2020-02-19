@@ -400,8 +400,7 @@ Setting up Lab
 ++++++++++++++
 
 :ref:`gitlab-push` requires a configured `lab`_ installation on your server.
-Follow the installation instructions at
-https://github.com/zaquestion/lab#installation and run it without any arguments to
+Follow the installation instructions at `lab`_ and run it without any arguments to
 finish the configuration, for example:
 
 .. code-block:: sh
