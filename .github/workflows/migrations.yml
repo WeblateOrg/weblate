@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: ["postgres", "mariadb", "sqlite"]
+        database: ["postgresql", "mariadb", "sqlite"]
       fail-fast: false
     name: ${{ matrix.database }}
 
@@ -65,7 +65,7 @@ jobs:
     - name: Detect database
       id: database
       run: |
-        if [ ${{ matrix.database }} = postgres ] ; then
+        if [ ${{ matrix.database }} = postgresql ] ; then
             echo "::set-output name=port::${{ job.services.postgres.ports['5432'] }}"
         elif [ ${{ matrix.database }} = mariadb ] ; then
             echo "::set-output name=port::${{ job.services.mariadb.ports['3306'] }}"
