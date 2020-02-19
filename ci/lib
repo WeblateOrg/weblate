@@ -15,6 +15,17 @@ run_coverage() {
     python -W default -W ignore:unclosed:ResourceWarning -W ignore::PendingDeprecationWarning -m coverage run --source . --append "$@"
 }
 
+get_mysql_args() {
+    args="--host=$CI_DB_HOST --user=root"
+    if [ -n "$CI_DB_PORT" ] ; then
+        args="$args --port=$CI_DB_PORT"
+    fi
+    if [ -n "$CI_DB_PASSWORD" ] ; then
+        args="$args --password=$CI_DB_PASSWORD"
+    fi
+    echo $args
+}
+
 cleanup_database() {
     rm -f weblate.db
 
@@ -23,10 +34,10 @@ cleanup_database() {
             export MYSQL_TCP_PORT="$CI_DB_PORT"
         fi
 
-        mysql --host=$CI_DB_HOST -e 'SET GLOBAL character_set_server=utf8' -uroot
-        mysql --host=$CI_DB_HOST -e 'SET GLOBAL collation_server=utf8_general_ci' -uroot
-        mysql --host=$CI_DB_HOST -e 'DROP DATABASE IF EXISTS weblate;' -uroot
-        mysql --host=$CI_DB_HOST -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;' -uroot
+        mysql $(get_mysql_args) -e 'SET GLOBAL character_set_server=utf8'
+        mysql $(get_mysql_args) -e 'SET GLOBAL collation_server=utf8_general_ci'
+        mysql $(get_mysql_args) -e 'DROP DATABASE IF EXISTS weblate;'
+        mysql $(get_mysql_args) -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;'
     fi
 
     if [ $CI_DATABASE = "postgresql" ] ; then
