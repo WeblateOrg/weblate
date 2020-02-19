@@ -23,7 +23,7 @@ for tag in $TAGS ; do
     if [ $PYTHON_VERSION -eq 3 ] ; then
         case $tag in
             weblate-3.[123].* | weblate-3.[123])
-                pip install 'Django>=2.1,<3.2'
+                pip install 'Django>=2.1,<2.2'
                 ;;
             *)
                 pip install 'Django>=2.2,<3.0'
