@@ -30,6 +30,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
+from weblate.auth.models import Group
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import add_configuration_error, delete_configuration_error
@@ -217,3 +218,31 @@ class AdminTest(ViewTestCase):
         backup = BackupService.objects.get()
         self.assertEqual(backup.repository, '/tmp/xxx')
         self.assertFalse(backup.enabled)
+
+    def test_group_management(self):
+        # Add form
+        response = self.client.get(reverse("admin:weblate_auth_group_add"))
+        self.assertContains(response, "Automatic group assignment")
+
+        # Create group
+        name = "Test group"
+        response = self.client.post(
+            reverse("admin:weblate_auth_group_add"),
+            {
+                "name": name,
+                "language_selection": "1",
+                "project_selection": "1",
+                "autogroup_set-TOTAL_FORMS": "0",
+                "autogroup_set-INITIAL_FORMS": "0",
+            },
+            follow=True,
+        )
+        self.assertContains(response, name)
+
+        # Edit form
+        group = Group.objects.get(name=name)
+        response = self.client.get(
+            reverse("admin:weblate_auth_group_change", kwargs={"object_id": group.pk})
+        )
+        self.assertContains(response, "Automatic group assignment")
+        self.assertContains(response, name)

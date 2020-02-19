@@ -6,6 +6,7 @@ Not yet released.
 * Documented Celery setup changes.
 * Improved filename validation on component creation.
 * Fixed minimal versions of some dependecies.
+* Fixed adding groups with certain Django versions.
 
 Weblate 3.11
 ------------
