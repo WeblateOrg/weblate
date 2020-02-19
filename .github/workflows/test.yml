@@ -123,6 +123,8 @@ jobs:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
     - name: DeepSource
+      env:
+        DEEPSOURCE_DSN: https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io
       run: |
         curl https://deepsource.io/cli | sh
         ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
