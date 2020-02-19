@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: ["postgres", "mariadb", "mysql", "sqlite"]
+        database: ["postgres", "mariadb", "sqlite"]
       fail-fast: false
     name: ${{ matrix.database }}
 
@@ -38,12 +38,6 @@ jobs:
           POSTGRES_PASSWORD: weblate
       mariadb:
         image: mariadb:10
-        ports:
-          - 3306/tcp
-        env:
-          MYSQL_ROOT_PASSWORD: weblate
-      mysql:
-        image: mysql:8
         ports:
           - 3306/tcp
         env:
