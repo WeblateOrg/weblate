@@ -126,9 +126,10 @@ def perform_on_link(func):
     """Decorator to handle repository link."""
 
     def on_link_wrapper(self, *args, **kwargs):
-        if self.is_repo_link:
+        linked = self.linked_component
+        if linked:
             # Call same method on linked component
-            return getattr(self.linked_component, func.__name__)(*args, **kwargs)
+            return getattr(linked, func.__name__)(*args, **kwargs)
         return func(self, *args, **kwargs)
 
     return on_link_wrapper
