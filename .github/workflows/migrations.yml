@@ -22,12 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: ["postgres", "mariadb", "sqlite"]
+        database: ["postgres", "mariadb", "mysql", "sqlite"]
     name: ${{ matrix.database }}
 
     services:
       postgres:
-        image: postgres:11
+        image: postgres:12
         ports:
           - 5432/tcp
         # needed because the postgres container does not provide a healthcheck
@@ -37,6 +37,12 @@ jobs:
           POSTGRES_PASSWORD: weblate
       mariadb:
         image: mariadb:10
+        ports:
+          - 3306/tcp
+        env:
+          MYSQL_ROOT_PASSWORD: weblate
+      mysql:
+        image: mysql:8
         ports:
           - 3306/tcp
         env:
@@ -66,7 +72,9 @@ jobs:
       run: |
         if [ ${{ matrix.database }} = postgres ] ; then
             echo "::set-output name=port::${{ job.services.postgres.ports['5432'] }}"
-        elif [ ${{ matrix.database }} = postgres ] ; then
+        elif [ ${{ matrix.database }} = mariadb ] ; then
+            echo "::set-output name=port::${{ job.services.mariadb.ports['3306'] }}"
+        elif [ ${{ matrix.database }} = mysql ] ; then
             echo "::set-output name=port::${{ job.services.mysql.ports['3306'] }}"
         else
             echo "::set-output name=port::"
