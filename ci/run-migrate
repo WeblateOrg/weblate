@@ -23,9 +23,12 @@ for tag in $TAGS ; do
     if [ $PYTHON_VERSION -eq 3 ] ; then
         case $tag in
             weblate-3.[123].* | weblate-3.[123])
+                # Older versions do not support Django 2.2
                 pip install 'Django>=2.1,<2.2'
                 ;;
             *)
+                # We need 2.2 for 3.4 migration on MySQL, see
+                # https://code.djangoproject.com/ticket/29480
                 pip install 'Django>=2.2,<3.0'
                 ;;
         esac
