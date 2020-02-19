@@ -36,6 +36,7 @@ install:
   - if [ -f requirements-$CI_DATABASE.txt ] ; then pip install -r requirements-$CI_DATABASE.txt ; fi
   - pip install -r ci/requirements-travis.txt
   - pip install -r docs/requirements.txt
+  - pip install -r requirements-lint.txt
 # create databases
 before_script: &before
   - ./ci/prepare-database
