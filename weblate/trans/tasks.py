@@ -283,11 +283,11 @@ def cleanup_old_comments():
 def repository_alerts(threshold=10):
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
-        if component.repository.count_missing() > 10:
+        if component.repository.count_missing() > threshold:
             component.add_alert("RepositoryOutdated")
         else:
             component.delete_alert("RepositoryOutdated")
-        if component.repository.count_outgoing() > 10:
+        if component.repository.count_outgoing() > threshold:
             component.add_alert("RepositoryChanges")
         else:
             component.delete_alert("RepositoryChanges")
