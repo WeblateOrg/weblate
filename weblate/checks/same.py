@@ -21,7 +21,6 @@
 from __future__ import unicode_literals
 
 import re
-import sys
 
 from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
