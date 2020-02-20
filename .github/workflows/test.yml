@@ -125,6 +125,7 @@ jobs:
         flags: unittests
         name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     - name: DeepSource
+      continue-on-error: true
       env:
         DEEPSOURCE_DSN: https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io
       run: |
