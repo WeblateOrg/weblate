@@ -29,7 +29,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.checks import CHECKS

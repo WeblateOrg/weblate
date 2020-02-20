@@ -31,7 +31,7 @@ from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.translation import pgettext, ugettext, ugettext_lazy, ungettext
+from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
@@ -70,9 +70,9 @@ NEWLINES_RE = re.compile(r"\r\n|\r|\n")
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
-    True: ugettext_lazy("Good configuration"),
-    False: ugettext_lazy("Bad configuration"),
-    None: ugettext_lazy("Possible configuration"),
+    True: gettext_lazy("Good configuration"),
+    False: gettext_lazy("Bad configuration"),
+    None: gettext_lazy("Possible configuration"),
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
@@ -107,7 +107,7 @@ def fmt_whitespace(value):
     value = WHITESPACE_RE.sub(replace_whitespace, value)
 
     # Highlight tabs
-    value = value.replace("\t", SPACE_TAB.format(ugettext("Tab character")))
+    value = value.replace("\t", SPACE_TAB.format(gettext("Tab character")))
 
     return value
 
@@ -181,7 +181,7 @@ def format_translation(
         plurals = plurals[-1:]
 
     # Newline concatenator
-    newline = SPACE_NL.format(ugettext("New line"))
+    newline = SPACE_NL.format(gettext("New line"))
 
     # Split diff plurals
     if diff is not None:
@@ -316,49 +316,49 @@ def naturaltime_past(value, now):
     if delta.days >= 365:
         count = delta.days // 365
         if count == 1:
-            return ugettext("a year ago")
-        return ungettext("%(count)s year ago", "%(count)s years ago", count) % {
+            return gettext("a year ago")
+        return ngettext("%(count)s year ago", "%(count)s years ago", count) % {
             "count": count
         }
     if delta.days >= 30:
         count = delta.days // 30
         if count == 1:
-            return ugettext("a month ago")
-        return ungettext("%(count)s month ago", "%(count)s months ago", count) % {
+            return gettext("a month ago")
+        return ngettext("%(count)s month ago", "%(count)s months ago", count) % {
             "count": count
         }
     if delta.days >= 14:
         count = delta.days // 7
-        return ungettext("%(count)s week ago", "%(count)s weeks ago", count) % {
+        return ngettext("%(count)s week ago", "%(count)s weeks ago", count) % {
             "count": count
         }
     if delta.days > 0:
         if delta.days == 7:
-            return ugettext("a week ago")
+            return gettext("a week ago")
         if delta.days == 1:
-            return ugettext("yesterday")
-        return ungettext("%(count)s day ago", "%(count)s days ago", delta.days) % {
+            return gettext("yesterday")
+        return ngettext("%(count)s day ago", "%(count)s days ago", delta.days) % {
             "count": delta.days
         }
     if delta.seconds == 0:
-        return ugettext("now")
+        return gettext("now")
     if delta.seconds < 60:
         if delta.seconds == 1:
-            return ugettext("a second ago")
-        return ungettext(
+            return gettext("a second ago")
+        return ngettext(
             "%(count)s second ago", "%(count)s seconds ago", delta.seconds
         ) % {"count": delta.seconds}
     if delta.seconds // 60 < 60:
         count = delta.seconds // 60
         if count == 1:
-            return ugettext("a minute ago")
-        return ungettext("%(count)s minute ago", "%(count)s minutes ago", count) % {
+            return gettext("a minute ago")
+        return ngettext("%(count)s minute ago", "%(count)s minutes ago", count) % {
             "count": count
         }
     count = delta.seconds // 60 // 60
     if count == 1:
-        return ugettext("an hour ago")
-    return ungettext("%(count)s hour ago", "%(count)s hours ago", count) % {
+        return gettext("an hour ago")
+    return ngettext("%(count)s hour ago", "%(count)s hours ago", count) % {
         "count": count
     }
 
@@ -373,49 +373,49 @@ def naturaltime_future(value, now):
     if delta.days >= 365:
         count = delta.days // 365
         if count == 1:
-            return ugettext("a year from now")
-        return ungettext(
+            return gettext("a year from now")
+        return ngettext(
             "%(count)s year from now", "%(count)s years from now", count
         ) % {"count": count}
     if delta.days >= 30:
         count = delta.days // 30
         if count == 1:
-            return ugettext("a month from now")
-        return ungettext(
+            return gettext("a month from now")
+        return ngettext(
             "%(count)s month from now", "%(count)s months from now", count
         ) % {"count": count}
     if delta.days >= 14:
         count = delta.days // 7
-        return ungettext(
+        return ngettext(
             "%(count)s week from now", "%(count)s weeks from now", count
         ) % {"count": count}
     if delta.days > 0:
         if delta.days == 1:
-            return ugettext("tomorrow")
+            return gettext("tomorrow")
         if delta.days == 7:
-            return ugettext("a week from now")
-        return ungettext(
+            return gettext("a week from now")
+        return ngettext(
             "%(count)s day from now", "%(count)s days from now", delta.days
         ) % {"count": delta.days}
     if delta.seconds == 0:
-        return ugettext("now")
+        return gettext("now")
     if delta.seconds < 60:
         if delta.seconds == 1:
-            return ugettext("a second from now")
-        return ungettext(
+            return gettext("a second from now")
+        return ngettext(
             "%(count)s second from now", "%(count)s seconds from now", delta.seconds
         ) % {"count": delta.seconds}
     if delta.seconds // 60 < 60:
         count = delta.seconds // 60
         if count == 1:
-            return ugettext("a minute from now")
-        return ungettext(
+            return gettext("a minute from now")
+        return ngettext(
             "%(count)s minute from now", "%(count)s minutes from now", count
         ) % {"count": count}
     count = delta.seconds // 60 // 60
     if count == 1:
-        return ugettext("an hour from now")
-    return ungettext("%(count)s hour from now", "%(count)s hours from now", count) % {
+        return gettext("an hour from now")
+    return ngettext("%(count)s hour from now", "%(count)s hours from now", count) % {
         "count": count
     }
 
@@ -538,7 +538,7 @@ def get_location_links(profile, unit):
 
     # Is it just an ID?
     if unit.location.isdigit():
-        return ugettext("string ID %s") % unit.location
+        return gettext("string ID %s") % unit.location
 
     # Go through all locations separated by comma
     for location in unit.location.split(","):
@@ -702,7 +702,7 @@ def indicate_alerts(context, obj):
 
     if context["user"].has_perm("project.edit", project):
         result.append(
-            ("state/admin.svg", ugettext("You administrate this project."), None)
+            ("state/admin.svg", gettext("You administrate this project."), None)
         )
 
     if translation:
@@ -710,7 +710,7 @@ def indicate_alerts(context, obj):
             result.append(
                 (
                     "state/source.svg",
-                    ugettext("This translation is used for source strings."),
+                    gettext("This translation is used for source strings."),
                     None,
                 )
             )
@@ -722,7 +722,7 @@ def indicate_alerts(context, obj):
             result.append(
                 (
                     "state/link.svg",
-                    ugettext("This component is linked to the %(target)s repository.")
+                    gettext("This component is linked to the %(target)s repository.")
                     % {"target": component.linked_component},
                     None,
                 )
@@ -732,21 +732,21 @@ def indicate_alerts(context, obj):
             result.append(
                 (
                     "state/alert.svg",
-                    ugettext("Fix this component to clear its alerts."),
+                    gettext("Fix this component to clear its alerts."),
                     component.get_absolute_url() + "#alerts",
                 )
             )
 
         if component.locked:
             result.append(
-                ("state/lock.svg", ugettext("This translation is locked."), None)
+                ("state/lock.svg", gettext("This translation is locked."), None)
             )
 
         if component.in_progress():
             result.append(
                 (
                     "state/update.svg",
-                    ugettext("Updating translation component…"),
+                    gettext("Updating translation component…"),
                     reverse(
                         "component_progress", kwargs=component.get_reverse_url_kwargs()
                     )
@@ -758,14 +758,14 @@ def indicate_alerts(context, obj):
             result.append(
                 (
                     "state/alert.svg",
-                    ugettext("Some of the components within this project have alerts."),
+                    gettext("Some of the components within this project have alerts."),
                     None,
                 )
             )
 
         if project.locked:
             result.append(
-                ("state/lock.svg", ugettext("This translation is locked."), None)
+                ("state/lock.svg", gettext("This translation is locked."), None)
             )
 
     return {"icons": result, "component": component, "project": project}
@@ -794,7 +794,7 @@ def choiceval(boundfield):
         return ""
     choices = dict(boundfield.field.choices)
     if value is True:
-        return ugettext("enabled")
+        return gettext("enabled")
     if isinstance(value, list):
         return ", ".join(choices.get(val, val) for val in value)
     return choices.get(value, value)

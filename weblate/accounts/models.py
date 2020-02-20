@@ -31,8 +31,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.translation import LANGUAGE_SESSION_KEY, ugettext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import LANGUAGE_SESSION_KEY, gettext
+from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
 
@@ -196,7 +196,7 @@ class AuditLog(models.Model):
         result = {}
         result.update(self.params)
         if 'method' in result:
-            result['method'] = ugettext(result['method'])
+            result['method'] = gettext(result['method'])
         return result
 
     def get_message(self):

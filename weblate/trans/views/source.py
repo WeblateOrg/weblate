@@ -23,7 +23,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.http.response import HttpResponseServerError
 from django.shortcuts import get_object_or_404
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language

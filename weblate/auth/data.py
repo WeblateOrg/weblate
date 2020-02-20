@@ -20,7 +20,7 @@
 """Definition of permissions and default roles and groups."""
 
 
-from django.utils.translation import ugettext_noop as _
+from django.utils.translation import gettext_noop as _
 
 from weblate.utils.translation import pgettext_noop as pgettext
 

@@ -26,7 +26,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
 from weblate.memory.forms import DeleteForm, ImportForm, UploadForm

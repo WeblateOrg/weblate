@@ -26,7 +26,7 @@ from glob import glob
 from itertools import chain
 
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error

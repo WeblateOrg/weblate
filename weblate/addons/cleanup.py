@@ -22,7 +22,7 @@
 import os
 
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from translate.storage.lisa import LISAfile
 
 from weblate.addons.base import UpdateBaseAddon

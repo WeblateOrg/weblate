@@ -25,7 +25,7 @@ import tempfile
 from copy import deepcopy
 
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from weblate.utils.hash import calculate_hash
 

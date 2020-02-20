@@ -23,7 +23,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.accounts.forms import FullNameField, UniqueEmailMixin, UsernameField
 from weblate.accounts.utils import remove_user

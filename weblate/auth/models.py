@@ -31,8 +31,9 @@ from django.http import Http404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import pgettext, ugettext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext
 
 from weblate.auth.data import (
     ACL_GROUPS,
@@ -71,7 +72,7 @@ class Permission(models.Model):
         verbose_name_plural = _('Permissions')
 
     def __str__(self):
-        return ugettext(self.name)
+        return gettext(self.name)
 
 
 class Role(models.Model):

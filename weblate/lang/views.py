@@ -24,7 +24,7 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.utils.http import urlencode
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import CreateView, UpdateView
 
 from weblate.lang import data

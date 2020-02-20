@@ -30,9 +30,8 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
-from django.utils.translation import override
-from django.utils.translation import ugettext as _
-from django.utils.translation import ungettext
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext, override
 from filelock import Timeout
 from whoosh.index import EmptyIndexError
 
@@ -366,7 +365,7 @@ def auto_translate(
             return _("Automatic translation completed, no strings were updated.")
 
         return (
-            ungettext(
+            ngettext(
                 "Automatic translation completed, %d string was updated.",
                 "Automatic translation completed, %d strings were updated.",
                 auto.updated,

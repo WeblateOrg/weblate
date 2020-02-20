@@ -25,7 +25,7 @@ from django.conf import settings
 from django.contrib.admin import ModelAdmin
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 
 from weblate import USER_AGENT
 from weblate.auth.models import User
@@ -85,10 +85,10 @@ class ConfigurationError(models.Model):
 
 
 SUPPORT_NAMES = {
-    'community': ugettext_lazy('Community support'),
-    'hosted': ugettext_lazy('Hosted service'),
-    'basic': ugettext_lazy('Basic self-hosted support'),
-    'extended': ugettext_lazy('Extended self-hosted support'),
+    'community': gettext_lazy('Community support'),
+    'hosted': gettext_lazy('Hosted service'),
+    'basic': gettext_lazy('Basic self-hosted support'),
+    'extended': gettext_lazy('Extended self-hosted support'),
 }
 
 
@@ -149,7 +149,7 @@ class SupportStatus(models.Model):
 
 class BackupService(models.Model):
     repository = models.CharField(
-        max_length=500, default='', verbose_name=ugettext_lazy('Backup repository')
+        max_length=500, default='', verbose_name=gettext_lazy('Backup repository')
     )
     enabled = models.BooleanField(default=True)
     timestamp = models.DateTimeField(default=timezone.now)
@@ -190,10 +190,10 @@ class BackupLog(models.Model):
     event = models.CharField(
         max_length=100,
         choices=(
-            ('backup', ugettext_lazy('Backup performed')),
-            ('error', ugettext_lazy('Backup failed')),
-            ('prune', ugettext_lazy('Deleted the oldest backups')),
-            ('init', ugettext_lazy('Repository initialization')),
+            ('backup', gettext_lazy('Backup performed')),
+            ('error', gettext_lazy('Backup failed')),
+            ('prune', gettext_lazy('Deleted the oldest backups')),
+            ('init', gettext_lazy('Repository initialization')),
         ),
     )
     log = models.TextField()

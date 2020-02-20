@@ -28,7 +28,7 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 
 from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
@@ -190,9 +190,9 @@ class Unit(models.Model, LoggerMixin):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     extra_flags = models.TextField(
-        verbose_name=ugettext_lazy("Translation flags"),
+        verbose_name=gettext_lazy("Translation flags"),
         default="",
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Additional comma-separated flags to influence quality checks. "
             "Possible values can be found in the documentation."
         ),
@@ -200,7 +200,7 @@ class Unit(models.Model, LoggerMixin):
         blank=True,
     )
     extra_context = models.TextField(
-        verbose_name=ugettext_lazy("Additional context"), default="", blank=True
+        verbose_name=gettext_lazy("Additional context"), default="", blank=True
     )
     shaping = models.ForeignKey(
         "Shaping",
@@ -210,7 +210,7 @@ class Unit(models.Model, LoggerMixin):
         default=None,
     )
     labels = models.ManyToManyField(
-        "Label", verbose_name=ugettext_lazy("Labels"), blank=True
+        "Label", verbose_name=gettext_lazy("Labels"), blank=True
     )
 
     objects = UnitQuerySet.as_manager()

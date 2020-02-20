@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import activate, ugettext
+from django.utils.translation import activate, gettext
 
 from weblate.lang.models import Language
 from weblate.utils.management.base import BaseCommand
@@ -40,7 +40,7 @@ class Command(BaseCommand):
         """
         activate(options['locale'])
         for language in Language.objects.order():
-            name = ugettext(language.name)
+            name = gettext(language.name)
             if options['lower']:
                 name = name[0].lower() + name[1:]
             self.stdout.write(

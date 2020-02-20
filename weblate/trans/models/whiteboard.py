@@ -26,8 +26,8 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.html import urlize
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 from weblate.lang.models import Language
 
@@ -62,10 +62,10 @@ class WhiteboardManager(models.Manager):
 
 
 class WhiteboardMessage(models.Model):
-    message = models.TextField(verbose_name=ugettext_lazy('Message'))
+    message = models.TextField(verbose_name=gettext_lazy('Message'))
     message_html = models.BooleanField(  # noqa: DJ02
-        verbose_name=ugettext_lazy('Render as HTML'),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy('Render as HTML'),
+        help_text=gettext_lazy(
             'When turned off, URLs will be converted to links and '
             'any markup will be escaped.'
         ),
@@ -75,34 +75,34 @@ class WhiteboardMessage(models.Model):
 
     project = models.ForeignKey(
         'Project',
-        verbose_name=ugettext_lazy('Project'),
+        verbose_name=gettext_lazy('Project'),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     component = models.ForeignKey(
         'Component',
-        verbose_name=ugettext_lazy('Component'),
+        verbose_name=gettext_lazy('Component'),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     language = models.ForeignKey(
         Language,
-        verbose_name=ugettext_lazy('Language'),
+        verbose_name=gettext_lazy('Language'),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     category = models.CharField(
         max_length=25,
-        verbose_name=ugettext_lazy('Category'),
-        help_text=ugettext_lazy('Category defines color used for the message.'),
+        verbose_name=gettext_lazy('Category'),
+        help_text=gettext_lazy('Category defines color used for the message.'),
         choices=(
-            ('info', ugettext_lazy('Info (light blue)')),
-            ('warning', ugettext_lazy('Warning (yellow)')),
-            ('danger', ugettext_lazy('Danger (red)')),
-            ('success', ugettext_lazy('Success (green)')),
+            ('info', gettext_lazy('Info (light blue)')),
+            ('warning', gettext_lazy('Warning (yellow)')),
+            ('danger', gettext_lazy('Danger (red)')),
+            ('success', gettext_lazy('Success (green)')),
         ),
         default='info',
     )
@@ -110,8 +110,8 @@ class WhiteboardMessage(models.Model):
         null=True,
         blank=True,
         db_index=True,
-        verbose_name=ugettext_lazy('Expiry date'),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy('Expiry date'),
+        help_text=gettext_lazy(
             'The message will be not shown after this date. '
             'Use it to announce string freeze and translation '
             'deadline for next release.'
@@ -122,8 +122,8 @@ class WhiteboardMessage(models.Model):
 
     class Meta(object):
         app_label = 'trans'
-        verbose_name = ugettext_lazy('Whiteboard message')
-        verbose_name_plural = ugettext_lazy('Whiteboard messages')
+        verbose_name = gettext_lazy('Whiteboard message')
+        verbose_name_plural = gettext_lazy('Whiteboard messages')
 
     def __str__(self):
         return self.message

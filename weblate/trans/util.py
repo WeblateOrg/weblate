@@ -34,8 +34,8 @@ from django.shortcuts import resolve_url
 from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 from lxml import etree
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
@@ -45,11 +45,11 @@ PLURAL_SEPARATOR = '\x1e\x1e'
 LOCALE_SETUP = True
 
 PRIORITY_CHOICES = (
-    (60, ugettext_lazy('Very high')),
-    (80, ugettext_lazy('High')),
-    (100, ugettext_lazy('Medium')),
-    (120, ugettext_lazy('Low')),
-    (140, ugettext_lazy('Very low')),
+    (60, gettext_lazy('Very high')),
+    (80, gettext_lazy('High')),
+    (100, gettext_lazy('Medium')),
+    (120, gettext_lazy('Low')),
+    (140, gettext_lazy('Very low')),
 )
 
 # Initialize to sane locales for strxfrm

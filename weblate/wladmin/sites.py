@@ -26,7 +26,7 @@ from django.contrib.sites.admin import SiteAdmin
 from django.contrib.sites.models import Site
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 from rest_framework.authtoken.admin import TokenAdmin
 from rest_framework.authtoken.models import Token

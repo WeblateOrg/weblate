@@ -27,7 +27,7 @@ from io import BytesIO
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email as validate_email_django
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from PIL import Image
 
 from weblate.trans.util import cleanup_path

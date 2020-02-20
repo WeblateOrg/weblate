@@ -21,7 +21,7 @@
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from translate.misc.multistring import multistring
 from translate.storage.csvl10n import csvfile
 from translate.storage.mo import mofile

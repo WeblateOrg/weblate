@@ -23,7 +23,7 @@
 import os.path
 from fnmatch import fnmatch
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from translate.storage import factory
 
 from weblate.formats.helpers import BytesIOMode

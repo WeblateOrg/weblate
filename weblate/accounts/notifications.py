@@ -30,8 +30,9 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.encoding import force_text
-from django.utils.translation import get_language, get_language_bidi, override
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language, get_language_bidi
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import override
 
 from weblate import VERSION
 from weblate.accounts.tasks import send_mails

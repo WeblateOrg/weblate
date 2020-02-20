@@ -24,8 +24,8 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
 from weblate.trans.models import Component
@@ -46,13 +46,13 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.wladmin.tasks import backup_service
 
 MENU = (
-    ('index', 'manage', ugettext_lazy('Weblate status')),
-    ('backups', 'manage-backups', ugettext_lazy('Backups')),
-    ('memory', 'manage-memory', ugettext_lazy('Translation memory')),
-    ('performance', 'manage-performance', ugettext_lazy('Performance report')),
-    ('ssh', 'manage-ssh', ugettext_lazy('SSH keys')),
-    ('repos', 'manage-repos', ugettext_lazy('Status of repositories')),
-    ('tools', 'manage-tools', ugettext_lazy('Tools')),
+    ('index', 'manage', gettext_lazy('Weblate status')),
+    ('backups', 'manage-backups', gettext_lazy('Backups')),
+    ('memory', 'manage-memory', gettext_lazy('Translation memory')),
+    ('performance', 'manage-performance', gettext_lazy('Performance report')),
+    ('ssh', 'manage-ssh', gettext_lazy('SSH keys')),
+    ('repos', 'manage-repos', gettext_lazy('Status of repositories')),
+    ('tools', 'manage-tools', gettext_lazy('Tools')),
 )
 
 

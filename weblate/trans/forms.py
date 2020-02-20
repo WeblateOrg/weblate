@@ -41,8 +41,9 @@ from django.utils.encoding import force_text, smart_text
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-from django.utils.translation import pgettext_lazy, ugettext
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
@@ -217,7 +218,7 @@ class PluralTextarea(forms.Textarea):
         rtl_switch = [
             RADIO_TEMPLATE.format(
                 'direction-toggle active',
-                ugettext('Toggle text direction'),
+                gettext('Toggle text direction'),
                 rtl_name,
                 'rtl',
                 'checked="checked"',
@@ -225,7 +226,7 @@ class PluralTextarea(forms.Textarea):
             ),
             RADIO_TEMPLATE.format(
                 'direction-toggle',
-                ugettext('Toggle text direction'),
+                gettext('Toggle text direction'),
                 rtl_name,
                 'ltr',
                 '',
@@ -252,9 +253,9 @@ class PluralTextarea(forms.Textarea):
                 '',
                 BUTTON_TEMPLATE.format(
                     'copy-text',
-                    ugettext('Fill in with source string'),
+                    gettext('Fill in with source string'),
                     COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
-                    '{} {}'.format(icon("clone.svg"), ugettext('Clone source')),
+                    '{} {}'.format(icon("clone.svg"), gettext('Clone source')),
                 ),
             )
         )
@@ -989,7 +990,7 @@ class NewLanguageOwnerForm(forms.Form):
         self.component = component
         languages = Language.objects.exclude(self.get_lang_filter())
         self.fields['lang'].choices = sort_choices(
-            [(l.code, '{0} ({1})'.format(ugettext(l.name), l.code)) for l in languages]
+            [(l.code, '{0} ({1})'.format(gettext(l.name), l.code)) for l in languages]
         )
 
 
