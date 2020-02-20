@@ -24,7 +24,6 @@ import re
 import sys
 from io import BytesIO
 
-import six
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email as validate_email_django
@@ -114,10 +113,8 @@ def validate_bitmap(value):
         value.file.content_type = Image.MIME.get(image.format)
     except Exception:
         # Pillow doesn't recognize it as an image.
-        six.reraise(
-            ValidationError,
-            ValidationError(_('Invalid image!'), code='invalid_image'),
-            sys.exc_info()[2],
+        raise ValidationError(_('Invalid image!'), code='invalid_image').with_traceback(
+            sys.exc_info()[2]
         )
     if hasattr(value.file, 'seek') and callable(value.file.seek):
         value.file.seek(0)
