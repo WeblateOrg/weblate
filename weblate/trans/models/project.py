@@ -353,7 +353,7 @@ class Project(models.Model, URLMixin, PathMixin):
                 Check.objects.filter(check=check).filter(query).delete()
         # Create new checks
         if create:
-            Check.objects.bulk_create_ignore(create)
+            Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
 
     def run_target_checks(self):
         """Run batch executed target checks."""

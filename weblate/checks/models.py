@@ -22,7 +22,7 @@
 import json
 
 from appconf import AppConf
-from django.db import IntegrityError, models, transaction
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -89,33 +89,10 @@ class WeblateChecksConf(AppConf):
         prefix = ''
 
 
-class CheckManager(models.Manager):
-    # pylint: disable=no-init
-
-    def bulk_create_ignore(self, objs):
-        """Wrapper to bulk_create to ignore existing entries.
-
-        Once we require Django 2.2 this can be replaced with
-        bulk_create(ignore_conflicts=True).
-        """
-        try:
-            with transaction.atomic():
-                self.bulk_create(objs, batch_size=500)
-        except IntegrityError:
-            for obj in objs:
-                try:
-                    with transaction.atomic():
-                        obj.save()
-                except IntegrityError:
-                    continue
-
-
 class Check(models.Model):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     ignore = models.BooleanField(db_index=True, default=False)
-
-    objects = CheckManager()
 
     @cached_property
     def check_obj(self):
