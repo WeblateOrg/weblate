@@ -25,7 +25,15 @@ The code should follow PEP-8 coding guidelines and should be formatted using
 parameter).
 
 To check the code quality, you can use :program:`flake8`, the recommended
-plugins are listed in :file:`requirements-test.txt`.
+plugins are listed in :file:`requirements-lint.txt`.
+
+The easiest approach to enforce this is to install `pre-commit`_. Weblate
+repository contains configuration for it to verify the commited files are sane.
+After installing it (it is already included in the
+:file:`requirements-lint.txt`) eneble it by running ``pre-commit install`` in
+Weblate checkout.
+
+.. _pre-commit: https://pre-commit.com/
 
 You can execute all coding style checks with the script :file:`ci/run-lint`.
 
