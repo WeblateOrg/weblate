@@ -1,7 +1,7 @@
 Weblate 3.11.1
 --------------
 
-Not yet released.
+Released on February 20th 2020.
 
 * Documented Celery setup changes.
 * Improved filename validation on component creation.
