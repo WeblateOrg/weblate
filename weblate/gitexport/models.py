@@ -38,7 +38,7 @@ SUPPORTED_VCS = {
 
 
 def get_export_url(component):
-    """Return Git export URL for component"""
+    """Return Git export URL for component."""
     return get_site_url(
         reverse(
             'git-export',

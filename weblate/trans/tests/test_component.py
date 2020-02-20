@@ -459,13 +459,13 @@ class ComponentValidationTest(RepoTestCase):
         self.component.full_clean()
 
     def test_commit_message(self):
-        """Invalid commit message"""
+        """Invalid commit message."""
         self.component.commit_message = '{% if %}'
         with self.assertRaises(ValidationError):
             self.component.full_clean()
 
     def test_filemask(self):
-        """Invalid mask"""
+        """Invalid mask."""
         self.component.filemask = 'foo/x.po'
         self.assertRaisesMessage(
             ValidationError,
@@ -474,7 +474,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_no_matches(self):
-        """Not matching mask"""
+        """Not matching mask."""
         self.component.filemask = 'foo/*.po'
         self.assertRaisesMessage(
             ValidationError,
@@ -483,7 +483,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_fileformat(self):
-        """Unknown file format"""
+        """Unknown file format."""
         self.component.file_format = 'i18next'
         self.component.filemask = 'invalid/*.invalid'
         self.assertRaisesMessage(
@@ -493,7 +493,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_repoweb(self):
-        """Invalid repoweb format"""
+        """Invalid repoweb format."""
         self.component.repoweb = 'http://{{foo}}/{{bar}}/%72'
         self.assertRaisesMessage(
             ValidationError, 'Undefined variable: "foo"', self.component.full_clean
@@ -501,7 +501,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.repoweb = ''
 
     def test_link_incomplete(self):
-        """Incomplete link"""
+        """Incomplete link."""
         self.component.repo = 'weblate://foo'
         self.component.push = ''
         self.assertRaisesMessage(
@@ -511,7 +511,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_link_nonexisting(self):
-        """Link to non existing project"""
+        """Link to non existing project."""
         self.component.repo = 'weblate://foo/bar'
         self.component.push = ''
         self.assertRaisesMessage(
@@ -521,7 +521,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_link_self(self):
-        """Link pointing to self"""
+        """Link pointing to self."""
         self.component.repo = 'weblate://test/test'
         self.component.push = ''
         self.assertRaisesMessage(
@@ -606,7 +606,7 @@ class ComponentValidationTest(RepoTestCase):
 
 
 class ComponentErrorTest(RepoTestCase):
-    """Test for error handling"""
+    """Test for error handling."""
 
     def setUp(self):
         super(ComponentErrorTest, self).setUp()
@@ -696,7 +696,7 @@ class LinkedEditTest(ViewTestCase):
 
 
 class ComponentEditTest(ViewTestCase):
-    """Test for error handling"""
+    """Test for error handling."""
 
     @staticmethod
     def remove_units(store):
@@ -720,7 +720,7 @@ class ComponentEditTest(ViewTestCase):
 
 
 class ComponentEditMonoTest(ComponentEditTest):
-    """Test for error handling"""
+    """Test for error handling."""
 
     def create_component(self):
         return self.create_ts_mono()

@@ -18,8 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""
-Django settings for running testsuite using django-nose.
+"""Django settings for running testsuite using django-nose.
 
 Django-nose have some advantages over default django test suite, most notable
 are:

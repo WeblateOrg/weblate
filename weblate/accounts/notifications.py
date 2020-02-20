@@ -226,14 +226,14 @@ class Notification(object):
         )
 
     def render_template(self, suffix, context, digest=False):
-        """Render single mail template with given context"""
+        """Render single mail template with given context."""
         template_name = 'mail/{}{}'.format(
             self.digest_template if digest else self.template_name, suffix
         )
         return render_to_string(template_name, context).strip()
 
     def get_context(self, change=None, subscription=None, extracontext=None):
-        """Return context for rendering mail"""
+        """Return context for rendering mail."""
         result = {
             'LANGUAGE_CODE': get_language(),
             'LANGUAGE_BIDI': get_language_bidi(),

@@ -72,7 +72,7 @@ HOOK_HANDLERS = {}
 
 
 def hook_response(response='Update triggered', message='success', status=200):
-    """Generic okay hook response"""
+    """Generic okay hook response."""
     return JsonResponse(data={'status': message, 'message': response}, status=status)
 
 
@@ -122,9 +122,8 @@ def parse_hook_payload(request):
 def vcs_service_hook(request, service):
     """Shared code between VCS service hooks.
 
-    Currently used for bitbucket_hook, github_hook and gitlab_hook, but should
-    be usable for other VCS services (Google Code, custom coded sites, etc.)
-    too.
+    Currently used for bitbucket_hook, github_hook and gitlab_hook, but should be usable
+    for other VCS services (Google Code, custom coded sites, etc.) too.
     """
     # We support only post methods
     if not settings.ENABLE_HOOKS:

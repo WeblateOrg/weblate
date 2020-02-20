@@ -65,7 +65,7 @@ def cache_perm(func):
 
 @cache_perm
 def check_global_permission(user, permission, obj):
-    """Generic permission check for base classes"""
+    """Generic permission check for base classes."""
     if user.is_superuser:
         return True
     return user.groups.filter(roles__permissions__codename=permission).exists()
@@ -73,7 +73,7 @@ def check_global_permission(user, permission, obj):
 
 @cache_perm
 def check_permission(user, permission, obj):
-    """Generic permission check for base classes"""
+    """Generic permission check for base classes."""
     if user.is_superuser:
         return True
     query = user.groups.filter(roles__permissions__codename=permission)

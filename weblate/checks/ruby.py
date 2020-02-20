@@ -57,8 +57,7 @@ RUBY_FORMAT_MATCH = re.compile(
 
 
 class RubyFormatCheck(BaseFormatCheck):
-    """
-    Check for Ruby format string.
+    """Check for Ruby format string.
 
     Ruby support various format strings (excluding string interpolation):
     - printf syntax: %s, %1$s

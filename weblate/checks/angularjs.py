@@ -40,7 +40,7 @@ WHITESPACE = re.compile(r'\s+')
 
 
 class AngularJSInterpolationCheck(TargetCheck):
-    """Check for AngularJS interpolation string"""
+    """Check for AngularJS interpolation string."""
 
     check_id = 'angularjs_format'
     name = _('AngularJS interpolation string')

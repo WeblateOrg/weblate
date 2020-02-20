@@ -38,7 +38,7 @@ def get_site_url(url=''):
 
 
 def check_domain(domain):
-    """Check whether site domain is correctly set"""
+    """Check whether site domain is correctly set."""
     return (
         domain not in DEFAULT_DOMAINS
         and not domain.startswith('http:')

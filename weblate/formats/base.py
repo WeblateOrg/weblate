@@ -36,10 +36,9 @@ from weblate.utils.hash import calculate_hash
 def move_atomic(source, target):
     """Tries to perform atomic move.
 
-    This is tricky on Windows as until Python 3.3 there is no
-    function for that. And even on Python 3.3 the MoveFileEx
-    is not guarateed to be atomic, so it might fail in some cases.
-    Anyway we try to choose best available method.
+    This is tricky on Windows as until Python 3.3 there is no function for that. And
+    even on Python 3.3 the MoveFileEx is not guarateed to be atomic, so it might fail in
+    some cases. Anyway we try to choose best available method.
     """
     # Use os.replace if available
     if sys.version_info >= (3, 3):
@@ -189,8 +188,8 @@ class TranslationFormat(object):
     ):
         """Parse store and returns TranslationFormat instance.
 
-        This wrapper is needed for AutodetectFormat to be able to return
-        instance of different class.
+        This wrapper is needed for AutodetectFormat to be able to return instance of
+        different class.
         """
         return cls(storefile, template_store, language_code, is_template)
 
@@ -282,8 +281,7 @@ class TranslationFormat(object):
     def find_unit(self, context, source):
         """Find unit by context and source.
 
-        Returns tuple (ttkit_unit, created) indicating whether returned
-        unit is new one.
+        Returns tuple (ttkit_unit, created) indicating whether returned unit is new one.
         """
         if self.has_template:
             return self._find_unit_template(context)
@@ -401,7 +399,7 @@ class TranslationFormat(object):
 
     @classmethod
     def get_language_filename(cls, mask, code):
-        """Return full filename of a language file
+        """Return full filename of a language file.
 
         Calculated forfor given path, filemask and language code.
         """

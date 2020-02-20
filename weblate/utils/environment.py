@@ -31,11 +31,9 @@ def get_env_list(name, default=None):
 
 
 def get_env_map(name, default=None):
-    """
-    Helper to get mapping from environment.
+    """Helper to get mapping from environment.
 
-    parses 'full_name:name,email:mail'
-    into {'email': 'mail', 'full_name': 'name'}
+    parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """
     if os.environ.get(name):
         return dict(e.split(':') for e in os.environ[name].split(','))

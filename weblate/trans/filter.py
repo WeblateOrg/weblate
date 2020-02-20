@@ -103,7 +103,7 @@ FILTERS = FilterRegistry()
 
 
 def get_filter_choice(project=None):
-    """Return all filtering choices"""
+    """Return all filtering choices."""
     result = [
         ("all", _("All strings")),
         ("nottranslated", _("Not translated strings")),

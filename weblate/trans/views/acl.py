@@ -44,8 +44,7 @@ from weblate.utils.views import get_project, show_form_errors
 def check_user_form(request, project, verbose=False, form_class=UserManageForm):
     """Check project permission and UserManageForm.
 
-    This is simple helper to perform needed validation for all
-    user management views.
+    This is simple helper to perform needed validation for all user management views.
     """
     obj = get_project(request, project)
 

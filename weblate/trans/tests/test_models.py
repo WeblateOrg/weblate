@@ -181,7 +181,7 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(translation.stats.fuzzy, 0)
 
     def test_validation(self):
-        """Translation validation"""
+        """Translation validation."""
         component = self.create_component()
         translation = component.translation_set.get(language_code='cs')
         translation.full_clean()

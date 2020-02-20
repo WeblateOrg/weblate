@@ -196,7 +196,7 @@ class ViewTestCase(RepoTestCase):
         self.assert_png_data(response.content)
 
     def assert_png_data(self, content):
-        """Check whether data is PNG image"""
+        """Check whether data is PNG image."""
         # Try to load PNG with PIL
         image = Image.open(BytesIO(content))
         self.assertEqual(image.format, 'PNG')

@@ -30,7 +30,7 @@ from weblate.auth.models import get_anonymous
 
 
 def get_user(request):
-    """Based on django.contrib.auth.middleware.get_user
+    """Based on django.contrib.auth.middleware.get_user.
 
     Adds handling of anonymous user which is stored in database.
     """
@@ -49,7 +49,7 @@ def get_user(request):
 
 
 class AuthenticationMiddleware(object):
-    """Copy of django.contrib.auth.middleware.AuthenticationMiddleware"""
+    """Copy of django.contrib.auth.middleware.AuthenticationMiddleware."""
 
     def __init__(self, get_response=None):
         self.get_response = get_response
@@ -60,8 +60,7 @@ class AuthenticationMiddleware(object):
 
 
 class RequireLoginMiddleware(object):
-    """
-    Middleware that applies the login_required decorator to matching URL patterns.
+    """Middleware that applies the login_required decorator to matching URL patterns.
 
     To use, add the class to MIDDLEWARE and
     define LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS in your
@@ -88,11 +87,11 @@ class RequireLoginMiddleware(object):
         self.exceptions = self.get_setting_re(settings.LOGIN_REQUIRED_URLS_EXCEPTIONS)
 
     def get_setting_re(self, setting):
-        """Grab regexp list from settings and compiles them"""
+        """Grab regexp list from settings and compiles them."""
         return tuple(re.compile(url) for url in setting)
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        """Check request whether it needs to enforce login for this URL"""
+        """Check request whether it needs to enforce login for this URL."""
         # No need to process URLs if not configured
         if not self.required:
             return None

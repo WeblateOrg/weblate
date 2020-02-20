@@ -22,15 +22,15 @@ from weblate.trans.filter import FILTERS
 
 
 class TranslationChecklist(list):
-    """Simple list wrapper for translation checklist"""
+    """Simple list wrapper for translation checklist."""
 
     def add_if(self, stats, name, level):
-        """Add to list if there are matches"""
+        """Add to list if there are matches."""
         if getattr(stats, name) > 0:
             self.add(stats, name, level)
 
     def add(self, stats, name, level):
-        """Add item to the list"""
+        """Add item to the list."""
         self.append(
             (
                 FILTERS.get_filter_query(name),

@@ -62,7 +62,7 @@ from weblate.utils.stats import TranslationStats
 
 class TranslationManager(models.Manager):
     def check_sync(self, component, lang, code, path, force=False, request=None):
-        """Parse translation meta info and updates translation object"""
+        """Parse translation meta info and updates translation object."""
         translation = self.get_or_create(
             language=lang,
             component=component,
@@ -150,7 +150,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     @cached_property
     def is_template(self):
-        """Check whether this is template translation
+        """Check whether this is template translation.
 
         This means that translations should be propagated as sources to others.
         """
@@ -270,7 +270,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.component.handle_parse_error(exc, self)
 
     def check_sync(self, force=False, request=None, change=None):
-        """Check whether database is in sync with git and possibly updates"""
+        """Check whether database is in sync with git and possibly updates."""
         if change is None:
             change = Change.ACTION_UPDATE
         if request is None:
@@ -720,7 +720,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return result
 
     def merge_translations(self, request, store2, overwrite, method, fuzzy):
-        """Merge translation unit wise
+        """Merge translation unit wise.
 
         Needed for template based translations to add new strings.
         """
@@ -930,7 +930,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return self.component.get_export_url()
 
     def get_stats(self):
-        """Return stats dictionary"""
+        """Return stats dictionary."""
         return {
             'code': self.language.code,
             'name': self.language.name,
@@ -951,7 +951,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         }
 
     def remove(self, user):
-        """Remove translation from the VCS"""
+        """Remove translation from the VCS."""
         author = user.get_author_name()
         # Log
         self.log_info('removing %s as %s', self.filenames, author)

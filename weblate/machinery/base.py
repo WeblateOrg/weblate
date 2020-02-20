@@ -185,7 +185,7 @@ class MachineTranslation(object):
         return language
 
     def report_error(self, exc, message):
-        """Wrapper for handling error situations"""
+        """Wrapper for handling error situations."""
         report_error(exc, prefix='Machinery error')
         LOGGER.error(message, self.name)
         LOGGER.info('Last URL: %s, params: %s', self.request_url, self.request_params)

@@ -84,7 +84,7 @@ class RepoTestMixin(object):
     local_repo_path = 'local:'
 
     def optional_extract(self, output, tarname):
-        """Extract test repository data if needed
+        """Extract test repository data if needed.
 
         Checks whether directory exists or is older than archive.
         """
@@ -181,7 +181,7 @@ class RepoTestMixin(object):
         return project
 
     def format_local_path(self, path):
-        """Format path for local access to the repository"""
+        """Format path for local access to the repository."""
         if sys.platform != 'win32':
             return 'file://{}'.format(path)
         return 'file:///{}'.format(path.replace('\\', '/'))

@@ -96,9 +96,9 @@ def is_repo_link(val):
 def get_distinct_translations(units):
     """Return list of distinct translations.
 
-    It should be possible to use
-    distinct('target') since Django 1.4, but it is not supported with MySQL, so
-    let's emulate that based on presumption we won't get too many results.
+    It should be possible to use distinct('target') since Django 1.4, but it is not
+    supported with MySQL, so let's emulate that based on presumption we won't get too
+    many results.
     """
     targets = {}
     result = []
@@ -246,7 +246,7 @@ def cleanup_path(path):
 
 
 def get_project_description(project):
-    """Return verbose description for project translation"""
+    """Return verbose description for project translation."""
     return _(
         '{0} is translated into {1} languages using Weblate. '
         'Join the translation or start translating your own project.'
@@ -254,7 +254,7 @@ def get_project_description(project):
 
 
 def render(request, template, context=None, status=None):
-    """Wrapper around Django render to extend context"""
+    """Wrapper around Django render to extend context."""
     if context is None:
         context = {}
     if 'project' in context and context['project'] is not None:
@@ -263,14 +263,14 @@ def render(request, template, context=None, status=None):
 
 
 def path_separator(path):
-    """Alway use / as path separator for consistency"""
+    """Alway use / as path separator for consistency."""
     if os.path.sep != '/':
         return path.replace(os.path.sep, '/')
     return path
 
 
 def sort_unicode(choices, key):
-    """Unicode aware sorting if available"""
+    """Unicode aware sorting if available."""
     if six.PY2:
         return sorted(choices, key=lambda tup: locale.strxfrm(key(tup).encode('utf-8')))
     return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
@@ -282,7 +282,7 @@ def sort_choices(choices):
 
 
 def sort_objects(objects):
-    """Sort objects alphabetically"""
+    """Sort objects alphabetically."""
     return sort_unicode(objects, force_text)
 
 
@@ -300,8 +300,8 @@ def redirect_next(next_url, fallback):
 def xliff_string_to_rich(string):
     """Convert XLIFF string to StringElement.
 
-    Transform a string containing XLIFF placeholders as XML
-    into a rich content (StringElement)
+    Transform a string containing XLIFF placeholders as XML into a rich content
+    (StringElement)
     """
     if isinstance(string, list):
         return [parse_xliff(s) for s in string]
@@ -311,8 +311,7 @@ def xliff_string_to_rich(string):
 def rich_to_xliff_string(string_elements):
     """Convert StringElement to XLIFF string.
 
-    Transform rich content (StringElement) into
-    a string with placeholder kept as XML
+    Transform rich content (StringElement) into a string with placeholder kept as XML
     """
     # Create dummy root element
     xml = etree.Element(u'e')

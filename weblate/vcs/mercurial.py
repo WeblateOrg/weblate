@@ -123,7 +123,7 @@ class HgRepository(Repository):
         self.clean_revision_cache()
 
     def configure_merge(self):
-        """Select the correct merge tool"""
+        """Select the correct merge tool."""
         self.set_config('ui.merge', 'internal:merge')
         merge_driver = self.get_merge_driver('po')
         if merge_driver is not None:
@@ -234,7 +234,7 @@ class HgRepository(Repository):
         ).splitlines()
 
     def needs_ff(self):
-        """Check whether repository needs a fast-forward to upstream
+        """Check whether repository needs a fast-forward to upstream.
 
         Checks whether the path to the upstream is linear.
         """

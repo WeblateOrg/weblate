@@ -171,7 +171,7 @@ class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
         activate('en')
 
     def run_create(self, original, expected, direction, plural, name, create):
-        """Test that auto create correctly handles languages"""
+        """Test that auto create correctly handles languages."""
         # Lookup language
         lang = Language.objects.auto_get_or_create(original, create=False)
         self.assertEqual(
@@ -253,7 +253,7 @@ class VerifyPluralsTest(TestCase):
         return chain(LANGUAGES, EXTRAPLURALS)
 
     def test_valid(self):
-        """Validate that we can name all plural equations"""
+        """Validate that we can name all plural equations."""
         for code, _unused, _unused, pluraleq in self.all_data():
             self.assertNotEqual(
                 get_plural_type(code.replace('_', '-').split('-')[0], pluraleq),
@@ -262,7 +262,7 @@ class VerifyPluralsTest(TestCase):
             )
 
     def test_equation(self):
-        """Validate that all equations can be parsed by gettext"""
+        """Validate that all equations can be parsed by gettext."""
         # Verify we get an error on invalid syntax
         with self.assertRaises((SyntaxError, ValueError)):
             gettext.c2py('n==0 ? 1 2')

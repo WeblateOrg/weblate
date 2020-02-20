@@ -47,7 +47,7 @@ def response_authenticate():
 
 
 def authenticate(request, auth):
-    """Perform authentication with HTTP Basic auth"""
+    """Perform authentication with HTTP Basic auth."""
     auth = force_text(auth, encoding='iso-8859-1')
     try:
         method, data = auth.split(None, 1)
@@ -73,8 +73,8 @@ def authenticate(request, auth):
 def git_export(request, project, component, path):
     """Git HTTP server view.
 
-    Wrapper around git-http-backend to provide Git repositories export over
-    HTTP. Performs permission checks and hands over execution to the wrapper.
+    Wrapper around git-http-backend to provide Git repositories export over HTTP.
+    Performs permission checks and hands over execution to the wrapper.
     """
     # Probably browser access
     if not path:

@@ -116,7 +116,7 @@ class ViewTest(TestCase):
 
     @override_settings(OFFER_HOSTING=False)
     def test_hosting_disabled(self):
-        """Test for hosting form with disabled hosting"""
+        """Test for hosting form with disabled hosting."""
         self.get_user()
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('hosting'))

@@ -133,7 +133,7 @@ def get_project_translation(request, project=None, component=None, lang=None):
 
 
 def try_set_language(lang):
-    """Try to activate language"""
+    """Try to activate language."""
     try:
         activate(lang)
     except Exception:

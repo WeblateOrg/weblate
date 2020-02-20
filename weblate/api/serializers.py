@@ -37,11 +37,10 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
 
     # pylint: disable=redefined-builtin
     def get_url(self, obj, view_name, request, format):
-        """
-        Given an object, return the URL that hyperlinks to the object.
+        """Given an object, return the URL that hyperlinks to the object.
 
-        May raise a `NoReverseMatch` if the `view_name` and `lookup_field`
-        attributes are not configured to correctly match the URL conf.
+        May raise a `NoReverseMatch` if the `view_name` and `lookup_field` attributes
+        are not configured to correctly match the URL conf.
         """
         # Unsaved objects will not yet have a valid URL.
         if hasattr(obj, 'pk') and obj.pk is None:
@@ -202,7 +201,7 @@ class ComponentSerializer(RemovableSerializer):
         }
 
     def to_representation(self, instance):
-        """Remove VCS properties if user has no permission for that"""
+        """Remove VCS properties if user has no permission for that."""
         result = super(ComponentSerializer, self).to_representation(instance)
         user = self.context['request'].user
         if not user.has_perm('vcs.view', instance):

@@ -123,10 +123,10 @@ class ChangeQuerySet(models.QuerySet):
         )
 
     def last_changes(self, user):
-        """Return last changes for an user
+        """Return last changes for an user.
 
-        Prefilter Changes by ACL for users and fetches related fields for last
-        changes display.
+        Prefilter Changes by ACL for users and fetches related fields for last changes
+        display.
         """
         return (
             self.prefetch()
@@ -150,7 +150,7 @@ class ChangeQuerySet(models.QuerySet):
 
 class ChangeManager(models.Manager):
     def create(self, user=None, **kwargs):
-        """Wrapper to avoid using anonymous user as change owner"""
+        """Wrapper to avoid using anonymous user as change owner."""
         if user is not None and not user.is_authenticated:
             user = None
         return super(ChangeManager, self).create(user=user, **kwargs)

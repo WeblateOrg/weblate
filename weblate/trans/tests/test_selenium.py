@@ -195,7 +195,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.scroll_top()
 
     def click(self, element):
-        """Wrapper to scroll into element for click"""
+        """Wrapper to scroll into element for click."""
         if isinstance(element, six.string_types):
             element = self.driver.find_element_by_link_text(element)
 

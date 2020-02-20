@@ -67,7 +67,7 @@ __all__ = [
 
 
 def delete_object_dir(instance):
-    """Remove path if it exists"""
+    """Remove path if it exists."""
     project_path = instance.full_path
     if os.path.exists(project_path):
         shutil.rmtree(project_path, onerror=remove_readonly)
@@ -117,7 +117,7 @@ def update_source(sender, instance, **kwargs):
 
 @receiver(m2m_changed, sender=Unit.labels.through)
 def change_labels(sender, instance, **kwargs):
-    """Update unit labels"""
+    """Update unit labels."""
     if not instance.translation.is_source:
         return
     units = Unit.objects.filter(
@@ -151,7 +151,7 @@ def change_labels(sender, instance, **kwargs):
 @receiver(post_save, sender=Comment)
 @disable_for_loaddata
 def update_comment_flag(sender, instance, **kwargs):
-    """Update related unit comment flags"""
+    """Update related unit comment flags."""
     # Update unit stats
     if instance.unit.update_has_comment():
         instance.unit.translation.invalidate_cache()
@@ -161,7 +161,7 @@ def update_comment_flag(sender, instance, **kwargs):
 @receiver(post_save, sender=Suggestion)
 @disable_for_loaddata
 def update_suggestion_flag(sender, instance, **kwargs):
-    """Update related unit suggestion flags"""
+    """Update related unit suggestion flags."""
     # Update unit stats
     if instance.unit.update_has_suggestion():
         instance.unit.translation.invalidate_cache()

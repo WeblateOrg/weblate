@@ -26,7 +26,7 @@ from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheck(TargetCheck):
-    """Check for incomplete plural forms"""
+    """Check for incomplete plural forms."""
 
     check_id = 'plurals'
     name = _('Missing plurals')
@@ -49,7 +49,7 @@ class PluralsCheck(TargetCheck):
 
 
 class SamePluralsCheck(TargetCheck):
-    """Check for same plural forms"""
+    """Check for same plural forms."""
 
     check_id = 'same-plurals'
     name = _('Same plurals')
@@ -70,7 +70,7 @@ class SamePluralsCheck(TargetCheck):
 
 
 class ConsistencyCheck(TargetCheck):
-    """Check for inconsistent translations"""
+    """Check for inconsistent translations."""
 
     check_id = 'inconsistent'
     name = _('Inconsistent')
@@ -104,7 +104,7 @@ class ConsistencyCheck(TargetCheck):
 
 
 class TranslatedCheck(TargetCheck):
-    """Check for inconsistent translations"""
+    """Check for inconsistent translations."""
 
     check_id = 'translated'
     name = _('Has been translated')

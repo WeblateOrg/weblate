@@ -135,7 +135,7 @@ class UnitQuerySet(models.QuerySet):
         return result
 
     def get_unit(self, ttunit):
-        """Find unit matching translate-toolkit unit
+        """Find unit matching translate-toolkit unit.
 
         This is used for import, so kind of fuzzy matching is expected.
         """
@@ -270,7 +270,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def get_unit_state(self, unit, flags):
-        """Calculate translated and fuzzy status"""
+        """Calculate translated and fuzzy status."""
         if unit.is_readonly() or (
             flags is not None and 'read-only' in self.get_all_flags(flags)
         ):
@@ -476,8 +476,7 @@ class Unit(models.Model, LoggerMixin):
         return result
 
     def save_backend(self, user, propagate=True, change_action=None, author=None):
-        """
-        Stores unit to backend.
+        """Stores unit to backend.
 
         Optional user parameters defines authorship of a change.
 
@@ -541,8 +540,7 @@ class Unit(models.Model, LoggerMixin):
     def update_source_units(self, previous_source, user, author):
         """Update source for units withing same component.
 
-        This is needed when editing template translation for monolingual
-        formats.
+        This is needed when editing template translation for monolingual formats.
         """
         # Find relevant units
         same_source = Unit.objects.filter(
@@ -615,7 +613,7 @@ class Unit(models.Model, LoggerMixin):
         )
 
     def save(self, same_content=False, same_state=False, force_insert=False, **kwargs):
-        """Wrapper around save to run checks or update fulltext"""
+        """Wrapper around save to run checks or update fulltext."""
         # Store number of words
         if not same_content or not self.num_words:
             self.num_words = len(self.get_source_plurals()[0].split())
@@ -874,7 +872,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def checksum(self):
-        """Return unique hex identifier
+        """Return unique hex identifier.
 
         It's unsigned representation of id_hash in hex.
         """
@@ -903,10 +901,10 @@ class Unit(models.Model, LoggerMixin):
         return calculate_hash(None, self.target)
 
     def get_last_content_change(self, silent=False):
-        """Wrapper to get last content change metadata
+        """Wrapper to get last content change metadata.
 
-        Used when commiting pending changes, needs to handle and report
-        inconsistencies from past releases.
+        Used when commiting pending changes, needs to handle and report inconsistencies
+        from past releases.
         """
         from weblate.auth.models import get_anonymous
 

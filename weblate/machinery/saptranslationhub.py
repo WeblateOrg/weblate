@@ -61,7 +61,7 @@ class SAPTranslationHub(MachineTranslation):
             )
 
     def download_languages(self):
-        """Get all available languages from SAP Translation Hub"""
+        """Get all available languages from SAP Translation Hub."""
         # get all available languages
         languages_url = settings.MT_SAP_BASE_URL + 'languages'
         response = self.json_req(languages_url)

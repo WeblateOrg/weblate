@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Test for alerts"""
+"""Test for alerts."""
 
 from django.test.utils import override_settings
 

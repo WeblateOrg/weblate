@@ -32,7 +32,7 @@ END = re.compile(r'(\s+)$', re.UNICODE)
 
 
 class SameBookendingWhitespace(AutoFix):
-    """Help non-techy translators with their whitespace"""
+    """Help non-techy translators with their whitespace."""
 
     fix_id = 'end-whitespace'
     name = _('Trailing and leading whitespace')

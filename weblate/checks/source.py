@@ -46,7 +46,7 @@ class OptionalPluralCheck(SourceCheck):
 
 
 class EllipsisCheck(SourceCheck):
-    """Check for using ... instead of …"""
+    """Check for using "..." instead of "…"."""
 
     check_id = 'ellipsis'
     name = _('Ellipsis')

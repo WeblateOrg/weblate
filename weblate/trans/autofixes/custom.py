@@ -35,7 +35,7 @@ REPLACE_STRING = r'{0}\1{0}'.format(REPLACEMENT)
 
 
 class DoubleApostrophes(AutoFix):
-    """Ensures apostrophes are escaped in Java Properties MessageFormat string
+    """Ensures apostrophes are escaped in Java Properties MessageFormat string.
 
     - all apostrophes except ones around {} vars are doubled
 

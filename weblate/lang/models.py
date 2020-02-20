@@ -88,7 +88,7 @@ def get_plural_type(base_code, pluralequation):
 
 
 def get_english_lang():
-    """Return object ID for English language"""
+    """Return object ID for English language."""
     try:
         return Language.objects.get_default().id
     except (Language.DoesNotExist, OperationalError):
@@ -170,7 +170,7 @@ class LanguageQuerySet(models.QuerySet):
         return None
 
     def fuzzy_get(self, code, strict=False):
-        """Get matching language for code
+        """Get matching language for code.
 
         The code does not have to be exactly same (cs_CZ is trteated same as
         cs-CZ) or returns None.
@@ -242,7 +242,7 @@ class LanguageQuerySet(models.QuerySet):
         return self.auto_create(ret, create)
 
     def auto_create(self, code, create=True):
-        """Automatically create new language
+        """Automatically create new language.
 
         It is based on code and best guess of parameters.
         """
@@ -284,7 +284,7 @@ class LanguageQuerySet(models.QuerySet):
         return lang
 
     def setup(self, update, logger=lambda x: x):
-        """Create basic set of languages
+        """Create basic set of languages.
 
         It is based on languages defined in the languages-data repo.
         """
@@ -417,7 +417,7 @@ class Language(models.Model):
         return reverse('show_language', kwargs={'lang': self.code})
 
     def get_html(self):
-        """Return html attributes for markup in this language
+        """Return html attributes for markup in this language.
 
         Includes language and direction HTML.
         """
@@ -566,7 +566,7 @@ class Plural(models.Model):
         return number, formula
 
     def same_plural(self, number, equation):
-        """Compare whether given plurals formula matches"""
+        """Compare whether given plurals formula matches."""
         if number != self.number or not equation:
             return False
 

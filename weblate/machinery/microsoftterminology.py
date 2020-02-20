@@ -30,12 +30,11 @@ MST_WSDL_URL = '{}?wsdl'.format(MST_API_URL)
 
 
 class MicrosoftTerminologyService(MachineTranslation):
-    """
-    The Microsoft Terminology Service API.
+    """The Microsoft Terminology Service API.
 
-    Allows you to programmatically access the terminology,
-    definitions and user interface (UI) strings available
-    on the MS Language Portal through a web service (SOAP).
+    Allows you to programmatically access the terminology, definitions and user
+    interface (UI) strings available on the MS Language Portal through a web service
+    (SOAP).
     """
 
     name = 'Microsoft Terminology'

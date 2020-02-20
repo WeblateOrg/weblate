@@ -137,7 +137,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         self.delete()
 
     def delete_log(self, user, change=Change.ACTION_SUGGESTION_DELETE, is_spam=False):
-        """Delete with logging change"""
+        """Delete with logging change."""
         if is_spam and self.userdetails:
             report_spam(
                 self.userdetails['address'], self.userdetails['agent'], self.target

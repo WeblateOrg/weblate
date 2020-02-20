@@ -48,10 +48,10 @@ def report_error(
     print_tb=False,
     logger=None,
 ):
-    """Wrapper for error reporting
+    """Wrapper for error reporting.
 
-    This can be used for store exceptions in error reporting solutions as
-    rollbar while handling error gracefully and giving user cleaner message.
+    This can be used for store exceptions in error reporting solutions as rollbar while
+    handling error gracefully and giving user cleaner message.
     """
     if logger is None:
         logger = LOGGER

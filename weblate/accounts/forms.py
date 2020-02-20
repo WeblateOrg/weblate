@@ -71,7 +71,7 @@ class UniqueEmailMixin(object):
     validate_unique_mail = False
 
     def clean_email(self):
-        """Validate whether email address is not already in use"""
+        """Validate whether email address is not already in use."""
         self.cleaned_data['email_user'] = None
         mail = self.cleaned_data['email']
         users = User.objects.filter(

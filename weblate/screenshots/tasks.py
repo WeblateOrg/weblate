@@ -30,7 +30,7 @@ from weblate.utils.celery import app
 
 @app.task(trail=False)
 def cleanup_screenshot_files():
-    """Remove stale screenshots"""
+    """Remove stale screenshots."""
     storage = DefaultStorage()
     try:
         files = storage.listdir('screenshots')[1]

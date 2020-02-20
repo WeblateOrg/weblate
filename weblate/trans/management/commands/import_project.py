@@ -162,7 +162,7 @@ class Command(BaseCommand):
         return workdir
 
     def parse_options(self, repo, options):
-        """Parse parameters"""
+        """Parse parameters."""
         self.filemask = options['filemask']
         self.vcs = options['vcs']
         if options['push_url_same']:
@@ -296,7 +296,7 @@ class Command(BaseCommand):
         return self.discovery
 
     def import_initial(self, project, repo, branch):
-        """Import the first repository of a project"""
+        """Import the first repository of a project."""
         # Checkout git to temporary dir
         workdir = self.checkout_tmp(project, repo, branch)
         # Create fake discovery without existing component

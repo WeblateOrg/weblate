@@ -20,7 +20,7 @@
 
 
 class AutoFix(object):
-    """Base class for AutoFixes"""
+    """Base class for AutoFixes."""
 
     fix_id = 'auto'
 

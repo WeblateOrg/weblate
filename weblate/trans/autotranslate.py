@@ -102,7 +102,7 @@ class AutoTranslate(object):
         self.post_process()
 
     def fetch_mt(self, engines, threshold):
-        """Get the translations"""
+        """Get the translations."""
         translations = {}
 
         for pos, unit in enumerate(self.get_units().iterator()):

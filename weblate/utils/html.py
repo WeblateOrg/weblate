@@ -39,7 +39,7 @@ class MarkupExtractor(html_parser.HTMLParser):
 
 
 def extract_bleach(text):
-    """Exctract tags from text in a form suitable for bleach"""
+    """Exctract tags from text in a form suitable for bleach."""
     extractor = MarkupExtractor()
     extractor.feed(text)
     return {"tags": extractor.found_tags, "attributes": extractor.found_attributes}

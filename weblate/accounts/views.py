@@ -806,7 +806,7 @@ def reset_password(request):
 @login_required
 @session_ratelimit_post('reset_api')
 def reset_api_key(request):
-    """Reset user API key"""
+    """Reset user API key."""
     # Need to delete old token as key is primary key
     with transaction.atomic():
         Token.objects.filter(user=request.user).delete()

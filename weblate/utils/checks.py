@@ -156,7 +156,7 @@ def check_database(app_configs, **kwargs):
 
 
 def check_cache(app_configs, **kwargs):
-    """Check for sane caching"""
+    """Check for sane caching."""
     errors = []
 
     cache_backend = settings.CACHES['default']['BACKEND'].split('.')[-1]
@@ -184,7 +184,7 @@ def check_cache(app_configs, **kwargs):
 
 
 def check_settings(app_configs, **kwargs):
-    """Check for sane settings"""
+    """Check for sane settings."""
     errors = []
 
     if not settings.ADMINS or 'noreply@weblate.org' in (x[1] for x in settings.ADMINS):
@@ -234,7 +234,7 @@ def check_settings(app_configs, **kwargs):
 
 
 def check_templates(app_configs, **kwargs):
-    """Check for sane settings"""
+    """Check for sane settings."""
     errors = []
 
     if settings.TEMPLATES:

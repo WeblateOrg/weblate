@@ -209,7 +209,7 @@ def search_source(request, pk):
 
 
 def ocr_extract(api, image, strings):
-    """Extract closes matches from an image"""
+    """Extract closes matches from an image."""
     api.SetImage(image)
     for item in api.GetComponentImages(RIL.TEXTLINE, True):
         api.SetRectangle(item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h'])

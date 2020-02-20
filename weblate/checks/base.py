@@ -48,7 +48,7 @@ class Check(object):
         self.ignore_string = 'ignore-{0}'.format(id_dash)
 
     def should_skip(self, unit):
-        """Check whether we should skip processing this unit"""
+        """Check whether we should skip processing this unit."""
         # Is this disabled by default
         if self.default_disabled and self.enable_string not in unit.all_flags:
             return True
@@ -69,7 +69,7 @@ class Check(object):
         return self.check_target_unit(sources, targets, unit)
 
     def check_target_unit_with_flag(self, sources, targets, unit):
-        """Check flag value"""
+        """Check flag value."""
         raise NotImplementedError()
 
     def check_target_unit(self, sources, targets, unit):
@@ -92,7 +92,7 @@ class Check(object):
         raise NotImplementedError()
 
     def check_source(self, source, unit):
-        """Check source string"""
+        """Check source string."""
         raise NotImplementedError()
 
     def check_chars(self, source, target, pos, chars):
@@ -116,10 +116,10 @@ class Check(object):
         return get_doc_url('user/checks', self.doc_id)
 
     def check_highlight(self, source, unit):
-        """Return parts of the text that match to hightlight them
+        """Return parts of the text that match to hightlight them.
 
-        Result is list that contains lists of two elements with
-        start position of the match and the value of the match
+        Result is list that contains lists of two elements with start position of the
+        match and the value of the match
         """
         return []
 
@@ -165,7 +165,7 @@ class SourceCheck(Check):
         return False
 
     def check_source(self, source, unit):
-        """Check source string"""
+        """Check source string."""
         raise NotImplementedError()
 
 
@@ -179,7 +179,7 @@ class TargetCheckParametrized(Check):
         return unit.all_flags.get_value(self.enable_string)
 
     def check_target(self, sources, targets, unit):
-        """Check flag value"""
+        """Check flag value."""
         if unit.all_flags.has_value(self.enable_string):
             return self.check_target_params(
                 sources, targets, unit, self.get_value(unit)

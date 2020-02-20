@@ -54,7 +54,7 @@ def get_untranslated(base, limit=None):
 
 
 def get_suggestions(request, user, base, filtered=False):
-    """Return suggested translations for user"""
+    """Return suggested translations for user."""
     if not filtered:
         non_alerts = base.annotate(alert_count=Count('component__alert__pk')).filter(
             alert_count=0
@@ -111,7 +111,7 @@ def guess_user_language(request, translations):
 
 
 def get_user_translations(request, user):
-    """Get list of translations in user languages
+    """Get list of translations in user languages.
 
     Works also for anonymous users based on current UI language.
     """
@@ -188,7 +188,7 @@ def home(request):
 
 
 def dashboard_user(request):
-    """Home page of Weblate for authenticated user"""
+    """Home page of Weblate for authenticated user."""
     user = request.user
 
     user_translations = get_user_translations(request, user)

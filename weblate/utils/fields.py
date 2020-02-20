@@ -27,7 +27,7 @@ from django.db import models
 
 
 class JSONField(models.TextField):
-    """JSON serializaed TextField"""
+    """JSON serializaed TextField."""
 
     def __init__(self, **kwargs):
         if 'default' not in kwargs:

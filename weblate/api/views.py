@@ -90,11 +90,10 @@ description of the API.</p>
 
 
 def get_view_description(view_cls, html=False):
-    """
-    Given a view class, return a textual description to represent the view.
+    """Given a view class, return a textual description to represent the view.
 
-    This name is used in the browsable API, and in OPTIONS responses.
-    This function is the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
+    This name is used in the browsable API, and in OPTIONS responses. This function is
+    the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
     """
     description = view_cls.__doc__ or ''
     description = formatting.dedent(smart_text(description))
@@ -114,12 +113,10 @@ def get_view_description(view_cls, html=False):
 
 
 class MultipleFieldMixin(object):
-    """
-    Multiple field filtering mixin
+    """Multiple field filtering mixin.
 
-    Apply this mixin to any view or viewset to get multiple field filtering
-    based on a `lookup_fields` attribute, instead of the default single field
-    filtering.
+    Apply this mixin to any view or viewset to get multiple field filtering based on a
+    `lookup_fields` attribute, instead of the default single field filtering.
     """
 
     def get_object(self):
@@ -139,7 +136,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_formats = {}
 
     def perform_content_negotiation(self, request, force=False):
-        """Custom content negotiation"""
+        """Custom content negotiation."""
         if request.resolver_match.url_name in self.raw_urls:
             fmt = self.format_kwarg or request.query_params.get('format')
             if fmt is None or fmt in self.raw_formats:
@@ -149,7 +146,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
         return super(DownloadViewSet, self).perform_content_negotiation(request, force)
 
     def download_file(self, filename, content_type, component=None):
-        """Wrapper for file download"""
+        """Wrapper for file download."""
         if os.path.isdir(filename):
             response = zip_download(filename, filename)
             filename = '{}.zip'.format(component.slug if component else 'weblate')
@@ -599,7 +596,7 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class UnitViewSet(viewsets.ReadOnlyModelViewSet):
-    """Units API"""
+    """Units API."""
 
     queryset = Unit.objects.none()
     serializer_class = UnitSerializer
@@ -612,7 +609,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ScreenshotViewSet(DownloadViewSet):
-    """Screenshots API"""
+    """Screenshots API."""
 
     queryset = Screenshot.objects.none()
     serializer_class = ScreenshotSerializer
@@ -652,7 +649,7 @@ class ScreenshotViewSet(DownloadViewSet):
 
 
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
-    """Changes API"""
+    """Changes API."""
 
     queryset = Change.objects.none()
     serializer_class = ChangeSerializer
@@ -662,7 +659,7 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class Metrics(APIView):
-    """Metrics view for monitoring"""
+    """Metrics view for monitoring."""
 
     permission_classes = (IsAuthenticated,)
 

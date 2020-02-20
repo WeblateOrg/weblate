@@ -39,5 +39,8 @@ class BaseCommand(DjangoBaseCommand):
         return super(BaseCommand, self).execute(*args, **options)
 
     def handle(self, *args, **options):
-        """The actual logic of the command. Subclasses must implement this method."""
+        """The actual logic of the command.
+
+        Subclasses must implement this method.
+        """
         raise NotImplementedError()

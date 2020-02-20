@@ -303,7 +303,7 @@ class GitRepository(Repository):
 
     @classmethod
     def global_setup(cls):
-        """Perform global settings"""
+        """Perform global settings."""
         merge_driver = cls.get_merge_driver('po')
         if merge_driver is not None:
             cls._popen(
@@ -481,7 +481,10 @@ class SubversionRepository(GitRepository):
         cls._popen(['svn', 'clone'] + args)
 
     def merge(self, abort=False, message=None):
-        """Rebases. Git-svn does not support merge."""
+        """Rebases.
+
+        Git-svn does not support merge.
+        """
         self.rebase(abort)
 
     def rebase(self, abort=False):
@@ -504,7 +507,7 @@ class SubversionRepository(GitRepository):
         )
 
     def get_remote_branch_name(self):
-        """Return the remote branch name
+        """Return the remote branch name.
 
         trunk if local branch is master, local branch otherwise.
         """
@@ -557,10 +560,10 @@ class GitMergeRequestBase(GitRepository):
             self.execute(['fork'])
 
     def push(self):
-        """Fork repository on Github and push changes
+        """Fork repository on Github and push changes.
 
-        Pushes changes to *-weblate branch on fork and creates pull request
-        against original repository.
+        Pushes changes to *-weblate branch on fork and creates pull request against
+        original repository.
         """
         self.fork()
         if self.component is not None:
@@ -612,10 +615,9 @@ class GithubRepository(GitMergeRequestBase):
         return env
 
     def create_pull_request(self, origin_branch, fork_branch):
-        """Create pull request
+        """Create pull request.
 
-        Use to merge branch in forked repository into branch of remote
-        repository.
+        Use to merge branch in forked repository into branch of remote repository.
         """
         self.execute(
             [
@@ -728,7 +730,7 @@ class GitLabRepository(GitMergeRequestBase):
         return settings.GITLAB_USERNAME
 
     def create_pull_request(self, origin_branch, fork_branch):
-        """Create merge (a.k.a pull) request
+        """Create merge (a.k.a pull) request.
 
         Used to merge branch in forked repository into branch of remote
         repository.

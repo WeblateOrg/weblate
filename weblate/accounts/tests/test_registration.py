@@ -525,7 +525,7 @@ class RegistrationTest(BaseRegistrationTest):
     @httpretty.activate
     @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False):
-        """Test GitHub integration"""
+        """Test GitHub integration."""
         try:
             # psa creates copy of settings...
             orig_backends = social_django.utils.BACKENDS

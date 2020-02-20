@@ -137,7 +137,7 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_RUBY_YAML, RubyYAMLFormat)
 
     def test_content(self):
-        """Test content based guess from ttkit"""
+        """Test content based guess from ttkit."""
         with open(TEST_PO, 'rb') as handle:
             data = handle.read()
 
@@ -224,8 +224,8 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     def assert_same(self, newdata, testdata):
         """Content aware comparison.
 
-        This can be implemented in subclasses to implement content
-        aware comparing of translation files.
+        This can be implemented in subclasses to implement content aware comparing of
+        translation files.
         """
         self.assertEqual(force_text(testdata).strip(), force_text(newdata).strip())
 

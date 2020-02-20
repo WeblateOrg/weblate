@@ -77,11 +77,9 @@ def configure_error_handling(sender, **kargs):
 
 
 def extract_batch_kwargs(*args, **kwargs):
-    """
-    Wrapper to extract args from batch task.
+    """Wrapper to extract args from batch task.
 
-    It can be either passed directly in eager mode or as requests in
-    batch mode.
+    It can be either passed directly in eager mode or as requests in batch mode.
     """
     if args and isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
         return [request.kwargs for request in args[0]]
@@ -89,11 +87,9 @@ def extract_batch_kwargs(*args, **kwargs):
 
 
 def extract_batch_args(*args):
-    """
-    Wrapper to extract args from batch task.
+    """Wrapper to extract args from batch task.
 
-    It can be either passed directly in eager mode or as requests in
-    batch mode.
+    It can be either passed directly in eager mode or as requests in batch mode.
     """
     if isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
         return [request.args for request in args[0]]
@@ -122,8 +118,7 @@ def get_queue_stats():
 
 
 def is_task_ready(task):
-    """
-    Workaround broken ready() for failed Celery results
+    """Workaround broken ready() for failed Celery results.
 
     In case the task ends with an exception, the result tries to reconstruct
     that. It can fail in case the exception can not be reconstructed using

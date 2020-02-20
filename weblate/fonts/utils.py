@@ -84,7 +84,7 @@ FONT_WEIGHTS = {
 
 
 def configure_fontconfig():
-    """Configures fontconfig to use custom configuration"""
+    """Configures fontconfig to use custom configuration."""
     if getattr(configure_fontconfig, "is_configured", False):
         return
 
@@ -117,7 +117,7 @@ def get_font_weight(weight):
 
 
 def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_key=None):
-    """Check whether rendered text fits"""
+    """Check whether rendered text fits."""
     configure_fontconfig()
 
     # Setup Pango/Cairo
@@ -171,7 +171,7 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_ke
 
 
 def check_render_size(font, weight, size, spacing, text, width, lines, cache_key=None):
-    """Check whether rendered text fits"""
+    """Checks whether rendered text fits."""
     size, actual_lines = render_size(
         font, weight, size, spacing, text, width, lines, cache_key
     )
@@ -179,7 +179,7 @@ def check_render_size(font, weight, size, spacing, text, width, lines, cache_key
 
 
 def get_font_name(filelike):
-    """Return tuple of font family and style, for example ('Ubuntu', 'Regular')"""
+    """Returns tuple of font family and style, for example ('Ubuntu', 'Regular')."""
     if not hasattr(filelike, "loaded_font"):
         # The tempfile creation is workaroud for Pillow crashing on invalid font
         # see https://github.com/python-pillow/Pillow/issues/3853
@@ -196,7 +196,7 @@ def get_font_name(filelike):
 
 
 def check_fonts(app_configs=None, **kwargs):
-    """Check font rendering."""
+    """Checks font rendering."""
     try:
         render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, "test")
         return []

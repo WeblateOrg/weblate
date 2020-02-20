@@ -128,12 +128,15 @@ class WeblateComponentCommand(BaseCommand):
         return result
 
     def handle(self, *args, **options):
-        """The actual logic of the command. Subclasses must implement this method."""
+        """The actual logic of the command.
+
+        Subclasses must implement this method.
+        """
         raise NotImplementedError()
 
 
 class WeblateLangCommand(WeblateComponentCommand):
-    """Command accepting additional language parameter
+    """Command accepting additional language parameter.
 
     It can filter list of languages to process.
     """
@@ -168,7 +171,10 @@ class WeblateLangCommand(WeblateComponentCommand):
         return result
 
     def handle(self, *args, **options):
-        """The actual logic of the command. Subclasses must implement this method."""
+        """The actual logic of the command.
+
+        Subclasses must implement this method.
+        """
         raise NotImplementedError()
 
 
@@ -181,7 +187,7 @@ class WeblateTranslationCommand(BaseCommand):
         parser.add_argument('language', help='Slug of language')
 
     def get_translation(self, **options):
-        """Get translation object"""
+        """Get translation object."""
         try:
             component = Component.objects.get(
                 project__slug=options['project'], slug=options['component']
@@ -202,5 +208,8 @@ class WeblateTranslationCommand(BaseCommand):
             raise CommandError('No matching translation project found!')
 
     def handle(self, *args, **options):
-        """The actual logic of the command. Subclasses must implement this method."""
+        """The actual logic of the command.
+
+        Subclasses must implement this method.
+        """
         raise NotImplementedError()

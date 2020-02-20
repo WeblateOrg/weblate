@@ -30,7 +30,7 @@ GIT_PATHS = [
 
 
 def find_git_http_backend():
-    """Find git http backend"""
+    """Find git http backend."""
     if hasattr(find_git_http_backend, 'result'):
         return find_git_http_backend.result
 

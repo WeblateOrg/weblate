@@ -118,7 +118,7 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
         return Translation.objects.filter(component__project__in=queryset)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """Wrapper to sort languages by localized names"""
+        """Wrapper to sort languages by localized names."""
         result = super(ProjectAdmin, self).formfield_for_foreignkey(
             db_field, request, **kwargs
         )

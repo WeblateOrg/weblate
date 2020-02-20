@@ -132,7 +132,7 @@ def commit_pending(hours=None, pks=None, logger=None):
 
 @app.task(trail=False)
 def cleanup_fulltext():
-    """Remove stale units from fulltext"""
+    """Remove stale units from fulltext."""
     fulltext = Fulltext()
     languages = list(Language.objects.values_list("code", flat=True)) + [None]
     # We operate only on target indexes as they will have all IDs anyway

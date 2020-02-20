@@ -302,8 +302,8 @@ class TTKitFormat(TranslationFormat):
     def is_valid(self):
         """Check whether store seems to be valid.
 
-        In some cases Translate Toolkit happily "parses" the file, even though it
-        really did not do so (e.g. gettext parser on random text file).
+        In some cases Translate Toolkit happily "parses" the file, even though it really
+        did not do so (e.g. gettext parser on random text file).
         """
         if self.store is None:
             return False
@@ -437,7 +437,7 @@ class PoUnit(TTKitUnit):
 
 
 class XliffUnit(TTKitUnit):
-    """Wrapper unit for XLIFF
+    """Wrapper unit for XLIFF.
 
     XLIFF is special in Translate Toolkit - it uses locations for what
     is context in other formats.
@@ -497,8 +497,8 @@ class XliffUnit(TTKitUnit):
     def context(self):
         """Return context of message.
 
-        Use resname if available as it usually is more interesting
-        for the translator than ID.
+        Use resname if available as it usually is more interesting for the translator
+        than ID.
         """
         resname = self.mainunit.xmlelement.get('resname')
         if resname:
@@ -513,8 +513,8 @@ class XliffUnit(TTKitUnit):
     def is_translated(self):
         """Check whether unit is translated.
 
-        We replace Translate Toolkit logic here as the isfuzzy
-        is pretty much wrong there, see is_fuzzy docs.
+        We replace Translate Toolkit logic here as the isfuzzy is pretty much wrong
+        there, see is_fuzzy docs.
         """
         return bool(self.target)
 
@@ -554,8 +554,8 @@ class XliffUnit(TTKitUnit):
     def has_content(self):
         """Check whether unit has content.
 
-        For some reason, blank string does not mean non translatable
-        unit in XLIFF, so lets skip those as well.
+        For some reason, blank string does not mean non translatable unit in XLIFF, so
+        lets skip those as well.
         """
         return (
             not self.mainunit.isheader()
@@ -900,8 +900,8 @@ class PropertiesFormat(PropertiesUtf8Format):
     def fixup(cls, store):
         """Force encoding.
 
-        Java properties need to be ISO 8859-1, but
-        Translate Toolkit converts them to UTF-8.
+        Java properties need to be ISO 8859-1, but Translate Toolkit converts them to
+        UTF-8.
         """
         store.encoding = 'iso-8859-1'
 

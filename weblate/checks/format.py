@@ -195,7 +195,7 @@ class BaseFormatCheck(TargetCheck):
         return '%{}'.format(string)
 
     def cleanup_string(self, text):
-        """Remove locale specific code from format string"""
+        """Remove locale specific code from format string."""
         if '\'' in text:
             return text.replace('\'', '')
         return text
@@ -272,7 +272,7 @@ class BaseFormatCheck(TargetCheck):
 
 
 class PythonFormatCheck(BaseFormatCheck):
-    """Check for Python format string"""
+    """Check for Python format string."""
 
     check_id = 'python_format'
     name = _('Python format')
@@ -284,7 +284,7 @@ class PythonFormatCheck(BaseFormatCheck):
 
 
 class PHPFormatCheck(BaseFormatCheck):
-    """Check for PHP format string"""
+    """Check for PHP format string."""
 
     check_id = 'php_format'
     name = _('PHP format')
@@ -296,7 +296,7 @@ class PHPFormatCheck(BaseFormatCheck):
 
 
 class CFormatCheck(BaseFormatCheck):
-    """Check for C format string"""
+    """Check for C format string."""
 
     check_id = 'c_format'
     name = _('C format')
@@ -308,7 +308,7 @@ class CFormatCheck(BaseFormatCheck):
 
 
 class PerlFormatCheck(BaseFormatCheck):
-    """Check for Perl format string"""
+    """Check for Perl format string."""
 
     check_id = 'perl_format'
     name = _('Perl format')
@@ -320,7 +320,7 @@ class PerlFormatCheck(BaseFormatCheck):
 
 
 class JavaScriptFormatCheck(CFormatCheck):
-    """Check for JavaScript format string"""
+    """Check for JavaScript format string."""
 
     check_id = 'javascript_format'
     name = _('JavaScript format')
@@ -328,7 +328,7 @@ class JavaScriptFormatCheck(CFormatCheck):
 
 
 class PythonBraceFormatCheck(BaseFormatCheck):
-    """Check for Python format string"""
+    """Check for Python format string."""
 
     check_id = 'python_brace_format'
     name = _('Python brace format')
@@ -343,7 +343,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
 
 
 class CSharpFormatCheck(BaseFormatCheck):
-    """Check for C# format string"""
+    """Check for C# format string."""
 
     check_id = 'c_sharp_format'
     name = _('C# format')
@@ -358,7 +358,7 @@ class CSharpFormatCheck(BaseFormatCheck):
 
 
 class JavaFormatCheck(BaseFormatCheck):
-    """Check for Java format string"""
+    """Check for Java format string."""
 
     check_id = 'java_format'
     name = _('Java format')
@@ -370,7 +370,7 @@ class JavaFormatCheck(BaseFormatCheck):
 
 
 class JavaMessageFormatCheck(BaseFormatCheck):
-    """Check for Java MessageFormat string"""
+    """Check for Java MessageFormat string."""
 
     check_id = 'java_messageformat'
     name = _('Java MessageFormat')
@@ -390,7 +390,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         return super(JavaMessageFormatCheck, self).should_skip(unit)
 
     def cleanup_string(self, text):
-        """No cleanups here"""
+        """No cleanups here."""
         return text
 
     def check_format(self, source, target, ignore_missing):

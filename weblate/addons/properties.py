@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""
-Properties cleanup addon
+"""Properties cleanup addon.
 
 This is reimplementation of
 https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/

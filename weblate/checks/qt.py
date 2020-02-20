@@ -44,7 +44,7 @@ QT_PLURAL_MATCH = re.compile(
 
 
 class QtFormatCheck(BaseFormatCheck):
-    """Check for Qt format string"""
+    """Check for Qt format string."""
 
     check_id = 'qt_format'
     name = _('Qt format')
@@ -57,7 +57,7 @@ class QtFormatCheck(BaseFormatCheck):
 
 
 class QtPluralCheck(BaseFormatCheck):
-    """Check for Qt plural string"""
+    """Check for Qt plural string."""
 
     check_id = 'qt_plural_format'
     name = _('Qt plural format')

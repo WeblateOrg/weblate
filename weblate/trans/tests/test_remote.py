@@ -151,7 +151,7 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(translation.stats.translated, 1)
 
     def test_rebase(self):
-        """Testing of rebase"""
+        """Testing of rebase."""
         self.component2.merge_style = 'rebase'
         self.component2.save()
         self.test_update()
@@ -203,7 +203,7 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(translation.stats.all, 1)
 
     def test_deleted_stale_unit(self):
-        """Test removing several units from remote repo
+        """Test removing several units from remote repo.
 
         There is no other reference, so full cleanup has to happen.
         """

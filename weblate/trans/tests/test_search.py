@@ -211,7 +211,7 @@ class SearchBackendTest(ViewTestCase):
 
 
 class SearchMigrationTest(TestCase, TempDirMixin):
-    """Search index migration testing"""
+    """Search index migration testing."""
 
     def setUp(self):
         self.create_temp()

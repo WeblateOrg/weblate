@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Exporter using translate-toolkit"""
+"""Exporter using translate-toolkit."""
 from __future__ import unicode_literals
 
 from django.http import HttpResponse
@@ -51,7 +51,7 @@ def register_exporter(exporter):
 
 
 def get_exporter(name):
-    """Return registered exporter"""
+    """Return registered exporter."""
     return EXPORTERS[name]
 
 
@@ -111,7 +111,7 @@ class BaseExporter(object):
         unit.target = word
 
     def add_dictionary(self, word):
-        """Add dictionary word"""
+        """Add dictionary word."""
         unit = self.storage.UnitClass(self.string_filter(word.source))
         self.add(unit, self.string_filter(word.target))
         self.storage.addunit(unit)
@@ -187,7 +187,7 @@ class BaseExporter(object):
         return response
 
     def serialize(self):
-        """Return storage content"""
+        """Return storage content."""
         return TTKitFormat.serialize(self.storage)
 
     def store_flags(self, output, flags):
@@ -225,7 +225,7 @@ class PoExporter(BaseExporter):
 
 
 class XMLExporter(BaseExporter):
-    """Wrapper for XML based exporters to strip control characters"""
+    """Wrapper for XML based exporters to strip control characters."""
 
     def string_filter(self, text):
         return text.translate(_CHARMAP)
@@ -350,11 +350,10 @@ class CSVExporter(CVSBaseExporter):
     def string_filter(self, text):
         """Avoid Excel interpreting text as formula.
 
-        This is really bad idea, implemented in Excel, as this change leads
-        to displaying additional ' in all other tools, but this seems to be
-        what most people have gotten used to. Hopefully these characters are not
-        widely used at first position of translatable strings, so that harm is
-        reduced.
+        This is really bad idea, implemented in Excel, as this change leads to
+        displaying additional ' in all other tools, but this seems to be what most
+        people have gotten used to. Hopefully these characters are not widely used at
+        first position of translatable strings, so that harm is reduced.
         """
         if text and text[0] in ('=', '+', '-', '@', '|', '%'):
             return "'{0}'".format(text.replace('|', '\\|'))
@@ -369,5 +368,5 @@ class XlsxExporter(CVSBaseExporter):
     verbose = _('Excel Open XML')
 
     def serialize(self):
-        """Return storage content"""
+        """Return storage content."""
         return XlsxFormat.serialize(self.storage)

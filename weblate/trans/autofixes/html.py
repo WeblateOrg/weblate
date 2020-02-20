@@ -28,7 +28,7 @@ from weblate.utils.html import extract_bleach
 
 
 class BleachHTML(AutoFix):
-    """Cleanup unsafe HTML markup"""
+    """Cleanup unsafe HTML markup."""
 
     fix_id = "safe-html"
     name = _("Unsafe HTML")

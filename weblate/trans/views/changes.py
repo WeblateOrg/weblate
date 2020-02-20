@@ -140,7 +140,7 @@ class ChangesView(ListView):
             messages.error(self.request, _('Failed to find matching project!'))
 
     def _get_queryset_language(self):
-        """Filtering by language"""
+        """Filtering by language."""
         if self.translation is None and self.request.GET.get('lang'):
             try:
                 self.language = Language.objects.get(code=self.request.GET['lang'])
@@ -148,7 +148,7 @@ class ChangesView(ListView):
                 messages.error(self.request, _('Failed to find matching language!'))
 
     def _get_queryset_user(self):
-        """Filtering by user"""
+        """Filtering by user."""
         if 'user' in self.request.GET:
             try:
                 self.user = User.objects.get(username=self.request.GET['user'])
@@ -198,7 +198,7 @@ class ChangesView(ListView):
 
 
 class ChangesCSVView(ChangesView):
-    """CSV renderer for changes view"""
+    """CSV renderer for changes view."""
 
     paginate_by = None
 

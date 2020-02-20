@@ -81,7 +81,7 @@ def export_stats(request, project, component):
 
 
 def export_response(request, filename, fields, data):
-    """Generic handler for stats exports"""
+    """Generic handler for stats exports."""
     output = request.GET.get('format', 'json')
     if output not in ('json', 'csv'):
         output = 'json'

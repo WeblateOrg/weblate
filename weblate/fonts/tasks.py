@@ -26,7 +26,7 @@ from weblate.utils.celery import app
 
 @app.task(trail=False)
 def cleanup_font_files():
-    """Remove stale fonts"""
+    """Remove stale fonts."""
     try:
         files = FONT_STORAGE.listdir(".")[1]
     except OSError:

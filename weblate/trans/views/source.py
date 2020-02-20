@@ -57,7 +57,7 @@ def edit_context(request, pk):
 
 @login_required
 def matrix(request, project, component):
-    """Matrix view of all strings"""
+    """Matrix view of all strings."""
     obj = get_component(request, project, component)
 
     show = False
@@ -89,7 +89,7 @@ def matrix(request, project, component):
 
 @login_required
 def matrix_load(request, project, component):
-    """Backend for matrix view of all strings"""
+    """Backend for matrix view of all strings."""
     obj = get_component(request, project, component)
 
     try:

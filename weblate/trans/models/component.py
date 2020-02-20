@@ -614,7 +614,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )[0]
 
     def preload_sources(self):
-        """Preload source objects to improve performance on load"""
+        """Preload source objects to improve performance on load."""
         self._sources = {
             source.id_hash: source for source in self.source_translation.unit_set.all()
         }
@@ -743,8 +743,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def get_repoweb_link(self, filename, line, template=None):
         """Generate link to source code browser for given file and line.
 
-        For linked repositories, it is possible to override the linked
-        repository path here.
+        For linked repositories, it is possible to override the linked repository path
+        here.
         """
         if not template:
             template = self.repoweb
@@ -930,7 +930,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     @perform_on_link
     def push_if_needed(self, do_update=True):
-        """Wrapper to push if needed
+        """Wrapper to push if needed.
 
         Checks for:
 
@@ -1665,7 +1665,7 @@ class Component(models.Model, URLMixin, PathMixin):
             self.clean_repo_link()
 
     def clean(self):
-        """Validator fetches repository
+        """Validator fetches repository.
 
         It tries to find translation files and checks that they are valid.
         """
@@ -1731,7 +1731,7 @@ class Component(models.Model, URLMixin, PathMixin):
         return os.path.join(self.full_path, self.new_base)
 
     def save(self, *args, **kwargs):
-        """Save wrapper
+        """Save wrapper.
 
         It updates backend repository and regenerates translation data.
         """
@@ -1953,8 +1953,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def can_add_new_language(self, request):
         """Wrapper to check if a new language can be added.
 
-        Generic users can add only if configured, in other situations
-        it works if there is valid new base.
+        Generic users can add only if configured, in other situations it works if there
+        is valid new base.
         """
         # The request is None in case of consistency or cli invocation
         if (

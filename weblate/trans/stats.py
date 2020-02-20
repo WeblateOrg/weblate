@@ -24,7 +24,7 @@ from django.utils.encoding import force_text
 
 
 def get_project_stats(project):
-    """Return stats for project"""
+    """Return stats for project."""
     return [
         {
             'language': force_text(tup.language),

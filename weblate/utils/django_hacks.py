@@ -29,8 +29,7 @@ DjangoTranslation = trans_real.DjangoTranslation
 
 
 class WeblateTranslation(DjangoTranslation):
-    """
-    Workaround to enforce our plural forms over Django ones.
+    """Workaround to enforce our plural forms over Django ones.
 
     We hook into merge and overwrite plural with each merge. As Weblate locales
     load as last this way we end up using Weblate plurals.
@@ -52,13 +51,12 @@ class WeblateTranslation(DjangoTranslation):
 
 
 def monkey_patch_translate():
-    """Monkey patch translation to workaround Django bug in handling plurals"""
+    """Monkey patch translation to workaround Django bug in handling plurals."""
     trans_real.DjangoTranslation = WeblateTranslation
 
 
 def immediate_on_commit(cls):
-    """
-    Wrapper to make transaction.on_commit execute immediatelly
+    """Wrapper to make transaction.on_commit execute immediatelly.
 
     TODO: Remove when immediate_on_commit function is actually implemented
     Django Ticket #: 30456, Link: https://code.djangoproject.com/ticket/30457#no1

@@ -22,5 +22,5 @@ from django.db.models import Case, IntegerField, Sum, When
 
 
 def conditional_sum(value=1, **cond):
-    """Wrapper to generate SUM on boolean/enum values"""
+    """Wrapper to generate SUM on boolean/enum values."""
     return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))

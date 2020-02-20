@@ -27,7 +27,7 @@ from weblate.machinery.base import MachineTranslation
 
 
 class AWSTranslation(MachineTranslation):
-    """AWS machine translation"""
+    """AWS machine translation."""
 
     name = 'AWS'
     max_score = 88

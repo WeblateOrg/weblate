@@ -310,7 +310,7 @@ class Project(models.Model, URLMixin, PathMixin):
         )
 
     def run_batch_checks(self, attr_name):
-        """Run batch executed checks"""
+        """Run batch executed checks."""
         from weblate.trans.models import Unit
 
         create = []
@@ -359,11 +359,11 @@ class Project(models.Model, URLMixin, PathMixin):
             Check.objects.bulk_create_ignore(create)
 
     def run_target_checks(self):
-        """Run batch executed target checks"""
+        """Run batch executed target checks."""
         self.run_batch_checks('target')
 
     def run_source_checks(self):
-        """Run batch executed source checks"""
+        """Run batch executed source checks."""
         self.run_batch_checks('source')
 
     def update_unit_flags(self):
@@ -390,7 +390,7 @@ class Project(models.Model, URLMixin, PathMixin):
             translation.invalidate_cache()
 
     def get_stats(self):
-        """Return stats dictionary"""
+        """Return stats dictionary."""
         return {
             'name': self.name,
             'total': self.stats.all,

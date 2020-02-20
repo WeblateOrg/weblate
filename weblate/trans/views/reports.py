@@ -60,7 +60,7 @@ def generate_credits(user, start_date, end_date, **kwargs):
 @login_required
 @require_POST
 def get_credits(request, project=None, component=None):
-    """View for credits"""
+    """View for credits."""
     if project is None:
         obj = None
         kwargs = {'translation__pk__gt': 0}
@@ -201,7 +201,7 @@ def generate_counts(user, start_date, end_date, **kwargs):
 @login_required
 @require_POST
 def get_counts(request, project=None, component=None):
-    """View for work counts"""
+    """View for work counts."""
     if project is None:
         obj = None
         kwargs = {}

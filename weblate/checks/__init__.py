@@ -25,7 +25,7 @@ default_app_config = 'weblate.checks.apps.ChecksConfig'
 
 
 def highlight_string(source, unit):
-    """Return highlights for a string"""
+    """Return highlights for a string."""
     if unit is None:
         return []
     highlights = []

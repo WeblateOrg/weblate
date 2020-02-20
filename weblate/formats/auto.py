@@ -33,7 +33,7 @@ from weblate.formats.ttkit import TTKitFormat
 
 
 def detect_filename(filename):
-    """Filename based format autodetection"""
+    """Filename based format autodetection."""
     name = os.path.basename(filename)
     for pattern, storeclass in FILE_FORMATS.autoload:
         if fnmatch(name, pattern):
@@ -42,7 +42,7 @@ def detect_filename(filename):
 
 
 def try_load(filename, content, original_format, template_store):
-    """Try to load file by guessing type"""
+    """Try to load file by guessing type."""
     formats = [original_format, AutodetectFormat]
     detected_format = detect_filename(filename)
     if detected_format is not None:

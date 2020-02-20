@@ -125,7 +125,7 @@ class WeblateDateField(forms.DateField):
         super(WeblateDateField, self).__init__(**kwargs)
 
     def to_python(self, value):
-        """Produce timezone aware datetime with 00:00:00 as time"""
+        """Produce timezone aware datetime with 00:00:00 as time."""
         value = super(WeblateDateField, self).to_python(value)
         if isinstance(value, date):
             return from_current_timezone(
@@ -355,8 +355,7 @@ class PluralTextarea(forms.Textarea):
 class PluralField(forms.CharField):
     """Renderer for the plural field.
 
-    The only difference from CharField is that it does not force value to
-    be string.
+    The only difference from CharField is that it does not force value to be string.
     """
 
     def __init__(self, max_length=None, min_length=None, **kwargs):
@@ -864,7 +863,7 @@ class CommaSeparatedIntegerField(forms.Field):
 
 
 class OneWordForm(forms.Form):
-    """Simple one-word form"""
+    """Simple one-word form."""
 
     term = forms.CharField(
         label=_('Search'), max_length=GLOSSARY_LENGTH, required=False
@@ -1013,7 +1012,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
 
 
 def get_new_language_form(request, component):
-    """Return new language form for user"""
+    """Return new language form for user."""
     if not request.user.has_perm('translation.add', component):
         raise PermissionDenied()
     if request.user.has_perm('translation.add_more', component):
@@ -1497,8 +1496,8 @@ class ComponentZipCreateForm(ComponentProjectForm):
 class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     """Component creation form.
 
-    This is mostly copy from Component model. Probably
-    should be extracted to standalone Repository model...
+    This is mostly copy from Component model. Probably should be extracted to standalone
+    Repository model...
     """
 
     project = forms.ModelChoiceField(

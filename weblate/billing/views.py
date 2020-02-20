@@ -28,7 +28,7 @@ from weblate.billing.models import Billing, Invoice
 
 @login_required
 def download_invoice(request, pk):
-    """Download invoice PDF"""
+    """Download invoice PDF."""
     invoice = get_object_or_404(Invoice, pk=pk)
 
     if not invoice.ref:

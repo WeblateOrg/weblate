@@ -76,7 +76,7 @@ class MathCaptcha(object):
         return MathCaptcha(*value)
 
     def serialize(self):
-        """Serialize captcha settings"""
+        """Serialize captcha settings."""
         return (self.question, self.timestamp)
 
     def validate(self, answer):

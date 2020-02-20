@@ -19,8 +19,7 @@
 #
 """Import all the autofixes defined in settings.
 
-Note, unlike checks, using a sortable data object so fixes are applied in
-desired order.
+Note, unlike checks, using a sortable data object so fixes are applied in desired order.
 """
 
 from weblate.utils.classloader import ClassLoader

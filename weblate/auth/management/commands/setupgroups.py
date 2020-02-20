@@ -43,7 +43,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        """Create or update default set of groups
+        """Create or update default set of groups.
 
         It also optionally updates them and moves users around to default group.
         """

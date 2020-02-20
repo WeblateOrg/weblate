@@ -25,8 +25,7 @@ from rest_framework import routers
 
 class WeblateRouter(routers.DefaultRouter):
     def get_lookup_regex(self, viewset, lookup_prefix=''):
-        """
-        Get lookup regex for a viewset
+        """Get lookup regex for a viewset.
 
         Given a viewset, return the portion of URL regex that is used
         to match against a single instance.

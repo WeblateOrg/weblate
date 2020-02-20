@@ -24,7 +24,7 @@ from siphashc import siphash
 
 
 def calculate_hash(source, context):
-    """Calculate checksum identifying translation."""
+    """Calculates checksum identifying translation."""
     if source is not None:
         data = source.encode('utf-8') + context.encode('utf-8')
     else:
@@ -34,10 +34,10 @@ def calculate_hash(source, context):
 
 
 def checksum_to_hash(checksum):
-    """Convert hex to id_hash (signed 64-bit int)"""
+    """Converts hex to id_hash (signed 64-bit int)."""
     return int(checksum, 16) - 2 ** 63
 
 
 def hash_to_checksum(id_hash):
-    """Convert id_hash (signed 64-bit int) to unsigned hex"""
+    """Converts id_hash (signed 64-bit int) to unsigned hex."""
     return format(id_hash + 2 ** 63, 'x')

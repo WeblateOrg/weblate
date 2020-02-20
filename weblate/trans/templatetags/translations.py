@@ -115,7 +115,7 @@ def fmt_whitespace(value):
 
 
 def fmt_diff(value, diff, idx):
-    """Format diff if there is any"""
+    """Format diff if there is any."""
     if diff is None:
         return value
     diffvalue = escape(force_text(diff[idx]))
@@ -123,7 +123,7 @@ def fmt_diff(value, diff, idx):
 
 
 def fmt_highlights(raw_value, value, unit):
-    """Format check highlights"""
+    """Format check highlights."""
     if unit is None:
         return value
     highlights = highlight_string(raw_value, unit)
@@ -140,7 +140,7 @@ def fmt_highlights(raw_value, value, unit):
 
 
 def fmt_search(value, search_match, match):
-    """Format search match"""
+    """Format search match."""
     if search_match:
         search_match = escape(search_match)
         if match == "search":
@@ -424,11 +424,10 @@ def naturaltime_future(value, now):
 
 @register.filter
 def naturaltime(value, now=None):
-    """
-    Heavily based on Django's django.contrib.humanize implementation of naturaltime
+    """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
-    For date and time values shows how many seconds, minutes or hours ago
-    compared to current timestamp returns representing string.
+    For date and time values shows how many seconds, minutes or hours ago compared to
+    current timestamp returns representing string.
     """
     # datetime is a subclass of date
     if not isinstance(value, date):
@@ -566,7 +565,7 @@ def get_location_links(profile, unit):
 
 @register.simple_tag(takes_context=True)
 def whiteboard_messages(context, project=None, component=None, language=None):
-    """Display whiteboard messages for given context"""
+    """Display whiteboard messages for given context."""
     ret = []
 
     whiteboards = WhiteboardMessage.objects.context_filter(project, component, language)
@@ -786,8 +785,7 @@ def markdown(text):
 
 @register.filter
 def choiceval(boundfield):
-    """
-    Get literal value from field's choices.
+    """Get literal value from field's choices.
 
     Empty value is returned if value is not selected or invalid.
     """

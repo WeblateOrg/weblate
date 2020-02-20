@@ -375,7 +375,7 @@ class DictionaryTest(FixtureTestCase):
         self.assertEqual(Dictionary.objects.get_words(unit).count(), 1)
 
     def test_add(self):
-        """Test for adding word from translate page"""
+        """Test for adding word from translate page."""
         unit = self.get_unit('Thank you for using Weblate.')
         # Add word
         response = self.client.post(

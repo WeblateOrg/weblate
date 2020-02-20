@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Test for automatic translation"""
+"""Test for automatic translation."""
 
 from django.core.management import call_command
 from django.core.management.base import CommandError

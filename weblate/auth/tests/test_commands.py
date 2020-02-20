@@ -109,13 +109,13 @@ class CommandTest(TestCase, TempDirMixin):
         self.assertEqual(User.objects.count(), 2)
 
     def test_import_empty_users(self):
-        """Test importing empty file"""
+        """Test importing empty file."""
         call_command('importusers', get_test_file('users-empty.json'))
         # Only anonymous user
         self.assertEqual(User.objects.count(), 1)
 
     def test_import_invalid_users(self):
-        """Test error handling in user import"""
+        """Test error handling in user import."""
         call_command('importusers', get_test_file('users-invalid.json'))
         # Only anonymous user
         self.assertEqual(User.objects.count(), 1)

@@ -40,8 +40,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
     def update_resx(self, index, translation, storage, changes):
         """Filter obsolete units in RESX storage.
 
-        This removes the corresponding XML element and
-        also adds newly added, and changed units.
+        This removes the corresponding XML element and also adds newly added, and
+        changed units.
         """
         sindex = self.build_index(storage.store)
         changed = False
@@ -67,7 +67,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
 
     @staticmethod
     def find_changes(index, storage):
-        """Find changed string IDs in upstream repository"""
+        """Find changed string IDs in upstream repository."""
         result = set()
 
         for unit in storage.units:

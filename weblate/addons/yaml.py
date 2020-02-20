@@ -40,7 +40,7 @@ class YAMLCustomizeAddon(StoreBaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        """Check whether store is compatible
+        """Check whether store is compatible.
 
         This can be dropped once we require translate-toolkit 2.4.1
         """

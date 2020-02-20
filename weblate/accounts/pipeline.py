@@ -49,7 +49,7 @@ CLEANUP_MATCHER = re.compile(r'[-\s]+')
 
 
 def get_github_email(access_token):
-    """Get real e-mail from GitHub"""
+    """Get real e-mail from GitHub."""
     request = Request('https://api.github.com/user/emails')
     request.add_header('User-Agent', USER_AGENT)
     request.add_header('Authorization', 'token {0}'.format(access_token))
@@ -241,8 +241,8 @@ def store_params(strategy, user, **kwargs):
 def verify_username(strategy, backend, details, username, user=None, **kwargs):
     """Verified whether username is still free.
 
-    It can happen that user has registered several times or other user has
-    taken the username meanwhile.
+    It can happen that user has registered several times or other user has taken the
+    username meanwhile.
     """
     if user or not username:
         return
@@ -394,7 +394,7 @@ def user_full_name(strategy, details, username, user=None, **kwargs):
 
 
 def slugify_username(value):
-    """Clean up username
+    """Clean up username.
 
     This is based on Django slugify with exception of lowercasing
 

@@ -327,7 +327,7 @@ class EscapedNewlineCountingCheck(CountingCheck):
 
 
 class NewLineCountCheck(CountingCheck):
-    r"""Check whether there is same amount of new lines"""
+    """Check whether there is same amount of new lines."""
 
     string = '\n'
     check_id = 'newline-count'

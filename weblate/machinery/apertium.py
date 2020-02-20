@@ -105,7 +105,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     @property
     def all_langs(self):
-        """Return all language codes known to service"""
+        """Return all language codes known to service."""
         langs = self.supported_languages
         return set([l[0] for l in langs] + [l[1] for l in langs])
 

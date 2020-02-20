@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Hardcoded length limitations"""
+"""Hardcoded length limitations."""
 
 # Component name and slug length
 COMPONENT_NAME_LENGTH = 100

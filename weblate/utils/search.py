@@ -69,13 +69,13 @@ class Comparer(object):
 
 
 class QuotePlugin(whoosh.qparser.SingleQuotePlugin):
-    """Single and double quotes to specify a term"""
+    """Single and double quotes to specify a term."""
 
     expr = r"(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
 
 
 class GtLtPlugin(whoosh.qparser.GtLtPlugin):
-    """GtLt plugin taggin only after :"""
+    """GtLt plugin taggin only after ":"."""
 
     def match(self, parser, text, pos):
         if pos == 0 or text[pos - 1] != ":":
@@ -117,8 +117,7 @@ def state_to_int(text):
 
 
 class QueryParser(whoosh.qparser.QueryParser):
-    """
-    Weblate query parser, differences to Whoosh default
+    """Weblate query parser, differences to Whoosh default.
 
     - no phrase plugin
     - <> operators support

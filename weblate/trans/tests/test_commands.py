@@ -231,7 +231,7 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(project.component_set.count(), 4)
 
     def test_import_against_existing(self):
-        """Test importing with a weblate:// URL"""
+        """Test importing with a weblate:// URL."""
         android = self.create_android()
         project = android.project
         self.assertEqual(project.component_set.count(), 1)
@@ -273,7 +273,7 @@ class ImportProjectTest(RepoTestCase):
             )
 
     def test_import_mercurial(self):
-        """Test importing Mercurial project"""
+        """Test importing Mercurial project."""
         if not HgRepository.is_supported():
             raise SkipTest('Mercurial not available!')
         project = self.create_project()
@@ -288,7 +288,7 @@ class ImportProjectTest(RepoTestCase):
         self.assertEqual(project.component_set.count(), 4)
 
     def test_import_mercurial_mixed(self):
-        """Test importing Mercurial project with mixed component/lang"""
+        """Test importing Mercurial project with mixed component/lang."""
         if not HgRepository.is_supported():
             raise SkipTest('Mercurial not available!')
         self.create_project()
@@ -433,7 +433,7 @@ class FixupFlagsTest(CheckGitTest):
 
 
 class ListTranslatorsTest(RepoTestCase):
-    """Test translators list"""
+    """Test translators list."""
 
     def setUp(self):
         super(ListTranslatorsTest, self).setUp()

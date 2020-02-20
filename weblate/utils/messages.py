@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""
-Wrapper around django.contrib.messages to work with Django REST Framework.
+"""Wrapper around django.contrib.messages to work with Django REST Framework.
 
 It also ignories messages without request object (for example from CLI).
 """
