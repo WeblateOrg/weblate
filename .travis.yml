@@ -141,14 +141,6 @@ jobs:
       services:
         - mysql
     - stage: "Extended tests"
-      name: 'Django 2.1'
-      env: CI_DEPS="Django>=2.1,<2.2"
-      addons:
-        <<: *aptaddon
-        postgresql: "9.6"
-      services:
-        - postgresql
-    - stage: "Extended tests"
       name: 'Django 2.2, Python 3.5'
       python: "3.5"
       env: CI_DEPS="Django>=2.2,<2.3"
