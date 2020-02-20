@@ -76,7 +76,8 @@ jobs:
         ports:
           - 6379/tcp
       postgres:
-        image: postgres:11
+        # PotgreSQL 10 is needed for compatibility with pg_dump shipped with Ubuntu
+        image: postgres:10
         ports:
           - 5432/tcp
         # needed because the postgres container does not provide a healthcheck
