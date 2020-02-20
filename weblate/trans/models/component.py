@@ -26,6 +26,7 @@ import time
 from collections import Counter
 from copy import copy
 from glob import glob
+from urllib.parse import urlparse
 
 from celery import current_task
 from celery.result import AsyncResult
@@ -40,7 +41,6 @@ from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy, ungettext
-from six.moves.urllib.parse import urlparse
 
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS

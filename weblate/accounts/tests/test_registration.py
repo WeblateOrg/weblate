@@ -21,6 +21,7 @@
 """Test for user handling."""
 
 import json
+from urllib.parse import parse_qs, urlparse
 
 import httpretty
 import social_django.utils
@@ -28,7 +29,6 @@ from django.core import mail
 from django.test import Client, TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
-from six.moves.urllib.parse import parse_qs, urlparse
 
 from weblate.accounts.models import VerifiedEmail
 from weblate.auth.models import User

@@ -22,6 +22,8 @@
 import hashlib
 import os.path
 from ssl import CertificateError
+from urllib.parse import quote
+from urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.contrib.staticfiles import finders
@@ -30,8 +32,6 @@ from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
-from six.moves.urllib.parse import quote
-from six.moves.urllib.request import Request, urlopen
 
 from weblate import USER_AGENT
 from weblate.utils.errors import report_error

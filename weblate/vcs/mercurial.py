@@ -23,8 +23,7 @@
 import os
 import os.path
 import re
-
-from six.moves.configparser import RawConfigParser
+from configparser import RawConfigParser
 
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER

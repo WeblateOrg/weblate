@@ -22,6 +22,7 @@ import json
 import re
 import time
 import unicodedata
+from urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.shortcuts import redirect
@@ -29,7 +30,6 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
-from six.moves.urllib.request import Request, urlopen
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
 
