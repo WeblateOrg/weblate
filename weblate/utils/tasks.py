@@ -32,6 +32,7 @@ from django.core.management.commands import diffsettings
 from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
+from weblate.utils.errors import report_error
 
 
 @app.task(trail=False)
@@ -83,7 +84,12 @@ def database_backup():
     else:
         cmd += ["--file", data_dir("backups", "database.sql")]
 
-    subprocess.check_call(cmd, env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}))
+    try:
+        subprocess.check_call(
+            cmd, env=get_clean_env({"PGPASSWORD": database["PASSWORD"]})
+        )
+    except subprocess.CalledProcessError as error:
+        report_error(error, extra_data={'stdout': error.stdout.decode("utf-8")})
 
 
 @app.on_after_finalize.connect
