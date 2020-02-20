@@ -21,7 +21,6 @@
 
 
 import os
-import sys
 import tempfile
 from copy import deepcopy
 
@@ -29,24 +28,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
 from weblate.utils.hash import calculate_hash
-
-
-def move_atomic(source, target):
-    """Tries to perform atomic move.
-
-    This is tricky on Windows as until Python 3.3 there is no function for that. And
-    even on Python 3.3 the MoveFileEx is not guarateed to be atomic, so it might fail in
-    some cases. Anyway we try to choose best available method.
-    """
-    # Use os.replace if available
-    if sys.version_info >= (3, 3):
-        os.replace(source, target)
-    else:
-        # Remove target on Windows if exists
-        if sys.platform == 'win32' and os.path.exists(target):
-            os.unlink(target)
-        # Use os.rename
-        os.rename(source, target)
 
 
 class UnitNotFound(Exception):
@@ -195,9 +176,7 @@ class TranslationFormat(object):
         self, storefile, template_store=None, language_code=None, is_template=False
     ):
         """Create file format object, wrapping up translate-toolkit's store."""
-        if not isinstance(storefile, str) and not hasattr(
-            storefile, 'mode'
-        ):
+        if not isinstance(storefile, str) and not hasattr(storefile, 'mode'):
             storefile.mode = 'r'
 
         self.storefile = storefile
@@ -301,7 +280,7 @@ class TranslationFormat(object):
         try:
             callback(temp)
             temp.close()
-            move_atomic(temp.name, filename)
+            os.replace(temp.name, filename)
         finally:
             if os.path.exists(temp.name):
                 os.unlink(temp.name)
