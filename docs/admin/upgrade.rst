@@ -246,55 +246,27 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 3.11 to 4.0
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* Python versions older than 3.5 are no longer supported, see :ref:`py3`
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
 -----------------------------------
 
-.. note::
-
-   Weblate will support Python 2 util 4.0 release currently scheduled on April
-   2020. This is in line with Django dropping support for Python 2.
-
-Weblate currently supports both Python 2.7 and 3.x. Upgrading existing
-installations is supported, but you should pay attention to some data stored on
-the disk as it might be incompatible between these two.
-
-Things which might be problematic include Whoosh indices and file based caches.
-Fortunately these are easy to handle. Recommended upgrade steps:
-
-1. Backup your :ref:`translation-memory` using :djadmin:`dump_memory`:
-
-   .. code-block:: sh
-
-         ./manage.py dump_memory > memory.json
-
-2. Upgrade your installation to Python 3.
-3. Delete :ref:`translation-memory` database :djadmin:`delete_memory`:
-
-   .. code-block:: sh
-
-         ./manage.py delete_memory --all
-
-4. Restore your :ref:`translation-memory` using :djadmin:`import_memory`.
-
-   .. code-block:: sh
-
-         ./manage.py import_memory memory.json
-
-5. Recreate fulltext index using :djadmin:`rebuild_index`:
-
-   .. code-block:: sh
-
-      ./manage.py rebuild_index --clean --all
-
-6. Cleanup avatar cache (if using file based) using :djadmin:`cleanup_avatar_cache`.
-
-   .. code-block:: sh
-
-      ./manage.py cleanup_avatar_cache
-
-7. It is recommended to throw away your caches.
+Weblate no longer supports Python older than 3.5. In case you are still running
+on older version, please perform migration to Python 3 first on existing
+version and upgrade later. See `Upgrading from Python 2 to Python 3 in the Weblate
+3.11.1 documentation
+<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_.
 
 .. _database-migration:
 
