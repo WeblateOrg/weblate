@@ -229,16 +229,6 @@ You can either define which project or component to update (for example
     :ref:`production-cron`,
     :setting:`COMMIT_PENDING_HOURS`
 
-cleanup_avatar_cache
---------------------
-
-.. versionadded:: 3.1
-
-.. django-admin:: cleanup_avatar_cache
-
-Removes invalid items in avatar cache. This can be useful when switching
-between Python 2 and 3 as the cache files might be not compatible.
-
 cleanuptrans
 ------------
 

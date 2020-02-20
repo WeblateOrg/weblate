@@ -21,10 +21,7 @@
 """Test for user handling."""
 
 import os
-import pickle
-import zlib
 
-from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -91,23 +88,3 @@ class CommandTest(TestCase, TempDirMixin):
             call_command('changesite', get_name=True, site_id=2)
         call_command('changesite', set_name='test.weblate.org', site_id=2)
         self.assertEqual(Site.objects.get(pk=2).domain, 'test.weblate.org')
-
-    def test_avatar_cleanup(self):
-        backup = settings.CACHES
-        backend = 'django.core.cache.backends.filebased.FileBasedCache'
-        try:
-            self.create_temp()
-            settings.CACHES['avatar'] = {'BACKEND': backend, 'LOCATION': self.tempdir}
-            testfile = os.path.join(self.tempdir, 'test.djcache')
-            picklefile = os.path.join(self.tempdir, 'pickle.djcache')
-            with open(testfile, 'w') as handle:
-                handle.write('x')
-            with open(picklefile, 'wb') as handle:
-                pickle.dump('fake', handle)
-                handle.write(zlib.compress(pickle.dumps('payload')))
-            call_command('cleanup_avatar_cache')
-            self.assertFalse(os.path.exists(testfile))
-            self.assertTrue(os.path.exists(picklefile))
-        finally:
-            self.remove_temp()
-            settings.CACHES = backup
