@@ -25,7 +25,6 @@ from itertools import islice
 from django.db import models
 from django.db.models.functions import Lower
 from django.urls import reverse
-from six import python_2_unicode_compatible
 from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 from whoosh.analysis.filters import StopFilter
 from whoosh.lang import NoStopWords
@@ -171,7 +170,6 @@ class DictionaryQuerySet(models.QuerySet):
         return self.order_by(Lower('source'))
 
 
-@python_2_unicode_compatible
 class Dictionary(models.Model):
     project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)

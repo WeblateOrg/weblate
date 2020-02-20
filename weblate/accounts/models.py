@@ -34,7 +34,6 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import LANGUAGE_SESSION_KEY, ugettext
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.authtoken.models import Token
-from six import python_2_unicode_compatible
 from social_django.models import UserSocialAuth
 
 from weblate.accounts.avatar import get_user_display
@@ -50,7 +49,6 @@ from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
 
 
-@python_2_unicode_compatible
 class Subscription(models.Model):
     user = models.ForeignKey(User, on_delete=models.deletion.CASCADE)
     notification = models.CharField(
@@ -178,7 +176,6 @@ class AuditLogQuerySet(models.QuerySet):
         return self.order_by('-timestamp')
 
 
-@python_2_unicode_compatible
 class AuditLog(models.Model):
     """User audit log storage."""
 
@@ -253,7 +250,6 @@ class AuditLog(models.Model):
             transaction.on_commit(lambda: notify_auditlog.delay(self.pk, email))
 
 
-@python_2_unicode_compatible
 class VerifiedEmail(models.Model):
     """Storage for verified e-mails from auth backends."""
 
@@ -268,7 +264,6 @@ class VerifiedEmail(models.Model):
         return self.social.provider
 
 
-@python_2_unicode_compatible
 class Profile(models.Model):
     """User profiles storage."""
 

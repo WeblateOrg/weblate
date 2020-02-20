@@ -25,7 +25,6 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-from six import python_2_unicode_compatible
 
 from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.utils.fields import JSONField
@@ -42,7 +41,6 @@ def register(cls):
     return cls
 
 
-@python_2_unicode_compatible
 class Alert(models.Model):
     component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)

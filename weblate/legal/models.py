@@ -23,7 +23,6 @@ from datetime import date
 
 from django.conf import settings
 from django.db import models
-from six import python_2_unicode_compatible
 
 from weblate.accounts.models import AuditLog
 from weblate.utils.request import get_ip_address, get_user_agent
@@ -32,7 +31,6 @@ from weblate.utils.request import get_ip_address, get_user_agent
 TOS_DATE = date(2017, 7, 2)
 
 
-@python_2_unicode_compatible
 class Agreement(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, unique=True, on_delete=models.deletion.CASCADE

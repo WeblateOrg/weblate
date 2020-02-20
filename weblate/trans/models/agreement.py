@@ -21,7 +21,6 @@
 
 from django.conf import settings
 from django.db import models
-from six import python_2_unicode_compatible
 
 
 class ContributorAgreementManager(models.Manager):
@@ -43,7 +42,6 @@ class ContributorAgreementManager(models.Manager):
         return self.order_by('component__project__name', 'component__name')
 
 
-@python_2_unicode_compatible
 class ContributorAgreement(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE

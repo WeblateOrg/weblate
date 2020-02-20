@@ -36,7 +36,6 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext_lazy
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
-from six import python_2_unicode_compatible
 
 from weblate.lang import data
 from weblate.langdata.aliases import ALIASES
@@ -377,7 +376,6 @@ def setup_lang(sender, **kwargs):
         Language.objects.setup(False)
 
 
-@python_2_unicode_compatible
 class Language(models.Model):
     code = models.SlugField(unique=True, verbose_name=ugettext_lazy('Language code'))
     name = models.CharField(max_length=100, verbose_name=ugettext_lazy('Language name'))
@@ -447,7 +445,6 @@ class PluralQuerySet(models.QuerySet):
         return self.order_by('source')
 
 
-@python_2_unicode_compatible
 class Plural(models.Model):
     PLURAL_CHOICES = (
         (data.PLURAL_NONE, pgettext_lazy('Plural type', 'None')),

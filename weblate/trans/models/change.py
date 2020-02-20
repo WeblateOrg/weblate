@@ -25,7 +25,6 @@ from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
-from six import python_2_unicode_compatible
 
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
@@ -155,7 +154,6 @@ class ChangeManager(models.Manager):
         return super(ChangeManager, self).create(user=user, **kwargs)
 
 
-@python_2_unicode_compatible
 class Change(models.Model, UserDisplayMixin):
     ACTION_UPDATE = 0
     ACTION_COMPLETE = 1

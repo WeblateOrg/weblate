@@ -25,7 +25,6 @@ import re
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from six import python_2_unicode_compatible
 
 from weblate.trans.fields import RegexField
 from weblate.utils.stats import ComponentListStats
@@ -36,7 +35,6 @@ class ComponentListQuerySet(models.QuerySet):
         return self.order_by('name')
 
 
-@python_2_unicode_compatible
 class ComponentList(models.Model):
 
     name = models.CharField(
@@ -85,7 +83,6 @@ class ComponentList(models.Model):
         return reverse('component-list', kwargs={'name': self.slug})
 
 
-@python_2_unicode_compatible
 class AutoComponentList(models.Model):
     project_match = RegexField(
         verbose_name=_('Project regular expression'),

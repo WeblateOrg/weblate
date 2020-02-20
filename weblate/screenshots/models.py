@@ -23,7 +23,6 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from six import python_2_unicode_compatible
 
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
@@ -35,7 +34,6 @@ class ScreenshotQuerySet(models.QuerySet):
         return self.order_by('name')
 
 
-@python_2_unicode_compatible
 class Screenshot(models.Model, UserDisplayMixin):
     name = models.CharField(verbose_name=_('Screenshot name'), max_length=200)
     image = ScreenshotField(

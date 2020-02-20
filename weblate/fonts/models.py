@@ -25,7 +25,6 @@ from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from six import python_2_unicode_compatible
 
 from weblate.fonts.utils import get_font_name
 from weblate.fonts.validators import validate_font
@@ -37,7 +36,6 @@ from weblate.utils.data import data_dir
 FONT_STORAGE = FileSystemStorage(location=data_dir("fonts"))
 
 
-@python_2_unicode_compatible
 class Font(models.Model, UserDisplayMixin):
     family = models.CharField(verbose_name=_("Font family"), max_length=100, blank=True)
     style = models.CharField(verbose_name=_("Font style"), max_length=100, blank=True)
@@ -100,7 +98,6 @@ class FontGroupQuerySet(models.QuerySet):
         return self.order_by("name")
 
 
-@python_2_unicode_compatible
 class FontGroup(models.Model):
     name = models.SlugField(
         verbose_name=_("Font group name"),
@@ -132,7 +129,6 @@ class FontGroup(models.Model):
         )
 
 
-@python_2_unicode_compatible
 class FontOverride(models.Model):
     group = models.ForeignKey(FontGroup, on_delete=models.deletion.CASCADE)
     font = models.ForeignKey(

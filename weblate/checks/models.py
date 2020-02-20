@@ -26,7 +26,6 @@ from django.db import IntegrityError, models, transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
-from six import python_2_unicode_compatible
 
 from weblate.checks import CHECKS
 from weblate.utils.decorators import disable_for_loaddata
@@ -111,7 +110,6 @@ class CheckManager(models.Manager):
                     continue
 
 
-@python_2_unicode_compatible
 class Check(models.Model):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())

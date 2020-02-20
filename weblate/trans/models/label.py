@@ -23,10 +23,8 @@ from django.db import models
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy
-from six import python_2_unicode_compatible
 
 
-@python_2_unicode_compatible
 class Label(models.Model):
     project = models.ForeignKey("Project", on_delete=models.deletion.CASCADE)
     name = models.CharField(verbose_name=ugettext_lazy("Label name"), max_length=190)

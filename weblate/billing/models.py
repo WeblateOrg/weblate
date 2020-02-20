@@ -32,7 +32,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-from six import python_2_unicode_compatible
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
@@ -53,7 +52,6 @@ class PlanQuerySet(models.QuerySet):
         return result.distinct().order_by('price')
 
 
-@python_2_unicode_compatible
 class Plan(models.Model):
     name = models.CharField(max_length=100, unique=True)
     price = models.IntegerField(default=0)
@@ -119,7 +117,6 @@ class BillingQuerySet(models.QuerySet):
         )
 
 
-@python_2_unicode_compatible
 class Billing(models.Model):
     STATE_ACTIVE = 0
     STATE_TRIAL = 1
@@ -380,7 +377,6 @@ class InvoiceQuerySet(models.QuerySet):
         return self.order_by('-start')
 
 
-@python_2_unicode_compatible
 class Invoice(models.Model):
     CURRENCY_EUR = 0
     CURRENCY_BTC = 1
