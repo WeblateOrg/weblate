@@ -24,7 +24,6 @@ import importlib
 import inspect
 import re
 
-import six
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from lxml.etree import XMLSyntaxError
@@ -261,7 +260,7 @@ class TTKitFormat(TranslationFormat):
         cls.fixup(store)
 
         # Read the content
-        if isinstance(storefile, six.string_types):
+        if isinstance(storefile, str):
             with open(storefile, 'rb') as handle:
                 content = handle.read()
         else:
@@ -337,7 +336,7 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def get_new_file_content(cls):
         result = cls.new_translation
-        if isinstance(result, six.text_type):
+        if isinstance(result, str):
             result = result.encode('utf-8')
         return result
 

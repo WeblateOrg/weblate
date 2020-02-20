@@ -20,7 +20,6 @@
 
 import re
 
-import six
 from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
@@ -261,7 +260,7 @@ class GroupManyToManyField(models.ManyToManyField):
         # We care only on forward relation
         if not descriptor.reverse:
             # Running in migrations
-            if isinstance(descriptor.rel.model, six.string_types):
+            if isinstance(descriptor.rel.model, str):
                 return
 
             # Get related manager class

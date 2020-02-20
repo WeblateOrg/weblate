@@ -27,7 +27,6 @@ from datetime import timedelta
 from io import BytesIO
 from unittest import SkipTest
 
-import six
 import social_django.utils
 from django.conf import settings
 from django.contrib.sites.models import Site
@@ -195,7 +194,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def click(self, element):
         """Wrapper to scroll into element for click."""
-        if isinstance(element, six.string_types):
+        if isinstance(element, str):
             element = self.driver.find_element_by_link_text(element)
 
         try:

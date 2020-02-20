@@ -23,7 +23,6 @@ import os
 import re
 from io import BytesIO, StringIO
 
-import six
 from django.utils.translation import ugettext_lazy as _
 from openpyxl import Workbook, load_workbook
 from openpyxl.cell.cell import TYPE_STRING
@@ -93,7 +92,7 @@ class XlsxFormat(CSVFormat):
         for row in worksheet.rows:
             writer.writerow([cell.value for cell in row])
 
-        if isinstance(storefile, six.string_types):
+        if isinstance(storefile, str):
             name = os.path.basename(storefile) + ".csv"
         else:
             name = os.path.basename(storefile.name) + ".csv"
