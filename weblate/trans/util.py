@@ -22,6 +22,7 @@
 import locale
 import os
 import sys
+from urllib.parse import urlparse
 
 from django.apps import apps
 from django.core.cache import cache
@@ -36,7 +37,6 @@ from django.utils.http import is_safe_url
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
 from lxml import etree
-from six.moves.urllib.parse import urlparse
 from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.utils.data import data_dir

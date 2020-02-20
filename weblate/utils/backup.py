@@ -22,9 +22,9 @@ import os
 import string
 import subprocess
 from random import SystemRandom
+from urllib.parse import urlparse
 
 from django.conf import settings
-from six.moves.urllib.parse import urlparse
 
 from weblate.trans.util import get_clean_env
 from weblate.utils.data import data_dir

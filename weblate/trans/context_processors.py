@@ -19,13 +19,13 @@
 #
 
 from datetime import datetime
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.utils.html import escape
 from django.utils.http import is_safe_url
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-from six.moves.urllib.parse import urlparse
 
 import weblate
 import weblate.screenshots.views

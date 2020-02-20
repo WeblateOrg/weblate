@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import six.moves
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
@@ -48,7 +47,7 @@ class ChangeQuerySet(models.QuerySet):
         """Count number of changes in given dataset and period grouped by step days."""
         # Count number of changes
         result = []
-        for _unused in six.moves.range(0, days, step):
+        for _unused in range(0, days, step):
             # Calculate interval
             int_start = dtstart
             int_end = int_start + timezone.timedelta(days=step)

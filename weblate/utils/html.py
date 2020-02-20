@@ -20,15 +20,14 @@
 
 
 from collections import defaultdict
+from html.parser import HTMLParser
 
-from six.moves import html_parser
 
-
-class MarkupExtractor(html_parser.HTMLParser):
+class MarkupExtractor(HTMLParser):
     def __init__(self):
         self.found_tags = set()
         self.found_attributes = defaultdict(set)
-        html_parser.HTMLParser.__init__(self)
+        super().__init__()
 
     def handle_starttag(self, tag, attrs):
         self.found_tags.add(tag)

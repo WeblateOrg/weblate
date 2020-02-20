@@ -22,6 +22,7 @@
 
 
 from io import BytesIO
+from urllib.parse import urlsplit
 from xml.dom import minidom
 from zipfile import ZipFile
 
@@ -34,7 +35,6 @@ from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
 from PIL import Image
-from six.moves.urllib.parse import urlsplit
 
 from weblate.accounts.models import Profile
 from weblate.auth.models import Group, Permission, Role, setup_project_groups

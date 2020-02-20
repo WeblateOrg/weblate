@@ -19,9 +19,10 @@
 #
 
 
+from urllib.error import HTTPError
+from urllib.parse import quote
+
 from django.conf import settings
-from six.moves.urllib.error import HTTPError
-from six.moves.urllib.parse import quote
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 

@@ -23,12 +23,12 @@
 import json
 import random
 from hashlib import md5
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.http import urlencode
-from six.moves.urllib.error import HTTPError
-from six.moves.urllib.request import Request, urlopen
 
 from weblate import USER_AGENT
 from weblate.logger import LOGGER
