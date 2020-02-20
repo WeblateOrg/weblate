@@ -25,12 +25,12 @@ from weblate.lang.models import Language, Plural
 
 
 class LanguageForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Language
         exclude = []
 
 
 class PluralForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Plural
         fields = ["number", "equation"]

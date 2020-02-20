@@ -35,7 +35,7 @@ from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import STATE_NAMES, STATE_TRANSLATED
 
 
-class Comparer(object):
+class Comparer:
     """String comparer abstraction.
 
     The reason is to be able to change implementation.

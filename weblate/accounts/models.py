@@ -63,7 +63,7 @@ class Subscription(models.Model):
         'trans.Component', on_delete=models.deletion.CASCADE, null=True
     )
 
-    class Meta(object):
+    class Meta:
         unique_together = [('notification', 'scope', 'project', 'component', 'user')]
 
     def __str__(self):
@@ -593,5 +593,5 @@ class WeblateAccountsConf(AppConf):
         r'/legal/(.*)$',  # Optional for legal app
     )
 
-    class Meta(object):
+    class Meta:
         prefix = ''

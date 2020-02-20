@@ -44,7 +44,7 @@ from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 
-class BaseAddon(object):
+class BaseAddon:
     events = ()
     settings_form = None
     name = None

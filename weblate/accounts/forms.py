@@ -66,7 +66,7 @@ from weblate.utils.validators import (
 )
 
 
-class UniqueEmailMixin(object):
+class UniqueEmailMixin:
     validate_unique_mail = False
 
     def clean_email(self):
@@ -162,7 +162,7 @@ class ProfileBaseForm(forms.ModelForm):
 class ProfileForm(ProfileBaseForm):
     """User profile editing."""
 
-    class Meta(object):
+    class Meta:
         model = Profile
         fields = ('language', 'languages', 'secondary_languages')
         widgets = {
@@ -185,7 +185,7 @@ class ProfileForm(ProfileBaseForm):
 class SubscriptionForm(ProfileBaseForm):
     """User watched projects management."""
 
-    class Meta(object):
+    class Meta:
         model = Profile
         fields = ('watched',)
         widgets = {'watched': forms.SelectMultiple}
@@ -204,7 +204,7 @@ class SubscriptionForm(ProfileBaseForm):
 class UserSettingsForm(ProfileBaseForm):
     """User settings form."""
 
-    class Meta(object):
+    class Meta:
         model = Profile
         fields = (
             'hide_completed',
@@ -226,7 +226,7 @@ class UserSettingsForm(ProfileBaseForm):
 class DashboardSettingsForm(ProfileBaseForm):
     """Dashboard settings form."""
 
-    class Meta(object):
+    class Meta:
         model = Profile
         fields = ('dashboard_view', 'dashboard_component_list')
         widgets = {'dashboard_view': forms.RadioSelect}
@@ -250,7 +250,7 @@ class UserForm(forms.ModelForm):
     )
     full_name = FullNameField()
 
-    class Meta(object):
+    class Meta:
         model = User
         fields = ('username', 'full_name', 'email')
 

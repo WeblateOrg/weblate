@@ -34,7 +34,7 @@ from weblate.utils.render import validate_render, validate_render_component
 from weblate.utils.validators import validate_filename, validate_re
 
 
-class AddonFormMixin(object):
+class AddonFormMixin:
     def serialize_form(self):
         return self.cleaned_data
 

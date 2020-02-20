@@ -296,7 +296,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
             break
 
 
-class XMLMixin(object):
+class XMLMixin:
     def assert_same(self, newdata, testdata):
         self.assertXMLEqual(force_text(newdata), force_text(testdata))
 

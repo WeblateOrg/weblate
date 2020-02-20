@@ -26,7 +26,7 @@ from django.utils.translation import gettext_lazy as _
 from weblate.checks import CHECKS
 
 
-class FilterRegistry(object):
+class FilterRegistry:
     @cached_property
     def full_list(self):
         result = [

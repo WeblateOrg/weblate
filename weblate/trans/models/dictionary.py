@@ -178,7 +178,7 @@ class Dictionary(models.Model):
 
     objects = DictionaryManager.from_queryset(DictionaryQuerySet)()
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
 
     def __str__(self):

@@ -119,7 +119,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     is_lockable = False
     _reverse_url_name = 'translation'
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
         unique_together = ('component', 'language')
 

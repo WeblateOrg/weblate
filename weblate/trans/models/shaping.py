@@ -29,7 +29,7 @@ class Shaping(models.Model):
     shaping_regex = RegexField(max_length=190)
     key = models.CharField(max_length=190, db_index=True)
 
-    class Meta(object):
+    class Meta:
         unique_together = (("key", "component", "shaping_regex"),)
 
     def __str__(self):

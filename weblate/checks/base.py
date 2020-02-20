@@ -23,7 +23,7 @@ from django.http import Http404
 from weblate.utils.docs import get_doc_url
 
 
-class Check(object):
+class Check:
     """Basic class for checks."""
 
     check_id = ''

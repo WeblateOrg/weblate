@@ -110,7 +110,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
 
     def __str__(self):
@@ -178,7 +178,7 @@ class Vote(models.Model):
     POSITIVE = 1
     NEGATIVE = -1
 
-    class Meta(object):
+    class Meta:
         unique_together = ('suggestion', 'user')
         app_label = 'trans'
 

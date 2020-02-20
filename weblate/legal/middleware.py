@@ -29,7 +29,7 @@ from weblate.legal.models import Agreement
 from weblate.utils import messages
 
 
-class RequireTOSMiddleware(object):
+class RequireTOSMiddleware:
     """Middleware to enforce TOS confirmation on certain requests."""
 
     def __init__(self, get_response=None):

@@ -120,7 +120,7 @@ class WhiteboardMessage(models.Model):
 
     objects = WhiteboardManager()
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
         verbose_name = gettext_lazy('Whiteboard message')
         verbose_name_plural = gettext_lazy('Whiteboard messages')

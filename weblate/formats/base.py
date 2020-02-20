@@ -34,7 +34,7 @@ class UnitNotFound(Exception):
     pass
 
 
-class TranslationUnit(object):
+class TranslationUnit:
     """Wrapper for translate-toolkit unit.
 
     It handles ID/template based translations and other API differences.
@@ -143,7 +143,7 @@ class TranslationUnit(object):
         raise NotImplementedError()
 
 
-class TranslationFormat(object):
+class TranslationFormat:
     """Generic object defining file format loader."""
 
     name = ''

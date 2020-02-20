@@ -47,7 +47,7 @@ class Alert(models.Model):
     name = models.CharField(max_length=150)
     details = JSONField(default={})
 
-    class Meta(object):
+    class Meta:
         unique_together = ('component', 'name')
 
     @cached_property
@@ -74,7 +74,7 @@ class Alert(models.Model):
             )
 
 
-class BaseAlert(object):
+class BaseAlert:
     verbose = ''
     on_import = False
     link_wide = False

@@ -62,7 +62,7 @@ def list_exporters(translation):
     ]
 
 
-class BaseExporter(object):
+class BaseExporter:
     content_type = 'text/plain'
     extension = 'txt'
     name = ''

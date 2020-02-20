@@ -57,7 +57,7 @@ def register_widget(widget):
     return widget
 
 
-class Widget(object):
+class Widget:
     """Generic widget class."""
 
     name = None

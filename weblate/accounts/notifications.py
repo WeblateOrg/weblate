@@ -84,7 +84,7 @@ def register_notification(handler):
     return handler
 
 
-class Notification(object):
+class Notification:
     actions = ()
     verbose = ''
     template_name = None

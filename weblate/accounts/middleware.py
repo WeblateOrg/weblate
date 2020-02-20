@@ -48,7 +48,7 @@ def get_user(request):
     return request._cached_user
 
 
-class AuthenticationMiddleware(object):
+class AuthenticationMiddleware:
     """Copy of django.contrib.auth.middleware.AuthenticationMiddleware."""
 
     def __init__(self, get_response=None):
@@ -59,7 +59,7 @@ class AuthenticationMiddleware(object):
         return self.get_response(request)
 
 
-class RequireLoginMiddleware(object):
+class RequireLoginMiddleware:
     """Middleware that applies the login_required decorator to matching URL patterns.
 
     To use, add the class to MIDDLEWARE and

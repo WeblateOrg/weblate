@@ -142,7 +142,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     objects = ProjectQuerySet.as_manager()
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
         verbose_name = gettext_lazy('Project')
         verbose_name_plural = gettext_lazy('Projects')

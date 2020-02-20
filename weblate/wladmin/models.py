@@ -77,7 +77,7 @@ class ConfigurationError(models.Model):
 
     objects = ConfigurationErrorManager()
 
-    class Meta(object):
+    class Meta:
         index_together = [('ignored', 'timestamp')]
 
     def __str__(self):

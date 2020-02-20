@@ -62,7 +62,7 @@ class RepositoryException(Exception):
         return self.get_message()
 
 
-class Repository(object):
+class Repository:
     """Basic repository object."""
 
     _cmd = 'false'

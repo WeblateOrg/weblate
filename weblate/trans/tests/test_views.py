@@ -50,7 +50,7 @@ from weblate.trans.tests.utils import (
 from weblate.utils.hash import hash_to_checksum
 
 
-class RegistrationTestMixin(object):
+class RegistrationTestMixin:
     """Helper to share code for registration testing."""
 
     def assert_registration_mailbox(self, match=None):

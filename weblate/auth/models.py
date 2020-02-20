@@ -67,7 +67,7 @@ class Permission(models.Model):
     codename = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=200)
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Permission')
         verbose_name_plural = _('Permissions')
 
@@ -494,7 +494,7 @@ class AutoGroup(models.Model):
         Group, verbose_name=_('Group to assign'), on_delete=models.deletion.CASCADE
     )
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Automatic group assignment')
         verbose_name_plural = _('Automatic group assignments')
 
@@ -659,5 +659,5 @@ class WeblateAuthConf(AppConf):
     # Anonymous user name
     ANONYMOUS_USER_NAME = 'anonymous'
 
-    class Meta(object):
+    class Meta:
         prefix = ''

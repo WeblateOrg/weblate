@@ -83,5 +83,5 @@ class WeblateConf(AppConf):
         'weblate.memory.machine.WeblateMemory',
     )
 
-    class Meta(object):
+    class Meta:
         prefix = 'MT'

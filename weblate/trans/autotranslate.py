@@ -27,7 +27,7 @@ from weblate.trans.models import Change, Component, Suggestion, Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
-class AutoTranslate(object):
+class AutoTranslate:
     def __init__(self, user, translation, filter_type, mode):
         self.user = user
         self.translation = translation

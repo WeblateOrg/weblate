@@ -32,7 +32,7 @@ from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
 
 
-class TextItem(object):
+class TextItem:
     """Actual text unit object."""
 
     def __init__(self, filename, line, text, flags=None):
@@ -49,7 +49,7 @@ class TextItem(object):
         return self.location
 
 
-class TextParser(object):
+class TextParser:
     """Simple text parser returning all content as single unit."""
 
     def __init__(self, storefile, filename=None, flags=None):
@@ -62,7 +62,7 @@ class TextParser(object):
         self.units = [TextItem(self.filename, 1, content.strip(), flags)]
 
 
-class TextSerializer(object):
+class TextSerializer:
     def __init__(self, filename, units):
         self.units = [unit for unit in units if unit.filename == filename]
 
@@ -72,7 +72,7 @@ class TextSerializer(object):
             handle.write(b'\n')
 
 
-class MultiParser(object):
+class MultiParser:
     filenames = ()
 
     def __init__(self, storefile):

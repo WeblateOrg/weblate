@@ -427,7 +427,7 @@ class Change(models.Model, UserDisplayMixin):
 
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
 
     def __init__(self, *args, **kwargs):

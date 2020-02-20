@@ -28,7 +28,7 @@ from django.utils.encoding import force_text
 from weblate.trans.util import sort_unicode
 
 
-class SortedSelectMixin(object):
+class SortedSelectMixin:
     """Mixin for Select widgets to sort choices alphabetically."""
 
     def optgroups(self, name, value, attrs=None):
