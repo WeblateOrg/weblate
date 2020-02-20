@@ -27,7 +27,7 @@ from weblate.trans.util import sort_choices
 from weblate.wladmin.models import WeblateModelAdmin
 
 
-class RepoAdminMixin(object):
+class RepoAdminMixin:
     def force_commit(self, request, queryset):
         """Commit pending changes for selected components."""
         for obj in queryset:

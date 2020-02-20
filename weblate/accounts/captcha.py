@@ -33,7 +33,7 @@ TIMEDELTA = 600
 OPERATORS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul}
 
 
-class MathCaptcha(object):
+class MathCaptcha:
     """Simple match captcha object."""
 
     operators = ('+', '-', '*')

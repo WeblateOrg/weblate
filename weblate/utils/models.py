@@ -63,7 +63,7 @@ class WeblateConf(AppConf):
 
     DATABASE_BACKUP = 'plain'
 
-    class Meta(object):
+    class Meta:
         prefix = ''
 
 

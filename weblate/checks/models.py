@@ -85,7 +85,7 @@ class WeblateChecksConf(AppConf):
         'weblate.checks.source.MultipleFailingCheck',
     )
 
-    class Meta(object):
+    class Meta:
         prefix = ''
 
 
@@ -101,7 +101,7 @@ class Check(models.Model):
         except KeyError:
             return None
 
-    class Meta(object):
+    class Meta:
         unique_together = ('unit', 'check')
 
     def __str__(self):

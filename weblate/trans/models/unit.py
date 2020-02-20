@@ -215,7 +215,7 @@ class Unit(models.Model, LoggerMixin):
 
     objects = UnitQuerySet.as_manager()
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
         unique_together = ('translation', 'id_hash')
         index_together = [('translation', 'pending'), ('priority', 'position')]

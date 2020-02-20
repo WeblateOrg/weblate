@@ -37,7 +37,7 @@ def register(cls):
     return cls
 
 
-class Guideline(object):
+class Guideline:
     description = ""
     group = False
     url = ""

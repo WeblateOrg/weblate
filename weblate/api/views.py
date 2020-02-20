@@ -112,7 +112,7 @@ def get_view_description(view_cls, html=False):
     return description
 
 
-class MultipleFieldMixin(object):
+class MultipleFieldMixin:
     """Multiple field filtering mixin.
 
     Apply this mixin to any view or viewset to get multiple field filtering based on a

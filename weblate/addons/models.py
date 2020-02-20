@@ -125,7 +125,7 @@ class Event(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
     event = models.IntegerField(choices=EVENT_CHOICES)
 
-    class Meta(object):
+    class Meta:
         unique_together = ('addon', 'event')
 
     def __str__(self):
@@ -158,7 +158,7 @@ class AddonsConf(AppConf):
         'weblate.addons.yaml.YAMLCustomizeAddon',
     )
 
-    class Meta(object):
+    class Meta:
         prefix = 'WEBLATE'
 
 

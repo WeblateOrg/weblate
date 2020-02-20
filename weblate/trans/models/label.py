@@ -69,7 +69,7 @@ class Label(models.Model):
         default=None,
     )
 
-    class Meta(object):
+    class Meta:
         app_label = "trans"
         unique_together = ("project", "name")
 

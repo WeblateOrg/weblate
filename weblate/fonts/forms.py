@@ -25,13 +25,13 @@ from weblate.fonts.models import Font, FontGroup, FontOverride
 
 
 class FontForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Font
         fields = ("font",)
 
 
 class FontGroupForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = FontGroup
         fields = ("name", "font")
 
@@ -43,6 +43,6 @@ class FontGroupForm(forms.ModelForm):
 
 
 class FontOverrideForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = FontOverride
         fields = ("language", "font")

@@ -62,7 +62,7 @@ COPY_ATTRIBUTES = (
 )
 
 
-class ComponentDiscovery(object):
+class ComponentDiscovery:
     def __init__(
         self,
         component,

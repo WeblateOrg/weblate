@@ -46,7 +46,7 @@ class MissingConfiguration(ImproperlyConfigured):
     """Exception raised when configuraiton is wrong."""
 
 
-class MachineTranslation(object):
+class MachineTranslation:
     """Generic object for machine translation services."""
 
     name = 'MT'

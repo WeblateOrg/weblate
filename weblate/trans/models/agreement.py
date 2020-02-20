@@ -51,7 +51,7 @@ class ContributorAgreement(models.Model):
 
     objects = ContributorAgreementManager()
 
-    class Meta(object):
+    class Meta:
         unique_together = [('user', 'component')]
 
     def __str__(self):

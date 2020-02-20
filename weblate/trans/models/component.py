@@ -496,7 +496,7 @@ class Component(models.Model, URLMixin, PathMixin):
     is_lockable = True
     _reverse_url_name = "component"
 
-    class Meta(object):
+    class Meta:
         unique_together = (("project", "name"), ("project", "slug"))
         app_label = "trans"
         verbose_name = gettext_lazy("Component")

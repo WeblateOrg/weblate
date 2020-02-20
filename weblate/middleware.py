@@ -37,7 +37,7 @@ CSP_TEMPLATE = (
 INLINE_PATHS = {"social:begin"}
 
 
-class ProxyMiddleware(object):
+class ProxyMiddleware:
     """Middleware that updates REMOTE_ADDR from proxy.
 
     Note that this can have security implications and settings have to match your actual
@@ -63,7 +63,7 @@ class ProxyMiddleware(object):
         return self.get_response(request)
 
 
-class SecurityMiddleware(object):
+class SecurityMiddleware:
     """Middleware that sets Content-Security-Policy."""
 
     def __init__(self, get_response=None):

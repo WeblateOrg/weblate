@@ -94,5 +94,5 @@ class FormatsConf(AppConf):
         'weblate.formats.txt.AppStoreFormat',
     )
 
-    class Meta(object):
+    class Meta:
         prefix = 'WEBLATE'

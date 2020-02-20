@@ -61,7 +61,7 @@ TYPED_FLAGS_ARGS["max-length"] = int
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
 
-class Flags(object):
+class Flags:
     def __init__(self, *args):
         self._items = {}
         self._values = {}

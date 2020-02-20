@@ -82,7 +82,7 @@ class RemovableSerializer(serializers.ModelSerializer):
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source='get_absolute_url', read_only=True)
 
-    class Meta(object):
+    class Meta:
         model = Language
         fields = ('code', 'name', 'direction', 'web_url', 'url')
         extra_kwargs = {
@@ -109,7 +109,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         view_name='api:project-languages', lookup_field='slug'
     )
 
-    class Meta(object):
+    class Meta:
         model = Project
         fields = (
             'name',
@@ -165,7 +165,7 @@ class ComponentSerializer(RemovableSerializer):
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
-    class Meta(object):
+    class Meta:
         model = Component
         fields = (
             'name',
@@ -269,7 +269,7 @@ class TranslationSerializer(RemovableSerializer):
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
-    class Meta(object):
+    class Meta:
         model = Translation
         fields = (
             'language',
@@ -325,7 +325,7 @@ class ReadOnlySerializer(serializers.Serializer):
 
 
 class LockSerializer(serializers.ModelSerializer):
-    class Meta(object):
+    class Meta:
         model = Component
         fields = ('locked',)
 
@@ -389,7 +389,7 @@ class UnitSerializer(RemovableSerializer):
         strip_parts=1,
     )
 
-    class Meta(object):
+    class Meta:
         model = Unit
         fields = (
             'translation',
@@ -430,7 +430,7 @@ class ScreenshotSerializer(RemovableSerializer):
         many=True, read_only=True, view_name='api:unit-detail'
     )
 
-    class Meta(object):
+    class Meta:
         model = Screenshot
         fields = ('name', 'component', 'file_url', 'units', 'url')
         extra_kwargs = {'url': {'view_name': 'api:screenshot-detail'}}
@@ -439,7 +439,7 @@ class ScreenshotSerializer(RemovableSerializer):
 class ScreenshotFileSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(validators=[validate_bitmap])
 
-    class Meta(object):
+    class Meta:
         model = Screenshot
         fields = ('image',)
         extra_kwargs = {'url': {'view_name': 'api:screenshot-file'}}
@@ -465,7 +465,7 @@ class ChangeSerializer(RemovableSerializer):
         read_only=True, view_name='api:unit-detail'
     )
 
-    class Meta(object):
+    class Meta:
         model = Change
         fields = (
             'unit',

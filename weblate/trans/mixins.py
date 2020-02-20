@@ -28,7 +28,7 @@ from weblate.accounts.avatar import get_user_display
 from weblate.logger import LOGGER
 
 
-class URLMixin(object):
+class URLMixin:
     """Mixin for models providing standard shortcut API for few standard URLs."""
 
     _reverse_url_name = None
@@ -73,7 +73,7 @@ class URLMixin(object):
         return self.reverse_url('remove')
 
 
-class LoggerMixin(object):
+class LoggerMixin:
     """Mixin for models with logging."""
 
     @cached_property
@@ -145,7 +145,7 @@ class PathMixin(LoggerMixin):
             os.makedirs(path)
 
 
-class UserDisplayMixin(object):
+class UserDisplayMixin:
     def get_user_display(self, icon=True):
         return get_user_display(self.user, icon, link=True)
 

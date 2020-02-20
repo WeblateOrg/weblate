@@ -26,7 +26,7 @@ from django.utils.translation import gettext as _
 from weblate.accounts.models import AuditLog
 
 
-class CharsPasswordValidator(object):
+class CharsPasswordValidator:
     """Validate whether the password is not only whitespace or single char."""
 
     def validate(self, password, user=None):
@@ -50,7 +50,7 @@ class CharsPasswordValidator(object):
         )
 
 
-class PastPasswordsValidator(object):
+class PastPasswordsValidator:
     """Validate whether the password was not used before."""
 
     def validate(self, password, user=None):

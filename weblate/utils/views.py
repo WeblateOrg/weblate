@@ -62,7 +62,7 @@ def get_paginator(request, object_list, default_page_limit=50):
         return paginator.page(paginator.num_pages)
 
 
-class ComponentViewMixin(object):
+class ComponentViewMixin:
 
     # This should be done in setup once we drop support for older Django
     def get_component(self):
@@ -71,7 +71,7 @@ class ComponentViewMixin(object):
         )
 
 
-class ProjectViewMixin(object):
+class ProjectViewMixin:
     project = None
 
     # This should be done in setup once we drop support for older Django

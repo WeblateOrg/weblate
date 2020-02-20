@@ -54,7 +54,7 @@ class Font(models.Model, UserDisplayMixin):
         on_delete=models.deletion.SET_NULL,
     )
 
-    class Meta(object):
+    class Meta:
         unique_together = [("family", "style", "project")]
 
     def __init__(self, *args, **kwargs):
@@ -117,7 +117,7 @@ class FontGroup(models.Model):
 
     objects = FontGroupQuerySet.as_manager()
 
-    class Meta(object):
+    class Meta:
         unique_together = [("name", "project")]
 
     def __str__(self):
@@ -138,7 +138,7 @@ class FontOverride(models.Model):
         Language, on_delete=models.deletion.CASCADE, verbose_name=_("Language")
     )
 
-    class Meta(object):
+    class Meta:
         unique_together = [("group", "language")]
 
     def __str__(self):

@@ -76,7 +76,7 @@ def create_another_user():
     )
 
 
-class RepoTestMixin(object):
+class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
     updated_base_repos = set()
@@ -377,7 +377,7 @@ class RepoTestMixin(object):
         )
 
 
-class TempDirMixin(object):
+class TempDirMixin:
     tempdir = None
 
     def create_temp(self):

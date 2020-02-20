@@ -390,7 +390,7 @@ class Language(models.Model):
 
     objects = LanguageQuerySet.as_manager()
 
-    class Meta(object):
+    class Meta:
         verbose_name = gettext_lazy('Language')
         verbose_name_plural = gettext_lazy('Languages')
 
@@ -519,7 +519,7 @@ class Plural(models.Model):
 
     objects = PluralQuerySet.as_manager()
 
-    class Meta(object):
+    class Meta:
         verbose_name = gettext_lazy('Plural form')
         verbose_name_plural = gettext_lazy('Plural forms')
 
@@ -634,5 +634,5 @@ class WeblateLanguagesConf(AppConf):
     # Use simple language codes for default language/country combinations
     SIMPLIFY_LANGUAGES = True
 
-    class Meta(object):
+    class Meta:
         prefix = ''

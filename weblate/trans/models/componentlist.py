@@ -65,7 +65,7 @@ class ComponentList(models.Model):
 
     objects = ComponentListQuerySet.as_manager()
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Component list')
         verbose_name_plural = _('Component lists')
 
@@ -112,6 +112,6 @@ class AutoComponentList(models.Model):
             return
         self.componentlist.components.add(component)
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Automatic component list assignment')
         verbose_name_plural = _('Automatic component list assignments')

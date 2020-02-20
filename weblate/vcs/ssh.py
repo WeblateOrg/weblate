@@ -173,7 +173,7 @@ def can_generate_key():
     return find_executable('ssh-keygen') is not None
 
 
-class SSHWrapper(object):
+class SSHWrapper:
     SSH_WRAPPER_TEMPLATE = r'''#!/bin/sh
     exec ssh \
         -o "UserKnownHostsFile={known_hosts}" \

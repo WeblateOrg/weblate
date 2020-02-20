@@ -55,5 +55,5 @@ class VCSConf(AppConf):
     )
     CLONE_DEPTH = 1
 
-    class Meta(object):
+    class Meta:
         prefix = 'VCS'

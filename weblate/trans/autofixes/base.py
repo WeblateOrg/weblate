@@ -19,7 +19,7 @@
 #
 
 
-class AutoFix(object):
+class AutoFix:
     """Base class for AutoFixes."""
 
     fix_id = 'auto'

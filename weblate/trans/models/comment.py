@@ -61,7 +61,7 @@ class Comment(models.Model, UserDisplayMixin):
 
     objects = CommentManager.from_queryset(CommentQuerySet)()
 
-    class Meta(object):
+    class Meta:
         app_label = 'trans'
 
     def __str__(self):

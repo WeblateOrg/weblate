@@ -30,7 +30,7 @@ from whoosh.index import _DEF_INDEX_NAME, EmptyIndexError
 from weblate.utils.data import data_dir
 
 
-class WhooshIndex(object):
+class WhooshIndex:
     """Whoosh index abstraction to ease manipulation."""
 
     LOCATION = 'index'

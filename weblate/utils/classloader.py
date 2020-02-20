@@ -49,7 +49,7 @@ def load_class(name, setting):
         )
 
 
-class ClassLoader(object):
+class ClassLoader:
     """Dict like object to lazy load list of classes."""
 
     def __init__(self, name, construct=True):

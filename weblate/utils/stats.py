@@ -106,7 +106,7 @@ def prefetch_stats(queryset):
     return queryset
 
 
-class ParentStats(object):
+class ParentStats:
     def __init__(self, stats, parent):
         self.translated_percent = stats.calculate_percents(
             "translated_percent", parent.source_strings
@@ -115,7 +115,7 @@ class ParentStats(object):
         self.translated = stats.translated
 
 
-class BaseStats(object):
+class BaseStats:
     """Caching statistics calculator."""
 
     basic_keys = BASIC_KEYS

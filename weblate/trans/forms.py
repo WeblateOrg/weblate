@@ -1020,7 +1020,7 @@ def get_new_language_form(request, component):
 
 
 class ContextForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Unit
         fields = ('extra_context', 'labels', 'extra_flags')
         widgets = {'labels': forms.CheckboxSelectMultiple()}
@@ -1054,7 +1054,7 @@ class UserManageForm(forms.Form):
 
 
 class InviteUserForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = User
         fields = ['email', 'full_name']
 
@@ -1185,7 +1185,7 @@ class ReportsForm(forms.Form):
             raise ValidationError({'start_date': msg, 'end_date': msg})
 
 
-class CleanRepoMixin(object):
+class CleanRepoMixin:
     def clean_repo(self):
         repo = self.cleaned_data.get('repo')
         if not repo or not is_repo_link(repo) or '/' not in repo[10:]:
@@ -1205,7 +1205,7 @@ class CleanRepoMixin(object):
 class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
     """Component base form."""
 
-    class Meta(object):
+    class Meta:
         model = Component
         fields = []
 
@@ -1234,7 +1234,7 @@ class SelectChecksWidget(SortedSelectMultiple):
 class ComponentSettingsForm(SettingsBaseForm):
     """Component settings form."""
 
-    class Meta(object):
+    class Meta:
         model = Component
         fields = (
             'name',
@@ -1365,7 +1365,7 @@ class ComponentSettingsForm(SettingsBaseForm):
 class ComponentCreateForm(SettingsBaseForm):
     """Component creation form."""
 
-    class Meta(object):
+    class Meta:
         model = Component
         fields = [
             'project',
@@ -1608,7 +1608,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
 class ComponentRenameForm(SettingsBaseForm):
     """Component rename form."""
 
-    class Meta(object):
+    class Meta:
         model = Component
         fields = ['slug']
 
@@ -1616,7 +1616,7 @@ class ComponentRenameForm(SettingsBaseForm):
 class ComponentMoveForm(SettingsBaseForm):
     """Component rename form."""
 
-    class Meta(object):
+    class Meta:
         model = Component
         fields = ['project']
 
@@ -1628,7 +1628,7 @@ class ComponentMoveForm(SettingsBaseForm):
 class ProjectSettingsForm(SettingsBaseForm):
     """Project settings form."""
 
-    class Meta(object):
+    class Meta:
         model = Project
         fields = (
             'name',
@@ -1661,7 +1661,7 @@ class ProjectSettingsForm(SettingsBaseForm):
 class ProjectRenameForm(SettingsBaseForm):
     """Project rename form."""
 
-    class Meta(object):
+    class Meta:
         model = Project
         fields = ['slug']
 
@@ -1678,7 +1678,7 @@ class ProjectCreateForm(SettingsBaseForm):
         empty_label=None,
     )
 
-    class Meta(object):
+    class Meta:
         model = Project
         fields = ('name', 'slug', 'web', 'mail', 'instructions')
 
@@ -1686,7 +1686,7 @@ class ProjectCreateForm(SettingsBaseForm):
 class ProjectAccessForm(forms.ModelForm):
     """Project access control settings form."""
 
-    class Meta(object):
+    class Meta:
         model = Project
         fields = ('access_control', 'enable_review')
 
@@ -1855,7 +1855,7 @@ class DeleteForm(forms.Form):
 class WhiteboardForm(forms.ModelForm):
     """Component base form."""
 
-    class Meta(object):
+    class Meta:
         model = WhiteboardMessage
         fields = ['message', 'category', 'expiry']
         widgets = {'expiry': WeblateDateInput()}
@@ -1882,7 +1882,7 @@ class ChangesForm(forms.Form):
 
 
 class LabelForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Label
         fields = ('name', 'color')
         widgets = {'color': forms.RadioSelect()}

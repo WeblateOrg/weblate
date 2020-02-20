@@ -31,7 +31,7 @@ from weblate.lang.models import Language, Plural
 class MockLanguage(Language):
     """Mock language object."""
 
-    class Meta(object):
+    class Meta:
         proxy = True
 
     def __init__(self, code='cs'):
@@ -39,7 +39,7 @@ class MockLanguage(Language):
         self.plural = Plural(language=self)
 
 
-class MockProject(object):
+class MockProject:
     """Mock project object."""
 
     def __init__(self):
@@ -48,7 +48,7 @@ class MockProject(object):
         self.use_shared_tm = True
 
 
-class MockComponent(object):
+class MockComponent:
     """Mock component object."""
 
     def __init__(self):
@@ -56,7 +56,7 @@ class MockComponent(object):
         self.project = MockProject()
 
 
-class MockTranslation(object):
+class MockTranslation:
     """Mock translation object."""
 
     def __init__(self, code='cs'):
@@ -66,7 +66,7 @@ class MockTranslation(object):
         self.is_source = False
 
 
-class MockUnit(object):
+class MockUnit:
     """Mock unit object."""
 
     def __init__(self, id_hash=None, flags='', code='cs', source='', note=''):
