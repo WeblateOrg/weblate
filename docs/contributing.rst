@@ -35,8 +35,6 @@ Weblate checkout.
 
 .. _pre-commit: https://pre-commit.com/
 
-You can execute all coding style checks with the script :file:`ci/run-lint`.
-
 Coding Weblate with PyCharm
 ---------------------------
 
