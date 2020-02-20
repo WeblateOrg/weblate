@@ -20,6 +20,7 @@
 
 import os.path
 from datetime import timedelta
+from io import StringIO
 
 from django.core import mail
 from django.core.exceptions import ValidationError
@@ -28,7 +29,6 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
-from six import StringIO
 
 from weblate.auth.models import User
 from weblate.billing.models import Billing, Invoice, Plan

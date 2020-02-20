@@ -20,8 +20,9 @@
 
 """Test for management commands."""
 
+from io import StringIO
+
 from django.core.management import call_command
-from six import StringIO
 
 from weblate.trans.tests.test_commands import CheckGitTest
 from weblate.trans.tests.test_models import RepoTestCase
