@@ -390,12 +390,18 @@ options:
 
 ``ALLOWED_HOSTS``
 
-    If you are running Django 1.5 or newer, you need to set this to list the
-    hosts your site is supposed to serve. For example:
+    You need to set this to list the hosts your site is supposed to serve. For
+    example:
 
     .. code-block:: python
 
         ALLOWED_HOSTS = ['demo.weblate.org']
+
+    Alternatively you can include wildcard:
+
+    .. code-block:: python
+
+        ALLOWED_HOSTS = ['*']
 
     .. seealso::
 
@@ -718,7 +724,7 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
 Allowed hosts setup
 +++++++++++++++++++
 
-Django 1.5 and newer require :setting:`ALLOWED_HOSTS` to hold a list of domain names
+Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names
 your site is allowed to serve, leaving it empty will block any requests.
 
 .. seealso::
