@@ -64,19 +64,22 @@ class BackupTest(SimpleTestCase):
         self.assertIn("Keeping archive", output)
 
     @tempdir_setting("DATA_DIR")
-    @tempdir_setting("BACKUP_DIR")
     def test_database_backup(self):
         database_backup()
         if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
             self.assertTrue(
-                os.path.exists(os.path.join(settings.BACKUP_DIR, "database.sql"))
+                os.path.exists(
+                    os.path.join(settings.DATA_DIR, "backups", "database.sql")
+                )
             )
 
-    @tempdir_setting("BACKUP_DIR")
+    @tempdir_setting("DATA_DIR")
     @override_settings(DATABASE_BACKUP="compressed")
     def test_database_backup_compress(self):
         database_backup()
         if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
             self.assertTrue(
-                os.path.exists(os.path.join(settings.BACKUP_DIR, "database.sql.gz"))
+                os.path.exists(
+                    os.path.join(settings.DATA_DIR, "backups", "database.sql.gz")
+                )
             )
