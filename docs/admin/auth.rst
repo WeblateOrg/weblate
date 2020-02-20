@@ -433,8 +433,7 @@ this to work you have to import the signal from the `django-cas-ng` package and
 connect your code with this signal. Doing this in settings file can
 cause problems, therefore it's suggested to put it:
 
-- In your app config's :py:meth:`django:django.apps.AppConfig.ready` method (Django 1.7 and above)
-- At the end of your :file:`models.py` file (Django 1.6 and below)
+- In your app config's :py:meth:`django:django.apps.AppConfig.ready` method
 - In the project's :file:`urls.py` file (when no models exist)
 
 .. code-block:: python
