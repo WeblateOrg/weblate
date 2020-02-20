@@ -150,15 +150,6 @@ jobs:
       services:
         - postgresql
     - stage: "Extended tests"
-      name: 'Django 1.11, Python 2.7'
-      python: "2.7"
-      env: CI_DEPS="Django>=1.11,<1.12"
-      addons:
-        <<: *aptaddon
-        postgresql: "9.6"
-      services:
-        - postgresql
-    - stage: "Extended tests"
       name: 'translate-toolkit pre-release'
       env: CI_DEPS="https://github.com/translate/translate/archive/master.zip"
       addons:

@@ -3,6 +3,8 @@ Weblate 4.0
 
 Not yet released.
 
+* Weblate now requires Python 3.5 or newer.
+
 Weblate 3.11.1
 --------------
 
