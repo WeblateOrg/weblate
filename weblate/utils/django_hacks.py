@@ -18,12 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import trans_real
+from unittest import mock
 
-try:
-    from unittest import mock
-except ImportError:
-    import mock
+from django.utils.translation import trans_real
 
 DjangoTranslation = trans_real.DjangoTranslation
 

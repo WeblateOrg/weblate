@@ -22,6 +22,7 @@
 import os
 import re
 from io import BytesIO, StringIO
+from zipfile import BadZipFile
 
 from django.utils.translation import ugettext_lazy as _
 from openpyxl import Workbook, load_workbook
@@ -30,13 +31,6 @@ from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import CSVFormat
-
-try:
-    # python 3 exception
-    from zipfile import BadZipFile
-except ImportError:
-    # python 2 exception
-    from zipfile import BadZipfile as BadZipFile
 
 # use the same relugar expression as in openpyxl.cell
 # to remove illegal characters

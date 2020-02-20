@@ -20,7 +20,7 @@
 
 
 import re
-from functools import reduce
+from functools import lru_cache, reduce
 
 import whoosh.qparser
 import whoosh.qparser.dateparse
@@ -36,12 +36,6 @@ from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
 
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import STATE_NAMES, STATE_TRANSLATED
-
-# Can be removed once we support Python 3 only
-try:
-    from functools import lru_cache
-except ImportError:
-    from django.utils.lru_cache import lru_cache
 
 
 class Comparer(object):
