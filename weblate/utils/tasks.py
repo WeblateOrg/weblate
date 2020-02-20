@@ -56,10 +56,7 @@ def settings_backup():
     ensure_backup_dir()
     filename = data_dir("backups", "settings.py")
     command = diffsettings.Command()
-    kwargs = {"default": None, "all": False}
-    # Needed for Django 1.11 compatibility
-    if hasattr(command, "output_hash"):
-        kwargs["output"] = "hash"
+    kwargs = {"default": None, "all": False, "output": "hash"}
     with open(filename, "w") as handle:
         handle.write(command.handle(**kwargs))
 
