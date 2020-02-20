@@ -85,8 +85,11 @@ def database_backup():
         cmd += ["--file", data_dir("backups", "database.sql")]
 
     try:
-        subprocess.check_call(
-            cmd, env=get_clean_env({"PGPASSWORD": database["PASSWORD"]})
+        subprocess.check_output(
+            cmd,
+            env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
         )
     except subprocess.CalledProcessError as error:
         report_error(error, extra_data={"stdout": error.stdout.decode("utf-8")})
