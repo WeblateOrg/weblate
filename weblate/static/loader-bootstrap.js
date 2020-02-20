@@ -1148,24 +1148,24 @@ $(function () {
             gettext('Saturday'), gettext('Sunday')
         ],
         daysShort: [
-            pgettext('Short (eg. three letter) name of day in week', 'Sun'),
-            pgettext('Short (eg. three letter) name of day in week', 'Mon'),
-            pgettext('Short (eg. three letter) name of day in week', 'Tue'),
-            pgettext('Short (eg. three letter) name of day in week', 'Wed'),
-            pgettext('Short (eg. three letter) name of day in week', 'Thu'),
-            pgettext('Short (eg. three letter) name of day in week', 'Fri'),
-            pgettext('Short (eg. three letter) name of day in week', 'Sat'),
-            pgettext('Short (eg. three letter) name of day in week', 'Sun')
+            pgettext('Short (for example three letter) name of day in week', 'Sun'),
+            pgettext('Short (for example three letter) name of day in week', 'Mon'),
+            pgettext('Short (for example three letter) name of day in week', 'Tue'),
+            pgettext('Short (for example three letter) name of day in week', 'Wed'),
+            pgettext('Short (for example three letter) name of day in week', 'Thu'),
+            pgettext('Short (for example three letter) name of day in week', 'Fri'),
+            pgettext('Short (for example three letter) name of day in week', 'Sat'),
+            pgettext('Short (for example three letter) name of day in week', 'Sun')
         ],
         daysMin: [
-            pgettext('Minimal (eg. two letter) name of day in week', 'Su'),
-            pgettext('Minimal (eg. two letter) name of day in week', 'Mo'),
-            pgettext('Minimal (eg. two letter) name of day in week', 'Tu'),
-            pgettext('Minimal (eg. two letter) name of day in week', 'We'),
-            pgettext('Minimal (eg. two letter) name of day in week', 'Th'),
-            pgettext('Minimal (eg. two letter) name of day in week', 'Fr'),
-            pgettext('Minimal (eg. two letter) name of day in week', 'Sa'),
-            pgettext('Minimal (eg. two letter) name of day in week', 'Su')
+            pgettext('Minimal (for example two letter) name of day in week', 'Su'),
+            pgettext('Minimal (for example two letter) name of day in week', 'Mo'),
+            pgettext('Minimal (for example two letter) name of day in week', 'Tu'),
+            pgettext('Minimal (for example two letter) name of day in week', 'We'),
+            pgettext('Minimal (for example two letter) name of day in week', 'Th'),
+            pgettext('Minimal (for example two letter) name of day in week', 'Fr'),
+            pgettext('Minimal (for example two letter) name of day in week', 'Sa'),
+            pgettext('Minimal (for example two letter) name of day in week', 'Su')
         ],
         months: [
             gettext('January'), gettext('February'), gettext('March'),

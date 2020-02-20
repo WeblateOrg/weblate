@@ -242,7 +242,7 @@ Several operations in Weblate are rate limited. At most
 :setting:`RATELIMIT_ATTEMPTS` attempts are allowed within
 :setting:`RATELIMIT_WINDOW` seconds. The user is then blocked
 for :setting:`RATELIMIT_LOCKOUT`. There are also per scope variants of those
-settings, eg. ``RATELIMIT_CONTACT_ATTEMPTS`` or
+settings, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or
 ``RATELIMIT_TRANSLATE_ATTEMPTS``, see table below for full list of available
 scopes.
 

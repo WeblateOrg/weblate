@@ -37,7 +37,7 @@ class Command(BaseCommand):
         super(Command, self).add_arguments(parser)
         parser.add_argument(
             '--language-map',
-            help='Map language codes in the TMX to Weblate, eg. en_US:en',
+            help='Map language codes in the TMX to Weblate, for example en_US:en',
         )
         parser.add_argument(
             'file', type=argparse.FileType('rb'), help='File to import (TMX or JSON)'

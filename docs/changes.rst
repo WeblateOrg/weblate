@@ -1096,7 +1096,7 @@ Released on November 16th 2012.
 * Improved quality checks processing.
 * Added new checks (BB code, XML markup and newlines).
 * Support for optional rebasing instead of merge.
-* Possibility to relocate Weblate (eg. to run it under /weblate path).
+* Possibility to relocate Weblate (for example to run it under /weblate path).
 * Support for manually choosing file type in case autodetection fails.
 * Better support for Android resources.
 * Support for generating SSH key from web interface.

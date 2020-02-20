@@ -31,7 +31,7 @@ Untranslated
 Needs editing
     Translation needs editing, this is usually the result of a source string change.
     The translation is stored in the file, depending on the file format it might
-    be marked as needing edit (eg. fuzzy flag).
+    be marked as needing edit (for example fuzzy flag).
 Waiting for review
     Translation is done, but not reviewed. It is stored in the file as a valid
     translation.

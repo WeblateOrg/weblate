@@ -20,7 +20,7 @@
 """
 Wrapper around django.contrib.messages to work with Django REST Framework.
 
-It also ignories messages without request object (eg. from CLI).
+It also ignories messages without request object (for example from CLI).
 """
 
 from __future__ import unicode_literals

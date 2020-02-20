@@ -179,7 +179,7 @@ def check_render_size(font, weight, size, spacing, text, width, lines, cache_key
 
 
 def get_font_name(filelike):
-    """Return tuple of font family and style, eg. ('Ubuntu', 'Regular')"""
+    """Return tuple of font family and style, for example ('Ubuntu', 'Regular')"""
     if not hasattr(filelike, "loaded_font"):
         # The tempfile creation is workaroud for Pillow crashing on invalid font
         # see https://github.com/python-pillow/Pillow/issues/3853

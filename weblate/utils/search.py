@@ -207,7 +207,7 @@ def field_name(field, suffix="icontains"):
     if field in STRING_FIELD_MAP:
         return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
     if field in EXACT_FIELD_MAP:
-        # Change contains to exact, do not change other (eg. regex)
+        # Change contains to exact, do not change other (for example regex)
         if suffix == "icontains":
             suffix = "iexact"
         return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)

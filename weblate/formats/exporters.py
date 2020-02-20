@@ -124,7 +124,7 @@ class BaseExporter(object):
         output = self.storage.UnitClass(self.handle_plurals(unit.get_source_plurals()))
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         # Location needs to be set prior to ID to avoid overwrite
-        # on some formats (eg. xliff)
+        # on some formats (for example xliff)
         for location in unit.location.split():
             if location:
                 output.addlocation(location)

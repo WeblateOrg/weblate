@@ -102,7 +102,7 @@ Below are listed capabilities of all supported formats.
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
 .. [#n] Comments can be used to pass additional information about string to translate.
-.. [#c] Context is used to differentiate same strings used in different scope (eg. `Sun` can be used as abbreviated name of day or as a name of our closest star).
+.. [#c] Context is used to differentiate same strings used in different scope (for example `Sun` can be used as abbreviated name of day or as a name of our closest star).
 .. [#l] Location of string in source code might help skilled translators to figure out how the string is used.
 .. [#a] Additional states supported by the file format in addition to not translated and translated.
 .. [#x] XML comment placed before the ``<string>`` element is parsed as a developer comment.
@@ -343,7 +343,7 @@ Java properties are usually used as monolingual.
 
 Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format. All of
 them supports storing all Unicode characters, it's just differently encoded. In
-the ISO-8859-1 the Unicode escape sequences are used (eg. ``zkou\u0161ka``),
+the ISO-8859-1 the Unicode escape sequences are used (for example ``zkou\u0161ka``),
 all others encode characters directly either in UTF-8 or UTF-16.
 
 .. note::
@@ -1065,9 +1065,9 @@ Weblate can automatically start new translation for all of the file
 formats.
 
 Some formats expect to start with empty file and only translated
-strings to be included (eg. :ref:`aresource`), while others expect to have all
-keys present (eg. :ref:`gettext`). In some situations this really doesn't depend
-on the format, but rather on framework you use to handle the translation (eg. with
+strings to be included (for example :ref:`aresource`), while others expect to have all
+keys present (for example :ref:`gettext`). In some situations this really doesn't depend
+on the format, but rather on framework you use to handle the translation (for example with
 :ref:`json`).
 
 When you specify :guilabel:`Template for new translations` in

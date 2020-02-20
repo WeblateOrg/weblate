@@ -145,7 +145,7 @@ Here is a list of flags currently accepted:
     identifier, so you can use this even for your custom checks.
 
 These flags are understood both in :ref:`component` settings, per source string
-settings and in translation file itself (eg. in GNU Gettext).
+settings and in translation file itself (for example in GNU Gettext).
 
 .. _enforcing-checks:
 

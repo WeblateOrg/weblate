@@ -383,7 +383,7 @@ class Repository(object):
 
         For files in a way compatible with Git (equivalent to git ls-tree
         HEAD), for dirs it behaves differently as we do not need to track some
-        attributes (eg. permissions).
+        attributes (for example permissions).
         """
         real_path = os.path.join(self.path, self.resolve_symlinks(path))
         objhash = hashlib.sha1()

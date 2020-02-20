@@ -137,7 +137,7 @@ def add_configuration_error(name, message, force_cache=False):
             ConfigurationError.objects.add(name, message)
             return
         except (OperationalError, ProgrammingError):
-            # The table does not have to be created yet (eg. migration
+            # The table does not have to be created yet (for example migration
             # is about to be executed)
             pass
     errors = cache.get('configuration-errors', [])
@@ -157,7 +157,7 @@ def delete_configuration_error(name, force_cache=False):
             ConfigurationError.objects.remove(name)
             return
         except (OperationalError, ProgrammingError):
-            # The table does not have to be created yet (eg. migration
+            # The table does not have to be created yet (for example migration
             # is about to be executed)
             pass
     errors = cache.get('configuration-errors', [])

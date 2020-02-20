@@ -48,6 +48,6 @@ try:
     del GIT_REPO
 except (RepositoryException, OSError):
     # Import failed or git has troubles reading
-    # repo (eg. swallow clone)
+    # repo (for example swallow clone)
     GIT_VERSION = VERSION
     GIT_REVISION = None

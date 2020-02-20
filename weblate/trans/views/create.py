@@ -170,7 +170,7 @@ class CreateComponent(BaseCreateView):
         result = super(CreateComponent, self).get_form_kwargs()
         if self.request.method != 'POST':
             if self.initial:
-                # When going from other form (eg. ZIP import)
+                # When going from other form (for example ZIP import)
                 result.pop('data', None)
                 result.pop('files', None)
             if self.has_all_fields() and not self.empty_form:

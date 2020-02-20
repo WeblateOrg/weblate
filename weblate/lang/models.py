@@ -141,7 +141,7 @@ class LanguageQuerySet(models.QuerySet):
         if code.startswith('b+'):
             code = code[2:]
 
-        # Handle duplicate language files eg. "cs (2)"
+        # Handle duplicate language files for example "cs (2)"
         code = COPY_RE.sub('', code)
 
         # Remove some unwanted characters
