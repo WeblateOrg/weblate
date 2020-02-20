@@ -66,6 +66,10 @@ def report_error(
             sentry_sdk.capture_exception()
 
     logger.error('%s: %s: %s', prefix, error.__class__.__name__, force_text(error))
+    if extra_data:
+        logger.error(
+            '%s: %s: %s', prefix, error.__class__.__name__, force_text(extra_data)
+        )
     if print_tb:
         logger.exception(prefix)
 
