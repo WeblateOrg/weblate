@@ -20,7 +20,6 @@
 
 """Test for widgets."""
 
-import six
 from django.urls import reverse
 
 from weblate.trans.models import Translation
@@ -69,8 +68,7 @@ class WidgetsMeta(type):
         return type.__new__(mcs, name, bases, attrs)
 
 
-@six.add_metaclass(WidgetsMeta)
-class WidgetsRenderTest(FixtureTestCase):
+class WidgetsRenderTest(FixtureTestCase, metaclass=WidgetsMeta):
     def assert_widget(self, widget, response):
         if hasattr(WIDGETS[widget], 'redirect'):
             if hasattr(response, 'redirect_chain'):
