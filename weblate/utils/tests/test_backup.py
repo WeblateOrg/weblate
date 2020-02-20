@@ -19,16 +19,18 @@
 #
 
 import json
+import os
 from unittest import skipIf
 
 import six
 from django.conf import settings
 from django.test import SimpleTestCase
+from django.test.utils import override_settings
 
 from weblate.memory.tasks import memory_backup
 from weblate.utils.backup import backup, get_paper_key, initialize, prune
 from weblate.utils.data import data_dir
-from weblate.utils.tasks import settings_backup
+from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.unittest import tempdir_setting
 
 
@@ -60,3 +62,21 @@ class BackupTest(SimpleTestCase):
         self.assertIn("Creating archive", output)
         output = prune(settings.BACKUP_DIR, "key")
         self.assertIn("Keeping archive", output)
+
+    @tempdir_setting("DATA_DIR")
+    @tempdir_setting("BACKUP_DIR")
+    def test_database_backup(self):
+        database_backup()
+        if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+            self.assertTrue(
+                os.path.exists(os.path.join(settings.BACKUP_DIR, "database.sql"))
+            )
+
+    @tempdir_setting("BACKUP_DIR")
+    @override_settings(DATABASE_BACKUP="compressed")
+    def test_database_backup_compress(self):
+        database_backup()
+        if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+            self.assertTrue(
+                os.path.exists(os.path.join(settings.BACKUP_DIR, "database.sql.gz"))
+            )
