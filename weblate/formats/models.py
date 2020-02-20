@@ -19,7 +19,6 @@
 #
 
 
-import six
 from appconf import AppConf
 from django.utils.functional import cached_property
 
@@ -50,7 +49,7 @@ class FileFormatLoader(ClassLoader):
                 fileformat.get_class()
             except (AttributeError, ImportError) as error:
                 result.pop(fileformat.format_id)
-                if fileformat.format_id != 'rc' or not six.PY3:
+                if fileformat.format_id != 'rc':
                     self.errors[fileformat.format_id] = str(error)
 
         return result

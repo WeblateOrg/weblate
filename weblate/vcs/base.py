@@ -27,7 +27,6 @@ import os.path
 import subprocess
 from distutils.version import LooseVersion
 
-import six
 from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
@@ -150,8 +149,6 @@ class Repository(object):
         if not fullcmd:
             args = [cls._cmd] + list(args)
         text_cmd = ' '.join(args)
-        if six.PY2:
-            args = [arg.encode('utf-8') for arg in args]
         process = subprocess.Popen(
             args,
             cwd=cwd,

@@ -23,7 +23,6 @@ import email.parser
 import sys
 
 import pkg_resources
-import six
 from django.core.exceptions import ImproperlyConfigured
 
 import weblate
@@ -73,9 +72,8 @@ REQUIRES = [
     "Cython",
     "misaka",
     "GitPython",
+    "borgbackup",
 ]
-if six.PY3:
-    REQUIRES.append("borgbackup")
 
 OPTIONAL = [
     "psycopg2",

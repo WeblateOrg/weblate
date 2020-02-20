@@ -1174,9 +1174,7 @@ class WindowsRCFormat(TTKitFormat):
     @classmethod
     def get_class(cls):
         """Return class for handling this module."""
-        if six.PY3:
-            raise ImportError('Windows RC file format unsupported on Python 3')
-        return importlib.import_module('translate.storage.rc').rcfile
+        raise ImportError('Windows RC file format unsupported on Python 3')
 
 
 class SubtitleUnit(MonolingualIDUnit):

@@ -23,7 +23,6 @@ import locale
 import os
 import sys
 
-import six
 from django.apps import apps
 from django.core.cache import cache
 from django.db.utils import OperationalError, ProgrammingError
@@ -204,10 +203,6 @@ def get_clean_env(extra=None):
     venv_path = os.path.join(sys.exec_prefix, "bin")
     if venv_path not in environ['PATH']:
         environ['PATH'] = '{}:{}'.format(venv_path, environ['PATH'])
-    # Python 2 on Windows doesn't handle Unicode objects in environment
-    # even if they can be converted to ASCII string, let's fix it here
-    if six.PY2 and sys.platform == 'win32':
-        return {str(key): str(val) for key, val in environ.items()}
     return environ
 
 
@@ -270,8 +265,6 @@ def path_separator(path):
 
 def sort_unicode(choices, key):
     """Unicode aware sorting if available."""
-    if six.PY2:
-        return sorted(choices, key=lambda tup: locale.strxfrm(key(tup).encode('utf-8')))
     return sorted(choices, key=lambda tup: locale.strxfrm(key(tup)))
 
 

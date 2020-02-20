@@ -24,7 +24,6 @@ import os
 import os.path
 import re
 
-import six
 from six.moves.configparser import RawConfigParser
 
 from weblate.vcs.base import Repository, RepositoryException
@@ -85,8 +84,6 @@ class HgRepository(Repository):
         config.read(filename)
         if config.has_option(section, option):
             result = config.get(section, option)
-            if six.PY2:
-                result = result.decode('utf-8')
         return result
 
     def set_config(self, path, value):
@@ -95,10 +92,6 @@ class HgRepository(Repository):
             raise RuntimeError('Repository operation without lock held!')
         section, option = path.split('.', 1)
         filename = os.path.join(self.path, '.hg', 'hgrc')
-        if six.PY2:
-            value = value.encode('utf-8')
-            section = section.encode('utf-8')
-            option = option.encode('utf-8')
         config = RawConfigParser()
         config.read(filename)
         if not config.has_section(section):

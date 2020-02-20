@@ -29,7 +29,6 @@ from weblate.utils.checks import (
     check_errors,
     check_mail_connection,
     check_perms,
-    check_python,
     check_settings,
     check_site,
     check_templates,
@@ -56,7 +55,6 @@ class UtilsConfig(AppConfig):
         register(check_site, deploy=True)
         register(check_perms, deploy=True)
         register(check_errors, deploy=True)
-        register(check_python, deploy=True)
         register(check_version)
 
         monkey_patch_translate()

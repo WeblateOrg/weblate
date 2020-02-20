@@ -21,7 +21,6 @@
 import base64
 import json
 
-import six
 from django.conf import settings
 from six.moves.urllib.request import Request, urlopen
 
@@ -90,9 +89,7 @@ class SAPTranslationHub(MachineTranslation):
 
         # create the request
         translation_url = settings.MT_SAP_BASE_URL + 'translate'
-        request = Request(
-            translation_url if six.PY3 else translation_url.encode("utf-8")
-        )
+        request = Request(translation_url)
         request.add_header('User-Agent', USER_AGENT.encode('utf-8'))
         request.add_header('Referer', get_site_url().encode('utf-8'))
         request.add_header('Content-Type', 'application/json; charset=utf-8')
