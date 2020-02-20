@@ -21,7 +21,6 @@
 from unittest import TestCase
 
 from django.core.exceptions import ImproperlyConfigured
-from six import assertRaisesRegex
 
 from weblate.utils.classloader import load_class
 
@@ -32,8 +31,7 @@ class LoadClassTest(TestCase):
         self.assertEqual(cls, TestCase)
 
     def test_invalid_name(self):
-        assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             ImproperlyConfigured,
             'Error importing class unittest in TEST: .*"' '(not enough|need more than)',
             load_class,
@@ -42,8 +40,7 @@ class LoadClassTest(TestCase):
         )
 
     def test_invalid_module(self):
-        assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             ImproperlyConfigured,
             'weblate.trans.tests.missing in TEST: "' 'No module named .*missing["\']',
             load_class,
@@ -52,8 +49,7 @@ class LoadClassTest(TestCase):
         )
 
     def test_invalid_class(self):
-        assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             ImproperlyConfigured,
             '"weblate.utils.tests.test_classloader"' ' does not define a "Foo" class',
             load_class,
