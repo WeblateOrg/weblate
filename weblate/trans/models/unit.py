@@ -22,7 +22,6 @@
 import re
 from copy import copy
 
-import six
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
@@ -796,7 +795,7 @@ class Unit(models.Model, LoggerMixin):
         self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
 
         # Update unit and save it
-        if isinstance(new_target, six.string_types):
+        if isinstance(new_target, str):
             self.target = new_target
             not_empty = bool(new_target)
         else:

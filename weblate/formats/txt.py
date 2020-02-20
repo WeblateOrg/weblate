@@ -25,7 +25,6 @@ from collections import OrderedDict
 from glob import glob
 from itertools import chain
 
-import six
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
@@ -77,7 +76,7 @@ class MultiParser(object):
     filenames = ()
 
     def __init__(self, storefile):
-        if not isinstance(storefile, six.string_types):
+        if not isinstance(storefile, str):
             raise ValueError('Needs string as a storefile!')
 
         self.base = storefile

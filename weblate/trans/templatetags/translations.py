@@ -23,7 +23,6 @@ import re
 from datetime import date
 from uuid import uuid4
 
-import six
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
@@ -468,7 +467,7 @@ def global_stats(obj, stats, parent):
     """Return attribute from global stats."""
     if not parent:
         return None
-    if isinstance(parent, six.string_types):
+    if isinstance(parent, str):
         parent = getattr(obj, parent)
     return get_stats_parent(stats, parent)
 

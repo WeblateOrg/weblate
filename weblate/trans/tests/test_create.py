@@ -21,7 +21,6 @@
 """Test for creating projects and models."""
 
 
-import six
 from django.test.utils import modify_settings
 from django.urls import reverse
 
@@ -56,7 +55,7 @@ class CreateTest(ViewTestCase):
         }
         params.update(kwargs)
         response = self.client.post(reverse('create-project'), params)
-        if isinstance(result, six.string_types):
+        if isinstance(result, str):
             self.assertRedirects(response, result)
         elif result:
             self.assertEqual(response.status_code, 302)

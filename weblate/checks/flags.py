@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import six
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
@@ -47,7 +46,7 @@ PLAIN_FLAGS["auto-java-messageformat"] = ugettext_lazy(
 PLAIN_FLAGS["read-only"] = ugettext_lazy("Read only")
 
 TYPED_FLAGS["font-family"] = ugettext_lazy("Font family")
-TYPED_FLAGS_ARGS["font-family"] = six.text_type
+TYPED_FLAGS_ARGS["font-family"] = str
 TYPED_FLAGS["font-size"] = ugettext_lazy("Font size")
 TYPED_FLAGS_ARGS["font-size"] = int
 TYPED_FLAGS["font-weight"] = ugettext_lazy("Font weight")
@@ -70,7 +69,7 @@ class Flags(object):
             self.merge(flags)
 
     def merge(self, flags):
-        if isinstance(flags, six.string_types):
+        if isinstance(flags, str):
             flags = self.parse(flags)
         elif hasattr(flags, "tag"):
             flags = self.parse_xml(flags)

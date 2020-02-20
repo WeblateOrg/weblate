@@ -25,7 +25,6 @@ import sys
 import tempfile
 from copy import deepcopy
 
-import six
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 
@@ -196,7 +195,7 @@ class TranslationFormat(object):
         self, storefile, template_store=None, language_code=None, is_template=False
     ):
         """Create file format object, wrapping up translate-toolkit's store."""
-        if not isinstance(storefile, six.string_types) and not hasattr(
+        if not isinstance(storefile, str) and not hasattr(
             storefile, 'mode'
         ):
             storefile.mode = 'r'
@@ -218,7 +217,7 @@ class TranslationFormat(object):
             )
 
     def get_filenames(self):
-        if isinstance(self.storefile, six.string_types):
+        if isinstance(self.storefile, str):
             return [self.storefile]
         return [self.storefile.name]
 

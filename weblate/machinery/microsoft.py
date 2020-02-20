@@ -20,7 +20,6 @@
 
 from datetime import timedelta
 
-import six
 from django.conf import settings
 from django.utils import timezone
 
@@ -107,7 +106,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         response = self.json_req(LIST_URL)
 
         # We should get an object, string usually means an error
-        if isinstance(response, six.string_types):
+        if isinstance(response, str):
             raise Exception(response)
 
         return response

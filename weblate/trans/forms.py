@@ -24,7 +24,6 @@ import json
 from datetime import date, datetime, timedelta
 from uuid import uuid4
 
-import six
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
@@ -1223,7 +1222,7 @@ class SelectChecksWidget(SortedSelectMultiple):
 
     def value_from_datadict(self, data, files, name):
         value = super(SelectChecksWidget, self).value_from_datadict(data, files, name)
-        if isinstance(value, six.text_type):
+        if isinstance(value, str):
             return json.loads(value)
         return value
 

@@ -24,7 +24,6 @@ import os
 import time
 from itertools import chain
 
-import six
 from celery.exceptions import TimeoutError
 from django.conf import settings
 from django.core.cache import cache
@@ -241,7 +240,7 @@ def check_templates(app_configs, **kwargs):
     else:
         loaders = settings.TEMPLATE_LOADERS
 
-    if isinstance(loaders[0], six.string_types):
+    if isinstance(loaders[0], str):
         loader = loaders[0]
     else:
         loader = loaders[0][0]
