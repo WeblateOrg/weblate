@@ -29,7 +29,6 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import activate
-from six import with_metaclass
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
@@ -165,7 +164,7 @@ class TestSequenceMeta(type):
         return type.__new__(mcs, name, bases, dict)
 
 
-class LanguagesTest(with_metaclass(TestSequenceMeta, BaseTestCase)):
+class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
     def setUp(self):
         # Ensure we're using English
         activate('en')
