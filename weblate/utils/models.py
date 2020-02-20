@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import absolute_import, unicode_literals
 
 from appconf import AppConf
 from django.core.cache import cache

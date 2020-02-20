@@ -20,7 +20,6 @@
 
 """Tests for markup quality checks."""
 
-from __future__ import unicode_literals
 
 from weblate.checks.markup import (
     BBCodeCheck,

@@ -20,7 +20,6 @@
 
 """Test for creating projects and models."""
 
-from __future__ import unicode_literals
 
 import six
 from django.test.utils import modify_settings

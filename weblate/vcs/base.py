@@ -19,7 +19,6 @@
 #
 """Version control system abstraction for Weblate needs."""
 
-from __future__ import unicode_literals
 
 import hashlib
 import logging

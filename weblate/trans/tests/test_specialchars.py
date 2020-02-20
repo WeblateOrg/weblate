@@ -20,7 +20,6 @@
 
 """Tests for special chars."""
 
-from __future__ import unicode_literals
 
 from unittest import TestCase
 

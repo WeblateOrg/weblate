@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Provide user friendly names for social authentication methods."""
-from __future__ import unicode_literals
 
 from django import template
 from django.conf import settings

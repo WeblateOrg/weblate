@@ -22,7 +22,6 @@
 It also ignories messages without request object (for example from CLI).
 """
 
-from __future__ import unicode_literals
 
 from django.contrib.messages import add_message, constants
 

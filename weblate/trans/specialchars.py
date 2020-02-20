@@ -19,7 +19,6 @@
 #
 """Helper code to get user special characters specific for given language."""
 
-from __future__ import unicode_literals
 
 import unicodedata
 

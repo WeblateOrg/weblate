@@ -20,7 +20,6 @@
 
 """Tests for rendering quality checks."""
 
-from __future__ import unicode_literals
 
 from weblate.checks.render import MaxSizeCheck
 from weblate.fonts.models import FontGroup, FontOverride

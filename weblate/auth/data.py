@@ -19,7 +19,6 @@
 #
 """Definition of permissions and default roles and groups."""
 
-from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_noop as _
 

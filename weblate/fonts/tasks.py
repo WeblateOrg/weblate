@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import absolute_import, unicode_literals
 
 from weblate.fonts.models import FONT_STORAGE, Font
 from weblate.utils.celery import app

@@ -19,7 +19,6 @@
 #
 """Translate Toolkit based file format wrappers."""
 
-from __future__ import unicode_literals
 
 import importlib
 import inspect

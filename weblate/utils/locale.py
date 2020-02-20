@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import absolute_import
 
 from contextlib import contextmanager
 from locale import LC_ALL, Error, getlocale, setlocale

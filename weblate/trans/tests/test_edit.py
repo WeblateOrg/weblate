@@ -20,7 +20,6 @@
 
 """Test for translation views."""
 
-from __future__ import unicode_literals
 
 import time
 

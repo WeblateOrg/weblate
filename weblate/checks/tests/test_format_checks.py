@@ -20,7 +20,6 @@
 
 """Tests for quality checks."""
 
-from __future__ import unicode_literals
 
 from weblate.checks.format import (
     CFormatCheck,

@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import print_function, unicode_literals
 
 import math
 import os

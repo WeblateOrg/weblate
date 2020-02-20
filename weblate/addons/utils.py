@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
-
 
 def adjust_addon_events(apps, schema_editor, names, add, remove):
     Addon = apps.get_model("addons", "Addon")

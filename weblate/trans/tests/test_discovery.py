@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
 
 from weblate.trans.discovery import ComponentDiscovery
 from weblate.trans.tests.test_models import RepoTestCase

@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Layout

@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from __future__ import unicode_literals
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect

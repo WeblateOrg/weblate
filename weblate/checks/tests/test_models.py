@@ -20,7 +20,6 @@
 
 """Tests for unitdata models."""
 
-from __future__ import unicode_literals
 
 from django.urls import reverse
 from django.utils.encoding import force_text

@@ -19,7 +19,6 @@
 #
 """Simple mathematical captcha."""
 
-from __future__ import unicode_literals
 
 import ast
 import operator

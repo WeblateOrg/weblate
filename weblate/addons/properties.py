@@ -24,7 +24,6 @@ https://github.com/freeplane/freeplane/blob/1.4.x/freeplane_ant/
 src/main/java/org/freeplane/ant/FormatTranslation.java
 """
 
-from __future__ import unicode_literals
 
 import re
 

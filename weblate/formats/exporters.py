@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Exporter using translate-toolkit."""
-from __future__ import unicode_literals
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
