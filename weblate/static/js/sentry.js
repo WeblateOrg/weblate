@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.12.1 (16de493d) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.12.4 (866375e7) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -276,7 +276,7 @@ var Sentry = (function (exports) {
         /** The operation completed successfully. */
         SpanStatus["Ok"] = "ok";
         /** Deadline expired before operation could complete. */
-        SpanStatus["DealineExceeded"] = "deadline_exceeded";
+        SpanStatus["DeadlineExceeded"] = "deadline_exceeded";
         /** 401 Unauthorized (actually does mean unauthenticated according to RFC 7235) */
         SpanStatus["Unauthenticated"] = "unauthenticated";
         /** 403 Forbidden */
@@ -346,7 +346,7 @@ var Sentry = (function (exports) {
                     case 503:
                         return SpanStatus.Unavailable;
                     case 504:
-                        return SpanStatus.DealineExceeded;
+                        return SpanStatus.DeadlineExceeded;
                     default:
                         return SpanStatus.InternalError;
                 }
@@ -1913,10 +1913,7 @@ var Sentry = (function (exports) {
                     xhr: xhr,
                 };
                 triggerHandlers('xhr', __assign({}, commonHandlerData));
-                /**
-                 * @hidden
-                 */
-                function onreadystatechangeHandler() {
+                xhr.addEventListener('readystatechange', function () {
                     if (xhr.readyState === 4) {
                         try {
                             // touching statusCode in some platforms throws
@@ -1930,24 +1927,7 @@ var Sentry = (function (exports) {
                         }
                         triggerHandlers('xhr', __assign({}, commonHandlerData, { endTimestamp: Date.now() }));
                     }
-                }
-                if ('onreadystatechange' in xhr && typeof xhr.onreadystatechange === 'function') {
-                    fill(xhr, 'onreadystatechange', function (original) {
-                        return function () {
-                            var readyStateArgs = [];
-                            for (var _i = 0; _i < arguments.length; _i++) {
-                                readyStateArgs[_i] = arguments[_i];
-                            }
-                            onreadystatechangeHandler();
-                            return original.apply(xhr, readyStateArgs);
-                        };
-                    });
-                }
-                else {
-                    // if onreadystatechange wasn't actually set by the page on this xhr, we
-                    // are free to set our own and capture the breadcrumb
-                    xhr.onreadystatechange = onreadystatechangeHandler;
-                }
+                });
                 return originalSend.apply(this, args);
             };
         });
@@ -3583,45 +3563,40 @@ var Sentry = (function (exports) {
                         return;
                     }
                     var finalEvent = prepared;
-                    try {
-                        var isInternalException = hint && hint.data && hint.data.__sentry__ === true;
-                        if (isInternalException || !beforeSend) {
-                            _this._getBackend().sendEvent(finalEvent);
-                            resolve(finalEvent);
+                    var isInternalException = hint && hint.data && hint.data.__sentry__ === true;
+                    if (isInternalException || !beforeSend) {
+                        _this._getBackend().sendEvent(finalEvent);
+                        resolve(finalEvent);
+                        return;
+                    }
+                    var beforeSendResult = beforeSend(prepared, hint);
+                    // tslint:disable-next-line:strict-type-predicates
+                    if (typeof beforeSendResult === 'undefined') {
+                        logger.error('`beforeSend` method has to return `null` or a valid event.');
+                    }
+                    else if (isThenable(beforeSendResult)) {
+                        _this._handleAsyncBeforeSend(beforeSendResult, resolve, reject);
+                    }
+                    else {
+                        finalEvent = beforeSendResult;
+                        if (finalEvent === null) {
+                            logger.log('`beforeSend` returned `null`, will not send event.');
+                            resolve(null);
                             return;
                         }
-                        var beforeSendResult = beforeSend(prepared, hint);
-                        // tslint:disable-next-line:strict-type-predicates
-                        if (typeof beforeSendResult === 'undefined') {
-                            logger.error('`beforeSend` method has to return `null` or a valid event.');
-                        }
-                        else if (isThenable(beforeSendResult)) {
-                            _this._handleAsyncBeforeSend(beforeSendResult, resolve, reject);
-                        }
-                        else {
-                            finalEvent = beforeSendResult;
-                            if (finalEvent === null) {
-                                logger.log('`beforeSend` returned `null`, will not send event.');
-                                resolve(null);
-                                return;
-                            }
-                            // From here on we are really async
-                            _this._getBackend().sendEvent(finalEvent);
-                            resolve(finalEvent);
-                        }
-                    }
-                    catch (exception) {
-                        _this.captureException(exception, {
-                            data: {
-                                __sentry__: true,
-                            },
-                            originalException: exception,
-                        });
-                        reject('`beforeSend` threw an error, will not send event.');
+                        // From here on we are really async
+                        _this._getBackend().sendEvent(finalEvent);
+                        resolve(finalEvent);
                     }
                 })
-                    .then(null, function () {
-                    reject('`beforeSend` threw an error, will not send event.');
+                    .then(null, function (reason) {
+                    _this.captureException(reason, {
+                        data: {
+                            __sentry__: true,
+                        },
+                        originalException: reason,
+                    });
+                    reject("Event processing pipeline threw an error, original event will not be sent. Details has been sent as a new event.\nReason: " + reason);
                 });
             });
         };
@@ -4490,7 +4465,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.12.1';
+    var SDK_VERSION = '5.12.4';
 
     /**
      * The Sentry Browser SDK Client.
@@ -4771,8 +4746,21 @@ var Sentry = (function (exports) {
             this._oldOnUnhandledRejectionHandler = this._global.onunhandledrejection;
             this._global.onunhandledrejection = function (e) {
                 var error = e;
+                // dig the object of the rejection out of known event types
                 try {
-                    error = e && 'reason' in e ? e.reason : e;
+                    // PromiseRejectionEvents store the object of the rejection under 'reason'
+                    // see https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
+                    if ('reason' in e) {
+                        error = e.reason;
+                    }
+                    // something, somewhere, (likely a browser extension) effectively casts PromiseRejectionEvents
+                    // to CustomEvents, moving the `promise` and `reason` attributes of the PRE into
+                    // the CustomEvent's `detail` attribute, since they're not part of CustomEvent's spec
+                    // see https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent and
+                    // https://github.com/getsentry/sentry-javascript/issues/2380
+                    else if ('detail' in e && 'reason' in e.detail) {
+                        error = e.detail.reason;
+                    }
                 }
                 catch (_oO) {
                     // no-empty
@@ -4978,17 +4966,16 @@ var Sentry = (function (exports) {
         /** JSDoc */
         TryCatch.prototype._wrapXHR = function (originalSend) {
             return function () {
-                var _this = this;
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
                 var xhr = this; // tslint:disable-line:no-this-assignment
-                var xmlHttpRequestProps = ['onload', 'onerror', 'onprogress'];
+                var xmlHttpRequestProps = ['onload', 'onerror', 'onprogress', 'onreadystatechange'];
                 xmlHttpRequestProps.forEach(function (prop) {
-                    if (prop in _this && typeof _this[prop] === 'function') {
-                        fill(_this, prop, function (original) {
-                            return wrap(original, {
+                    if (prop in xhr && typeof xhr[prop] === 'function') {
+                        fill(xhr, prop, function (original) {
+                            var wrapOptions = {
                                 mechanism: {
                                     data: {
                                         function: prop,
@@ -4997,30 +4984,16 @@ var Sentry = (function (exports) {
                                     handled: true,
                                     type: 'instrument',
                                 },
-                            });
+                            };
+                            // If Instrument integration has been called before TryCatch, get the name of original function
+                            if (original.__sentry_original__) {
+                                wrapOptions.mechanism.data.handler = getFunctionName(original.__sentry_original__);
+                            }
+                            // Otherwise wrap directly
+                            return wrap(original, wrapOptions);
                         });
                     }
                 });
-                if ('onreadystatechange' in xhr && typeof xhr.onreadystatechange === 'function') {
-                    fill(xhr, 'onreadystatechange', function (original) {
-                        var wrapOptions = {
-                            mechanism: {
-                                data: {
-                                    function: 'onreadystatechange',
-                                    handler: getFunctionName(original),
-                                },
-                                handled: true,
-                                type: 'instrument',
-                            },
-                        };
-                        // If Instrument integration has been called before TryCatch, get the name of original function
-                        if (original.__sentry_original__) {
-                            wrapOptions.mechanism.data.handler = getFunctionName(original.__sentry_original__);
-                        }
-                        // Otherwise wrap directly
-                        return wrap(original, wrapOptions);
-                    });
-                }
                 return originalSend.apply(this, args);
             };
         };
