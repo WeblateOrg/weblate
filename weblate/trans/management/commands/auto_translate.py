@@ -34,7 +34,7 @@ class Command(WeblateTranslationCommand):
     help = 'performs automatic translation based on other components'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--user', default='anonymous', help=('User performing the change')
         )

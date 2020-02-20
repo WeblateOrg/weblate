@@ -31,7 +31,7 @@ class Command(BaseCommand):
     help = 'deletes translation memory content'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument('--origin', help='Origin to remove')
         parser.add_argument('--category', help='Category to remove')
         parser.add_argument(

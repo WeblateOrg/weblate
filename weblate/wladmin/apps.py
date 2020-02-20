@@ -30,7 +30,7 @@ class WLAdminConfig(AppConfig):
     verbose_name = "Weblate Admin Extensions"
 
     def ready(self):
-        super(WLAdminConfig, self).ready()
+        super().ready()
         register(check_backups, deploy=True)
 
 

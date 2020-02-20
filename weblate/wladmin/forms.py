@@ -45,7 +45,7 @@ class SSHAddForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        super(SSHAddForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.form_class = "form-inline"

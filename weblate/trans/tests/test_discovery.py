@@ -25,7 +25,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 
 class ComponentDiscoveryTest(RepoTestCase):
     def setUp(self):
-        super(ComponentDiscoveryTest, self).setUp()
+        super().setUp()
         self.component = self.create_component()
         self.discovery = ComponentDiscovery(
             self.component,

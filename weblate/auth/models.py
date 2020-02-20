@@ -159,7 +159,7 @@ class Group(models.Model):
         return self.__str__()
 
     def save(self, *args, **kwargs):
-        super(Group, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
             self.languages.set(Language.objects.all())
         if self.project_selection == SELECTION_ALL:
@@ -253,7 +253,7 @@ class GroupManyToManyField(models.ManyToManyField):
     """Customized field to accept Django Groups objects as well."""
 
     def contribute_to_class(self, cls, name, **kwargs):
-        super(GroupManyToManyField, self).contribute_to_class(cls, name, **kwargs)
+        super().contribute_to_class(cls, name, **kwargs)
 
         # Get related descriptor
         descriptor = getattr(cls, self.name)
@@ -333,7 +333,7 @@ class User(AbstractBaseUser):
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)
-        super(User, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('user_page', kwargs={'user': self.username})
@@ -363,7 +363,7 @@ class User(AbstractBaseUser):
         if name in self.DUMMY_FIELDS:
             self.extra_data[name] = value
         else:
-            super(User, self).__setattr__(name, value)
+            super().__setattr__(name, value)
 
     def save(self, *args, **kwargs):
         # Generate full name from parts
@@ -377,7 +377,7 @@ class User(AbstractBaseUser):
             self.full_name = self.extra_data['last_name']
         if not self.email:
             self.email = None
-        super(User, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def has_module_perms(self, module):
         """Compatibility API for admin interface."""

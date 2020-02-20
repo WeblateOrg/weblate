@@ -32,7 +32,7 @@ class Command(BaseCommand):
     help = 'performs import benchmark'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--profile-sort', default='cumulative', help='sort order for profile stats'
         )

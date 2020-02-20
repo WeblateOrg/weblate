@@ -142,7 +142,7 @@ class WeblateLangCommand(WeblateComponentCommand):
     """
 
     def add_arguments(self, parser):
-        super(WeblateLangCommand, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--lang',
             action='store',
@@ -153,7 +153,7 @@ class WeblateLangCommand(WeblateComponentCommand):
 
     def get_units(self, **options):
         """Return list of units matching parameters."""
-        units = super(WeblateLangCommand, self).get_units(**options)
+        units = super().get_units(**options)
 
         if options['lang'] is not None:
             units = units.filter(translation__language__code=options['lang'])
@@ -162,7 +162,7 @@ class WeblateLangCommand(WeblateComponentCommand):
 
     def get_translations(self, **options):
         """Return list of translations matching parameters."""
-        result = super(WeblateLangCommand, self).get_translations(**options)
+        result = super().get_translations(**options)
 
         if options['lang'] is not None:
             langs = options['lang'].split(',')

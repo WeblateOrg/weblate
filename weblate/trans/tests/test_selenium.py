@@ -128,13 +128,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             cls.driver.implicitly_wait(5)
             cls.actions = webdriver.ActionChains(cls.driver)
 
-        super(SeleniumTests, cls).setUpClass()
+        super().setUpClass()
 
     def setUp(self):
         if self.driver is None:
             print("Selenium error: {}".format(self.driver_error))
             raise SkipTest("Webdriver not available: {}".format(self.driver_error))
-        super(SeleniumTests, self).setUp()
+        super().setUp()
         self.driver.get("{0}{1}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1200, 1024)
         site = Site.objects.get(pk=1)
@@ -143,7 +143,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @classmethod
     def tearDownClass(cls):
-        super(SeleniumTests, cls).tearDownClass()
+        super().tearDownClass()
         if cls.driver is not None:
             cls.driver.quit()
             cls.driver = None

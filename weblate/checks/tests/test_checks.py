@@ -35,7 +35,7 @@ class MockLanguage(Language):
         proxy = True
 
     def __init__(self, code='cs'):
-        super(MockLanguage, self).__init__(code=code)
+        super().__init__(code=code)
         self.plural = Plural(language=self)
 
 

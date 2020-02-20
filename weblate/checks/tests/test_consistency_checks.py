@@ -77,7 +77,7 @@ class SamePluralsCheckTest(PluralsCheckTest):
 
 class TranslatedCheckTest(ViewTestCase):
     def setUp(self):
-        super(TranslatedCheckTest, self).setUp()
+        super().setUp()
         self.check = TranslatedCheck()
 
     def run_check(self):

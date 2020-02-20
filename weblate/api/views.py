@@ -143,7 +143,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
             raise Http404('Not supported format')
-        return super(DownloadViewSet, self).perform_content_negotiation(request, force)
+        return super().perform_content_negotiation(request, force)
 
     def download_file(self, filename, content_type, component=None):
         """Wrapper for file download."""
@@ -322,11 +322,11 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
         if not request.user.has_perm('project.add'):
             self.permission_denied(request, message='Can not create projects')
         self.request = request
-        return super(ProjectViewSet, self).create(request, *args, **kwargs)
+        return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         with transaction.atomic():
-            super(ProjectViewSet, self).perform_create(serializer)
+            super().perform_create(serializer)
             if (
                 not self.request.user.is_superuser
                 and 'weblate.billing' in settings.INSTALLED_APPS

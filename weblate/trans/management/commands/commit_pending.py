@@ -27,7 +27,7 @@ class Command(WeblateLangCommand):
     help = 'commits pending changes older than given age'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--age',
             action='store',

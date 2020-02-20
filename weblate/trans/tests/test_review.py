@@ -26,7 +26,7 @@ from weblate.utils.state import STATE_APPROVED
 
 class ReviewTest(ViewTestCase):
     def setUp(self):
-        super(ReviewTest, self).setUp()
+        super().setUp()
         self.project.enable_review = True
         self.project.save()
 

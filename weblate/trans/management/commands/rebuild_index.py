@@ -29,7 +29,7 @@ class Command(WeblateComponentCommand):
     help = 'rebuilds index for fulltext search'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--clean',
             action='store_true',

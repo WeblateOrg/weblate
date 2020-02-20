@@ -65,7 +65,7 @@ class MemoryFormView(ErrorFormView):
 
     def dispatch(self, request, *args, **kwargs):
         self.objects = get_objects(request, kwargs)
-        return super(MemoryFormView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class DeleteView(MemoryFormView):
@@ -78,7 +78,7 @@ class DeleteView(MemoryFormView):
         memory = TranslationMemory()
         memory.delete(**self.objects)
         messages.success(self.request, _('Entries deleted.'))
-        return super(DeleteView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class ImportView(MemoryFormView):
@@ -91,7 +91,7 @@ class ImportView(MemoryFormView):
         import_memory.delay(self.objects['project'].pk)
 
         messages.success(self.request, _('Import of strings scheduled.'))
-        return super(ImportView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class UploadView(MemoryFormView):
@@ -109,7 +109,7 @@ class UploadView(MemoryFormView):
             )
         except MemoryImportError as error:
             messages.error(self.request, force_text(error))
-        return super(UploadView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -118,14 +118,14 @@ class MemoryView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.objects = get_objects(request, kwargs)
-        return super(MemoryView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_url(self, name):
         return reverse(name, kwargs=self.kwargs)
 
     def get_context_data(self, **kwargs):
         memory = TranslationMemory()
-        context = super(MemoryView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context.update(self.objects)
         entries = memory.list_documents(**self.objects)
         context['num_entries'] = len(entries)

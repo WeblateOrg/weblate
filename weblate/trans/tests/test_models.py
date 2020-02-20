@@ -65,12 +65,12 @@ class BaseTestCase(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(BaseTestCase, cls).setUpClass()
+        super().setUpClass()
         immediate_on_commit(cls)
 
     @classmethod
     def tearDownClass(cls):
-        super(BaseTestCase, cls).tearDownClass()
+        super().tearDownClass()
         immediate_on_commit_leave(cls)
 
 
@@ -81,12 +81,12 @@ class BaseLiveServerTestCase(LiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
-        super(BaseLiveServerTestCase, cls).setUpClass()
+        super().setUpClass()
         immediate_on_commit(cls)
 
     @classmethod
     def tearDownClass(cls):
-        super(BaseLiveServerTestCase, cls).tearDownClass()
+        super().tearDownClass()
         immediate_on_commit_leave(cls)
 
 
@@ -274,7 +274,7 @@ class ComponentListTest(RepoTestCase):
 
 class ModelTestCase(RepoTestCase):
     def setUp(self):
-        super(ModelTestCase, self).setUp()
+        super().setUp()
         self.component = self.create_component()
 
 
@@ -366,7 +366,7 @@ class WhiteboardMessageTest(ModelTestCase):
     """Test(s) for WhiteboardMessage model."""
 
     def setUp(self):
-        super(WhiteboardMessageTest, self).setUp()
+        super().setUp()
         WhiteboardMessage.objects.create(
             language=Language.objects.get(code='cs'), message='test cs'
         )

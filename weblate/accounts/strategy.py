@@ -36,7 +36,7 @@ def create_session(*args):
 class WeblateStrategy(DjangoStrategy):
     def __init__(self, storage, request=None, tpl=None):
         """Restore session data based on passed ID."""
-        super(WeblateStrategy, self).__init__(storage, request, tpl)
+        super().__init__(storage, request, tpl)
         if request and 'verification_code' in request.GET and 'id' in request.GET:
             self.session = create_session(request.GET['id'])
 
@@ -60,7 +60,7 @@ class WeblateStrategy(DjangoStrategy):
     def build_absolute_uri(self, path=None):
         if self.request:
             self.request.__dict__['_current_scheme_host'] = get_site_url()
-        return super(WeblateStrategy, self).build_absolute_uri(path)
+        return super().build_absolute_uri(path)
 
     def clean_partial_pipeline(self, token):
         # The cleanup somehow breaks our partial pipelines, simply skip
@@ -69,4 +69,4 @@ class WeblateStrategy(DjangoStrategy):
         return
 
     def really_clean_partial_pipeline(self, token):
-        super(WeblateStrategy, self).clean_partial_pipeline(token)
+        super().clean_partial_pipeline(token)

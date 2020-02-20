@@ -150,7 +150,7 @@ class ChangeManager(models.Manager):
         """Wrapper to avoid using anonymous user as change owner."""
         if user is not None and not user.is_authenticated:
             user = None
-        return super(ChangeManager, self).create(user=user, **kwargs)
+        return super().create(user=user, **kwargs)
 
 
 class Change(models.Model, UserDisplayMixin):
@@ -432,7 +432,7 @@ class Change(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
-        super(Change, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {
@@ -530,5 +530,5 @@ class Change(models.Model, UserDisplayMixin):
             self.project = self.component.project
         if self.dictionary:
             self.project = self.dictionary.project
-        super(Change, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))

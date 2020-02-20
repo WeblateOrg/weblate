@@ -77,7 +77,7 @@ class ProjectViewMixin:
     # This should be done in setup once we drop support for older Django
     def dispatch(self, request, *args, **kwargs):
         self.project = get_project(self.request, self.kwargs["project"])
-        return super(ProjectViewMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 def get_translation(request, project, component, lang, skip_acl=False):

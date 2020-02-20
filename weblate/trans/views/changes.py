@@ -48,7 +48,7 @@ class ChangesView(ListView):
     paginate_by = 20
 
     def __init__(self, **kwargs):
-        super(ChangesView, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.project = None
         self.component = None
         self.translation = None
@@ -58,7 +58,7 @@ class ChangesView(ListView):
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
-        context = super(ChangesView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['project'] = self.project
 
         url = {}

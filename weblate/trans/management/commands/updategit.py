@@ -27,7 +27,7 @@ class Command(WeblateComponentCommand):
     needs_repo = True
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--foreground',
             action='store_true',

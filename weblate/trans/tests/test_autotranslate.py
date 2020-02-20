@@ -30,7 +30,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class AutoTranslationTest(ViewTestCase):
     def setUp(self):
-        super(AutoTranslationTest, self).setUp()
+        super().setUp()
         # Need extra power
         self.user.is_superuser = True
         self.user.save()
@@ -152,7 +152,7 @@ class AutoTranslationMtTest(ViewTestCase):
     fake_search = False
 
     def setUp(self):
-        super(AutoTranslationMtTest, self).setUp()
+        super().setUp()
         # Need extra power
         self.user.is_superuser = True
         self.user.save()

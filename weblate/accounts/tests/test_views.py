@@ -47,7 +47,7 @@ class ViewTest(TestCase):
     """Test for views."""
 
     def setUp(self):
-        super(ViewTest, self).setUp()
+        super().setUp()
         reset_rate_limit('login', address='127.0.0.1')
         reset_rate_limit('message', address='127.0.0.1')
 

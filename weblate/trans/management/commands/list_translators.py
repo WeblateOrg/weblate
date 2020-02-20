@@ -26,7 +26,7 @@ class Command(WeblateComponentCommand):
     help = 'List translators for a component'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--language-code',
             action='store_true',

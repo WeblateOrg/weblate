@@ -86,7 +86,7 @@ class ViewTestCase(RepoTestCase):
     fake_search = True
 
     def setUp(self):
-        super(ViewTestCase, self).setUp()
+        super().setUp()
         if self.fake_search:
             Fulltext.FAKE = True
         # Many tests needs access to the request factory.
@@ -125,7 +125,7 @@ class ViewTestCase(RepoTestCase):
         self.component_url = self.component.get_absolute_url()
 
     def tearDown(self):
-        super(ViewTestCase, self).tearDown()
+        super().tearDown()
         if self.fake_search:
             Fulltext.FAKE = False
 
@@ -259,7 +259,7 @@ class FixtureTestCase(ViewTestCase):
         for group in Group.objects.iterator():
             group.save()
 
-        super(FixtureTestCase, cls).setUpTestData()
+        super().setUpTestData()
 
     def clone_test_repos(self):
         return
@@ -275,7 +275,7 @@ class FixtureTestCase(ViewTestCase):
 
 class TranslationManipulationTest(ViewTestCase):
     def setUp(self):
-        super(TranslationManipulationTest, self).setUp()
+        super().setUp()
         self.component.new_lang = 'add'
         self.component.save()
 
@@ -586,7 +586,7 @@ class DashboardTest(ViewTestCase):
     """Test for home/index view."""
 
     def setUp(self):
-        super(DashboardTest, self).setUp()
+        super().setUp()
         self.user.profile.languages.add(Language.objects.get(code='cs'))
 
     def test_view_home_anonymous(self):

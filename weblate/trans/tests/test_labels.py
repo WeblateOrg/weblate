@@ -28,7 +28,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class LabelTest(ViewTestCase):
     def setUp(self):
-        super(LabelTest, self).setUp()
+        super().setUp()
         self.make_manager()
         self.labels_url = reverse("labels", kwargs=self.kw_project)
 

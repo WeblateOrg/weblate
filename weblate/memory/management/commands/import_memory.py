@@ -33,7 +33,7 @@ class Command(BaseCommand):
     help = 'imports translation memory'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--language-map',
             help='Map language codes in the TMX to Weblate, for example en_US:en',

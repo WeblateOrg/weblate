@@ -26,10 +26,10 @@ from weblate.utils.classloader import ClassLoader
 
 class VcsClassLoader(ClassLoader):
     def __init__(self):
-        super(VcsClassLoader, self).__init__('VCS_BACKENDS', False)
+        super().__init__('VCS_BACKENDS', False)
 
     def load_data(self):
-        result = super(VcsClassLoader, self).load_data()
+        result = super().load_data()
 
         for key, vcs in list(result.items()):
             if not vcs.is_supported():

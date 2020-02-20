@@ -56,7 +56,7 @@ class AddonList(AddonViewMixin, ListView):
     model = Addon
 
     def get_context_data(self, **kwargs):
-        result = super(AddonList, self).get_context_data(**kwargs)
+        result = super().get_context_data(**kwargs)
         component = self.kwargs['component_obj']
         result['object'] = component
         installed = {x.addon.name for x in result['object_list']}
@@ -115,7 +115,7 @@ class AddonDetail(AddonViewMixin, UpdateView):
         return self.object.addon.get_settings_form(**self.get_form_kwargs())
 
     def get_context_data(self, **kwargs):
-        result = super(AddonDetail, self).get_context_data(**kwargs)
+        result = super().get_context_data(**kwargs)
         result['object'] = self.object.component
         result['instance'] = self.object
         result['addon'] = self.object.addon
@@ -126,4 +126,4 @@ class AddonDetail(AddonViewMixin, UpdateView):
         if 'delete' in request.POST:
             obj.delete()
             return self.redirect_list()
-        return super(AddonDetail, self).post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)

@@ -55,16 +55,16 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
     @classmethod
     def setUpClass(cls):
-        super(BaseRegistrationTest, cls).setUpClass()
+        super().setUpClass()
         immediate_on_commit(cls)
 
     @classmethod
     def tearDownClass(cls):
-        super(BaseRegistrationTest, cls).tearDownClass()
+        super().tearDownClass()
         immediate_on_commit_leave(cls)
 
     def setUp(self):
-        super(BaseRegistrationTest, self).setUp()
+        super().setUp()
         reset_rate_limit('registration', address='127.0.0.1')
         reset_rate_limit('login', address='127.0.0.1')
 

@@ -206,7 +206,7 @@ class PoExporter(BaseExporter):
             output.settypecomment(flag)
 
     def get_storage(self):
-        store = super(PoExporter, self).get_storage()
+        store = super().get_storage()
         plural = self.plural
 
         # Set po file header
@@ -288,9 +288,7 @@ class MoExporter(PoExporter):
     def __init__(
         self, project=None, language=None, url=None, translation=None, fieldnames=None
     ):
-        super(MoExporter, self).__init__(
-            project, language, url, translation, fieldnames
-        )
+        super().__init__(project, language, url, translation, fieldnames)
         # Detect storage properties
         self.monolingual = False
         self.use_context = False

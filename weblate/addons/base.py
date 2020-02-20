@@ -326,7 +326,7 @@ class UpdateBaseAddon(BaseAddon):
     events = (EVENT_POST_UPDATE,)
 
     def __init__(self, storage=None):
-        super(UpdateBaseAddon, self).__init__(storage)
+        super().__init__(storage)
         self.extra_files = []
 
     def update_translations(self, component, previous_head):

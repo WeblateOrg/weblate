@@ -41,7 +41,7 @@ class EditTest(ViewTestCase):
     already_translated = 0
 
     def setUp(self):
-        super(EditTest, self).setUp()
+        super().setUp()
         self.translation = self.get_translation()
         self.translate_url = reverse('translate', kwargs=self.kw_translation)
 
@@ -197,7 +197,7 @@ class EditResourceSourceTest(ViewTestCase):
 
     def __init__(self, *args, **kwargs):
         self._language_code = 'en'
-        super(EditResourceSourceTest, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def test_edit(self):
         translate_url = reverse(
@@ -461,7 +461,7 @@ class EditComplexTest(ViewTestCase):
     """Test for complex manipulating translation."""
 
     def setUp(self):
-        super(EditComplexTest, self).setUp()
+        super().setUp()
         self.translation = self.get_translation()
         self.translate_url = reverse('translate', kwargs=self.kw_translation)
 

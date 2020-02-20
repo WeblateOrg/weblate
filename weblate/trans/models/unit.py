@@ -222,7 +222,7 @@ class Unit(models.Model, LoggerMixin):
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
-        super(Unit, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.old_unit = copy(self)
         self.is_batch_update = False
 
@@ -615,7 +615,7 @@ class Unit(models.Model, LoggerMixin):
             self.num_words = len(self.get_source_plurals()[0].split())
 
         # Actually save the unit
-        super(Unit, self).save(**kwargs)
+        super().save(**kwargs)
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:

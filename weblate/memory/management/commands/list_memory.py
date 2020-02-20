@@ -27,7 +27,7 @@ class Command(BaseCommand):
     help = 'list translation memory origins'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--type',
             choices=['origin', 'category'],

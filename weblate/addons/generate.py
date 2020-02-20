@@ -43,7 +43,7 @@ class GenerateFileAddon(BaseAddon):
     def can_install(cls, component, user):
         if not component.translation_set.exists():
             return False
-        return super(GenerateFileAddon, cls).can_install(component, user)
+        return super().can_install(component, user)
 
     def pre_commit(self, translation, author):
         filename = self.render_repo_filename(

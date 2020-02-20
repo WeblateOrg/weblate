@@ -376,7 +376,7 @@ class YAMLAddonTest(ViewTestCase):
 
 class ViewTests(ViewTestCase):
     def setUp(self):
-        super(ViewTests, self).setUp()
+        super().setUp()
         self.make_manager()
 
     def test_list(self):
@@ -747,7 +747,7 @@ class GitSquashAddonTest(ViewTestCase):
 
 class TestRemoval(FixtureTestCase):
     def setUp(self):
-        super(TestRemoval, self).setUp()
+        super().setUp()
         self.component = self.create_component()
 
     def install(self):

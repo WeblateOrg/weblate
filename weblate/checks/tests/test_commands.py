@@ -30,7 +30,7 @@ from weblate.trans.tests.test_models import RepoTestCase
 
 class PeriodicCommandTest(RepoTestCase):
     def setUp(self):
-        super(PeriodicCommandTest, self).setUp()
+        super().setUp()
         self.component = self.create_component()
 
     def test_list_checks(self):

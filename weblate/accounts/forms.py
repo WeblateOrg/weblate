@@ -95,7 +95,7 @@ class PasswordField(forms.CharField):
         kwargs['widget'] = forms.PasswordInput(render_value=False)
         kwargs['max_length'] = 256
         kwargs['strip'] = False
-        super(PasswordField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class EmailField(forms.CharField):
@@ -109,7 +109,7 @@ class EmailField(forms.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = EMAIL_LENGTH
-        super(EmailField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class UsernameField(forms.CharField):
@@ -125,7 +125,7 @@ class UsernameField(forms.CharField):
         kwargs['required'] = True
         self.valid = None
 
-        super(UsernameField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self, value):
         """Username validation, requires a unique name."""
@@ -138,7 +138,7 @@ class UsernameField(forms.CharField):
                     _('This username is already taken. ' 'Please choose another.')
                 )
 
-        return super(UsernameField, self).clean(value)
+        return super().clean(value)
 
 
 class FullNameField(forms.CharField):
@@ -148,7 +148,7 @@ class FullNameField(forms.CharField):
         kwargs['max_length'] = FULLNAME_LENGTH
         kwargs['label'] = _('Full name')
         kwargs['required'] = True
-        super(FullNameField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class ProfileBaseForm(forms.ModelForm):
@@ -172,7 +172,7 @@ class ProfileForm(ProfileBaseForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         # Limit languages to ones which have translation
         qs = Language.objects.have_translation()
         self.fields['languages'].queryset = qs
@@ -192,7 +192,7 @@ class SubscriptionForm(ProfileBaseForm):
 
     def __init__(self, *args, **kwargs):
 
-        super(SubscriptionForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         user = kwargs['instance'].user
         self.fields['watched'].required = False
         self.fields['watched'].queryset = user.allowed_projects
@@ -217,7 +217,7 @@ class UserSettingsForm(ProfileBaseForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super(UserSettingsForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -232,7 +232,7 @@ class DashboardSettingsForm(ProfileBaseForm):
         widgets = {'dashboard_view': forms.RadioSelect}
 
     def __init__(self, *args, **kwargs):
-        super(DashboardSettingsForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -255,7 +255,7 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'full_name', 'email')
 
     def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         emails = get_all_user_mails(self.instance)
 
@@ -345,7 +345,7 @@ class RegistrationForm(EmailForm):
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
-        super(RegistrationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_content(self):
         """Check if content is empty."""
@@ -398,7 +398,7 @@ class CaptchaForm(forms.Form):
     captcha = forms.IntegerField(required=True)
 
     def __init__(self, request, form=None, data=None, *args, **kwargs):
-        super(CaptchaForm, self).__init__(data, *args, **kwargs)
+        super().__init__(data, *args, **kwargs)
         self.fresh = False
         self.request = request
         self.form = form
@@ -448,7 +448,7 @@ class CaptchaForm(forms.Form):
 class EmptyConfirmForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(EmptyConfirmForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class PasswordConfirmForm(EmptyConfirmForm):
@@ -475,7 +475,7 @@ class ResetForm(EmailForm):
             raise forms.ValidationError(
                 'No password reset for deleted or anonymous user.'
             )
-        return super(ResetForm, self).clean_email()
+        return super().clean_email()
 
 
 class LoginForm(forms.Form):
@@ -495,7 +495,7 @@ class LoginForm(forms.Form):
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
         self.user_cache = None
-        super(LoginForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self):
         username = self.cleaned_data.get('username')
@@ -597,7 +597,7 @@ class NotificationForm(forms.Form):
     )
 
     def __init__(self, user, show_default, subscriptions, is_active, *args, **kwargs):
-        super(NotificationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.user = user
         self.is_active = is_active
         self.show_default = show_default

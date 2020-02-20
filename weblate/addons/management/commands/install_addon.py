@@ -31,7 +31,7 @@ class Command(WeblateComponentCommand):
     help = 'installs addon to all listed components'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument('--addon', required=True, help='Addon name')
         parser.add_argument(
             '--configuration', default='{}', help='Addon configuration in JSON'

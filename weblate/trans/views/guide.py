@@ -263,7 +263,7 @@ class LanguageConsistencyGuideline(AddonGuideline):
     def is_relevant(self):
         if self.component.project.component_set.count() <= 1:
             return False
-        return super(LanguageConsistencyGuideline, self).is_relevant()
+        return super().is_relevant()
 
 
 @register

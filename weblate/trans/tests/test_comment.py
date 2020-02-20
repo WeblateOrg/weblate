@@ -28,7 +28,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 class CommentViewTest(FixtureTestCase):
     def setUp(self):
-        super(CommentViewTest, self).setUp()
+        super().setUp()
         self.translation = self.component.translation_set.get(language_code='cs')
 
     def test_add_target_comment(self):

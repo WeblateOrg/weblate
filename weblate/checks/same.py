@@ -181,7 +181,7 @@ class SameCheck(TargetCheck):
         return True
 
     def should_skip(self, unit):
-        if super(SameCheck, self).should_skip(unit):
+        if super().should_skip(unit):
             return True
 
         source_language = unit.translation.component.project.source_language.base_code

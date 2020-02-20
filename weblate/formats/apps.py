@@ -45,5 +45,5 @@ class FormatsConfig(AppConfig):
     verbose_name = "Formats"
 
     def ready(self):
-        super(FormatsConfig, self).ready()
+        super().ready()
         register(check_formats)

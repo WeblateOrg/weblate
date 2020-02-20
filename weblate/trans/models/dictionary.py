@@ -101,7 +101,7 @@ class DictionaryManager(models.Manager):
         from weblate.trans.models.change import Change
 
         action = kwargs.pop('action', Change.ACTION_DICTIONARY_NEW)
-        created = super(DictionaryManager, self).create(**kwargs)
+        created = super().create(**kwargs)
         Change.objects.create(
             action=action, dictionary=created, user=user, target=created.target
         )

@@ -180,7 +180,7 @@ class KeyValueUnit(TTKitUnit):
 
         In some cases we have to use ID here to make all backends consistent.
         """
-        context = super(KeyValueUnit, self).context
+        context = super().context
         if not context:
             return self.mainunit.getid()
         return context
@@ -197,7 +197,7 @@ class KeyValueUnit(TTKitUnit):
 
     def set_target(self, target):
         """Set translation unit target."""
-        super(KeyValueUnit, self).set_target(target)
+        super().set_target(target)
         # Propagate to value so that is_translated works correctly
         self.unit.value = self.unit.translation
 
@@ -209,9 +209,7 @@ class TTKitFormat(TranslationFormat):
     def __init__(
         self, storefile, template_store=None, language_code=None, is_template=False
     ):
-        super(TTKitFormat, self).__init__(
-            storefile, template_store, language_code, is_template
-        )
+        super().__init__(storefile, template_store, language_code, is_template)
         # Set language (needed for some which do not include this)
         if language_code is not None and self.store.gettargetlanguage() is None:
             self.store.settargetlanguage(self.get_language_code(language_code))
@@ -383,7 +381,7 @@ class PropertiesUnit(KeyValueUnit):
     @cached_property
     def source(self):
         # Need to decode property encoded string
-        return quote.propertiesdecode(super(PropertiesUnit, self).source)
+        return quote.propertiesdecode(super().source)
 
     @cached_property
     def target(self):
@@ -404,7 +402,7 @@ class PoUnit(TTKitUnit):
 
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
-        super(PoUnit, self).mark_fuzzy(fuzzy)
+        super().mark_fuzzy(fuzzy)
         if not fuzzy:
             self.unit.prev_msgid = []
             self.unit.prev_msgid_plural = []
@@ -419,7 +417,7 @@ class PoUnit(TTKitUnit):
         if self.template is not None:
             # Monolingual PO files
             return self.template.source or self.template.getcontext()
-        return super(PoUnit, self).context
+        return super().context
 
     @cached_property
     def flags(self):
@@ -545,7 +543,7 @@ class XliffUnit(TTKitUnit):
         return fallback
 
     def mark_approved(self, value):
-        super(XliffUnit, self).mark_approved(value)
+        super().mark_approved(value)
         if self.xliff_state:
             self.xliff_node.set('state', 'final' if value else 'translated')
 
@@ -590,12 +588,12 @@ class TSUnit(MonolingualIDUnit):
             # as there is no singlular/plural in the source string
             source = self.unit.source
             return join_plural([source.replace('(s)', ''), source.replace('(s)', 's')])
-        return super(TSUnit, self).source
+        return super().source
 
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
-        result = super(TSUnit, self).locations
+        result = super().locations
         # Do not try to handle relative locations in Qt TS, see
         # http://doc.qt.io/qt-5/linguist-ts-file-format.html
         if LOCATIONS_RE.match(result):
@@ -610,7 +608,7 @@ class TSUnit(MonolingualIDUnit):
         if not self.unit.isreview() and not self.unit.istranslated():
             # For Qt ts, empty translated string means source should be used
             return self.source
-        return super(TSUnit, self).target
+        return super().target
 
     def is_translated(self):
         """Check whether unit is translated."""
@@ -668,7 +666,7 @@ class CSVUnit(MonolingualSimpleUnit):
         # as context\04source
         if self.template is None:
             return get_string(self.mainunit.source)
-        return super(CSVUnit, self).source
+        return super().source
 
 
 class RESXUnit(TTKitUnit):
@@ -716,7 +714,7 @@ class PoFormat(TTKitFormat):
     unit_class = PoUnit
 
     def is_valid(self):
-        result = super(PoFormat, self).is_valid()
+        result = super().is_valid()
         if not result:
             return False
 
@@ -733,7 +731,7 @@ class PoFormat(TTKitFormat):
         try:
             number, equation = Plural.parse_formula(header['Plural-Forms'])
         except (ValueError, KeyError):
-            return super(PoFormat, self).get_plural(language)
+            return super().get_plural(language)
 
         # Find matching one
         for plural in language.plural_set.iterator():
@@ -751,7 +749,7 @@ class PoFormat(TTKitFormat):
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
         """Remove translations from Translate Toolkit store."""
-        super(PoFormat, cls).untranslate_store(store, language, fuzzy)
+        super().untranslate_store(store, language, fuzzy)
         plural = language.plural
 
         store.updateheader(
@@ -803,7 +801,7 @@ class TSFormat(TTKitFormat):
         # We need to mark all units as fuzzy to get
         # type="unfinished" on empty strings, which are otherwise
         # treated as translated same as source
-        super(TSFormat, cls).untranslate_store(store, language, True)
+        super().untranslate_store(store, language, True)
 
 
 class XliffFormat(TTKitFormat):
@@ -815,7 +813,7 @@ class XliffFormat(TTKitFormat):
     language_format = 'bcp'
 
     def create_unit(self, key, source):
-        unit = super(XliffFormat, self).create_unit(key, source)
+        unit = super().create_unit(key, source)
         unit.marktranslated()
         unit.markapproved(False)
         return unit
@@ -832,7 +830,7 @@ class PropertiesBaseFormat(TTKitFormat):
     unit_class = PropertiesUnit
 
     def is_valid(self):
-        result = super(PropertiesBaseFormat, self).is_valid()
+        result = super().is_valid()
         if not result:
             return False
 
@@ -1006,9 +1004,7 @@ class CSVFormat(TTKitFormat):
     def __init__(
         self, storefile, template_store=None, language_code=None, is_template=False
     ):
-        super(CSVFormat, self).__init__(
-            storefile, template_store, language_code, is_template
-        )
+        super().__init__(storefile, template_store, language_code, is_template)
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
         if 'source' in self.store.fieldnames and not isinstance(

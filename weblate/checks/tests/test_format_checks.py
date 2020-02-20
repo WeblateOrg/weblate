@@ -43,7 +43,7 @@ class PythonFormatCheckTest(CheckTestCase):
     check = PythonFormatCheck()
 
     def setUp(self):
-        super(PythonFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (
             'python-format',
             '%sstring%d',
@@ -110,7 +110,7 @@ class PHPFormatCheckTest(CheckTestCase):
     check = PHPFormatCheck()
 
     def setUp(self):
-        super(PHPFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (
             'php-format',
             '%sstring%d',
@@ -164,7 +164,7 @@ class CFormatCheckTest(CheckTestCase):
     flag = 'c-format'
 
     def setUp(self):
-        super(CFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (self.flag, '%sstring%d', [(0, 2, u'%s'), (8, 10, u'%d')])
 
     def test_no_format(self):
@@ -223,7 +223,7 @@ class PythonBraceFormatCheckTest(CheckTestCase):
     check = PythonBraceFormatCheck()
 
     def setUp(self):
-        super(PythonBraceFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (
             'python-brace-format',
             '{0}string{1}',
@@ -274,7 +274,7 @@ class CSharpFormatCheckTest(CheckTestCase):
     check = CSharpFormatCheck()
 
     def setUp(self):
-        super(CSharpFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (
             'c-sharp-format',
             '{0}string{1}',
@@ -337,7 +337,7 @@ class JavaFormatCheckTest(CheckTestCase):
     check = JavaFormatCheck()
 
     def setUp(self):
-        super(JavaFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (
             'java-format',
             '%1s string %2s',
@@ -389,7 +389,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
     check = JavaMessageFormatCheck()
 
     def setUp(self):
-        super(JavaMessageFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (
             'java-messageformat',
             '{0}string{1}',
@@ -476,7 +476,7 @@ class QtFormatCheckTest(CheckTestCase):
     flag = 'qt-format'
 
     def setUp(self):
-        super(QtFormatCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (self.flag, '%1string%2', [(0, 2, u'%1'), (8, 10, u'%2')])
 
     def test_no_format(self):
@@ -503,7 +503,7 @@ class QtPluralCheckTest(CheckTestCase):
     flag = 'qt-plural-format'
 
     def setUp(self):
-        super(QtPluralCheckTest, self).setUp()
+        super().setUp()
         self.test_highlight = (self.flag, '%Lnstring', [(0, 3, u'%Ln')])
 
     def test_no_format(self):
@@ -524,11 +524,11 @@ class RubyFormatCheckTest(CheckTestCase):
     flag = 'ruby-format'
 
     def setUp(self):
-        super(RubyFormatCheckTest, self).setUp()
+        super().setUp()
 
     def test_check_highlight(self):
         self.test_highlight = (self.flag, '%dstring%s', [(0, 2, u'%d'), (8, 10, u'%s')])
-        super(RubyFormatCheckTest, self).test_check_highlight()
+        super().test_check_highlight()
 
     def test_check_highlight_named(self):
         self.test_highlight = (
@@ -536,7 +536,7 @@ class RubyFormatCheckTest(CheckTestCase):
             '%<int>dstring%<str>s',
             [(0, 7, u'%<int>d'), (13, 20, u'%<str>s')],
         )
-        super(RubyFormatCheckTest, self).test_check_highlight()
+        super().test_check_highlight()
 
     def test_check_highlight_named_template(self):
         self.test_highlight = (
@@ -544,7 +544,7 @@ class RubyFormatCheckTest(CheckTestCase):
             '%{int}string%{str}',
             [(0, 6, u'%{int}'), (12, 18, u'%{str}')],
         )
-        super(RubyFormatCheckTest, self).test_check_highlight()
+        super().test_check_highlight()
 
     def test_check_highlight_complex_named_template(self):
         self.test_highlight = (
@@ -552,7 +552,7 @@ class RubyFormatCheckTest(CheckTestCase):
             '%8.8{foo}string%+08.2<float>fstring',
             [(0, 9, u'%8.8{foo}'), (15, 29, u'%+08.2<float>f')],
         )
-        super(RubyFormatCheckTest, self).test_check_highlight()
+        super().test_check_highlight()
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format('strins', 'string', False))

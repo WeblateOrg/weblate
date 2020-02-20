@@ -38,7 +38,7 @@ class BBCodeCheckTest(CheckTestCase):
     check = BBCodeCheck()
 
     def setUp(self):
-        super(BBCodeCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('[a]string[/a]', '[a]string[/a]', '')
         self.test_failure_1 = ('[a]string[/a]', '[b]string[/b]', '')
         self.test_failure_2 = ('[a]string[/a]', 'string', '')
@@ -49,7 +49,7 @@ class XMLValidityCheckTest(CheckTestCase):
     check = XMLValidityCheck()
 
     def setUp(self):
-        super(XMLValidityCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('<a>string</a>', '<a>string</a>', 'xml-text')
         self.test_good_none = ('string', 'string', '')
         self.test_good_ignore = ('<http://weblate.org/>', '<http://weblate.org/>', '')
@@ -94,7 +94,7 @@ class XMLTagsCheckTest(CheckTestCase):
     check = XMLTagsCheck()
 
     def setUp(self):
-        super(XMLTagsCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('<a>string</a>', '<a>string</a>', '')
         self.test_failure_1 = ('<a>string</a>', '<b>string</b>', '')
         self.test_failure_2 = ('<a>string</a>', 'string', '')
@@ -142,7 +142,7 @@ class MarkdownRefLinkCheckTest(CheckTestCase):
     check = MarkdownRefLinkCheck()
 
     def setUp(self):
-        super(MarkdownRefLinkCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('[a][a1]', '[b][a1]', 'md-text')
         self.test_good_none = ('string', 'string', 'md-text')
         self.test_good_flag = ('[a][a1]', '[b][a2]', '')
@@ -153,7 +153,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
     check = MarkdownLinkCheck()
 
     def setUp(self):
-        super(MarkdownLinkCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = (
             '[Use Weblate](https://weblate.org/)',
             '[Použij Weblate](https://weblate.org/)',
@@ -191,7 +191,7 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
     check = MarkdownSyntaxCheck()
 
     def setUp(self):
-        super(MarkdownSyntaxCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('**string**', '**string**', 'md-text')
         self.test_good_none = ('string', 'string', 'md-text')
         self.test_good_flag = ('**string**', 'string', '')
@@ -216,7 +216,7 @@ class URLCheckTest(CheckTestCase):
     check = URLCheck()
 
     def setUp(self):
-        super(URLCheckTest, self).setUp()
+        super().setUp()
         url = 'https://weblate.org/'
         self.test_good_matching = (url, url, 'url')
         self.test_good_none = (url, url, 'url')
@@ -230,7 +230,7 @@ class SafeHTMLCheckTest(CheckTestCase):
     check = SafeHTMLCheck()
 
     def setUp(self):
-        super(SafeHTMLCheckTest, self).setUp()
+        super().setUp()
         safe = '<a href="https://weblate.org/">link</a>'
         self.test_good_matching = (safe, safe, 'safe-html')
         self.test_good_none = ('string', 'string', 'safe-html')

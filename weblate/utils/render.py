@@ -48,7 +48,7 @@ class RestrictedEngine(Engine):
     def __init__(self, *args, **kwargs):
         kwargs['autoescape'] = False
         kwargs['string_if_invalid'] = InvalidString("%s")
-        super(RestrictedEngine, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 def render_template(template, **kwargs):

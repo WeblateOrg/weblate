@@ -34,9 +34,7 @@ class ContributorAgreementManager(models.Manager):
 
     def create(self, user, component, **kwargs):
         user.perm_cache[('cla', user.pk, component.pk)] = True
-        return super(ContributorAgreementManager, self).create(
-            user=user, component=component, **kwargs
-        )
+        return super().create(user=user, component=component, **kwargs)
 
     def order(self):
         return self.order_by('component__project__name', 'component__name')

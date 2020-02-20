@@ -43,7 +43,7 @@ class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
 
     def setUp(self):
-        super(AdminTest, self).setUp()
+        super().setUp()
         self.user.is_superuser = True
         self.user.save()
 

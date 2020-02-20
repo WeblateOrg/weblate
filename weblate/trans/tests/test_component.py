@@ -453,7 +453,7 @@ class ComponentValidationTest(RepoTestCase):
     """Component object validation testing."""
 
     def setUp(self):
-        super(ComponentValidationTest, self).setUp()
+        super().setUp()
         self.component = self.create_component()
         # Ensure we have correct component
         self.component.full_clean()
@@ -609,7 +609,7 @@ class ComponentErrorTest(RepoTestCase):
     """Test for error handling."""
 
     def setUp(self):
-        super(ComponentErrorTest, self).setUp()
+        super().setUp()
         self.component = self.create_ts_mono()
         # Change to invalid push URL
         self.component.repo = 'file:/dev/null'

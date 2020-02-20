@@ -29,7 +29,7 @@ class PlaceholdersTest(CheckTestCase):
     check = PlaceholderCheck()
 
     def setUp(self):
-        super(PlaceholdersTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ("string $URL$", "string $URL$", "placeholders:$URL$")
         self.test_good_none = ("string", "string", "placeholders:")
         self.test_good_ignore = ("$URL", "$OTHER")
@@ -50,7 +50,7 @@ class RegexTest(CheckTestCase):
     check = RegexCheck()
 
     def setUp(self):
-        super(RegexTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ("string URL", "string URL", "regex:URL")
         self.test_good_none = ("string", "string", "regex:")
         self.test_failure_1 = ("string URL", "string", "regex:URL")

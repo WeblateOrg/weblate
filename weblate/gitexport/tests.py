@@ -36,7 +36,7 @@ from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 
 class GitExportTest(ViewTestCase):
     def setUp(self):
-        super(GitExportTest, self).setUp()
+        super().setUp()
         # We don't want standard Django authentication
         self.client.logout()
 
@@ -164,7 +164,7 @@ class GitCloneTest(BaseLiveServerTestCase, RepoTestMixin):
     acl = True
 
     def setUp(self):
-        super(GitCloneTest, self).setUp()
+        super().setUp()
         self.clone_test_repos()
         self.component = self.create_component()
         self.component.project.access_control = Project.ACCESS_PRIVATE

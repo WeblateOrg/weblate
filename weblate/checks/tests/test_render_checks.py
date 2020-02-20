@@ -28,7 +28,7 @@ from weblate.fonts.tests.utils import FontTestCase
 
 class MaxSizeCheckTest(FontTestCase):
     def setUp(self):
-        super(MaxSizeCheckTest, self).setUp()
+        super().setUp()
         self.check = MaxSizeCheck()
 
     def perform_check(self, target, flags):
