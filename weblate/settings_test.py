@@ -29,13 +29,11 @@ from weblate.settings_example import *  # noqa
 
 CI_DATABASE = os.environ.get('CI_DATABASE', '')
 
-DATABASES['default']['HOST'] = os.environ.get('CI_DB_HOST', '')
+default_user = 'weblate'
+default_name = 'weblate'
 if CI_DATABASE == 'mysql':
     DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-    DATABASES['default']['NAME'] = 'weblate'
-    DATABASES['default']['USER'] = 'root'
-    DATABASES['default']['PASSWORD'] = os.environ.get('CI_DB_PASSWORD', '')
-    DATABASES['default']['PORT'] = os.environ.get('CI_DB_PORT', '')
+    default_user = 'root'
     DATABASES['default']['OPTIONS'] = {
         'init_command': (
             'SET NAMES utf8, '
@@ -48,18 +46,20 @@ if CI_DATABASE == 'mysql':
     }
 elif CI_DATABASE == 'postgresql':
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-    DATABASES['default']['NAME'] = 'weblate'
-    DATABASES['default']['USER'] = 'postgres'
-    DATABASES['default']['PASSWORD'] = os.environ.get('CI_DB_PASSWORD', '')
-    DATABASES['default']['PORT'] = os.environ.get('CI_DB_PORT', '')
+    default_user = 'postgres'
 else:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
-    DATABASES['default']['NAME'] = 'weblate.db'
+    default_name = 'weblate.db'
     # Workaround for
     # https://github.com/travis-ci/travis-ci/issues/7873
     if 'TRAVIS' in os.environ:
         DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
 
+DATABASES['default']['HOST'] = os.environ.get('CI_DB_HOST', '')
+DATABASES['default']['NAME'] = os.environ.get('CI_DB_NAME', default_name)
+DATABASES['default']['USER'] = os.environ.get('CI_DB_USER', default_user)
+DATABASES['default']['PASSWORD'] = os.environ.get('CI_DB_PASSWORD', '')
+DATABASES['default']['PORT'] = os.environ.get('CI_DB_PORT', '')
 
 # Configure admins
 ADMINS = (('Weblate test', 'noreply@weblate.org'),)
