@@ -21,12 +21,12 @@
 """Test for management commands."""
 
 import sys
+from io import StringIO
 from unittest import SkipTest
 
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 from django.test import SimpleTestCase
-from six import StringIO
 
 from weblate.accounts.models import Profile
 from weblate.runner import main

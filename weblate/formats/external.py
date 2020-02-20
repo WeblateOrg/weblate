@@ -21,6 +21,7 @@
 
 import os
 import re
+from io import BytesIO, StringIO
 
 import six
 from django.utils.translation import ugettext_lazy as _
@@ -70,7 +71,7 @@ class XlsxFormat(CSVFormat):
     @staticmethod
     def serialize(store):
         # store is CSV (csvfile) here
-        output = six.BytesIO()
+        output = BytesIO()
         XlsxFormat(store).save_content(output)
         return output.getvalue()
 
@@ -85,7 +86,7 @@ class XlsxFormat(CSVFormat):
         except BadZipFile:
             return None, None
 
-        output = six.StringIO()
+        output = StringIO()
 
         writer = csv.writer(output, dialect='unix')
 

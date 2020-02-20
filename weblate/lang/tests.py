@@ -21,6 +21,7 @@
 """Test for language manipulations."""
 
 import gettext
+from io import StringIO
 from itertools import chain
 
 from django.core.management import call_command
@@ -28,7 +29,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import activate
-from six import StringIO, with_metaclass
+from six import with_metaclass
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type

@@ -21,13 +21,13 @@
 
 import os
 from datetime import timedelta
+from io import StringIO
 from unittest import SkipTest
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.urls import reverse
 from django.utils import timezone
-from six import StringIO
 
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import TestAddon, TestCrashAddon, TestException
