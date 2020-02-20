@@ -23,4 +23,4 @@ EOT
 cat >> docs/changes.rst < $tmp
 rm $tmp
 
-git commit -s -m "Setting version to $1" weblate/__init__.py docs/conf.py docs/changes.rst setup.py
+git commit -m "Setting version to $1" weblate/__init__.py docs/conf.py docs/changes.rst setup.py
