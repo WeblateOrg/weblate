@@ -142,10 +142,6 @@ class Flags(object):
     def __bool__(self):
         return bool(self._items)
 
-    # Python 2 compatibility:
-    def __nonzero__(self):
-        return bool(self._items)
-
     def format(self):
         return ", ".join(sorted(self._items.values()))
 
