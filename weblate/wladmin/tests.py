@@ -21,7 +21,6 @@
 import json
 import os
 
-import django
 import httpretty
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
@@ -239,12 +238,7 @@ class AdminTest(ViewTestCase):
 
         # Edit form
         group = Group.objects.get(name=name)
-        if django.VERSION < (2, 0):
-            url = reverse("admin:weblate_auth_group_change", args=(group.pk,))
-        else:
-            url = reverse(
-                "admin:weblate_auth_group_change", kwargs={"object_id": group.pk}
-            )
+        url = reverse("admin:weblate_auth_group_change", kwargs={"object_id": group.pk})
         response = self.client.get(url)
         self.assertContains(response, "Automatic group assignment")
         self.assertContains(response, name)
