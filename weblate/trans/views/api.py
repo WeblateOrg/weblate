@@ -21,7 +21,6 @@
 
 import csv
 
-import six
 from django.http import HttpResponse, JsonResponse
 
 from weblate.trans.stats import get_project_stats
@@ -92,14 +91,7 @@ def export_response(request, filename, fields, data):
         writer = csv.DictWriter(response, fields)
 
         writer.writeheader()
-        if six.PY2:
-            for row in data:
-                for item in row:
-                    if isinstance(row[item], six.text_type):
-                        row[item] = row[item].encode('utf-8')
-                writer.writerow(row)
-        else:
-            for row in data:
-                writer.writerow(row)
+        for row in data:
+            writer.writerow(row)
         return response
     return JsonResponse(data=data, safe=False, json_dumps_params={'indent': 2})

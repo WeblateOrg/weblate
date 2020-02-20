@@ -18,7 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import six
+import csv
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
@@ -38,11 +39,6 @@ from weblate.trans.models.change import Change
 from weblate.utils import messages
 from weblate.utils.site import get_site_url
 from weblate.utils.views import get_project_translation
-
-if six.PY2:
-    from backports import csv
-else:
-    import csv
 
 
 class ChangesView(ListView):

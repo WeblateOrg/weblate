@@ -20,11 +20,9 @@
 
 import json
 import os
-from unittest import skipIf
 
 import django
 import httpretty
-import six
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
@@ -96,7 +94,6 @@ class AdminTest(ViewTestCase):
             self.assertIn("github.com", handle.read())
 
     @tempdir_setting("BACKUP_DIR")
-    @skipIf(six.PY2, "borgbackup does not support Python 2")
     def test_backup(self):
         def do_post(**payload):
             return self.client.post(reverse("manage-backups"), payload, follow=True)

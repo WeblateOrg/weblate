@@ -28,7 +28,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import activate
-from six import PY2, StringIO, with_metaclass
+from six import StringIO, with_metaclass
 
 from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
@@ -228,10 +228,7 @@ class CommandTest(BaseTestCase):
     def check_list(self, **kwargs):
         output = StringIO()
         call_command('list_languages', 'cs', stdout=output, **kwargs)
-        if PY2:
-            self.assertIn(b'Czech', output.getvalue())
-        else:
-            self.assertIn('Czech', output.getvalue())
+        self.assertIn('Czech', output.getvalue())
 
     def test_list_languages(self):
         self.check_list()

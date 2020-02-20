@@ -346,18 +346,3 @@ def check_errors(app_configs=None, **kwargs):
             id='weblate.I021',
         )
     ]
-
-
-def check_python(app_configs=None, **kwargs):
-    """Early warning for users needing to migrate to Python 3."""
-    if six.PY3:
-        return []
-    return [
-        Error(
-            'Please upgrade your installation to Python 3. '
-            'Python 2 support will be dropped in Weblate 4.0 '
-            'currently sheduled on April 2020.',
-            hint=get_doc_url('admin/upgrade', 'py3'),
-            id='weblate.W023',
-        )
-    ]

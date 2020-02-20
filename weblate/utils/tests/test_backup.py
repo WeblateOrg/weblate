@@ -20,9 +20,7 @@
 
 import json
 import os
-from unittest import skipIf
 
-import six
 from django.conf import settings
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -36,7 +34,6 @@ from weblate.utils.unittest import tempdir_setting
 
 class BackupTest(SimpleTestCase):
     @tempdir_setting("DATA_DIR")
-    @skipIf(six.PY2, 'override_settings seems to be broken on Python 2')
     def test_settings_backup(self):
         settings_backup()
         filename = data_dir("backups", "settings.py")
@@ -53,7 +50,6 @@ class BackupTest(SimpleTestCase):
 
     @tempdir_setting("DATA_DIR")
     @tempdir_setting("BACKUP_DIR")
-    @skipIf(six.PY2, 'borgbackup does not support Python 2')
     def test_backup(self):
         initialize(settings.BACKUP_DIR, "key")
         output = get_paper_key(settings.BACKUP_DIR)

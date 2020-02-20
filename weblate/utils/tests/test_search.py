@@ -20,9 +20,7 @@
 
 
 from datetime import datetime
-from unittest import SkipTest
 
-import six
 from django.db.models import Q
 from django.test import SimpleTestCase, TestCase
 from pytz import utc
@@ -51,10 +49,6 @@ class ComparerTest(SimpleTestCase):
 
 
 class QueryParserTest(TestCase):
-    def setUp(self):
-        if six.PY2:
-            raise SkipTest("Test not working on Python 2")
-
     def assert_query(self, string, expected):
         result = parse_query(string)
         self.assertEqual(result, expected)
