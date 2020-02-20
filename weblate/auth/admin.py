@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import django
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
@@ -43,9 +42,6 @@ class InlineAutoGroupAdmin(admin.TabularInline):
     def has_add_permission(self, request, obj=None):
         if block_group_edit(obj):
             return False
-        # On Django 1.11 and 2.0 the obj is not present
-        if django.VERSION < (2, 1):
-            return super().has_add_permission(request)
         return super().has_add_permission(request, obj)
 
     def has_change_permission(self, request, obj=None):
