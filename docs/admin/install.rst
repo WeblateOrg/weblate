@@ -67,8 +67,6 @@ of them in :file:`requirements-optional.txt`.
     https://github.com/ubernostrum/akismet
 ``ruamel.yaml`` (optional for :ref:`yaml`)
     https://pypi.org/project/ruamel.yaml/
-``backports.csv`` (needed on Python 2.7)
-    https://pypi.org/project/backports.csv/
 ``Zeep`` (optional for :ref:`ms-terminology`)
     https://python-zeep.readthedocs.io/
 ``aeidon`` (optional for :ref:`subtitles`)
