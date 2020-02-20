@@ -27,7 +27,6 @@ https://github.com/WeblateOrg/language-data
 """
 # pylint: disable=line-too-long,too-many-lines
 
-from __future__ import unicode_literals
 
 # Language aliases
 ALIASES = {

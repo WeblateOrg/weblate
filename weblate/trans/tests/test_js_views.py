@@ -20,7 +20,6 @@
 
 """Test for AJAX/JS views."""
 
-from __future__ import unicode_literals
 
 import json
 

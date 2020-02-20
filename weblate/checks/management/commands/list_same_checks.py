@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
 
 from django.core.management.base import BaseCommand
 from django.db.models import Count

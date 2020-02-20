@@ -20,7 +20,6 @@
 
 """Test for import and export."""
 
-from __future__ import unicode_literals
 
 from copy import copy
 

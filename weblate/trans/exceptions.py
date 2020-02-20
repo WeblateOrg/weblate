@@ -18,8 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
-
 
 class FileParseError(Exception):
     """Generic error for parsing."""

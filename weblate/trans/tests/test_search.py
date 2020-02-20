@@ -20,7 +20,6 @@
 
 """Test for search views."""
 
-from __future__ import unicode_literals
 
 import re
 import shutil

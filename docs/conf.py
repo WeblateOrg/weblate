@@ -6,7 +6,6 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-from __future__ import unicode_literals
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -130,16 +129,12 @@ PREAMBLE = r"""
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     'papersize': 'a4paper',
-
     # The font size ('10pt', '11pt' or '12pt').
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     "preamble": PREAMBLE,
-
     # Avoid opening chapter only on even pages
     "extraclassoptions": "openany",
-
     # Latex figure (float) alignment
     # 'figure_align': 'htbp',
 }
@@ -240,6 +235,4 @@ nitpick_ignore = [
 ]
 
 # Number of retries and timeout for linkcheck
-linkcheck_ignore = [
-    'http://127.0.0.1:8080/',
-]
+linkcheck_ignore = ['http://127.0.0.1:8080/']

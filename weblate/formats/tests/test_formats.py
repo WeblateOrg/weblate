@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """File format specific behavior."""
-from __future__ import unicode_literals
 
 import os.path
 import shutil

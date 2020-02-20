@@ -19,7 +19,6 @@
 #
 """Auto fixes implemeted for specific environments and not enabled by default."""
 
-from __future__ import unicode_literals
 
 import re
 

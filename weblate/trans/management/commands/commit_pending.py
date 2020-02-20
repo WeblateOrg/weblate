@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
 
 from weblate.trans.management.commands import WeblateLangCommand
 from weblate.trans.tasks import commit_pending

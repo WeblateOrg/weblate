@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
 
 EVENT_POST_PUSH = 1
 EVENT_POST_UPDATE = 2

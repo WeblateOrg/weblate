@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
 
 from weblate.accounts.notifications import FREQ_INSTANT, SCOPE_ADMIN, SCOPE_DEFAULT
 

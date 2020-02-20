@@ -20,7 +20,6 @@
 
 """Tests for automatix fixups."""
 
-from __future__ import unicode_literals
 
 from django.test import TestCase
 from django.utils.encoding import force_text

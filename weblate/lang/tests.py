@@ -19,7 +19,6 @@
 #
 
 """Test for language manipulations."""
-from __future__ import unicode_literals
 
 import gettext
 from itertools import chain

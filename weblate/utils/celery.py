@@ -20,7 +20,6 @@
 
 """Whoosh based full text search."""
 
-from __future__ import absolute_import, unicode_literals
 
 import logging
 import os

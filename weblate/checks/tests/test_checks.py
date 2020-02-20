@@ -19,7 +19,6 @@
 #
 
 """Helper for quality checks tests."""
-from __future__ import unicode_literals
 
 import random
 

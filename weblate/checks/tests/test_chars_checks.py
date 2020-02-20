@@ -20,7 +20,6 @@
 
 """Tests for char based quality checks."""
 
-from __future__ import unicode_literals
 
 from unittest import TestCase
 

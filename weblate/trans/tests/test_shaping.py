@@ -20,7 +20,6 @@
 
 """Test for shapings."""
 
-from __future__ import unicode_literals
 
 from weblate.trans.models import Shaping
 from weblate.trans.tests.test_views import ViewTestCase

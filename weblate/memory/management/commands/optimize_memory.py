@@ -18,7 +18,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from __future__ import unicode_literals
 
 from weblate.memory.storage import TranslationMemory
 from weblate.utils.management.base import BaseCommand

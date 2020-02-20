@@ -20,7 +20,6 @@
 
 """Tests for various helper utilities."""
 
-from __future__ import unicode_literals
 
 from django.test import TestCase
 

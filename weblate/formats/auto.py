@@ -19,7 +19,6 @@
 #
 """translate-toolkit based file format wrappers."""
 
-from __future__ import unicode_literals
 
 import os.path
 from fnmatch import fnmatch

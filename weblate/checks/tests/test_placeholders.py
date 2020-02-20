@@ -20,7 +20,6 @@
 
 """Tests for placeholder quality checks."""
 
-from __future__ import unicode_literals
 
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase

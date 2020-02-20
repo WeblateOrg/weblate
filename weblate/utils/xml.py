@@ -19,7 +19,6 @@
 #
 """Git based version control system abstraction for Weblate needs."""
 
-from __future__ import absolute_import, unicode_literals
 
 from lxml import etree
 

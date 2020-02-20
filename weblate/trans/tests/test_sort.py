@@ -20,7 +20,6 @@
 
 """Tests for Unicode sorting."""
 
-from __future__ import unicode_literals
 
 from unittest import SkipTest
 

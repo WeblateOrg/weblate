@@ -19,7 +19,6 @@
 #
 """Mericurial version control system abstraction for Weblate needs."""
 
-from __future__ import unicode_literals
 
 import os
 import os.path
