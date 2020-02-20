@@ -338,6 +338,28 @@ class DictionaryTest(FixtureTestCase):
         unit.source = LONG
         unit.save()
         self.assertEqual(Dictionary.objects.get_words(unit).count(), 0)
+        return unit
+
+    def test_stoplist(self):
+        unit = self.test_get_long()
+        # Add one matching and one not matching terms
+        translation = self.get_translation()
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='the blue',
+            target='modrý',
+        )
+        Dictionary.objects.create(
+            self.user,
+            project=self.project,
+            language=translation.language,
+            source='the red',
+            target='červený',
+        )
+
+        self.assertEqual(Dictionary.objects.get_words(unit).count(), 1)
 
     def test_get_dash(self):
         translation = self.get_translation()

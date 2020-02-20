@@ -28,6 +28,8 @@ from django.db.models.functions import Lower
 from django.urls import reverse
 from six import python_2_unicode_compatible
 from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
+from whoosh.analysis.filters import StopFilter
+from whoosh.lang import NoStopWords
 
 from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
@@ -116,11 +118,17 @@ class DictionaryQuerySet(models.QuerySet):
         words = set()
         source_language = unit.translation.component.project.source_language
 
+        # Filters stop words for a language
+        try:
+            stopfilter = StopFilter(lang=source_language.base_code)
+        except NoStopWords:
+            stopfilter = StopFilter()
+
         # Prepare analyzers
         # - simple analyzer just splits words based on regexp
         # - language analyzer if available (it is for English)
         analyzers = [
-            SimpleAnalyzer(expression=SPLIT_RE, gaps=True),
+            SimpleAnalyzer(expression=SPLIT_RE, gaps=True) | stopfilter,
             LanguageAnalyzer(source_language.base_code),
         ]
 

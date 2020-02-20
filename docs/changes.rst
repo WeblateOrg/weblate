@@ -8,6 +8,7 @@ Not yet released.
 * Fixed minimal versions of some dependecies.
 * Fixed adding groups with certain Django versions.
 * Fixed manual pushing to upstream repository.
+* Improved glossary matching.
 
 Weblate 3.11
 ------------
