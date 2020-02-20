@@ -446,7 +446,7 @@ Regular expression
 ~~~~~~~~~~~~~~~~~~
 
 .. versionadded:: 3.9
-   
+
 Translation does not match regular expression. The expression is either extracted from the
 translation file or defined manually using ``regex`` flag:
 
@@ -486,8 +486,8 @@ The check fails on differing translations of one string within a project. This c
 inconsistencies in displayed checks. You can find other translations of this
 string on the :guilabel:`Other occurences` tab.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`translation-consistency`
 
 .. _check-translated:

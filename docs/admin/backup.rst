@@ -89,10 +89,10 @@ The borg session might look like:
 .. code-block:: console
 
    $ borg list /tmp/xxx
-   Enter passphrase for key /tmp/xxx: 
+   Enter passphrase for key /tmp/xxx:
    2019-09-26T14:56:08                  Thu, 2019-09-26 14:56:08 [de0e0f13643635d5090e9896bdaceb92a023050749ad3f3350e788f1a65576a5]
    $ borg extract /tmp/xxx::2019-09-26T14:56:08
-   Enter passphrase for key /tmp/xxx: 
+   Enter passphrase for key /tmp/xxx:
 
 .. seealso::
 

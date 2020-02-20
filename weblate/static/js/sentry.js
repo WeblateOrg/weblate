@@ -1172,9 +1172,9 @@ var Sentry = (function (exports) {
         return utf8Length(JSON.stringify(value));
     }
     /** JSDoc */
-    function normalizeToSize(object, 
+    function normalizeToSize(object,
     // Default Node.js REPL depth
-    depth, 
+    depth,
     // 100kB, as 200kB is max payload size, so half sounds reasonable
     maxSize) {
         if (depth === void 0) { depth = 3; }

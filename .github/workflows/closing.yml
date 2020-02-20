@@ -3,7 +3,7 @@ name: Issue closed
 on:
   issues:
     types: [closed]
-    
+
 jobs:
   issueClosed:
     runs-on: ubuntu-latest
@@ -26,8 +26,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            Thank you for your report, the issue you have reported has just been fixed. 
+            Thank you for your report, the issue you have reported has just been fixed.
 
-            * In case you see a problem with the fix, please comment on this issue. 
+            * In case you see a problem with the fix, please comment on this issue.
             * In case you see similar problem, please open separate issue.
             * If you are happy with the outcome, consider supporting Weblate by [donating](https://weblate.org/donate/).

@@ -34,8 +34,8 @@ Any file in a supported file format can be uploaded, but it is still
 recommended to use the same file format as the one used for translation, otherwise some
 features might not be translated properly.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`formats`
 
 The uploaded file is merged to update the translation, overwriting existing

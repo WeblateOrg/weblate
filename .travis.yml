@@ -84,21 +84,21 @@ jobs:
       env: CI_DATABASE=sqlite
       before_script: skip
       after_script: skip
-      script: 
+      script:
         - ./manage.py compilemessages
     - stage: "Static analysis"
       name: "Coding style (flake8)"
       env: CI_DATABASE=sqlite
       before_script: skip
       after_script: skip
-      script: 
+      script:
         - flake8
     - stage: "Static analysis"
       name: "Documentation (sphinx)"
       env: CI_DATABASE=sqlite
       before_script: skip
       after_script: skip
-      script: 
+      script:
         - ./ci/run-docs
 
     - stage: "Basic tests"

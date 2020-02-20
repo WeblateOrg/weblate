@@ -38,7 +38,7 @@
 
         _globalCallbacks[keys] = true;
     };
-	
+
 	Mousetrap.prototype.unbindGlobal = function(keys, action) {
 		var self = this;
 		self.unbind(keys, action);

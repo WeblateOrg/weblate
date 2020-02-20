@@ -46,8 +46,8 @@ Here is a list of flags currently accepted:
 ``read-only``
     The string is read only and should not be edited in Weblate, see :ref:`read-only-strings`.
 ``priority:N``
-    Priority of the string. Higher priority strings are presented first to translate. 
-    The default priority is 100, the higher priority string has, the earlier is 
+    Priority of the string. Higher priority strings are presented first to translate.
+    The default priority is 100, the higher priority string has, the earlier is
     offered to translate.
 ``max-length:N``
     Limit maximal length for string to N characters, see :ref:`check-max-length`

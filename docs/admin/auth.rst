@@ -78,8 +78,8 @@ section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
         'weblate.accounts.auth.WeblateUserBackend',
     )
 
-.. seealso:: 
-   
+.. seealso::
+
    :doc:`psa:backends/openid`
 
 .. _github_auth:
@@ -131,8 +131,8 @@ You need to register an application on Bitbucket and then tell Weblate all its s
     SOCIAL_AUTH_BITBUCKET_SECRET = 'Bitbucket Client Secret'
     SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
 
-.. seealso:: 
-   
+.. seealso::
+
    :doc:`psa:backends/bitbucket`
 
 .. _google_auth:
@@ -158,8 +158,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
 
-.. seealso:: 
-   
+.. seealso::
+
    :doc:`psa:backends/google`
 
 .. _facebook_auth:
@@ -184,8 +184,8 @@ Facebook. Once this is done, you can set up Weblate to use it:
     SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
 
-.. seealso:: 
-   
+.. seealso::
+
    :doc:`psa:backends/facebook`
 
 
@@ -217,8 +217,8 @@ ensure you mark the `read_user` scope.
     # If you are using your own GitLab
     # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
 
-.. seealso:: 
-   
+.. seealso::
+
    :doc:`psa:backends/gitlab`
 
 Turning off password authentication

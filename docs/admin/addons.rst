@@ -25,8 +25,8 @@ Automatic translation
 This addon automatically translates strings using machine translation or other
 components.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`auto-translation`,
    :ref:`translation-consistency`
 

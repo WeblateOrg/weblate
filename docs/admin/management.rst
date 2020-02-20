@@ -25,7 +25,7 @@ If you are using virtualenv for Weblate, you can either specify full path to
 :command:`weblate` or activate the virtualenv prior invoking it:
 
 .. code-block:: sh
-   
+
    # Direct invocation
    ~/weblate-env/bin/weblate
 

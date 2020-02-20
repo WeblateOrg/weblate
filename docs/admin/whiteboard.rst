@@ -14,7 +14,7 @@ The whiteboard can currently be specified only in the admin interface:
 The whiteboard messages are then shown based on specified context:
 
 No context specified
-    
+
     Shown on dashboard (landing page).
 
 Project specified

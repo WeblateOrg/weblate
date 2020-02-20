@@ -38,8 +38,8 @@ components. Usually you create one project for one piece of software or book
 
 .. image:: /images/add-project.png
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`project`
 
 .. _bilingual:
@@ -52,8 +52,8 @@ Once you have added a project, you can add translation components to it
 
 .. image:: /images/add-component.png
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`component`,
    :ref:`bimono`
 
@@ -68,7 +68,7 @@ English) (see :ref:`component` for information on individual parameters):
 
 .. image:: /images/add-component-mono.png
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`component`,
    :ref:`bimono`

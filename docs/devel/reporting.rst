@@ -7,7 +7,7 @@ provided. The reporting tool is found in the :guilabel:`Insights` menu of any
 translation component, project or on the dashboard:
 
 .. image:: /images/reporting.png
-    
+
 Several reporting tools are available on this page and all can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for
 embedding statistics into existing documentation, while JSON is useful for further

@@ -248,7 +248,7 @@ Merge style
     This might not be supported for some VCSs. See :ref:`merge-rebase` for
     more details.
 Commit message
-    Message used when committing a translation, see :ref:`markup`, default can be 
+    Message used when committing a translation, see :ref:`markup`, default can be
     changed by :setting:`DEFAULT_COMMIT_MESSAGE`.
 Committer name
     Name of the committer used for Weblate commits, the author will always be the
@@ -276,7 +276,7 @@ Language filter
     (e.g. ``^(cs|de|es)$`` will include only these languages. Please note
     that you need to list language codes as they appear in the filename.
 Shapings regular expression
-    Regular expression used to determine shapings of a string, see 
+    Regular expression used to determine shapings of a string, see
     :ref:`shapings` for more details.
 
 .. note::

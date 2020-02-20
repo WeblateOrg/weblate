@@ -33,5 +33,5 @@ The submitted data include:
 No other data is submitted.
 
 .. hint::
-   
+
    The activation is fully optional, you can still use support services without it.

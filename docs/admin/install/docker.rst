@@ -48,9 +48,9 @@ The following examples assume you have a working Docker environment, with
 
         If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created with
         a random password shown on first startup.
-        
+
         Append ',localhost' to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to access locally for testing.
-        
+
         You may also need to edit the *docker-compose.yml* file and change the
         default port from 80 if you already have a web server running on your
         local machine.
@@ -329,13 +329,13 @@ Generic settings
     .. note::
 
         The format must conform to Django's expectations. Django
-        `transforms <https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest.META>`_ 
+        `transforms <https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest.META>`_
         raw HTTP header names as follows:
-        
+
         - converts all characters to uppercase
         - replaces any hyphens with underscores
         - prepends ``HTTP_`` prefix
-        
+
         So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``.
 
     **Example:**
@@ -460,7 +460,7 @@ Machine translation settings
 
     Enables :ref:`mymemory` machine translation and sets
     :setting:`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`.
-    
+
    **Example:**
 
     .. code-block:: yaml
@@ -709,11 +709,11 @@ instance when running Weblate in Docker.
     The Redis server password, not used by default.
 
 .. envvar:: REDIS_TLS
-   
+
     Enables using SSL for Redis connection.
 
 .. envvar:: REDIS_VERIFY_SSL
-   
+
     Can be used to disable SSL certificate verification for Redis connection.
 
 Email server setup
@@ -840,7 +840,7 @@ configuration, but usually it is stored in
 container it is mounted as :file:`/app/data`.
 
 .. seealso::
-   
+
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
 
 Further configuration customization
@@ -939,7 +939,7 @@ Just add ``WEBLATE_GITLAB_USERNAME``, ``WEBLATE_GITLAB_HOST``and ``WEBLATE_GITLA
   weblate:
     environment:
       WEBLATE_GITLAB_USERNAME: translations_bot
-      WEBLATE_GITLAB_HOST: https://gitlab.example.com 
+      WEBLATE_GITLAB_HOST: https://gitlab.example.com
       WEBLATE_GITLAB_TOKEN: personal_access_token_of_translations_bot
 
 The ``access_token`` passed for lab configuratoin must be same as :setting:`GITLAB_USERNAME`.

@@ -217,7 +217,7 @@ Project
     Project information like instructions for translators, or information about
     its version control system repository.
 
-If the translation format supports it, you can also follow supplied links to respective 
+If the translation format supports it, you can also follow supplied links to respective
 source code containing each source string.
 
 Translation history

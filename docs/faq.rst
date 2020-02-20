@@ -158,8 +158,8 @@ Once you merge changes from Weblate, you might have to merge these branches
 
     git merge -s ours origin/maintenance
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`translation-consistency`
 
 How to translate multi-platform projects?
@@ -173,8 +173,8 @@ Once you have added all platform translation files as components in one project
 feature (turned on by default, and can be turned off in the :ref:`component`) to
 translate strings for all platforms at once.
 
-.. seealso:: 
-   
+.. seealso::
+
    :ref:`translation-consistency`
 
 .. _git-export:

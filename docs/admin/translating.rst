@@ -14,7 +14,7 @@ By default, everyone can add suggestions, which logged in users can
 accept. Requiring more then one person for acceptance can be achieved by suggestion voting.
 You can enable this on :ref:`component` configuration by
 :guilabel:`Suggestion voting` and :guilabel:`Autoaccept suggestions`. The first
-one enables the voting feature, while the latter sets the threshold a suggestion 
+one enables the voting feature, while the latter sets the threshold a suggestion
 is automatically is accepted (this includes a vote from
 the user making the suggestion).
 
@@ -28,7 +28,7 @@ the user making the suggestion).
 You can combine these with :ref:`privileges` into one of the following setups:
 
 * Users suggest and vote for suggestions, a limited group controls what is
-  accepted - turn on voting, but automatic acceptance off, and 
+  accepted - turn on voting, but automatic acceptance off, and
   don't let users save translations.
 * Users suggest and vote for suggestions with automatical acceptance
   once the defined number of them agree - turn on voting and set the desired
@@ -77,7 +77,7 @@ Translation flags
       longer configures only checks, the name was changed to be more generic.
 
 The default set of translation flags is determined by the translation
-:ref:`component` and the translation file. However, you might want to use it 
+:ref:`component` and the translation file. However, you might want to use it
 to customize this per source string.
 
 .. seealso:: :ref:`checks`

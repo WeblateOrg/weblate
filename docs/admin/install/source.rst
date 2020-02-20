@@ -25,7 +25,7 @@ Installing from sources
    .. code-block:: sh
 
         . ~/weblate-env/bin/activate
-        pip install -e weblate-src 
+        pip install -e weblate-src
 
 #. Copy :file:`weblate/settings_example.py` to :file:`weblate/settings.py`.
 

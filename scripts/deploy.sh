@@ -5,4 +5,3 @@ git pull --rebase
 ./manage.py compilemessages
 ./manage.py collectstatic --noinput
 ./manage.py setuplang
-

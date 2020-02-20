@@ -353,7 +353,7 @@ VCS
     View upstream repository location [`Access repository`, `Administration`, `Manage repository`, `Power user`]
     Update the internal repository [`Administration`, `Manage repository`]
 
-Global privileges 
+Global privileges
     Use management interface (global)
     Add language definitions (global)
     Manage language definitions (global)
@@ -364,7 +364,7 @@ Global privileges
     Manage whiteboard (global)
     Manage translation memory (global)
 
-.. note:: 
+.. note::
 
    The global privileges are not granted to any default role. These are
    powerful and they are quite close to the superuser status - most of them can

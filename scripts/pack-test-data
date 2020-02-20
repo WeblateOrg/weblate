@@ -17,14 +17,14 @@ cd ..
 
 # Create test data without VCS metadata
 mkdir test-data
-cd test-base-repo.git 
+cd test-base-repo.git
 git archive master | tar -x -v -f - -C ../test-data
 cd ..
 
 #  Create Mercurial repo with same content as Git
-cp -r test-data test-base-repo.hg 
+cp -r test-data test-base-repo.hg
 cd test-base-repo.hg
-hg init . 
+hg init .
 hg add .
 hg commit --date 2019-01-01 -m 'Import git files
 

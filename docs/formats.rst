@@ -977,7 +977,7 @@ Currently it is known to be compatible with following tools:
 * `F-Droid <https://f-droid.org/docs/All_About_Descriptions_Graphics_and_Screenshots/>`_
 
 The metadata consist of several text files which Weblate will present as
-separate strings to translate. 
+separate strings to translate.
 
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |

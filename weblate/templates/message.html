@@ -1,4 +1,4 @@
-<div 
+<div
     class="alert alert-{% block tags %}{% if "error" in tags%}danger {{ tags }}{% else %}{{ tags }}{% endif %}{% endblock %}"
 {% if can_delete and whiteboard %}
     data-action="{% url 'whiteboard-delete' pk=whiteboard.pk %}"
