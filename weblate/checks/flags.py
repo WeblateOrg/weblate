@@ -123,8 +123,7 @@ class Flags(object):
                 yield "font-weight:{}".format(font[2].strip())
         text = flags.get("weblate-flags")
         if text:
-            for flag in cls.parse(text):
-                yield flag
+            yield from cls.parse(text)
 
     def has_value(self, key):
         return key in self._values

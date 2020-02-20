@@ -45,10 +45,11 @@ class BaseCleanupAddon(UpdateBaseAddon):
 
     @staticmethod
     def iterate_translations(component):
-        for translation in component.translation_set.iterator():
-            if translation.is_source:
-                continue
-            yield translation
+        yield from (
+            translation
+            for translation in component.translation_set.iterator()
+            if not translation.is_source
+        )
 
     @classmethod
     def can_install(cls, component, user):
