@@ -22,7 +22,6 @@
 
 import unicodedata
 
-import six
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
@@ -678,4 +677,4 @@ def get_special_chars(language, additional='', source=''):  # noqa: C901
                 yield format_char(char)
 
 
-RTL_CHARS_DATA = [format_char(six.unichr(c)) for c in RTL_CHARS]
+RTL_CHARS_DATA = [format_char(chr(c)) for c in RTL_CHARS]

@@ -23,7 +23,6 @@
 
 from unittest import TestCase
 
-import six
 from django.test.utils import override_settings
 
 from weblate.lang.models import Language
@@ -54,7 +53,7 @@ class SpecialCharsTest(TestCase):
         chars = list(get_special_chars(Language(code='brx'), 'ahoj'))
         self.assertEqual(len(chars), 13)
 
-    @override_settings(SPECIAL_CHARS=[six.unichr(x) for x in range(256)])
+    @override_settings(SPECIAL_CHARS=[chr(x) for x in range(256)])
     def test_settings(self):
         chars = list(get_special_chars(Language(code='cs')))
         self.assertEqual(len(chars), 262)
