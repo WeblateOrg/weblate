@@ -21,8 +21,8 @@
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_text
-from django.utils.translation import ugettext as _
-from django.utils.translation import ungettext
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.lang.models import Language
@@ -147,7 +147,7 @@ def upload_translation(request, project, component, lang):
         if total == 0:
             message = _("No strings were imported from the uploaded file.")
         else:
-            message = ungettext(
+            message = ngettext(
                 "Processed {0} string from the uploaded files "
                 "(skipped: {1}, not found: {2}, updated: {3}).",
                 "Processed {0} strings from the uploaded files "

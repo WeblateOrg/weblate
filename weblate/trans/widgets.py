@@ -29,9 +29,9 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.formats import number_format
 from django.utils.html import escape
-from django.utils.translation import get_language, npgettext, pgettext
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import get_language
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy, npgettext, pgettext
 
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.utils.site import get_site_url
@@ -242,7 +242,7 @@ class NormalWidget(BitmapWidget):
     name = '287x66'
     order = 110
     offset = 10
-    verbose = ugettext_lazy('Big status badge')
+    verbose = gettext_lazy('Big status badge')
 
     def get_columns(self):
         return [
@@ -278,7 +278,7 @@ class SmallWidget(BitmapWidget):
     name = '88x31'
     order = 111
     font_size = 7
-    verbose = ugettext_lazy('Small status badge')
+    verbose = gettext_lazy('Small status badge')
 
     def get_columns(self):
         return [
@@ -300,7 +300,7 @@ class OpenGraphWidget(NormalWidget):
     column_offset = 265
     head_template = '<span letter_spacing="-1000">{}</span>'
     foot_template = '<span letter_spacing="2000">{}</span>'
-    verbose = ugettext_lazy('Open Graph image')
+    verbose = gettext_lazy('Open Graph image')
 
     def get_column_width(self, surface, columns):
         return 230
@@ -357,7 +357,7 @@ class SVGBadgeWidget(SVGWidget):
     colors = ('badge',)
     order = 80
     template_name = 'badge.svg'
-    verbose = ugettext_lazy('Status badge')
+    verbose = gettext_lazy('Status badge')
 
     def render(self, response):
         translated_text = _('translated')
@@ -407,7 +407,7 @@ class MultiLanguageWidget(SVGWidget):
     order = 81
     colors = ('auto', 'red', 'green', 'blue')
     template_name = 'multi-language-badge.svg'
-    verbose = ugettext_lazy('Vertical multi language status widget')
+    verbose = gettext_lazy('Vertical multi language status widget')
 
     COLOR_MAP = {'red': '#fa3939', 'green': '#3fed48', 'blue': '#3f85ed', 'auto': None}
 
@@ -469,4 +469,4 @@ class HorizontalMultiLanguageWidget(MultiLanguageWidget):
     name = 'horizontal'
     order = 82
     template_name = 'multi-language-badge-horizontal.svg'
-    verbose = ugettext_lazy('Horizontal multi language status widget')
+    verbose = gettext_lazy('Horizontal multi language status widget')

@@ -22,7 +22,7 @@
 import re
 
 from django.utils.html import strip_tags
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import SAME_BLACKLIST

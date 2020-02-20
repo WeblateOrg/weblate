@@ -24,7 +24,7 @@ import re
 from io import BytesIO, StringIO
 from zipfile import BadZipFile
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from openpyxl import Workbook, load_workbook
 from openpyxl.cell.cell import TYPE_STRING
 from translate.storage.csvl10n import csv

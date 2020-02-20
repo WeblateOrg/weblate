@@ -23,7 +23,7 @@ import re
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.http import urlencode
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from weblate.legal.models import Agreement
 from weblate.utils import messages

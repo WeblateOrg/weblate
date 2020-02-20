@@ -21,8 +21,8 @@
 
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
+from django.utils.translation import gettext as _
 from django.utils.translation import override
-from django.utils.translation import ugettext as _
 
 from weblate.utils.site import get_site_url
 

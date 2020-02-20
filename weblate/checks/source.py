@@ -22,7 +22,7 @@
 import re
 
 from django.db.models import Count, F
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import SourceCheck
 

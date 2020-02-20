@@ -26,7 +26,7 @@ from zipfile import ZipFile
 
 from django.conf import settings
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
 from weblate.utils.xml import parse_xml
@@ -634,7 +634,7 @@ class GithubRepository(GitMergeRequestBase):
 class LocalRepository(GitRepository):
     """Local filesystem driver with no upstream repo."""
 
-    name = ugettext_lazy('No remote repository')
+    name = gettext_lazy('No remote repository')
 
     @staticmethod
     def get_identifier():
@@ -767,7 +767,7 @@ class GitLabRepository(GitMergeRequestBase):
 
 
 class GitForcePushRepository(GitRepository):
-    name = ugettext_lazy('Git with force push')
+    name = gettext_lazy('Git with force push')
 
     @staticmethod
     def get_identifier():

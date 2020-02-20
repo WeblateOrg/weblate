@@ -24,8 +24,8 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import ugettext as _
-from django.utils.translation import ungettext
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
@@ -134,7 +134,7 @@ def search_replace(request, project, component=None, lang=None):
         request,
         updated,
         _('Search and replace completed, no strings were updated.'),
-        ungettext(
+        ngettext(
             'Search and replace completed, %d string was updated.',
             'Search and replace completed, %d strings were updated.',
             updated,
@@ -239,7 +239,7 @@ def bulk_edit(request, project, component=None, lang=None):
         request,
         updated,
         _('Bulk edit completed, no strings were updated.'),
-        ungettext(
+        ngettext(
             'Bulk edit completed, %d string was updated.',
             'Bulk edit completed, %d strings were updated.',
             updated,

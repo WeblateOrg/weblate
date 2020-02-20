@@ -19,7 +19,7 @@
 #
 
 from django.contrib import admin
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.auth.models import User
 from weblate.trans.models import AutoComponentList, Translation, Unit

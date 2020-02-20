@@ -22,48 +22,48 @@
 from django.db import models
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 
 
 class Label(models.Model):
     project = models.ForeignKey("Project", on_delete=models.deletion.CASCADE)
-    name = models.CharField(verbose_name=ugettext_lazy("Label name"), max_length=190)
+    name = models.CharField(verbose_name=gettext_lazy("Label name"), max_length=190)
     color = models.CharField(
-        verbose_name=ugettext_lazy("Color"),
+        verbose_name=gettext_lazy("Color"),
         max_length=30,
         choices=(
             # Translators: Name of a color
-            ("navy", ugettext_lazy("Navy")),
+            ("navy", gettext_lazy("Navy")),
             # Translators: Name of a color
-            ("blue", ugettext_lazy("Blue")),
+            ("blue", gettext_lazy("Blue")),
             # Translators: Name of a color
-            ("aqua", ugettext_lazy("Aqua")),
+            ("aqua", gettext_lazy("Aqua")),
             # Translators: Name of a color
-            ("teal", ugettext_lazy("Teal")),
+            ("teal", gettext_lazy("Teal")),
             # Translators: Name of a color
-            ("olive", ugettext_lazy("Olive")),
+            ("olive", gettext_lazy("Olive")),
             # Translators: Name of a color
-            ("green", ugettext_lazy("Green")),
+            ("green", gettext_lazy("Green")),
             # Translators: Name of a color
-            ("lime", ugettext_lazy("Lime")),
+            ("lime", gettext_lazy("Lime")),
             # Translators: Name of a color
-            ("yellow", ugettext_lazy("Yellow")),
+            ("yellow", gettext_lazy("Yellow")),
             # Translators: Name of a color
-            ("orange", ugettext_lazy("Orange")),
+            ("orange", gettext_lazy("Orange")),
             # Translators: Name of a color
-            ("red", ugettext_lazy("Red")),
+            ("red", gettext_lazy("Red")),
             # Translators: Name of a color
-            ("maroon", ugettext_lazy("Maroon")),
+            ("maroon", gettext_lazy("Maroon")),
             # Translators: Name of a color
-            ("fuchsia", ugettext_lazy("Fuchsia")),
+            ("fuchsia", gettext_lazy("Fuchsia")),
             # Translators: Name of a color
-            ("purple", ugettext_lazy("Purple")),
+            ("purple", gettext_lazy("Purple")),
             # Translators: Name of a color
-            ("black", ugettext_lazy("Black")),
+            ("black", gettext_lazy("Black")),
             # Translators: Name of a color
-            ("gray", ugettext_lazy("Gray")),
+            ("gray", gettext_lazy("Gray")),
             # Translators: Name of a color
-            ("silver", ugettext_lazy("Silver")),
+            ("silver", gettext_lazy("Silver")),
         ),
         blank=False,
         default=None,

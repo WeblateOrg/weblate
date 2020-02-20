@@ -32,8 +32,8 @@ from django.db.models import Q
 from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
 from django.utils.html import escape
+from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext
-from django.utils.translation import ugettext_lazy as _
 
 from weblate.accounts.auth import try_get_user
 from weblate.accounts.captcha import MathCaptcha

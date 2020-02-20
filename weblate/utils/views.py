@@ -28,7 +28,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
 from django.utils.translation import activate
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic.edit import FormView
 
 from weblate.formats.exporters import get_exporter

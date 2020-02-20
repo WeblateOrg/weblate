@@ -24,7 +24,7 @@ import os
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.utils import find_command
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
 from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD, EVENT_PRE_COMMIT

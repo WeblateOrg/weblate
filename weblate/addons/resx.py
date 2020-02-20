@@ -19,7 +19,7 @@
 #
 
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from translate.storage.resx import RESXFile
 
 from weblate.addons.cleanup import BaseCleanupAddon

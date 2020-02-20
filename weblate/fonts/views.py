@@ -22,7 +22,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import DetailView, ListView
 
 from weblate.fonts.forms import FontForm, FontGroupForm, FontOverrideForm

@@ -28,8 +28,8 @@ from django.db import models
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
@@ -53,58 +53,58 @@ class Project(models.Model, URLMixin, PathMixin):
     ACCESS_CUSTOM = 200
 
     ACCESS_CHOICES = (
-        (ACCESS_PUBLIC, ugettext_lazy('Public')),
-        (ACCESS_PROTECTED, ugettext_lazy('Protected')),
-        (ACCESS_PRIVATE, ugettext_lazy('Private')),
-        (ACCESS_CUSTOM, ugettext_lazy('Custom')),
+        (ACCESS_PUBLIC, gettext_lazy('Public')),
+        (ACCESS_PROTECTED, gettext_lazy('Protected')),
+        (ACCESS_PRIVATE, gettext_lazy('Private')),
+        (ACCESS_CUSTOM, gettext_lazy('Custom')),
     )
 
     name = models.CharField(
-        verbose_name=ugettext_lazy('Project name'),
+        verbose_name=gettext_lazy('Project name'),
         max_length=PROJECT_NAME_LENGTH,
         unique=True,
-        help_text=ugettext_lazy('Display name'),
+        help_text=gettext_lazy('Display name'),
     )
     slug = models.SlugField(
-        verbose_name=ugettext_lazy('URL slug'),
+        verbose_name=gettext_lazy('URL slug'),
         unique=True,
         max_length=PROJECT_NAME_LENGTH,
-        help_text=ugettext_lazy('Name used in URLs and filenames.'),
+        help_text=gettext_lazy('Name used in URLs and filenames.'),
     )
     web = models.URLField(
-        verbose_name=ugettext_lazy('Project website'),
-        help_text=ugettext_lazy('Main website of translated project.'),
+        verbose_name=gettext_lazy('Project website'),
+        help_text=gettext_lazy('Main website of translated project.'),
     )
     mail = models.EmailField(
-        verbose_name=ugettext_lazy('Mailing list'),
+        verbose_name=gettext_lazy('Mailing list'),
         blank=True,
         max_length=254,
-        help_text=ugettext_lazy('Mailing list for translators.'),
+        help_text=gettext_lazy('Mailing list for translators.'),
     )
     instructions = models.TextField(
-        verbose_name=ugettext_lazy('Translation instructions'),
+        verbose_name=gettext_lazy('Translation instructions'),
         blank=True,
         help_text=_('You can use Markdown and mention users by @username.'),
     )
 
     set_language_team = models.BooleanField(
-        verbose_name=ugettext_lazy('Set \"Language-Team\" header'),
+        verbose_name=gettext_lazy('Set \"Language-Team\" header'),
         default=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             'Lets Weblate update the \"Language-Team\" file header ' 'of your project.'
         ),
     )
     use_shared_tm = models.BooleanField(
-        verbose_name=ugettext_lazy('Use shared translation memory'),
+        verbose_name=gettext_lazy('Use shared translation memory'),
         default=settings.DEFAULT_SHARED_TM,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             'Uses the pool of shared translations between projects.'
         ),
     )
     contribute_shared_tm = models.BooleanField(
-        verbose_name=ugettext_lazy('Contribute to shared translation memory'),
+        verbose_name=gettext_lazy('Contribute to shared translation memory'),
         default=settings.DEFAULT_SHARED_TM,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             'Contributes to the pool of shared translations between projects.'
         ),
     )
@@ -112,29 +112,27 @@ class Project(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_ACCESS_CONTROL,
         choices=ACCESS_CHOICES,
         verbose_name=_('Access control'),
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             'How to restrict access to this project is detailed '
             'in the documentation.'
         ),
     )
     enable_review = models.BooleanField(
-        verbose_name=ugettext_lazy('Enable reviews'),
+        verbose_name=gettext_lazy('Enable reviews'),
         default=False,
-        help_text=ugettext_lazy(
-            'Requires dedicated reviewers to approve translations.'
-        ),
+        help_text=gettext_lazy('Requires dedicated reviewers to approve translations.'),
     )
     enable_hooks = models.BooleanField(
-        verbose_name=ugettext_lazy('Enable hooks'),
+        verbose_name=gettext_lazy('Enable hooks'),
         default=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             'Whether to allow updating this repository by remote hooks.'
         ),
     )
     source_language = models.ForeignKey(
         Language,
-        verbose_name=ugettext_lazy('Source language'),
-        help_text=ugettext_lazy('Language used for source strings in all components'),
+        verbose_name=gettext_lazy('Source language'),
+        help_text=gettext_lazy('Language used for source strings in all components'),
         default=get_english_lang,
         on_delete=models.deletion.CASCADE,
     )
@@ -146,8 +144,8 @@ class Project(models.Model, URLMixin, PathMixin):
 
     class Meta(object):
         app_label = 'trans'
-        verbose_name = ugettext_lazy('Project')
-        verbose_name_plural = ugettext_lazy('Projects')
+        verbose_name = gettext_lazy('Project')
+        verbose_name_plural = gettext_lazy('Projects')
 
     def __init__(self, *args, **kwargs):
         super(Project, self).__init__(*args, **kwargs)

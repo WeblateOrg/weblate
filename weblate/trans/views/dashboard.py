@@ -26,7 +26,7 @@ from django.urls import reverse
 from django.utils import translation
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.utils.translation.trans_real import parse_accept_lang_header
 from django.views.decorators.cache import never_cache
 

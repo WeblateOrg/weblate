@@ -33,9 +33,8 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.safestring import mark_safe
-from django.utils.translation import pgettext_lazy
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy, pgettext_lazy
 
 from weblate.lang import data
 from weblate.langdata.aliases import ALIASES
@@ -377,23 +376,23 @@ def setup_lang(sender, **kwargs):
 
 
 class Language(models.Model):
-    code = models.SlugField(unique=True, verbose_name=ugettext_lazy('Language code'))
-    name = models.CharField(max_length=100, verbose_name=ugettext_lazy('Language name'))
+    code = models.SlugField(unique=True, verbose_name=gettext_lazy('Language code'))
+    name = models.CharField(max_length=100, verbose_name=gettext_lazy('Language name'))
     direction = models.CharField(
-        verbose_name=ugettext_lazy('Text direction'),
+        verbose_name=gettext_lazy('Text direction'),
         max_length=3,
         default='ltr',
         choices=(
-            ('ltr', ugettext_lazy('Left to right')),
-            ('rtl', ugettext_lazy('Right to left')),
+            ('ltr', gettext_lazy('Left to right')),
+            ('rtl', gettext_lazy('Right to left')),
         ),
     )
 
     objects = LanguageQuerySet.as_manager()
 
     class Meta(object):
-        verbose_name = ugettext_lazy('Language')
-        verbose_name_plural = ugettext_lazy('Languages')
+        verbose_name = gettext_lazy('Language')
+        verbose_name_plural = gettext_lazy('Languages')
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -493,27 +492,27 @@ class Plural(models.Model):
     SOURCE_MANUAL = 2
     source = models.SmallIntegerField(
         default=SOURCE_DEFAULT,
-        verbose_name=ugettext_lazy('Plural definition source'),
+        verbose_name=gettext_lazy('Plural definition source'),
         choices=(
-            (SOURCE_DEFAULT, ugettext_lazy('Default plural')),
-            (SOURCE_GETTEXT, ugettext_lazy('Plural gettext formula')),
-            (SOURCE_MANUAL, ugettext_lazy('Manually entered formula')),
+            (SOURCE_DEFAULT, gettext_lazy('Default plural')),
+            (SOURCE_GETTEXT, gettext_lazy('Plural gettext formula')),
+            (SOURCE_MANUAL, gettext_lazy('Manually entered formula')),
         ),
     )
     number = models.SmallIntegerField(
-        default=2, verbose_name=ugettext_lazy('Number of plurals')
+        default=2, verbose_name=gettext_lazy('Number of plurals')
     )
     equation = models.CharField(
         max_length=600,
         default='n != 1',
         validators=[validate_pluraleq],
         blank=False,
-        verbose_name=ugettext_lazy('Plural equation'),
+        verbose_name=gettext_lazy('Plural equation'),
     )
     type = models.IntegerField(
         choices=PLURAL_CHOICES,
         default=data.PLURAL_ONE_OTHER,
-        verbose_name=ugettext_lazy('Plural type'),
+        verbose_name=gettext_lazy('Plural type'),
         editable=False,
     )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
@@ -521,8 +520,8 @@ class Plural(models.Model):
     objects = PluralQuerySet.as_manager()
 
     class Meta(object):
-        verbose_name = ugettext_lazy('Plural form')
-        verbose_name_plural = ugettext_lazy('Plural forms')
+        verbose_name = gettext_lazy('Plural form')
+        verbose_name_plural = gettext_lazy('Plural forms')
 
     def __str__(self):
         return self.get_type_display()

@@ -25,7 +25,7 @@ from itertools import chain
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 
 from weblate.addons.events import (
     EVENT_COMPONENT_UPDATE,

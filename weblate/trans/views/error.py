@@ -22,7 +22,7 @@
 import django.views.defaults
 from django.conf import settings
 from django.middleware.csrf import REASON_NO_CSRF_COOKIE, REASON_NO_REFERER
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from sentry_sdk import last_event_id
 
 from weblate.trans.util import render

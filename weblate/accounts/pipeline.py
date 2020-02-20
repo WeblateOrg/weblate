@@ -29,7 +29,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.http import is_safe_url
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
 

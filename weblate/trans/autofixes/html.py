@@ -20,7 +20,7 @@
 
 
 import bleach
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.trans.autofixes.base import AutoFix
 from weblate.utils.html import extract_bleach

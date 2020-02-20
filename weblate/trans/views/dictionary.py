@@ -26,8 +26,8 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.http import urlencode
-from django.utils.translation import ugettext as _
-from django.utils.translation import ungettext
+from django.utils.translation import gettext as _
+from django.utils.translation import ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
@@ -154,7 +154,7 @@ def upload_dictionary(request, project, lang):
                 request,
                 count,
                 _('No words to import found in file.'),
-                ungettext(
+                ngettext(
                     'Imported %d word from the uploaded file.',
                     'Imported %d words from the uploaded file.',
                     count,

@@ -23,14 +23,14 @@
 import unicodedata
 
 from django.conf import settings
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 # Names of hardcoded characters
 CHAR_NAMES = {
-    '\t': ugettext_lazy('Insert tab character'),
-    '\n': ugettext_lazy('Insert new line'),
-    '…': ugettext_lazy('Insert horizontal ellipsis'),
+    '\t': gettext_lazy('Insert tab character'),
+    '\n': gettext_lazy('Insert new line'),
+    '…': gettext_lazy('Insert horizontal ellipsis'),
 }
 DISPLAY_CHARS = {'\t': '↹', '\n': '↵'}
 

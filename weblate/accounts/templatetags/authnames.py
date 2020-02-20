@@ -23,7 +23,7 @@ from django import template
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext_lazy
 
 register = template.Library()
 
@@ -35,8 +35,8 @@ SOCIALS = {
     'google': {'name': 'Google', 'image': 'google.svg'},
     'google-oauth2': {'name': 'Google', 'image': 'google.svg'},
     'google-plus': {'name': 'Google+', 'image': 'google.svg'},
-    'password': {'name': ugettext_lazy('Password'), 'image': 'password.svg'},
-    'email': {'name': ugettext_lazy('E-mail'), 'image': 'email.svg'},
+    'password': {'name': gettext_lazy('Password'), 'image': 'password.svg'},
+    'email': {'name': gettext_lazy('E-mail'), 'image': 'email.svg'},
     'ubuntu': {'name': 'Ubuntu', 'image': 'ubuntu.svg'},
     'opensuse': {'name': 'openSUSE', 'image': 'opensuse.svg'},
     'fedora': {'name': 'Fedora', 'image': 'fedora.svg'},

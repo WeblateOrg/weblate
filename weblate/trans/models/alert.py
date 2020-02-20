@@ -24,7 +24,7 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.utils.fields import JSONField

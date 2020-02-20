@@ -20,7 +20,7 @@
 
 
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_UPDATE

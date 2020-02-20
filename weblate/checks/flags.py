@@ -19,8 +19,8 @@
 #
 
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 from weblate.checks import CHECKS
 from weblate.fonts.utils import get_font_weight
@@ -35,27 +35,27 @@ TYPED_FLAGS_ARGS = {
     v.enable_string: v.param_type for k, v in CHECKS.items() if v.param_type
 }
 
-PLAIN_FLAGS["rst-text"] = ugettext_lazy("RST text")
-PLAIN_FLAGS["md-text"] = ugettext_lazy("Markdown text")
-PLAIN_FLAGS["xml-text"] = ugettext_lazy("XML text")
-PLAIN_FLAGS["dos-eol"] = ugettext_lazy("DOS line endings")
-PLAIN_FLAGS["url"] = ugettext_lazy("URL")
-PLAIN_FLAGS["auto-java-messageformat"] = ugettext_lazy(
+PLAIN_FLAGS["rst-text"] = gettext_lazy("RST text")
+PLAIN_FLAGS["md-text"] = gettext_lazy("Markdown text")
+PLAIN_FLAGS["xml-text"] = gettext_lazy("XML text")
+PLAIN_FLAGS["dos-eol"] = gettext_lazy("DOS line endings")
+PLAIN_FLAGS["url"] = gettext_lazy("URL")
+PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
     "Automatically detect Java MessageFormat"
 )
-PLAIN_FLAGS["read-only"] = ugettext_lazy("Read only")
+PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
 
-TYPED_FLAGS["font-family"] = ugettext_lazy("Font family")
+TYPED_FLAGS["font-family"] = gettext_lazy("Font family")
 TYPED_FLAGS_ARGS["font-family"] = str
-TYPED_FLAGS["font-size"] = ugettext_lazy("Font size")
+TYPED_FLAGS["font-size"] = gettext_lazy("Font size")
 TYPED_FLAGS_ARGS["font-size"] = int
-TYPED_FLAGS["font-weight"] = ugettext_lazy("Font weight")
+TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
 TYPED_FLAGS_ARGS["font-weight"] = get_font_weight
-TYPED_FLAGS["font-spacing"] = ugettext_lazy("Font spacing")
+TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
 TYPED_FLAGS_ARGS["font-spacing"] = int
-TYPED_FLAGS["priority"] = ugettext_lazy("Priority")
+TYPED_FLAGS["priority"] = gettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = int
-TYPED_FLAGS["max-length"] = ugettext_lazy("Maximum length of translation")
+TYPED_FLAGS["max-length"] = gettext_lazy("Maximum length of translation")
 TYPED_FLAGS_ARGS["max-length"] = int
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}

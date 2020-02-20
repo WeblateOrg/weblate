@@ -39,8 +39,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.functional import cached_property
-from django.utils.translation import ugettext as _
-from django.utils.translation import ugettext_lazy, ungettext
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy, ngettext
 
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
@@ -101,23 +101,23 @@ from weblate.vcs.ssh import add_host_key
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
-    ("contact", ugettext_lazy("Contact maintainers")),
+    ("contact", gettext_lazy("Contact maintainers")),
     # Translators: Action when adding new translation
-    ("url", ugettext_lazy("Point to translation instructions URL")),
+    ("url", gettext_lazy("Point to translation instructions URL")),
     # Translators: Action when adding new translation
-    ("add", ugettext_lazy("Create new language file")),
+    ("add", gettext_lazy("Create new language file")),
     # Translators: Action when adding new translation
-    ("none", ugettext_lazy("Disable adding new translations")),
+    ("none", gettext_lazy("Disable adding new translations")),
 )
 LANGUAGE_CODE_STYLE_CHOICES = (
-    ("", ugettext_lazy("Default based on the file format")),
-    ("posix", ugettext_lazy("POSIX style using underscore as a separator")),
-    ("bcp", ugettext_lazy("BCP style using hyphen as a separator")),
-    ("android", ugettext_lazy("Android style")),
-    ("java", ugettext_lazy("Java style")),
+    ("", gettext_lazy("Default based on the file format")),
+    ("posix", gettext_lazy("POSIX style using underscore as a separator")),
+    ("bcp", gettext_lazy("BCP style using hyphen as a separator")),
+    ("android", gettext_lazy("Android style")),
+    ("java", gettext_lazy("Java style")),
 )
 
-MERGE_CHOICES = (("merge", ugettext_lazy("Merge")), ("rebase", ugettext_lazy("Rebase")))
+MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
 
 
 def perform_on_link(func):
@@ -162,24 +162,24 @@ class ComponentQuerySet(models.QuerySet):
 
 class Component(models.Model, URLMixin, PathMixin):
     name = models.CharField(
-        verbose_name=ugettext_lazy("Component name"),
+        verbose_name=gettext_lazy("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=ugettext_lazy("Display name"),
+        help_text=gettext_lazy("Display name"),
     )
     slug = models.SlugField(
-        verbose_name=ugettext_lazy("URL slug"),
+        verbose_name=gettext_lazy("URL slug"),
         max_length=COMPONENT_NAME_LENGTH,
-        help_text=ugettext_lazy("Name used in URLs and filenames."),
+        help_text=gettext_lazy("Name used in URLs and filenames."),
     )
     project = models.ForeignKey(
         "Project",
-        verbose_name=ugettext_lazy("Project"),
+        verbose_name=gettext_lazy("Project"),
         on_delete=models.deletion.CASCADE,
     )
     vcs = models.CharField(
-        verbose_name=ugettext_lazy("Version control system"),
+        verbose_name=gettext_lazy("Version control system"),
         max_length=20,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Version control system to use to access your "
             "repository containing translations. You can also choose "
             "additional integration with third party providers to "
@@ -189,31 +189,31 @@ class Component(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_VCS,
     )
     repo = models.CharField(
-        verbose_name=ugettext_lazy("Source code repository"),
+        verbose_name=gettext_lazy("Source code repository"),
         max_length=REPO_LENGTH,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "URL of a repository, use weblate://project/component "
             "to share it with other component."
         ),
     )
     linked_component = models.ForeignKey(
         "Component",
-        verbose_name=ugettext_lazy("Project"),
+        verbose_name=gettext_lazy("Project"),
         on_delete=models.deletion.CASCADE,
         null=True,
         editable=False,
     )
     push = models.CharField(
-        verbose_name=ugettext_lazy("Repository push URL"),
+        verbose_name=gettext_lazy("Repository push URL"),
         max_length=REPO_LENGTH,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "URL of a push repository, pushing is turned off if empty."
         ),
         blank=True,
     )
     repoweb = models.URLField(
-        verbose_name=ugettext_lazy("Repository browser"),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy("Repository browser"),
+        help_text=gettext_lazy(
             "Link to repository browser, use {{branch}} for branch, "
             "{{filename}} and {{line}} as filename and line placeholders."
         ),
@@ -221,16 +221,16 @@ class Component(models.Model, URLMixin, PathMixin):
         blank=True,
     )
     git_export = models.CharField(
-        verbose_name=ugettext_lazy("Exported repository URL"),
+        verbose_name=gettext_lazy("Exported repository URL"),
         max_length=60 + PROJECT_NAME_LENGTH + COMPONENT_NAME_LENGTH,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "URL of repository where users can fetch changes from Weblate"
         ),
         blank=True,
     )
     report_source_bugs = models.EmailField(
-        verbose_name=ugettext_lazy("Source string bug reporting address"),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy("Source string bug reporting address"),
+        help_text=gettext_lazy(
             "E-mail address for reports on errors in source strings. "
             "Leave empty for no e-mails."
         ),
@@ -238,27 +238,27 @@ class Component(models.Model, URLMixin, PathMixin):
         blank=True,
     )
     branch = models.CharField(
-        verbose_name=ugettext_lazy("Repository branch"),
+        verbose_name=gettext_lazy("Repository branch"),
         max_length=REPO_LENGTH,
-        help_text=ugettext_lazy("Repository branch to translate"),
+        help_text=gettext_lazy("Repository branch to translate"),
         default="",
         blank=True,
     )
     filemask = models.CharField(
-        verbose_name=ugettext_lazy("Filemask"),
+        verbose_name=gettext_lazy("Filemask"),
         max_length=FILENAME_LENGTH,
         validators=[validate_filemask, validate_filename],
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Path of files to translate relative to repository root,"
             " use * instead of language code, "
             "for example: po/*.po or locale/*/LC_MESSAGES/django.po."
         ),
     )
     template = models.CharField(
-        verbose_name=ugettext_lazy("Monolingual base language file"),
+        verbose_name=gettext_lazy("Monolingual base language file"),
         max_length=FILENAME_LENGTH,
         blank=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Filename of translation base file, containing all strings "
             "and their source; it is recommended "
             "for monolingual translation formats."
@@ -266,69 +266,69 @@ class Component(models.Model, URLMixin, PathMixin):
         validators=[validate_filename],
     )
     edit_template = models.BooleanField(
-        verbose_name=ugettext_lazy("Edit base file"),
+        verbose_name=gettext_lazy("Edit base file"),
         default=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Whether users will be able to edit the base file "
             "for monolingual translations."
         ),
     )
     new_base = models.CharField(
-        verbose_name=ugettext_lazy("Template for new translations"),
+        verbose_name=gettext_lazy("Template for new translations"),
         max_length=FILENAME_LENGTH,
         blank=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Filename of file used for creating new translations. "
             "For gettext choose .pot file."
         ),
         validators=[validate_filename],
     )
     file_format = models.CharField(
-        verbose_name=ugettext_lazy("File format"),
+        verbose_name=gettext_lazy("File format"),
         max_length=50,
         default="",
         choices=FILE_FORMATS.get_choices(empty=True),
     )
 
     locked = models.BooleanField(
-        verbose_name=ugettext_lazy("Locked"),
+        verbose_name=gettext_lazy("Locked"),
         default=False,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Locked component will not get any translation updates."
         ),
     )
     allow_translation_propagation = models.BooleanField(
-        verbose_name=ugettext_lazy("Allow translation propagation"),
+        verbose_name=gettext_lazy("Allow translation propagation"),
         default=settings.DEFAULT_TRANSLATION_PROPAGATION,
         db_index=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Whether translation updates in other components "
             "will cause automatic translation in this one"
         ),
     )
     enable_suggestions = models.BooleanField(
-        verbose_name=ugettext_lazy("Turn on suggestions"),
+        verbose_name=gettext_lazy("Turn on suggestions"),
         default=True,
-        help_text=ugettext_lazy("Whether to allow translation suggestions at all."),
+        help_text=gettext_lazy("Whether to allow translation suggestions at all."),
     )
     suggestion_voting = models.BooleanField(
-        verbose_name=ugettext_lazy("Suggestion voting"),
+        verbose_name=gettext_lazy("Suggestion voting"),
         default=False,
-        help_text=ugettext_lazy("Whether users can vote for suggestions."),
+        help_text=gettext_lazy("Whether users can vote for suggestions."),
     )
     suggestion_autoaccept = models.PositiveSmallIntegerField(
-        verbose_name=ugettext_lazy("Autoaccept suggestions"),
+        verbose_name=gettext_lazy("Autoaccept suggestions"),
         default=0,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Automatically accept suggestions with this number of votes,"
             " use 0 to turn it off."
         ),
         validators=[validate_autoaccept],
     )
     check_flags = models.TextField(
-        verbose_name=ugettext_lazy("Translation flags"),
+        verbose_name=gettext_lazy("Translation flags"),
         default="",
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Additional comma-separated flags to influence quality checks. "
             "Possible values can be found in the documentation."
         ),
@@ -336,25 +336,25 @@ class Component(models.Model, URLMixin, PathMixin):
         blank=True,
     )
     enforced_checks = JSONField(
-        verbose_name=ugettext_lazy("Enforced checks"),
-        help_text=ugettext_lazy("List of checks which can not be ignored."),
+        verbose_name=gettext_lazy("Enforced checks"),
+        help_text=gettext_lazy("List of checks which can not be ignored."),
         default=[],
         blank=True,
     )
 
     # Licensing
     license = models.CharField(
-        verbose_name=ugettext_lazy("Translation license"),
+        verbose_name=gettext_lazy("Translation license"),
         max_length=150,
         blank=not settings.LICENSE_REQUIRED,
         default="",
         choices=get_license_choices(),
     )
     agreement = models.TextField(
-        verbose_name=ugettext_lazy("Contributor agreement"),
+        verbose_name=gettext_lazy("Contributor agreement"),
         blank=True,
         default="",
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "User agreement which needs to be approved before a user can "
             "translate this component."
         ),
@@ -362,21 +362,19 @@ class Component(models.Model, URLMixin, PathMixin):
 
     # Adding new language
     new_lang = models.CharField(
-        verbose_name=ugettext_lazy("Adding new translation"),
+        verbose_name=gettext_lazy("Adding new translation"),
         max_length=10,
         choices=NEW_LANG_CHOICES,
         default="add",
-        help_text=ugettext_lazy(
-            "How to handle requests for creating new translations."
-        ),
+        help_text=gettext_lazy("How to handle requests for creating new translations."),
     )
     language_code_style = models.CharField(
-        verbose_name=ugettext_lazy("Language code style"),
+        verbose_name=gettext_lazy("Language code style"),
         max_length=10,
         choices=LANGUAGE_CODE_STYLE_CHOICES,
         default="",
         blank=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Customize language code used to generate the filename for "
             "translations created by Weblate."
         ),
@@ -384,18 +382,18 @@ class Component(models.Model, URLMixin, PathMixin):
 
     # VCS config
     merge_style = models.CharField(
-        verbose_name=ugettext_lazy("Merge style"),
+        verbose_name=gettext_lazy("Merge style"),
         max_length=10,
         choices=MERGE_CHOICES,
         default=settings.DEFAULT_MERGE_STYLE,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Define whether Weblate should merge the upstream repository "
             "or rebase changes onto it."
         ),
     )
     commit_message = models.TextField(
-        verbose_name=ugettext_lazy("Commit message when translating"),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy("Commit message when translating"),
+        help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."
         ),
@@ -403,8 +401,8 @@ class Component(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_COMMIT_MESSAGE,
     )
     add_message = models.TextField(
-        verbose_name=ugettext_lazy("Commit message when adding translation"),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy("Commit message when adding translation"),
+        help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."
         ),
@@ -412,8 +410,8 @@ class Component(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_ADD_MESSAGE,
     )
     delete_message = models.TextField(
-        verbose_name=ugettext_lazy("Commit message when removing translation"),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy("Commit message when removing translation"),
+        help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."
         ),
@@ -421,8 +419,8 @@ class Component(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_DELETE_MESSAGE,
     )
     merge_message = models.TextField(
-        verbose_name=ugettext_lazy("Commit message when merging translation"),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy("Commit message when merging translation"),
+        help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."
         ),
@@ -430,8 +428,8 @@ class Component(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_MERGE_MESSAGE,
     )
     addon_message = models.TextField(
-        verbose_name=ugettext_lazy("Commit message when addon makes a change"),
-        help_text=ugettext_lazy(
+        verbose_name=gettext_lazy("Commit message when addon makes a change"),
+        help_text=gettext_lazy(
             "You can use template language for various info, "
             "please consult the documentation for more details."
         ),
@@ -439,47 +437,47 @@ class Component(models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_ADDON_MESSAGE,
     )
     committer_name = models.CharField(
-        verbose_name=ugettext_lazy("Committer name"),
+        verbose_name=gettext_lazy("Committer name"),
         max_length=200,
         default=settings.DEFAULT_COMMITER_NAME,
     )
     committer_email = models.EmailField(
-        verbose_name=ugettext_lazy("Committer e-mail"),
+        verbose_name=gettext_lazy("Committer e-mail"),
         max_length=254,
         default=settings.DEFAULT_COMMITER_EMAIL,
     )
     push_on_commit = models.BooleanField(
-        verbose_name=ugettext_lazy("Push on commit"),
+        verbose_name=gettext_lazy("Push on commit"),
         default=settings.DEFAULT_PUSH_ON_COMMIT,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Whether the repository should be pushed upstream on every commit."
         ),
     )
     commit_pending_age = models.IntegerField(
-        verbose_name=ugettext_lazy("Age of changes to commit"),
+        verbose_name=gettext_lazy("Age of changes to commit"),
         default=settings.COMMIT_PENDING_HOURS,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Time in hours after which any pending changes will be "
             "committed to the VCS."
         ),
     )
 
     language_regex = RegexField(
-        verbose_name=ugettext_lazy("Language filter"),
+        verbose_name=gettext_lazy("Language filter"),
         max_length=500,
         default="^[^.]+$",
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Regular expression used to filter "
             "translation when scanning for filemask."
         ),
     )
     shaping_regex = RegexField(
-        verbose_name=ugettext_lazy("Shapings regular expression"),
+        verbose_name=gettext_lazy("Shapings regular expression"),
         validators=[validate_re_nonempty],
         max_length=190,
         default="",
         blank=True,
-        help_text=ugettext_lazy(
+        help_text=gettext_lazy(
             "Regular expression used to determine shapings of a string."
         ),
     )
@@ -501,8 +499,8 @@ class Component(models.Model, URLMixin, PathMixin):
     class Meta(object):
         unique_together = (("project", "name"), ("project", "slug"))
         app_label = "trans"
-        verbose_name = ugettext_lazy("Component")
-        verbose_name_plural = ugettext_lazy("Components")
+        verbose_name = gettext_lazy("Component")
+        verbose_name_plural = gettext_lazy("Components")
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -1566,7 +1564,7 @@ class Component(models.Model, URLMixin, PathMixin):
         if errors:
             raise ValidationError(
                 "{0}\n{1}".format(
-                    ungettext(
+                    ngettext(
                         "Could not parse %d matched file.",
                         "Could not parse %d matched files.",
                         len(errors),
