@@ -30,7 +30,6 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
-from six import python_2_unicode_compatible
 
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
@@ -47,7 +46,6 @@ class ProjectQuerySet(models.QuerySet):
         return self.order_by('name')
 
 
-@python_2_unicode_compatible
 class Project(models.Model, URLMixin, PathMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1

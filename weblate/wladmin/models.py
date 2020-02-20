@@ -26,7 +26,6 @@ from django.contrib.admin import ModelAdmin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy
-from six import python_2_unicode_compatible
 
 from weblate import USER_AGENT
 from weblate.auth.models import User
@@ -70,7 +69,6 @@ class ConfigurationErrorManager(models.Manager):
         self.filter(name=name).delete()
 
 
-@python_2_unicode_compatible
 class ConfigurationError(models.Model):
     name = models.CharField(unique=True, max_length=150)
     message = models.TextField()
@@ -102,7 +100,6 @@ class SupportStatusManager(models.Manager):
             return SupportStatus(name='community')
 
 
-@python_2_unicode_compatible
 class SupportStatus(models.Model):
     name = models.CharField(max_length=150)
     secret = models.CharField(max_length=400)
@@ -150,7 +147,6 @@ class SupportStatus(models.Model):
             )
 
 
-@python_2_unicode_compatible
 class BackupService(models.Model):
     repository = models.CharField(
         max_length=500, default='', verbose_name=ugettext_lazy('Backup repository')
@@ -188,7 +184,6 @@ class BackupService(models.Model):
             self.backuplog_set.create(event='error', log=str(error))
 
 
-@python_2_unicode_compatible
 class BackupLog(models.Model):
     service = models.ForeignKey(BackupService, on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(default=timezone.now)

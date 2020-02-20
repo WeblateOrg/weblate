@@ -20,12 +20,10 @@
 
 
 from django.db import models
-from six import python_2_unicode_compatible
 
 from weblate.trans.fields import RegexField
 
 
-@python_2_unicode_compatible
 class Shaping(models.Model):
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     shaping_regex = RegexField(max_length=190)

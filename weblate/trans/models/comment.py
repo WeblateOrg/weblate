@@ -21,7 +21,6 @@
 
 from django.conf import settings
 from django.db import models
-from six import python_2_unicode_compatible
 
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
@@ -48,7 +47,6 @@ class CommentQuerySet(models.QuerySet):
         return self.order_by('timestamp')
 
 
-@python_2_unicode_compatible
 class Comment(models.Model, UserDisplayMixin):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     comment = models.TextField()

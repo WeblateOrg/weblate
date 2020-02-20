@@ -23,7 +23,6 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Sum
 from django.utils.translation import ugettext as _
-from six import python_2_unicode_compatible
 
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
@@ -93,7 +92,6 @@ class SuggestionQuerySet(models.QuerySet):
         return self.order_by('-timestamp')
 
 
-@python_2_unicode_compatible
 class Suggestion(models.Model, UserDisplayMixin):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     target = models.TextField()
@@ -168,7 +166,6 @@ class Suggestion(models.Model, UserDisplayMixin):
             self.accept(translation, request, 'suggestion.vote')
 
 
-@python_2_unicode_compatible
 class Vote(models.Model):
     """Suggestion voting."""
 

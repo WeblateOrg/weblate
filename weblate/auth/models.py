@@ -34,7 +34,6 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import pgettext, ugettext
 from django.utils.translation import ugettext_lazy as _
-from six import python_2_unicode_compatible
 
 from weblate.auth.data import (
     ACL_GROUPS,
@@ -64,7 +63,6 @@ from weblate.utils.validators import (
 )
 
 
-@python_2_unicode_compatible
 class Permission(models.Model):
     codename = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=200)
@@ -77,7 +75,6 @@ class Permission(models.Model):
         return ugettext(self.name)
 
 
-@python_2_unicode_compatible
 class Role(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=200)
     permissions = models.ManyToManyField(
@@ -99,7 +96,6 @@ class GroupManager(BaseUserManager):
         ).order_by('name')
 
 
-@python_2_unicode_compatible
 class Group(models.Model):
     SELECTION_MANUAL = 0
     SELECTION_ALL = 1
@@ -276,7 +272,6 @@ class GroupManyToManyField(models.ManyToManyField):
             related_manager_cls.remove = wrap_group(related_manager_cls.remove)
 
 
-@python_2_unicode_compatible
 class User(AbstractBaseUser):
     username = models.CharField(
         _('username'),
@@ -488,7 +483,6 @@ class User(AbstractBaseUser):
         return "{0} <{1}>".format(full_name, self.email)
 
 
-@python_2_unicode_compatible
 class AutoGroup(models.Model):
     match = RegexField(
         verbose_name=_('E-mail regular expression'),

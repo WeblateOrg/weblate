@@ -28,7 +28,6 @@ from django.utils.html import urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
-from six import python_2_unicode_compatible
 
 from weblate.lang.models import Language
 
@@ -62,7 +61,6 @@ class WhiteboardManager(models.Manager):
         return base.filter(project=None, component=None, language=None)
 
 
-@python_2_unicode_compatible
 class WhiteboardMessage(models.Model):
     message = models.TextField(verbose_name=ugettext_lazy('Message'))
     message_html = models.BooleanField(  # noqa: DJ02

@@ -40,7 +40,6 @@ from django.utils.encoding import force_text
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy, ungettext
-from six import python_2_unicode_compatible
 from six.moves.urllib.parse import urlparse
 
 from weblate.checks.flags import Flags
@@ -161,7 +160,6 @@ class ComponentQuerySet(models.QuerySet):
         return self.exclude(repo__startswith="weblate:")
 
 
-@python_2_unicode_compatible
 class Component(models.Model, URLMixin, PathMixin):
     name = models.CharField(
         verbose_name=ugettext_lazy("Component name"),

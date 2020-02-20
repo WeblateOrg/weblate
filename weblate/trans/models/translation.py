@@ -30,7 +30,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
-from six import python_2_unicode_compatible
 
 from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
@@ -99,7 +98,6 @@ class TranslationQuerySet(models.QuerySet):
         ).prefetch_related('language__plural_set', 'component__alert_set')
 
 
-@python_2_unicode_compatible
 class Translation(models.Model, URLMixin, LoggerMixin):
     component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)

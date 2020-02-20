@@ -28,7 +28,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.functional import cached_property
-from six import python_2_unicode_compatible
 
 from weblate.addons.events import (
     EVENT_CHOICES,
@@ -83,7 +82,6 @@ class AddonQuerySet(models.QuerySet):
         return component.addons_cache[event]
 
 
-@python_2_unicode_compatible
 class Addon(models.Model):
     component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
     name = models.CharField(max_length=100)
@@ -123,7 +121,6 @@ class Addon(models.Model):
         super(Addon, self).delete(*args, **kwargs)
 
 
-@python_2_unicode_compatible
 class Event(models.Model):
     addon = models.ForeignKey(Addon, on_delete=models.deletion.CASCADE)
     event = models.IntegerField(choices=EVENT_CHOICES)
