@@ -154,8 +154,7 @@ def iter_files(filenames):
             for root, _unused, files in os.walk(filename):
                 if "/.git/" in root or "/.hg/" in root:
                     continue
-                for name in files:
-                    yield os.path.join(root, name)
+                yield from (os.path.join(root, name) for name in files)
         else:
             yield filename
 

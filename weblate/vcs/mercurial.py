@@ -344,5 +344,4 @@ class HgRepository(Repository):
     def parse_changed_files(self, lines):
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
-        for line in lines:
-            yield line[2:]
+        yield from (line[2:] for line in lines)

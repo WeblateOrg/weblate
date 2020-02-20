@@ -374,8 +374,7 @@ class GitRepository(Repository):
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
         for line in lines:
-            for part in line.split('\t')[1:]:
-                yield part
+            yield from line.split('\t')[1:]
 
 
 class GitWithGerritRepository(GitRepository):

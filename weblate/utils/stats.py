@@ -501,8 +501,9 @@ class ComponentStats(LanguageStats):
             clist.stats.invalidate()
 
     def get_language_stats(self):
-        for translation in self.translation_set:
-            yield TranslationStats(translation)
+        yield from (
+            TranslationStats(translation) for translation in self.translation_set
+        )
 
     def get_single_language_stats(self, language):
         try:
