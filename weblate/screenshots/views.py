@@ -70,7 +70,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
         return Screenshot.objects.filter(component=self.kwargs['component']).order()
 
     def get_context_data(self):
-        result = super(ScreenshotList, self).get_context_data()
+        result = super().get_context_data()
         component = self.kwargs['component']
         result['object'] = component
         if self.request.user.has_perm('screenshot.add', component):
@@ -112,12 +112,12 @@ class ScreenshotDetail(DetailView):
     _edit_form = None
 
     def get_object(self, *args, **kwargs):
-        obj = super(ScreenshotDetail, self).get_object(*args, **kwargs)
+        obj = super().get_object(*args, **kwargs)
         self.request.user.check_access(obj.component.project)
         return obj
 
     def get_context_data(self, **kwargs):
-        result = super(ScreenshotDetail, self).get_context_data(**kwargs)
+        result = super().get_context_data(**kwargs)
         component = result['object'].component
         if self.request.user.has_perm('screenshot.edit', component):
             if self._edit_form is not None:

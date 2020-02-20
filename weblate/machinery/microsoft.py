@@ -53,7 +53,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(MicrosoftCognitiveTranslation, self).__init__()
+        super().__init__()
         self._access_token = None
         self._token_expiry = None
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
@@ -87,9 +87,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         Remove second part of locale in most of cases.
         """
-        return super(MicrosoftCognitiveTranslation, self).convert_language(
-            language.replace('_', '-').lower()
-        )
+        return super().convert_language(language.replace('_', '-').lower())
 
     def download_languages(self):
         """Download list of supported languages from a service.

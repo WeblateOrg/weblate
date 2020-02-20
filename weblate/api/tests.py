@@ -38,12 +38,12 @@ TEST_SCREENSHOT = get_test_file('screenshot.png')
 class APIBaseTest(APITestCase, RepoTestMixin):
     @classmethod
     def setUpClass(cls):
-        super(APIBaseTest, cls).setUpClass()
+        super().setUpClass()
         immediate_on_commit(cls)
 
     @classmethod
     def tearDownClass(cls):
-        super(APIBaseTest, cls).tearDownClass()
+        super().tearDownClass()
         immediate_on_commit_leave(cls)
 
     def setUp(self):
@@ -620,7 +620,7 @@ class UnitAPITest(APIBaseTest):
 
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self):
-        super(ScreenshotAPITest, self).setUp()
+        super().setUp()
         shot = Screenshot.objects.create(name='Obrazek', component=self.component)
         with open(TEST_SCREENSHOT, 'rb') as handle:
             shot.image.save('screenshot.png', File(handle))

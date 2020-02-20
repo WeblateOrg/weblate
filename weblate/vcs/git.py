@@ -538,7 +538,7 @@ class GitMergeRequestBase(GitRepository):
     def is_supported(cls):
         if cls.get_username() is None:
             return False
-        return super(GitMergeRequestBase, cls).is_supported()
+        return super().is_supported()
 
     def push_to_fork(self, local_branch, fork_branch):
         """Push given local branch to branch in forked repository."""
@@ -581,7 +581,7 @@ class GitMergeRequestBase(GitRepository):
 
     def configure_remote(self, pull_url, push_url, branch):
         # We don't use push URL at all
-        super(GitMergeRequestBase, self).configure_remote(pull_url, None, branch)
+        super().configure_remote(pull_url, None, branch)
 
     def create_pull_request(self, origin_branch, fork_branch):
         raise NotImplementedError()
@@ -604,7 +604,7 @@ class GithubRepository(GitMergeRequestBase):
     @classmethod
     def _getenv(cls):
         """Generate environment for process execution."""
-        env = super(GithubRepository, cls)._getenv()
+        env = super()._getenv()
         # Add path to config if it exists
         userconfig = os.path.expanduser('~/.config/hub')
         if os.path.exists(userconfig):

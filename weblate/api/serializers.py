@@ -33,7 +33,7 @@ from weblate.utils.validators import validate_bitmap
 class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
     def __init__(self, strip_parts=0, **kwargs):
         self.strip_parts = strip_parts
-        super(MultiFieldHyperlinkedIdentityField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     # pylint: disable=redefined-builtin
     def get_url(self, obj, view_name, request, format):
@@ -62,7 +62,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
 
 class AbsoluteURLField(serializers.CharField):
     def get_attribute(self, instance):
-        value = super(AbsoluteURLField, self).get_attribute(instance)
+        value = super().get_attribute(instance)
         if 'http:/' not in value and 'https:/' not in value:
             return get_site_url(value)
         return value
@@ -71,7 +71,7 @@ class AbsoluteURLField(serializers.CharField):
 class RemovableSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         remove_fields = kwargs.pop('remove_fields', None)
-        super(RemovableSerializer, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if remove_fields:
             # for multiple fields in a list
@@ -202,7 +202,7 @@ class ComponentSerializer(RemovableSerializer):
 
     def to_representation(self, instance):
         """Remove VCS properties if user has no permission for that."""
-        result = super(ComponentSerializer, self).to_representation(instance)
+        result = super().to_representation(instance)
         user = self.context['request'].user
         if not user.has_perm('vcs.view', instance):
             result['vcs'] = None

@@ -42,7 +42,7 @@ class GPGTest(TestCase):
     @classmethod
     def setUpClass(cls):
         """Check whether we can use gpg."""
-        super(GPGTest, cls).setUpClass()
+        super().setUpClass()
         try:
             output = subprocess.check_output(
                 ['gpg', '--version'], stderr=subprocess.STDOUT

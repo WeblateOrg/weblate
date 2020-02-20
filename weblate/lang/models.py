@@ -396,7 +396,7 @@ class Language(models.Model):
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
-        super(Language, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._plural_examples = {}
         self.stats = LanguageStats(self)
 
@@ -425,7 +425,7 @@ class Language(models.Model):
             self.direction = 'rtl'
         else:
             self.direction = 'ltr'
-        return super(Language, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     @cached_property
     def base_code(self):
@@ -620,7 +620,7 @@ class Plural(models.Model):
                         break
                 if self.type != data.PLURAL_UNKNOWN:
                     break
-        super(Plural, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return '{}#information'.format(

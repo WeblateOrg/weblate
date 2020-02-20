@@ -114,18 +114,18 @@ class WeblateDateInput(forms.DateInput):
         if datepicker:
             attrs['data-provide'] = 'datepicker'
             attrs['data-date-format'] = 'yyyy-mm-dd'
-        super(WeblateDateInput, self).__init__(attrs=attrs, format='%Y-%m-%d', **kwargs)
+        super().__init__(attrs=attrs, format='%Y-%m-%d', **kwargs)
 
 
 class WeblateDateField(forms.DateField):
     def __init__(self, datepicker=True, **kwargs):
         if 'widget' not in kwargs:
             kwargs['widget'] = WeblateDateInput(datepicker=datepicker)
-        super(WeblateDateField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def to_python(self, value):
         """Produce timezone aware datetime with 00:00:00 as time."""
-        value = super(WeblateDateField, self).to_python(value)
+        value = super().to_python(value)
         if isinstance(value, date):
             return from_current_timezone(
                 datetime(value.year, value.month, value.day, 0, 0, 0)
@@ -138,10 +138,10 @@ class ChecksumField(forms.CharField):
 
     def __init__(self, *args, **kwargs):
         kwargs['widget'] = forms.HiddenInput
-        super(ChecksumField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean(self, value):
-        super(ChecksumField, self).clean(value)
+        super().clean(value)
         if not value:
             return None
         try:
@@ -168,7 +168,7 @@ class QueryField(forms.CharField):
             kwargs['label'] = _('Query')
         if 'required' not in kwargs:
             kwargs['required'] = False
-        super(QueryField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def clean(self, value):
         if not value:
@@ -192,7 +192,7 @@ class PluralTextarea(forms.Textarea):
 
     def __init__(self, *args, **kwargs):
         self.profile = None
-        super(PluralTextarea, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def get_rtl_toolbar(self, fieldname):
         groups = []
@@ -313,9 +313,7 @@ class PluralTextarea(forms.Textarea):
             attrs['tabindex'] = tabindex + idx
 
             # Render textare
-            textarea = super(PluralTextarea, self).render(
-                fieldname, val, attrs, renderer, **kwargs
-            )
+            textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
             label = force_text(unit.translation.language)
             if len(values) != 1:
@@ -359,14 +357,14 @@ class PluralField(forms.CharField):
 
     def __init__(self, max_length=None, min_length=None, **kwargs):
         kwargs['label'] = ''
-        super(PluralField, self).__init__(widget=PluralTextarea, **kwargs)
+        super().__init__(widget=PluralTextarea, **kwargs)
 
     def to_python(self, value):
         """Return list or string as returned by PluralTextarea."""
         return value
 
     def clean(self, value):
-        value = super(PluralField, self).clean(value)
+        value = super().clean(value)
         if not value:
             raise ValidationError(_('Missing translated string!'))
         return value
@@ -381,12 +379,12 @@ class FilterField(forms.ChoiceField):
         kwargs['error_messages'] = {
             'invalid_choice': _('Please choose a valid filter type.')
         }
-        super(FilterField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def to_python(self, value):
         if value == 'untranslated':
             return 'todo'
-        return super(FilterField, self).to_python(value)
+        return super().to_python(value)
 
 
 class ChecksumForm(forms.Form):
@@ -396,7 +394,7 @@ class ChecksumForm(forms.Form):
 
     def __init__(self, translation, *args, **kwargs):
         self.translation = translation
-        super(ChecksumForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def clean_checksum(self):
         """Validate whether checksum is valid and fetches unit for it."""
@@ -424,7 +422,7 @@ class FuzzyField(forms.BooleanField):
             'Strings are usually marked as \"Needs editing\" after the source '
             'string is updated, or when marked as such manually.'
         )
-        super(FuzzyField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.widget.attrs['class'] = 'fuzzy_checkbox'
 
 
@@ -458,7 +456,7 @@ class TranslationForm(ChecksumForm):
             }
             kwargs['auto_id'] = 'id_{0}_%s'.format(unit.checksum)
         tabindex = kwargs.pop('tabindex', 100)
-        super(TranslationForm, self).__init__(translation, *args, **kwargs)
+        super().__init__(translation, *args, **kwargs)
         self.user = user
         self.fields['target'].widget.attrs['tabindex'] = tabindex
         self.fields['target'].widget.profile = user.profile
@@ -484,7 +482,7 @@ class TranslationForm(ChecksumForm):
             self.fields['review'].widget = forms.HiddenInput()
 
     def clean(self):
-        super(TranslationForm, self).clean()
+        super().clean()
 
         # Check required fields
         required = {'unit', 'target', 'contentsum', 'translationsum'}
@@ -525,9 +523,7 @@ class TranslationForm(ChecksumForm):
 
 class ZenTranslationForm(TranslationForm):
     def __init__(self, user, translation, unit, *args, **kwargs):
-        super(ZenTranslationForm, self).__init__(
-            user, translation, unit, *args, **kwargs
-        )
+        super().__init__(user, translation, unit, *args, **kwargs)
         self.helper.form_action = reverse(
             'save_zen', kwargs=translation.get_reverse_url_kwargs()
         )
@@ -653,7 +649,7 @@ class SearchForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
         """Generate choices for other component in same project."""
         self.user = user
-        super(SearchForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
@@ -732,7 +728,7 @@ class MergeForm(ChecksumForm):
     merge = forms.IntegerField()
 
     def clean(self):
-        super(MergeForm, self).clean()
+        super().clean()
         if 'unit' not in self.cleaned_data or 'merge' not in self.cleaned_data:
             return None
         try:
@@ -760,7 +756,7 @@ class RevertForm(ChecksumForm):
     revert = forms.IntegerField()
 
     def clean(self):
-        super(RevertForm, self).clean()
+        super().clean()
         if 'unit' not in self.cleaned_data or 'revert' not in self.cleaned_data:
             return None
         try:
@@ -823,7 +819,7 @@ class AutoForm(forms.Form):
             for s in components.order_project().select_related("project")
         ]
 
-        super(AutoForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['component'].choices = [
             ('', _('All components in current project'))
@@ -881,7 +877,7 @@ class InlineWordForm(WordForm):
     """Inline rendered form for adding words."""
 
     def __init__(self, *args, **kwargs):
-        super(InlineWordForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         for fieldname in ('source', 'target'):
             field = self.fields[fieldname]
             field.widget.attrs['placeholder'] = field.label
@@ -921,7 +917,7 @@ class LetterForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        super(LetterForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_class = 'form-inline'
@@ -967,7 +963,7 @@ class EngageForm(forms.Form):
         choices = [(l.code, force_text(l)) for l in project.languages]
         components = [(c.slug, c.name) for c in project.component_set.order()]
 
-        super(EngageForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields['lang'].choices += choices
         self.fields['component'].choices += components
@@ -986,7 +982,7 @@ class NewLanguageOwnerForm(forms.Form):
         )
 
     def __init__(self, component, *args, **kwargs):
-        super(NewLanguageOwnerForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.component = component
         languages = Language.objects.exclude(self.get_lang_filter())
         self.fields['lang'].choices = sort_choices(
@@ -1000,7 +996,7 @@ class NewLanguageForm(NewLanguageOwnerForm):
     lang = forms.ChoiceField(label=_('Language'), choices=[], widget=SortedSelect)
 
     def __init__(self, component, *args, **kwargs):
-        super(NewLanguageForm, self).__init__(component, *args, **kwargs)
+        super().__init__(component, *args, **kwargs)
         self.fields['lang'].choices = [('', _('Please choose'))] + self.fields[
             'lang'
         ].choices
@@ -1026,7 +1022,7 @@ class ContextForm(forms.ModelForm):
         widgets = {'labels': forms.CheckboxSelectMultiple()}
 
     def __init__(self, data=None, instance=None, user=None, **kwargs):
-        super(ContextForm, self).__init__(data=data, instance=instance, **kwargs)
+        super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
         self.fields['labels'].queryset = project.label_set.all()
         self.helper = FormHelper(self)
@@ -1059,7 +1055,7 @@ class InviteUserForm(forms.ModelForm):
         fields = ['email', 'full_name']
 
     def clean(self):
-        data = super(InviteUserForm, self).clean()
+        data = super().clean()
         if 'email' in data:
             data['username'] = data['email']
         else:
@@ -1067,14 +1063,14 @@ class InviteUserForm(forms.ModelForm):
         return data
 
     def _get_validation_exclusions(self):
-        result = super(InviteUserForm, self)._get_validation_exclusions()
+        result = super()._get_validation_exclusions()
         result.remove('username')
         return result
 
     def _post_clean(self):
         self._meta.fields.append('username')
         try:
-            super(InviteUserForm, self)._post_clean()
+            super()._post_clean()
         finally:
             self._meta.fields.remove('username')
 
@@ -1091,7 +1087,7 @@ class InviteUserForm(forms.ModelForm):
             else:
                 error.error_dict['email'].extend(error.error_dict['username'])
             del error.error_dict['username']
-        super(InviteUserForm, self).add_error(field, error)
+        super().add_error(field, error)
 
 
 class ReportsForm(forms.Form):
@@ -1124,7 +1120,7 @@ class ReportsForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        super(ReportsForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -1140,7 +1136,7 @@ class ReportsForm(forms.Form):
         )
 
     def clean(self):
-        super(ReportsForm, self).clean()
+        super().clean()
         # Invalid value, skip rest of the validation
         if 'period' not in self.cleaned_data:
             return
@@ -1210,7 +1206,7 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
         fields = []
 
     def __init__(self, request, *args, **kwargs):
-        super(SettingsBaseForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.request = request
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -1219,16 +1215,16 @@ class SettingsBaseForm(CleanRepoMixin, forms.ModelForm):
 class SelectChecksWidget(SortedSelectMultiple):
     def __init__(self, attrs=None, choices=()):
         choices = CHECKS.get_choices()
-        super(SelectChecksWidget, self).__init__(attrs=attrs, choices=choices)
+        super().__init__(attrs=attrs, choices=choices)
 
     def value_from_datadict(self, data, files, name):
-        value = super(SelectChecksWidget, self).value_from_datadict(data, files, name)
+        value = super().value_from_datadict(data, files, name)
         if isinstance(value, str):
             return json.loads(value)
         return value
 
     def format_value(self, value):
-        return json.dumps(super(SelectChecksWidget, self).format_value(value))
+        return json.dumps(super().format_value(value))
 
 
 class ComponentSettingsForm(SettingsBaseForm):
@@ -1273,7 +1269,7 @@ class ComponentSettingsForm(SettingsBaseForm):
         widgets = {"enforced_checks": SelectChecksWidget()}
 
     def __init__(self, request, *args, **kwargs):
-        super(ComponentSettingsForm, self).__init__(request, *args, **kwargs)
+        super().__init__(request, *args, **kwargs)
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -1411,7 +1407,7 @@ class ComponentSelectForm(ComponentNameForm):
     def __init__(self, request, *args, **kwargs):
         if 'instance' in kwargs:
             kwargs.pop('instance')
-        super(ComponentSelectForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class ComponentBranchForm(ComponentSelectForm):
@@ -1458,7 +1454,7 @@ class ComponentProjectForm(ComponentNameForm):
     def __init__(self, request, *args, **kwargs):
         if 'instance' in kwargs:
             kwargs.pop('instance')
-        super(ComponentProjectForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.request = request
         self.helper = FormHelper()
         self.helper.form_tag = False
@@ -1573,7 +1569,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         return render_to_string('trans/discover-choice.html', context)
 
     def __init__(self, request, *args, **kwargs):
-        super(ComponentDiscoverForm, self).__init__(request, *args, **kwargs)
+        super().__init__(request, *args, **kwargs)
         for field, value in self.fields.items():
             if field == 'discovery':
                 continue
@@ -1599,7 +1595,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
         return discovered
 
     def clean(self):
-        super(ComponentDiscoverForm, self).clean()
+        super().clean()
         discovery = self.cleaned_data.get('discovery')
         if discovery and discovery != 'manual':
             self.cleaned_data.update(self.discovered[int(discovery)])
@@ -1621,7 +1617,7 @@ class ComponentMoveForm(SettingsBaseForm):
         fields = ['project']
 
     def __init__(self, request, *args, **kwargs):
-        super(ComponentMoveForm, self).__init__(request, *args, **kwargs)
+        super().__init__(request, *args, **kwargs)
         self.fields['project'].queryset = request.user.owned_projects
 
 
@@ -1648,7 +1644,7 @@ class ProjectSettingsForm(SettingsBaseForm):
             data['contribute_shared_tm'] = data['use_shared_tm']
 
     def __init__(self, request, *args, **kwargs):
-        super(ProjectSettingsForm, self).__init__(request, *args, **kwargs)
+        super().__init__(request, *args, **kwargs)
         self.helper.disable_csrf = True
         if settings.OFFER_HOSTING:
             self.fields['contribute_shared_tm'].widget = forms.HiddenInput()
@@ -1704,7 +1700,7 @@ class ProjectAccessForm(forms.ModelForm):
                 )
 
     def __init__(self, *args, **kwargs):
-        super(ProjectAccessForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field('access_control'),
@@ -1715,7 +1711,7 @@ class ProjectAccessForm(forms.ModelForm):
 
 class DisabledProjectAccessForm(ProjectAccessForm):
     def __init__(self, *args, **kwargs):
-        super(DisabledProjectAccessForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper.layout[0] = Field('access_control', disabled=True)
 
 
@@ -1729,7 +1725,7 @@ class ReplaceForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         kwargs['auto_id'] = 'id_replace_%s'
-        super(ReplaceForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class ReplaceConfirmForm(forms.Form):
@@ -1737,7 +1733,7 @@ class ReplaceConfirmForm(forms.Form):
     confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)
 
     def __init__(self, units, *args, **kwargs):
-        super(ReplaceConfirmForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['units'].queryset = units
 
 
@@ -1749,7 +1745,7 @@ class MatrixLanguageForm(forms.Form):
     )
 
     def __init__(self, component, *args, **kwargs):
-        super(MatrixLanguageForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         languages = Language.objects.filter(translation__component=component)
         self.fields['lang'].choices = sort_choices(
             [(l.code, '{0} ({1})'.format(force_text(l), l.code)) for l in languages]
@@ -1775,7 +1771,7 @@ class NewUnitForm(forms.Form):
     )
 
     def __init__(self, user, *args, **kwargs):
-        super(NewUnitForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['value'].widget.attrs['tabindex'] = kwargs.pop('tabindex', 100)
         self.fields['value'].widget.profile = user.profile
 
@@ -1802,7 +1798,7 @@ class BulkEditForm(forms.Form):
 
     def __init__(self, user, obj, *args, **kwargs):
         project = kwargs.pop("project")
-        super(BulkEditForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['remove_labels'].queryset = project.label_set.all()
         self.fields['add_labels'].queryset = project.label_set.all()
 
@@ -1833,7 +1829,7 @@ class DeleteForm(forms.Form):
     )
 
     def __init__(self, obj, *args, **kwargs):
-        super(DeleteForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.obj = obj
         self.helper = FormHelper(self)
         message = _(
@@ -1872,7 +1868,7 @@ class ChangesForm(forms.Form):
     )
 
     def __init__(self, request, *args, **kwargs):
-        super(ChangesForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['lang'].choices += [
             (l.code, force_text(l)) for l in Language.objects.have_translation()
         ]
@@ -1888,6 +1884,6 @@ class LabelForm(forms.ModelForm):
         widgets = {'color': forms.RadioSelect()}
 
     def __init__(self, *args, **kwargs):
-        super(LabelForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False

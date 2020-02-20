@@ -57,7 +57,7 @@ COUNTS_DATA = [
 
 class BaseReportsTest(ViewTestCase):
     def setUp(self):
-        super(BaseReportsTest, self).setUp()
+        super().setUp()
         self.user.is_superuser = True
         self.user.save()
 

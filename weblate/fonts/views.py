@@ -41,7 +41,7 @@ class FontListView(ProjectViewMixin, ListView):
         return self.project.font_set.order_by("family", "style")
 
     def get_context_data(self, **kwargs):
-        result = super(FontListView, self).get_context_data(**kwargs)
+        result = super().get_context_data(**kwargs)
         result["object"] = self.project
         result["font_list"] = result["object_list"]
         result["group_list"] = self.project.fontgroup_set.order()
@@ -84,7 +84,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
         return self.project.font_set.all()
 
     def get_context_data(self, **kwargs):
-        result = super(FontDetailView, self).get_context_data(**kwargs)
+        result = super().get_context_data(**kwargs)
         result["can_edit"] = self.request.user.has_perm("project.edit", self.project)
         return result
 
@@ -108,7 +108,7 @@ class FontGroupDetailView(ProjectViewMixin, DetailView):
         return self.project.fontgroup_set.all()
 
     def get_context_data(self, **kwargs):
-        result = super(FontGroupDetailView, self).get_context_data(**kwargs)
+        result = super().get_context_data(**kwargs)
         result["form"] = self._form or FontGroupForm(
             instance=self.object, project=self.project
         )

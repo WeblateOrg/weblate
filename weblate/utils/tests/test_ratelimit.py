@@ -120,6 +120,6 @@ class RateLimitTest(SimpleTestCase):
 
 class RateLimitUserTest(RateLimitTest):
     def get_request(self):
-        request = super(RateLimitUserTest, self).get_request()
+        request = super().get_request()
         request.user = User()
         return request

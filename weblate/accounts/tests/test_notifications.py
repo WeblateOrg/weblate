@@ -60,7 +60,7 @@ TEMPLATES_RAISE[0]['OPTIONS']['string_if_invalid'] = 'TEMPLATE_BUG[%s]'
 @override_settings(TEMPLATES=TEMPLATES_RAISE)
 class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def setUp(self):
-        super(NotificationTest, self).setUp()
+        super().setUp()
         self.user.email = 'noreply+notify@weblate.org'
         self.user.save()
         czech = Language.objects.get(code='cs')

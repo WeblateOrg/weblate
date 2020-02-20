@@ -45,18 +45,18 @@ class InlineAutoGroupAdmin(admin.TabularInline):
             return False
         # On Django 1.11 and 2.0 the obj is not present
         if django.VERSION < (2, 1):
-            return super(InlineAutoGroupAdmin, self).has_add_permission(request)
-        return super(InlineAutoGroupAdmin, self).has_add_permission(request, obj)
+            return super().has_add_permission(request)
+        return super().has_add_permission(request, obj)
 
     def has_change_permission(self, request, obj=None):
         if block_group_edit(obj):
             return False
-        return super(InlineAutoGroupAdmin, self).has_change_permission(request, obj)
+        return super().has_change_permission(request, obj)
 
     def has_delete_permission(self, request, obj=None):
         if block_group_edit(obj):
             return False
-        return super(InlineAutoGroupAdmin, self).has_delete_permission(request, obj)
+        return super().has_delete_permission(request, obj)
 
 
 class RoleAdmin(WeblateModelAdmin):
@@ -71,7 +71,7 @@ class WeblateUserChangeForm(UserChangeForm):
         field_classes = {'username': UsernameField, 'full_name': FullNameField}
 
     def __init__(self, *args, **kwargs):
-        super(WeblateUserChangeForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['email'].required = True
         self.fields['username'].valid = self.instance.username
 
@@ -85,7 +85,7 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
         field_classes = {'username': UsernameField, 'full_name': FullNameField}
 
     def __init__(self, *args, **kwargs):
-        super(WeblateUserCreationForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields['email'].required = True
 
 
@@ -127,7 +127,7 @@ class WeblateUserAdmin(UserAdmin):
     def action_checkbox(self, obj):
         if obj.is_anonymous:
             return ''
-        return super(WeblateUserAdmin, self).action_checkbox(obj)
+        return super().action_checkbox(obj)
 
     action_checkbox.short_description = mark_safe(
         '<input type="checkbox" id="action-toggle" />'
@@ -136,7 +136,7 @@ class WeblateUserAdmin(UserAdmin):
     def has_delete_permission(self, request, obj=None):
         if obj and obj.is_anonymous:
             return False
-        return super(WeblateUserAdmin, self).has_delete_permission(request, obj)
+        return super().has_delete_permission(request, obj)
 
     def delete_model(self, request, obj):
         """Given a model instance delete it from the database."""
@@ -162,7 +162,7 @@ class WeblateGroupAdmin(WeblateModelAdmin):
     def action_checkbox(self, obj):
         if obj.internal:
             return ''
-        return super(WeblateGroupAdmin, self).action_checkbox(obj)
+        return super().action_checkbox(obj)
 
     action_checkbox.short_description = mark_safe(
         '<input type="checkbox" id="action-toggle" />'
@@ -171,19 +171,19 @@ class WeblateGroupAdmin(WeblateModelAdmin):
     def has_delete_permission(self, request, obj=None):
         if obj and obj.internal:
             return False
-        return super(WeblateGroupAdmin, self).has_delete_permission(request, obj)
+        return super().has_delete_permission(request, obj)
 
     def has_change_permission(self, request, obj=None):
         if block_group_edit(obj):
             return False
-        return super(WeblateGroupAdmin, self).has_change_permission(request, obj)
+        return super().has_change_permission(request, obj)
 
     def save_model(self, request, obj, form, change):
         """Fix saving of automatic language/project selection, part 1.
 
         Stores saved object as an attribute to be used by save_related.
         """
-        super(WeblateGroupAdmin, self).save_model(request, obj, form, change)
+        super().save_model(request, obj, form, change)
         self.new_obj = obj
 
     def save_related(self, request, form, formsets, change):
@@ -192,5 +192,5 @@ class WeblateGroupAdmin(WeblateModelAdmin):
         Uses stored attribute to save the model again. Saving triggers the automation
         and adjusts project/language selection according to the chosen value.
         """
-        super(WeblateGroupAdmin, self).save_related(request, form, formsets, change)
+        super().save_related(request, form, formsets, change)
         self.new_obj.save()

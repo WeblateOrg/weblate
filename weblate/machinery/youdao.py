@@ -41,7 +41,7 @@ class YoudaoTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(YoudaoTranslation, self).__init__()
+        super().__init__()
         if settings.MT_YOUDAO_ID is None:
             raise MissingConfiguration('Youdao Translate requires app key')
         if settings.MT_YOUDAO_SECRET is None:

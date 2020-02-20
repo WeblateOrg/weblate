@@ -45,7 +45,7 @@ class NeteaseSightTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(NeteaseSightTranslation, self).__init__()
+        super().__init__()
         if settings.MT_NETEASE_KEY is None:
             raise MissingConfiguration('Netease Sight Translate requires app key')
         if settings.MT_NETEASE_SECRET is None:

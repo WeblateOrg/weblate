@@ -142,7 +142,7 @@ class AuditLogManager(models.Manager):
         user_agent = get_user_agent(request)
         if activity == 'login' and self.is_new_login(user, address, user_agent):
             activity = 'login-new'
-        return super(AuditLogManager, self).create(
+        return super().create(
             user=user,
             activity=activity,
             address=address,
@@ -244,7 +244,7 @@ class AuditLog(models.Model):
         return False
 
     def save(self, *args, **kwargs):
-        super(AuditLog, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         if self.should_notify():
             email = self.user.email
             transaction.on_commit(lambda: notify_auditlog.delay(self.pk, email))

@@ -32,7 +32,7 @@ class SortedSelectMixin:
     """Mixin for Select widgets to sort choices alphabetically."""
 
     def optgroups(self, name, value, attrs=None):
-        groups = super(SortedSelectMixin, self).optgroups(name, value, attrs)
+        groups = super().optgroups(name, value, attrs)
         return sort_unicode(groups, lambda val: force_text(val[1][0]["label"]))
 
 
@@ -47,7 +47,7 @@ class SortedSelect(SortedSelectMixin, forms.Select):
 class ContextDiv(Div):
     def __init__(self, *fields, **kwargs):
         self.context = kwargs.pop('context', {})
-        super(ContextDiv, self).__init__(*fields, **kwargs)
+        super().__init__(*fields, **kwargs)
 
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
         template = self.get_template_name(template_pack)

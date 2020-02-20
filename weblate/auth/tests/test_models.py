@@ -29,7 +29,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 class ModelTest(FixtureTestCase):
     def setUp(self):
-        super(ModelTest, self).setUp()
+        super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.translation = self.get_translation()

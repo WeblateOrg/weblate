@@ -373,7 +373,7 @@ class CommitPendingTest(CheckGitTest):
 
 class CommitPendingChangesTest(CommitPendingTest):
     def setUp(self):
-        super(CommitPendingChangesTest, self).setUp()
+        super().setUp()
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
 
 
@@ -436,7 +436,7 @@ class ListTranslatorsTest(RepoTestCase):
     """Test translators list."""
 
     def setUp(self):
-        super(ListTranslatorsTest, self).setUp()
+        super().setUp()
         self.create_component()
 
     def test_output(self):
@@ -454,7 +454,7 @@ class LockingCommandTest(RepoTestCase):
     """Test locking and unlocking."""
 
     def setUp(self):
-        super(LockingCommandTest, self).setUp()
+        super().setUp()
         self.create_component()
 
     def test_locking(self):
@@ -475,7 +475,7 @@ class BenchmarkCommandTest(RepoTestCase):
     """Benchmarking test."""
 
     def setUp(self):
-        super(BenchmarkCommandTest, self).setUp()
+        super().setUp()
         self.create_component()
 
     def test_benchmark(self):
@@ -490,7 +490,7 @@ class SuggestionCommandTest(RepoTestCase):
     """Test suggestion addding."""
 
     def setUp(self):
-        super(SuggestionCommandTest, self).setUp()
+        super().setUp()
         self.component = self.create_component()
 
     def test_add_suggestions(self):
@@ -524,7 +524,7 @@ class ImportCommandTest(RepoTestCase):
     """Import test."""
 
     def setUp(self):
-        super(ImportCommandTest, self).setUp()
+        super().setUp()
         self.component = self.create_component()
 
     def test_import(self):

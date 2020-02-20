@@ -49,7 +49,7 @@ class AboutView(TemplateView):
         )
 
     def get_context_data(self, **kwargs):
-        context = super(AboutView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         context['menu_items'] = MENU
         context['menu_page'] = self.page

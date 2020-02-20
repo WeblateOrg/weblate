@@ -71,11 +71,11 @@ def scratch_create_component(project, name, slug, file_format):
 
 class BaseCreateView(CreateView):
     def __init__(self, **kwargs):
-        super(BaseCreateView, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.has_billing = 'weblate.billing' in settings.INSTALLED_APPS
 
     def get_form_kwargs(self):
-        kwargs = super(BaseCreateView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
@@ -87,7 +87,7 @@ class CreateProject(BaseCreateView):
     billings = None
 
     def get_form(self, form_class=None):
-        form = super(CreateProject, self).get_form(form_class)
+        form = super().get_form(form_class)
         billing_field = form.fields['billing']
         if self.has_billing:
             billing_field.queryset = self.billings
@@ -104,7 +104,7 @@ class CreateProject(BaseCreateView):
         return form
 
     def form_valid(self, form):
-        result = super(CreateProject, self).form_valid(form)
+        result = super().form_valid(form)
         if self.has_billing and form.cleaned_data['billing']:
             billing = form.cleaned_data['billing']
         else:
@@ -120,10 +120,10 @@ class CreateProject(BaseCreateView):
     def post(self, request, *args, **kwargs):
         if not self.can_create():
             return redirect('create-project')
-        return super(CreateProject, self).post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        kwargs = super(CreateProject, self).get_context_data(**kwargs)
+        kwargs = super().get_context_data(**kwargs)
         kwargs['can_create'] = self.can_create()
         if self.has_billing:
             from weblate.billing.models import Billing
@@ -144,7 +144,7 @@ class CreateProject(BaseCreateView):
                 if limit == 0 or billing.count_projects < limit:
                     pks.add(billing.pk)
             self.billings = Billing.objects.filter(pk__in=pks)
-        return super(CreateProject, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -166,7 +166,7 @@ class CreateComponent(BaseCreateView):
         return self.form_class
 
     def get_form_kwargs(self):
-        result = super(CreateComponent, self).get_form_kwargs()
+        result = super().get_form_kwargs()
         if self.request.method != 'POST':
             if self.initial:
                 # When going from other form (for example ZIP import)
@@ -183,7 +183,7 @@ class CreateComponent(BaseCreateView):
 
     def form_valid(self, form):
         if self.stage == 'create':
-            result = super(CreateComponent, self).form_valid(form)
+            result = super().form_valid(form)
             self.object.post_create(self.request.user)
             return result
         if self.stage == 'discover':
@@ -200,7 +200,7 @@ class CreateComponent(BaseCreateView):
 
     def get_form(self, form_class=None, empty=False):
         self.empty_form = empty
-        form = super(CreateComponent, self).get_form(form_class)
+        form = super().get_form(form_class)
         if 'project' in form.fields:
             project_field = form.fields['project']
             project_field.queryset = self.projects
@@ -211,7 +211,7 @@ class CreateComponent(BaseCreateView):
         return form
 
     def get_context_data(self, **kwargs):
-        kwargs = super(CreateComponent, self).get_context_data(**kwargs)
+        kwargs = super().get_context_data(**kwargs)
         kwargs['projects'] = self.projects
         kwargs['stage'] = self.stage
         return kwargs
@@ -257,7 +257,7 @@ class CreateComponent(BaseCreateView):
         if self.has_all_fields():
             return self.post(request, *args, **kwargs)
 
-        return super(CreateComponent, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class CreateFromZip(CreateComponent):
@@ -265,7 +265,7 @@ class CreateFromZip(CreateComponent):
 
     def form_valid(self, form):
         if self.stage != 'init':
-            return super(CreateFromZip, self).form_valid(form)
+            return super().form_valid(form)
 
         # Create fake component (needed to calculate path)
         fake = Component(
@@ -315,7 +315,7 @@ class CreateComponentSelection(CreateComponent):
         return result
 
     def fetch_params(self, request):
-        super(CreateComponentSelection, self).fetch_params(request)
+        super().fetch_params(request)
         self.components = (
             Component.objects.with_repo().prefetch().filter(project__in=self.projects)
         )
@@ -324,7 +324,7 @@ class CreateComponentSelection(CreateComponent):
         self.origin = request.POST.get('origin')
 
     def get_context_data(self, **kwargs):
-        kwargs = super(CreateComponentSelection, self).get_context_data(**kwargs)
+        kwargs = super().get_context_data(**kwargs)
         kwargs['components'] = self.components
         kwargs['selected_project'] = self.selected_project
         kwargs['existing_form'] = self.get_form(ComponentSelectForm, empty=True)
@@ -345,7 +345,7 @@ class CreateComponentSelection(CreateComponent):
         return kwargs
 
     def get_form(self, form_class=None, empty=False):
-        form = super(CreateComponentSelection, self).get_form(form_class, empty=empty)
+        form = super().get_form(form_class, empty=empty)
         if isinstance(form, ComponentBranchForm):
             form.fields['component'].queryset = Component.objects.filter(
                 pk__in=self.branch_data.keys()
@@ -400,4 +400,4 @@ class CreateComponentSelection(CreateComponent):
             if self.selected_project:
                 kwargs['project'] = self.selected_project
             return self.redirect_create(**kwargs)
-        return super(CreateComponentSelection, self).post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)

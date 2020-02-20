@@ -268,7 +268,7 @@ class BaseFormatCheck(TargetCheck):
                 return _('Following format strings are wrong: %s') % ', '.join(
                     self.format_string(x) for x in result
                 )
-        return super(BaseFormatCheck, self).get_description(check_obj)
+        return super().get_description(check_obj)
 
 
 class PythonFormatCheck(BaseFormatCheck):
@@ -387,7 +387,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         if 'auto-java-messageformat' in unit.all_flags and '{0' in unit.source:
             return False
 
-        return super(JavaMessageFormatCheck, self).should_skip(unit)
+        return super().should_skip(unit)
 
     def cleanup_string(self, text):
         """No cleanups here."""
@@ -402,6 +402,4 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         if target.count("'") % 2 != 0:
             return ["'"]
 
-        return super(JavaMessageFormatCheck, self).check_format(
-            source, target, ignore_missing
-        )
+        return super().check_format(source, target, ignore_missing)

@@ -41,7 +41,7 @@ class SearchViewTest(ViewTestCase):
     fake_search = False
 
     def setUp(self):
-        super(SearchViewTest, self).setUp()
+        super().setUp()
         self.translation = self.component.translation_set.get(language_code='cs')
         self.translate_url = self.translation.get_translate_url()
         self.update_fulltext_index()
@@ -199,7 +199,7 @@ class SearchBackendTest(ViewTestCase):
     fake_search = False
 
     def setUp(self):
-        super(SearchBackendTest, self).setUp()
+        super().setUp()
         self.update_fulltext_index()
 
     def test_add(self):
@@ -254,7 +254,7 @@ class ReplaceTest(ViewTestCase):
     fake_search = False
 
     def setUp(self):
-        super(ReplaceTest, self).setUp()
+        super().setUp()
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
         self.unit = self.get_unit()
 
@@ -307,7 +307,7 @@ class BulkStateTest(ViewTestCase):
     """Test for mass state change functionality."""
 
     def setUp(self):
-        super(BulkStateTest, self).setUp()
+        super().setUp()
         self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', fuzzy=True)
         self.unit = self.get_unit()
         self.make_manager()

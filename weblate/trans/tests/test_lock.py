@@ -28,7 +28,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class LockTest(ViewTestCase):
     def setUp(self):
-        super(LockTest, self).setUp()
+        super().setUp()
 
         # Need extra power
         self.user.is_superuser = True

@@ -43,7 +43,7 @@ class YAMLCustomizeAddon(StoreBaseAddon):
 
         This can be dropped once we require translate-toolkit 2.4.1
         """
-        if not super(YAMLCustomizeAddon, cls).can_install(component, user):
+        if not super().can_install(component, user):
             return False
         try:
             return hasattr(

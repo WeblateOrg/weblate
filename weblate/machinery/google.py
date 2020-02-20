@@ -43,15 +43,13 @@ class GoogleTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(GoogleTranslation, self).__init__()
+        super().__init__()
         if settings.MT_GOOGLE_KEY is None:
             raise MissingConfiguration('Google Translate requires API key')
 
     def convert_language(self, language):
         """Convert language to service specific code."""
-        return super(GoogleTranslation, self).convert_language(
-            language.replace('_', '-').split('@')[0]
-        )
+        return super().convert_language(language.replace('_', '-').split('@')[0])
 
     def download_languages(self):
         """List of supported languages."""
@@ -98,4 +96,4 @@ class GoogleTranslation(MachineTranslation):
             except Exception:
                 pass
 
-        return super(GoogleTranslation, self).get_error_message(exc)
+        return super().get_error_message(exc)

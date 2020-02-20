@@ -62,7 +62,7 @@ class Alert(models.Model):
 
     def save(self, *args, **kwargs):
         is_new = not self.id
-        super(Alert, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         if is_new:
             from weblate.trans.models import Change
 
@@ -105,17 +105,17 @@ class BaseAlert:
 
 class ErrorAlert(BaseAlert):
     def __init__(self, instance, error):
-        super(ErrorAlert, self).__init__(instance)
+        super().__init__(instance)
         self.error = error
 
 
 class MultiAlert(BaseAlert):
     def __init__(self, instance, occurrences):
-        super(MultiAlert, self).__init__(instance)
+        super().__init__(instance)
         self.occurrences = self.process_occurrences(occurrences)
 
     def get_context(self):
-        result = super(MultiAlert, self).get_context()
+        result = super().get_context()
         result['occurrences'] = self.occurrences
         return result
 
@@ -173,7 +173,7 @@ class DuplicateFilemask(BaseAlert):
     link_wide = True
 
     def __init__(self, instance, duplicates):
-        super(DuplicateFilemask, self).__init__(instance)
+        super().__init__(instance)
         self.duplicates = duplicates
 
 
@@ -255,6 +255,6 @@ class UnsupportedConfiguration(BaseAlert):
     verbose = _('Unsupported component configuration')
 
     def __init__(self, instance, vcs, file_format):
-        super(UnsupportedConfiguration, self).__init__(instance)
+        super().__init__(instance)
         self.vcs = vcs
         self.file_format = file_format

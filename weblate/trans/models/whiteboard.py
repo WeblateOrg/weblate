@@ -136,7 +136,7 @@ class WhiteboardMessage(models.Model):
 
     def save(self, *args, **kwargs):
         is_new = not self.id
-        super(WhiteboardMessage, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         if is_new:
             from weblate.trans.models.change import Change
 

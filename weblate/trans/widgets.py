@@ -87,7 +87,7 @@ class ContentWidget(Widget):
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
-        super(ContentWidget, self).__init__(obj, color, lang)
+        super().__init__(obj, color, lang)
         # Get translation status
         if lang:
             stats = obj.stats.get_single_language_stats(lang)
@@ -118,7 +118,7 @@ class BitmapWidget(ContentWidget):
 
     def __init__(self, obj, color=None, lang=None):
         """Create Widget object."""
-        super(BitmapWidget, self).__init__(obj, color, lang)
+        super().__init__(obj, color, lang)
         # Get object and related params
         self.total = obj.stats.source_strings
         self.languages = obj.stats.languages
@@ -326,7 +326,7 @@ class OpenGraphWidget(NormalWidget):
 
 class SiteOpenGraphWidget(OpenGraphWidget):
     def __init__(self, obj=None, color=None, lang=None):
-        super(SiteOpenGraphWidget, self).__init__(GlobalStats())
+        super().__init__(GlobalStats())
 
     def get_title(self):
         return '<b>{}</b>'.format(escape(settings.SITE_TITLE))

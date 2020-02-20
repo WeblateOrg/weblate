@@ -125,7 +125,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
-        super(Translation, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
         self.commit_template = ''

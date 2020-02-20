@@ -163,7 +163,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     EXPECTED_FLAGS = 'c-format, max-length:100'
 
     def setUp(self):
-        super(AutoFormatTest, self).setUp()
+        super().setUp()
         self.create_temp()
         if self.FORMAT.format_id not in FILE_FORMATS:
             raise SkipTest(
@@ -171,7 +171,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
             )
 
     def tearDown(self):
-        super(AutoFormatTest, self).tearDown()
+        super().tearDown()
         self.remove_temp()
 
     def parse_file(self, filename):
@@ -409,7 +409,7 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     def test_new_unit(self):
         if translate.__version__.ver <= (2, 2, 5):
             raise SkipTest('Broken WebExtension support in translate-toolkit')
-        super(WebExtesionJSONFormatTest, self).test_new_unit()
+        super().test_new_unit()
 
 
 class PhpFormatTest(AutoFormatTest):
@@ -560,7 +560,7 @@ class PoXliffFormatTest2(PoXliffFormatTest):
     FIND_MATCH = 'Ahoj světe!\n'
 
     def test_save(self, edit=False):
-        super(PoXliffFormatTest2, self).test_save(edit)
+        super().test_save(edit)
 
 
 class RESXFormatTest(XMLMixin, AutoFormatTest):
@@ -634,7 +634,7 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
         # Comparing of XML with doctype fails...
         newdata = force_text(newdata).replace('<!DOCTYPE TS>', '')
         testdata = force_text(testdata).replace('<!DOCTYPE TS>', '')
-        super(TSFormatTest, self).assert_same(newdata, testdata)
+        super().assert_same(newdata, testdata)
 
 
 class DTDFormatTest(AutoFormatTest):

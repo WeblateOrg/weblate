@@ -38,7 +38,7 @@ class BaseCommand(DjangoBaseCommand):
                 console.setLevel(logging.ERROR)
             console.setFormatter(logging.Formatter("%(levelname)s %(message)s"))
             logger.addHandler(console)
-        return super(BaseCommand, self).execute(*args, **options)
+        return super().execute(*args, **options)
 
     def handle(self, *args, **options):
         """The actual logic of the command.

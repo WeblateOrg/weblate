@@ -68,7 +68,7 @@ class MultiRepoTest(ViewTestCase):
     _filemask = 'po/*.po'
 
     def setUp(self):
-        super(MultiRepoTest, self).setUp()
+        super().setUp()
         if self._vcs not in VCS_REGISTRY:
             raise SkipTest('VCS {0} not available!'.format(self._vcs))
         repo = push = self.format_local_path(

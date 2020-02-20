@@ -268,7 +268,7 @@ class DummyTranslationStats(BaseStats):
     """
 
     def __init__(self, obj):
-        super(DummyTranslationStats, self).__init__(obj)
+        super().__init__(obj)
         self.language = obj
 
     @property
@@ -295,7 +295,7 @@ class TranslationStats(BaseStats):
     """Per translation stats."""
 
     def invalidate(self, language=None):
-        super(TranslationStats, self).invalidate()
+        super().invalidate()
         self._object.component.stats.invalidate(language=self._object.language)
         self._object.language.stats.invalidate()
 
@@ -495,7 +495,7 @@ class ComponentStats(LanguageStats):
             self.store("source_strings", stats_obj.all)
 
     def invalidate(self, language=None):
-        super(ComponentStats, self).invalidate()
+        super().invalidate()
         self._object.project.stats.invalidate(language=language)
         for clist in self._object.componentlist_set.iterator():
             clist.stats.invalidate()
@@ -515,7 +515,7 @@ class ComponentStats(LanguageStats):
 class ProjectLanguageStats(LanguageStats):
     def __init__(self, obj, lang):
         self.language = lang
-        super(ProjectLanguageStats, self).__init__(obj)
+        super().__init__(obj)
 
     @property
     def pk(self):
@@ -527,9 +527,7 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def cache_key(self):
-        return "{}-{}".format(
-            super(ProjectLanguageStats, self).cache_key, self.language.pk
-        )
+        return "{}-{}".format(super().cache_key, self.language.pk)
 
     @cached_property
     def translation_set(self):
@@ -555,7 +553,7 @@ class ProjectLanguageStats(LanguageStats):
         self.store("source_strings", strings)
 
     def prefetch_basic(self):
-        super(ProjectLanguageStats, self).prefetch_basic()
+        super().prefetch_basic()
         self.store("languages", 1)
 
 
@@ -567,7 +565,7 @@ class ProjectStats(BaseStats):
         return self._object.enable_review
 
     def invalidate(self, language=None):
-        super(ProjectStats, self).invalidate()
+        super().invalidate()
         if language:
             self.get_single_language_stats(language).invalidate()
         else:
@@ -645,7 +643,7 @@ class GlobalStats(BaseStats):
     basic_keys = SOURCE_KEYS
 
     def __init__(self):
-        super(GlobalStats, self).__init__(None)
+        super().__init__(None)
 
     @cached_property
     def project_set(self):

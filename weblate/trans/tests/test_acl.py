@@ -31,7 +31,7 @@ from weblate.trans.tests.test_views import FixtureTestCase
 
 class ACLTest(FixtureTestCase):
     def setUp(self):
-        super(ACLTest, self).setUp()
+        super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.access_url = reverse('manage-access', kwargs=self.kw_project)

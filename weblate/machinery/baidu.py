@@ -58,7 +58,7 @@ class BaiduTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(BaiduTranslation, self).__init__()
+        super().__init__()
         if settings.MT_BAIDU_ID is None:
             raise MissingConfiguration('Baidu Translate requires app key')
         if settings.MT_BAIDU_SECRET is None:

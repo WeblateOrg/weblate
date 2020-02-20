@@ -221,7 +221,7 @@ class MarkdownBaseCheck(TargetCheck):
     default_disabled = True
 
     def __init__(self):
-        super(MarkdownBaseCheck, self).__init__()
+        super().__init__()
         self.enable_string = 'md-text'
 
 

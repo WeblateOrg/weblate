@@ -65,12 +65,12 @@ class GtLtPlugin(whoosh.qparser.GtLtPlugin):
     def match(self, parser, text, pos):
         if pos == 0 or text[pos - 1] != ":":
             return None
-        return super(GtLtPlugin, self).match(parser, text, pos)
+        return super().match(parser, text, pos)
 
 
 class DateParser(whoosh.qparser.dateparse.English):
     def setup(self):
-        super(DateParser, self).setup()
+        super().setup()
         # We prefer simple parser prior to datetime
         # This might not be necessary after following issue is fixed:
         # https://github.com/whoosh-community/whoosh/issues/552
@@ -79,12 +79,10 @@ class DateParser(whoosh.qparser.dateparse.English):
 
 class StateField(NUMERIC):
     def parse_query(self, fieldname, qstring, boost=1.0):
-        return super(StateField, self).parse_query(
-            fieldname, state_to_int(qstring), boost
-        )
+        return super().parse_query(fieldname, state_to_int(qstring), boost)
 
     def parse_range(self, fieldname, start, end, startexcl, endexcl, boost=1.0):
-        return super(StateField, self).parse_range(
+        return super().parse_range(
             fieldname, state_to_int(start), state_to_int(end), startexcl, endexcl, boost
         )
 
@@ -154,7 +152,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             whoosh.qparser.dateparse.DateParserPlugin(dateparser=DateParser()),
             whoosh.qparser.MultifieldPlugin(["source", "target", "context"]),
         ]
-        super(QueryParser, self).__init__(None, schema, plugins=plugins)
+        super().__init__(None, schema, plugins=plugins)
 
     def term_query(
         self, fieldname, text, termclass, boost=1.0, tokenize=True, removestops=True
@@ -162,7 +160,7 @@ class QueryParser(whoosh.qparser.QueryParser):
         if self.schema and fieldname in self.schema:
             if isinstance(self.schema[fieldname], TEXT):
                 return termclass(fieldname, text, boost=boost)
-        return super(QueryParser, self).term_query(
+        return super().term_query(
             fieldname, text, termclass, boost, tokenize, removestops
         )
 

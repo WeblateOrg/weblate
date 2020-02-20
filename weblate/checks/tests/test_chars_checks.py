@@ -49,7 +49,7 @@ class BeginNewlineCheckTest(CheckTestCase):
     check = BeginNewlineCheck()
 
     def setUp(self):
-        super(BeginNewlineCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('\nstring', '\nstring', '')
         self.test_failure_1 = ('\nstring', ' \nstring', '')
         self.test_failure_2 = ('string', '\nstring', '')
@@ -59,7 +59,7 @@ class EndNewlineCheckTest(CheckTestCase):
     check = EndNewlineCheck()
 
     def setUp(self):
-        super(EndNewlineCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string\n', 'string\n', '')
         self.test_failure_1 = ('string\n', 'string', '')
         self.test_failure_2 = ('string', 'string\n', '')
@@ -69,7 +69,7 @@ class BeginSpaceCheckTest(CheckTestCase):
     check = BeginSpaceCheck()
 
     def setUp(self):
-        super(BeginSpaceCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('   string', '   string', '')
         self.test_good_ignore = ('.', ' ', '')
         self.test_good_none = (' The ', '  ', '')
@@ -81,7 +81,7 @@ class EndSpaceCheckTest(CheckTestCase):
     check = EndSpaceCheck()
 
     def setUp(self):
-        super(EndSpaceCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string  ', 'string  ', '')
         self.test_good_ignore = ('.', ' ', '')
         self.test_good_none = (' The ', '  ', '')
@@ -93,7 +93,7 @@ class DoubleSpaceCheckTest(CheckTestCase):
     check = DoubleSpaceCheck()
 
     def setUp(self):
-        super(DoubleSpaceCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string  string', 'string  string', '')
         self.test_good_ignore = ('  ', ' ', '')
         self.test_failure_1 = ('string string', 'string  string', '')
@@ -103,7 +103,7 @@ class EndStopCheckTest(CheckTestCase):
     check = EndStopCheck()
 
     def setUp(self):
-        super(EndStopCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string.', 'string.', '')
         self.test_good_ignore = ('.', ' ', '')
         self.test_failure_1 = ('string.', 'string', '')
@@ -127,7 +127,7 @@ class EndColonCheckTest(CheckTestCase):
     check = EndColonCheck()
 
     def setUp(self):
-        super(EndColonCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string:', 'string:', '')
         self.test_failure_1 = ('string:', 'string', '')
         self.test_failure_2 = ('string', 'string:', '')
@@ -148,7 +148,7 @@ class EndQuestionCheckTest(CheckTestCase):
     check = EndQuestionCheck()
 
     def setUp(self):
-        super(EndQuestionCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string?', 'string?', '')
         self.test_failure_1 = ('string?', 'string', '')
         self.test_failure_2 = ('string', 'string?', '')
@@ -173,7 +173,7 @@ class EndExclamationCheckTest(CheckTestCase):
     check = EndExclamationCheck()
 
     def setUp(self):
-        super(EndExclamationCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string!', 'string!', '')
         self.test_failure_1 = ('string!', 'string', '')
         self.test_failure_2 = ('string', 'string!', '')
@@ -191,7 +191,7 @@ class EndEllipsisCheckTest(CheckTestCase):
     check = EndEllipsisCheck()
 
     def setUp(self):
-        super(EndEllipsisCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string…', 'string…', '')
         self.test_failure_1 = ('string…', 'string...', '')
         self.test_failure_2 = ('string.', 'string…', '')
@@ -205,7 +205,7 @@ class EscapedNewlineCountingCheckTest(CheckTestCase):
     check = EscapedNewlineCountingCheck()
 
     def setUp(self):
-        super(EscapedNewlineCountingCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string\\nstring', 'string\\nstring', '')
         self.test_failure_1 = ('string\\nstring', 'string\\n\\nstring', '')
         self.test_failure_2 = ('string\\n\\nstring', 'string\\nstring', '')
@@ -215,7 +215,7 @@ class NewLineCountCheckTest(CheckTestCase):
     check = NewLineCountCheck()
 
     def setUp(self):
-        super(NewLineCountCheckTest, self).setUp()
+        super().setUp()
         self.test_single_good_matching = ('string\n\nstring', 'string\n\nstring', '')
         self.test_failure_1 = ('string\nstring', 'string\n\n\nstring', '')
         self.test_failure_2 = ('string\nstring\n\nstring', 'string\nstring\nstring', '')
@@ -225,7 +225,7 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
     check = ZeroWidthSpaceCheck()
 
     def setUp(self):
-        super(ZeroWidthSpaceCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('str\u200bing', 'str\u200bing', '')
         self.test_failure_1 = ('str\u200bing', 'string', '')
         self.test_failure_2 = ('string', 'str\u200bing', '')
@@ -278,7 +278,7 @@ class EndSemicolonCheckTest(CheckTestCase):
     check = EndSemicolonCheck()
 
     def setUp(self):
-        super(EndSemicolonCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string;', 'string;', '')
         self.test_failure_1 = ('string;', 'string', '')
         self.test_failure_2 = ('string:', 'string;', '')
@@ -292,7 +292,7 @@ class KashidaCheckTest(CheckTestCase):
     check = KashidaCheck()
 
     def setUp(self):
-        super(KashidaCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = ('string', 'string', '')
         self.test_failure_1 = ('string', 'string\u0640', '')
         self.test_failure_2 = ('string', 'string\uFE79', '')
@@ -304,7 +304,7 @@ class PuctuationSpacingCheckTest(CheckTestCase):
     default_lang = 'fr'
 
     def setUp(self):
-        super(PuctuationSpacingCheckTest, self).setUp()
+        super().setUp()
         self.test_good_matching = (
             'string? string! string: string;',
             'string ? string\u202F! string&nbsp;; string\u00A0:',

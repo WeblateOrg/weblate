@@ -36,7 +36,7 @@ class YandexTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(YandexTranslation, self).__init__()
+        super().__init__()
         if settings.MT_YANDEX_KEY is None:
             raise MissingConfiguration('Yandex Translate requires API key')
 

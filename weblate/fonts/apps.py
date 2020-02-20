@@ -31,5 +31,5 @@ class FontsConfig(AppConfig):
     verbose_name = "Fonts"
 
     def ready(self):
-        super(FontsConfig, self).ready()
+        super().ready()
         register(check_fonts)

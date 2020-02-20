@@ -148,7 +148,7 @@ class Project(models.Model, URLMixin, PathMixin):
         verbose_name_plural = gettext_lazy('Projects')
 
     def __init__(self, *args, **kwargs):
-        super(Project, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
 
@@ -216,7 +216,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
         self.create_path()
 
-        super(Project, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         # Reload components after source language change
         if old is not None and old.source_language != self.source_language:

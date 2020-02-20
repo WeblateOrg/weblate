@@ -40,4 +40,4 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
             for version in get_versions_list():
                 meta['WEBLATE_VERSION:{0}'.format(version[0])] = version[2]
 
-        return super(WeblateExceptionReporterFilter, self).get_post_parameters(request)
+        return super().get_post_parameters(request)

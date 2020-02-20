@@ -54,7 +54,7 @@ class ImportBaseTest(ViewTestCase):
     test_file = TEST_PO
 
     def setUp(self):
-        super(ImportBaseTest, self).setUp()
+        super().setUp()
         # We need extra privileges for overwriting
         self.user.is_superuser = True
         self.user.save()
@@ -371,7 +371,7 @@ class ExportTest(ViewTestCase):
         return self.create_po()
 
     def setUp(self):
-        super(ExportTest, self).setUp()
+        super().setUp()
         # Add some content so that .mo files is non empty
         self.edit_unit(self.source, self.target)
 

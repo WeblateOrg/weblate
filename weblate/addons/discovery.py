@@ -52,7 +52,7 @@ class DiscoveryAddon(BaseAddon):
         if 'data' not in kwargs:
             kwargs['data'] = self.instance.configuration
             kwargs['data']['confirm'] = False
-        return super(DiscoveryAddon, self).get_settings_form(**kwargs)
+        return super().get_settings_form(**kwargs)
 
     @cached_property
     def discovery(self):

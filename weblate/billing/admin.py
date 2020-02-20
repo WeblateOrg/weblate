@@ -78,7 +78,7 @@ class BillingAdmin(WeblateModelAdmin):
     list_owners.short_description = _('Owners')
 
     def get_form(self, request, obj=None, **kwargs):
-        form = super(BillingAdmin, self).get_form(request, obj, **kwargs)
+        form = super().get_form(request, obj, **kwargs)
         form.base_fields['owners'].label_from_instance = format_user
         return form
 

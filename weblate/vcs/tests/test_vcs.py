@@ -104,7 +104,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _remote_branches = ['master', 'translations']
 
     def setUp(self):
-        super(VCSGitTest, self).setUp()
+        super().setUp()
         if not self._class.is_supported():
             raise SkipTest('Not supported')
 
@@ -422,7 +422,7 @@ class VCSGithubTest(VCSGitTest):
         backup = self._class
         self._class = GitRepository
         try:
-            super(VCSGithubTest, self).add_remote_commit(conflict, rename)
+            super().add_remote_commit(conflict, rename)
         finally:
             self._class = backup
 
@@ -493,7 +493,7 @@ class VCSSubversionBranchTest(VCSSubversionTest):
     """Cloning subversion branch directly."""
 
     def clone_test_repos(self):
-        super(VCSSubversionBranchTest, self).clone_test_repos()
+        super().clone_test_repos()
         self.subversion_repo_path += '/trunk'
 
 
@@ -544,7 +544,7 @@ class VCSLocalTest(VCSGitTest):
 
     @classmethod
     def setUpClass(cls):
-        super(VCSLocalTest, cls).setUpClass()
+        super().setUpClass()
         # Global setup to configure git committer
         GitRepository.global_setup()
 

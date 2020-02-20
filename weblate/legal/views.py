@@ -41,7 +41,7 @@ class LegalView(TemplateView):
     page = 'index'
 
     def get_context_data(self, **kwargs):
-        context = super(LegalView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
 
         context['legal_menu'] = MENU
         context['legal_page'] = self.page

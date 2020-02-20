@@ -58,7 +58,7 @@ class Font(models.Model, UserDisplayMixin):
         unique_together = [("family", "style", "project")]
 
     def __init__(self, *args, **kwargs):
-        super(Font, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.field_errors = {}
 
     def __str__(self):
@@ -70,7 +70,7 @@ class Font(models.Model, UserDisplayMixin):
     def clean_fields(self, exclude=None):
         self.field_errors = {}
         try:
-            super(Font, self).clean_fields(exclude)
+            super().clean_fields(exclude)
         except ValidationError as error:
             self.field_errors = error.error_dict
             raise
@@ -84,7 +84,7 @@ class Font(models.Model, UserDisplayMixin):
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         self.clean()
-        super(Font, self).save(force_insert, force_update, using, update_fields)
+        super().save(force_insert, force_update, using, update_fields)
 
     def get_usage(self):
         related = FontGroup.objects.filter(

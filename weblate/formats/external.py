@@ -95,7 +95,7 @@ class XlsxFormat(CSVFormat):
         content = output.getvalue().encode("utf-8")
 
         # Load the file as CSV
-        return super(XlsxFormat, cls).parse_store(BytesIOMode(name, content))
+        return super().parse_store(BytesIOMode(name, content))
 
     @staticmethod
     def mimetype():

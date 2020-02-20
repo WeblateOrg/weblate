@@ -30,5 +30,5 @@ class AccountsConfig(AppConfig):
     verbose_name = 'Accounts'
 
     def ready(self):
-        super(AccountsConfig, self).ready()
+        super().ready()
         register(check_avatars, deploy=True)

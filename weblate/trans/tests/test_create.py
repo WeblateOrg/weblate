@@ -35,7 +35,7 @@ TEST_INVALID_ZIP = get_test_file('invalid.zip')
 class CreateTest(ViewTestCase):
     @classmethod
     def setUpClass(cls):
-        super(CreateTest, cls).setUpClass()
+        super().setUpClass()
         # Global setup to configure git committer
         GitRepository.global_setup()
 

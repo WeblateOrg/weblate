@@ -44,7 +44,7 @@ class UtilsConfig(AppConfig):
     verbose_name = 'Utils'
 
     def ready(self):
-        super(UtilsConfig, self).ready()
+        super().ready()
         register(check_data_writable)
         register(check_mail_connection, deploy=True)
         register(check_celery, deploy=True)

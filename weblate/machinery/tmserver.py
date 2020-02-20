@@ -36,7 +36,7 @@ class TMServerTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(TMServerTranslation, self).__init__()
+        super().__init__()
         self.url = self.get_server_url()
 
     @staticmethod

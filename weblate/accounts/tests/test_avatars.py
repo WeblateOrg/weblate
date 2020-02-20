@@ -38,7 +38,7 @@ TEST_URL = (
 
 class AvatarTest(FixtureTestCase):
     def setUp(self):
-        super(AvatarTest, self).setUp()
+        super().setUp()
         self.user.email = 'test@example.com'
         self.user.save()
 

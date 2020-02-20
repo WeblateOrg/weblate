@@ -43,7 +43,7 @@ class Command(BaseCommand):
     help = 'imports projects with more components'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--name-template',
             default='{{ component }}',
@@ -126,7 +126,7 @@ class Command(BaseCommand):
         parser.add_argument('filemask', help='File mask')
 
     def __init__(self, *args, **kwargs):
-        super(Command, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.filemask = None
         self.component_re = None
         self.file_format = None

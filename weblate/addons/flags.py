@@ -41,7 +41,7 @@ class FlagBase(BaseAddon):
             return False
         if component.template_store.format_id in SUPPORT_FUZZY:
             return False
-        return super(FlagBase, cls).can_install(component, user)
+        return super().can_install(component, user)
 
 
 class SourceEditAddon(FlagBase):

@@ -33,7 +33,7 @@ class GitNoChangeProjectTest(ViewTestCase):
     TEST_TYPE = 'project'
 
     def setUp(self):
-        super(GitNoChangeProjectTest, self).setUp()
+        super().setUp()
         # We need extra privileges for overwriting
         self.user.is_superuser = True
         self.user.save()
@@ -90,7 +90,7 @@ class GitChangeProjectTest(GitNoChangeProjectTest):
     STATUS_CHECK = 'There are some uncommitted changes!'
 
     def setUp(self):
-        super(GitChangeProjectTest, self).setUp()
+        super().setUp()
         self.change_unit('Ahoj světe!\n')
 
 
@@ -112,7 +112,7 @@ class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
     STATUS_CHECK = 'There are some new commits in the local repository.'
 
     def setUp(self):
-        super(GitCommittedChangeProjectTest, self).setUp()
+        super().setUp()
         self.change_unit('Ahoj světe!\n')
         self.project.commit_pending('test', self.user)
 

@@ -28,7 +28,7 @@ from weblate.utils.classloader import ClassLoader
 
 class FileFormatLoader(ClassLoader):
     def __init__(self):
-        super(FileFormatLoader, self).__init__('WEBLATE_FORMATS', False)
+        super().__init__('WEBLATE_FORMATS', False)
         self.errors = {}
 
     @cached_property
@@ -40,7 +40,7 @@ class FileFormatLoader(ClassLoader):
         return result
 
     def load_data(self):
-        result = super(FileFormatLoader, self).load_data()
+        result = super().load_data()
 
         for fileformat in list(result.values()):
             error_name = 'File format: {0}'.format(fileformat.format_id)

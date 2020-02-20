@@ -31,17 +31,17 @@ from weblate.utils.files import remove_readonly
 class tempdir_setting(override_settings):  # noqa
     def __init__(self, setting):
         kwargs = {setting: None}
-        super(tempdir_setting, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self._tempdir = None
         self._setting = setting
 
     def enable(self):
         self._tempdir = tempfile.mkdtemp()
         self.options[self._setting] = self._tempdir
-        super(tempdir_setting, self).enable()
+        super().enable()
 
     def disable(self):
-        super(tempdir_setting, self).disable()
+        super().disable()
         if self._tempdir is not None:
             shutil.rmtree(self._tempdir, onerror=remove_readonly)
             self._tempdir = None

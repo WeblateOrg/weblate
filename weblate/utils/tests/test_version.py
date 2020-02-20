@@ -33,7 +33,7 @@ from weblate.utils.version import (
 
 class VersionTest(SimpleTestCase):
     def setUp(self):
-        super(VersionTest, self).setUp()
+        super().setUp()
         flush_version_cache()
 
     @staticmethod

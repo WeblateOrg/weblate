@@ -55,7 +55,7 @@ class BaseCleanupAddon(UpdateBaseAddon):
     def can_install(cls, component, user):
         if not component.has_template():
             return False
-        return super(BaseCleanupAddon, cls).can_install(component, user)
+        return super().can_install(component, user)
 
 
 class CleanupAddon(BaseCleanupAddon):

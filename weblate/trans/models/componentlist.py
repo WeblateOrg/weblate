@@ -76,7 +76,7 @@ class ComponentList(models.Model):
         return self.name
 
     def __init__(self, *args, **kwargs):
-        super(ComponentList, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.stats = ComponentListStats(self)
 
     def get_absolute_url(self):

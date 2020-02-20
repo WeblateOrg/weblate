@@ -36,7 +36,7 @@ class FontGroupForm(forms.ModelForm):
         fields = ("name", "font")
 
     def __init__(self, data=None, project=None, **kwargs):
-        super(FontGroupForm, self).__init__(data, **kwargs)
+        super().__init__(data, **kwargs)
         self.fields["font"].queryset = self.fields["font"].queryset.filter(
             project=project
         )

@@ -484,7 +484,7 @@ class LastAuthorCommentNotificaton(Notification):
             users = []
         else:
             users = [last_author.pk]
-        return super(LastAuthorCommentNotificaton, self).get_users(
+        return super().get_users(
             frequency, change, project, component, translation, users
         )
 
@@ -517,7 +517,7 @@ class MentionCommentNotificaton(Notification):
         if self.has_required_attrs(change):
             return []
         users = [user.pk for user in get_mentions(change.comment.comment)]
-        return super(MentionCommentNotificaton, self).get_users(
+        return super().get_users(
             frequency, change, project, component, translation, users
         )
 
@@ -534,7 +534,7 @@ class NewCommentNotificaton(Notification):
         return change.comment.unit.translation.is_source
 
     def notify_immediate(self, change):
-        super(NewCommentNotificaton, self).notify_immediate(change)
+        super().notify_immediate(change)
 
         # Notify upstream
         report_source_bugs = change.component.report_source_bugs
@@ -561,9 +561,7 @@ class NewTranslationNotificaton(Notification):
     template_name = 'new_language'
 
     def get_context(self, change=None, subscription=None, extracontext=None):
-        context = super(NewTranslationNotificaton, self).get_context(
-            change, subscription, extracontext
-        )
+        context = super().get_context(change, subscription, extracontext)
         if change:
             context['language'] = Language.objects.get(code=change.details['language'])
             context['was_added'] = change.action == Change.ACTION_ADDED_LANGUAGE

@@ -35,7 +35,7 @@ class SAPTranslationHub(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(SAPTranslationHub, self).__init__()
+        super().__init__()
         if settings.MT_SAP_BASE_URL is None:
             raise MissingConfiguration('missing SAP Translation Hub configuration')
 

@@ -37,7 +37,7 @@ class DeepLTranslation(MachineTranslation):
 
     def __init__(self):
         """Check configuration."""
-        super(DeepLTranslation, self).__init__()
+        super().__init__()
         if settings.MT_DEEPL_KEY is None:
             raise MissingConfiguration('DeepL requires API key')
 

@@ -77,7 +77,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        if not super(UpdateLinguasAddon, cls).can_install(component, user):
+        if not super().can_install(component, user):
             return False
         path = cls.get_linguas_path(component)
         return path and os.path.exists(path)
@@ -152,7 +152,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        if not super(UpdateConfigureAddon, cls).can_install(component, user):
+        if not super().can_install(component, user):
             return False
         for name in cls.get_configure_paths(component):
             try:
@@ -222,7 +222,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     def can_install(cls, component, user):
         if not component.new_base or find_command('msgmerge') is None:
             return False
-        return super(MsgmergeAddon, cls).can_install(component, user)
+        return super().can_install(component, user)
 
     def update_translations(self, component, previous_head):
         cmd = [

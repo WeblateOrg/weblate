@@ -31,7 +31,7 @@ class JSONField(models.TextField):
     def __init__(self, **kwargs):
         if 'default' not in kwargs:
             kwargs['default'] = {}
-        super(JSONField, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def to_python(self, value):
         """Convert a string from the database to a Python value."""
@@ -48,7 +48,7 @@ class JSONField(models.TextField):
             return None
         if isinstance(value, (dict, list)):
             return json.dumps(value, cls=DjangoJSONEncoder)
-        return super(JSONField, self).get_prep_value(value)
+        return super().get_prep_value(value)
 
     def from_db_value(self, value, *args, **kwargs):
         return self.to_python(value)
@@ -59,5 +59,5 @@ class JSONField(models.TextField):
         return json.dumps(value, cls=DjangoJSONEncoder)
 
     def value_from_object(self, obj):
-        value = super(JSONField, self).value_from_object(obj)
+        value = super().value_from_object(obj)
         return json.dumps(value, cls=DjangoJSONEncoder)

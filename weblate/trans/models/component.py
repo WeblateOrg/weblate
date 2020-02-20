@@ -504,7 +504,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
-        super(Component, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self._file_format = None
         self.stats = ComponentStats(self)
         self.addons_cache = None
@@ -1768,7 +1768,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.new_base = cleanup_path(self.new_base)
 
         # Save/Create object
-        super(Component, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         # Ensure source translation is existing, otherwise we might
         # be hitting race conditions between background update and frontend displaying

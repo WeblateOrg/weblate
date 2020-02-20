@@ -150,7 +150,7 @@ class EmailSentView(TemplateView):
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
-        context = super(EmailSentView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['is_reset'] = False
         context['is_remove'] = False
         # This view is not visible for invitation that's
@@ -181,7 +181,7 @@ class EmailSentView(TemplateView):
         else:
             request.session.pop('registration-email-sent')
 
-        return super(EmailSentView, self).get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
 
 def mail_admins_contact(request, subject, message, context, sender, to):
@@ -568,7 +568,7 @@ class WeblateLoginView(LoginView):
     redirect_authenticated_user = True
 
     def get_context_data(self, **kwargs):
-        context = super(WeblateLoginView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
         context['login_backends'] = [x for x in auth_backends if x != 'email']
         context['can_reset'] = 'email' in auth_backends
@@ -589,7 +589,7 @@ class WeblateLoginView(LoginView):
         if 'next' in request.GET:
             messages.info(request, _('Log in to use Weblate.'))
 
-        return super(WeblateLoginView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class WeblateLogoutView(LogoutView):
@@ -599,7 +599,7 @@ class WeblateLogoutView(LogoutView):
     @method_decorator(login_required)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        return super(WeblateLogoutView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_next_page(self):
         messages.info(self.request, _('Thank you for using Weblate.'))
@@ -891,7 +891,7 @@ class SuggestionView(ListView):
         ).order()
 
     def get_context_data(self):
-        result = super(SuggestionView, self).get_context_data()
+        result = super().get_context_data()
         if self.kwargs['user'] == '-':
             user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         else:

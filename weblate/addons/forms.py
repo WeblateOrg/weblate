@@ -46,7 +46,7 @@ class AddonFormMixin:
 class BaseAddonForm(forms.Form, AddonFormMixin):
     def __init__(self, addon, instance=None, *args, **kwargs):
         self._addon = addon
-        super(BaseAddonForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class GenerateMoForm(BaseAddonForm):
@@ -58,7 +58,7 @@ class GenerateMoForm(BaseAddonForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super(GenerateMoForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field('path'), Div(template='addons/generatemo_help.html')
@@ -80,7 +80,7 @@ class GenerateForm(BaseAddonForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super(GenerateForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field('filename'),
@@ -144,7 +144,7 @@ class GitSquashForm(BaseAddonForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super(GitSquashForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field('squash'), Div(template='addons/squash_help.html')
@@ -258,7 +258,7 @@ class DiscoveryForm(BaseAddonForm):
     )
 
     def __init__(self, *args, **kwargs):
-        super(DiscoveryForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field('match'),
@@ -343,16 +343,14 @@ class DiscoveryForm(BaseAddonForm):
 class AutoAddonForm(AutoForm, AddonFormMixin):
     def __init__(self, addon, instance=None, *args, **kwargs):
         self._addon = addon
-        super(AutoAddonForm, self).__init__(
-            obj=addon.instance.component, *args, **kwargs
-        )
+        super().__init__(obj=addon.instance.component, *args, **kwargs)
 
 
 class BulkEditAddonForm(BulkEditForm, AddonFormMixin):
     def __init__(self, addon, instance=None, *args, **kwargs):
         self._addon = addon
         component = addon.instance.component
-        super(BulkEditAddonForm, self).__init__(
+        super().__init__(
             obj=component, project=component.project, user=None, *args, **kwargs
         )
 

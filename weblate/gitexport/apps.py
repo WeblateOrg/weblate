@@ -32,7 +32,7 @@ class GitExportConfig(AppConfig):
     verbose_name = 'Git Exporter'
 
     def ready(self):
-        super(GitExportConfig, self).ready()
+        super().ready()
         register(check_git_backend)
 
 

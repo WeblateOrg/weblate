@@ -36,7 +36,7 @@ class Command(BaseCommand):
     help = 'imports projects based on JSON data'
 
     def add_arguments(self, parser):
-        super(Command, self).add_arguments(parser)
+        super().add_arguments(parser)
         parser.add_argument(
             '--project', default=None, required=True, help=('Project where to operate')
         )

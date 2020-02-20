@@ -50,7 +50,7 @@ class RepositoryException(Exception):
     """Error while working with a repository."""
 
     def __init__(self, retcode, message):
-        super(RepositoryException, self).__init__(message)
+        super().__init__(message)
         self.retcode = retcode
 
     def get_message(self):

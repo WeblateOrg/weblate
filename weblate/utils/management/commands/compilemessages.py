@@ -34,4 +34,4 @@ class Command(BaseCommand):
         locations = [l for l in locations if not should_skip(l[0])]
         if not locations:
             return
-        super(Command, self).compile_messages(locations)
+        super().compile_messages(locations)
