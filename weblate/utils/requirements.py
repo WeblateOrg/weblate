@@ -43,7 +43,6 @@ REQUIRES = [
     "lxml",
     "Pillow",
     "bleach",
-    "six",
     "python-dateutil",
     "social-auth-core",
     "social-auth-app-django",
