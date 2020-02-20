@@ -72,11 +72,7 @@ SPLIT_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Python 2 with UCS-2 build:
-if sys.maxunicode == 65535:
-    EMOJI_RE = re.compile(u'[\U2600-\U27BF]|(?:[\uD83C-\uD83E][\uDC00-\uDFFF]|\uD83F[\uDC00-\uDFFD])')
-else:
-    EMOJI_RE = re.compile(u'[\U00002600-\U000027BF]|[\U0001f000-\U0001fffd]')
+EMOJI_RE = re.compile(u'[\U00002600-\U000027BF]|[\U0001f000-\U0001fffd]')
 
 # Docbook tags to ignore
 DB_TAGS = ('screen', 'indexterm', 'programlisting')

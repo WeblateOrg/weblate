@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.5, 3.6, 3.7, 3.8]
+        python-version: [3.5, 3.6, 3.7, 3.8]
         requirements: ["latest", "minimal", "edge"]
         database: ["postgresql", "sqlite"]
         exclude:
@@ -66,19 +66,6 @@ jobs:
             requirements: "edge"
             database: "postgresql"
           - python-version: 3.7
-            requirements: "edge"
-            database: "postgresql"
-          # Limit tests for 2.7
-          - python-version: 2.7
-            requirements: "minimal"
-            database: "sqlite"
-          - python-version: 2.7
-            requirements: "minimal"
-            database: "postgresql"
-          - python-version: 2.7
-            requirements: "edge"
-            database: "sqlite"
-          - python-version: 2.7
             requirements: "edge"
             database: "postgresql"
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
