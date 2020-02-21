@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-15 15:24+0000\n"
-"PO-Revision-Date: 2020-02-20 09:38+0000\n"
+"PO-Revision-Date: 2020-02-21 17:32+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.11\n"
+"X-Generator: Weblate 3.11.1\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -165,9 +165,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:531
 msgid "This account is inactive."
-msgstr ""
-"ありがとうございました。只今、あなたのアカウントが認証されました。ユーザ名は "
-"<b>%(username)s</b> です。"
+msgstr "無効化されたアカウントです。"
 
 #: weblate/accounts/forms.py:550
 msgid "Too many authentication attempts from this location!"
@@ -263,7 +261,7 @@ msgstr "パスワードが変更されました。"
 #: weblate/accounts/models.py:83
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr "ユーザー名を {old} から {new} に変更しました。"
+msgstr "ユーザ名を {old} から {new} に変更しました。"
 
 #: weblate/accounts/models.py:84
 #, python-brace-format
@@ -305,11 +303,11 @@ msgstr "{method} ({name}) を使用して、新しいデバイスからログイ
 
 #: weblate/accounts/models.py:92
 msgid "Somebody has attempted to register with your e-mail."
-msgstr "誰かがあなたの電子メールアドレスを利用して、登録しようとしました。"
+msgstr "誰かがあなたのメールアドレスを利用して、登録しようとしました。"
 
 #: weblate/accounts/models.py:93
 msgid "Somebody has attempted to register using your e-mail address."
-msgstr "誰かがあなたの電子メールアドレスを利用して、登録しようとしました。"
+msgstr "誰かがあなたのメールアドレスを利用して、登録しようとしました。"
 
 #: weblate/accounts/models.py:94
 #, python-brace-format
@@ -715,7 +713,7 @@ msgstr "パスワードをリセットできません。メール認証の設定
 
 #: weblate/accounts/views.py:922
 msgid "Could not remove user identity"
-msgstr "ユーザー ID を削除できません"
+msgstr "ユーザ ID を削除できません"
 
 #: weblate/accounts/views.py:947
 msgid ""
@@ -758,9 +756,7 @@ msgstr "サーバーは認証を許可していません。"
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail or "
 "username is already in use for another account."
-msgstr ""
-"登録できません。入力された認証情報（電子メールアドレスまたはユーザ名）は、す"
-"でに他のアカウントで使用済みです。"
+msgstr "登録できません。入力された認証情報（メールアドレスまたはユーザ名）は、すでに他のアカウントで使用済みです。"
 
 #: weblate/accounts/views.py:1044
 msgid "Notification settings adjusted."
@@ -1704,7 +1700,7 @@ msgstr "スーパーユーザの状態"
 
 #: weblate/auth/models.py:334
 msgid "User has all possible permissions."
-msgstr "ユーザーはすべての権限を持っています。"
+msgstr "ユーザはすべての権限を持っています。"
 
 #: weblate/auth/models.py:337 weblate/billing/models.py:141
 msgid "Active"
@@ -1731,11 +1727,11 @@ msgstr ""
 
 #: weblate/auth/models.py:525
 msgid "E-mail regular expression"
-msgstr "電子メールの正規表現"
+msgstr "メールアドレスの正規表現"
 
 #: weblate/auth/models.py:529
 msgid "Regular expression used to match user e-mail."
-msgstr "ユーザの電子メールアドレスへのマッチングに使用する正規表現。"
+msgstr "ユーザのメールアドレスとの照合に使用する正規表現。"
 
 #: weblate/auth/models.py:534
 msgid "Group to assign"
@@ -2294,7 +2290,7 @@ msgstr "複数形でない"
 
 #: weblate/checks/source.py:39
 msgid "The string is used as plural, but not using plural forms"
-msgstr "文字列は複数形として使用しますが、複数形を使用しません"
+msgstr "文字列は複数形ですが、複数形として区別しません"
 
 #: weblate/checks/source.py:52
 msgid "Ellipsis"
@@ -3933,9 +3929,7 @@ msgstr "以下のボタンを押すと、このアカウントを使用できな
 msgid ""
 "You will have to confirm account removal by clicking link in e-mail you will "
 "receive."
-msgstr ""
-"お送りした電子メール内にあるリンクを開いて、アカウントの削除を確認しなければ"
-"なりません。"
+msgstr "受信するメールのリンクをクリックして、アカウントの削除を確認する必要があります。"
 
 #: weblate/templates/accounts/removal.html:26
 msgid "Delete this account"
@@ -4817,9 +4811,7 @@ msgstr "読み込み中…"
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
-msgstr ""
-"すべてのユーザーに関するレポートを表示する権限はありません。あなたの投稿のみ"
-"表示します。"
+msgstr "すべてのユーザに関するレポートを表示する権限はありません。あなたの投稿のみ表示します。"
 
 #: weblate/templates/component.html:303
 #: weblate/templates/dashboard/user.html:117 weblate/templates/project.html:176
@@ -6097,9 +6089,7 @@ msgstr "招待"
 msgid ""
 "Weblate user management is turned off, you can change permissions in the "
 "Django admin interface."
-msgstr ""
-"Weblate ユーザー管理の設定が無効になっている場合は、Django 管理画面でアクセス"
-"許可を変更できます。"
+msgstr "Weblate ユーザー管理の設定が無効化されている場合は、Django 管理画面でアクセス権を変更できます。"
 
 #: weblate/templates/manage-access.html:125
 msgid "Project access control"
@@ -8241,9 +8231,7 @@ msgstr "追加するユーザ"
 msgid ""
 "Please provide username or e-mail. User needs to already have an active "
 "account in Weblate."
-msgstr ""
-"ユーザ名または電子メールアドレスを入力してください。ユーザは Weblate 内で有効"
-"なアカウントを持っている必要があります。"
+msgstr "ユーザ名またはメールアドレスを入力してください。ユーザは Weblate 内で有効なアカウントを持っている必要があります。"
 
 #: weblate/trans/forms.py:1090
 msgid "Report format"
@@ -8562,7 +8550,7 @@ msgstr "単一言語の翻訳は間違って設定されています。"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:258
 msgid "Unsupported component configuration"
-msgstr "サポートしていないコンポーネント構成"
+msgstr "未対応のコンポーネント構成"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:222
@@ -8667,7 +8655,7 @@ msgstr "リポジトリのリベース"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:266
 msgid "Failed merge on repository"
-msgstr "リポジトリ内でのマージ失敗"
+msgstr "リポジトリ内でのマージの失敗"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:268
@@ -10399,7 +10387,7 @@ msgstr "ユーザ名を終止符で始めることはできません。"
 
 #: weblate/utils/validators.py:183 weblate/utils/validators.py:186
 msgid "Enter a valid e-mail address."
-msgstr "正しい電子メールアドレスを入力してください。"
+msgstr "正確なメールアドレスを入力してください。"
 
 #: weblate/utils/validators.py:188
 msgid "This e-mail address is not allowed."
