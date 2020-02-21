@@ -1458,6 +1458,7 @@ $(function () {
     });
 
     /* Slugify name */
+    slugify.extend({'.': '-'})
     $('input[name="slug"]').each(function () {
         var $slug = $(this);
         var $form = $slug.closest('form');
