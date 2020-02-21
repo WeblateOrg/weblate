@@ -414,7 +414,7 @@ class TranslationStats(BaseStats):
         if item.endswith("_chars"):
             item = item[:-6]
         translation = self._object
-        stats = translation.unit_set.filter_type(item).aggregate(
+        stats = translation.unit_set.filter_type(item, strict=True).aggregate(
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
         self.store(item, stats["strings"])
