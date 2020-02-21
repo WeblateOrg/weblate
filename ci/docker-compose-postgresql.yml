@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:12
+    ports:
+      - 60000:5432
+    volumes:
+      # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
+      - ./postgres:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: weblate

@@ -26,19 +26,10 @@ jobs:
       fail-fast: false
     name: ${{ matrix.database }}
 
-    services:
-      postgres:
-        image: postgres:12
-        ports:
-          - 5432/tcp
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd "pg_isready --user=postgres" --health-interval 10s --health-timeout 5s --health-retries 5
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: weblate
-
     steps:
     - uses: actions/checkout@v2
+    - name: Start services
+      run: ./ci/services-up ${{ matrix.database }}
     - name: Cache pip
       uses: actions/cache@v1
       with:
@@ -56,24 +47,12 @@ jobs:
       run: |
         ./ci/pip-install
         pip install psycopg2-binary==2.7.7
-    - name: Detect database
-      id: database
-      run: |
-        if [ ${{ matrix.database }} = postgresql ] ; then
-            echo "::set-output name=port::${{ job.services.postgres.ports['5432'] }}"
-        elif [ ${{ matrix.database }} = mariadb ] ; then
-            echo "::set-output name=port::${{ job.services.mariadb.ports['3306'] }}"
-        elif [ ${{ matrix.database }} = mysql ] ; then
-            echo "::set-output name=port::${{ job.services.mysql.ports['3306'] }}"
-        else
-            echo "::set-output name=port::"
-        fi
     - name: Migrate
       env:
         CI_DATABASE: ${{ matrix.database }}
         CI_DB_PASSWORD: "weblate"
         CI_DB_HOST: "127.0.0.1"
-        CI_DB_PORT: ${{ steps.database.outputs.port }}
+        CI_DB_PORT: "60000"
         CI_SELENIUM: "1"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
@@ -87,6 +66,6 @@ jobs:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations
         name: Migrations ${{ matrix.database }}
-    - name: Dump docker logs
+    - name: Stop services
       if: always()
-      uses: jwalton/gh-docker-logs@v1
+      run: ./ci/services-down ${{ matrix.database }}

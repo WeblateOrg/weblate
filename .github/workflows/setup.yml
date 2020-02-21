@@ -21,19 +21,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:11
-        ports:
-          - 5432/tcp
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd "pg_isready --user=postgres" --health-interval 10s --health-timeout 5s --health-retries 5
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-
     steps:
     - uses: actions/checkout@v2
+    - name: Start services
+      run: ./ci/services-up ${{ matrix.database }}
     - name: Cache pip
       uses: actions/cache@v1
       with:
@@ -54,7 +45,7 @@ jobs:
         CI_DATABASE: ${{ matrix.database }}
         CI_DB_PASSWORD: "postgres"
         CI_DB_HOST: "127.0.0.1"
-        CI_DB_PORT: ${{ job.services.postgres.ports['5432'] }}
+        CI_DB_PORT: "60000"
         CI_SELENIUM: "1"
         DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
@@ -68,9 +59,9 @@ jobs:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: setup
         name: Setup
-    - name: Dump docker logs
+    - name: Stop services
       if: always()
-      uses: jwalton/gh-docker-logs@v1
+      run: ./ci/services-down ${{ matrix.database }}
 
   twine:
 
