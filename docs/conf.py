@@ -235,4 +235,6 @@ nitpick_ignore = [
 ]
 
 # Number of retries and timeout for linkcheck
+linkcheck_retries = 10
+linkcheck_timeout = 10
 linkcheck_ignore = ['http://127.0.0.1:8080/']
