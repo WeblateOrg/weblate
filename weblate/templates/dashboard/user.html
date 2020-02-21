@@ -32,6 +32,7 @@
     </a>
     <ul class="dropdown-menu">
     <li><a href="{% url 'changes' %}">{% trans "History" %}</a></li>
+    <li><a href="{% url 'changes' %}?action=51&amp;action=50">{% trans "Recent additions" %}</a></li>
     <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' %}" data-monthly="{% url 'monthly_activity' %}">{% trans "Activity" %}</a></li>
     <li><a href="{% url 'stats' %}">{% trans "Statistics" %}</a></li>
     {% if user.is_authenticated %}
