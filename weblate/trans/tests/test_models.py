@@ -175,10 +175,19 @@ class TranslationTest(RepoTestCase):
 
     def test_basic(self):
         component = self.create_component()
+        # Verify source translation
+        translation = component.source_translation
+        self.assertFalse(translation.unit_set.filter(num_words=0).exists())
+        self.assertEqual(translation.stats.translated, 4)
+        self.assertEqual(translation.stats.all, 4)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all_words, 15)
+        # Verify target translation
         translation = component.translation_set.get(language_code='cs')
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.all, 4)
         self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all_words, 15)
 
     def test_validation(self):
         """Translation validation."""
