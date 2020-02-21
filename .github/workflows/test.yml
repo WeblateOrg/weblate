@@ -136,4 +136,5 @@ jobs:
         name: Screenshots
         path: test-images
     - name: Dump docker logs
+      if: always()
       uses: jwalton/gh-docker-logs@v1
