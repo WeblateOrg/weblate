@@ -608,14 +608,30 @@ class Unit(models.Model, LoggerMixin):
             old=self.old_unit.target,
         )
 
-    def save(self, same_content=False, same_state=False, force_insert=False, **kwargs):
+    def save(
+        self,
+        same_content=False,
+        same_state=False,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
         """Wrapper around save to run checks or update fulltext."""
         # Store number of words
         if not same_content or not self.num_words:
             self.num_words = len(self.get_source_plurals()[0].split())
+            if update_fields and "num_words" not in update_fields:
+                update_fields = ['num_words']
+                update_fields.extend(update_fields)
 
         # Actually save the unit
-        super().save(**kwargs)
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
