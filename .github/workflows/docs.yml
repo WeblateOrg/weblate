@@ -54,7 +54,7 @@ jobs:
         python-version: 3.8
     - name: Install pip dependencies
       run: pip install -r docs/requirements.txt
-    - name: Sphinx build
+    - name: Sphinx linkcheck
       run: ./ci/run-docs linkcheck
     - uses: actions/upload-artifact@v1
       with:
