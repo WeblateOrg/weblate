@@ -3,6 +3,8 @@ Weblate 3.11.2
 
 Not yet released.
 
+* Fixed rendering of suggestions.
+
 Weblate 3.11.1
 --------------
 

@@ -44,9 +44,9 @@
         {% endif %}
         {% endif %}
         <div class="comment-content">
-            {% format_translation suggestion.target unit.translation.language unit.translation.plural %}
+            {% format_translation suggestion.target suggestion.unit.translation.language suggestion.unit.translation.plural %}
             <p class="help-block">{% trans "Suggested change:" %}</p>
-            {% format_translation suggestion.target unit.translation.language unit.translation.plural unit.target %}
+            {% format_translation suggestion.target suggestion.unit.translation.language suggestion.unit.translation.plural suggestion.unit.target %}
             <span class="pull-right flip text-muted">{{ suggestion.timestamp|naturaltime }}</span>
             <div class="clearfix"></div>
         </div>
