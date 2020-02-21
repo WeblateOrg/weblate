@@ -4,6 +4,7 @@ Weblate 3.11.2
 Not yet released.
 
 * Fixed rendering of suggestions.
+* Fixed some strings wrongly reported as having none words.
 
 Weblate 3.11.1
 --------------
