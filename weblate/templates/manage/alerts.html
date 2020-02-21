@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-alerts' %}">{% trans "Component alerts" %}</a></li>
+{% endblock %}
+
+
+{% block content %}
+{% regroup alerts by name as alert_list %}
+{% for dummy, items in alert_list %}
+<div class="tab-pane" id="licenses">
+<div class="panel panel-default">
+  <div class="panel-heading"><h4 class="panel-title">{{ items.0.obj.verbose }}</h4></div>
+<div class="panel-body">
+<p>
+    {% for alert in items %}
+        <a href="{{ alert.component.get_absolute_url }}" class="btn btn-link">{{ alert.component }}</a>
+    {% endfor %}
+</p>
+</div>
+</div>
+{% empty %}
+  {% trans "Congratulations, your setup seems to work." as msg %}
+  {% show_message "success" msg %}
+{% endfor %}
+{% endblock %}

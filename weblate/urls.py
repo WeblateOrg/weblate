@@ -1016,6 +1016,7 @@ real_patterns = [
     url(r"^manage/$", weblate.wladmin.views.manage, name="manage"),
     url(r"^manage/tools/$", weblate.wladmin.views.tools, name="manage-tools"),
     url(r"^manage/activate/$", weblate.wladmin.views.activate, name="manage-activate"),
+    url(r"^manage/alerts/$", weblate.wladmin.views.alerts, name="manage-alerts"),
     url(r"^manage/repos/$", weblate.wladmin.views.repos, name="manage-repos"),
     url(r"^manage/ssh/$", weblate.wladmin.views.ssh, name="manage-ssh"),
     url(r"^manage/ssh/key/$", weblate.wladmin.views.ssh_key, name="manage-ssh-key"),

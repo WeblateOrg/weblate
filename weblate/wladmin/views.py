@@ -28,7 +28,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
-from weblate.trans.models import Component
+from weblate.trans.models import Alert, Component
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.views import show_form_errors
@@ -51,6 +51,7 @@ MENU = (
     ('memory', 'manage-memory', gettext_lazy('Translation memory')),
     ('performance', 'manage-performance', gettext_lazy('Performance report')),
     ('ssh', 'manage-ssh', gettext_lazy('SSH keys')),
+    ('alerts', 'manage-alerts', gettext_lazy('Component alerts')),
     ('repos', 'manage-repos', gettext_lazy('Status of repositories')),
     ('tools', 'manage-tools', gettext_lazy('Tools')),
 )
@@ -241,3 +242,17 @@ def ssh(request):
     }
 
     return render(request, "manage/ssh.html", context)
+
+
+@management_access
+def alerts(request):
+    """Shows component alerts."""
+    context = {
+        'alerts': Alert.objects.order_by("name").prefetch_related(
+            'component', 'component__project'
+        ),
+        'menu_items': MENU,
+        'menu_page': 'alerts',
+    }
+
+    return render(request, "manage/alerts.html", context)
