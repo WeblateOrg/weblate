@@ -35,7 +35,7 @@ with open("requirements.txt") as requirements:
 
 setup(
     name="Weblate",
-    version="3.11.1",
+    version="3.11.2",
     packages=["weblate"],
     include_package_data=True,
     description=(
