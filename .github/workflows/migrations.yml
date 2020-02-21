@@ -87,6 +87,5 @@ jobs:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: migrations
         name: Migrations ${{ matrix.database }}
-    - name: Dump docker logs on failure
-      if: failure()
+    - name: Dump docker logs
       uses: jwalton/gh-docker-logs@v1

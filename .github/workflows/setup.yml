@@ -68,6 +68,8 @@ jobs:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: setup
         name: Setup
+    - name: Dump docker logs
+      uses: jwalton/gh-docker-logs@v1
 
   twine:
 
