@@ -77,23 +77,20 @@ NEWLINES = re.compile(r'\r\n|\r|\n')
 
 
 class UnitQuerySet(models.QuerySet):
-    def filter_type(self, rqtype, ignored=False, strict=False):
+    def filter_type(self, rqtype):
         """Basic filtering based on unit state or failed checks."""
         if rqtype in SIMPLE_FILTERS:
             return self.filter(**SIMPLE_FILTERS[rqtype])
         if rqtype.startswith('check:'):
             check_id = rqtype[6:]
-            if strict and check_id not in CHECKS:
+            if check_id not in CHECKS:
                 raise ValueError('Unknown check: {}'.format(check_id))
-            return self.filter(check__check=check_id, check__ignore=ignored)
+            return self.filter(check__check=check_id)
         if rqtype.startswith('label:'):
             return self.filter(labels__name=rqtype[6:])
         if rqtype == 'all':
             return self.all()
-        if strict:
-            raise ValueError('Unknown filter: {}'.format(rqtype))
-        # Catch anything not matching
-        return self.all()
+        raise ValueError('Unknown filter: {}'.format(rqtype))
 
     def prefetch(self):
         return self.prefetch_related(
