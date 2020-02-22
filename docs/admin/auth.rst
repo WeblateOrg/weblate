@@ -231,7 +231,7 @@ Microsoft Azure Active Directory
 Weblate can be configured to use common or specific tenants for authentication.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``
-for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2``
+for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/``
 for tenant specific authentication.
 
 .. code-block:: python
