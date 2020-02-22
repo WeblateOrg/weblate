@@ -6,6 +6,14 @@ Not yet released.
 * Weblate now requires Python 3.5 or newer.
 * Added management overview of component alerts.
 
+Weblate 3.11.2
+--------------
+
+Released on February 22nd 2020.
+
+* Fixed rendering of suggestions.
+* Fixed some strings wrongly reported as having none words.
+
 Weblate 3.11.1
 --------------
 
