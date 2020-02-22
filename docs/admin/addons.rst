@@ -232,9 +232,11 @@ Squash Git commits
 
 Squash Git commits prior to pushing changes. You can choose one of following modes:
 
+.. versionadded:: 3.4
 * All commits into one
 * Per language
 * Per file
+.. versionadded:: 3.5
 * Per author
 
 Original commit messages are kept, but authorship is lost unless "Per author" is selected, or
