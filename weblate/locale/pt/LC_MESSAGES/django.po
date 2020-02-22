@@ -9,13 +9,14 @@
 # anonymous <noreply@weblate.org>, 2019.
 # Manuela Silva <mmsrs@sky.com>, 2019.
 # Sergio Marques <so.boston.android@gmail.com>, 2020.
+# rummsi <rummsi@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-15 15:24+0000\n"
-"PO-Revision-Date: 2020-02-08 17:50+0000\n"
-"Last-Translator: Sergio Marques <so.boston.android@gmail.com>\n"
+"PO-Revision-Date: 2020-02-23 19:32+0000\n"
+"Last-Translator: rummsi <rummsi@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
 "Language: pt\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -234,7 +235,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:741
 msgid "Use default setting"
-msgstr "Utilizar definição predefinida"
+msgstr "Utilizar definições por defeito"
 
 #: weblate/accounts/forms.py:755 weblate/accounts/models.py:396
 #: weblate/templates/accounts/profile.html:67
@@ -912,14 +913,12 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:65
 #: weblate/templates/snippets/project-nav.html:75
 #: weblate/templates/translation.html:69 weblate/templates/translation.html:275
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "Editor completo"
+msgstr "Edição em massa"
 
 #: weblate/addons/flags.py:100
 msgid "This addon allow to bulk edit flags, labels or state."
-msgstr ""
+msgstr "Este complemento permite editar bandeiras, rótulos ou estados em massa."
 
 #: weblate/addons/forms.py:55
 msgid "Path of generated MO file"
@@ -1970,13 +1969,11 @@ msgstr "O número de \\n na tradução não corresponde ao da fonte"
 
 #: weblate/checks/chars.py:333
 msgid "Newline charater count mismatch"
-msgstr ""
+msgstr "Incompatibilidade de contagem de caracteres de nova linha"
 
 #: weblate/checks/chars.py:334
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
-msgstr "O número de \\n na tradução não corresponde ao da fonte"
+msgstr "O número de novas linhas na tradução não corresponde ao da fonte"
 
 #: weblate/checks/chars.py:342 weblate/trans/autofixes/chars.py:45
 msgid "Zero-width space"
@@ -2751,12 +2748,9 @@ msgid "Unknown"
 msgstr "Desconhecidos"
 
 #: weblate/lang/models.py:487
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr "Um/dois/poucos/muitos/outro"
+msgstr "Zero/um/dois/poucos/muitos/outro"
 
 #: weblate/lang/models.py:495
 msgid "Plural definition source"
@@ -5747,10 +5741,8 @@ msgid "No matching activity found."
 msgstr "Nenhuma atividade coincidente encontrada."
 
 #: weblate/templates/list-comments.html:13
-#, fuzzy
-#| msgid "Removed component"
 msgid "Resolved comment"
-msgstr "Componente apagado"
+msgstr "Comentário resolvido"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -5763,10 +5755,8 @@ msgid "Translation comment"
 msgstr "Comentário à tradução"
 
 #: weblate/templates/list-comments.html:29
-#, fuzzy
-#| msgid "source"
 msgid "Resolve"
-msgstr "original"
+msgstr "Resolver"
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -6076,8 +6066,8 @@ msgstr ""
 #, python-format
 msgid "The confirmation URL will expire after %(count)s hour."
 msgid_plural "The confirmation URL will expire after %(count)s hours."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "O URL de confirmação irá expirar dentro de %(count)s hora."
+msgstr[1] "O URL de confirmação irá expirar dentro de %(count)s horas."
 
 #: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
@@ -6129,10 +6119,8 @@ msgid "Not yet logged in"
 msgstr "Sem sessão iniciada"
 
 #: weblate/templates/manage-access.html:53
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend invitation"
-msgstr "Administração"
+msgstr "Reenviar convite"
 
 #: weblate/templates/manage-access.html:64
 msgid ""
@@ -6558,29 +6546,23 @@ msgstr "Necessita de edição"
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/translate.html:574
 msgid "Labels"
-msgstr ""
+msgstr "Etiquetas"
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "Editar ficheiro base"
+msgstr "Editar etiqueta"
 
 #: weblate/templates/project-labels.html:17 weblate/trans/models/label.py:33
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "Nome do idioma"
+msgstr "Nome da etiqueta"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:35
 msgid "Color"
-msgstr ""
+msgstr "Cor"
 
 #: weblate/templates/project-labels.html:37
-#, fuzzy
-#| msgid "Add language"
 msgid "Add label"
-msgstr "Adicionar idioma"
+msgstr "Adicionar etiqueta"
 
 #: weblate/templates/project.html:63
 msgid "Browse all project changes"
@@ -6966,7 +6948,7 @@ msgstr "Entradas aprovadas com sugestões"
 
 #: weblate/templates/snippets/query-builder.html:99
 msgid "All untranslated strings added in the past month"
-msgstr ""
+msgstr "Todas as cadeias não traduzidas adicionadas no mês passado"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7073,26 +7055,16 @@ msgstr ""
 "serviço, mas é recomendável que o atualize."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some linked components have the same filemask."
-msgstr "Alguns componentes deste projeto têm alertas."
+msgstr "Alguns componentes vinculados têm a mesma máscara de arquivo."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of them."
-msgstr ""
-"Por favor, corrija isto removendo uma das entradas duplicadas dos ficheiros "
-"de tradução."
+msgstr "Por favor, corrija isto removendo um deles."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following filemasks were found multiple times:"
-msgstr "Foram encontradas as seguintes ocorrências:"
+msgstr "As seguintes máscaras de arquivo foram encontradas várias vezes:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
 msgid ""
@@ -7103,32 +7075,28 @@ msgstr ""
 "único no Weblate."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of the translation files."
-msgstr ""
-"Por favor, corrija isto removendo uma das entradas duplicadas dos ficheiros "
-"de tradução."
+msgstr "Por favor, corrija isto removendo um dos ficheiros de tradução."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please confirm your logout."
 msgid "Please consider following steps:"
-msgstr "Confirme o fim de sessão."
+msgstr "Por favor, considere as seguintes etapas:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Remove the translation file for the source language or change the source "
 "language in the project settings."
 msgstr ""
+"Remova o arquivo de tradução para o idioma de origem ou altere o idioma de "
+"origem nas configurações do projecto."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
 "Avoid having translation files for both plain language code and code with "
 "default country (for example de and de_DE)."
 msgstr ""
+"Evite ter arquivos de tradução para código de linguagem simples e código com "
+"o país padrão (por exemplo, pt e pt_PT)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -7558,16 +7526,12 @@ msgid "Nearby keys"
 msgstr "Teclas próximas"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Entrada alterada"
+msgstr "Formas da cadeia"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:471
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Entradas"
+msgstr "Cadeias"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7690,10 +7654,8 @@ msgid "No context currently associated!"
 msgstr "Sem contexto atualmente associado!"
 
 #: weblate/templates/translate.html:579
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No labels currently set!"
-msgstr "Sem marcadores definidos!"
+msgstr "Sem etiquetas definidas!"
 
 #: weblate/templates/translate.html:587
 msgid "Flags"
@@ -8068,16 +8030,12 @@ msgid "Strings marked for edit"
 msgstr "Entradas marcadas para edição"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Entradas com sugestões"
+msgstr "Cadeias com formas"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with similar keys"
 msgid "Strings with labels"
-msgstr "Cadeias com teclas semelhantes"
+msgstr "Cadeias com etiquetas"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8096,11 +8054,8 @@ msgid "Failed check: {}"
 msgstr "Verificação falhada: {}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Shared: {}"
 msgid "Labeled: {}"
-msgstr "Partilhado: {}"
+msgstr "Etiquetado: {}"
 
 #: weblate/trans/forms.py:151
 msgid "Invalid checksum specified!"
@@ -8119,10 +8074,8 @@ msgid "Query"
 msgstr "Consulta"
 
 #: weblate/trans/forms.py:177
-#, fuzzy
-#| msgid "Missing translated string!"
 msgid "Missing query string."
-msgstr "Entrada traduzida em falta!"
+msgstr "Cadeia de consulta ausente."
 
 #: weblate/trans/forms.py:184
 msgid "Failed to parse query string: {}"
@@ -8587,34 +8540,24 @@ msgid "State to set"
 msgstr "Estado a definir"
 
 #: weblate/trans/forms.py:1777
-#, fuzzy
-#| msgid "Download changes"
 msgid "Do not change"
-msgstr "Transferir alterações"
+msgstr "Não alterar"
 
 #: weblate/trans/forms.py:1779
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation flags to add"
-msgstr "Bandeiras de tradução"
+msgstr "Bandeiras de tradução para adicionar"
 
 #: weblate/trans/forms.py:1780
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation flags to remove"
-msgstr "A tradução foi removida."
+msgstr "Bandeiras de tradução para remover"
 
 #: weblate/trans/forms.py:1783
-#, fuzzy
-#| msgid "User to add"
 msgid "Labels to add"
-msgstr "Utilizador a adicionar"
+msgstr "Etiqueta a adicionar"
 
 #: weblate/trans/forms.py:1789
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Labels to remove"
-msgstr "Sugestão removida"
+msgstr "Etiquetas a remover"
 
 #: weblate/trans/forms.py:1814
 msgid "I accept the contributor agreement"
@@ -8652,10 +8595,8 @@ msgstr "Tradução duplicada."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:175
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated filemask."
-msgstr "Tradução duplicada."
+msgstr "Máscara de arquivo duplicada."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:186
@@ -9150,14 +9091,12 @@ msgstr ""
 "qualidade. Veja a documentação para valores possíveis."
 
 #: weblate/trans/models/component.py:339
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced checks"
-msgstr "Verificações ignoradas"
+msgstr "Verificações impostas"
 
 #: weblate/trans/models/component.py:340
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "Lista de verificações que não podem ser ignoradas."
 
 #: weblate/trans/models/component.py:358
 msgid ""
@@ -9168,10 +9107,8 @@ msgstr ""
 "traduzir o componente."
 
 #: weblate/trans/models/component.py:365
-#, fuzzy
-#| msgid "Add as translation"
 msgid "Adding new translation"
-msgstr "Adicionar como tradução"
+msgstr "Adicionar nova tradução"
 
 #: weblate/trans/models/component.py:370
 msgid "How to handle requests for creating new translations."
@@ -9266,19 +9203,12 @@ msgstr ""
 "máscara de ficheiro."
 
 #: weblate/trans/models/component.py:477
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Expressão regular do e-mail"
+msgstr "Expressão regular de formas"
 
 #: weblate/trans/models/component.py:483
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation when scanning for filemask."
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
-"Expressão regular utilizada para filtrar a tradução quando pesquisar pela "
-"máscara de ficheiro."
+msgstr "Expressão regular usada para determinar as formas de uma sequência."
 
 #: weblate/trans/models/component.py:492
 msgid "Components with higher priority are offered first to translators."
@@ -9498,86 +9428,82 @@ msgstr "Atribuições de lista de componentes automáticas"
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:39
 msgid "Navy"
-msgstr ""
+msgstr "Marinho"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:41
 msgid "Blue"
-msgstr ""
+msgstr "Azul"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:43
 msgid "Aqua"
-msgstr ""
+msgstr "Verde-água"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:45
 msgid "Teal"
-msgstr ""
+msgstr "Azul-petróleo"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:47
 msgid "Olive"
-msgstr ""
+msgstr "Azeitona"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:49
-#, fuzzy
-#| msgid "Greek"
 msgid "Green"
-msgstr "Grego"
+msgstr "Verde"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:51
 msgid "Lime"
-msgstr ""
+msgstr "Lima"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:53
 msgid "Yellow"
-msgstr ""
+msgstr "Amarelo"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:55
-#, fuzzy
-#| msgid "Change"
 msgid "Orange"
-msgstr "Alteração"
+msgstr "Cor de laranja"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:57
 msgid "Red"
-msgstr ""
+msgstr "Vermelho"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:59
 msgid "Maroon"
-msgstr ""
+msgstr "Castanho"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:61
 msgid "Fuchsia"
-msgstr ""
+msgstr "Fúcsia"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:63
 msgid "Purple"
-msgstr ""
+msgstr "Púrpura"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:65
 msgid "Black"
-msgstr ""
+msgstr "Preto"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:67
 msgid "Gray"
-msgstr ""
+msgstr "Cinzento"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:69
 msgid "Silver"
-msgstr ""
+msgstr "Prateado"
 
 #: weblate/trans/models/project.py:79
 msgid "Main website of translated project."
@@ -10306,10 +10232,8 @@ msgid "Translation comment has been deleted."
 msgstr "O comentário da tradução foi eliminado."
 
 #: weblate/trans/views/edit.py:618
-#, fuzzy
-#| msgid "Translation component has been removed."
 msgid "Translation comment has been resolved."
-msgstr "Componente de tradução foi removida."
+msgstr "O comentário da tradução foi resolvido."
 
 #: weblate/trans/views/edit.py:765
 msgid "Translation with this key seem to already exist!"
@@ -10473,19 +10397,15 @@ msgid "Invalid search query!"
 msgstr "Procura inválida!"
 
 #: weblate/trans/views/search.py:242
-#, fuzzy
-#| msgid "Bulk status change completed, no strings were updated."
 msgid "Bulk edit completed, no strings were updated."
-msgstr "Mudança de estado em massa concluída, nenhuma cadeia foi atualizada."
+msgstr "Edição em massa concluída, nenhuma cadeia foi actualizada."
 
 #: weblate/trans/views/search.py:244
-#, fuzzy, python-format
-#| msgid "Bulk status change completed, %d string was updated."
-#| msgid_plural "Bulk status change completed, %d strings were updated."
+#, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Alteração de estado em massa concluída, %d entrada atualizada."
-msgstr[1] "Alteração de estado em massa concluída, %d entradas atualizadas."
+msgstr[0] "Edição em massa concluída, %d entrada actualizada."
+msgstr[1] "Edição em massa concluída, %d entradas actualizadas."
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:81
 msgid "Settings saved"
@@ -10553,10 +10473,8 @@ msgid "Forbidden URL scheme!"
 msgstr "Esquema de URL proibido!"
 
 #: weblate/utils/search.py:115
-#, fuzzy
-#| msgid "Unsupported file format: {0}"
 msgid "Unsupported state: {}"
-msgstr "Formato não suportado: {0}"
+msgstr "Estado não suportado: {}"
 
 #: weblate/utils/search.py:299
 msgid "Invalid regular expression: {}"
@@ -10578,10 +10496,8 @@ msgid "Failed to compile: {0}"
 msgstr "Falha ao compilar: {0}"
 
 #: weblate/utils/validators.py:68
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression should not match empty string."
-msgstr "Expressão regular utilizada para corresponder o e-mail do utilizador."
+msgstr "Expressão regular não deve corresponder à cadeia vazia."
 
 #: weblate/utils/validators.py:75
 #, python-brace-format
