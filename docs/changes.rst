@@ -16,7 +16,7 @@ Weblate 3.11.2
 Released on February 22nd 2020.
 
 * Fixed rendering of suggestions.
-* Fixed some strings wrongly reported as having none words.
+* Fixed some strings wrongly reported as having no words.
 
 Weblate 3.11.1
 --------------
