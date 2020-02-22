@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-15 15:24+0000\n"
-"PO-Revision-Date: 2020-02-21 17:32+0000\n"
+"PO-Revision-Date: 2020-02-23 19:32+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.11.1\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:122
 msgctxt "No known user"
@@ -525,7 +525,7 @@ msgstr "リポジトリ操作"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:428 weblate/trans/models/change.py:272
 msgid "Parse error"
-msgstr "処理エラー"
+msgstr "解析エラー"
 
 #: weblate/accounts/notifications.py:435
 msgid "New string"
@@ -542,7 +542,7 @@ msgstr "新しい提案"
 
 #: weblate/accounts/notifications.py:460
 msgid "Comment on own translation"
-msgstr "自分の翻訳にコメント"
+msgstr "自分の翻訳へのコメント"
 
 #: weblate/accounts/notifications.py:495
 msgid "Mentioned in comment"
@@ -2858,11 +2858,11 @@ msgstr "本サイトでは、Cookie を以下の用途で使用しています:"
 msgid ""
 "Authentication cookies which are required for recognizing authenticated "
 "users."
-msgstr "認証済みのユーザを識別するために必要な認証 Cookie."
+msgstr "認証済みのユーザを識別するために必要な認証 Cookie。"
 
 #: weblate/legal/templates/legal/cookies.html:32
 msgid "Preferences cookie to store user preferences in certain situations."
-msgstr "ある状況におけるユーザ設定を記憶するための設定 Cookie."
+msgstr "ある状況におけるユーザ設定を記憶するための設定 Cookie。"
 
 #: weblate/legal/templates/legal/cookies.html:34
 msgid ""
@@ -2984,11 +2984,11 @@ msgstr "アップロードしたファイル内に正しい項目が見つかり
 #: weblate/memory/storage.py:171 weblate/memory/storage.py:181
 #: weblate/memory/storage.py:184 weblate/memory/storage.py:195
 msgid "Failed to parse JSON file!"
-msgstr "JSON ファイルへの変換に失敗しました！"
+msgstr "JSON ファイルの解析に失敗しました！"
 
 #: weblate/memory/storage.py:210
 msgid "Failed to parse TMX file!"
-msgstr "TMX ファイルの処理に失敗しました！"
+msgstr "TMX ファイルの解析に失敗しました！"
 
 #: weblate/memory/views.py:82
 msgid "Entries deleted."
@@ -3731,7 +3731,7 @@ msgstr "新しい関連付けを追加"
 #: weblate/templates/snippets/project-nav.html:123
 #: weblate/templates/translation.html:94
 msgid "Removal"
-msgstr "除去"
+msgstr "削除"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/accounts/removal.html:17
@@ -3959,7 +3959,7 @@ msgstr "最近の更新"
 
 #: weblate/templates/accounts/user.html:55
 msgid "Browse all changes for user"
-msgstr "ユーザの更新作業をすべて表示"
+msgstr "ユーザが行った変更をすべて表示"
 
 #: weblate/templates/activity-tab.html:7
 msgid "Activity in last 30 days"
@@ -4045,9 +4045,8 @@ msgid ""
 "The regular expression to match translation files has to contain two named "
 "groups to match component and language, some examples:"
 msgstr ""
-"翻訳ファイルへのマッチングに使用する正規表現は、コンポーネントと言語にマッチ"
-"ングする 2 種類の名前グループを含まなければなりません。たとえば以下のようにな"
-"ります:"
+"翻訳ファイルへのマッチングに使用する正規表現は、コンポーネントと言語にマッチングする 2 "
+"種類の名前付きグループを含まなければなりません。たとえば以下のようになります:"
 
 #: weblate/templates/addons/discovery_help.html:9
 msgid "Example matched files"
@@ -4587,13 +4586,13 @@ msgstr "作業"
 #: weblate/templates/snippets/project-nav.html:31
 #: weblate/templates/snippets/project-nav.html:39
 msgid "Download statistics (CSV)"
-msgstr "統計情報をダウンロードする(CSV)"
+msgstr "統計情報のダウンロード (CSV)"
 
 #: weblate/templates/component.html:47
 #: weblate/templates/snippets/project-nav.html:32
 #: weblate/templates/snippets/project-nav.html:40
 msgid "Download statistics (JSON)"
-msgstr "統計情報のダウンロード（JSON）"
+msgstr "統計情報のダウンロード (JSON)"
 
 #: weblate/templates/component.html:49 weblate/templates/dashboard/user.html:38
 #: weblate/templates/snippets/project-nav.html:34
@@ -5951,7 +5950,7 @@ msgstr "失敗したファイル"
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, python-format
 msgid "Parse error in %(component)s"
-msgstr "%(component)s 内で処理に失敗"
+msgstr "%(component)s 内で解析に失敗"
 
 #: weblate/templates/mail/pending_suggestions.html:8 weblate/trans/filter.py:39
 #: weblate/trans/filter.py:113
@@ -7146,7 +7145,7 @@ msgstr "バージョン管理から"
 
 #: weblate/templates/trans/component_create.html:28
 msgid "From existing component"
-msgstr "既存のコンポーネント一覧から"
+msgstr "既存のコンポーネントから"
 
 #: weblate/templates/trans/component_create.html:31
 msgid "Additional branch"
@@ -7596,7 +7595,7 @@ msgstr "翻訳ファイル"
 #: weblate/templates/translate.html:624
 #, python-format
 msgid "%(filename)s, string %(position)s"
-msgstr "%(filename)s, 文字列数 %(position)s"
+msgstr "%(filename)s, 文字列 %(position)s"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
@@ -9488,7 +9487,7 @@ msgstr ""
 #: weblate/trans/models/translation.py:192
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "ファイル %(file)s の処理に失敗しました: %(error)s"
+msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 
 #: weblate/trans/models/translation.py:901
 msgid "Plural forms do not match the language."
@@ -10303,7 +10302,7 @@ msgstr "横型の多言語翻訳状況のウィジェット"
 #: weblate/utils/render.py:46
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr "未定義の文字列変数: \"%s\""
+msgstr "未定義の変数: \"%s\""
 
 #: weblate/utils/render.py:110
 msgid "Failed to render template: {}"
@@ -10393,7 +10392,7 @@ msgstr "このメールアドレスは許可されていません。"
 
 #: weblate/utils/validators.py:195
 msgid "Failed to evaluate plural equation: {}"
-msgstr "複数形に問題があります: {}"
+msgstr "複数形判定式の評価に失敗しました: {}"
 
 #: weblate/utils/validators.py:201
 msgid "Filename can not contain reference to a parent directory."
