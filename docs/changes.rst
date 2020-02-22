@@ -98,7 +98,7 @@ Released on January 9th 2020.
 * Improved breadcrumbs in changelog.
 * Improved translations listing on dashboard.
 * Improved HTTP responses for webhooks.
-* Added support for GitLab pull requests in Docker container.
+* Added support for GitLab merge requests in Docker container.
 
 Weblate 3.10
 ------------
