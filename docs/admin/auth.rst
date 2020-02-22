@@ -170,6 +170,8 @@ Facebook OAuth 2
 As per usual with OAuth 2 services, you need to register your application with
 Facebook. Once this is done, you can set up Weblate to use it:
 
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``
+
 .. code-block:: python
 
     # Authentication configuration
@@ -220,6 +222,53 @@ ensure you mark the `read_user` scope.
 .. seealso::
 
    :doc:`psa:backends/gitlab`
+
+.. _azure-auth:
+
+Microsoft Azure Active Directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate can be configured to use common or specific tenants for authentication.
+
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``
+for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2``
+for tenant specific authentication.
+
+.. code-block:: python
+
+    # Azure AD common
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.azuread.AzureADOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # OAuth2 keys
+    SOCIAL_AUTH_AZUREAD_OAUTH2_KEY = ""
+    SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET = ""
+
+.. code-block:: python
+
+    # Azure AD Tenant
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.azuread_tenant.AzureADTenantOAuth2",
+        "social_core.backends.email.EmailAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # OAuth2 keys
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_KEY = ""
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_SECRET = ""
+    # Tenant ID
+    SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ""
+
+.. seealso::
+
+   :doc:`psa:backends/azuread`
 
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

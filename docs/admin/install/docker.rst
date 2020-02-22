@@ -607,7 +607,7 @@ Azure Active Directory
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_SECRET
 
-    Enables Azure Active Directory authentication, see :doc:`psa:backends/azuread`.
+    Enables Azure Active Directory authentication, see :ref:`azure-auth`.
 
 Azure Active Directory with Tenant support
 ++++++++++++++++++++++++++++++++++++++++++
@@ -617,7 +617,7 @@ Azure Active Directory with Tenant support
 .. envvar:: WEBLATE_SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID
 
     Enables Azure Active Directory authentication with Tenant support, see
-    :doc:`psa:backends/azuread`.
+    :ref:`azure-auth`.
 
 Keycloak
 ++++++++
