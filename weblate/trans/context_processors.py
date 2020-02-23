@@ -23,7 +23,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.utils.html import escape
-from django.utils.http import url_has_allowed_host_and_scheme
+from django.utils.http import is_safe_url
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
@@ -112,7 +112,7 @@ def get_bread_image(path):
 
 def weblate_context(request):
     """Context processor to inject various useful variables into context."""
-    if url_has_allowed_host_and_scheme(request.GET.get('next', ''), allowed_hosts=None):
+    if is_safe_url(request.GET.get('next', ''), allowed_hosts=None):
         login_redirect_url = request.GET['next']
     else:
         login_redirect_url = request.get_full_path()
