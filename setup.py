@@ -33,6 +33,18 @@ with io.open("README.rst", encoding="utf-8") as readme:
 with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
+EXTRAS = {}
+with open("requirements-optional.txt") as requirements:
+    section = None
+    for line in requirements:
+        line = line.strip()
+        if line.startswith('-r') or not line:
+            continue
+        if line.startswith('#'):
+            section = line[2:]
+        else:
+            EXTRAS[section] = line.split(';')[0].strip()
+
 setup(
     name="Weblate",
     version="3.11.2",
@@ -58,14 +70,7 @@ setup(
     author_email="michal@cihar.com",
     install_requires=REQUIRES,
     zip_safe=False,
-    extras_require={
-        "Mercurial": ["Mercurial>=2.8"],
-        "Unicode": ["chardet"],
-        "YAML": ["ruamel.yaml"],
-        "OCR": ["tesserocr>=1.2"],
-        "PHP": ["phply>=1.2.3"],
-        "Subtitles": ["aeidon>=1.2.1"],
-    },
+    extras_require=EXTRAS,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
