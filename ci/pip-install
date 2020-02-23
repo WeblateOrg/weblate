@@ -9,12 +9,10 @@ if [ ${1:-latest} = minimal ] ; then
     pip install requirements-builder
     requirements-builder --req requirements.txt --level min > requirements-min.txt
     requirements-builder --req requirements-optional.txt --level min >> requirements-min.txt
-    requirements-builder --req requirements-postgresql.txt  --level min >> requirements-min.txt
-    requirements-builder --req requirements-mysql.txt --level min >> requirements-min.txt
     pip install -r requirements-min.txt
 else
     pip install Cython pycairo
-    pip install -r requirements-optional.txt -r requirements-postgresql.txt -r requirements-mysql.txt
+    pip install -r requirements-optional.txt
     if [ ${1:-latest} = edge ] ; then
         pip install https://github.com/translate/translate/archive/master.zip
     fi
