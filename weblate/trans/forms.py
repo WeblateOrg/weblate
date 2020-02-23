@@ -37,7 +37,7 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_str, smart_text
+from django.utils.encoding import force_str, smart_str
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
@@ -346,7 +346,7 @@ class PluralTextarea(forms.Textarea):
             if fieldname not in data:
                 break
             ret.append(data.get(fieldname, ''))
-        return [smart_text(r.replace('\r', '')) for r in ret]
+        return [smart_str(r.replace('\r', '')) for r in ret]
 
 
 class PluralField(forms.CharField):

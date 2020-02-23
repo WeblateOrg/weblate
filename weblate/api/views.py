@@ -26,7 +26,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.encoding import force_str, smart_text
+from django.utils.encoding import force_str, smart_str
 from django.utils.safestring import mark_safe
 from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
@@ -96,7 +96,7 @@ def get_view_description(view_cls, html=False):
     the default for the `VIEW_DESCRIPTION_FUNCTION` setting.
     """
     description = view_cls.__doc__ or ''
-    description = formatting.dedent(smart_text(description))
+    description = formatting.dedent(smart_str(description))
 
     if hasattr(getattr(view_cls, 'serializer_class', 'None'), 'Meta'):
         doc_url = get_doc_url(
