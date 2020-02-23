@@ -33,7 +33,6 @@ install:
   - wget -O - https://github.com/nijel/tesseract-ocr-build/releases/download/3.05.02-3/tesseract.tar.xz | tar -C $HOME -xJf -
   - ./ci/pip-install
   - if [ -n "$CI_DEPS" ] ; then pip install $CI_DEPS ; fi
-  - if [ -f requirements-$CI_DATABASE.txt ] ; then pip install -r requirements-$CI_DATABASE.txt ; fi
   - pip install -r ci/requirements-travis.txt
   - pip install -r docs/requirements.txt
   - pip install -r requirements-lint.txt
