@@ -28,7 +28,7 @@ from django.http import Http404
 from django.http.response import HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 
@@ -48,7 +48,7 @@ def response_authenticate():
 
 def authenticate(request, auth):
     """Perform authentication with HTTP Basic auth."""
-    auth = force_text(auth, encoding='iso-8859-1')
+    auth = force_str(auth, encoding='iso-8859-1')
     try:
         method, data = auth.split(None, 1)
         if method.lower() == 'basic':
@@ -150,7 +150,7 @@ def run_git_http(request, obj, path):
         try:
             raise Exception(
                 'Git http backend error: {}'.format(
-                    force_text(output_err).splitlines()[0]
+                    force_str(output_err).splitlines()[0]
                 )
             )
         except Exception as error:

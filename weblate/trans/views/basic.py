@@ -22,7 +22,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
@@ -126,7 +126,7 @@ def show_project(request, project):
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
 
     language_stats = sort_unicode(
-        obj.stats.get_language_stats(), lambda x: force_text(x.language)
+        obj.stats.get_language_stats(), lambda x: force_str(x.language)
     )
 
     # Paginate components of project.

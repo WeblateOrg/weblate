@@ -27,7 +27,7 @@ from urllib.request import Request, urlopen
 from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.http import is_safe_url
 from django.utils.translation import gettext as _
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
@@ -76,7 +76,7 @@ def reauthenticate(strategy, backend, user, social, uid, weblate_action, **kwarg
     if user and not social and user.has_usable_password():
         session['reauthenticate'] = {
             'backend': backend.name,
-            'backend_verbose': force_text(get_auth_name(backend.name)),
+            'backend_verbose': force_str(get_auth_name(backend.name)),
             'uid': uid,
             'user_pk': user.pk,
         }
@@ -149,7 +149,7 @@ def password_reset(
             user,
             strategy.request,
             'reset',
-            method=force_text(get_auth_name(backend.name)),
+            method=force_str(get_auth_name(backend.name)),
             name=social.uid,
             password=user.password,
         )
@@ -354,7 +354,7 @@ def notify_connect(
             user,
             strategy.request,
             action,
-            method=force_text(get_auth_name(backend.name)),
+            method=force_str(get_auth_name(backend.name)),
             name=social.uid,
         )
 
@@ -402,7 +402,7 @@ def slugify_username(value):
     - Merges whitespaces and - into single -
     """
     value = (
-        unicodedata.normalize('NFKD', force_text(value))
+        unicodedata.normalize('NFKD', force_str(value))
         .encode('ascii', 'ignore')
         .decode('ascii')
     )

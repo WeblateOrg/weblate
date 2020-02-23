@@ -19,7 +19,7 @@
 #
 
 
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from weblate.machinery.base import MachineTranslation
 from weblate.trans.models import Unit
@@ -44,7 +44,7 @@ class WeblateTranslation(MachineTranslation):
             'text': unit.get_target_plurals()[0],
             'quality': quality,
             'service': self.name,
-            'origin': force_text(unit.translation.component),
+            'origin': force_str(unit.translation.component),
             'origin_url': unit.get_absolute_url(),
             'source': unit.get_source_plurals()[0],
         }

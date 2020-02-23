@@ -22,7 +22,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.template.loader import render_to_string
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
@@ -55,7 +55,7 @@ class Alert(models.Model):
         return ALERTS[self.name](self, **self.details)
 
     def __str__(self):
-        return force_text(self.obj.verbose)
+        return force_str(self.obj.verbose)
 
     def render(self):
         return self.obj.render()

@@ -20,7 +20,7 @@
 
 import sentry_sdk
 from django.conf import settings
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
@@ -64,10 +64,10 @@ def report_error(
                     scope.set_extra(key, value)
             sentry_sdk.capture_exception()
 
-    logger.error('%s: %s: %s', prefix, error.__class__.__name__, force_text(error))
+    logger.error('%s: %s: %s', prefix, error.__class__.__name__, force_str(error))
     if extra_data:
         logger.error(
-            '%s: %s: %s', prefix, error.__class__.__name__, force_text(extra_data)
+            '%s: %s: %s', prefix, error.__class__.__name__, force_str(extra_data)
         )
     if print_tb:
         logger.exception(prefix)

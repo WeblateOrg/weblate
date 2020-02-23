@@ -28,7 +28,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
@@ -116,7 +116,7 @@ def fmt_diff(value, diff, idx):
     """Format diff if there is any."""
     if diff is None:
         return value
-    diffvalue = escape(force_text(diff[idx]))
+    diffvalue = escape(force_str(diff[idx]))
     return html_diff(diffvalue, value)
 
 
@@ -127,7 +127,7 @@ def fmt_highlights(raw_value, value, unit):
     highlights = highlight_string(raw_value, unit)
     start_search = 0
     for highlight in highlights:
-        htext = escape(force_text(highlight[2]))
+        htext = escape(force_str(highlight[2]))
         find_highlight = value.find(htext, start_search)
         if find_highlight >= 0:
             newpart = HL_CHECK.format(htext)
@@ -195,7 +195,7 @@ def format_translation(
 
     for idx, raw_value in enumerate(plurals):
         # HTML escape
-        value = escape(force_text(raw_value))
+        value = escape(force_str(raw_value))
 
         # Content of the Copy to clipboard button
         copy = value
@@ -261,19 +261,19 @@ def check_description(check):
 @register.simple_tag
 def project_name(prj):
     """Get project name based on slug."""
-    return escape(force_text(Project.objects.get(slug=prj)))
+    return escape(force_str(Project.objects.get(slug=prj)))
 
 
 @register.simple_tag
 def component_name(prj, subprj):
     """Get component name based on slug."""
-    return escape(force_text(Component.objects.get(project__slug=prj, slug=subprj)))
+    return escape(force_str(Component.objects.get(project__slug=prj, slug=subprj)))
 
 
 @register.simple_tag
 def language_name(code):
     """Get language name based on its code."""
-    return escape(force_text(Language.objects.get(code=code)))
+    return escape(force_str(Language.objects.get(code=code)))
 
 
 @register.simple_tag
@@ -773,7 +773,7 @@ def indicate_alerts(context, obj):
 
 @register.filter
 def replace_english(value, language):
-    return value.replace("English", force_text(language))
+    return value.replace("English", force_str(language))
 
 
 @register.filter

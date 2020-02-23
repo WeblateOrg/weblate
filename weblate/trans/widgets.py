@@ -26,7 +26,7 @@ import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.formats import number_format
 from django.utils.html import escape
 from django.utils.translation import get_language
@@ -428,7 +428,7 @@ class MultiLanguageWidget(SVGWidget):
             translations.append(
                 (
                     # Language name
-                    force_text(language),
+                    force_str(language),
                     # Translation percent
                     int(percent),
                     # Text y offset

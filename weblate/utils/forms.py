@@ -23,7 +23,7 @@ from crispy_forms.layout import Div
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.template.loader import render_to_string
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from weblate.trans.util import sort_unicode
 
@@ -33,7 +33,7 @@ class SortedSelectMixin:
 
     def optgroups(self, name, value, attrs=None):
         groups = super().optgroups(name, value, attrs)
-        return sort_unicode(groups, lambda val: force_text(val[1][0]["label"]))
+        return sort_unicode(groups, lambda val: force_str(val[1][0]["label"]))
 
 
 class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):

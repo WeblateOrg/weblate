@@ -23,7 +23,7 @@ import subprocess
 
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from weblate.trans.util import (
     add_configuration_error,
@@ -56,7 +56,7 @@ def generate_gpg_key():
         return get_gpg_key()
     except (subprocess.CalledProcessError, OSError) as exc:
         report_error(exc, prefix="GPG key generating")
-        add_configuration_error("GPG key generating", force_text(exc))
+        add_configuration_error("GPG key generating", force_str(exc))
         return None
 
 
@@ -82,7 +82,7 @@ def get_gpg_key(silent=False):
     except (subprocess.CalledProcessError, OSError) as exc:
         report_error(exc, prefix="GPG key listing")
         if not silent:
-            add_configuration_error("GPG key listing", force_text(exc))
+            add_configuration_error("GPG key listing", force_str(exc))
         return None
 
 
@@ -116,6 +116,6 @@ def get_gpg_public_key():
             delete_configuration_error("GPG key public")
         except (subprocess.CalledProcessError, OSError) as exc:
             report_error(exc, prefix="GPG key public")
-            add_configuration_error("GPG key public", force_text(exc))
+            add_configuration_error("GPG key public", force_str(exc))
             return None
     return data

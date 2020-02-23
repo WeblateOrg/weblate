@@ -22,7 +22,7 @@
 
 
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from weblate.checks.models import Check
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -35,11 +35,11 @@ class UnitdataTestCase(FixtureTestCase):
     def test_check(self):
         check = self.create_check("same")
         self.assertEqual(
-            force_text(check.get_description()), "Source and translation are identical"
+            force_str(check.get_description()), "Source and translation are identical"
         )
         self.assertEqual(check.get_severity(), "warning")
         self.assertTrue(check.get_doc_url().endswith("user/checks.html#check-same"))
-        self.assertEqual(force_text(check), "Hello, world!\n: same")
+        self.assertEqual(force_str(check), "Hello, world!\n: same")
 
     def test_check_nonexisting(self):
         check = self.create_check("-invalid-")
@@ -54,7 +54,7 @@ class UnitdataTestCase(FixtureTestCase):
         check = self.create_check("max-size")
         url = reverse("render-check", kwargs={"check_id": check.pk})
         self.assertEqual(
-            force_text(check.get_description()),
+            force_str(check.get_description()),
             '<a href="{0}?pos=0" class="thumbnail">'
             '<img class="img-responsive" src="{0}?pos=0" /></a>'.format(url),
         )

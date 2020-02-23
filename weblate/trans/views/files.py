@@ -20,7 +20,7 @@
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
 from django.views.decorators.http import require_POST
@@ -159,7 +159,7 @@ def upload_translation(request, project, component, lang):
         else:
             messages.success(request, message)
     except Exception as error:
-        messages.error(request, _("File upload has failed: %s") % force_text(error))
+        messages.error(request, _("File upload has failed: %s") % force_str(error))
         report_error(error, request, prefix="Upload error")
 
     return redirect(obj)

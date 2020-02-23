@@ -26,7 +26,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
-from django.utils.encoding import force_text, smart_text
+from django.utils.encoding import force_str, smart_text
 from django.utils.safestring import mark_safe
 from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
@@ -543,7 +543,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             )
         except Exception as error:
             return Response(
-                data={'result': False, 'detail': force_text(error)}, status=400
+                data={'result': False, 'detail': force_str(error)}, status=400
             )
 
     @action(detail=True, methods=['get'])

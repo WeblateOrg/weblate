@@ -22,7 +22,7 @@
 import json
 import os.path
 
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
@@ -147,7 +147,7 @@ class TranslationMemory(WhooshIndex):
         user=None,
         use_file=False,
     ):
-        origin = force_text(os.path.basename(fileobj.name)).lower()
+        origin = force_str(os.path.basename(fileobj.name)).lower()
         category = cls.get_category(category, project, user, use_file)
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
@@ -168,7 +168,7 @@ class TranslationMemory(WhooshIndex):
 
         content = fileobj.read()
         try:
-            data = json.loads(force_text(content))
+            data = json.loads(force_str(content))
         except ValueError as error:
             report_error(error, request, prefix='Failed to parse')
             raise MemoryImportError(_('Failed to parse JSON file!'))
@@ -313,7 +313,7 @@ class TranslationMemory(WhooshIndex):
         self.index = self.open_index()
 
     def get_values(self, field):
-        return [force_text(x) for x in self.searcher.reader().field_terms(field)]
+        return [force_str(x) for x in self.searcher.reader().field_terms(field)]
 
     def dump(self, handle, indent=2):
         """Dump memory content to JSON file."""

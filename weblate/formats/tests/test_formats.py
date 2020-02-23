@@ -25,7 +25,7 @@ from io import BytesIO
 from unittest import SkipTest, TestCase
 
 import translate.__version__
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from translate.storage.po import pofile
 
 from weblate.formats.auto import AutodetectFormat, detect_filename
@@ -225,7 +225,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         This can be implemented in subclasses to implement content aware comparing of
         translation files.
         """
-        self.assertEqual(force_text(testdata).strip(), force_text(newdata).strip())
+        self.assertEqual(force_str(testdata).strip(), force_str(newdata).strip())
 
     def test_find(self):
         storage = self.parse_file(self.FILE)
@@ -298,7 +298,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
 class XMLMixin:
     def assert_same(self, newdata, testdata):
-        self.assertXMLEqual(force_text(newdata), force_text(testdata))
+        self.assertXMLEqual(force_str(newdata), force_str(testdata))
 
 
 class PoFormatTest(AutoFormatTest):
@@ -348,8 +348,8 @@ class PropertiesFormatTest(AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
-            force_text(newdata).strip().splitlines(),
-            force_text(testdata).strip().splitlines(),
+            force_str(newdata).strip().splitlines(),
+            force_str(testdata).strip().splitlines(),
         )
 
 
@@ -383,7 +383,7 @@ class JSONFormatTest(AutoFormatTest):
     EXPECTED_FLAGS = ''
 
     def assert_same(self, newdata, testdata):
-        self.assertJSONEqual(force_text(newdata), force_text(testdata))
+        self.assertJSONEqual(force_str(newdata), force_str(testdata))
 
 
 class JSONNestedFormatTest(JSONFormatTest):
@@ -601,8 +601,8 @@ class YAMLFormatTest(AutoFormatTest):
         # Fixup quotes as different translate toolkit versions behave
         # differently
         self.assertEqual(
-            force_text(newdata).replace("'", '"').strip().splitlines(),
-            force_text(testdata).strip().splitlines(),
+            force_str(newdata).replace("'", '"').strip().splitlines(),
+            force_str(testdata).strip().splitlines(),
         )
 
 
@@ -632,8 +632,8 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
 
     def assert_same(self, newdata, testdata):
         # Comparing of XML with doctype fails...
-        newdata = force_text(newdata).replace('<!DOCTYPE TS>', '')
-        testdata = force_text(testdata).replace('<!DOCTYPE TS>', '')
+        newdata = force_str(newdata).replace('<!DOCTYPE TS>', '')
+        testdata = force_str(testdata).replace('<!DOCTYPE TS>', '')
         super().assert_same(newdata, testdata)
 
 

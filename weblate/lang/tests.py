@@ -27,7 +27,7 @@ from itertools import chain
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import activate
 
 from weblate.lang import data
@@ -201,7 +201,7 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
         self.assertIn(direction, lang.get_html())
         self.assertIn(expected, lang.get_html())
         # Check name
-        self.assertEqual(force_text(lang), name)
+        self.assertEqual(force_str(lang), name)
 
     def test_private_use(self, code='de-x-a123', expected='de-x-a123'):
         lang = Language.objects.auto_get_or_create(code, create=False)

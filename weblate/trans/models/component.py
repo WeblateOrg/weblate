@@ -37,7 +37,7 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext
@@ -674,7 +674,7 @@ class Component(models.Model, URLMixin, PathMixin):
         return get_site_url(reverse("engage", kwargs={"project": self.project.slug}))
 
     def __str__(self):
-        return "/".join((force_text(self.project), self.name))
+        return "/".join((force_str(self.project), self.name))
 
     @perform_on_link
     def _get_path(self):
@@ -954,7 +954,7 @@ class Component(models.Model, URLMixin, PathMixin):
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
         if not self.can_push():
-            messages.error(request, _("Push is turned off for %s.") % force_text(self))
+            messages.error(request, _("Push is turned off for %s.") % force_str(self))
             return False
 
         # Commit any pending changes
@@ -1008,7 +1008,7 @@ class Component(models.Model, URLMixin, PathMixin):
                         self.repository.unshallow()
                     self.do_push(request, force_commit, do_update, retry=False)
             messages.error(
-                request, _("Could not push to remote branch on %s.") % force_text(self)
+                request, _("Could not push to remote branch on %s.") % force_str(self)
             )
             if self.id:
                 self.add_alert("PushFailure", error=error_text)
@@ -1041,7 +1041,7 @@ class Component(models.Model, URLMixin, PathMixin):
         except RepositoryException as error:
             report_error(error, prefix="Could not reset the repository")
             messages.error(
-                request, _("Could not reset to remote branch on %s.") % force_text(self)
+                request, _("Could not reset to remote branch on %s.") % force_str(self)
             )
             return False
 
@@ -1070,7 +1070,7 @@ class Component(models.Model, URLMixin, PathMixin):
         except RepositoryException as error:
             report_error(error, prefix="Could not clean the repository")
             messages.error(
-                request, _("Could not clean the repository on %s.") % force_text(self)
+                request, _("Could not clean the repository on %s.") % force_str(self)
             )
             return False
 
@@ -1123,7 +1123,7 @@ class Component(models.Model, URLMixin, PathMixin):
         report_error(error, prefix="Parse error")
         error_message = getattr(error, 'strerror', '')
         if not error_message:
-            error_message = force_text(error).replace(self.full_path, '')
+            error_message = force_str(error).replace(self.full_path, '')
         if translation is None:
             filename = self.template
         else:
@@ -1195,7 +1195,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 method_func(abort=True)
 
                 # Tell user (if there is any)
-                messages.error(request, error_msg % force_text(self))
+                messages.error(request, error_msg % force_str(self))
 
                 return False
 

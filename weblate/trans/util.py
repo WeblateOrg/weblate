@@ -32,7 +32,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render as django_render
 from django.shortcuts import resolve_url
 from django.utils import timezone
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.http import is_safe_url
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
@@ -83,7 +83,7 @@ def get_string(text):
     if hasattr(text, 'strings'):
         return join_plural(text.strings)
     # We might get integer or float in some formats
-    return force_text(text)
+    return force_str(text)
 
 
 def is_repo_link(val):
@@ -275,7 +275,7 @@ def sort_choices(choices):
 
 def sort_objects(objects):
     """Sort objects alphabetically."""
-    return sort_unicode(objects, force_text)
+    return sort_unicode(objects, force_str)
 
 
 def redirect_next(next_url, fallback):

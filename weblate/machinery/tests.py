@@ -25,7 +25,7 @@ import httpretty
 from botocore.stub import ANY, Stubber
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -750,12 +750,12 @@ class WeblateTranslationTest(FixtureTestCase):
         update_fulltext(
             None,
             pk=other.pk,
-            source=force_text(unit.source),
-            context=force_text(unit.context),
-            location=force_text(unit.location),
-            target=force_text(other.target),
+            source=force_str(unit.source),
+            context=force_str(unit.context),
+            location=force_str(unit.location),
+            target=force_str(other.target),
             note='',
-            language=force_text(unit.translation.language.code),
+            language=force_str(unit.translation.language.code),
         )
         # Perform lookup
         machine = WeblateTranslation()

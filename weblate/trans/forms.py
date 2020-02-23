@@ -37,7 +37,7 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.encoding import force_text, smart_text
+from django.utils.encoding import force_str, smart_text
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
@@ -315,7 +315,7 @@ class PluralTextarea(forms.Textarea):
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
             # Label for plural
-            label = force_text(unit.translation.language)
+            label = force_str(unit.translation.language)
             if len(values) != 1:
                 label = '{}, {}'.format(label, plural.get_plural_label(idx))
             ret.append(
@@ -815,7 +815,7 @@ class AutoForm(forms.Form):
         )
 
         choices = [
-            (s.id, force_text(s))
+            (s.id, force_str(s))
             for s in components.order_project().select_related("project")
         ]
 
@@ -960,7 +960,7 @@ class EngageForm(forms.Form):
 
     def __init__(self, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
-        choices = [(l.code, force_text(l)) for l in project.languages]
+        choices = [(l.code, force_str(l)) for l in project.languages]
         components = [(c.slug, c.name) for c in project.component_set.order()]
 
         super().__init__(*args, **kwargs)
@@ -1748,7 +1748,7 @@ class MatrixLanguageForm(forms.Form):
         super().__init__(*args, **kwargs)
         languages = Language.objects.filter(translation__component=component)
         self.fields['lang'].choices = sort_choices(
-            [(l.code, '{0} ({1})'.format(force_text(l), l.code)) for l in languages]
+            [(l.code, '{0} ({1})'.format(force_str(l), l.code)) for l in languages]
         )
 
 
@@ -1870,7 +1870,7 @@ class ChangesForm(forms.Form):
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['lang'].choices += [
-            (l.code, force_text(l)) for l in Language.objects.have_translation()
+            (l.code, force_str(l)) for l in Language.objects.have_translation()
         ]
         self.fields['project'].choices += [
             (p.slug, p.name) for p in request.user.allowed_projects

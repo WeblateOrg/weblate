@@ -24,7 +24,7 @@ from time import sleep
 
 from celery.schedules import crontab
 from celery_batches import Batches
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from whoosh.index import LockError
 
 from weblate.memory.storage import (
@@ -88,7 +88,7 @@ def update_memory_task(self, *args, **kwargs):
             if isinstance(value, int):
                 result[key] = value
             else:
-                result[key] = force_text(value)
+                result[key] = force_str(value)
         return result
 
     data = extract_batch_kwargs(*args, **kwargs)

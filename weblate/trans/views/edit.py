@@ -28,7 +28,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -154,7 +154,7 @@ def search(translation, request):
         'url': search_url,
         'items': form.items(),
         'key': session_key,
-        'name': force_text(name),
+        'name': force_str(name),
         'ids': unit_ids,
         'ttl': int(time.time()) + 86400,
     }
@@ -218,7 +218,7 @@ def perform_translation(unit, form, request):
         messages.info(
             request,
             _('Following fixups were applied to translation: %s')
-            % ', '.join(force_text(f) for f in fixups),
+            % ', '.join(force_str(f) for f in fixups),
         )
 
     # Get new set of checks
@@ -232,7 +232,7 @@ def perform_translation(unit, form, request):
             _(
                 'The translation has been saved, however there '
                 'are some newly failing checks: {0}'
-            ).format(', '.join(force_text(CHECKS[check].name) for check in newchecks)),
+            ).format(', '.join(force_str(CHECKS[check].name) for check in newchecks)),
         )
         # Stay on same entry
         return False

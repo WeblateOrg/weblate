@@ -27,7 +27,7 @@ from collections import defaultdict
 from time import sleep
 
 from celery_batches import Batches
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from whoosh import qparser
 from whoosh.fields import NUMERIC, TEXT, SchemaClass
 from whoosh.index import LockError
@@ -81,9 +81,9 @@ class Fulltext(WhooshIndex):
         writer.delete_by_term('pk', unit['pk'], searcher)
         writer.add_document(
             pk=unit['pk'],
-            source=force_text(unit['source']),
-            context=force_text(unit['context']),
-            location=force_text(unit['location']),
+            source=force_str(unit['source']),
+            context=force_str(unit['context']),
+            location=force_str(unit['location']),
         )
 
     @staticmethod
@@ -94,8 +94,8 @@ class Fulltext(WhooshIndex):
         writer.delete_by_term('pk', unit['pk'], searcher)
         writer.add_document(
             pk=unit['pk'],
-            target=force_text(unit['target']),
-            comment=force_text(unit['note']),
+            target=force_str(unit['target']),
+            comment=force_str(unit['note']),
         )
 
     def update_index(self, units):
@@ -125,12 +125,12 @@ class Fulltext(WhooshIndex):
         if not cls.FAKE:
             update_fulltext.delay(
                 pk=unit.pk,
-                source=force_text(unit.source),
-                context=force_text(unit.context),
-                location=force_text(unit.location),
-                target=force_text(unit.target),
-                note=force_text(unit.note),
-                language=force_text(unit.translation.language.code),
+                source=force_str(unit.source),
+                context=force_str(unit.context),
+                location=force_str(unit.location),
+                target=force_str(unit.target),
+                note=force_str(unit.note),
+                language=force_str(unit.translation.language.code),
             )
 
     @staticmethod

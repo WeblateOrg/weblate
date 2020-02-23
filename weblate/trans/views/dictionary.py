@@ -24,7 +24,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext
@@ -162,7 +162,7 @@ def upload_dictionary(request, project, lang):
             )
         except Exception as error:
             report_error(error, request, prefix='Failed to handle upload')
-            messages.error(request, _('File upload has failed: %s') % force_text(error))
+            messages.error(request, _('File upload has failed: %s') % force_str(error))
     else:
         messages.error(request, _('Failed to process form!'))
     return redirect('show_dictionary', project=prj.slug, lang=lang.code)

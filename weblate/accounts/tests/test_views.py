@@ -26,7 +26,7 @@ from django.core.signing import TimestampSigner
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import FREQ_DAILY, FREQ_NONE, SCOPE_DEFAULT
@@ -366,7 +366,7 @@ class ProfileTest(FixtureTestCase):
                 elif isinstance(value, list):
                     data[name] = value
                 else:
-                    data[name] = force_text(value)
+                    data[name] = force_str(value)
 
         # Save unchanged data
         response = self.client.post(reverse('profile'), data, follow=True)

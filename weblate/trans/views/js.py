@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.utils.encoding import force_text
+from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.views.decorators.http import require_POST
 
@@ -178,7 +178,7 @@ def git_status_project(request, project):
         raise PermissionDenied()
 
     statuses = [
-        (force_text(component), component.repository.status)
+        (force_str(component), component.repository.status)
         for component in obj.all_repo_components()
     ]
 
