@@ -189,7 +189,7 @@ def search(request, project=None, component=None, lang=None):
             units = Unit.objects.filter(
                 translation__component__project__in=allowed_projects
             )
-        units = units.search(search_form.cleaned_data.get("q", ""))
+        units = units.search(search_form.cleaned_data.get("q", "")).distinct()
         if lang:
             units = units.filter(translation__language=context['language'])
 
