@@ -6,6 +6,7 @@ Not yet released.
 * Fixed searching for fields with certain priority.
 * Fixed predefined query for recently added.
 * Fixed searching returning duplicate matches.
+* Fixed notifications rendering in Gmail.
 
 Weblate 3.11.2
 --------------
