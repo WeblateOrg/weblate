@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 3.11\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-15 15:24+0000\n"
-"PO-Revision-Date: 2020-02-23 19:32+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2020-02-25 20:33+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -1124,8 +1124,7 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"新しい翻訳を追加する場合は、configure、configure.in、configure.ac ファイルの "
-"ALL_LINGUAS 変数を更新します。"
+"新しい翻訳を追加すると、configure、configure.in、configure.ac ファイルの ALL_LINGUAS 変数を更新します。"
 
 #: weblate/addons/gettext.py:213
 msgid "Update PO files to match POT (msgmerge)"
@@ -2823,7 +2822,7 @@ msgstr "送信"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:46
 msgid "Cookies"
-msgstr "クッキー"
+msgstr "Cookie"
 
 #: weblate/legal/templates/legal/cookies.html:14
 msgid "Cookies Policy"
@@ -3080,9 +3079,8 @@ msgid ""
 "but none was sent. This header is required for security reasons, to ensure "
 "that your browser is not being hijacked by third-parties."
 msgstr ""
-"この HTTPS サイトでは、Web ブラウザから参照元ヘッダーを送信する必要があります"
-"が、何も送信していません。このヘッダーは、セキュリティ上の理由から、ブラウザ"
-"が第三者に乗っ取られないようにするために必要です。"
+"この HTTPS サイトでは、Web ブラウザからリファラヘッダを送信する必要がありますが、何も送信されていません。このヘッダは、セキュリティ上の理由から"
+"、ブラウザが第三者に乗っ取られていないことを確かめるために必要です。"
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -3109,8 +3107,8 @@ msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again, at-least for this site, or for 'same-origin' requests."
 msgstr ""
-"クッキーを保存しないようにブラウザを設定している場合は、少なくともこのサイト"
-"または同一発行元の要求に対しては、クッキーを再度有効にしてください。"
+"Cookie を保存しないようにブラウザを設定している場合は、少なくともこのサイトまたは同一生成元の要求に対しては、Cookie "
+"を再度有効にしてください。"
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:42
 msgid "Page Not Found"
@@ -3907,7 +3905,7 @@ msgstr "サードパーティでの登録"
 
 #: weblate/templates/accounts/register.html:75
 msgid "Sorry, new registrations are turned off on this site."
-msgstr "申し訳ありませんが、このサイトでの新規登録は停止してします。"
+msgstr "申し訳ありませんが、このサイトでの新規登録は停止しています。"
 
 #: weblate/templates/accounts/register.html:76
 msgid "You can contact us for more details."
@@ -4438,7 +4436,7 @@ msgstr "チェック詳細"
 #: weblate/templates/checks.html:27 weblate/templates/component-list.html:14
 #: weblate/templates/language.html:19
 msgid "Information"
-msgstr "統計情報"
+msgstr "情報"
 
 #: weblate/templates/checks.html:29
 msgid ""
@@ -6347,7 +6345,7 @@ msgstr "マトリックス"
 
 #: weblate/templates/matrix.html:35
 msgid "Displayed languages"
-msgstr "表示している言語数"
+msgstr "表示する言語"
 
 #: weblate/templates/matrix.html:40
 msgid "Choose"
@@ -7595,7 +7593,7 @@ msgstr "翻訳ファイル"
 #: weblate/templates/translate.html:624
 #, python-format
 msgid "%(filename)s, string %(position)s"
-msgstr "%(filename)s, 文字列 %(position)s"
+msgstr "%(filename)s、%(position)s 番目の文字列"
 
 #: weblate/templates/translation-download.html:7
 #, python-format
@@ -9491,7 +9489,7 @@ msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 
 #: weblate/trans/models/translation.py:901
 msgid "Plural forms do not match the language."
-msgstr "複数の形式が言語と一致しません。"
+msgstr "複数形が言語に合っていません。"
 
 #: weblate/trans/models/whiteboard.py:69
 msgid "Render as HTML"
@@ -9794,7 +9792,7 @@ msgstr "文字列 ID %s"
 
 #: weblate/trans/templatetags/translations.py:712
 msgid "You administrate this project."
-msgstr "あなは、このプロジェクトの管理者です。"
+msgstr "あなたは、このプロジェクトの管理者です。"
 
 #: weblate/trans/templatetags/translations.py:732
 #, python-format
@@ -9860,9 +9858,7 @@ msgstr "ファイルマスクに言語プレースホルダーとして * が含
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
-msgstr ""
-"自動承認に 1 の値は使用できません。自分自身の提案に投票できるようになるからで"
-"す。"
+msgstr "自動採用の条件となる値に 1を設定することはできません。提案者自身の投票で採用できてしまうからです。"
 
 #: weblate/trans/views/about.py:47
 msgid "Keys"
