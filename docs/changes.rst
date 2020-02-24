@@ -7,6 +7,7 @@ Not yet released.
 * Fixed predefined query for recently added.
 * Fixed searching returning duplicate matches.
 * Fixed notifications rendering in Gmail.
+* Fixed reverting changes from the history.
 
 Weblate 3.11.2
 --------------
