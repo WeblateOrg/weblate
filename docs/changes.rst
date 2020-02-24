@@ -9,6 +9,7 @@ Not yet released.
 * Fixed notifications rendering in Gmail.
 * Fixed reverting changes from the history.
 * Added links to events in digest notifications.
+* Fixed email for account removal confirmation.
 
 Weblate 3.11.2
 --------------
