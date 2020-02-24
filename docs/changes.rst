@@ -8,6 +8,7 @@ Not yet released.
 * Fixed searching returning duplicate matches.
 * Fixed notifications rendering in Gmail.
 * Fixed reverting changes from the history.
+* Added links to events in digest notifications.
 
 Weblate 3.11.2
 --------------

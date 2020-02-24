@@ -56,6 +56,9 @@
             <span class="pull-right flip text-muted">{{ change.timestamp|naturaltime }}</span>
             <div class="clearfix" {% if in_email %}style="clear:both"{% endif %}></div>
         </div>
+        {% if in_email %}
+        <a class="button" href="{{ change.get_absolute_url }}">{% trans "View" %}</a>
+        {% endif %}
     </div>
 </div>
 {% empty %}
