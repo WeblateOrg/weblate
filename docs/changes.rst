@@ -3,6 +3,8 @@ Weblate 3.11.3
 
 Not yet released.
 
+* Fixed searching for fields with certain priority.
+
 Weblate 3.11.2
 --------------
 
