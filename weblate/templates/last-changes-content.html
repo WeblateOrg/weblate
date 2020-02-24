@@ -5,7 +5,7 @@
 
 <div class="container-fluid">
 {% for change in last_changes %}
-<div class="row history-row">
+<div class="row history-row" {% if in_email %}style="clear:both"{% endif %}>
     <div class="col-xs-2 history-event">
         <strong>{{ change.get_user_display }}</strong>
         <p class="text-muted">{{ change.get_action_display }}</p>
@@ -25,7 +25,7 @@
         </p>
     </div>
     <div class="col-xs-10 history-data">
-        {% if not hide_links %}
+        {% if not in_email %}
         {% perm 'unit.edit' change.unit as user_can_translate %}
         <div class="btn-float pull-right flip">
             <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
@@ -33,7 +33,7 @@
             <a class="btn btn-link" href="{% url 'show_change' pk=change.pk %}" title="{% trans "View notification" %}">{% icon "bell.svg" %}</a>
             {% endif %}
             {% if change.can_revert and user_can_translate %}
-            <a class="btn btn-link" href="{{ cchange.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}" title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
+            <a class="btn btn-link" href="{{ change.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}" title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
             {% endif %}
         </div>
         {% endif %}
@@ -54,8 +54,11 @@
             {% endif %}
             {% endwith %}
             <span class="pull-right flip text-muted">{{ change.timestamp|naturaltime }}</span>
-            <div class="clearfix"></div>
+            <div class="clearfix" {% if in_email %}style="clear:both"{% endif %}></div>
         </div>
+        {% if in_email %}
+        <a class="button" href="{{ change.get_absolute_url }}">{% trans "View" %}</a>
+        {% endif %}
     </div>
 </div>
 {% empty %}

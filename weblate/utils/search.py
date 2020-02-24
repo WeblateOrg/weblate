@@ -77,7 +77,12 @@ class DateParser(whoosh.qparser.dateparse.English):
         self.bundle.elements = (self.plusdate, self.simple, self.datetime)
 
 
-class StateField(NUMERIC):
+class NumberField(NUMERIC):
+    def to_bytes(self, x, shift=0):
+        return int(x)
+
+
+class StateField(NumberField):
     def parse_query(self, fieldname, qstring, boost=1.0):
         return super().parse_query(fieldname, state_to_int(qstring), boost)
 
@@ -85,9 +90,6 @@ class StateField(NUMERIC):
         return super().parse_range(
             fieldname, state_to_int(start), state_to_int(end), startexcl, endexcl, boost
         )
-
-    def to_bytes(self, x, shift=0):
-        return int(x)
 
 
 def state_to_int(text):
@@ -117,7 +119,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             context=TEXT,
             note=TEXT,
             location=TEXT,
-            priority=NUMERIC,
+            priority=NumberField,
             added=DATETIME,
             state=StateField,
             pending=BOOLEAN,

@@ -296,7 +296,7 @@ img {
             <a class="button" href="{{ project.get_absolute_url  }}">{% trans "View" %}</a>
         </div>
 {% endif %}
-        <div class="footer">
+        <div class="footer" style="clear:both">
 			<p>
                 <img src="{% if request %}{% static "email-logo-footer.png" %}{% else %}cid:email-logo-footer.png@cid.weblate.org{% endif %}" /><br />
                 <a href="https://weblate.org/">{% trans "Weblate, the libre continuous localization system." %}</a>

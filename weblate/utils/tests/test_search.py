@@ -212,3 +212,7 @@ class QueryParserTest(TestCase):
 
     def test_labels(self):
         self.assert_query("label:'test label'", Q(labels__name__iexact="test label"))
+
+    def test_priority(self):
+        self.assert_query("priority:10", Q(priority=10))
+        self.assert_query("priority:>=10", Q(priority__gte=10))
