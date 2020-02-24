@@ -110,7 +110,7 @@ class UnitQuerySet(models.QuerySet):
 
     def search(self, query):
         """High level wrapper for searching."""
-        return self.prefetch().filter(parse_query(query))
+        return self.prefetch().filter(parse_query(query)).distinct()
 
     def more_like_this(self, unit, top=5):
         """Find closely similar units."""

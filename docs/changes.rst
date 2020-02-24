@@ -5,6 +5,7 @@ Not yet released.
 
 * Fixed searching for fields with certain priority.
 * Fixed predefined query for recently added.
+* Fixed searching returning duplicate matches.
 
 Weblate 3.11.2
 --------------
