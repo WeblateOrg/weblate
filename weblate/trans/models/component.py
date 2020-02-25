@@ -1890,7 +1890,7 @@ class Component(models.Model, URLMixin, PathMixin):
         location_error = []
         if self.repoweb and locations.exists():
             for unit in locations[:10]:
-                for location, filename, line in unit.get_locations():
+                for _location, filename, line in unit.get_locations():
                     link = self.get_repoweb_link(filename, line)
                     if link is None:
                         continue
