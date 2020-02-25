@@ -23,7 +23,6 @@ import hashlib
 import os.path
 from ssl import CertificateError
 from urllib.parse import quote
-from urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.contrib.staticfiles import finders
@@ -33,8 +32,8 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import pgettext
 
-from weblate import USER_AGENT
 from weblate.utils.errors import report_error
+from weblate.utils.requests import request
 
 
 def avatar_for_email(email, size=80):
@@ -95,14 +94,8 @@ def get_avatar_image(request, user, size):
 def download_avatar_image(user, size):
     """Download avatar image from remote server."""
     url = avatar_for_email(user.email, size)
-    request = Request(url)
-    request.add_header('User-Agent', USER_AGENT)
-
-    # Fire request
-    handle = urlopen(request, timeout=1.0)
-
-    # Read and possibly convert response
-    return bytes(handle.read())
+    response = request("get", url, timeout=1.0)
+    return response.content
 
 
 def get_user_display(user, icon=True, link=False, prefix=''):
