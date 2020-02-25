@@ -270,6 +270,33 @@ for tenant specific authentication.
 
    :doc:`psa:backends/azuread`
 
+.. _slack-auth:
+
+Slack
+~~~~~
+
+For using Slack OAuth 2, you need to register an application on
+<https://api.slack.com/apps>.
+
+The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
+
+.. code-block:: python
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        'social_core.backends.slack.SlackOAuth2',
+        'social_core.backends.email.EmailAuth',
+        'weblate.accounts.auth.WeblateUserBackend',
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_SLACK_KEY = ''
+    SOCIAL_AUTH_SLACK_SECRET = ''
+
+.. seealso::
+
+   :doc:`psa:backends/slack`
+
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -12,12 +12,13 @@ Weblate 3.11.3
 Not yet released.
 
 * Fixed searching for fields with certain priority.
-* Fixed predefined query for recently added.
+* Fixed predefined query for recently added strings.
 * Fixed searching returning duplicate matches.
 * Fixed notifications rendering in Gmail.
 * Fixed reverting changes from the history.
 * Added links to events in digest notifications.
 * Fixed email for account removal confirmation.
+* Added support for Slack authentication in Docker container.
 
 Weblate 3.11.2
 --------------
