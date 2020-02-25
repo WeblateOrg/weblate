@@ -39,9 +39,12 @@ class GlosbeTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         params = {'from': source, 'dest': language, 'format': 'json', 'phrase': text}
-        response = self.json_req('https://glosbe.com/gapi/translate', **params)
+        response = self.request(
+            "get", 'https://glosbe.com/gapi/translate', params=params
+        )
+        payload = response.json()
 
-        if 'tuc' not in response:
+        if 'tuc' not in payload:
             return []
 
         return [
@@ -51,6 +54,6 @@ class GlosbeTranslation(MachineTranslation):
                 'service': self.name,
                 'source': text,
             }
-            for match in response['tuc']
+            for match in payload['tuc']
             if 'phrase' in match and match['phrase'] is not None
         ]

@@ -63,21 +63,19 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         """Check whether token is about to expire."""
         return self._token_expiry <= timezone.now()
 
-    def authenticate(self, request):
+    def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
-        request.add_header('Authorization', 'Bearer {0}'.format(self.access_token))
+        return {'Authorization': 'Bearer {0}'.format(self.access_token)}
 
     @property
     def access_token(self):
         """Obtain and caches access token."""
         if self._access_token is None or self.is_token_expired():
-            self._access_token = self.json_req(
+            self._access_token = self.request(
+                "post",
                 COGNITIVE_TOKEN.format(settings.MT_MICROSOFT_COGNITIVE_KEY),
                 skip_auth=True,
-                http_post=True,
-                raw=True,
-                fake='1',
-            )
+            ).text
             self._token_expiry = timezone.now() + TOKEN_EXPIRY
 
         return self._access_token
@@ -101,13 +99,16 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         'sr-Latn', 'sk', 'sl', 'es', 'sv', 'ty', 'th', 'to', 'tr', 'uk', 'ur', 'vi',
         'cy']
         """
-        response = self.json_req(LIST_URL)
+        response = self.request("get", LIST_URL)
+        # Microsoft tends to use utf-8-sig instead of plain utf-8
+        response.encoding = response.apparent_encoding
+        payload = response.json()
 
         # We should get an object, string usually means an error
-        if isinstance(response, str):
-            raise Exception(response)
+        if isinstance(payload, str):
+            raise Exception(payload)
 
-        return response
+        return payload
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
@@ -118,10 +119,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             'contentType': 'text/plain',
             'category': 'general',
         }
-        response = self.json_req(TRANSLATE_URL, **args)
+        response = self.request("get", TRANSLATE_URL, params=args)
+        # Microsoft tends to use utf-8-sig instead of plain utf-8
+        response.encoding = response.apparent_encoding
+        payload = response.json()
         return [
             {
-                'text': response,
+                'text': payload,
                 'quality': self.max_score,
                 'service': self.name,
                 'source': text,

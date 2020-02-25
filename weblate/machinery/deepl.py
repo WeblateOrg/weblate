@@ -47,14 +47,17 @@ class DeepLTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        response = self.json_req(
+        response = self.request(
+            "post",
             DEEPL_API,
-            http_post=True,
-            auth_key=settings.MT_DEEPL_KEY,
-            text=text,
-            source_lang=source,
-            target_lang=language,
+            data={
+                'auth_key': settings.MT_DEEPL_KEY,
+                'text': text,
+                'source_lang': source,
+                'target_lang': language,
+            },
         )
+        payload = response.json()
 
         return [
             {
@@ -63,5 +66,5 @@ class DeepLTranslation(MachineTranslation):
                 'service': self.name,
                 'source': text,
             }
-            for translation in response['translations']
+            for translation in payload['translations']
         ]

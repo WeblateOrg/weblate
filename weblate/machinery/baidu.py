@@ -111,11 +111,12 @@ class BaiduTranslation(MachineTranslation):
             'sign': sign,
         }
 
-        response = self.json_req(BAIDU_API, **args)
+        response = self.request("get", BAIDU_API, params=args)
+        payload = response.json()
 
-        if 'error_code' in response:
+        if 'error_code' in payload:
             raise MachineTranslationError(
-                'Error {error_code}: {error_msg}'.format(**response)
+                'Error {error_code}: {error_msg}'.format(**payload)
             )
 
         return [
@@ -125,5 +126,5 @@ class BaiduTranslation(MachineTranslation):
                 'service': self.name,
                 'source': item['src'],
             }
-            for item in response['trans_result']
+            for item in payload['trans_result']
         ]

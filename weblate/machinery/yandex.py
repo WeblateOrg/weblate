@@ -49,25 +49,30 @@ class YandexTranslation(MachineTranslation):
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        response = self.json_req(
+        response = self.request(
+            "get",
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            key=settings.MT_YANDEX_KEY,
-            ui="en",
+            params={'key': settings.MT_YANDEX_KEY, 'ui': "en"},
         )
-        self.check_failure(response)
-        return response["langs"].keys()
+        payload = response.json()
+        self.check_failure(payload)
+        return payload["langs"].keys()
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        response = self.json_req(
+        response = self.request(
+            "get",
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
-            key=settings.MT_YANDEX_KEY,
-            text=text,
-            lang='{0}-{1}'.format(source, language),
-            target=language,
+            params={
+                'key': settings.MT_YANDEX_KEY,
+                'text': text,
+                'lang': '{0}-{1}'.format(source, language),
+                'target': language,
+            },
         )
+        payload = response.json()
 
-        self.check_failure(response)
+        self.check_failure(payload)
 
         return [
             {
@@ -76,5 +81,5 @@ class YandexTranslation(MachineTranslation):
                 'service': self.name,
                 'source': text,
             }
-            for translation in response['text']
+            for translation in payload['text']
         ]

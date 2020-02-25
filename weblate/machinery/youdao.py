@@ -70,22 +70,24 @@ class YoudaoTranslation(MachineTranslation):
             settings.MT_YOUDAO_ID, settings.MT_YOUDAO_SECRET, text
         )
 
-        response = self.json_req(
+        response = self.request(
+            "get",
             YOUDAO_API_ROOT,
-            q=text,
-            _from=source,
-            to=language,
-            appKey=settings.MT_YOUDAO_ID,
-            salt=salt,
-            sign=sign,
+            params={
+                'q': text,
+                '_from': source,
+                'to': language,
+                'appKey': settings.MT_YOUDAO_ID,
+                'salt': salt,
+                'sign': sign,
+            },
         )
+        payload = response.json()
 
-        if int(response['errorCode']) != 0:
-            raise MachineTranslationError(
-                'Error code: {}'.format(response['errorCode'])
-            )
+        if int(payload['errorCode']) != 0:
+            raise MachineTranslationError('Error code: {}'.format(payload['errorCode']))
 
-        translation = response['translation'][0]
+        translation = payload['translation'][0]
 
         return [
             {

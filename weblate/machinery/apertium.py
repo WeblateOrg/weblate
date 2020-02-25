@@ -118,7 +118,7 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        data = self.json_status_req('{0}/listPairs'.format(self.url))
+        data = self.request_status("get", '{0}/listPairs'.format(self.url))
         return [
             (item['sourceLanguage'], item['targetLanguage'])
             for item in data['responseData']
@@ -131,7 +131,9 @@ class ApertiumAPYTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from Apertium."""
         args = {'langpair': '{0}|{1}'.format(source, language), 'q': text}
-        response = self.json_status_req('{0}/translate'.format(self.url), **args)
+        response = self.request_status(
+            "get", '{0}/translate'.format(self.url), params=args
+        )
 
         return [
             {

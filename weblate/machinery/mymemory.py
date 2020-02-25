@@ -85,8 +85,8 @@ class MyMemoryTranslation(MachineTranslation):
         if settings.MT_MYMEMORY_KEY is not None:
             args['key'] = settings.MT_MYMEMORY_KEY
 
-        response = self.json_status_req(
-            'https://mymemory.translated.net/api/get', **args
+        response = self.request_status(
+            "get", 'https://mymemory.translated.net/api/get', params=args
         )
 
         return [self.format_match(match) for match in response['matches']]

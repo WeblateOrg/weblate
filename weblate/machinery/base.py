@@ -20,20 +20,17 @@
 """Base code for machine translation services."""
 
 
-import json
 import random
 from hashlib import md5
-from urllib.error import HTTPError
-from urllib.request import Request, urlopen
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.http import urlencode
+from requests.exceptions import HTTPError
 
-from weblate import USER_AGENT
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
+from weblate.utils.requests import request
 from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
 
@@ -65,8 +62,6 @@ class MachineTranslation:
         self.mtid = self.name.lower().replace(' ', '-')
         self.rate_limit_cache = '{}-rate-limit'.format(self.mtid)
         self.languages_cache = '{}-languages'.format(self.mtid)
-        self.request_url = None
-        self.request_params = None
         self.comparer = Comparer()
         self.supported_languages = None
         self.supported_languages_error = None
@@ -77,88 +72,36 @@ class MachineTranslation:
     def get_identifier(self):
         return self.mtid
 
-    def authenticate(self, request):
+    def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
-        return
+        return {}
 
-    def json_req(
-        self,
-        url,
-        http_post=False,
-        skip_auth=False,
-        raw=False,
-        json_body=False,
-        **kwargs
-    ):
+    def request(self, method, url, skip_auth=False, **kwargs):
         """Perform JSON request."""
-        # JSON body requires using POST
-        if json_body:
-            http_post = True
-
-        # Encode params
-        if kwargs:
-            if json_body:
-                params = json.dumps(kwargs)
-            else:
-                params = urlencode(kwargs)
-        else:
-            if json_body:
-                params = '{}'
-            else:
-                params = ''
-
-        # Store for exception handling
-        self.request_url = url
-        self.request_params = params
-
-        # Append parameters
-        if params and not http_post:
-            url = '?'.join((url, params))
-
-        # Create request object with custom headers
-        request = Request(url)
-        request.add_header('User-Agent', USER_AGENT)
-        request.add_header('Referer', get_site_url())
+        # Create custom headers
+        headers = {
+            'Referer': get_site_url(),
+            'Accept': 'application/json; charset=utf-8',
+        }
+        if "headers" in kwargs:
+            headers.update(kwargs.pop("headers"))
         # Optional authentication
         if not skip_auth:
-            self.authenticate(request)
+            headers.update(self.get_authentication())
 
         # Fire request
-        if http_post:
-            handle = urlopen(request, params.encode('utf-8'), timeout=5.0)
-        else:
-            handle = urlopen(request, timeout=5.0)
+        return request(method, url, headers=headers, timeout=5.0, **kwargs)
 
-        # Read and possibly convert response
-        text = handle.read()
-        # Needed for Microsoft
-        if text[:3] == b'\xef\xbb\xbf':
-            text = text.decode('UTF-8-sig')
-        else:
-            text = text.decode('utf-8')
-        # Replace literal \t
-        text = text.strip().replace('\t', '\\t').replace('\r', '\\r')
-        # Needed for Google
-        while ',,' in text or '[,' in text:
-            text = text.replace(',,', ',null,').replace('[,', '[')
-
-        if raw:
-            return text
-
-        # Parse and return JSON
-        return json.loads(text)
-
-    def json_status_req(self, url, http_post=False, skip_auth=False, **kwargs):
-        """Perform JSON request with checking response status."""
-        # Perform request
-        response = self.json_req(url, http_post, skip_auth, **kwargs)
+    def request_status(self, method, url, **kwargs):
+        response = self.request(method, url, **kwargs)
+        payload = response.json()
 
         # Check response status
-        if response['responseStatus'] != 200:
-            raise MachineTranslationError(response['responseDetails'])
+        if payload['responseStatus'] != 200:
+            raise MachineTranslationError(payload['responseDetails'])
 
         # Return data
-        return response
+        return payload
 
     def download_languages(self):
         """Download list of supported languages from a service."""
@@ -187,7 +130,6 @@ class MachineTranslation:
         """Wrapper for handling error situations."""
         report_error(exc, prefix='Machinery error')
         LOGGER.error(message, self.name)
-        LOGGER.info('Last URL: %s, params: %s', self.request_url, self.request_params)
 
     def get_supported_languages(self):
         """Return list of supported languages."""
@@ -240,7 +182,7 @@ class MachineTranslation:
         # HTTP 401 Unauthorized
         # HTTP 403 Forbidden
         # HTTP 503 Service Unavailable
-        if exc.code in (429, 401, 403, 503):
+        if exc.response.status_code in (429, 401, 403, 503):
             return True
         return False
 

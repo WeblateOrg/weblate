@@ -19,10 +19,10 @@
 #
 
 
-from urllib.error import HTTPError
 from urllib.parse import quote
 
 from django.conf import settings
+from requests.exceptions import HTTPError
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
@@ -55,9 +55,10 @@ class TMServerTranslation(MachineTranslation):
         """Download list of supported languages from a service."""
         try:
             # This will raise exception in DEBUG mode
-            data = self.json_req('{0}/languages/'.format(self.url))
+            response = self.request("get", '{0}/languages/'.format(self.url))
+            data = response.json()
         except HTTPError as error:
-            if error.code == 404:
+            if error.response.status_code == 404:
                 return []
             raise
         return [
@@ -82,7 +83,8 @@ class TMServerTranslation(MachineTranslation):
             quote(language, b''),
             quote(text[:500].replace('\r', ' ').encode('utf-8'), b''),
         )
-        response = self.json_req(url)
+        response = self.request("get", url)
+        payload = response.json()
 
         return [
             {
@@ -91,7 +93,7 @@ class TMServerTranslation(MachineTranslation):
                 'service': self.name,
                 'source': line['source'],
             }
-            for line in response
+            for line in payload
         ]
 
 

@@ -53,30 +53,35 @@ class GoogleTranslation(MachineTranslation):
 
     def download_languages(self):
         """List of supported languages."""
-        response = self.json_req(
-            GOOGLE_API_ROOT + 'languages', key=settings.MT_GOOGLE_KEY
+        response = self.request(
+            "get", GOOGLE_API_ROOT + 'languages', params={'key': settings.MT_GOOGLE_KEY}
         )
+        payload = response.json()
 
-        if 'error' in response:
-            raise MachineTranslationError(response['error']['message'])
+        if 'error' in payload:
+            raise MachineTranslationError(payload['error']['message'])
 
-        return [d['language'] for d in response['data']['languages']]
+        return [d['language'] for d in payload['data']['languages']]
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        response = self.json_req(
+        response = self.request(
+            "get",
             GOOGLE_API_ROOT,
-            key=settings.MT_GOOGLE_KEY,
-            q=text,
-            source=source,
-            target=language,
-            format='text',
+            params={
+                'key': settings.MT_GOOGLE_KEY,
+                'q': text,
+                'source': source,
+                'target': language,
+                'format': 'text',
+            },
         )
+        payload = response.json()
 
-        if 'error' in response:
-            raise MachineTranslationError(response['error']['message'])
+        if 'error' in payload:
+            raise MachineTranslationError(payload['error']['message'])
 
-        translation = response['data']['translations'][0]['translatedText']
+        translation = payload['data']['translations'][0]['translatedText']
 
         return [
             {

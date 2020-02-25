@@ -55,10 +55,8 @@ class NeteaseSightTranslation(MachineTranslation):
         """List of supported languages."""
         return ['zh', 'en']
 
-    def authenticate(self, request):
+    def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
-        # Override to add required headers.
-
         nonce = str(random.randint(1000, 99999999))
         timestamp = str(int(1000 * time.time()))
 
@@ -66,22 +64,25 @@ class NeteaseSightTranslation(MachineTranslation):
         sign = sign.encode('utf-8')
         sign = sha1(sign).hexdigest()
 
-        request.add_header('Content-Type', 'application/json')
-        request.add_header('appkey', settings.MT_NETEASE_KEY)
-        request.add_header('nonce', nonce)
-        request.add_header('timestamp', timestamp)
-        request.add_header('signature', sign)
+        return {
+            'Content-Type': 'application/json',
+            'appkey': settings.MT_NETEASE_KEY,
+            'nonce': nonce,
+            'timestamp': timestamp,
+            'signature': sign,
+        }
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        response = self.json_req(
-            NETEASE_API_ROOT, http_post=True, json_body=True, lang=source, content=text
+        response = self.request(
+            "post", NETEASE_API_ROOT, json={"lang": source, "content": text}
         )
+        payload = response.json()
 
-        if not response['success']:
-            raise MachineTranslationError(response['message'])
+        if not payload['success']:
+            raise MachineTranslationError(payload['message'])
 
-        translation = response['relatedObject']['content'][0]['transContent']
+        translation = payload['relatedObject']['content'][0]['transContent']
 
         return [
             {
