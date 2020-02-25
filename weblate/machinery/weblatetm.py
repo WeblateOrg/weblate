@@ -57,10 +57,10 @@ class WeblateTranslation(MachineTranslation):
             if quality < 50:
                 continue
             yield {
-                'text': unit.get_target_plurals()[0],
+                'text': munit.get_target_plurals()[0],
                 'quality': quality,
                 'service': self.name,
-                'origin': force_str(unit.translation.component),
-                'origin_url': unit.get_absolute_url(),
+                'origin': force_str(munit.translation.component),
+                'origin_url': munit.get_absolute_url(),
                 'source': source,
             }
