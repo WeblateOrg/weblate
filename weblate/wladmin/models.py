@@ -20,14 +20,12 @@
 
 
 import dateutil.parser
-import requests
 from django.conf import settings
 from django.contrib.admin import ModelAdmin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
-from weblate import USER_AGENT
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
 from weblate.utils.backup import (
@@ -38,6 +36,7 @@ from weblate.utils.backup import (
     make_password,
     prune,
 )
+from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.ssh import generate_ssh_key, get_key_data
@@ -132,10 +131,7 @@ class SupportStatus(models.Model):
             ssh_key = get_key_data()
         if ssh_key:
             data['ssh_key'] = ssh_key['key']
-        headers = {'User-Agent': USER_AGENT}
-        response = requests.request(
-            'post', settings.SUPPORT_API_URL, headers=headers, data=data
-        )
+        response = request('post', settings.SUPPORT_API_URL, data=data)
         response.raise_for_status()
         payload = response.json()
         self.name = payload['name']

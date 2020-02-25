@@ -26,10 +26,10 @@ from distutils.version import LooseVersion
 from dateutil.parser import parse
 from django.core.cache import cache
 from django.core.checks import Critical, Info
-from requests import request
 
-from weblate import USER_AGENT, VERSION_BASE
+from weblate import VERSION_BASE
 from weblate.utils.docs import get_doc_url
+from weblate.utils.requests import request
 
 PYPI = "https://pypi.org/pypi/Weblate/json"
 CACHE_KEY = "version-check"
@@ -39,8 +39,7 @@ Release = namedtuple("Release", ["version", "timestamp"])
 
 
 def download_version_info():
-    headers = {"User-Agent": USER_AGENT}
-    response = request("get", PYPI, headers=headers)
+    response = request("get", PYPI)
     result = []
     for version, info in response.json()["releases"].items():
         if not info:
