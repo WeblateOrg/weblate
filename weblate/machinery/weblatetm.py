@@ -36,19 +36,6 @@ class WeblateTranslation(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def format_unit_match(self, unit, quality):
-        """Format unit to translation service result."""
-        if quality < 50:
-            return None
-        return {
-            'text': unit.get_target_plurals()[0],
-            'quality': quality,
-            'service': self.name,
-            'origin': force_str(unit.translation.component),
-            'origin_url': unit.get_absolute_url(),
-            'source': unit.get_source_plurals()[0],
-        }
-
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         if user:
@@ -64,12 +51,16 @@ class WeblateTranslation(MachineTranslation):
             .distinct()
         )
 
-        result = [
-            self.format_unit_match(
-                munit, self.comparer.similarity(text, munit.get_source_plurals()[0])
-            )
-            for munit in matching_units
-        ]
-        while None in result:
-            result.remove(None)
-        return result
+        for munit in matching_units:
+            source = munit.get_source_plurals()[0]
+            quality = self.comparer.similarity(text, source)
+            if quality < 50:
+                continue
+            yield {
+                'text': unit.get_target_plurals()[0],
+                'quality': quality,
+                'service': self.name,
+                'origin': force_str(unit.translation.component),
+                'origin_url': unit.get_absolute_url(),
+                'source': source,
+            }

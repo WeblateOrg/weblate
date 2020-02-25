@@ -38,16 +38,6 @@ class WeblateMemory(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def format_unit_match(self, text, target, similarity, category, origin):
-        """Format match to translation service result."""
-        return {
-            'text': target,
-            'quality': similarity,
-            'service': self.name,
-            'origin': get_category_name(category, origin),
-            'source': text,
-        }
-
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         memory = TranslationMemory.get_thread_instance()
@@ -60,4 +50,11 @@ class WeblateMemory(MachineTranslation):
             unit.translation.component.project,
             unit.translation.component.project.use_shared_tm,
         )
-        return [self.format_unit_match(*result) for result in results]
+        for text, target, similarity, category, origin in results:
+            yield {
+                'text': target,
+                'quality': similarity,
+                'service': self.name,
+                'origin': get_category_name(category, origin),
+                'source': text,
+            }
