@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-import json
 from importlib.util import module_from_spec, spec_from_file_location
-from urllib.request import urlopen
 
+import requests
 from icu import Locale
 
 URL = "http://hosted.weblate.org/exports/stats/weblate/master/"
@@ -17,12 +16,8 @@ def print_language(lang, fmt="{0} ({1})"):
 
 
 def main():
-    # load data
-    handle = urlopen(URL)
-    data = handle.read()
-    handle.close()
-    # parse data
-    data = json.loads(data)
+    # load and parse data
+    data = requests.get(URL).json()
 
     # select languages
     languages = []
