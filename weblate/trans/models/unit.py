@@ -85,7 +85,7 @@ class UnitQuerySet(models.QuerySet):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
                 raise ValueError('Unknown check: {}'.format(check_id))
-            return self.filter(check__check=check_id)
+            return self.filter(check__check=check_id, check__ignore=False)
         if rqtype.startswith('label:'):
             return self.filter(labels__name=rqtype[6:])
         if rqtype == 'all':
