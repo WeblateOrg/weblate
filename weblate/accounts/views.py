@@ -547,7 +547,7 @@ def user_avatar(request, user, size):
         return redirect(get_fallback_avatar_url(size))
 
     response = HttpResponse(
-        content_type='image/png', content=get_avatar_image(request, user, size)
+        content_type='image/png', content=get_avatar_image(user, size)
     )
 
     patch_response_headers(response, 3600 * 24 * 7)

@@ -64,7 +64,7 @@ def get_fallback_avatar(size):
         return handle.read()
 
 
-def get_avatar_image(request, user, size):
+def get_avatar_image(user, size):
     """Return avatar image from cache (if available) or download it."""
     cache_key = '-'.join(('avatar-img', user.username, str(size)))
 
@@ -82,7 +82,6 @@ def get_avatar_image(request, user, size):
         except (IOError, CertificateError) as error:
             report_error(
                 error,
-                request,
                 extra_data={'avatar': user.username},
                 prefix='Failed to fetch avatar',
             )
