@@ -1902,7 +1902,7 @@ class Component(models.Model, URLMixin, PathMixin):
             self.add_alert("BrokenBrowserURL", links=location_error)
         else:
             self.delete_alert("BrokenBrowserURL")
-        if uri_exists(self.project.web):
+        if not self.project.web or uri_exists(self.project.web):
             self.delete_alert("BrokenProjectURL")
         else:
             self.add_alert("BrokenProjectURL")
