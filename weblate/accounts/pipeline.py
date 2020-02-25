@@ -18,11 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import json
 import re
 import time
 import unicodedata
-from urllib.request import Request, urlopen
 
 from django.conf import settings
 from django.shortcuts import redirect
@@ -33,7 +31,6 @@ from django.utils.translation import gettext as _
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
 
-from weblate import USER_AGENT
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
@@ -41,6 +38,7 @@ from weblate.accounts.utils import invalidate_reset_codes
 from weblate.auth.models import User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
+from weblate.utils.requests import request
 from weblate.utils.validators import USERNAME_MATCHER, clean_fullname
 
 STRIP_MATCHER = re.compile(r'[^\w\s.@+-]')
@@ -49,11 +47,13 @@ CLEANUP_MATCHER = re.compile(r'[-\s]+')
 
 def get_github_email(access_token):
     """Get real e-mail from GitHub."""
-    request = Request('https://api.github.com/user/emails')
-    request.add_header('User-Agent', USER_AGENT)
-    request.add_header('Authorization', 'token {0}'.format(access_token))
-    handle = urlopen(request, timeout=10.0)
-    data = json.loads(handle.read().decode('utf-8'))
+    response = request(
+        "get",
+        "https://api.github.com/user/emails",
+        headers={'Authorization': 'token {0}'.format(access_token)},
+        timeout=10.0,
+    )
+    data = response.json()
     email = None
     for entry in data:
         # Skip not verified ones
