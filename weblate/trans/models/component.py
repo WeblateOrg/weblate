@@ -91,6 +91,7 @@ from weblate.utils.render import (
     validate_render_component,
     validate_repoweb,
 )
+from weblate.utils.requests import uri_exists
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
@@ -1884,6 +1885,23 @@ class Component(models.Model, URLMixin, PathMixin):
             self.add_alert("DuplicateFilemask", duplicates=duplicates)
         else:
             self.delete_alert("DuplicateFilemask")
+
+        locations = allunits.exclude(location="")
+        location_error = []
+        if self.repoweb and locations.exists():
+            for unit in locations[:10]:
+                for location, filename, line in unit.get_locations():
+                    link = self.get_repoweb_link(filename, line)
+                    if link is None:
+                        continue
+                    if not uri_exists(link):
+                        location_error.append(link)
+                if location_error:
+                    break
+        if location_error:
+            self.add_alert("BrokenBrowserURL", links=location_error)
+        else:
+            self.delete_alert("BrokenBrowserURL")
 
     def needs_commit(self):
         """Check for uncommitted changes."""

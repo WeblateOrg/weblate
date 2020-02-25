@@ -32,3 +32,15 @@ def request(method, url, headers=None, **kwargs):
     response = requests.request(method, url, headers=headers, **kwargs)
     response.raise_for_status()
     return response
+
+
+def uri_exists(uri):
+    try:
+        with request("get", uri, stream=True) as response:
+            try:
+                response.raise_for_status()
+                return True
+            except requests.exceptions.HTTPError:
+                return False
+    except requests.exceptions.ConnectionError:
+        return False

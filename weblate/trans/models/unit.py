@@ -924,3 +924,17 @@ class Unit(models.Model, LoggerMixin):
             if not silent:
                 report_error(error, level='error')
             return get_anonymous(), timezone.now()
+
+    def get_locations(self):
+        """Returns list of location filenames."""
+        for location in self.location.split(","):
+            location = location.strip()
+            if location == "":
+                continue
+            location_parts = location.split(":")
+            if len(location_parts) == 2:
+                filename, line = location_parts
+            else:
+                filename = location_parts[0]
+                line = 0
+            yield location, filename, line

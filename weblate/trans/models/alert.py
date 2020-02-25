@@ -258,3 +258,13 @@ class UnsupportedConfiguration(BaseAlert):
         super().__init__(instance)
         self.vcs = vcs
         self.file_format = file_format
+
+
+@register
+class BrokenBrowserURL(BaseAlert):
+    # Translators: Name of an alert
+    verbose = _('Broken repository browser URL')
+
+    def __init__(self, instance, links):
+        super().__init__(instance)
+        self.links = links
