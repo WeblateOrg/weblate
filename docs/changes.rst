@@ -10,6 +10,7 @@ Not yet released.
 * Fixed reverting changes from the history.
 * Added links to events in digest notifications.
 * Fixed email for account removal confirmation.
+* Added support for Slack authentication in Docker container.
 
 Weblate 3.11.2
 --------------

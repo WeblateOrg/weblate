@@ -642,6 +642,14 @@ setting following variables to any value.
 .. envvar:: WEBLATE_SOCIAL_AUTH_OPENSUSE
 .. envvar:: WEBLATE_SOCIAL_AUTH_UBUNTU
 
+Slack
++++++
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_SLACK_KEY
+.. envvar:: SOCIAL_AUTH_SLACK_SECRET
+
+    Enables Slack authentication, see :ref:`slack-auth`.
+
 Other authentication settings
 +++++++++++++++++++++++++++++
 

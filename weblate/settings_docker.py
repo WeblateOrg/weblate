@@ -336,6 +336,12 @@ if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
 if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
     AUTHENTICATION_BACKENDS += "social_core.backends.ubuntu.UbuntuOpenId"
 
+# Slack
+if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.slack.SlackOAuth2",)
+    SOCIAL_AUTH_SLACK_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_SLACK_KEY", "")
+    SOCIAL_AUTH_SLACK_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_SLACK_SECRET", "")
+
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     import ldap
