@@ -45,7 +45,7 @@ class GlosbeTranslation(MachineTranslation):
         payload = response.json()
 
         if 'tuc' not in payload:
-            return []
+            return
 
         for match in payload['tuc']:
             if 'phrase' not in match or match['phrase'] is None:
