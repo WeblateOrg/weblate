@@ -30,14 +30,22 @@ class AlertTest(ViewTestCase):
         return self._create_component('po', 'po-duplicates/*.dpo')
 
     def test_duplicates(self):
-        self.assertEqual(self.component.alert_set.count(), 3)
+        self.assertEqual(
+            set(self.component.alert_set.values_list('name', flat=True)),
+            {
+                'DuplicateLanguage',
+                'DuplicateString',
+                'MissingLicense',
+                'BrokenBrowserURL',
+            },
+        )
+        self.assertEqual(self.component.alert_set.count(), 4)
         alert = self.component.alert_set.get(name='DuplicateLanguage')
         self.assertEqual(alert.details['occurrences'][0]['language_code'], 'cs')
         alert = self.component.alert_set.get(name='DuplicateString')
         self.assertEqual(
             alert.details['occurrences'][0]['source'], 'Thank you for using Weblate.'
         )
-        alert = self.component.alert_set.get(name='MissingLicense')
 
     def test_view(self):
         response = self.client.get(self.component.get_absolute_url())
