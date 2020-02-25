@@ -89,11 +89,9 @@ class YoudaoTranslation(MachineTranslation):
 
         translation = payload['translation'][0]
 
-        return [
-            {
-                'text': translation,
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
-            }
-        ]
+        yield {
+            'text': translation,
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }

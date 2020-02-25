@@ -83,14 +83,12 @@ class GoogleTranslation(MachineTranslation):
 
         translation = payload['data']['translations'][0]['translatedText']
 
-        return [
-            {
-                'text': translation,
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
-            }
-        ]
+        yield {
+            'text': translation,
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }
 
     def get_error_message(self, exc):
         if hasattr(exc, 'read'):

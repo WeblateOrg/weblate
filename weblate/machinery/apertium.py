@@ -135,11 +135,9 @@ class ApertiumAPYTranslation(MachineTranslation):
             "get", '{0}/translate'.format(self.url), params=args
         )
 
-        return [
-            {
-                'text': response['responseData']['translatedText'],
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
-            }
-        ]
+        yield {
+            'text': response['responseData']['translatedText'],
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }

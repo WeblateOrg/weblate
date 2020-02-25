@@ -88,5 +88,5 @@ class MyMemoryTranslation(MachineTranslation):
         response = self.request_status(
             "get", 'https://mymemory.translated.net/api/get', params=args
         )
-
-        return [self.format_match(match) for match in response['matches']]
+        for match in response['matches']:
+            yield self.format_match(match)

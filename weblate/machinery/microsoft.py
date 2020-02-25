@@ -123,11 +123,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
-        return [
-            {
-                'text': payload,
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
-            }
-        ]
+        yield {
+            'text': payload,
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }

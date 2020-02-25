@@ -77,18 +77,12 @@ class SAPTranslationHub(MachineTranslation):
         )
         payload = response.json()
 
-        translations = []
-
         # prepare the translations for weblate
         for item in payload['units']:
             for translation in item['translations']:
-                translations.append(
-                    {
-                        'text': translation['value'],
-                        'quality': translation.get('qualityIndex', 100),
-                        'service': self.name,
-                        'source': text,
-                    }
-                )
-
-        return translations
+                yield {
+                    'text': translation['value'],
+                    'quality': translation.get('qualityIndex', 100),
+                    'service': self.name,
+                    'source': text,
+                }

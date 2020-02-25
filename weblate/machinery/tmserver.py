@@ -86,15 +86,13 @@ class TMServerTranslation(MachineTranslation):
         response = self.request("get", url)
         payload = response.json()
 
-        return [
-            {
+        for line in payload:
+            yield {
                 'text': line['target'],
                 'quality': int(line['quality']),
                 'service': self.name,
                 'source': line['source'],
             }
-            for line in payload
-        ]
 
 
 class AmagamaTranslation(TMServerTranslation):

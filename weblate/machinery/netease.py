@@ -84,11 +84,9 @@ class NeteaseSightTranslation(MachineTranslation):
 
         translation = payload['relatedObject']['content'][0]['transContent']
 
-        return [
-            {
-                'text': translation,
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
-            }
-        ]
+        yield {
+            'text': translation,
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }

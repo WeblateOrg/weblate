@@ -61,11 +61,9 @@ class AWSTranslation(MachineTranslation):
         response = self.client.translate_text(
             Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )
-        return [
-            {
-                'text': response['TranslatedText'],
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
-            }
-        ]
+        yield {
+            'text': response['TranslatedText'],
+            'quality': self.max_score,
+            'service': self.name,
+            'source': text,
+        }

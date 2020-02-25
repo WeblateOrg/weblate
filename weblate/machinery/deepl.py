@@ -59,12 +59,10 @@ class DeepLTranslation(MachineTranslation):
         )
         payload = response.json()
 
-        return [
-            {
+        for translation in payload['translations']:
+            yield {
                 'text': translation['text'],
                 'quality': self.max_score,
                 'service': self.name,
                 'source': text,
             }
-            for translation in payload['translations']
-        ]

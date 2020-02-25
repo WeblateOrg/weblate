@@ -34,18 +34,15 @@ class DummyTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Dummy translation supports just single phrase."""
         if source == 'en' and text.strip() == 'Hello, world!':
-            return [
-                {
-                    'text': 'Nazdar světe!',
-                    'quality': self.max_score,
-                    'service': 'Dummy',
-                    'source': text,
-                },
-                {
-                    'text': 'Ahoj světe!',
-                    'quality': self.max_score,
-                    'service': 'Dummy',
-                    'source': text,
-                },
-            ]
-        return []
+            yield {
+                'text': 'Nazdar světe!',
+                'quality': self.max_score,
+                'service': 'Dummy',
+                'source': text,
+            }
+            yield {
+                'text': 'Ahoj světe!',
+                'quality': self.max_score,
+                'service': 'Dummy',
+                'source': text,
+            }

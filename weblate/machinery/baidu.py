@@ -119,12 +119,10 @@ class BaiduTranslation(MachineTranslation):
                 'Error {error_code}: {error_msg}'.format(**payload)
             )
 
-        return [
-            {
+        for item in payload['trans_result']:
+            yield {
                 'text': item['dst'],
                 'quality': self.max_score,
                 'service': self.name,
                 'source': item['src'],
             }
-            for item in payload['trans_result']
-        ]

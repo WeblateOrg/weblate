@@ -227,7 +227,9 @@ class MachineTranslation:
                 return result
 
         try:
-            result = self.download_translations(source, language, text, unit, user)
+            result = list(
+                self.download_translations(source, language, text, unit, user)
+            )
             if cache_key:
                 cache.set(cache_key, result, 7 * 86400)
             return result

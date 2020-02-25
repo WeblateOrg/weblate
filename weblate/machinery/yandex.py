@@ -74,12 +74,10 @@ class YandexTranslation(MachineTranslation):
 
         self.check_failure(payload)
 
-        return [
-            {
+        for translation in payload['text']:
+            yield {
                 'text': translation,
                 'quality': self.max_score,
                 'service': self.name,
                 'source': text,
             }
-            for translation in payload['text']
-        ]

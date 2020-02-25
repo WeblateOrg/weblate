@@ -70,21 +70,18 @@ class MicrosoftTerminologyService(MachineTranslation):
             'searchOperator': 'AnyWord',
         }
         result = self.soap_req('GetTranslations', **args)
-        translations = []
+        # It can return None in some error cases
         if not result:
-            return translations
+            return
 
         for item in result:
             target = force_str(item['Translations']['Translation'][0]['TranslatedText'])
-            translations.append(
-                {
-                    'text': target,
-                    'quality': self.comparer.similarity(text, target),
-                    'service': self.name,
-                    'source': item['OriginalText'],
-                }
-            )
-        return translations
+            yield {
+                'text': target,
+                'quality': self.comparer.similarity(text, target),
+                'service': self.name,
+                'source': item['OriginalText'],
+            }
 
     def convert_language(self, language):
         """Convert language to service specific code.

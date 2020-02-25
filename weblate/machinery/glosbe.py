@@ -47,13 +47,12 @@ class GlosbeTranslation(MachineTranslation):
         if 'tuc' not in payload:
             return []
 
-        return [
-            {
+        for match in payload['tuc']:
+            if 'phrase' not in match or match['phrase'] is None:
+                continue
+            yield {
                 'text': match['phrase']['text'],
                 'quality': self.max_score,
                 'service': self.name,
                 'source': text,
             }
-            for match in payload['tuc']
-            if 'phrase' in match and match['phrase'] is not None
-        ]
