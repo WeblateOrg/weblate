@@ -12,59 +12,62 @@
 
 
 {% if registration_open %}
-{% if has_legal %}
-<div class="alert alert-info">
-{% url 'legal:terms' as legal_url %}
-<a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service before registering.{% endblocktrans %}</a>
-</div>
-{% else %}
-{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." as msg %}
-{% show_message "info" msg %}
-{% endif %}
+
+<div class="container">
 
 {% if form.errors %}
 {% trans "Please fix errors in the registration form." as msg%}
 {% show_message "error" msg %}
 {% endif %}
+
+<h2>{{ site_title }}</h2>
 <div class="row">
+
+<div class="col-sm-7">
+{% include "snippets/login-info.html" %}
+
+{% if has_legal %}
+<p>
+{% url 'legal:terms' as legal_url %}
+<a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service before registering.{% endblocktrans %}</a>
+</p>
+{% else %}
+<p>
+{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." %}
+</p>
+{% endif %}
+</div>
+
+<div class="col-sm-5">
+
+<h4>{% trans "Register using e-mail" %}</h4>
+
+<div class="panel panel-default">
+  <div class="panel-body">
 
 {% if registration_email %}
 
-<div class="col-lg-6">
 <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
-
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Register using e-mail" %}</h4></div>
-  <div class="panel-body">
 
 {% csrf_token %}
 {{ form|crispy }}
 {% if captcha_form %}
 {{ captcha_form|crispy }}
 {% endif %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans 'Register' %}" class="btn btn-primary" />
-</div>
-</div>
+<input type="submit" value="{% trans 'Register' %}" class="btn btn-primary btn-full" />
 </form>
-</div>
 
 {% endif %}
 
 {% if registration_backends %}
 
-<div class="col-lg-6">
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Third party registration" %}</h4></div>
-  <div class="panel-body">
+<h5 class="login-label">{% trans "Create an account using:" %}</h5>
 
 {% for name in registration_backends %}
-  <a class="btn btn-link link-post" href="{% url 'social:begin' name %}">{% auth_name name %}</a>
+  <div class="col-sm-6 col-xs-12 btn-auth">
+    <a class="btn btn-default link-post" href="{% url 'social:begin' name %}{% if next %}?next={{ next }}{% endif %}">{% auth_name name " " %}</a>
+  </div>
 {% endfor %}
-</div>
-</div>
-</div>
 
 {% endif %}
 
@@ -78,4 +81,11 @@
 
 {% endif %}
 
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
 {% endblock %}

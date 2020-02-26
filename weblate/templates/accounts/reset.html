@@ -9,6 +9,8 @@
 
 {% block content %}
 
+<div class="container">
+
 {% if second_stage %}
 {% trans "Forgotten your password? You can now set new one." as msg %}
 {% show_message "info" msg %}
@@ -22,20 +24,33 @@
 {% show_message "error" msg %}
 {% endif %}
 
-<form action="{% url 'password_reset' %}" method="post" accept-charset="utf-8" role="form">
+<h2>{{ site_title }}</h2>
+<div class="row">
+
+<div class="col-sm-7">
+{% include "snippets/login-info.html" %}
+</div>
+
+<div class="col-sm-5">
+
+  <h4>{% trans "Password reset" %}</h4>
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Password reset" %}</h4></div>
   <div class="panel-body">
+
+<form action="{% url 'password_reset' %}" method="post" accept-charset="utf-8" role="form">
 {% csrf_token %}
 {{ form|crispy }}
 {% if captcha_form %}
 {{ captcha_form|crispy }}
 {% endif %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% if second_stage %}{% trans 'Set my password' %}{% else %}{% trans 'Reset my password' %}{% endif %}" class="btn btn-primary" />
-</div>
-</div>
+<input type="submit" value="{% if second_stage %}{% trans 'Set my password' %}{% else %}{% trans 'Reset my password' %}{% endif %}" class="btn btn-primary btn-full" />
 </form>
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
 
 {% endblock %}

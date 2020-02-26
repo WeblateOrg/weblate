@@ -10,72 +10,68 @@
 
 {% block content %}
 
+<div class="container">
+
 {% if form.errors %}
 {% trans "This username/password combination was not found. Please try again." as msg %}
 {% show_message "error" msg %}
 {% endif %}
 
+<h2>{{ site_title }}</h2>
 <div class="row">
 
-<div class="col-lg-6">
+<div class="col-sm-7">
+{% include "snippets/login-info.html" %}
+</div>
 
-<form method="post" action="{% url 'login' %}">
+<div class="col-sm-5">
+
+<h4>{% trans "Log in" %}</h4>
 <div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Password login" %}</h4></div>
   <div class="panel-body">
+<form method="post" action="{% url 'login' %}">
 
 {% csrf_token %}
 {{ form|crispy }}
-<p class="helptext">
-{% if can_reset %}
-{% url 'password_reset' as reset_url %}
-{% trans "Forgot your password?" %}
-<a href="{{ reset_url }}">{% trans "You can reset it." %}</a>
-{% endif %}
-</p>
 
 <input type="hidden" name="next" value="{{ next }}" />
 
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Login" %}" class="btn btn-primary" />
-</div>
-</div>
+<input type="submit" value="{% trans "Login" %}" class="btn btn-primary btn-full" />
 </form>
-
-</div>
-
-<div class="col-lg-6">
 
 {% if login_backends %}
 
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Third party login" %}</h4></div>
-  <div class="panel-body">
+<h5 class="login-label">{% trans "Log in with:" %}</h5>
 
 {% for name in login_backends %}
-  <a class="btn btn-link link-post" href="{% url 'social:begin' name %}{% if next %}?next={{ next }}{% endif %}">{% auth_name name %}</a>
+  <div class="col-sm-6 col-xs-12 btn-auth">
+    <a class="btn btn-default link-post" href="{% url 'social:begin' name %}{% if next %}?next={{ next }}{% endif %}">{% auth_name name " " %}</a>
+  </div>
 {% endfor %}
-</div>
-</div>
 
+{% endif %}
+
+{% if can_reset or registration_open %}
+<div class="clearfix"></div>
+<ul class="login-links">
+{% if can_reset %}
+{% url 'password_reset' as reset_url %}
+<li><a href="{{ reset_url }}">{% trans "Forgot your password?" %}</a></li>
 {% endif %}
 
 {% if registration_open %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Registration" %}</h4></div>
-  <div class="panel-body">
-
-<p>
 {% url 'register' as register_url %}
-{% trans "Do not have an account yet?" %}
-<a href="{{ register_url }}">{% trans "You can register." %}</a>
-</p>
-
-</div>
-</div>
+<li><a href="{{ register_url }}">{% trans "Register new account" %}</a></li>
+{% endif %}
+</ul>
 {% endif %}
 
+
+
+</div>
+</div>
+
+</div>
 </div>
 </div>
 
