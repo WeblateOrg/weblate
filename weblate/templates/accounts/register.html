@@ -25,17 +25,6 @@
 
 <div class="col-sm-7">
 {% include "snippets/login-info.html" %}
-
-{% if has_legal %}
-<p>
-{% url 'legal:terms' as legal_url %}
-<a href="{{ legal_url }}">{% blocktrans %}Please read our Terms of Service before registering.{% endblocktrans %}</a>
-</p>
-{% else %}
-<p>
-{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." %}
-</p>
-{% endif %}
 </div>
 
 <div class="col-sm-5">

@@ -3,9 +3,22 @@
 <div class="hidden-xs">
 <h4>{% trans "Web-based <strong>continuous</strong> localization" %}</h4>
 
+{% include "snippets/about.html" %}
+
+{% if has_legal %}
+<p>{% trans "By registering and logging in to this service you accept our:" %}</p>
+<ul>
+<li>
+    <a href="{% url 'legal:terms' %}">{% blocktrans %}Terms of Service{% endblocktrans %}</a>
+</li>
+<li>
+    <a href="{% url 'legal:privacy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
+</li>
+<ul>
+{% else %}
 <p>
-{% blocktrans %}{{ weblate_name_link }} is a copylefted libre software web-based continuous localization system,
-used by over 1150 libre projects and companies in more than 115 countries.{% endblocktrans %}
+{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." %}
 </p>
+{% endif %}
 
 </div>
