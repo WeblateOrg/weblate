@@ -234,7 +234,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         password_input.send_keys("testpassword")
 
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_xpath('//input[@value="Login"]'))
+            self.click(self.driver.find_element_by_xpath('//input[@value="Sign in"]'))
         return user
 
     def open_manage(self, login=True):

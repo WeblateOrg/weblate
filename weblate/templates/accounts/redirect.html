@@ -4,14 +4,19 @@
 {% load authnames %}
 
 {% block breadcrumbs %}
-<li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
+<li><a href="{% url 'login' %}">{% trans "Sign in " %}</a></li>
 {% endblock %}
 
 {% block content %}
 
+<div class="container">
+
 {% trans "Redirecting you to the authentication provider." as msg %}
 {% show_message "info" msg %}
 
-<a class="btn btn-link link-post link-auto" href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}">{% auth_name backend %}</a>
+<div class="col-sm-6 col-xs-12 btn-auth">
+    <a class="btn btn-link link-post link-auto" href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}">{% auth_name backend " " %}</a>
+</div>
 
+</div>
 {% endblock %}

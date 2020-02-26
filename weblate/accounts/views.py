@@ -572,7 +572,7 @@ class WeblateLoginView(LoginView):
         auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
         context['login_backends'] = [x for x in auth_backends if x != 'email']
         context['can_reset'] = 'email' in auth_backends
-        context['title'] = _('Login')
+        context['title'] = _('Sign in')
         return context
 
     @method_decorator(never_cache)

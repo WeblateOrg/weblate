@@ -13,7 +13,7 @@
 </p>
 
 {% if not user.is_authenticated %}
-<a href="{% url 'login' %}" class="btn btn-primary">{% trans "Log in" %}</a>
+<a href="{% url 'login' %}" class="btn btn-primary">{% trans "Sign in" %}</a>
 {% endif %}
 <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Dashboard" %}</a>
 <a href="{% url 'projects' %}" class="btn btn-primary">{% trans "Browse all projects" %}</a>
