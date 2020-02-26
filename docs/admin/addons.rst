@@ -22,8 +22,7 @@ Automatic translation
 
 .. versionadded:: 3.9
 
-This addon automatically translates strings using machine translation or other
-components.
+Automatically translates strings using machine translation or other components.
 
 .. seealso::
 
@@ -135,7 +134,7 @@ translations created by the developers.
 Statistics generator
 --------------------
 
-This addon generates a file containing detailed info about the translation.
+Generates a file containing detailed info about the translation.
 You can use Django template in both filename and content, see :ref:`markup`
 for a detailed markup description.
 
@@ -181,8 +180,8 @@ The PO file header will contain a list of contributors and years contributed:
 Update ALL_LINGUAS variable in the "configure" file
 ---------------------------------------------------
 
-Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or the
-:file:`configure.ac` file, when a new translation is added.
+Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or any
+:file:`configure.ac` files, when a new translation is added.
 
 .. _addon-weblate.gettext.customize:
 
@@ -257,7 +256,8 @@ Allows adjusting JSON output behavior, for example indentation or sorting.
 Formats the Java properties file
 --------------------------------
 
-This addon sorts the Java properties file, if present.
+Sorts the Java properties file.
+Available only if applicable.
 
 .. _addon-weblate.removal.comments:
 
@@ -288,8 +288,9 @@ Update RESX files
 
 .. versionadded:: 3.9
 
-Update all translation files to match the monolingual upstream base file, if present.
+Update all translation files to match the monolingual upstream base file.
 Unused strings are removed, and new ones added as copies of the source string.
+Available only if applicable.
 
 .. hint::
 
@@ -435,7 +436,7 @@ Post update repository processing
 ---------------------------------
 
 Post update repository processing can be used to update translation files when
-the source changes. To achieve this, please remember that Weblate only sees
+the VCS upstream source changes. To achieve this, please remember that Weblate only sees
 files committed to the VCS, so you need to commit changes as a part
 of the script.
 
