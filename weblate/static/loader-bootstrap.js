@@ -405,9 +405,7 @@ function processMachineTranslation(data, scope) {
             [data.service]
         );
 
-        $('#' + scope + '-errors').append(
-            $('<li>' + msg + ' ' + data.responseDetails + '</li>')
-        );
+        addAlert(msg + ' ' + data.responseDetails);
     }
 }
 
