@@ -1043,7 +1043,7 @@ class UserManageForm(forms.Form):
     user = UserField(
         label=_('User to add'),
         help_text=_(
-            'Please type in an account name, or any e-mail address. '
+            'Please type in a Weblate account name, or any e-mail address. '
         ),
     )
 
