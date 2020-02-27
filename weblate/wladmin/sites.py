@@ -177,7 +177,7 @@ class WeblateAdminSite(AdminSite):
             request.current_app = self.name
             return LogoutView.as_view(next_page=reverse('admin:login'))(request)
         context = self.each_context(request)
-        context['title'] = _('Logout')
+        context['title'] = _('Sign out')
         return render(request, 'admin/logout-confirm.html', context)
 
     def each_context(self, request):
