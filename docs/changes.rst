@@ -11,6 +11,7 @@ Not yet released.
 * Added links to events in digest notifications.
 * Fixed email for account removal confirmation.
 * Added support for Slack authentication in Docker container.
+* Avoid sending notifications for not subscribed languages.
 
 Weblate 3.11.2
 --------------

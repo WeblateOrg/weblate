@@ -90,11 +90,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
                 notification=notification,
                 frequency=FREQ_INSTANT,
             )
-
-    @staticmethod
-    def second_user():
-        return User.objects.create_user(
-            'seconduser', 'noreply+second@example.org', 'testpassword'
+        self.thirduser = User.objects.create_user(
+            'thirduser', 'noreply+third@example.org', 'testpassword'
         )
 
     def validate_notifications(self, count, subject):
@@ -117,7 +114,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.second_user(), '@Administration')
+        self.component.project.add_user(self.anotheruser, '@Administration')
         notify_change(change.pk)
 
         # Check mail
@@ -132,7 +129,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.second_user(), '@Administration')
+        self.component.project.add_user(self.anotheruser, '@Administration')
         notify_change(change.pk)
 
         # Check mail
@@ -149,7 +146,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.second_user(), '@Administration')
+        self.component.project.add_user(self.anotheruser, '@Administration')
         notify_change(change.pk)
 
         # Check mail
@@ -168,7 +165,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_new_translation(self):
         Change.objects.create(
             unit=self.get_unit(),
-            user=self.second_user(),
+            user=self.anotheruser,
             old='',
             action=Change.ACTION_CHANGE,
         )
@@ -177,9 +174,9 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(1, '[Weblate] New translation in Test/Test — Czech')
 
     def test_notify_new_language(self):
-        second_user = self.second_user()
+        anotheruser = self.anotheruser
         change = Change.objects.create(
-            user=second_user,
+            user=anotheruser,
             component=self.component,
             details={'language': 'de'},
             action=Change.ACTION_REQUESTED_LANGUAGE,
@@ -189,7 +186,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(second_user, '@Administration')
+        self.component.project.add_user(anotheruser, '@Administration')
         notify_change(change.pk)
 
         # Check mail
@@ -198,7 +195,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_new_contributor(self):
         Change.objects.create(
             unit=self.get_unit(),
-            user=self.second_user(),
+            user=self.anotheruser,
             action=Change.ACTION_NEW_CONTRIBUTOR,
         )
 
@@ -210,24 +207,39 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Change.objects.create(
             unit=unit,
             suggestion=Suggestion.objects.create(unit=unit, target='Foo'),
-            user=self.second_user(),
+            user=self.anotheruser,
             action=Change.ACTION_SUGGESTION,
         )
 
         # Check mail
         self.validate_notifications(1, '[Weblate] New suggestion in Test/Test — Czech')
 
-    def test_notify_new_comment(self, expected=1, comment='Foo'):
-        unit = self.get_unit()
+    def add_comment(self, comment="Foo", language="en"):
+        unit = self.get_unit(language=language)
         Change.objects.create(
             unit=unit,
-            comment=Comment.objects.create(unit=unit.source_info, comment=comment),
-            user=self.second_user(),
+            comment=Comment.objects.create(unit=unit, comment=comment),
+            user=self.thirduser,
             action=Change.ACTION_COMMENT,
         )
 
+    def test_notify_new_comment(self, expected=1, comment='Foo'):
+        self.add_comment(comment=comment)
+
         # Check mail
         self.validate_notifications(expected, '[Weblate] New comment in Test/Test')
+
+    def test_notify_new_comment_language(self):
+        # Subscribed language
+        self.add_comment(language="cs")
+        self.validate_notifications(1, '[Weblate] New comment in Test/Test')
+
+        # Empty outbox
+        mail.outbox = []
+
+        # Unsubscribed language
+        self.add_comment(language="de")
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_notify_new_comment_report(self):
         self.component.report_source_bugs = 'noreply@weblate.org'
@@ -241,12 +253,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_notify_new_comment_author(self):
         self.edit_unit('Hello, world!\n', 'Ahoj svete!\n')
+        # No notification for own edit
+        self.assertEqual(len(mail.outbox), 0)
         change = self.get_unit().change_set.content().order_by('-timestamp')[0]
         change.user = self.anotheruser
         change.save()
+        # Notification for other user edit
         self.assertEqual(len(mail.outbox), 1)
         mail.outbox = []
-        self.test_notify_new_comment(2)
 
     def test_notify_new_component(self):
         Change.objects.create(
@@ -259,7 +273,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.validate_notifications(1, '[Weblate] New whiteboard message on Test')
         mail.outbox = []
         WhiteboardMessage.objects.create(message='Hello global word')
-        self.validate_notifications(2, '[Weblate] New whiteboard message at Weblate')
+        self.validate_notifications(
+            User.objects.filter(is_active=True).count(),
+            '[Weblate] New whiteboard message at Weblate',
+        )
 
     def test_notify_alert(self):
         self.component.project.add_user(self.user, '@Administration')
