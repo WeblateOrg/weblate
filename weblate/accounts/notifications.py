@@ -531,7 +531,7 @@ class NewCommentNotificaton(Notification):
     required_attr = 'comment'
 
     def need_language_filter(self, change):
-        return change.comment.unit.translation.is_source
+        return not change.comment.unit.translation.is_source
 
     def notify_immediate(self, change):
         super().notify_immediate(change)
