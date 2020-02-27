@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.12.4 (866375e7) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.12.5 (c15f489a) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1664,9 +1664,9 @@ var Sentry = (function (exports) {
         var result = false;
         var doc = global.document;
         if (doc) {
-            var sandbox = doc.createElement('iframe');
-            sandbox.hidden = true;
             try {
+                var sandbox = doc.createElement('iframe');
+                sandbox.hidden = true;
                 doc.head.appendChild(sandbox);
                 if (sandbox.contentWindow && sandbox.contentWindow.fetch) {
                     // tslint:disable-next-line:no-unbound-method
@@ -3596,7 +3596,7 @@ var Sentry = (function (exports) {
                         },
                         originalException: reason,
                     });
-                    reject("Event processing pipeline threw an error, original event will not be sent. Details has been sent as a new event.\nReason: " + reason);
+                    reject("Event processing pipeline threw an error, original event will not be sent. Details have been sent as a new event.\nReason: " + reason);
                 });
             });
         };
@@ -4465,7 +4465,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.12.4';
+    var SDK_VERSION = '5.12.5';
 
     /**
      * The Sentry Browser SDK Client.
@@ -5302,7 +5302,7 @@ var Sentry = (function (exports) {
         try {
             var event_1 = JSON.parse(serializedData);
             getCurrentHub().addBreadcrumb({
-                category: 'sentry',
+                category: "sentry." + (event_1.transaction ? 'transaction' : 'event'),
                 event_id: event_1.event_id,
                 level: event_1.level || exports.Severity.fromString('error'),
                 message: getEventDescription(event_1),
