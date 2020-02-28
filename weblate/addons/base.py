@@ -72,7 +72,7 @@ class BaseAddon(object):
 
     @classmethod
     def get_doc_anchor(cls):
-        return 'addon-{}'.format(cls.name.replace('.', '-'))
+        return 'addon-{}'.format(cls.name.replace('.', '-').replace('_', '-'))
 
     @cached_property
     def has_settings(self):
