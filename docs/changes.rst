@@ -14,6 +14,7 @@ Not yet released.
 * Avoid sending notifications for not subscribed languages.
 * Include Celery queues in performance overview.
 * Fixed documentation links for addons.
+* Reduced false negatives for unchanged translation check.
 
 Weblate 3.11.2
 --------------
