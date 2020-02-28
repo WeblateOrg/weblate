@@ -269,7 +269,7 @@ def get_notification_forms(request):
             except (ObjectDoesNotExist, ValueError):
                 pass
 
-        # Popupate scopes from the database
+        # Populate scopes from the database
         for subscription in user.subscription_set.iterator():
             key = (
                 subscription.scope,
@@ -439,6 +439,19 @@ def get_initial_contact(request):
         initial['name'] = request.user.full_name
         initial['email'] = request.user.email
     return initial
+
+
+@login_required
+def saml_metadata_view(request):
+    complete_url = reverse('social:complete', args=("saml",))
+    saml_backend = social_django.utils.load_backend(
+        social_django.utils.load_strategy(request),
+        "saml", complete_url)
+    metadata, errors = saml_backend.generate_metadata_xml()
+    if not errors:
+        return HttpResponse(content=metadata,
+                            content_type='text/xml')
+    return HttpResponseServerError(content=', '.join(errors))
 
 
 @never_cache
