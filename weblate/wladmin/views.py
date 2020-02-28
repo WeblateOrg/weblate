@@ -30,6 +30,7 @@ from django.utils.translation import gettext_lazy
 from weblate.auth.decorators import management_access
 from weblate.trans.models import Alert, Component
 from weblate.utils import messages
+from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
@@ -192,6 +193,7 @@ def performance(request):
     context = {
         'checks': run_checks(include_deployment_checks=True),
         'errors': ConfigurationError.objects.filter(ignored=False),
+        'queues': get_queue_stats().items(),
         'menu_items': MENU,
         'menu_page': 'performance',
     }

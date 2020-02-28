@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load check_links %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
@@ -89,6 +90,25 @@
   {% trans "Congratulations, your setup seems to work." as msg %}
   {% show_message "success" msg %}
   {% endif %}
+
+<div class="panel panel-default">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'admin/install' 'celery' right=True %}
+    {% trans "Celery queues" %}
+  </h4>
+</div>
+  <table class="table table-striped">
+  <tbody>
+  {% for name, length in queues %}
+  <tr class="row{% cycle '1' '2' %}">
+      <td>{{ name }}</td>
+      <td class="number">{{ length|intcomma }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+</div>
 
 </div>
 {% endblock %}
