@@ -12,6 +12,7 @@ Not yet released.
 * Fixed email for account removal confirmation.
 * Added support for Slack authentication in Docker container.
 * Avoid sending notifications for not subscribed languages.
+* Include Celery queues in performance overview.
 
 Weblate 3.11.2
 --------------
