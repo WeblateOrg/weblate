@@ -442,7 +442,7 @@ def get_initial_contact(request):
 
 
 @login_required
-def saml_metadata_view(request):
+def saml_metadata(request):
     complete_url = reverse('social:complete', args=("saml",))
     saml_backend = social_django.utils.load_backend(
         social_django.utils.load_strategy(request),

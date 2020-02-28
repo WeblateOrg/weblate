@@ -87,7 +87,7 @@ urlpatterns = [
     url(r'^register/$', weblate.accounts.views.register, name='register'),
     url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
     url(r'', include((social_urls, 'social_auth'), namespace='social')),
-    url(r'^metadata/$', weblate.accounts.views.saml_metadata_view, namespace='social'),
+    url(r'^metadata/$', weblate.accounts.views.saml_metadata, namespace='social'),
 ]
 
 if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
