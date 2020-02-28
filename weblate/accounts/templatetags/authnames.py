@@ -51,6 +51,7 @@ SOCIALS = {
     'amazon': {'name': 'Amazon', 'image': 'amazon.svg'},
     'twitter': {'name': 'Twitter', 'image': 'twitter.svg'},
     'stackoverflow': {'name': 'Stack Overflow', 'image': 'stackoverflow.svg'},
+    'saml': {'name': 'SAML 2.0', 'image': 'saml.svg'},
 }
 
 IMAGE_SOCIAL_TEMPLATE = '''
