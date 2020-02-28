@@ -181,6 +181,7 @@ class SSHWrapper(object):
         -o "IdentityFile={identity}" \
         -o StrictHostKeyChecking=yes \
         -o HashKnownHosts=no \
+        -o SendEnv= \
         "$@"
     '''
 
