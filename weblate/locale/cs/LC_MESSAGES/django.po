@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-29 15:16+0000\n"
 "PO-Revision-Date: 2020-03-01 05:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
 "\n"
 "Language: cs\n"
@@ -678,7 +678,7 @@ msgstr "Hostování"
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39 weblate/templates/base.html:172
 msgid "Sign in"
-msgstr ""
+msgstr "Přihlásit se"
 
 #: weblate/accounts/views.py:602 weblate/wladmin/sites.py:176
 msgid "Thank you for using Weblate."
@@ -3536,17 +3536,15 @@ msgstr ""
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "Přihlásit se pomocí:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
 msgstr "Zapomněli jste heslo?"
 
 #: weblate/templates/accounts/login.html:64
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Register new account"
-msgstr "Odstranit můj účet"
+msgstr "Založit nový účet"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3861,7 +3859,7 @@ msgstr "Registrovat se pomocí e-mailu"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "Vytvořit účet pomocí:"
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -4206,7 +4204,7 @@ msgstr "Nastavení"
 
 #: weblate/templates/base.html:210 weblate/wladmin/sites.py:180
 msgid "Sign out"
-msgstr ""
+msgstr "Odhlásit se"
 
 #: weblate/templates/base.html:217
 msgid "Help"
@@ -4933,10 +4931,8 @@ msgid "Configure dashboard"
 msgstr "Nastavit nástěnku"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent edits"
 msgid "Recent additions"
-msgstr "Nedávné změny"
+msgstr "Poslední přírůstky"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -6096,10 +6092,8 @@ msgid "You do not have permission to change project access control."
 msgstr "Pro změnu přístupu nemáte oprávnění."
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "Seznamy součástí"
+msgstr "Upozornění součástí"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6223,7 +6217,7 @@ msgstr "Kontroly systému"
 
 #: weblate/templates/manage/performance.html:98
 msgid "Celery queues"
-msgstr ""
+msgstr "Fronty Celery"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6758,10 +6752,11 @@ msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
 msgstr ""
+"Další štítky lze založit v <a href=\"%(url)s\"> nastaveních projektu</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
-msgstr ""
+msgstr "Další štítky může založit správce projektu."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -6807,7 +6802,7 @@ msgstr "Webová <strong>průběžná</strong> lokalizace"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "Registrací a přihlášením do této služby přijímáte naše:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -7048,25 +7043,23 @@ msgstr "Tato součást má chybné nastavení."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
-msgstr ""
+msgstr "URL pro prohížení repozitáře ukazuje na neexistující místa:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "Soubor nemůže odkazovat na nadřazenou složku."
+msgstr ""
+"Toto se může stát, když cesta v překladových souborech odhazuje na "
+"nadřazenou složku nebo je absolutní."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "Tato součást má chybné nastavení."
+msgstr "Tento projekt má chybné nastavení."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "Webová adresa projektu ukazuje na neexistující umístění:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -8559,10 +8552,8 @@ msgid "Name of the translation"
 msgstr "Název překladu"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "Zadejte, prosím, název překladu pro potvrzení."
+msgstr "Pro potvrzení, prosím, zadejte celý název překladu pro potvrzení."
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -8647,17 +8638,13 @@ msgstr "Nepodporované nastavení součásti"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "Prohlížení repozitáře"
+msgstr "Nefunkční adresa URL pro prohlížení repozitáře"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "Stránky projektu"
+msgstr "Nefunkční stránky projektu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -10559,7 +10546,7 @@ msgstr "Soubor nemůže mít absolutní cestu."
 
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
-msgstr ""
+msgstr "Název souboru by měl být co nejjednodušší. Možná chcete použít: {}"
 
 #: weblate/utils/views.py:234
 #, python-format
