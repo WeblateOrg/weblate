@@ -40,7 +40,6 @@ class AlertTest(ViewTestCase):
                 'BrokenProjectURL',
             },
         )
-        self.assertEqual(self.component.alert_set.count(), 4)
         alert = self.component.alert_set.get(name='DuplicateLanguage')
         self.assertEqual(alert.details['occurrences'][0]['language_code'], 'cs')
         alert = self.component.alert_set.get(name='DuplicateString')
