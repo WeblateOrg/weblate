@@ -330,7 +330,7 @@ class NewLineCountCheck(CountingCheck):
 
     string = '\n'
     check_id = 'newline-count'
-    name = _('Newline charater count mismatch')
+    name = _('Newline character count mismatch')
     description = _('Number of new lines in translation does not match source')
     severity = 'warning'
 
