@@ -43,7 +43,7 @@ from weblate.vcs.models import VCS_REGISTRY
 # Directory holding test data
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 
-REPOWEB_URL = 'https://github.com/WeblateOrg/test/blob/master/{{filename}}#L{{line}}'
+REPOWEB_URL = 'https://nonexisting.weblate.org/blob/master/{{filename}}#L{{line}}'
 
 TESTPASSWORD = make_password('testpassword')
 
@@ -175,7 +175,7 @@ class RepoTestMixin:
     def create_project(self, **kwargs):
         """Create test project."""
         project = Project.objects.create(
-            name='Test', slug='test', web='https://weblate.org/', **kwargs
+            name='Test', slug='test', web='https://nonexisting.weblate.org/', **kwargs
         )
         self.addCleanup(shutil.rmtree, project.full_path, True)
         return project
