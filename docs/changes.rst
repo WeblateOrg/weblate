@@ -25,6 +25,7 @@ Not yet released.
 * Include Celery queues in performance overview.
 * Fixed documentation links for addons.
 * Reduced false negatives for unchanged translation check.
+* Raised bleach dependency to address CVE-2020-6802.
 
 Weblate 3.11.2
 --------------
