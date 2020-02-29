@@ -37,6 +37,7 @@ class AlertTest(ViewTestCase):
                 'DuplicateString',
                 'MissingLicense',
                 'BrokenBrowserURL',
+                'BrokenProjectURL',
             },
         )
         self.assertEqual(self.component.alert_set.count(), 4)
