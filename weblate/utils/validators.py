@@ -64,9 +64,9 @@ def validate_re(value, groups=None, allow_empty=True):
     try:
         compiled = re.compile(value)
     except re.error as error:
-        raise ValidationError(_('Failed to compile: {0}').format(error))
+        raise ValidationError(_('Compilation failed: {0}').format(error))
     if not allow_empty and compiled.match(""):
-        raise ValidationError(_("Regular expression should not match empty string."))
+        raise ValidationError(_("The regular expression can not match an empty string."))
     if not groups:
         return
     for group in groups:
@@ -123,7 +123,7 @@ def validate_bitmap(value):
     if value.file.content_type not in ALLOWED_IMAGES:
         image.close()
         raise ValidationError(
-            _('Not supported image type: %s') % value.file.content_type
+            _('Unsupported image type: %s') % value.file.content_type
         )
 
     # Check dimensions
@@ -131,7 +131,7 @@ def validate_bitmap(value):
     if width > 2000 or height > 2000:
         image.close()
         raise ValidationError(
-            _('Image is too big, please scale it down or crop relevant part!')
+            _('The image is too big, please crop or scale it down.')
         )
 
     image.close()
@@ -165,7 +165,7 @@ def validate_file_extension(value):
 
 def validate_username(value):
     if value.startswith('.'):
-        raise ValidationError(_('Username can not start with a full stop.'))
+        raise ValidationError(_('The username can not start with a full stop.'))
     if not USERNAME_MATCHER.match(value):
         raise ValidationError(
             _(
@@ -184,28 +184,28 @@ def validate_email(value):
     if EMAIL_BLACKLIST.match(user_part):
         raise ValidationError(_('Enter a valid e-mail address.'))
     if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
-        raise ValidationError(_('This e-mail address is not allowed.'))
+        raise ValidationError(_('This e-mail address is already in use.'))
 
 
 def validate_pluraleq(value):
     try:
         gettext.c2py(value if value else '0')
     except ValueError as error:
-        raise ValidationError(_('Failed to evaluate plural equation: {}').format(error))
+        raise ValidationError(_('Could not evaluate plural equation: {}').format(error))
 
 
 def validate_filename(value):
     if '../' in value or '..\\' in value:
         raise ValidationError(
-            _('Filename can not contain reference to a parent directory.')
+            _('The filename can not contain reference to a parent directory.')
         )
     if os.path.isabs(value):
-        raise ValidationError(_('Filename can not be an absolute path.'))
+        raise ValidationError(_('The filename can not be an absolute path.'))
 
     cleaned = cleanup_path(value)
     if value != cleaned:
         raise ValidationError(
             _(
-                'Filename should be as simple as possible. Maybe you want to use: {}'
+                'The filename should be as simple as possible. Maybe you want to use: {}'
             ).format(cleaned)
         )
