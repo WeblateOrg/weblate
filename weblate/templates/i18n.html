@@ -16,7 +16,7 @@ See:
 https://github.com/dwolfhub/zxcvbn-python/blob/master/zxcvbn/feedback.py
 
 Generated using:
-xgettext --no-wrap -o - zxcvbn-python/zxcvbn/feedback.py | grep msgid | grep -v '""'  | sed 's/^msgid "/{% blocktrans %}/; s/"$/{% endblocktrans %}/; s/\\"/"/g'
+xgettext --no-wrap -o - ~/work/zxcvbn-python/zxcvbn/feedback.py ~/work/django-zxcvbn-password/src/zxcvbn_password/validators.py | grep msgid | grep -v '""'  | sed 's/^msgid "/{% blocktrans %}/; s/"$/{% endblocktrans %}/; s/\\"/"/g'
 
 {% endcomment %}
 
@@ -47,3 +47,4 @@ xgettext --no-wrap -o - zxcvbn-python/zxcvbn/feedback.py | grep msgid | grep -v 
 {% blocktrans %}All-uppercase is almost as easy to guess as all-lowercase.{% endblocktrans %}
 {% blocktrans %}Reversed words aren't much harder to guess.{% endblocktrans %}
 {% blocktrans %}Predictable substitutions like '@' instead of 'a' don't help very much.{% endblocktrans %}
+{% blocktrans %}Your password can't contain repeated words or characters.{% endblocktrans %}
