@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-02-29 15:16+0000\n"
-"PO-Revision-Date: 2020-03-01 05:49+0000\n"
+"PO-Revision-Date: 2020-03-01 11:51+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -139,7 +139,7 @@ msgstr "Şu anki parola"
 
 #: weblate/accounts/forms.py:457
 msgid "Leave empty if you have not yet set a password."
-msgstr "Parolanız henüz belirlenmemiş ise alanı boş bırakın."
+msgstr "Henüz bir parola belirlemediyseniz boş bırakın."
 
 #: weblate/accounts/forms.py:469
 msgid "You have entered an invalid password."
@@ -344,7 +344,7 @@ msgstr "Parola kullanılarak oturum açılamadı."
 
 #: weblate/accounts/models.py:107
 msgid "To restore access to your account, please reset your password."
-msgstr "Hesabınıza tekrar erişmek için, lütfen parolanızı sıfırlayın."
+msgstr "Hesabınıza erişimi geri almak için lütfen parolanızı sıfırlayın."
 
 #: weblate/accounts/models.py:211 weblate/templates/accounts/profile.html:230
 msgid "Account activity"
@@ -1525,7 +1525,7 @@ msgstr "Ekran görüntülerini yönetme"
 #: weblate/auth/data.py:148
 msgctxt "Access control role"
 msgid "Review strings"
-msgstr "Satırları gözden geçirme"
+msgstr "Satırları gözden geçir"
 
 #: weblate/auth/data.py:151
 msgctxt "Access control role"
@@ -2302,7 +2302,7 @@ msgstr "Çoğulsuz"
 
 #: weblate/checks/source.py:38
 msgid "The string is used as plural, but not using plural forms"
-msgstr "Satır çoğul olarak kullanılır, ancak çoğul form kullanmaz"
+msgstr "Satır çoğul olarak kullanılır, ancak çoğul biçimleri kullanmaz"
 
 #: weblate/checks/source.py:51
 msgid "Ellipsis"
@@ -2411,7 +2411,8 @@ msgstr "Otomatik algılama"
 
 #: weblate/formats/base.py:195
 msgid "Failed to load strings from the file, try choosing other format."
-msgstr "Satırlar dosyadan yüklenemedi, başka bir format seçmeyi deneyin."
+msgstr ""
+"Dosyadan satırları yükleme başarısız oldu, diğer biçimi seçmeyi deneyin."
 
 #: weblate/formats/exporters.py:201
 msgid "gettext PO"
@@ -2939,8 +2940,7 @@ msgstr "Kullanıcı şifreleri nasıl saklanır?"
 msgid ""
 "Hashed, currently using PBKDF2, HMAC and SHA-256 with 150000 iterations."
 msgstr ""
-"Şu anda 150000 yinelemeli PBKDF2, HMAC ve SHA-256 kullanılarak "
-"hazırlanmıştır."
+"Adreslendi, şu anda 150000 yineleme ile PBKDF2, HMAC ve SHA-256 kullanılıyor."
 
 #: weblate/legal/templates/legal/security.html:44
 msgid "How to report a security issue?"
@@ -3424,8 +3424,8 @@ msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions in your inbox."
 msgstr ""
-"Eposta adresiniz veritabanımızda mevcutsa, gelen kutunuzda daha fazla şifre "
-"kurtarma talimatı alacaksınız."
+"Eğer e-posta adresiniz veritabanımızda varsa, gelen kutunuzda başka parola "
+"kurtarma talimatları alacaksınız."
 
 #: weblate/templates/accounts/email-sent.html:26
 msgid ""
@@ -3745,7 +3745,7 @@ msgstr "Avatarınız"
 
 #: weblate/templates/accounts/profile.html:209
 msgid "Avatars are provided using Gravatar."
-msgstr "Avatarlar Gravatar kullanılarak sağlanmaktadır."
+msgstr "Avatarlar, Gravatar kullanılarak sağlanmaktadır."
 
 #: weblate/templates/accounts/profile.html:218
 #: weblate/templates/addons/discovery_help.html:10
@@ -3912,7 +3912,7 @@ msgid ""
 "instructions for setting a new one."
 msgstr ""
 "Parolanızı mı unuttunuz? Aşağıya e-posta adresinizi girin ve yeni bir "
-"tanesini ayarlamak için yönergeleri postalayalım."
+"tanesini ayarlamak için talimatları postalayalım."
 
 #: weblate/templates/accounts/reset.html:46
 msgid "Set my password"
@@ -4036,7 +4036,7 @@ msgstr "Hem konumda hem de dosya adında dil kullanılıyor."
 
 #: weblate/templates/addons/discovery_help.html:62
 msgid "Android resource strings, split into several files."
-msgstr "Android kaynak satırları, birçok dosyaya bölünmüş."
+msgstr "Android kaynak satırları, birçok dosyaya bölünür."
 
 #: weblate/templates/addons/discovery_help.html:67
 msgid ""
@@ -4188,7 +4188,7 @@ msgstr "Yeni çeviri bileşeni ekle"
 #: weblate/templates/base.html:205
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
-msgstr "Faturalandırma gözden geçirmesi"
+msgstr "Faturalandırma genel bakış"
 
 #: weblate/templates/base.html:207 weblate/templates/component.html:96
 #: weblate/templates/memory/index.html:12
@@ -4703,8 +4703,8 @@ msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Bir dizenin tüm örneklerini değiştirebilirsiniz. Arama basit bir alt dize "
-"harfe duyarlı bir aramadır."
+"Bir satırın tüm örneklerini değiştirebilirsiniz. Arama basit bir alt satır "
+"büyük küçük harfe duyarlı bir aramadır."
 
 #: weblate/templates/component.html:192 weblate/templates/project.html:87
 #: weblate/templates/replace.html:52 weblate/templates/translation.html:264
@@ -4714,7 +4714,7 @@ msgstr "Değiştir"
 #: weblate/templates/component.html:205
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
-"Belirli bir türe uyan tüm karakter dizilerinin durumunu bir kerede "
+"Belirli bir türle eşleşen tüm satırların durumunu bir kerede "
 "değiştirebilirsiniz."
 
 #: weblate/templates/component.html:210 weblate/templates/project.html:105
@@ -4811,7 +4811,7 @@ msgstr "Katılımcı istatistikleri"
 #: weblate/templates/dashboard/user.html:141 weblate/templates/project.html:199
 msgid "Reports the number of strings and words translated by each translator."
 msgstr ""
-"Her çevirmen tarafından çevrilen satır ve kelimelerin sayısını rapor eder."
+"Her çevirmen tarafından çevrilen satır ve kelimelerin sayısını bildirir."
 
 #: weblate/templates/component_info.html:9
 msgid "Translation process"
@@ -5214,7 +5214,7 @@ msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
 msgstr[0] "Satır"
-msgstr[1] "Satırlar"
+msgstr[1] "Satır"
 
 #: weblate/templates/engage.html:29 weblate/trans/widgets.py:265
 msgctxt "Label on enage page"
@@ -5402,7 +5402,7 @@ msgstr ""
 
 #: weblate/templates/i18n.html:19
 msgid "Your password must be stronger."
-msgstr "Parolanız daha güçlü olmalı."
+msgstr "Parolanız daha güçlü olmak zorundadır."
 
 #: weblate/templates/i18n.html:20
 msgid "Use a few words, avoid common phrases."
@@ -5991,8 +5991,8 @@ msgstr ""
 #, python-format
 msgid "The confirmation URL will expire after %(count)s hour."
 msgid_plural "The confirmation URL will expire after %(count)s hours."
-msgstr[0] "Doğrulama URL'sinin süresi %(count)s saat sonra dolacak."
-msgstr[1] "Doğrulama URL'sinin süresi %(count)s saat sonra dolacak."
+msgstr[0] "Onaylama URL'sinin süresi %(count)s saat sonra dolacak."
+msgstr[1] "Onaylama URL'sinin süresi %(count)s saat sonra dolacak."
 
 #: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
@@ -6604,7 +6604,7 @@ msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
-msgstr "Atanan kaynak satır"
+msgstr "Atanan kaynak satırlar"
 
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_detail.html:58
@@ -6650,7 +6650,7 @@ msgstr "Ekran görüntüsü ayrıntıları"
 #: weblate/templates/screenshots/screenshot_detail.html:129
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr ""
-"Ekran görüntüsünü silmek onu ilişkilendirilmiş tüm kaynak satırlardan "
+"Ekran görüntüsünü silmek bunu tüm ilişkilendirilmiş kaynak satırlardan "
 "kaldıracak."
 
 #: weblate/templates/screenshots/screenshot_list.html:21
@@ -6669,7 +6669,7 @@ msgstr "Şu anda atanmış kaynak satırlar yok!"
 
 #: weblate/templates/search.html:43
 msgid "No matching strings found."
-msgstr "Eşleşen satır bulunmadı."
+msgstr "Bulunan eşleşen satır yok."
 
 #: weblate/templates/show-component-state.html:4
 msgid "This translation is currently locked for updates."
@@ -6747,7 +6747,7 @@ msgstr "Kelimeyi çeviriye kopyala"
 
 #: weblate/templates/snippets/glossary.html:11
 msgid "No related strings found in the glossary."
-msgstr "Sözlükte ilgili satır bulunmadı."
+msgstr "Sözlükte ilgili satır bulunamadı."
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -6847,15 +6847,15 @@ msgstr "Yorum satırları"
 
 #: weblate/templates/snippets/query-builder.html:16
 msgid "Location strings"
-msgstr "Yer satırları"
+msgstr "Konum satırları"
 
 #: weblate/templates/snippets/query-builder.html:17
 msgid "String state"
-msgstr "Satırlar durumu"
+msgstr "Satır durumu"
 
 #: weblate/templates/snippets/query-builder.html:18
 msgid "Pending string"
-msgstr "Bekleyen satırlar"
+msgstr "Bekleyen satır"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "String target language"
@@ -6884,7 +6884,7 @@ msgstr "Satır denetim kusurlu"
 
 #: weblate/templates/snippets/query-builder.html:38
 msgid "String has plural"
-msgstr "Dizginin çoğulu var"
+msgstr "Satırın çoğulu var"
 
 #: weblate/templates/snippets/query-builder.html:50
 #: weblate/templates/snippets/query-builder.html:52
@@ -6933,7 +6933,7 @@ msgstr "Önerileri olan onaylanmış satırlar"
 
 #: weblate/templates/snippets/query-builder.html:99
 msgid "All untranslated strings added in the past month"
-msgstr "Son bir ay içinde eklenen tüm çevrilmemiş dizeler"
+msgstr "Son bir ay içinde eklenen tüm çevrilmemiş satırlar"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -6986,7 +6986,7 @@ msgstr "Çevrilmeyen"
 #: weblate/templates/snippets/unit-state.html:7
 msgctxt "String state"
 msgid "Fails checks"
-msgstr "Kontroller başarısız"
+msgstr "Başarısız denetimleri"
 
 #: weblate/templates/snippets/unit-state.html:8
 #: weblate/trans/templatetags/translations.py:514 weblate/utils/state.py:34
@@ -7113,14 +7113,14 @@ msgstr "Dil kodları"
 
 #: weblate/templates/trans/alert/duplicatestring.html:4
 msgid "The component contains several duplicated translation strings."
-msgstr "Bileşen, birkaç yinelenen çeviri dizesi içerir."
+msgstr "Bileşen, birkaç yinelenen çeviri satırı içeriyor."
 
 #: weblate/templates/trans/alert/duplicatestring.html:28
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
 msgstr ""
-"Lütfen, çeviri dosyalarından aynı tanımlayıcı ile yinelenmiş dizeleri "
+"Lütfen, çeviri dosyalarından aynı tanımlayıcı ile yinelenmiş satırları "
 "kaldırarak bunu düzeltin."
 
 #: weblate/templates/trans/alert/mergefailure.html:3
@@ -7280,7 +7280,7 @@ msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
 msgstr ""
-"Çeviri için satırları içeren yüklenen bir ZIP dosyasından yeni bir çeviri "
+"Çeviri için satırlar içeren yüklenmiş bir ZIP dosyasından yeni bir çeviri "
 "bileşeni oluşturun."
 
 #: weblate/templates/trans/component_create.html:101
@@ -7506,11 +7506,11 @@ msgstr "Bu iletinin yakınında olan iletiler"
 
 #: weblate/templates/translate.html:214
 msgid "Nearby strings"
-msgstr "Yakınındaki dizeler"
+msgstr "Yakındaki satırlar"
 
 #: weblate/templates/translate.html:216
 msgid "Strings with similar keys"
-msgstr "Benzer anahtar kelimelere sahip dizeler"
+msgstr "Benzer anahtar kelimelere sahip satırlar"
 
 #: weblate/templates/translate.html:216
 msgid "Nearby keys"
@@ -7518,7 +7518,7 @@ msgstr "Yakınındaki anahtar kelimeler"
 
 #: weblate/templates/translate.html:219
 msgid "Shapings of the string"
-msgstr "Dizenin şekillendirmeleri"
+msgstr "Satırın şekillendirmeleri"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:471
 msgid "Shapings"
@@ -7538,7 +7538,7 @@ msgstr "Makine çevirisi"
 
 #: weblate/templates/translate.html:236
 msgid "Translations of this string in the other languages"
-msgstr "Bu satırın diğer dillere çevirisi"
+msgstr "Bu satırın diğer dillere çevirileri"
 
 #: weblate/templates/translate.html:236
 msgid "Other languages"
@@ -7601,7 +7601,7 @@ msgstr[1] "Bu satır için %(count)s öneri var."
 
 #: weblate/templates/translate.html:434
 msgid "Fix string"
-msgstr "Satır düzelt"
+msgstr "Satırı düzelt"
 
 #: weblate/templates/translate.html:443
 msgid "Dismiss for all languages"
@@ -7618,8 +7618,8 @@ msgstr[1] "Bu satır için %(count)s yorum var."
 #, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Bu dize için %(count)s şekillendirme var."
-msgstr[1] "Bu dize için %(count)s şekillendirme var."
+msgstr[0] "Bu satır için %(count)s şekillendirme var."
+msgstr[1] "Bu satır için %(count)s şekillendirme var."
 
 #: weblate/templates/translate.html:488
 msgid "Manage glossary"
@@ -7659,7 +7659,7 @@ msgstr "Şu an ayarlı bayrak yok!"
 
 #: weblate/templates/translate.html:599
 msgid "Source string location"
-msgstr "Kaynak satır yeri"
+msgstr "Kaynak satır konumu"
 
 #: weblate/templates/translate.html:614
 msgid "Source string age"
@@ -8018,15 +8018,15 @@ msgstr "Çevrilmemiş satırlar"
 
 #: weblate/trans/filter.py:37 weblate/trans/filter.py:111
 msgid "Strings marked for edit"
-msgstr "Düzenlenmesi için işaretlenen satırlar"
+msgstr "Düzenleme için işaretlenen satırlar"
 
 #: weblate/trans/filter.py:39
 msgid "Strings with shapings"
-msgstr "Şekillendirmeleri olan dizeler"
+msgstr "Şekillendirmeleri olan satırlar"
 
 #: weblate/trans/filter.py:40
 msgid "Strings with labels"
-msgstr "Etiketli dizeler"
+msgstr "Etiketleri olan satırlar"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:113
 msgid "Strings needing action without suggestions"
@@ -8038,7 +8038,7 @@ msgstr "Onaylanmış satırlar"
 
 #: weblate/trans/filter.py:54 weblate/trans/filter.py:118
 msgid "Strings waiting for review"
-msgstr "İncelenmesi için bekleyen satırlar"
+msgstr "İnceleme için bekleyen satırlar"
 
 #: weblate/trans/filter.py:59 weblate/trans/filter.py:121
 msgid "Failed check: {}"
@@ -8066,11 +8066,11 @@ msgstr "Sorgu"
 
 #: weblate/trans/forms.py:176
 msgid "Missing query string."
-msgstr "Sorgu dizesi eksik."
+msgstr "Eksik sorgu satırı."
 
 #: weblate/trans/forms.py:183
 msgid "Failed to parse query string: {}"
-msgstr "Sorgu metni ayrıştırılamadı: {}"
+msgstr "Sorgu satırını ayrıştırma başarısız oldu: {}"
 
 #: weblate/trans/forms.py:221 weblate/trans/forms.py:229
 msgid "Toggle text direction"
@@ -8098,7 +8098,7 @@ msgstr "Lütfen geçerli bir süzgeç türü seçin."
 
 #: weblate/trans/forms.py:412
 msgid "The string you wanted to translate is no longer available!"
-msgstr "Çevirmek istediğiniz satır artık yok!"
+msgstr "Çevirmek istediğiniz satır artık mevcut değil!"
 
 #: weblate/trans/forms.py:422
 msgid ""
@@ -8119,16 +8119,15 @@ msgstr "İnceleme için bekliyor"
 #: weblate/trans/forms.py:497
 msgid "Source string has been changed meanwhile. Please check your changes."
 msgstr ""
-"Bu süre içinde kaynak satır değişti. Lütfen değişikliklerinizi kontrol "
-"ediniz."
+"Bu arada kaynak satır değiştirildi. Lütfen değişikliklerinizi gözden geçirin."
 
 #: weblate/trans/forms.py:505
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
 msgstr ""
-"Bu süre içinde satırın çevirisi değişti. Lütfen değişikliklerinizi kontrol "
-"ediniz."
+"Bu arada satırın çevirisi değiştirildi. Lütfen değişikliklerinizi gözden "
+"geçirin."
 
 #: weblate/trans/forms.py:513
 msgid "Translation text too long!"
@@ -8569,8 +8568,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
-"Bu işlem geri alınamaz. Bu {} çeviri ve ilgili tüm içeriği kalıcı olarak "
-"siler."
+"Bu işlem geri alınamaz. Bu, {} çevirisini ve ilgili tüm içeriği kalıcı "
+"olarak silecek."
 
 #: weblate/trans/forms.py:1847
 msgid "The translation name does not match the one marked for deletion!"
@@ -8579,7 +8578,7 @@ msgstr "Çeviri adı, silmek için işaretlenmiş olanla eşleşmiyor!"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:144
 msgid "Duplicated string found in the file."
-msgstr "Dosyada çoğaltılmış satır bulundu."
+msgstr "Dosyada yinelenen satır bulundu."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:151
@@ -8729,7 +8728,7 @@ msgstr "Bileşen kilitli değil"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:246
 msgid "Found duplicated string"
-msgstr "Yinelenen dize bulundu"
+msgstr "Yinelenen satır bulundu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:248
@@ -8895,7 +8894,7 @@ msgstr "Alınan havuz bildirimi"
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr ""
-"%(user)s tarafından %(translation)s Dilinde %(time)s tarihinde %(action)s"
+"%(user)s tarafından %(translation)s dilinde %(time)s tarihinde %(action)s"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:105
@@ -8996,8 +8995,8 @@ msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
 msgstr ""
-"Kaynak satırlardaki hata raporları için e-posta adresi. e-posta yoksa boş "
-"bırakın."
+"Kaynak satırlardaki hataları bildirmek için e-posta adresi. E-postalar yoksa "
+"boş bırakın."
 
 #: weblate/trans/models/component.py:253
 msgid ""
@@ -9208,7 +9207,7 @@ msgstr "Şekillendirme düzenli ifadesi"
 #: weblate/trans/models/component.py:482
 msgid "Regular expression used to determine shapings of a string."
 msgstr ""
-"Bir dizenin şekillendirmelerini belirlemek için kullanılan düzenli ifade."
+"Bir satırın şekillendirmelerini belirlemek için kullanılan düzenli ifade."
 
 #: weblate/trans/models/component.py:491
 msgid "Components with higher priority are offered first to translators."
@@ -9649,8 +9648,8 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"Mesaj bu tarihten sonra gösterilmeyecek. Satırı dondurmak ve bir sonraki "
-"sürüm için çeviri son tarihini bildirmek için kullanın."
+"İletii, bu tarihten sonra gösterilmeyecektir. Sonraki yayın için satır "
+"dondurma ve çeviri sona erme tarihini bildirmede bunu kullanın."
 
 #: weblate/trans/models/whiteboard.py:125
 msgid "Whiteboard message"
@@ -9720,14 +9719,14 @@ msgstr "Kullanıcı yapılandırmalı karakter: {}"
 
 #: weblate/trans/tasks.py:365
 msgid "Automatic translation completed, no strings were updated."
-msgstr "Kendiliğinden çeviri tamamlandı, güncellenen satır olmadı."
+msgstr "Otomatik çeviri tamamlandı, güncellenen satır olmadı."
 
 #: weblate/trans/tasks.py:369
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "Kendiliğinden çeviri tamamlandı, %d satır güncellendi."
-msgstr[1] "Kendiliğinden çeviri tamamlandı, %d satır güncellendi."
+msgstr[0] "Otomatik çeviri tamamlandı, %d satır güncellendi."
+msgstr[1] "Otomatik çeviri tamamlandı, %d satır güncellendi."
 
 #: weblate/trans/templatetags/translations.py:73
 msgid "Good configuration"
@@ -10386,14 +10385,14 @@ msgstr "Geçersiz arama sorgusu!"
 
 #: weblate/trans/views/search.py:241
 msgid "Bulk edit completed, no strings were updated."
-msgstr "Toplu düzenleme tamamlandı, hiçbir dize güncellenmedi."
+msgstr "Toplu düzenleme tamamlandı, güncellenen satır olmadı."
 
 #: weblate/trans/views/search.py:243
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Toplu düzenleme tamamlandı, %d dize güncellendi."
-msgstr[1] "Toplu düzenleme tamamlandı, %d dize güncellendi."
+msgstr[0] "Toplu düzenleme tamamlandı, %d satır güncellendi."
+msgstr[1] "Toplu düzenleme tamamlandı, %d satır güncellendi."
 
 #: weblate/trans/views/settings.py:46 weblate/trans/views/settings.py:74
 msgid "Settings saved"
@@ -10485,7 +10484,7 @@ msgstr "Derleme başarısız: {0}"
 
 #: weblate/utils/validators.py:69
 msgid "Regular expression should not match empty string."
-msgstr "Düzenli ifade, boş dize ile eşleşmemelidir."
+msgstr "Düzenli ifade, boş satır ile eşleşmemelidir."
 
 #: weblate/utils/validators.py:76
 #, python-brace-format
