@@ -84,10 +84,10 @@ urlpatterns = [
     url(r'^remove/$', weblate.accounts.views.user_remove, name='remove'),
     url(r'^confirm/$', weblate.accounts.views.confirm, name='confirm'),
     url(r'^login/$', weblate.accounts.views.WeblateLoginView.as_view(), name='login'),
+    url(r'^metadata/$', weblate.accounts.views.saml_metadata, name='metadata'),    
     url(r'^register/$', weblate.accounts.views.register, name='register'),
     url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
     url(r'', include((social_urls, 'social_auth'), namespace='social')),
-    url(r'^metadata/$', weblate.accounts.views.saml_metadata, namespace='social'),
 ]
 
 if 'simple_sso.sso_server' in settings.INSTALLED_APPS:

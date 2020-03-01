@@ -216,6 +216,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social_core.backends.ubuntu.UbuntuOpenId',
     # 'social_core.backends.fedora.FedoraOpenId',
     # 'social_core.backends.facebook.FacebookOAuth2',
+    # 'social_core.backends.saml.SAMLAuth',
     "weblate.accounts.auth.WeblateUserBackend",
 )
 
@@ -239,6 +240,17 @@ SOCIAL_AUTH_FACEBOOK_API_VERSION = "3.1"
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ""
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ""
+
+SOCIAL_AUTH_SAML_SP_ENTITY_ID = ""
+SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = ""
+SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = ""
+SOCIAL_AUTH_SAML_ORG_INFO = ""
+SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = ""
+SOCIAL_AUTH_SAML_SUPPORT_CONTACT = ""
+SOCIAL_AUTH_SAML_ENABLED_IDPS = ""
+SOCIAL_AUTH_SAML_SP_EXTRA = ""
+SOCIAL_AUTH_SAML_SECURITY_CONFIG = ""
+SOCIAL_AUTH_SAML_EXTRA_DATA = ""
 
 # Social auth settings
 SOCIAL_AUTH_PIPELINE = (

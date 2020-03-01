@@ -441,7 +441,8 @@ def get_initial_contact(request):
     return initial
 
 
-@login_required
+@csrf_exempt
+@never_cache
 def saml_metadata(request):
     complete_url = reverse('social:complete', args=("saml",))
     saml_backend = social_django.utils.load_backend(

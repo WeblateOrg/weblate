@@ -335,6 +335,30 @@ if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
 if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
     AUTHENTICATION_BACKENDS += "social_core.backends.ubuntu.UbuntuOpenId"
 
+# SAML 2.0
+if "WEBLATE_SOCIAL_AUTH_SAML" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
+    SOCIAL_AUTH_SAML_SP_ENTITY_ID = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_SP_ENTITY_ID", "")
+    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_SP_PUBLIC_CERT", "")
+    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_SP_PRIVATE_KEY", "")
+    SOCIAL_AUTH_SAML_ORG_INFO = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_ORG_INFO", "")
+    SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_TECHNICAL_CONTACT", "")
+    SOCIAL_AUTH_SAML_SUPPORT_CONTACT = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_SUPPORT_CONTACT", "")
+    SOCIAL_AUTH_SAML_ENABLED_IDPS = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_ENABLED_IDPS", "")
+    SOCIAL_AUTH_SAML_SP_EXTRA = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_SP_EXTRA", "")
+    SOCIAL_AUTH_SAML_SECURITY_CONFIG = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_SECURITY_CONFIG", "")
+    SOCIAL_AUTH_SAML_EXTRA_DATA = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_SAML_EXTRA_DATA", "")
+
 # Slack
 if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.slack.SlackOAuth2",)
