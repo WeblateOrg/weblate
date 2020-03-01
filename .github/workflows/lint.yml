@@ -33,12 +33,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip wheel
           pip install -r requirements-lint.txt
-      - name: Flake8
-        uses: suo/flake8-github-action@v1
-        with:
-          checkName: 'flake8'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run flake8
+        run: |
+          echo "::add-matcher::.github/matchers/flake8.json"
+          flake8
+          echo "::remove-matcher owner=flake8::"
 
   pre-commit:
 
