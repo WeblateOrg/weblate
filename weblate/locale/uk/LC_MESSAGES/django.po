@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-02-29 15:16+0000\n"
+"POT-Creation-Date: 2020-03-01 11:51+0000\n"
 "PO-Revision-Date: 2020-03-01 05:49+0000\n"
 "Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -22,8 +22,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:105
@@ -691,7 +691,8 @@ msgstr "Хостинг"
 #: weblate/accounts/views.py:575 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
-#: weblate/templates/accounts/login.html:39 weblate/templates/base.html:172
+#: weblate/templates/accounts/login.html:39
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:172
 msgid "Sign in"
 msgstr "Увійти"
 
@@ -3875,10 +3876,6 @@ msgstr "Як учасник, ви погоджуєтеся з таким:"
 msgid "Licenses for individual translations"
 msgstr "Ліцензії на окремі переклади"
 
-#: weblate/templates/accounts/redirect.html:7
-msgid "Sign in "
-msgstr "Увійти "
-
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
 msgid "Redirecting you to the authentication provider."
@@ -5435,118 +5432,121 @@ msgstr ""
 "Тут ви можете знайти поради, щоб зробити ваш проєкт локалізації привабливим "
 "для спільноти."
 
-#: weblate/templates/i18n.html:19
-msgid "Your password must be stronger."
-msgstr "Ваш пароль повинен бути надійнішим."
-
-#: weblate/templates/i18n.html:20
+#: weblate/templates/i18n.html:23
 msgid "Use a few words, avoid common phrases."
 msgstr "Використовуйте декілька слів, уникайте поширених фраз."
 
-#: weblate/templates/i18n.html:21
+#: weblate/templates/i18n.html:24
 msgid "No need for symbols, digits, or uppercase letters."
 msgstr "Нема потреби у символах, цифрах чи великих буквах."
 
-#: weblate/templates/i18n.html:22
+#: weblate/templates/i18n.html:25
 msgid "Add another word or two. Uncommon words are better."
 msgstr "Додайте одне або два слова. Краще — незвичні слова."
 
-#: weblate/templates/i18n.html:23
+#: weblate/templates/i18n.html:26
 msgid "Straight rows of keys are easy to guess."
 msgstr "Суміжні клавіші легко вгадати."
 
-#: weblate/templates/i18n.html:24
+#: weblate/templates/i18n.html:27
 msgid "Short keyboard patterns are easy to guess."
 msgstr "Короткі послідовності клавіш легко вгадати."
 
-#: weblate/templates/i18n.html:25
+#: weblate/templates/i18n.html:28
 msgid "Use a longer keyboard pattern with more turns."
 msgstr "Використовуйте довгі шаблони клавіш з великими повтореннями."
 
-#: weblate/templates/i18n.html:26
+#: weblate/templates/i18n.html:29
 msgid "Repeats like \"aaa\" are easy to guess."
 msgstr "Повтори на кшталт „aaa“ легко вгадати."
 
-#: weblate/templates/i18n.html:27
+#: weblate/templates/i18n.html:30
 msgid ""
 "Repeats like \"abcabcabc\" are only slightly harder to guess than \"abc\"."
 msgstr "Повтори на кшталт «abcabcabc» трохи складніші, ніж «abc»."
 
-#: weblate/templates/i18n.html:28
+#: weblate/templates/i18n.html:31
 msgid "Avoid repeated words and characters."
 msgstr "Уникайте повторюваних слів чи символів."
 
-#: weblate/templates/i18n.html:29
+#: weblate/templates/i18n.html:32
 msgid "Sequences like \"abc\" or \"6543\" are easy to guess."
 msgstr "Послідовності на кшталт \"abc\" або \"6543\" легко вгадати."
 
-#: weblate/templates/i18n.html:30
+#: weblate/templates/i18n.html:33
 msgid "Avoid sequences."
 msgstr "Уникайте послідовностей."
 
-#: weblate/templates/i18n.html:31
+#: weblate/templates/i18n.html:34
 msgid "Recent years are easy to guess."
 msgstr "Недавні роки легко вгадати."
 
-#: weblate/templates/i18n.html:32
+#: weblate/templates/i18n.html:35
 msgid "Avoid recent years."
 msgstr "Уникайте недавніх років."
 
-#: weblate/templates/i18n.html:33
+#: weblate/templates/i18n.html:36
 msgid "Avoid years that are associated with you."
 msgstr "Уникайте років, які стосуються вас."
 
-#: weblate/templates/i18n.html:34
+#: weblate/templates/i18n.html:37
 msgid "Dates are often easy to guess."
 msgstr "Дати часто легко вгадати."
 
-#: weblate/templates/i18n.html:35
+#: weblate/templates/i18n.html:38
 msgid "Avoid dates and years that are associated with you."
 msgstr "Уникайте дат та років, пов'язаних з вами."
 
-#: weblate/templates/i18n.html:36
+#: weblate/templates/i18n.html:39
 msgid "This is a top-10 common password."
 msgstr "Це один з 10 найвживаніших паролів."
 
-#: weblate/templates/i18n.html:37
+#: weblate/templates/i18n.html:40
 msgid "This is a top-100 common password."
 msgstr "Це один із 100 найвживаніших паролів."
 
-#: weblate/templates/i18n.html:38
+#: weblate/templates/i18n.html:41
 msgid "This is a very common password."
 msgstr "Це дуже поширений пароль."
 
-#: weblate/templates/i18n.html:39
+#: weblate/templates/i18n.html:42
 msgid "This is similar to a commonly used password."
 msgstr "Цей пароль дуже подібний на один широко розповсюджений пароль."
 
-#: weblate/templates/i18n.html:40
+#: weblate/templates/i18n.html:43
 msgid "A word by itself is easy to guess."
 msgstr "Одне слово легко вгадати."
 
-#: weblate/templates/i18n.html:41
+#: weblate/templates/i18n.html:44
 msgid "Names and surnames by themselves are easy to guess."
 msgstr "Імена та прізвища легко вгадати."
 
-#: weblate/templates/i18n.html:42
+#: weblate/templates/i18n.html:45
 msgid "Common names and surnames are easy to guess."
 msgstr "Поширені імені та прізвища легко вгадати."
 
-#: weblate/templates/i18n.html:43
+#: weblate/templates/i18n.html:46
 msgid "Capitalization doesn't help very much."
 msgstr "Великі букви не дуже допомагають."
 
-#: weblate/templates/i18n.html:44
+#: weblate/templates/i18n.html:47
 msgid "All-uppercase is almost as easy to guess as all-lowercase."
 msgstr "Усі великі букви вгадати так само легко, як і всі маленькі."
 
-#: weblate/templates/i18n.html:45
+#: weblate/templates/i18n.html:48
 msgid "Reversed words aren't much harder to guess."
 msgstr "Слова у зворотному порядку не складно вгадати."
 
-#: weblate/templates/i18n.html:46
+#: weblate/templates/i18n.html:49
 msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr "Передбачувані заміни, як „@“ замість „а“ не дуже допомагають."
+
+#: weblate/templates/i18n.html:50
+#, fuzzy
+#| msgid ""
+#| "Your password can't consist of a single character or only whitespace."
+msgid "Your password can't contain repeated words or characters."
+msgstr "Ваш пароль не може складатися з одного символу або тільки пробілу."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -10771,6 +10771,12 @@ msgstr "Процес резервного копіювання запустив�
 #: weblate/wladmin/views.py:183
 msgid "Could not dismiss the configuration error!"
 msgstr "Не вдалося відхилити помилку конфігурації!"
+
+#~ msgid "Sign in "
+#~ msgstr "Увійти "
+
+#~ msgid "Your password must be stronger."
+#~ msgstr "Ваш пароль повинен бути надійнішим."
 
 #~ msgid "Login"
 #~ msgstr "Вхід"
