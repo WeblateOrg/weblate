@@ -6,7 +6,7 @@ Do not edit the messages here, these are copied from other sources
 and should be edited there if needed.
 -->
 
-<!--
+{% comment %}
 Additional password validation by django-zxcvbn-password
 
 It supports internationalization, but there are no translations
@@ -14,9 +14,12 @@ shipped with it.
 
 See:
 https://github.com/dwolfhub/zxcvbn-python/blob/master/zxcvbn/feedback.py
--->
 
-{% blocktrans %}Your password must be stronger.{% endblocktrans %}
+Generated using:
+xgettext --no-wrap -o - zxcvbn-python/zxcvbn/feedback.py | grep msgid | grep -v '""'  | sed 's/^msgid "/{% blocktrans %}/; s/"$/{% endblocktrans %}/; s/\\"/"/g'
+
+{% endcomment %}
+
 {% blocktrans %}Use a few words, avoid common phrases.{% endblocktrans %}
 {% blocktrans %}No need for symbols, digits, or uppercase letters.{% endblocktrans %}
 {% blocktrans %}Add another word or two. Uncommon words are better.{% endblocktrans %}
