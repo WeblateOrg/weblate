@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 import six.moves
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count
 from django.utils import timezone
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy
@@ -120,6 +120,7 @@ class ChangeQuerySet(models.QuerySet):
             'unit__translation__component',
             'unit__translation__component__project',
             'component__project',
+            'project',
         )
 
     def last_changes(self, user):
@@ -128,14 +129,7 @@ class ChangeQuerySet(models.QuerySet):
         Prefilter Changes by ACL for users and fetches related fields for last changes
         display.
         """
-        return (
-            self.prefetch()
-            .filter(
-                Q(component__project__in=user.allowed_projects)
-                | Q(dictionary__project__in=user.allowed_projects)
-            )
-            .order()
-        )
+        return self.prefetch().filter(project__in=user.allowed_projects).order()
 
     def authors_list(self, date_range=None):
         """Return list of authors."""
