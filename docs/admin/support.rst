@@ -1,37 +1,37 @@
 Getting support for Weblate
 ===========================
 
-Weblate is a copylefted libre software with community support. Subscribers
-receive priority support at no extra charge. Prepaid help packages are
-available for everyone. You can find more information about current support
+
+Weblate is copylefted libre software with community support.
+Subscribers receive priority support at no extra charge. Prepaid help packages are
+available for everyone. You can find more info about current support
 offerings at <https://weblate.org/support/>.
 
 .. _activate-support:
 
-Activating support
+Integrating support
 ------------------
 
-Since Weblate 3.8 the purchased support packages can be activated in a Weblate
-management interface. The activation will enable peridic registration on
-Weblate servers. This allows you to directly navigate to your Weblate
-installation from subscription management and sends basic telemetry to Weblate
-servers.
+
+.. versionadded:: 3.8
+
+Purchased support packages can optionally be integrated into your Weblate
+subscription management interface, from where you will find a link to it.
+Basic telemetry is also reported back to Weblate about your installation.
 
 .. image:: /images/support.png
 
-Data submitted to the server
-----------------------------
+Data submitted to the Weblate
+-----------------------------
 
-The submitted data include:
-
-* URL where Weblate is configured
-* Site title
-* Weblate version
-* Counts of some objects in Weblate database (projects, components, languages, source strings and users)
-* Public SSH key
+* URL where your Weblate isntance is configured
+* Your site title
+* The Weblate version you are running
+* Tallies of some objects in your Weblate database (projects, components, languages, source strings and users)
+* The public SSH key of your instance
 
 No other data is submitted.
 
 .. hint::
 
-   The activation is fully optional, you can still use support services without it.
+   Purchased support packages are already activated upon purchase, and can be used without integrating them.
