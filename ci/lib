@@ -28,7 +28,7 @@ get_mysql_args() {
 cleanup_database() {
     rm -f weblate.db
 
-    if [ $CI_DATABASE = "mysql" ] ; then
+    if [ $CI_DATABASE = "mysql" -o $CI_DATABASE = 'mariadb' ] ; then
         mysql $(get_mysql_args) -e 'SET GLOBAL character_set_server=utf8'
         mysql $(get_mysql_args) -e 'SET GLOBAL collation_server=utf8_general_ci'
         mysql $(get_mysql_args) -e 'DROP DATABASE IF EXISTS weblate;'

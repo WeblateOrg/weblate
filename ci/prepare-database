@@ -4,7 +4,7 @@
 
 cleanup_database
 
-if [ $CI_DATABASE = "mysql" ] ; then
+if [ $CI_DATABASE = "mysql" -o $CI_DATABASE = 'mariadb' ] ; then
     mysql $(get_mysql_args) -e 'SHOW VARIABLES LIKE "%version%";'
 fi
 if [ $CI_DATABASE = "postgresql" ] ; then
