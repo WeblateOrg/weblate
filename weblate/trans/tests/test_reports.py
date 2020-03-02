@@ -120,7 +120,8 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_credits('json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
-            response.content, [{'Czech': [['weblate@example.org', 'Weblate Test']]}]
+            response.content.decode(),
+            [{'Czech': [['weblate@example.org', 'Weblate Test']]}],
         )
 
     def test_credits_view_rst(self):
@@ -157,32 +158,32 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_view_json(self):
         response = self.get_counts('json')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, COUNTS_DATA)
+        self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
     def test_counts_view_30days(self):
         response = self.get_counts('json', period='30days')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, COUNTS_DATA)
+        self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
     def test_counts_view_this_month(self):
         response = self.get_counts('json', period='this-month')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, COUNTS_DATA)
+        self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
     def test_counts_view_month(self):
         response = self.get_counts('json', period='month')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, [])
+        self.assertJSONEqual(response.content.decode(), [])
 
     def test_counts_view_year(self):
         response = self.get_counts('json', period='year')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, [])
+        self.assertJSONEqual(response.content.decode(), [])
 
     def test_counts_view_this_year(self):
         response = self.get_counts('json', period='this-year')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content, COUNTS_DATA)
+        self.assertJSONEqual(response.content.decode(), COUNTS_DATA)
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')
