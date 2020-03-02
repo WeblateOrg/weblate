@@ -1638,6 +1638,7 @@ class ProjectSettingsForm(SettingsBaseForm):
             'access_control',
             'enable_review',
         )
+        widgets = {'access_control': forms.RadioSelect()}
 
     def clean(self):
         data = self.cleaned_data
@@ -1698,8 +1699,11 @@ class ProjectSettingsForm(SettingsBaseForm):
                 Tab(_('Basic'), 'name', 'web', 'mail', 'instructions', css_id='basic'),
                 Tab(
                     _('Access'),
-                    Field('access_control', **disabled),
-                    Div(template='access_control_description.html'),
+                    InlineRadios(
+                        'access_control',
+                        template="%s/layout/radioselect_access.html",
+                        **disabled
+                    ),
                     css_id='access',
                 ),
                 Tab(
