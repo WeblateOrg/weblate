@@ -126,7 +126,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Delete screenshot" %}</h4></div>
   <div class="panel-body">
 
-<p class="helptext">{% trans "Deleting screenshot will remove it from all associated source strings." %}</p>
+<p class="help-block">{% trans "Deleting screenshot will remove it from all associated source strings." %}</p>
 
 <form action="{% url 'screenshot-delete' pk=object.pk %}" method="POST">
 {% csrf_token %}
