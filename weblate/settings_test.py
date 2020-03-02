@@ -31,7 +31,7 @@ CI_DATABASE = os.environ.get('CI_DATABASE', '')
 
 default_user = 'weblate'
 default_name = 'weblate'
-if CI_DATABASE == 'mysql':
+if CI_DATABASE in ('mysql', 'mariadb'):
     DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
     default_user = 'root'
     DATABASES['default']['OPTIONS'] = {
