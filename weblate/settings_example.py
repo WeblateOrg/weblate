@@ -37,19 +37,19 @@ MANAGERS = ADMINS
 
 DATABASES = {
     "default": {
-        # Use 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        # Use 'postgresql' or 'mysql'.
         "ENGINE": "django.db.backends.postgresql",
-        # Database name or path to database file if using sqlite3.
+        # Database name.
         "NAME": "weblate",
-        # Database user, not used with sqlite3.
+        # Database user.
         "USER": "weblate",
-        # Database password, not used with sqlite3.
+        # Database password.
         "PASSWORD": "",
-        # Set to empty string for localhost. Not used with sqlite3.
+        # Set to empty string for localhost.
         "HOST": "127.0.0.1",
-        # Set to empty string for default. Not used with sqlite3.
+        # Set to empty string for default.
         "PORT": "",
-        # Customizations for databases
+        # Customizations for databases.
         "OPTIONS": {
             # In case of using an older MySQL server,
             # which has MyISAM as a default storage

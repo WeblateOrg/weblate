@@ -262,8 +262,7 @@ files might be wrong.
 Database setup for Weblate
 --------------------------
 
-It is recommended to run Weblate with PostgreSQL database server. Using a
-SQLite backend is really only suitable for testing purposes.
+It is recommended to run Weblate with a PostgreSQL database server.
 
 .. seealso::
 

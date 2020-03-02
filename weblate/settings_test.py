@@ -48,12 +48,7 @@ elif CI_DATABASE == 'postgresql':
     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
     default_user = 'postgres'
 else:
-    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
-    default_name = 'weblate.db'
-    # Workaround for
-    # https://github.com/travis-ci/travis-ci/issues/7873
-    if 'TRAVIS' in os.environ:
-        DATABASES['default']['TEST'] = {'NAME': 'weblate_test.db'}
+    raise ValueError('Not supported database: {}'.format(CI_DATABASE))
 
 DATABASES['default']['HOST'] = os.environ.get('CI_DB_HOST', '')
 DATABASES['default']['NAME'] = os.environ.get('CI_DB_NAME', default_name)

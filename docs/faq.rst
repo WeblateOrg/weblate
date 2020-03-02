@@ -452,19 +452,6 @@ as a ``TEMP`` variable:
    :djadmin:`rebuild_index`
 
 
-Database operations fail with "too many SQL variables"
-------------------------------------------------------
-
-This can happen when using a SQLite database, as it is not powerful enough for some
-relations used within Weblate. The only way to fix this is to use a more
-capable database, see :ref:`production-database` for more info.
-
-.. seealso::
-
-   :ref:`production-database`,
-   :doc:`django:ref/databases`
-
-
 When accessing the site I get a "Bad Request (400)" error
 ---------------------------------------------------------
 

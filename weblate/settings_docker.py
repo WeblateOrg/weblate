@@ -44,19 +44,19 @@ MANAGERS = ADMINS
 
 DATABASES = {
     "default": {
-        # Use 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        # Use 'postgresql' or 'mysql'.
         "ENGINE": "django.db.backends.postgresql",
-        # Database name or path to database file if using sqlite3.
+        # Database name.
         "NAME": os.environ["POSTGRES_DATABASE"],
-        # Database user, not used with sqlite3.
+        # Database user.
         "USER": os.environ["POSTGRES_USER"],
-        # Database password, not used with sqlite3.
+        # Database password.
         "PASSWORD": os.environ["POSTGRES_PASSWORD"],
-        # Set to empty string for localhost. Not used with sqlite3.
+        # Set to empty string for localhost.
         "HOST": os.environ["POSTGRES_HOST"],
-        # Set to empty string for default. Not used with sqlite3.
+        # Set to empty string for default.
         "PORT": os.environ["POSTGRES_PORT"],
-        # Customizations for databases
+        # Customizations for databases.
         "OPTIONS": {"sslmode": os.environ.get("POSTGRES_SSL_MODE", "prefer")},
     }
 }
