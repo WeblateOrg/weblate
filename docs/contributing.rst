@@ -91,7 +91,8 @@ Testsuite
 
 Testsuites exist for most of the current code, increase coverage by adding testcases for any new
 functionality, and verify that it works. Current test results can be found on
-`Travis <https://travis-ci.org/WeblateOrg/weblate>`_ and coverage is reported on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
+`GitHub Actions <https://github.com/WeblateOrg/weblate/actions>`_ and coverage
+is reported on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
 
 To run a testsuite locally, use:
 

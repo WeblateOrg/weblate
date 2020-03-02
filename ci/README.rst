@@ -1,8 +1,6 @@
 Continuous integration for Weblate
 ==================================
 
-Helper files for continuous itegration.
+Helper files for continuous integration.
 
-Travis:
-
-https://travis-ci.org/WeblateOrg/weblate
+See https://github.com/WeblateOrg/weblate/actions
