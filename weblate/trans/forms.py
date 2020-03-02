@@ -409,7 +409,7 @@ class ChecksumForm(forms.Form):
             )[0]
         except (Unit.DoesNotExist, IndexError):
             raise ValidationError(
-                _('The string you wanted to translate is no longer available!')
+                _('The string you wanted to translate is no longer available.')
             )
 
 
@@ -1043,8 +1043,7 @@ class UserManageForm(forms.Form):
     user = UserField(
         label=_('User to add'),
         help_text=_(
-            'Please provide username or e-mail. '
-            'User needs to already have an active account in Weblate.'
+            'Please type in an existing Weblate account name or e-mail address. '
         ),
     )
 
