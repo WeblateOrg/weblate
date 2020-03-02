@@ -24,27 +24,27 @@ jobs:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
         requirements: ["latest", "minimal", "edge"]
-        database: ["postgresql", "sqlite"]
+        database: ["postgresql", "mysql"]
         exclude:
-          # Reduce testing for sqlite
+          # Reduce testing for mysql
           - python-version: 3.5
             requirements: "minimal"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.6
             requirements: "minimal"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.8
             requirements: "minimal"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.5
             requirements: "latest"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.6
             requirements: "latest"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.8
             requirements: "latest"
-            database: "sqlite"
+            database: "mysql"
           # No working combination of psycopg2 and Django 2.2 on Python 3.8
           - python-version: 3.8
             requirements: "minimal"
@@ -52,16 +52,16 @@ jobs:
           # Reduce amount of testing for edge
           - python-version: 3.5
             requirements: "edge"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.6
             requirements: "edge"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.7
             requirements: "edge"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.8
             requirements: "edge"
-            database: "sqlite"
+            database: "mysql"
           - python-version: 3.6
             requirements: "edge"
             database: "postgresql"
