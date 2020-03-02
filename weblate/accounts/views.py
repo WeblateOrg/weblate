@@ -760,7 +760,7 @@ def reset_password_set(request):
 def reset_password(request):
     """Password reset handling."""
     if request.user.is_authenticated:
-        redirect_profile()
+        return redirect_profile()
     if 'email' not in load_backends(social_django.utils.BACKENDS).keys():
         messages.error(
             request, _('Cannot reset password, e-mail authentication is turned off.')
