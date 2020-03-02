@@ -114,7 +114,7 @@ class Project(models.Model, URLMixin, PathMixin):
     access_control = models.IntegerField(
         default=settings.DEFAULT_ACCESS_CONTROL,
         choices=ACCESS_CHOICES,
-        verbose_name=_('Access control'),
+        verbose_name=ugettext_lazy('Access control'),
         help_text=ugettext_lazy(
             'How to restrict access to this project is detailed '
             'in the documentation.'
