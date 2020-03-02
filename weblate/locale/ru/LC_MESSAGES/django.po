@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-03-01 11:51+0000\n"
+"PO-Revision-Date: 2020-03-02 12:02+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -33,8 +33,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:105
@@ -4973,10 +4973,8 @@ msgid "Configure dashboard"
 msgstr "Настройка панели управления"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Recent additions"
-msgstr "Недавние изменения"
+msgstr "Недавно добавленные компоненты"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -5552,11 +5550,8 @@ msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr "Предсказуемые замены, как «@» вместо «a», не очень-то помогают."
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr "Ваш пароль не может состоять только из пробелов или одного символа."
+msgstr "Ваш пароль не может содержать повторяющиеся слова или символы."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -6140,10 +6135,8 @@ msgid "You do not have permission to change project access control."
 msgstr "У вас нет разрешения изменять управление доступом к проекту."
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "Списки компонентов"
+msgstr "Тревоги компонентов"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6267,10 +6260,8 @@ msgid "System checks"
 msgstr "Системные проверки"
 
 #: weblate/templates/manage/performance.html:98
-#, fuzzy
-#| msgid "Celery tasks queue"
 msgid "Celery queues"
-msgstr "Очередь задач Celery"
+msgstr "Очереди Celery"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6781,7 +6772,7 @@ msgstr "Репозиторий"
 #: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1414
 #: weblate/trans/forms.py:1519 weblate/trans/models/component.py:242
 msgid "Repository branch"
-msgstr "Ветвь репозитория"
+msgstr "Ветка репозитория"
 
 #: weblate/templates/snippets/git-info.html:27
 msgid "Last remote commit"
@@ -6811,10 +6802,12 @@ msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
 msgstr ""
+"Дополнительные метки могут быть определены в <a href=\"%(url)s\">настройках "
+"проекта</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
-msgstr ""
+msgstr "Дополнительные метки могут быть определены в администратором проекта."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -6860,7 +6853,7 @@ msgstr "<strong>Непрерывная</strong> веб-локализация"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "Регистрируясь и выполняя вход в данный сервис вы соглашаетесь на наши:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -7103,25 +7096,25 @@ msgstr "Этот компонент установлен или настроен
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
 msgstr ""
+"Ссылка на просмоторщик репозитория указывает на несуществующее "
+"местоположение:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
 msgstr ""
-"Имя файла не может содержать символическую ссылку на родительский каталог."
+"Это может происходить из-за того, что один из путей в файле перевода "
+"содержит символические ссылки на родительский каталог или является "
+"абсолютным."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "Этот компонент установлен или настроен некорректно."
+msgstr "Этот проект установлен или настроен некорректно."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "Ссылка на сайт проекта указывает на несуществующее местоположение:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -7329,7 +7322,7 @@ msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr ""
-"Создать новый компонент перевода для дополнительной ветви существующего "
+"Создать новый компонент перевода для дополнительной ветки существующего "
 "компонента перевода."
 
 #: weblate/templates/trans/component_create.html:76
@@ -7822,10 +7815,10 @@ msgid ""
 "to a different branch, to fix inconsistent translations or to translate a "
 "new component using translation memory."
 msgstr ""
-"Автоматический перевод извлекает существующие переводы в этом проекте и "
-"применяет их к текущему компоненту. Это может использоваться для отправки "
-"переводов в другую ветвь, исправления несогласованных переводов, или для "
-"перевода нового компонента с использованием накопителя переводов."
+"Автоматический перевод использует существующие переводы из этом проекта и "
+"применяет их к текущему компоненту. Это можно использовать для отправки "
+"переводов в другую ветку, исправления несогласованных переводов, или для "
+"перевода нового компонента с помощью накопителя переводов."
 
 #: weblate/templates/translation.html:241
 msgid ""
@@ -8540,7 +8533,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:1521 weblate/trans/models/component.py:244
 msgid "Repository branch to translate"
-msgstr "Ветвь репозитория для перевода"
+msgstr "Ветка репозитория для перевода"
 
 #: weblate/trans/forms.py:1553
 msgid "Choose translation files to import"
@@ -8626,10 +8619,8 @@ msgid "Name of the translation"
 msgstr "Название перевода"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "Введите название перевода для подтверждения."
+msgstr "Введите полное название перевода для подтверждения."
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -8715,17 +8706,13 @@ msgstr "Неподдерживаемая конфигурация компоне
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "Браузер репозитория"
+msgstr "Битая ссылка на просмоторщик репозитория"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "Веб-сайт проекта"
+msgstr "Битая ссылка на веб-сайт проекта"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -9039,15 +9026,16 @@ msgstr "URL для отправки в репозиторий, если пуст
 
 #: weblate/trans/models/component.py:216
 msgid "Repository browser"
-msgstr "Браузер репозитория"
+msgstr "Просмоторщик репозитория"
 
 #: weblate/trans/models/component.py:218
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Ссылка на браузер репозитория, используются {{branch}} для ветви, "
-"{{filename}} и {{line}}, как имя файла и строчные заполнители."
+"Ссылка на просмоторщик репозитория, вы можете использовать {{branch}}, "
+"{{filename}} и {{line}} для подстановки ветки, имени файла и номера строки "
+"соответственно."
 
 #: weblate/trans/models/component.py:225
 msgid "Exported repository URL"
@@ -9308,12 +9296,12 @@ msgstr "Отправка отключена для %s."
 #: weblate/trans/models/component.py:1012
 #, python-format
 msgid "Could not push to remote branch on %s."
-msgstr "Не удалась отправка в дистанционную ветвь на %s."
+msgstr "Не удалось отправить изменения в компоненте «%s» во внешнюю ветку."
 
 #: weblate/trans/models/component.py:1045
 #, python-format
 msgid "Could not reset to remote branch on %s."
-msgstr "Не удался сброс дистанционной ветви на %s."
+msgstr "Не удалось сбросить (reset) внешнюю ветку компонента «%s»."
 
 #: weblate/trans/models/component.py:1074
 #, python-format
@@ -9323,12 +9311,12 @@ msgstr "Не удалось очистить репозиторий на %s."
 #: weblate/trans/models/component.py:1154
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
-msgstr "Не удалось сменить базу с локальной ветви на дистанционную ветвь %s."
+msgstr "Не удалось сменить базу локальной ветки на внешнюю ветку %s."
 
 #: weblate/trans/models/component.py:1160
 #, python-format
 msgid "Could not merge remote branch into %s."
-msgstr "Не удалось объединить дистанционную ветвь с %s."
+msgstr "Не удалось объединить внешнюю ветку с %s."
 
 #: weblate/trans/models/component.py:1487
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
@@ -10649,6 +10637,8 @@ msgstr "Имя файла не может быть абсолютным путе
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
+"Имя файла должно быть настолько простым, насколько это возможно. Может быть "
+"вы захотите использовать: {}"
 
 #: weblate/utils/views.py:234
 #, python-format
