@@ -17,7 +17,7 @@ Integrating support
 
 Purchased support packages can optionally be integrated into your Weblate
 subscription management interface, from where you will find a link to it.
-Basic telemetry is also reported back to Weblate about your installation.
+Basic instance details about your installation are also reported back to Weblate.
 
 .. image:: /images/support.png
 
