@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: ["postgresql", "sqlite"]
+        database: ["postgresql", "sqlite", "mysql"]
       fail-fast: false
     name: ${{ matrix.database }}
 
