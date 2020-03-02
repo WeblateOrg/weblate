@@ -26,7 +26,6 @@
                     {% endwith %}
                     {{ choice.1|unlocalize }}
                 </h5>
-            </label>
             {% if choice_str == "0" %}
                 <p>
                 {% trans "Visible to everybody." %}
@@ -57,6 +56,7 @@
                 </strong></p>
             {% endif %}
                     {% endwith %}
+            </label>
             </div>
         {% endfor %}
         </div>
