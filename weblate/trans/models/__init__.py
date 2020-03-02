@@ -106,7 +106,10 @@ def update_source(sender, instance, **kwargs):
     # Propagate attributes
     units.update(extra_flags=instance.extra_flags, extra_context=instance.extra_context)
     # Run checks, update state and priority if flags changed
-    if instance.old_unit.extra_flags != instance.extra_flags:
+    if (
+        instance.old_unit.extra_flags != instance.extra_flags
+        or instance.state != instance.old_unit.state
+    ):
         for unit in units:
             unit.update_state()
             unit.update_priority()

@@ -28,7 +28,7 @@ from django.urls import reverse
 from weblate.trans.models import Change
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.hash import hash_to_checksum
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 
 
 class EditTest(ViewTestCase):
@@ -195,49 +195,65 @@ class EditResourceSourceTest(ViewTestCase):
 
     has_plurals = False
 
-    def __init__(self, *args, **kwargs):
-        self._language_code = 'en'
-        super().__init__(*args, **kwargs)
-
     def test_edit(self):
         translate_url = reverse(
             'translate', kwargs={'project': 'test', 'component': 'test', 'lang': 'en'}
         )
 
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', 'en')
         # We should get to second message
         self.assert_redirects_offset(response, translate_url, 2)
-        unit = self.get_unit('Nazdar svete!\n')
+        unit = self.get_unit('Nazdar svete!\n', 'en')
         self.assertEqual(unit.target, 'Nazdar svete!\n')
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assert_backend(4)
+        self.assert_backend(4, 'en')
 
     def test_edit_revert(self):
-        self._language_code = 'cs'
-        translation = self.component.translation_set.get(language_code='cs')
+        translation = self.get_translation()
         # Edit translation
-        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-
-        self._language_code = 'en'
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', 'cs')
 
         unit = translation.unit_set.get(context='hello')
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
         # Edit source
-        self.edit_unit('Hello, world!\n', 'Hello, universe!\n')
+        self.edit_unit('Hello, world!\n', 'Hello, universe!\n', 'en')
 
         unit = translation.unit_set.get(context='hello')
         self.assertEqual(unit.state, STATE_FUZZY)
 
         # Revert source
-        self.edit_unit('Hello, universe!\n', 'Hello, world!\n')
+        self.edit_unit('Hello, universe!\n', 'Hello, world!\n', 'en')
 
         unit = translation.unit_set.get(context='hello')
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
-    def get_translation(self, language=None):
-        return self.component.translation_set.get(language_code=self._language_code)
+    def test_needs_edit(self):
+        translation = self.get_translation()
+
+        # Edit translation
+        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', 'cs')
+
+        # Change state
+        self.edit_unit('Hello, world!\n', 'Hello, world!\n', 'en', fuzzy='yes')
+        unit = translation.unit_set.get(context='hello')
+        self.assertEqual(unit.state, STATE_READONLY)
+
+        # Change state and source
+        self.edit_unit('Hello, world!\n', 'Hello, universe!\n', 'en', fuzzy='yes')
+        unit = translation.unit_set.get(context='hello')
+        self.assertEqual(unit.state, STATE_READONLY)
+
+        # Change state and source
+        self.edit_unit('Hello, universe!\n', 'Hello, universe!\n', 'en')
+        unit = translation.unit_set.get(context='hello')
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+        # Revert source
+        self.edit_unit('Hello, universe!\n', 'Hello, world!\n', 'en')
+        unit = translation.unit_set.get(context='hello')
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def create_component(self):
         return self.create_android()

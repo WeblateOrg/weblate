@@ -160,9 +160,9 @@ class ViewTestCase(RepoTestCase):
         unit.target = target
         unit.save_backend(user or self.user)
 
-    def edit_unit(self, source, target, **kwargs):
+    def edit_unit(self, source, target, language='cs', **kwargs):
         """Do edit single unit using web interface."""
-        unit = self.get_unit(source)
+        unit = self.get_unit(source, language)
         params = {
             'checksum': unit.checksum,
             'contentsum': hash_to_checksum(unit.content_hash),
@@ -171,7 +171,9 @@ class ViewTestCase(RepoTestCase):
             'review': '20',
         }
         params.update(kwargs)
-        return self.client.post(self.get_translation().get_translate_url(), params)
+        return self.client.post(
+            self.get_translation(language).get_translate_url(), params
+        )
 
     def assert_redirects_offset(self, response, exp_path, exp_offset):
         """Assert that offset in response matches expected one."""
@@ -213,9 +215,9 @@ class ViewTestCase(RepoTestCase):
         dom = minidom.parseString(response.content)
         self.assertEqual(dom.firstChild.nodeName, 'svg')
 
-    def assert_backend(self, expected_translated):
+    def assert_backend(self, expected_translated, language='cs'):
         """Check that backend has correct data."""
-        translation = self.get_translation()
+        translation = self.get_translation(language)
         translation.commit_pending('test', None)
         store = translation.component.file_format_cls(translation.get_filename(), None)
         messages = set()

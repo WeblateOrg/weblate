@@ -401,8 +401,21 @@ class Unit(models.Model, LoggerMixin):
             self.labels.set(self.source_info.labels.all())
 
     def update_state(self):
-        """Update state based on flags."""
-        if 'read-only' in self.all_flags:
+        """
+        Updates state based on flags.
+
+        Mark read only strings:
+
+        * Flagged with 'read-only'
+        * Where source string is not translated
+        """
+        target_state = STATE_TRANSLATED
+        if self.translation.component.project.enable_review:
+            target_state = STATE_APPROVED
+        source_info = self.source_info
+        if 'read-only' in self.all_flags or (
+            source_info != self and source_info.state < target_state
+        ):
             if not self.readonly:
                 self.state = STATE_READONLY
                 self.save(same_content=True, same_state=True, update_fields=['state'])
@@ -525,7 +538,7 @@ class Unit(models.Model, LoggerMixin):
             author.profile.save()
 
         # Update related source strings if working on a template
-        if self.translation.is_template:
+        if self.translation.is_template and self.old_unit.source != self.source:
             self.update_source_units(self.old_unit.source, user or author, author)
 
         return True
@@ -547,13 +560,21 @@ class Unit(models.Model, LoggerMixin):
             # Find reverted units
             if unit.state == STATE_FUZZY and unit.previous_source == self.source:
                 # Unset fuzzy on reverted
-                unit.state = STATE_TRANSLATED
+                unit.original_state = unit.state = STATE_TRANSLATED
+                unit.previous_source = ''
+            elif (
+                unit.original_state == STATE_FUZZY
+                and unit.previous_source == self.source
+            ):
+                # Unset fuzzy on reverted
+                unit.original_state = STATE_TRANSLATED
                 unit.previous_source = ''
             elif unit.state >= STATE_TRANSLATED:
                 # Set fuzzy on changed
-                unit.state = STATE_FUZZY
+                unit.original_state = STATE_FUZZY
+                if unit.state < STATE_READONLY:
+                    unit.state = STATE_FUZZY
                 unit.previous_source = previous_source
-            unit.original_state = unit.state
 
             # Update source index and stats
             unit.update_has_comment()
