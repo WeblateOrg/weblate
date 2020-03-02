@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
 "PO-Revision-Date: 2020-03-02 11:11+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -1329,7 +1329,7 @@ msgstr "スクリーンショットの削除"
 
 #: weblate/auth/data.py:54 weblate/templates/translate.html:646
 msgid "Edit additional string info"
-msgstr "追加文字列情報の編集"
+msgstr "原文情報の追加編集"
 
 #: weblate/auth/data.py:55
 msgid "Accept suggestion"
@@ -3534,7 +3534,7 @@ msgstr ""
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "サイン インに使用するアカウント:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
@@ -4920,10 +4920,8 @@ msgid "Configure dashboard"
 msgstr "ダッシュボードの設定"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent edits"
 msgid "Recent additions"
-msgstr "最近の編集"
+msgstr "最新の追加"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -5495,11 +5493,8 @@ msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr "'a' の代わりに '@' を書くような置き換えも、あまり役には立ちません。"
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr "パスワードは、単一の文字または空白だけを使用して設定できません。"
+msgstr "パスワードでは、単語や文字を繰り返すことはできません。"
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -6073,10 +6068,8 @@ msgid "You do not have permission to change project access control."
 msgstr "プロジェクトのアクセス制御を変更するための権限がありません。"
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "すべてのコンポーネント リスト"
+msgstr "コンポーネントの通知"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6782,7 +6775,7 @@ msgstr "<strong>進化する</strong> Web ベースの翻訳システム"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "サービスに登録してサインインすると、以下に同意したとみなされます:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -7022,25 +7015,21 @@ msgstr "このコンポーネントは正しく設定されていません。"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
-msgstr ""
+msgstr "リポジトリ ブラウザの URL は、存在しません:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "ファイル名には、親ディレクトリへの相対パスは含められません。"
+msgstr "この問題は、変換ファイルのパスが親ディレクトリへの参照を含むか、もしくは絶対パスである場合に発生します。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "このコンポーネントは正しく設定されていません。"
+msgstr "プロジェクトの設定が間違っています。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "プロジェクト Web サイトの URL は、存在しません:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -8529,10 +8518,8 @@ msgid "Name of the translation"
 msgstr "翻訳名"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "確認するには、翻訳名を入力してください。"
+msgstr "確認のために、翻訳者のフル ネームを入力してください。"
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -9152,7 +9139,7 @@ msgstr "コミット時にプッシュする"
 
 #: weblate/trans/models/component.py:454
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "各コミット時にリポジトリがアップストリームに送信すべきかどうか。"
+msgstr "各コミット時にリポジトリをアップストリームにプッシュするかどうか。"
 
 #: weblate/trans/models/component.py:458
 msgid "Age of changes to commit"
@@ -10362,7 +10349,7 @@ msgstr "小さい状態の標識"
 
 #: weblate/trans/widgets.py:303
 msgid "Open Graph image"
-msgstr "グラフ イメージを開く"
+msgstr "Open Graph 画像"
 
 #: weblate/trans/widgets.py:360
 msgid "Status badge"
@@ -10437,9 +10424,7 @@ msgstr "正規表現は空白文字列と一致してはいけません。"
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
-msgstr ""
-"正規表現には名前グループ \"{0}\" がありません。最も簡単に設定するには、 {1} "
-"のようになります。"
+msgstr "正規表現に名前付きグループ \"{0}\" が含まれていません。最も簡単に設定するには、 {1} のようにします。"
 
 #: weblate/utils/validators.py:116
 msgid "Invalid image!"
@@ -10485,7 +10470,7 @@ msgstr "ファイル名は絶対パスで記述できません。"
 
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
-msgstr ""
+msgstr "ファイル名は、できるだけシンプルにしてください。使われそうな例: {}"
 
 #: weblate/utils/views.py:234
 #, python-format
