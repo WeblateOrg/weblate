@@ -209,7 +209,7 @@ class BaseAddon:
         return
 
     def execute_process(self, component, cmd, env=None):
-        component.log_debug('%s addon exec: %s', self.name, repr(cmd))
+        component.log_debug('%s addon exec: %s', self.name, ' '.join(cmd))
         try:
             output = subprocess.check_output(
                 cmd,
@@ -217,9 +217,9 @@ class BaseAddon:
                 cwd=component.full_path,
                 stderr=subprocess.STDOUT,
             )
-            component.log_debug('exec result: %s', repr(output))
+            component.log_debug('exec result: %s', output.decode())
         except (OSError, subprocess.CalledProcessError) as err:
-            output = getattr(err, 'output', '').decode('utf-8')
+            output = getattr(err, 'output', b'').decode()
             component.log_error('failed to exec %s: %s', repr(cmd), err)
             for line in output.splitlines():
                 component.log_error('program output: %s', line)
