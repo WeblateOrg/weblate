@@ -8,9 +8,5 @@ fi
 
 filename="docker-compose-$1.yml"
 
-if [ ! -f "$filename" ] ; then
-    echo "Skipping: $filename"
-else
-    docker-compose --file "$filename" logs
-    docker-compose --file "$filename" down
-fi
+docker-compose --file "$filename" logs
+docker-compose --file "$filename" down
