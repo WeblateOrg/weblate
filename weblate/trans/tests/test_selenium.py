@@ -716,7 +716,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Manage users")
         self.screenshot("manage-users.png")
+        # Access control setings
+        self.click("Projects")
+        with self.wait_for_page_load():
+            self.click("WeblateOrg")
+        self.click("Manage")
+        with self.wait_for_page_load():
+            self.click("Settings")
+        self.click("Access")
         self.screenshot("project-access.png")
+        self.click("Workflow")
+        self.screenshot("project-workflow.png")
         # The project is now watched
         self.click("Projects")
         with self.wait_for_page_load():

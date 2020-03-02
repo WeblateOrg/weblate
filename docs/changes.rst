@@ -7,6 +7,7 @@ Not yet released.
 * Added management overview of component alerts.
 * Added component alert for broken repository browser URLs.
 * Improved log in and registration pages.
+* Project access control and workflow configuration integrated to project settings.
 
 Weblate 3.11.3
 --------------

@@ -1635,19 +1635,73 @@ class ProjectSettingsForm(SettingsBaseForm):
             'contribute_shared_tm',
             'enable_hooks',
             'source_language',
+            'access_control',
+            'enable_review',
         )
 
     def clean(self):
         data = self.cleaned_data
         if settings.OFFER_HOSTING:
             data['contribute_shared_tm'] = data['use_shared_tm']
+        access = data.get('access_control')
+
+        self.changed_access = access != self.instance.access_control
+
+        if self.changed_access and not self.user_can_change_access:
+            raise ValidationError(
+                {
+                    'access_control': _(
+                        "You do not have permission to change project access control."
+                    )
+                }
+            )
+        if access in (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED):
+            unlicensed = self.instance.component_set.filter(license='')
+            if unlicensed:
+                raise ValidationError(
+                    {
+                        'access_control': _(
+                            'You must specify a license for these components '
+                            'to make them publicly accessible: %s'
+                        )
+                        % ', '.join(unlicensed.values_list('name', flat=True))
+                    }
+                )
+
+    def save(self):
+        super().save()
+        if self.changed_access:
+            Change.objects.create(
+                project=self.instance,
+                action=Change.ACTION_ACCESS_EDIT,
+                user=self.user,
+                details={'access_control': self.instance.access_control},
+            )
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
+        self.user = request.user
+        self.user_can_change_access = request.user.has_perm(
+            'billing:project.permissions', self.instance
+        )
+        self.changed_access = False
         self.helper.form_tag = False
+        if not self.user_can_change_access:
+            disabled = {'disabled': True}
+            self.fields['access_control'].help_text = _(
+                "You do not have permission to change project access control."
+            )
+        else:
+            disabled = {}
         self.helper.layout = Layout(
             TabHolder(
                 Tab(_('Basic'), 'name', 'web', 'mail', 'instructions', css_id='basic'),
+                Tab(
+                    _('Access'),
+                    Field('access_control', **disabled),
+                    Div(template='access_control_description.html'),
+                    css_id='access',
+                ),
                 Tab(
                     _('Workflow'),
                     'set_language_team',
@@ -1655,6 +1709,7 @@ class ProjectSettingsForm(SettingsBaseForm):
                     'contribute_shared_tm',
                     'enable_hooks',
                     'source_language',
+                    'enable_review',
                     css_id='workflow',
                 ),
                 Tab(
@@ -1700,42 +1755,6 @@ class ProjectCreateForm(SettingsBaseForm):
     class Meta:
         model = Project
         fields = ('name', 'slug', 'web', 'mail', 'instructions')
-
-
-class ProjectAccessForm(forms.ModelForm):
-    """Project access control settings form."""
-
-    class Meta:
-        model = Project
-        fields = ('access_control', 'enable_review')
-
-    def clean(self):
-        access = self.cleaned_data.get('access_control')
-        if access in (Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED):
-            unlicensed = self.instance.component_set.filter(license='')
-            if unlicensed:
-                raise ValidationError(
-                    _(
-                        'You must specify a license for these components '
-                        'to make them publicly accessible: %s'
-                    )
-                    % ', '.join(unlicensed.values_list('name', flat=True))
-                )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            Field('access_control'),
-            Div(template='access_control_description.html'),
-            Field('enable_review'),
-        )
-
-
-class DisabledProjectAccessForm(ProjectAccessForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper.layout[0] = Field('access_control', disabled=True)
 
 
 class ReplaceForm(forms.Form):

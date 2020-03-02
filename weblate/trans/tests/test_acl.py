@@ -265,43 +265,6 @@ class ACLTest(FixtureTestCase):
         )
         self.assertContains(response, 'No matching user found.')
 
-    def test_change_access(self):
-        self.add_acl()
-        url = reverse('change-access', kwargs=self.kw_project)
-        self.project.add_user(self.user, '@Administration')
-
-        if 'weblate.billing' in settings.INSTALLED_APPS:
-            # No permissions
-            response = self.client.post(url, {'access_control': 0})
-            self.assertEqual(response.status_code, 403)
-
-            # Allow editing by creating billing plan
-            from weblate.billing.models import Plan, Billing
-
-            plan = Plan.objects.create()
-            billing = Billing.objects.create(plan=plan)
-            billing.projects.add(self.project)
-
-        # Editing should now work, but components do not have a license
-        response = self.client.post(
-            url, {'access_control': Project.ACCESS_PROTECTED}, follow=True
-        )
-        self.assertRedirects(response, self.access_url)
-        self.assertContains(response, 'You must specify a license for these components')
-
-        # Set component license
-        self.project.component_set.update(license='Test license')
-
-        # Editing should now work
-        response = self.client.post(
-            url, {'access_control': Project.ACCESS_PROTECTED}, follow=True
-        )
-        self.assertRedirects(response, self.access_url)
-
-        # Verify change has been done
-        project = Project.objects.get(pk=self.project.pk)
-        self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
-
     def test_acl_groups(self):
         """Test handling of ACL groups."""
         if 'weblate.billing' in settings.INSTALLED_APPS:

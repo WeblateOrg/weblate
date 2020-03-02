@@ -115,29 +115,4 @@
 </div>
 {% endif %}
 
-{% perm 'billing:project.permissions' object as user_can_edit_access_control %}
-
-<form action="{% url "change-access" project=object.slug %}" method="post">
-{% csrf_token %}
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">
-    {% documentation_icon 'admin/access' 'acl' right=True %}
-  {% trans "Project access control" %}
-  </h4></div>
-  <div class="panel-body">
-  {% crispy access_form %}
-  </div>
-  <div class="panel-footer">
-{% if user_can_edit_access_control %}
-  <input type="submit" class="btn btn-primary" value="{% trans "Change" %}" />
-{% else %}
-{% if has_billing %}
-  <a class="btn btn-primary pull-right flip" href="{% url 'billing' %}">{% trans "Check your billing status" %}</a>
-{% endif %}
-    <p class="helptext">{% trans "You do not have permission to change project access control." %}</p>
-<div class="clearfix"></div>
-{% endif %}
-  </div>
-</div>
-</form>
 {% endblock %}

@@ -20,9 +20,10 @@
 
 """Test for settings management."""
 
+from django.test.utils import modify_settings
 from django.urls import reverse
 
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Change, Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -36,6 +37,7 @@ class SettingsTest(ViewTestCase):
 
     def test_project(self):
         self.project.add_user(self.user, "@Administration")
+        self.project.component_set.update(license='MIT')
         url = reverse("settings", kwargs=self.kw_project)
         response = self.client.get(url)
         self.assertContains(response, "Settings")
@@ -45,6 +47,47 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "Settings saved")
         self.assertEqual(
             Project.objects.get(pk=self.project.pk).web, "https://example.com/test/"
+        )
+
+    @modify_settings(INSTALLED_APPS={'append': 'weblate.billing'})
+    def test_change_access(self):
+        self.project.add_user(self.user, '@Administration')
+        url = reverse("settings", kwargs=self.kw_project)
+
+        # Get initial form data
+        response = self.client.get(url)
+        data = response.context["settings_form"].initial
+        data['access_control'] = Project.ACCESS_PROTECTED
+
+        # No permissions
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "error_1_id_access_control")
+
+        # Allow editing by creating billing plan
+        from weblate.billing.models import Plan, Billing
+
+        plan = Plan.objects.create()
+        billing = Billing.objects.create(plan=plan)
+        billing.projects.add(self.project)
+
+        # Editing should now work, but components do not have a license
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'You must specify a license for these components')
+
+        # Set component license
+        self.project.component_set.update(license='MIT')
+
+        # Editing should now work
+        response = self.client.post(url, data, follow=True)
+        self.assertRedirects(response, url)
+
+        # Verify change has been done
+        project = Project.objects.get(pk=self.project.pk)
+        self.assertEqual(project.access_control, Project.ACCESS_PROTECTED)
+        self.assertTrue(
+            project.change_set.filter(action=Change.ACTION_ACCESS_EDIT).exists()
         )
 
     def test_component_denied(self):

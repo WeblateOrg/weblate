@@ -29,12 +29,7 @@ from social_django.views import complete
 from weblate.accounts.strategy import create_session
 from weblate.accounts.views import store_userid
 from weblate.auth.models import Group, User, get_anonymous
-from weblate.trans.forms import (
-    DisabledProjectAccessForm,
-    InviteUserForm,
-    ProjectAccessForm,
-    UserManageForm,
-)
+from weblate.trans.forms import InviteUserForm, UserManageForm
 from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils import messages
@@ -217,33 +212,6 @@ def delete_user(request, project):
     return redirect('manage-access', project=obj.slug)
 
 
-@require_POST
-@login_required
-def change_access(request, project):
-    obj = get_project(request, project)
-
-    if not request.user.has_perm('billing:project.permissions', obj):
-        raise PermissionDenied()
-
-    form = ProjectAccessForm(request.POST, instance=obj)
-
-    if not form.is_valid():
-        for error in form.errors:
-            for message in form.errors[error]:
-                messages.error(request, message)
-    else:
-        form.save()
-        Change.objects.create(
-            project=obj,
-            action=Change.ACTION_ACCESS_EDIT,
-            user=request.user,
-            details={'access_control': obj.access_control},
-        )
-        messages.success(request, _('Project access control has been changed.'))
-
-    return redirect('manage-access', project=obj.slug)
-
-
 @login_required
 def manage_access(request, project):
     """User management view."""
@@ -251,11 +219,6 @@ def manage_access(request, project):
 
     if not request.user.has_perm('project.permissions', obj):
         raise PermissionDenied()
-
-    if request.user.has_perm('billing:project.permissions', obj):
-        access_form = ProjectAccessForm(instance=obj)
-    else:
-        access_form = DisabledProjectAccessForm(instance=obj)
 
     return render(
         request,
@@ -267,6 +230,5 @@ def manage_access(request, project):
             'all_users': User.objects.for_project(obj),
             'add_user_form': UserManageForm(),
             'invite_user_form': InviteUserForm(),
-            'access_form': access_form,
         },
     )

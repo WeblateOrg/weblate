@@ -138,10 +138,10 @@ Enabling reviews
 ----------------
 
 The reviews can be enabled on project configuration, you can find the setting
-on bottom of :guilabel:`Manage users` page (to be found in the
-:guilabel:`Manage` > `Users` menu):
+on :guilabel:`Workflow` subpage of project settings (to be found in the
+:guilabel:`Manage` > `Settings` menu):
 
-.. image:: images/project-access.png
+.. image:: images/project-workflow.png
 
 .. note::
 
