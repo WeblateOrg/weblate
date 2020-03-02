@@ -1644,7 +1644,31 @@ class ProjectSettingsForm(SettingsBaseForm):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
-        self.helper.disable_csrf = True
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            TabHolder(
+                Tab(_('Basic'), 'name', 'web', 'mail', 'instructions', css_id='basic'),
+                Tab(
+                    _('Workflow'),
+                    'set_language_team',
+                    'use_shared_tm',
+                    'contribute_shared_tm',
+                    'enable_hooks',
+                    'source_language',
+                    css_id='workflow',
+                ),
+                Tab(
+                    _('Components'),
+                    ContextDiv(
+                        template='snippets/project-component-settings.html',
+                        context={'object': self.instance, 'user': request.user},
+                    ),
+                    css_id='components',
+                ),
+                template='layout/pills.html',
+            )
+        )
+
         if settings.OFFER_HOSTING:
             self.fields['contribute_shared_tm'].widget = forms.HiddenInput()
             self.fields['use_shared_tm'].help_text = _(

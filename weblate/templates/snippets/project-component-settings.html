@@ -1,0 +1,17 @@
+{% load i18n %}
+{% load permissions %}
+
+{% perm 'project.edit' object as user_can_edit_project %}
+<p>{% trans "Version control or files to translate are configured on individual components:" %}</p>
+
+<p>
+{% for component in object.component_set.order %}
+<a class="btn btn-link" href="{% url 'settings' project=object.slug component=component.slug %}">{{ component.name }}</a>
+{% endfor %}
+</p>
+
+{% if user_can_edit_project %}
+<p>
+<a class="btn btn-link" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+</p>
+{% endif %}

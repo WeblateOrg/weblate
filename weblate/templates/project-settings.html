@@ -10,20 +10,9 @@
 
 {% block content %}
 <form action="{% url 'settings' project=object.slug %}" method="post" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading">
-<h4 class="panel-title">
-{% documentation_icon 'admin/projects' 'project' right=True %}
-{% trans "Settings" %}
-</h4>
-</div>
-<div class="panel-body">
+
 {% crispy settings_form %}
-</div>
-<div class="panel-footer">
+
 <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
-</div>
-</div>
 </form>
 {% endblock %}
