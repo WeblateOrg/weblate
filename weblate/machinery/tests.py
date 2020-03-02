@@ -21,7 +21,7 @@
 
 import json
 
-import httpretty
+import responses
 from botocore.stub import ANY, Stubber
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -299,20 +299,20 @@ class MachineTranslationTest(TestCase):
         if not empty:
             self.assertTrue(translation)
 
-    @httpretty.activate
+    @responses.activate
     def test_glosbe(self):
         machine = self.get_machine(GlosbeTranslation)
-        httpretty.register_uri(
-            httpretty.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
+        responses.register_uri(
+            responses.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
-    @httpretty.activate
+    @responses.activate
     def test_glosbe_ratelimit(self):
         machine = self.get_machine(GlosbeTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.register_uri(
+            responses.GET,
             'https://glosbe.com/gapi/translate',
             body=GLOSBE_JSON,
             status=429,
@@ -321,41 +321,41 @@ class MachineTranslationTest(TestCase):
             self.assert_translate(machine, empty=True)
         self.assert_translate(machine, empty=True)
 
-    @httpretty.activate
+    @responses.activate
     def test_glosbe_ratelimit_set(self):
         machine = self.get_machine(GlosbeTranslation)
         machine.set_rate_limit()
-        httpretty.register_uri(
-            httpretty.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
+        responses.register_uri(
+            responses.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
         )
         self.assert_translate(machine, empty=True)
 
     @override_settings(MT_MYMEMORY_EMAIL='test@weblate.org')
-    @httpretty.activate
+    @responses.activate
     def test_mymemory(self):
         machine = self.get_machine(MyMemoryTranslation)
-        httpretty.register_uri(
-            httpretty.GET, 'https://mymemory.translated.net/api/get', body=MYMEMORY_JSON
+        responses.register_uri(
+            responses.GET, 'https://mymemory.translated.net/api/get', body=MYMEMORY_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
     def register_apertium_urls(self):
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.register_uri(
+            responses.GET,
             'http://apertium.example.com/listPairs',
             body='{"responseStatus": 200, "responseData":'
             '[{"sourceLanguage": "eng","targetLanguage": "spa"}]}',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.register_uri(
+            responses.GET,
             'http://apertium.example.com/translate',
             body='{"responseData":{"translatedText":"Mundial"},'
             '"responseDetails":null,"responseStatus":200}',
         )
 
     @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
-    @httpretty.activate
+    @responses.activate
     def test_apertium_apy(self):
         machine = self.get_machine(ApertiumAPYTranslation)
         self.register_apertium_urls()
@@ -363,23 +363,23 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, 'es', word='Zkouška')
 
     @override_settings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_microsoft_cognitive(self):
         machine = self.get_machine(MicrosoftCognitiveTranslation)
-        httpretty.register_uri(
-            httpretty.POST,
+        responses.register_uri(
+            responses.POST,
             'https://api.cognitive.microsoft.com/sts/v1.0/issueToken'
             '?Subscription-Key=KEY',
             body='TOKEN',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.register_uri(
+            responses.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/'
             'GetLanguagesForTranslate',
             body='["en","cs"]',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.register_uri(
+            responses.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
             body='"svět"'.encode('utf-8'),
         )
