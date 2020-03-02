@@ -23,7 +23,7 @@
 import json
 from urllib.parse import parse_qs, urlparse
 
-import httpretty
+import responses
 import social_django.utils
 from django.core import mail
 from django.test import Client, TestCase
@@ -522,7 +522,7 @@ class RegistrationTest(BaseRegistrationTest):
         # We should fallback to default URL
         self.assertRedirects(response, '/accounts/profile/#account')
 
-    @httpretty.activate
+    @responses.activate
     @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False):
         """Test GitHub integration."""
@@ -531,13 +531,13 @@ class RegistrationTest(BaseRegistrationTest):
             orig_backends = social_django.utils.BACKENDS
             social_django.utils.BACKENDS = GH_BACKENDS
 
-            httpretty.register_uri(
-                httpretty.POST,
+            responses.register_uri(
+                responses.POST,
                 'https://github.com/login/oauth/access_token',
                 body=json.dumps({'access_token': '123', 'token_type': 'bearer'}),
             )
-            httpretty.register_uri(
-                httpretty.GET,
+            responses.register_uri(
+                responses.GET,
                 'https://api.github.com/user',
                 body=json.dumps(
                     {
@@ -548,8 +548,8 @@ class RegistrationTest(BaseRegistrationTest):
                     }
                 ),
             )
-            httpretty.register_uri(
-                httpretty.GET,
+            responses.register_uri(
+                responses.GET,
                 'https://api.github.com/user/emails',
                 body=json.dumps(
                     [
