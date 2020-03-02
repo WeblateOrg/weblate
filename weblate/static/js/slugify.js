@@ -21,23 +21,37 @@
     }
 
     options = (typeof options === 'string')
-      ? { replacement: options }
+      ? {replacement: options}
       : options || {}
 
     var locale = locales[options.locale] || {}
 
+    var replacement = options.replacement || '-'
+
     var slug = string.split('')
+      // replace characters based on charMap
       .reduce(function (result, ch) {
         return result + (locale[ch] || charMap[ch] || ch)
-          // allowed
-          .replace(options.remove || /[^\w\s$*_+~.()'"!\-:@]/g, '')
       }, '')
+      // remove not allowed characters
+      .replace(options.remove || /[^\w\s$*_+~.()'"!\-:@]+/g, '')
       // trim leading/trailing spaces
       .trim()
-      // convert spaces
-      .replace(/[-\s]+/g, options.replacement || '-')
+      // convert spaces to replacement character
+      // also remove duplicates of the replacement character
+      .replace(new RegExp('[\\s' + replacement + ']+', 'g'), replacement)
 
-    return options.lower ? slug.toLowerCase() : slug
+    if (options.lower) {
+      slug = slug.toLowerCase()
+    }
+
+    if (options.strict) {
+      // remove anything besides letters, numbers, and the replacement char
+      slug = slug
+        .replace(new RegExp('[^a-zA-Z0-9' + replacement + ']', 'g'), '')
+    }
+
+    return slug
   }
 
   replace.extend = function (customMap) {

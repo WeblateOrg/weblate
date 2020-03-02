@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.12.5 (c15f489a) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.13.0 (5de0e3b9) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -905,7 +905,7 @@ var Sentry = (function (exports) {
      * Returns a timestamp in seconds with milliseconds precision.
      */
     function timestampWithMs() {
-        return new Date().getTime() / 1000;
+        return Date.now() / 1000;
     }
     var defaultRetryAfter = 60 * 1000; // 60 seconds
     /**
@@ -3126,7 +3126,6 @@ var Sentry = (function (exports) {
         API.prototype.getRequestHeaders = function (clientName, clientVersion) {
             var dsn = this._dsnObject;
             var header = ["Sentry sentry_version=" + SENTRY_API_VERSION];
-            header.push("sentry_timestamp=" + timestampWithMs()); // TODO: This can be removed
             header.push("sentry_client=" + clientName + "/" + clientVersion);
             header.push("sentry_key=" + dsn.user);
             if (dsn.pass) {
@@ -4465,7 +4464,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.12.5';
+    var SDK_VERSION = '5.13.0';
 
     /**
      * The Sentry Browser SDK Client.
@@ -5302,7 +5301,7 @@ var Sentry = (function (exports) {
         try {
             var event_1 = JSON.parse(serializedData);
             getCurrentHub().addBreadcrumb({
-                category: "sentry." + (event_1.transaction ? 'transaction' : 'event'),
+                category: "sentry." + (event_1.type === 'transaction' ? 'transaction' : 'event'),
                 event_id: event_1.event_id,
                 level: event_1.level || exports.Severity.fromString('error'),
                 message: getEventDescription(event_1),
