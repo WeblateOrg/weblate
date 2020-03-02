@@ -81,7 +81,7 @@ class TMServerTranslation(MachineTranslation):
             self.url,
             quote(source, b''),
             quote(language, b''),
-            quote(text[:500].replace('\r', ' ').encode('utf-8'), b''),
+            quote(text[:500].replace('\r', ' ').encode(), b''),
         )
         response = self.request("get", url)
         payload = response.json()

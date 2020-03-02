@@ -75,9 +75,7 @@ GLOSBE_JSON = '''
             "phrase":{"text":"svět","language":"ces"}}],
     "from":"eng"
 }
-'''.encode(
-    'utf-8'
-)
+'''.encode()
 MYMEMORY_JSON = '''
 \r\n
 {"responseData":{"translatedText":"svět"},"responseDetails":"",
@@ -102,14 +100,10 @@ MYMEMORY_JSON = '''
 "create-date":"2013-06-12 17:02:07",
 "last-update-date":"2013-06-12 17:02:07","match":0.84}
 ]}
-'''.encode(
-    'utf-8'
-)
+'''.encode()
 AMAGAMA_JSON = '''
 [{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
-'''.encode(
-    'utf-8'
-)
+'''.encode()
 SAPTRANSLATIONHUB_JSON = '''
 {
     "units": [
@@ -129,9 +123,7 @@ SAPTRANSLATIONHUB_JSON = '''
         }
     ]
 }
-'''.encode(
-    'utf-8'
-)
+'''.encode()
 
 TERMINOLOGY_LANGUAGES = '''
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
@@ -196,9 +188,7 @@ TERMINOLOGY_LANGUAGES = '''
     </GetLanguagesResponse>
   </s:Body>
 </s:Envelope>
-'''.encode(
-    'utf-8'
-)
+'''.encode()
 TERMINOLOGY_TRANSLATE = '''
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body>
@@ -238,9 +228,7 @@ TERMINOLOGY_TRANSLATE = '''
     </GetTranslationsResponse>
   </s:Body>
 </s:Envelope>
-'''.encode(
-    'utf-8'
-)
+'''.encode()
 TERMINOLOGY_WDSL = get_test_file('microsoftterminology.wsdl')
 
 DEEPL_RESPONSE = b'''{
@@ -381,7 +369,7 @@ class MachineTranslationTest(TestCase):
         httpretty.register_uri(
             httpretty.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
-            body='"svět"'.encode('utf-8'),
+            body='"svět"'.encode(),
         )
 
         self.assert_translate(machine)

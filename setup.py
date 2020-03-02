@@ -19,7 +19,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import io
 import os
 
 from setuptools import setup
@@ -27,7 +26,7 @@ from setuptools import setup
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-with io.open("README.rst", encoding="utf-8") as readme:
+with open("README.rst") as readme:
     README = readme.read()
 
 with open("requirements.txt") as requirements:

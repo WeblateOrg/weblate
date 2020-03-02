@@ -72,7 +72,7 @@ def get_gpg_key(silent=False):
             ],
             stderr=subprocess.STDOUT,
             env=get_clean_env(),
-        ).decode("utf-8")
+        ).decode()
         for line in output.splitlines():
             if not line.startswith("fpr:"):
                 continue
@@ -111,7 +111,7 @@ def get_gpg_public_key():
                 ["gpg", "--batch", "-armor", "--export", key],
                 stderr=subprocess.STDOUT,
                 env=get_clean_env(),
-            ).decode("utf-8")
+            ).decode()
             cache.set("gpg-key-public", data, 7 * 86400)
             delete_configuration_error("GPG key public")
         except (subprocess.CalledProcessError, OSError) as exc:

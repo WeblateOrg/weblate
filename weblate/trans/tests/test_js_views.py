@@ -49,7 +49,7 @@ class JSViewsTest(FixtureTestCase):
             reverse('js-translate', kwargs={'unit_id': unit.id, 'service': 'dummy'})
         )
         self.assertContains(response, 'Ahoj')
-        data = json.loads(response.content.decode('utf-8'))
+        data = json.loads(response.content.decode())
         self.assertEqual(
             data['translations'],
             [
@@ -83,7 +83,7 @@ class JSViewsTest(FixtureTestCase):
         # Valid query
         response = self.client.post(url, {'q': 'a'})
         self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content.decode('utf-8'))
+        data = json.loads(response.content.decode())
         self.assertEqual(data["service"], "Weblate Translation Memory")
 
     def test_get_unit_changes(self):
@@ -104,6 +104,6 @@ class JSViewsTest(FixtureTestCase):
         self.ensure_dummy_mt()
         response = self.client.get(reverse('js-mt-services'))
         self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content.decode('utf-8'))
+        data = json.loads(response.content.decode())
         # Check we have dummy service listed
         self.assertIn('dummy', data)

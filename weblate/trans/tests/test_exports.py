@@ -48,7 +48,7 @@ class ExportsViewTest(FixtureTestCase):
 
     def test_export_stats(self):
         response = self.client.get(reverse('export_stats', kwargs=self.kw_component))
-        parsed = json.loads(response.content.decode('utf-8'))
+        parsed = json.loads(response.content.decode())
         self.assertEqual(parsed[0]['name'], 'Czech')
 
     def test_export_stats_csv(self):
@@ -59,7 +59,7 @@ class ExportsViewTest(FixtureTestCase):
 
     def test_export_project_stats(self):
         response = self.client.get(reverse('export_stats', kwargs=self.kw_project))
-        parsed = json.loads(response.content.decode('utf-8'))
+        parsed = json.loads(response.content.decode())
         self.assertIn('Czech', [i['language'] for i in parsed])
 
     def test_export_project_stats_csv(self):

@@ -117,7 +117,7 @@ class BaseXMLCheck(TargetCheck):
         if wrap:
             text = '<weblate>{}</weblate>'.format(text)
 
-        return parse_xml(text.encode('utf-8') if 'encoding' in text else text)
+        return parse_xml(text.encode() if 'encoding' in text else text)
 
     def is_source_xml(self, flags, source):
         """Quick check if source looks like XML."""

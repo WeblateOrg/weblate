@@ -159,7 +159,7 @@ class Repository:
         )
         output, stderr = process.communicate()
         if not raw:
-            output = output.decode('utf-8')
+            output = output.decode()
         retcode = process.poll()
         cls.add_breadcrumb(
             text_cmd, retcode=retcode, output=output, stderr=stderr, cwd=cwd
@@ -167,7 +167,7 @@ class Repository:
         cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
         if retcode:
             if stderr:
-                output += stderr.decode('utf-8')
+                output += stderr.decode()
             raise RepositoryException(retcode, output)
         return output
 
@@ -370,7 +370,7 @@ class Repository:
         with open(filename, 'rb') as handle:
             data = handle.read()
         if extra:
-            objhash.update(extra.encode('utf-8'))
+            objhash.update(extra.encode())
         objhash.update('blob {0}\0'.format(len(data)).encode('ascii'))
         objhash.update(data)
 

@@ -53,8 +53,8 @@ class TextParser:
     """Simple text parser returning all content as single unit."""
 
     def __init__(self, storefile, filename=None, flags=None):
-        with open(storefile, 'rb') as handle:
-            content = handle.read().decode('utf-8')
+        with open(storefile, 'r') as handle:
+            content = handle.read()
         if filename:
             self.filename = filename
         else:
@@ -68,7 +68,7 @@ class TextSerializer:
 
     def __call__(self, handle):
         for unit in self.units:
-            handle.write(unit.text.encode('utf-8'))
+            handle.write(unit.text.encode())
             handle.write(b'\n')
 
 

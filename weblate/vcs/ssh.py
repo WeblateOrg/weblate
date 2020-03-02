@@ -142,7 +142,7 @@ def add_host_key(request, host, port=''):
                 cmdline, stderr=subprocess.STDOUT, env=get_clean_env()
             )
             keys = []
-            for key in output.decode('utf-8').splitlines():
+            for key in output.decode().splitlines():
                 key = key.strip()
                 if not is_key_line(key):
                     continue
@@ -190,8 +190,8 @@ class SSHWrapper:
 
         It is based on template and DATA_DIR settings.
         """
-        md5 = hashlib.md5(self.SSH_WRAPPER_TEMPLATE.encode('utf-8'))
-        md5.update(data_dir('ssh').encode('utf-8'))
+        md5 = hashlib.md5(self.SSH_WRAPPER_TEMPLATE.encode())
+        md5.update(data_dir('ssh').encode())
         return ssh_file('ssh-weblate-wrapper-{0}'.format(md5.hexdigest()))
 
     def create(self):

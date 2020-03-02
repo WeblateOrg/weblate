@@ -61,7 +61,7 @@ class NeteaseSightTranslation(MachineTranslation):
         timestamp = str(int(1000 * time.time()))
 
         sign = settings.MT_NETEASE_SECRET + nonce + timestamp
-        sign = sign.encode('utf-8')
+        sign = sign.encode()
         sign = sha1(sign).hexdigest()
 
         return {

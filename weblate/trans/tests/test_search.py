@@ -132,9 +132,7 @@ class SearchViewTest(ViewTestCase):
         self.do_search({'q': 'changed:>=2010-01-'}, None)
 
     def extract_params(self, response):
-        search_url = re.findall(
-            r'data-params="([^"]*)"', response.content.decode('utf-8')
-        )[0]
+        search_url = re.findall(r'data-params="([^"]*)"', response.content.decode())[0]
         return QueryDict(search_url, mutable=True)
 
     def test_search_links(self):

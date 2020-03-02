@@ -727,7 +727,7 @@ class ComponentEditMonoTest(ComponentEditTest):
 
     @staticmethod
     def remove_units(store):
-        store.store.parse(store.store.XMLskeleton.replace("\n", "").encode('utf-8'))
+        store.store.parse(store.store.XMLskeleton.replace("\n", "").encode())
         store.save()
 
     def test_unit_add(self):

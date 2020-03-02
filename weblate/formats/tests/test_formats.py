@@ -307,8 +307,8 @@ class PoFormatTest(AutoFormatTest):
     def test_add_encoding(self):
         out = os.path.join(self.tempdir, 'test.po')
         self.FORMAT.add_language(out, Language.objects.get(code='cs'), TEST_POT_UNICODE)
-        with open(out, 'rb') as handle:
-            data = handle.read().decode('utf-8')
+        with open(out, 'r') as handle:
+            data = handle.read()
         self.assertTrue('Michal Čihař' in data)
 
     def load_plural(self, filename):

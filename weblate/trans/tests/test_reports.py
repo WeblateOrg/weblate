@@ -120,15 +120,14 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_credits('json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
-            response.content.decode('utf-8'),
-            [{'Czech': [['weblate@example.org', 'Weblate Test']]}],
+            response.content, [{'Czech': [['weblate@example.org', 'Weblate Test']]}]
         )
 
     def test_credits_view_rst(self):
         response = self.get_credits('rst')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            response.content.decode('utf-8'),
+            response.content.decode(),
             '\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n',
         )
 
@@ -136,7 +135,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_credits('html')
         self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
-            response.content.decode('utf-8'),
+            response.content.decode(),
             '<table>\n'
             '<tr>\n<th>Czech</th>\n'
             '<td><ul><li><a href="mailto:weblate@example.org">'
@@ -158,32 +157,32 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_view_json(self):
         response = self.get_counts('json')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
+        self.assertJSONEqual(response.content, COUNTS_DATA)
 
     def test_counts_view_30days(self):
         response = self.get_counts('json', period='30days')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
+        self.assertJSONEqual(response.content, COUNTS_DATA)
 
     def test_counts_view_this_month(self):
         response = self.get_counts('json', period='this-month')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
+        self.assertJSONEqual(response.content, COUNTS_DATA)
 
     def test_counts_view_month(self):
         response = self.get_counts('json', period='month')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode('utf-8'), [])
+        self.assertJSONEqual(response.content, [])
 
     def test_counts_view_year(self):
         response = self.get_counts('json', period='year')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode('utf-8'), [])
+        self.assertJSONEqual(response.content, [])
 
     def test_counts_view_this_year(self):
         response = self.get_counts('json', period='this-year')
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(response.content.decode('utf-8'), COUNTS_DATA)
+        self.assertJSONEqual(response.content, COUNTS_DATA)
 
     def test_counts_view_rst(self):
         response = self.get_counts('rst')
@@ -194,7 +193,7 @@ class ReportsComponentTest(BaseReportsTest):
         response = self.get_counts('html')
         self.assertEqual(response.status_code, 200)
         self.assertHTMLEqual(
-            response.content.decode('utf-8'),
+            response.content.decode(),
             '''
 <table>
     <tr>

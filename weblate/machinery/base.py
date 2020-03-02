@@ -248,6 +248,6 @@ class MachineTranslation:
         salt = str(random.randint(0, 10000000000))
 
         payload = appid + text + salt + secret
-        digest = md5(payload.encode('utf-8')).hexdigest()
+        digest = md5(payload.encode()).hexdigest()
 
         return salt, digest

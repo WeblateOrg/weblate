@@ -41,7 +41,7 @@ class GitExportTest(ViewTestCase):
         self.client.logout()
 
     def get_auth_string(self, code):
-        encoded = b64encode('{0}:{1}'.format(self.user.username, code).encode('utf-8'))
+        encoded = b64encode('{0}:{1}'.format(self.user.username, code).encode())
         return 'basic ' + encoded.decode('ascii')
 
     def test_authenticate_invalid(self):

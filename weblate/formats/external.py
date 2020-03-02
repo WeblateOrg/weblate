@@ -92,7 +92,7 @@ class XlsxFormat(CSVFormat):
             name = os.path.basename(storefile.name) + ".csv"
 
         # return the new csv as bytes
-        content = output.getvalue().encode("utf-8")
+        content = output.getvalue().encode()
 
         # Load the file as CSV
         return super().parse_store(BytesIOMode(name, content))

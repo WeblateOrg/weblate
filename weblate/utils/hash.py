@@ -25,9 +25,9 @@ from siphashc import siphash
 def calculate_hash(source, context):
     """Calculates checksum identifying translation."""
     if source is not None:
-        data = source.encode('utf-8') + context.encode('utf-8')
+        data = source.encode() + context.encode()
     else:
-        data = context.encode('utf-8')
+        data = context.encode()
     # Need to convert it from unsigned 64-bit int to signed 64-bit int
     return siphash('Weblate Sip Hash', data) - 2 ** 63
 

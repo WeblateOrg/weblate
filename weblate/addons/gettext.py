@@ -19,7 +19,6 @@
 #
 
 
-import io
 import os
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -83,7 +82,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return path and os.path.exists(path)
 
     def sync_linguas(self, component, path):
-        with io.open(path, 'r', encoding='utf-8') as handle:
+        with open(path, 'r') as handle:
             lines = handle.readlines()
 
         codes = set(
@@ -115,7 +114,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
             added = True
 
         if added:
-            with io.open(path, 'w', encoding='utf-8') as handle:
+            with open(path, 'w') as handle:
                 handle.writelines(lines)
 
         return added
@@ -156,7 +155,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
             return False
         for name in cls.get_configure_paths(component):
             try:
-                with io.open(name, encoding='utf-8') as handle:
+                with open(name) as handle:
                     if 'ALL_LINGUAS="' in handle.read():
                         return True
             except UnicodeDecodeError:
@@ -174,7 +173,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
         )
         expected = 'ALL_LINGUAS="{}"\n'.format(codes)
         for path in paths:
-            with io.open(path, 'r', encoding='utf-8') as handle:
+            with open(path, 'r') as handle:
                 lines = handle.readlines()
 
             for i, line in enumerate(lines):
@@ -189,7 +188,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     added = True
 
             if added:
-                with io.open(path, 'w', encoding='utf-8') as handle:
+                with open(path, 'w') as handle:
                     handle.writelines(lines)
 
         return added

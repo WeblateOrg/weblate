@@ -33,7 +33,7 @@ class ChartsTest(FixtureTestCase):
     def assert_json_chart_data(self, response):
         """Test whether response has valid json chart data."""
         self.assertEqual(response.get('Content-Type'), 'application/json')
-        data = json.loads(response.content.decode('utf-8'))
+        data = json.loads(response.content.decode())
         self.assertTrue('series' in data)
         self.assertTrue('labels' in data)
 
