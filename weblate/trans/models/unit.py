@@ -409,12 +409,9 @@ class Unit(models.Model, LoggerMixin):
         * Flagged with 'read-only'
         * Where source string is not translated
         """
-        target_state = STATE_TRANSLATED
-        if self.translation.component.project.enable_review:
-            target_state = STATE_APPROVED
         source_info = self.source_info
         if 'read-only' in self.all_flags or (
-            source_info != self and source_info.state < target_state
+            source_info != self and source_info.state < STATE_TRANSLATED
         ):
             if not self.readonly:
                 self.state = STATE_READONLY
