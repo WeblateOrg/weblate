@@ -224,8 +224,12 @@ def post_save_update_checks(sender, instance, **kwargs):
 @receiver(post_delete, sender=Component)
 @disable_for_loaddata
 def post_delete_linked(sender, instance, **kwargs):
-    if instance.linked_component:
-        instance.linked_component.update_alerts()
+    # When removing project, the linked component might be already deleted now
+    try:
+        if instance.linked_component:
+            instance.linked_component.update_alerts()
+    except Component.DoesNotExist:
+        pass
 
 
 @app.task(trail=False)
