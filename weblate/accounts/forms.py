@@ -74,7 +74,8 @@ class UniqueEmailMixin:
         self.cleaned_data['email_user'] = None
         mail = self.cleaned_data['email']
         users = User.objects.filter(
-            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email__iexact=mail)
+            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email__iexact=mail),
+            is_active=True,
         )
         if users.exists():
             self.cleaned_data['email_user'] = users[0]
