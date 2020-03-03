@@ -23,7 +23,7 @@
 
 import functools
 import logging
-from collections import defaultdict
+from collections.abc import defaultdict
 from time import sleep
 
 from celery_batches import Batches
