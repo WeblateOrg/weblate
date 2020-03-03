@@ -52,7 +52,7 @@ class AvatarTest(FixtureTestCase):
         storage = BytesIO()
         image.save(storage, 'PNG')
         imagedata = storage.getvalue()
-        responses.register_uri(responses.GET, TEST_URL, body=imagedata)
+        responses.add(responses.GET, TEST_URL, body=imagedata)
         # Real user
         response = self.client.get(
             reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
@@ -68,7 +68,7 @@ class AvatarTest(FixtureTestCase):
 
     @responses.activate
     def test_avatar_error(self):
-        responses.register_uri(responses.GET, TEST_URL, status=503)
+        responses.add(responses.GET, TEST_URL, status=503)
         # Choose different username to avoid using cache
         self.user.username = 'test2'
         self.user.save()
