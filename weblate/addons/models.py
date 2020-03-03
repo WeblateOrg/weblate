@@ -19,7 +19,7 @@
 #
 
 
-from collections import defaultdict
+from collections.abc import defaultdict
 
 from appconf import AppConf
 from django.db import models
