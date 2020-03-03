@@ -10,7 +10,7 @@ offerings at <https://weblate.org/support/>.
 .. _activate-support:
 
 Integrating support
-------------------
+-------------------
 
 
 .. versionadded:: 3.8
@@ -33,7 +33,7 @@ Data submitted to the Weblate
 No other data is submitted.
 
 Integration services
-------------------------
+--------------------
 
 * See if your support package is still valid
 * :ref:`cloudbackup`
