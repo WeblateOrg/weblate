@@ -184,7 +184,7 @@ def validate_email(value):
     if EMAIL_BLACKLIST.match(user_part):
         raise ValidationError(_('Enter a valid e-mail address.'))
     if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
-        raise ValidationError(_('This e-mail address is already in use.'))
+        raise ValidationError(_('This e-mail address is disallowed.'))
 
 
 def validate_pluraleq(value):
