@@ -116,6 +116,16 @@ definition of that is in :file:`scripts/test-database`:
 .. literalinclude:: ../scripts/test-database
    :language: sh
 
+The simple execution can look like:
+
+.. code-block:: sh
+
+   . scripts/test-database
+   ./ci/run-migrate
+   ./ci/run-test
+   ./ci/run-docs
+   ./ci/run-setup
+
 Local testing
 +++++++++++++
 
