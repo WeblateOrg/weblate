@@ -176,7 +176,7 @@ class AdminTest(ViewTestCase):
 
     @responses.activate
     def test_activation_community(self):
-        responses.register_uri(
+        responses.add(
             responses.POST,
             settings.SUPPORT_API_URL,
             body=json.dumps(
@@ -196,7 +196,7 @@ class AdminTest(ViewTestCase):
 
     @responses.activate
     def test_activation_hosted(self):
-        responses.register_uri(
+        responses.add(
             responses.POST,
             settings.SUPPORT_API_URL,
             body=json.dumps(
