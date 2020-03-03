@@ -20,7 +20,7 @@
 
 
 import os.path
-from collections import defaultdict
+from collections.abc import defaultdict
 
 from django.utils.translation import gettext_lazy as _
 
