@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from collections import defaultdict
+from collections.abc import defaultdict
 from copy import copy
 from email.utils import formataddr
 
