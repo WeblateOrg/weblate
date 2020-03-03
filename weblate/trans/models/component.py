@@ -23,7 +23,7 @@ import fnmatch
 import os
 import re
 import time
-from collections import Counter
+from collections.abc import Counter
 from copy import copy
 from glob import glob
 from urllib.parse import urlparse
