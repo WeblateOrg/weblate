@@ -20,7 +20,7 @@
 
 
 import re
-from collections import defaultdict
+from collections.abc import defaultdict
 
 import social_django.utils
 from django.conf import settings
