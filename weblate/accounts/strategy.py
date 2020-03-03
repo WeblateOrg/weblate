@@ -22,7 +22,7 @@ from importlib import import_module
 
 from django.conf import settings
 from django.urls import reverse
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from social_django.strategy import DjangoStrategy
 
 from weblate.utils.site import get_site_url
@@ -53,7 +53,7 @@ class WeblateStrategy(DjangoStrategy):
         # This is mostly fix for lack of next validation in Python Social Auth
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62
-        if 'next' in data and not is_safe_url(data['next'], allowed_hosts=None):
+        if 'next' in data and not url_has_allowed_host_and_scheme(data['next'], allowed_hosts=None):
             data['next'] = '{0}#account'.format(reverse('profile'))
         return data
 
