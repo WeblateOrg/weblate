@@ -531,12 +531,12 @@ class RegistrationTest(BaseRegistrationTest):
             orig_backends = social_django.utils.BACKENDS
             social_django.utils.BACKENDS = GH_BACKENDS
 
-            responses.register_uri(
+            responses.add(
                 responses.POST,
                 'https://github.com/login/oauth/access_token',
                 body=json.dumps({'access_token': '123', 'token_type': 'bearer'}),
             )
-            responses.register_uri(
+            responses.add(
                 responses.GET,
                 'https://api.github.com/user',
                 body=json.dumps(
@@ -548,7 +548,7 @@ class RegistrationTest(BaseRegistrationTest):
                     }
                 ),
             )
-            responses.register_uri(
+            responses.add(
                 responses.GET,
                 'https://api.github.com/user/emails',
                 body=json.dumps(
