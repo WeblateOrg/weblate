@@ -17,7 +17,7 @@ Integrating support
 
 Purchased support packages can optionally be integrated into your Weblate
  `subscription management <https://weblate.org/user/>`_ interface, from where you will find a link to it.
-Basic instance details about your installation are also reported back to Weblate.
+Basic instance details about your installation are also reported back to Weblate this way.
 
 .. image:: /images/support.png
 
@@ -31,6 +31,11 @@ Data submitted to the Weblate
 * The public SSH key of your instance
 
 No other data is submitted.
+
+Integration services
+------------------------
+* See if your support package is still valid
+* :ref:`cloudbackup`
 
 .. hint::
 
