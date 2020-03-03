@@ -21,7 +21,7 @@
 
 
 import os
-from collections import OrderedDict
+from collections.abc import OrderedDict
 from glob import glob
 from itertools import chain
 
