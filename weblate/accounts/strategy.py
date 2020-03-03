@@ -53,8 +53,9 @@ class WeblateStrategy(DjangoStrategy):
         # This is mostly fix for lack of next validation in Python Social Auth
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62
-        if 'next' in data and not url_has_allowed_host_and_scheme(data['next'], allowed_hosts=None):
-            data['next'] = '{0}#account'.format(reverse('profile'))
+        if 'next' in data and not url_has_allowed_host_and_scheme(data['next'],
+            allowed_hosts=None):
+                data['next'] = '{0}#account'.format(reverse('profile'))
         return data
 
     def build_absolute_uri(self, path=None):
