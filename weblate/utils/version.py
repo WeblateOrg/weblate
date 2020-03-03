@@ -19,7 +19,7 @@
 #
 
 
-from collections import namedtuple
+from collections.abc import namedtuple
 from datetime import datetime, timedelta
 from distutils.version import LooseVersion
 
