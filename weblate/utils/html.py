@@ -19,7 +19,7 @@
 #
 
 
-from collections import defaultdict
+from collections.abc import defaultdict
 from html.parser import HTMLParser
 
 
