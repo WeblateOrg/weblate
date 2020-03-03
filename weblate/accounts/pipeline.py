@@ -26,7 +26,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.encoding import force_str
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
@@ -204,9 +204,9 @@ def cleanup_next(strategy, **kwargs):
     # This is mostly fix for lack of next validation in Python Social Auth
     # see https://github.com/python-social-auth/social-core/issues/62
     url = strategy.session_get('next')
-    if url and not is_safe_url(url, allowed_hosts=None):
+    if url and not url_has_allowed_host_and_scheme(url, allowed_hosts=None):
         strategy.session_set('next', None)
-    if is_safe_url(kwargs.get('next', ''), allowed_hosts=None):
+    if url_has_allowed_host_and_scheme(kwargs.get('next', ''), allowed_hosts=None):
         return None
     return {'next': None}
 
