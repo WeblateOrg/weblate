@@ -1,2 +1,12 @@
 # Simple way to configure test database from environment
-export CI_DATABASE=postgresql CI_DB_USER=weblate CI_DB_PASSWORD=weblate CI_DB_HOST=127.0.0.1 DJANGO_SETTINGS_MODULE=weblate.settings_test
+
+# Database backend to use postgresql / mysql / mariadb
+export CI_DATABASE=postgresql
+
+# Database server configuration
+export CI_DB_USER=weblate
+export CI_DB_PASSWORD=weblate
+export CI_DB_HOST=127.0.0.1
+
+# Django settings module to use
+export DJANGO_SETTINGS_MODULE=weblate.settings_test

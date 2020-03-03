@@ -86,13 +86,38 @@ mind.
 
 .. _Security by Design Principles: https://wiki.owasp.org/index.php/Security_by_Design_Principles
 
-Testsuite
----------
+Testsuite and CI
+----------------
 
 Testsuites exist for most of the current code, increase coverage by adding testcases for any new
-functionality, and verify that it works. Current test results can be found on
+functionality, and verify that it works.
+
+Continuous integration
+++++++++++++++++++++++
+
+Current test results can be found on
 `GitHub Actions <https://github.com/WeblateOrg/weblate/actions>`_ and coverage
 is reported on `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_.
+
+There are several jobs to verify different aspects:
+
+* Unit tests
+* Documentation build and external links
+* Migration testing from all supported releases
+* Code linting
+* Setup verification (ensures that generated dist files do not miss anything and can be tested)
+
+The configuration for the CI is in :file:`.github/workflows` directory. It
+heavily uses helper scripts stored in :file:`ci` directory. The scripts can be
+also executed manually, but they require several environment variables, mostly
+defining Django settings file to use and database connection. The example
+definition of that is in :file:`scripts/test-database`:
+
+.. literalinclude:: ../scripts/test-database
+   :language: sh
+
+Local testing
++++++++++++++
 
 To run a testsuite locally, use:
 
