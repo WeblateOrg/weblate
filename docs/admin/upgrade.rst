@@ -255,6 +255,7 @@ Notable configuration or dependencies changes:
 
 * Python versions older than 3.5 are no longer supported, see :ref:`py3`
 * There are several new checks included in the :setting:`CHECK_LIST`.
+* There are several removed, updated and new dependencies.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
