@@ -19,7 +19,7 @@ interfaces or refactoring the code.
 .. _custom-module:
 
 Creating a Python module
-----------------------
+------------------------
 
 If you are not familiar with Python, you might want to look into `Python For
 Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the
