@@ -64,7 +64,7 @@ jobs:
     - name: Sphinx linkcheck
       run: |
         echo "::add-matcher::.github/matchers/sphinx.json"
-        make -C docs linkcheck
+        ./ci/run-docs linkcheck
         echo "::remove-matcher owner=sphinx::"
     - uses: actions/upload-artifact@v1
       if: always()
