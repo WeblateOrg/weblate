@@ -102,7 +102,7 @@ Branding appears in the following files:
     Used in notifications e-mails.
 
 3. Run :samp:`./manage.py collectstatic --noinput`, to collect static files served to
-clients.
+   clients.
 
 .. seealso::
 
