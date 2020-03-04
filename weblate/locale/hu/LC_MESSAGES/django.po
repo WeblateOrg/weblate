@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-02-16 08:21+0000\n"
+"PO-Revision-Date: 2020-03-04 14:08+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:105
 msgctxt "No known user"
@@ -695,7 +695,7 @@ msgstr "Tárhelyszolgáltatás"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:172
 msgid "Sign in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 #: weblate/accounts/views.py:602 weblate/wladmin/sites.py:176
 msgid "Thank you for using Weblate."
@@ -3581,17 +3581,15 @@ msgstr "Ez a felhasználónév és jelszó páros nem található. Próbálja me
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "Bejelentkezés ezzel:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
 msgstr "Elfelejtette a jelszavát?"
 
 #: weblate/templates/accounts/login.html:64
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Register new account"
-msgstr "Saját fiók eltávolítása"
+msgstr "Új fiók regisztrálása"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3910,7 +3908,7 @@ msgstr "Regisztráció e-mail használatával"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "Fiók létrehozása ennek használatával:"
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -4261,7 +4259,7 @@ msgstr "Beállítások"
 
 #: weblate/templates/base.html:210 weblate/wladmin/sites.py:180
 msgid "Sign out"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: weblate/templates/base.html:217
 msgid "Help"
@@ -4992,10 +4990,8 @@ msgid "Configure dashboard"
 msgstr "Vezérlőpult beállítása"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Recent additions"
-msgstr "Legutóbbi változtatások"
+msgstr "Legutóbbi hozzáadások"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -5575,11 +5571,8 @@ msgstr ""
 "segítenek."
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr "A jelszava nem állhat egyetlen karakterből vagy csak szóközökből."
+msgstr "A jelszava nem tartalmazhat ismétlődő szavakat vagy karaktereket."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -6163,10 +6156,8 @@ msgstr ""
 "Nincs jogosultsága a projekt hozzáférés-szabályozásának megváltoztatásához."
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "Összetevőlisták"
+msgstr "Összetevő-riasztások"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6292,7 +6283,7 @@ msgstr "Rendszerellenőrzések"
 
 #: weblate/templates/manage/performance.html:98
 msgid "Celery queues"
-msgstr ""
+msgstr "Celery feladatsorok"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6838,10 +6829,12 @@ msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
 msgstr ""
+"További címkék határozhatók meg a <a href=\"%(url)s\">projekt "
+"beállításaiban</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
-msgstr ""
+msgstr "További címkéket a projekt adminisztrátora határozhat meg."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -6882,14 +6875,14 @@ msgid "Nothing to list here."
 msgstr "Nincs mit felsorolni itt."
 
 #: weblate/templates/snippets/login-info.html:4
-#, fuzzy
-#| msgid "Weblate, the libre continuous localization system."
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr "Weblate, a szabad folytonos honosítórendszer."
+msgstr "Webalapú <strong>folytonos</strong> honosítás"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
 msgstr ""
+"A szolgáltatásba történő regisztrációval és bejelentkezéssel elfogadja a "
+"következőket:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -7130,25 +7123,23 @@ msgstr "Ez az összetevő helytelenül van beállítva."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
-msgstr ""
+msgstr "A tárolóböngésző URL-je nemlétező helyekre mutat:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "A fájlnév nem tartalmazhat hivatkozást egy szülőkönyvtárra."
+msgstr ""
+"Ez akkor fordulhat elő, ha a fordítási fájlokban lévő útvonal abszolút "
+"hivatkozás vagy a szülőkönyvtárra mutató hivatkozást tartalmaz."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "Ez az összetevő helytelenül van beállítva."
+msgstr "Ez a projekt helytelenül van beállítva."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "A projekt weboldalának URL-je nemlétező helyre mutat:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -8669,10 +8660,8 @@ msgid "Name of the translation"
 msgstr "A fordítás neve"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "A megerősítéshez írja be a fordítás nevét."
+msgstr "A megerősítéshez írja be a fordítás teljes nevét."
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -8758,17 +8747,13 @@ msgstr "Nem támogatott összetevő-beállítás"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "Tárolóböngésző"
+msgstr "Törött tárolóböngésző URL"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "Projekt weboldala"
+msgstr "Törött projektweboldal URL"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -10674,6 +10659,8 @@ msgstr "A fájlnév nem lehet abszolút elérési út."
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
+"A fájlnévnek a lehető legegyszerűbbnek kell lennie. Talán érdemes lenne ezt "
+"használni: {}"
 
 #: weblate/utils/views.py:234
 #, python-format
