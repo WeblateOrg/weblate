@@ -1390,7 +1390,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                     # Invalidate stats (most importantly to invalidate parent stats)
                     for translation in todelete:
-                        translation.stats.invalidate()
+                        translation.invalidate_cache()
                     todelete.delete()
 
         self.update_import_alerts()
@@ -1818,6 +1818,10 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_alerts()
         self.progress_step(100)
         self.translations_count = None
+
+        # Invalidate stats on template change
+        if changed_template:
+            self.project.invalidate_stats_deep()
 
     def update_shapings(self):
         from weblate.trans.models import Unit
