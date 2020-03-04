@@ -34,7 +34,10 @@ jobs:
     - name: Install pip dependencies
       run: pip install -r docs/requirements.txt
     - name: Sphinx build
-      run: ./ci/run-docs
+      run: |
+        echo "::add-matcher::.github/matchers/sphinx.json"
+        ./ci/run-docs
+        echo "::remove-matcher owner=sphinx::"
 
   linkcheck:
 
@@ -57,6 +60,7 @@ jobs:
     - name: Sphinx linkcheck
       run: ./ci/run-docs linkcheck
     - uses: actions/upload-artifact@v1
+      if: always()
       with:
         name: Linkcheck report
         path: docs/_build/linkcheck/output.txt
