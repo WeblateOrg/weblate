@@ -409,13 +409,13 @@ class MachineTranslationTest(TestCase):
                 return (200, headers, TERMINOLOGY_LANGUAGES)
             return (200, headers, TERMINOLOGY_TRANSLATE)
 
-        responses.add(
+        responses.add_callback(
             responses.GET,
             MST_API_URL,
             callback=request_callback_get,
             content_type='text/xml',
         )
-        responses.add(
+        responses.add_callback(
             responses.POST,
             MST_API_URL,
             callback=request_callback_post,
@@ -691,11 +691,11 @@ class MachineTranslationTest(TestCase):
         )
         # Fetch from service
         self.assert_translate(machine, lang='de', word='Hello')
-        self.assertEqual(responses.mock.call_count, 2)
+        self.assertEqual(len(responses.calls), 2)
         responses.reset()
         # Fetch from cache
         self.assert_translate(machine, lang='de', word='Hello')
-        self.assertEqual(responses.mock.call_count, 0)
+        self.assertEqual(len(responses.calls), 0)
 
     @override_settings(MT_AWS_REGION='us-west-2')
     def test_aws(self):
@@ -719,12 +719,12 @@ class MachineTranslationTest(TestCase):
         self.register_apertium_urls()
         self.assert_translate(machine, 'es')
         self.assert_translate(machine, 'es', word='Zkouška')
-        self.assertEqual(responses.mock.call_count, 2)
+        self.assertEqual(len(responses.calls), 2)
         responses.reset()
         # New instance should use cached languages
         machine = ApertiumAPYTranslation()
         self.assert_translate(machine, 'es')
-        self.assertEqual(responses.mock.call_count, 0)
+        self.assertEqual(len(responses.calls), 0)
 
 
 class WeblateTranslationTest(FixtureTestCase):
