@@ -21,7 +21,7 @@
 
 import json
 
-import httpretty
+import responses
 from botocore.stub import ANY, Stubber
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -287,20 +287,20 @@ class MachineTranslationTest(TestCase):
         if not empty:
             self.assertTrue(translation)
 
-    @httpretty.activate
+    @responses.activate
     def test_glosbe(self):
         machine = self.get_machine(GlosbeTranslation)
-        httpretty.register_uri(
-            httpretty.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
+        responses.add(
+            responses.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
-    @httpretty.activate
+    @responses.activate
     def test_glosbe_ratelimit(self):
         machine = self.get_machine(GlosbeTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://glosbe.com/gapi/translate',
             body=GLOSBE_JSON,
             status=429,
@@ -309,41 +309,41 @@ class MachineTranslationTest(TestCase):
             self.assert_translate(machine, empty=True)
         self.assert_translate(machine, empty=True)
 
-    @httpretty.activate
+    @responses.activate
     def test_glosbe_ratelimit_set(self):
         machine = self.get_machine(GlosbeTranslation)
         machine.set_rate_limit()
-        httpretty.register_uri(
-            httpretty.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
+        responses.add(
+            responses.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
         )
         self.assert_translate(machine, empty=True)
 
     @override_settings(MT_MYMEMORY_EMAIL='test@weblate.org')
-    @httpretty.activate
+    @responses.activate
     def test_mymemory(self):
         machine = self.get_machine(MyMemoryTranslation)
-        httpretty.register_uri(
-            httpretty.GET, 'https://mymemory.translated.net/api/get', body=MYMEMORY_JSON
+        responses.add(
+            responses.GET, 'https://mymemory.translated.net/api/get', body=MYMEMORY_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
     def register_apertium_urls(self):
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'http://apertium.example.com/listPairs',
             body='{"responseStatus": 200, "responseData":'
             '[{"sourceLanguage": "eng","targetLanguage": "spa"}]}',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'http://apertium.example.com/translate',
             body='{"responseData":{"translatedText":"Mundial"},'
             '"responseDetails":null,"responseStatus":200}',
         )
 
     @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
-    @httpretty.activate
+    @responses.activate
     def test_apertium_apy(self):
         machine = self.get_machine(ApertiumAPYTranslation)
         self.register_apertium_urls()
@@ -351,23 +351,23 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, 'es', word='Zkouška')
 
     @override_settings(MT_MICROSOFT_COGNITIVE_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_microsoft_cognitive(self):
         machine = self.get_machine(MicrosoftCognitiveTranslation)
-        httpretty.register_uri(
-            httpretty.POST,
+        responses.add(
+            responses.POST,
             'https://api.cognitive.microsoft.com/sts/v1.0/issueToken'
             '?Subscription-Key=KEY',
             body='TOKEN',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/'
             'GetLanguagesForTranslate',
             body='["en","cs"]',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
             body='"svět"'.encode(),
         )
@@ -376,48 +376,50 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, word='Zkouška')
 
     def register_microsoft_terminology(self, fail=False):
-        def request_callback_get(request, uri, headers):
-            if request.path == '/Terminology.svc?wsdl':
+        def request_callback_get(request):
+            headers = {}
+            if request.path_url == '/Terminology.svc?wsdl':
                 with open(TERMINOLOGY_WDSL, 'rb') as handle:
                     return (200, headers, handle.read())
-            if request.path.startswith('/Terminology.svc?wsdl='):
-                suffix = request.path[22:]
+            if request.path_url.startswith('/Terminology.svc?wsdl='):
+                suffix = request.path_url[22:]
                 with open(TERMINOLOGY_WDSL + '.' + suffix, 'rb') as handle:
                     return (200, headers, handle.read())
-            if request.path.startswith('/Terminology.svc?xsd='):
-                suffix = request.path[21:]
+            if request.path_url.startswith('/Terminology.svc?xsd='):
+                suffix = request.path_url[21:]
                 with open(TERMINOLOGY_WDSL + '.' + suffix, 'rb') as handle:
                     return (200, headers, handle.read())
             return (500, headers, '')
 
-        def request_callback_post(request, uri, headers):
+        def request_callback_post(request):
+            headers = {}
             if fail:
                 return (500, headers, '')
             if b'GetLanguages' in request.body:
                 return (200, headers, TERMINOLOGY_LANGUAGES)
             return (200, headers, TERMINOLOGY_TRANSLATE)
 
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add_callback(
+            responses.GET,
             MST_API_URL,
-            body=request_callback_get,
+            callback=request_callback_get,
             content_type='text/xml',
         )
-        httpretty.register_uri(
-            httpretty.POST,
+        responses.add_callback(
+            responses.POST,
             MST_API_URL,
-            body=request_callback_post,
+            callback=request_callback_post,
             content_type='text/xml',
         )
 
-    @httpretty.activate
+    @responses.activate
     def test_microsoft_terminology(self):
         self.register_microsoft_terminology()
         machine = self.get_machine(MicrosoftTerminologyService)
         self.assert_translate(machine)
         self.assert_translate(machine, lang='cs_CZ')
 
-    @httpretty.activate
+    @responses.activate
     def test_microsoft_terminology_error(self):
         self.register_microsoft_terminology(True)
         machine = self.get_machine(MicrosoftTerminologyService)
@@ -427,11 +429,11 @@ class MachineTranslationTest(TestCase):
             self.assert_translate(machine, empty=True)
 
     @override_settings(MT_GOOGLE_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_google(self):
         machine = self.get_machine(GoogleTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             GOOGLE_API_ROOT + 'languages',
             body=json.dumps(
                 {
@@ -445,8 +447,8 @@ class MachineTranslationTest(TestCase):
                 }
             ),
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             GOOGLE_API_ROOT,
             body=b'{"data":{"translations":[{"translatedText":"svet"}]}}',
         )
@@ -455,30 +457,30 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_GOOGLE_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_google_invalid(self):
         """Test handling of server failure."""
         machine = self.get_machine(GoogleTranslation)
-        httpretty.register_uri(
-            httpretty.GET, GOOGLE_API_ROOT + 'languages', body='', status=500
+        responses.add(
+            responses.GET, GOOGLE_API_ROOT + 'languages', body='', status=500
         )
-        httpretty.register_uri(httpretty.GET, GOOGLE_API_ROOT, body='', status=500)
+        responses.add(responses.GET, GOOGLE_API_ROOT, body='', status=500)
         machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
 
-    @httpretty.activate
+    @responses.activate
     def test_amagama_nolang(self):
         machine = self.get_machine(AmagamaTranslation)
-        httpretty.register_uri(
-            httpretty.GET, AMAGAMA_LIVE + '/languages/', body='', status=404
+        responses.add(
+            responses.GET, AMAGAMA_LIVE + '/languages/', body='', status=404
         )
-        httpretty.register_uri(
-            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
+        responses.add(
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
         )
-        httpretty.register_uri(
-            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
+        responses.add(
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -487,34 +489,34 @@ class MachineTranslationTest(TestCase):
     def test_amagama_nolang_debug(self):
         self.test_amagama_nolang()
 
-    @httpretty.activate
+    @responses.activate
     def test_amagama(self):
         machine = self.get_machine(AmagamaTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             AMAGAMA_LIVE + '/languages/',
             body='{"sourceLanguages": ["en"], "targetLanguages": ["cs"]}',
         )
-        httpretty.register_uri(
-            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
+        responses.add(
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
         )
-        httpretty.register_uri(
-            httpretty.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
+        responses.add(
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_YANDEX_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_yandex(self):
         machine = self.get_machine(YandexTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
             body=b'{"langs": {"en": "English", "cs": "Czech"}}',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
             body=b'{"code": 200, "lang": "en-cs", "text": ["svet"]}',
         )
@@ -522,16 +524,16 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_YANDEX_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_yandex_error(self):
         machine = self.get_machine(YandexTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
             body=b'{"code": 401}',
         )
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
             body=b'{"code": 401, "message": "Invalid request"}',
         )
@@ -541,11 +543,11 @@ class MachineTranslationTest(TestCase):
             self.assert_translate(machine, empty=True)
 
     @override_settings(MT_YOUDAO_ID='id', MT_YOUDAO_SECRET='secret')
-    @httpretty.activate
+    @responses.activate
     def test_youdao(self):
         machine = self.get_machine(YoudaoTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'https://openapi.youdao.com/api',
             body=b'{"errorCode": 0, "translation": ["hello"]}',
         )
@@ -553,21 +555,21 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, lang='ja', word='Zkouška')
 
     @override_settings(MT_YOUDAO_ID='id', MT_YOUDAO_SECRET='secret')
-    @httpretty.activate
+    @responses.activate
     def test_youdao_error(self):
         machine = self.get_machine(YoudaoTranslation)
-        httpretty.register_uri(
-            httpretty.GET, 'https://openapi.youdao.com/api', body=b'{"errorCode": 1}'
+        responses.add(
+            responses.GET, 'https://openapi.youdao.com/api', body=b'{"errorCode": 1}'
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)
 
     @override_settings(MT_NETEASE_KEY='key', MT_NETEASE_SECRET='secret')
-    @httpretty.activate
+    @responses.activate
     def test_netease(self):
         machine = self.get_machine(NeteaseSightTranslation)
-        httpretty.register_uri(
-            httpretty.POST,
+        responses.add(
+            responses.POST,
             NETEASE_API_ROOT,
             body=b'''
             {
@@ -585,21 +587,21 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, lang='zh', word='Zkouška')
 
     @override_settings(MT_NETEASE_KEY='key', MT_NETEASE_SECRET='secret')
-    @httpretty.activate
+    @responses.activate
     def test_netease_error(self):
         machine = self.get_machine(NeteaseSightTranslation)
-        httpretty.register_uri(
-            httpretty.POST, NETEASE_API_ROOT, body=b'{"success": "false"}'
+        responses.add(
+            responses.POST, NETEASE_API_ROOT, body=b'{"success": "false"}'
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='zh', empty=True)
 
     @override_settings(MT_BAIDU_ID='id', MT_BAIDU_SECRET='secret')
-    @httpretty.activate
+    @responses.activate
     def test_baidu(self):
         machine = self.get_machine(BaiduTranslation)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             BAIDU_API,
             body=b'{"trans_result": [{"src": "hello", "dst": "hallo"}]}',
         )
@@ -607,11 +609,11 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, lang='ja', word='Zkouška')
 
     @override_settings(MT_BAIDU_ID='id', MT_BAIDU_SECRET='secret')
-    @httpretty.activate
+    @responses.activate
     def test_baidu_error(self):
         machine = self.get_machine(BaiduTranslation)
-        httpretty.register_uri(
-            httpretty.GET, BAIDU_API, body=b'{"error_code": 1, "error_msg": "Error"}'
+        responses.add(
+            responses.GET, BAIDU_API, body=b'{"error_code": 1, "error_msg": "Error"}'
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)
@@ -620,11 +622,11 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_SAP_SANDBOX_APIKEY='http://sandbox.example.com')
     @override_settings(MT_SAP_USERNAME='username')
     @override_settings(MT_SAP_PASSWORD='password')
-    @httpretty.activate
+    @responses.activate
     def test_saptranslationhub(self):
         machine = self.get_machine(SAPTranslationHub)
-        httpretty.register_uri(
-            httpretty.GET,
+        responses.add(
+            responses.GET,
             'http://sth.example.com/languages',
             body=json.dumps(
                 {
@@ -636,8 +638,8 @@ class MachineTranslationTest(TestCase):
             ),
             status=200,
         )
-        httpretty.register_uri(
-            httpretty.POST,
+        responses.add(
+            responses.POST,
             'http://sth.example.com/translate',
             body=SAPTRANSLATIONHUB_JSON,
             status=200,
@@ -647,14 +649,14 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, word='Zkouška')
 
     @override_settings(MT_SAP_BASE_URL='http://sth.example.com/')
-    @httpretty.activate
+    @responses.activate
     def test_saptranslationhub_invalid(self):
         machine = self.get_machine(SAPTranslationHub)
-        httpretty.register_uri(
-            httpretty.GET, 'http://sth.example.com/languages', body='', status=500
+        responses.add(
+            responses.GET, 'http://sth.example.com/languages', body='', status=500
         )
-        httpretty.register_uri(
-            httpretty.POST, 'http://sth.example.com/translate', body='', status=500
+        responses.add(
+            responses.POST, 'http://sth.example.com/translate', body='', status=500
         )
         machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
@@ -662,28 +664,28 @@ class MachineTranslationTest(TestCase):
             self.assert_translate(machine, empty=True)
 
     @override_settings(MT_DEEPL_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_deepl(self):
         machine = self.get_machine(DeepLTranslation)
-        httpretty.register_uri(
-            httpretty.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
+        responses.add(
+            responses.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
         )
         self.assert_translate(machine, lang='de', word='Hello')
 
     @override_settings(MT_DEEPL_KEY='KEY')
-    @httpretty.activate
+    @responses.activate
     def test_cache(self):
         machine = self.get_machine(DeepLTranslation, True)
-        httpretty.register_uri(
-            httpretty.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
+        responses.add(
+            responses.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
         )
         # Fetch from service
         self.assert_translate(machine, lang='de', word='Hello')
-        self.assertTrue(httpretty.has_request())
-        httpretty.reset()
+        self.assertEqual(len(responses.calls), 1)
+        responses.reset()
         # Fetch from cache
         self.assert_translate(machine, lang='de', word='Hello')
-        self.assertFalse(httpretty.has_request())
+        self.assertEqual(len(responses.calls), 0)
 
     @override_settings(MT_AWS_REGION='us-west-2')
     def test_aws(self):
@@ -701,18 +703,18 @@ class MachineTranslationTest(TestCase):
             self.assert_translate(machine, lang='de', word='Hello')
 
     @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
-    @httpretty.activate
+    @responses.activate
     def test_languages_cache(self):
         machine = self.get_machine(ApertiumAPYTranslation, True)
         self.register_apertium_urls()
         self.assert_translate(machine, 'es')
         self.assert_translate(machine, 'es', word='Zkouška')
-        self.assertTrue(httpretty.has_request())
-        httpretty.reset()
+        self.assertEqual(len(responses.calls), 3)
+        responses.reset()
         # New instance should use cached languages
         machine = ApertiumAPYTranslation()
         self.assert_translate(machine, 'es')
-        self.assertFalse(httpretty.has_request())
+        self.assertEqual(len(responses.calls), 0)
 
 
 class WeblateTranslationTest(FixtureTestCase):

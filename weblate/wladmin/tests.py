@@ -21,7 +21,7 @@
 import json
 import os
 
-import httpretty
+import responses
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
@@ -174,10 +174,10 @@ class AdminTest(ViewTestCase):
     def test_send_test_email_error(self):
         self.test_send_test_email("Could not send test e-mail")
 
-    @httpretty.activate
+    @responses.activate
     def test_activation_community(self):
-        httpretty.register_uri(
-            httpretty.POST,
+        responses.add(
+            responses.POST,
             settings.SUPPORT_API_URL,
             body=json.dumps(
                 {
@@ -194,10 +194,10 @@ class AdminTest(ViewTestCase):
         self.assertEqual(status.name, "community")
         self.assertFalse(BackupService.objects.exists())
 
-    @httpretty.activate
+    @responses.activate
     def test_activation_hosted(self):
-        httpretty.register_uri(
-            httpretty.POST,
+        responses.add(
+            responses.POST,
             settings.SUPPORT_API_URL,
             body=json.dumps(
                 {

@@ -91,6 +91,6 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
     entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
-    tests_require=("selenium", "httpretty", "boto3"),
+    tests_require=("selenium", "responses", "boto3"),
     test_suite="runtests.runtests",
 )

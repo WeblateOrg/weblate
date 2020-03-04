@@ -22,7 +22,7 @@
 
 from io import BytesIO
 
-import httpretty
+import responses
 from django.urls import reverse
 from PIL import Image
 
@@ -46,13 +46,13 @@ class AvatarTest(FixtureTestCase):
         url = avatar.avatar_for_email(self.user.email, size=32)
         self.assertEqual(TEST_URL, url)
 
-    @httpretty.activate
+    @responses.activate
     def test_avatar(self):
         image = Image.new('RGB', (32, 32))
         storage = BytesIO()
         image.save(storage, 'PNG')
         imagedata = storage.getvalue()
-        httpretty.register_uri(httpretty.GET, TEST_URL, body=imagedata)
+        responses.add(responses.GET, TEST_URL, body=imagedata)
         # Real user
         response = self.client.get(
             reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
@@ -66,9 +66,9 @@ class AvatarTest(FixtureTestCase):
         self.assert_png(response)
         self.assertEqual(response.content, imagedata)
 
-    @httpretty.activate
+    @responses.activate
     def test_avatar_error(self):
-        httpretty.register_uri(httpretty.GET, TEST_URL, status=503)
+        responses.add(responses.GET, TEST_URL, status=503)
         # Choose different username to avoid using cache
         self.user.username = 'test2'
         self.user.save()
