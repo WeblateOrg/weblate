@@ -118,7 +118,7 @@ To install your code for :ref:`custom-autofix` or :ref:`custom-checks` and in We
 
 1. Place the files in your Python module containing Weblate customization (see :ref:`custom-module`).
 2. Add its fully-qualified path to the Python class in the dedicated settings
-(:setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`) to enable it:
+   (:setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`) to enable it:
 
 .. code-block:: python
 
