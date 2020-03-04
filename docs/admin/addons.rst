@@ -31,8 +31,8 @@ Automatically translates strings using machine translation or other components.
 
 .. _addon-weblate.cleanup.generic:
 
-Update PO files to match POT (msgmerge)
----------------------------------------
+Cleanup translation files
+-------------------------
 
 Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
