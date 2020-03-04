@@ -379,10 +379,10 @@ class RegistrationTest(BaseRegistrationTest):
         data = REGISTRATION_DATA.copy()
         data['email'] = 'noreply@example.com'
         response = self.do_register(data)
-        self.assertContains(response, 'This e-mail address is not allowed.')
+        self.assertContains(response, 'This e-mail address is disallowed.')
         data['email'] = 'noreply@weblate.org'
         response = self.client.post(reverse('register'), data, follow=True)
-        self.assertNotContains(response, 'This e-mail address is not allowed.')
+        self.assertNotContains(response, 'This e-mail address is disallowed.')
 
     def test_spam(self):
         data = REGISTRATION_DATA.copy()
