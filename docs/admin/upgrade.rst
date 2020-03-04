@@ -254,6 +254,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * Python versions older than 3.5 are no longer supported, see :ref:`py3`
+* There are several new checks included in the :setting:`CHECK_LIST`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

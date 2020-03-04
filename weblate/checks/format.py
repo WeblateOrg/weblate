@@ -153,6 +153,17 @@ JAVA_MESSAGE_MATCH = re.compile(
     re.VERBOSE,
 )
 
+I18NEXT_MATCH = re.compile(
+    r'''
+    (
+    \$t\((.+?)\)      # nesting
+    |
+    {{(.+?)}}         # interpolation
+    )
+    ''',
+    re.VERBOSE,
+)
+
 
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
@@ -400,3 +411,20 @@ class JavaMessageFormatCheck(BaseFormatCheck):
             return ["'"]
 
         return super().check_format(source, target, ignore_missing)
+
+
+class I18NextInterpolationCheck(BaseFormatCheck):
+    check_id = 'i18next_interpolation'
+    name = _('i18next interpolation')
+    description = _('The i18next interpolation does not match source')
+    regexp = I18NEXT_MATCH
+
+    def cleanup_string(self, text):
+        """No cleanups here."""
+        return text
+
+    def format_string(self, string):
+        return string
+
+    def is_position_based(self, string):
+        return False

@@ -8,6 +8,7 @@ Not yet released.
 * Added component alert for broken repository browser URLs.
 * Improved log in and registration pages.
 * Project access control and workflow configuration integrated to project settings.
+* Added check and highlighter for i18next interpolation and nesting.
 
 Weblate 3.11.3
 --------------

@@ -24,6 +24,7 @@
 from weblate.checks.format import (
     CFormatCheck,
     CSharpFormatCheck,
+    I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
     PerlFormatCheck,
@@ -675,4 +676,40 @@ class PluralTest(FixtureTestCase):
             self.check.check_target_unit(
                 ['hello %s'] * 2, ['hell'] * 4 + ['hello %s'] * 2, unit
             )
+        )
+
+
+class I18NextInterpolationCheckTest(CheckTestCase):
+    check = I18NextInterpolationCheck()
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            'i18next-interpolation',
+            '{{foo}} string {{bar}}',
+            [(0, 7, '{{foo}}'), (15, 22, '{{bar}}')],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format('strins', 'string', False))
+
+    def test_format(self):
+        self.assertFalse(
+            self.check.check_format('{{foo}} string', '{{foo}} string', False)
+        )
+
+    def test_nesting(self):
+        self.assertFalse(
+            self.check.check_format('$t(bar) string', '$t(bar) other', False)
+        )
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format('{{foo}} string', 'string', False))
+
+    def test_missing_nesting(self):
+        self.assertTrue(self.check.check_format('$t(bar) string', 'other', False))
+
+    def test_wrong_format(self):
+        self.assertTrue(
+            self.check.check_format('{{foo}} string', '{{bar}} string', False)
         )

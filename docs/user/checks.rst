@@ -216,6 +216,7 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 .. _check-qt-format:
 .. _check-qt-plural-format:
 .. _check-ruby-format:
+.. _check-i18next-interpolation:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -358,6 +359,23 @@ C# format
 .. seealso::
 
     `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+
+i18next interpolation
+*********************
+
+.. versionadded:: 4.0
+
++------------------------+------------------------------------------------------------+
+| Interpolation          | ``There are {{number}} apples``                            |
++------------------------+------------------------------------------------------------+
+| Nesting                | ``There are $t(number) apples``                            |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `i18next-interpolation`                                    |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
 
 Java format
 ***********

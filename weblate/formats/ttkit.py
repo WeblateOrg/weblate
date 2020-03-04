@@ -991,6 +991,7 @@ class I18NextFormat(JSONFormat):
     format_id = 'i18next'
     loader = ('jsonl10n', 'I18NextFile')
     autoload = ()
+    check_flags = ('i18next-interpolation',)
 
 
 class CSVFormat(TTKitFormat):
