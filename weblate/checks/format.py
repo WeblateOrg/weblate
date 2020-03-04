@@ -269,9 +269,9 @@ class BaseFormatCheck(TargetCheck):
         return ret
 
     def format_result(self, result):
-        if "'" in result:
-            return _('You need to screen an apostrophe with another one.')
-        return super().format_result(result)
+        return _('Following format strings are wrong: %s') % ', '.join(
+            self.format_string(x) for x in result
+        )
 
     def get_description(self, check_obj):
         unit = check_obj.unit
@@ -416,6 +416,11 @@ class JavaMessageFormatCheck(BaseFormatCheck):
             return ["'"]
 
         return super().check_format(source, target, ignore_missing)
+
+    def format_result(self, result):
+        if "'" in result:
+            return _('You need to screen an apostrophe with another one.')
+        return super().format_result(result)
 
 
 class I18NextInterpolationCheck(BaseFormatCheck):
