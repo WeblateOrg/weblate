@@ -21,6 +21,7 @@
 
 import binascii
 import os
+import six
 
 from social_django.models import Code
 
@@ -40,16 +41,21 @@ def remove_user(user, request):
     # Remove any email validation codes
     invalidate_reset_codes(user)
 
+    def gen_random_suff():
+        if six.PY3:
+            return os.urandom(5).hex()
+        return binascii.hexlify(os.urandom(5))
+
     # Change username
     user.username = 'deleted-{0}'.format(user.pk)
     user.email = 'noreply+{}@weblate.org'.format(user.pk)
     while User.objects.filter(username=user.username).exists():
         user.username = 'deleted-{0}-{1}'.format(
-            user.pk, binascii.b2a_hex(os.urandom(5))
+            user.pk, gen_random_suff()
         )
     while User.objects.filter(email=user.email).exists():
         user.email = 'noreply+{0}-{1}@weblate.org'.format(
-            user.pk, binascii.b2a_hex(os.urandom(5))
+            user.pk, gen_random_suff()
         )
 
     # Remove user information
