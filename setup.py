@@ -32,22 +32,25 @@ with open("README.rst") as readme:
 with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
+with open("requirements-test.txt") as requirements:
+    TEST_REQUIRES = requirements.read().splitlines()[1:]
+
 EXTRAS = {}
 with open("requirements-optional.txt") as requirements:
     section = None
     for line in requirements:
         line = line.strip()
-        if line.startswith('-r') or not line:
+        if line.startswith("-r") or not line:
             continue
-        if line.startswith('#'):
+        if line.startswith("#"):
             section = line[2:]
         else:
-            EXTRAS[section] = line.split(';')[0].strip()
+            EXTRAS[section] = line.split(";")[0].strip()
 
 setup(
     name="Weblate",
     version="4.0",
-    python_requires='>=3.5',
+    python_requires=">=3.5",
     packages=["weblate"],
     include_package_data=True,
     description=(
@@ -91,6 +94,6 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
     entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
-    tests_require=("selenium", "responses", "boto3"),
+    tests_require=TEST_REQUIRES,
     test_suite="runtests.runtests",
 )
