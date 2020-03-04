@@ -73,7 +73,7 @@ You can find an example of custimizing Weblate at
 described below.
 
 Changing the logo
--------------
+-----------------
 
 1. Create a simple Django app containing the static files you want to overwrite
 (see :ref:`custom-module`).
