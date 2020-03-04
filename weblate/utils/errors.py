@@ -62,6 +62,8 @@ def report_error(
             if extra_data:
                 for key, value in extra_data.items():
                     scope.set_extra(key, value)
+            scope.set_extra('error_cause', prefix)
+            scope.level = level
             sentry_sdk.capture_exception()
 
     logger.error('%s: %s: %s', prefix, error.__class__.__name__, force_str(error))
