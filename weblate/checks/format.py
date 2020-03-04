@@ -226,7 +226,6 @@ class BaseFormatCheck(TargetCheck):
             uses_position = any((self.is_position_based(x) for x in src_matches))
 
         tgt_matches = [self.cleanup_string(x[0]) for x in self.regexp.findall(target)]
-        print(src_matches, tgt_matches)
 
         if not uses_position:
             src_matches = set(src_matches)
@@ -269,6 +268,11 @@ class BaseFormatCheck(TargetCheck):
             ret.append((match.start(), match.end(), match.group()))
         return ret
 
+    def format_result(self, result):
+        if "'" in result:
+            return _('You need to screen an apostrophe with another one.')
+        return super().format_result(result)
+
     def get_description(self, check_obj):
         unit = check_obj.unit
         checks = self.check_generator(
@@ -276,9 +280,7 @@ class BaseFormatCheck(TargetCheck):
         )
         for result in checks:
             if result:
-                return _('Following format strings are wrong: %s') % ', '.join(
-                    self.format_string(x) for x in result
-                )
+                return self.format_result(result)
         return super().get_description(check_obj)
 
 
