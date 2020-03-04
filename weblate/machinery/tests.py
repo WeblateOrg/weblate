@@ -388,21 +388,23 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, word='Zkouška')
 
     def register_microsoft_terminology(self, fail=False):
-        def request_callback_get(request, uri, headers):
-            if request.path == '/Terminology.svc?wsdl':
+        def request_callback_get(request):
+            headers = {}
+            if request.path_url == '/Terminology.svc?wsdl':
                 with open(TERMINOLOGY_WDSL, 'rb') as handle:
                     return (200, headers, handle.read())
-            if request.path.startswith('/Terminology.svc?wsdl='):
-                suffix = request.path[22:]
+            if request.path_url.startswith('/Terminology.svc?wsdl='):
+                suffix = request.path_url[22:]
                 with open(TERMINOLOGY_WDSL + '.' + suffix, 'rb') as handle:
                     return (200, headers, handle.read())
-            if request.path.startswith('/Terminology.svc?xsd='):
-                suffix = request.path[21:]
+            if request.path_url.startswith('/Terminology.svc?xsd='):
+                suffix = request.path_url[21:]
                 with open(TERMINOLOGY_WDSL + '.' + suffix, 'rb') as handle:
                     return (200, headers, handle.read())
             return (500, headers, '')
 
-        def request_callback_post(request, uri, headers):
+        def request_callback_post(request):
+            headers = {}
             if fail:
                 return (500, headers, '')
             if b'GetLanguages' in request.body:
@@ -691,7 +693,7 @@ class MachineTranslationTest(TestCase):
         )
         # Fetch from service
         self.assert_translate(machine, lang='de', word='Hello')
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(len(responses.calls), 1)
         responses.reset()
         # Fetch from cache
         self.assert_translate(machine, lang='de', word='Hello')
@@ -719,7 +721,7 @@ class MachineTranslationTest(TestCase):
         self.register_apertium_urls()
         self.assert_translate(machine, 'es')
         self.assert_translate(machine, 'es', word='Zkouška')
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(len(responses.calls), 3)
         responses.reset()
         # New instance should use cached languages
         machine = ApertiumAPYTranslation()
