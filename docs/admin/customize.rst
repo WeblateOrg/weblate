@@ -101,7 +101,7 @@ Branding appears in the following files:
 :file:`email-logo.png`
     Used in notifications e-mails.
 
-3. Run :samp:`./manage.py collectstatic --noinput`, collecting static files served to
+3. Run :samp:`./manage.py collectstatic --noinput`, to collect static files served to
 clients.
 
 .. seealso::
