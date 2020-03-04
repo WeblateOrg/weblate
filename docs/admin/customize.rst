@@ -45,7 +45,7 @@ Better yet, turn your customization into a proper Python package:
             author = "Your name",
             author_email = "yourname@example.com",
             description = "Sample Custom check for Weblate.",
-            license = "AGPLv3+",
+            license = "GPLv3+",
             keywords = "Weblate check example",
             packages=['weblate_customization'],
         )
