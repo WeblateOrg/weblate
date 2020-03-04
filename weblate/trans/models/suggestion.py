@@ -132,7 +132,9 @@ class Suggestion(models.Model, UserDisplayMixin):
         if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
             self.unit.target = self.target
             self.unit.state = STATE_TRANSLATED
-            self.unit.save_backend(request.user, change_action=Change.ACTION_ACCEPT)
+            self.unit.save_backend(
+                request.user, author=self.user, change_action=Change.ACTION_ACCEPT
+            )
 
         # Delete the suggestion
         self.delete()
