@@ -402,7 +402,7 @@ class Unit(models.Model, LoggerMixin):
         if not self.translation.is_source:
             self.labels.set(self.source_info.labels.all())
         # Indicate source string change
-        if not same_source:
+        if not same_source and previous_source:
             Change.objects.create(
                 unit=self,
                 action=Change.ACTION_SOURCE_CHANGE,
