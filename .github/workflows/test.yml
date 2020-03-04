@@ -154,6 +154,7 @@ jobs:
         curl https://deepsource.io/cli | sh
         ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
     - uses: actions/upload-artifact@v1
+      if: always()
       with:
         name: Screenshots
         path: test-images
