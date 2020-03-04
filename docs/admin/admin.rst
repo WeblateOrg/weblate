@@ -1,7 +1,7 @@
 .. _admin-interface:
 
 The Django admin interface
-======================
+==========================
 
 .. warning::
 
@@ -30,7 +30,7 @@ where you can manage translatable projects, see :ref:`project` and :ref:`compone
 :ref:`languages`.
 
 Adding a project
---------------
+----------------
 
 Adding a project serves as container for all components.
 Usually you create one project for one piece of software, or book
