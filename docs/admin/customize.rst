@@ -136,9 +136,9 @@ Custom addons
 -------------
 
 1. Place them in your Python module folder containing the Weblate customization.
-(see :ref:`custom-module`).
+   (see :ref:`custom-module`).
 2. Add its fully-qualified path to the Python class in the dedicated setting section
-(:setting:`WEBLATE_ADDONS`):
+   (:setting:`WEBLATE_ADDONS`):
 
 
 .. code-block:: python
