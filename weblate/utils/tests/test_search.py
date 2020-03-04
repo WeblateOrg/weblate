@@ -31,7 +31,7 @@ from pytz import utc
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import Comparer, parse_query
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
 
 
 class ComparerTest(SimpleTestCase):
@@ -166,6 +166,7 @@ class QueryParserTest(TestCase):
         self.assert_query("pending:true", Q(pending=True))
 
     def test_state(self):
+        self.assert_query("state:>=empty", Q(state__gte=STATE_EMPTY))
         self.assert_query("state:>=translated", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("state:<translated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))

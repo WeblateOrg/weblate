@@ -18,6 +18,7 @@ Not yet released.
 * Raised bleach dependency to address CVE-2020-6802.
 * Fixed listing project level changes in history.
 * Fixed stats invalidation in some corner cases.
+* Fixed searching for certain string states.
 
 Weblate 3.11.2
 --------------

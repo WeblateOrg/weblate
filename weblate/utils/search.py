@@ -234,9 +234,9 @@ def range_sql(field, start, end, startexcl, endexcl, conv=int):
     gte = "gt" if startexcl else "gte"
     lte = "lt" if endexcl else "lte"
 
-    if start and end:
+    if start is not None and end is not None:
         return Q(**range_lookup(field, gte, start)) & Q(**range_lookup(field, lte, end))
-    if start:
+    if start is not None:
         return Q(**range_lookup(field, gte, start))
     return Q(**range_lookup(field, lte, end))
 
