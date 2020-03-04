@@ -20,7 +20,6 @@
 
 """Test for user handling."""
 
-import json
 from urllib.parse import parse_qs, urlparse
 
 import responses
@@ -534,37 +533,33 @@ class RegistrationTest(BaseRegistrationTest):
             responses.add(
                 responses.POST,
                 'https://github.com/login/oauth/access_token',
-                body=json.dumps({'access_token': '123', 'token_type': 'bearer'}),
+                json={'access_token': '123', 'token_type': 'bearer'},
             )
             responses.add(
                 responses.GET,
                 'https://api.github.com/user',
-                body=json.dumps(
-                    {
-                        'email': 'foo@example.net',
-                        'login': 'weblate',
-                        'id': 1,
-                        'name': 'Test Weblate Name',
-                    }
-                ),
+                json={
+                    'email': 'foo@example.net',
+                    'login': 'weblate',
+                    'id': 1,
+                    'name': 'Test Weblate Name',
+                },
             )
             responses.add(
                 responses.GET,
                 'https://api.github.com/user/emails',
-                body=json.dumps(
-                    [
-                        {
-                            'email': 'noreply2@example.org',
-                            'verified': False,
-                            'primary': False,
-                        },
-                        {
-                            'email': 'noreply-weblate@example.org',
-                            'verified': True,
-                            'primary': True,
-                        },
-                    ]
-                ),
+                json=[
+                    {
+                        'email': 'noreply2@example.org',
+                        'verified': False,
+                        'primary': False,
+                    },
+                    {
+                        'email': 'noreply-weblate@example.org',
+                        'verified': True,
+                        'primary': True,
+                    },
+                ],
             )
             response = self.client.post(reverse('social:begin', args=('github',)))
             self.assertEqual(response.status_code, 302)

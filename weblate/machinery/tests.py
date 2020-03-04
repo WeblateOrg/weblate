@@ -19,8 +19,6 @@
 #
 
 
-import json
-
 import responses
 from botocore.stub import ANY, Stubber
 from django.test import TestCase
@@ -54,58 +52,76 @@ from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
-GLOSBE_JSON = '''
-{
-    "result":"ok",
-    "authors":{
-        "1":{"U":"http://en.wiktionary.org","id":1,"N":"en.wiktionary.org"}
+GLOSBE_JSON = {
+    "result": "ok",
+    "authors": {
+        "1": {"U": "http://en.wiktionary.org", "id": 1, "N": "en.wiktionary.org"}
     },
-    "dest":"ces",
-    "phrase":"world",
-    "tuc":[
+    "dest": "ces",
+    "phrase": "world",
+    "tuc": [
         {
-            "authors":[1],
-            "meaningId":-311020347498476098,
-            "meanings":[
-                {
-                    "text":"geographic terms (above country level)",
-                    "language":"eng"
-                }
+            "authors": [1],
+            "meaningId": -311020347498476098,
+            "meanings": [
+                {"text": "geographic terms (above country level)", "language": "eng"}
             ],
-            "phrase":{"text":"svět","language":"ces"}}],
-    "from":"eng"
+            "phrase": {"text": "svět", "language": "ces"},
+        }
+    ],
+    "from": "eng",
 }
-'''.encode()
-MYMEMORY_JSON = '''
-\r\n
-{"responseData":{"translatedText":"svět"},"responseDetails":"",
-"responseStatus":200,
-"matches":[
-{"id":"428492143","segment":"world","translation":"svět","quality":"",
-"reference":"http://aims.fao.org/standards/agrovoc",
-"usage-count":15,"subject":"Agriculture_and_Farming",
-"created-by":"MyMemoryLoader",
-"last-updated-by":"MyMemoryLoader","create-date":"2013-06-12 17:02:07",
-"last-update-date":"2013-06-12 17:02:07","match":1},
-{"id":"424273685","segment":"World view","translation":"Světový názor",
-"quality":"80",
-"reference":"//cs.wikipedia.org/wiki/Sv%C4%9Btov%C3%BD_n%C3%A1zor",
-"usage-count":1,"subject":"All","created-by":"","last-updated-by":"Wikipedia",
-"create-date":"2012-02-22 13:23:31","last-update-date":"2012-02-22 13:23:31",
-"match":0.85},
-{"id":"428493395","segment":"World Bank","translation":"IBRD","quality":"",
-"reference":"http://aims.fao.org/standards/agrovoc",
-"usage-count":1,"subject":"Agriculture_and_Farming",
-"created-by":"MyMemoryLoader","last-updated-by":"MyMemoryLoader",
-"create-date":"2013-06-12 17:02:07",
-"last-update-date":"2013-06-12 17:02:07","match":0.84}
-]}
-'''.encode()
-AMAGAMA_JSON = '''
-[{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
-'''.encode()
-SAPTRANSLATIONHUB_JSON = '''
-{
+MYMEMORY_JSON = {
+    "responseData": {"translatedText": "svět"},
+    "responseDetails": "",
+    "responseStatus": 200,
+    "matches": [
+        {
+            "id": "428492143",
+            "segment": "world",
+            "translation": "svět",
+            "quality": "",
+            "reference": "http://aims.fao.org/standards/agrovoc",
+            "usage-count": 15,
+            "subject": "Agriculture_and_Farming",
+            "created-by": "MyMemoryLoader",
+            "last-updated-by": "MyMemoryLoader",
+            "create-date": "2013-06-12 17:02:07",
+            "last-update-date": "2013-06-12 17:02:07",
+            "match": 1,
+        },
+        {
+            "id": "424273685",
+            "segment": "World view",
+            "translation": "Světový názor",
+            "quality": "80",
+            "reference": "//cs.wikipedia.org/wiki/Sv%C4%9Btov%C3%BD_n%C3%A1zor",
+            "usage-count": 1,
+            "subject": "All",
+            "created-by": "",
+            "last-updated-by": "Wikipedia",
+            "create-date": "2012-02-22 13:23:31",
+            "last-update-date": "2012-02-22 13:23:31",
+            "match": 0.85,
+        },
+        {
+            "id": "428493395",
+            "segment": "World Bank",
+            "translation": "IBRD",
+            "quality": "",
+            "reference": "http://aims.fao.org/standards/agrovoc",
+            "usage-count": 1,
+            "subject": "Agriculture_and_Farming",
+            "created-by": "MyMemoryLoader",
+            "last-updated-by": "MyMemoryLoader",
+            "create-date": "2013-06-12 17:02:07",
+            "last-update-date": "2013-06-12 17:02:07",
+            "match": 0.84,
+        },
+    ],
+}
+AMAGAMA_JSON = [{"source": "World", "quality": 80.0, "target": "Svět", "rank": 100.0}]
+SAPTRANSLATIONHUB_JSON = {
     "units": [
         {
             "textType": "XFLD",
@@ -117,13 +133,12 @@ SAPTRANSLATIONHUB_JSON = '''
                     "language": "es",
                     "value": "Usuario",
                     "translationProvider": 0,
-                    "qualityIndex": 100
+                    "qualityIndex": 100,
                 }
-            ]
+            ],
         }
     ]
 }
-'''.encode()
 
 TERMINOLOGY_LANGUAGES = '''
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
@@ -231,11 +246,7 @@ TERMINOLOGY_TRANSLATE = '''
 '''.encode()
 TERMINOLOGY_WDSL = get_test_file('microsoftterminology.wsdl')
 
-DEEPL_RESPONSE = b'''{
-    "translations": [
-        { "detected_source_language": "EN", "text": "Hallo" }
-    ]
-}'''
+DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 
 
 class MachineTranslationTest(TestCase):
@@ -291,7 +302,7 @@ class MachineTranslationTest(TestCase):
     def test_glosbe(self):
         machine = self.get_machine(GlosbeTranslation)
         responses.add(
-            responses.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
+            responses.GET, 'https://glosbe.com/gapi/translate', json=GLOSBE_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -302,7 +313,7 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             'https://glosbe.com/gapi/translate',
-            body=GLOSBE_JSON,
+            json=GLOSBE_JSON,
             status=429,
         )
         with self.assertRaises(MachineTranslationError):
@@ -314,7 +325,7 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(GlosbeTranslation)
         machine.set_rate_limit()
         responses.add(
-            responses.GET, 'https://glosbe.com/gapi/translate', body=GLOSBE_JSON
+            responses.GET, 'https://glosbe.com/gapi/translate', json=GLOSBE_JSON
         )
         self.assert_translate(machine, empty=True)
 
@@ -323,7 +334,7 @@ class MachineTranslationTest(TestCase):
     def test_mymemory(self):
         machine = self.get_machine(MyMemoryTranslation)
         responses.add(
-            responses.GET, 'https://mymemory.translated.net/api/get', body=MYMEMORY_JSON
+            responses.GET, 'https://mymemory.translated.net/api/get', json=MYMEMORY_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -332,14 +343,19 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             'http://apertium.example.com/listPairs',
-            body='{"responseStatus": 200, "responseData":'
-            '[{"sourceLanguage": "eng","targetLanguage": "spa"}]}',
+            json={
+                "responseStatus": 200,
+                "responseData": [{"sourceLanguage": "eng", "targetLanguage": "spa"}],
+            },
         )
         responses.add(
             responses.GET,
             'http://apertium.example.com/translate',
-            body='{"responseData":{"translatedText":"Mundial"},'
-            '"responseDetails":null,"responseStatus":200}',
+            json={
+                "responseData": {"translatedText": "Mundial"},
+                "responseDetails": None,
+                "responseStatus": 200,
+            },
         )
 
     @override_settings(MT_APERTIUM_APY='http://apertium.example.com/')
@@ -364,12 +380,12 @@ class MachineTranslationTest(TestCase):
             responses.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/'
             'GetLanguagesForTranslate',
-            body='["en","cs"]',
+            json=["en", "cs"],
         )
         responses.add(
             responses.GET,
             'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
-            body='"svět"'.encode(),
+            json="svět",
         )
 
         self.assert_translate(machine)
@@ -435,22 +451,20 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             GOOGLE_API_ROOT + 'languages',
-            body=json.dumps(
-                {
-                    'data': {
-                        'languages': [
-                            {'language': 'en'},
-                            {'language': 'iw'},
-                            {'language': 'cs'},
-                        ]
-                    }
+            json={
+                'data': {
+                    'languages': [
+                        {'language': 'en'},
+                        {'language': 'iw'},
+                        {'language': 'cs'},
+                    ]
                 }
-            ),
+            },
         )
         responses.add(
             responses.GET,
             GOOGLE_API_ROOT,
-            body=b'{"data":{"translations":[{"translatedText":"svet"}]}}',
+            json={"data": {"translations": [{"translatedText": "svet"}]}},
         )
         self.assert_translate(machine)
         self.assert_translate(machine, lang='he')
@@ -461,9 +475,7 @@ class MachineTranslationTest(TestCase):
     def test_google_invalid(self):
         """Test handling of server failure."""
         machine = self.get_machine(GoogleTranslation)
-        responses.add(
-            responses.GET, GOOGLE_API_ROOT + 'languages', body='', status=500
-        )
+        responses.add(responses.GET, GOOGLE_API_ROOT + 'languages', body='', status=500)
         responses.add(responses.GET, GOOGLE_API_ROOT, body='', status=500)
         machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
@@ -473,14 +485,12 @@ class MachineTranslationTest(TestCase):
     @responses.activate
     def test_amagama_nolang(self):
         machine = self.get_machine(AmagamaTranslation)
+        responses.add(responses.GET, AMAGAMA_LIVE + '/languages/', body='', status=404)
         responses.add(
-            responses.GET, AMAGAMA_LIVE + '/languages/', body='', status=404
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/world', json=AMAGAMA_JSON
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
-        )
-        responses.add(
-            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', json=AMAGAMA_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -495,13 +505,13 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             AMAGAMA_LIVE + '/languages/',
-            body='{"sourceLanguages": ["en"], "targetLanguages": ["cs"]}',
+            json={"sourceLanguages": ["en"], "targetLanguages": ["cs"]},
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/world', body=AMAGAMA_JSON
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/world', json=AMAGAMA_JSON
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', body=AMAGAMA_JSON
+            responses.GET, AMAGAMA_LIVE + '/en/cs/unit/Zkou%C5%A1ka', json=AMAGAMA_JSON
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -513,12 +523,12 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            body=b'{"langs": {"en": "English", "cs": "Czech"}}',
+            json={"langs": {"en": "English", "cs": "Czech"}},
         )
         responses.add(
             responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
-            body=b'{"code": 200, "lang": "en-cs", "text": ["svet"]}',
+            json={"code": 200, "lang": "en-cs", "text": ["svet"]},
         )
         self.assert_translate(machine)
         self.assert_translate(machine, word='Zkouška')
@@ -530,12 +540,12 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            body=b'{"code": 401}',
+            json={"code": 401},
         )
         responses.add(
             responses.GET,
             'https://translate.yandex.net/api/v1.5/tr.json/translate',
-            body=b'{"code": 401, "message": "Invalid request"}',
+            json={"code": 401, "message": "Invalid request"},
         )
         machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
@@ -549,7 +559,7 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             'https://openapi.youdao.com/api',
-            body=b'{"errorCode": 0, "translation": ["hello"]}',
+            json={"errorCode": 0, "translation": ["hello"]},
         )
         self.assert_translate(machine, lang='ja')
         self.assert_translate(machine, lang='ja', word='Zkouška')
@@ -559,7 +569,7 @@ class MachineTranslationTest(TestCase):
     def test_youdao_error(self):
         machine = self.get_machine(YoudaoTranslation)
         responses.add(
-            responses.GET, 'https://openapi.youdao.com/api', body=b'{"errorCode": 1}'
+            responses.GET, 'https://openapi.youdao.com/api', json={"errorCode": 1}
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)
@@ -571,17 +581,10 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.POST,
             NETEASE_API_ROOT,
-            body=b'''
-            {
+            json={
                 "success": "true",
-                "relatedObject": {
-                    "content": [
-                        {
-                            "transContent": "hello"
-                        }
-                    ]
-                }
-            }''',
+                "relatedObject": {"content": [{"transContent": "hello"}]},
+            },
         )
         self.assert_translate(machine, lang='zh')
         self.assert_translate(machine, lang='zh', word='Zkouška')
@@ -590,9 +593,7 @@ class MachineTranslationTest(TestCase):
     @responses.activate
     def test_netease_error(self):
         machine = self.get_machine(NeteaseSightTranslation)
-        responses.add(
-            responses.POST, NETEASE_API_ROOT, body=b'{"success": "false"}'
-        )
+        responses.add(responses.POST, NETEASE_API_ROOT, json={"success": "false"})
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='zh', empty=True)
 
@@ -603,7 +604,7 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             BAIDU_API,
-            body=b'{"trans_result": [{"src": "hello", "dst": "hallo"}]}',
+            json={"trans_result": [{"src": "hello", "dst": "hallo"}]},
         )
         self.assert_translate(machine, lang='ja')
         self.assert_translate(machine, lang='ja', word='Zkouška')
@@ -613,7 +614,7 @@ class MachineTranslationTest(TestCase):
     def test_baidu_error(self):
         machine = self.get_machine(BaiduTranslation)
         responses.add(
-            responses.GET, BAIDU_API, body=b'{"error_code": 1, "error_msg": "Error"}'
+            responses.GET, BAIDU_API, json={"error_code": 1, "error_msg": "Error"}
         )
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, lang='ja', empty=True)
@@ -628,20 +629,18 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.GET,
             'http://sth.example.com/languages',
-            body=json.dumps(
-                {
-                    'languages': [
-                        {'id': 'en', 'name': 'English', 'bcp-47-code': 'en'},
-                        {'id': 'cs', 'name': 'Czech', 'bcp-47-code': 'cs'},
-                    ]
-                }
-            ),
+            json={
+                'languages': [
+                    {'id': 'en', 'name': 'English', 'bcp-47-code': 'en'},
+                    {'id': 'cs', 'name': 'Czech', 'bcp-47-code': 'cs'},
+                ]
+            },
             status=200,
         )
         responses.add(
             responses.POST,
             'http://sth.example.com/translate',
-            body=SAPTRANSLATIONHUB_JSON,
+            json=SAPTRANSLATIONHUB_JSON,
             status=200,
             content_type='text/json',
         )
@@ -668,7 +667,7 @@ class MachineTranslationTest(TestCase):
     def test_deepl(self):
         machine = self.get_machine(DeepLTranslation)
         responses.add(
-            responses.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
+            responses.POST, 'https://api.deepl.com/v1/translate', json=DEEPL_RESPONSE
         )
         self.assert_translate(machine, lang='de', word='Hello')
 
@@ -677,7 +676,7 @@ class MachineTranslationTest(TestCase):
     def test_cache(self):
         machine = self.get_machine(DeepLTranslation, True)
         responses.add(
-            responses.POST, 'https://api.deepl.com/v1/translate', body=DEEPL_RESPONSE
+            responses.POST, 'https://api.deepl.com/v1/translate', json=DEEPL_RESPONSE
         )
         # Fetch from service
         self.assert_translate(machine, lang='de', word='Hello')
