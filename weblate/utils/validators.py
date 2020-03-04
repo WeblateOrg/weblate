@@ -66,7 +66,9 @@ def validate_re(value, groups=None, allow_empty=True):
     except re.error as error:
         raise ValidationError(_('Compilation failed: {0}').format(error))
     if not allow_empty and compiled.match(""):
-        raise ValidationError(_("The regular expression can not match an empty string."))
+        raise ValidationError(
+            _("The regular expression can not match an empty string.")
+        )
     if not groups:
         return
     for group in groups:
@@ -122,17 +124,13 @@ def validate_bitmap(value):
     # Check image type
     if value.file.content_type not in ALLOWED_IMAGES:
         image.close()
-        raise ValidationError(
-            _('Unsupported image type: %s') % value.file.content_type
-        )
+        raise ValidationError(_('Unsupported image type: %s') % value.file.content_type)
 
     # Check dimensions
     width, height = image.size
     if width > 2000 or height > 2000:
         image.close()
-        raise ValidationError(
-            _('The image is too big, please crop or scale it down.')
-        )
+        raise ValidationError(_('The image is too big, please crop or scale it down.'))
 
     image.close()
 
@@ -206,6 +204,7 @@ def validate_filename(value):
     if value != cleaned:
         raise ValidationError(
             _(
-                'The filename should be as simple as possible. Maybe you want to use: {}'
+                'The filename should be as simple as possible. '
+                'Maybe you want to use: {}'
             ).format(cleaned)
         )
