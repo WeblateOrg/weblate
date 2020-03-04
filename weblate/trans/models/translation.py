@@ -39,7 +39,7 @@ from weblate.formats.helpers import BytesIOMode
 from weblate.lang.models import Language, Plural
 from weblate.trans.checklists import TranslationChecklist
 from weblate.trans.defines import FILENAME_LENGTH
-from weblate.trans.exceptions import FileParseError
+from weblate.trans.exceptions import FileParseError, PluralFormsMismatch
 from weblate.trans.mixins import LoggerMixin, URLMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
@@ -891,7 +891,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             try:
                 number, equation = Plural.parse_formula(header['Plural-Forms'])
                 if not self.plural.same_plural(number, equation):
-                    raise Exception(_('Plural forms do not match the language.'))
+                    raise PluralFormsMismatch()
             except (ValueError, KeyError):
                 # Formula wrong or missing
                 pass

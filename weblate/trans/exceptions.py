@@ -21,3 +21,7 @@
 
 class FileParseError(Exception):
     """Generic error for parsing."""
+
+
+class PluralFormsMismatch(Exception):
+    """Plural forms do not match the language."""
