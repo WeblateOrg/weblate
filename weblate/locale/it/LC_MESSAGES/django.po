@@ -14,13 +14,14 @@
 # Alexander Danilov <git@modos189.ru>, 2020.
 # Michele <miguel2000@livecom.it>, 2020.
 # Valentina Grassi <vale.grassi11@gmail.com>, 2020.
+# Sylke Vicious <silkevicious@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-03-01 05:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-03-04 08:02+0000\n"
+"Last-Translator: Sylke Vicious <silkevicious@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
 "Language: it\n"
@@ -696,7 +697,7 @@ msgstr "Hosting"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:172
 msgid "Sign in"
-msgstr ""
+msgstr "Accedi"
 
 #: weblate/accounts/views.py:602 weblate/wladmin/sites.py:176
 msgid "Thank you for using Weblate."
@@ -3581,17 +3582,15 @@ msgstr "Questa combinazione di password e nome utente non è valida. Riprova."
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "Accedi con:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
 msgstr "Hai dimenticato la password?"
 
 #: weblate/templates/accounts/login.html:64
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Register new account"
-msgstr "Rimuovi il mio account"
+msgstr "Registra un nuovo account"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3907,7 +3906,7 @@ msgstr "Registrati usando l'email"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "Crea un account utilizzando:"
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -4259,7 +4258,7 @@ msgstr "Impostazioni"
 
 #: weblate/templates/base.html:210 weblate/wladmin/sites.py:180
 msgid "Sign out"
-msgstr ""
+msgstr "Esci"
 
 #: weblate/templates/base.html:217
 msgid "Help"
@@ -4985,8 +4984,6 @@ msgid "Configure dashboard"
 msgstr "Configura pannello principale"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Recent additions"
 msgstr "Modifiche recenti"
 
@@ -5565,13 +5562,8 @@ msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr "Sostituzioni prevedibili come '@' invece di 'a' non aiutano molto."
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr ""
-"La tua password non può essere composta da un singolo carattere o solo da "
-"spazi."
+msgstr "La tua password non può contenere parole o caratteri ripetuti."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -6153,10 +6145,8 @@ msgstr ""
 "Non disponi dei permessi per cambiare il controllo degli accessi al progetto."
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "Elenchi componenti"
+msgstr "Avvisi componente"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6280,7 +6270,7 @@ msgstr "Controlli sistema"
 
 #: weblate/templates/manage/performance.html:98
 msgid "Celery queues"
-msgstr ""
+msgstr "Code di Celery"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6826,10 +6816,14 @@ msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
 msgstr ""
+"Etichette aggiuntive possono essere definite nelle <a href=\"%(url)s\">"
+"impostazioni del progetto</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
 msgstr ""
+"Etichette aggiuntive possono essere definite dall'amministratore del "
+"progetto."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -6875,7 +6869,7 @@ msgstr "Localizzazione <strong>continua</strong> basata sul web"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "Registrandoti ed accedendo a questo servizio tu accetti le nostre:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -7116,25 +7110,23 @@ msgstr "Questo componente non è impostato correttamente."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
-msgstr ""
+msgstr "L'URL del browser del repository punta ad una destinazione inesistente:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "Il nome file non può contenere riferimenti alla cartella superiore."
+msgstr ""
+"Questo può succedere se il percorso nei file di traduzione contiene "
+"riferimenti alla cartella superiore o è assoluto."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "Questo componente non è impostato correttamente."
+msgstr "Questo progetto non è impostato correttamente."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "L'URL del progetto punta ad una destinazione inesistente:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -8651,10 +8643,8 @@ msgid "Name of the translation"
 msgstr "Nome della traduzione"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "Inserisci il nome della traduzione per confermare."
+msgstr "Inserisci il nome completo della traduzione per confermare."
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -8741,17 +8731,13 @@ msgstr "Configurazione componente non supportata"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "Navigazione repository"
+msgstr "URL del browser repository non funzionante"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "Sito web del progetto"
+msgstr "URL del sito web del progetto non funzionante"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -10676,6 +10662,8 @@ msgstr "Il nome file non può essere un percorso assoluto."
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
+"Il nome file dovrebbe essere più semplice possibile. Magari potresti usare: "
+"{}"
 
 #: weblate/utils/views.py:234
 #, python-format
