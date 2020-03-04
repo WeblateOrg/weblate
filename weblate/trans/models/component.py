@@ -1823,6 +1823,10 @@ class Component(models.Model, URLMixin, PathMixin):
         self.progress_step(100)
         self.translations_count = None
 
+        # Invalidate stats on template change
+        if changed_template:
+            self.project.invalidate_stats_deep()
+
     def update_shapings(self):
         from weblate.trans.models import Unit
 

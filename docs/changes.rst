@@ -17,6 +17,7 @@ Not yet released.
 * Reduced false negatives for unchanged translation check.
 * Raised bleach dependency to address CVE-2020-6802.
 * Fixed listing project level changes in history.
+* Fixed stats invalidation in some corner cases.
 
 Weblate 3.11.2
 --------------
