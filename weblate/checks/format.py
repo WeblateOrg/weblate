@@ -164,6 +164,8 @@ I18NEXT_MATCH = re.compile(
     re.VERBOSE,
 )
 
+PERCENT_MATCH = re.compile(r'(%([a-zA-Z0-9_]+)%)')
+
 
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
@@ -224,6 +226,7 @@ class BaseFormatCheck(TargetCheck):
             uses_position = any((self.is_position_based(x) for x in src_matches))
 
         tgt_matches = [self.cleanup_string(x[0]) for x in self.regexp.findall(target)]
+        print(src_matches, tgt_matches)
 
         if not uses_position:
             src_matches = set(src_matches)
@@ -418,6 +421,23 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     name = _('i18next interpolation')
     description = _('The i18next interpolation does not match source')
     regexp = I18NEXT_MATCH
+
+    def cleanup_string(self, text):
+        """No cleanups here."""
+        return text
+
+    def format_string(self, string):
+        return string
+
+    def is_position_based(self, string):
+        return False
+
+
+class PercentInterpolationCheck(BaseFormatCheck):
+    check_id = 'percent_interpolation'
+    name = _('Percent interpolation')
+    description = _('The percent interpolation does not match source')
+    regexp = PERCENT_MATCH
 
     def cleanup_string(self, text):
         """No cleanups here."""

@@ -9,6 +9,7 @@ Not yet released.
 * Improved log in and registration pages.
 * Project access control and workflow configuration integrated to project settings.
 * Added check and highlighter for i18next interpolation and nesting.
+* Added check and highlighter for percent interpolation.
 
 Weblate 3.11.3
 --------------

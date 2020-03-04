@@ -27,6 +27,7 @@ from weblate.checks.format import (
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    PercentInterpolationCheck,
     PerlFormatCheck,
     PHPFormatCheck,
     PythonBraceFormatCheck,
@@ -712,4 +713,32 @@ class I18NextInterpolationCheckTest(CheckTestCase):
     def test_wrong_format(self):
         self.assertTrue(
             self.check.check_format('{{foo}} string', '{{bar}} string', False)
+        )
+
+
+class PercentInterpolationCheckTest(CheckTestCase):
+    check = PercentInterpolationCheck()
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            'percent-interpolation',
+            '%foo% string %bar%',
+            [(0, 5, '%foo%'), (13, 18, '%bar%')],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format('strins', 'string', False))
+
+    def test_format(self):
+        self.assertFalse(
+            self.check.check_format('%foo% string', '%foo% string', False)
+        )
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format('%foo% string', 'string', False))
+
+    def test_wrong_format(self):
+        self.assertTrue(
+            self.check.check_format('%foo% string', '%bar% string', False)
         )

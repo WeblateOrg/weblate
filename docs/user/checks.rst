@@ -424,6 +424,17 @@ Qt format
     `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_,
     `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
 
+Percent interpolation
+*********************
+
+.. versionadded:: 4.0
+
++------------------------+------------------------------------------------------------+
+| Interpolation          | ``There are %number% apples``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `percent-interpolation`                                    |
++------------------------+------------------------------------------------------------+
+
 Ruby format
 ***********
 
