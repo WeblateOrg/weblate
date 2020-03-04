@@ -163,10 +163,7 @@ class BaseFormatCheck(TargetCheck):
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
-        for result in self.check_generator(sources, targets, unit):
-            if result:
-                return True
-        return False
+        return any(self.check_generator(sources, targets, unit))
 
     def check_generator(self, sources, targets, unit):
         # Special case languages with single plural form
