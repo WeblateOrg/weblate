@@ -188,7 +188,9 @@ class ImportErrorTest(ImportBaseTest):
         messages = list(response.context["messages"])
         self.assertEqual(len(messages), 1)
         self.assertEqual(messages[0].level, ERROR)
-        self.assertIn("Plural forms do not match", messages[0].message)
+        self.assertIn(
+            "Plural forms in the uploaded file do not match", messages[0].message
+        )
 
 
 class BOMImportTest(ImportTest):
