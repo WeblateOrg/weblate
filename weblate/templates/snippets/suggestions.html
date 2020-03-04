@@ -47,6 +47,16 @@
             {% format_translation suggestion.target suggestion.unit.translation.language suggestion.unit.translation.plural %}
             <p class="help-block">{% trans "Suggested change:" %}</p>
             {% format_translation suggestion.target suggestion.unit.translation.language suggestion.unit.translation.plural suggestion.unit.target %}
+
+            {% with suggestion_checks=suggestion.get_checks %}
+            {% if suggestion_checks %}
+            <p class="help-block">{% trans "Failing checks:" %}</p>
+            {% for check in suggestion.get_checks %}
+                <span class="badge badge-danger" title="{{ check.get_description }}">{{ check.get_name }}</span>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
             <span class="pull-right flip text-muted">{{ suggestion.timestamp|naturaltime }}</span>
             <div class="clearfix"></div>
         </div>

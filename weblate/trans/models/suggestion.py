@@ -19,11 +19,15 @@
 #
 
 
+from copy import copy
+
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Sum
 from django.utils.translation import gettext as _
 
+from weblate.checks import CHECKS
+from weblate.checks.models import Check
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils import messages
@@ -164,6 +168,20 @@ class Suggestion(models.Model, UserDisplayMixin):
         required_votes = translation.component.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
             self.accept(translation, request, 'suggestion.vote')
+
+    def get_checks(self):
+        # Build fake unit to run checks
+        fake_unit = copy(self.unit)
+        fake_unit.target = self.target
+        fake_unit.state = STATE_TRANSLATED
+        source = fake_unit.get_source_plurals()
+        target = fake_unit.get_target_plurals()
+
+        result = []
+        for check, check_obj in CHECKS.target.items():
+            if check_obj.check_target(source, target, fake_unit):
+                result.append(Check(unit=fake_unit, ignore=False, check=check))
+        return result
 
 
 class Vote(models.Model):
