@@ -1394,7 +1394,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                     # Invalidate stats (most importantly to invalidate parent stats)
                     for translation in todelete:
-                        translation.stats.invalidate()
+                        translation.invalidate_cache()
                     todelete.delete()
 
         self.update_import_alerts()
