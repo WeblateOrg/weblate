@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-03-02 11:11+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2020-03-04 08:02+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -116,7 +116,7 @@ msgstr "新しいパスワード"
 
 #: weblate/accounts/forms.py:369
 msgid "New password confirmation"
-msgstr "新しいパスワード確認"
+msgstr "新しいパスワードの確認"
 
 #: weblate/accounts/forms.py:394
 msgid "Your password has been changed."
@@ -188,7 +188,7 @@ msgstr "ソースコードのリポジトリ"
 
 #: weblate/accounts/forms.py:558
 msgid "URL of source code repository, for example Git or Mercurial."
-msgstr "ソース コード リポジトリの URL。例えば Git や Mercurial。"
+msgstr "ソースコード リポジトリの URL。例えば Git や Mercurial。"
 
 #: weblate/accounts/forms.py:563 weblate/templates/component_info.html:65
 #: weblate/templates/trans/discover-choice.html:5
@@ -401,9 +401,8 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"ソース コードにリンクする独自の URL を入力します。ブランチには {{branch}} 、"
-"ファイル名と行番号には {{filename}} と {{line}} をプレース ホルダとして使用で"
-"きます。"
+"ソースコードにリンクする独自の URL を入力します。ブランチには {{branch}} 、ファイル名と行番号には {{filename}} と "
+"{{line}} をプレース ホルダとして使用できます。"
 
 #: weblate/accounts/models.py:327
 msgid "Translation editor mode"
@@ -1125,8 +1124,7 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"新しい翻訳を追加すると、configure、configure.in、configure.ac ファイルの "
-"ALL_LINGUAS 変数を更新します。"
+"新しい翻訳を追加する際に、configure、configure.in、configure.ac ファイルの ALL_LINGUAS 変数を更新します。"
 
 #: weblate/addons/gettext.py:212
 msgid "Update PO files to match POT (msgmerge)"
@@ -2198,7 +2196,7 @@ msgstr "マークダウンの参照"
 
 #: weblate/checks/markup.py:231
 msgid "Markdown link references do not match source"
-msgstr "マークダウンリンクの参照がソースと一致しません"
+msgstr "原文とマークダウンの参照リンクが合致しないもの"
 
 #: weblate/checks/markup.py:247
 msgid "Markdown links"
@@ -3098,9 +3096,8 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third-parties."
 msgstr ""
-"このサイトでは、フォームを送信するときに CSRF クッキーが必要です。このクッ"
-"キーは、セキュリティ上の理由から、ブラウザが第三者に乗っ取られないようにする"
-"ために必要です。"
+"このサイトでは、フォームを送信するときに CSRF Cookie が必要です。この Cookie "
+"は、セキュリティ上の理由から、ブラウザが第三者に乗っ取られていないことを確かめるために必要です。"
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
@@ -4921,7 +4918,7 @@ msgstr "ダッシュボードの設定"
 
 #: weblate/templates/dashboard/user.html:35
 msgid "Recent additions"
-msgstr "最新の追加"
+msgstr "最近の追加"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -6069,7 +6066,7 @@ msgstr "プロジェクトのアクセス制御を変更するための権限が
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
 msgid "Component alerts"
-msgstr "コンポーネントの通知"
+msgstr "コンポーネントの警告"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6725,11 +6722,11 @@ msgstr "用語集に関連する文字列が見つかりませんでした。"
 msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
-msgstr ""
+msgstr "追加のラベルは <a href=\"%(url)s\">プロジェクトの設定</a> で定義できます。"
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
-msgstr ""
+msgstr "追加のラベルは、プロジェクト管理者が定義できます。"
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -7021,7 +7018,7 @@ msgstr "リポジトリ ブラウザの URL は、存在しません:"
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "この問題は、変換ファイルのパスが親ディレクトリへの参照を含むか、もしくは絶対パスである場合に発生します。"
+msgstr "この問題は、翻訳ファイルのパスが親ディレクトリへの参照を含むか、もしくは絶対パスである場合に発生します。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
@@ -8519,7 +8516,7 @@ msgstr "翻訳名"
 
 #: weblate/trans/forms.py:1827
 msgid "Please type in the full name of the translation to confirm."
-msgstr "確認のために、翻訳者のフル ネームを入力してください。"
+msgstr "確認のために、翻訳名を入力してください。"
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -8605,17 +8602,13 @@ msgstr "未対応のコンポーネント構成"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "リポジトリブラウザ"
+msgstr "リポジトリブラウザの URL エラー"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "プロジェクトの Web サイト"
+msgstr "プロジェクトの Web サイトの URL エラー"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -8936,9 +8929,8 @@ msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"リポジトリ ブラウザにリンクします。ブランチには {{branch}}、ファイル名には "
-"{{filename}}、行番号には {{line}} をそれぞれプレースホルダとして設定してくだ"
-"さい。"
+"リポジトリ ブラウザへのリンク。ブランチには {{branch}}、ファイル名には {{filename}}、行番号には {{line}} "
+"をそれぞれプレースホルダとして使用してください。"
 
 #: weblate/trans/models/component.py:225
 msgid "Exported repository URL"
@@ -10470,7 +10462,7 @@ msgstr "ファイル名は絶対パスで記述できません。"
 
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
-msgstr "ファイル名は、できるだけシンプルにしてください。使われそうな例: {}"
+msgstr "ファイル名は、できるだけシンプルにしてください。例: {}"
 
 #: weblate/utils/views.py:234
 #, python-format
