@@ -11,6 +11,7 @@ Not yet released.
 * Added check and highlighter for i18next interpolation and nesting.
 * Added check and highlighter for percent interpolation.
 * Display failing checks for suggestions.
+* Record source string changes in history.
 
 Weblate 3.11.3
 --------------

@@ -329,9 +329,12 @@ class Unit(models.Model, LoggerMixin):
         state = self.get_unit_state(unit, flags)
         self.original_state = self.get_unit_state(unit, None)
 
+        # Has source changed
+        same_source = source == self.source and context == self.context
+
         # Monolingual files handling (without target change)
         if not created and unit.template is not None and target == self.target:
-            if source != self.source and state >= STATE_TRANSLATED:
+            if not same_source and state >= STATE_TRANSLATED:
                 if self.previous_source == self.source and self.fuzzy:
                     # Source change was reverted
                     previous_source = ''
@@ -349,7 +352,6 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks on fuzzy update or on content change
         same_target = target == self.target
-        same_source = source == self.source and context == self.context
         same_state = state == self.state and flags == self.flags
 
         # Check if we actually need to change anything
@@ -399,6 +401,14 @@ class Unit(models.Model, LoggerMixin):
         # Update unit labels
         if not self.translation.is_source:
             self.labels.set(self.source_info.labels.all())
+        # Indicate source string change
+        if not same_source:
+            Change.objects.create(
+                unit=self,
+                action=Change.ACTION_SOURCE_CHANGE,
+                old=previous_source,
+                target=self.source,
+            )
 
     def update_state(self):
         """
