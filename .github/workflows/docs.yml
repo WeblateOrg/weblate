@@ -38,6 +38,10 @@ jobs:
         echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs
         echo "::remove-matcher owner=sphinx::"
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Documentation
+        path: docs/_build/html
 
   linkcheck:
 
