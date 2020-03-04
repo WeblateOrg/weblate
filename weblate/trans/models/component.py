@@ -1392,6 +1392,9 @@ class Component(models.Model, URLMixin, PathMixin):
                         "removing stale translations: %s",
                         ",".join(trans.language.code for trans in todelete),
                     )
+                    # Invalidate stats (most importantly to invalidate parent stats)
+                    for translation in todelete:
+                        translation.stats.invalidate()
                     todelete.delete()
 
         self.update_import_alerts()
