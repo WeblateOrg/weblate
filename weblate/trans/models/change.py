@@ -418,7 +418,9 @@ class Change(models.Model, UserDisplayMixin):
         on_delete=models.deletion.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
-    action = models.IntegerField(choices=ACTION_CHOICES, default=ACTION_CHANGE)
+    action = models.IntegerField(
+        choices=ACTION_CHOICES, default=ACTION_CHANGE, db_index=True
+    )
     target = models.TextField(default='', blank=True)
     old = models.TextField(default='', blank=True)
     details = JSONField()
