@@ -34,7 +34,7 @@ Usage
 
 The module automatically hooks into Weblate and sets the exported repository URL in
 the :ref:`component`.
-The repositories are accessible in the ``/git/`` path of the Weblate, for example
+The repositories are accessible under the ``/git/`` part of the Weblate URL, for example
 ``https://example.org/git/weblate/master/``:
 
 .. code-block:: sh
