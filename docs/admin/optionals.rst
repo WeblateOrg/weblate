@@ -23,7 +23,7 @@ Installation
         'weblate.gitexport',
     )
 
-2. Migrate your database after installation to export existing repositories:
+2. Export existing repositories by migrating your database after installation:
 
 .. code-block:: sh
 
