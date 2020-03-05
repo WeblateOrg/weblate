@@ -51,16 +51,16 @@ def get_untranslated(base, limit=None):
     return result
 
 
-def get_suggestions(request, user, base, filtered=False):
+def get_suggestions(request, user, user_has_languages, base, filtered=False):
     """Return suggested translations for user."""
     if not filtered:
         non_alerts = base.annotate(alert_count=Count('component__alert__pk')).filter(
             alert_count=0
         )
-        result = get_suggestions(request, user, non_alerts, True)
+        result = get_suggestions(request, user, user_has_languages, non_alerts, True)
         if result:
             return result
-    if user.is_authenticated and user.profile.languages.exists():
+    if user_has_languages:
         # Remove user subscriptions
         result = get_untranslated(
             base.exclude(component__project__in=user.profile.watched.all()), 10
@@ -108,7 +108,7 @@ def guess_user_language(request, translations):
         return None
 
 
-def get_user_translations(request, user):
+def get_user_translations(request, user, user_has_languages):
     """Get list of translations in user languages.
 
     Works also for anonymous users based on current UI language.
@@ -119,7 +119,7 @@ def get_user_translations(request, user):
         .order_by('component__priority', 'component__project__name', 'component__name')
     )
 
-    if user.is_authenticated and user.profile.languages.exists():
+    if user_has_languages:
         result = result.filter(language__in=user.profile.languages.all())
     else:
         # Filter based on session language
@@ -189,9 +189,11 @@ def dashboard_user(request):
     """Home page of Weblate for authenticated user."""
     user = request.user
 
-    user_translations = get_user_translations(request, user)
+    user_has_languages = user.is_authenticated and user.profile.languages.exists()
 
-    suggestions = get_suggestions(request, user, user_translations)
+    user_translations = get_user_translations(request, user, user_has_languages)
+
+    suggestions = get_suggestions(request, user, user_has_languages, user_translations)
 
     usersubscriptions = None
 
