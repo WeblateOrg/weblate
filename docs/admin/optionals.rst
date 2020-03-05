@@ -195,7 +195,7 @@ Signing Git commits with GnuPG
 
 All commits can be signed by the GnuPG key of the Weblate instance.
 
-1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate GnuPG
+1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG
 key when needed and will use it to sign all translation commits.)
 
 This feature needs GnuPG 2.1 or newer installed.
