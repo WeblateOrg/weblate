@@ -179,7 +179,7 @@ You can protect against suggestion spamming by unauthenticated users by using
 the `akismet.com <https://akismet.com/>`_ service.
 
 1. Install the `akismet` Python module
-2. Configure Akismet API key.
+2. Configure the Akismet API key.
 
 .. seealso::
 
