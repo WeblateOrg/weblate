@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 CELERY_BEAT_SCHEDULE = {
     # Unconditionally commit all changes every 2 minutes
     "commit": {

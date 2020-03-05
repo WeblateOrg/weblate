@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Sphinx plugins for Django documentation."""
 import re
 
