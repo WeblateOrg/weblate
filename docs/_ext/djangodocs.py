@@ -5,15 +5,12 @@ from sphinx import addnodes
 from sphinx.domains.std import Cmdoption
 
 # RE for option descriptions without a '--' prefix
-simple_option_desc_re = re.compile(
-    r'([-_a-zA-Z0-9]+)(\s*.*?)(?=,\s+(?:/|-|--)|$)')
+simple_option_desc_re = re.compile(r'([-_a-zA-Z0-9]+)(\s*.*?)(?=,\s+(?:/|-|--)|$)')
 
 
 def setup(app):
     app.add_crossref_type(
-        directivename="setting",
-        rolename="setting",
-        indextemplate="pair: %s; setting",
+        directivename="setting", rolename="setting", indextemplate="pair: %s; setting"
     )
     app.add_object_type(
         directivename="django-admin",

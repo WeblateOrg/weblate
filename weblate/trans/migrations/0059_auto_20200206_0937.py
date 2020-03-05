@@ -61,9 +61,7 @@ class Migration(migrations.Migration):
             model_name="unit",
             name="labels",
             field=models.ManyToManyField(
-                blank=True,
-                to="trans.Label",
-                verbose_name="Labels",
+                blank=True, to="trans.Label", verbose_name="Labels"
             ),
         ),
     ]

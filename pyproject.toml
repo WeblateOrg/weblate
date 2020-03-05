@@ -1,0 +1,25 @@
+[tool.black]
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv.*
+    | _build
+    | buck-out
+    | build
+    | dist
+    | data
+    | data-test
+    | node_modules
+    | settings\.py
+    | scripts/iso-codes
+  )/
+)
+'''
+skip-string-normalization = true
