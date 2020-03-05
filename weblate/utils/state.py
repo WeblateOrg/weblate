@@ -37,6 +37,7 @@ STATE_CHOICES = (
 
 STATE_NAMES = {
     "empty": STATE_EMPTY,
+    "untranslated": STATE_EMPTY,
     "needs-editing": STATE_FUZZY,
     "fuzzy": STATE_FUZZY,
     "translated": STATE_TRANSLATED,
