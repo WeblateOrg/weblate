@@ -701,14 +701,7 @@ class Component(models.Model, URLMixin, PathMixin):
         """Get VCS repository object."""
         if self.is_repo_link:
             return self.linked_component.repository
-        repository = VCS_REGISTRY[self.vcs](self.full_path, self.branch, self)
-        cache_key = "sp-config-check-{}".format(self.pk)
-        if cache.get(cache_key) is None:
-            with repository.lock:
-                repository.check_config()
-            cache.set(cache_key, True, 86400)
-
-        return repository
+        return VCS_REGISTRY[self.vcs](self.full_path, self.branch, self)
 
     def get_last_remote_commit(self):
         """Return latest locally known remote commit."""

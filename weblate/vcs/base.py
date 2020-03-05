@@ -109,6 +109,13 @@ class Repository:
     def log(cls, message):
         return LOGGER.debug('%s: %s', cls._cmd, message)
 
+    def ensure_config_updated(self):
+        """Ensures the configuration is periodically checked."""
+        cache_key = "sp-config-check-{}".format(self.component.pk)
+        if cache.get(cache_key) is None:
+            self.check_config()
+            cache.set(cache_key, True, 86400)
+
     def check_config(self):
         """Check VCS configuration."""
         raise NotImplementedError()
@@ -173,8 +180,11 @@ class Repository:
 
     def execute(self, args, needs_lock=True, fullcmd=False, merge_err=True):
         """Execute command and caches its output."""
-        if needs_lock and not self.lock.is_locked:
-            raise RuntimeError('Repository operation without lock held!')
+        if needs_lock:
+            if not self.lock.is_locked:
+                raise RuntimeError('Repository operation without lock held!')
+            if self.component:
+                self.ensure_config_updated()
         is_status = args[0] == self._cmd_status[0]
         try:
             self.last_output = self._popen(
