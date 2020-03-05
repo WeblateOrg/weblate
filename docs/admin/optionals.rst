@@ -214,20 +214,18 @@ the "About" page:
 
 .. _rate-limit:
 
-Rate-limiting
+Rate limiting
 -------------
 
 .. versionchanged:: 3.2
 
-      The rate-limiting now accepts more fine grained configuration.
+      The rate limiting now accepts more fine-grained configuration.
 
 Several operations in Weblate are rate limited. At most
 :setting:`RATELIMIT_ATTEMPTS` attempts are allowed within :setting:`RATELIMIT_WINDOW` seconds.
-The user is then blocked for :setting:`RATELIMIT_LOCKOUT`. There are also per-scope variants of those
-settings, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``,
-see table below for full list of available scopes.
+The user is then blocked for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of available scopes.
 
-The following operations are subject to rate-limiting:
+The following operations are subject to rate limiting:
 
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 | Name                              | Scope              | Allowed attempts | Ratelimit window | Lockout period |
@@ -245,8 +243,7 @@ The following operations are subject to rate-limiting:
 | Adding to glossary                | ``GLOSSARY``       |               30 |               60 |            600 |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 
-If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until it
-goes through the process of having its password reset.
+If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
 
 .. seealso::
 
