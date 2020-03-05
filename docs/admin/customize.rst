@@ -109,45 +109,37 @@ Branding appears in the following files:
    :doc:`django:howto/static-files/index`,
    :ref:`static-files`
 
+.. _custom-addon-modules:
 .. _custom-check-modules:
 
-Custom quality checks and auto fixes
-------------------------------------
+Custom quality checks, addons and auto-fixes
+--------------------------------------------
 
-To install your code for :ref:`custom-autofix` or :ref:`custom-checks` and in Weblate:
+To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
+:ref:`own-addon` and in Weblate:
 
-1. Place the files in your Python module containing Weblate customization (see :ref:`custom-module`).
-2. Add its fully-qualified path to the Python class in the dedicated settings
-   use (:setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`) to enable it:
-
-
-.. code-block:: python
-
-  CHECK_LIST = (
-      'weblate_customization.checks.FooCheck',
-  )
-
-.. seealso::
-
-   :ref:`own-checks`
-
-.. _custom-addon-modules:
-
-Custom addons
--------------
-
-1. Place them in your Python module folder containing the Weblate customization.
+1. Place the files in your Python module containing the Weblate customization
    (see :ref:`custom-module`).
-2. Add its fully-qualified path to the Python class in the dedicated setting section
-   (:setting:`WEBLATE_ADDONS`):
-
+2. Add its fully-qualified path to the Python class in the dedicated settings
+   (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):
 
 .. code-block:: python
 
-   WEBLATE_ADDONS = (
+    # Checks
+    CHECK_LIST += (
+        'weblate_customization.checks.FooCheck',
+    )
+
+    # Autofixes
+    AUTOFIX_LIST += (
+      'weblate_customization.autofix.FooFixer',
+    )
+
+    # Addons
+    WEBLATE_ADDONS += (
       'weblate_customization.addons.ExamplePreAddon',
-   )
+    )
 
 .. seealso::
 
-   :ref:`own-addon`, :ref:`addon-script`
+    :ref:`custom-autofix`:, ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`
