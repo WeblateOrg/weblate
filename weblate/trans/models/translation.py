@@ -88,7 +88,7 @@ class TranslationManager(models.Manager):
 
 class TranslationQuerySet(models.QuerySet):
     def prefetch(self):
-        return self.select_related(
+        return self.prefetch_related(
             'component',
             'component__project',
             'language',

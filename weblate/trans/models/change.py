@@ -101,7 +101,7 @@ class ChangeQuerySet(models.QuerySet):
 
     def prefetch(self):
         """Fetch related fields in a big chungs to avoid loading them individually."""
-        return self.select_related(
+        return self.prefetch_related(
             'user',
             'translation',
             'component',

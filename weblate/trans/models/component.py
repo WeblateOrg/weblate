@@ -138,7 +138,7 @@ class ComponentQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
     def prefetch(self):
-        return self.select_related(
+        return self.prefetch_related(
             "project", "linked_component", "linked_component__project"
         )
 

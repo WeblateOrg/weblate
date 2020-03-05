@@ -816,7 +816,7 @@ class AutoForm(forms.Form):
 
         choices = [
             (s.id, force_str(s))
-            for s in components.order_project().select_related("project")
+            for s in components.order_project().prefetch_related("project")
         ]
 
         super().__init__(*args, **kwargs)
