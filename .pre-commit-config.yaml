@@ -7,8 +7,13 @@ repos:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-yaml
+    -   id: check-xml
+    -   id: check-toml
     -   id: requirements-txt-fixer
     -   id: check-merge-conflict
+    -   id: check-json
+    -   id: fix-encoding-pragma
+    -   id: sort-simple-yaml
 -   repo: https://github.com/pre-commit/mirrors-isort
     rev: v4.3.21
     hooks:
@@ -39,4 +44,4 @@ repos:
     rev: 19.10b0
     hooks:
     - id: black
-exclude: '^.*\.(svg|wsdl(\.[^.]*)?|csv)$'
+exclude: '^.*\.(svg|wsdl(\.[^.]*)?|csv)|weblate/trans/tests/data/memory-broken.json|weblate/templates/browserconfig.xml$'
