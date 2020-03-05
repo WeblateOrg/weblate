@@ -647,8 +647,7 @@ class Unit(models.Model, LoggerMixin):
         if not same_content or not self.num_words:
             self.num_words = len(self.get_source_plurals()[0].split())
             if update_fields and "num_words" not in update_fields:
-                update_fields = ['num_words']
-                update_fields.extend(update_fields)
+                update_fields.append('num_words')
 
         # Actually save the unit
         super().save(
