@@ -256,7 +256,7 @@ def get_notification_forms(request):
         if 'notify_component' in request.GET:
             try:
                 component = Component.objects.get(
-                    project__in=user.allowed_projects,
+                    project_id__in=user.allowed_project_ids,
                     pk=request.GET['notify_component'],
                 )
                 active = key = (SCOPE_COMPONENT, None, component.pk)
@@ -347,7 +347,7 @@ def user_profile(request):
     social_names = [assoc.provider for assoc in social]
     new_backends = [x for x in all_backends if x == 'email' or x not in social_names]
     license_projects = (
-        Component.objects.filter(project__in=request.user.allowed_projects)
+        Component.objects.filter(project_id__in=request.user.allowed_project_ids)
         .exclude(license='')
         .prefetch()
         .order_by('license')
@@ -882,9 +882,9 @@ class SuggestionView(ListView):
             user = None
         else:
             user = get_object_or_404(User, username=self.kwargs['user'])
-        allowed_projects = self.request.user.allowed_projects
+        allowed_project_ids = self.request.user.allowed_project_ids
         return Suggestion.objects.filter(
-            user=user, unit__translation__component__project__in=allowed_projects
+            user=user, unit__translation__component__project_id__in=allowed_project_ids
         ).order()
 
     def get_context_data(self):

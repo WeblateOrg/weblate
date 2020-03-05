@@ -359,7 +359,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def get_queryset(self):
         return (
             Component.objects.prefetch()
-            .filter(project__in=self.request.user.allowed_projects)
+            .filter(project_id__in=self.request.user.allowed_project_ids)
             .prefetch_related('project__source_language')
             .order_by('id')
         )
@@ -479,7 +479,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def get_queryset(self):
         return (
             Translation.objects.prefetch()
-            .filter(component__project__in=self.request.user.allowed_projects)
+            .filter(component__project_id__in=self.request.user.allowed_project_ids)
             .prefetch_related('component__project__source_language')
             .order_by('id')
         )
@@ -602,9 +602,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UnitSerializer
 
     def get_queryset(self):
-        allowed_projects = self.request.user.allowed_projects
         return Unit.objects.filter(
-            translation__component__project__in=allowed_projects
+            translation__component__project_id__in=self.request.user.allowed_project_ids
         ).order_by('id')
 
 
@@ -617,7 +616,7 @@ class ScreenshotViewSet(DownloadViewSet):
 
     def get_queryset(self):
         return Screenshot.objects.filter(
-            component__project__in=self.request.user.allowed_projects
+            component__project_id__in=self.request.user.allowed_project_ids
         ).order_by('id')
 
     @action(

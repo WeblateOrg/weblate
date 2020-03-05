@@ -115,7 +115,7 @@ def get_user_translations(request, user, user_has_languages):
     """
     result = (
         Translation.objects.prefetch()
-        .filter(component__project__in=user.allowed_projects)
+        .filter(component__project_id__in=user.allowed_project_ids)
         .order_by('component__priority', 'component__project__name', 'component__name')
     )
 
@@ -199,7 +199,8 @@ def dashboard_user(request):
 
     componentlists = list(
         ComponentList.objects.filter(
-            show_dashboard=True, components__project__in=request.user.allowed_projects
+            show_dashboard=True,
+            components__project_id__in=request.user.allowed_project_ids,
         )
         .distinct()
         .order()
@@ -221,12 +222,8 @@ def dashboard_user(request):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
-        # Ensure ACL filtering applies (user could have been removed
-        # from the project meanwhile)
-        watched_projects = user.allowed_projects.filter(profile=user.profile)
-
         usersubscriptions = user_translations.filter(
-            component__project__in=watched_projects
+            component__project__in=user.watched_projects
         )
 
         if user.profile.hide_completed:
@@ -248,7 +245,7 @@ def dashboard_user(request):
             'componentlists': componentlists,
             'all_componentlists': prefetch_stats(
                 ComponentList.objects.filter(
-                    components__project__in=request.user.allowed_projects
+                    components__project_id__in=request.user.allowed_project_ids
                 )
                 .distinct()
                 .order()

@@ -120,9 +120,7 @@ def weblate_context(request):
     # Load user translations if user is authenticated
     watched_projects = None
     if hasattr(request, 'user') and request.user.is_authenticated:
-        watched_projects = request.user.allowed_projects.filter(
-            profile=request.user.profile
-        )
+        watched_projects = request.user.watched_projects
 
     if settings.OFFER_HOSTING:
         description = _('Hosted Weblate, the place to localize your software project.')

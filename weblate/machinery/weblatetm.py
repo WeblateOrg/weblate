@@ -39,7 +39,9 @@ class WeblateTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         if user:
-            kwargs = {'translation__component__project__in': user.allowed_projects}
+            kwargs = {
+                'translation__component__project_id__in': user.allowed_project_ids
+            }
         else:
             kwargs = {
                 'translation__component__project': unit.translation.component.project

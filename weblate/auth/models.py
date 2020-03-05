@@ -447,13 +447,27 @@ class User(AbstractBaseUser):
     def allowed_projects(self):
         """List of allowed projects."""
         if self.is_superuser:
-            result = Project.objects.order()
-        else:
-            result = Project.objects.filter(group__user=self).distinct().order()
-        # Force evaluating the query, we use it frequently so better to fetch it once
-        # instead doing complex joins in every place.
-        len(result)
-        return result
+            return Project.objects.order()
+        return Project.objects.filter(group__user=self).distinct().order()
+
+    @cached_property
+    def allowed_project_ids(self):
+        """
+        Set with ids of allowed projects.
+
+        This is more effective to use in queries than doing complex joins.
+        """
+        return {project.pk for project in self.allowed_projects}
+
+    @cached_property
+    def watched_projects(self):
+        """
+        List of watched projects.
+
+        Ensure ACL filtering applies (user could have been removed
+        from the project meanwhile)
+        """
+        return self.profile.watched.filter(id__in=self.allowed_project_ids)
 
     @cached_property
     def owned_projects(self):

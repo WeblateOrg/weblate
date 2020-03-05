@@ -34,7 +34,7 @@ from weblate.utils.views import get_component, get_project
 def acl_checks(user):
     """Filter checks by ACL."""
     return Check.objects.filter(
-        unit__translation__component__project__in=user.allowed_projects
+        unit__translation__component__project_id__in=user.allowed_project_ids
     )
 
 

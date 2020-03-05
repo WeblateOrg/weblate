@@ -374,7 +374,7 @@ def show_component_list(request, name):
         {
             'object': obj,
             'components': obj.components.filter(
-                project__in=request.user.allowed_projects
+                project_id__in=request.user.allowed_project_ids
             ),
         },
     )

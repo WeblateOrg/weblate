@@ -126,7 +126,7 @@ class ChangeQuerySet(models.QuerySet):
         Prefilter Changes by ACL for users and fetches related fields for last changes
         display.
         """
-        return self.prefetch().filter(project__in=user.allowed_projects).order()
+        return self.prefetch().filter(project_id__in=user.allowed_project_ids).order()
 
     def authors_list(self, date_range=None):
         """Return list of authors."""
