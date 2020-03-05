@@ -520,6 +520,7 @@ MT_DEEPL_KEY = None
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = None
+MT_MICROSOFT_REGION = None
 
 # MyMemory identification email, see
 # https://mymemory.translated.net/doc/spec.php

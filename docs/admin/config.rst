@@ -914,6 +914,13 @@ Client key for Microsoft Cognitive Services Translator API.
     `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 
+.. setting:: MT_MICROSOFT_REGION
+
+MT_MICROSOFT_REGION
+-------------------
+
+Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#multi-service-subscription>`_.
+
 .. setting:: MT_MYMEMORY_EMAIL
 
 MT_MYMEMORY_EMAIL

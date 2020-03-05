@@ -248,6 +248,8 @@ TERMINOLOGY_WDSL = get_test_file('microsoftterminology.wsdl')
 
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 
+MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
+
 
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
@@ -388,14 +390,44 @@ class MachineTranslationTest(TestCase):
         )
         responses.add(
             responses.GET,
-            'https://api.microsofttranslator.com/V2/Ajax.svc/'
-            'GetLanguagesForTranslate',
+            'https://api.cognitive.microsofttranslator.com/'
+            'languages?api-version=3.0',
             json=["en", "cs"],
         )
         responses.add(
+            responses.POST,
+            'https://api.cognitive.microsofttranslator.com/'
+            'translate?api-version=3.0&from=en&to=cs&category=general',
+            json=MICROSOFT_RESPONSE,
+        )
+
+        self.assert_translate(machine)
+        self.assert_translate(machine, word='Zkouška')
+
+    @override_settings(
+        MT_MICROSOFT_COGNITIVE_KEY='KEY',
+        MT_MICROSOFT_REGION='westeurope'
+    )
+    @responses.activate
+    def test_microsoft_cognitive_with_region(self):
+        machine = self.get_machine(MicrosoftCognitiveTranslation)
+        responses.add(
+            responses.POST,
+            'https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken'
+            '?Subscription-Key=KEY',
+            body='TOKEN',
+        )
+        responses.add(
             responses.GET,
-            'https://api.microsofttranslator.com/V2/Ajax.svc/Translate',
-            json="svět",
+            'https://api.cognitive.microsofttranslator.com/'
+            'languages?api-version=3.0',
+            json=["en", "cs"],
+        )
+        responses.add(
+            responses.POST,
+            'https://api.cognitive.microsofttranslator.com/'
+            'translate?api-version=3.0&from=en&to=cs&category=general',
+            json=MICROSOFT_RESPONSE,
         )
 
         self.assert_translate(machine)
