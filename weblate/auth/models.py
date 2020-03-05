@@ -233,7 +233,9 @@ class UserManager(BaseUserManager):
 
 def get_anonymous():
     """Return an anonymous user."""
-    return User.objects.get(username=settings.ANONYMOUS_USER_NAME)
+    return User.objects.select_related("profile").get(
+        username=settings.ANONYMOUS_USER_NAME
+    )
 
 
 def wrap_group(func):
