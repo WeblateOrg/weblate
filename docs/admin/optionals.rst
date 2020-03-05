@@ -63,7 +63,7 @@ billing plans, track invoices and usage limits.
 Installation
 ++++++++++++
 
-1. Add ``weblate.billing`` to installed applications in
+1. Add ``weblate.billing`` to installed apps in
 :file:`settings.py`:
 
 .. code-block:: python
