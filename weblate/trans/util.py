@@ -306,7 +306,7 @@ def rich_to_xliff_string(string_elements):
     Transform rich content (StringElement) into a string with placeholder kept as XML
     """
     # Create dummy root element
-    xml = etree.Element(u'e')
+    xml = etree.Element('e')
     for string_element in string_elements:
         # Inject placeable from translate-toolkit
         strelem_to_xml(xml, string_element)

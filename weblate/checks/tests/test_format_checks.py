@@ -50,7 +50,7 @@ class PythonFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             'python-format',
             '%sstring%d',
-            [(0, 2, u'%s'), (8, 10, u'%d')],
+            [(0, 2, '%s'), (8, 10, '%d')],
         )
 
     def test_no_format(self):
@@ -117,7 +117,7 @@ class PHPFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             'php-format',
             '%sstring%d',
-            [(0, 2, u'%s'), (8, 10, u'%d')],
+            [(0, 2, '%s'), (8, 10, '%d')],
         )
 
     def test_no_format(self):
@@ -168,7 +168,7 @@ class CFormatCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_highlight = (self.flag, '%sstring%d', [(0, 2, u'%s'), (8, 10, u'%d')])
+        self.test_highlight = (self.flag, '%sstring%d', [(0, 2, '%s'), (8, 10, '%d')])
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format('strins', 'string', False))
@@ -230,7 +230,7 @@ class PythonBraceFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             'python-brace-format',
             '{0}string{1}',
-            [(0, 3, u'{0}'), (9, 12, u'{1}')],
+            [(0, 3, '{0}'), (9, 12, '{1}')],
         )
 
     def test_no_format(self):
@@ -281,7 +281,7 @@ class CSharpFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             'c-sharp-format',
             '{0}string{1}',
-            [(0, 3, u'{0}'), (9, 12, u'{1}')],
+            [(0, 3, '{0}'), (9, 12, '{1}')],
         )
 
     def test_no_format(self):
@@ -344,7 +344,7 @@ class JavaFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             'java-format',
             '%1s string %2s',
-            [(0, 3, u'%1s'), (11, 14, u'%2s')],
+            [(0, 3, '%1s'), (11, 14, '%2s')],
         )
 
     def test_no_format(self):
@@ -396,7 +396,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             'java-messageformat',
             '{0}string{1}',
-            [(0, 3, u'{0}'), (9, 12, u'{1}')],
+            [(0, 3, '{0}'), (9, 12, '{1}')],
         )
 
     def test_no_format(self):
@@ -492,7 +492,7 @@ class QtFormatCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_highlight = (self.flag, '%1string%2', [(0, 2, u'%1'), (8, 10, u'%2')])
+        self.test_highlight = (self.flag, '%1string%2', [(0, 2, '%1'), (8, 10, '%2')])
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format('strins', 'string', False))
@@ -519,7 +519,7 @@ class QtPluralCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_highlight = (self.flag, '%Lnstring', [(0, 3, u'%Ln')])
+        self.test_highlight = (self.flag, '%Lnstring', [(0, 3, '%Ln')])
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format('strins', 'string', False))
@@ -542,14 +542,14 @@ class RubyFormatCheckTest(CheckTestCase):
         super().setUp()
 
     def test_check_highlight(self):
-        self.test_highlight = (self.flag, '%dstring%s', [(0, 2, u'%d'), (8, 10, u'%s')])
+        self.test_highlight = (self.flag, '%dstring%s', [(0, 2, '%d'), (8, 10, '%s')])
         super().test_check_highlight()
 
     def test_check_highlight_named(self):
         self.test_highlight = (
             self.flag,
             '%<int>dstring%<str>s',
-            [(0, 7, u'%<int>d'), (13, 20, u'%<str>s')],
+            [(0, 7, '%<int>d'), (13, 20, '%<str>s')],
         )
         super().test_check_highlight()
 
@@ -557,7 +557,7 @@ class RubyFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             self.flag,
             '%{int}string%{str}',
-            [(0, 6, u'%{int}'), (12, 18, u'%{str}')],
+            [(0, 6, '%{int}'), (12, 18, '%{str}')],
         )
         super().test_check_highlight()
 
@@ -565,7 +565,7 @@ class RubyFormatCheckTest(CheckTestCase):
         self.test_highlight = (
             self.flag,
             '%8.8{foo}string%+08.2<float>fstring',
-            [(0, 9, u'%8.8{foo}'), (15, 29, u'%+08.2<float>f')],
+            [(0, 9, '%8.8{foo}'), (15, 29, '%+08.2<float>f')],
         )
         super().test_check_highlight()
 

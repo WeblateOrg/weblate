@@ -43,8 +43,8 @@ class AngularJSInterpolationCheckTest(TestCase):
     def test_format(self):
         self.assertFalse(
             self.check.check_single(
-                u'{{name}} string {{other}}',
-                u'{{name}} {{other}} string',
+                '{{name}} string {{other}}',
+                '{{name}} {{other}} string',
                 MockUnit('angularjs_format', flags='angularjs-format'),
             )
         )
@@ -52,8 +52,8 @@ class AngularJSInterpolationCheckTest(TestCase):
     def test_format_ignore_position(self):
         self.assertFalse(
             self.check.check_single(
-                u'{{name}} string {{other}}',
-                u'{{other}} string {{name}}',
+                '{{name}} string {{other}}',
+                '{{other}} string {{name}}',
                 MockUnit('angularjs_format_ignore_position', flags='angularjs-format'),
             )
         )
@@ -61,8 +61,8 @@ class AngularJSInterpolationCheckTest(TestCase):
     def test_different_whitespace(self):
         self.assertFalse(
             self.check.check_single(
-                u'{{ name   }} string',
-                u'{{name}} string',
+                '{{ name   }} string',
+                '{{name}} string',
                 MockUnit('angularjs_different_whitespace', flags='angularjs-format'),
             )
         )
@@ -70,8 +70,8 @@ class AngularJSInterpolationCheckTest(TestCase):
     def test_missing_format(self):
         self.assertTrue(
             self.check.check_single(
-                u'{{name}} string',
-                u'string',
+                '{{name}} string',
+                'string',
                 MockUnit('angularjs_missing_format', flags='angularjs-format'),
             )
         )
@@ -79,8 +79,8 @@ class AngularJSInterpolationCheckTest(TestCase):
     def test_wrong_value(self):
         self.assertTrue(
             self.check.check_single(
-                u'{{name}} string',
-                u'{{nameerror}} string',
+                '{{name}} string',
+                '{{nameerror}} string',
                 MockUnit('angularjs_wrong_value', flags='angularjs-format'),
             )
         )
@@ -88,22 +88,22 @@ class AngularJSInterpolationCheckTest(TestCase):
     def test_extended_formatting(self):
         self.assertFalse(
             self.check.check_single(
-                u'Value: {{ something.value | currency }}',
-                u'Wert: {{ something.value | currency }}',
+                'Value: {{ something.value | currency }}',
+                'Wert: {{ something.value | currency }}',
                 MockUnit('angularjs_format', flags='angularjs-format'),
             )
         )
         self.assertTrue(
             self.check.check_single(
-                u'Value: {{ something.value | currency }}',
-                u'Value: {{ something.value }}',
+                'Value: {{ something.value | currency }}',
+                'Value: {{ something.value }}',
                 MockUnit('angularjs_format', flags='angularjs-format'),
             )
         )
 
     def test_check_highlight(self):
         highlights = self.check.check_highlight(
-            u'{{name}} {{ something.value | currency }} string',
+            '{{name}} {{ something.value | currency }} string',
             MockUnit('angularjs_format', flags='angularjs-format'),
         )
         self.assertEqual(2, len(highlights))
@@ -114,7 +114,7 @@ class AngularJSInterpolationCheckTest(TestCase):
 
     def test_check_highlight_ignored(self):
         highlights = self.check.check_highlight(
-            u'{{name}} {{other}} string',
+            '{{name}} {{other}} string',
             MockUnit('angularjs_format', flags='ignore-angularjs-format'),
         )
         self.assertEqual([], highlights)
