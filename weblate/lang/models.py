@@ -360,7 +360,7 @@ class LanguageQuerySet(models.QuerySet):
 
     def have_translation(self):
         """Return list of languages which have at least one translation."""
-        return self.filter(translation__pk__gt=0).distinct().order()
+        return self.exclude(translation=None).order()
 
     def order(self):
         return self.order_by('name')

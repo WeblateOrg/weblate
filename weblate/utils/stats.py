@@ -664,10 +664,7 @@ class GlobalStats(BaseStats):
         for key, value in stats.items():
             self.store(key, value)
 
-        self.store(
-            "languages",
-            Language.objects.filter(translation__pk__gt=0).distinct().count(),
-        )
+        self.store("languages", Language.objects.have_translation().count())
 
         # Calculate percents
         self.calculate_basic_percents()
