@@ -1905,7 +1905,8 @@ class Component(models.Model, URLMixin, PathMixin):
             error = get_uri_error(self.project.web)
             if error is not None:
                 self.add_alert("BrokenProjectURL", error=error)
-            self.delete_alert("BrokenProjectURL")
+            else:
+                self.delete_alert("BrokenProjectURL")
         else:
             self.delete_alert("BrokenProjectURL")
 
