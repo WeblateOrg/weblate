@@ -117,7 +117,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         if isinstance(payload, str):
             raise Exception(payload)
 
-        return payload
+        return list(payload['translation'].keys())
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""

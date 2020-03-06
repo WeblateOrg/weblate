@@ -250,11 +250,7 @@ DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "H
 
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
-MS_SUPPORTED_LANG_RESP = {
-    "translation": {'Item': 'data'},
-    "transliteration": {'Item': 'data'},
-    "dictionary": {'Item': 'data'},
-}
+MS_SUPPORTED_LANG_RESP = {"translation": {'cs': 'data', 'en': 'data', 'es': 'data'}}
 
 
 class MachineTranslationTest(TestCase):
