@@ -1644,7 +1644,9 @@ class ProjectSettingsForm(SettingsBaseForm):
         data = self.cleaned_data
         if settings.OFFER_HOSTING:
             data['contribute_shared_tm'] = data['use_shared_tm']
-        access = data.get('access_control')
+        if 'access_control' not in data:
+            data['access_control'] = self.instance.access_control
+        access = data['access_control']
 
         self.changed_access = access != self.instance.access_control
 
