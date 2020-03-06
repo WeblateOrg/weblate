@@ -1,6 +1,10 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
+-   repo: https://github.com/ambv/black
+    rev: 19.10b0
+    hooks:
+    - id: black
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v2.5.0
     hooks:
@@ -41,8 +45,4 @@ repos:
         - flake8-self
         - flake8-string-format
         - pep8-naming
--   repo: https://github.com/ambv/black
-    rev: 19.10b0
-    hooks:
-    - id: black
 exclude: '^.*\.(svg|wsdl(\.[^.]*)?|csv)|weblate/trans/tests/data/memory-broken.json|weblate/templates/browserconfig.xml$'
