@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.13.0 (5de0e3b9) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.13.2 (9cfa4a5b) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4464,7 +4464,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.13.0';
+    var SDK_VERSION = '5.13.2';
 
     /**
      * The Sentry Browser SDK Client.
@@ -5112,7 +5112,7 @@ var Sentry = (function (exports) {
                 category: "ui." + handlerData.name,
                 message: target,
             }, {
-                event: event,
+                event: handlerData.event,
                 name: handlerData.name,
             });
         };
