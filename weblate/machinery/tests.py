@@ -250,6 +250,12 @@ DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "H
 
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
+MS_SUPPORTED_LANG_RESP = {
+    "translation": {'Item': 'data'},
+    "transliteration": {'Item': 'data'},
+    "dictionary": {'Item': 'data'},
+}
+
 
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
@@ -392,7 +398,7 @@ class MachineTranslationTest(TestCase):
             responses.GET,
             'https://api.cognitive.microsofttranslator.com/'
             'languages?api-version=3.0',
-            json=["en", "cs"],
+            json=MS_SUPPORTED_LANG_RESP,
         )
         responses.add(
             responses.POST,
@@ -405,8 +411,7 @@ class MachineTranslationTest(TestCase):
         self.assert_translate(machine, word='Zkouška')
 
     @override_settings(
-        MT_MICROSOFT_COGNITIVE_KEY='KEY',
-        MT_MICROSOFT_REGION='westeurope'
+        MT_MICROSOFT_COGNITIVE_KEY='KEY', MT_MICROSOFT_REGION='westeurope'
     )
     @responses.activate
     def test_microsoft_cognitive_with_region(self):
@@ -421,7 +426,7 @@ class MachineTranslationTest(TestCase):
             responses.GET,
             'https://api.cognitive.microsofttranslator.com/'
             'languages?api-version=3.0',
-            json=["en", "cs"],
+            json=MS_SUPPORTED_LANG_RESP,
         )
         responses.add(
             responses.POST,

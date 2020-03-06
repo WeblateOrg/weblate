@@ -28,8 +28,9 @@ from weblate.machinery.base import MachineTranslation, MissingConfiguration
 BASE_URL = 'https://api.cognitive.microsofttranslator.com'
 TRANSLATE_URL = BASE_URL + '/translate'
 LIST_URL = BASE_URL + '/languages?api-version=3.0'
-TOKEN_URL = 'https://{0}api.cognitive.microsoft.com/sts/v1.0/'\
-            'issueToken?Subscription-Key={1}'
+TOKEN_URL = (
+    'https://{0}api.cognitive.microsoft.com/sts/v1.0/' 'issueToken?Subscription-Key={1}'
+)
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
@@ -62,8 +63,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         else:
             region = "{}.".format(settings.MT_MICROSOFT_REGION)
 
-        self._cognitive_token_url = TOKEN_URL.\
-            format(region, settings.MT_MICROSOFT_COGNITIVE_KEY)
+        self._cognitive_token_url = TOKEN_URL.format(
+            region, settings.MT_MICROSOFT_COGNITIVE_KEY
+        )
 
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
             raise MissingConfiguration('Microsoft Translator requires credentials')
@@ -81,9 +83,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         """Obtain and caches access token."""
         if self._access_token is None or self.is_token_expired():
             self._access_token = self.request(
-                "post",
-                self._cognitive_token_url,
-                skip_auth=True,
+                "post", self._cognitive_token_url, skip_auth=True,
             ).text
             self._token_expiry = timezone.now() + TOKEN_EXPIRY
 
@@ -128,16 +128,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             'category': 'general',
         }
         response = self.request(
-            "post",
-            TRANSLATE_URL,
-            params=args,
-            json=[{'Text': text[:5000]}]
+            "post", TRANSLATE_URL, params=args, json=[{'Text': text[:5000]}]
         )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
         yield {
-            'text': payload,
+            'text': payload[0]['translations'][0]['text'],
             'quality': self.max_score,
             'service': self.name,
             'source': text,
