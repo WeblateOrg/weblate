@@ -52,6 +52,7 @@ extensions = [
     "sphinxcontrib.httpdomain",
     "sphinx.ext.graphviz",
     "sphinx.ext.intersphinx",
+    "sphinx-jsonschema",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

@@ -6,5 +6,6 @@
     contributing
     debugging
     internals
+    schemas
     license
     legal
