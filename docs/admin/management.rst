@@ -165,7 +165,7 @@ changesite
 
 .. versionadded:: 2.4
 
-Change or display the name of your site from the command-line without using
+Change or display the name of your site from the command-line without using the
 admin interface by adding this.
 
 .. django-admin-option:: --set-name NAME
