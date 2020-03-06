@@ -176,11 +176,11 @@ Admin login
 -----------
 
 After container setup, you can sign in as `admin` user with password provided
-in :setting:`WEBLATE_ADMIN_PASSWORD`, or a random password generated on first
+in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated on first
 start if that was not set.
 
 To reset `admin` password, restart the container with
-:setting:`WEBLATE_ADMIN_PASSWORD` set to new password.
+:envvar:`WEBLATE_ADMIN_PASSWORD` set to new password.
 
 .. seealso::
 
