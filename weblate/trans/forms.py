@@ -1691,6 +1691,7 @@ class ProjectSettingsForm(SettingsBaseForm):
         self.helper.form_tag = False
         if not self.user_can_change_access:
             disabled = {'disabled': True}
+            self.fields['access_control'].required = False
             self.fields['access_control'].help_text = _(
                 "You do not have permission to change project access control."
             )
