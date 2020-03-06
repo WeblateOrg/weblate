@@ -145,14 +145,23 @@ Microsoft Cognitive Services Translator
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
 
-You need to register at Azure portal and use the key you obtain there.
+Weblate implements Translator API V3.
 
 To enable this service, add ``weblate.machinery.microsoft.MicrosoftCognitiveTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_MICROSOFT_COGNITIVE_KEY`.
 
+Translator Text API V2
+``````````````````````
+The key you use with Translator API V2 can be used with API 3.
+
+Translator Text API V3
+``````````````````````
+You need to register at Azure portal and use the key you obtain there.
+With new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` to locale of your service.
+
 .. seealso::
 
-    :setting:`MT_MICROSOFT_COGNITIVE_KEY`,
+    :setting:`MT_MICROSOFT_COGNITIVE_KEY`, :setting:`MT_MICROSOFT_REGION`,
     `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 

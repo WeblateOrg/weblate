@@ -25,12 +25,12 @@ from django.utils import timezone
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-COGNITIVE_BASE_URL = 'https://api.cognitive.microsoft.com/sts/v1.0'
-COGNITIVE_TOKEN = COGNITIVE_BASE_URL + '/issueToken?Subscription-Key={0}'
-
-BASE_URL = 'https://api.microsofttranslator.com/V2/Ajax.svc/'
-TRANSLATE_URL = BASE_URL + 'Translate'
-LIST_URL = BASE_URL + 'GetLanguagesForTranslate'
+BASE_URL = 'https://api.cognitive.microsofttranslator.com'
+TRANSLATE_URL = BASE_URL + '/translate'
+LIST_URL = BASE_URL + '/languages?api-version=3.0'
+TOKEN_URL = (
+    'https://{0}api.cognitive.microsoft.com/sts/v1.0/' 'issueToken?Subscription-Key={1}'
+)
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
@@ -56,6 +56,17 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         super().__init__()
         self._access_token = None
         self._token_expiry = None
+
+        # check settings for Microsoft region prefix
+        if settings.MT_MICROSOFT_REGION is None:
+            region = ""
+        else:
+            region = "{}.".format(settings.MT_MICROSOFT_REGION)
+
+        self._cognitive_token_url = TOKEN_URL.format(
+            region, settings.MT_MICROSOFT_COGNITIVE_KEY
+        )
+
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
             raise MissingConfiguration('Microsoft Translator requires credentials')
 
@@ -72,9 +83,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         """Obtain and caches access token."""
         if self._access_token is None or self.is_token_expired():
             self._access_token = self.request(
-                "post",
-                COGNITIVE_TOKEN.format(settings.MT_MICROSOFT_COGNITIVE_KEY),
-                skip_auth=True,
+                "post", self._cognitive_token_url, skip_auth=True,
             ).text
             self._token_expiry = timezone.now() + TOKEN_EXPIRY
 
@@ -108,23 +117,24 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         if isinstance(payload, str):
             raise Exception(payload)
 
-        return payload
+        return payload['translation'].keys()
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         args = {
-            'text': text[:5000],
+            'api-version': '3.0',
             'from': source,
             'to': language,
-            'contentType': 'text/plain',
             'category': 'general',
         }
-        response = self.request("get", TRANSLATE_URL, params=args)
+        response = self.request(
+            "post", TRANSLATE_URL, params=args, json=[{'Text': text[:5000]}]
+        )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
         yield {
-            'text': payload,
+            'text': payload[0]['translations'][0]['text'],
             'quality': self.max_score,
             'service': self.name,
             'source': text,

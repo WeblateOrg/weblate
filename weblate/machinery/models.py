@@ -42,6 +42,11 @@ class WeblateConf(AppConf):
     # https://portal.azure.com/
     MICROSOFT_COGNITIVE_KEY = None
 
+    # Microsoft Azure services region identification code see
+    # https://docs.microsoft.com/en-us/azure/cognitive-services/translator/
+    # reference/v3-0-reference#multi-service-subscription
+    MICROSOFT_REGION = None
+
     # MyMemory identification email, see
     # https://mymemory.translated.net/doc/spec.php
     MYMEMORY_EMAIL = None
