@@ -91,7 +91,7 @@ from weblate.utils.render import (
     validate_render_component,
     validate_repoweb,
 )
-from weblate.utils.requests import uri_exists
+from weblate.utils.requests import get_uri_error
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 from weblate.utils.stats import ComponentStats
@@ -1893,7 +1893,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     link = self.get_repoweb_link(filename, line)
                     if link is None:
                         continue
-                    if not uri_exists(link):
+                    if get_uri_error(link) is not None:
                         location_error.append(link)
                 if location_error:
                     break
@@ -1901,10 +1901,13 @@ class Component(models.Model, URLMixin, PathMixin):
             self.add_alert("BrokenBrowserURL", links=location_error)
         else:
             self.delete_alert("BrokenBrowserURL")
-        if not self.project.web or uri_exists(self.project.web):
+        if self.project.web:
+            error = get_uri_error(self.project.web)
+            if error is not None:
+                self.add_alert("BrokenProjectURL", error=error)
             self.delete_alert("BrokenProjectURL")
         else:
-            self.add_alert("BrokenProjectURL")
+            self.delete_alert("BrokenProjectURL")
 
     def needs_commit(self):
         """Check for uncommitted changes."""

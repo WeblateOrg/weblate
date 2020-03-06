@@ -274,3 +274,7 @@ class BrokenBrowserURL(BaseAlert):
 class BrokenProjectURL(BaseAlert):
     # Translators: Name of an alert
     verbose = _('Broken project website URL')
+
+    def __init__(self, instance, error=None):
+        super().__init__(instance)
+        self.error = error

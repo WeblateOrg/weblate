@@ -34,11 +34,13 @@ def request(method, url, headers=None, **kwargs):
     return response
 
 
-def uri_exists(uri):
+def get_uri_error(uri):
+    """Return error for fetching the URL or None if it works."""
     try:
         with request("get", uri, stream=True):
-            return True
-    except requests.exceptions.HTTPError:
-        return False
-    except requests.exceptions.ConnectionError:
-        return False
+            return None
+    except (
+        requests.exceptions.HTTPError,
+        requests.exceptions.ConnectionError,
+    ) as error:
+        return str(error)
