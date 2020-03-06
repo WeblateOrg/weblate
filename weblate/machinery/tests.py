@@ -297,6 +297,16 @@ class MachineTranslationTest(TestCase):
         self.assertIsInstance(translation, list)
         if not empty:
             self.assertTrue(translation)
+        for result in translation:
+            for key, value in result.items():
+                if key == "quality":
+                    self.assertIsInstance(
+                        value, int, "'{}' is supposed to be a integer".format(key)
+                    )
+                else:
+                    self.assertIsInstance(
+                        value, str, "'{}' is supposed to be a string".format(key)
+                    )
 
     @responses.activate
     def test_glosbe(self):
