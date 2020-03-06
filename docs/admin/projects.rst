@@ -182,7 +182,7 @@ Repository browser
 
     In case your paths are relative to different folder, you might want to strip leading
     directory by ``parentdir`` filter (see :ref:`markup`):
-    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
+    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
 Exported repository URL
     URL where changes made by Weblate are exported. This is important when
     :ref:`continuous-translation` is not used, or when there is a need to manually
