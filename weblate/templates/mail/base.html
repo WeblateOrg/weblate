@@ -311,7 +311,7 @@ img {
             {% endif %}
         </div>
         {% comment %}This avoids Gmail hiding the footer, as it finds unique content here{% endcomment %}
-        <p style="opacity: 0" class="text-muted">Generated on {% now "DATETIME_FORMAT" %}</p>
+        <p style="opacity: 0" class="text-muted">{% trans "Generated on %s", now "DATETIME_FORMAT" %}</p>
     </div>
     </div>
 {% endfilter %}
