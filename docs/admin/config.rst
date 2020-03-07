@@ -3,18 +3,18 @@
 Configuration
 =============
 
-All settings are stored in :file:`settings.py` (as usual for Django).
+All settings are stored in :file:`settings.py` (as is usual for Django).
 
 .. note::
 
-    After changing any of these settings, you need to restart Weblate. In case
-    it is run as mod_wsgi, you need to restart Apache to reload the
+    After changing any of these settings, you need to restart Weblate.
+    In case it is run as mod_wsgi, you need to restart Apache to reload the
     configuration.
 
 .. seealso::
 
     Please also check :doc:`Django's documentation <django:ref/settings>` for
-    parameters which configure Django itself.
+    parameters configuring Django itself.
 
 .. setting:: AKISMET_API_KEY
 
@@ -30,7 +30,7 @@ and associate it with a site.
 ANONYMOUS_USER_NAME
 -------------------
 
-User name of user for defining privileges of not logged in user.
+Username of any user not logged in.
 
 .. seealso::
 
@@ -43,7 +43,7 @@ AUDITLOG_EXPIRY
 
 .. versionadded:: 3.6
 
-How long (in days) Weblate should keep audit log containing information about account
+How many days Weblate should keep audit logs, which contain info about account
 activity.
 
 Defaults to 180 days.
@@ -59,10 +59,10 @@ Maximum number of failed authentication attempts before rate limiting is applied
 
 This is currently applied in the following locations:
 
-* On login, the account password is reset. User will not be able to log in
-  after that using password until he asks for password reset.
-* On password reset, the reset mails are no longer sent. This avoids spamming
-  user with too many password reset attempts.
+* Logins. Deletes the account password, preventing the user from loggin in
+  without requesting a new password.
+* Password resets. Prevents new e-mails from being sent, avoiding spamming
+  users with too many password reset attempts.
 
 Defaults to 10.
 
@@ -79,37 +79,39 @@ AUTO_UPDATE
 
 .. versionchanged:: 3.11
 
-   The originally boolean option was changed to accept more options as strings.
+   The original on/off option was changed to differentiate which strings are accepted.
 
-Update all repositories on daily basis. This can be useful if you
-do not use :ref:`hooks` to update Weblate repositories automatically.
+Updates all repositories on a daily basis.
+
+.. hint::
+
+Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
 
 .. note::
 
-    There are both boolean options or string due to backwards compatibility.
+    On/off options exist in addition to string selection for backward compatibility.
 
 Options are:
 
 ``"none"``
-    no daily updates
+    No daily updates.
 ``"remote"`` also ``False``
-    update remotes only
+    Only update remotes.
 ``"full"`` also ``True``
-    update remotes and merge working copy
+    Update remotes and merge working copy.
 
 .. note::
 
-    This requires :ref:`celery` working and you will have to restart celery for
-    this setting to take effect.
+    This requires that :ref:`celery` is working, and will take effect after it is restarted.
 
 .. setting:: AVATAR_URL_PREFIX
 
 AVATAR_URL_PREFIX
 -----------------
 
-Prefix for constructing avatar URLs. The URL will be constructed like:
-``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``. Following services are
-known to work:
+Prefix for constructing avatar URLs as:
+``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``.
+The following services are known to work:
 
 Gravatar (default), see https://gravatar.com/
     ``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``
@@ -129,7 +131,7 @@ RATELIMIT_ATTEMPTS
 
 .. versionadded:: 3.2
 
-Maximum number of authentication attempts before rate limiting applies.
+Maximum number of authentication attempts before rate limiting is applied.
 
 Defaults to 5.
 
@@ -146,9 +148,9 @@ RATELIMIT_WINDOW
 
 .. versionadded:: 3.2
 
-Length of authentication window for rate limiting in seconds.
+How long authentication is accepted after rate limiting applies.
 
-Defaults to 300 (5 minutes).
+An amount of seconds defaulting to 300 (5 minutes).
 
 .. seealso::
 
@@ -163,9 +165,9 @@ RATELIMIT_LOCKOUT
 
 .. versionadded:: 3.2
 
-Length of authentication lockout window after rate limit is applied.
+How long authentication is locked after rate limiting applies.
 
-Defaults to 600 (10 minutes).
+An amount of seconds defaulting to 600 (10 minutes).
 
 .. seealso::
 
@@ -180,9 +182,9 @@ AUTH_TOKEN_VALID
 
 .. versionadded:: 2.14
 
-Validity of token in activation and password reset mails in seconds.
+How long the authentication token and temporary password from password reset e-mails is valid for.
 
-Defaults to 172800 (2 days).
+An amount of seconds defaulting to 172800 (2 days).
 
 
 AUTH_PASSWORD_DAYS
@@ -190,40 +192,40 @@ AUTH_PASSWORD_DAYS
 
 .. versionadded:: 2.15
 
-Define (in days) how long in past Weblate should reject reusing same password.
+How many days using the same password should be allowed.
 
 .. note::
 
-    Password changes done prior to Weblate 2.15 will not be accounted for this
-    policy, it is valid only
+    Password changes made prior to Weblate 2.15 will not be accounted for in this policy.
 
 Defaults to 180 days.
-
 
 .. setting:: AUTOFIX_LIST
 
 AUTOFIX_LIST
 ------------
 
-List of automatic fixups to apply when saving the message.
+List of automatic fixes to apply when saving a string.
 
-You need to provide a fully-qualified path to the Python class implementing the
+.. note::
+
+Provide a fully-qualified path to the Python class that implementing the
 autofixer interface.
 
 Available fixes:
 
 ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
-    Fixes up whitespace in beginning and end of the string to match source.
+    Matches whitespace at the strt and end of the string to the source.
 ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
-    Replaces trailing dots with ellipsis if source string has it.
+    Replaces trailing dots (...) if the source string has ellipsis (…).
 ``weblate.trans.autofixes.chars.RemoveZeroSpace``
-    Removes zero width space char if source does not contain it.
+    Removes zero-width space characters if the source does not contain any.
 ``weblate.trans.autofixes.chars.RemoveControlChars``
-    Removes control characters if source does not contain it.
+    Removes control characters if the source does not contain any.
 ``weblate.trans.autofixes.html.BleachHTML``
-    Removes unsafe HTML markup from string with flag ``safe-html`` (see :ref:`check-safe-html`).
+    Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:`check-safe-html`).
 
-For example you can enable only few of them:
+You can select which ones to use:
 
 .. code-block:: python
 
@@ -241,8 +243,8 @@ For example you can enable only few of them:
 BASE_DIR
 --------
 
-Base directory where Weblate sources are located. This is used to derive
-several other paths by default:
+Base directory where Weblate sources are located.
+Used to derive several other paths by default:
 
 - :setting:`DATA_DIR`
 
@@ -253,26 +255,26 @@ Default value: Top level directory of Weblate sources.
 CHECK_LIST
 ----------
 
-List of quality checks to perform on translation.
+List of quality checks to perform on a translation.
 
-You need to provide a fully-qualified path to the Python class implementing the check
+.. note::
+
+Provide a fully-qualified path to the Python class implementing the check
 interface.
 
-Some of the checks are not useful for all projects, so you are welcome to
-adjust the list list of checks to be performed on your installation.
+Adjust the list list of checks to include the ones you want to have performed.
 
-By default all built in quality checks (see :ref:`checks`) are enabled, you can
-use this setting to change this. Also the :ref:`sample-configuration` comes
-with this setting commented out to use default value. This enables you to get
-new checks automatically enabled on upgrade.
+All built-in quality :ref:`checks` are turned on by default, from
+where you can change these settings. They are also commented out in :ref:`sample-configuration`
+to use default values, which is to have new checks carried out when going to a new Weblate version.
 
-You can disable all checks:
+You can turn off all checks:
 
 .. code-block:: python
 
     CHECK_LIST = ()
 
-You can enable only few of them:
+You can turn on only a few:
 
 .. code-block:: python
 
@@ -284,9 +286,8 @@ You can enable only few of them:
 
 .. note::
 
-    Once you change this setting the existing checks will still be stored in
-    the database, only newly changed translations will be affected by the
-    change. To apply the change to the stored translations, you need to run
+    Changing this setting only affects newly changed translations, existing checks
+    will still be stored in the database. To also apply changes to the stored translations, run
     :djadmin:`updatechecks`.
 
 .. seealso::
@@ -300,8 +301,8 @@ COMMENT_CLEANUP_DAYS
 
 .. versionadded:: 3.6
 
-Automatically delete comments after given number of days. Defaults to
-``None`` what means no deletion at all.
+Delete comments after a given number of days.
+Defaults to ``None``, meaning no deletion at all.
 
 .. setting:: COMMIT_PENDING_HOURS
 
@@ -310,7 +311,7 @@ COMMIT_PENDING_HOURS
 
 .. versionadded:: 2.10
 
-Default interval for committing pending changes using :djadmin:`commit_pending`.
+Number of hours between committing pending changes with :djadmin:`commit_pending`.
 
 .. seealso::
 
@@ -322,8 +323,8 @@ Default interval for committing pending changes using :djadmin:`commit_pending`.
 DATA_DIR
 --------
 
-Directory where Weblate stores all data. This consists of VCS repositories,
-fulltext index and various configuration files for external tools.
+The folder Weblate stores all data in. it contains links to VCS repositories,
+a fulltext index and various configuration files for external tools.
 
 The following subdirectories usually exist:
 
@@ -332,24 +333,24 @@ The following subdirectories usually exist:
 :file:`ssh`
     SSH keys and configuration.
 :file:`static`
-    Default location for Django static files, specified by ``STATIC_ROOT``.
+    Default location for static Django files, specified by ``STATIC_ROOT``.
 :file:`media`
     Default location for Django media files, specified by ``MEDIA_ROOT``.
 :file:`memory`
-    Translation memory data using Whoosh engine (see :ref:`translation-memory`).
+    Translation memory data using the Whoosh engine (see :ref:`translation-memory`).
 :file:`vcs`
     Version control repositories.
 :file:`whoosh`
-    Fulltext search index using Whoosh engine.
+    Fulltext search index using the Whoosh engine.
 :file:`backups`
-    Dump of data in daily backups, see :ref:`backup-dumps`.
+    Daily backup data, see :ref:`backup-dumps`.
 
 .. note::
 
-    This directory has to be writable by Weblate. If you are running Weblate as
-    uwsgi this means that it should be writable by the ``www-data`` user.
+    This directory has to be writable by Weblate. If if running it as uWSGI means
+    the ``www-data`` user should have write access to it.
 
-    The easiest way to achieve is to make the user own the directory:
+    The easiest way to achieve this is to make the user own the directory:
 
     .. code-block:: sh
 
@@ -369,7 +370,7 @@ DEFAULT_ACCESS_CONTROL
 
 .. versionadded:: 3.3
 
-Choose default access control when creating new project, possible values are currently:
+The default access control setting for new projects:
 
 ``0``
    :guilabel:`Public`
@@ -380,8 +381,8 @@ Choose default access control when creating new project, possible values are cur
 ``200``
    :guilabel:`Custom`
 
-Use :guilabel:`Custom` if you are going to manage ACL manually and do not want
-to rely on Weblate internal management.
+Use :guilabel:`Custom` if you managing ACL manually, which means not realying
+on the internal Weblate management.
 
 .. seealso::
 
@@ -397,7 +398,7 @@ to rely on Weblate internal management.
 DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE
 -----------------------------------------------------------------------------------------------------------------
 
-Default commit messages for different operations, see :ref:`component` for detailed description.
+Default commit messages for different operations, see :ref:`component`.
 
 
 .. seealso::
@@ -412,8 +413,8 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Default committer e-mail when creating translation component (see
-:ref:`component`), defaults to ``noreply@weblate.org``.
+Committer e-mail address for created translation components defaulting to ``noreply@weblate.org``,
+(see :ref:`component`).
 
 .. seealso::
 
@@ -426,8 +427,8 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Default committer name when creating translation component (see
-:ref:`component`), defaults to ``Weblate``.
+Committer name for created translation components defualting to ``Weblate``,
+(see :ref:`component`).
 
 .. seealso::
 
@@ -440,7 +441,7 @@ DEFAULT_MERGE_STYLE
 
 .. versionadded:: 3.4
 
-Default merge style for new components (see :ref:`component`), choose one of:
+Merge style for any new components (see :ref:`component`):
 
 * `rebase` - default
 * `merge`
@@ -464,8 +465,8 @@ defaults to ``True``.
 DEFAULT_PULL_MESSAGE
 --------------------
 
-Default pull request title,
-defaults to ``'Update from Weblate'``.
+Title for new pull requests,
+defaulting to ``'Update from Weblate'``.
 
 .. setting:: ENABLE_AVATARS
 
@@ -474,9 +475,8 @@ ENABLE_AVATARS
 
 Whether to enable Gravatar based avatars for users. By default this is enabled.
 
-The avatars are fetched and cached on the server, so there is no risk in
-leaking private information or slowing down the user experiences with enabling
-this.
+Avatars are fetched and cached on the server, lowering the risk of
+leaking private info, speeding up the user experience.
 
 .. seealso::
 
@@ -500,8 +500,8 @@ Whether to enable anonymous remote hooks.
 ENABLE_HTTPS
 ------------
 
-Whether to send links to Weblate as https or http. This setting
-affects sent mails and generated absolute URLs.
+Whether to send links to Weblate as HTTPS or HTTP.
+This setting affects sent e-mails and generated absolute URLs.
 
 .. seealso::
 
@@ -514,32 +514,29 @@ ENABLE_SHARING
 
 Whether to show links to share translation progress on social networks.
 
-.. setting:: GITHUB_USERNAME
-
-GITHUB_USERNAME
----------------
-
-GitHub username that will be used to send pull requests for translation
-updates.
-
-.. seealso::
-
-   :ref:`github-push`,
-   :ref:`hub-setup`
-
-
 .. setting:: GITLAB_USERNAME
 
 GITLAB_USERNAME
 ---------------
 
-GitLab username that will be used to send merge requests for translation
-updates.
+GitLab username used to send merge requests for translation updates.
 
 .. seealso::
 
    :ref:`gitlab-push`,
    :ref:`lab-setup`
+
+.. setting:: GITHUB_USERNAME
+
+GITHUB_USERNAME
+---------------
+
+GitHub username used to send pull requests for translation updates.
+
+.. seealso::
+
+   :ref:`github-push`,
+   :ref:`hub-setup`
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
