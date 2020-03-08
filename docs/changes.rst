@@ -12,6 +12,7 @@ Not yet released.
 * Added check and highlighter for percent interpolation.
 * Display failing checks for suggestions.
 * Record source string changes in history.
+* Upgraded Microsoft Translator to version 3 API.
 
 Weblate 3.11.3
 --------------
