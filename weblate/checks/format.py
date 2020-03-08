@@ -169,6 +169,8 @@ I18NEXT_MATCH = re.compile(
 
 PERCENT_MATCH = re.compile(r'(%([a-zA-Z0-9_]+)%)')
 
+WHITESPACE = re.compile(r'\s+')
+
 
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
@@ -438,6 +440,9 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     name = _('i18next interpolation')
     description = _('The i18next interpolation does not match source')
     regexp = I18NEXT_MATCH
+
+    def cleanup_string(self, text):
+        return WHITESPACE.sub('', text)
 
 
 class PercentInterpolationCheck(BaseFormatCheck):

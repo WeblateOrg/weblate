@@ -714,10 +714,22 @@ class I18NextInterpolationCheckTest(CheckTestCase):
         self.assertFalse(
             self.check.check_format('{{foo}} string', '{{foo}} string', False)
         )
+        self.assertFalse(
+            self.check.check_format('{{ foo }} string', '{{ foo }} string', False)
+        )
+        self.assertFalse(
+            self.check.check_format('{{ foo }} string', '{{foo}} string', False)
+        )
 
     def test_nesting(self):
         self.assertFalse(
             self.check.check_format('$t(bar) string', '$t(bar) other', False)
+        )
+        self.assertFalse(
+            self.check.check_format('$t( bar ) string', '$t( bar ) other', False)
+        )
+        self.assertFalse(
+            self.check.check_format('$t( bar ) string', '$t(bar) other', False)
         )
 
     def test_missing_format(self):
