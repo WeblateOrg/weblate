@@ -21,83 +21,56 @@
 
 """Tests for AngularJS checks."""
 
-from unittest import TestCase
-
 from weblate.checks.angularjs import AngularJSInterpolationCheck
-from weblate.checks.tests.test_checks import MockUnit
+from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
 
-class AngularJSInterpolationCheckTest(TestCase):
-    def setUp(self):
-        self.check = AngularJSInterpolationCheck()
+class AngularJSInterpolationCheckTest(CheckTestCase):
+    check = AngularJSInterpolationCheck()
 
     def test_no_format(self):
-        self.assertFalse(
-            self.check.check_single(
-                'strins',
-                'string',
-                MockUnit('angularjs_no_format', flags='angularjs-format'),
-            )
-        )
+        self.assertFalse(self.check.check_format('strins', 'string', False,))
 
     def test_format(self):
         self.assertFalse(
-            self.check.check_single(
-                '{{name}} string {{other}}',
-                '{{name}} {{other}} string',
-                MockUnit('angularjs_format', flags='angularjs-format'),
+            self.check.check_format(
+                '{{name}} string {{other}}', '{{name}} {{other}} string', False,
             )
         )
 
     def test_format_ignore_position(self):
         self.assertFalse(
-            self.check.check_single(
-                '{{name}} string {{other}}',
-                '{{other}} string {{name}}',
-                MockUnit('angularjs_format_ignore_position', flags='angularjs-format'),
+            self.check.check_format(
+                '{{name}} string {{other}}', '{{other}} string {{name}}', False,
             )
         )
 
     def test_different_whitespace(self):
         self.assertFalse(
-            self.check.check_single(
-                '{{ name   }} string',
-                '{{name}} string',
-                MockUnit('angularjs_different_whitespace', flags='angularjs-format'),
-            )
+            self.check.check_format('{{ name   }} string', '{{name}} string', False,)
         )
 
     def test_missing_format(self):
-        self.assertTrue(
-            self.check.check_single(
-                '{{name}} string',
-                'string',
-                MockUnit('angularjs_missing_format', flags='angularjs-format'),
-            )
-        )
+        self.assertTrue(self.check.check_format('{{name}} string', 'string', False,))
 
     def test_wrong_value(self):
         self.assertTrue(
-            self.check.check_single(
-                '{{name}} string',
-                '{{nameerror}} string',
-                MockUnit('angularjs_wrong_value', flags='angularjs-format'),
-            )
+            self.check.check_format('{{name}} string', '{{nameerror}} string', False,)
         )
 
     def test_extended_formatting(self):
         self.assertFalse(
-            self.check.check_single(
+            self.check.check_format(
                 'Value: {{ something.value | currency }}',
                 'Wert: {{ something.value | currency }}',
-                MockUnit('angularjs_format', flags='angularjs-format'),
+                False,
             )
         )
         self.assertTrue(
-            self.check.check_single(
+            self.check.check_format(
                 'Value: {{ something.value | currency }}',
                 'Value: {{ something.value }}',
-                MockUnit('angularjs_format', flags='angularjs-format'),
+                False,
             )
         )
 

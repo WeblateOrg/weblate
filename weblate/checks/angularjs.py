@@ -23,13 +23,13 @@ import re
 
 from django.utils.translation import gettext_lazy as _
 
-from weblate.checks.base import TargetCheck
+from .format import BaseFormatCheck
 
 ANGULARJS_INTERPOLATION_MATCH = re.compile(
     r'''
     {{              # start symbol
         \s*         # ignore whitespace
-        (.+?)
+        ((.+?))
         \s*         # ignore whitespace
     }}              # end symbol
     ''',
@@ -39,39 +39,13 @@ ANGULARJS_INTERPOLATION_MATCH = re.compile(
 WHITESPACE = re.compile(r'\s+')
 
 
-class AngularJSInterpolationCheck(TargetCheck):
+class AngularJSInterpolationCheck(BaseFormatCheck):
     """Check for AngularJS interpolation string."""
 
     check_id = 'angularjs_format'
     name = _('AngularJS interpolation string')
     description = _('AngularJS interpolation strings do not match source')
-    default_disabled = True
-    severity = 'danger'
+    regexp = ANGULARJS_INTERPOLATION_MATCH
 
-    def check_single(self, source, target, unit):
-        src_match = ANGULARJS_INTERPOLATION_MATCH.findall(source)
-
-        # Any interpolation strings in source?
-        if not src_match:
-            return False
-
-        tgt_match = ANGULARJS_INTERPOLATION_MATCH.findall(target)
-
-        # Fail the check if the number of matches is different
-        if len(src_match) != len(tgt_match):
-            return True
-
-        # Remove whitespace
-        src_tags = {re.sub(WHITESPACE, '', x) for x in src_match}
-        tgt_tags = {re.sub(WHITESPACE, '', x) for x in tgt_match}
-
-        return src_tags != tgt_tags
-
-    def check_highlight(self, source, unit):
-        if self.should_skip(unit):
-            return []
-        ret = []
-        match_objects = ANGULARJS_INTERPOLATION_MATCH.finditer(source)
-        for match in match_objects:
-            ret.append((match.start(), match.end(), match.group()))
-        return ret
+    def cleanup_string(self, text):
+        return WHITESPACE.sub('', text)
