@@ -1189,7 +1189,7 @@ Turn this off if you want to different translations for each variant.
 SITE_TITLE
 ----------
 
-Site title to be used for the website and e-mails.
+Site title to be used for the website and sent e-mails.
 
 .. setting:: SPECIAL_CHARS
 
