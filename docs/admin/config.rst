@@ -30,7 +30,7 @@ and associate it with a site.
 ANONYMOUS_USER_NAME
 -------------------
 
-Username of any user not logged in.
+Username of users that are not logged in.
 
 .. seealso::
 
@@ -543,21 +543,24 @@ GitHub username used to send pull requests for translation updates.
 GOOGLE_ANALYTICS_ID
 -------------------
 
-Google Analytics ID to enable monitoring of Weblate using Google Analytics.
+Google Analytics ID to turn on monitoring of Weblate using Google Analytics.
 
 .. setting:: HIDE_REPO_CREDENTIALS
 
 HIDE_REPO_CREDENTIALS
 ---------------------
 
-Hide repository credentials in the web interface. In case you have repository
-URL with user and password, Weblate will hide it when showing it to the users.
+Hide repository credentials from appearing in the web interface.
+In case you have repository URL with user and password, Weblate will hide it
+when related info is shown to users.
 
 For example instead of ``https://user:password@git.example.com/repo.git`` it
-will show just ``https://git.example.com/repo.git``. It tries to cleanup VCS
-error messages as well in similar manner.
+will show just ``https://git.example.com/repo.git``. It tries to clean up VCS
+error messages too in a similar manner.
 
-This is enabled by default.
+.. note::
+
+This is turned on by default.
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
@@ -568,12 +571,13 @@ IP_BEHIND_REVERSE_PROXY
 
 Indicates whether Weblate is running behind a reverse proxy.
 
-If set to True, Weblate gets IP address from header defined by
-:setting:`IP_BEHIND_REVERSE_PROXY`. Ensure that you are actually using reverse
-proxy and that it sets this header, otherwise users will be able to fake the IP
-address.
+If set to "True", Weblate gets IP address from a header defined by :setting:`IP_BEHIND_REVERSE_PROXY`.
+Ensure you are actually using a reverse proxy and that it sets this header,
+otherwise users will be able to fake the IP address.
 
-Defaults to False.
+.. note::
+
+This is not on by default.
 
 .. seealso::
 
@@ -587,8 +591,8 @@ IP_PROXY_HEADER
 
 .. versionadded:: 2.14
 
-Indicates from which header Weblate should obtain the IP address when
-:setting:`IP_BEHIND_REVERSE_PROXY` is enabled.
+Indicates which header Weblate should obtain the IP address from when
+:setting:`IP_BEHIND_REVERSE_PROXY` is turned on.
 
 Defaults to ``HTTP_X_FORWARDED_FOR``.
 
@@ -608,13 +612,13 @@ Indicates which part of :setting:`IP_BEHIND_REVERSE_PROXY` is used as client IP
 address.
 
 Depending on your setup, this header might consist of several IP addresses,
-(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure here
-which address from the header is client IP address.
+(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure
+which address from the header is used as client IP address here.
 
 .. warning::
 
-   Setting this affects security of your installation, you should only
-   configure to use trusted proxies for determining IP address.
+   Setting this affects the security of your installation, you should only
+   configure it to use trusted proxies for determining IP address.
 
 Defaults to 0.
 
@@ -630,8 +634,11 @@ LEGAL_URL
 
 .. versionadded:: 3.5
 
-URL where your Weblate instance shows it's legal documents. This is useful if
-you host your legal documents outside Weblate for embedding inside Weblate
+URL where your Weblate instance shows its legal documents.
+
+.. hint::
+
+Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
 please see :ref:`legal`.
 
 Example:
@@ -645,7 +652,11 @@ Example:
 LICENSE_EXTRA
 -------------
 
-Additional licenses to include in the license choices. Each license definition should be tuple of short name, long name and an URL.
+Additional licenses to include in the license choices.
+
+.. note::
+
+Each license definition should be tuple of its short name, a long name and an URL.
 
 For example:
 
@@ -664,7 +675,11 @@ For example:
 LICENSE_FILTER
 --------------
 
-Optional filter for licenses to show, matches against their short names.
+Optional addition of licenses to show.
+
+.. note::
+
+This filter uses the short license names.
 
 For example:
 
@@ -677,16 +692,25 @@ For example:
 LICENSE_REQUIRED
 ----------------
 
-Defines whethere license attribute in :ref:`component` is required. Defaults to false.
+Defines whether the license attribute in :ref:`component` is required.
+
+.. note::
+
+This is off by default.
 
 .. setting:: LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 
 LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 -----------------------------------------
 
-By default the length of a given translation is limited to the length of the
-source string * 10 characters. Set this option to ``False`` to allow longer
-translations (up to 10.000 characters) irrespective of the source length.
+Whether the length of a given translation should be limited.
+The restriction is the length of the source string * 10 characters.
+
+.. hint::
+
+Set this to ``False`` to allow longer translations (up to 10.000 characters) irrespective of source string length.
+
+.. note::
 
 Defaults to ``True``.
 
@@ -695,8 +719,11 @@ Defaults to ``True``.
 LOGIN_REQUIRED_URLS
 -------------------
 
-List of URLs which require login (besides standard rules built into Weblate).
-This allows you to password protect whole installation using:
+A list of URLs you want to require logging into. (Besides the standard rules built into Weblate).
+
+.. hint::
+
+This allows you to password protect a whole installation using:
 
 .. code-block:: python
 
@@ -709,16 +736,15 @@ This allows you to password protect whole installation using:
 
 .. hint::
 
-   It is desirable to lock down API access as well as shown in above example.
+   It is desirable to lock down API access as well, as shown in the above example.
 
 .. setting:: LOGIN_REQUIRED_URLS_EXCEPTIONS
 
 LOGIN_REQUIRED_URLS_EXCEPTIONS
 ------------------------------
 
-List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If you don't
-specify this list, the default value will be used, which allows users to access
-the login page.
+List of exceptions for :setting:`LOGIN_REQUIRED_URLS`.
+If not specified, users are allowed to access the login page.
 
 Some of exceptions you might want to include:
 
@@ -740,8 +766,11 @@ Some of exceptions you might want to include:
 MATOMO_SITE_ID
 --------------
 
-ID of a site in Matomo (Piwik) you want to track. Please note that this
-integration does not support Matomo Tag Manager.
+ID of a site in Matomo (formerly Piwik) you want to track.
+
+.. note::
+
+This integration does not support the Matomo Tag Manager.
 
 .. seealso::
 
@@ -753,10 +782,13 @@ integration does not support Matomo Tag Manager.
 MATOMO_URL
 ----------
 
-Full URL (including trailing slash) of a Matomo (Piwik) installation you want
-to use to track Weblate users. For more information about Matomo see
-<https://matomo.org/>. Please note that this integration does not support
-Matomo Tag Manager.
+Full URL (including trailing slash) of a Matomo (formerly Piwik) installation you want
+to use to track Weblate use. For more info about Matomo, see
+<https://matomo.org/>.
+
+.. hint::
+
+This integration does not support the Matomo Tag Manager.
 
 For example:
 
@@ -785,7 +817,7 @@ List of enabled machine translation services to use.
 
 .. note::
 
-    Many of services need additional configuration like API keys, please check
+    Many of the services need additional configuration like API keys, please check
     their documentation for more details.
 
 .. code-block:: python
@@ -816,7 +848,7 @@ List of enabled machine translation services to use.
 MT_APERTIUM_APY
 ---------------
 
-URL of the Apertium APy server, see http://wiki.apertium.org/wiki/Apertium-apy
+URL of the Apertium-APy server, see http://wiki.apertium.org/wiki/Apertium-apy
 
 .. seealso::
 
@@ -860,7 +892,7 @@ Region name to use for Amazon Translate.
 MT_BAIDU_ID
 ------------
 
-Client ID for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
+Client ID for the Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
 
 .. seealso::
 
@@ -871,7 +903,7 @@ Client ID for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/
 MT_BAIDU_SECRET
 ----------------
 
-Client secret for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
+Client secret for the Baidu Zhiyun API, you can register at https://api.fanyi.baidu.com/api/trans/product/index
 
 .. seealso::
 
@@ -882,7 +914,7 @@ Client secret for Baidu Zhiyun API, you can register at https://api.fanyi.baidu.
 MT_DEEPL_KEY
 ------------
 
-API key for DeepL API, you can register at https://www.deepl.com/pro.html.
+API key for the DeepL API, you can register at https://www.deepl.com/pro.html
 
 .. seealso::
 
@@ -893,7 +925,7 @@ API key for DeepL API, you can register at https://www.deepl.com/pro.html.
 MT_GOOGLE_KEY
 -------------
 
-API key for Google Translate API, you can register at https://cloud.google.com/translate/docs
+API key for the Google Translate API, you can register at https://cloud.google.com/translate/docs
 
 .. seealso::
 
@@ -904,7 +936,7 @@ API key for Google Translate API, you can register at https://cloud.google.com/t
 MT_MICROSOFT_COGNITIVE_KEY
 --------------------------
 
-Client key for Microsoft Cognitive Services Translator API.
+Client key for the Microsoft Cognitive Services Translator API.
 
 .. seealso::
     :ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
@@ -923,7 +955,7 @@ Region prefix as defined in `Multi service subscription <https://docs.microsoft.
 MT_MYMEMORY_EMAIL
 -----------------
 
-MyMemory identification e-mail, you can get 1000 requests per day with this.
+MyMemory identification e-mail address, you can get 1000 requests per day with this.
 
 .. seealso::
 
@@ -947,7 +979,7 @@ MyMemory access key for private translation memory, use together with :setting:`
 MT_MYMEMORY_USER
 ----------------
 
-MyMemory user id for private translation memory, use together with :setting:`MT_MYMEMORY_KEY`.
+MyMemory user ID for private translation memory, use together with :setting:`MT_MYMEMORY_KEY`.
 
 .. seealso::
 
@@ -959,7 +991,7 @@ MyMemory user id for private translation memory, use together with :setting:`MT_
 MT_NETEASE_KEY
 --------------
 
-App key for Netease Sight API, you can register at https://sight.netease.com/
+App key for NetEase Sight API, you can register at https://sight.netease.com/
 
 .. seealso::
 
@@ -970,7 +1002,7 @@ App key for Netease Sight API, you can register at https://sight.netease.com/
 MT_NETEASE_SECRET
 -----------------
 
-App secret for Netease Sight API, you can register at https://sight.netease.com/
+App secret for the NetEase Sight API, you can register at https://sight.netease.com/
 
 .. seealso::
 
@@ -993,7 +1025,7 @@ URL where tmserver is running.
 MT_YANDEX_KEY
 -------------
 
-API key for Yandex Translate API, you can register at https://tech.yandex.com/translate/
+API key for the Yandex Translate API, you can register at https://tech.yandex.com/translate/
 
 .. seealso::
 
@@ -1004,7 +1036,7 @@ API key for Yandex Translate API, you can register at https://tech.yandex.com/tr
 MT_YOUDAO_ID
 ------------
 
-Client ID for Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
+Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
 
 .. seealso::
 
@@ -1015,7 +1047,7 @@ Client ID for Youdao Zhiyun API, you can register at https://ai.youdao.com/produ
 MT_YOUDAO_SECRET
 ----------------
 
-Client secret for Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
+Client secret for the Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
 
 .. seealso::
 
@@ -1066,7 +1098,7 @@ Your SAP password
 MT_SAP_USE_MT
 -------------
 
-Should the machine translation service also be used? (in addition to the term database).
+Whether to also use machine translation services, in addition to the term database.
 Possible values: True / False
 
 .. seealso::
@@ -1077,23 +1109,23 @@ Possible values: True / False
 NEARBY_MESSAGES
 ---------------
 
-How many messages around current one to show during translating.
+How many messages to show around the currently translated string.
 
 .. setting:: REGISTRATION_CAPTCHA
 
 REGISTRATION_CAPTCHA
 --------------------
 
-A boolean (either ``True`` or ``False``) indicating whether registration of new
-accounts is protected by captcha. This setting is optional, and a default of
-True will be assumed if it is not supplied.
+A value of either ``True`` or ``False`` indicating whether registration of new
+accounts is protected by CAPTCHA. This setting is optional, and a default of
+``True`` will be assumed if it is not supplied.
 
-If enabled the captcha is added to all pages where users enter e-mail address:
+If turned on, a CAPTCHA is added to all pages where a users enters their e-mail address:
 
 * New account registration.
 * Password recovery.
 * Adding e-mail to an account.
-* Contact form for users who are not logged in.
+* Contact form for users that are not logged in..
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 
@@ -1102,9 +1134,9 @@ REGISTRATION_EMAIL_MATCH
 
 .. versionadded:: 2.17
 
-Allows you to filter e-mail addresses which can register.
+Allows you to filter which e-mail addresses can register.
 
-Defaults to ``.*`` which allows any address to register.
+Defaults to ``.*``, which allows any e-mail address to be registered.
 
 You can use it to restrict registration to a single e-mail domain:
 
@@ -1117,16 +1149,15 @@ You can use it to restrict registration to a single e-mail domain:
 REGISTRATION_OPEN
 -----------------
 
-A boolean (either ``True`` or ``False``) indicating whether registration of new
-accounts is currently permitted. This setting is optional, and a default of
-True will be assumed if it is not supplied.
+Whether registration of new accounts is currently permitted.
+This optional setting can be be the default``True`` or changed to ``False``.
 
 .. note::
 
-   This setting has effect on built in authentication by email or through
-   Python Social Auth. In case of using third party authentication methods such
-   as :ref:`ldap-auth` it just hides the registration form, but new users might
-   be still able to log in and create account.
+   This setting affects built-in authentication by e-mail address or through the
+   Python Social Auth. If using third-party authentication methods such
+   as :ref:`ldap-auth`, it just hides the registration form, but new users might
+   still be able to log in and create accounts.
 
 .. setting:: SENTRY_DSN
 
@@ -1147,25 +1178,25 @@ SIMPLIFY_LANGUAGES
 ------------------
 
 Use simple language codes for default language/country combinations. For
-example ``fr_FR`` translation will use ``fr`` language code. This is usually
-desired behavior as it simplifies listing of the languages for these default
+example ``fr_FR`` translation will use the ``fr`` language code. This is usually
+the desired behavior as it simplifies listing languages for these default
 combinations.
 
-Disable this if you are having different translations for both variants.
+Turn this off if you want to different translations for each variant.
 
 .. setting:: SITE_TITLE
 
 SITE_TITLE
 ----------
 
-Site title to be used in website and e-mails as well.
+Site title to be used for the website and e-mails.
 
 .. setting:: SPECIAL_CHARS
 
 SPECIAL_CHARS
 -------------
 
-Additional characters to show in the visual keyboard, see :ref:`visual-keyboard`.
+Additional characters to include in the visual keyboard, see :ref:`visual-keyboard`.
 
 The default value is:
 
@@ -1180,14 +1211,14 @@ SINGLE_PROJECT
 
 .. versionadded:: 3.8
 
-Redirect user directly to single project or component instead of showing
-dashboard. You can either set it to ``True`` and in this case it only works in
+Redirects users directly to a project or component instead of showing
+the dashboard. You can either set it to ``True`` and in this case it only works in
 case there is actually only single project in Weblate. Alternatively set
-project slug and it will redirect unconditionally to this project.
+the project slug, and it will redirect unconditionally to this project.
 
 .. versionchanged:: 3.11
 
-   The setting now accept project slug as well to force displaying of that
+   The setting now also accepts a project slug, to force displaying that that
    single project.
 
 Example:
@@ -1201,7 +1232,7 @@ Example:
 STATUS_URL
 ----------
 
-URL where your Weblate instance reports it's status.
+The URL where your Weblate instance reports it's status.
 
 .. setting:: SUGGESTION_CLEANUP_DAYS
 
@@ -1210,8 +1241,8 @@ SUGGESTION_CLEANUP_DAYS
 
 .. versionadded:: 3.2.1
 
-Automatically delete suggestions after given number of days. Defaults to
-``None`` what means no deletion at all.
+Automatically deletes suggestions after given number of days.
+Defaults to ``None``, meaning no deletions.
 
 .. setting:: URL_PREFIX
 
@@ -1219,9 +1250,16 @@ URL_PREFIX
 ----------
 
 This settings allows you to run Weblate under some path (otherwise it relies on
-being executed from webserver root). To use this setting, you also need to
-configure your server to strip this prefix. For example with WSGI, this can be
-achieved by setting ``WSGIScriptAlias``. The prefix should start with a ``/``.
+being run from the webserver root).
+
+.. note::
+
+To use this setting, you also need to configure your server to strip this prefix.
+For example with WSGI, this can be achieved by setting ``WSGIScriptAlias``.
+
+.. hint::
+
+The prefix should start with a ``/``.
 
 Example:
 
@@ -1231,7 +1269,7 @@ Example:
 
 .. note::
 
-    This setting does not work with Django's builtin server, you would have to
+    This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
 .. setting:: VCS_BACKENDS
@@ -1239,9 +1277,15 @@ Example:
 VCS_BACKENDS
 ------------
 
-Configuration of available VCS backends. Weblate tries to use all supported
-backends for which you have tools available. You can limit choices or add
-custom VCS backends using this.
+Configuration of available VCS backends.
+
+.. note::
+
+Weblate tries to use all supported backends you have the tools for.
+
+.. hint::
+
+You can limit choices or add custom VCS back-ends by using this.
 
 .. code-block:: python
 
@@ -1260,14 +1304,19 @@ VCS_CLONE_DEPTH
 
 .. versionadded:: 3.10.2
 
-Configures how deep clones of repositories Weblate should do. Currently this is
-only supported in :ref:`vcs-git`. By default Weblate does shallow clones of the
-repositories to make cloning faster and save disk space. Depending on your
-usage (for example when using custom :ref:`addons`), you might want to increase
-the depth or disable shallow clones completely by setting this to 0.
+Configures how deep cloning of repositories Weblate should do.
+
+.. note::
+
+Currently this is only supported in :ref:`vcs-git`. By default Weblate does shallow clones of the
+repositories to make cloning faster and save disk space. Depending on your usage
+(for example when using custom :ref:`addons`), you might want to increase
+the depth or turn off shallow clones completely by setting this to 0.
+
+.. hint::
 
 In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow
-<commit hash>'`` error when pushing from Weblate, disable shallow clones completely by setting:
+<commit hash>'`` error when pushing from Weblate, turn off shallow clones completely by setting:
 
 .. code-block:: python
 
@@ -1279,7 +1328,7 @@ WEBLATE_ADDONS
 --------------
 
 List of addons available for use. To use them, they have to be enabled for
-given translation component. By default this includes all built in addons, when
+a given translation component. By default this includes all built-in addons, when
 extending the list you will probably want to keep existing ones enabled, for
 example:
 
@@ -1326,7 +1375,11 @@ WEBLATE_FORMATS
 
 .. versionadded:: 3.0
 
-List of file formats available for use, you can usually keep this on default value.
+List of file formats available for use.
+
+.. note::
+
+The default list already has the common formats.
 
 .. seealso::
 
@@ -1339,7 +1392,7 @@ WEBLATE_GPG_IDENTITY
 
 .. versionadded:: 3.1
 
-Identity which should be used by Weblate to sign Git commits, for example:
+Identity used by Weblate to sign Git commits, for example:
 
 .. code-block:: python
 
@@ -1347,10 +1400,9 @@ Identity which should be used by Weblate to sign Git commits, for example:
 
 .. warning::
 
-    If you are going to change value of setting, it is advisable to clean the
-    cache as the key information is cached for seven days. This is not
-    necessary for initial setup as nothing is cached if this feature is not
-    configured.
+    Clean the cache if you change this setting, to clear info about its key is otherwise being
+    cached for seven days. This does not apply for initial setup, as nothing is cached
+    if this feature is not configured.
 
 .. seealso::
 
@@ -1364,9 +1416,9 @@ DATABASE_BACKUP
 
 Whether the database backups should be stored as plain text, compressed or skipped.
 The authorized values are:
-* plain
-* compressed
-* none
+* ``"plain``"
+* ``"compressed``"
+* ``"none"``
 
 .. seealso::
 
