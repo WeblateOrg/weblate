@@ -34,6 +34,7 @@ Not yet released.
 * Fixed listing project level changes in history.
 * Fixed stats invalidation in some corner cases.
 * Fixed searching for certain string states.
+* Improved format string checks behavior on missing percent.
 
 Weblate 3.11.2
 --------------

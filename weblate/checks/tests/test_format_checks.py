@@ -66,6 +66,9 @@ class PythonFormatCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_format('%d%% string', '%d%% string', False))
         self.assertTrue(self.check.check_format('12%% string', '12% string', False))
         self.assertTrue(self.check.check_format('Save 12%%.', 'Save 12%.', False))
+        self.assertFalse(
+            self.check.check_format('Save 12%%.', 'Save 12 percent.', False)
+        )
 
     def test_named_format(self):
         self.assertFalse(
@@ -156,7 +159,7 @@ class PHPFormatCheckTest(CheckTestCase):
         self.assertTrue(self.check.check_format('%s%% (0.1%%)', '%s%% (0.1%x)', False))
 
     def test_missing_percent_format(self):
-        self.assertTrue(self.check.check_format('%s%% %%', '%s%% percent', False))
+        self.assertFalse(self.check.check_format('%s%% %%', '%s%% percent', False))
 
     def test_space_format(self):
         self.assertTrue(self.check.check_format('%d % string', '%d % other', False))
