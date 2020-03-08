@@ -205,16 +205,13 @@ class BaseFormatCheck(TargetCheck):
             )
 
     def format_string(self, string):
-        return '%{}'.format(string)
+        return string
 
     def cleanup_string(self, text):
-        """Remove locale specific code from format string."""
-        if '\'' in text:
-            return text.replace('\'', '')
         return text
 
     def normalize(self, matches):
-        return [m for m in matches if m != '%']
+        return matches
 
     def check_format(self, source, target, ignore_missing):
         """Generic checker for format strings."""
@@ -254,7 +251,7 @@ class BaseFormatCheck(TargetCheck):
         return False
 
     def is_position_based(self, string):
-        raise NotImplementedError()
+        return False
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
@@ -285,7 +282,26 @@ class BaseFormatCheck(TargetCheck):
         return super().get_description(check_obj)
 
 
-class PythonFormatCheck(BaseFormatCheck):
+class BasePrintfCheck(BaseFormatCheck):
+    """Base class for printf based format checks."""
+
+    def is_position_based(self, string):
+        raise NotImplementedError()
+
+    def normalize(self, matches):
+        return [m for m in matches if m != '%']
+
+    def format_string(self, string):
+        return '%{}'.format(string)
+
+    def cleanup_string(self, text):
+        """Remove locale specific code from format string."""
+        if '\'' in text:
+            return text.replace('\'', '')
+        return text
+
+
+class PythonFormatCheck(BasePrintfCheck):
     """Check for Python format string."""
 
     check_id = 'python_format'
@@ -297,7 +313,7 @@ class PythonFormatCheck(BaseFormatCheck):
         return '(' not in string and string != '%'
 
 
-class PHPFormatCheck(BaseFormatCheck):
+class PHPFormatCheck(BasePrintfCheck):
     """Check for PHP format string."""
 
     check_id = 'php_format'
@@ -309,7 +325,7 @@ class PHPFormatCheck(BaseFormatCheck):
         return '$' not in string and string != '%'
 
 
-class CFormatCheck(BaseFormatCheck):
+class CFormatCheck(BasePrintfCheck):
     """Check for C format string."""
 
     check_id = 'c_format'
@@ -321,7 +337,7 @@ class CFormatCheck(BaseFormatCheck):
         return '$' not in string and string != '%'
 
 
-class PerlFormatCheck(BaseFormatCheck):
+class PerlFormatCheck(BasePrintfCheck):
     """Check for Perl format string."""
 
     check_id = 'perl_format'
@@ -371,7 +387,7 @@ class CSharpFormatCheck(BaseFormatCheck):
         return '{%s}' % string
 
 
-class JavaFormatCheck(BaseFormatCheck):
+class JavaFormatCheck(BasePrintfCheck):
     """Check for Java format string."""
 
     check_id = 'java_format'
@@ -391,9 +407,6 @@ class JavaMessageFormatCheck(BaseFormatCheck):
     description = _('Java MessageFormat string does not match source')
     regexp = JAVA_MESSAGE_MATCH
 
-    def is_position_based(self, string):
-        return False
-
     def format_string(self, string):
         return '{%s}' % string
 
@@ -402,10 +415,6 @@ class JavaMessageFormatCheck(BaseFormatCheck):
             return False
 
         return super().should_skip(unit)
-
-    def cleanup_string(self, text):
-        """No cleanups here."""
-        return text
 
     def check_format(self, source, target, ignore_missing):
         """Generic checker for format strings."""
@@ -430,29 +439,9 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     description = _('The i18next interpolation does not match source')
     regexp = I18NEXT_MATCH
 
-    def cleanup_string(self, text):
-        """No cleanups here."""
-        return text
-
-    def format_string(self, string):
-        return string
-
-    def is_position_based(self, string):
-        return False
-
 
 class PercentInterpolationCheck(BaseFormatCheck):
     check_id = 'percent_interpolation'
     name = _('Percent interpolation')
     description = _('The percent interpolation does not match source')
     regexp = PERCENT_MATCH
-
-    def cleanup_string(self, text):
-        """No cleanups here."""
-        return text
-
-    def format_string(self, string):
-        return string
-
-    def is_position_based(self, string):
-        return False
