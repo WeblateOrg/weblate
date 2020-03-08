@@ -350,7 +350,7 @@ The following subdirectories usually exist:
     This directory has to be writable by Weblate. If if running it as uWSGI means
     the ``www-data`` user should have write access to it.
 
-    The easiest way to achieve this is to make the user own the directory:
+    The easiest way to achieve this is to make the user the owner of the directory:
 
     .. code-block:: sh
 
