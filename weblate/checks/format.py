@@ -33,7 +33,8 @@ PYTHON_PRINTF_MATCH = re.compile(
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
-        (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
+        (?P<type>[a-zA-Z%])        # type (%s, %d, etc.)
+        |)                      # incomplete format string
     )''',
     re.VERBOSE,
 )
@@ -48,7 +49,8 @@ PHP_PRINTF_MATCH = re.compile(
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
-        (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
+        (?P<type>[a-zA-Z%])        # type (%s, %d, etc.)
+        |)                      # incomplete format string
     )''',
     re.VERBOSE,
 )
@@ -63,7 +65,8 @@ C_PRINTF_MATCH = re.compile(
         (?:\d+)?                # width
         (?:\.\d+)?              # precision
         (hh|h|l|ll)?         # length formatting
-        (?P<type>[a-zA-Z%]))        # type (%s, %d, etc.)
+        (?P<type>[a-zA-Z%])        # type (%s, %d, etc.)
+        |)                      # incomplete format string
     )''',
     re.VERBOSE,
 )
@@ -223,9 +226,7 @@ class BaseFormatCheck(TargetCheck):
 
         if src_matches != tgt_matches:
             # Ignore mismatch in percent position
-            if len(src_matches) == len(tgt_matches) and self.normalize(
-                src_matches
-            ) == self.normalize(tgt_matches):
+            if self.normalize(src_matches) == self.normalize(tgt_matches):
                 return False
             # We can ignore missing format strings
             # for first of plurals
