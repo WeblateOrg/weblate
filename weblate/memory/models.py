@@ -17,3 +17,37 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+
+from django.conf import settings
+from django.db import models
+
+
+class Memory(models.Model):
+    source_language = models.ForeignKey(
+        "lang.Language",
+        on_delete=models.deletion.CASCADE,
+        related_name="memory_source_set",
+    )
+    target_language = models.ForeignKey(
+        "lang.Language",
+        on_delete=models.deletion.CASCADE,
+        related_name="memory_target_set",
+    )
+    source = models.TextField()
+    target = models.TextField()
+    origin = models.TextField()
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+    )
+    project = models.ForeignKey(
+        "trans.Project", on_delete=models.deletion.CASCADE, null=True, blank=True
+    )
+    from_file = models.BooleanField()
+    shared = models.BooleanField()
+
+    def __str__(self):
+        return "Memory: {}:{}".format(self.source_language, self.target_language)

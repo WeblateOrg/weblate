@@ -44,6 +44,8 @@ from weblate.fonts.admin import FontAdmin, FontGroupAdmin
 from weblate.fonts.models import Font, FontGroup
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
+from weblate.memory.admin import MemoryAdmin
+from weblate.memory.models import Memory
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
@@ -100,6 +102,9 @@ class WeblateAdminSite(AdminSite):
 
         # Languages
         self.register(Language, LanguageAdmin)
+
+        # Memory
+        self.register(Memory, MemoryAdmin)
 
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
