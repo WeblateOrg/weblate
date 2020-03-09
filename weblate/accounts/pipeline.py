@@ -194,10 +194,12 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
     ):
         raise AuthMissingParameter(backend, 'disabled')
 
-    # Ensure it's still same user
+    # Ensure it's still same user (if sessions was kept as this is to avoid
+    # completing authentication under diferent user than initiated it, with
+    # new session, it will complete as new user)
     current_user = strategy.request.user.pk
     init_user = strategy.request.session.get('social_auth_user')
-    if current_user != init_user:
+    if strategy.request.session.session_key and current_user != init_user:
         raise AuthMissingParameter(backend, 'user')
 
 
