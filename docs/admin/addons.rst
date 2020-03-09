@@ -77,7 +77,7 @@ The matching is done using regular expressions, where power is a tradeoff for
 complexity in configuration. Some examples for common use cases can be found in
 the addon help sectoin.
 
-Once you hit "Save", a preview of matching components will be presented,
+Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
 
 .. image:: /images/addon-discovery.png
