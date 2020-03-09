@@ -27,23 +27,23 @@ from weblate.formats.external import XlsxFormat
 from weblate.formats.tests.test_formats import AutoFormatTest
 from weblate.trans.tests.utils import get_test_file
 
-XLSX_FILE = get_test_file('cs-mono.xlsx')
+XLSX_FILE = get_test_file("cs-mono.xlsx")
 
 
 class XlsxFormatTest(AutoFormatTest):
     FORMAT = XlsxFormat
     FILE = XLSX_FILE
-    MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    EXT = 'xlsx'
+    MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    EXT = "xlsx"
     COUNT = 4
-    MASK = '*/translations.xlsx'
-    EXPECTED_PATH = 'cs_CZ/translations.xlsx'
-    FIND = 'HELLO'
-    FIND_MATCH = 'Hello, world!\r\n'
-    MATCH = b'PK'
-    NEW_UNIT_MATCH = b'PK'
+    MASK = "*/translations.xlsx"
+    EXPECTED_PATH = "cs_CZ/translations.xlsx"
+    FIND = "HELLO"
+    FIND_MATCH = "Hello, world!\r\n"
+    MATCH = b"PK"
+    NEW_UNIT_MATCH = b"PK"
     BASE = XLSX_FILE
-    EXPECTED_FLAGS = ''
+    EXPECTED_FLAGS = ""
 
     def assert_same(self, newdata, testdata):
         newworkbook = load_workbook(BytesIO(newdata))

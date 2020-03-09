@@ -46,12 +46,12 @@ except ImportError:
 
 
 def try_add_source(request, obj):
-    if 'source' not in request.POST:
+    if "source" not in request.POST:
         return False
 
     try:
         source = obj.component.source_translation.unit_set.get(
-            pk=int(request.POST['source'])
+            pk=int(request.POST["source"])
         )
     except (Unit.DoesNotExist, ValueError):
         return False
@@ -66,23 +66,23 @@ class ScreenshotList(ListView, ComponentViewMixin):
     _add_form = None
 
     def get_queryset(self):
-        self.kwargs['component'] = self.get_component()
-        return Screenshot.objects.filter(component=self.kwargs['component']).order()
+        self.kwargs["component"] = self.get_component()
+        return Screenshot.objects.filter(component=self.kwargs["component"]).order()
 
     def get_context_data(self):
         result = super().get_context_data()
-        component = self.kwargs['component']
-        result['object'] = component
-        if self.request.user.has_perm('screenshot.add', component):
+        component = self.kwargs["component"]
+        result["object"] = component
+        if self.request.user.has_perm("screenshot.add", component):
             if self._add_form is not None:
-                result['add_form'] = self._add_form
+                result["add_form"] = self._add_form
             else:
-                result['add_form'] = ScreenshotForm()
+                result["add_form"] = ScreenshotForm()
         return result
 
     def post(self, request, **kwargs):
         component = self.get_component()
-        if not request.user.has_perm('screenshot.add', component):
+        if not request.user.has_perm("screenshot.add", component):
             raise PermissionDenied()
         self._add_form = ScreenshotForm(request.POST, request.FILES)
         if self._add_form.is_valid():
@@ -90,19 +90,19 @@ class ScreenshotList(ListView, ComponentViewMixin):
                 component=component, user=request.user, **self._add_form.cleaned_data
             )
             request.user.profile.uploaded += 1
-            request.user.profile.save(update_fields=['uploaded'])
+            request.user.profile.save(update_fields=["uploaded"])
 
             try_add_source(request, obj)
             messages.success(
                 request,
                 _(
-                    'Screenshot has been uploaded, '
-                    'you can now assign it to source strings.'
+                    "Screenshot has been uploaded, "
+                    "you can now assign it to source strings."
                 ),
             )
             return redirect(obj)
         messages.error(
-            request, _('Failed to upload screenshot, please fix errors below.')
+            request, _("Failed to upload screenshot, please fix errors below.")
         )
         return self.get(request, **kwargs)
 
@@ -118,23 +118,23 @@ class ScreenshotDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        component = result['object'].component
-        if self.request.user.has_perm('screenshot.edit', component):
+        component = result["object"].component
+        if self.request.user.has_perm("screenshot.edit", component):
             if self._edit_form is not None:
-                result['edit_form'] = self._edit_form
+                result["edit_form"] = self._edit_form
             else:
-                result['edit_form'] = ScreenshotForm(instance=result['object'])
+                result["edit_form"] = ScreenshotForm(instance=result["object"])
         return result
 
     def post(self, request, **kwargs):
         obj = self.get_object()
-        if request.user.has_perm('screenshot.edit', obj.component):
+        if request.user.has_perm("screenshot.edit", obj.component):
             self._edit_form = ScreenshotForm(request.POST, request.FILES, instance=obj)
             if self._edit_form.is_valid():
                 if request.FILES:
                     obj.user = request.user
                     request.user.profile.uploaded += 1
-                    request.user.profile.save(update_fields=['uploaded'])
+                    request.user.profile.save(update_fields=["uploaded"])
                 self._edit_form.save()
             else:
                 return self.get(request, **kwargs)
@@ -146,22 +146,22 @@ class ScreenshotDetail(DetailView):
 def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     request.user.check_access(obj.component.project)
-    if not request.user.has_perm('screenshot.delete', obj.component):
+    if not request.user.has_perm("screenshot.delete", obj.component):
         raise PermissionDenied()
 
-    kwargs = {'project': obj.component.project.slug, 'component': obj.component.slug}
+    kwargs = {"project": obj.component.project.slug, "component": obj.component.slug}
 
     obj.delete()
 
-    messages.success(request, _('Screenshot %s has been deleted.') % obj.name)
+    messages.success(request, _("Screenshot %s has been deleted.") % obj.name)
 
-    return redirect('screenshots', **kwargs)
+    return redirect("screenshots", **kwargs)
 
 
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
     request.user.check_access(obj.component.project)
-    if not request.user.has_perm('screenshot.edit', obj.component):
+    if not request.user.has_perm("screenshot.edit", obj.component):
         raise PermissionDenied()
     return obj
 
@@ -171,9 +171,9 @@ def get_screenshot(request, pk):
 def remove_source(request, pk):
     obj = get_screenshot(request, pk)
 
-    obj.units.remove(request.POST['source'])
+    obj.units.remove(request.POST["source"])
 
-    messages.success(request, _('Source has been removed.'))
+    messages.success(request, _("Source has been removed."))
 
     return redirect(obj)
 
@@ -182,19 +182,19 @@ def search_results(code, obj, units=None):
     if units is None:
         units = []
     else:
-        units = units.exclude(id_hash__in=obj.units.values_list('id_hash', flat=True))
+        units = units.exclude(id_hash__in=obj.units.values_list("id_hash", flat=True))
 
     results = [
         {
-            'text': unit.get_source_plurals()[0],
-            'pk': unit.pk,
-            'context': unit.context,
-            'location': unit.location,
+            "text": unit.get_source_plurals()[0],
+            "pk": unit.pk,
+            "context": unit.context,
+            "location": unit.location,
         }
         for unit in units
     ]
 
-    return JsonResponse(data={'responseCode': code, 'results': results})
+    return JsonResponse(data={"responseCode": code, "results": results})
 
 
 @login_required
@@ -203,7 +203,7 @@ def search_source(request, pk):
     obj = get_screenshot(request, pk)
     translation = obj.component.source_translation
 
-    units = translation.unit_set.filter(parse_query(request.POST.get('q', '')))
+    units = translation.unit_set.filter(parse_query(request.POST.get("q", "")))
 
     return search_results(200, obj, units)
 
@@ -212,9 +212,9 @@ def ocr_extract(api, image, strings):
     """Extract closes matches from an image."""
     api.SetImage(image)
     for item in api.GetComponentImages(RIL.TEXTLINE, True):
-        api.SetRectangle(item[1]['x'], item[1]['y'], item[1]['w'], item[1]['h'])
+        api.SetRectangle(item[1]["x"], item[1]["y"], item[1]["w"], item[1]["h"])
         ocr_result = api.GetUTF8Text()
-        parts = [ocr_result] + ocr_result.split('|') + ocr_result.split()
+        parts = [ocr_result] + ocr_result.split("|") + ocr_result.split()
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
     api.Clear()
@@ -238,7 +238,7 @@ def ocr_search(request, pk):
     )
 
     # Find all our strings
-    sources = dict(translation.unit_set.values_list('source', 'pk'))
+    sources = dict(translation.unit_set.values_list("source", "pk"))
     strings = tuple(sources.keys())
 
     results = set()
@@ -261,7 +261,7 @@ def ocr_search(request, pk):
 def add_source(request, pk):
     obj = get_screenshot(request, pk)
     result = try_add_source(request, obj)
-    return JsonResponse(data={'responseCode': 200, 'status': result})
+    return JsonResponse(data={"responseCode": 200, "status": result})
 
 
 @login_required
@@ -269,6 +269,6 @@ def get_sources(request, pk):
     obj = get_screenshot(request, pk)
     return render(
         request,
-        'screenshots/screenshot_sources_body.html',
-        {'sources': obj.units.all(), 'object': obj},
+        "screenshots/screenshot_sources_body.html",
+        {"sources": obj.units.all(), "object": obj},
     )

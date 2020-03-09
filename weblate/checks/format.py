@@ -25,7 +25,7 @@ from django.utils.translation import gettext_lazy as _
 from weblate.checks.base import TargetCheck
 
 PYTHON_PRINTF_MATCH = re.compile(
-    r'''
+    r"""
     %(                          # initial %
           (?:\((?P<key>[^)]+)\))?    # Python style variables, like %(var)s
     (?P<fullvar>
@@ -35,13 +35,13 @@ PYTHON_PRINTF_MATCH = re.compile(
         (hh|h|l|ll)?         # length formatting
         (?P<type>[a-zA-Z%])        # type (%s, %d, etc.)
         |)                      # incomplete format string
-    )''',
+    )""",
     re.VERBOSE,
 )
 
 
 PHP_PRINTF_MATCH = re.compile(
-    r'''
+    r"""
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
@@ -51,13 +51,13 @@ PHP_PRINTF_MATCH = re.compile(
         (hh|h|l|ll)?         # length formatting
         (?P<type>[a-zA-Z%])        # type (%s, %d, etc.)
         |)                      # incomplete format string
-    )''',
+    )""",
     re.VERBOSE,
 )
 
 
 C_PRINTF_MATCH = re.compile(
-    r'''
+    r"""
     %(                          # initial %
           (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
     (?P<fullvar>
@@ -67,12 +67,12 @@ C_PRINTF_MATCH = re.compile(
         (hh|h|l|ll)?         # length formatting
         (?P<type>[a-zA-Z%])        # type (%s, %d, etc.)
         |)                      # incomplete format string
-    )''',
+    )""",
     re.VERBOSE,
 )
 
 PYTHON_BRACE_MATCH = re.compile(
-    r'''
+    r"""
     {(                                  # initial {
         |                               # blank for position based
         (?P<field>
@@ -100,12 +100,12 @@ PYTHON_BRACE_MATCH = re.compile(
             [bcdeEfFgGnosxX%]?          # type
         )?
     )}                          # trailing }
-    ''',
+    """,
     re.VERBOSE,
 )
 
 C_SHARP_MATCH = re.compile(
-    r'''
+    r"""
         {                               # initial {
         (?P<arg>\d+)                    # variable order
         (?P<width>
@@ -121,12 +121,12 @@ C_SHARP_MATCH = re.compile(
             ))?
         )?
     }                                   # Ending }
-    ''',
+    """,
     re.VERBOSE,
 )
 
 JAVA_MATCH = re.compile(
-    r'''
+    r"""
         %((?![\s])                     # initial % (no space after)
           (?:(?P<ord>\d+)\$)?          # variable order, like %1$s
     (?P<fullvar>
@@ -137,12 +137,12 @@ JAVA_MATCH = re.compile(
             ((?<![tT])[tT][A-Za-z]|[A-Za-z])) # type (%s, %d, %te, etc.)
        )
     )
-    ''',
+    """,
     re.VERBOSE,
 )
 
 JAVA_MESSAGE_MATCH = re.compile(
-    r'''
+    r"""
     {                                   # initial {
         (?P<arg>\d+)                    # variable order
         \s*
@@ -152,24 +152,24 @@ JAVA_MESSAGE_MATCH = re.compile(
         )?
         \s*
     }                                   # Ending }
-    ''',
+    """,
     re.VERBOSE,
 )
 
 I18NEXT_MATCH = re.compile(
-    r'''
+    r"""
     (
     \$t\((.+?)\)      # nesting
     |
     {{(.+?)}}         # interpolation
     )
-    ''',
+    """,
     re.VERBOSE,
 )
 
-PERCENT_MATCH = re.compile(r'(%([a-zA-Z0-9_]+)%)')
+PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 
-WHITESPACE = re.compile(r'\s+')
+WHITESPACE = re.compile(r"\s+")
 
 
 class BaseFormatCheck(TargetCheck):
@@ -177,7 +177,7 @@ class BaseFormatCheck(TargetCheck):
 
     regexp = None
     default_disabled = True
-    severity = 'danger'
+    severity = "danger"
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
@@ -269,7 +269,7 @@ class BaseFormatCheck(TargetCheck):
         return ret
 
     def format_result(self, result):
-        return _('Following format strings are wrong: %s') % ', '.join(
+        return _("Following format strings are wrong: %s") % ", ".join(
             self.format_string(x) for x in result
         )
 
@@ -291,129 +291,129 @@ class BasePrintfCheck(BaseFormatCheck):
         raise NotImplementedError()
 
     def normalize(self, matches):
-        return [m for m in matches if m != '%']
+        return [m for m in matches if m != "%"]
 
     def format_string(self, string):
-        return '%{}'.format(string)
+        return "%{}".format(string)
 
     def cleanup_string(self, text):
         """Remove locale specific code from format string."""
-        if '\'' in text:
-            return text.replace('\'', '')
+        if "'" in text:
+            return text.replace("'", "")
         return text
 
 
 class PythonFormatCheck(BasePrintfCheck):
     """Check for Python format string."""
 
-    check_id = 'python_format'
-    name = _('Python format')
-    description = _('Python format string does not match source')
+    check_id = "python_format"
+    name = _("Python format")
+    description = _("Python format string does not match source")
     regexp = PYTHON_PRINTF_MATCH
 
     def is_position_based(self, string):
-        return '(' not in string and string != '%'
+        return "(" not in string and string != "%"
 
 
 class PHPFormatCheck(BasePrintfCheck):
     """Check for PHP format string."""
 
-    check_id = 'php_format'
-    name = _('PHP format')
-    description = _('PHP format string does not match source')
+    check_id = "php_format"
+    name = _("PHP format")
+    description = _("PHP format string does not match source")
     regexp = PHP_PRINTF_MATCH
 
     def is_position_based(self, string):
-        return '$' not in string and string != '%'
+        return "$" not in string and string != "%"
 
 
 class CFormatCheck(BasePrintfCheck):
     """Check for C format string."""
 
-    check_id = 'c_format'
-    name = _('C format')
-    description = _('C format string does not match source')
+    check_id = "c_format"
+    name = _("C format")
+    description = _("C format string does not match source")
     regexp = C_PRINTF_MATCH
 
     def is_position_based(self, string):
-        return '$' not in string and string != '%'
+        return "$" not in string and string != "%"
 
 
 class PerlFormatCheck(BasePrintfCheck):
     """Check for Perl format string."""
 
-    check_id = 'perl_format'
-    name = _('Perl format')
-    description = _('Perl format string does not match source')
+    check_id = "perl_format"
+    name = _("Perl format")
+    description = _("Perl format string does not match source")
     regexp = C_PRINTF_MATCH
 
     def is_position_based(self, string):
-        return '$' not in string and string != '%'
+        return "$" not in string and string != "%"
 
 
 class JavaScriptFormatCheck(CFormatCheck):
     """Check for JavaScript format string."""
 
-    check_id = 'javascript_format'
-    name = _('JavaScript format')
-    description = _('JavaScript format string does not match source')
+    check_id = "javascript_format"
+    name = _("JavaScript format")
+    description = _("JavaScript format string does not match source")
 
 
 class PythonBraceFormatCheck(BaseFormatCheck):
     """Check for Python format string."""
 
-    check_id = 'python_brace_format'
-    name = _('Python brace format')
-    description = _('Python brace format string does not match source')
+    check_id = "python_brace_format"
+    name = _("Python brace format")
+    description = _("Python brace format string does not match source")
     regexp = PYTHON_BRACE_MATCH
 
     def is_position_based(self, string):
-        return string == ''
+        return string == ""
 
     def format_string(self, string):
-        return '{%s}' % string
+        return "{%s}" % string
 
 
 class CSharpFormatCheck(BaseFormatCheck):
     """Check for C# format string."""
 
-    check_id = 'c_sharp_format'
-    name = _('C# format')
-    description = _('C# format string does not match source')
+    check_id = "c_sharp_format"
+    name = _("C# format")
+    description = _("C# format string does not match source")
     regexp = C_SHARP_MATCH
 
     def is_position_based(self, string):
-        return string == ''
+        return string == ""
 
     def format_string(self, string):
-        return '{%s}' % string
+        return "{%s}" % string
 
 
 class JavaFormatCheck(BasePrintfCheck):
     """Check for Java format string."""
 
-    check_id = 'java_format'
-    name = _('Java format')
-    description = _('Java format string does not match source')
+    check_id = "java_format"
+    name = _("Java format")
+    description = _("Java format string does not match source")
     regexp = JAVA_MATCH
 
     def is_position_based(self, string):
-        return '$' not in string and string != '%'
+        return "$" not in string and string != "%"
 
 
 class JavaMessageFormatCheck(BaseFormatCheck):
     """Check for Java MessageFormat string."""
 
-    check_id = 'java_messageformat'
-    name = _('Java MessageFormat')
-    description = _('Java MessageFormat string does not match source')
+    check_id = "java_messageformat"
+    name = _("Java MessageFormat")
+    description = _("Java MessageFormat string does not match source")
     regexp = JAVA_MESSAGE_MATCH
 
     def format_string(self, string):
-        return '{%s}' % string
+        return "{%s}" % string
 
     def should_skip(self, unit):
-        if 'auto-java-messageformat' in unit.all_flags and '{0' in unit.source:
+        if "auto-java-messageformat" in unit.all_flags and "{0" in unit.source:
             return False
 
         return super().should_skip(unit)
@@ -431,22 +431,22 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
     def format_result(self, result):
         if "'" in result:
-            return _('You need to screen an apostrophe with another one.')
+            return _("You need to screen an apostrophe with another one.")
         return super().format_result(result)
 
 
 class I18NextInterpolationCheck(BaseFormatCheck):
-    check_id = 'i18next_interpolation'
-    name = _('i18next interpolation')
-    description = _('The i18next interpolation does not match source')
+    check_id = "i18next_interpolation"
+    name = _("i18next interpolation")
+    description = _("The i18next interpolation does not match source")
     regexp = I18NEXT_MATCH
 
     def cleanup_string(self, text):
-        return WHITESPACE.sub('', text)
+        return WHITESPACE.sub("", text)
 
 
 class PercentInterpolationCheck(BaseFormatCheck):
-    check_id = 'percent_interpolation'
-    name = _('Percent interpolation')
-    description = _('The percent interpolation does not match source')
+    check_id = "percent_interpolation"
+    name = _("Percent interpolation")
+    description = _("The percent interpolation does not match source")
     regexp = PERCENT_MATCH

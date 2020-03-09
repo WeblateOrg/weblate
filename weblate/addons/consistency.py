@@ -28,13 +28,13 @@ from weblate.lang.models import Language
 
 class LangaugeConsistencyAddon(BaseAddon):
     events = (EVENT_DAILY, EVENT_POST_ADD)
-    name = 'weblate.consistency.languages'
-    verbose = _('Language consistency')
+    name = "weblate.consistency.languages"
+    verbose = _("Language consistency")
     description = _(
-        'Ensure that all components within one project '
-        'have translation to same languages.'
+        "Ensure that all components within one project "
+        "have translation to same languages."
     )
-    icon = 'language.svg'
+    icon = "language.svg"
     project_scope = True
 
     def ensure_all_have(self, project, languages):

@@ -24,13 +24,13 @@ from django.conf import settings
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 # Weblate as a CAT tool should use v1 API
-DEEPL_API = 'https://api.deepl.com/v1/translate'
+DEEPL_API = "https://api.deepl.com/v1/translate"
 
 
 class DeepLTranslation(MachineTranslation):
     """DeepL (Linguee) machine translation support."""
 
-    name = 'DeepL'
+    name = "DeepL"
     # This seems to be currently best MT service, so score it a bit
     # better than other ones.
     max_score = 91
@@ -39,11 +39,11 @@ class DeepLTranslation(MachineTranslation):
         """Check configuration."""
         super().__init__()
         if settings.MT_DEEPL_KEY is None:
-            raise MissingConfiguration('DeepL requires API key')
+            raise MissingConfiguration("DeepL requires API key")
 
     def download_languages(self):
         """List of supported languages is currently hardcoded."""
-        return ('en', 'de', 'fr', 'es', 'it', 'nl', 'pl', 'pt', 'ru')
+        return ("en", "de", "fr", "es", "it", "nl", "pl", "pt", "ru")
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
@@ -51,18 +51,18 @@ class DeepLTranslation(MachineTranslation):
             "post",
             DEEPL_API,
             data={
-                'auth_key': settings.MT_DEEPL_KEY,
-                'text': text,
-                'source_lang': source,
-                'target_lang': language,
+                "auth_key": settings.MT_DEEPL_KEY,
+                "text": text,
+                "source_lang": source,
+                "target_lang": language,
             },
         )
         payload = response.json()
 
-        for translation in payload['translations']:
+        for translation in payload["translations"]:
             yield {
-                'text': translation['text'],
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
+                "text": translation["text"],
+                "quality": self.max_score,
+                "service": self.name,
+                "source": text,
             }

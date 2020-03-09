@@ -46,8 +46,8 @@ def get_node_data(unit, node):
     # The language should be present as xml:lang, but in some
     # cases it's there only as lang
     return (
-        getXMLlang(node) or node.get('lang'),
-        unit.getNodeText(node, getXMLspace(unit.xmlelement, 'preserve')),
+        getXMLlang(node) or node.get("lang"),
+        unit.getNodeText(node, getXMLspace(unit.xmlelement, "preserve")),
     )
 
 
@@ -59,15 +59,15 @@ CATEGORY_USER_OFFSET = 20000000
 
 def get_category_name(category, origin):
     if CATEGORY_PRIVATE_OFFSET < category < CATEGORY_USER_OFFSET:
-        text = pgettext('Translation memory category', 'Project: {}')
+        text = pgettext("Translation memory category", "Project: {}")
     elif CATEGORY_USER_OFFSET < category:
-        text = pgettext('Translation memory category', 'Personal: {}')
+        text = pgettext("Translation memory category", "Personal: {}")
     elif category == CATEGORY_SHARED:
-        text = pgettext('Translation memory category', 'Shared: {}')
+        text = pgettext("Translation memory category", "Shared: {}")
     elif category == CATEGORY_FILE:
-        text = pgettext('Translation memory category', 'File: {}')
+        text = pgettext("Translation memory category", "File: {}")
     else:
-        text = 'Category {}: {{}}'.format(category)
+        text = "Category {}: {{}}".format(category)
     return text.format(origin)
 
 
@@ -83,13 +83,13 @@ class TMSchema(SchemaClass):
 
 
 class TranslationMemory(WhooshIndex):
-    LOCATION = 'memory'
+    LOCATION = "memory"
     SCHEMA = TMSchema
 
     def __init__(self):
         self.index = self.open_index()
         self.parser = qparser.QueryParser(
-            'source',
+            "source",
             schema=self.index.schema,
             group=qparser.OrGroup.factory(0.9),
             termclass=query.FuzzyTerm,
@@ -108,13 +108,13 @@ class TranslationMemory(WhooshIndex):
         return self.searcher.doc_count()
 
     def close(self):
-        if 'searcher' in self.__dict__:
+        if "searcher" in self.__dict__:
             self.searcher.close()
-            del self.__dict__['searcher']
+            del self.__dict__["searcher"]
 
     def refresh(self):
-        if 'searcher' in self.__dict__:
-            self.__dict__['searcher'] = self.searcher.refresh()
+        if "searcher" in self.__dict__:
+            self.__dict__["searcher"] = self.searcher.refresh()
 
     def writer(self):
         return self.index.writer()
@@ -151,15 +151,15 @@ class TranslationMemory(WhooshIndex):
         category = cls.get_category(category, project, user, use_file)
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
-            origin = '{}...{}'.format(name[:25], extension)
-        if extension == '.tmx':
+            origin = "{}...{}".format(name[:25], extension)
+        if extension == ".tmx":
             result = cls.import_tmx(request, fileobj, langmap, category, origin)
-        elif extension == '.json':
+        elif extension == ".json":
             result = cls.import_json(request, fileobj, category, origin)
         else:
-            raise MemoryImportError(_('Unsupported file!'))
+            raise MemoryImportError(_("Unsupported file!"))
         if not result:
-            raise MemoryImportError(_('No valid entries found in the uploaded file!'))
+            raise MemoryImportError(_("No valid entries found in the uploaded file!"))
         return result
 
     @classmethod
@@ -170,18 +170,18 @@ class TranslationMemory(WhooshIndex):
         try:
             data = json.loads(force_str(content))
         except ValueError as error:
-            report_error(error, request, prefix='Failed to parse')
-            raise MemoryImportError(_('Failed to parse JSON file!'))
+            report_error(error, request, prefix="Failed to parse")
+            raise MemoryImportError(_("Failed to parse JSON file!"))
         updates = {}
         fields = cls.SCHEMA().names()
         if category:
-            updates = {'category': category, 'origin': origin}
+            updates = {"category": category, "origin": origin}
         found = 0
         if not isinstance(data, list):
-            raise MemoryImportError(_('Failed to parse JSON file!'))
+            raise MemoryImportError(_("Failed to parse JSON file!"))
         for entry in data:
             if not isinstance(entry, dict):
-                raise MemoryImportError(_('Failed to parse JSON file!'))
+                raise MemoryImportError(_("Failed to parse JSON file!"))
             # Apply overrides
             entry.update(updates)
             # Ensure all fields are set
@@ -192,7 +192,7 @@ class TranslationMemory(WhooshIndex):
             try:
                 record = {field: entry[field] for field in fields}
             except KeyError:
-                raise MemoryImportError(_('Failed to parse JSON file!'))
+                raise MemoryImportError(_("Failed to parse JSON file!"))
             update_memory_task.delay(**record)
             found += 1
         return found
@@ -206,12 +206,12 @@ class TranslationMemory(WhooshIndex):
         try:
             storage = tmxfile.parsefile(fileobj)
         except (SyntaxError, AssertionError) as error:
-            report_error(error, request, prefix='Failed to parse')
-            raise MemoryImportError(_('Failed to parse TMX file!'))
+            report_error(error, request, prefix="Failed to parse")
+            raise MemoryImportError(_("Failed to parse TMX file!"))
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
         )
-        source_language_code = header.get('srclang')
+        source_language_code = header.get("srclang")
         source_language = cls.get_language_code(source_language_code, langmap)
 
         languages = {}
@@ -251,22 +251,22 @@ class TranslationMemory(WhooshIndex):
         """Create query to filter categories based on selection."""
         # Always include file imported memory
         if use_file:
-            category_filter = [query.Term('category', CATEGORY_FILE)]
+            category_filter = [query.Term("category", CATEGORY_FILE)]
         else:
             category_filter = []
         # Per user memory
         if user:
             category_filter.append(
-                query.Term('category', CATEGORY_USER_OFFSET + user.id)
+                query.Term("category", CATEGORY_USER_OFFSET + user.id)
             )
         # Private project memory
         if project:
             category_filter.append(
-                query.Term('category', CATEGORY_PRIVATE_OFFSET + project.id)
+                query.Term("category", CATEGORY_PRIVATE_OFFSET + project.id)
             )
         # Shared memory
         if use_shared:
-            category_filter.append(query.Term('category', CATEGORY_SHARED))
+            category_filter.append(query.Term("category", CATEGORY_SHARED))
         return query.Or(category_filter)
 
     def list_documents(self, user=None, project=None, use_shared=False, use_file=False):
@@ -276,8 +276,8 @@ class TranslationMemory(WhooshIndex):
     def lookup(self, source_language, target_language, text, user, project, use_shared):
         langfilter = query.And(
             [
-                query.Term('source_language', source_language),
-                query.Term('target_language', target_language),
+                query.Term("source_language", source_language),
+                query.Term("target_language", target_language),
                 self.get_filter(user, project, use_shared, True),
             ]
         )
@@ -285,15 +285,15 @@ class TranslationMemory(WhooshIndex):
         matches = self.searcher.search(text_query, filter=langfilter, limit=20000)
 
         for match in matches:
-            similarity = self.comparer.similarity(text, match['source'])
+            similarity = self.comparer.similarity(text, match["source"])
             if similarity < 30:
                 continue
             yield (
-                match['source'],
-                match['target'],
+                match["source"],
+                match["target"],
                 similarity,
-                match['category'],
-                match['origin'],
+                match["category"],
+                match["origin"],
             )
 
     def delete(
@@ -303,8 +303,8 @@ class TranslationMemory(WhooshIndex):
         category = self.get_category(category, project, user, use_file)
         with self.writer() as writer:
             if origin:
-                return writer.delete_by_term('origin', origin)
-            return writer.delete_by_term('category', category)
+                return writer.delete_by_term("origin", origin)
+            return writer.delete_by_term("category", category)
 
     def empty(self):
         """Recreates translation memory."""

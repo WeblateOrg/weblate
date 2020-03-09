@@ -59,14 +59,14 @@ class BaseCleanupAddon(UpdateBaseAddon):
 
 
 class CleanupAddon(BaseCleanupAddon):
-    name = 'weblate.cleanup.generic'
-    verbose = _('Cleanup translation files')
+    name = "weblate.cleanup.generic"
+    verbose = _("Cleanup translation files")
     description = _(
-        'Update all translation files to match the monolingual base file. '
-        'For most file formats, this means removing stale translation keys '
-        'no longer present in the base file.'
+        "Update all translation files to match the monolingual base file. "
+        "For most file formats, this means removing stale translation keys "
+        "no longer present in the base file."
     )
-    icon = 'eraser.svg'
+    icon = "eraser.svg"
 
     def update_appstore(self, index, translation, storage):
         """Filter obsolete units in storage.

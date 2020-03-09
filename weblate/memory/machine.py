@@ -27,7 +27,7 @@ from weblate.memory.storage import TranslationMemory, get_category_name
 class WeblateMemory(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
-    name = 'Weblate Translation Memory'
+    name = "Weblate Translation Memory"
     rank_boost = 2
     cache_translations = False
 
@@ -52,9 +52,9 @@ class WeblateMemory(MachineTranslation):
         )
         for text, target, similarity, category, origin in results:
             yield {
-                'text': target,
-                'quality': similarity,
-                'service': self.name,
-                'origin': get_category_name(category, origin),
-                'source': text,
+                "text": target,
+                "quality": similarity,
+                "service": self.name,
+                "origin": get_category_name(category, origin),
+                "source": text,
             }

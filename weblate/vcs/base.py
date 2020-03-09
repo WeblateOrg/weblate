@@ -43,7 +43,7 @@ from weblate.trans.util import (
 )
 from weblate.vcs.ssh import SSH_WRAPPER
 
-LOGGER = logging.getLogger('weblate.vcs')
+LOGGER = logging.getLogger("weblate.vcs")
 
 
 class RepositoryException(Exception):
@@ -55,7 +55,7 @@ class RepositoryException(Exception):
 
     def get_message(self):
         if self.retcode != 0:
-            return '{0} ({1})'.format(self.args[0], self.retcode)
+            return "{0} ({1})".format(self.args[0], self.retcode)
         return self.args[0]
 
     def __str__(self):
@@ -65,15 +65,15 @@ class RepositoryException(Exception):
 class Repository:
     """Basic repository object."""
 
-    _cmd = 'false'
+    _cmd = "false"
     _cmd_last_revision = None
     _cmd_last_remote_revision = None
-    _cmd_status = ['status']
+    _cmd_status = ["status"]
     _cmd_list_changed_files = None
 
     name = None
     req_version = None
-    default_branch = ''
+    default_branch = ""
 
     _is_supported = None
     _version = None
@@ -89,8 +89,8 @@ class Repository:
         else:
             self.branch = branch
         self.component = component
-        self.last_output = ''
-        self.lock = FileLock(self.path.rstrip('/').rstrip('\\') + '.lock', timeout=120)
+        self.last_output = ""
+        self.lock = FileLock(self.path.rstrip("/").rstrip("\\") + ".lock", timeout=120)
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
@@ -102,12 +102,12 @@ class Repository:
     def add_breadcrumb(cls, message, **data):
         # Add breadcrumb only if settings are already loaded,
         # we do not want to force loading settings early
-        if settings.configured and getattr(settings, 'SENTRY_DSN', None):
-            add_breadcrumb(category='vcs', message=message, data=data, level='info')
+        if settings.configured and getattr(settings, "SENTRY_DSN", None):
+            add_breadcrumb(category="vcs", message=message, data=data, level="info")
 
     @classmethod
     def log(cls, message):
-        return LOGGER.debug('%s: %s', cls._cmd, message)
+        return LOGGER.debug("%s: %s", cls._cmd, message)
 
     def ensure_config_updated(self):
         """Ensures the configuration is periodically checked."""
@@ -135,15 +135,15 @@ class Repository:
         repository_path = path_separator(os.path.realpath(self.path))
 
         if not real_path.startswith(repository_path):
-            raise ValueError('Too many symlinks or link outside tree')
+            raise ValueError("Too many symlinks or link outside tree")
 
-        return real_path[len(repository_path) :].lstrip('/')
+        return real_path[len(repository_path) :].lstrip("/")
 
     @staticmethod
     def _getenv():
         """Generate environment for process execution."""
         return get_clean_env(
-            {'GIT_SSH': SSH_WRAPPER.filename, 'GIT_TERMINAL_PROMPT': '0'}
+            {"GIT_SSH": SSH_WRAPPER.filename, "GIT_TERMINAL_PROMPT": "0"}
         )
 
     @classmethod
@@ -152,10 +152,10 @@ class Repository:
     ):
         """Execute the command using popen."""
         if args is None:
-            raise RepositoryException(0, 'Not supported functionality')
+            raise RepositoryException(0, "Not supported functionality")
         if not fullcmd:
             args = [cls._cmd] + list(args)
-        text_cmd = ' '.join(args)
+        text_cmd = " ".join(args)
         process = subprocess.Popen(
             args,
             cwd=cwd,
@@ -171,7 +171,7 @@ class Repository:
         cls.add_breadcrumb(
             text_cmd, retcode=retcode, output=output, stderr=stderr, cwd=cwd
         )
-        cls.log('exec {0} [retcode={1}]'.format(text_cmd, retcode))
+        cls.log("exec {0} [retcode={1}]".format(text_cmd, retcode))
         if retcode:
             if stderr:
                 output += stderr.decode()
@@ -182,7 +182,7 @@ class Repository:
         """Execute command and caches its output."""
         if needs_lock:
             if not self.lock.is_locked:
-                raise RuntimeError('Repository operation without lock held!')
+                raise RuntimeError("Repository operation without lock held!")
             if self.component:
                 self.ensure_config_updated()
         is_status = args[0] == self._cmd_status[0]
@@ -198,16 +198,16 @@ class Repository:
 
     def log_status(self, error):
         try:
-            self.log('failure {}'.format(error))
+            self.log("failure {}".format(error))
             self.log(self.status())
         except RepositoryException:
             pass
 
     def clean_revision_cache(self):
-        if 'last_revision' in self.__dict__:
-            del self.__dict__['last_revision']
-        if 'last_remote_revision' in self.__dict__:
-            del self.__dict__['last_remote_revision']
+        if "last_revision" in self.__dict__:
+            del self.__dict__["last_revision"]
+        if "last_remote_revision" in self.__dict__:
+            del self.__dict__["last_remote_revision"]
 
     @cached_property
     def last_revision(self):
@@ -303,7 +303,7 @@ class Repository:
 
     def get_revision_info(self, revision):
         """Return dictionary with detailed revision information."""
-        key = 'rev-info-{}-{}'.format(self.get_identifier(), revision)
+        key = "rev-info-{}-{}".format(self.get_identifier(), revision)
         result = cache.get(key)
         if not result:
             result = self._get_revision_info(revision)
@@ -312,7 +312,7 @@ class Repository:
 
         # Parse timestamps into datetime objects
         for name, value in result.items():
-            if 'date' in name:
+            if "date" in name:
                 result[name] = parser.parse(value)
 
         return result
@@ -337,14 +337,14 @@ class Repository:
         except Exception as error:
             add_configuration_error(
                 cls.name.lower(),
-                '{0} version check failed (version {1}, required {2}): {3}'.format(
+                "{0} version check failed (version {1}, required {2}): {3}".format(
                     cls.name, version, cls.req_version, error
                 ),
             )
         else:
             add_configuration_error(
                 cls.name.lower(),
-                '{0} version is too old, please upgrade to {1}.'.format(
+                "{0} version is too old, please upgrade to {1}.".format(
                     cls.name, cls.req_version
                 ),
             )
@@ -361,7 +361,7 @@ class Repository:
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(['--version'], merge_err=False)
+        return cls._popen(["--version"], merge_err=False)
 
     def set_committer(self, name, mail):
         """Configure commiter name."""
@@ -377,11 +377,11 @@ class Repository:
 
     @staticmethod
     def update_hash(objhash, filename, extra=None):
-        with open(filename, 'rb') as handle:
+        with open(filename, "rb") as handle:
             data = handle.read()
         if extra:
             objhash.update(extra.encode())
-        objhash.update('blob {0}\0'.format(len(data)).encode('ascii'))
+        objhash.update("blob {0}\0".format(len(data)).encode("ascii"))
         objhash.update(data)
 
     def get_object_hash(self, path):
@@ -426,8 +426,8 @@ class Repository:
     @staticmethod
     def get_examples_paths():
         """Generator of possible paths for examples."""
-        yield os.path.join(os.path.dirname(os.path.dirname(__file__)), 'examples')
-        yield resource_filename(Requirement.parse('weblate'), 'examples')
+        yield os.path.join(os.path.dirname(os.path.dirname(__file__)), "examples")
+        yield resource_filename(Requirement.parse("weblate"), "examples")
 
     @classmethod
     def find_merge_driver(cls, name):
@@ -440,8 +440,8 @@ class Repository:
     @classmethod
     def get_merge_driver(cls, file_format):
         merge_driver = None
-        if file_format == 'po':
-            merge_driver = cls.find_merge_driver('git-merge-gettext-po')
+        if file_format == "po":
+            merge_driver = cls.find_merge_driver("git-merge-gettext-po")
         if merge_driver is None or not os.path.exists(merge_driver):
             return None
         return merge_driver
@@ -480,7 +480,7 @@ class Repository:
         )
 
     def get_remote_branch_name(self):
-        return 'origin/{0}'.format(self.branch)
+        return "origin/{0}".format(self.branch)
 
     def list_remote_branches(self):
         return []

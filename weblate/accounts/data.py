@@ -22,20 +22,20 @@
 from weblate.accounts.notifications import FREQ_INSTANT, SCOPE_ADMIN, SCOPE_DEFAULT
 
 DEFAULT_NOTIFICATIONS = [
-    (SCOPE_DEFAULT, FREQ_INSTANT, 'LastAuthorCommentNotificaton'),
-    (SCOPE_DEFAULT, FREQ_INSTANT, 'MentionCommentNotificaton'),
-    (SCOPE_DEFAULT, FREQ_INSTANT, 'NewWhiteboardMessageNotificaton'),
-    (SCOPE_ADMIN, FREQ_INSTANT, 'MergeFailureNotification'),
-    (SCOPE_ADMIN, FREQ_INSTANT, 'ParseErrorNotification'),
-    (SCOPE_ADMIN, FREQ_INSTANT, 'NewTranslationNotificaton'),
-    (SCOPE_ADMIN, FREQ_INSTANT, 'NewComponentNotificaton'),
-    (SCOPE_ADMIN, FREQ_INSTANT, 'NewAlertNotificaton'),
-    (SCOPE_ADMIN, FREQ_INSTANT, 'NewWhiteboardMessageNotificaton'),
+    (SCOPE_DEFAULT, FREQ_INSTANT, "LastAuthorCommentNotificaton"),
+    (SCOPE_DEFAULT, FREQ_INSTANT, "MentionCommentNotificaton"),
+    (SCOPE_DEFAULT, FREQ_INSTANT, "NewWhiteboardMessageNotificaton"),
+    (SCOPE_ADMIN, FREQ_INSTANT, "MergeFailureNotification"),
+    (SCOPE_ADMIN, FREQ_INSTANT, "ParseErrorNotification"),
+    (SCOPE_ADMIN, FREQ_INSTANT, "NewTranslationNotificaton"),
+    (SCOPE_ADMIN, FREQ_INSTANT, "NewComponentNotificaton"),
+    (SCOPE_ADMIN, FREQ_INSTANT, "NewAlertNotificaton"),
+    (SCOPE_ADMIN, FREQ_INSTANT, "NewWhiteboardMessageNotificaton"),
 ]
 
 
 def create_default_notifications(user):
     for scope, frequency, notification in DEFAULT_NOTIFICATIONS:
         user.subscription_set.get_or_create(
-            scope=scope, notification=notification, defaults={'frequency': frequency}
+            scope=scope, notification=notification, defaults={"frequency": frequency}
         )

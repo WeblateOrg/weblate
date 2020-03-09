@@ -23,6 +23,6 @@ from django.apps import AppConfig
 
 
 class ScreenshotsConfig(AppConfig):
-    name = 'weblate.screenshots'
-    label = 'screenshots'
-    verbose_name = 'Screenshots'
+    name = "weblate.screenshots"
+    label = "screenshots"
+    verbose_name = "Screenshots"

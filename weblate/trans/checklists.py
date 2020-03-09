@@ -37,6 +37,6 @@ class TranslationChecklist(list):
                 FILTERS.get_filter_name(name),
                 getattr(stats, name),
                 level,
-                getattr(stats, '{}_words'.format(name)),
+                getattr(stats, "{}_words".format(name)),
             )
         )

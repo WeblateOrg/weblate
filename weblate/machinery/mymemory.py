@@ -27,11 +27,11 @@ from weblate.machinery.base import MachineTranslation
 class MyMemoryTranslation(MachineTranslation):
     """MyMemory machine translation support."""
 
-    name = 'MyMemory'
+    name = "MyMemory"
 
     def convert_language(self, language):
         """Convert language to service specific code."""
-        return language.replace('_', '-').lower()
+        return language.replace("_", "-").lower()
 
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
@@ -44,49 +44,49 @@ class MyMemoryTranslation(MachineTranslation):
     @staticmethod
     def lang_supported(language):
         """Almost any language without modifiers is supported."""
-        if language in ('ia', 'tt', 'ug'):
+        if language in ("ia", "tt", "ug"):
             return False
-        return '@' not in language and len(language) == 2
+        return "@" not in language and len(language) == 2
 
     def format_match(self, match):
         """Reformat match to (translation, quality) tuple."""
-        if isinstance(match['quality'], int):
-            quality = match['quality']
-        elif match['quality'] is not None and match['quality'].isdigit():
-            quality = int(match['quality'])
+        if isinstance(match["quality"], int):
+            quality = match["quality"]
+        elif match["quality"] is not None and match["quality"].isdigit():
+            quality = int(match["quality"])
         else:
             quality = 0
 
         result = {
-            'text': match['translation'],
-            'quality': int(quality * match['match']),
-            'service': self.name,
-            'source': match['segment'],
+            "text": match["translation"],
+            "quality": int(quality * match["match"]),
+            "service": self.name,
+            "source": match["segment"],
         }
 
-        if match['last-updated-by']:
-            result['origin'] = match['last-updated-by']
+        if match["last-updated-by"]:
+            result["origin"] = match["last-updated-by"]
 
-        if match['reference']:
-            result['origin_detail'] = match['reference']
+        if match["reference"]:
+            result["origin_detail"] = match["reference"]
 
         return result
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from MyMemory."""
         args = {
-            'q': text.split('. ')[0][:500],
-            'langpair': '{0}|{1}'.format(source, language),
+            "q": text.split(". ")[0][:500],
+            "langpair": "{0}|{1}".format(source, language),
         }
         if settings.MT_MYMEMORY_EMAIL is not None:
-            args['de'] = settings.MT_MYMEMORY_EMAIL
+            args["de"] = settings.MT_MYMEMORY_EMAIL
         if settings.MT_MYMEMORY_USER is not None:
-            args['user'] = settings.MT_MYMEMORY_USER
+            args["user"] = settings.MT_MYMEMORY_USER
         if settings.MT_MYMEMORY_KEY is not None:
-            args['key'] = settings.MT_MYMEMORY_KEY
+            args["key"] = settings.MT_MYMEMORY_KEY
 
         response = self.request_status(
-            "get", 'https://mymemory.translated.net/api/get', params=args
+            "get", "https://mymemory.translated.net/api/get", params=args
         )
-        for match in response['matches']:
+        for match in response["matches"]:
             yield self.format_match(match)

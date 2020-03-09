@@ -28,7 +28,7 @@ from django.utils.functional import cached_property
 def load_class(name, setting):
     """Import module and creates class given by name in string."""
     try:
-        module, attr = name.rsplit('.', 1)
+        module, attr = name.rsplit(".", 1)
     except ValueError as error:
         raise ImproperlyConfigured(
             'Error importing class {0} in {1}: "{2}"'.format(name, setting, error)
@@ -108,5 +108,5 @@ class ClassLoader:
             if x not in exclude and cond(self[x])
         ]
         if empty:
-            result.insert(0, ('', ''))
+            result.insert(0, ("", ""))
         return result

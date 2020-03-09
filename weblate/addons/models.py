@@ -61,12 +61,12 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 
 # Initialize addons registry
-ADDONS = ClassLoader('WEBLATE_ADDONS', False)
+ADDONS = ClassLoader("WEBLATE_ADDONS", False)
 
 
 class AddonQuerySet(models.QuerySet):
     def filter_component(self, component):
-        return self.prefetch_related('event_set').filter(
+        return self.prefetch_related("event_set").filter(
             (Q(component=component) & Q(project_scope=False))
             | (Q(component__project=component.project) & Q(project_scope=True))
             | (Q(component__linked_component=component) & Q(repo_scope=True))
@@ -93,7 +93,7 @@ class Addon(models.Model):
     objects = AddonQuerySet.as_manager()
 
     def __str__(self):
-        return '{}: {}'.format(self.addon.verbose, self.component)
+        return "{}: {}".format(self.addon.verbose, self.component)
 
     def configure_events(self, events):
         for event in events:
@@ -106,11 +106,11 @@ class Addon(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            'addon-detail',
+            "addon-detail",
             kwargs={
-                'project': self.component.project.slug,
-                'component': self.component.slug,
-                'pk': self.pk,
+                "project": self.component.project.slug,
+                "component": self.component.slug,
+                "pk": self.pk,
             },
         )
 
@@ -126,53 +126,53 @@ class Event(models.Model):
     event = models.IntegerField(choices=EVENT_CHOICES)
 
     class Meta:
-        unique_together = ('addon', 'event')
+        unique_together = ("addon", "event")
 
     def __str__(self):
-        return '{}: {}'.format(self.addon, self.get_event_display())
+        return "{}: {}".format(self.addon, self.get_event_display())
 
 
 class AddonsConf(AppConf):
     ADDONS = (
-        'weblate.addons.gettext.GenerateMoAddon',
-        'weblate.addons.gettext.UpdateLinguasAddon',
-        'weblate.addons.gettext.UpdateConfigureAddon',
-        'weblate.addons.gettext.MsgmergeAddon',
-        'weblate.addons.gettext.GettextCustomizeAddon',
-        'weblate.addons.gettext.GettextAuthorComments',
-        'weblate.addons.cleanup.CleanupAddon',
-        'weblate.addons.consistency.LangaugeConsistencyAddon',
-        'weblate.addons.discovery.DiscoveryAddon',
-        'weblate.addons.autotranslate.AutoTranslateAddon',
-        'weblate.addons.flags.SourceEditAddon',
-        'weblate.addons.flags.TargetEditAddon',
-        'weblate.addons.flags.SameEditAddon',
-        'weblate.addons.flags.BulkEditAddon',
-        'weblate.addons.generate.GenerateFileAddon',
-        'weblate.addons.json.JSONCustomizeAddon',
-        'weblate.addons.properties.PropertiesSortAddon',
-        'weblate.addons.git.GitSquashAddon',
-        'weblate.addons.removal.RemoveComments',
-        'weblate.addons.removal.RemoveSuggestions',
-        'weblate.addons.resx.ResxUpdateAddon',
-        'weblate.addons.yaml.YAMLCustomizeAddon',
+        "weblate.addons.gettext.GenerateMoAddon",
+        "weblate.addons.gettext.UpdateLinguasAddon",
+        "weblate.addons.gettext.UpdateConfigureAddon",
+        "weblate.addons.gettext.MsgmergeAddon",
+        "weblate.addons.gettext.GettextCustomizeAddon",
+        "weblate.addons.gettext.GettextAuthorComments",
+        "weblate.addons.cleanup.CleanupAddon",
+        "weblate.addons.consistency.LangaugeConsistencyAddon",
+        "weblate.addons.discovery.DiscoveryAddon",
+        "weblate.addons.autotranslate.AutoTranslateAddon",
+        "weblate.addons.flags.SourceEditAddon",
+        "weblate.addons.flags.TargetEditAddon",
+        "weblate.addons.flags.SameEditAddon",
+        "weblate.addons.flags.BulkEditAddon",
+        "weblate.addons.generate.GenerateFileAddon",
+        "weblate.addons.json.JSONCustomizeAddon",
+        "weblate.addons.properties.PropertiesSortAddon",
+        "weblate.addons.git.GitSquashAddon",
+        "weblate.addons.removal.RemoveComments",
+        "weblate.addons.removal.RemoveSuggestions",
+        "weblate.addons.resx.ResxUpdateAddon",
+        "weblate.addons.yaml.YAMLCustomizeAddon",
     )
 
     class Meta:
-        prefix = 'WEBLATE'
+        prefix = "WEBLATE"
 
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
-        component.log_debug('running pre_push addon: %s', addon.name)
+        component.log_debug("running pre_push addon: %s", addon.name)
         addon.addon.pre_push(component)
 
 
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
-        component.log_debug('running post_push addon: %s', addon.name)
+        component.log_debug("running post_push addon: %s", addon.name)
         addon.addon.post_push(component)
 
 
@@ -181,21 +181,21 @@ def post_update(sender, component, previous_head, child=False, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
         if child and addon.repo_scope:
             continue
-        component.log_debug('running post_update addon: %s', addon.name)
+        component.log_debug("running post_update addon: %s", addon.name)
         addon.addon.post_update(component, previous_head)
 
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_COMPONENT_UPDATE):
-        component.log_debug('running component_update addon: %s', addon.name)
+        component.log_debug("running component_update addon: %s", addon.name)
         addon.addon.component_update(component)
 
 
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
-        component.log_debug('running pre_update addon: %s', addon.name)
+        component.log_debug("running pre_update addon: %s", addon.name)
         addon.addon.pre_update(component)
 
 
@@ -203,7 +203,7 @@ def pre_update(sender, component, **kwargs):
 def pre_commit(sender, translation, author, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_PRE_COMMIT)
     for addon in addons:
-        translation.log_debug('running pre_commit addon: %s', addon.name)
+        translation.log_debug("running pre_commit addon: %s", addon.name)
         addon.addon.pre_commit(translation, author)
 
 
@@ -211,7 +211,7 @@ def pre_commit(sender, translation, author, **kwargs):
 def post_commit(sender, component, translation=None, **kwargs):
     addons = Addon.objects.filter_event(component, EVENT_POST_COMMIT)
     for addon in addons:
-        component.log_debug('running post_commit addon: %s', addon.name)
+        component.log_debug("running post_commit addon: %s", addon.name)
         addon.addon.post_commit(component, translation)
 
 
@@ -219,7 +219,7 @@ def post_commit(sender, component, translation=None, **kwargs):
 def post_add(sender, translation, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_POST_ADD)
     for addon in addons:
-        translation.log_debug('running post_add addon: %s', addon.name)
+        translation.log_debug("running post_add addon: %s", addon.name)
         addon.addon.post_add(translation)
 
 
@@ -229,7 +229,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         unit.translation.component, EVENT_UNIT_PRE_CREATE
     )
     for addon in addons:
-        unit.translation.log_debug('running unit_pre_create addon: %s', addon.name)
+        unit.translation.log_debug("running unit_pre_create addon: %s", addon.name)
         addon.addon.unit_pre_create(unit)
 
 
@@ -240,7 +240,7 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
         instance.translation.component, EVENT_UNIT_POST_SAVE
     )
     for addon in addons:
-        instance.translation.log_debug('running unit_post_save addon: %s', addon.name)
+        instance.translation.log_debug("running unit_post_save addon: %s", addon.name)
         addon.addon.unit_post_save(instance, created)
 
 
@@ -248,5 +248,5 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
 def store_post_load_handler(sender, translation, store, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_STORE_POST_LOAD)
     for addon in addons:
-        translation.log_debug('running store_post_load addon: %s', addon.name)
+        translation.log_debug("running store_post_load addon: %s", addon.name)
         addon.addon.store_post_load(translation, store)

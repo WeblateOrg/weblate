@@ -29,7 +29,7 @@ def management_access(view):
 
     @wraps(view)
     def wrapper(request, *args, **kwargs):
-        if not request.user.has_perm('management.use'):
+        if not request.user.has_perm("management.use"):
             raise PermissionDenied
         return view(request, *args, **kwargs)
 

@@ -23,9 +23,9 @@ from django.db.models.signals import post_migrate
 
 
 class AuthConfig(AppConfig):
-    name = 'weblate.auth'
-    label = 'weblate_auth'
-    verbose_name = 'Authentication'
+    name = "weblate.auth"
+    label = "weblate_auth"
+    verbose_name = "Authentication"
 
     def ready(self):
         from weblate.auth.models import sync_create_groups

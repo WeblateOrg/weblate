@@ -34,29 +34,29 @@ class PluralsCheckTest(TestCase):
 
     def test_none(self):
         self.assertFalse(
-            self.check.check_target(['string'], ['string'], MockUnit('plural_none'))
+            self.check.check_target(["string"], ["string"], MockUnit("plural_none"))
         )
 
     def test_empty(self):
         self.assertFalse(
             self.check.check_target(
-                ['string', 'plural'], ['', ''], MockUnit('plural_empty')
+                ["string", "plural"], ["", ""], MockUnit("plural_empty")
             )
         )
 
     def test_hit(self):
         self.assertTrue(
             self.check.check_target(
-                ['string', 'plural'], ['string', ''], MockUnit('plural_partial_empty')
+                ["string", "plural"], ["string", ""], MockUnit("plural_partial_empty")
             )
         )
 
     def test_good(self):
         self.assertFalse(
             self.check.check_target(
-                ['string', 'plural'],
-                ['translation', 'trplural'],
-                MockUnit('plural_good'),
+                ["string", "plural"],
+                ["translation", "trplural"],
+                MockUnit("plural_good"),
             )
         )
 
@@ -68,9 +68,9 @@ class SamePluralsCheckTest(PluralsCheckTest):
     def test_hit(self):
         self.assertTrue(
             self.check.check_target(
-                ['string', 'plural'],
-                ['string', 'string'],
-                MockUnit('plural_partial_empty'),
+                ["string", "plural"],
+                ["string", "string"],
+                MockUnit("plural_partial_empty"),
             )
         )
 
@@ -90,17 +90,17 @@ class TranslatedCheckTest(ViewTestCase):
         self.assertFalse(self.run_check())
 
     def test_translated(self):
-        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.assertFalse(self.run_check())
 
     def test_untranslated(self):
-        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.edit_unit('Hello, world!\n', '')
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.edit_unit("Hello, world!\n", "")
         self.assertTrue(self.run_check())
 
     def test_source_change(self):
-        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
-        self.edit_unit('Hello, world!\n', '')
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.edit_unit("Hello, world!\n", "")
         unit = self.get_unit()
         unit.change_set.create(action=Change.ACTION_SOURCE_CHANGE)
         self.assertFalse(self.run_check())

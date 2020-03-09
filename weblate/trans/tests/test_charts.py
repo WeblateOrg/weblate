@@ -32,57 +32,57 @@ class ChartsTest(FixtureTestCase):
 
     def assert_json_chart_data(self, response):
         """Test whether response has valid json chart data."""
-        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertEqual(response.get("Content-Type"), "application/json")
         data = json.loads(response.content.decode())
-        self.assertTrue('series' in data)
-        self.assertTrue('labels' in data)
+        self.assertTrue("series" in data)
+        self.assertTrue("labels" in data)
 
     def test_activity_monthly(self):
         """Test of monthly activity charts."""
-        response = self.client.get(reverse('monthly_activity'))
+        response = self.client.get(reverse("monthly_activity"))
         self.assert_json_chart_data(response)
 
-        response = self.client.get(reverse('monthly_activity', kwargs=self.kw_project))
+        response = self.client.get(reverse("monthly_activity", kwargs=self.kw_project))
         self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_activity', kwargs=self.kw_component)
+            reverse("monthly_activity", kwargs=self.kw_component)
         )
         self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_activity', kwargs=self.kw_translation)
+            reverse("monthly_activity", kwargs=self.kw_translation)
         )
         self.assert_json_chart_data(response)
 
-        response = self.client.get(reverse('monthly_activity', kwargs={'lang': 'cs'}))
+        response = self.client.get(reverse("monthly_activity", kwargs={"lang": "cs"}))
         self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('monthly_activity', kwargs={'user': self.user.username})
+            reverse("monthly_activity", kwargs={"user": self.user.username})
         )
         self.assert_json_chart_data(response)
 
     def test_activity_yearly(self):
         """Test of yearly activity charts."""
-        response = self.client.get(reverse('yearly_activity'))
+        response = self.client.get(reverse("yearly_activity"))
         self.assert_json_chart_data(response)
 
-        response = self.client.get(reverse('yearly_activity', kwargs=self.kw_project))
+        response = self.client.get(reverse("yearly_activity", kwargs=self.kw_project))
         self.assert_json_chart_data(response)
 
-        response = self.client.get(reverse('yearly_activity', kwargs=self.kw_component))
+        response = self.client.get(reverse("yearly_activity", kwargs=self.kw_component))
         self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('yearly_activity', kwargs=self.kw_translation)
+            reverse("yearly_activity", kwargs=self.kw_translation)
         )
         self.assert_json_chart_data(response)
 
-        response = self.client.get(reverse('yearly_activity', kwargs={'lang': 'cs'}))
+        response = self.client.get(reverse("yearly_activity", kwargs={"lang": "cs"}))
         self.assert_json_chart_data(response)
 
         response = self.client.get(
-            reverse('yearly_activity', kwargs={'user': self.user.username})
+            reverse("yearly_activity", kwargs={"user": self.user.username})
         )
         self.assert_json_chart_data(response)

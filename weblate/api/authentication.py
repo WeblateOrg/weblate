@@ -25,4 +25,4 @@ from rest_framework.authentication import TokenAuthentication
 class BearerAuthentication(TokenAuthentication):
     """RFC 6750 compatible Bearer authentication."""
 
-    keyword = 'Bearer'
+    keyword = "Bearer"

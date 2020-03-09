@@ -43,7 +43,7 @@ class TextItem:
 
     @cached_property
     def location(self):
-        return '{}:{}'.format(self.filename, self.line)
+        return "{}:{}".format(self.filename, self.line)
 
     def getid(self):
         return self.location
@@ -53,7 +53,7 @@ class TextParser:
     """Simple text parser returning all content as single unit."""
 
     def __init__(self, storefile, filename=None, flags=None):
-        with open(storefile, 'r') as handle:
+        with open(storefile, "r") as handle:
             content = handle.read()
         if filename:
             self.filename = filename
@@ -69,7 +69,7 @@ class TextSerializer:
     def __call__(self, handle):
         for unit in self.units:
             handle.write(unit.text.encode())
-            handle.write(b'\n')
+            handle.write(b"\n")
 
 
 class MultiParser:
@@ -77,7 +77,7 @@ class MultiParser:
 
     def __init__(self, storefile):
         if not isinstance(storefile, str):
-            raise ValueError('Needs string as a storefile!')
+            raise ValueError("Needs string as a storefile!")
 
         self.base = storefile
         self.parsers = self.load_parser()
@@ -107,25 +107,25 @@ class MultiParser:
 
 class AppStoreParser(MultiParser):
     filenames = (
-        ('title.txt', 'max-length:30'),
-        ('short[_-]description.txt', 'max-length:80'),
-        ('full[_-]description.txt', 'max-length:4000'),
-        ('subtitle.txt', 'max-length:80'),
-        ('description.txt', 'max-length:4000'),
-        ('keywords.txt', 'max-length:100'),
-        ('video.txt', 'max-length:256, url'),
-        ('marketing_url.txt', 'max-length:256, url'),
-        ('privacy_url.txt', 'max-length:256, url'),
-        ('support_url.txt', 'max-length:256, url'),
-        ('changelogs/*.txt', 'max-length:500'),
-        ('*.txt', ''),
+        ("title.txt", "max-length:30"),
+        ("short[_-]description.txt", "max-length:80"),
+        ("full[_-]description.txt", "max-length:4000"),
+        ("subtitle.txt", "max-length:80"),
+        ("description.txt", "max-length:4000"),
+        ("keywords.txt", "max-length:100"),
+        ("video.txt", "max-length:256, url"),
+        ("marketing_url.txt", "max-length:256, url"),
+        ("privacy_url.txt", "max-length:256, url"),
+        ("support_url.txt", "max-length:256, url"),
+        ("changelogs/*.txt", "max-length:500"),
+        ("*.txt", ""),
     )
 
     def file_key(self, filename):
-        parts = filename.rsplit('changelogs/', 1)
+        parts = filename.rsplit("changelogs/", 1)
         if len(parts) == 2:
             try:
-                return -int(parts[1].split('.')[0])
+                return -int(parts[1].split(".")[0])
             except ValueError:
                 pass
         return filename
@@ -148,7 +148,7 @@ class TextUnit(TranslationUnit):
     def target(self):
         """Return target string from a ttkit unit."""
         if self.unit is None:
-            return ''
+            return ""
         return self.unit.text
 
     @cached_property
@@ -161,7 +161,7 @@ class TextUnit(TranslationUnit):
         """Return flags from unit."""
         if self.mainunit.flags:
             return self.mainunit.flags
-        return ''
+        return ""
 
     def set_target(self, target):
         """Set translation unit target."""
@@ -178,8 +178,8 @@ class TextUnit(TranslationUnit):
 
 
 class AppStoreFormat(TranslationFormat):
-    name = _('App store metadata files')
-    format_id = 'appstore'
+    name = _("App store metadata files")
+    format_id = "appstore"
     can_add_unit = False
     monolingual = True
     unit_class = TextUnit
@@ -190,7 +190,7 @@ class AppStoreFormat(TranslationFormat):
         return AppStoreParser(storefile)
 
     def create_unit(self, key, source):
-        raise ValueError('Create not supported')
+        raise ValueError("Create not supported")
 
     @classmethod
     def create_new_file(cls, filename, language, base):
@@ -227,5 +227,5 @@ class AppStoreFormat(TranslationFormat):
             AppStoreParser(base)
             return True
         except Exception as error:
-            report_error(error, prefix='File parse error')
+            report_error(error, prefix="File parse error")
             return False

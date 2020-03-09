@@ -23,6 +23,6 @@ from django.apps import AppConfig
 
 
 class MemoryConfig(AppConfig):
-    name = 'weblate.memory'
-    label = 'memory'
-    verbose_name = 'Translation Memory'
+    name = "weblate.memory"
+    label = "memory"
+    verbose_name = "Translation Memory"

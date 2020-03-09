@@ -32,30 +32,30 @@ from PIL import Image
 
 from weblate.trans.util import cleanup_path
 
-USERNAME_MATCHER = re.compile(r'^[\w@+-][\w.@+-]*$')
+USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
 # Reject some suspicious e-mail addresses, based on checks enforced by Exim MTA
-EMAIL_BLACKLIST = re.compile(r'^([./|]|.*([@%!`#&?]|/\.\./))')
+EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 
-ALLOWED_IMAGES = frozenset(('image/jpeg', 'image/png', 'image/apng', 'image/gif'))
+ALLOWED_IMAGES = frozenset(("image/jpeg", "image/png", "image/apng", "image/gif"))
 
 # File formats we do not accept on translation/glossary upload
 FORBIDDEN_EXTENSIONS = frozenset(
     (
-        '.png',
-        '.jpg',
-        '.gif',
-        '.svg',
-        '.doc',
-        '.rtf',
-        '.xls',
-        '.docx',
-        '.html',
-        '.py',
-        '.js',
-        '.exe',
-        '.dll',
-        '.zip',
+        ".png",
+        ".jpg",
+        ".gif",
+        ".svg",
+        ".doc",
+        ".rtf",
+        ".xls",
+        ".docx",
+        ".html",
+        ".py",
+        ".js",
+        ".exe",
+        ".dll",
+        ".zip",
     )
 )
 
@@ -64,7 +64,7 @@ def validate_re(value, groups=None, allow_empty=True):
     try:
         compiled = re.compile(value)
     except re.error as error:
-        raise ValidationError(_('Compilation failed: {0}').format(error))
+        raise ValidationError(_("Compilation failed: {0}").format(error))
     if not allow_empty and compiled.match(""):
         raise ValidationError(
             _("The regular expression can not match an empty string.")
@@ -76,8 +76,8 @@ def validate_re(value, groups=None, allow_empty=True):
             raise ValidationError(
                 _(
                     'Regular expression is missing named group "{0}", '
-                    'the simplest way to define it is {1}.'
-                ).format(group, '(?P<{}>.*)'.format(group))
+                    "the simplest way to define it is {1}."
+                ).format(group, "(?P<{}>.*)".format(group))
             )
 
 
@@ -95,13 +95,13 @@ def validate_bitmap(value):
 
     # We need to get a file object for Pillow. We might have a path or we
     # might have to read the data into memory.
-    if hasattr(value, 'temporary_file_path'):
+    if hasattr(value, "temporary_file_path"):
         content = value.temporary_file_path()
     else:
-        if hasattr(value, 'read'):
+        if hasattr(value, "read"):
             content = BytesIO(value.read())
         else:
-            content = BytesIO(value['content'])
+            content = BytesIO(value["content"])
 
     try:
         # load() could spot a truncated JPEG, but it loads the entire
@@ -115,22 +115,22 @@ def validate_bitmap(value):
         value.file.content_type = Image.MIME.get(image.format)
     except Exception:
         # Pillow doesn't recognize it as an image.
-        raise ValidationError(_('Invalid image!'), code='invalid_image').with_traceback(
+        raise ValidationError(_("Invalid image!"), code="invalid_image").with_traceback(
             sys.exc_info()[2]
         )
-    if hasattr(value.file, 'seek') and callable(value.file.seek):
+    if hasattr(value.file, "seek") and callable(value.file.seek):
         value.file.seek(0)
 
     # Check image type
     if value.file.content_type not in ALLOWED_IMAGES:
         image.close()
-        raise ValidationError(_('Unsupported image type: %s') % value.file.content_type)
+        raise ValidationError(_("Unsupported image type: %s") % value.file.content_type)
 
     # Check dimensions
     width, height = image.size
     if width > 2000 or height > 2000:
         image.close()
-        raise ValidationError(_('The image is too big, please crop or scale it down.'))
+        raise ValidationError(_("The image is too big, please crop or scale it down."))
 
     image.close()
 
@@ -141,14 +141,14 @@ def clean_fullname(val):
         return val
     val = val.strip()
     for i in range(0x20):
-        val = val.replace(chr(i), '')
+        val = val.replace(chr(i), "")
     return val
 
 
 def validate_fullname(val):
     if val != clean_fullname(val):
         raise ValidationError(
-            _('Please avoid using special characters in the full name.')
+            _("Please avoid using special characters in the full name.")
         )
     return val
 
@@ -157,18 +157,18 @@ def validate_file_extension(value):
     """Simple extension based validation for uploads."""
     ext = os.path.splitext(value.name)[1]
     if ext.lower() in FORBIDDEN_EXTENSIONS:
-        raise ValidationError(_('Unsupported file format.'))
+        raise ValidationError(_("Unsupported file format."))
     return value
 
 
 def validate_username(value):
-    if value.startswith('.'):
-        raise ValidationError(_('The username can not start with a full stop.'))
+    if value.startswith("."):
+        raise ValidationError(_("The username can not start with a full stop."))
     if not USERNAME_MATCHER.match(value):
         raise ValidationError(
             _(
-                'Username may only contain letters, '
-                'numbers or the following characters: @ . + - _'
+                "Username may only contain letters, "
+                "numbers or the following characters: @ . + - _"
             )
         )
 
@@ -177,34 +177,34 @@ def validate_email(value):
     try:
         validate_email_django(value)
     except ValidationError:
-        raise ValidationError(_('Enter a valid e-mail address.'))
-    user_part = value.rsplit('@', 1)[0]
+        raise ValidationError(_("Enter a valid e-mail address."))
+    user_part = value.rsplit("@", 1)[0]
     if EMAIL_BLACKLIST.match(user_part):
-        raise ValidationError(_('Enter a valid e-mail address.'))
+        raise ValidationError(_("Enter a valid e-mail address."))
     if not re.match(settings.REGISTRATION_EMAIL_MATCH, value):
-        raise ValidationError(_('This e-mail address is disallowed.'))
+        raise ValidationError(_("This e-mail address is disallowed."))
 
 
 def validate_pluraleq(value):
     try:
-        gettext.c2py(value if value else '0')
+        gettext.c2py(value if value else "0")
     except ValueError as error:
-        raise ValidationError(_('Could not evaluate plural equation: {}').format(error))
+        raise ValidationError(_("Could not evaluate plural equation: {}").format(error))
 
 
 def validate_filename(value):
-    if '../' in value or '..\\' in value:
+    if "../" in value or "..\\" in value:
         raise ValidationError(
-            _('The filename can not contain reference to a parent directory.')
+            _("The filename can not contain reference to a parent directory.")
         )
     if os.path.isabs(value):
-        raise ValidationError(_('The filename can not be an absolute path.'))
+        raise ValidationError(_("The filename can not be an absolute path."))
 
     cleaned = cleanup_path(value)
     if value != cleaned:
         raise ValidationError(
             _(
-                'The filename should be as simple as possible. '
-                'Maybe you want to use: {}'
+                "The filename should be as simple as possible. "
+                "Maybe you want to use: {}"
             ).format(cleaned)
         )

@@ -20,4 +20,4 @@
 """File format specific behavior."""
 
 
-default_app_config = 'weblate.formats.apps.FormatsConfig'
+default_app_config = "weblate.formats.apps.FormatsConfig"

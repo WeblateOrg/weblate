@@ -28,53 +28,53 @@ from django.utils.translation import gettext_lazy
 register = template.Library()
 
 SOCIALS = {
-    'auth0': {
-        'name': settings.SOCIAL_AUTH_AUTH0_TITLE,
-        'image': settings.SOCIAL_AUTH_AUTH0_IMAGE,
+    "auth0": {
+        "name": settings.SOCIAL_AUTH_AUTH0_TITLE,
+        "image": settings.SOCIAL_AUTH_AUTH0_IMAGE,
     },
-    'google': {'name': 'Google', 'image': 'google.svg'},
-    'google-oauth2': {'name': 'Google', 'image': 'google.svg'},
-    'google-plus': {'name': 'Google+', 'image': 'google.svg'},
-    'password': {'name': gettext_lazy('Password'), 'image': 'password.svg'},
-    'email': {'name': gettext_lazy('E-mail'), 'image': 'email.svg'},
-    'ubuntu': {'name': 'Ubuntu', 'image': 'ubuntu.svg'},
-    'opensuse': {'name': 'openSUSE', 'image': 'opensuse.svg'},
-    'fedora': {'name': 'Fedora', 'image': 'fedora.svg'},
-    'facebook': {'name': 'Facebook', 'image': 'facebook.svg'},
-    'github': {'name': 'GitHub', 'image': 'github.svg'},
-    'github-enterprise': {'name': 'GitHub Enterprise', 'image': 'github.svg'},
-    'bitbucket': {'name': 'Bitbucket', 'image': 'bitbucket.svg'},
-    'bitbucket-oauth2': {'name': 'Bitbucket', 'image': 'bitbucket.svg'},
-    'azuread-oauth2': {'name': 'Azure', 'image': 'azure.svg'},
-    'azuread-tenant-oauth2': {'name': 'Azure', 'image': 'azure.svg'},
-    'gitlab': {'name': 'GitLab', 'image': 'gitlab.svg'},
-    'amazon': {'name': 'Amazon', 'image': 'amazon.svg'},
-    'twitter': {'name': 'Twitter', 'image': 'twitter.svg'},
-    'stackoverflow': {'name': 'Stack Overflow', 'image': 'stackoverflow.svg'},
+    "google": {"name": "Google", "image": "google.svg"},
+    "google-oauth2": {"name": "Google", "image": "google.svg"},
+    "google-plus": {"name": "Google+", "image": "google.svg"},
+    "password": {"name": gettext_lazy("Password"), "image": "password.svg"},
+    "email": {"name": gettext_lazy("E-mail"), "image": "email.svg"},
+    "ubuntu": {"name": "Ubuntu", "image": "ubuntu.svg"},
+    "opensuse": {"name": "openSUSE", "image": "opensuse.svg"},
+    "fedora": {"name": "Fedora", "image": "fedora.svg"},
+    "facebook": {"name": "Facebook", "image": "facebook.svg"},
+    "github": {"name": "GitHub", "image": "github.svg"},
+    "github-enterprise": {"name": "GitHub Enterprise", "image": "github.svg"},
+    "bitbucket": {"name": "Bitbucket", "image": "bitbucket.svg"},
+    "bitbucket-oauth2": {"name": "Bitbucket", "image": "bitbucket.svg"},
+    "azuread-oauth2": {"name": "Azure", "image": "azure.svg"},
+    "azuread-tenant-oauth2": {"name": "Azure", "image": "azure.svg"},
+    "gitlab": {"name": "GitLab", "image": "gitlab.svg"},
+    "amazon": {"name": "Amazon", "image": "amazon.svg"},
+    "twitter": {"name": "Twitter", "image": "twitter.svg"},
+    "stackoverflow": {"name": "Stack Overflow", "image": "stackoverflow.svg"},
 }
 
-IMAGE_SOCIAL_TEMPLATE = '''
+IMAGE_SOCIAL_TEMPLATE = """
 <img class="auth-image" src="{image}" />
-'''
+"""
 
-SOCIAL_TEMPLATE = '''
+SOCIAL_TEMPLATE = """
 {icon}
 {separator}
 {name}
-'''
+"""
 
 
 @register.simple_tag
-def auth_name(auth, separator='<br />'):
+def auth_name(auth, separator="<br />"):
     """Create HTML markup for social authentication method."""
-    params = {'name': auth, 'separator': separator, 'image': 'password.svg'}
+    params = {"name": auth, "separator": separator, "image": "password.svg"}
 
     if auth in SOCIALS:
         params.update(SOCIALS[auth])
 
-    if not params['image'].startswith('http'):
-        params['image'] = staticfiles_storage.url('auth/' + params['image'])
-    params['icon'] = IMAGE_SOCIAL_TEMPLATE.format(**params)
+    if not params["image"].startswith("http"):
+        params["image"] = staticfiles_storage.url("auth/" + params["image"])
+    params["icon"] = IMAGE_SOCIAL_TEMPLATE.format(**params)
 
     return mark_safe(SOCIAL_TEMPLATE.format(**params))
 
@@ -82,5 +82,5 @@ def auth_name(auth, separator='<br />'):
 def get_auth_name(auth):
     """Get nice name for authentication backend."""
     if auth in SOCIALS:
-        return SOCIALS[auth]['name']
+        return SOCIALS[auth]["name"]
     return auth

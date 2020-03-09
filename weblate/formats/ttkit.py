@@ -49,16 +49,16 @@ from weblate.trans.util import (
 )
 from weblate.utils.errors import report_error
 
-LOCATIONS_RE = re.compile(r'^([+-]|.*, [+-]|.*:[+-])')
+LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 SUPPORTS_FUZZY = (pounit, tsunit)
-XLIFF_FUZZY_STATES = {'new', 'needs-translation', 'needs-adaptation', 'needs-l10n'}
+XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
 
 
 class TTKitUnit(TranslationUnit):
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
-        return ', '.join(x for x in self.mainunit.getlocations() if x is not None)
+        return ", ".join(x for x in self.mainunit.getlocations() if x is not None)
 
     @cached_property
     def source(self):
@@ -71,7 +71,7 @@ class TTKitUnit(TranslationUnit):
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
-            return ''
+            return ""
         return get_string(self.unit.target)
 
     @cached_property
@@ -85,7 +85,7 @@ class TTKitUnit(TranslationUnit):
     @cached_property
     def notes(self):
         """Return notes or notes from units."""
-        comment = ''
+        comment = ""
 
         if self.unit is not None:
             comment = self.unit.getnotes()
@@ -94,7 +94,7 @@ class TTKitUnit(TranslationUnit):
             # Avoid duplication in case template has same notes
             template_comment = self.template.getnotes()
             if template_comment != comment:
-                comment = template_comment + ' ' + comment
+                comment = template_comment + " " + comment
 
         return comment
 
@@ -134,15 +134,15 @@ class TTKitUnit(TranslationUnit):
 
     def mark_fuzzy(self, fuzzy):
         """Set fuzzy flag on translated unit."""
-        if 'flags' in self.__dict__:
-            del self.__dict__['flags']
+        if "flags" in self.__dict__:
+            del self.__dict__["flags"]
         self.unit.markfuzzy(fuzzy)
 
     def mark_approved(self, value):
         """Set approved flag on translated unit."""
-        if 'flags' in self.__dict__:
-            del self.__dict__['flags']
-        if hasattr(self.unit, 'markapproved'):
+        if "flags" in self.__dict__:
+            del self.__dict__["flags"]
+        if hasattr(self.unit, "markapproved"):
             self.unit.markapproved(value)
 
     @cached_property
@@ -152,9 +152,9 @@ class TTKitUnit(TranslationUnit):
         We currently extract maxwidth attribute.
         """
         flags = Flags()
-        if hasattr(self.unit, 'xmlelement'):
+        if hasattr(self.unit, "xmlelement"):
             flags.merge(self.unit.xmlelement)
-        if hasattr(self.template, 'xmlelement'):
+        if hasattr(self.template, "xmlelement"):
             flags.merge(self.template.xmlelement)
         return flags.format()
 
@@ -171,7 +171,7 @@ class KeyValueUnit(TTKitUnit):
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
-            return ''
+            return ""
         return self.unit.value
 
     @cached_property
@@ -191,8 +191,8 @@ class KeyValueUnit(TTKitUnit):
             return False
         # The hasattr check here is needed for merged storages
         # where template is different kind than translations
-        if hasattr(self.unit, 'value'):
-            return not self.unit.isfuzzy() and self.unit.value != ''
+        if hasattr(self.unit, "value"):
+            return not self.unit.isfuzzy() and self.unit.value != ""
         return self.unit.istranslated()
 
     def set_target(self, target):
@@ -204,7 +204,7 @@ class KeyValueUnit(TTKitUnit):
 
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
-    loader = ('', '')
+    loader = ("", "")
 
     def __init__(
         self, storefile, template_store=None, language_code=None, is_template=False
@@ -242,8 +242,8 @@ class TTKitFormat(TranslationFormat):
             return cls.loader
         # Tuple style loader, import from translate toolkit
         module_name, class_name = cls.loader
-        if '.' not in module_name:
-            module_name = 'translate.storage.{0}'.format(module_name)
+        if "." not in module_name:
+            module_name = "translate.storage.{0}".format(module_name)
         module = importlib.import_module(module_name)
 
         # Get the class
@@ -259,7 +259,7 @@ class TTKitFormat(TranslationFormat):
 
         # Read the content
         if isinstance(storefile, str):
-            with open(storefile, 'rb') as handle:
+            with open(storefile, "rb") as handle:
                 content = handle.read()
         else:
             content = storefile.read()
@@ -321,15 +321,15 @@ class TTKitFormat(TranslationFormat):
 
         for unit in store.units:
             if unit.istranslatable():
-                if hasattr(unit, 'markapproved'):
+                if hasattr(unit, "markapproved"):
                     # Xliff only
                     unit.markapproved(False)
                 else:
                     unit.markfuzzy(fuzzy)
                 if unit.hasplural():
-                    unit.target = [''] * plural.number
+                    unit.target = [""] * plural.number
                 else:
-                    unit.target = ''
+                    unit.target = ""
 
     @classmethod
     def get_new_file_content(cls):
@@ -347,9 +347,9 @@ class TTKitFormat(TranslationFormat):
             cls.untranslate_store(store, language)
             store.savefile(filename)
         elif cls.new_translation is None:
-            raise ValueError('Not supported')
+            raise ValueError("Not supported")
         else:
-            with open(filename, 'wb') as output:
+            with open(filename, "wb") as output:
                 output.write(cls.get_new_file_content())
 
     @classmethod
@@ -361,7 +361,7 @@ class TTKitFormat(TranslationFormat):
             cls.parse_store(base)
             return True
         except Exception as error:
-            report_error(error, prefix='File parse error')
+            report_error(error, prefix="File parse error")
             return False
 
     @property
@@ -376,7 +376,7 @@ class PropertiesUnit(KeyValueUnit):
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
-        return ''
+        return ""
 
     @cached_property
     def source(self):
@@ -387,13 +387,13 @@ class PropertiesUnit(KeyValueUnit):
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
-            return ''
+            return ""
         # Need to decode property encoded string
         # This is basically stolen from
         # translate.storage.properties.propunit.gettarget
         # which for some reason does not return translation
         value = quote.propertiesdecode(self.unit.value)
-        value = re.sub('\\\\ ', ' ', value)
+        value = re.sub("\\\\ ", " ", value)
         return value
 
 
@@ -428,7 +428,7 @@ class PoUnit(TTKitUnit):
     def previous_source(self):
         """Return previous message source if there was any."""
         if not self.is_fuzzy():
-            return ''
+            return ""
         return get_string(self.unit.prev_source)
 
 
@@ -453,13 +453,13 @@ class XliffUnit(TTKitUnit):
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
-            return ''
+            return ""
 
         # Use source for monolingual base if target is not set
         if self.unit.target is None:
             if self.parent.is_template:
                 return rich_to_xliff_string(self.unit.rich_source)
-            return ''
+            return ""
 
         return rich_to_xliff_string(self.unit.rich_target)
 
@@ -487,7 +487,7 @@ class XliffUnit(TTKitUnit):
     def xliff_state(self):
         if self.xliff_node is None:
             return None
-        return self.xliff_node.get('state', None)
+        return self.xliff_node.get("state", None)
 
     @cached_property
     def context(self):
@@ -496,15 +496,15 @@ class XliffUnit(TTKitUnit):
         Use resname if available as it usually is more interesting for the translator
         than ID.
         """
-        resname = self.mainunit.xmlelement.get('resname')
+        resname = self.mainunit.xmlelement.get("resname")
         if resname:
             return resname
-        return self.mainunit.getid().replace(ID_SEPARATOR, '///')
+        return self.mainunit.getid().replace(ID_SEPARATOR, "///")
 
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
-        return ''
+        return ""
 
     def is_translated(self):
         """Check whether unit is translated.
@@ -530,22 +530,22 @@ class XliffUnit(TTKitUnit):
         We handle this on our own.
         """
         if fuzzy:
-            self.xliff_node.set('state', 'needs-translation')
+            self.xliff_node.set("state", "needs-translation")
         elif self.xliff_state:
-            self.xliff_node.set('state', 'translated')
+            self.xliff_node.set("state", "translated")
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
         if self.unit is None:
             return fallback
-        if hasattr(self.unit, 'isapproved'):
+        if hasattr(self.unit, "isapproved"):
             return self.unit.isapproved()
         return fallback
 
     def mark_approved(self, value):
         super().mark_approved(value)
         if self.xliff_state:
-            self.xliff_node.set('state', 'final' if value else 'translated')
+            self.xliff_node.set("state", "final" if value else "translated")
 
     def has_content(self):
         """Check whether unit has content.
@@ -587,7 +587,7 @@ class TSUnit(MonolingualIDUnit):
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
             source = self.unit.source
-            return join_plural([source.replace('(s)', ''), source.replace('(s)', 's')])
+            return join_plural([source.replace("(s)", ""), source.replace("(s)", "s")])
         return super().source
 
     @cached_property
@@ -597,14 +597,14 @@ class TSUnit(MonolingualIDUnit):
         # Do not try to handle relative locations in Qt TS, see
         # http://doc.qt.io/qt-5/linguist-ts-file-format.html
         if LOCATIONS_RE.match(result):
-            return ''
+            return ""
         return result
 
     @cached_property
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
-            return ''
+            return ""
         if not self.unit.isreview() and not self.unit.istranslated():
             # For Qt ts, empty translated string means source should be used
             return self.source
@@ -621,12 +621,12 @@ class TSUnit(MonolingualIDUnit):
 class MonolingualSimpleUnit(MonolingualIDUnit):
     @cached_property
     def locations(self):
-        return ''
+        return ""
 
     @cached_property
     def source(self):
         if self.template is None:
-            return self.mainunit.getid().lstrip('.')
+            return self.mainunit.getid().lstrip(".")
         return get_string(self.template.target)
 
     def has_content(self):
@@ -641,9 +641,9 @@ class WebExtensionJSONUnit(MonolingualSimpleUnit):
     def flags(self):
         placeholders = self.mainunit.placeholders
         if not placeholders:
-            return ''
-        return 'placeholders:{}'.format(
-            ':'.join('${}$'.format(key.upper()) for key in placeholders.keys())
+            return ""
+        return "placeholders:{}".format(
+            ":".join("${}$".format(key.upper()) for key in placeholders.keys())
         )
 
 
@@ -672,7 +672,7 @@ class CSVUnit(MonolingualSimpleUnit):
 class RESXUnit(TTKitUnit):
     @cached_property
     def locations(self):
-        return ''
+        return ""
 
     @cached_property
     def context(self):
@@ -690,7 +690,7 @@ class RESXUnit(TTKitUnit):
 class PHPUnit(KeyValueUnit):
     @cached_property
     def locations(self):
-        return ''
+        return ""
 
     @cached_property
     def source(self):
@@ -701,16 +701,16 @@ class PHPUnit(KeyValueUnit):
     @cached_property
     def target(self):
         if self.unit is None:
-            return ''
+            return ""
         return self.unit.source
 
 
 class PoFormat(TTKitFormat):
-    name = _('gettext PO file')
-    format_id = 'po'
+    name = _("gettext PO file")
+    format_id = "po"
     loader = pofile
     monolingual = False
-    autoload = ('*.po', '*.pot')
+    autoload = ("*.po", "*.pot")
     unit_class = PoUnit
 
     def is_valid(self):
@@ -729,7 +729,7 @@ class PoFormat(TTKitFormat):
 
         header = self.store.parseheader()
         try:
-            number, equation = Plural.parse_formula(header['Plural-Forms'])
+            number, equation = Plural.parse_formula(header["Plural-Forms"])
         except (ValueError, KeyError):
             return super().get_plural(language)
 
@@ -753,46 +753,46 @@ class PoFormat(TTKitFormat):
         plural = language.plural
 
         store.updateheader(
-            last_translator='Automatically generated',
+            last_translator="Automatically generated",
             plural_forms=plural.plural_form,
-            language_team='none',
+            language_team="none",
         )
 
     def update_header(self, **kwargs):
         """Update store header if available."""
-        kwargs['x_generator'] = 'Weblate {0}'.format(weblate.VERSION)
+        kwargs["x_generator"] = "Weblate {0}".format(weblate.VERSION)
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()
         if (
-            'Content-Type' not in header
-            or 'charset=CHARSET' in header['Content-Type']
-            or 'charset=ASCII' in header['Content-Type']
+            "Content-Type" not in header
+            or "charset=CHARSET" in header["Content-Type"]
+            or "charset=ASCII" in header["Content-Type"]
         ):
-            kwargs['Content_Type'] = 'text/plain; charset=UTF-8'
+            kwargs["Content_Type"] = "text/plain; charset=UTF-8"
 
         self.store.updateheader(**kwargs)
 
 
 class PoMonoFormat(PoFormat):
-    name = _('gettext PO file (monolingual)')
-    format_id = 'po-mono'
+    name = _("gettext PO file (monolingual)")
+    format_id = "po-mono"
     monolingual = True
     autoload = ()
     new_translation = (
         'msgid ""\n'
         'msgstr "X-Generator: Weblate\\n'
-        'MIME-Version: 1.0\\n'
-        'Content-Type: text/plain; charset=UTF-8\\n'
+        "MIME-Version: 1.0\\n"
+        "Content-Type: text/plain; charset=UTF-8\\n"
         'Content-Transfer-Encoding: 8bit"'
     )
 
 
 class TSFormat(TTKitFormat):
-    name = _('Qt Linguist translation file')
-    format_id = 'ts'
+    name = _("Qt Linguist translation file")
+    format_id = "ts"
     loader = tsfile
-    autoload = ('*.ts',)
+    autoload = ("*.ts",)
     unit_class = TSUnit
 
     @classmethod
@@ -805,12 +805,12 @@ class TSFormat(TTKitFormat):
 
 
 class XliffFormat(TTKitFormat):
-    name = _('XLIFF translation file')
-    format_id = 'xliff'
+    name = _("XLIFF translation file")
+    format_id = "xliff"
     loader = xlifffile
-    autoload = ('*.xlf', '*.xliff')
+    autoload = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
-    language_format = 'bcp'
+    language_format = "bcp"
 
     def create_unit(self, key, source):
         unit = super().create_unit(key, source)
@@ -820,9 +820,9 @@ class XliffFormat(TTKitFormat):
 
 
 class PoXliffFormat(XliffFormat):
-    name = _('XLIFF translation file with PO extensions')
-    format_id = 'poxliff'
-    autoload = ('*.poxliff',)
+    name = _("XLIFF translation file with PO extensions")
+    format_id = "poxliff"
+    autoload = ("*.poxliff",)
     loader = PoXliffFile
 
 
@@ -843,38 +843,38 @@ class PropertiesBaseFormat(TTKitFormat):
     def mimetype():
         """Return most common media type for format."""
         # Properties files do not expose mimetype
-        return 'text/plain'
+        return "text/plain"
 
 
 class StringsFormat(PropertiesBaseFormat):
-    name = _('iOS strings')
-    format_id = 'strings'
-    loader = ('properties', 'stringsfile')
-    new_translation = '\n'.encode('utf-16')
-    autoload = ('*.strings',)
-    language_format = 'bcp'
+    name = _("iOS strings")
+    format_id = "strings"
+    loader = ("properties", "stringsfile")
+    new_translation = "\n".encode("utf-16")
+    autoload = ("*.strings",)
+    language_format = "bcp"
 
 
 class StringsUtf8Format(StringsFormat):
-    name = _('iOS strings (UTF-8)')
-    format_id = 'strings-utf8'
-    loader = ('properties', 'stringsutf8file')
-    new_translation = '\n'
+    name = _("iOS strings (UTF-8)")
+    format_id = "strings-utf8"
+    loader = ("properties", "stringsutf8file")
+    new_translation = "\n"
 
 
 class PropertiesUtf8Format(PropertiesBaseFormat):
-    name = _('Java Properties (UTF-8)')
-    format_id = 'properties-utf8'
-    loader = ('properties', 'javautf8file')
-    new_translation = '\n'
-    language_format = 'java'
+    name = _("Java Properties (UTF-8)")
+    format_id = "properties-utf8"
+    loader = ("properties", "javautf8file")
+    new_translation = "\n"
+    language_format = "java"
 
 
 class PropertiesUtf16Format(PropertiesUtf8Format):
-    name = _('Java Properties (UTF-16)')
-    format_id = 'properties-utf16'
-    loader = ('properties', 'javafile')
-    language_format = 'java'
+    name = _("Java Properties (UTF-16)")
+    format_id = "properties-utf16"
+    loader = ("properties", "javafile")
+    language_format = "java"
 
     @classmethod
     def fixup(cls, store):
@@ -882,15 +882,15 @@ class PropertiesUtf16Format(PropertiesUtf8Format):
 
         Translate Toolkit autodetection might fail in some cases.
         """
-        store.encoding = 'utf-16'
+        store.encoding = "utf-16"
 
 
 class PropertiesFormat(PropertiesUtf8Format):
-    name = _('Java Properties (ISO 8859-1)')
-    format_id = 'properties'
-    loader = ('properties', 'javafile')
-    autoload = ('*.properties',)
-    language_format = 'java'
+    name = _("Java Properties (ISO 8859-1)")
+    format_id = "properties"
+    loader = ("properties", "javafile")
+    autoload = ("*.properties",)
+    language_format = "java"
 
     @classmethod
     def fixup(cls, store):
@@ -899,108 +899,108 @@ class PropertiesFormat(PropertiesUtf8Format):
         Java properties need to be ISO 8859-1, but Translate Toolkit converts them to
         UTF-8.
         """
-        store.encoding = 'iso-8859-1'
+        store.encoding = "iso-8859-1"
 
 
 class JoomlaFormat(PropertiesBaseFormat):
-    name = _('Joomla Language File')
-    format_id = 'joomla'
-    loader = ('properties', 'joomlafile')
+    name = _("Joomla Language File")
+    format_id = "joomla"
+    loader = ("properties", "joomlafile")
     monolingual = True
-    new_translation = '\n'
-    autoload = ('*.ini',)
+    new_translation = "\n"
+    autoload = ("*.ini",)
 
 
 class PhpFormat(TTKitFormat):
-    name = _('PHP strings')
-    format_id = 'php'
-    loader = ('php', 'phpfile')
-    new_translation = '<?php\n'
-    autoload = ('*.php',)
+    name = _("PHP strings")
+    format_id = "php"
+    loader = ("php", "phpfile")
+    new_translation = "<?php\n"
+    autoload = ("*.php",)
     unit_class = PHPUnit
 
     @staticmethod
     def mimetype():
         """Return most common media type for format."""
-        return 'text/x-php'
+        return "text/x-php"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'php'
+        return "php"
 
 
 class RESXFormat(TTKitFormat):
-    name = _('.NET resource file')
-    format_id = 'resx'
+    name = _(".NET resource file")
+    format_id = "resx"
     loader = RESXFile
     monolingual = True
     unit_class = RESXUnit
     new_translation = RESXFile.XMLskeleton
-    autoload = ('*.resx',)
+    autoload = ("*.resx",)
 
 
 class AndroidFormat(TTKitFormat):
-    name = _('Android String Resource')
-    format_id = 'aresource'
-    loader = ('aresource', 'AndroidResourceFile')
+    name = _("Android String Resource")
+    format_id = "aresource"
+    loader = ("aresource", "AndroidResourceFile")
     monolingual = True
     unit_class = MonolingualIDUnit
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<resources></resources>'
-    autoload = ('strings*.xml', 'values*.xml')
-    language_format = 'android'
+    autoload = ("strings*.xml", "values*.xml")
+    language_format = "android"
 
 
 class JSONFormat(TTKitFormat):
-    name = _('JSON file')
-    format_id = 'json'
-    loader = ('jsonl10n', 'JsonFile')
+    name = _("JSON file")
+    format_id = "json"
+    loader = ("jsonl10n", "JsonFile")
     unit_class = MonolingualSimpleUnit
-    autoload = ('*.json',)
-    new_translation = '{}\n'
+    autoload = ("*.json",)
+    new_translation = "{}\n"
 
     @staticmethod
     def mimetype():
         """Return most common media type for format."""
-        return 'application/json'
+        return "application/json"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'json'
+        return "json"
 
 
 class JSONNestedFormat(JSONFormat):
-    name = _('JSON nested structure file')
-    format_id = 'json-nested'
-    loader = ('jsonl10n', 'JsonNestedFile')
+    name = _("JSON nested structure file")
+    format_id = "json-nested"
+    loader = ("jsonl10n", "JsonNestedFile")
     autoload = ()
 
 
 class WebExtensionJSONFormat(JSONFormat):
-    name = _('WebExtension JSON file')
-    format_id = 'webextension'
-    loader = ('jsonl10n', 'WebExtensionJsonFile')
+    name = _("WebExtension JSON file")
+    format_id = "webextension"
+    loader = ("jsonl10n", "WebExtensionJsonFile")
     monolingual = True
-    autoload = ('messages*.json',)
+    autoload = ("messages*.json",)
     unit_class = WebExtensionJSONUnit
 
 
 class I18NextFormat(JSONFormat):
-    name = _('i18next JSON file')
-    format_id = 'i18next'
-    loader = ('jsonl10n', 'I18NextFile')
+    name = _("i18next JSON file")
+    format_id = "i18next"
+    loader = ("jsonl10n", "I18NextFile")
     autoload = ()
-    check_flags = ('i18next-interpolation',)
+    check_flags = ("i18next-interpolation",)
 
 
 class CSVFormat(TTKitFormat):
-    name = _('CSV file')
-    format_id = 'csv'
-    loader = ('csvl10n', 'csvfile')
+    name = _("CSV file")
+    format_id = "csv"
+    loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit
-    autoload = ('*.csv',)
-    encoding = 'auto'
+    autoload = ("*.csv",)
+    encoding = "auto"
 
     def __init__(
         self, storefile, template_store=None, language_code=None, is_template=False
@@ -1008,7 +1008,7 @@ class CSVFormat(TTKitFormat):
         super().__init__(storefile, template_store, language_code, is_template)
         # Remove template if the file contains source, this is needed
         # for import, but probably usable elsewhere as well
-        if 'source' in self.store.fieldnames and not isinstance(
+        if "source" in self.store.fieldnames and not isinstance(
             template_store, CSVFormat
         ):
             self.template_store = None
@@ -1016,12 +1016,12 @@ class CSVFormat(TTKitFormat):
     @staticmethod
     def mimetype():
         """Return most common media type for format."""
-        return 'text/csv'
+        return "text/csv"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'csv'
+        return "csv"
 
     @classmethod
     def parse_store(cls, storefile):
@@ -1029,8 +1029,8 @@ class CSVFormat(TTKitFormat):
         storeclass = cls.get_class()
 
         # Did we get file or filename?
-        if not hasattr(storefile, 'read'):
-            storefile = open(storefile, 'rb')
+        if not hasattr(storefile, "read"):
+            storefile = open(storefile, "rb")
 
         # Read content for fixups
         content = storefile.read()
@@ -1040,11 +1040,11 @@ class CSVFormat(TTKitFormat):
         store = storeclass()
         store.parse(content)
         # Did detection of headers work?
-        if store.fieldnames != ['location', 'source', 'target']:
+        if store.fieldnames != ["location", "source", "target"]:
             return store
 
         fileobj = csv.StringIO(
-            store.detect_encoding(content, default_encodings=['utf-8', 'utf-16'])[0]
+            store.detect_encoding(content, default_encodings=["utf-8", "utf-16"])[0]
         )
 
         # Try reading header
@@ -1061,7 +1061,7 @@ class CSVFormat(TTKitFormat):
     @classmethod
     def parse_simple_csv(cls, content, storefile):
         storeclass = cls.get_class()
-        result = storeclass(fieldnames=['source', 'target'], encoding=cls.encoding)
+        result = storeclass(fieldnames=["source", "target"], encoding=cls.encoding)
         result.parse(content)
         result.fileobj = storefile
         filename = getattr(storefile, "name", getattr(storefile, "filename", None))
@@ -1071,76 +1071,76 @@ class CSVFormat(TTKitFormat):
 
 
 class CSVSimpleFormat(CSVFormat):
-    name = _('Simple CSV file')
-    format_id = 'csv-simple'
-    autoload = ('*.txt',)
-    encoding = 'auto'
+    name = _("Simple CSV file")
+    format_id = "csv-simple"
+    autoload = ("*.txt",)
+    encoding = "auto"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'csv'
+        return "csv"
 
     @classmethod
     def parse_store(cls, storefile):
         """Parse the store."""
         # Did we get file or filename?
-        if not hasattr(storefile, 'read'):
-            storefile = open(storefile, 'rb')
+        if not hasattr(storefile, "read"):
+            storefile = open(storefile, "rb")
 
         return cls.parse_simple_csv(storefile.read(), storefile)
 
 
 class CSVSimpleFormatISO(CSVSimpleFormat):
-    name = _('Simple CSV file (ISO-8859-1)')
-    format_id = 'csv-simple-iso'
-    encoding = 'iso-8859-1'
+    name = _("Simple CSV file (ISO-8859-1)")
+    format_id = "csv-simple-iso"
+    encoding = "iso-8859-1"
     autoload = ()
 
 
 class YAMLFormat(TTKitFormat):
-    name = _('YAML file')
-    format_id = 'yaml'
-    loader = ('yaml', 'YAMLFile')
+    name = _("YAML file")
+    format_id = "yaml"
+    loader = ("yaml", "YAMLFile")
     unit_class = MonolingualSimpleUnit
-    autoload = ('*.pyml',)
-    new_translation = '{}\n'
+    autoload = ("*.pyml",)
+    new_translation = "{}\n"
 
     @staticmethod
     def mimetype():
         """Return most common media type for format."""
-        return 'text/yaml'
+        return "text/yaml"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'yml'
+        return "yml"
 
 
 class RubyYAMLFormat(YAMLFormat):
-    name = _('Ruby YAML file')
-    format_id = 'ruby-yaml'
-    loader = ('yaml', 'RubyYAMLFile')
-    autoload = ('*.ryml', '*.yml', '*.yaml')
+    name = _("Ruby YAML file")
+    format_id = "ruby-yaml"
+    loader = ("yaml", "RubyYAMLFile")
+    autoload = ("*.ryml", "*.yml", "*.yaml")
 
 
 class DTDFormat(TTKitFormat):
-    name = _('DTD file')
-    format_id = 'dtd'
-    loader = ('dtd', 'dtdfile')
-    autoload = ('*.dtd',)
+    name = _("DTD file")
+    format_id = "dtd"
+    loader = ("dtd", "dtdfile")
+    autoload = ("*.dtd",)
     unit_class = MonolingualSimpleUnit
-    new_translation = '\n'
+    new_translation = "\n"
 
     @staticmethod
     def mimetype():
         """Return most common media type for format."""
-        return 'application/xml-dtd'
+        return "application/xml-dtd"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'dtd'
+        return "dtd"
 
     @property
     def all_store_units(self):
@@ -1149,28 +1149,28 @@ class DTDFormat(TTKitFormat):
 
 
 class WindowsRCFormat(TTKitFormat):
-    name = _('RC file')
-    format_id = 'rc'
-    loader = ('rc', 'rcfile')
-    autoload = ('*.rc',)
+    name = _("RC file")
+    format_id = "rc"
+    loader = ("rc", "rcfile")
+    autoload = ("*.rc",)
     unit_class = MonolingualSimpleUnit
     can_add_unit = False
-    language_format = 'bcp'
+    language_format = "bcp"
 
     @staticmethod
     def mimetype():
         """Return most common media type for format."""
-        return 'text/plain'
+        return "text/plain"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'rc'
+        return "rc"
 
     @classmethod
     def get_class(cls):
         """Return class for handling this module."""
-        raise ImportError('Windows RC file format unsupported on Python 3')
+        raise ImportError("Windows RC file format unsupported on Python 3")
 
 
 class SubtitleUnit(MonolingualIDUnit):
@@ -1182,7 +1182,7 @@ class SubtitleUnit(MonolingualIDUnit):
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
-            return ''
+            return ""
         return get_string(self.unit.source)
 
     def is_translated(self):
@@ -1191,44 +1191,44 @@ class SubtitleUnit(MonolingualIDUnit):
 
 
 class SubRipFormat(TTKitFormat):
-    name = _('SubRip subtitle file')
-    format_id = 'srt'
-    loader = ('subtitles', 'SubRipFile')
+    name = _("SubRip subtitle file")
+    format_id = "srt"
+    loader = ("subtitles", "SubRipFile")
     unit_class = SubtitleUnit
-    autoload = ('*.srt',)
+    autoload = ("*.srt",)
     monolingual = True
 
     @staticmethod
     def mimetype():
         """Return most common media type for format."""
-        return 'text/plain'
+        return "text/plain"
 
 
 class MicroDVDFormat(SubRipFormat):
     name = _("MicroDVD subtitle file")
-    format_id = 'sub'
-    loader = ('subtitles', 'MicroDVDFile')
-    autoload = ('*.sub',)
+    format_id = "sub"
+    loader = ("subtitles", "MicroDVDFile")
+    autoload = ("*.sub",)
 
 
 class AdvSubStationAlphaFormat(SubRipFormat):
     name = _("Advanced SubStation Alpha subtitle file")
-    format_id = 'ass'
-    loader = ('subtitles', 'AdvSubStationAlphaFile')
-    autoload = ('*.ass',)
+    format_id = "ass"
+    loader = ("subtitles", "AdvSubStationAlphaFile")
+    autoload = ("*.ass",)
 
 
 class SubStationAlphaFormat(SubRipFormat):
     name = _("SubStation Alpha subtitle file")
-    format_id = 'ssa'
-    loader = ('subtitles', 'SubStationAlphaFile')
-    autoload = ('*.ssa',)
+    format_id = "ssa"
+    loader = ("subtitles", "SubStationAlphaFile")
+    autoload = ("*.ssa",)
 
 
 class FlatXMLFormat(TTKitFormat):
-    name = _('Flat XML file')
-    format_id = 'flatxml'
-    loader = ('flatxml', 'FlatXMLFile')
+    name = _("Flat XML file")
+    format_id = "flatxml"
+    loader = ("flatxml", "FlatXMLFile")
     monolingual = True
     unit_class = FlatXMLUnit
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'

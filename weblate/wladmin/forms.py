@@ -63,4 +63,4 @@ class TestMailForm(forms.Form):
 class BackupForm(forms.ModelForm):
     class Meta:
         model = BackupService
-        fields = ('repository',)
+        fields = ("repository",)

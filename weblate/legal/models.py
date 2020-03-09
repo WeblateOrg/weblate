@@ -37,11 +37,11 @@ class Agreement(models.Model):
     )
     tos = models.DateField(default=date(1970, 1, 1))
     address = models.GenericIPAddressField(null=True)
-    user_agent = models.CharField(max_length=200, default='')
+    user_agent = models.CharField(max_length=200, default="")
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '{0}:{1}'.format(self.user.username, self.tos)
+        return "{0}:{1}".format(self.user.username, self.tos)
 
     def is_current(self):
         return self.tos == TOS_DATE
@@ -49,7 +49,7 @@ class Agreement(models.Model):
     def make_current(self, request):
         if not self.is_current():
             AuditLog.objects.create(
-                self.user, request, 'tos', date=TOS_DATE.isoformat()
+                self.user, request, "tos", date=TOS_DATE.isoformat()
             )
             self.tos = TOS_DATE
             self.address = get_ip_address(request)

@@ -33,16 +33,16 @@ from weblate.utils.views import ComponentViewMixin
 class AddonViewMixin(ComponentViewMixin):
     def get_queryset(self):
         component = self.get_component()
-        if not self.request.user.has_perm('component.edit', component):
-            raise PermissionDenied('Can not edit component')
-        self.kwargs['component_obj'] = component
+        if not self.request.user.has_perm("component.edit", component):
+            raise PermissionDenied("Can not edit component")
+        self.kwargs["component_obj"] = component
         return Addon.objects.filter_component(component)
 
     def get_success_url(self):
         component = self.get_component()
         return reverse(
-            'addons',
-            kwargs={'project': component.project.slug, 'component': component.slug},
+            "addons",
+            kwargs={"project": component.project.slug, "component": component.slug},
         )
 
     def redirect_list(self, message=None):
@@ -57,10 +57,10 @@ class AddonList(AddonViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        component = self.kwargs['component_obj']
-        result['object'] = component
-        installed = {x.addon.name for x in result['object_list']}
-        result['available'] = sorted(
+        component = self.kwargs["component_obj"]
+        result["object"] = component
+        installed = {x.addon.name for x in result["object_list"]}
+        result["available"] = sorted(
             (
                 x
                 for x in ADDONS.values()
@@ -73,7 +73,7 @@ class AddonList(AddonViewMixin, ListView):
 
     def post(self, request, **kwargs):
         component = self.get_component()
-        name = request.POST.get('name')
+        name = request.POST.get("name")
         addon = ADDONS.get(name)
         installed = {x.addon.name for x in self.get_queryset()}
         if (
@@ -82,13 +82,13 @@ class AddonList(AddonViewMixin, ListView):
             or not addon.can_install(component, request.user)
             or (name in installed and not addon.multiple)
         ):
-            return self.redirect_list(_('Invalid addon name specified!'))
+            return self.redirect_list(_("Invalid addon name specified!"))
 
         form = None
         if addon.settings_form is None:
             addon.create(component)
             return self.redirect_list()
-        if 'form' in request.POST:
+        if "form" in request.POST:
             form = addon.get_add_form(component, data=request.POST)
             if form.is_valid():
                 form.save()
@@ -98,32 +98,32 @@ class AddonList(AddonViewMixin, ListView):
         addon.pre_install(component, request)
         return self.response_class(
             request=self.request,
-            template=['addons/addon_detail.html'],
+            template=["addons/addon_detail.html"],
             context={
-                'addon': addon,
-                'form': form,
-                'object': self.kwargs['component_obj'],
+                "addon": addon,
+                "form": form,
+                "object": self.kwargs["component_obj"],
             },
         )
 
 
 class AddonDetail(AddonViewMixin, UpdateView):
     model = Addon
-    template_name_suffix = '_detail'
+    template_name_suffix = "_detail"
 
     def get_form(self, form_class=None):
         return self.object.addon.get_settings_form(**self.get_form_kwargs())
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        result['object'] = self.object.component
-        result['instance'] = self.object
-        result['addon'] = self.object.addon
+        result["object"] = self.object.component
+        result["instance"] = self.object
+        result["addon"] = self.object.addon
         return result
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
-        if 'delete' in request.POST:
+        if "delete" in request.POST:
             obj.delete()
             return self.redirect_list()
         return super().post(request, *args, **kwargs)

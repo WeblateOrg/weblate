@@ -28,27 +28,27 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'installs addon to all listed components'
+    help = "installs addon to all listed components"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
-        parser.add_argument('--addon', required=True, help='Addon name')
+        parser.add_argument("--addon", required=True, help="Addon name")
         parser.add_argument(
-            '--configuration', default='{}', help='Addon configuration in JSON'
+            "--configuration", default="{}", help="Addon configuration in JSON"
         )
         parser.add_argument(
-            '--update', action='store_true', help='Update existing addons configuration'
+            "--update", action="store_true", help="Update existing addons configuration"
         )
 
     def handle(self, *args, **options):
         try:
-            addon = ADDONS[options['addon']]()
+            addon = ADDONS[options["addon"]]()
         except KeyError:
-            raise CommandError('Addon not found: {}'.format(options['addon']))
+            raise CommandError("Addon not found: {}".format(options["addon"]))
         try:
-            configuration = json.loads(options['configuration'])
+            configuration = json.loads(options["configuration"])
         except ValueError as error:
-            raise CommandError('Invalid addon configuration: {}'.format(error))
+            raise CommandError("Invalid addon configuration: {}".format(error))
         if addon.has_settings:
             form = addon.get_add_form(None, data=configuration)
             if not form.is_valid():
@@ -56,8 +56,8 @@ class Command(WeblateComponentCommand):
                     self.stderr.write(error)
                 for field in form:
                     for error in field.errors:
-                        self.stderr.write('Error in {}: {}'.format(field.name, error))
-                raise CommandError('Invalid addon configuration!')
+                        self.stderr.write("Error in {}: {}".format(field.name, error))
+                raise CommandError("Invalid addon configuration!")
         try:
             user = User.objects.filter(is_superuser=True)[0]
         except IndexError:
@@ -65,16 +65,16 @@ class Command(WeblateComponentCommand):
         for component in self.get_components(*args, **options):
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons.exists():
-                if options['update']:
+                if options["update"]:
                     addons.update(configuration=configuration)
-                    self.stdout.write('Successfully updated on {}'.format(component))
+                    self.stdout.write("Successfully updated on {}".format(component))
                 else:
-                    self.stderr.write('Already installed on {}'.format(component))
+                    self.stderr.write("Already installed on {}".format(component))
                 continue
 
             if not addon.can_install(component, user):
-                self.stderr.write('Can not install on {}'.format(component))
+                self.stderr.write("Can not install on {}".format(component))
                 continue
 
             addon.create(component, configuration=configuration)
-            self.stdout.write('Successfully installed on {}'.format(component))
+            self.stdout.write("Successfully installed on {}".format(component))

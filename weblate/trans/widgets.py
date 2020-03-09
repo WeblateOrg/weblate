@@ -42,10 +42,10 @@ gi.require_version("Pango", "1.0")
 from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
 
 COLOR_DATA = {
-    'grey': (0, 0, 0),
-    'white': (0, 0, 0),
-    'black': (255, 255, 255),
-    'graph': (255, 255, 255),
+    "grey": (0, 0, 0),
+    "white": (0, 0, 0),
+    "black": (255, 255, 255),
+    "graph": (255, 255, 255),
 }
 
 WIDGETS = {}
@@ -61,10 +61,10 @@ class Widget:
     """Generic widget class."""
 
     name = None
-    verbose = ''
+    verbose = ""
     colors = ()
-    extension = 'png'
-    content_type = 'image/png'
+    extension = "png"
+    content_type = "image/png"
     order = 100
     show = True
 
@@ -96,17 +96,17 @@ class ContentWidget(Widget):
         self.percent = stats.translated_percent
 
     def get_percent_text(self):
-        return pgettext('Translated percents', '%(percent)s%%') % {
-            'percent': int(self.percent)
+        return pgettext("Translated percents", "%(percent)s%%") % {
+            "percent": int(self.percent)
         }
 
 
 class BitmapWidget(ContentWidget):
     """Base class for bitmap rendering widgets."""
 
-    colors = ('grey', 'white', 'black')
-    extension = 'png'
-    content_type = 'image/png'
+    colors = ("grey", "white", "black")
+    extension = "png"
+    content_type = "image/png"
     order = 100
     show = True
     head_template = '<span letter_spacing="-1000"><b>{}</b></span>'
@@ -131,18 +131,18 @@ class BitmapWidget(ContentWidget):
     def get_text_params(self):
         """Create dictionary used for text formatting."""
         return {
-            'name': self.obj.name,
-            'count': self.total,
-            'languages': self.languages,
-            'percent': self.percent,
+            "name": self.obj.name,
+            "count": self.total,
+            "languages": self.languages,
+            "percent": self.percent,
         }
 
     def get_filename(self):
         """Return widgets filename."""
         return os.path.join(
             settings.STATIC_ROOT,
-            'widget-images',
-            '{widget}-{color}.png'.format(**{'color': self.color, 'widget': self.name}),
+            "widget-images",
+            "{widget}-{color}.png".format(**{"color": self.color, "widget": self.name}),
         )
 
     def get_columns(self):
@@ -153,8 +153,8 @@ class BitmapWidget(ContentWidget):
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription('Source Sans Pro {}'.format(self.font_size * 1.5)),
-            Pango.FontDescription('Source Sans Pro {}'.format(self.font_size)),
+            Pango.FontDescription("Source Sans Pro {}".format(self.font_size * 1.5)),
+            Pango.FontDescription("Source Sans Pro {}".format(self.font_size)),
         ]
 
     def render_additional(self, ctx):
@@ -209,9 +209,9 @@ class BitmapWidget(ContentWidget):
 class SVGWidget(ContentWidget):
     """Base class for SVG rendering widgets."""
 
-    extension = 'svg'
-    content_type = 'image/svg+xml; charset=utf-8'
-    template_name = ''
+    extension = "svg"
+    content_type = "image/svg+xml; charset=utf-8"
+    template_name = ""
 
     def render(self, response):
         """Rendering method to be implemented."""
@@ -226,23 +226,23 @@ class RedirectWidget(Widget):
     def redirect(self):
         """Redirect to matching SVG badge."""
         kwargs = {
-            'project': self.obj.slug,
-            'widget': 'svg',
-            'color': 'badge',
-            'extension': 'svg',
+            "project": self.obj.slug,
+            "widget": "svg",
+            "color": "badge",
+            "extension": "svg",
         }
         if self.lang:
-            kwargs['lang'] = self.lang.code
-            return reverse('widget-image', kwargs=kwargs)
-        return reverse('widget-image', kwargs=kwargs)
+            kwargs["lang"] = self.lang.code
+            return reverse("widget-image", kwargs=kwargs)
+        return reverse("widget-image", kwargs=kwargs)
 
 
 @register_widget
 class NormalWidget(BitmapWidget):
-    name = '287x66'
+    name = "287x66"
     order = 110
     offset = 10
-    verbose = gettext_lazy('Big status badge')
+    verbose = gettext_lazy("Big status badge")
 
     def get_columns(self):
         return [
@@ -268,31 +268,31 @@ class NormalWidget(BitmapWidget):
             ],
             [
                 self.head_template.format(self.get_percent_text()),
-                self.foot_template.format(_('Translated').upper()),
+                self.foot_template.format(_("Translated").upper()),
             ],
         ]
 
 
 @register_widget
 class SmallWidget(BitmapWidget):
-    name = '88x31'
+    name = "88x31"
     order = 111
     font_size = 7
-    verbose = gettext_lazy('Small status badge')
+    verbose = gettext_lazy("Small status badge")
 
     def get_columns(self):
         return [
             [
                 self.head_template.format(self.get_percent_text()),
-                self.foot_template.format(_('Translated').upper()),
+                self.foot_template.format(_("Translated").upper()),
             ]
         ]
 
 
 @register_widget
 class OpenGraphWidget(NormalWidget):
-    name = 'open'
-    colors = ('graph',)
+    name = "open"
+    colors = ("graph",)
     order = 120
     lines = False
     offset = 300
@@ -300,25 +300,25 @@ class OpenGraphWidget(NormalWidget):
     column_offset = 265
     head_template = '<span letter_spacing="-1000">{}</span>'
     foot_template = '<span letter_spacing="2000">{}</span>'
-    verbose = gettext_lazy('Open Graph image')
+    verbose = gettext_lazy("Open Graph image")
 
     def get_column_width(self, surface, columns):
         return 230
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription('Source Sans Pro {}'.format(42)),
-            Pango.FontDescription('Source Sans Pro {}'.format(18)),
+            Pango.FontDescription("Source Sans Pro {}".format(42)),
+            Pango.FontDescription("Source Sans Pro {}".format(18)),
         ]
 
     def get_title(self):
-        return 'Project <b>{}</b>'.format(escape(self.obj.name))
+        return "Project <b>{}</b>".format(escape(self.obj.name))
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
         layout.set_font_description(
-            Pango.FontDescription('Source Sans Pro {}'.format(52))
+            Pango.FontDescription("Source Sans Pro {}".format(52))
         )
         layout.set_markup(self.get_title())
         PangoCairo.show_layout(ctx, layout)
@@ -329,7 +329,7 @@ class SiteOpenGraphWidget(OpenGraphWidget):
         super().__init__(GlobalStats())
 
     def get_title(self):
-        return '<b>{}</b>'.format(escape(settings.SITE_TITLE))
+        return "<b>{}</b>".format(escape(settings.SITE_TITLE))
 
     def get_text_params(self):
         return {}
@@ -339,28 +339,28 @@ class SiteOpenGraphWidget(OpenGraphWidget):
 class BadgeWidget(RedirectWidget):
     """Legacy badge which used to render PNG."""
 
-    name = 'status'
-    colors = ('badge',)
+    name = "status"
+    colors = ("badge",)
 
 
 @register_widget
 class ShieldsBadgeWidget(RedirectWidget):
     """Legacy badge which used to redirect to shields.io."""
 
-    name = 'shields'
-    colors = ('badge',)
+    name = "shields"
+    colors = ("badge",)
 
 
 @register_widget
 class SVGBadgeWidget(SVGWidget):
-    name = 'svg'
-    colors = ('badge',)
+    name = "svg"
+    colors = ("badge",)
     order = 80
-    template_name = 'badge.svg'
-    verbose = gettext_lazy('Status badge')
+    template_name = "badge.svg"
+    verbose = gettext_lazy("Status badge")
 
     def render(self, response):
-        translated_text = _('translated')
+        translated_text = _("translated")
         translated_width = (
             render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
                 0
@@ -377,25 +377,25 @@ class SVGBadgeWidget(SVGWidget):
         )
 
         if self.percent >= 90:
-            color = '#4c1'
+            color = "#4c1"
         elif self.percent >= 75:
-            color = '#dfb317'
+            color = "#dfb317"
         else:
-            color = '#e05d44'
+            color = "#e05d44"
 
         response.write(
             render_to_string(
                 self.template_name,
                 {
-                    'translated_text': translated_text,
-                    'percent_text': percent_text,
-                    'translated_width': translated_width,
-                    'percent_width': percent_width,
-                    'width': translated_width + percent_width,
-                    'color': color,
-                    'translated_offset': translated_width // 2,
-                    'percent_offset': translated_width + percent_width // 2,
-                    'lang': get_language(),
+                    "translated_text": translated_text,
+                    "percent_text": percent_text,
+                    "translated_width": translated_width,
+                    "percent_width": percent_width,
+                    "width": translated_width + percent_width,
+                    "color": color,
+                    "translated_offset": translated_width // 2,
+                    "percent_offset": translated_width + percent_width // 2,
+                    "lang": get_language(),
                 },
             )
         )
@@ -403,13 +403,13 @@ class SVGBadgeWidget(SVGWidget):
 
 @register_widget
 class MultiLanguageWidget(SVGWidget):
-    name = 'multi'
+    name = "multi"
     order = 81
-    colors = ('auto', 'red', 'green', 'blue')
-    template_name = 'multi-language-badge.svg'
-    verbose = gettext_lazy('Vertical multi language status widget')
+    colors = ("auto", "red", "green", "blue")
+    template_name = "multi-language-badge.svg"
+    verbose = gettext_lazy("Vertical multi language status widget")
 
-    COLOR_MAP = {'red': '#fa3939', 'green': '#3fed48', 'blue': '#3f85ed', 'auto': None}
+    COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
 
     def render(self, response):
         translations = []
@@ -418,13 +418,13 @@ class MultiLanguageWidget(SVGWidget):
         for stats in self.obj.stats.get_language_stats():
             language = stats.language
             percent = stats.translated_percent
-            if self.color == 'auto':
+            if self.color == "auto":
                 if percent >= 85:
-                    color = '#2eccaa'
+                    color = "#2eccaa"
                 elif percent >= 50:
-                    color = '#38f'
+                    color = "#38f"
                 else:
-                    color = '#f6664c'
+                    color = "#f6664c"
             translations.append(
                 (
                     # Language name
@@ -442,8 +442,8 @@ class MultiLanguageWidget(SVGWidget):
                     # Row URL
                     get_site_url(
                         reverse(
-                            'project-language',
-                            kwargs={'lang': language.code, 'project': self.obj.slug},
+                            "project-language",
+                            kwargs={"lang": language.code, "project": self.obj.slug},
                         )
                     ),
                     # Top offset for horizontal
@@ -456,9 +456,9 @@ class MultiLanguageWidget(SVGWidget):
             render_to_string(
                 self.template_name,
                 {
-                    'height': len(translations) * 15 + 15,
-                    'translations': translations,
-                    'site_url': get_site_url(),
+                    "height": len(translations) * 15 + 15,
+                    "translations": translations,
+                    "site_url": get_site_url(),
                 },
             )
         )
@@ -466,7 +466,7 @@ class MultiLanguageWidget(SVGWidget):
 
 @register_widget
 class HorizontalMultiLanguageWidget(MultiLanguageWidget):
-    name = 'horizontal'
+    name = "horizontal"
     order = 82
-    template_name = 'multi-language-badge-horizontal.svg'
-    verbose = gettext_lazy('Horizontal multi language status widget')
+    template_name = "multi-language-badge-horizontal.svg"
+    verbose = gettext_lazy("Horizontal multi language status widget")

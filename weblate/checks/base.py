@@ -26,14 +26,14 @@ from weblate.utils.docs import get_doc_url
 class Check:
     """Basic class for checks."""
 
-    check_id = ''
-    name = ''
-    description = ''
+    check_id = ""
+    name = ""
+    description = ""
     target = False
     source = False
     ignore_untranslated = True
     default_disabled = False
-    severity = 'info'
+    severity = "info"
     batch_update = False
     param_type = None
 
@@ -41,11 +41,11 @@ class Check:
         return self.check_id
 
     def __init__(self):
-        id_dash = self.check_id.replace('_', '-')
-        self.url_id = 'check:{0}'.format(self.check_id)
-        self.doc_id = 'check-{0}'.format(id_dash)
+        id_dash = self.check_id.replace("_", "-")
+        self.url_id = "check:{0}".format(self.check_id)
+        self.doc_id = "check-{0}".format(id_dash)
         self.enable_string = id_dash
-        self.ignore_string = 'ignore-{0}'.format(id_dash)
+        self.ignore_string = "ignore-{0}".format(id_dash)
 
     def should_skip(self, unit):
         """Check whether we should skip processing this unit."""
@@ -113,7 +113,7 @@ class Check:
 
     def get_doc_url(self):
         """Return link to documentation."""
-        return get_doc_url('user/checks', self.doc_id)
+        return get_doc_url("user/checks", self.doc_id)
 
     def check_highlight(self, source, unit):
         """Return parts of the text that match to hightlight them.
@@ -130,7 +130,7 @@ class Check:
         return None
 
     def render(self, request, unit):
-        raise Http404('Not supported')
+        raise Http404("Not supported")
 
 
 class TargetCheck(Check):

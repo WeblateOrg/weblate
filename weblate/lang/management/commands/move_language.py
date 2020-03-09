@@ -23,20 +23,20 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'Move all content from one language to other'
+    help = "Move all content from one language to other"
 
     def add_arguments(self, parser):
-        parser.add_argument('source', help='Source language code')
-        parser.add_argument('target', help='Target language code')
+        parser.add_argument("source", help="Source language code")
+        parser.add_argument("target", help="Target language code")
 
     def handle(self, *args, **options):
-        source = Language.objects.get(code=options['source'])
-        target = Language.objects.get(code=options['target'])
+        source = Language.objects.get(code=options["source"])
+        target = Language.objects.get(code=options["target"])
 
         for translation in source.translation_set.iterator():
             other = translation.component.translation_set.filter(language=target)
             if other.exists():
-                self.stderr.write('Already exists: {}'.format(translation))
+                self.stderr.write("Already exists: {}".format(translation))
                 continue
             translation.language = target
             translation.save()

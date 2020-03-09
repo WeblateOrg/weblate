@@ -44,7 +44,7 @@ from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
 def fake_get_comments():
-    return [Comment(comment='Weblate translator comment')]
+    return [Comment(comment="Weblate translator comment")]
 
 
 def empty_get_comments():
@@ -58,11 +58,11 @@ class PoExporterTest(BaseTestCase):
 
     def get_exporter(self, lang=None, **kwargs):
         if lang is None:
-            lang, created = Language.objects.get_or_create(code='xx')
+            lang, created = Language.objects.get_or_create(code="xx")
             if created:
                 Plural.objects.create(language=lang)
         return self._class(
-            language=lang, project=Project(slug='test', name='TEST'), **kwargs
+            language=lang, project=Project(slug="test", name="TEST"), **kwargs
         )
 
     def check_export(self, exporter):
@@ -71,8 +71,8 @@ class PoExporterTest(BaseTestCase):
         return output
 
     def check_plurals(self, result):
-        self.assertIn(b'msgid_plural', result)
-        self.assertIn(b'msgstr[2]', result)
+        self.assertIn(b"msgid_plural", result)
+        self.assertIn(b"msgstr[2]", result)
 
     def check_dict(self, word):
         exporter = self.get_exporter()
@@ -80,37 +80,37 @@ class PoExporterTest(BaseTestCase):
         self.check_export(exporter)
 
     def test_dictionary(self):
-        self.check_dict(Dictionary(source='foo', target='bar'))
+        self.check_dict(Dictionary(source="foo", target="bar"))
 
     def test_dictionary_markup(self):
-        self.check_dict(Dictionary(source='<b>foo</b>', target='<b>bar</b>'))
+        self.check_dict(Dictionary(source="<b>foo</b>", target="<b>bar</b>"))
 
     def test_dictionary_special(self):
-        self.check_dict(Dictionary(source='bar\x1e\x1efoo', target='br\x1eff'))
+        self.check_dict(Dictionary(source="bar\x1e\x1efoo", target="br\x1eff"))
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
         if nplurals == 3:
-            equation = 'n==0 ? 0 : n==1 ? 1 : 2'
+            equation = "n==0 ? 0 : n==1 ? 1 : 2"
         else:
-            equation = '0'
-        lang = Language.objects.create(code='zz')
+            equation = "0"
+        lang = Language.objects.create(code="zz")
         plural = Plural.objects.create(
             language=lang, number=nplurals, equation=equation
         )
-        project = Project(slug='test', source_language=Language.objects.get(code='en'))
+        project = Project(slug="test", source_language=Language.objects.get(code="en"))
         component = Component(
-            slug='comp', project=project, file_format='xliff', template=template
+            slug="comp", project=project, file_format="xliff", template=template
         )
         translation = Translation(language=lang, component=component, plural=plural)
         # Fake file format to avoid need for actual files
-        translation.store = EmptyFormat(BytesIOMode('', b''))
+        translation.store = EmptyFormat(BytesIOMode("", b""))
         unit = Unit(translation=translation, id_hash=-1, **kwargs)
         if source_info:
             for key, value in source_info.items():
                 setattr(unit, key, value)
             unit.get_comments = fake_get_comments
-            unit.__dict__['suggestions'] = [
-                Suggestion(target='Weblate translator suggestion')
+            unit.__dict__["suggestions"] = [
+                Suggestion(target="Weblate translator suggestion")
             ]
         else:
             unit.get_comments = empty_get_comments
@@ -119,76 +119,76 @@ class PoExporterTest(BaseTestCase):
         return self.check_export(exporter)
 
     def test_unit(self):
-        self.check_unit(source='xxx', target='yyy')
+        self.check_unit(source="xxx", target="yyy")
 
     def test_unit_mono(self):
-        self.check_unit(source='xxx', target='yyy', template='template')
+        self.check_unit(source="xxx", target="yyy", template="template")
 
     def test_unit_plural(self):
         result = self.check_unit(
-            source='xxx\x1e\x1efff',
-            target='yyy\x1e\x1efff\x1e\x1ewww',
+            source="xxx\x1e\x1efff",
+            target="yyy\x1e\x1efff\x1e\x1ewww",
             state=STATE_TRANSLATED,
         )
         self.check_plurals(result)
 
     def test_unit_plural_one(self):
         self.check_unit(
-            nplurals=1, source='xxx\x1e\x1efff', target='yyy', state=STATE_TRANSLATED
+            nplurals=1, source="xxx\x1e\x1efff", target="yyy", state=STATE_TRANSLATED
         )
 
     def test_unit_not_translated(self):
         self.check_unit(
-            nplurals=1, source='xxx\x1e\x1efff', target='yyy', state=STATE_EMPTY
+            nplurals=1, source="xxx\x1e\x1efff", target="yyy", state=STATE_EMPTY
         )
 
     def test_context(self):
         result = self.check_unit(
-            source='foo', target='bar', context='context', state=STATE_TRANSLATED
+            source="foo", target="bar", context="context", state=STATE_TRANSLATED
         )
         if self._has_context:
-            self.assertIn(b'context', result)
+            self.assertIn(b"context", result)
         elif self._has_context is not None:
-            self.assertNotIn(b'context', result)
+            self.assertNotIn(b"context", result)
 
     def test_extra_info(self):
         result = self.check_unit(
-            source='foo',
-            target='bar',
-            context='context',
+            source="foo",
+            target="bar",
+            context="context",
             state=STATE_TRANSLATED,
             source_info={
-                'extra_flags': 'max-length:200',
-                'extra_context': 'Context in Weblate',
+                "extra_flags": "max-length:200",
+                "extra_context": "Context in Weblate",
             },
         )
         if self._has_context:
-            self.assertIn(b'context', result)
+            self.assertIn(b"context", result)
         elif self._has_context is not None:
-            self.assertNotIn(b'context', result)
+            self.assertNotIn(b"context", result)
         if self._has_comments:
-            self.assertIn(b'Context in Weblate', result)
-            self.assertIn(b'Weblate translator comment', result)
-            self.assertIn(b'Suggested in Weblate', result)
-            self.assertIn(b'Weblate translator suggestion', result)
+            self.assertIn(b"Context in Weblate", result)
+            self.assertIn(b"Weblate translator comment", result)
+            self.assertIn(b"Suggested in Weblate", result)
+            self.assertIn(b"Weblate translator suggestion", result)
 
     def setUp(self):
         self.exporter = self.get_exporter()
 
     def test_has_get_storage(self):
-        self.assertTrue(hasattr(self.exporter, 'get_storage'))
+        self.assertTrue(hasattr(self.exporter, "get_storage"))
 
     def test_has_setsourcelanguage(self):
-        self.assertTrue(hasattr(self.exporter.storage, 'setsourcelanguage'))
+        self.assertTrue(hasattr(self.exporter.storage, "setsourcelanguage"))
 
     def test_has_settargetlanguage(self):
-        self.assertTrue(hasattr(self.exporter.storage, 'settargetlanguage'))
+        self.assertTrue(hasattr(self.exporter.storage, "settargetlanguage"))
 
     def test_has_unitclass(self):
-        self.assertTrue(hasattr(self.exporter.storage, 'UnitClass'))
+        self.assertTrue(hasattr(self.exporter.storage, "UnitClass"))
 
     def test_has_addunit(self):
-        self.assertTrue(hasattr(self.exporter.storage, 'addunit'))
+        self.assertTrue(hasattr(self.exporter.storage, "addunit"))
 
 
 class PoXliffExporterTest(PoExporterTest):
@@ -196,7 +196,7 @@ class PoXliffExporterTest(PoExporterTest):
     _has_context = True
 
     def check_plurals(self, result):
-        self.assertIn(b'[2]', result)
+        self.assertIn(b"[2]", result)
 
 
 class XliffExporterTest(PoExporterTest):
@@ -223,7 +223,7 @@ class MoExporterTest(PoExporterTest):
     _has_comments = False
 
     def check_plurals(self, result):
-        self.assertIn(b'www', result)
+        self.assertIn(b"www", result)
 
 
 class CSVExporterTest(PoExporterTest):
@@ -236,9 +236,9 @@ class CSVExporterTest(PoExporterTest):
 
     def test_escaping(self):
         output = self.check_unit(
-            source='=HYPERLINK("https://weblate.org/"&A1, "Weblate")', target='yyy'
+            source='=HYPERLINK("https://weblate.org/"&A1, "Weblate")', target="yyy"
         )
-        self.assertIn(b'"\'=HYPERLINK', output)
+        self.assertIn(b"\"'=HYPERLINK", output)
 
 
 class XlsxExporterTest(PoExporterTest):

@@ -30,10 +30,10 @@ from weblate.legal.views import (
 )
 
 urlpatterns = [
-    url(r'^$', LegalView.as_view(), name='index'),
-    url(r'^terms/$', TermsView.as_view(), name='terms'),
-    url(r'^cookies/$', CookiesView.as_view(), name='cookies'),
-    url(r'^security/$', SecurityView.as_view(), name='security'),
-    url(r'^privacy/$', PrivacyView.as_view(), name='privacy'),
-    url(r'^confirm/$', tos_confirm, name='confirm'),
+    url(r"^$", LegalView.as_view(), name="index"),
+    url(r"^terms/$", TermsView.as_view(), name="terms"),
+    url(r"^cookies/$", CookiesView.as_view(), name="cookies"),
+    url(r"^security/$", SecurityView.as_view(), name="security"),
+    url(r"^privacy/$", PrivacyView.as_view(), name="privacy"),
+    url(r"^confirm/$", tos_confirm, name="confirm"),
 ]

@@ -23,13 +23,13 @@ import stat
 
 from django.conf import settings
 
-DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
-DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, 'data-test')
-BUILD_DIR = os.path.join(settings.BASE_DIR, 'build')
-VENV_DIR = os.path.join(settings.BASE_DIR, '.venv')
-DOCS_DIR = os.path.join(settings.BASE_DIR, 'docs')
-SCRIPTS_DIR = os.path.join(settings.BASE_DIR, 'scripts')
-EXAMPLES_DIR = os.path.join(settings.BASE_DIR, 'weblate', 'examples')
+DEFAULT_DATA_DIR = os.path.join(settings.BASE_DIR, "data")
+DEFAULT_TEST_DIR = os.path.join(settings.BASE_DIR, "data-test")
+BUILD_DIR = os.path.join(settings.BASE_DIR, "build")
+VENV_DIR = os.path.join(settings.BASE_DIR, ".venv")
+DOCS_DIR = os.path.join(settings.BASE_DIR, "docs")
+SCRIPTS_DIR = os.path.join(settings.BASE_DIR, "scripts")
+EXAMPLES_DIR = os.path.join(settings.BASE_DIR, "weblate", "examples")
 
 
 def remove_readonly(func, path, excinfo):

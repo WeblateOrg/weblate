@@ -37,7 +37,7 @@ from weblate.trans.models.project import Project
 from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error
 
-SPLIT_RE = re.compile(r'[\s,.:!?]+', re.UNICODE)
+SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
 
 
 class DictionaryManager(models.Manager):
@@ -66,7 +66,7 @@ class DictionaryManager(models.Manager):
                     project=project,
                     language=language,
                     source=source,
-                    defaults={'target': target},
+                    defaults={"target": target},
                 )
             except Dictionary.MultipleObjectsReturned:
                 word = self.filter(project=project, language=language, source=source)[0]
@@ -77,7 +77,7 @@ class DictionaryManager(models.Manager):
                 # Same as current -> ignore
                 if target == word.target:
                     continue
-                if method == 'add':
+                if method == "add":
                     # Add word
                     self.create(
                         user=request.user,
@@ -87,7 +87,7 @@ class DictionaryManager(models.Manager):
                         source=source,
                         target=target,
                     )
-                elif method == 'overwrite':
+                elif method == "overwrite":
                     # Update word
                     word.target = target
                     word.save()
@@ -100,7 +100,7 @@ class DictionaryManager(models.Manager):
         """Create new dictionary object."""
         from weblate.trans.models.change import Change
 
-        action = kwargs.pop('action', Change.ACTION_DICTIONARY_NEW)
+        action = kwargs.pop("action", Change.ACTION_DICTIONARY_NEW)
         created = super().create(**kwargs)
         Change.objects.create(
             action=action, dictionary=created, user=user, target=created.target
@@ -149,8 +149,8 @@ class DictionaryQuerySet(models.QuerySet):
             if len(words) > 1000:
                 break
 
-        if '' in words:
-            words.remove('')
+        if "" in words:
+            words.remove("")
 
         if not words:
             # No extracted words, no dictionary
@@ -161,13 +161,13 @@ class DictionaryQuerySet(models.QuerySet):
         return self.filter(
             project=unit.translation.component.project,
             language=unit.translation.language,
-            source__iregex=r'(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])'.format(
-                '|'.join(re_escape(word) for word in islice(words, 1000))
+            source__iregex=r"(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])".format(
+                "|".join(re_escape(word) for word in islice(words, 1000))
             ),
         )
 
     def order(self):
-        return self.order_by(Lower('source'))
+        return self.order_by(Lower("source"))
 
 
 class Dictionary(models.Model):
@@ -179,27 +179,27 @@ class Dictionary(models.Model):
     objects = DictionaryManager.from_queryset(DictionaryQuerySet)()
 
     class Meta:
-        app_label = 'trans'
+        app_label = "trans"
 
     def __str__(self):
-        return '{0}/{1}: {2} -> {3}'.format(
+        return "{0}/{1}: {2} -> {3}".format(
             self.project, self.language, self.source, self.target
         )
 
     def get_absolute_url(self):
         return reverse(
-            'edit_dictionary',
+            "edit_dictionary",
             kwargs={
-                'project': self.project.slug,
-                'lang': self.language.code,
-                'pk': self.id,
+                "project": self.project.slug,
+                "lang": self.language.code,
+                "pk": self.id,
             },
         )
 
     def get_parent_url(self):
         return reverse(
-            'show_dictionary',
-            kwargs={'project': self.project.slug, 'lang': self.language.code},
+            "show_dictionary",
+            kwargs={"project": self.project.slug, "lang": self.language.code},
         )
 
     def edit(self, request, source, target):

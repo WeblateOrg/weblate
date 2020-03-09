@@ -27,56 +27,56 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'imports users from JSON dump of database'
+    help = "imports users from JSON dump of database"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--check',
-            action='store_true',
-            help='Only check import, do not actually create users',
+            "--check",
+            action="store_true",
+            help="Only check import, do not actually create users",
         )
         parser.add_argument(
-            'json-file',
-            type=argparse.FileType('r'),
-            help='JSON file containing user dump to import',
+            "json-file",
+            type=argparse.FileType("r"),
+            help="JSON file containing user dump to import",
         )
 
     def handle(self, *args, **options):
-        data = json.load(options['json-file'])
-        options['json-file'].close()
+        data = json.load(options["json-file"])
+        options["json-file"].close()
 
         for line in data:
-            if 'fields' in line:
-                line = line['fields']
+            if "fields" in line:
+                line = line["fields"]
 
-            if 'is_active' in line and not line['is_active']:
+            if "is_active" in line and not line["is_active"]:
                 continue
 
-            if not line['email'] or not line['username']:
+            if not line["email"] or not line["username"]:
                 self.stderr.write(
-                    'Skipping {0}, has blank username or email'.format(line)
+                    "Skipping {0}, has blank username or email".format(line)
                 )
                 continue
 
-            if User.objects.filter(username=line['username']).exists():
+            if User.objects.filter(username=line["username"]).exists():
                 self.stderr.write(
-                    'Skipping {0}, username exists'.format(line['username'])
+                    "Skipping {0}, username exists".format(line["username"])
                 )
                 continue
 
-            if User.objects.filter(email=line['email']).exists():
-                self.stderr.write('Skipping {0}, email exists'.format(line['email']))
+            if User.objects.filter(email=line["email"]).exists():
+                self.stderr.write("Skipping {0}, email exists".format(line["email"]))
                 continue
 
-            if line['last_name'] not in line['first_name']:
-                full_name = '{0} {1}'.format(line['first_name'], line['last_name'])
+            if line["last_name"] not in line["first_name"]:
+                full_name = "{0} {1}".format(line["first_name"], line["last_name"])
             else:
-                full_name = line['first_name']
+                full_name = line["first_name"]
 
-            if not options['check']:
+            if not options["check"]:
                 User.objects.create(
-                    username=line['username'],
+                    username=line["username"],
                     full_name=full_name,
-                    password=line['password'],
-                    email=line['email'],
+                    password=line["password"],
+                    email=line["email"],
                 )

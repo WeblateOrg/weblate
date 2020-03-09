@@ -30,13 +30,13 @@ class WeblateConf(AppConf):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     # Data directory
-    DATA_DIR = os.path.join(settings.BASE_DIR, 'data')
+    DATA_DIR = os.path.join(settings.BASE_DIR, "data")
 
     # Akismet API key
     AKISMET_API_KEY = None
 
     # Title of site to use
-    SITE_TITLE = 'Weblate'
+    SITE_TITLE = "Weblate"
 
     # Whether this is hosted.weblate.org
     OFFER_HOSTING = False
@@ -61,11 +61,11 @@ class WeblateConf(AppConf):
 
     # List of automatic fixups
     AUTOFIX_LIST = (
-        'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
-        'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
-        'weblate.trans.autofixes.chars.RemoveZeroSpace',
-        'weblate.trans.autofixes.chars.RemoveControlChars',
-        'weblate.trans.autofixes.html.BleachHTML',
+        "weblate.trans.autofixes.whitespace.SameBookendingWhitespace",
+        "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
+        "weblate.trans.autofixes.chars.RemoveZeroSpace",
+        "weblate.trans.autofixes.chars.RemoveControlChars",
+        "weblate.trans.autofixes.html.BleachHTML",
     )
 
     # Matomo, formerly known as Piwik
@@ -97,55 +97,55 @@ class WeblateConf(AppConf):
     GITLAB_USERNAME = None
 
     # Default committer
-    DEFAULT_COMMITER_EMAIL = 'noreply@weblate.org'
-    DEFAULT_COMMITER_NAME = 'Weblate'
+    DEFAULT_COMMITER_EMAIL = "noreply@weblate.org"
+    DEFAULT_COMMITER_NAME = "Weblate"
 
     DEFAULT_TRANSLATION_PROPAGATION = True
-    DEFAULT_MERGE_STYLE = 'rebase'
+    DEFAULT_MERGE_STYLE = "rebase"
 
     DEFAULT_ACCESS_CONTROL = 0
     DEFAULT_SHARED_TM = True
 
     DEFAULT_PUSH_ON_COMMIT = True
-    DEFAULT_VCS = 'git'
+    DEFAULT_VCS = "git"
     DEFAULT_COMMIT_MESSAGE = (
-        'Translated using Weblate ({{ language_name }})\n\n'
-        'Currently translated at {{ stats.translated_percent }}% '
-        '({{ stats.translated }} of {{ stats.all }} strings)\n\n'
-        'Translation: {{ project_name }}/{{ component_name }}\n'
-        'Translate-URL: {{ url }}'
+        "Translated using Weblate ({{ language_name }})\n\n"
+        "Currently translated at {{ stats.translated_percent }}% "
+        "({{ stats.translated }} of {{ stats.all }} strings)\n\n"
+        "Translation: {{ project_name }}/{{ component_name }}\n"
+        "Translate-URL: {{ url }}"
     )
 
-    DEFAULT_ADD_MESSAGE = 'Added translation using Weblate ({{ language_name }})\n\n'
+    DEFAULT_ADD_MESSAGE = "Added translation using Weblate ({{ language_name }})\n\n"
 
     DEFAULT_DELETE_MESSAGE = (
-        'Deleted translation using Weblate ({{ language_name }})\n\n'
+        "Deleted translation using Weblate ({{ language_name }})\n\n"
     )
 
     DEFAULT_MERGE_MESSAGE = (
         "Merge branch '{{ component_remote_branch }}' into Weblate.\n\n"
     )
 
-    DEFAULT_ADDON_MESSAGE = '''Update translation files
+    DEFAULT_ADDON_MESSAGE = """Update translation files
 
 Updated by "{{ addon_name }}" hook in Weblate.
 
 Translation: {{ project_name }}/{{ component_name }}
-Translate-URL: {{ url }}'''
+Translate-URL: {{ url }}"""
 
-    DEFAULT_PULL_MESSAGE = '''Translations update from Weblate
+    DEFAULT_PULL_MESSAGE = """Translations update from Weblate
 
 Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_name }}.
-'''
+"""
 
     # Billing
-    INVOICE_PATH = ''
+    INVOICE_PATH = ""
     VAT_RATE = 1.21
-    SUPPORT_API_URL = 'https://weblate.org/api/support/'
+    SUPPORT_API_URL = "https://weblate.org/api/support/"
 
     # Rate limiting
     IP_BEHIND_REVERSE_PROXY = False
-    IP_PROXY_HEADER = 'HTTP_X_FORWARDED_FOR'
+    IP_PROXY_HEADER = "HTTP_X_FORWARDED_FOR"
     IP_PROXY_OFFSET = 0
 
     # Authentication
@@ -159,7 +159,7 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     ADMINS_BILLING = []
 
     # Special chars for visual keyboard
-    SPECIAL_CHARS = ('\t', '\n', '…')
+    SPECIAL_CHARS = ("\t", "\n", "…")
 
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
@@ -171,4 +171,4 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     FONTS_CDN_URL = None
 
     class Meta:
-        prefix = ''
+        prefix = ""

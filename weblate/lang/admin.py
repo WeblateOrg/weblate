@@ -27,15 +27,15 @@ from weblate.wladmin.models import WeblateModelAdmin
 class PluralAdmin(admin.TabularInline):
     model = Plural
     extra = 0
-    ordering = ['source']
+    ordering = ["source"]
 
 
 class LanguageAdmin(WeblateModelAdmin):
-    list_display = ['name', 'code', 'direction']
-    search_fields = ['name', 'code']
-    list_filter = ('direction',)
+    list_display = ["name", "code", "direction"]
+    search_fields = ["name", "code"]
+    list_filter = ("direction",)
     inlines = [PluralAdmin]
-    ordering = ['name']
+    ordering = ["name"]
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
@@ -55,5 +55,5 @@ class LanguageAdmin(WeblateModelAdmin):
             )
         except (Language.DoesNotExist, IndexError):
             lang.plural_set.create(
-                source=Plural.SOURCE_DEFAULT, number=2, equation='n != 1'
+                source=Plural.SOURCE_DEFAULT, number=2, equation="n != 1"
             )

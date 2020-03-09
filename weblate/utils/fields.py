@@ -29,8 +29,8 @@ class JSONField(models.TextField):
     """JSON serializaed TextField."""
 
     def __init__(self, **kwargs):
-        if 'default' not in kwargs:
-            kwargs['default'] = {}
+        if "default" not in kwargs:
+            kwargs["default"] = {}
         super().__init__(**kwargs)
 
     def to_python(self, value):

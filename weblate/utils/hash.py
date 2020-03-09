@@ -29,7 +29,7 @@ def calculate_hash(source, context):
     else:
         data = context.encode()
     # Need to convert it from unsigned 64-bit int to signed 64-bit int
-    return siphash('Weblate Sip Hash', data) - 2 ** 63
+    return siphash("Weblate Sip Hash", data) - 2 ** 63
 
 
 def checksum_to_hash(checksum):
@@ -39,4 +39,4 @@ def checksum_to_hash(checksum):
 
 def hash_to_checksum(id_hash):
     """Converts id_hash (signed 64-bit int) to unsigned hex."""
-    return format(id_hash + 2 ** 63, 'x')
+    return format(id_hash + 2 ** 63, "x")

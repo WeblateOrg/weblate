@@ -22,6 +22,6 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 
 class CheckAdmin(WeblateModelAdmin):
-    list_display = ['check', 'unit', 'ignore']
-    search_fields = ['unit__content_hash', 'check']
-    list_filter = ['check', 'ignore']
+    list_display = ["check", "unit", "ignore"]
+    search_fields = ["unit__content_hash", "check"]
+    list_filter = ["check", "ignore"]

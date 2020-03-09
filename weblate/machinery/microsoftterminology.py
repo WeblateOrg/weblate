@@ -25,8 +25,8 @@ from zeep import Client
 from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.machinery.base import MachineTranslation
 
-MST_API_URL = 'http://api.terminology.microsoft.com/Terminology.svc'
-MST_WSDL_URL = '{}?wsdl'.format(MST_API_URL)
+MST_API_URL = "http://api.terminology.microsoft.com/Terminology.svc"
+MST_WSDL_URL = "{}?wsdl".format(MST_API_URL)
 
 
 class MicrosoftTerminologyService(MachineTranslation):
@@ -37,7 +37,7 @@ class MicrosoftTerminologyService(MachineTranslation):
     (SOAP).
     """
 
-    name = 'Microsoft Terminology'
+    name = "Microsoft Terminology"
 
     SERVICE = None
 
@@ -54,33 +54,33 @@ class MicrosoftTerminologyService(MachineTranslation):
 
     def download_languages(self):
         """Get list of supported languages."""
-        languages = self.soap_req('GetLanguages')
+        languages = self.soap_req("GetLanguages")
         if not languages:
             return []
-        return [lang['Code'] for lang in languages]
+        return [lang["Code"] for lang in languages]
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from the service."""
         args = {
-            'text': text,
-            'from': source,
-            'to': language,
-            'maxTranslations': 20,
-            'sources': ['Terms', 'UiStrings'],
-            'searchOperator': 'AnyWord',
+            "text": text,
+            "from": source,
+            "to": language,
+            "maxTranslations": 20,
+            "sources": ["Terms", "UiStrings"],
+            "searchOperator": "AnyWord",
         }
-        result = self.soap_req('GetTranslations', **args)
+        result = self.soap_req("GetTranslations", **args)
         # It can return None in some error cases
         if not result:
             return
 
         for item in result:
-            target = force_str(item['Translations']['Translation'][0]['TranslatedText'])
+            target = force_str(item["Translations"]["Translation"][0]["TranslatedText"])
             yield {
-                'text': target,
-                'quality': self.comparer.similarity(text, target),
-                'service': self.name,
-                'source': item['OriginalText'],
+                "text": target,
+                "quality": self.comparer.similarity(text, target),
+                "service": self.name,
+                "source": item["OriginalText"],
             }
 
     def convert_language(self, language):
@@ -88,9 +88,9 @@ class MicrosoftTerminologyService(MachineTranslation):
 
         Add country part of locale if missing.
         """
-        language = language.replace('_', '-').lower()
-        if '-' not in language:
+        language = language.replace("_", "-").lower()
+        if "-" not in language:
             for lang in DEFAULT_LANGS:
-                if lang.split('_')[0] == language:
-                    return lang.replace('_', '-').lower()
+                if lang.split("_")[0] == language:
+                    return lang.replace("_", "-").lower()
         return language

@@ -28,18 +28,18 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'dumps user data to JSON file'
+    help = "dumps user data to JSON file"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'json-file', type=argparse.FileType('w'), help='File where to export'
+            "json-file", type=argparse.FileType("w"), help="File where to export"
         )
 
     def handle(self, *args, **options):
         data = []
 
-        profiles = Profile.objects.select_related('user').prefetch_related(
-            'watched', 'languages', 'secondary_languages'
+        profiles = Profile.objects.select_related("user").prefetch_related(
+            "watched", "languages", "secondary_languages"
         )
 
         for profile in profiles.iterator():
@@ -47,5 +47,5 @@ class Command(BaseCommand):
                 continue
             data.append(profile.dump_data())
 
-        json.dump(data, options['json-file'], indent=2, cls=DjangoJSONEncoder)
-        options['json-file'].close()
+        json.dump(data, options["json-file"], indent=2, cls=DjangoJSONEncoder)
+        options["json-file"].close()

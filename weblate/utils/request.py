@@ -25,12 +25,12 @@ from django.utils.encoding import force_str
 
 def get_ip_address(request):
     """Return IP address for request."""
-    return request.META.get('REMOTE_ADDR', '')
+    return request.META.get("REMOTE_ADDR", "")
 
 
 def get_user_agent(request, max_length=200):
     """Return user agent for request."""
     uaobj = user_agents.parse(
-        force_str(request.META.get('HTTP_USER_AGENT', ''), errors='replace')
+        force_str(request.META.get("HTTP_USER_AGENT", ""), errors="replace")
     )
     return force_str(uaobj)[:max_length]

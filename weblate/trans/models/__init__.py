@@ -46,22 +46,22 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
 
 __all__ = [
-    'Project',
-    'Component',
-    'Translation',
-    'Unit',
-    'Suggestion',
-    'Comment',
-    'Vote',
-    'Change',
-    'Dictionary',
-    'WhiteboardMessage',
-    'ComponentList',
-    'WeblateConf',
-    'ContributorAgreement',
-    'Alert',
-    'Shaping',
-    'Label',
+    "Project",
+    "Component",
+    "Translation",
+    "Unit",
+    "Suggestion",
+    "Comment",
+    "Vote",
+    "Change",
+    "Dictionary",
+    "WhiteboardMessage",
+    "ComponentList",
+    "WeblateConf",
+    "ContributorAgreement",
+    "Alert",
+    "Shaping",
+    "Label",
 ]
 
 
@@ -176,7 +176,7 @@ def user_commit_pending(sender, instance, **kwargs):
     all_changes = Change.objects.last_changes(instance).filter(user=instance)
 
     # Filter where project is active
-    user_translation_ids = all_changes.values_list('translation', flat=True).distinct()
+    user_translation_ids = all_changes.values_list("translation", flat=True).distinct()
 
     # Commit changes where user is last author
     for translation in Translation.objects.filter(pk__in=user_translation_ids):
@@ -186,7 +186,7 @@ def user_commit_pending(sender, instance, **kwargs):
             # Non content changes
             continue
         if last_author == instance:
-            translation.commit_pending('user delete', None)
+            translation.commit_pending("user delete", None)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)

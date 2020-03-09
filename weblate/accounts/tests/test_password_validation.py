@@ -32,12 +32,12 @@ class ValidationTest(TestCase):
         return validator.validate(password)
 
     def test_chars_good(self):
-        self.assertIsNone(self.validate('123'))
+        self.assertIsNone(self.validate("123"))
 
     def test_chars_whitespace(self):
         with self.assertRaises(ValidationError):
-            self.validate(' \r\n\t')
+            self.validate(" \r\n\t")
 
     def test_chars_same(self):
         with self.assertRaises(ValidationError):
-            self.validate('x' * 10)
+            self.validate("x" * 10)

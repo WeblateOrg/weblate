@@ -31,28 +31,28 @@ from weblate.machinery.base import (
 class YandexTranslation(MachineTranslation):
     """Yandex machine translation support."""
 
-    name = 'Yandex'
+    name = "Yandex"
     max_score = 90
 
     def __init__(self):
         """Check configuration."""
         super().__init__()
         if settings.MT_YANDEX_KEY is None:
-            raise MissingConfiguration('Yandex Translate requires API key')
+            raise MissingConfiguration("Yandex Translate requires API key")
 
     def check_failure(self, response):
-        if 'code' not in response or response['code'] == 200:
+        if "code" not in response or response["code"] == 200:
             return
-        if 'message' in response:
-            raise MachineTranslationError(response['message'])
-        raise MachineTranslationError('Error: {0}'.format(response['code']))
+        if "message" in response:
+            raise MachineTranslationError(response["message"])
+        raise MachineTranslationError("Error: {0}".format(response["code"]))
 
     def download_languages(self):
         """Download list of supported languages from a service."""
         response = self.request(
             "get",
-            'https://translate.yandex.net/api/v1.5/tr.json/getLangs',
-            params={'key': settings.MT_YANDEX_KEY, 'ui': "en"},
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
+            params={"key": settings.MT_YANDEX_KEY, "ui": "en"},
         )
         payload = response.json()
         self.check_failure(payload)
@@ -62,22 +62,22 @@ class YandexTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         response = self.request(
             "get",
-            'https://translate.yandex.net/api/v1.5/tr.json/translate',
+            "https://translate.yandex.net/api/v1.5/tr.json/translate",
             params={
-                'key': settings.MT_YANDEX_KEY,
-                'text': text,
-                'lang': '{0}-{1}'.format(source, language),
-                'target': language,
+                "key": settings.MT_YANDEX_KEY,
+                "text": text,
+                "lang": "{0}-{1}".format(source, language),
+                "target": language,
             },
         )
         payload = response.json()
 
         self.check_failure(payload)
 
-        for translation in payload['text']:
+        for translation in payload["text"]:
             yield {
-                'text': translation,
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
+                "text": translation,
+                "quality": self.max_score,
+                "service": self.name,
+                "source": text,
             }

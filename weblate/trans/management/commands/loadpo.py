@@ -23,30 +23,30 @@ from weblate.trans.tasks import perform_load
 
 
 class Command(WeblateLangCommand):
-    help = '(re)loads translations from disk'
+    help = "(re)loads translations from disk"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--force',
-            action='store_true',
+            "--force",
+            action="store_true",
             default=False,
-            help='Force rereading files even when they should be up to date',
+            help="Force rereading files even when they should be up to date",
         )
         parser.add_argument(
-            '--foreground',
-            action='store_true',
+            "--foreground",
+            action="store_true",
             default=False,
-            help='Perform load in foreground (by default backgroud task is used)',
+            help="Perform load in foreground (by default backgroud task is used)",
         )
 
     def handle(self, *args, **options):
         langs = None
-        if options['lang'] is not None:
-            langs = options['lang'].split(',')
-        if options['foreground']:
+        if options["lang"] is not None:
+            langs = options["lang"].split(",")
+        if options["foreground"]:
             loader = perform_load
         else:
             loader = perform_load.delay
         for component in self.get_components(**options):
-            loader(component.pk, options['force'], langs)
+            loader(component.pk, options["force"], langs)

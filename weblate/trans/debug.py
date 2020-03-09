@@ -26,18 +26,18 @@ from weblate.utils.requirements import get_versions_list
 
 class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
     def get_post_parameters(self, request):
-        if hasattr(request, 'META'):
+        if hasattr(request, "META"):
             meta = request.META
-            if hasattr(request, 'user'):
-                meta['WEBLATE_USER'] = repr(request.user.username)
+            if hasattr(request, "user"):
+                meta["WEBLATE_USER"] = repr(request.user.username)
             else:
-                meta['WEBLATE_USER'] = ''
-            if hasattr(request, 'session') and 'django_language' in request.session:
-                meta['WEBLATE_LANGUAGE'] = request.session['django_language']
+                meta["WEBLATE_USER"] = ""
+            if hasattr(request, "session") and "django_language" in request.session:
+                meta["WEBLATE_LANGUAGE"] = request.session["django_language"]
             else:
-                meta['WEBLATE_LANGUAGE'] = ''
+                meta["WEBLATE_LANGUAGE"] = ""
 
             for version in get_versions_list():
-                meta['WEBLATE_VERSION:{0}'.format(version[0])] = version[2]
+                meta["WEBLATE_VERSION:{0}".format(version[0])] = version[2]
 
         return super().get_post_parameters(request)

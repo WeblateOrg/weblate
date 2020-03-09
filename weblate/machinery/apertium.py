@@ -24,69 +24,69 @@ from django.conf import settings
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 LANGUAGE_MAP = {
-    'ca': 'cat',
-    'cy': 'cym',
-    'eo': 'epo',
-    'gl': 'glg',
-    'bs': 'hbs_BS',
-    'es': 'spa',
-    'en': 'eng',
-    'en_US': 'eng',
-    'en_UK': 'eng',
-    'nl': 'nld',
-    'de': 'deu',
-    'fr': 'fra',
-    'sl': 'slv',
-    'sr': 'hbs',
-    'nb_NO': 'nob',
-    'nn': 'nno',
-    'se': 'sme',
-    'oc': 'oci',
-    'pt': 'por',
-    'co': 'cos',
-    'fi': 'fin',
-    'ia': 'ina',
-    'ro': 'ron',
-    'cs': 'ces',
-    'sk': 'slk',
-    'ru': 'rus',
-    'av': 'ava',
-    'is': 'isl',
-    'pl': 'pol',
-    'kk': 'kaz',
-    'tt': 'tat',
-    'be': 'bel',
-    'uk': 'ukr',
-    'gn': 'grn',
-    'mt': 'mlt',
-    'it': 'ita',
-    'zh_Hant': 'zho',
-    'br': 'bre',
-    'qu': 'qve',
-    'an': 'arg',
-    'mr': 'mar',
-    'af': 'afr',
-    'fa': 'pes',
-    'el': 'ell',
-    'lv': 'lvs',
-    'as': 'asm',
-    'hi': 'hin',
-    'te': 'tel',
-    'hy': 'hye',
-    'th': 'tha',
-    'mk': 'mkd',
-    'la': 'lat',
-    'ga': 'gle',
-    'sw': 'swa',
-    'hu': 'hun',
-    'ml': 'mal',
+    "ca": "cat",
+    "cy": "cym",
+    "eo": "epo",
+    "gl": "glg",
+    "bs": "hbs_BS",
+    "es": "spa",
+    "en": "eng",
+    "en_US": "eng",
+    "en_UK": "eng",
+    "nl": "nld",
+    "de": "deu",
+    "fr": "fra",
+    "sl": "slv",
+    "sr": "hbs",
+    "nb_NO": "nob",
+    "nn": "nno",
+    "se": "sme",
+    "oc": "oci",
+    "pt": "por",
+    "co": "cos",
+    "fi": "fin",
+    "ia": "ina",
+    "ro": "ron",
+    "cs": "ces",
+    "sk": "slk",
+    "ru": "rus",
+    "av": "ava",
+    "is": "isl",
+    "pl": "pol",
+    "kk": "kaz",
+    "tt": "tat",
+    "be": "bel",
+    "uk": "ukr",
+    "gn": "grn",
+    "mt": "mlt",
+    "it": "ita",
+    "zh_Hant": "zho",
+    "br": "bre",
+    "qu": "qve",
+    "an": "arg",
+    "mr": "mar",
+    "af": "afr",
+    "fa": "pes",
+    "el": "ell",
+    "lv": "lvs",
+    "as": "asm",
+    "hi": "hin",
+    "te": "tel",
+    "hy": "hye",
+    "th": "tha",
+    "mk": "mkd",
+    "la": "lat",
+    "ga": "gle",
+    "sw": "swa",
+    "hu": "hun",
+    "ml": "mal",
 }
 
 
 class ApertiumAPYTranslation(MachineTranslation):
     """Apertium machine translation support."""
 
-    name = 'Apertium APy'
+    name = "Apertium APy"
     max_score = 90
 
     def __init__(self):
@@ -98,9 +98,9 @@ class ApertiumAPYTranslation(MachineTranslation):
     def get_server_url():
         """Return URL of a server."""
         if settings.MT_APERTIUM_APY is None:
-            raise MissingConfiguration('Not configured Apertium APy URL')
+            raise MissingConfiguration("Not configured Apertium APy URL")
 
-        return settings.MT_APERTIUM_APY.rstrip('/')
+        return settings.MT_APERTIUM_APY.rstrip("/")
 
     @property
     def all_langs(self):
@@ -111,17 +111,17 @@ class ApertiumAPYTranslation(MachineTranslation):
     def convert_language(self, language):
         """Convert language to service specific code."""
         # Force download of supported languages
-        language = language.replace('-', '_')
+        language = language.replace("-", "_")
         if language not in self.all_langs and language in LANGUAGE_MAP:
             return LANGUAGE_MAP[language]
         return language
 
     def download_languages(self):
         """Download list of supported languages from a service."""
-        data = self.request_status("get", '{0}/listPairs'.format(self.url))
+        data = self.request_status("get", "{0}/listPairs".format(self.url))
         return [
-            (item['sourceLanguage'], item['targetLanguage'])
-            for item in data['responseData']
+            (item["sourceLanguage"], item["targetLanguage"])
+            for item in data["responseData"]
         ]
 
     def is_supported(self, source, language):
@@ -130,14 +130,14 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from Apertium."""
-        args = {'langpair': '{0}|{1}'.format(source, language), 'q': text}
+        args = {"langpair": "{0}|{1}".format(source, language), "q": text}
         response = self.request_status(
-            "get", '{0}/translate'.format(self.url), params=args
+            "get", "{0}/translate".format(self.url), params=args
         )
 
         yield {
-            'text': response['responseData']['translatedText'],
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
+            "text": response["responseData"]["translatedText"],
+            "quality": self.max_score,
+            "service": self.name,
+            "source": text,
         }

@@ -37,28 +37,28 @@ from weblate.utils.render import render_template
 
 # Attributes to copy from main component
 COPY_ATTRIBUTES = (
-    'project',
-    'vcs',
-    'license',
-    'agreement',
-    'report_source_bugs',
-    'allow_translation_propagation',
-    'enable_suggestions',
-    'suggestion_voting',
-    'suggestion_autoaccept',
-    'check_flags',
-    'new_lang',
-    'language_code_style',
-    'commit_message',
-    'add_message',
-    'delete_message',
-    'merge_message',
-    'committer_name',
-    'committer_email',
-    'push_on_commit',
-    'commit_pending_age',
-    'edit_template',
-    'shaping_regex',
+    "project",
+    "vcs",
+    "license",
+    "agreement",
+    "report_source_bugs",
+    "allow_translation_propagation",
+    "enable_suggestions",
+    "suggestion_voting",
+    "suggestion_autoaccept",
+    "check_flags",
+    "new_lang",
+    "language_code_style",
+    "commit_message",
+    "add_message",
+    "delete_message",
+    "merge_message",
+    "committer_name",
+    "committer_email",
+    "push_on_commit",
+    "commit_pending_age",
+    "edit_template",
+    "shaping_regex",
 )
 
 
@@ -69,9 +69,9 @@ class ComponentDiscovery:
         match,
         name_template,
         file_format,
-        language_regex='^[^.]+$',
-        base_file_template='',
-        new_base_template='',
+        language_regex="^[^.]+$",
+        base_file_template="",
+        new_base_template="",
         path=None,
         copy_addons=True,
     ):
@@ -93,25 +93,25 @@ class ComponentDiscovery:
     def extract_kwargs(params):
         """Extract kwargs for discovery from wider dict."""
         attrs = (
-            'match',
-            'name_template',
-            'language_regex',
-            'base_file_template',
-            'new_base_template',
-            'file_format',
-            'copy_addons',
+            "match",
+            "name_template",
+            "language_regex",
+            "base_file_template",
+            "new_base_template",
+            "file_format",
+            "copy_addons",
         )
         return {k: v for k, v in params.items() if k in attrs}
 
     def compile_match(self, match):
-        parts = match.split('(?P=language)')
+        parts = match.split("(?P=language)")
         offset = 1
         while len(parts) > 1:
             parts[0:2] = [
-                '{}(?P<_language_{}>(?P=language)){}'.format(parts[0], offset, parts[1])
+                "{}(?P<_language_{}>(?P=language)){}".format(parts[0], offset, parts[1])
             ]
             offset += 1
-        return re.compile('^{}$'.format(parts[0]))
+        return re.compile("^{}$".format(parts[0]))
 
     @cached_property
     def matches(self):
@@ -135,13 +135,13 @@ class ComponentDiscovery:
                     continue
 
                 # Check language regexp
-                if not self.language_match.match(matches.group('language')):
+                if not self.language_match.match(matches.group("language")):
                     continue
 
                 # Calculate file mask for match
-                replacements = [(matches.start('language'), matches.end('language'))]
+                replacements = [(matches.start("language"), matches.end("language"))]
                 for group in matches.groupdict().keys():
-                    if group.startswith('_language_'):
+                    if group.startswith("_language_"):
                         replacements.append((matches.start(group), matches.end(group)))
                 maskparts = []
                 maskpath = path
@@ -150,7 +150,7 @@ class ComponentDiscovery:
                     maskpath = maskpath[:start]
                 maskparts.append(maskpath)
 
-                mask = '*'.join(reversed(maskparts))
+                mask = "*".join(reversed(maskparts))
 
                 result.append((path, matches.groupdict(), mask))
 
@@ -169,19 +169,19 @@ class ComponentDiscovery:
             if mask not in result:
                 name = render_template(self.name_template, **groups)
                 result[mask] = {
-                    'files': {path},
-                    'languages': {groups['language']},
-                    'files_langs': {(path, groups['language'])},
-                    'base_file': render_template(self.base_file_template, **groups),
-                    'new_base': render_template(self.new_base_template, **groups),
-                    'mask': mask,
-                    'name': name,
-                    'slug': slugify(name),
+                    "files": {path},
+                    "languages": {groups["language"]},
+                    "files_langs": {(path, groups["language"])},
+                    "base_file": render_template(self.base_file_template, **groups),
+                    "new_base": render_template(self.new_base_template, **groups),
+                    "mask": mask,
+                    "name": name,
+                    "slug": slugify(name),
                 }
             else:
-                result[mask]['files'].add(path)
-                result[mask]['languages'].add(groups['language'])
-                result[mask]['files_langs'].add((path, groups['language']))
+                result[mask]["files"].add(path)
+                result[mask]["languages"].add(groups["language"])
+                result[mask]["files_langs"].add((path, groups["language"]))
         return result
 
     def log(self, *args):
@@ -200,8 +200,8 @@ class ComponentDiscovery:
             return result
 
         # Get name and slug
-        name = get_val('name')
-        slug = get_val('slug')
+        name = get_val("name")
+        slug = get_val("slug")
 
         # Copy attributes from main component
         for key in COPY_ATTRIBUTES:
@@ -209,18 +209,18 @@ class ComponentDiscovery:
                 kwargs[key] = getattr(main, key)
 
         # Fill in repository
-        if 'repo' not in kwargs:
-            kwargs['repo'] = main.get_repo_link_url()
+        if "repo" not in kwargs:
+            kwargs["repo"] = main.get_repo_link_url()
 
         # Deal with duplicate name or slug
-        components = Component.objects.filter(project=kwargs['project'])
+        components = Component.objects.filter(project=kwargs["project"])
         if components.filter(Q(slug=slug) | Q(name=name)).exists():
-            base_name = get_val('name', 4)
-            base_slug = get_val('slug', 4)
+            base_name = get_val("name", 4)
+            base_slug = get_val("slug", 4)
 
             for i in range(1, 1000):
-                name = '{} {}'.format(base_name, i)
-                slug = '{}-{}'.format(base_slug, i)
+                name = "{} {}".format(base_name, i)
+                slug = "{}-{}".format(base_slug, i)
 
                 if components.filter(Q(slug=slug) | Q(name=name)).exists():
                     continue
@@ -229,21 +229,21 @@ class ComponentDiscovery:
         # Fill in remaining attributes
         kwargs.update(
             {
-                'name': name,
-                'slug': slug,
-                'template': match['base_file'],
-                'filemask': match['mask'],
-                'new_base': match['new_base'],
-                'file_format': self.file_format,
-                'language_regex': self.language_re,
-                'addons_from': main.pk if self.copy_addons and main else None,
+                "name": name,
+                "slug": slug,
+                "template": match["base_file"],
+                "filemask": match["mask"],
+                "new_base": match["new_base"],
+                "file_format": self.file_format,
+                "language_regex": self.language_re,
+                "addons_from": main.pk if self.copy_addons and main else None,
             }
         )
 
-        self.log('Creating component %s', name)
+        self.log("Creating component %s", name)
         if background:
             # Can't pass objects, pass only IDs
-            kwargs['project'] = kwargs['project'].pk
+            kwargs["project"] = kwargs["project"].pk
             create_component.delay(**kwargs)
             return None
 
@@ -279,13 +279,13 @@ class ComponentDiscovery:
             return os.path.exists(fullname)
 
         # Skip matches to main component
-        if match['mask'] == self.component.filemask:
+        if match["mask"] == self.component.filemask:
             return False
 
-        if not valid_file(match['base_file']):
+        if not valid_file(match["base_file"]):
             return False
 
-        if not valid_file(match['new_base']):
+        if not valid_file(match["new_base"]):
             return False
 
         return True
@@ -304,7 +304,7 @@ class ComponentDiscovery:
                 continue
 
             try:
-                found = main.linked_childs.filter(filemask=match['mask'])[0]
+                found = main.linked_childs.filter(filemask=match["mask"])[0]
                 # Component exists
                 matched.append((match, found))
                 processed.add(found.id)
@@ -339,5 +339,5 @@ def create_component_real(addons_from=None, **kwargs):
 
 @app.task(trail=False)
 def create_component(**kwargs):
-    kwargs['project'] = Project.objects.get(pk=kwargs['project'])
+    kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     create_component_real(**kwargs)

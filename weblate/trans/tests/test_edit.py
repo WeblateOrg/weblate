@@ -35,15 +35,15 @@ class EditTest(ViewTestCase):
     """Test for manipulating translation."""
 
     has_plurals = True
-    source = 'Hello, world!\n'
-    target = 'Nazdar svete!\n'
-    second_target = 'Ahoj svete!\n'
+    source = "Hello, world!\n"
+    target = "Nazdar svete!\n"
+    second_target = "Ahoj svete!\n"
     already_translated = 0
 
     def setUp(self):
         super().setUp()
         self.translation = self.get_translation()
-        self.translate_url = reverse('translate', kwargs=self.kw_translation)
+        self.translate_url = reverse("translate", kwargs=self.kw_translation)
 
     def test_edit(self):
         response = self.edit_unit(self.source, self.target)
@@ -81,26 +81,26 @@ class EditTest(ViewTestCase):
             return
 
         response = self.edit_unit(
-            'Orangutan',
-            'Opice má %d banán.\n',
-            target_1='Opice má %d banány.\n',
-            target_2='Opice má %d banánů.\n',
+            "Orangutan",
+            "Opice má %d banán.\n",
+            target_1="Opice má %d banány.\n",
+            target_2="Opice má %d banánů.\n",
         )
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 2)
         # Check translations
-        unit = self.get_unit('Orangutan')
+        unit = self.get_unit("Orangutan")
         plurals = unit.get_target_plurals()
         self.assertEqual(len(plurals), 3)
-        self.assertEqual(plurals[0], 'Opice má %d banán.\n')
-        self.assertEqual(plurals[1], 'Opice má %d banány.\n')
-        self.assertEqual(plurals[2], 'Opice má %d banánů.\n')
+        self.assertEqual(plurals[0], "Opice má %d banán.\n")
+        self.assertEqual(plurals[1], "Opice má %d banány.\n")
+        self.assertEqual(plurals[2], "Opice má %d banánů.\n")
 
     def test_fuzzy(self):
         """Test for fuzzy flag handling."""
         unit = self.get_unit(source=self.source)
         self.assertNotEqual(unit.state, STATE_FUZZY)
-        self.edit_unit(self.source, self.target, fuzzy='yes', review='10')
+        self.edit_unit(self.source, self.target, fuzzy="yes", review="10")
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, self.target)
@@ -110,7 +110,7 @@ class EditTest(ViewTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
-        self.edit_unit(self.source, self.target, fuzzy='yes')
+        self.edit_unit(self.source, self.target, fuzzy="yes")
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, self.target)
@@ -122,7 +122,7 @@ class EditValidationTest(ViewTestCase):
     def edit(self, **kwargs):
         """Editing with no specific params."""
         unit = self.get_unit()
-        params = {'checksum': unit.checksum}
+        params = {"checksum": unit.checksum}
         params.update(kwargs)
         return self.client.post(
             unit.translation.get_translate_url(), params, follow=True
@@ -131,56 +131,56 @@ class EditValidationTest(ViewTestCase):
     def test_edit_invalid(self):
         """Editing with invalid params."""
         response = self.edit()
-        self.assertContains(response, 'Missing translated string!')
+        self.assertContains(response, "Missing translated string!")
 
     def test_suggest_invalid(self):
         """Suggesting with invalid params."""
-        response = self.edit(suggest='1')
-        self.assertContains(response, 'Missing translated string!')
+        response = self.edit(suggest="1")
+        self.assertContains(response, "Missing translated string!")
 
     def test_edit_spam(self):
         """Editing with spam trap."""
-        response = self.edit(content='1')
-        self.assertContains(response, 'po/cs.po, string 2')
+        response = self.edit(content="1")
+        self.assertContains(response, "po/cs.po, string 2")
 
     def test_merge(self):
         """Merging with invalid parameter."""
         unit = self.get_unit()
         response = self.client.get(
             unit.translation.get_translate_url(),
-            {'checksum': unit.checksum, 'merge': 'invalid'},
+            {"checksum": unit.checksum, "merge": "invalid"},
             follow=True,
         )
-        self.assertContains(response, 'Invalid merge request!')
+        self.assertContains(response, "Invalid merge request!")
 
     def test_merge_lang(self):
         """Merging across languages."""
         unit = self.get_unit()
-        trans = self.component.translation_set.exclude(language_code='cs')[0]
+        trans = self.component.translation_set.exclude(language_code="cs")[0]
         other = trans.unit_set.get(content_hash=unit.content_hash)
         response = self.client.get(
             unit.translation.get_translate_url(),
-            {'checksum': unit.checksum, 'merge': other.pk},
+            {"checksum": unit.checksum, "merge": other.pk},
             follow=True,
         )
-        self.assertContains(response, 'Invalid merge request!')
+        self.assertContains(response, "Invalid merge request!")
 
     def test_revert(self):
         unit = self.get_unit()
         # Try the merge
         response = self.client.get(
             unit.translation.get_translate_url(),
-            {'checksum': unit.checksum, 'revert': 'invalid'},
+            {"checksum": unit.checksum, "revert": "invalid"},
             follow=True,
         )
-        self.assertContains(response, 'Invalid revert request!')
+        self.assertContains(response, "Invalid revert request!")
         # Try the merge
         response = self.client.get(
             unit.translation.get_translate_url(),
-            {'checksum': unit.checksum, 'revert': -1},
+            {"checksum": unit.checksum, "revert": -1},
             follow=True,
         )
-        self.assertContains(response, 'Invalid revert request!')
+        self.assertContains(response, "Invalid revert request!")
 
 
 class EditResourceTest(EditTest):
@@ -197,62 +197,62 @@ class EditResourceSourceTest(ViewTestCase):
 
     def test_edit(self):
         translate_url = reverse(
-            'translate', kwargs={'project': 'test', 'component': 'test', 'lang': 'en'}
+            "translate", kwargs={"project": "test", "component": "test", "lang": "en"}
         )
 
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', 'en')
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
         # We should get to second message
         self.assert_redirects_offset(response, translate_url, 2)
-        unit = self.get_unit('Nazdar svete!\n', 'en')
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        unit = self.get_unit("Nazdar svete!\n", "en")
+        self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assert_backend(4, 'en')
+        self.assert_backend(4, "en")
 
     def test_edit_revert(self):
         translation = self.get_translation()
         # Edit translation
-        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', 'cs')
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "cs")
 
-        unit = translation.unit_set.get(context='hello')
+        unit = translation.unit_set.get(context="hello")
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
         # Edit source
-        self.edit_unit('Hello, world!\n', 'Hello, universe!\n', 'en')
+        self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en")
 
-        unit = translation.unit_set.get(context='hello')
+        unit = translation.unit_set.get(context="hello")
         self.assertEqual(unit.state, STATE_FUZZY)
 
         # Revert source
-        self.edit_unit('Hello, universe!\n', 'Hello, world!\n', 'en')
+        self.edit_unit("Hello, universe!\n", "Hello, world!\n", "en")
 
-        unit = translation.unit_set.get(context='hello')
+        unit = translation.unit_set.get(context="hello")
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def test_needs_edit(self):
         translation = self.get_translation()
 
         # Edit translation
-        self.edit_unit('Hello, world!\n', 'Nazdar svete!\n', 'cs')
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "cs")
 
         # Change state
-        self.edit_unit('Hello, world!\n', 'Hello, world!\n', 'en', fuzzy='yes')
-        unit = translation.unit_set.get(context='hello')
+        self.edit_unit("Hello, world!\n", "Hello, world!\n", "en", fuzzy="yes")
+        unit = translation.unit_set.get(context="hello")
         self.assertEqual(unit.state, STATE_READONLY)
 
         # Change state and source
-        self.edit_unit('Hello, world!\n', 'Hello, universe!\n', 'en', fuzzy='yes')
-        unit = translation.unit_set.get(context='hello')
+        self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en", fuzzy="yes")
+        unit = translation.unit_set.get(context="hello")
         self.assertEqual(unit.state, STATE_READONLY)
 
         # Change state and source
-        self.edit_unit('Hello, universe!\n', 'Hello, universe!\n', 'en')
-        unit = translation.unit_set.get(context='hello')
+        self.edit_unit("Hello, universe!\n", "Hello, universe!\n", "en")
+        unit = translation.unit_set.get(context="hello")
         self.assertEqual(unit.state, STATE_FUZZY)
 
         # Revert source
-        self.edit_unit('Hello, universe!\n', 'Hello, world!\n', 'en')
-        unit = translation.unit_set.get(context='hello')
+        self.edit_unit("Hello, universe!\n", "Hello, world!\n", "en")
+        unit = translation.unit_set.get(context="hello")
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
     def create_component(self):
@@ -277,22 +277,22 @@ class EditPoMonoTest(EditTest):
         def add(key):
             return self.client.post(
                 reverse(
-                    'new-unit',
-                    kwargs={'project': 'test', 'component': 'test', 'lang': 'en'},
+                    "new-unit",
+                    kwargs={"project": "test", "component": "test", "lang": "en"},
                 ),
-                {'key': key, 'value_0': 'Source string'},
+                {"key": key, "value_0": "Source string"},
                 follow=True,
             )
 
-        response = add('key')
+        response = add("key")
         self.assertEqual(response.status_code, 403)
         self.make_manager()
-        response = add('key')
-        self.assertContains(response, 'New string has been added')
-        response = add('key')
-        self.assertContains(response, 'Translation with this key seem to already exist')
-        response = add('')
-        self.assertContains(response, 'Error in parameter key')
+        response = add("key")
+        self.assertContains(response, "New string has been added")
+        response = add("key")
+        self.assertContains(response, "Translation with this key seem to already exist")
+        response = add("")
+        self.assertContains(response, "Error in parameter key")
 
 
 class EditIphoneTest(EditTest):
@@ -346,9 +346,9 @@ class EditJavaTest(EditTest):
 
 class EditAppStoreTest(EditTest):
     has_plurals = False
-    source = 'Weblate - continuous localization'
-    target = 'Weblate - průběžná lokalizace'
-    second_target = 'Weblate - průběžný překlad'
+    source = "Weblate - continuous localization"
+    target = "Weblate - průběžná lokalizace"
+    second_target = "Weblate - průběžný překlad"
     already_translated = 2
 
     def create_component(self):
@@ -359,10 +359,10 @@ class EditXliffComplexTest(EditTest):
     has_plurals = False
 
     def create_component(self):
-        return self.create_xliff('complex')
+        return self.create_xliff("complex")
 
     def test_invalid_xml(self):
-        self.edit_unit('Hello, world!\n', 'Nazdar & svete!\n')
+        self.edit_unit("Hello, world!\n", "Nazdar & svete!\n")
         self.assert_backend(1)
 
 
@@ -370,7 +370,7 @@ class EditXliffResnameTest(EditTest):
     has_plurals = False
 
     def create_component(self):
-        return self.create_xliff('only-resname')
+        return self.create_xliff("only-resname")
 
 
 class EditXliffTest(EditTest):
@@ -406,52 +406,52 @@ class EditTSMonoTest(EditTest):
 
 class ZenViewTest(ViewTestCase):
     def test_zen(self):
-        response = self.client.get(reverse('zen', kwargs=self.kw_translation))
-        self.assertContains(response, 'Thank you for using Weblate.')
-        self.assertContains(response, 'Orangutan has %d bananas')
-        self.assertContains(response, 'The translation has come to an end.')
+        response = self.client.get(reverse("zen", kwargs=self.kw_translation))
+        self.assertContains(response, "Thank you for using Weblate.")
+        self.assertContains(response, "Orangutan has %d bananas")
+        self.assertContains(response, "The translation has come to an end.")
 
     def test_zen_invalid(self):
         response = self.client.get(
-            reverse('zen', kwargs=self.kw_translation),
-            {'q': 'has:nonexisting'},
+            reverse("zen", kwargs=self.kw_translation),
+            {"q": "has:nonexisting"},
             follow=True,
         )
-        self.assertContains(response, 'Unsupported has lookup')
+        self.assertContains(response, "Unsupported has lookup")
 
     def test_load_zen(self):
-        response = self.client.get(reverse('load_zen', kwargs=self.kw_translation))
-        self.assertContains(response, 'Thank you for using Weblate.')
-        self.assertContains(response, 'Orangutan has %d bananas')
-        self.assertContains(response, 'The translation has come to an end.')
+        response = self.client.get(reverse("load_zen", kwargs=self.kw_translation))
+        self.assertContains(response, "Thank you for using Weblate.")
+        self.assertContains(response, "Orangutan has %d bananas")
+        self.assertContains(response, "The translation has come to an end.")
 
     def test_load_zen_offset(self):
         response = self.client.get(
-            reverse('load_zen', kwargs=self.kw_translation), {'offset': '2'}
+            reverse("load_zen", kwargs=self.kw_translation), {"offset": "2"}
         )
-        self.assertNotContains(response, 'Hello, world')
-        self.assertContains(response, 'Orangutan has %d bananas')
+        self.assertNotContains(response, "Hello, world")
+        self.assertContains(response, "Orangutan has %d bananas")
         response = self.client.get(
-            reverse('load_zen', kwargs=self.kw_translation), {'offset': 'bug'}
+            reverse("load_zen", kwargs=self.kw_translation), {"offset": "bug"}
         )
-        self.assertContains(response, 'Hello, world')
+        self.assertContains(response, "Hello, world")
 
     def test_save_zen(self):
         unit = self.get_unit()
         params = {
-            'checksum': unit.checksum,
-            'contentsum': hash_to_checksum(unit.content_hash),
-            'translationsum': hash_to_checksum(unit.get_target_hash()),
-            'target_0': 'Zen translation',
-            'review': '20',
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target_0": "Zen translation",
+            "review": "20",
         }
         response = self.client.post(
-            reverse('save_zen', kwargs=self.kw_translation), params
+            reverse("save_zen", kwargs=self.kw_translation), params
         )
         self.assertContains(
             response,
-            'Following fixups were applied to translation: '
-            'Trailing and leading whitespace',
+            "Following fixups were applied to translation: "
+            "Trailing and leading whitespace",
         )
 
     def test_save_zen_lock(self):
@@ -459,17 +459,17 @@ class ZenViewTest(ViewTestCase):
         self.component.save()
         unit = self.get_unit()
         params = {
-            'checksum': unit.checksum,
-            'contentsum': hash_to_checksum(unit.content_hash),
-            'translationsum': hash_to_checksum(unit.get_target_hash()),
-            'target_0': 'Zen translation',
-            'review': '20',
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target_0": "Zen translation",
+            "review": "20",
         }
         response = self.client.post(
-            reverse('save_zen', kwargs=self.kw_translation), params
+            reverse("save_zen", kwargs=self.kw_translation), params
         )
         self.assertContains(
-            response, 'Insufficient privileges for saving translations.'
+            response, "Insufficient privileges for saving translations."
         )
 
 
@@ -479,31 +479,31 @@ class EditComplexTest(ViewTestCase):
     def setUp(self):
         super().setUp()
         self.translation = self.get_translation()
-        self.translate_url = reverse('translate', kwargs=self.kw_translation)
+        self.translate_url = reverse("translate", kwargs=self.kw_translation)
 
     def test_merge(self):
         # Translate unit to have something to start with
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         unit = self.get_unit()
         # Try the merge
         response = self.client.get(
-            self.translate_url, {'checksum': unit.checksum, 'merge': unit.id}
+            self.translate_url, {"checksum": unit.checksum, "merge": unit.id}
         )
         self.assert_backend(1)
         # We should stay on same message
         self.assert_redirects_offset(response, self.translate_url, unit.position + 1)
 
         # Test error handling
-        unit2 = self.translation.unit_set.get(source='Thank you for using Weblate.')
+        unit2 = self.translation.unit_set.get(source="Thank you for using Weblate.")
         response = self.client.get(
-            self.translate_url, {'checksum': unit.checksum, 'merge': unit2.id}
+            self.translate_url, {"checksum": unit.checksum, "merge": unit2.id}
         )
-        self.assertContains(response, 'Invalid merge request!')
+        self.assertContains(response, "Invalid merge request!")
 
     def test_revert(self):
-        source = 'Hello, world!\n'
-        target = 'Nazdar svete!\n'
-        target_2 = 'Hei maailma!\n'
+        source = "Hello, world!\n"
+        target = "Nazdar svete!\n"
+        target_2 = "Hei maailma!\n"
         self.edit_unit(source, target)
         # Ensure other edit gets different timestamp
         time.sleep(1)
@@ -515,27 +515,27 @@ class EditComplexTest(ViewTestCase):
         self.assert_backend(1)
         # revert it
         self.client.get(
-            self.translate_url, {'checksum': unit.checksum, 'revert': changes[1].id}
+            self.translate_url, {"checksum": unit.checksum, "revert": changes[1].id}
         )
         unit = self.get_unit()
         self.assertEqual(unit.target, target_2)
         # check that we cannot revert to string from another translation
-        self.edit_unit('Thank you for using Weblate.', 'Kiitoksia Weblaten kaytosta.')
-        unit2 = self.get_unit(source='Thank you for using Weblate.')
+        self.edit_unit("Thank you for using Weblate.", "Kiitoksia Weblaten kaytosta.")
+        unit2 = self.get_unit(source="Thank you for using Weblate.")
         change = Change.objects.filter(unit=unit2).order()[0]
         response = self.client.get(
-            self.translate_url, {'checksum': unit.checksum, 'revert': change.id}
+            self.translate_url, {"checksum": unit.checksum, "revert": change.id}
         )
-        self.assertContains(response, 'Invalid revert request!')
+        self.assertContains(response, "Invalid revert request!")
         self.assert_backend(2)
 
     def test_edit_fixup(self):
         # Save with failing check
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!')
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!")
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit()
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(len(unit.active_checks()), 0)
@@ -544,11 +544,11 @@ class EditComplexTest(ViewTestCase):
 
     def test_edit_check(self):
         # Save with failing check
-        response = self.edit_unit('Hello, world!\n', 'Hello, world!\n')
+        response = self.edit_unit("Hello, world!\n", "Hello, world!\n")
         # We should stay on current message
         self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
-        self.assertEqual(unit.target, 'Hello, world!\n')
+        self.assertEqual(unit.target, "Hello, world!\n")
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(len(unit.checks()), 1)
@@ -558,9 +558,9 @@ class EditComplexTest(ViewTestCase):
         # Ignore check
         check_id = unit.active_checks()[0].id
         response = self.client.post(
-            reverse('js-ignore-check', kwargs={'check_id': check_id})
+            reverse("js-ignore-check", kwargs={"check_id": check_id})
         )
-        self.assertContains(response, 'ok')
+        self.assertContains(response, "ok")
         # Should have one less failing check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
@@ -568,13 +568,13 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(unit.active_checks()), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         # Ignore check for all languages
-        ignore_url = reverse('js-ignore-check-source', kwargs={'check_id': check_id})
+        ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
         response = self.client.post(ignore_url)
         self.assertEqual(response.status_code, 403)
         self.user.is_superuser = True
         self.user.save()
         response = self.client.post(ignore_url)
-        self.assertContains(response, 'ok')
+        self.assertContains(response, "ok")
         # Should have one less check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
@@ -583,11 +583,11 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.translation.stats.allchecks, 0)
 
         # Save with no failing checks
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         # We should stay on current message
         self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit()
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertFalse(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
@@ -598,11 +598,11 @@ class EditComplexTest(ViewTestCase):
         self.component.enforced_checks = ["same"]
         self.component.save(update_fields=["enforced_checks"])
         # Save with failing check
-        response = self.edit_unit('Hello, world!\n', 'Hello, world!\n')
+        response = self.edit_unit("Hello, world!\n", "Hello, world!\n")
         # We should stay on current message
         self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
-        self.assertEqual(unit.target, 'Hello, world!\n')
+        self.assertEqual(unit.target, "Hello, world!\n")
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.checks()), 1)
@@ -610,14 +610,14 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.translation.stats.allchecks, 1)
 
     def test_commit_push(self):
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         # We should get to second message
         self.assert_redirects_offset(response, self.translate_url, 2)
         self.assertTrue(self.translation.needs_commit())
         self.assertTrue(self.component.needs_commit())
         self.assertTrue(self.component.project.needs_commit())
 
-        self.translation.commit_pending('test', self.user)
+        self.translation.commit_pending("test", self.user)
 
         self.assertFalse(self.translation.needs_commit())
         self.assertFalse(self.component.needs_commit())
@@ -636,43 +636,43 @@ class EditComplexTest(ViewTestCase):
     def test_edit_locked(self):
         self.component.locked = True
         self.component.save()
-        response = self.edit_unit('Hello, world!\n', 'Nazdar svete!\n')
+        response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         # We should get to second message
         self.assertContains(
-            response, 'This translation is currently locked for updates.'
+            response, "This translation is currently locked for updates."
         )
         self.assert_backend(0)
 
     def test_edit_changed_source(self):
         # We use invalid contentsum here
         response = self.edit_unit(
-            'Hello, world!\n', 'Nazdar svete!\n', contentsum='aaa'
+            "Hello, world!\n", "Nazdar svete!\n", contentsum="aaa"
         )
         # We should get an error message
-        self.assertContains(response, 'Source string has been changed meanwhile')
+        self.assertContains(response, "Source string has been changed meanwhile")
         self.assert_backend(0)
 
     def test_edit_changed_translation(self):
         # We use invalid translationsum here
         response = self.edit_unit(
-            'Hello, world!\n', 'Nazdar svete!\n', translationsum='aaa'
+            "Hello, world!\n", "Nazdar svete!\n", translationsum="aaa"
         )
         # We should get an error message
         self.assertContains(
-            response, 'Translation of the string has been changed meanwhile'
+            response, "Translation of the string has been changed meanwhile"
         )
         self.assert_backend(0)
 
     def test_edit_view(self):
-        url = self.get_unit('Hello, world!\n').get_absolute_url()
+        url = self.get_unit("Hello, world!\n").get_absolute_url()
         response = self.client.get(url)
-        form = response.context['form']
+        form = response.context["form"]
         params = {}
         for field in form.fields.keys():
             params[field] = form[field].value()
-        params['target_0'] = 'Nazdar svete!\n'
+        params["target_0"] = "Nazdar svete!\n"
         response = self.client.post(url, params)
         unit = self.get_unit()
-        self.assertEqual(unit.target, 'Nazdar svete!\n')
+        self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(1)

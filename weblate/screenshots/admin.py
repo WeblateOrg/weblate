@@ -23,7 +23,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 
 class ScreenshotAdmin(WeblateModelAdmin):
-    list_display = ['name', 'component']
-    search_fields = ['name', 'image']
-    list_filter = [('component', admin.RelatedOnlyFieldListFilter)]
-    raw_id_fields = ('units',)
+    list_display = ["name", "component"]
+    search_fields = ["name", "image"]
+    list_filter = [("component", admin.RelatedOnlyFieldListFilter)]
+    raw_id_fields = ("units",)

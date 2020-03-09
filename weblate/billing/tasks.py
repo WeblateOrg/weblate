@@ -45,9 +45,9 @@ def billing_alert():
         for project in bill.projects.iterator():
             for component in project.component_set.iterator():
                 if in_limit:
-                    component.delete_alert('BillingLimit')
+                    component.delete_alert("BillingLimit")
                 else:
-                    component.add_alert('BillingLimit')
+                    component.add_alert("BillingLimit")
 
 
 @app.task(trail=False)
@@ -59,10 +59,10 @@ def billing_notify():
 
     if limit or due:
         send_notification_email(
-            'en',
+            "en",
             [a[1] for a in settings.ADMINS] + settings.ADMINS_BILLING,
-            'billing_check',
-            context={'limit': limit, 'due': due},
+            "billing_check",
+            context={"limit": limit, "due": due},
         )
 
 
@@ -79,10 +79,10 @@ def notify_expired():
             send_notification_email(
                 user.profile.language,
                 [user.email],
-                'billing_expired',
+                "billing_expired",
                 context={
-                    'billing': bill,
-                    'billing_url': get_site_url(reverse('billing')),
+                    "billing": bill,
+                    "billing_url": get_site_url(reverse("billing")),
                 },
                 info=bill,
             )
@@ -95,7 +95,7 @@ def schedule_removal():
         if bill.check_payment_status(30):
             continue
         bill.removal = removal
-        bill.save(update_fields=['removal'])
+        bill.save(update_fields=["removal"])
 
 
 @app.task(trail=False)
@@ -105,16 +105,16 @@ def perform_removal():
             send_notification_email(
                 user.profile.language,
                 [user.email],
-                'billing_expired',
+                "billing_expired",
                 context={
-                    'billing': bill,
-                    'billing_url': get_site_url(reverse('billing')),
-                    'final_removal': True,
+                    "billing": bill,
+                    "billing_url": get_site_url(reverse("billing")),
+                    "final_removal": True,
                 },
                 info=bill,
             )
         for prj in bill.projects.iterator():
-            prj.log_warning('removing due to unpaid billing')
+            prj.log_warning("removing due to unpaid billing")
             prj.stats.invalidate()
             prj.delete()
         bill.removal = None
@@ -124,21 +124,21 @@ def perform_removal():
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600, billing_check.s(), name='billing-check')
-    sender.add_periodic_task(3600 * 24, billing_alert.s(), name='billing-alert')
-    sender.add_periodic_task(3600 * 24, billing_notify.s(), name='billing-notify')
+    sender.add_periodic_task(3600, billing_check.s(), name="billing-check")
+    sender.add_periodic_task(3600 * 24, billing_alert.s(), name="billing-alert")
+    sender.add_periodic_task(3600 * 24, billing_notify.s(), name="billing-notify")
     sender.add_periodic_task(
-        crontab(hour=1, minute=0, day_of_week='monday,thursday'),
+        crontab(hour=1, minute=0, day_of_week="monday,thursday"),
         perform_removal.s(),
-        name='perform-removal',
+        name="perform-removal",
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=0, day_of_week='monday,thursday'),
+        crontab(hour=2, minute=0, day_of_week="monday,thursday"),
         schedule_removal.s(),
-        name='schedule-removal',
+        name="schedule-removal",
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week='monday,thursday'),
+        crontab(hour=2, minute=30, day_of_week="monday,thursday"),
         notify_expired.s(),
-        name='notify-expired',
+        name="notify-expired",
     )

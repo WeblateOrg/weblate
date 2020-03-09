@@ -28,22 +28,22 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     """Command for deleting translation memory content."""
 
-    help = 'deletes translation memory content'
+    help = "deletes translation memory content"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
-        parser.add_argument('--origin', help='Origin to remove')
-        parser.add_argument('--category', help='Category to remove')
+        parser.add_argument("--origin", help="Origin to remove")
+        parser.add_argument("--category", help="Category to remove")
         parser.add_argument(
-            '--all', action='store_true', help='Remove all entries', default=False
+            "--all", action="store_true", help="Remove all entries", default=False
         )
 
     def handle(self, *args, **options):
         """Translation memory cleanup."""
         memory = TranslationMemory()
-        if options['all']:
+        if options["all"]:
             memory.empty()
-        elif options['origin'] or options['category']:
-            memory.delete(options['origin'], options['category'])
+        elif options["origin"] or options["category"]:
+            memory.delete(options["origin"], options["category"])
         else:
-            raise CommandError('Please specify what you want to delete')
+            raise CommandError("Please specify what you want to delete")

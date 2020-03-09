@@ -25,7 +25,7 @@ from django.db import models
 
 class ContributorAgreementManager(models.Manager):
     def has_agreed(self, user, component):
-        cache_key = ('cla', user.pk, component.pk)
+        cache_key = ("cla", user.pk, component.pk)
         if cache_key not in user.perm_cache:
             user.perm_cache[cache_key] = self.filter(
                 component=component, user=user
@@ -33,24 +33,24 @@ class ContributorAgreementManager(models.Manager):
         return user.perm_cache[cache_key]
 
     def create(self, user, component, **kwargs):
-        user.perm_cache[('cla', user.pk, component.pk)] = True
+        user.perm_cache[("cla", user.pk, component.pk)] = True
         return super().create(user=user, component=component, **kwargs)
 
     def order(self):
-        return self.order_by('component__project__name', 'component__name')
+        return self.order_by("component__project__name", "component__name")
 
 
 class ContributorAgreement(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.deletion.CASCADE
     )
-    component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now=True)
 
     objects = ContributorAgreementManager()
 
     class Meta:
-        unique_together = [('user', 'component')]
+        unique_together = [("user", "component")]
 
     def __str__(self):
-        return '{0}:{1}'.format(self.user.username, self.component)
+        return "{0}:{1}".format(self.user.username, self.component)

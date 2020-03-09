@@ -26,24 +26,24 @@ from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
 class SAPTranslationHub(MachineTranslation):
     # https://api.sap.com/shell/discover/contentpackage/SAPTranslationHub/api/translationhub
-    name = 'SAP Translation Hub'
+    name = "SAP Translation Hub"
 
     def __init__(self):
         """Check configuration."""
         super().__init__()
         if settings.MT_SAP_BASE_URL is None:
-            raise MissingConfiguration('missing SAP Translation Hub configuration')
+            raise MissingConfiguration("missing SAP Translation Hub configuration")
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
         # to access the sandbox
         result = {}
         if settings.MT_SAP_SANDBOX_APIKEY:
-            result['APIKey'] = settings.MT_SAP_SANDBOX_APIKEY
+            result["APIKey"] = settings.MT_SAP_SANDBOX_APIKEY
 
         # to access the productive API
         if settings.MT_SAP_USERNAME and settings.MT_SAP_PASSWORD:
-            result['Authorization'] = _basic_auth_str(
+            result["Authorization"] = _basic_auth_str(
                 settings.MT_SAP_USERNAME, settings.MT_SAP_PASSWORD
             )
         return result
@@ -51,10 +51,10 @@ class SAPTranslationHub(MachineTranslation):
     def download_languages(self):
         """Get all available languages from SAP Translation Hub."""
         # get all available languages
-        response = self.request("get", settings.MT_SAP_BASE_URL + 'languages')
+        response = self.request("get", settings.MT_SAP_BASE_URL + "languages")
         payload = response.json()
 
-        return [d['id'] for d in payload['languages']]
+        return [d["id"] for d in payload["languages"]]
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
@@ -64,25 +64,25 @@ class SAPTranslationHub(MachineTranslation):
 
         # build the json body
         data = {
-            'targetLanguages': [language],
-            'sourceLanguage': source,
-            'enableMT': enable_mt,
-            'enableTranslationQualityEstimation': enable_mt,
-            'units': [{'value': text}],
+            "targetLanguages": [language],
+            "sourceLanguage": source,
+            "enableMT": enable_mt,
+            "enableTranslationQualityEstimation": enable_mt,
+            "units": [{"value": text}],
         }
 
         # perform the request
         response = self.request(
-            "post", settings.MT_SAP_BASE_URL + 'translate', json=data
+            "post", settings.MT_SAP_BASE_URL + "translate", json=data
         )
         payload = response.json()
 
         # prepare the translations for weblate
-        for item in payload['units']:
-            for translation in item['translations']:
+        for item in payload["units"]:
+            for translation in item["translations"]:
                 yield {
-                    'text': translation['value'],
-                    'quality': translation.get('qualityIndex', 100),
-                    'service': self.name,
-                    'source': text,
+                    "text": translation["value"],
+                    "quality": translation.get("qualityIndex", 100),
+                    "service": self.name,
+                    "source": text,
                 }

@@ -39,8 +39,8 @@ def check_avatars(app_configs, **kwargs):
     except (IOError, CertificateError) as error:
         return [
             Critical(
-                'Failed to download avatar: {}'.format(error),
-                hint=get_doc_url('admin/optionals', 'avatars'),
-                id='weblate.E018',
+                "Failed to download avatar: {}".format(error),
+                hint=get_doc_url("admin/optionals", "avatars"),
+                id="weblate.E018",
             )
         ]

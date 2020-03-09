@@ -23,16 +23,16 @@ from weblate.trans.models.change import Change
 
 
 class Command(WeblateComponentCommand):
-    help = 'List translators for a component'
+    help = "List translators for a component"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--language-code',
-            action='store_true',
-            dest='code',
+            "--language-code",
+            action="store_true",
+            dest="code",
             default=False,
-            help='Use language code instead of language name',
+            help="Use language code instead of language name",
         )
 
     def handle(self, *args, **options):
@@ -42,13 +42,13 @@ class Command(WeblateComponentCommand):
                 authors = Change.objects.filter(translation=translation).authors_list()
                 if not authors:
                     continue
-                if options['code']:
+                if options["code"]:
                     key = translation.language.code
                 else:
                     key = translation.language.name
                 data.append({key: sorted(set(authors))})
         for language in data:
             name, translators = language.popitem()
-            self.stdout.write('[{0}]\n'.format(name))
+            self.stdout.write("[{0}]\n".format(name))
             for translator in translators:
-                self.stdout.write('{1} <{0}>\n'.format(*translator))
+                self.stdout.write("{1} <{0}>\n".format(*translator))

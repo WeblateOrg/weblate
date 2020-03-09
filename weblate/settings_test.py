@@ -27,79 +27,79 @@ import warnings
 
 from weblate.settings_example import *  # noqa
 
-CI_DATABASE = os.environ.get('CI_DATABASE', '')
+CI_DATABASE = os.environ.get("CI_DATABASE", "")
 
-default_user = 'weblate'
-default_name = 'weblate'
-if CI_DATABASE in ('mysql', 'mariadb'):
-    DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-    default_user = 'root'
-    DATABASES['default']['OPTIONS'] = {
-        'init_command': (
-            'SET NAMES utf8, '
-            'wait_timeout=28800, '
-            'default_storage_engine=INNODB, '
+default_user = "weblate"
+default_name = "weblate"
+if CI_DATABASE in ("mysql", "mariadb"):
+    DATABASES["default"]["ENGINE"] = "django.db.backends.mysql"
+    default_user = "root"
+    DATABASES["default"]["OPTIONS"] = {
+        "init_command": (
+            "SET NAMES utf8, "
+            "wait_timeout=28800, "
+            "default_storage_engine=INNODB, "
             'sql_mode="STRICT_TRANS_TABLES"'
         ),
-        'charset': 'utf8',
-        'isolation_level': 'read committed',
+        "charset": "utf8",
+        "isolation_level": "read committed",
     }
-elif CI_DATABASE == 'postgresql':
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-    default_user = 'postgres'
+elif CI_DATABASE == "postgresql":
+    DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
+    default_user = "postgres"
 else:
-    raise ValueError('Not supported database: {}'.format(CI_DATABASE))
+    raise ValueError("Not supported database: {}".format(CI_DATABASE))
 
-DATABASES['default']['HOST'] = os.environ.get('CI_DB_HOST', '')
-DATABASES['default']['NAME'] = os.environ.get('CI_DB_NAME', default_name)
-DATABASES['default']['USER'] = os.environ.get('CI_DB_USER', default_user)
-DATABASES['default']['PASSWORD'] = os.environ.get('CI_DB_PASSWORD', '')
-DATABASES['default']['PORT'] = os.environ.get('CI_DB_PORT', '')
+DATABASES["default"]["HOST"] = os.environ.get("CI_DB_HOST", "")
+DATABASES["default"]["NAME"] = os.environ.get("CI_DB_NAME", default_name)
+DATABASES["default"]["USER"] = os.environ.get("CI_DB_USER", default_user)
+DATABASES["default"]["PASSWORD"] = os.environ.get("CI_DB_PASSWORD", "")
+DATABASES["default"]["PORT"] = os.environ.get("CI_DB_PORT", "")
 
 # Configure admins
-ADMINS = (('Weblate test', 'noreply@weblate.org'),)
+ADMINS = (("Weblate test", "noreply@weblate.org"),)
 
 # Different root for test repos
-DATA_DIR = os.path.join(BASE_DIR, 'data-test')
-MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
-STATIC_ROOT = os.path.join(DATA_DIR, 'static')
-CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, 'celery', 'beat-schedule')
+DATA_DIR = os.path.join(BASE_DIR, "data-test")
+MEDIA_ROOT = os.path.join(DATA_DIR, "media")
+STATIC_ROOT = os.path.join(DATA_DIR, "static")
+CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ALWAYS_EAGER = True
-CELERY_BROKER_URL = 'memory://'
+CELERY_BROKER_URL = "memory://"
 CELERY_TASK_EAGER_PROPAGATES = True
 CELERY_RESULT_BACKEND = None
 
 # Silent logging setup
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {'require_debug_false': {'()': 'django.utils.log.RequireDebugFalse'}},
-    'formatters': {'simple': {'format': '%(levelname)s %(message)s'}},
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "formatters": {"simple": {"format": "%(levelname)s %(message)s"}},
+    "handlers": {
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
         },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
         },
     },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": True,
         },
-        'weblate': {'handlers': [], 'level': 'ERROR'},
-        'social': {'handlers': [], 'level': 'ERROR'},
+        "weblate": {"handlers": [], "level": "ERROR"},
+        "social": {"handlers": [], "level": "ERROR"},
     },
 }
 
 # Reset caches
-CACHES = {'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}}
+CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
 
 # Selenium can not clear HttpOnly cookies in MSIE
 SESSION_COOKIE_HTTPONLY = False
@@ -109,28 +109,28 @@ SESSION_ENGINE = "django.contrib.sessions.backends.db"
 
 # Use weak password hasher in tests, there is no point in spending CPU time
 # in hashing test passwords
-PASSWORD_HASHERS = ['django.contrib.auth.hashers.CryptPasswordHasher']
+PASSWORD_HASHERS = ["django.contrib.auth.hashers.CryptPasswordHasher"]
 
 # Test optional apps as well
-INSTALLED_APPS += ('weblate.billing', 'weblate.legal')
+INSTALLED_APPS += ("weblate.billing", "weblate.legal")
 
 # Test GitHub auth
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.email.EmailAuth',
-    'social_core.backends.github.GithubOAuth2',
-    'weblate.accounts.auth.WeblateUserBackend',
+    "social_core.backends.email.EmailAuth",
+    "social_core.backends.github.GithubOAuth2",
+    "weblate.accounts.auth.WeblateUserBackend",
 )
 
 AUTH_VALIDATE_PERMS = True
 
 warnings.filterwarnings(
-    'error',
+    "error",
     r"DateTimeField .* received a naive datetime",
     RuntimeWarning,
-    r'django\.db\.models\.fields',
+    r"django\.db\.models\.fields",
 )
 
 # Generate junit compatible XML for AppVeyor
-if 'APPVEYOR' in os.environ:
-    TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
-    TEST_OUTPUT_FILE_NAME = 'junit.xml'
+if "APPVEYOR" in os.environ:
+    TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
+    TEST_OUTPUT_FILE_NAME = "junit.xml"

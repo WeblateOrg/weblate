@@ -62,7 +62,7 @@ class BackupTest(SimpleTestCase):
     @tempdir_setting("DATA_DIR")
     def test_database_backup(self):
         database_backup()
-        if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
             self.assertTrue(
                 os.path.exists(
                     os.path.join(settings.DATA_DIR, "backups", "database.sql")
@@ -73,7 +73,7 @@ class BackupTest(SimpleTestCase):
     @override_settings(DATABASE_BACKUP="compressed")
     def test_database_backup_compress(self):
         database_backup()
-        if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
             self.assertTrue(
                 os.path.exists(
                     os.path.join(settings.DATA_DIR, "backups", "database.sql.gz")

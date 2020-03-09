@@ -36,13 +36,13 @@ class ChangesFeed(Feed):
         return request.user
 
     def title(self):
-        return _('Recent changes in %s') % settings.SITE_TITLE
+        return _("Recent changes in %s") % settings.SITE_TITLE
 
     def description(self):
-        return _('All recent changes made using Weblate in %s.') % (settings.SITE_TITLE)
+        return _("All recent changes made using Weblate in %s.") % (settings.SITE_TITLE)
 
     def link(self):
-        return reverse('home')
+        return reverse("home")
 
     def items(self, obj):
         return Change.objects.last_changes(obj)[:10]
@@ -70,10 +70,10 @@ class TranslationChangesFeed(ChangesFeed):
         return get_translation(request, project, component, lang)
 
     def title(self, obj):
-        return _('Recent changes in %s') % obj
+        return _("Recent changes in %s") % obj
 
     def description(self, obj):
-        return _('All recent changes made using Weblate in %s.') % obj
+        return _("All recent changes made using Weblate in %s.") % obj
 
     def link(self, obj):
         return obj.get_absolute_url()

@@ -43,7 +43,7 @@ class WeblateTranslation(DjangoTranslation):
     def merge(self, other):
         DjangoTranslation.merge(self, other)
         # Override plural
-        if hasattr(other, 'plural'):
+        if hasattr(other, "plural"):
             self.plural = other.plural
 
 
@@ -66,7 +66,7 @@ def immediate_on_commit(cls):
     # This is required when using a subclass of django.test.TestCase as all tests
     # are wrapped in a transaction that never gets committed.
     cls.on_commit_mgr = mock.patch(
-        'django.db.transaction.on_commit', side_effect=handle_immediate_on_commit
+        "django.db.transaction.on_commit", side_effect=handle_immediate_on_commit
     )
     cls.on_commit_mgr.__enter__()
 

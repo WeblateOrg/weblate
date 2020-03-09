@@ -33,44 +33,44 @@ from weblate.utils.environment import (
 
 class EnvTest(SimpleTestCase):
     def test_list(self):
-        os.environ['TEST_DATA'] = 'foo,bar,baz'
-        self.assertEqual(get_env_list('TEST_DATA'), ['foo', 'bar', 'baz'])
-        os.environ['TEST_DATA'] = 'foo'
-        self.assertEqual(get_env_list('TEST_DATA'), ['foo'])
-        del os.environ['TEST_DATA']
-        self.assertEqual(get_env_list('TEST_DATA'), [])
-        self.assertEqual(get_env_list('TEST_DATA', ['x']), ['x'])
+        os.environ["TEST_DATA"] = "foo,bar,baz"
+        self.assertEqual(get_env_list("TEST_DATA"), ["foo", "bar", "baz"])
+        os.environ["TEST_DATA"] = "foo"
+        self.assertEqual(get_env_list("TEST_DATA"), ["foo"])
+        del os.environ["TEST_DATA"]
+        self.assertEqual(get_env_list("TEST_DATA"), [])
+        self.assertEqual(get_env_list("TEST_DATA", ["x"]), ["x"])
 
     def test_map(self):
-        os.environ['TEST_DATA'] = 'foo:bar,baz:bag'
-        self.assertEqual(get_env_map('TEST_DATA'), {'foo': 'bar', 'baz': 'bag'})
-        os.environ['TEST_DATA'] = 'foo:bar'
-        self.assertEqual(get_env_map('TEST_DATA'), {'foo': 'bar'})
-        del os.environ['TEST_DATA']
-        self.assertEqual(get_env_map('TEST_DATA'), {})
-        self.assertEqual(get_env_map('TEST_DATA', {'x': 'y'}), {'x': 'y'})
+        os.environ["TEST_DATA"] = "foo:bar,baz:bag"
+        self.assertEqual(get_env_map("TEST_DATA"), {"foo": "bar", "baz": "bag"})
+        os.environ["TEST_DATA"] = "foo:bar"
+        self.assertEqual(get_env_map("TEST_DATA"), {"foo": "bar"})
+        del os.environ["TEST_DATA"]
+        self.assertEqual(get_env_map("TEST_DATA"), {})
+        self.assertEqual(get_env_map("TEST_DATA", {"x": "y"}), {"x": "y"})
 
     def test_bool(self):
-        os.environ['TEST_DATA'] = '1'
-        self.assertEqual(get_env_bool('TEST_DATA'), True)
-        os.environ['TEST_DATA'] = 'True'
-        self.assertEqual(get_env_bool('TEST_DATA'), True)
-        os.environ['TEST_DATA'] = 'true'
-        self.assertEqual(get_env_bool('TEST_DATA'), True)
-        os.environ['TEST_DATA'] = 'Yes'
-        self.assertEqual(get_env_bool('TEST_DATA'), True)
-        os.environ['TEST_DATA'] = 'no'
-        self.assertEqual(get_env_bool('TEST_DATA'), False)
-        os.environ['TEST_DATA'] = '0'
-        self.assertEqual(get_env_bool('TEST_DATA'), False)
-        del os.environ['TEST_DATA']
-        self.assertEqual(get_env_bool('TEST_DATA'), False)
+        os.environ["TEST_DATA"] = "1"
+        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        os.environ["TEST_DATA"] = "True"
+        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        os.environ["TEST_DATA"] = "true"
+        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        os.environ["TEST_DATA"] = "Yes"
+        self.assertEqual(get_env_bool("TEST_DATA"), True)
+        os.environ["TEST_DATA"] = "no"
+        self.assertEqual(get_env_bool("TEST_DATA"), False)
+        os.environ["TEST_DATA"] = "0"
+        self.assertEqual(get_env_bool("TEST_DATA"), False)
+        del os.environ["TEST_DATA"]
+        self.assertEqual(get_env_bool("TEST_DATA"), False)
 
     def test_modify_list(self):
-        os.environ['WEBLATE_ADD_TEST'] = 'foo,bar'
-        os.environ['WEBLATE_REMOVE_TEST'] = 'baz,bag'
-        setting = ['baz', 'bag', 'aaa']
-        modify_env_list(setting, 'TEST')
-        self.assertEqual(setting, ['foo', 'bar', 'aaa'])
-        del os.environ['WEBLATE_ADD_TEST']
-        del os.environ['WEBLATE_REMOVE_TEST']
+        os.environ["WEBLATE_ADD_TEST"] = "foo,bar"
+        os.environ["WEBLATE_REMOVE_TEST"] = "baz,bag"
+        setting = ["baz", "bag", "aaa"]
+        modify_env_list(setting, "TEST")
+        self.assertEqual(setting, ["foo", "bar", "aaa"])
+        del os.environ["WEBLATE_ADD_TEST"]
+        del os.environ["WEBLATE_REMOVE_TEST"]

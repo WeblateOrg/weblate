@@ -639,9 +639,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
             # Set correct state depending on template editing
             if self.template and self.edit_template:
-                kwargs['state'] = STATE_TRANSLATED
+                kwargs["state"] = STATE_TRANSLATED
             else:
-                kwargs['state'] = STATE_READONLY
+                kwargs["state"] = STATE_READONLY
 
             # Create source unit
             source = self.source_translation.unit_set.create(id_hash=id_hash, **kwargs)
@@ -798,7 +798,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     previous = self.repository.last_remote_revision
                 except RepositoryException:
                     # Repository not yet configured
-                    previous = ''
+                    previous = ""
                 self.repository.update_remote()
                 timediff = time.time() - start
                 self.log_info("update took %.2f seconds", timediff)
@@ -1115,9 +1115,9 @@ class Component(models.Model, URLMixin, PathMixin):
     def handle_parse_error(self, error, translation=None):
         """Handler for parse errors."""
         report_error(error, prefix="Parse error")
-        error_message = getattr(error, 'strerror', '')
+        error_message = getattr(error, "strerror", "")
         if not error_message:
-            error_message = force_str(error).replace(self.full_path, '')
+            error_message = force_str(error).replace(self.full_path, "")
         if translation is None:
             filename = self.template
         else:
@@ -1271,7 +1271,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         if not created:
             obj.details = details
-            obj.save(update_fields=['details'])
+            obj.save(update_fields=["details"])
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.add_alert(alert, **details)
@@ -1830,11 +1830,11 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         for unit in units.iterator():
             if shaping_re.findall(unit.context):
-                key = shaping_re.sub('', unit.context)
+                key = shaping_re.sub("", unit.context)
                 unit.shaping = Shaping.objects.get_or_create(
                     key=key, component=self, shaping_regex=self.shaping_regex
                 )[0]
-                unit.save(update_fields=['shaping'])
+                unit.save(update_fields=["shaping"])
         for shaping in Shaping.objects.filter(component=self).iterator():
             Unit.objects.filter(
                 translation__component=self, shaping=None, context=shaping.key
@@ -1878,7 +1878,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         base = self.linked_component if self.is_repo_link else self
         masks = [base.filemask]
-        masks.extend(base.linked_childs.values_list('filemask', flat=True))
+        masks.extend(base.linked_childs.values_list("filemask", flat=True))
         duplicates = [item for item, count in Counter(masks).items() if count > 1]
         if duplicates:
             self.add_alert("DuplicateFilemask", duplicates=duplicates)

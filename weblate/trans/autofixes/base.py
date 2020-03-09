@@ -22,7 +22,7 @@
 class AutoFix:
     """Base class for AutoFixes."""
 
-    fix_id = 'auto'
+    fix_id = "auto"
 
     def get_identifier(self):
         return self.fix_id

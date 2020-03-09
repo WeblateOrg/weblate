@@ -25,9 +25,9 @@ from weblate.accounts.checks import check_avatars
 
 
 class AccountsConfig(AppConfig):
-    name = 'weblate.accounts'
-    label = 'accounts'
-    verbose_name = 'Accounts'
+    name = "weblate.accounts"
+    label = "accounts"
+    verbose_name = "Accounts"
 
     def ready(self):
         super().ready()

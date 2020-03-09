@@ -118,7 +118,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             cls.driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
             cls.driver_error = str(error)
-            if 'CI_SELENIUM' in os.environ:
+            if "CI_SELENIUM" in os.environ:
                 raise
 
         # Restore custom fontconfig settings

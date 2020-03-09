@@ -31,15 +31,15 @@ from weblate.auth.models import User
 from weblate.trans.tests.test_views import FixtureTestCase
 
 TEST_URL = (
-    'https://www.gravatar.com/avatar/'
-    '55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32'
+    "https://www.gravatar.com/avatar/"
+    "55502f40dc8b7c769880b10874abc9d0?d=identicon&s=32"
 )
 
 
 class AvatarTest(FixtureTestCase):
     def setUp(self):
         super().setUp()
-        self.user.email = 'test@example.com'
+        self.user.email = "test@example.com"
         self.user.save()
 
     def test_avatar_for_email(self):
@@ -48,20 +48,20 @@ class AvatarTest(FixtureTestCase):
 
     @responses.activate
     def test_avatar(self):
-        image = Image.new('RGB', (32, 32))
+        image = Image.new("RGB", (32, 32))
         storage = BytesIO()
-        image.save(storage, 'PNG')
+        image.save(storage, "PNG")
         imagedata = storage.getvalue()
         responses.add(responses.GET, TEST_URL, body=imagedata)
         # Real user
         response = self.client.get(
-            reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
+            reverse("user_avatar", kwargs={"user": self.user.username, "size": 32})
         )
         self.assert_png(response)
         self.assertEqual(response.content, imagedata)
         # Test caching
         response = self.client.get(
-            reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
+            reverse("user_avatar", kwargs={"user": self.user.username, "size": 32})
         )
         self.assert_png(response)
         self.assertEqual(response.content, imagedata)
@@ -70,21 +70,21 @@ class AvatarTest(FixtureTestCase):
     def test_avatar_error(self):
         responses.add(responses.GET, TEST_URL, status=503)
         # Choose different username to avoid using cache
-        self.user.username = 'test2'
+        self.user.username = "test2"
         self.user.save()
         response = self.client.get(
-            reverse('user_avatar', kwargs={'user': self.user.username, 'size': 32})
+            reverse("user_avatar", kwargs={"user": self.user.username, "size": 32})
         )
         self.assert_png(response)
 
     def test_anonymous_avatar(self):
-        anonymous = User.objects.get(username='anonymous')
+        anonymous = User.objects.get(username="anonymous")
         # Anonymous user
         response = self.client.get(
-            reverse('user_avatar', kwargs={'user': anonymous.username, 'size': 32})
+            reverse("user_avatar", kwargs={"user": anonymous.username, "size": 32})
         )
         self.assertRedirects(
-            response, '/static/weblate-32.png', fetch_redirect_response=False
+            response, "/static/weblate-32.png", fetch_redirect_response=False
         )
 
     def test_fallback_avatar(self):

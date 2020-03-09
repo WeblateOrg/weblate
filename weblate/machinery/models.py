@@ -84,9 +84,9 @@ class WeblateConf(AppConf):
 
     # List of machine translations
     SERVICES = (
-        'weblate.machinery.weblatetm.WeblateTranslation',
-        'weblate.memory.machine.WeblateMemory',
+        "weblate.machinery.weblatetm.WeblateTranslation",
+        "weblate.memory.machine.WeblateMemory",
     )
 
     class Meta:
-        prefix = 'MT'
+        prefix = "MT"

@@ -6,25 +6,25 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('trans', '0035_remove_source_priority')]
+    dependencies = [("trans", "0035_remove_source_priority")]
 
     operations = [
         migrations.AlterField(
-            model_name='component',
-            name='language_code_style',
+            model_name="component",
+            name="language_code_style",
             field=models.CharField(
                 blank=True,
                 choices=[
-                    ('', 'Default based on the file format'),
-                    ('posix', 'POSIX style using underscore as a separator'),
-                    ('bcp', 'BCP style using hyphen as a separator'),
-                    ('android', 'Android style'),
-                    ('java', 'Java style'),
+                    ("", "Default based on the file format"),
+                    ("posix", "POSIX style using underscore as a separator"),
+                    ("bcp", "BCP style using hyphen as a separator"),
+                    ("android", "Android style"),
+                    ("java", "Java style"),
                 ],
-                default='',
-                help_text='Customize language code used to generate the filename for translations created by Weblate.',
+                default="",
+                help_text="Customize language code used to generate the filename for translations created by Weblate.",
                 max_length=10,
-                verbose_name='Language code style',
+                verbose_name="Language code style",
             ),
         )
     ]

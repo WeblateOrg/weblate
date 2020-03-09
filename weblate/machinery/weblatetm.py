@@ -28,7 +28,7 @@ from weblate.trans.models import Unit
 class WeblateTranslation(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
-    name = 'Weblate'
+    name = "Weblate"
     rank_boost = 1
     cache_translations = False
 
@@ -40,11 +40,11 @@ class WeblateTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         if user:
             kwargs = {
-                'translation__component__project_id__in': user.allowed_project_ids
+                "translation__component__project_id__in": user.allowed_project_ids
             }
         else:
             kwargs = {
-                'translation__component__project': unit.translation.component.project
+                "translation__component__project": unit.translation.component.project
             }
         matching_units = (
             Unit.objects.prefetch()
@@ -59,10 +59,10 @@ class WeblateTranslation(MachineTranslation):
             if quality < 50:
                 continue
             yield {
-                'text': munit.get_target_plurals()[0],
-                'quality': quality,
-                'service': self.name,
-                'origin': force_str(munit.translation.component),
-                'origin_url': munit.get_absolute_url(),
-                'source': source,
+                "text": munit.get_target_plurals()[0],
+                "quality": quality,
+                "service": self.name,
+                "origin": force_str(munit.translation.component),
+                "origin_url": munit.get_absolute_url(),
+                "source": source,
             }

@@ -6,16 +6,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [('lang', '0002_auto_20190516_1245')]
+    dependencies = [("lang", "0002_auto_20190516_1245")]
 
     operations = [
         migrations.AlterField(
-            model_name='plural',
-            name='source',
+            model_name="plural",
+            name="source",
             field=models.SmallIntegerField(
-                choices=[(0, 'Default plural'), (1, 'Plural gettext formula')],
+                choices=[(0, "Default plural"), (1, "Plural gettext formula")],
                 default=0,
-                verbose_name='Plural definition source',
+                verbose_name="Plural definition source",
             ),
         )
     ]

@@ -50,9 +50,9 @@ class BeginNewlineCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('\nstring', '\nstring', '')
-        self.test_failure_1 = ('\nstring', ' \nstring', '')
-        self.test_failure_2 = ('string', '\nstring', '')
+        self.test_good_matching = ("\nstring", "\nstring", "")
+        self.test_failure_1 = ("\nstring", " \nstring", "")
+        self.test_failure_2 = ("string", "\nstring", "")
 
 
 class EndNewlineCheckTest(CheckTestCase):
@@ -60,9 +60,9 @@ class EndNewlineCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string\n', 'string\n', '')
-        self.test_failure_1 = ('string\n', 'string', '')
-        self.test_failure_2 = ('string', 'string\n', '')
+        self.test_good_matching = ("string\n", "string\n", "")
+        self.test_failure_1 = ("string\n", "string", "")
+        self.test_failure_2 = ("string", "string\n", "")
 
 
 class BeginSpaceCheckTest(CheckTestCase):
@@ -70,11 +70,11 @@ class BeginSpaceCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('   string', '   string', '')
-        self.test_good_ignore = ('.', ' ', '')
-        self.test_good_none = (' The ', '  ', '')
-        self.test_failure_1 = ('  string', '    string', '')
-        self.test_failure_2 = ('    string', '  string', '')
+        self.test_good_matching = ("   string", "   string", "")
+        self.test_good_ignore = (".", " ", "")
+        self.test_good_none = (" The ", "  ", "")
+        self.test_failure_1 = ("  string", "    string", "")
+        self.test_failure_2 = ("    string", "  string", "")
 
 
 class EndSpaceCheckTest(CheckTestCase):
@@ -82,11 +82,11 @@ class EndSpaceCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string  ', 'string  ', '')
-        self.test_good_ignore = ('.', ' ', '')
-        self.test_good_none = (' The ', '  ', '')
-        self.test_failure_1 = ('string  ', 'string', '')
-        self.test_failure_2 = ('string', 'string ', '')
+        self.test_good_matching = ("string  ", "string  ", "")
+        self.test_good_ignore = (".", " ", "")
+        self.test_good_none = (" The ", "  ", "")
+        self.test_failure_1 = ("string  ", "string", "")
+        self.test_failure_2 = ("string", "string ", "")
 
 
 class DoubleSpaceCheckTest(CheckTestCase):
@@ -94,9 +94,9 @@ class DoubleSpaceCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string  string', 'string  string', '')
-        self.test_good_ignore = ('  ', ' ', '')
-        self.test_failure_1 = ('string string', 'string  string', '')
+        self.test_good_matching = ("string  string", "string  string", "")
+        self.test_good_ignore = ("  ", " ", "")
+        self.test_failure_1 = ("string string", "string  string", "")
 
 
 class EndStopCheckTest(CheckTestCase):
@@ -104,23 +104,23 @@ class EndStopCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string.', 'string.', '')
-        self.test_good_ignore = ('.', ' ', '')
-        self.test_failure_1 = ('string.', 'string', '')
-        self.test_failure_2 = ('string', 'string.', '')
+        self.test_good_matching = ("string.", "string.", "")
+        self.test_good_ignore = (".", " ", "")
+        self.test_failure_1 = ("string.", "string", "")
+        self.test_failure_2 = ("string", "string.", "")
 
     def test_japanese(self):
-        self.do_test(False, ('Text:', 'Text。', ''), 'ja')
-        self.do_test(True, ('Text:', 'Text', ''), 'ja')
+        self.do_test(False, ("Text:", "Text。", ""), "ja")
+        self.do_test(True, ("Text:", "Text", ""), "ja")
 
     def test_hindi(self):
-        self.do_test(False, ('Text.', 'Text।', ''), 'hi')
-        self.do_test(True, ('Text.', 'Text', ''), 'hi')
+        self.do_test(False, ("Text.", "Text।", ""), "hi")
+        self.do_test(True, ("Text.", "Text", ""), "hi")
 
     def test_armenian(self):
-        self.do_test(False, ('Text:', 'Text`', ''), 'hy')
-        self.do_test(False, ('Text:', 'Text՝', ''), 'hy')
-        self.do_test(True, ('Text.', 'Text', ''), 'hy')
+        self.do_test(False, ("Text:", "Text`", ""), "hy")
+        self.do_test(False, ("Text:", "Text՝", ""), "hy")
+        self.do_test(True, ("Text.", "Text", ""), "hy")
 
 
 class EndColonCheckTest(CheckTestCase):
@@ -128,20 +128,20 @@ class EndColonCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string:', 'string:', '')
-        self.test_failure_1 = ('string:', 'string', '')
-        self.test_failure_2 = ('string', 'string:', '')
+        self.test_good_matching = ("string:", "string:", "")
+        self.test_failure_1 = ("string:", "string", "")
+        self.test_failure_2 = ("string", "string:", "")
 
     def test_hy(self):
-        self.do_test(False, ('Text:', 'Texte՝', ''), 'hy')
-        self.do_test(True, ('Text:', 'Texte', ''), 'hy')
-        self.do_test(False, ('Text', 'Texte:', ''), 'hy')
+        self.do_test(False, ("Text:", "Texte՝", ""), "hy")
+        self.do_test(True, ("Text:", "Texte", ""), "hy")
+        self.do_test(False, ("Text", "Texte:", ""), "hy")
 
     def test_japanese(self):
-        self.do_test(False, ('Text:', 'Texte。', ''), 'ja')
+        self.do_test(False, ("Text:", "Texte。", ""), "ja")
 
     def test_japanese_ignore(self):
-        self.do_test(False, ('Text', 'Texte', ''), 'ja')
+        self.do_test(False, ("Text", "Texte", ""), "ja")
 
 
 class EndQuestionCheckTest(CheckTestCase):
@@ -149,24 +149,24 @@ class EndQuestionCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string?', 'string?', '')
-        self.test_failure_1 = ('string?', 'string', '')
-        self.test_failure_2 = ('string', 'string?', '')
+        self.test_good_matching = ("string?", "string?", "")
+        self.test_failure_1 = ("string?", "string", "")
+        self.test_failure_2 = ("string", "string?", "")
 
     def test_hy(self):
-        self.do_test(False, ('Text?', 'Texte՞', ''), 'hy')
-        self.do_test(True, ('Text?', 'Texte', ''), 'hy')
-        self.do_test(False, ('Text', 'Texte?', ''), 'hy')
+        self.do_test(False, ("Text?", "Texte՞", ""), "hy")
+        self.do_test(True, ("Text?", "Texte", ""), "hy")
+        self.do_test(False, ("Text", "Texte?", ""), "hy")
 
     def test_greek(self):
-        self.do_test(False, ('Text?', 'Texte;', ''), 'el')
-        self.do_test(False, ('Text?', 'Texte;', ''), 'el')
+        self.do_test(False, ("Text?", "Texte;", ""), "el")
+        self.do_test(False, ("Text?", "Texte;", ""), "el")
 
     def test_greek_ignore(self):
-        self.do_test(False, ('Text', 'Texte', ''), 'el')
+        self.do_test(False, ("Text", "Texte", ""), "el")
 
     def test_greek_wrong(self):
-        self.do_test(True, ('Text?', 'Texte', ''), 'el')
+        self.do_test(True, ("Text?", "Texte", ""), "el")
 
 
 class EndExclamationCheckTest(CheckTestCase):
@@ -174,17 +174,17 @@ class EndExclamationCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string!', 'string!', '')
-        self.test_failure_1 = ('string!', 'string', '')
-        self.test_failure_2 = ('string', 'string!', '')
+        self.test_good_matching = ("string!", "string!", "")
+        self.test_failure_1 = ("string!", "string", "")
+        self.test_failure_2 = ("string", "string!", "")
 
     def test_hy(self):
-        self.do_test(False, ('Text!', 'Texte՜', ''), 'hy')
-        self.do_test(False, ('Text!', 'Texte', ''), 'hy')
-        self.do_test(False, ('Text', 'Texte!', ''), 'hy')
+        self.do_test(False, ("Text!", "Texte՜", ""), "hy")
+        self.do_test(False, ("Text!", "Texte", ""), "hy")
+        self.do_test(False, ("Text", "Texte!", ""), "hy")
 
     def test_eu(self):
-        self.do_test(False, ('Text!', '¡Texte!', ''), 'eu')
+        self.do_test(False, ("Text!", "¡Texte!", ""), "eu")
 
 
 class EndEllipsisCheckTest(CheckTestCase):
@@ -192,13 +192,13 @@ class EndEllipsisCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string…', 'string…', '')
-        self.test_failure_1 = ('string…', 'string...', '')
-        self.test_failure_2 = ('string.', 'string…', '')
-        self.test_failure_3 = ('string..', 'string…', '')
+        self.test_good_matching = ("string…", "string…", "")
+        self.test_failure_1 = ("string…", "string...", "")
+        self.test_failure_2 = ("string.", "string…", "")
+        self.test_failure_3 = ("string..", "string…", "")
 
     def test_translate(self):
-        self.do_test(False, ('string...', 'string…', ''))
+        self.do_test(False, ("string...", "string…", ""))
 
 
 class EscapedNewlineCountingCheckTest(CheckTestCase):
@@ -206,9 +206,9 @@ class EscapedNewlineCountingCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string\\nstring', 'string\\nstring', '')
-        self.test_failure_1 = ('string\\nstring', 'string\\n\\nstring', '')
-        self.test_failure_2 = ('string\\n\\nstring', 'string\\nstring', '')
+        self.test_good_matching = ("string\\nstring", "string\\nstring", "")
+        self.test_failure_1 = ("string\\nstring", "string\\n\\nstring", "")
+        self.test_failure_2 = ("string\\n\\nstring", "string\\nstring", "")
 
 
 class NewLineCountCheckTest(CheckTestCase):
@@ -216,9 +216,9 @@ class NewLineCountCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_single_good_matching = ('string\n\nstring', 'string\n\nstring', '')
-        self.test_failure_1 = ('string\nstring', 'string\n\n\nstring', '')
-        self.test_failure_2 = ('string\nstring\n\nstring', 'string\nstring\nstring', '')
+        self.test_single_good_matching = ("string\n\nstring", "string\n\nstring", "")
+        self.test_failure_1 = ("string\nstring", "string\n\n\nstring", "")
+        self.test_failure_2 = ("string\nstring\n\nstring", "string\nstring\nstring", "")
 
 
 class ZeroWidthSpaceCheckTest(CheckTestCase):
@@ -226,16 +226,16 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('str\u200bing', 'str\u200bing', '')
-        self.test_failure_1 = ('str\u200bing', 'string', '')
-        self.test_failure_2 = ('string', 'str\u200bing', '')
+        self.test_good_matching = ("str\u200bing", "str\u200bing", "")
+        self.test_failure_1 = ("str\u200bing", "string", "")
+        self.test_failure_2 = ("string", "str\u200bing", "")
 
 
 class MaxLengthCheckTest(TestCase):
     def setUp(self):
         self.check = MaxLengthCheck()
-        self.test_good_matching = ('strings', 'less than 21', 'max-length:12')
-        self.test_good_matching_unicode = ('strings', 'less than 21', 'max-length:12')
+        self.test_good_matching = ("strings", "less than 21", "max-length:12")
+        self.test_good_matching_unicode = ("strings", "less than 21", "max-length:12")
 
     def test_check(self):
         self.assertFalse(
@@ -260,7 +260,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching[0]],
                 [self.test_good_matching[1]],
-                MockUnit(flags='max-length:10'),
+                MockUnit(flags="max-length:10"),
             )
         )
 
@@ -269,7 +269,7 @@ class MaxLengthCheckTest(TestCase):
             self.check.check_target(
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
-                MockUnit(flags='max-length:10'),
+                MockUnit(flags="max-length:10"),
             )
         )
 
@@ -279,13 +279,13 @@ class EndSemicolonCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string;', 'string;', '')
-        self.test_failure_1 = ('string;', 'string', '')
-        self.test_failure_2 = ('string:', 'string;', '')
-        self.test_failure_3 = ('string', 'string;', '')
+        self.test_good_matching = ("string;", "string;", "")
+        self.test_failure_1 = ("string;", "string", "")
+        self.test_failure_2 = ("string:", "string;", "")
+        self.test_failure_3 = ("string", "string;", "")
 
     def test_greek(self):
-        self.do_test(False, ('Text?', 'Texte;', ''), 'el')
+        self.do_test(False, ("Text?", "Texte;", ""), "el")
 
 
 class KashidaCheckTest(CheckTestCase):
@@ -293,28 +293,28 @@ class KashidaCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_good_matching = ('string', 'string', '')
-        self.test_failure_1 = ('string', 'string\u0640', '')
-        self.test_failure_2 = ('string', 'string\uFE79', '')
-        self.test_failure_3 = ('string', 'string\uFE7F', '')
+        self.test_good_matching = ("string", "string", "")
+        self.test_failure_1 = ("string", "string\u0640", "")
+        self.test_failure_2 = ("string", "string\uFE79", "")
+        self.test_failure_3 = ("string", "string\uFE7F", "")
 
 
 class PuctuationSpacingCheckTest(CheckTestCase):
     check = PuctuationSpacingCheck()
-    default_lang = 'fr'
+    default_lang = "fr"
 
     def setUp(self):
         super().setUp()
         self.test_good_matching = (
-            'string? string! string: string;',
-            'string ? string\u202F! string&nbsp;; string\u00A0:',
-            '',
+            "string? string! string: string;",
+            "string ? string\u202F! string&nbsp;; string\u00A0:",
+            "",
         )
         self.test_good_none = (
-            'string &end; http://example.com',
-            'string &end; &amp; http://example.com',
-            '',
+            "string &end; http://example.com",
+            "string &end; &amp; http://example.com",
+            "",
         )
-        self.test_failure_1 = ('string', 'string!', '')
-        self.test_failure_2 = ('string', 'string\u00A0? string;', '')
-        self.test_failure_3 = ('string', 'string\u00A0; string?', '')
+        self.test_failure_1 = ("string", "string!", "")
+        self.test_failure_2 = ("string", "string\u00A0? string;", "")
+        self.test_failure_3 = ("string", "string\u00A0; string?", "")

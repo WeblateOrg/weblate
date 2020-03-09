@@ -37,8 +37,8 @@ class WeblateStrategy(DjangoStrategy):
     def __init__(self, storage, request=None, tpl=None):
         """Restore session data based on passed ID."""
         super().__init__(storage, request, tpl)
-        if request and 'verification_code' in request.GET and 'id' in request.GET:
-            self.session = create_session(request.GET['id'])
+        if request and "verification_code" in request.GET and "id" in request.GET:
+            self.session = create_session(request.GET["id"])
 
     def request_data(self, merge=True):
         if not self.request:
@@ -46,20 +46,20 @@ class WeblateStrategy(DjangoStrategy):
         if merge:
             data = self.request.GET.copy()
             data.update(self.request.POST)
-        elif self.request.method == 'POST':
+        elif self.request.method == "POST":
             data = self.request.POST.copy()
         else:
             data = self.request.GET.copy()
         # This is mostly fix for lack of next validation in Python Social Auth
         # - https://github.com/python-social-auth/social-core/pull/92
         # - https://github.com/python-social-auth/social-core/issues/62
-        if 'next' in data and not is_safe_url(data['next'], allowed_hosts=None):
-            data['next'] = '{0}#account'.format(reverse('profile'))
+        if "next" in data and not is_safe_url(data["next"], allowed_hosts=None):
+            data["next"] = "{0}#account".format(reverse("profile"))
         return data
 
     def build_absolute_uri(self, path=None):
         if self.request:
-            self.request.__dict__['_current_scheme_host'] = get_site_url()
+            self.request.__dict__["_current_scheme_host"] = get_site_url()
         return super().build_absolute_uri(path)
 
     def clean_partial_pipeline(self, token):

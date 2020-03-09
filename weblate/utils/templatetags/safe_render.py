@@ -43,4 +43,4 @@ def stripext(value):
 
 @register.filter
 def parentdir(value):
-    return value.split('/', 1)[-1]
+    return value.split("/", 1)[-1]

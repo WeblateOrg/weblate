@@ -46,7 +46,7 @@ def try_load(filename, content, original_format, template_store):
     detected_format = detect_filename(filename)
     if detected_format is not None:
         formats.insert(0, detected_format)
-    failure = Exception('Bug!')
+    failure = Exception("Bug!")
     for file_format in formats:
         if file_format.monolingual in (True, None) and template_store:
             try:
@@ -73,7 +73,7 @@ def try_load(filename, content, original_format, template_store):
 
 
 class AutodetectFormat(TTKitFormat):
-    name = _('Automatic detection')
+    name = _("Automatic detection")
     format_id = None
 
     @classmethod
@@ -82,8 +82,8 @@ class AutodetectFormat(TTKitFormat):
 
         First attempt own autodetection, then fallback to ttkit.
         """
-        if hasattr(storefile, 'read'):
-            filename = getattr(storefile, 'name', None)
+        if hasattr(storefile, "read"):
+            filename = getattr(storefile, "name", None)
         else:
             filename = storefile
         if filename is not None:

@@ -32,20 +32,20 @@ from weblate.trans.models import ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 
-TEST_PO = get_test_file('cs.po')
-TEST_CSV = get_test_file('cs.csv')
-TEST_CSV_QUOTES = get_test_file('cs-quotes.csv')
-TEST_CSV_QUOTES_ESCAPED = get_test_file('cs-quotes-escaped.csv')
-TEST_PO_BOM = get_test_file('cs-bom.po')
-TEST_FUZZY_PO = get_test_file('cs-fuzzy.po')
-TEST_BADPLURALS = get_test_file('cs-badplurals.po')
-TEST_MO = get_test_file('cs.mo')
-TEST_XLIFF = get_test_file('cs.poxliff')
-TEST_ANDROID = get_test_file('strings-cs.xml')
-TEST_XLSX = get_test_file('cs.xlsx')
+TEST_PO = get_test_file("cs.po")
+TEST_CSV = get_test_file("cs.csv")
+TEST_CSV_QUOTES = get_test_file("cs-quotes.csv")
+TEST_CSV_QUOTES_ESCAPED = get_test_file("cs-quotes-escaped.csv")
+TEST_PO_BOM = get_test_file("cs-bom.po")
+TEST_FUZZY_PO = get_test_file("cs-fuzzy.po")
+TEST_BADPLURALS = get_test_file("cs-badplurals.po")
+TEST_MO = get_test_file("cs.mo")
+TEST_XLIFF = get_test_file("cs.poxliff")
+TEST_ANDROID = get_test_file("strings-cs.xml")
+TEST_XLSX = get_test_file("cs.xlsx")
 
-TRANSLATION_OURS = 'Nazdar světe!\n'
-TRANSLATION_PO = 'Ahoj světe!\n'
+TRANSLATION_OURS = "Nazdar světe!\n"
+TRANSLATION_PO = "Ahoj světe!\n"
 
 
 class ImportBaseTest(ViewTestCase):
@@ -64,16 +64,16 @@ class ImportBaseTest(ViewTestCase):
         if test_file is None:
             test_file = self.test_file
 
-        with open(test_file, 'rb') as handle:
+        with open(test_file, "rb") as handle:
             params = {
-                'file': handle,
-                'method': 'translate',
-                'author_name': self.user.full_name,
-                'author_email': self.user.email,
+                "file": handle,
+                "method": "translate",
+                "author_name": self.user.full_name,
+                "author_email": self.user.email,
             }
             params.update(kwargs)
             return self.client.post(
-                reverse('upload_translation', kwargs=self.kw_translation),
+                reverse("upload_translation", kwargs=self.kw_translation),
                 params,
                 follow=follow,
             )
@@ -102,7 +102,7 @@ class ImportTest(ImportBaseTest):
     def test_import_author(self):
         """Test importing normally."""
         response = self.do_import(
-            author_name='Testing User', author_email='john@example.com'
+            author_name="Testing User", author_email="john@example.com"
         )
         self.assertRedirects(response, self.translation_url)
 
@@ -121,7 +121,7 @@ class ImportTest(ImportBaseTest):
         # Translate one unit
         self.change_unit(TRANSLATION_OURS)
 
-        response = self.do_import(upload_overwrite='yes')
+        response = self.do_import(upload_overwrite="yes")
         self.assertRedirects(response, self.translation_url)
 
         # Verify unit
@@ -142,7 +142,7 @@ class ImportTest(ImportBaseTest):
 
     def test_import_fuzzy(self):
         """Test importing as fuzzy."""
-        response = self.do_import(method='fuzzy')
+        response = self.do_import(method="fuzzy")
         self.assertRedirects(response, self.translation_url)
 
         # Verify unit
@@ -158,7 +158,7 @@ class ImportTest(ImportBaseTest):
 
     def test_import_suggest(self):
         """Test importing as suggestion."""
-        response = self.do_import(method='suggest')
+        response = self.do_import(method="suggest")
         self.assertRedirects(response, self.translation_url)
 
         # Verify unit
@@ -174,7 +174,7 @@ class ImportTest(ImportBaseTest):
 
     def test_import_xliff(self):
         response = self.do_import(test_file=TEST_XLIFF, follow=True)
-        self.assertContains(response, 'updated: 1')
+        self.assertContains(response, "updated: 1")
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 1)
@@ -213,7 +213,7 @@ class ImportFuzzyTest(ImportBaseTest):
 
     def test_import_normal(self):
         """Test importing normally."""
-        response = self.do_import(fuzzy='')
+        response = self.do_import(fuzzy="")
         self.assertRedirects(response, self.translation_url)
 
         # Verify stats
@@ -224,7 +224,7 @@ class ImportFuzzyTest(ImportBaseTest):
 
     def test_import_process(self):
         """Test importing including fuzzy strings."""
-        response = self.do_import(fuzzy='process')
+        response = self.do_import(fuzzy="process")
         self.assertRedirects(response, self.translation_url)
 
         # Verify stats
@@ -235,7 +235,7 @@ class ImportFuzzyTest(ImportBaseTest):
 
     def test_import_approve(self):
         """Test importing ignoring fuzzy flag."""
-        response = self.do_import(fuzzy='approve')
+        response = self.do_import(fuzzy="approve")
         self.assertRedirects(response, self.translation_url)
 
         # Verify stats
@@ -248,7 +248,7 @@ class ImportFuzzyTest(ImportBaseTest):
         """Test importing as approved."""
         self.project.enable_review = True
         self.project.save()
-        response = self.do_import(method='approve', fuzzy='approve')
+        response = self.do_import(method="approve", fuzzy="approve")
         self.assertRedirects(response, self.translation_url)
 
         # Verify stats
@@ -304,14 +304,14 @@ class AndroidImportTest(ViewTestCase):
         return self.create_android()
 
     def test_import(self):
-        with open(TEST_ANDROID, 'rb') as handle:
+        with open(TEST_ANDROID, "rb") as handle:
             self.client.post(
-                reverse('upload_translation', kwargs=self.kw_translation),
+                reverse("upload_translation", kwargs=self.kw_translation),
                 {
-                    'file': handle,
-                    'method': 'translate',
-                    'author_name': self.user.full_name,
-                    'author_email': self.user.email,
+                    "file": handle,
+                    "method": "translate",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
                 },
             )
         # Verify stats
@@ -324,15 +324,15 @@ class AndroidImportTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
         kwargs = copy(self.kw_translation)
-        kwargs['lang'] = 'en'
-        with open(TEST_ANDROID, 'rb') as handle:
+        kwargs["lang"] = "en"
+        with open(TEST_ANDROID, "rb") as handle:
             self.client.post(
-                reverse('upload_translation', kwargs=kwargs),
+                reverse("upload_translation", kwargs=kwargs),
                 {
-                    'file': handle,
-                    'method': 'replace',
-                    'author_name': self.user.full_name,
-                    'author_email': self.user.email,
+                    "file": handle,
+                    "method": "replace",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
                 },
             )
         # Verify stats
@@ -349,14 +349,14 @@ class CSVImportTest(ViewTestCase):
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
-        with open(self.test_file, 'rb') as handle:
+        with open(self.test_file, "rb") as handle:
             self.client.post(
-                reverse('upload_translation', kwargs=self.kw_translation),
+                reverse("upload_translation", kwargs=self.kw_translation),
                 {
-                    'file': handle,
-                    'method': 'translate',
-                    'author_name': self.user.full_name,
-                    'author_email': self.user.email,
+                    "file": handle,
+                    "method": "translate",
+                    "author_name": self.user.full_name,
+                    "author_email": self.user.email,
                 },
             )
         # Verify stats
@@ -380,13 +380,13 @@ class XlsxImportTest(CSVImportTest):
 class ExportTest(ViewTestCase):
     """Testing of file export."""
 
-    source = 'Hello, world!\n'
-    target = 'Nazdar svete!\n'
-    test_match_1 = 'Weblate Hello World 2016'
-    test_match_2 = 'Nazdar svete!'
-    test_header = 'attachment; filename=test-test-cs.po'
-    test_source = 'Orangutan has %d banana'
-    test_source_plural = 'Orangutan has %d bananas'
+    source = "Hello, world!\n"
+    target = "Nazdar svete!\n"
+    test_match_1 = "Weblate Hello World 2016"
+    test_match_2 = "Nazdar svete!"
+    test_header = "attachment; filename=test-test-cs.po"
+    test_source = "Orangutan has %d banana"
+    test_source_plural = "Orangutan has %d bananas"
 
     def create_component(self):
         # Needs to create PO file to have language pack option
@@ -399,79 +399,79 @@ class ExportTest(ViewTestCase):
 
     def test_export(self):
         response = self.client.get(
-            reverse('download_translation', kwargs=self.kw_translation)
+            reverse("download_translation", kwargs=self.kw_translation)
         )
         self.assertContains(response, self.test_match_1)
         self.assertContains(response, self.test_match_2)
-        self.assertEqual(response['Content-Disposition'], self.test_header)
+        self.assertEqual(response["Content-Disposition"], self.test_header)
 
     def export_format(self, fmt, **extra):
-        extra['format'] = fmt
+        extra["format"] = fmt
         return self.client.get(
-            reverse('download_translation', kwargs=self.kw_translation), extra
+            reverse("download_translation", kwargs=self.kw_translation), extra
         )
 
     def test_export_po(self):
-        response = self.export_format('po')
+        response = self.export_format("po")
         self.assertContains(response, self.test_source)
         self.assertContains(response, self.test_source_plural)
-        self.assertContains(response, '/projects/test/test/cs/')
+        self.assertContains(response, "/projects/test/test/cs/")
 
     def test_export_po_todo(self):
-        response = self.export_format('po', q='state:<translated')
+        response = self.export_format("po", q="state:<translated")
         self.assertContains(response, self.test_source)
         self.assertContains(response, self.test_source_plural)
-        self.assertContains(response, '/projects/test/test/cs/')
+        self.assertContains(response, "/projects/test/test/cs/")
 
     def test_export_tmx(self):
-        response = self.export_format('tmx')
+        response = self.export_format("tmx")
         self.assertContains(response, self.test_source)
 
     def test_export_xliff(self):
-        response = self.export_format('xliff')
+        response = self.export_format("xliff")
         self.assertContains(response, self.test_source)
         self.assertContains(response, self.test_source_plural)
 
     def test_export_xliff11(self):
-        response = self.export_format('xliff11')
-        self.assertContains(response, 'urn:oasis:names:tc:xliff:document:1.1')
+        response = self.export_format("xliff11")
+        self.assertContains(response, "urn:oasis:names:tc:xliff:document:1.1")
         self.assertContains(response, self.test_source)
 
     def test_export_xlsx(self):
-        response = self.export_format('xlsx')
+        response = self.export_format("xlsx")
         self.assertEqual(
-            response['Content-Disposition'], 'attachment; filename=test-test-cs.xlsx'
+            response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
         )
         self.assertEqual(
-            response['Content-Type'],
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            '; charset=utf-8',
+            response["Content-Type"],
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            "; charset=utf-8",
         )
 
     def test_export_xlsx_empty(self):
-        response = self.export_format('xlsx', q='check:inconsistent')
+        response = self.export_format("xlsx", q="check:inconsistent")
         self.assertEqual(
-            response['Content-Disposition'], 'attachment; filename=test-test-cs.xlsx'
+            response["Content-Disposition"], "attachment; filename=test-test-cs.xlsx"
         )
         self.assertEqual(
-            response['Content-Type'],
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            '; charset=utf-8',
+            response["Content-Type"],
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            "; charset=utf-8",
         )
 
     def test_export_invalid(self):
-        response = self.export_format('invalid')
+        response = self.export_format("invalid")
         self.assertEqual(response.status_code, 302)
 
 
 class ExportMultifileTest(ExportTest):
-    source = 'Weblate - continuous localization'
-    target = 'Weblate - průběžná lokalizace'
-    test_match_1 = b'PK\001\002'
-    test_match_2 = b'PK\005\006'
-    test_header = 'attachment; filename=test-test-cs.zip'
-    test_source = 'https://www.youtube.com/watch?v=IVlXt6QdgdA'
-    test_source_plural = 'https://www.youtube.com/watch?v=IVlXt6QdgdA'
+    source = "Weblate - continuous localization"
+    target = "Weblate - průběžná lokalizace"
+    test_match_1 = b"PK\001\002"
+    test_match_2 = b"PK\005\006"
+    test_header = "attachment; filename=test-test-cs.zip"
+    test_source = "https://www.youtube.com/watch?v=IVlXt6QdgdA"
+    test_source_plural = "https://www.youtube.com/watch?v=IVlXt6QdgdA"
 
     def create_component(self):
         return self.create_appstore()
@@ -480,10 +480,10 @@ class ExportMultifileTest(ExportTest):
 class FormTest(SimpleTestCase):
     def test_remove(self):
         form = SimpleUploadForm()
-        form.remove_translation_choice('suggest')
+        form.remove_translation_choice("suggest")
         self.assertEqual(
-            [x[0] for x in form.fields['method'].choices],
-            ['translate', 'approve', 'fuzzy', 'replace'],
+            [x[0] for x in form.fields["method"].choices],
+            ["translate", "approve", "fuzzy", "replace"],
         )
 
 
@@ -511,19 +511,19 @@ class ImportReplaceTest(ImportBaseTest):
 class DownloadMultiTest(ViewTestCase):
     def test_component(self):
         response = self.client.get(
-            reverse('download_component', kwargs=self.kw_component)
+            reverse("download_component", kwargs=self.kw_component)
         )
         self.assert_zip(response)
 
     def test_project(self):
-        response = self.client.get(reverse('download_project', kwargs=self.kw_project))
+        response = self.client.get(reverse("download_project", kwargs=self.kw_project))
         self.assert_zip(response)
 
     def test_project_lang(self):
         response = self.client.get(
             reverse(
-                'download_lang_project',
-                kwargs={'lang': 'cs', 'project': self.project.slug},
+                "download_lang_project",
+                kwargs={"lang": "cs", "project": self.project.slug},
             )
         )
         self.assert_zip(response)
@@ -532,6 +532,6 @@ class DownloadMultiTest(ViewTestCase):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.component)
         response = self.client.get(
-            reverse('download_component_list', kwargs={'name': 'testcl'})
+            reverse("download_component_list", kwargs={"name": "testcl"})
         )
         self.assert_zip(response)

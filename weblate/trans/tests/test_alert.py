@@ -27,33 +27,33 @@ from weblate.trans.tests.test_views import ViewTestCase
 
 class AlertTest(ViewTestCase):
     def create_component(self):
-        return self._create_component('po', 'po-duplicates/*.dpo')
+        return self._create_component("po", "po-duplicates/*.dpo")
 
     def test_duplicates(self):
         self.assertEqual(
-            set(self.component.alert_set.values_list('name', flat=True)),
+            set(self.component.alert_set.values_list("name", flat=True)),
             {
-                'DuplicateLanguage',
-                'DuplicateString',
-                'MissingLicense',
-                'BrokenBrowserURL',
-                'BrokenProjectURL',
+                "DuplicateLanguage",
+                "DuplicateString",
+                "MissingLicense",
+                "BrokenBrowserURL",
+                "BrokenProjectURL",
             },
         )
-        alert = self.component.alert_set.get(name='DuplicateLanguage')
-        self.assertEqual(alert.details['occurrences'][0]['language_code'], 'cs')
-        alert = self.component.alert_set.get(name='DuplicateString')
+        alert = self.component.alert_set.get(name="DuplicateLanguage")
+        self.assertEqual(alert.details["occurrences"][0]["language_code"], "cs")
+        alert = self.component.alert_set.get(name="DuplicateString")
         self.assertEqual(
-            alert.details['occurrences'][0]['source'], 'Thank you for using Weblate.'
+            alert.details["occurrences"][0]["source"], "Thank you for using Weblate."
         )
 
     def test_view(self):
         response = self.client.get(self.component.get_absolute_url())
-        self.assertContains(response, 'Duplicated translation')
+        self.assertContains(response, "Duplicated translation")
 
     def test_license(self):
         def has_license_alert(component):
-            return component.alert_set.filter(name='MissingLicense').exists()
+            return component.alert_set.filter(name="MissingLicense").exists()
 
         # No license and public project
         component = self.component
@@ -67,12 +67,12 @@ class AlertTest(ViewTestCase):
 
         # Public, but login required
         component.project.access_control = component.project.ACCESS_PUBLIC
-        with override_settings(LOGIN_REQUIRED_URLS=['some']):
+        with override_settings(LOGIN_REQUIRED_URLS=["some"]):
             component.update_alerts()
             self.assertFalse(has_license_alert(component))
 
         # Set license
-        component.license = 'license'
+        component.license = "license"
         component.update_alerts()
         self.assertFalse(has_license_alert(component))
 
@@ -80,7 +80,7 @@ class AlertTest(ViewTestCase):
         component = self.component
         component.update_alerts()
         self.assertFalse(
-            component.alert_set.filter(name='MonolingualTranslation').exists()
+            component.alert_set.filter(name="MonolingualTranslation").exists()
         )
 
 
@@ -90,12 +90,12 @@ class MonolingualAlertTest(ViewTestCase):
 
     def test_monolingual(self):
         def has_monolingual_alert(component):
-            return component.alert_set.filter(name='MonolingualTranslation').exists()
+            return component.alert_set.filter(name="MonolingualTranslation").exists()
 
         component = self.component
         component.update_alerts()
         self.assertFalse(has_monolingual_alert(component))
 
-        self.component.template = ''
+        self.component.template = ""
         self.component.save()
         self.assertTrue(has_monolingual_alert(component))

@@ -31,42 +31,42 @@ from weblate.trans.models import Component
 class Command(WeblateTranslationCommand):
     """Command for mass automatic translation."""
 
-    help = 'performs automatic translation based on other components'
+    help = "performs automatic translation based on other components"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--user', default='anonymous', help=('User performing the change')
+            "--user", default="anonymous", help=("User performing the change")
         )
         parser.add_argument(
-            '--source', default='', help=('Source component <project/component>')
+            "--source", default="", help=("Source component <project/component>")
         )
         parser.add_argument(
-            '--add',
+            "--add",
             default=False,
-            action='store_true',
-            help=('Add translations if they do not exist'),
+            action="store_true",
+            help=("Add translations if they do not exist"),
         )
         parser.add_argument(
-            '--overwrite',
+            "--overwrite",
             default=False,
-            action='store_true',
-            help=('Overwrite existing translations in target component'),
+            action="store_true",
+            help=("Overwrite existing translations in target component"),
         )
         parser.add_argument(
-            '--inconsistent',
+            "--inconsistent",
             default=False,
-            action='store_true',
-            help=('Process only inconsistent translations'),
+            action="store_true",
+            help=("Process only inconsistent translations"),
         )
         parser.add_argument(
-            '--mt', action='append', default=[], help=('Add machine translation source')
+            "--mt", action="append", default=[], help=("Add machine translation source")
         )
         parser.add_argument(
-            '--threshold',
+            "--threshold",
             default=80,
             type=int,
-            help=('Set machine translation threshold'),
+            help=("Set machine translation threshold"),
         )
 
     def handle(self, *args, **options):
@@ -75,38 +75,38 @@ class Command(WeblateTranslationCommand):
 
         # Get user
         try:
-            user = User.objects.get(username=options['user'])
+            user = User.objects.get(username=options["user"])
         except User.DoesNotExist:
-            raise CommandError('User does not exist!')
+            raise CommandError("User does not exist!")
 
-        if options['source']:
-            parts = options['source'].split('/')
+        if options["source"]:
+            parts = options["source"].split("/")
             if len(parts) != 2:
-                raise CommandError('Invalid source component specified!')
+                raise CommandError("Invalid source component specified!")
             try:
                 component = Component.objects.get(project__slug=parts[0], slug=parts[1])
             except Component.DoesNotExist:
-                raise CommandError('No matching source component found!')
+                raise CommandError("No matching source component found!")
             source = component.id
         else:
-            source = ''
+            source = ""
 
-        if options['mt']:
-            for translator in options['mt']:
+        if options["mt"]:
+            for translator in options["mt"]:
                 if translator not in MACHINE_TRANSLATION_SERVICES.keys():
                     raise CommandError(
-                        'Machine translation {} is not available'.format(translator)
+                        "Machine translation {} is not available".format(translator)
                     )
 
-        if options['inconsistent']:
-            filter_type = 'check:inconsistent'
-        elif options['overwrite']:
-            filter_type = 'all'
+        if options["inconsistent"]:
+            filter_type = "check:inconsistent"
+        elif options["overwrite"]:
+            filter_type = "all"
         else:
-            filter_type = 'todo'
+            filter_type = "todo"
         auto = AutoTranslate(user, translation, filter_type, "translate")
-        if options['mt']:
-            auto.process_mt(options['mt'], options['threshold'])
+        if options["mt"]:
+            auto.process_mt(options["mt"], options["threshold"])
         else:
             auto.process_others(source)
-        self.stdout.write('Updated {0} units'.format(auto.updated))
+        self.stdout.write("Updated {0} units".format(auto.updated))

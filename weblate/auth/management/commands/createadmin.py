@@ -28,38 +28,38 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'setups admin user with random password'
+    help = "setups admin user with random password"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--password',
+            "--password",
             default=None,
-            help='Password to set, random is generated if not specified',
+            help="Password to set, random is generated if not specified",
         )
         parser.add_argument(
-            '--no-password',
-            action='store_true',
+            "--no-password",
+            action="store_true",
             default=False,
-            help='Do not set password at all (useful with --update)',
+            help="Do not set password at all (useful with --update)",
         )
         parser.add_argument(
-            '--username', default='admin', help='Admin username, defaults to "admin"'
+            "--username", default="admin", help='Admin username, defaults to "admin"'
         )
         parser.add_argument(
-            '--email',
-            default='admin@example.com',
+            "--email",
+            default="admin@example.com",
             help='Admin email, defaults to "admin@example.com"',
         )
         parser.add_argument(
-            '--name',
-            default='Weblate Admin',
+            "--name",
+            default="Weblate Admin",
             help='Admin name, defaults to "Weblate Admin"',
         )
         parser.add_argument(
-            '--update',
-            action='store_true',
+            "--update",
+            action="store_true",
             default=False,
-            help='Change password for this account if exists',
+            help="Change password for this account if exists",
         )
 
     def handle(self, *args, **options):
@@ -70,35 +70,35 @@ class Command(BaseCommand):
         """
         try:
             user = User.objects.filter(
-                Q(username=options['username']) | Q(email=options['email'])
+                Q(username=options["username"]) | Q(email=options["email"])
             ).get()
         except User.DoesNotExist:
             user = None
         except User.MultipleObjectsReturned:
-            raise CommandError('Multiple users matched given parameters!')
+            raise CommandError("Multiple users matched given parameters!")
 
-        if user and not options['update']:
-            raise CommandError('User exists, specify --update to update existing')
+        if user and not options["update"]:
+            raise CommandError("User exists, specify --update to update existing")
 
-        if options['no_password']:
+        if options["no_password"]:
             password = None
-        elif options['password']:
-            password = options['password']
+        elif options["password"]:
+            password = options["password"]
         else:
             password = make_password(13)
-            self.stdout.write('Using generated password: {}'.format(password))
+            self.stdout.write("Using generated password: {}".format(password))
 
-        if user and options['update']:
-            self.stdout.write('Updating user {}'.format(user.username))
-            user.email = options['email']
+        if user and options["update"]:
+            self.stdout.write("Updating user {}".format(user.username))
+            user.email = options["email"]
             if password is not None and not user.check_password(password):
                 user.set_password(password)
         else:
-            self.stdout.write('Creating user {}'.format(options['username']))
+            self.stdout.write("Creating user {}".format(options["username"]))
             user = User.objects.create_user(
-                options['username'], options['email'], password
+                options["username"], options["email"], password
             )
-        user.full_name = options['name']
+        user.full_name = options["name"]
         user.is_superuser = True
         user.is_active = True
         user.save()

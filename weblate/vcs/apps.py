@@ -30,32 +30,32 @@ from weblate.vcs.git import GitRepository
 
 
 class VCSConfig(AppConfig):
-    name = 'weblate.vcs'
-    label = 'vcs'
-    verbose_name = 'VCS'
+    name = "weblate.vcs"
+    label = "vcs"
+    verbose_name = "VCS"
 
     def ready(self):
-        home = data_dir('home')
+        home = data_dir("home")
         if not os.path.exists(home):
             os.makedirs(home)
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
-        lockfile = FileLock(os.path.join(home, 'gitlock'))
+        lockfile = FileLock(os.path.join(home, "gitlock"))
         with lockfile:
             try:
                 GitRepository.global_setup()
-                delete_configuration_error('Git global setup')
+                delete_configuration_error("Git global setup")
             except RepositoryException as error:
                 add_configuration_error(
-                    'Git global setup', 'Failed to do git setup: {0}'.format(error)
+                    "Git global setup", "Failed to do git setup: {0}".format(error)
                 )
 
         # Use it for *.po by default
-        configdir = os.path.join(home, '.config', 'git')
-        configfile = os.path.join(configdir, 'attributes')
+        configdir = os.path.join(home, ".config", "git")
+        configfile = os.path.join(configdir, "attributes")
         if not os.path.exists(configfile):
             if not os.path.exists(configdir):
                 os.makedirs(configdir)
-            with open(configfile, 'w') as handle:
-                handle.write('*.po merge=weblate-merge-gettext-po\n')
+            with open(configfile, "w") as handle:
+                handle.write("*.po merge=weblate-merge-gettext-po\n")

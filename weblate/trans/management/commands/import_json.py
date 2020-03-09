@@ -33,62 +33,62 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     """Command for mass importing of repositories into Weblate based on JSON data."""
 
-    help = 'imports projects based on JSON data'
+    help = "imports projects based on JSON data"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--project', default=None, required=True, help=('Project where to operate')
+            "--project", default=None, required=True, help=("Project where to operate")
         )
         parser.add_argument(
-            '--ignore',
+            "--ignore",
             default=False,
-            action='store_true',
-            help=('Ignore already existing entries'),
+            action="store_true",
+            help=("Ignore already existing entries"),
         )
         parser.add_argument(
-            '--update',
+            "--update",
             default=False,
-            action='store_true',
-            help=('Update already existing entries'),
+            action="store_true",
+            help=("Update already existing entries"),
         )
         parser.add_argument(
-            '--main-component',
+            "--main-component",
             default=None,
             help=(
-                'Define which component will be used as main for the' ' VCS repository'
+                "Define which component will be used as main for the" " VCS repository"
             ),
         )
         parser.add_argument(
-            'json-file',
-            type=argparse.FileType('r'),
-            help='JSON file containing component defintion',
+            "json-file",
+            type=argparse.FileType("r"),
+            help="JSON file containing component defintion",
         )
 
     def handle(self, *args, **options):  # noqa: C901
         """Automatic import of components."""
         # Get project
         try:
-            project = Project.objects.get(slug=options['project'])
+            project = Project.objects.get(slug=options["project"])
         except Project.DoesNotExist:
-            raise CommandError('Project does not exist!')
+            raise CommandError("Project does not exist!")
 
         # Get main component
         main_component = None
-        if options['main_component']:
+        if options["main_component"]:
             try:
                 main_component = Component.objects.get(
-                    project=project, slug=options['main_component']
+                    project=project, slug=options["main_component"]
                 )
             except Component.DoesNotExist:
-                raise CommandError('Main component does not exist!')
+                raise CommandError("Main component does not exist!")
 
         try:
-            data = json.load(options['json-file'])
+            data = json.load(options["json-file"])
         except ValueError:
-            raise CommandError('Failed to parse JSON file!')
+            raise CommandError("Failed to parse JSON file!")
         finally:
-            options['json-file'].close()
+            options["json-file"].close()
 
         allfields = {
             field.name
@@ -97,35 +97,35 @@ class Command(BaseCommand):
         }
 
         # Handle dumps from API
-        if 'results' in data:
-            data = data['results']
+        if "results" in data:
+            data = data["results"]
 
         for item in data:
-            if 'filemask' not in item or 'name' not in item:
-                raise CommandError('Missing required fields in JSON!')
+            if "filemask" not in item or "name" not in item:
+                raise CommandError("Missing required fields in JSON!")
 
-            if 'slug' not in item:
-                item['slug'] = slugify(item['name'])
+            if "slug" not in item:
+                item["slug"] = slugify(item["name"])
 
-            if 'repo' not in item:
+            if "repo" not in item:
                 if main_component is None:
-                    raise CommandError('No main component and no repository URL!')
-                item['repo'] = main_component.get_repo_link_url()
+                    raise CommandError("No main component and no repository URL!")
+                item["repo"] = main_component.get_repo_link_url()
 
             try:
-                component = Component.objects.get(slug=item['slug'], project=project)
-                self.stderr.write('Component {0} already exists'.format(component))
-                if options['ignore']:
+                component = Component.objects.get(slug=item["slug"], project=project)
+                self.stderr.write("Component {0} already exists".format(component))
+                if options["ignore"]:
                     continue
-                if options['update']:
+                if options["update"]:
                     for key in item:
-                        if key not in allfields or key == 'slug':
+                        if key not in allfields or key == "slug":
                             continue
                         setattr(component, key, item[key])
                     component.save()
                     continue
                 raise CommandError(
-                    'Component already exists, use --ignore or --update!'
+                    "Component already exists, use --ignore or --update!"
                 )
 
             except Component.DoesNotExist:
@@ -136,12 +136,12 @@ class Command(BaseCommand):
                 except ValidationError as error:
                     for key, value in error.message_dict.items():
                         self.stderr.write(
-                            'Error in {}: {}'.format(key, ', '.join(value))
+                            "Error in {}: {}".format(key, ", ".join(value))
                         )
-                    raise CommandError('Component failed validation!')
+                    raise CommandError("Component failed validation!")
                 component.save(force_insert=True)
                 self.stdout.write(
-                    'Imported {0} with {1} translations'.format(
+                    "Imported {0} with {1} translations".format(
                         component, component.translation_set.count()
                     )
                 )

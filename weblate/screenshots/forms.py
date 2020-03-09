@@ -29,4 +29,4 @@ class ScreenshotForm(forms.ModelForm):
 
     class Meta:
         model = Screenshot
-        fields = ('name', 'image')
+        fields = ("name", "image")

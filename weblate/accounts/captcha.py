@@ -36,7 +36,7 @@ OPERATORS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mu
 class MathCaptcha:
     """Simple match captcha object."""
 
-    operators = ('+', '-', '*')
+    operators = ("+", "-", "*")
     operators_display = {}
     interval = (1, 10)
 
@@ -51,9 +51,9 @@ class MathCaptcha:
             self.timestamp = timestamp
         if not self.operators_display:
             self.operators_display = {
-                '+': icon('plus.svg'),
-                '-': icon('minus.svg'),
-                '*': icon('close.svg'),
+                "+": icon("plus.svg"),
+                "-": icon("minus.svg"),
+                "*": icon("close.svg"),
             }
 
     def generate_question(self):
@@ -64,7 +64,7 @@ class MathCaptcha:
         second = generator.randint(self.interval[0], self.interval[1])
 
         # We don't want negative answers
-        if operation == '-':
+        if operation == "-":
             first += self.interval[1]
 
         return str(first) + " " + operation + " " + str(second)

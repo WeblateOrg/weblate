@@ -32,73 +32,73 @@ from weblate.trans.tests.utils import create_test_user
 
 class LegalTest(TestCase, RegistrationTestMixin):
     def test_index(self):
-        response = self.client.get(reverse('legal:index'))
-        self.assertContains(response, 'Legal Terms Overview')
+        response = self.client.get(reverse("legal:index"))
+        self.assertContains(response, "Legal Terms Overview")
 
     def test_terms(self):
-        response = self.client.get(reverse('legal:terms'))
-        self.assertContains(response, 'Terms of Service')
+        response = self.client.get(reverse("legal:terms"))
+        self.assertContains(response, "Terms of Service")
 
     def test_cookies(self):
-        response = self.client.get(reverse('legal:cookies'))
-        self.assertContains(response, 'Cookies Policy')
+        response = self.client.get(reverse("legal:cookies"))
+        self.assertContains(response, "Cookies Policy")
 
     def test_security(self):
-        response = self.client.get(reverse('legal:security'))
-        self.assertContains(response, 'Security Policy')
+        response = self.client.get(reverse("legal:security"))
+        self.assertContains(response, "Security Policy")
 
     @modify_settings(
-        SOCIAL_AUTH_PIPELINE={'append': 'weblate.legal.pipeline.tos_confirm'}
+        SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"}
     )
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_confirm(self):
         """TOS confirmation on social auth."""
-        response = self.client.post(reverse('register'), REGISTRATION_DATA, follow=True)
+        response = self.client.post(reverse("register"), REGISTRATION_DATA, follow=True)
         # Check we did succeed
-        self.assertContains(response, 'Thank you for registering.')
+        self.assertContains(response, "Thank you for registering.")
 
         # Follow link
         url = self.assert_registration_mailbox()
         response = self.client.get(url, follow=True)
         self.assertTrue(
-            response.redirect_chain[-1][0].startswith(reverse('legal:confirm'))
+            response.redirect_chain[-1][0].startswith(reverse("legal:confirm"))
         )
 
         # Extract next URL
-        url = response.context['form'].initial['next']
+        url = response.context["form"].initial["next"]
 
         # Try invalid form (not checked)
-        response = self.client.post(reverse('legal:confirm'), {'next': url})
-        self.assertContains(response, 'This field is required')
+        response = self.client.post(reverse("legal:confirm"), {"next": url})
+        self.assertContains(response, "This field is required")
 
         # Actually confirm the TOS
         response = self.client.post(
-            reverse('legal:confirm'), {'next': url, 'confirm': 1}, follow=True
+            reverse("legal:confirm"), {"next": url, "confirm": 1}, follow=True
         )
-        self.assertContains(response, 'Your profile')
+        self.assertContains(response, "Your profile")
 
     @modify_settings(
-        MIDDLEWARE={'append': 'weblate.legal.middleware.RequireTOSMiddleware'}
+        MIDDLEWARE={"append": "weblate.legal.middleware.RequireTOSMiddleware"}
     )
     def test_middleware(self):
         user = create_test_user()
         # Unauthenticated
-        response = self.client.get(reverse('home'), follow=True)
-        self.assertContains(response, 'Browse all 0 projects')
+        response = self.client.get(reverse("home"), follow=True)
+        self.assertContains(response, "Browse all 0 projects")
         # Login
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         # Chck that homepage redirects
-        response = self.client.get(reverse('home'), follow=True)
+        response = self.client.get(reverse("home"), follow=True)
         self.assertTrue(
-            response.redirect_chain[-1][0].startswith(reverse('legal:confirm'))
+            response.redirect_chain[-1][0].startswith(reverse("legal:confirm"))
         )
         # Check that contact works even without TOS
-        response = self.client.get(reverse('contact'), follow=True)
-        self.assertContains(response, 'You can contact maintainers')
+        response = self.client.get(reverse("contact"), follow=True)
+        self.assertContains(response, "You can contact maintainers")
         # Confirm current TOS
         request = HttpRequest()
-        request.META['REMOTE_ADDR'] = '127.0.0.1'
+        request.META["REMOTE_ADDR"] = "127.0.0.1"
         user.agreement.make_current(request)
         # Homepage now should work
-        response = self.client.get(reverse('home'), follow=True)
-        self.assertContains(response, 'Suggested translations')
+        response = self.client.get(reverse("home"), follow=True)
+        self.assertContains(response, "Suggested translations")

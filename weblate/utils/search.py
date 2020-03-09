@@ -98,7 +98,7 @@ def state_to_int(text):
     try:
         return STATE_NAMES[text]
     except KeyError:
-        raise ValueError(_('Unsupported state: {}').format(text))
+        raise ValueError(_("Unsupported state: {}").format(text))
 
 
 class QueryParser(whoosh.qparser.QueryParser):

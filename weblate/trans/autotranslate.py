@@ -35,11 +35,11 @@ class AutoTranslate:
         self.mode = mode
         self.updated = 0
         self.total = 0
-        self.target_state = STATE_FUZZY if mode == 'fuzzy' else STATE_TRANSLATED
+        self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
 
     def get_units(self):
         units = self.translation.unit_set.all()
-        if self.mode == 'suggest':
+        if self.mode == "suggest":
             units = units.exclude(has_suggestion=True)
         return units.filter_type(self.filter_type)
 
@@ -50,7 +50,7 @@ class AutoTranslate:
             )
 
     def update(self, unit, state, target):
-        if self.mode == 'suggest':
+        if self.mode == "suggest":
             Suggestion.objects.add(unit, target, None, False)
         else:
             unit.translate(self.user, target, state, Change.ACTION_AUTO, False)

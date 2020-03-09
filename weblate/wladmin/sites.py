@@ -78,15 +78,15 @@ from weblate.wladmin.models import ConfigurationError
 
 class WeblateAdminSite(AdminSite):
     login_form = LoginForm
-    site_header = _('Weblate administration')
-    site_title = _('Weblate administration')
-    index_template = 'admin/weblate-index.html'
+    site_header = _("Weblate administration")
+    site_title = _("Weblate administration")
+    index_template = "admin/weblate-index.html"
 
     @property
     def site_url(self):
         if settings.URL_PREFIX:
             return settings.URL_PREFIX
-        return '/'
+        return "/"
 
     def discover(self):
         """Manual discovery."""
@@ -126,7 +126,7 @@ class WeblateAdminSite(AdminSite):
             self.register(Change, ChangeAdmin)
 
         # Billing
-        if 'weblate.billing' in settings.INSTALLED_APPS:
+        if "weblate.billing" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             from weblate.billing.admin import PlanAdmin, BillingAdmin, InvoiceAdmin
             from weblate.billing.models import Plan, Billing, Invoice
@@ -136,7 +136,7 @@ class WeblateAdminSite(AdminSite):
             self.register(Invoice, InvoiceAdmin)
 
         # Hosted
-        if 'wlhosted.integrations' in settings.INSTALLED_APPS:
+        if "wlhosted.integrations" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
             from wlhosted.payments.models import Customer, Payment
@@ -145,7 +145,7 @@ class WeblateAdminSite(AdminSite):
             self.register(Payment, PaymentAdmin)
 
         # Legal
-        if 'weblate.legal' in settings.INSTALLED_APPS:
+        if "weblate.legal" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
@@ -164,7 +164,7 @@ class WeblateAdminSite(AdminSite):
         self.register(Site, SiteAdmin)
 
         # Simple SSO
-        if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
+        if "simple_sso.sso_server" in settings.INSTALLED_APPS:
             from simple_sso.sso_server.server import ConsumerAdmin
             from simple_sso.sso_server.models import Consumer
 
@@ -172,20 +172,20 @@ class WeblateAdminSite(AdminSite):
 
     @never_cache
     def logout(self, request, extra_context=None):
-        if request.method == 'POST':
-            messages.info(request, _('Thank you for using Weblate.'))
+        if request.method == "POST":
+            messages.info(request, _("Thank you for using Weblate."))
             request.current_app = self.name
-            return LogoutView.as_view(next_page=reverse('admin:login'))(request)
+            return LogoutView.as_view(next_page=reverse("admin:login"))(request)
         context = self.each_context(request)
-        context['title'] = _('Sign out')
-        return render(request, 'admin/logout-confirm.html', context)
+        context["title"] = _("Sign out")
+        return render(request, "admin/logout-confirm.html", context)
 
     def each_context(self, request):
         result = super().each_context(request)
-        empty = [_('Object listing turned off')]
-        result['empty_selectable_objects_list'] = [empty]
-        result['empty_objects_list'] = empty
-        result['configuration_errors'] = ConfigurationError.objects.filter(
+        empty = [_("Object listing turned off")]
+        result["empty_selectable_objects_list"] = [empty]
+        result["empty_objects_list"] = empty
+        result["configuration_errors"] = ConfigurationError.objects.filter(
             ignored=False
         )
         return result

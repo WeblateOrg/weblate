@@ -23,6 +23,6 @@ from django.apps import AppConfig
 
 
 class ApiConfig(AppConfig):
-    name = 'weblate.api'
-    label = 'api'
-    verbose_name = 'API'
+    name = "weblate.api"
+    label = "api"
+    verbose_name = "API"

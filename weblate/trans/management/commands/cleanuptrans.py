@@ -35,7 +35,7 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'clenups orphaned checks and suggestions'
+    help = "clenups orphaned checks and suggestions"
 
     def handle(self, *args, **options):
         """Perfom cleanup of Weblate database."""
@@ -43,7 +43,7 @@ class Command(BaseCommand):
         cleanup_screenshot_files()
         with transaction.atomic():
             cleanup_social_auth()
-        for project in Project.objects.values_list('id', flat=True):
+        for project in Project.objects.values_list("id", flat=True):
             cleanup_project(project)
         cleanup_suggestions()
         cleanup_stale_repos()

@@ -22,7 +22,7 @@ from weblate.trans.management.commands import WeblateLangCommand
 
 
 class Command(WeblateLangCommand):
-    help = 'fixes flags for units'
+    help = "fixes flags for units"
 
     def handle(self, *args, **options):
         for unit in self.iterate_units(*args, **options):

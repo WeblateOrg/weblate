@@ -36,7 +36,7 @@ from whoosh.query import Or, Term
 from weblate.utils.celery import app, extract_batch_args, extract_batch_kwargs
 from weblate.utils.index import WhooshIndex
 
-LOGGER = logging.getLogger('weblate.search')
+LOGGER = logging.getLogger("weblate.search")
 
 
 class TargetSchema(SchemaClass):
@@ -57,15 +57,15 @@ class SourceSchema(SchemaClass):
 
 
 class Fulltext(WhooshIndex):
-    LOCATION = 'whoosh'
+    LOCATION = "whoosh"
     FAKE = False
 
     def get_source_index(self):
-        return self.open_index(SourceSchema, 'source')
+        return self.open_index(SourceSchema, "source")
 
     def get_target_index(self, lang):
         """Return target index object."""
-        name = 'target-{0}'.format(lang)
+        name = "target-{0}".format(lang)
         return self.open_index(TargetSchema, name)
 
     @staticmethod
@@ -73,29 +73,29 @@ class Fulltext(WhooshIndex):
         """Update source index for given unit."""
         if not isinstance(unit, dict):
             unit = {
-                'source': unit.source,
-                'context': unit.context,
-                'location': unit.location,
-                'pk': unit.pk,
+                "source": unit.source,
+                "context": unit.context,
+                "location": unit.location,
+                "pk": unit.pk,
             }
-        writer.delete_by_term('pk', unit['pk'], searcher)
+        writer.delete_by_term("pk", unit["pk"], searcher)
         writer.add_document(
-            pk=unit['pk'],
-            source=force_str(unit['source']),
-            context=force_str(unit['context']),
-            location=force_str(unit['location']),
+            pk=unit["pk"],
+            source=force_str(unit["source"]),
+            context=force_str(unit["context"]),
+            location=force_str(unit["location"]),
         )
 
     @staticmethod
     def update_target_unit_index(writer, searcher, unit):
         """Update target index for given unit."""
         if not isinstance(unit, dict):
-            unit = {'pk': unit.pk, 'target': unit.target, 'note': unit.note}
-        writer.delete_by_term('pk', unit['pk'], searcher)
+            unit = {"pk": unit.pk, "target": unit.target, "note": unit.note}
+        writer.delete_by_term("pk", unit["pk"], searcher)
         writer.add_document(
-            pk=unit['pk'],
-            target=force_str(unit['target']),
-            comment=force_str(unit['note']),
+            pk=unit["pk"],
+            target=force_str(unit["target"]),
+            comment=force_str(unit["note"]),
         )
 
     def update_index(self, units):
@@ -107,7 +107,7 @@ class Fulltext(WhooshIndex):
                 for unit in units:
                     self.update_source_unit_index(writer, searcher, unit)
 
-        languages = {unit['language'] for unit in units}
+        languages = {unit["language"] for unit in units}
 
         # Update per language indices
         for language in languages:
@@ -115,7 +115,7 @@ class Fulltext(WhooshIndex):
             with index.writer() as writer:
                 with writer.searcher() as searcher:
                     for unit in units:
-                        if unit['language'] != language:
+                        if unit["language"] != language:
                             continue
                         self.update_target_unit_index(writer, searcher, unit)
 
@@ -143,7 +143,7 @@ class Fulltext(WhooshIndex):
                     parser = qparser.QueryParser(param, schema)
                     queries.append(parser.parse(query))
             terms = functools.reduce(lambda x, y: x | y, queries)
-            return [result['pk'] for result in searcher.search(terms, limit=None)]
+            return [result["pk"] for result in searcher.search(terms, limit=None)]
 
     def search(self, query, langs, params):
         """Perform fulltext search in given areas.
@@ -153,32 +153,32 @@ class Fulltext(WhooshIndex):
         pks = set()
 
         search = {
-            'source': False,
-            'context': False,
-            'target': False,
-            'comment': False,
-            'location': False,
+            "source": False,
+            "context": False,
+            "target": False,
+            "comment": False,
+            "location": False,
         }
         search.update(params)
 
-        if search['source'] or search['context'] or search['location']:
+        if search["source"] or search["context"] or search["location"]:
             pks.update(
                 self.base_search(
                     self.get_source_index(),
                     query,
-                    ('source', 'context', 'location'),
+                    ("source", "context", "location"),
                     search,
                     SourceSchema(),
                 )
             )
 
-        if search['target'] or search['comment']:
+        if search["target"] or search["comment"]:
             for lang in langs:
                 pks.update(
                     self.base_search(
                         self.get_target_index(lang),
                         query,
-                        ('target', 'comment'),
+                        ("target", "comment"),
                         search,
                         TargetSchema(),
                     )
@@ -192,22 +192,22 @@ class Fulltext(WhooshIndex):
         with index.searcher() as searcher:
             # Extract key terms
             kts = searcher.key_terms_from_text(
-                'source', source, numterms=10, normalize=False
+                "source", source, numterms=10, normalize=False
             )
             # Create an Or query from the key terms
-            query = Or([Term('source', word, boost=weight) for word, weight in kts])
-            LOGGER.debug('more like query: %r', query)
+            query = Or([Term("source", word, boost=weight) for word, weight in kts])
+            LOGGER.debug("more like query: %r", query)
 
             # Grab fulltext results
-            results = [(h['pk'], h.score) for h in searcher.search(query, limit=top)]
-            LOGGER.debug('found %d matches', len(results))
+            results = [(h["pk"], h.score) for h in searcher.search(query, limit=top)]
+            LOGGER.debug("found %d matches", len(results))
             if not results:
                 return []
 
             # Filter bad results
             threshold = max((h[1] for h in results)) / 2
             results = [h[0] for h in results if h[1] > threshold]
-            LOGGER.debug('filter %d matches over threshold %d', len(results), threshold)
+            LOGGER.debug("filter %d matches over threshold %d", len(results), threshold)
 
             return results
 
@@ -222,7 +222,7 @@ class Fulltext(WhooshIndex):
         with index.writer() as writer:
             with writer.searcher() as searcher:
                 for pk in units:
-                    writer.delete_by_term('pk', pk, searcher)
+                    writer.delete_by_term("pk", pk, searcher)
 
     def delete_search_units(self, source_units, languages):
         """Delete fulltext index for given set of units."""
@@ -242,7 +242,7 @@ def update_fulltext(self, *args, **kwargs):
     try:
         fulltext.update_index(unitdata)
     except LockError:
-        LOGGER.info('retrying update batch of len %d', len(unitdata))
+        LOGGER.info("retrying update batch of len %d", len(unitdata))
         # Manually handle retries, it doesn't work
         # with celery-batches
         sleep(10)
@@ -266,7 +266,7 @@ def delete_fulltext(self, *args):
     try:
         fulltext.delete_search_units(units, languages)
     except LockError:
-        LOGGER.info('retrying delete batch of len %d', len(ids))
+        LOGGER.info("retrying delete batch of len %d", len(ids))
         # Manually handle retries, it doesn't work
         # with celery-batches
         sleep(10)

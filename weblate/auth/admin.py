@@ -32,7 +32,7 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 def block_group_edit(obj):
     """Whether to allo user editing of an group."""
-    return obj and obj.internal and '@' in obj.name
+    return obj and obj.internal and "@" in obj.name
 
 
 class InlineAutoGroupAdmin(admin.TabularInline):
@@ -56,20 +56,20 @@ class InlineAutoGroupAdmin(admin.TabularInline):
 
 
 class RoleAdmin(WeblateModelAdmin):
-    list_display = ('name',)
-    filter_horizontal = ('permissions',)
+    list_display = ("name",)
+    filter_horizontal = ("permissions",)
 
 
 class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
-        fields = '__all__'
-        field_classes = {'username': UsernameField, 'full_name': FullNameField}
+        fields = "__all__"
+        field_classes = {"username": UsernameField, "full_name": FullNameField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].required = True
-        self.fields['username'].valid = self.instance.username
+        self.fields["email"].required = True
+        self.fields["username"].valid = self.instance.username
 
 
 class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
@@ -77,12 +77,12 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'full_name')
-        field_classes = {'username': UsernameField, 'full_name': FullNameField}
+        fields = ("username", "email", "full_name")
+        field_classes = {"username": UsernameField, "full_name": FullNameField}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['email'].required = True
+        self.fields["email"].required = True
 
 
 class WeblateUserAdmin(UserAdmin):
@@ -92,37 +92,37 @@ class WeblateUserAdmin(UserAdmin):
     """
 
     list_display = (
-        'username',
-        'email',
-        'full_name',
-        'user_groups',
-        'is_active',
-        'is_superuser',
+        "username",
+        "email",
+        "full_name",
+        "user_groups",
+        "is_active",
+        "is_superuser",
     )
-    search_fields = ('username', 'full_name', 'email')
+    search_fields = ("username", "full_name", "email")
     form = WeblateUserChangeForm
     add_form = WeblateUserCreationForm
     add_fieldsets = (
-        (None, {'fields': ('username',)}),
-        (_('Personal info'), {'fields': ('full_name', 'email')}),
-        (_('Authentication'), {'fields': ('password1', 'password2')}),
+        (None, {"fields": ("username",)}),
+        (_("Personal info"), {"fields": ("full_name", "email")}),
+        (_("Authentication"), {"fields": ("password1", "password2")}),
     )
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('full_name', 'email')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_superuser', 'groups')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (None, {"fields": ("username", "password")}),
+        (_("Personal info"), {"fields": ("full_name", "email")}),
+        (_("Permissions"), {"fields": ("is_active", "is_superuser", "groups")}),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_filter = ('is_superuser', 'is_active', 'groups')
-    filter_horizontal = ('groups',)
+    list_filter = ("is_superuser", "is_active", "groups")
+    filter_horizontal = ("groups",)
 
     def user_groups(self, obj):
         """Display comma separated list of user groups."""
-        return ','.join((g.name for g in obj.groups.iterator()))
+        return ",".join((g.name for g in obj.groups.iterator()))
 
     def action_checkbox(self, obj):
         if obj.is_anonymous:
-            return ''
+            return ""
         return super().action_checkbox(obj)
 
     action_checkbox.short_description = mark_safe(
@@ -148,16 +148,16 @@ class WeblateGroupAdmin(WeblateModelAdmin):
     save_as = True
     model = Group
     inlines = [InlineAutoGroupAdmin]
-    search_fields = ('name',)
-    ordering = ('name',)
-    list_filter = ('internal', 'project_selection', 'language_selection')
-    filter_horizontal = ('roles', 'projects', 'languages')
+    search_fields = ("name",)
+    ordering = ("name",)
+    list_filter = ("internal", "project_selection", "language_selection")
+    filter_horizontal = ("roles", "projects", "languages")
 
     new_obj = None
 
     def action_checkbox(self, obj):
         if obj.internal:
-            return ''
+            return ""
         return super().action_checkbox(obj)
 
     action_checkbox.short_description = mark_safe(

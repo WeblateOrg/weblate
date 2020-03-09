@@ -21,15 +21,13 @@ Coding standard
 ---------------
 
 The code should follow PEP-8 coding guidelines and should be formatted using
-:program:`black` code formatter (existing code still uses single quotes, new
-code should use double quotes, so include ``-S`` parameter when changing
-existing code).
+:program:`black` code formatter.
 
 To check the code quality, you can use :program:`flake8`, the recommended
 plugins are listed in :file:`.pre-commit-config.yaml` and it's configuration is
 placed in :file:`setup.cfg`.
 
-The easiest approach to enforce this is to install `pre-commit`_. Weblate
+The easiest approach to enforce all this is to install `pre-commit`_. Weblate
 repository contains configuration for it to verify the commited files are sane.
 After installing it (it is already included in the
 :file:`requirements-lint.txt`) eneble it by running ``pre-commit install`` in

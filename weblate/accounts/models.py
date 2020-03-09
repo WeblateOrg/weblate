@@ -57,17 +57,17 @@ class Subscription(models.Model):
     scope = models.IntegerField(choices=SCOPE_CHOICES)
     frequency = models.IntegerField(choices=FREQ_CHOICES)
     project = models.ForeignKey(
-        'trans.Project', on_delete=models.deletion.CASCADE, null=True
+        "trans.Project", on_delete=models.deletion.CASCADE, null=True
     )
     component = models.ForeignKey(
-        'trans.Component', on_delete=models.deletion.CASCADE, null=True
+        "trans.Component", on_delete=models.deletion.CASCADE, null=True
     )
 
     class Meta:
-        unique_together = [('notification', 'scope', 'project', 'component', 'user')]
+        unique_together = [("notification", "scope", "project", "component", "user")]
 
     def __str__(self):
-        return '{}:{} ({},{})'.format(
+        return "{}:{} ({},{})".format(
             self.user.username,
             self.get_notification_display(),
             self.project,
@@ -76,50 +76,50 @@ class Subscription(models.Model):
 
 
 ACCOUNT_ACTIVITY = {
-    'password': _('Password changed.'),
-    'username': _('Username changed from {old} to {new}.'),
-    'email': _('E-mail changed from {old} to {new}.'),
-    'full_name': _('Full name changed from {old} to {new}.'),
-    'reset-request': _('Password reset requested.'),
-    'reset': _('Password reset confirmed, password turned off.'),
-    'auth-connect': _('You can now log in using {method} ({name}).'),
-    'auth-disconnect': _('You can no longer log in using {method} ({name}).'),
-    'login': _('Logged on using {method} ({name}).'),
-    'login-new': _('Logged on using {method} ({name}) from a new device.'),
-    'register': _('Somebody has attempted to register with your e-mail.'),
-    'connect': _('Somebody has attempted to register using your e-mail address.'),
-    'failed-auth': _('Could not log in using {method} ({name}).'),
-    'locked': _('Account locked due to many failed logins.'),
-    'removed': _('Account and all private data removed.'),
-    'tos': _('Agreement with Terms of Service {date}.'),
+    "password": _("Password changed."),
+    "username": _("Username changed from {old} to {new}."),
+    "email": _("E-mail changed from {old} to {new}."),
+    "full_name": _("Full name changed from {old} to {new}."),
+    "reset-request": _("Password reset requested."),
+    "reset": _("Password reset confirmed, password turned off."),
+    "auth-connect": _("You can now log in using {method} ({name})."),
+    "auth-disconnect": _("You can no longer log in using {method} ({name})."),
+    "login": _("Logged on using {method} ({name})."),
+    "login-new": _("Logged on using {method} ({name}) from a new device."),
+    "register": _("Somebody has attempted to register with your e-mail."),
+    "connect": _("Somebody has attempted to register using your e-mail address."),
+    "failed-auth": _("Could not log in using {method} ({name})."),
+    "locked": _("Account locked due to many failed logins."),
+    "removed": _("Account and all private data removed."),
+    "tos": _("Agreement with Terms of Service {date}."),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
-    'password': {
-        'auth-connect': _('You can now log in using password.'),
-        'login': _('Logged on using password.'),
-        'login-new': _('Logged on using password from a new device.'),
-        'failed-auth': _('Could not log in using password.'),
+    "password": {
+        "auth-connect": _("You can now log in using password."),
+        "login": _("Logged on using password."),
+        "login-new": _("Logged on using password from a new device."),
+        "failed-auth": _("Could not log in using password."),
     }
 }
 
 EXTRA_MESSAGES = {
-    'locked': _('To restore access to your account, please reset your password.')
+    "locked": _("To restore access to your account, please reset your password.")
 }
 
 NOTIFY_ACTIVITY = {
-    'password',
-    'reset',
-    'auth-connect',
-    'auth-disconnect',
-    'register',
-    'connect',
-    'locked',
-    'removed',
-    'login-new',
-    'email',
-    'username',
-    'full_name',
+    "password",
+    "reset",
+    "auth-connect",
+    "auth-disconnect",
+    "register",
+    "connect",
+    "locked",
+    "removed",
+    "login-new",
+    "email",
+    "username",
+    "full_name",
 }
 
 
@@ -129,7 +129,7 @@ class AuditLogManager(models.Manager):
 
         Currently based purely on the IP address.
         """
-        logins = self.filter(user=user, activity='login-new')
+        logins = self.filter(user=user, activity="login-new")
 
         # First login
         if not logins.exists():
@@ -140,8 +140,8 @@ class AuditLogManager(models.Manager):
     def create(self, user, request, activity, **params):
         address = get_ip_address(request)
         user_agent = get_user_agent(request)
-        if activity == 'login' and self.is_new_login(user, address, user_agent):
-            activity = 'login-new'
+        if activity == "login" and self.is_new_login(user, address, user_agent):
+            activity = "login-new"
         return super().create(
             user=user,
             activity=activity,
@@ -160,7 +160,7 @@ class AuditLogQuerySet(models.QuerySet):
         """
         try:
             latest_login = self.filter(user=user, activity=after).order()[0]
-            kwargs = {'timestamp__gte': latest_login.timestamp}
+            kwargs = {"timestamp__gte": latest_login.timestamp}
         except IndexError:
             kwargs = {}
         return self.filter(user=user, activity=activity, **kwargs)
@@ -169,11 +169,11 @@ class AuditLogQuerySet(models.QuerySet):
         """Get user activities with password change."""
         start = timezone.now() - datetime.timedelta(days=settings.AUTH_PASSWORD_DAYS)
         return self.filter(
-            user=user, activity__in=('reset', 'password'), timestamp__gt=start
+            user=user, activity__in=("reset", "password"), timestamp__gt=start
         )
 
     def order(self):
-        return self.order_by('-timestamp')
+        return self.order_by("-timestamp")
 
 
 class AuditLog(models.Model):
@@ -187,7 +187,7 @@ class AuditLog(models.Model):
     )
     params = JSONField()
     address = models.GenericIPAddressField(null=True)
-    user_agent = models.CharField(max_length=200, default='')
+    user_agent = models.CharField(max_length=200, default="")
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
 
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
@@ -195,12 +195,12 @@ class AuditLog(models.Model):
     def get_params(self):
         result = {}
         result.update(self.params)
-        if 'method' in result:
-            result['method'] = gettext(result['method'])
+        if "method" in result:
+            result["method"] = gettext(result["method"])
         return result
 
     def get_message(self):
-        method = self.params.get('method')
+        method = self.params.get("method")
         activity = self.activity
         if activity in ACCOUNT_ACTIVITY_METHOD.get(method, {}):
             message = ACCOUNT_ACTIVITY_METHOD[method][activity]
@@ -208,7 +208,7 @@ class AuditLog(models.Model):
             message = ACCOUNT_ACTIVITY[activity]
         return message.format(**self.get_params())
 
-    get_message.short_description = _('Account activity')
+    get_message.short_description = _("Account activity")
 
     def get_extra_message(self):
         if self.activity in EXTRA_MESSAGES:
@@ -219,24 +219,24 @@ class AuditLog(models.Model):
         return self.user.is_active and self.activity in NOTIFY_ACTIVITY
 
     def __str__(self):
-        return '{0} for {1} from {2}'.format(
+        return "{0} for {1} from {2}".format(
             self.activity, self.user.username, self.address
         )
 
     def check_rate_limit(self, request):
         """Check whether the activity should be rate limited."""
-        if self.activity == 'failed-auth' and self.user.has_usable_password():
-            failures = AuditLog.objects.get_after(self.user, 'login', 'failed-auth')
+        if self.activity == "failed-auth" and self.user.has_usable_password():
+            failures = AuditLog.objects.get_after(self.user, "login", "failed-auth")
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 self.user.set_unusable_password()
-                self.user.save(update_fields=['password'])
-                AuditLog.objects.create(self.user, request, 'locked')
+                self.user.save(update_fields=["password"])
+                AuditLog.objects.create(self.user, request, "locked")
                 return True
 
-        elif self.activity == 'reset-request':
+        elif self.activity == "reset-request":
             failures = AuditLog.objects.filter(
                 timestamp__gte=timezone.now() - datetime.timedelta(days=1),
-                activity='reset-request',
+                activity="reset-request",
             )
             if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
                 return True
@@ -257,7 +257,7 @@ class VerifiedEmail(models.Model):
     email = models.EmailField(max_length=254)
 
     def __str__(self):
-        return '{0} - {1}'.format(self.social.user.username, self.email)
+        return "{0} - {1}".format(self.social.user.username, self.email)
 
     @property
     def provider(self):
@@ -271,29 +271,29 @@ class Profile(models.Model):
         User, unique=True, editable=False, on_delete=models.deletion.CASCADE
     )
     language = models.CharField(
-        verbose_name=_('Interface Language'),
+        verbose_name=_("Interface Language"),
         max_length=10,
         blank=True,
         choices=settings.LANGUAGES,
     )
     languages = models.ManyToManyField(
         Language,
-        verbose_name=_('Translated languages'),
+        verbose_name=_("Translated languages"),
         blank=True,
         help_text=_(
-            'Choose the languages you can translate to. '
-            'These will be offered to you on the dashboard '
-            'for easier access to your chosen translations.'
+            "Choose the languages you can translate to. "
+            "These will be offered to you on the dashboard "
+            "for easier access to your chosen translations."
         ),
     )
     secondary_languages = models.ManyToManyField(
         Language,
-        verbose_name=_('Secondary languages'),
+        verbose_name=_("Secondary languages"),
         help_text=_(
-            'Choose languages you can understand, strings in those languages '
-            'will be shown in addition to the source string.'
+            "Choose languages you can understand, strings in those languages "
+            "will be shown in addition to the source string."
         ),
-        related_name='secondary_profile_set',
+        related_name="secondary_profile_set",
         blank=True,
     )
     suggested = models.IntegerField(default=0, db_index=True)
@@ -301,52 +301,52 @@ class Profile(models.Model):
     uploaded = models.IntegerField(default=0, db_index=True)
 
     hide_completed = models.BooleanField(
-        verbose_name=_('Hide completed translations on the dashboard'), default=False
+        verbose_name=_("Hide completed translations on the dashboard"), default=False
     )
     secondary_in_zen = models.BooleanField(
-        verbose_name=_('Show secondary translations in the Zen mode'), default=True
+        verbose_name=_("Show secondary translations in the Zen mode"), default=True
     )
     hide_source_secondary = models.BooleanField(
-        verbose_name=_('Hide source if a secondary translation exists'), default=False
+        verbose_name=_("Hide source if a secondary translation exists"), default=False
     )
     editor_link = models.CharField(
-        default='',
+        default="",
         blank=True,
         max_length=200,
-        verbose_name=_('Editor link'),
+        verbose_name=_("Editor link"),
         help_text=_(
-            'Enter a custom URL to be used as link to the source code. '
-            'You can use {{branch}} for branch, '
-            '{{filename}} and {{line}} as filename and line placeholders.'
+            "Enter a custom URL to be used as link to the source code. "
+            "You can use {{branch}} for branch, "
+            "{{filename}} and {{line}} as filename and line placeholders."
         ),
         validators=[validate_editor],
     )
     TRANSLATE_FULL = 0
     TRANSLATE_ZEN = 1
     translate_mode = models.IntegerField(
-        verbose_name=_('Translation editor mode'),
-        choices=((TRANSLATE_FULL, _('Full editor')), (TRANSLATE_ZEN, _('Zen mode'))),
+        verbose_name=_("Translation editor mode"),
+        choices=((TRANSLATE_FULL, _("Full editor")), (TRANSLATE_ZEN, _("Zen mode"))),
         default=TRANSLATE_FULL,
     )
     ZEN_VERTICAL = 0
     ZEN_HORIZONTAL = 1
     zen_mode = models.IntegerField(
-        verbose_name=_('Zen editor mode'),
+        verbose_name=_("Zen editor mode"),
         choices=(
-            (ZEN_VERTICAL, _('Top to bottom')),
-            (ZEN_HORIZONTAL, _('Side by side')),
+            (ZEN_VERTICAL, _("Top to bottom")),
+            (ZEN_HORIZONTAL, _("Side by side")),
         ),
         default=ZEN_VERTICAL,
     )
     special_chars = models.CharField(
-        default='',
+        default="",
         blank=True,
         max_length=30,
-        verbose_name=_('Special characters'),
+        verbose_name=_("Special characters"),
         help_text=_(
-            'You can specify additional special visual keyboard characters '
-            'to be shown while translating. It can be useful for '
-            'characters you use frequently, but are hard to type on your keyboard.'
+            "You can specify additional special visual keyboard characters "
+            "to be shown while translating. It can be useful for "
+            "characters you use frequently, but are hard to type on your keyboard."
         ),
     )
 
@@ -356,39 +356,39 @@ class Profile(models.Model):
     DASHBOARD_COMPONENT_LISTS = 6
 
     DASHBOARD_CHOICES = (
-        (DASHBOARD_WATCHED, _('Watched translations')),
-        (DASHBOARD_COMPONENT_LISTS, _('Component lists')),
-        (DASHBOARD_COMPONENT_LIST, _('Component list')),
-        (DASHBOARD_SUGGESTIONS, _('Suggested translations')),
+        (DASHBOARD_WATCHED, _("Watched translations")),
+        (DASHBOARD_COMPONENT_LISTS, _("Component lists")),
+        (DASHBOARD_COMPONENT_LIST, _("Component list")),
+        (DASHBOARD_SUGGESTIONS, _("Suggested translations")),
     )
 
     DASHBOARD_SLUGS = {
-        DASHBOARD_WATCHED: 'your-subscriptions',
-        DASHBOARD_COMPONENT_LIST: 'list',
-        DASHBOARD_SUGGESTIONS: 'suggestions',
-        DASHBOARD_COMPONENT_LISTS: 'componentlists',
+        DASHBOARD_WATCHED: "your-subscriptions",
+        DASHBOARD_COMPONENT_LIST: "list",
+        DASHBOARD_SUGGESTIONS: "suggestions",
+        DASHBOARD_COMPONENT_LISTS: "componentlists",
     }
 
     dashboard_view = models.IntegerField(
         choices=DASHBOARD_CHOICES,
-        verbose_name=_('Default dashboard view'),
+        verbose_name=_("Default dashboard view"),
         default=DASHBOARD_WATCHED,
     )
 
     dashboard_component_list = models.ForeignKey(
-        'trans.ComponentList',
-        verbose_name=_('Default component list'),
+        "trans.ComponentList",
+        verbose_name=_("Default component list"),
         on_delete=models.deletion.CASCADE,
         blank=True,
         null=True,
     )
 
     watched = models.ManyToManyField(
-        'trans.Project',
-        verbose_name=_('Watched projects'),
+        "trans.Project",
+        verbose_name=_("Watched projects"),
         help_text=_(
-            'You can receive notifications for watched projects and '
-            'they are shown on the dashboard by default.'
+            "You can receive notifications for watched projects and "
+            "they are shown on the dashboard by default."
         ),
         blank=True,
     )
@@ -417,7 +417,7 @@ class Profile(models.Model):
         """Check if component list is chosen when required."""
         # This is used for form validation as well, but those
         # will not contain all fields
-        if not hasattr(self, 'dashboard_component_list'):
+        if not hasattr(self, "dashboard_component_list"):
             return
         if (
             self.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
@@ -428,7 +428,7 @@ class Profile(models.Model):
                 "the dashboard."
             )
             raise ValidationError(
-                {'dashboard_component_list': message, 'dashboard_view': message}
+                {"dashboard_component_list": message, "dashboard_view": message}
             )
         if (
             self.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
@@ -439,7 +439,7 @@ class Profile(models.Model):
                 "the dashboard."
             )
             raise ValidationError(
-                {'dashboard_component_list': message, 'dashboard_view': message}
+                {"dashboard_component_list": message, "dashboard_view": message}
             )
 
     def dump_data(self):
@@ -447,37 +447,37 @@ class Profile(models.Model):
             return {attr: getattr(obj, attr) for attr in attrs}
 
         result = {
-            'basic': dump_object(
-                self.user, 'username', 'full_name', 'email', 'date_joined'
+            "basic": dump_object(
+                self.user, "username", "full_name", "email", "date_joined"
             ),
-            'profile': dump_object(
+            "profile": dump_object(
                 self,
-                'language',
-                'suggested',
-                'translated',
-                'uploaded',
-                'hide_completed',
-                'secondary_in_zen',
-                'hide_source_secondary',
-                'editor_link',
-                'translate_mode',
-                'zen_mode',
-                'special_chars',
-                'dashboard_view',
-                'dashboard_component_list',
+                "language",
+                "suggested",
+                "translated",
+                "uploaded",
+                "hide_completed",
+                "secondary_in_zen",
+                "hide_source_secondary",
+                "editor_link",
+                "translate_mode",
+                "zen_mode",
+                "special_chars",
+                "dashboard_view",
+                "dashboard_component_list",
             ),
-            'auditlog': [
-                dump_object(log, 'address', 'user_agent', 'timestamp', 'activity')
+            "auditlog": [
+                dump_object(log, "address", "user_agent", "timestamp", "activity")
                 for log in self.user.auditlog_set.iterator()
             ],
         }
-        result['profile']['languages'] = [
+        result["profile"]["languages"] = [
             lang.code for lang in self.languages.iterator()
         ]
-        result['profile']['secondary_languages'] = [
+        result["profile"]["secondary_languages"] = [
             lang.code for lang in self.secondary_languages.iterator()
         ]
-        result['profile']['watched'] = [
+        result["profile"]["watched"] = [
             project.slug for project in self.watched.iterator()
         ]
         return result
@@ -495,14 +495,14 @@ def post_login_handler(sender, request, user, **kwargs):
 
     It sets user language and migrates profile if needed.
     """
-    backend_name = getattr(user, 'backend', '')
-    is_email_auth = backend_name.endswith('.EmailAuth') or backend_name.endswith(
-        '.WeblateUserBackend'
+    backend_name = getattr(user, "backend", "")
+    is_email_auth = backend_name.endswith(".EmailAuth") or backend_name.endswith(
+        ".WeblateUserBackend"
     )
 
     # Warning about setting password
     if is_email_auth and not user.has_usable_password():
-        request.session['show_set_password'] = True
+        request.session["show_set_password"] = True
 
     # Migrate django-registration based verification to python-social-auth
     # and handle external authentication such as LDAP
@@ -510,9 +510,9 @@ def post_login_handler(sender, request, user, **kwargs):
         is_email_auth
         and user.has_usable_password()
         and user.email
-        and not user.social_auth.filter(provider='email').exists()
+        and not user.social_auth.filter(provider="email").exists()
     ):
-        social = user.social_auth.create(provider='email', uid=user.email)
+        social = user.social_auth.create(provider="email", uid=user.email)
         VerifiedEmail.objects.create(social=social, email=user.email)
 
     # Set language for session based on preferences
@@ -521,15 +521,15 @@ def post_login_handler(sender, request, user, **kwargs):
     # Fixup accounts with empty name
     if not user.full_name:
         user.full_name = user.username
-        user.save(update_fields=['full_name'])
+        user.save(update_fields=["full_name"])
 
     # Warn about not set e-mail
     if not user.email:
         messages.error(
             request,
             _(
-                'You can not submit translations as '
-                'you do not have assigned any e-mail address.'
+                "You can not submit translations as "
+                "you do not have assigned any e-mail address."
             ),
         )
 
@@ -555,17 +555,17 @@ class WeblateAccountsConf(AppConf):
     ENABLE_AVATARS = True
 
     # Avatar URL prefix
-    AVATAR_URL_PREFIX = 'https://www.gravatar.com/'
+    AVATAR_URL_PREFIX = "https://www.gravatar.com/"
 
     # Avatar fallback image
     # See http://en.gravatar.com/site/implement/images/ for available choices
-    AVATAR_DEFAULT_IMAGE = 'identicon'
+    AVATAR_DEFAULT_IMAGE = "identicon"
 
     # Enable registrations
     REGISTRATION_OPEN = True
 
     # Registration email filter
-    REGISTRATION_EMAIL_MATCH = '.*'
+    REGISTRATION_EMAIL_MATCH = ".*"
 
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
@@ -574,24 +574,24 @@ class WeblateAccountsConf(AppConf):
     AUDITLOG_EXPIRY = 180
 
     # Auth0 provider default image & title on login page
-    SOCIAL_AUTH_AUTH0_IMAGE = 'auth0.svg'
-    SOCIAL_AUTH_AUTH0_TITLE = 'Auth0'
+    SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
+    SOCIAL_AUTH_AUTH0_TITLE = "Auth0"
 
     # Login required URLs
     LOGIN_REQUIRED_URLS = []
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r'/accounts/(.*)$',  # Required for login
-        r'/admin/login/(.*)$',  # Required for admin login
-        r'/static/(.*)$',  # Required for development mode
-        r'/widgets/(.*)$',  # Allowing public access to widgets
-        r'/data/(.*)$',  # Allowing public access to data exports
-        r'/hooks/(.*)$',  # Allowing public access to notification hooks
-        r'/healthz/$',  # Allowing public access to health check
-        r'/api/(.*)$',  # Allowing access to API
-        r'/js/i18n/$',  # JavaScript localization
-        r'/contact/$',  # Optional for contact form
-        r'/legal/(.*)$',  # Optional for legal app
+        r"/accounts/(.*)$",  # Required for login
+        r"/admin/login/(.*)$",  # Required for admin login
+        r"/static/(.*)$",  # Required for development mode
+        r"/widgets/(.*)$",  # Allowing public access to widgets
+        r"/data/(.*)$",  # Allowing public access to data exports
+        r"/hooks/(.*)$",  # Allowing public access to notification hooks
+        r"/healthz/$",  # Allowing public access to health check
+        r"/api/(.*)$",  # Allowing access to API
+        r"/js/i18n/$",  # JavaScript localization
+        r"/contact/$",  # Optional for contact form
+        r"/legal/(.*)$",  # Optional for legal app
     )
 
     class Meta:
-        prefix = ''
+        prefix = ""

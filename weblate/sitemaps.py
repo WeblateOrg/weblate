@@ -27,9 +27,9 @@ from weblate.trans.models import Change, Component, Project, Translation
 class PagesSitemap(Sitemap):
     def items(self):
         return (
-            ('/', 1.0, 'daily'),
-            ('/about/', 0.4, 'weekly'),
-            ('/keys/', 0.4, 'weekly'),
+            ("/", 1.0, "daily"),
+            ("/about/", 0.4, "weekly"),
+            ("/keys/", 0.4, "weekly"),
         )
 
     def location(self, obj):
@@ -37,7 +37,7 @@ class PagesSitemap(Sitemap):
 
     def lastmod(self, item):
         try:
-            return Change.objects.values_list('timestamp', flat=True).order()[0]
+            return Change.objects.values_list("timestamp", flat=True).order()[0]
         except Change.DoesNotExist:
             return None
 
@@ -65,7 +65,7 @@ class ProjectSitemap(WeblateSitemap):
     def items(self):
         return Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
-        ).order_by('id')
+        ).order_by("id")
 
 
 class ComponentSitemap(WeblateSitemap):
@@ -75,7 +75,7 @@ class ComponentSitemap(WeblateSitemap):
         return (
             Component.objects.prefetch()
             .filter(project__access_control__lt=Project.ACCESS_PRIVATE)
-            .order_by('id')
+            .order_by("id")
         )
 
 
@@ -86,7 +86,7 @@ class TranslationSitemap(WeblateSitemap):
         return (
             Translation.objects.prefetch()
             .filter(component__project__access_control__lt=Project.ACCESS_PRIVATE)
-            .order_by('id')
+            .order_by("id")
         )
 
 
@@ -96,7 +96,7 @@ class EngageSitemap(ProjectSitemap):
     priority = 1.0
 
     def location(self, obj):
-        return reverse('engage', kwargs={'project': obj.slug})
+        return reverse("engage", kwargs={"project": obj.slug})
 
 
 class EngageLangSitemap(Sitemap):
@@ -109,21 +109,21 @@ class EngageLangSitemap(Sitemap):
         ret = []
         projects = Project.objects.filter(
             access_control__lt=Project.ACCESS_PRIVATE
-        ).order_by('id')
+        ).order_by("id")
         for project in projects:
             for lang in project.languages:
                 ret.append((project, lang))
         return ret
 
     def location(self, obj):
-        return reverse('engage', kwargs={'project': obj[0].slug, 'lang': obj[1].code})
+        return reverse("engage", kwargs={"project": obj[0].slug, "lang": obj[1].code})
 
 
 SITEMAPS = {
-    'project': ProjectSitemap(),
-    'engage': EngageSitemap(),
-    'engagelang': EngageLangSitemap(),
-    'component': ComponentSitemap(),
-    'translation': TranslationSitemap(),
-    'pages': PagesSitemap(),
+    "project": ProjectSitemap(),
+    "engage": EngageSitemap(),
+    "engagelang": EngageLangSitemap(),
+    "component": ComponentSitemap(),
+    "translation": TranslationSitemap(),
+    "pages": PagesSitemap(),
 }

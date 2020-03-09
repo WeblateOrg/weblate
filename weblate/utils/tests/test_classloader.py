@@ -27,25 +27,25 @@ from weblate.utils.classloader import load_class
 
 class LoadClassTest(TestCase):
     def test_correct(self):
-        cls = load_class('unittest.TestCase', 'TEST')
+        cls = load_class("unittest.TestCase", "TEST")
         self.assertEqual(cls, TestCase)
 
     def test_invalid_name(self):
         self.assertRaisesRegex(
             ImproperlyConfigured,
-            'Error importing class unittest in TEST: .*"' '(not enough|need more than)',
+            'Error importing class unittest in TEST: .*"' "(not enough|need more than)",
             load_class,
-            'unittest',
-            'TEST',
+            "unittest",
+            "TEST",
         )
 
     def test_invalid_module(self):
         self.assertRaisesRegex(
             ImproperlyConfigured,
-            'weblate.trans.tests.missing in TEST: "' 'No module named .*missing["\']',
+            'weblate.trans.tests.missing in TEST: "' "No module named .*missing[\"']",
             load_class,
-            'weblate.trans.tests.missing.Foo',
-            'TEST',
+            "weblate.trans.tests.missing.Foo",
+            "TEST",
         )
 
     def test_invalid_class(self):
@@ -53,6 +53,6 @@ class LoadClassTest(TestCase):
             ImproperlyConfigured,
             '"weblate.utils.tests.test_classloader"' ' does not define a "Foo" class',
             load_class,
-            'weblate.utils.tests.test_classloader.Foo',
-            'TEST',
+            "weblate.utils.tests.test_classloader.Foo",
+            "TEST",
         )

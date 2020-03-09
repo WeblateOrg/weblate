@@ -56,17 +56,17 @@ def get_exporter(name):
 
 def list_exporters(translation):
     return [
-        {'name': x.name, 'verbose': x.verbose}
+        {"name": x.name, "verbose": x.verbose}
         for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
         if x.supports(translation)
     ]
 
 
 class BaseExporter:
-    content_type = 'text/plain'
-    extension = 'txt'
-    name = ''
-    verbose = ''
+    content_type = "text/plain"
+    extension = "txt"
+    name = ""
+    verbose = ""
     set_id = False
 
     def __init__(
@@ -141,21 +141,21 @@ class BaseExporter:
         # Store note
         note = self.string_filter(unit.note)
         if note:
-            output.addnote(note, origin='developer')
+            output.addnote(note, origin="developer")
         # In Weblate context
         note = self.string_filter(unit.extra_context)
         if context:
-            output.addnote(note, origin='developer')
+            output.addnote(note, origin="developer")
         # Comments
         for comment in unit.get_comments():
-            output.addnote(comment.comment, origin='translator')
+            output.addnote(comment.comment, origin="translator")
         # Suggestions
         for suggestion in unit.suggestions:
             output.addnote(
-                'Suggested in Weblate: {}'.format(
-                    ', '.join(split_plural(suggestion.target))
+                "Suggested in Weblate: {}".format(
+                    ", ".join(split_plural(suggestion.target))
                 ),
-                origin='translator',
+                origin="translator",
             )
 
         # Store flags
@@ -168,7 +168,7 @@ class BaseExporter:
 
         self.storage.addunit(output)
 
-    def get_response(self, filetemplate='{project}-{language}.{extension}'):
+    def get_response(self, filetemplate="{project}-{language}.{extension}"):
         filename = filetemplate.format(
             project=self.project.slug,
             language=self.language.code,
@@ -176,9 +176,9 @@ class BaseExporter:
         )
 
         response = HttpResponse(
-            content_type='{0}; charset=utf-8'.format(self.content_type)
+            content_type="{0}; charset=utf-8".format(self.content_type)
         )
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+        response["Content-Disposition"] = "attachment; filename={0}".format(filename)
 
         # Save to response
         response.write(self.serialize())
@@ -195,10 +195,10 @@ class BaseExporter:
 
 @register_exporter
 class PoExporter(BaseExporter):
-    name = 'po'
-    content_type = 'text/x-po'
-    extension = 'po'
-    verbose = _('gettext PO')
+    name = "po"
+    content_type = "text/x-po"
+    extension = "po"
+    verbose = _("gettext PO")
     storage_class = pofile
 
     def store_flags(self, output, flags):
@@ -213,12 +213,12 @@ class PoExporter(BaseExporter):
         store.updateheader(
             add=True,
             language=self.language.code,
-            x_generator='Weblate {0}'.format(weblate.VERSION),
-            project_id_version='{0} ({1})'.format(
+            x_generator="Weblate {0}".format(weblate.VERSION),
+            project_id_version="{0} ({1})".format(
                 self.language.name, self.project.name
             ),
             plural_forms=plural.plural_form,
-            language_team='{0} <{1}>'.format(self.language.name, self.url),
+            language_team="{0} <{1}>".format(self.language.name, self.url),
         )
         return store
 
@@ -235,54 +235,54 @@ class XMLExporter(BaseExporter):
 
 @register_exporter
 class PoXliffExporter(XMLExporter):
-    name = 'xliff'
-    content_type = 'application/x-xliff+xml'
-    extension = 'xlf'
+    name = "xliff"
+    content_type = "application/x-xliff+xml"
+    extension = "xlf"
     set_id = True
-    verbose = _('XLIFF with gettext extensions')
+    verbose = _("XLIFF with gettext extensions")
     storage_class = PoXliffFile
 
     def store_flags(self, output, flags):
-        if flags.has_value('max-length'):
-            output.xmlelement.set("maxwidth", str(flags.get_value('max-length')))
+        if flags.has_value("max-length"):
+            output.xmlelement.set("maxwidth", str(flags.get_value("max-length")))
 
         output.xmlelement.set("weblate-flags", flags.format())
 
 
 @register_exporter
 class XliffExporter(PoXliffExporter):
-    name = 'xliff11'
-    content_type = 'application/x-xliff+xml'
-    extension = 'xlf'
+    name = "xliff11"
+    content_type = "application/x-xliff+xml"
+    extension = "xlf"
     set_id = True
-    verbose = _('XLIFF 1.1')
+    verbose = _("XLIFF 1.1")
     storage_class = xlifffile
 
 
 @register_exporter
 class TBXExporter(XMLExporter):
-    name = 'tbx'
-    content_type = 'application/x-tbx'
-    extension = 'tbx'
-    verbose = _('TBX')
+    name = "tbx"
+    content_type = "application/x-tbx"
+    extension = "tbx"
+    verbose = _("TBX")
     storage_class = tbxfile
 
 
 @register_exporter
 class TMXExporter(XMLExporter):
-    name = 'tmx'
-    content_type = 'application/x-tmx'
-    extension = 'tmx'
-    verbose = _('TMX')
+    name = "tmx"
+    content_type = "application/x-tmx"
+    extension = "tmx"
+    verbose = _("TMX")
     storage_class = tmxfile
 
 
 @register_exporter
 class MoExporter(PoExporter):
-    name = 'mo'
-    content_type = 'application/x-gettext-catalog'
-    extension = 'mo'
-    verbose = _('gettext MO')
+    name = "mo"
+    content_type = "application/x-gettext-catalog"
+    extension = "mo"
+    verbose = _("gettext MO")
     storage_class = mofile
 
     def __init__(
@@ -308,11 +308,11 @@ class MoExporter(PoExporter):
         # Parse properties from unit
         if self.monolingual:
             if self.use_context:
-                source = ''
+                source = ""
                 context = unit.context
             else:
                 source = unit.context
-                context = ''
+                context = ""
         else:
             source = self.handle_plurals(unit.get_source_plurals())
             context = unit.context
@@ -327,7 +327,7 @@ class MoExporter(PoExporter):
 
     @staticmethod
     def supports(translation):
-        return translation.component.file_format == 'po'
+        return translation.component.file_format == "po"
 
 
 class CVSBaseExporter(BaseExporter):
@@ -339,10 +339,10 @@ class CVSBaseExporter(BaseExporter):
 
 @register_exporter
 class CSVExporter(CVSBaseExporter):
-    name = 'csv'
-    content_type = 'text/csv'
-    extension = 'csv'
-    verbose = _('CSV')
+    name = "csv"
+    content_type = "text/csv"
+    extension = "csv"
+    verbose = _("CSV")
 
     def string_filter(self, text):
         """Avoid Excel interpreting text as formula.
@@ -352,17 +352,17 @@ class CSVExporter(CVSBaseExporter):
         people have gotten used to. Hopefully these characters are not widely used at
         first position of translatable strings, so that harm is reduced.
         """
-        if text and text[0] in ('=', '+', '-', '@', '|', '%'):
-            return "'{0}'".format(text.replace('|', '\\|'))
+        if text and text[0] in ("=", "+", "-", "@", "|", "%"):
+            return "'{0}'".format(text.replace("|", "\\|"))
         return text
 
 
 @register_exporter
 class XlsxExporter(CVSBaseExporter):
-    name = 'xlsx'
-    content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    extension = 'xlsx'
-    verbose = _('Excel Open XML')
+    name = "xlsx"
+    content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    extension = "xlsx"
+    verbose = _("Excel Open XML")
 
     def serialize(self):
         """Return storage content."""

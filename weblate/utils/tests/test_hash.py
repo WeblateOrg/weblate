@@ -27,25 +27,25 @@ from weblate.utils.hash import calculate_hash, checksum_to_hash, hash_to_checksu
 class HashTest(SimpleTestCase):
     def test_hash(self):
         """Ensure hash is not changing."""
-        text = 'Message'
+        text = "Message"
         text_hash = calculate_hash(None, text)
         self.assertEqual(text_hash, calculate_hash(None, text))
 
     def test_hash_context(self):
         """Ensure hash works with context."""
-        text = 'Message'
-        context = 'Context'
+        text = "Message"
+        context = "Context"
         text_hash = calculate_hash(context, text)
         self.assertEqual(text_hash, calculate_hash(context, text))
 
     def test_hash_unicode(self):
         """Ensure hash works for unicode."""
-        text = 'Příšerně žluťoučký kůň úpěl ďábelské ódy'
+        text = "Příšerně žluťoučký kůň úpěl ďábelské ódy"
         text_hash = calculate_hash(None, text)
         self.assertEqual(text_hash, calculate_hash(None, text))
 
     def test_checksum(self):
         """Hash to checksum conversion."""
-        text_hash = calculate_hash(None, 'Message')
+        text_hash = calculate_hash(None, "Message")
         checksum = hash_to_checksum(text_hash)
         self.assertEqual(text_hash, checksum_to_hash(checksum))

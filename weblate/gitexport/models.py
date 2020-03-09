@@ -27,13 +27,13 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.site import get_site_url
 
 SUPPORTED_VCS = {
-    'git',
-    'gerrit',
-    'github',
-    'gitlab',
-    'subversion',
-    'local',
-    'git-force-push',
+    "git",
+    "gerrit",
+    "github",
+    "gitlab",
+    "subversion",
+    "local",
+    "git-force-push",
 }
 
 
@@ -41,11 +41,11 @@ def get_export_url(component):
     """Return Git export URL for component."""
     return get_site_url(
         reverse(
-            'git-export',
+            "git-export",
             kwargs={
-                'project': component.project.slug,
-                'component': component.slug,
-                'path': '',
+                "project": component.project.slug,
+                "component": component.slug,
+                "path": "",
             },
         )
     )
@@ -65,4 +65,4 @@ def save_project(sender, instance, **kwargs):
             new_url = get_export_url(component)
             if component.git_export != new_url:
                 component.git_export = new_url
-                component.save(update_fields=['git_export'])
+                component.save(update_fields=["git_export"])

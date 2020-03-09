@@ -39,9 +39,9 @@ from weblate.utils.version import check_version
 
 
 class UtilsConfig(AppConfig):
-    name = 'weblate.utils'
-    label = 'utils'
-    verbose_name = 'Utils'
+    name = "weblate.utils"
+    label = "utils"
+    verbose_name = "Utils"
 
     def ready(self):
         super().ready()

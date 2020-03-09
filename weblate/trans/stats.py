@@ -26,14 +26,14 @@ def get_project_stats(project):
     """Return stats for project."""
     return [
         {
-            'language': force_str(tup.language),
-            'code': tup.language.code,
-            'total': tup.all,
-            'translated': tup.translated,
-            'translated_percent': tup.translated_percent,
-            'total_words': tup.all_words,
-            'translated_words': tup.translated_words,
-            'words_percent': tup.translated_words_percent,
+            "language": force_str(tup.language),
+            "code": tup.language.code,
+            "total": tup.all,
+            "translated": tup.translated,
+            "translated_percent": tup.translated_percent,
+            "total_words": tup.all_words,
+            "translated_words": tup.translated_words,
+            "words_percent": tup.translated_words_percent,
         }
         for tup in project.stats.get_language_stats()
     ]

@@ -24,20 +24,20 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'list translation memory origins'
+    help = "list translation memory origins"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--type',
-            choices=['origin', 'category'],
-            default='origin',
+            "--type",
+            choices=["origin", "category"],
+            default="origin",
             required=False,
-            help='Type of objects to list',
+            help="Type of objects to list",
         )
 
     def handle(self, *args, **options):
         """Translation memory cleanup."""
         memory = TranslationMemory()
-        for item in memory.get_values(options['type']):
+        for item in memory.get_values(options["type"]):
             self.stdout.write(item)

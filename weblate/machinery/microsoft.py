@@ -25,11 +25,11 @@ from django.utils import timezone
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-BASE_URL = 'https://api.cognitive.microsofttranslator.com'
-TRANSLATE_URL = BASE_URL + '/translate'
-LIST_URL = BASE_URL + '/languages?api-version=3.0'
+BASE_URL = "https://api.cognitive.microsofttranslator.com"
+TRANSLATE_URL = BASE_URL + "/translate"
+LIST_URL = BASE_URL + "/languages?api-version=3.0"
 TOKEN_URL = (
-    'https://{0}api.cognitive.microsoft.com/sts/v1.0/' 'issueToken?Subscription-Key={1}'
+    "https://{0}api.cognitive.microsoft.com/sts/v1.0/" "issueToken?Subscription-Key={1}"
 )
 TOKEN_EXPIRY = timedelta(minutes=9)
 
@@ -37,18 +37,18 @@ TOKEN_EXPIRY = timedelta(minutes=9)
 class MicrosoftCognitiveTranslation(MachineTranslation):
     """Microsoft Cognitive Services Translator API support."""
 
-    name = 'Microsoft Translator'
+    name = "Microsoft Translator"
 
     language_map = {
-        'zh-hant': 'zh-CHT',
-        'zh-hans': 'zh-CHS',
-        'zh-tw': 'zh-CHT',
-        'zh-cn': 'zh-CHS',
-        'tlh-qaak': 'tlh-Qaak',
-        'nb': 'no',
-        'bs-latn': 'bs-Latn',
-        'sr-latn': 'sr-Latn',
-        'sr-cyrl': 'sr-Cyrl',
+        "zh-hant": "zh-CHT",
+        "zh-hans": "zh-CHS",
+        "zh-tw": "zh-CHT",
+        "zh-cn": "zh-CHS",
+        "tlh-qaak": "tlh-Qaak",
+        "nb": "no",
+        "bs-latn": "bs-Latn",
+        "sr-latn": "sr-Latn",
+        "sr-cyrl": "sr-Cyrl",
     }
 
     def __init__(self):
@@ -68,7 +68,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         )
 
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
-            raise MissingConfiguration('Microsoft Translator requires credentials')
+            raise MissingConfiguration("Microsoft Translator requires credentials")
 
     def is_token_expired(self):
         """Check whether token is about to expire."""
@@ -76,14 +76,14 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
-        return {'Authorization': 'Bearer {0}'.format(self.access_token)}
+        return {"Authorization": "Bearer {0}".format(self.access_token)}
 
     @property
     def access_token(self):
         """Obtain and caches access token."""
         if self._access_token is None or self.is_token_expired():
             self._access_token = self.request(
-                "post", self._cognitive_token_url, skip_auth=True,
+                "post", self._cognitive_token_url, skip_auth=True
             ).text
             self._token_expiry = timezone.now() + TOKEN_EXPIRY
 
@@ -94,7 +94,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         Remove second part of locale in most of cases.
         """
-        return super().convert_language(language.replace('_', '-').lower())
+        return super().convert_language(language.replace("_", "-").lower())
 
     def download_languages(self):
         """Download list of supported languages from a service.
@@ -117,25 +117,25 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         if isinstance(payload, str):
             raise Exception(payload)
 
-        return payload['translation'].keys()
+        return payload["translation"].keys()
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
         args = {
-            'api-version': '3.0',
-            'from': source,
-            'to': language,
-            'category': 'general',
+            "api-version": "3.0",
+            "from": source,
+            "to": language,
+            "category": "general",
         }
         response = self.request(
-            "post", TRANSLATE_URL, params=args, json=[{'Text': text[:5000]}]
+            "post", TRANSLATE_URL, params=args, json=[{"Text": text[:5000]}]
         )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
         yield {
-            'text': payload[0]['translations'][0]['text'],
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
+            "text": payload[0]["translations"][0]["text"],
+            "quality": self.max_score,
+            "service": self.name,
+            "source": text,
         }

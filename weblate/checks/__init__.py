@@ -21,7 +21,7 @@ from django.utils.functional import cached_property
 
 from weblate.utils.classloader import ClassLoader
 
-default_app_config = 'weblate.checks.apps.ChecksConfig'
+default_app_config = "weblate.checks.apps.ChecksConfig"
 
 
 def highlight_string(source, unit):
@@ -65,4 +65,4 @@ class ChecksLoader(ClassLoader):
 
 
 # Initialize checks list
-CHECKS = ChecksLoader('CHECK_LIST')
+CHECKS = ChecksLoader("CHECK_LIST")

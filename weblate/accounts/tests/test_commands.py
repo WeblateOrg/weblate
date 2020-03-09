@@ -33,7 +33,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 
-USERDATA_JSON = get_test_file('userdata.json')
+USERDATA_JSON = get_test_file("userdata.json")
 
 
 class CommandTest(TestCase, TempDirMixin):
@@ -41,50 +41,50 @@ class CommandTest(TestCase, TempDirMixin):
 
     def test_userdata(self):
         # Create test user
-        language = Language.objects.get(code='cs')
-        user = User.objects.create_user('testuser', 'test@example.com', 'x')
+        language = Language.objects.get(code="cs")
+        user = User.objects.create_user("testuser", "test@example.com", "x")
         user.profile.translated = 1000
         user.profile.languages.add(language)
         user.profile.secondary_languages.add(language)
         user.profile.save()
-        user.profile.watched.add(Project.objects.create(name='name', slug='name'))
+        user.profile.watched.add(Project.objects.create(name="name", slug="name"))
 
         try:
             self.create_temp()
-            output = os.path.join(self.tempdir, 'users.json')
-            call_command('dumpuserdata', output)
+            output = os.path.join(self.tempdir, "users.json")
+            call_command("dumpuserdata", output)
 
             user.profile.languages.clear()
             user.profile.secondary_languages.clear()
 
-            call_command('importuserdata', output)
+            call_command("importuserdata", output)
         finally:
             self.remove_temp()
 
-        profile = Profile.objects.get(user__username='testuser')
+        profile = Profile.objects.get(user__username="testuser")
         self.assertEqual(profile.translated, 2000)
-        self.assertTrue(profile.languages.filter(code='cs').exists())
-        self.assertTrue(profile.secondary_languages.filter(code='cs').exists())
+        self.assertTrue(profile.languages.filter(code="cs").exists())
+        self.assertTrue(profile.secondary_languages.filter(code="cs").exists())
         self.assertTrue(profile.watched.exists())
 
     def test_userdata_compat(self):
         """Test importing user data from pre 3.6 release."""
-        User.objects.create_user('test-3.6', 'test36@example.com', 'x')
-        Project.objects.create(name='test', slug='test')
-        call_command('importuserdata', USERDATA_JSON)
-        profile = Profile.objects.get(user__username='test-3.6')
-        self.assertTrue(profile.languages.filter(code='cs').exists())
-        self.assertTrue(profile.secondary_languages.filter(code='cs').exists())
+        User.objects.create_user("test-3.6", "test36@example.com", "x")
+        Project.objects.create(name="test", slug="test")
+        call_command("importuserdata", USERDATA_JSON)
+        profile = Profile.objects.get(user__username="test-3.6")
+        self.assertTrue(profile.languages.filter(code="cs").exists())
+        self.assertTrue(profile.secondary_languages.filter(code="cs").exists())
         self.assertTrue(profile.watched.exists())
 
     def test_changesite(self):
-        call_command('changesite', get_name=True)
-        self.assertNotEqual(Site.objects.get(pk=1).domain, 'test.weblate.org')
-        call_command('changesite', set_name='test.weblate.org')
-        self.assertEqual(Site.objects.get(pk=1).domain, 'test.weblate.org')
+        call_command("changesite", get_name=True)
+        self.assertNotEqual(Site.objects.get(pk=1).domain, "test.weblate.org")
+        call_command("changesite", set_name="test.weblate.org")
+        self.assertEqual(Site.objects.get(pk=1).domain, "test.weblate.org")
 
     def test_changesite_new(self):
         with self.assertRaises(CommandError):
-            call_command('changesite', get_name=True, site_id=2)
-        call_command('changesite', set_name='test.weblate.org', site_id=2)
-        self.assertEqual(Site.objects.get(pk=2).domain, 'test.weblate.org')
+            call_command("changesite", get_name=True, site_id=2)
+        call_command("changesite", set_name="test.weblate.org", site_id=2)
+        self.assertEqual(Site.objects.get(pk=2).domain, "test.weblate.org")

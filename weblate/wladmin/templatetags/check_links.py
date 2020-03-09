@@ -27,32 +27,32 @@ from weblate.utils.docs import get_doc_url
 register = template.Library()
 
 DOC_LINKS = {
-    'security.W001': ('admin/upgdade', 'up-3-1'),
-    'security.W002': ('admin/upgdade', 'up-3-1'),
-    'security.W003': ('admin/upgdade', 'up-3-1'),
-    'security.W004': ('admin/install', 'production-ssl'),
-    'security.W005': ('admin/install', 'production-ssl'),
-    'security.W006': ('admin/upgdade', 'up-3-1'),
-    'security.W007': ('admin/upgdade', 'up-3-1'),
-    'security.W008': ('admin/install', 'production-ssl'),
-    'security.W009': ('admin/install', 'production-secret'),
-    'security.W010': ('admin/install', 'production-ssl'),
-    'security.W011': ('admin/install', 'production-ssl'),
-    'security.W012': ('admin/install', 'production-ssl'),
-    'security.W018': ('admin/install', 'production-debug'),
-    'security.W019': ('admin/upgdade', 'up-3-1'),
-    'security.W020': ('admin/install', 'production-hosts'),
-    'security.W021': ('admin/install', 'production-ssl'),
+    "security.W001": ("admin/upgdade", "up-3-1"),
+    "security.W002": ("admin/upgdade", "up-3-1"),
+    "security.W003": ("admin/upgdade", "up-3-1"),
+    "security.W004": ("admin/install", "production-ssl"),
+    "security.W005": ("admin/install", "production-ssl"),
+    "security.W006": ("admin/upgdade", "up-3-1"),
+    "security.W007": ("admin/upgdade", "up-3-1"),
+    "security.W008": ("admin/install", "production-ssl"),
+    "security.W009": ("admin/install", "production-secret"),
+    "security.W010": ("admin/install", "production-ssl"),
+    "security.W011": ("admin/install", "production-ssl"),
+    "security.W012": ("admin/install", "production-ssl"),
+    "security.W018": ("admin/install", "production-debug"),
+    "security.W019": ("admin/upgdade", "up-3-1"),
+    "security.W020": ("admin/install", "production-hosts"),
+    "security.W021": ("admin/install", "production-ssl"),
 }
 
 
 @register.simple_tag
 def check_link(check):
     url = None
-    if check.hint and check.hint.startswith('https:'):
+    if check.hint and check.hint.startswith("https:"):
         url = check.hint
     elif check.id in DOC_LINKS:
         url = get_doc_url(*DOC_LINKS[check.id])
     if url:
-        return mark_safe('<a href="{}">{}</a>'.format(url, _('Documentation')))
-    return ''
+        return mark_safe('<a href="{}">{}</a>'.format(url, _("Documentation")))
+    return ""

@@ -33,7 +33,7 @@ copyright = "2012 - 2020 Michal Čihař"
 author = "Michal Čihař"
 
 # The short X.Y version
-version = '4.0'
+version = "4.0"
 # The full version, including alpha/beta/rc tags
 release = version
 
@@ -129,7 +129,7 @@ PREAMBLE = r"""
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    'papersize': 'a4paper',
+    "papersize": "a4paper",
     # The font size ('10pt', '11pt' or '12pt').
     # 'pointsize': '10pt',
     # Additional stuff for the LaTeX preamble.
@@ -150,7 +150,7 @@ latex_documents = [
 # Include logo on title page
 latex_logo = "../weblate/static/logo-1024.png"
 # Use xelatex engine for better unicode support
-latex_engine = 'xelatex'
+latex_engine = "xelatex"
 # Disable using xindy as it does not work on readthedocs.org
 latex_use_xindy = False
 
@@ -239,4 +239,4 @@ nitpick_ignore = [
 # Number of retries and timeout for linkcheck
 linkcheck_retries = 10
 linkcheck_timeout = 10
-linkcheck_ignore = ['http://127.0.0.1:8080/']
+linkcheck_ignore = ["http://127.0.0.1:8080/"]

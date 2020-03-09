@@ -46,7 +46,7 @@ class MissingConfiguration(ImproperlyConfigured):
 class MachineTranslation:
     """Generic object for machine translation services."""
 
-    name = 'MT'
+    name = "MT"
     max_score = 100
     rank_boost = 0
     default_languages = []
@@ -59,9 +59,9 @@ class MachineTranslation:
 
     def __init__(self):
         """Create new machine translation object."""
-        self.mtid = self.name.lower().replace(' ', '-')
-        self.rate_limit_cache = '{}-rate-limit'.format(self.mtid)
-        self.languages_cache = '{}-languages'.format(self.mtid)
+        self.mtid = self.name.lower().replace(" ", "-")
+        self.rate_limit_cache = "{}-rate-limit".format(self.mtid)
+        self.languages_cache = "{}-languages".format(self.mtid)
         self.comparer = Comparer()
         self.supported_languages = None
         self.supported_languages_error = None
@@ -80,8 +80,8 @@ class MachineTranslation:
         """Perform JSON request."""
         # Create custom headers
         headers = {
-            'Referer': get_site_url(),
-            'Accept': 'application/json; charset=utf-8',
+            "Referer": get_site_url(),
+            "Accept": "application/json; charset=utf-8",
         }
         if "headers" in kwargs:
             headers.update(kwargs.pop("headers"))
@@ -97,8 +97,8 @@ class MachineTranslation:
         payload = response.json()
 
         # Check response status
-        if payload['responseStatus'] != 200:
-            raise MachineTranslationError(payload['responseDetails'])
+        if payload["responseStatus"] != 200:
+            raise MachineTranslationError(payload["responseDetails"])
 
         # Return data
         return payload
@@ -128,7 +128,7 @@ class MachineTranslation:
 
     def report_error(self, exc, message):
         """Wrapper for handling error situations."""
-        report_error(exc, prefix='Machinery error')
+        report_error(exc, prefix="Machinery error")
         LOGGER.error(message, self.name)
 
     def get_supported_languages(self):
@@ -152,7 +152,7 @@ class MachineTranslation:
         except Exception as exc:
             self.supported_languages = self.default_languages
             self.supported_languages_error = exc
-            self.report_error(exc, 'Failed to fetch languages from %s, using defaults')
+            self.report_error(exc, "Failed to fetch languages from %s, using defaults")
             return
 
         # Update cache
@@ -189,7 +189,7 @@ class MachineTranslation:
     def translate_cache_key(self, source, language, text):
         if not self.cache_translations:
             return None
-        return 'mt:{}:{}:{}'.format(
+        return "mt:{}:{}:{}".format(
             self.mtid, calculate_hash(source, language), calculate_hash(None, text)
         )
 
@@ -208,13 +208,13 @@ class MachineTranslation:
 
         if not self.is_supported(source, language):
             # Try without country code
-            source = source.replace('-', '_')
-            if '_' in source:
-                source = source.split('_')[0]
+            source = source.replace("-", "_")
+            if "_" in source:
+                source = source.split("_")[0]
                 return self.translate(language, text, unit, user, source)
-            language = language.replace('-', '_')
-            if '_' in language:
-                language = language.split('_')[0]
+            language = language.replace("-", "_")
+            if "_" in language:
+                language = language.split("_")[0]
                 return self.translate(language, text, unit, user, source)
             if self.supported_languages_error:
                 raise MachineTranslationError(repr(self.supported_languages_error))
@@ -237,11 +237,11 @@ class MachineTranslation:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
 
-            self.report_error(exc, 'Failed to fetch translations from %s')
+            self.report_error(exc, "Failed to fetch translations from %s")
             raise MachineTranslationError(self.get_error_message(exc))
 
     def get_error_message(self, exc):
-        return '{0}: {1}'.format(exc.__class__.__name__, str(exc))
+        return "{0}: {1}".format(exc.__class__.__name__, str(exc))
 
     def signed_salt(self, appid, secret, text):
         """Generates salt and sign as used by Chinese services."""

@@ -35,10 +35,10 @@ class RemovalAddon(BaseAddon):
     project_scope = True
     events = (EVENT_DAILY,)
     settings_form = RemoveForm
-    icon = 'delete.svg'
+    icon = "delete.svg"
 
     def get_cutoff(self):
-        age = self.instance.configuration['age']
+        age = self.instance.configuration["age"]
         return timezone.now() - timedelta(days=age)
 
     def delete_older(self, objects):
@@ -46,9 +46,9 @@ class RemovalAddon(BaseAddon):
 
 
 class RemoveComments(RemovalAddon):
-    name = 'weblate.removal.comments'
-    verbose = _('Stale comment removal')
-    description = _('Set timeframe for removal of comments.')
+    name = "weblate.removal.comments"
+    verbose = _("Stale comment removal")
+    description = _("Set timeframe for removal of comments.")
 
     def daily(self, component):
         self.delete_older(
@@ -60,9 +60,9 @@ class RemoveComments(RemovalAddon):
 
 
 class RemoveSuggestions(RemovalAddon):
-    name = 'weblate.removal.suggestions'
-    verbose = _('Stale suggestion removal')
-    description = _('Set timeframe for removal of suggestions.')
+    name = "weblate.removal.suggestions"
+    verbose = _("Stale suggestion removal")
+    description = _("Set timeframe for removal of suggestions.")
     settings_form = RemoveSuggestionForm
 
     def daily(self, component):
@@ -70,9 +70,9 @@ class RemoveSuggestions(RemovalAddon):
             Suggestion.objects.filter(
                 unit__translation__component__project=component.project
             )
-            .annotate(Sum('vote__value'))
+            .annotate(Sum("vote__value"))
             .filter(
-                Q(vote__value__sum__lte=self.instance.configuration.get('votes', 0))
+                Q(vote__value__sum__lte=self.instance.configuration.get("votes", 0))
                 | Q(vote__value__sum=None)
             )
         )

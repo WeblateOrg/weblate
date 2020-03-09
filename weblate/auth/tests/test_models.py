@@ -33,63 +33,63 @@ class ModelTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.translation = self.get_translation()
-        self.group = Group.objects.create(name='Test', language_selection=SELECTION_ALL)
+        self.group = Group.objects.create(name="Test", language_selection=SELECTION_ALL)
         self.group.projects.add(self.project)
 
     def test_project(self):
         # No permissions
         self.assertFalse(self.user.can_access_project(self.project))
-        self.assertFalse(self.user.has_perm('unit.edit', self.translation))
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Access permission on adding to group
         self.user.clear_cache()
         self.user.groups.add(self.group)
         self.assertTrue(self.user.can_access_project(self.project))
-        self.assertFalse(self.user.has_perm('unit.edit', self.translation))
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Translate permission on adding role to group
         self.user.clear_cache()
-        self.group.roles.add(Role.objects.get(name='Power user'))
+        self.group.roles.add(Role.objects.get(name="Power user"))
         self.assertTrue(self.user.can_access_project(self.project))
-        self.assertTrue(self.user.has_perm('unit.edit', self.translation))
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
     def test_componentlist(self):
         # Add user to group of power users
         self.user.groups.add(self.group)
-        self.group.roles.add(Role.objects.get(name='Power user'))
+        self.group.roles.add(Role.objects.get(name="Power user"))
 
         # Assign component list to a group
-        clist = ComponentList.objects.create(name='Test', slug='test')
+        clist = ComponentList.objects.create(name="Test", slug="test")
         self.group.componentlist = clist
         self.group.save()
 
         # No permissions as component list is empty
         self.assertTrue(self.user.can_access_project(self.project))
-        self.assertFalse(self.user.has_perm('unit.edit', self.translation))
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Permissions should exist after adding to a component list
         self.user.clear_cache()
         clist.components.add(self.component)
         self.assertTrue(self.user.can_access_project(self.project))
-        self.assertTrue(self.user.has_perm('unit.edit', self.translation))
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
     def test_languages(self):
         # Add user to group with german language
         self.user.groups.add(self.group)
         self.group.language_selection = SELECTION_MANUAL
         self.group.save()
-        self.group.roles.add(Role.objects.get(name='Power user'))
-        self.group.languages.set(Language.objects.filter(code='de'), clear=True)
+        self.group.roles.add(Role.objects.get(name="Power user"))
+        self.group.languages.set(Language.objects.filter(code="de"), clear=True)
 
         # Permissions should deny access
         self.assertTrue(self.user.can_access_project(self.project))
-        self.assertFalse(self.user.has_perm('unit.edit', self.translation))
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Adding Czech language should unlock it
         self.user.clear_cache()
-        self.group.languages.add(Language.objects.get(code='cs'))
+        self.group.languages.add(Language.objects.get(code="cs"))
         self.assertTrue(self.user.can_access_project(self.project))
-        self.assertTrue(self.user.has_perm('unit.edit', self.translation))
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
     def test_groups(self):
         # Add test group
@@ -97,25 +97,25 @@ class ModelTest(FixtureTestCase):
         self.assertEqual(self.user.groups.count(), 3)
 
         # Add same named Django group
-        self.user.groups.add(DjangoGroup.objects.create(name='Test'))
+        self.user.groups.add(DjangoGroup.objects.create(name="Test"))
         self.assertEqual(self.user.groups.count(), 3)
 
         # Add different Django group
-        self.user.groups.add(DjangoGroup.objects.create(name='Second'))
+        self.user.groups.add(DjangoGroup.objects.create(name="Second"))
         self.assertEqual(self.user.groups.count(), 4)
 
         # Remove Weblate group
-        self.user.groups.remove(Group.objects.get(name='Test'))
+        self.user.groups.remove(Group.objects.get(name="Test"))
         self.assertEqual(self.user.groups.count(), 3)
 
         # Remove Django group
-        self.user.groups.remove(DjangoGroup.objects.get(name='Second'))
+        self.user.groups.remove(DjangoGroup.objects.get(name="Second"))
         self.assertEqual(self.user.groups.count(), 2)
 
     def test_user(self):
         # Create user with Django User fields
         user = User.objects.create(
-            first_name='First', last_name='Last', is_staff=True, is_superuser=True
+            first_name="First", last_name="Last", is_staff=True, is_superuser=True
         )
-        self.assertEqual(user.full_name, 'First Last')
+        self.assertEqual(user.full_name, "First Last")
         self.assertEqual(user.is_superuser, True)

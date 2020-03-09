@@ -22,7 +22,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'unlocks component for editing'
+    help = "unlocks component for editing"
 
     def handle(self, *args, **options):
         for component in self.get_components(*args, **options):

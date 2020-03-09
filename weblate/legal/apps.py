@@ -23,6 +23,6 @@ from django.apps import AppConfig
 
 
 class LegalConfig(AppConfig):
-    name = 'weblate.legal'
-    label = 'legal'
-    verbose_name = 'Legal'
+    name = "weblate.legal"
+    label = "legal"
+    verbose_name = "Legal"

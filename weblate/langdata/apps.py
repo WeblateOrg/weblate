@@ -23,6 +23,6 @@ from django.apps import AppConfig
 
 
 class LangDataConfig(AppConfig):
-    name = 'weblate.langdata'
-    label = 'langdata'
-    verbose_name = 'Language data'
+    name = "weblate.langdata"
+    label = "langdata"
+    verbose_name = "Language data"

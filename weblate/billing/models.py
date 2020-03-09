@@ -49,7 +49,7 @@ class PlanQuerySet(models.QuerySet):
             result |= base.filter(
                 public=False, billing__in=Billing.objects.for_user(user)
             )
-        return result.distinct().order_by('price')
+        return result.distinct().order_by("price")
 
 
 class Plan(models.Model):
@@ -107,13 +107,13 @@ class BillingQuerySet(models.QuerySet):
 
     def for_user(self, user):
         if user.is_superuser:
-            return self.all().order_by('state')
+            return self.all().order_by("state")
         return (
             self.filter(
-                Q(projects__in=user.projects_with_perm('billing.view')) | Q(owners=user)
+                Q(projects__in=user.projects_with_perm("billing.view")) | Q(owners=user)
             )
             .distinct()
-            .order_by('state')
+            .order_by("state")
         )
 
 
@@ -126,43 +126,43 @@ class Billing(models.Model):
     EXPIRING_STATES = (STATE_TRIAL,)
 
     plan = models.ForeignKey(
-        Plan, on_delete=models.deletion.CASCADE, verbose_name=_('Billing plan')
+        Plan, on_delete=models.deletion.CASCADE, verbose_name=_("Billing plan")
     )
     projects = models.ManyToManyField(
-        Project, blank=True, verbose_name=_('Billed projects')
+        Project, blank=True, verbose_name=_("Billed projects")
     )
-    owners = models.ManyToManyField(User, blank=True, verbose_name=_('Billing owners'))
+    owners = models.ManyToManyField(User, blank=True, verbose_name=_("Billing owners"))
     state = models.IntegerField(
         choices=(
-            (STATE_ACTIVE, _('Active')),
-            (STATE_TRIAL, _('Trial')),
-            (STATE_EXPIRED, _('Expired')),
-            (STATE_TERMINATED, _('Terminated')),
+            (STATE_ACTIVE, _("Active")),
+            (STATE_TRIAL, _("Trial")),
+            (STATE_EXPIRED, _("Expired")),
+            (STATE_TERMINATED, _("Terminated")),
         ),
         default=STATE_ACTIVE,
-        verbose_name=_('Billing state'),
+        verbose_name=_("Billing state"),
     )
     expiry = models.DateTimeField(
         blank=True,
         null=True,
         default=None,
-        verbose_name=_('Trial expiry date'),
-        help_text='After expiry removal with 15 days grace period is scheduled.',
+        verbose_name=_("Trial expiry date"),
+        help_text="After expiry removal with 15 days grace period is scheduled.",
     )
     removal = models.DateTimeField(
         blank=True,
         null=True,
         default=None,
-        verbose_name=_('Scheduled removal'),
-        help_text='This is automatically set after trial expiry.',
+        verbose_name=_("Scheduled removal"),
+        help_text="This is automatically set after trial expiry.",
     )
-    paid = models.BooleanField(default=True, verbose_name=_('Paid'), editable=False)
+    paid = models.BooleanField(default=True, verbose_name=_("Paid"), editable=False)
     # Translators: Whether the package is inside actual (hard) limits
     in_limits = models.BooleanField(
-        default=True, verbose_name=_('In limits'), editable=False
+        default=True, verbose_name=_("In limits"), editable=False
     )
     grace_period = models.IntegerField(
-        default=0, verbose_name=_('Grace period for payments')
+        default=0, verbose_name=_("Grace period for payments")
     )
     # Payment detailed information, used for integration
     # with payment processor
@@ -174,15 +174,15 @@ class Billing(models.Model):
         projects = self.projects.order()
         owners = self.owners.order()
         if projects:
-            base = ', '.join(str(x) for x in projects)
+            base = ", ".join(str(x) for x in projects)
         elif owners:
-            base = ', '.join(x.get_author_name(False) for x in owners)
+            base = ", ".join(x.get_author_name(False) for x in owners)
         else:
-            base = 'Unassigned'
-        return '{0} ({1})'.format(base, self.plan)
+            base = "Unassigned"
+        return "{0} ({1})".format(base, self.plan)
 
     def get_absolute_url(self):
-        return '{}#billing-{}'.format(reverse('billing'), self.pk)
+        return "{}#billing-{}".format(reverse("billing"), self.pk)
 
     @cached_property
     def can_be_paid(self):
@@ -200,46 +200,46 @@ class Billing(models.Model):
     def count_changes_1m(self):
         return self.count_changes(timedelta(days=31))
 
-    count_changes_1m.short_description = _('Changes in last month')
+    count_changes_1m.short_description = _("Changes in last month")
 
     @cached_property
     def count_changes_1q(self):
         return self.count_changes(timedelta(days=93))
 
-    count_changes_1q.short_description = _('Changes in last quarter')
+    count_changes_1q.short_description = _("Changes in last quarter")
 
     @cached_property
     def count_changes_1y(self):
         return self.count_changes(timedelta(days=365))
 
-    count_changes_1y.short_description = _('Changes in last year')
+    count_changes_1y.short_description = _("Changes in last year")
 
     @cached_property
     def count_projects(self):
         return self.projects.count()
 
     def display_projects(self):
-        return '{0} / {1}'.format(self.count_projects, self.plan.display_limit_projects)
+        return "{0} / {1}".format(self.count_projects, self.plan.display_limit_projects)
 
-    display_projects.short_description = _('Projects')
+    display_projects.short_description = _("Projects")
 
     @cached_property
     def count_strings(self):
         return sum(p.stats.source_strings for p in self.projects.iterator())
 
     def display_strings(self):
-        return '{0} / {1}'.format(self.count_strings, self.plan.display_limit_strings)
+        return "{0} / {1}".format(self.count_strings, self.plan.display_limit_strings)
 
-    display_strings.short_description = _('Source strings')
+    display_strings.short_description = _("Source strings")
 
     @cached_property
     def count_words(self):
         return sum(p.stats.source_words for p in self.projects.iterator())
 
     def display_words(self):
-        return '{0}'.format(self.count_words)
+        return "{0}".format(self.count_words)
 
-    display_words.short_description = _('Source words')
+    display_words.short_description = _("Source words")
 
     @cached_property
     def count_languages(self):
@@ -252,16 +252,16 @@ class Billing(models.Model):
         )
 
     def display_languages(self):
-        return '{0} / {1}'.format(
+        return "{0} / {1}".format(
             self.count_languages, self.plan.display_limit_languages
         )
 
-    display_languages.short_description = _('Languages')
+    display_languages.short_description = _("Languages")
 
     def flush_cache(self):
         keys = list(self.__dict__.keys())
         for key in keys:
-            if key.startswith('count_'):
+            if key.startswith("count_"):
                 del self.__dict__[key]
 
     def check_in_limits(self, plan=None):
@@ -288,16 +288,16 @@ class Billing(models.Model):
             translation__component__project__in=self.projects.all()
         ).count()
 
-    unit_count.short_description = _('Number of strings')
+    unit_count.short_description = _("Number of strings")
 
     def last_invoice(self):
         try:
-            invoice = self.invoice_set.order_by('-start')[0]
-            return '{0} - {1}'.format(invoice.start, invoice.end)
+            invoice = self.invoice_set.order_by("-start")[0]
+            return "{0} - {1}".format(invoice.start, invoice.end)
         except IndexError:
-            return _('N/A')
+            return _("N/A")
 
-    last_invoice.short_description = _('Last invoice')
+    last_invoice.short_description = _("Last invoice")
 
     def in_display_limits(self, plan=None):
         if plan is None:
@@ -319,7 +319,7 @@ class Billing(models.Model):
 
     in_display_limits.boolean = True
     # Translators: Whether the package is inside displayed (soft) limits
-    in_display_limits.short_description = _('In display limits')
+    in_display_limits.short_description = _("In display limits")
 
     def check_payment_status(self, grace=None):
         """Check current payment status.
@@ -358,7 +358,7 @@ class Billing(models.Model):
             self.save(skip_limits=True)
 
     def save(self, *args, **kwargs):
-        if not kwargs.pop('skip_limits', False) and self.pk:
+        if not kwargs.pop("skip_limits", False) and self.pk:
             self.check_limits(save=False)
         super().save(*args, **kwargs)
 
@@ -368,13 +368,13 @@ class Billing(models.Model):
     def get_notify_users(self):
         users = self.owners.distinct()
         for project in self.projects.iterator():
-            users |= User.objects.having_perm('billing.view', project)
+            users |= User.objects.having_perm("billing.view", project)
         return users
 
 
 class InvoiceQuerySet(models.QuerySet):
     def order(self):
-        return self.order_by('-start')
+        return self.order_by("-start")
 
 
 class Invoice(models.Model):
@@ -389,10 +389,10 @@ class Invoice(models.Model):
     amount = models.FloatField()
     currency = models.IntegerField(
         choices=(
-            (CURRENCY_EUR, 'EUR'),
-            (CURRENCY_BTC, 'mBTC'),
-            (CURRENCY_USD, 'USD'),
-            (CURRENCY_CZK, 'CZK'),
+            (CURRENCY_EUR, "EUR"),
+            (CURRENCY_BTC, "mBTC"),
+            (CURRENCY_USD, "USD"),
+            (CURRENCY_CZK, "CZK"),
         ),
         default=CURRENCY_EUR,
     )
@@ -405,14 +405,14 @@ class Invoice(models.Model):
     objects = InvoiceQuerySet.as_manager()
 
     def __str__(self):
-        return '{0} - {1}: {2}'.format(
+        return "{0} - {1}: {2}".format(
             self.start, self.end, self.billing if self.billing_id else None
         )
 
     @cached_property
     def filename(self):
         if self.ref:
-            return '{0}.pdf'.format(self.ref)
+            return "{0}.pdf".format(self.ref)
         return None
 
     @cached_property
@@ -428,7 +428,7 @@ class Invoice(models.Model):
             return
 
         if self.end <= self.start:
-            raise ValidationError('Start has be to before end!')
+            raise ValidationError("Start has be to before end!")
 
         if not self.billing_id:
             return
@@ -443,8 +443,8 @@ class Invoice(models.Model):
 
         if overlapping.exists():
             raise ValidationError(
-                'Overlapping invoices exist: {0}'.format(
-                    ', '.join(str(x) for x in overlapping)
+                "Overlapping invoices exist: {0}".format(
+                    ", ".join(str(x) for x in overlapping)
                 )
             )
 

@@ -26,7 +26,7 @@ from weblate.accounts.captcha import MathCaptcha
 
 class CaptchaTest(TestCase):
     def test_object(self):
-        captcha = MathCaptcha('1 * 2')
+        captcha = MathCaptcha("1 * 2")
         self.assertFalse(captcha.validate(1))
         self.assertTrue(captcha.validate(2))
         restored = MathCaptcha.unserialize(captcha.serialize())

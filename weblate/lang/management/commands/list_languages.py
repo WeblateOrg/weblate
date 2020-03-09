@@ -25,25 +25,25 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'List language definitions'
+    help = "List language definitions"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--lower', action='store_true', help='Lowercase translated name'
+            "--lower", action="store_true", help="Lowercase translated name"
         )
-        parser.add_argument('locale', help='Locale for printing')
+        parser.add_argument("locale", help="Locale for printing")
 
     def handle(self, *args, **options):
         """Create default set of languages.
 
         Optionally updating them to match current shipped definitions.
         """
-        activate(options['locale'])
+        activate(options["locale"])
         for language in Language.objects.order():
             name = gettext(language.name)
-            if options['lower']:
+            if options["lower"]:
                 name = name[0].lower() + name[1:]
             self.stdout.write(
-                '| {0} || {1} || {2}'.format(language.code, language.name, name)
+                "| {0} || {1} || {2}".format(language.code, language.name, name)
             )
-            self.stdout.write('|-')
+            self.stdout.write("|-")

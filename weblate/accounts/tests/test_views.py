@@ -36,10 +36,10 @@ from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 
 CONTACT_DATA = {
-    'name': 'Test',
-    'email': 'noreply@weblate.org',
-    'subject': 'Message from dark side',
-    'message': 'Hi\n\nThis app looks really cool!',
+    "name": "Test",
+    "email": "noreply@weblate.org",
+    "subject": "Message from dark side",
+    "message": "Hi\n\nThis app looks really cool!",
 }
 
 
@@ -48,123 +48,123 @@ class ViewTest(TestCase):
 
     def setUp(self):
         super().setUp()
-        reset_rate_limit('login', address='127.0.0.1')
-        reset_rate_limit('message', address='127.0.0.1')
+        reset_rate_limit("login", address="127.0.0.1")
+        reset_rate_limit("message", address="127.0.0.1")
 
     def get_user(self):
-        user = User.objects.create_user(username='testuser', password='testpassword')
-        user.full_name = 'First Second'
-        user.email = 'noreply@example.com'
+        user = User.objects.create_user(username="testuser", password="testpassword")
+        user.full_name = "First Second"
+        user.email = "noreply@example.com"
         user.save()
         return user
 
     @override_settings(
-        REGISTRATION_CAPTCHA=False, ADMINS=(('Weblate test', 'noreply@weblate.org'),)
+        REGISTRATION_CAPTCHA=False, ADMINS=(("Weblate test", "noreply@weblate.org"),)
     )
     def test_contact(self):
         """Test for contact form."""
         # Basic get
-        response = self.client.get(reverse('contact'))
+        response = self.client.get(reverse("contact"))
         self.assertContains(response, 'id="id_message"')
 
         # Sending message
-        response = self.client.post(reverse('contact'), CONTACT_DATA)
-        self.assertRedirects(response, reverse('home'))
+        response = self.client.post(reverse("contact"), CONTACT_DATA)
+        self.assertRedirects(response, reverse("home"))
 
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, '[Weblate] Message from dark side')
-        self.assertEqual(mail.outbox[0].to, ['noreply@weblate.org'])
+        self.assertEqual(mail.outbox[0].subject, "[Weblate] Message from dark side")
+        self.assertEqual(mail.outbox[0].to, ["noreply@weblate.org"])
 
     @override_settings(
-        REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=['noreply@example.com']
+        REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=["noreply@example.com"]
     )
     def test_contact_separate(self):
         """Test for contact form."""
         # Sending message
-        response = self.client.post(reverse('contact'), CONTACT_DATA)
-        self.assertRedirects(response, reverse('home'))
+        response = self.client.post(reverse("contact"), CONTACT_DATA)
+        self.assertRedirects(response, reverse("home"))
 
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, '[Weblate] Message from dark side')
-        self.assertEqual(mail.outbox[0].to, ['noreply@example.com'])
+        self.assertEqual(mail.outbox[0].subject, "[Weblate] Message from dark side")
+        self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_contact_invalid(self):
         """Test for contact form."""
         # Sending message
         data = CONTACT_DATA.copy()
-        data['email'] = 'rejected&mail@example.com'
-        response = self.client.post(reverse('contact'), data)
-        self.assertContains(response, 'Enter a valid e-mail address.')
+        data["email"] = "rejected&mail@example.com"
+        response = self.client.post(reverse("contact"), data)
+        self.assertContains(response, "Enter a valid e-mail address.")
 
     @override_settings(RATELIMIT_ATTEMPTS=0)
     def test_contact_rate(self):
         """Test for contact form rate limiting."""
-        response = self.client.post(reverse('contact'), CONTACT_DATA)
-        self.assertContains(response, 'Too many messages sent, please try again later!')
+        response = self.client.post(reverse("contact"), CONTACT_DATA)
+        self.assertContains(response, "Too many messages sent, please try again later!")
 
     @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=0)
     def test_contact_rate_window(self):
         """Test for contact form rate limiting."""
-        message = 'Too many messages sent, please try again later!'
-        response = self.client.post(reverse('contact'), CONTACT_DATA)
+        message = "Too many messages sent, please try again later!"
+        response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertNotContains(response, message)
-        response = self.client.post(reverse('contact'), CONTACT_DATA)
+        response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertNotContains(response, message)
 
     @override_settings(OFFER_HOSTING=False)
     def test_hosting_disabled(self):
         """Test for hosting form with disabled hosting."""
         self.get_user()
-        self.client.login(username='testuser', password='testpassword')
-        response = self.client.get(reverse('hosting'))
-        self.assertRedirects(response, reverse('home'))
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("hosting"))
+        self.assertRedirects(response, reverse("home"))
 
     @override_settings(
         REGISTRATION_CAPTCHA=False,
         OFFER_HOSTING=True,
-        ADMINS_HOSTING=['noreply@example.com'],
+        ADMINS_HOSTING=["noreply@example.com"],
     )
     def test_hosting(self):
         """Test for hosting form with enabled hosting."""
         self.get_user()
-        self.client.login(username='testuser', password='testpassword')
-        response = self.client.get(reverse('hosting'))
+        self.client.login(username="testuser", password="testpassword")
+        response = self.client.get(reverse("hosting"))
         self.assertContains(response, 'id="id_message"')
 
         # Sending message
         response = self.client.post(
-            reverse('hosting'),
+            reverse("hosting"),
             {
-                'name': 'Test',
-                'email': 'noreply@weblate.org',
-                'project': 'HOST',
-                'url': 'http://example.net',
-                'repo': 'https://github.com/WeblateOrg/weblate.git',
-                'mask': 'po/*.po',
-                'message': 'Hi\n\nI want to use it!',
+                "name": "Test",
+                "email": "noreply@weblate.org",
+                "project": "HOST",
+                "url": "http://example.net",
+                "repo": "https://github.com/WeblateOrg/weblate.git",
+                "mask": "po/*.po",
+                "message": "Hi\n\nI want to use it!",
             },
         )
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, reverse("home"))
 
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, '[Weblate] Hosting request for HOST')
-        self.assertIn('testuser', mail.outbox[0].body)
-        self.assertEqual(mail.outbox[0].to, ['noreply@example.com'])
+        self.assertEqual(mail.outbox[0].subject, "[Weblate] Hosting request for HOST")
+        self.assertIn("testuser", mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].to, ["noreply@example.com"])
 
     def test_contact_subject(self):
         # With set subject
-        response = self.client.get(reverse('contact'), {'t': 'reg'})
-        self.assertContains(response, 'Registration problems')
+        response = self.client.get(reverse("contact"), {"t": "reg"})
+        self.assertContains(response, "Registration problems")
 
     def test_contact_user(self):
         user = self.get_user()
         # Login
-        self.client.login(username=user.username, password='testpassword')
-        response = self.client.get(reverse('contact'))
+        self.client.login(username=user.username, password="testpassword")
+        response = self.client.get(reverse("contact"))
         self.assertContains(response, 'value="First Second"')
         self.assertContains(response, user.email)
 
@@ -174,7 +174,7 @@ class ViewTest(TestCase):
         user = self.get_user()
 
         # Login as user
-        self.client.login(username=user.username, password='testpassword')
+        self.client.login(username=user.username, password="testpassword")
 
         # Get public profile
         response = self.client.get(user.get_absolute_url())
@@ -187,51 +187,51 @@ class ViewTest(TestCase):
 
         # Get public profile
         response = self.client.get(
-            reverse('user_suggestions', kwargs={'user': user.username})
+            reverse("user_suggestions", kwargs={"user": user.username})
         )
-        self.assertContains(response, 'Suggestions')
+        self.assertContains(response, "Suggestions")
 
-        response = self.client.get(reverse('user_suggestions', kwargs={'user': '-'}))
-        self.assertContains(response, 'Suggestions')
+        response = self.client.get(reverse("user_suggestions", kwargs={"user": "-"}))
+        self.assertContains(response, "Suggestions")
 
     def test_login(self):
         user = self.get_user()
 
         # Login
         response = self.client.post(
-            reverse('login'), {'username': user.username, 'password': 'testpassword'}
+            reverse("login"), {"username": user.username, "password": "testpassword"}
         )
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, reverse("home"))
 
         # Login redirect
-        response = self.client.get(reverse('login'))
-        self.assertRedirects(response, reverse('profile'))
+        response = self.client.get(reverse("login"))
+        self.assertRedirects(response, reverse("profile"))
 
         # Logout with GET should fail
-        response = self.client.get(reverse('logout'))
+        response = self.client.get(reverse("logout"))
         self.assertEqual(response.status_code, 405)
 
         # Logout
-        response = self.client.post(reverse('logout'))
-        self.assertRedirects(response, reverse('home'))
+        response = self.client.post(reverse("logout"))
+        self.assertRedirects(response, reverse("home"))
 
     def test_login_email(self):
         user = self.get_user()
 
         # Login
         response = self.client.post(
-            reverse('login'), {'username': user.email, 'password': 'testpassword'}
+            reverse("login"), {"username": user.email, "password": "testpassword"}
         )
-        self.assertRedirects(response, reverse('home'))
+        self.assertRedirects(response, reverse("home"))
 
     def test_login_anonymous(self):
         # Login
         response = self.client.post(
-            reverse('login'),
-            {'username': settings.ANONYMOUS_USER_NAME, 'password': 'testpassword'},
+            reverse("login"),
+            {"username": settings.ANONYMOUS_USER_NAME, "password": "testpassword"},
         )
         self.assertContains(
-            response, 'This username/password combination was not found.'
+            response, "This username/password combination was not found."
         )
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
@@ -244,15 +244,15 @@ class ViewTest(TestCase):
         # Use auth attempts
         for _unused in range(5):
             response = self.client.post(
-                reverse('login'), {'username': 'testuser', 'password': 'invalid'}
+                reverse("login"), {"username": "testuser", "password": "invalid"}
             )
-            self.assertContains(response, 'Please try again.')
+            self.assertContains(response, "Please try again.")
 
         # Try login with valid password
         response = self.client.post(
-            reverse('login'), {'username': 'testuser', 'password': 'testpassword'}
+            reverse("login"), {"username": "testuser", "password": "testpassword"}
         )
-        self.assertContains(response, 'Please try again.')
+        self.assertContains(response, "Please try again.")
 
     @override_settings(RATELIMIT_ATTEMPTS=10, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit_login(self):
@@ -262,181 +262,181 @@ class ViewTest(TestCase):
         # Create user
         self.get_user()
         # Login
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
         # Change without data
-        response = self.client.post(reverse('password'))
-        self.assertContains(response, 'This field is required.')
-        response = self.client.get(reverse('password'))
-        self.assertContains(response, 'Current password')
+        response = self.client.post(reverse("password"))
+        self.assertContains(response, "This field is required.")
+        response = self.client.get(reverse("password"))
+        self.assertContains(response, "Current password")
         # Change with wrong password
         response = self.client.post(
-            reverse('password'),
+            reverse("password"),
             {
-                'password': '123456',
-                'new_password1': '123456',
-                'new_password2': '123456',
+                "password": "123456",
+                "new_password1": "123456",
+                "new_password2": "123456",
             },
         )
-        self.assertContains(response, 'You have entered an invalid password.')
+        self.assertContains(response, "You have entered an invalid password.")
         # Change
         response = self.client.post(
-            reverse('password'),
+            reverse("password"),
             {
-                'password': 'testpassword',
-                'new_password1': '1pa$$word!',
-                'new_password2': '1pa$$word!',
+                "password": "testpassword",
+                "new_password1": "1pa$$word!",
+                "new_password2": "1pa$$word!",
             },
         )
 
-        self.assertRedirects(response, reverse('profile') + '#account')
+        self.assertRedirects(response, reverse("profile") + "#account")
         self.assertTrue(
-            User.objects.get(username='testuser').check_password('1pa$$word!')
+            User.objects.get(username="testuser").check_password("1pa$$word!")
         )
 
     def test_api_key(self):
         # Create user
         user = self.get_user()
         # Login
-        self.client.login(username='testuser', password='testpassword')
+        self.client.login(username="testuser", password="testpassword")
 
         # API key reset with GET should fail
-        response = self.client.get(reverse('reset-api-key'))
+        response = self.client.get(reverse("reset-api-key"))
         self.assertEqual(response.status_code, 405)
 
         # API key reset
-        response = self.client.post(reverse('reset-api-key'))
-        self.assertRedirects(response, reverse('profile') + '#api')
+        response = self.client.post(reverse("reset-api-key"))
+        self.assertRedirects(response, reverse("profile") + "#api")
 
         # API key reset without token
         user.auth_token.delete()
-        response = self.client.post(reverse('reset-api-key'))
-        self.assertRedirects(response, reverse('profile') + '#api')
+        response = self.client.post(reverse("reset-api-key"))
+        self.assertRedirects(response, reverse("profile") + "#api")
 
 
 class ProfileTest(FixtureTestCase):
     def test_profile(self):
         # Get profile page
-        response = self.client.get(reverse('profile'))
+        response = self.client.get(reverse("profile"))
         self.assertContains(response, 'action="/accounts/profile/"')
         self.assertContains(response, 'name="secondary_languages"')
-        self.assertContains(response, reverse('userdata'))
+        self.assertContains(response, reverse("userdata"))
 
         # Save profile
         response = self.client.post(
-            reverse('profile'),
+            reverse("profile"),
             {
-                'language': 'en',
-                'languages': Language.objects.get(code='cs').id,
-                'secondary_languages': Language.objects.get(code='cs').id,
-                'full_name': 'First Last',
-                'email': 'weblate@example.org',
-                'username': 'testik',
-                'dashboard_view': Profile.DASHBOARD_WATCHED,
-                'translate_mode': Profile.TRANSLATE_FULL,
-                'zen_mode': Profile.ZEN_VERTICAL,
+                "language": "en",
+                "languages": Language.objects.get(code="cs").id,
+                "secondary_languages": Language.objects.get(code="cs").id,
+                "full_name": "First Last",
+                "email": "weblate@example.org",
+                "username": "testik",
+                "dashboard_view": Profile.DASHBOARD_WATCHED,
+                "translate_mode": Profile.TRANSLATE_FULL,
+                "zen_mode": Profile.ZEN_VERTICAL,
             },
         )
-        self.assertRedirects(response, reverse('profile'))
+        self.assertRedirects(response, reverse("profile"))
 
     def test_userdata(self):
-        response = self.client.post(reverse('userdata'))
-        self.assertContains(response, 'basic')
+        response = self.client.post(reverse("userdata"))
+        self.assertContains(response, "basic")
 
         # Add more languages
-        self.user.profile.languages.add(Language.objects.get(code='pl'))
-        self.user.profile.secondary_languages.add(Language.objects.get(code='de'))
-        self.user.profile.secondary_languages.add(Language.objects.get(code='uk'))
-        response = self.client.post(reverse('userdata'))
+        self.user.profile.languages.add(Language.objects.get(code="pl"))
+        self.user.profile.secondary_languages.add(Language.objects.get(code="de"))
+        self.user.profile.secondary_languages.add(Language.objects.get(code="uk"))
+        response = self.client.post(reverse("userdata"))
         self.assertContains(response, '"pl"')
         self.assertContains(response, '"de"')
 
     def test_subscription(self):
         # Get profile page
-        response = self.client.get(reverse('profile'))
+        response = self.client.get(reverse("profile"))
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Extract current form data
         data = {}
-        for form in response.context['all_forms']:
+        for form in response.context["all_forms"]:
             for field in form:
                 value = field.value()
                 name = field.html_name
                 if value is None:
-                    data[name] = ''
+                    data[name] = ""
                 elif isinstance(value, list):
                     data[name] = value
                 else:
                     data[name] = force_str(value)
 
         # Save unchanged data
-        response = self.client.post(reverse('profile'), data, follow=True)
-        self.assertContains(response, 'Your profile has been updated.')
+        response = self.client.post(reverse("profile"), data, follow=True)
+        self.assertContains(response, "Your profile has been updated.")
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Remove some subscriptions
-        data['notifications__0-notify-LastAuthorCommentNotificaton'] = '0'
-        data['notifications__0-notify-MentionCommentNotificaton'] = '0'
-        response = self.client.post(reverse('profile'), data, follow=True)
-        self.assertContains(response, 'Your profile has been updated.')
+        data["notifications__0-notify-LastAuthorCommentNotificaton"] = "0"
+        data["notifications__0-notify-MentionCommentNotificaton"] = "0"
+        response = self.client.post(reverse("profile"), data, follow=True)
+        self.assertContains(response, "Your profile has been updated.")
         self.assertEqual(self.user.subscription_set.count(), 7)
 
         # Add some subscriptions
-        data['notifications__1-notify-ChangedStringNotificaton'] = '1'
-        response = self.client.post(reverse('profile'), data, follow=True)
-        self.assertContains(response, 'Your profile has been updated.')
+        data["notifications__1-notify-ChangedStringNotificaton"] = "1"
+        response = self.client.post(reverse("profile"), data, follow=True)
+        self.assertContains(response, "Your profile has been updated.")
         self.assertEqual(self.user.subscription_set.count(), 8)
 
     def test_subscription_customize(self):
         # Initial view
-        response = self.client.get(reverse('profile'))
-        self.assertNotContains(response, 'Project: Test')
-        self.assertNotContains(response, 'Component: Test/Test')
+        response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, "Project: Test")
+        self.assertNotContains(response, "Component: Test/Test")
         # Configure project
         response = self.client.get(
-            reverse('profile'), {'notify_project': self.project.pk}
+            reverse("profile"), {"notify_project": self.project.pk}
         )
-        self.assertContains(response, 'Project: Test')
-        self.assertNotContains(response, 'Component: Test/Test')
+        self.assertContains(response, "Project: Test")
+        self.assertNotContains(response, "Component: Test/Test")
         # Configure component
         response = self.client.get(
-            reverse('profile'), {'notify_component': self.component.pk}
+            reverse("profile"), {"notify_component": self.component.pk}
         )
-        self.assertNotContains(response, 'Project: Test')
-        self.assertContains(response, 'Component: Test/Test')
+        self.assertNotContains(response, "Project: Test")
+        self.assertContains(response, "Component: Test/Test")
         # Configure invalid
-        response = self.client.get(reverse('profile'), {'notify_component': 'a'})
-        self.assertNotContains(response, 'Project: Test')
-        self.assertNotContains(response, 'Component: Test/Test')
+        response = self.client.get(reverse("profile"), {"notify_component": "a"})
+        self.assertNotContains(response, "Project: Test")
+        self.assertNotContains(response, "Component: Test/Test")
         # Configure invalid
-        response = self.client.get(reverse('profile'), {'notify_project': 'a'})
-        self.assertNotContains(response, 'Project: Test')
-        self.assertNotContains(response, 'Component: Test/Test')
+        response = self.client.get(reverse("profile"), {"notify_project": "a"})
+        self.assertNotContains(response, "Project: Test")
+        self.assertNotContains(response, "Component: Test/Test")
 
     def test_watch(self):
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 9)
 
         # Watch project
-        self.client.post(reverse('watch', kwargs=self.kw_project))
+        self.client.post(reverse("watch", kwargs=self.kw_project))
         self.assertEqual(self.user.profile.watched.count(), 1)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0
         )
 
         # Mute notifications for component
-        self.client.post(reverse('mute', kwargs=self.kw_component))
+        self.client.post(reverse("mute", kwargs=self.kw_component))
         self.assertEqual(
             self.user.subscription_set.filter(component=self.component).count(), 14
         )
 
         # Mute notifications for project
-        self.client.post(reverse('mute', kwargs=self.kw_project))
+        self.client.post(reverse("mute", kwargs=self.kw_project))
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 14
         )
 
         # Unwatch project
-        self.client.post(reverse('unwatch', kwargs=self.kw_project))
+        self.client.post(reverse("unwatch", kwargs=self.kw_project))
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(
             self.user.subscription_set.filter(project=self.project).count(), 0
@@ -447,28 +447,28 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(self.user.subscription_set.count(), 9)
 
     def test_unsubscribe(self):
-        response = self.client.get(reverse('unsubscribe'), follow=True)
-        self.assertRedirects(response, reverse('profile') + '#notifications')
+        response = self.client.get(reverse("unsubscribe"), follow=True)
+        self.assertRedirects(response, reverse("profile") + "#notifications")
 
-        response = self.client.get(reverse('unsubscribe'), {'i': 'x'}, follow=True)
-        self.assertRedirects(response, reverse('profile') + '#notifications')
-        self.assertContains(response, 'notification change link is no longer valid')
+        response = self.client.get(reverse("unsubscribe"), {"i": "x"}, follow=True)
+        self.assertRedirects(response, reverse("profile") + "#notifications")
+        self.assertContains(response, "notification change link is no longer valid")
 
         response = self.client.get(
-            reverse('unsubscribe'), {'i': TimestampSigner().sign(-1)}, follow=True
+            reverse("unsubscribe"), {"i": TimestampSigner().sign(-1)}, follow=True
         )
-        self.assertRedirects(response, reverse('profile') + '#notifications')
-        self.assertContains(response, 'notification change link is no longer valid')
+        self.assertRedirects(response, reverse("profile") + "#notifications")
+        self.assertContains(response, "notification change link is no longer valid")
 
         subscription = Subscription.objects.create(
-            user=self.user, notification='x', frequency=FREQ_DAILY, scope=SCOPE_DEFAULT
+            user=self.user, notification="x", frequency=FREQ_DAILY, scope=SCOPE_DEFAULT
         )
         response = self.client.get(
-            reverse('unsubscribe'),
-            {'i': TimestampSigner().sign(subscription.pk)},
+            reverse("unsubscribe"),
+            {"i": TimestampSigner().sign(subscription.pk)},
             follow=True,
         )
-        self.assertRedirects(response, reverse('profile') + '#notifications')
-        self.assertContains(response, 'Notification settings adjusted')
+        self.assertRedirects(response, reverse("profile") + "#notifications")
+        self.assertContains(response, "Notification settings adjusted")
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, FREQ_NONE)

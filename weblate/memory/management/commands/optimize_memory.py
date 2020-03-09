@@ -26,12 +26,12 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     """Command for optimizing translation memory content."""
 
-    help = 'optimizes translation memory content'
+    help = "optimizes translation memory content"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--rebuild', help='Rebuild from scratch', action='store_true'
+            "--rebuild", help="Rebuild from scratch", action="store_true"
         )
 
     def optimize(self):
@@ -48,7 +48,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """Translation memory cleanup."""
-        if options['rebuild']:
+        if options["rebuild"]:
             self.rebuild()
         else:
             self.optimize()

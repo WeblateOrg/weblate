@@ -34,21 +34,21 @@ def remove_user(user, request):
     user_pre_delete.send(instance=user, sender=user.__class__)
 
     # Store activity log and notify
-    AuditLog.objects.create(user, request, 'removed')
+    AuditLog.objects.create(user, request, "removed")
 
     # Remove any email validation codes
     invalidate_reset_codes(user)
 
     # Change username
-    user.username = 'deleted-{0}'.format(user.pk)
-    user.email = 'noreply+{}@weblate.org'.format(user.pk)
+    user.username = "deleted-{0}".format(user.pk)
+    user.email = "noreply+{}@weblate.org".format(user.pk)
     while User.objects.filter(username=user.username).exists():
-        user.username = 'deleted-{0}-{1}'.format(user.pk, os.urandom(5).hex())
+        user.username = "deleted-{0}-{1}".format(user.pk, os.urandom(5).hex())
     while User.objects.filter(email=user.email).exists():
-        user.email = 'noreply+{0}-{1}@weblate.org'.format(user.pk, os.urandom(5).hex())
+        user.email = "noreply+{0}-{1}@weblate.org".format(user.pk, os.urandom(5).hex())
 
     # Remove user information
-    user.full_name = 'Deleted User'
+    user.full_name = "Deleted User"
 
     # Disable the user
     user.is_active = False
@@ -67,7 +67,7 @@ def get_all_user_mails(user, entries=None):
     verified = VerifiedEmail.objects.filter(social__user=user)
     if entries:
         verified = verified.filter(social__in=entries)
-    emails = set(verified.values_list('email', flat=True))
+    emails = set(verified.values_list("email", flat=True))
     emails.add(user.email)
     return emails
 

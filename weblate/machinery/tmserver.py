@@ -26,13 +26,13 @@ from requests.exceptions import HTTPError
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-AMAGAMA_LIVE = 'https://amagama-live.translatehouse.org/api/v1'
+AMAGAMA_LIVE = "https://amagama-live.translatehouse.org/api/v1"
 
 
 class TMServerTranslation(MachineTranslation):
     """tmserver machine translation support."""
 
-    name = 'tmserver'
+    name = "tmserver"
 
     def __init__(self):
         """Check configuration."""
@@ -43,19 +43,19 @@ class TMServerTranslation(MachineTranslation):
     def get_server_url():
         """Return URL of a server."""
         if settings.MT_TMSERVER is None:
-            raise MissingConfiguration('Not configured tmserver URL')
+            raise MissingConfiguration("Not configured tmserver URL")
 
-        return settings.MT_TMSERVER.rstrip('/')
+        return settings.MT_TMSERVER.rstrip("/")
 
     def convert_language(self, language):
         """Convert language to service specific code."""
-        return language.replace('-', '_').lower()
+        return language.replace("-", "_").lower()
 
     def download_languages(self):
         """Download list of supported languages from a service."""
         try:
             # This will raise exception in DEBUG mode
-            response = self.request("get", '{0}/languages/'.format(self.url))
+            response = self.request("get", "{0}/languages/".format(self.url))
             data = response.json()
         except HTTPError as error:
             if error.response.status_code == 404:
@@ -63,8 +63,8 @@ class TMServerTranslation(MachineTranslation):
             raise
         return [
             (src, tgt)
-            for src in data['sourceLanguages']
-            for tgt in data['targetLanguages']
+            for src in data["sourceLanguages"]
+            for tgt in data["targetLanguages"]
         ]
 
     def is_supported(self, source, language):
@@ -77,28 +77,28 @@ class TMServerTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        url = '{0}/{1}/{2}/unit/{3}'.format(
+        url = "{0}/{1}/{2}/unit/{3}".format(
             self.url,
-            quote(source, b''),
-            quote(language, b''),
-            quote(text[:500].replace('\r', ' ').encode(), b''),
+            quote(source, b""),
+            quote(language, b""),
+            quote(text[:500].replace("\r", " ").encode(), b""),
         )
         response = self.request("get", url)
         payload = response.json()
 
         for line in payload:
             yield {
-                'text': line['target'],
-                'quality': int(line['quality']),
-                'service': self.name,
-                'source': line['source'],
+                "text": line["target"],
+                "quality": int(line["quality"]),
+                "service": self.name,
+                "source": line["source"],
             }
 
 
 class AmagamaTranslation(TMServerTranslation):
     """Specific instance of tmserver ran by Virtaal authors."""
 
-    name = 'Amagama'
+    name = "Amagama"
 
     @staticmethod
     def get_server_url():

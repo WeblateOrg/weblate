@@ -28,20 +28,20 @@ from weblate.utils.state import STATE_TRANSLATED
 class PluralsCheck(TargetCheck):
     """Check for incomplete plural forms."""
 
-    check_id = 'plurals'
-    name = _('Missing plurals')
-    description = _('Some plural forms are not translated')
-    severity = 'danger'
+    check_id = "plurals"
+    name = _("Missing plurals")
+    description = _("Some plural forms are not translated")
+    severity = "danger"
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
         if len(sources) == 1:
             return False
         # Is at least something translated?
-        if targets == len(targets) * ['']:
+        if targets == len(targets) * [""]:
             return False
         # Check for empty translation
-        return '' in targets
+        return "" in targets
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
@@ -51,16 +51,16 @@ class PluralsCheck(TargetCheck):
 class SamePluralsCheck(TargetCheck):
     """Check for same plural forms."""
 
-    check_id = 'same-plurals'
-    name = _('Same plurals')
-    description = _('Some plural forms are translated in the same way')
-    severity = 'warning'
+    check_id = "same-plurals"
+    name = _("Same plurals")
+    description = _("Some plural forms are translated in the same way")
+    severity = "warning"
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
-        if targets[0] == '':
+        if targets[0] == "":
             return False
         return len(set(targets)) == 1
 
@@ -72,11 +72,11 @@ class SamePluralsCheck(TargetCheck):
 class ConsistencyCheck(TargetCheck):
     """Check for inconsistent translations."""
 
-    check_id = 'inconsistent'
-    name = _('Inconsistent')
-    description = _('This string has more than one translation in this project')
+    check_id = "inconsistent"
+    name = _("Inconsistent")
+    description = _("This string has more than one translation in this project")
     ignore_untranslated = False
-    severity = 'warning'
+    severity = "warning"
     batch_update = True
 
     def check_target_project(self, project):
@@ -85,8 +85,8 @@ class ConsistencyCheck(TargetCheck):
 
         return (
             Unit.objects.filter(translation__component__project=project)
-            .values('content_hash', 'translation__language')
-            .annotate(Count('target', distinct=True))
+            .values("content_hash", "translation__language")
+            .annotate(Count("target", distinct=True))
             .filter(target__count__gt=1)
         )
 
@@ -106,11 +106,11 @@ class ConsistencyCheck(TargetCheck):
 class TranslatedCheck(TargetCheck):
     """Check for inconsistent translations."""
 
-    check_id = 'translated'
-    name = _('Has been translated')
-    description = _('This string has been translated in the past')
+    check_id = "translated"
+    name = _("Has been translated")
+    description = _("This string has been translated in the past")
     ignore_untranslated = False
-    severity = 'warning'
+    severity = "warning"
     batch_update = True
 
     def check_target_project(self, project):
@@ -121,7 +121,7 @@ class TranslatedCheck(TargetCheck):
             translation__component__project=project,
             change__action__in=Change.ACTIONS_TRANSLATED,
             state__lt=STATE_TRANSLATED,
-        ).values('content_hash', 'translation__language')
+        ).values("content_hash", "translation__language")
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
@@ -134,7 +134,7 @@ class TranslatedCheck(TargetCheck):
 
         changes = unit.change_set.filter(action__in=states).order()
 
-        for action in changes.values_list('action', flat=True):
+        for action in changes.values_list("action", flat=True):
             if action in Change.ACTIONS_CONTENT:
                 return True
             if action == Change.ACTION_SOURCE_CHANGE:

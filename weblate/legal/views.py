@@ -29,43 +29,43 @@ from weblate.legal.models import Agreement
 from weblate.trans.util import redirect_next
 
 MENU = (
-    ('index', 'legal:index', _('Overview')),
-    ('terms', 'legal:terms', _('Terms of Service')),
-    ('cookies', 'legal:cookies', _('Cookies')),
-    ('security', 'legal:security', _('Security')),
-    ('privacy', 'legal:privacy', _('Privacy')),
+    ("index", "legal:index", _("Overview")),
+    ("terms", "legal:terms", _("Terms of Service")),
+    ("cookies", "legal:cookies", _("Cookies")),
+    ("security", "legal:security", _("Security")),
+    ("privacy", "legal:privacy", _("Privacy")),
 )
 
 
 class LegalView(TemplateView):
-    page = 'index'
+    page = "index"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['legal_menu'] = MENU
-        context['legal_page'] = self.page
+        context["legal_menu"] = MENU
+        context["legal_page"] = self.page
 
         return context
 
     def get_template_names(self):
-        return ['legal/{0}.html'.format(self.page)]
+        return ["legal/{0}.html".format(self.page)]
 
 
 class TermsView(LegalView):
-    page = 'terms'
+    page = "terms"
 
 
 class CookiesView(LegalView):
-    page = 'cookies'
+    page = "cookies"
 
 
 class SecurityView(LegalView):
-    page = 'security'
+    page = "security"
 
 
 class PrivacyView(LegalView):
-    page = 'privacy'
+    page = "privacy"
 
 
 @never_cache
@@ -73,22 +73,22 @@ def tos_confirm(request):
     user = None
     if request.user.is_authenticated:
         user = request.user
-    elif 'tos_user' in request.session:
-        user = User.objects.get(pk=request.session['tos_user'])
+    elif "tos_user" in request.session:
+        user = User.objects.get(pk=request.session["tos_user"])
 
     if user is None:
-        return redirect('home')
+        return redirect("home")
 
     agreement = Agreement.objects.get_or_create(user=user)[0]
     if agreement.is_current():
-        return redirect_next(request.GET.get('next'), 'home')
+        return redirect_next(request.GET.get("next"), "home")
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = TOSForm(request.POST)
         if form.is_valid():
             agreement.make_current(request)
-            return redirect_next(form.cleaned_data['next'], 'home')
+            return redirect_next(form.cleaned_data["next"], "home")
     else:
-        form = TOSForm(initial={'next': request.GET.get('next')})
+        form = TOSForm(initial={"next": request.GET.get("next")})
 
-    return render(request, 'legal/confirm.html', {'form': form})
+    return render(request, "legal/confirm.html", {"form": form})

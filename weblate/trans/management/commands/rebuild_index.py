@@ -26,23 +26,23 @@ from weblate.trans.tasks import optimize_fulltext
 
 
 class Command(WeblateComponentCommand):
-    help = 'rebuilds index for fulltext search'
+    help = "rebuilds index for fulltext search"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--clean',
-            action='store_true',
-            dest='clean',
+            "--clean",
+            action="store_true",
+            dest="clean",
             default=False,
-            help='removes also all words from database',
+            help="removes also all words from database",
         )
         parser.add_argument(
-            '--optimize',
-            action='store_true',
-            dest='optimize',
+            "--optimize",
+            action="store_true",
+            dest="optimize",
             default=False,
-            help='optimize index without rebuilding it',
+            help="optimize index without rebuilding it",
         )
 
     def process_filtered(self, fulltext, **options):
@@ -83,7 +83,7 @@ class Command(WeblateComponentCommand):
                 lang_count = len(languages)
                 for index, language in enumerate(languages):
                     self.stdout.write(
-                        'Processing {} ({}/{})'.format(
+                        "Processing {} ({}/{})".format(
                             language.code, index + 1, lang_count
                         )
                     )
@@ -103,15 +103,15 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args, **options):
         # Optimize index
-        if options['optimize']:
+        if options["optimize"]:
             optimize_fulltext()
             return
         fulltext = Fulltext()
         # Optionally rebuild indices from scratch
-        if options['clean'] or options['all']:
+        if options["clean"] or options["all"]:
             fulltext.cleanup()
 
-        if options['all']:
+        if options["all"]:
             self.process_all(fulltext)
         else:
             self.process_filtered(fulltext, **options)

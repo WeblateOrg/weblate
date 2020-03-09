@@ -29,12 +29,12 @@ from weblate.accounts.tasks import cleanup_auditlog, cleanup_social_auth
 
 class PipelineTest(TestCase):
     def test_slugify(self):
-        self.assertEqual(slugify_username('zkouska'), 'zkouska')
-        self.assertEqual(slugify_username('Zkouska'), 'Zkouska')
-        self.assertEqual(slugify_username('zkouška'), 'zkouska')
-        self.assertEqual(slugify_username(' zkouska '), 'zkouska')
-        self.assertEqual(slugify_username('ahoj - ahoj'), 'ahoj-ahoj')
-        self.assertEqual(slugify_username('..test'), 'test')
+        self.assertEqual(slugify_username("zkouska"), "zkouska")
+        self.assertEqual(slugify_username("Zkouska"), "Zkouska")
+        self.assertEqual(slugify_username("zkouška"), "zkouska")
+        self.assertEqual(slugify_username(" zkouska "), "zkouska")
+        self.assertEqual(slugify_username("ahoj - ahoj"), "ahoj-ahoj")
+        self.assertEqual(slugify_username("..test"), "test")
 
 
 class TasksTest(TestCase):

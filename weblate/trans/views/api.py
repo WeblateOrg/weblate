@@ -33,16 +33,16 @@ def export_stats_project(request, project):
 
     return export_response(
         request,
-        'stats-{0}.csv'.format(obj.slug),
+        "stats-{0}.csv".format(obj.slug),
         (
-            'language',
-            'code',
-            'total',
-            'translated',
-            'translated_percent',
-            'total_words',
-            'translated_words',
-            'words_percent',
+            "language",
+            "code",
+            "total",
+            "translated",
+            "translated_percent",
+            "total_words",
+            "translated_words",
+            "words_percent",
         ),
         get_project_stats(obj),
     )
@@ -51,28 +51,28 @@ def export_stats_project(request, project):
 def export_stats(request, project, component):
     """Export stats in JSON format."""
     subprj = get_component(request, project, component)
-    translations = subprj.translation_set.order_by('language_code')
+    translations = subprj.translation_set.order_by("language_code")
 
     return export_response(
         request,
-        'stats-{0}-{1}.csv'.format(subprj.project.slug, subprj.slug),
+        "stats-{0}-{1}.csv".format(subprj.project.slug, subprj.slug),
         (
-            'name',
-            'code',
-            'total',
-            'translated',
-            'translated_percent',
-            'total_words',
-            'translated_words',
-            'failing',
-            'failing_percent',
-            'fuzzy',
-            'fuzzy_percent',
-            'url_translate',
-            'url',
-            'last_change',
-            'last_author',
-            'recent_changes',
+            "name",
+            "code",
+            "total",
+            "translated",
+            "translated_percent",
+            "total_words",
+            "translated_words",
+            "failing",
+            "failing_percent",
+            "fuzzy",
+            "fuzzy_percent",
+            "url_translate",
+            "url",
+            "last_change",
+            "last_author",
+            "recent_changes",
         ),
         [trans.get_stats() for trans in translations.iterator()],
     )
@@ -80,13 +80,13 @@ def export_stats(request, project, component):
 
 def export_response(request, filename, fields, data):
     """Generic handler for stats exports."""
-    output = request.GET.get('format', 'json')
-    if output not in ('json', 'csv'):
-        output = 'json'
+    output = request.GET.get("format", "json")
+    if output not in ("json", "csv"):
+        output = "json"
 
-    if output == 'csv':
-        response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    if output == "csv":
+        response = HttpResponse(content_type="text/csv; charset=utf-8")
+        response["Content-Disposition"] = "attachment; filename={0}".format(filename)
 
         writer = csv.DictWriter(response, fields)
 
@@ -94,4 +94,4 @@ def export_response(request, filename, fields, data):
         for row in data:
             writer.writerow(row)
         return response
-    return JsonResponse(data=data, safe=False, json_dumps_params={'indent': 2})
+    return JsonResponse(data=data, safe=False, json_dumps_params={"indent": 2})

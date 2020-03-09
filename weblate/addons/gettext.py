@@ -32,47 +32,47 @@ from weblate.formats.exporters import MoExporter
 
 
 class GettextBaseAddon(BaseAddon):
-    compat = {'file_format': frozenset(('po', 'po-mono'))}
+    compat = {"file_format": frozenset(("po", "po-mono"))}
 
 
 class GenerateMoAddon(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
-    name = 'weblate.gettext.mo'
-    verbose = _('Generate MO files')
-    description = _('Automatically generates MO file for every changed PO file.')
+    name = "weblate.gettext.mo"
+    verbose = _("Generate MO files")
+    description = _("Automatically generates MO file for every changed PO file.")
     settings_form = GenerateMoForm
 
     def pre_commit(self, translation, author):
         exporter = MoExporter(translation=translation)
         exporter.add_units(translation.unit_set.all())
 
-        template = self.instance.configuration.get('path')
+        template = self.instance.configuration.get("path")
         if not template:
-            template = '{{ filename|stripext }}.mo'
+            template = "{{ filename|stripext }}.mo"
 
         output = self.render_repo_filename(template, translation)
         if not output:
             return
 
-        with open(output, 'wb') as handle:
+        with open(output, "wb") as handle:
             handle.write(exporter.serialize())
         translation.addon_commit_files.append(output)
 
 
 class UpdateLinguasAddon(GettextBaseAddon):
     events = (EVENT_POST_ADD, EVENT_DAILY)
-    name = 'weblate.gettext.linguas'
-    verbose = _('Update LINGUAS file')
-    description = _('Updates the LINGUAS file when a new translation is added.')
+    name = "weblate.gettext.linguas"
+    verbose = _("Update LINGUAS file")
+    description = _("Updates the LINGUAS file when a new translation is added.")
 
     @staticmethod
     def get_linguas_path(component):
         base = component.get_new_base_filename()
         if not base:
             base = os.path.join(
-                component.full_path, component.filemask.replace('*', 'x')
+                component.full_path, component.filemask.replace("*", "x")
             )
-        return os.path.join(os.path.dirname(base), 'LINGUAS')
+        return os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
     def can_install(cls, component, user):
@@ -82,24 +82,24 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return path and os.path.exists(path)
 
     def sync_linguas(self, component, path):
-        with open(path, 'r') as handle:
+        with open(path, "r") as handle:
             lines = handle.readlines()
 
         codes = set(
             component.translation_set.exclude(
                 language=component.project.source_language
-            ).values_list('language_code', flat=True)
+            ).values_list("language_code", flat=True)
         )
 
         added = False
         for i, line in enumerate(lines):
             stripped = line.strip()
             # Comment
-            if stripped.startswith('#'):
+            if stripped.startswith("#"):
                 continue
             # Languages in one line
-            if ' ' in stripped:
-                expected = ' '.join(sorted(codes))
+            if " " in stripped:
+                expected = " ".join(sorted(codes))
                 if lines[i] != expected:
                     lines[i] = expected
                     added = True
@@ -110,11 +110,11 @@ class UpdateLinguasAddon(GettextBaseAddon):
                 codes.remove(stripped)
         if codes:
             for code in codes:
-                lines.append('{}\n'.format(code))
+                lines.append("{}\n".format(code))
             added = True
 
         if added:
-            with open(path, 'w') as handle:
+            with open(path, "w") as handle:
                 handle.writelines(lines)
 
         return added
@@ -134,7 +134,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
 class UpdateConfigureAddon(GettextBaseAddon):
     events = (EVENT_POST_ADD, EVENT_DAILY)
-    name = 'weblate.gettext.configure'
+    name = "weblate.gettext.configure"
     verbose = _('Update ALL_LINGUAS variable in the "configure" file')
     description = _(
         'Updates the ALL_LINGUAS variable in "configure", '
@@ -144,7 +144,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
     @staticmethod
     def get_configure_paths(component):
         base = component.full_path
-        for name in ('configure', 'configure.in', 'configure.ac'):
+        for name in ("configure", "configure.in", "configure.ac"):
             path = os.path.join(base, name)
             if os.path.exists(path):
                 yield path
@@ -164,22 +164,22 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
     def sync_linguas(self, component, paths):
         added = False
-        codes = ' '.join(
+        codes = " ".join(
             component.translation_set.exclude(
                 language=component.project.source_language
             )
-            .values_list('language_code', flat=True)
-            .order_by('language_code')
+            .values_list("language_code", flat=True)
+            .order_by("language_code")
         )
         expected = 'ALL_LINGUAS="{}"\n'.format(codes)
         for path in paths:
-            with open(path, 'r') as handle:
+            with open(path, "r") as handle:
                 lines = handle.readlines()
 
             for i, line in enumerate(lines):
                 stripped = line.strip()
                 # Comment
-                if stripped.startswith('#'):
+                if stripped.startswith("#"):
                     continue
                 if not stripped.startswith('ALL_LINGUAS="'):
                     continue
@@ -188,7 +188,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     added = True
 
             if added:
-                with open(path, 'w') as handle:
+                with open(path, "w") as handle:
                     handle.writelines(lines)
 
         return added
@@ -207,40 +207,40 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
 
 class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
-    name = 'weblate.gettext.msgmerge'
-    verbose = _('Update PO files to match POT (msgmerge)')
+    name = "weblate.gettext.msgmerge"
+    verbose = _("Update PO files to match POT (msgmerge)")
     description = _(
-        'Update all PO files to match the POT file using msgmerge. This is '
-        'triggered whenever new changes are pulled from the upstream '
-        'repository.'
+        "Update all PO files to match the POT file using msgmerge. This is "
+        "triggered whenever new changes are pulled from the upstream "
+        "repository."
     )
-    alert = 'MsgmergeAddonError'
+    alert = "MsgmergeAddonError"
     settings_form = MsgmergeForm
 
     @classmethod
     def can_install(cls, component, user):
-        if not component.new_base or find_command('msgmerge') is None:
+        if not component.new_base or find_command("msgmerge") is None:
             return False
         return super().can_install(component, user)
 
     def update_translations(self, component, previous_head):
         cmd = [
-            'msgmerge',
-            '--backup=none',
-            '--update',
-            'FILE',
+            "msgmerge",
+            "--backup=none",
+            "--update",
+            "FILE",
             component.get_new_base_filename(),
         ]
-        if not self.instance.configuration.get('fuzzy', True):
-            cmd.insert(1, '--no-fuzzy-matching')
-        if self.instance.configuration.get('previous', True):
-            cmd.insert(1, '--previous')
+        if not self.instance.configuration.get("fuzzy", True):
+            cmd.insert(1, "--no-fuzzy-matching")
+        if self.instance.configuration.get("previous", True):
+            cmd.insert(1, "--previous")
         try:
             width = component.addon_set.get(
-                name='weblate.gettext.customize'
-            ).configuration['width']
+                name="weblate.gettext.customize"
+            ).configuration["width"]
             if width != 77:
-                cmd.insert(1, '--no-wrap')
+                cmd.insert(1, "--no-wrap")
         except ObjectDoesNotExist:
             pass
         for translation in component.translation_set.iterator():
@@ -253,31 +253,31 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
 
 class GettextCustomizeAddon(GettextBaseAddon, StoreBaseAddon):
-    name = 'weblate.gettext.customize'
-    verbose = _('Customize gettext output')
+    name = "weblate.gettext.customize"
+    verbose = _("Customize gettext output")
     description = _(
-        'Allows customization of gettext output behavior, for example line wrapping.'
+        "Allows customization of gettext output behavior, for example line wrapping."
     )
     settings_form = GettextCustomizeForm
 
     def store_post_load(self, translation, store):
-        store.store.wrapper.width = int(self.instance.configuration.get('width', 77))
+        store.store.wrapper.width = int(self.instance.configuration.get("width", 77))
 
 
 class GettextAuthorComments(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
-    name = 'weblate.gettext.authors'
-    verbose = _('Contributors in comment')
+    name = "weblate.gettext.authors"
+    verbose = _("Contributors in comment")
     description = _(
-        'Update comment in the PO file header to include contributor name '
-        'and years of contributions.'
+        "Update comment in the PO file header to include contributor name "
+        "and years of contributions."
     )
 
     def pre_commit(self, translation, author):
-        if '<' in author:
-            name, email = author.split('<')
+        if "<" in author:
+            name, email = author.split("<")
             name = name.strip()
-            email = email.rstrip('>')
+            email = email.rstrip(">")
         else:
             name = author
             email = None

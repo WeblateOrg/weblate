@@ -27,17 +27,17 @@ from translate.storage.xliff import xlifffile
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import rich_to_xliff_string, xliff_string_to_rich
 
-TEST_X = get_test_file('placeholder-x.xliff')
-TEST_MRK = get_test_file('placeholder-mrk.xliff')
+TEST_X = get_test_file("placeholder-x.xliff")
+TEST_MRK = get_test_file("placeholder-mrk.xliff")
 
 
 class XliffPlaceholdersTest(TestCase):
     def test_bidirectional_xliff_string(self):
         cases = [
             'foo <x id="INTERPOLATION" equiv-text="{{ angular }}"/> bar',
-            '',
-            'hello world',
-            'hello <p>world</p>',
+            "",
+            "hello world",
+            "hello <p>world</p>",
         ]
 
         for string in cases:
@@ -49,7 +49,7 @@ class XliffPlaceholdersTest(TestCase):
             self.assertEqual(string, final_string)
 
     def test_xliff_roundtrip(self):
-        with open(TEST_X, 'rb') as handle:
+        with open(TEST_X, "rb") as handle:
             source = handle.read()
 
         store = xlifffile.parsestring(source)
@@ -61,7 +61,7 @@ class XliffPlaceholdersTest(TestCase):
         self.assertEqual(source, bytes(store))
 
     def test_xliff_roundtrip_unknown(self):
-        with open(TEST_MRK, 'rb') as handle:
+        with open(TEST_MRK, "rb") as handle:
             source = handle.read()
 
         store = xlifffile.parsestring(source)

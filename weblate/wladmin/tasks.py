@@ -32,14 +32,14 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 def configuration_health_check(include_deployment_checks=True):
     # Fetch errors from cache, these are created from
     # code executed without apps ready
-    for error in cache.get('configuration-errors', []):
-        if 'delete' in error:
-            ConfigurationError.objects.remove(error['name'])
+    for error in cache.get("configuration-errors", []):
+        if "delete" in error:
+            ConfigurationError.objects.remove(error["name"])
         else:
             ConfigurationError.objects.add(
-                error['name'],
-                error['message'],
-                error['timestamp'] if 'timestamp' in error else now(),
+                error["name"],
+                error["message"],
+                error["timestamp"] if "timestamp" in error else now(),
             )
 
     # Run deployment checks
@@ -47,20 +47,20 @@ def configuration_health_check(include_deployment_checks=True):
         return
     checks = {check.id: check for check in run_checks(include_deployment_checks=True)}
     criticals = {
-        'weblate.E002',
-        'weblate.E003',
-        'weblate.E007',
-        'weblate.E009',
-        'weblate.E012',
-        'weblate.E013',
-        'weblate.E014',
-        'weblate.E015',
-        'weblate.E017',
-        'weblate.E018',
-        'weblate.E019',
-        'weblate.C029',
-        'weblate.C030',
-        'weblate.C031',
+        "weblate.E002",
+        "weblate.E003",
+        "weblate.E007",
+        "weblate.E009",
+        "weblate.E012",
+        "weblate.E013",
+        "weblate.E014",
+        "weblate.E015",
+        "weblate.E017",
+        "weblate.E018",
+        "weblate.E019",
+        "weblate.C029",
+        "weblate.C030",
+        "weblate.C031",
     }
     for check_id in criticals:
         if check_id in checks:
@@ -94,9 +94,9 @@ def backup_service(pk):
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        3600, configuration_health_check.s(), name='configuration-health-check'
+        3600, configuration_health_check.s(), name="configuration-health-check"
     )
     sender.add_periodic_task(
-        24 * 3600, support_status_update.s(), name='support-status-update'
+        24 * 3600, support_status_update.s(), name="support-status-update"
     )
-    sender.add_periodic_task(crontab(hour=2, minute=0), backup.s(), name='backup')
+    sender.add_periodic_task(crontab(hour=2, minute=0), backup.s(), name="backup")

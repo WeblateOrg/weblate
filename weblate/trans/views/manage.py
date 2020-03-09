@@ -49,16 +49,16 @@ from weblate.utils.views import (
 def remove_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
-    if not request.user.has_perm('translation.delete', obj):
+    if not request.user.has_perm("translation.delete", obj):
         raise PermissionDenied()
 
     form = DeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#delete')
+        return redirect_param(obj, "#delete")
 
     obj.remove(request.user)
-    messages.success(request, _('Translation has been removed.'))
+    messages.success(request, _("Translation has been removed."))
 
     return redirect(obj.component)
 
@@ -68,16 +68,16 @@ def remove_translation(request, project, component, lang):
 def remove_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not request.user.has_perm('component.edit', obj):
+    if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied()
 
     form = DeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#delete')
+        return redirect_param(obj, "#delete")
 
     component_removal.delay(obj.pk, request.user.pk)
-    messages.success(request, _('Translation component was scheduled for removal.'))
+    messages.success(request, _("Translation component was scheduled for removal."))
 
     return redirect(obj.project)
 
@@ -87,17 +87,17 @@ def remove_component(request, project, component):
 def remove_project(request, project):
     obj = get_project(request, project)
 
-    if not request.user.has_perm('project.edit', obj):
+    if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied()
 
     form = DeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#delete')
+        return redirect_param(obj, "#delete")
 
     project_removal.delay(obj.pk, request.user.pk)
-    messages.success(request, _('Project was scheduled for removal.'))
-    return redirect('home')
+    messages.success(request, _("Project was scheduled for removal."))
+    return redirect("home")
 
 
 def perform_rename(form_cls, request, obj, perm, **kwargs):
@@ -107,7 +107,7 @@ def perform_rename(form_cls, request, obj, perm, **kwargs):
     form = form_cls(request, request.POST, instance=obj)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#delete')
+        return redirect_param(obj, "#delete")
 
     # Invalidate old stats
     obj.stats.invalidate()
@@ -129,7 +129,7 @@ def rename_component(request, project, component):
         ComponentRenameForm,
         request,
         obj,
-        'component.edit',
+        "component.edit",
         component=obj,
         target=obj.slug,
         action=Change.ACTION_RENAME_COMPONENT,
@@ -144,7 +144,7 @@ def move_component(request, project, component):
         ComponentMoveForm,
         request,
         obj,
-        'project.edit',
+        "project.edit",
         component=obj,
         target=obj.project.slug,
         action=Change.ACTION_MOVE_COMPONENT,
@@ -159,7 +159,7 @@ def rename_project(request, project):
         ProjectRenameForm,
         request,
         obj,
-        'project.edit',
+        "project.edit",
         project=obj,
         target=obj.slug,
         action=Change.ACTION_RENAME_PROJECT,
@@ -171,13 +171,13 @@ def rename_project(request, project):
 def whiteboard_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
-    if not request.user.has_perm('component.edit', obj):
+    if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied()
 
     form = WhiteboardForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#whiteboard')
+        return redirect_param(obj, "#whiteboard")
 
     WhiteboardMessage.objects.create(
         project=obj.component.project,
@@ -194,13 +194,13 @@ def whiteboard_translation(request, project, component, lang):
 def whiteboard_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not request.user.has_perm('component.edit', obj):
+    if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied()
 
     form = WhiteboardForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#whiteboard')
+        return redirect_param(obj, "#whiteboard")
 
     WhiteboardMessage.objects.create(
         project=obj.project, component=obj, **form.cleaned_data
@@ -214,13 +214,13 @@ def whiteboard_component(request, project, component):
 def whiteboard_project(request, project):
     obj = get_project(request, project)
 
-    if not request.user.has_perm('project.edit', obj):
+    if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied()
 
     form = WhiteboardForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, '#whiteboard')
+        return redirect_param(obj, "#whiteboard")
 
     WhiteboardMessage.objects.create(project=obj, **form.cleaned_data)
 
@@ -233,17 +233,17 @@ def whiteboard_delete(request, pk):
     whiteboard = get_object_or_404(WhiteboardMessage, pk=pk)
 
     if request.user.has_perm(
-        'component.edit', whiteboard.component
-    ) or request.user.has_perm('project.edit', whiteboard.project):
+        "component.edit", whiteboard.component
+    ) or request.user.has_perm("project.edit", whiteboard.project):
         whiteboard.delete()
 
-    return JsonResponse({'responseStatus': 200})
+    return JsonResponse({"responseStatus": 200})
 
 
 @login_required
 def component_progress(request, project, component):
     obj = get_component(request, project, component)
-    return_url = 'component' if 'info' in request.GET else 'guide'
+    return_url = "component" if "info" in request.GET else "guide"
     if not obj.in_progress():
         return redirect(return_url, **obj.get_reverse_url_kwargs())
 
@@ -251,12 +251,12 @@ def component_progress(request, project, component):
 
     return render(
         request,
-        'component-progress.html',
+        "component-progress.html",
         {
-            'object': obj,
-            'progress': progress,
-            'log': '\n'.join(log),
-            'return_url': return_url,
+            "object": obj,
+            "progress": progress,
+            "log": "\n".join(log),
+            "return_url": return_url,
         },
     )
 
@@ -266,7 +266,7 @@ def component_progress(request, project, component):
 def component_progress_terminate(request, project, component):
     obj = get_component(request, project, component)
 
-    if obj.in_progress and request.user.has_perm('component.edit', obj):
+    if obj.in_progress and request.user.has_perm("component.edit", obj):
         obj.background_task.revoke(terminate=True)
 
     return redirect(obj)
@@ -277,5 +277,5 @@ def component_progress_js(request, project, component):
     obj = get_component(request, project, component)
     progress, log = obj.get_progress()
     return JsonResponse(
-        {'in_progress': obj.in_progress(), 'progress': progress, 'log': '\n'.join(log)}
+        {"in_progress": obj.in_progress(), "progress": progress, "log": "\n".join(log)}
     )
