@@ -24,16 +24,11 @@ from time import sleep
 
 from celery.schedules import crontab
 from celery_batches import Batches
-from django.db.models import F
 from django.utils.encoding import force_str
 from whoosh.index import LockError
 
-from weblate.memory.storage import (
-    CATEGORY_PRIVATE_OFFSET,
-    CATEGORY_SHARED,
-    CATEGORY_USER_OFFSET,
-    TranslationMemory,
-)
+from weblate.memory.models import Memory
+from weblate.memory.storage import TranslationMemory
 from weblate.utils.celery import app, extract_batch_kwargs
 from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_TRANSLATED
@@ -50,36 +45,48 @@ def memory_backup(indent=2):
 
 
 @app.task(trail=False)
-def import_memory(project_id):
-    from weblate.trans.models import Unit
+def import_memory(project_id, component_id=None):
+    from weblate.trans.models import Project, Unit
 
-    units = Unit.objects.filter(
-        translation__component__project_id=project_id, state__gte=STATE_TRANSLATED
-    ).exclude(
-        translation__language=F("translation__component__project__source_language")
+    project = Project.objects.get(pk=project_id)
+
+    components = project.component_set.all()
+    if component_id:
+        components = components.filter(id=component_id)
+
+    for component in components.iterator():
+        units = (
+            Unit.objects.filter(
+                translation__component=component, state__gte=STATE_TRANSLATED
+            )
+            .exclude(translation__language=project.source_language)
+            .prefetch_related("translation__language")
+        )
+        for unit in units.iterator():
+            update_memory(None, unit, component, project)
+
+
+def update_memory(user, unit, component=None, project=None):
+    component = component or unit.translation.component
+    project = project or component.project
+    params = {
+        "source_language": project.source_language,
+        "target_language": unit.translation.language,
+        "source": unit.source,
+        "target": unit.target,
+        "origin": component.full_slug,
+    }
+
+    Memory.objects.get_or_create(
+        user=None, project=project, from_file=False, shared=False, **params
     )
-    for unit in units.iterator():
-        update_memory(None, unit)
-
-
-def update_memory(user, unit):
-    component = unit.translation.component
-    project = component.project
-
-    categories = [CATEGORY_PRIVATE_OFFSET + project.pk]
+    if project.contribute_shared_tm:
+        Memory.objects.get_or_create(
+            user=None, project=None, from_file=False, shared=True, **params
+        )
     if user:
-        categories.append(CATEGORY_USER_OFFSET + user.id)
-    if unit.translation.component.project.contribute_shared_tm:
-        categories.append(CATEGORY_SHARED)
-
-    for category in categories:
-        update_memory_task.delay(
-            source_language=project.source_language.code,
-            target_language=unit.translation.language.code,
-            source=unit.source,
-            target=unit.target,
-            origin=component.full_slug,
-            category=category,
+        Memory.objects.get_or_create(
+            user=user, project=None, from_file=False, shared=False, **params
         )
 
 
