@@ -101,10 +101,10 @@ class LanguageQuerySet(models.QuerySet):
 
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
-        try:
-            return self.get(*args, **kwargs)
-        except (Language.DoesNotExist, Language.MultipleObjectsReturned):
+        result = self.filter(*args, **kwargs)[:2]
+        if len(result) != 1:
             return None
+        return result[0]
 
     def parse_lang_country(self, code):
         """Parse language and country from locale code."""
@@ -369,6 +369,10 @@ class LanguageQuerySet(models.QuerySet):
         return sort_objects(self)
 
 
+class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
+    use_in_migrations = True
+
+
 def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
     with transaction.atomic():
@@ -388,7 +392,7 @@ class Language(models.Model):
         ),
     )
 
-    objects = LanguageQuerySet.as_manager()
+    objects = LanguageManager()
 
     class Meta:
         verbose_name = gettext_lazy("Language")
