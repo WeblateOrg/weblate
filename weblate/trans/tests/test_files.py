@@ -65,7 +65,12 @@ class ImportBaseTest(ViewTestCase):
             test_file = self.test_file
 
         with open(test_file, 'rb') as handle:
-            params = {'file': handle, 'method': 'translate'}
+            params = {
+                'file': handle,
+                'method': 'translate',
+                'author_name': self.user.full_name,
+                'author_email': self.user.email,
+            }
             params.update(kwargs)
             return self.client.post(
                 reverse('upload_translation', kwargs=self.kw_translation),
