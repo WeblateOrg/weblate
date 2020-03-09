@@ -4,28 +4,28 @@ Translation projects
 Translation organization
 ------------------------
 
-Weblate organizes translatable content into a tree-like structure. The bottom level
-object is :ref:`project`, which should hold all translations belonging
+Weblate organizes translatable VCS content of project/components into a tree-like structure.
+
+* The bottom level object is :ref:`project`, which should hold all translations belonging
 together (for example translation of an application in several versions
-and/or accompanying documentation). On the level above, :ref:`component`, which is
-actually the component to translate. Here you define the VCS repository to use, and
-the mask of files to translate. Above :ref:`component` there are individual
-translations, handled automatically by Weblate as translation
+and/or accompanying documentation).
+
+* On the level above, :ref:`component`, which is
+actually the component to translate, you define the VCS repository to use, and
+the mask of files to translate.
+
+* Above :ref:`component` there are individual translations, handled automatically by Weblate as translation
 files (which match the mask defined in :ref:`component`) appear in the VCS repository.
 
-All translation components need to be available as VCS repositories, and are
-organized in a project/component structure.
-
 Weblate supports a wide range of translation formats (both bilingual and
-monolingual ones) supported by Translate Toolkit, see :ref:`formats` for more
-info.
+monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
 
 .. note::
 
-    You can share cloned VCS repositories using :ref:`internal-urls`. Using
-    this feature is highly recommended when you have many
+    You can share cloned VCS repositories using :ref:`internal-urls`.
+    Using this feature is highly recommended when you have many
     components sharing the same VCS. It improves performance and decreases
-    the required disk space.
+    required disk space.
 
 .. _adding-projects:
 
@@ -34,19 +34,19 @@ Adding translation projects and components
 
 .. versionchanged:: 3.2
 
-   Since the 3.2 release the interface for adding projects and components is
-   included in Weblate, and no longer requires you to use
-   :ref:`admin-interface`.
+   An interface for adding projects and components is included,
+   and you no longer have to use :ref:`admin-interface`.
 
 .. versionchanged:: 3.4
 
-   As of 3.4, the process of adding components is multi staged, with
-   automated discovery of most parameters.
+   The process of adding components is now multi staged,
+   with automated discovery of most parameters.
 
-Based on your permissions, you can create new translation projects
-and components in Weblate. It is always permitted for superusers, and if your
+Based on your permissions, new translation projects
+and components can be created. It is always permitted for superusers, and if your
 instance uses billing (e.g. like https://hosted.weblate.org/ see
-:ref:`billing`), you can also create those based on your plans allowance.
+:ref:`billing`), you can also create those based on your plans allowance from
+the user account that manages billing.
 
 You can view your current billing plan on a separate page:
 
@@ -76,8 +76,7 @@ On the next page, you are presented with a list of discovered translatable resou
 
 .. image:: /images/user-add-component-discovery.png
 
-As a last step, you review the translation component info and fill
-in optional details:
+As a last step, you review the translation component info and fill in optional details:
 
 .. image:: /images/user-add-component.png
 
@@ -92,13 +91,13 @@ in optional details:
 Project configuration
 ---------------------
 
-To add a new component for translation, you need to create a translation project first.
+Create a translation project and then add a new component for translation in it.
 The project is like a shelf, in which real translations are stacked. All
 components in the same project share suggestions and their dictionary; the
 translations are also automatically propagated through all components in a single
-project (unless turned off in the component configuration).
+project (unless turned off in the component configuration), see :ref:`memory`.
 
-The project has only a few attributes that informs translators of it:
+These basic attributes set up and inform translators of a project:
 
 Project website
     URL where translators can find more info about the project.
@@ -194,7 +193,7 @@ File mask
     Mask of files to translate, including path. It should include one "*"
     replacing language code (see :ref:`languages` for info on how this is
     processed). In case your repository contains more than one translation
-    file (e.g. more Gettext domains), you need to create a component for
+    file (e.g. more gettext domains), you need to create a component for
     each of them.
 
     For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
@@ -206,7 +205,7 @@ Monolingual base language file
 Edit base file
     Whether to allow editing the base file for :ref:`monolingual`.
 Template for new translations
-    Base file used to generate new translations, e.g. ``.pot`` file with Gettext,
+    Base file used to generate new translations, e.g. ``.pot`` file with gettext,
     see :ref:`new-translations` for more info.
 File format
     Translation file format, see also :ref:`formats`.
@@ -249,15 +248,15 @@ Merge style
     more details.
 Commit message
     Message used when committing a translation, see :ref:`markup`, default can be
-    changed by :setting:`DEFAULT_COMMIT_MESSAGE`.
+    changed in :setting:`DEFAULT_COMMIT_MESSAGE`.
 Committer name
     Name of the committer used for Weblate commits, the author will always be the
     real translator. On some VCSs this might be not supported. Default value
-    can be changed by :setting:`DEFAULT_COMMITER_NAME`.
+    can be changed in :setting:`DEFAULT_COMMITER_NAME`.
 Committer e-mail
     Email of committer used for Weblate commits, the author will always be the
-    real translator. On some VCSs this might be not supported. Default value
-    can be changed by :setting:`DEFAULT_COMMITER_EMAIL`.
+    real translator. On some VCSs this might be not supported. The default value
+    can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
 Push on commit
     Whether committed changes should be automatically pushed to the upstream
     repository. When enabled, the push is initiated once Weblate commits
@@ -268,16 +267,16 @@ Age of changes to commit
     Sets how old changes (in hours) are to get before they are committed by
     background task or :djadmin:`commit_pending` management command.  All
     changes in a component are committed once there is at least one older than
-    this period.  The Default value can be changed by
+    this period. The Default value can be changed in
     :setting:`COMMIT_PENDING_HOURS`.
 Language filter
     Regular expression used to filter the translation when scanning for
-    file mask. This can be used to limit the list of languages managed by Weblate
+    filemask. This can be used to limit the list of languages managed by Weblate
     (e.g. ``^(cs|de|es)$`` will include only these languages. Please note
     that you need to list language codes as they appear in the filename.
 Shapings regular expression
-    Regular expression used to determine shapings of a string, see
-    :ref:`shapings` for more details.
+    Regular expression used to determine the shapings of a string, see
+    :ref:`shapings`.
 
 .. note::
 
@@ -416,15 +415,15 @@ If you are importing huge translations or repositories, you might be hit by
 resource limitations of your server.
 
 * Check the amount of free memory, having translation files cached by the operating system will greatly improve performance.
-* Disk operations might be bottleneck if there is a lot of strings to process - the disk is pushed by both Weblate and the database.
+* Disk operations might be bottleneck if there is a lot of strings to process—the disk is pushed by both Weblate and the database.
 * Additional CPU cores might help improve performance of background tasks (see :ref:`celery`).
 
 Disable unneeded checks
 +++++++++++++++++++++++++
 
 Some quality checks can be quite expensive, and if not needed,
-can save you some time during import if omitted. See :setting:`CHECK_LIST` for more
-info on how to configure this.
+can save you some time during import if omitted. See :setting:`CHECK_LIST` for
+info on configuration.
 
 .. _autocreate:
 
@@ -432,7 +431,7 @@ Automatic creation of components
 --------------------------------
 
 In case your project has dozen of translation files (e.g. for different
-Gettext domains, or parts of Android apps), you might want to import them
+gettext domains, or parts of Android apps), you might want to import them
 automatically. This can either be achieved from the command line by using
 :djadmin:`import_project` or :djadmin:`import_json`, or by installing the
 :ref:`addon-weblate.discovery.discovery` addon.
