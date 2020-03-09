@@ -24,6 +24,7 @@ from time import sleep
 
 from celery.schedules import crontab
 from celery_batches import Batches
+from django.db.models import F
 from django.utils.encoding import force_str
 from whoosh.index import LockError
 
@@ -54,6 +55,8 @@ def import_memory(project_id):
 
     units = Unit.objects.filter(
         translation__component__project_id=project_id, state__gte=STATE_TRANSLATED
+    ).exclude(
+        translation__language=F("translation__component__project__source_language")
     )
     for unit in units.iterator():
         update_memory(None, unit)
