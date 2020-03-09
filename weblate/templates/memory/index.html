@@ -89,19 +89,4 @@
 </form>
 {% endif %}
 
-{% if delete_form %}
-<form action="{{ delete_url }}" method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-danger">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Wipe translation memory" %}</h4></div>
-  <div class="panel-body">
-  {{ delete_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-danger" value="{% trans "Wipe" %}" />
-  </div>
-</div>
-</form>
-{% endif %}
-
 {% endblock %}

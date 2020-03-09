@@ -81,27 +81,6 @@ class MemoryTest(TestCase):
         data = json.loads(output.getvalue())
         self.assertEqual(data, [TEST_DOCUMENT])
 
-    def test_delete_command_error(self):
-        with self.assertRaises(CommandError):
-            call_command("delete_memory")
-
-    def test_delete_origin_command(self, params=None):
-        if params is None:
-            params = ["--origin", "test"]
-        add_document()
-        call_command("delete_memory", *params)
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 0)
-
-    def test_delete_category_command(self):
-        self.test_delete_origin_command(["--category", "1"])
-
-    def test_delete_all_command(self):
-        add_document()
-        call_command("delete_memory", "--all")
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 0)
-
     def add_document(self):
         memory = TranslationMemory()
         with memory.writer() as writer:
@@ -170,12 +149,6 @@ class MemoryViewTest(FixtureTestCase):
             )
 
     def test_memory(self, match="Number of your entries", fail=False, **kwargs):
-        response = self.client.get(reverse("memory-delete", **kwargs))
-        self.assertRedirects(response, reverse("memory", **kwargs))
-
-        response = self.client.post(reverse("memory-delete", **kwargs))
-        self.assertRedirects(response, reverse("memory", **kwargs))
-
         response = self.client.get(reverse("memory", **kwargs))
         self.assertContains(response, match)
 
@@ -195,15 +168,6 @@ class MemoryViewTest(FixtureTestCase):
             reverse("memory-download", **kwargs), {"format": "tmx"}
         )
         self.assertContains(response, "<tmx")
-
-        # Test wipe
-        response = self.client.post(
-            reverse("memory-delete", **kwargs), {"confirm": "1"}, follow=True
-        )
-        if fail:
-            self.assertContains(response, "Permission Denied", status_code=403)
-        else:
-            self.assertContains(response, "Entries deleted")
 
         # Test invalid upload
         response = self.upload_file("cs.json", **kwargs)

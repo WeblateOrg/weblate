@@ -695,11 +695,6 @@ real_patterns = [
     # Translation memory
     url(r"^memory/$", weblate.memory.views.MemoryView.as_view(), name="memory"),
     url(
-        r"^memory/delete/$",
-        weblate.memory.views.DeleteView.as_view(),
-        name="memory-delete",
-    ),
-    url(
         r"^memory/upload/$",
         weblate.memory.views.UploadView.as_view(),
         name="memory-upload",
@@ -721,11 +716,6 @@ real_patterns = [
         name="manage-memory",
     ),
     url(
-        r"^(?P<manage>manage)/memory/delete/$",
-        management_access(weblate.memory.views.DeleteView.as_view()),
-        name="memory-delete",
-    ),
-    url(
         r"^(?P<manage>manage)/memory/upload/$",
         management_access(weblate.memory.views.UploadView.as_view()),
         name="memory-upload",
@@ -739,11 +729,6 @@ real_patterns = [
         r"^memory/project/" + PROJECT + "$",
         weblate.memory.views.MemoryView.as_view(),
         name="memory",
-    ),
-    url(
-        r"^memory/project/" + PROJECT + "delete/$",
-        weblate.memory.views.DeleteView.as_view(),
-        name="memory-delete",
     ),
     url(
         r"^memory/project/" + PROJECT + "upload/$",

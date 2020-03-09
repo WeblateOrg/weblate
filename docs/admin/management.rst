@@ -277,27 +277,6 @@ Creates ``admin`` account with random password unless it is specified.
 
     Added parameters ``--username``, ``--email``, ``--name`` and ``--update``.
 
-delete_memory
--------------
-
-.. django-admin:: delete_memory
-
-.. versionadded:: 2.20
-
-Deletes entries in the Weblate Translation Memory.
-
-.. django-admin-option:: --origin ORIGIN
-
-    Origin to delete, for imported files the origin is filename without path.
-
-.. django-admin-option:: --all
-
-    Delete complete memory content and recreate the database.
-
-.. seealso::
-
-    :ref:`translation-memory`
-
 dump_memory
 -----------
 
