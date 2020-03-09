@@ -41,7 +41,7 @@ command makes memory content available to all users and projects.
 Per user translation memory
 +++++++++++++++++++++++++++
 
-Stores all user translations automatically in personal translation memory
+Stores all user translations automatically in the personal translation memory of each respective user.
 
 Per project translation memory
 ++++++++++++++++++++++++++++++
