@@ -102,18 +102,6 @@ class MemoryTest(TestCase):
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
-    def test_optimize_command(self):
-        add_document()
-        call_command("optimize_memory")
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 1)
-
-    def test_rebuild_command(self):
-        add_document()
-        call_command("optimize_memory", "--rebuild")
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 1)
-
     def test_list_command(self):
         add_document()
         output = StringIO()

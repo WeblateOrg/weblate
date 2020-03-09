@@ -109,17 +109,8 @@ def update_memory_task(self, *args, **kwargs):
             update_memory_task.delay(**unit)
 
 
-@app.task(trail=False)
-def memory_optimize():
-    memory = TranslationMemory()
-    memory.index.optimize()
-
-
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
         crontab(hour=1, minute=0), memory_backup.s(), name="translation-memory-backup"
-    )
-    sender.add_periodic_task(
-        3600 * 24 * 7, memory_optimize.s(), name="translation-memory-optimize"
     )

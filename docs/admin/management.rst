@@ -704,26 +704,6 @@ After moving the content, you should review if there is nothing left (this is
 subject to race conditions when somebody updates the repository meanwhile) and
 remove the `(generated)` language.
 
-optimize_memory
----------------
-
-.. django-admin:: optimize_memory
-
-.. versionadded:: 3.2
-
-Optimizes translation memory storage.
-
-.. django-admin-option:: --rebuild
-
-    The index will be completely rebuilt by dumping all content and creating it again.
-    It is recommended to backup it prior to this operation.
-
-.. seealso::
-
-    :ref:`translation-memory`,
-    :doc:`backup`,
-    :djadmin:`dump_memory`
-
 pushgit
 -------
 
