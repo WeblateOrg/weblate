@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-03-01 05:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-03-09 09:16+0000\n"
+"Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
 "Language: ko\n"
@@ -679,7 +679,7 @@ msgstr "호스팅"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:172
 msgid "Sign in"
-msgstr ""
+msgstr "로그인"
 
 #: weblate/accounts/views.py:602 weblate/wladmin/sites.py:176
 msgid "Thank you for using Weblate."
@@ -3503,17 +3503,15 @@ msgstr "이 사용자 이름/비밀번호 조합을 찾을 수 없습니다. 다
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "타사 서비스로 로그인:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
 msgstr "비밀번호를 잊어 버렸습니까?"
 
 #: weblate/templates/accounts/login.html:64
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Register new account"
-msgstr "이 계정 삭제"
+msgstr "새 계정 등록"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3572,7 +3570,7 @@ msgstr "허가서"
 #: weblate/templates/accounts/profile.html:30
 #: weblate/templates/accounts/profile.html:225
 msgid "Audit log"
-msgstr "심사 로그"
+msgstr "계정 활동"
 
 #: weblate/templates/accounts/profile.html:31
 #: weblate/templates/accounts/profile.html:257
@@ -3709,7 +3707,7 @@ msgstr "설명"
 
 #: weblate/templates/accounts/profile.html:220
 msgid "Contact us immediately if you see anything suspicious in the audit log."
-msgstr "감사 로그에 의심스러운 것이 있으면 즉시 저희에게 연락하십시오."
+msgstr "활동 기록에 의심스러운 것이 있으면 즉시 저희에게 연락하십시오."
 
 #: weblate/templates/accounts/profile.html:229
 msgid "When"
@@ -3815,7 +3813,7 @@ msgstr "이메일을 사용하여 회원가입"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "타사 서비스로 새 계정 등록:"
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -4153,7 +4151,7 @@ msgstr "설정"
 
 #: weblate/templates/base.html:210 weblate/wladmin/sites.py:180
 msgid "Sign out"
-msgstr ""
+msgstr "로그아웃"
 
 #: weblate/templates/base.html:217
 msgid "Help"
@@ -4868,10 +4866,8 @@ msgid "Configure dashboard"
 msgstr "대시보드 설정"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Recent additions"
-msgstr "최근 변경사항"
+msgstr "최근 작업들"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -5432,11 +5428,8 @@ msgstr ""
 "다."
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr "당신의 비밀번호를 동일한 문자열이나 공백으로만 할 수는 없습니다."
+msgstr "비밀번호는 반복된 단어나 문자를 포함할 수 없습니다."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -6005,10 +5998,8 @@ msgid "You do not have permission to change project access control."
 msgstr "프로젝트 액세스 관리를 변경할 권한이 없습니다."
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "구성 요소 목록들"
+msgstr "구성 요소 알림"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6130,7 +6121,7 @@ msgstr "시스템 검사"
 
 #: weblate/templates/manage/performance.html:98
 msgid "Celery queues"
-msgstr ""
+msgstr "샐러리(Celery) 대기열"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6640,7 +6631,7 @@ msgstr "%(date)s %(author)s가 작성함"
 
 #: weblate/templates/snippets/git-info.html:43
 msgid "Repository containing Weblate translations"
-msgstr "Weblate 번역이 포함된 저장소"
+msgstr "웨블레이트 번역이 포함된 저장소"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -6655,11 +6646,11 @@ msgstr "용어집에서 관련된 문자열을 찾을 수 없습니다."
 msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
-msgstr ""
+msgstr "<a href=\"%(url)s\">프로젝트 설정</a>에서 추가 레이블을 정의할 수 있습니다."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
-msgstr ""
+msgstr "프로젝트 관리자가 추가 레이블을 정의할 수 있습니다."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -6705,7 +6696,7 @@ msgstr "웹 기반의 <strong>지속적인</strong> 현지화"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "이 서비스에 등록하고 로그인하면 다음을 수락합니다:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -6943,25 +6934,21 @@ msgstr "이 구성 요소는 잘못 설정됐습니다."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
-msgstr ""
+msgstr "저장소 탐색기 URL이 기존 위치기 아닙니다:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "파일 이름은 상위 디렉토리에 대한 참조를 포함 할 수 없습니다."
+msgstr "변환 파일의 경로에 상위 디렉토리에 대한 참조가 포함되어 있거나 절대경로인 경우에 발생할 수 있습니다."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "이 구성 요소는 잘못 설정됐습니다."
+msgstr "프로젝트의 설정이 올바르지 않습니다."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "프로젝트 누리집의 URL이 기존 위치가 아닙니다:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -8433,10 +8420,8 @@ msgid "Name of the translation"
 msgstr "번역의 이름"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "확인을 위해 번역의 이름을 입력하십시오."
+msgstr "확인을 위해 번역의 전체 이름을 입력하십시오."
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -8522,17 +8507,13 @@ msgstr "지원되지 않는 구성 요소 설정"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "저장소 탐색기"
+msgstr "저장소 탐색기 URL이 잘못됨"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "프로젝트 누리집"
+msgstr "프로젝트 누리집의 URL이 잘못됨"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -10368,7 +10349,7 @@ msgstr "파일이름은 절대경로가 될 수 없습니다."
 
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
-msgstr ""
+msgstr "파일 이름은 가능한 한 단순해야 합니다. 다음을 사용할 수도 있습니다: {}"
 
 #: weblate/utils/views.py:234
 #, python-format
