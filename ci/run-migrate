@@ -66,6 +66,11 @@ for tag in $TAGS ; do
     # Add vote for suggestion
     ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
     check
+    # Load translation memory
+    if [ -f ./weblate/trans/tests/data/memory.json ] ; then
+        ./manage.py import_memory ./weblate/trans/tests/data/memory.json
+        check
+    fi
     git reset --hard
     check
     git checkout $HEAD_COMMIT
