@@ -42,7 +42,6 @@ Per user translation memory
 +++++++++++++++++++++++++++
 
 Stores all user translations automatically in personal translation memory
-only available for this user.
 
 Per project translation memory
 ++++++++++++++++++++++++++++++
