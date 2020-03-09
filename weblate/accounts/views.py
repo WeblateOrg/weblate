@@ -956,9 +956,7 @@ def social_auth(request, backend):
     # on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):
         request.backend.redirect_uri += '?authid={}'.format(
-            TimestampSigner().sign(
-                dumps((request.session.session_key, get_ip_address(request)))
-            )
+            dumps((request.session.session_key, get_ip_address(request)))
         )
     return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
 
@@ -1012,11 +1010,8 @@ def social_complete(request, backend):
     - Restores session from authid for some backends (see social_auth)
     """
     if 'authid' in request.GET and not request.session.session_key:
-        signer = TimestampSigner()
         try:
-            session_key, ip_address = loads(
-                signer.unsign(request.GET['authid'], max_age=300)
-            )
+            session_key, ip_address = loads(request.GET['authid'], max_age=300)
         except (BadSignature, SignatureExpired):
             return auth_redirect_token()
         if ip_address != get_ip_address(request):
