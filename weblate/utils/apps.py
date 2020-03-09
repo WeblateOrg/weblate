@@ -19,7 +19,10 @@
 #
 
 from django.apps import AppConfig
+from django.conf import settings
+from django.contrib.postgres.lookups import SearchLookup
 from django.core.checks import register
+from django.db.models import CharField, TextField
 
 from weblate.utils.checks import (
     check_cache,
@@ -36,6 +39,8 @@ from weblate.utils.checks import (
 from weblate.utils.django_hacks import monkey_patch_translate
 from weblate.utils.errors import init_error_collection
 from weblate.utils.version import check_version
+
+from .mysql import MySQLSearchLookup
 
 
 class UtilsConfig(AppConfig):
@@ -60,3 +65,13 @@ class UtilsConfig(AppConfig):
         monkey_patch_translate()
 
         init_error_collection()
+
+        engine = settings.DATABASES["default"]["ENGINE"]
+        if engine == "django.db.backends.postgresql":
+            CharField.register_lookup(SearchLookup)
+            TextField.register_lookup(SearchLookup)
+        elif engine == "django.db.backends.mysql":
+            CharField.register_lookup(MySQLSearchLookup)
+            TextField.register_lookup(MySQLSearchLookup)
+        else:
+            raise Exception("Unsupported database: {}".format(engine))

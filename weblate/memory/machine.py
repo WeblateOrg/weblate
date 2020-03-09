@@ -21,7 +21,8 @@
 
 from weblate.lang.models import Language
 from weblate.machinery.base import MachineTranslation
-from weblate.memory.storage import TranslationMemory, get_category_name
+from weblate.memory.models import Memory
+from weblate.utils.search import Comparer
 
 
 class WeblateMemory(MachineTranslation):
@@ -40,21 +41,22 @@ class WeblateMemory(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        memory = TranslationMemory.get_thread_instance()
-        memory.refresh()
-        results = memory.lookup(
-            source.code,
-            language.code,
+        comparer = Comparer()
+        for result in Memory.objects.lookup(
+            source,
+            language,
             text,
             user,
             unit.translation.component.project,
             unit.translation.component.project.use_shared_tm,
-        )
-        for text, target, similarity, category, origin in results:
+        ).iterator():
+            quality = comparer.similarity(text, result.source)
+            if quality < 75:
+                continue
             yield {
-                "text": target,
-                "quality": similarity,
+                "text": result.target,
+                "quality": quality,
                 "service": self.name,
-                "origin": get_category_name(category, origin),
-                "source": text,
+                "origin": result.get_origin_display(),
+                "source": result.source,
             }

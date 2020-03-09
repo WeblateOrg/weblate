@@ -23,10 +23,9 @@ from io import StringIO
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import SimpleTestCase, TestCase
+from django.test import TestCase
 from django.urls import reverse
 
-from weblate.checks.tests.test_checks import MockUnit
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.storage import CATEGORY_FILE, TranslationMemory
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -48,7 +47,7 @@ def add_document():
         writer.add_document(**TEST_DOCUMENT)
 
 
-class MemoryTest(SimpleTestCase):
+class MemoryTest(TestCase):
     def setUp(self):
         TranslationMemory.cleanup()
 
@@ -143,15 +142,16 @@ class MemoryTest(SimpleTestCase):
         self.assertEqual(memory.get_values("origin"), ["test"])
 
 
-class MemoryDBTest(TestCase):
+class MemoryDBTest(FixtureTestCase):
     def setUp(self):
+        super().setUp()
         TranslationMemory.cleanup()
 
     def test_machine(self):
         add_document()
         machine_translation = WeblateMemory()
         self.assertEqual(
-            machine_translation.translate("cs", "Hello", MockUnit(), None),
+            machine_translation.translate("cs", "Hello", self.get_unit(), None),
             [
                 {
                     "quality": 100,
