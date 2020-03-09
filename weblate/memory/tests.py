@@ -102,12 +102,6 @@ class MemoryTest(TestCase):
         memory = TranslationMemory()
         self.assertEqual(memory.doc_count(), 0)
 
-    def test_list_command(self):
-        add_document()
-        output = StringIO()
-        call_command("list_memory", stdout=output)
-        self.assertIn("test", output.getvalue())
-
     def add_document(self):
         memory = TranslationMemory()
         with memory.writer() as writer:

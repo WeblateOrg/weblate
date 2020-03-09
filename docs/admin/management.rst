@@ -598,23 +598,6 @@ and localized names.
 
 This is used to generate <https://wiki.l10n.cz/Jazyky>.
 
-list_memory
------------
-
-.. django-admin:: list_memory
-
-.. versionadded:: 2.20
-
-Lists contents of the Weblate Translation Memory.
-
-.. django-admin-option:: --type {origin}
-
-    Type of information to list, defaults to listing used origins.
-
-.. seealso::
-
-    :ref:`translation-memory`
-
 list_translators
 ----------------
 

@@ -97,7 +97,5 @@ requested by parameters):
     Exporting the memory into JSON
 :djadmin:`import_memory`
     Importing TMX or JSON files into the memory
-:djadmin:`list_memory`
-    Listing memory content
 :djadmin:`delete_memory`
     Deleting content from the memory
