@@ -36,6 +36,7 @@ Not yet released.
 * Fixed stats invalidation in some corner cases.
 * Fixed searching for certain string states.
 * Improved format string checks behavior on missing percent.
+* Fixed authentication using some third party providers.
 
 Weblate 3.11.2
 --------------

@@ -196,7 +196,9 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
 
     # Ensure it's still same user
     request = strategy.request
-    if request.user.pk != request.session.get('social_auth_user'):
+    current_user = request.user.pk
+    init_user = request.session.get('social_auth_user')
+    if current_user != init_user:
         raise AuthMissingParameter(backend, 'user')
 
 
