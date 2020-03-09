@@ -307,7 +307,12 @@ class AndroidImportTest(ViewTestCase):
         with open(TEST_ANDROID, 'rb') as handle:
             self.client.post(
                 reverse('upload_translation', kwargs=self.kw_translation),
-                {'file': handle, 'method': 'translate'},
+                {
+                    'file': handle,
+                    'method': 'translate',
+                    'author_name': self.user.full_name,
+                    'author_email': self.user.email,
+                },
             )
         # Verify stats
         translation = self.get_translation()
@@ -323,7 +328,12 @@ class AndroidImportTest(ViewTestCase):
         with open(TEST_ANDROID, 'rb') as handle:
             self.client.post(
                 reverse('upload_translation', kwargs=kwargs),
-                {'file': handle, 'method': 'replace'},
+                {
+                    'file': handle,
+                    'method': 'replace',
+                    'author_name': self.user.full_name,
+                    'author_email': self.user.email,
+                },
             )
         # Verify stats
         translation = self.get_translation()
@@ -342,7 +352,12 @@ class CSVImportTest(ViewTestCase):
         with open(self.test_file, 'rb') as handle:
             self.client.post(
                 reverse('upload_translation', kwargs=self.kw_translation),
-                {'file': handle, 'method': 'translate'},
+                {
+                    'file': handle,
+                    'method': 'translate',
+                    'author_name': self.user.full_name,
+                    'author_email': self.user.email,
+                },
             )
         # Verify stats
         translation = self.get_translation()
