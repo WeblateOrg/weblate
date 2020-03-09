@@ -18,8 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from datetime import datetime
+from unittest import expectedFailure
 
 from django.db.models import Q
 from django.test import SimpleTestCase, TestCase
@@ -164,8 +164,11 @@ class QueryParserTest(TestCase):
         self.assert_query("state:<translated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
-        # This should probably raise an error
-        self.assert_query("state:invalid", Q())
+
+    @expectedFailure
+    def test_invalid_state(self):
+        with self.assertRaises(ValueError):
+            self.assert_query("state:invalid", Q())
 
     def test_parenthesis(self):
         self.assert_query(
@@ -217,3 +220,42 @@ class QueryParserTest(TestCase):
     def test_priority(self):
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))
+
+    @expectedFailure
+    def test_text_html(self):
+        self.assert_query("target:<name>", Q(target="<name>"))
+
+    @expectedFailure
+    def test_text_long(self):
+        self.assert_query(
+            "[one to other]",
+            (
+                Q(source__icontains="[one")
+                | Q(target__icontains="[one")
+                | Q(context__icontains="[one")
+            )
+            & (
+                Q(source__icontains="to")
+                | Q(target__icontains="to")
+                | Q(context__icontains="to")
+            )
+            & (
+                Q(source__icontains="other]")
+                | Q(target__icontains="other]")
+                | Q(context__icontains="other]")
+            ),
+        )
+
+    @expectedFailure
+    def test_lowercase_or(self):
+        self.assert_query(
+            "state:<translated or state:empty",
+            Q(state__lt=STATE_TRANSLATED) | Q(state=STATE_EMPTY),
+        )
+
+    @expectedFailure
+    def test_timestamp_format(self):
+        self.assert_query(
+            "changed:>=01/20/2020",
+            Q(change__timestamp__gte=datetime(2020, 20, 1, 0, 0, tzinfo=utc)),
+        )
