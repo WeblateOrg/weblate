@@ -604,28 +604,24 @@ class UploadForm(SimpleUploadForm):
 class ExtraUploadForm(UploadForm):
     """Advanced upload form for users who can override authorship."""
 
-    author_name = forms.CharField(
-        label=_('Author name'),
-        required=False,
-        help_text=_('Leave empty for using currently logged in user.'),
-    )
-    author_email = forms.EmailField(
-        label=_('Author e-mail'),
-        required=False,
-        help_text=_('Leave empty for using currently logged in user.'),
-    )
+    author_name = forms.CharField(label=_('Author name'))
+    author_email = forms.EmailField(label=_('Author e-mail'))
 
 
-def get_upload_form(user, translation, *args):
+def get_upload_form(user, translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
     project = translation.component.project
     if user.has_perm('upload.authorship', project):
         form = ExtraUploadForm
+        kwargs['initial'] = {
+            'author_name': user.full_name,
+            'author_email': user.email,
+        }
     elif user.has_perm('upload.overwrite', project):
         form = UploadForm
     else:
         form = SimpleUploadForm
-    result = form(*args)
+    result = form(*args, **kwargs)
     if not user.has_perm('unit.edit', translation):
         result.remove_translation_choice('translate')
         result.remove_translation_choice('fuzzy')
