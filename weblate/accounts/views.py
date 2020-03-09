@@ -21,18 +21,25 @@
 
 import re
 from collections import defaultdict
+from importlib import import_module
 
 import social_django.utils
 from django.conf import settings
-from django.contrib.auth import logout
+from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail.message import EmailMultiAlternatives
-from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
+from django.core.signing import (
+    BadSignature,
+    SignatureExpired,
+    TimestampSigner,
+    dumps,
+    loads,
+)
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -49,6 +56,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, TemplateView
 from rest_framework.authtoken.models import Token
+from social_core.actions import do_auth
+from social_core.backends.open_id import OpenIdAuth
 from social_core.backends.utils import load_backends
 from social_core.exceptions import (
     AuthAlreadyAssociated,
@@ -59,8 +68,10 @@ from social_core.exceptions import (
     AuthStateForbidden,
     AuthStateMissing,
     InvalidEmail,
+    MissingBackend,
 )
-from social_django.views import auth, complete, disconnect
+from social_django.utils import load_backend, load_strategy
+from social_django.views import complete, disconnect
 
 from weblate.accounts.avatar import get_avatar_image, get_fallback_avatar_url
 from weblate.accounts.forms import (
@@ -920,15 +931,32 @@ def social_disconnect(request, backend, association_id=None):
     return disconnect(request, backend, association_id)
 
 
+@never_cache
 @require_POST
 def social_auth(request, backend):
     """Wrapper around social_django.views.auth.
 
+    - Incorporates modified social_djang.utils.psa
     - Requires POST (to avoid CSRF on auth)
     - Stores current user in session (to avoid CSRF upon completion)
+    - Stores session ID in the request URL if needed
     """
     store_userid(request)
-    return auth(request, backend)
+    uri = reverse('social:complete', args=(backend,))
+    request.social_strategy = load_strategy(request)
+    try:
+        request.backend = load_backend(request.social_strategy, backend, uri)
+    except MissingBackend:
+        raise Http404('Backend not found')
+    # Store session ID for OpenId based auth. The session cookies will not be sent
+    # on returning POST request due to SameSite cookie policy
+    if isinstance(request.backend, OpenIdAuth):
+        request.backend.redirect_uri += '?authid={}'.format(
+            TimestampSigner().sign(
+                dumps((request.session.session_key, get_ip_address(request)))
+            )
+        )
+    return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
 
 
 def auth_fail(request, message):
@@ -977,7 +1005,21 @@ def social_complete(request, backend):
     - Handles backend errors gracefully
     - Intermediate page (autosubmitted by javascript) to avoid
       confirmations by bots
+    - Restores session from authid for some backends (see social_auth)
     """
+    if 'authid' in request.GET and not request.session.session_key:
+        signer = TimestampSigner()
+        try:
+            session_key, ip_address = loads(
+                signer.unsign(request.GET['authid'], max_age=300)
+            )
+        except (BadSignature, SignatureExpired):
+            return auth_redirect_token()
+        if ip_address != get_ip_address(request):
+            return auth_redirect_token()
+        engine = import_module(settings.SESSION_ENGINE)
+        request.session = engine.SessionStore(session_key)
+
     if (
         'partial_token' in request.GET
         and 'verification_code' in request.GET
