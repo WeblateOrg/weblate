@@ -956,7 +956,10 @@ def social_auth(request, backend):
     # on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):
         request.backend.redirect_uri += '?authid={}'.format(
-            dumps((request.session.session_key, get_ip_address(request)))
+            dumps(
+                (request.session.session_key, get_ip_address(request)),
+                salt='weblate.authid',
+            )
         )
     return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
 
@@ -1011,7 +1014,9 @@ def social_complete(request, backend):
     """
     if 'authid' in request.GET and not request.session.session_key:
         try:
-            session_key, ip_address = loads(request.GET['authid'], max_age=300)
+            session_key, ip_address = loads(
+                request.GET['authid'], max_age=300, salt='weblate.authid'
+            )
         except (BadSignature, SignatureExpired):
             return auth_redirect_token()
         if ip_address != get_ip_address(request):
