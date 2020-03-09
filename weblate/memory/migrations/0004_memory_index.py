@@ -11,9 +11,16 @@ def create_index(apps, schema_editor):
             "CREATE INDEX memory_source_fulltext ON memory_memory "
             "USING GIN (to_tsvector('english', source))"
         )
+        schema_editor.execute(
+            "CREATE INDEX memory_lookup_index ON memory_memory(source, target, origin)"
+        )
     elif vendor == "mysql":
         schema_editor.execute(
-            "CREATE FULLTEXT INDEX `memory_source_fulltext` on memory_memory(`source`)"
+            "CREATE FULLTEXT INDEX memory_source_fulltext ON memory_memory(source)"
+        )
+        schema_editor.execute(
+            "CREATE INDEX memory_lookup_index ON "
+            "memory_memory(source(255), target(255), origin(255))"
         )
     else:
         raise Exception("Unsupported database: {}".format(vendor))
@@ -23,9 +30,13 @@ def drop_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         schema_editor.execute("DROP INDEX memory_source_fulltext")
+        schema_editor.execute("DROP INDEX memory_lookup_index")
     elif vendor == "mysql":
         schema_editor.execute(
             "ALTER TABLE memory_memory DROP INDEX memory_source_fulltext"
+        )
+        schema_editor.execute(
+            "ALTER TABLE memory_memory DROP INDEX memory_lookup_index"
         )
     else:
         raise Exception("Unsupported database: {}".format(vendor))

@@ -75,8 +75,8 @@ class Memory(models.Model):
     project = models.ForeignKey(
         "trans.Project", on_delete=models.deletion.CASCADE, null=True, blank=True
     )
-    from_file = models.BooleanField()
-    shared = models.BooleanField()
+    from_file = models.BooleanField(db_index=True)
+    shared = models.BooleanField(db_index=True)
 
     objects = MemoryQuerySet.as_manager()
 
