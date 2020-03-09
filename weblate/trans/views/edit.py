@@ -470,7 +470,7 @@ def translate(request, project, component, lang):
         messages.error(request, _('Invalid search string!'))
         return redirect(translation)
 
-    # Show secondary languages for logged in users
+    # Show secondary languages for signed in users
     if request.user.is_authenticated:
         secondary = unit.get_secondary_units(request.user)
     else:

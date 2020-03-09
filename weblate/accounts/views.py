@@ -577,7 +577,7 @@ class WeblateLoginView(LoginView):
 
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
-        # Redirect logged in users to profile
+        # Redirect signed in users to profile
         if request.user.is_authenticated:
             return redirect_profile()
 

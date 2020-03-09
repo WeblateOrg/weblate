@@ -334,7 +334,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "You have activated" in self.driver.find_element_by_tag_name("body").text
         )
 
-        # Check we're logged in
+        # Check we're signed in
         self.click(self.driver.find_element_by_id("user-dropdown"))
         self.assertTrue(
             "Test Example" in self.driver.find_element_by_id("profile-name").text

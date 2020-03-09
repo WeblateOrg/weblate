@@ -289,7 +289,7 @@ def ensure_valid(
         if strategy.request.user.is_authenticated:
             messages.warning(
                 strategy.request,
-                _('You can not complete password reset while logged in!'),
+                _('You can not complete password reset while signed in!'),
             )
             messages.warning(
                 strategy.request, _('The registration link has been invalidated.')
@@ -307,12 +307,12 @@ def ensure_valid(
         if registering_user is None:
             messages.warning(
                 strategy.request,
-                _('You can not complete registration while logged in!'),
+                _('You can not complete registration while signed in!'),
             )
         else:
             messages.warning(
                 strategy.request,
-                _('You can confirm your registration only while logged in!'),
+                _('You can confirm your registration only while signed in!'),
             )
         messages.warning(
             strategy.request, _('The registration link has been invalidated.')

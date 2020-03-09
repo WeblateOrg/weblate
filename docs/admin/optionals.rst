@@ -149,7 +149,7 @@ To install, simply add ``weblate.legal`` to installed applications in
         'weblate.legal.pipeline.tos_confirm',
     )
 
-    # Middleware to enforce TOS confirmation of logged in users
+    # Middleware to enforce TOS confirmation of signed in users
     MIDDLEWARE += [
         'weblate.legal.middleware.RequireTOSMiddleware',
     ]

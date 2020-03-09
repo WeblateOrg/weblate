@@ -9,7 +9,7 @@ The Django admin interface
    as its use is discouraged—most features can be managed directly in Weblate.
 
 The Django admin interface offer administration settings
-under the :file:`/admin/` URL. It is available for users logged in with admin
+under the :file:`/admin/` URL. It is available for users signed in with admin
 privileges, accessable by using the wrench icon top right:
 
 .. image:: /images/admin-wrench.png

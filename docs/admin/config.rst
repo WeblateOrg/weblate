@@ -30,7 +30,7 @@ and associate it with a site.
 ANONYMOUS_USER_NAME
 -------------------
 
-User name of user for defining privileges of not logged in user.
+User name of user for defining privileges of not signed in user.
 
 .. seealso::
 
@@ -1096,7 +1096,7 @@ If enabled the captcha is added to all pages where users enter e-mail address:
 * New account registration.
 * Password recovery.
 * Adding e-mail to an account.
-* Contact form for users who are not logged in.
+* Contact form for users who are not signed in.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 

@@ -47,14 +47,14 @@ class MiddlewareTest(TestCase):
         # No protection for not protected path
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
         request.path = '/project/foo/'
-        # No protection for protected path and logged in user
+        # No protection for protected path and signed in user
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
-        # Protection for protected path and not logged in user
+        # Protection for protected path and not signed in user
         request.user = get_anonymous()
         self.assertIsInstance(
             middleware.process_view(request, self.view_method, (), {}),
             HttpResponseRedirect,
         )
-        # No protection for login and not logged in user
+        # No protection for login and not signed in user
         request.path = '/accounts/login/'
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))

@@ -96,7 +96,7 @@ class RequireLoginMiddleware:
         if not self.required:
             return None
 
-        # No need to process URLs if user already logged in
+        # No need to process URLs if user already signed in
         if request.user.is_authenticated:
             return None
 
