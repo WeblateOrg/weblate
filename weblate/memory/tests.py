@@ -227,16 +227,6 @@ class MemoryViewTest(FixtureTestCase):
         self.user.save()
         self.test_memory("Number of entries for Test", False, kwargs=self.kw_project)
 
-    def test_import(self):
-        self.user.is_superuser = True
-        self.user.save()
-        response = self.client.post(
-            reverse("memory-import", kwargs=self.kw_project),
-            {"confirm": "1"},
-            follow=True,
-        )
-        self.assertContains(response, "Import of strings scheduled")
-
     def test_global_memory_superuser(self):
         self.user.is_superuser = True
         self.user.save()

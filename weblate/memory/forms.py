@@ -38,7 +38,3 @@ class DeleteForm(forms.Form):
     confirm = forms.BooleanField(
         label=_("Confirm deleting all translation memory entries"), required=True
     )
-
-
-class ImportForm(forms.Form):
-    confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)

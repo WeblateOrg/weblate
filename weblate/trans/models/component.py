@@ -45,6 +45,7 @@ from django.utils.translation import gettext_lazy, ngettext
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
+from weblate.memory.tasks import import_memory
 from weblate.trans.defines import (
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
@@ -1428,6 +1429,8 @@ class Component(models.Model, URLMixin, PathMixin):
         if was_change:
             self.update_shapings()
             component_post_update.send(sender=self.__class__, component=self)
+            # Update translation memory
+            transaction.on_commit(lambda: import_memory.delay(self.project_id, self.id))
 
         self.log_info("updating completed")
         return was_change

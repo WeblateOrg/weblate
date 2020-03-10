@@ -11,6 +11,7 @@ The translation memory consists of following content:
 
 * Manually imported translation memory (see :ref:`memory-user`).
 * Automatically stored translations performed in Weblate (depending on :ref:`memory-scopes`).
+* Automatically imported past translations.
 
 The translation memory can be used to get matches:
 

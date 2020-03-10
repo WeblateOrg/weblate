@@ -24,7 +24,7 @@ import os
 import os.path
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -34,6 +34,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.lang.models import Language, get_english_lang
+from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
@@ -198,6 +199,7 @@ class Project(models.Model, URLMixin, PathMixin):
         return self.name
 
     def save(self, *args, **kwargs):
+        update_tm = self.contribute_shared_tm
 
         # Renaming detection
         old = None
@@ -213,6 +215,7 @@ class Project(models.Model, URLMixin, PathMixin):
                     component.linked_childs.update(
                         repo=new_component.get_repo_link_url()
                     )
+            update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
 
         self.create_path()
 
@@ -224,6 +227,10 @@ class Project(models.Model, URLMixin, PathMixin):
 
             for component in self.component_set.iterator():
                 perform_load.delay(component.pk)
+
+        # Update translation memory on enabled sharing
+        if update_tm:
+            transaction.on_commit(lambda: import_memory.delay(self.id))
 
     @cached_property
     def languages(self):

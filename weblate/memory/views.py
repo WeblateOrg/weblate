@@ -29,9 +29,8 @@ from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
-from weblate.memory.forms import DeleteForm, ImportForm, UploadForm
+from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.storage import MemoryImportError, TranslationMemory
-from weblate.memory.tasks import import_memory
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
 from weblate.wladmin.views import MENU
@@ -81,19 +80,6 @@ class DeleteView(MemoryFormView):
         return super().form_valid(form)
 
 
-class ImportView(MemoryFormView):
-
-    form_class = ImportForm
-
-    def form_valid(self, form):
-        if not check_perm(self.request.user, "memory.edit", self.objects):
-            raise PermissionDenied()
-        import_memory.delay(self.objects["project"].pk)
-
-        messages.success(self.request, _("Import of strings scheduled."))
-        return super().form_valid(form)
-
-
 class UploadView(MemoryFormView):
     form_class = UploadForm
 
@@ -138,9 +124,6 @@ class MemoryView(TemplateView):
             context["delete_form"] = DeleteForm()
         if check_perm(user, "memory.edit", self.objects):
             context["upload_form"] = UploadForm()
-            if "project" in self.objects:
-                context["import_form"] = ImportForm()
-                context["import_url"] = self.get_url("memory-import")
         if "use_file" in self.objects:
             context["menu_items"] = MENU
             context["menu_page"] = "memory"
