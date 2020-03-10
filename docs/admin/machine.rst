@@ -53,7 +53,8 @@ to and from English across a breadth of supported languages.
 1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` to
 :setting:`MT_SERVICES`.
 
-2. Install the `boto3` module and configure it.
+2. Install the `boto3` module.
+3. Configure Weblate.
 
 .. seealso::
 
