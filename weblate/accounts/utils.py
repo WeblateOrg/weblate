@@ -61,6 +61,9 @@ def remove_user(user, request):
     # Remove user from all groups
     user.groups.clear()
 
+    # Remove user translation memory
+    user.memory_set.all().delete()
+
 
 def get_all_user_mails(user, entries=None):
     """Return all verified mails for user."""
