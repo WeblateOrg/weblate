@@ -368,6 +368,19 @@ class LanguageQuerySet(models.QuerySet):
     def order_translated(self):
         return sort_objects(self)
 
+    def get_by_code(self, code, cache, langmap=None):
+        """Cached and aliases aware getter."""
+        if code in cache:
+            return cache[code]
+        if langmap and code in langmap:
+            language = self.fuzzy_get(code=langmap[code], strict=True)
+        else:
+            language = self.fuzzy_get(code=code, strict=True)
+        if language is None:
+            raise Language.DoesNotExist(code)
+        cache[code] = language
+        return language
+
 
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True

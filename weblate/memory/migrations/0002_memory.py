@@ -33,13 +33,14 @@ class Migration(migrations.Migration):
                 ("source", models.TextField()),
                 ("target", models.TextField()),
                 ("origin", models.TextField()),
-                ("from_file", models.BooleanField()),
-                ("shared", models.BooleanField()),
+                ("from_file", models.BooleanField(default=False)),
+                ("shared", models.BooleanField(default=False)),
                 (
                     "project",
                     models.ForeignKey(
                         blank=True,
                         null=True,
+                        default=None,
                         on_delete=django.db.models.deletion.CASCADE,
                         to="trans.Project",
                     ),
@@ -65,6 +66,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         blank=True,
                         null=True,
+                        default=None,
                         on_delete=django.db.models.deletion.CASCADE,
                         to=settings.AUTH_USER_MODEL,
                     ),

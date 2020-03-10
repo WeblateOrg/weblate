@@ -23,91 +23,29 @@ from io import StringIO
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
-from django.test import TestCase
 from django.urls import reverse
 
+from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.storage import CATEGORY_FILE, TranslationMemory
+from weblate.memory.models import Memory
+from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 
-TEST_DOCUMENT = {
-    "source_language": "en",
-    "target_language": "cs",
-    "source": "Hello",
-    "target": "Ahoj",
-    "origin": "test",
-    "category": CATEGORY_FILE,
-}
-
 
 def add_document():
-    memory = TranslationMemory()
-    with memory.writer() as writer:
-        writer.add_document(**TEST_DOCUMENT)
+    Memory.objects.create(
+        source_language=Language.objects.get(code="en"),
+        target_language=Language.objects.get(code="cs"),
+        source="Hello",
+        target="Ahoj",
+        origin="test",
+        from_file=True,
+        shared=False,
+    )
 
 
-class MemoryTest(TestCase):
-    def setUp(self):
-        TranslationMemory.cleanup()
-
-    def test_import_invalid_command(self):
-        with self.assertRaises(CommandError):
-            call_command("import_memory", get_test_file("cs.po"))
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 0)
-
-    def test_import_json_command(self):
-        call_command("import_memory", get_test_file("memory.json"))
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 1)
-
-    def test_import_broken_json_command(self):
-        with self.assertRaises(CommandError):
-            call_command("import_memory", get_test_file("memory-broken.json"))
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 0)
-
-    def test_import_empty_json_command(self):
-        with self.assertRaises(CommandError):
-            call_command("import_memory", get_test_file("memory-empty.json"))
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 0)
-
-    def test_dump_command(self):
-        add_document()
-        output = StringIO()
-        call_command("dump_memory", stdout=output)
-        data = json.loads(output.getvalue())
-        self.assertEqual(data, [TEST_DOCUMENT])
-
-    def add_document(self):
-        memory = TranslationMemory()
-        with memory.writer() as writer:
-            writer.add_document(**TEST_DOCUMENT)
-
-    def test_delete(self):
-        add_document()
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 1)
-        self.assertEqual(memory.delete("test", None), 1)
-        self.assertEqual(memory.delete("missing", None), 0)
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 0)
-
-    def test_list(self):
-        memory = TranslationMemory()
-        self.assertEqual(memory.get_values("origin"), [])
-        add_document()
-        memory = TranslationMemory()
-        self.assertEqual(memory.get_values("origin"), ["test"])
-
-
-class MemoryDBTest(FixtureTestCase):
-    def setUp(self):
-        super().setUp()
-        TranslationMemory.cleanup()
-
+class MemoryModelTest(FixtureTestCase):
     def test_machine(self):
         add_document()
         machine_translation = WeblateMemory()
@@ -126,19 +64,55 @@ class MemoryDBTest(FixtureTestCase):
 
     def test_import_tmx_command(self):
         call_command("import_memory", get_test_file("memory.tmx"))
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 2)
+        self.assertEqual(Memory.objects.count(), 2)
 
     def test_import_tmx2_command(self):
         call_command("import_memory", get_test_file("memory2.tmx"))
-        memory = TranslationMemory()
-        self.assertEqual(memory.doc_count(), 1)
+        self.assertEqual(Memory.objects.count(), 1)
 
     def test_import_map(self):
         call_command(
             "import_memory", get_test_file("memory.tmx"), language_map="en_US:en"
         )
-        self.assertEqual(TranslationMemory().doc_count(), 2)
+        self.assertEqual(Memory.objects.count(), 2)
+
+    def test_dump_command(self):
+        add_document()
+        output = StringIO()
+        call_command("dump_memory", stdout=output)
+        data = json.loads(output.getvalue())
+        self.assertEqual(
+            data,
+            [
+                {
+                    "source_language": "en",
+                    "target_language": "cs",
+                    "source": "Hello",
+                    "target": "Ahoj",
+                    "origin": "test",
+                    "category": CATEGORY_FILE,
+                }
+            ],
+        )
+
+    def test_import_invalid_command(self):
+        with self.assertRaises(CommandError):
+            call_command("import_memory", get_test_file("cs.po"))
+        self.assertEqual(Memory.objects.count(), 0)
+
+    def test_import_json_command(self):
+        call_command("import_memory", get_test_file("memory.json"))
+        self.assertEqual(Memory.objects.count(), 1)
+
+    def test_import_broken_json_command(self):
+        with self.assertRaises(CommandError):
+            call_command("import_memory", get_test_file("memory-broken.json"))
+        self.assertEqual(Memory.objects.count(), 0)
+
+    def test_import_empty_json_command(self):
+        with self.assertRaises(CommandError):
+            call_command("import_memory", get_test_file("memory-empty.json"))
+        self.assertEqual(Memory.objects.count(), 0)
 
 
 class MemoryViewTest(FixtureTestCase):

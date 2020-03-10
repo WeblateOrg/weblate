@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="memory",
             name="from_file",
-            field=models.BooleanField(db_index=True),
+            field=models.BooleanField(db_index=True, default=False),
         ),
         migrations.AlterField(
             model_name="memory",
             name="shared",
-            field=models.BooleanField(db_index=True),
+            field=models.BooleanField(db_index=True, default=False),
         ),
     ]

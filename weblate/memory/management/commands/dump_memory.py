@@ -18,8 +18,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import json
 
-from weblate.memory.storage import TranslationMemory
+from weblate.memory.models import Memory
 from weblate.utils.management.base import BaseCommand
 
 
@@ -44,7 +45,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        memory = TranslationMemory()
+        memory = Memory.objects.all().prefetch_lang().iterator()
         self.stdout.ending = None
-        memory.dump(self.stdout, indent=options["indent"])
+        json.dump(
+            [item.as_dict() for item in memory], self.stdout, indent=options["indent"]
+        )
         self.stdout.write("\n")

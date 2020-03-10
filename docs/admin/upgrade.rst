@@ -256,6 +256,8 @@ Notable configuration or dependencies changes:
 * Python versions older than 3.5 are no longer supported, see :ref:`py3`
 * There are several new checks included in the :setting:`CHECK_LIST`.
 * There are several removed, updated and new dependencies.
+* The migration will take some time if you have big translation memory.
+* The translation memory now resides in the database, you can remove the :file:`memory` in :setting:`DATA_DIR` after the upgrade.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

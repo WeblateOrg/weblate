@@ -18,15 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from time import sleep
-
-from celery_batches import Batches
-from django.utils.encoding import force_str
-from whoosh.index import LockError
-
 from weblate.memory.models import Memory
-from weblate.memory.storage import TranslationMemory
-from weblate.utils.celery import app, extract_batch_kwargs
+from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -74,29 +67,3 @@ def update_memory(user, unit, component=None, project=None):
         Memory.objects.get_or_create(
             user=user, project=None, from_file=False, shared=False, **params
         )
-
-
-@app.task(trail=False, base=Batches, flush_every=1000, flush_interval=300, bind=True)
-def update_memory_task(self, *args, **kwargs):
-    def fixup_strings(data):
-        result = {}
-        for key, value in data.items():
-            if isinstance(value, int):
-                result[key] = value
-            else:
-                result[key] = force_str(value)
-        return result
-
-    data = extract_batch_kwargs(*args, **kwargs)
-
-    memory = TranslationMemory()
-    try:
-        with memory.writer() as writer:
-            for item in data:
-                writer.add_document(**fixup_strings(item))
-    except LockError:
-        # Manually handle retries, it doesn't work
-        # with celery-batches
-        sleep(10)
-        for unit in data:
-            update_memory_task.delay(**unit)

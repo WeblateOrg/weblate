@@ -13,6 +13,7 @@ Not yet released.
 * Display failing checks for suggestions.
 * Record source string changes in history.
 * Upgraded Microsoft Translator to version 3 API.
+* Reimplemented translation memory backend.
 
 Weblate 3.11.3
 --------------

@@ -265,7 +265,6 @@ def check_data_writable(app_configs=None, **kwargs):
         data_dir("whoosh"),
         data_dir("ssh"),
         data_dir("vcs"),
-        data_dir("memory"),
         data_dir("celery"),
         data_dir("backups"),
         data_dir("fonts"),

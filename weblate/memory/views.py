@@ -30,7 +30,7 @@ from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
 from weblate.memory.forms import UploadForm
-from weblate.memory.storage import MemoryImportError, TranslationMemory
+from weblate.memory.models import Memory, MemoryImportError
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
 from weblate.wladmin.views import MENU
@@ -42,7 +42,7 @@ def get_objects(request, kwargs):
     if "project" in kwargs:
         return {"project": get_project(request, kwargs["project"])}
     if "manage" in kwargs:
-        return {"use_file": True}
+        return {"from_file": True}
     return {"user": request.user}
 
 
@@ -52,7 +52,7 @@ def check_perm(user, permission, objects):
     if "user" in objects:
         # User can edit own translation memory
         return True
-    if "use_file" in objects:
+    if "from_file" in objects:
         return user.has_perm("memory.edit")
     return False
 
@@ -74,7 +74,7 @@ class UploadView(MemoryFormView):
         if not check_perm(self.request.user, "memory.edit", self.objects):
             raise PermissionDenied()
         try:
-            TranslationMemory.import_file(
+            Memory.objects.import_file(
                 self.request, form.cleaned_data["file"], **self.objects
             )
             messages.success(
@@ -97,32 +97,30 @@ class MemoryView(TemplateView):
         return reverse(name, kwargs=self.kwargs)
 
     def get_context_data(self, **kwargs):
-        memory = TranslationMemory()
         context = super().get_context_data(**kwargs)
         context.update(self.objects)
-        entries = memory.list_documents(**self.objects)
-        context["num_entries"] = len(entries)
-        context["total_entries"] = memory.doc_count()
+        entries = Memory.objects.filter_type(**self.objects)
+        context["num_entries"] = entries.count()
+        context["total_entries"] = Memory.objects.all().count()
         context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")
         user = self.request.user
         if check_perm(user, "memory.edit", self.objects):
             context["upload_form"] = UploadForm()
-        if "use_file" in self.objects:
+        if "from_file" in self.objects:
             context["menu_items"] = MENU
             context["menu_page"] = "memory"
-        if "use_file" in self.objects or (
+        if "from_file" in self.objects or (
             "project" in self.objects and self.objects["project"].use_shared_tm
         ):
-            context["shared_entries"] = len(memory.list_documents(use_shared=True))
+            context["shared_entries"] = Memory.objects.filter(shared=True).count()
         return context
 
 
 class DownloadView(MemoryView):
     def get(self, request, *args, **kwargs):
-        memory = TranslationMemory()
         fmt = request.GET.get("format", "json")
-        data = [dict(x) for x in memory.list_documents(**self.objects)]
+        data = Memory.objects.filter_type(**self.objects).prefetch_lang().iterator()
         if fmt == "tmx":
             response = render(
                 request,
@@ -132,6 +130,6 @@ class DownloadView(MemoryView):
             )
         else:
             fmt = "json"
-            response = JsonResponse(data, safe=False)
+            response = JsonResponse([item.as_dict() for item in data], safe=False)
         response["Content-Disposition"] = CD_TEMPLATE.format(fmt)
         return response

@@ -23,7 +23,7 @@ import argparse
 
 from django.core.management.base import CommandError
 
-from weblate.memory.storage import MemoryImportError, TranslationMemory
+from weblate.memory.models import Memory, MemoryImportError
 from weblate.utils.management.base import BaseCommand
 
 
@@ -54,6 +54,6 @@ class Command(BaseCommand):
             }
 
         try:
-            TranslationMemory.import_file(None, options["file"], langmap)
+            Memory.objects.import_file(None, options["file"], langmap)
         except MemoryImportError as error:
             raise CommandError("Import failed: {}".format(error))

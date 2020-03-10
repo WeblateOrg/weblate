@@ -19,18 +19,47 @@
 #
 
 
+import json
+import os
 from functools import reduce
 
 from django.conf import settings
 from django.db import models
+from django.utils.encoding import force_str
+from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
+from translate.misc.xml_helpers import getXMLlang, getXMLspace
+from translate.storage.tmx import tmxfile
+
+from weblate.lang.models import Language
+from weblate.memory.utils import (
+    CATEGORY_FILE,
+    CATEGORY_PRIVATE_OFFSET,
+    CATEGORY_SHARED,
+    CATEGORY_USER_OFFSET,
+)
+from weblate.utils.errors import report_error
+
+
+class MemoryImportError(Exception):
+    pass
+
+
+def get_node_data(unit, node):
+    """Generic implementation of LISAUnit.gettarget."""
+    # The language should be present as xml:lang, but in some
+    # cases it's there only as lang
+    return (
+        getXMLlang(node) or node.get("lang"),
+        unit.getNodeText(node, getXMLspace(unit.xmlelement, "preserve")),
+    )
 
 
 class MemoryQuerySet(models.QuerySet):
-    def filter_type(self, user=None, project=None, use_shared=False, use_file=False):
+    def filter_type(self, user=None, project=None, use_shared=False, from_file=False):
         query = []
-        if use_file:
-            query.append(models.Q(from_file=use_file))
+        if from_file:
+            query.append(models.Q(from_file=from_file))
         if use_shared:
             query.append(models.Q(shared=use_shared))
         if project:
@@ -42,7 +71,7 @@ class MemoryQuerySet(models.QuerySet):
     def lookup(self, source_language, target_language, text, user, project, use_shared):
         # Type filtering
         result = self.filter_type(
-            user=user, project=project, use_shared=use_shared, use_file=True
+            user=user, project=project, use_shared=use_shared, from_file=True
         )
         # Language filtering
         result = result.filter(
@@ -50,6 +79,109 @@ class MemoryQuerySet(models.QuerySet):
         )
         # Full-text search on source
         return result.filter(source__search=text)
+
+    def prefetch_lang(self):
+        return self.prefetch_related("source_language", "target_language")
+
+
+class MemoryManager(models.Manager):
+    def import_file(self, request, fileobj, langmap=None, **kwargs):
+        origin = force_str(os.path.basename(fileobj.name)).lower()
+        name, extension = os.path.splitext(origin)
+        if len(name) > 25:
+            origin = "{}...{}".format(name[:25], extension)
+
+        if extension == ".tmx":
+            result = self.import_tmx(request, fileobj, origin, langmap, **kwargs)
+        elif extension == ".json":
+            result = self.import_json(request, fileobj, origin, **kwargs)
+        else:
+            raise MemoryImportError(_("Unsupported file!"))
+        if not result:
+            raise MemoryImportError(_("No valid entries found in the uploaded file!"))
+        return result
+
+    def import_json(self, request, fileobj, origin=None, **kwargs):
+        content = fileobj.read()
+        try:
+            data = json.loads(force_str(content))
+        except ValueError as error:
+            report_error(error, request, prefix="Failed to parse")
+            raise MemoryImportError(_("Failed to parse JSON file!"))
+        found = 0
+        lang_cache = {}
+        # TODO: Format validation is missing
+        if not isinstance(data, list):
+            raise MemoryImportError(_("Failed to parse JSON file!"))
+        for entry in data:
+            try:
+                self.get_or_create(
+                    source_language=Language.objects.get_by_code(
+                        entry["source_language"], lang_cache
+                    ),
+                    target_language=Language.objects.get_by_code(
+                        entry["target_language"], lang_cache
+                    ),
+                    source=entry["source"],
+                    target=entry["target"],
+                    origin=origin,
+                    **kwargs
+                )
+                found += 1
+            except Language.DoesNotExist:
+                continue
+        return found
+
+    def import_tmx(self, request, fileobj, origin=None, langmap=None, **kwargs):
+        if not kwargs:
+            kwargs = {"from_file": True}
+        try:
+            storage = tmxfile.parsefile(fileobj)
+        except (SyntaxError, AssertionError) as error:
+            report_error(error, request, prefix="Failed to parse")
+            raise MemoryImportError(_("Failed to parse TMX file!"))
+        header = next(
+            storage.document.getroot().iterchildren(storage.namespaced("header"))
+        )
+        lang_cache = {}
+        try:
+            source_language = Language.objects.get_by_code(
+                header.get("srclang"), lang_cache, langmap
+            )
+        except Language.DoesNotExist:
+            raise MemoryImportError(_("Failed to find source languge!"))
+
+        found = 0
+        for unit in storage.units:
+            # Parse translations (translate-toolkit does not care about
+            # languages here, it just picks first and second XML elements)
+            translations = {}
+            for node in unit.getlanguageNodes():
+                lang_code, text = get_node_data(unit, node)
+                if not lang_code or not text:
+                    continue
+                language = Language.objects.get_by_code(lang_code, lang_cache, langmap)
+                translations[language.code] = text
+
+            try:
+                source = translations.pop(source_language.code)
+            except KeyError:
+                # Skip if source language is not present
+                continue
+
+            for lang, text in translations.items():
+                self.get_or_create(
+                    source_language=source_language,
+                    target_language=Language.objects.get_by_code(
+                        lang, lang_cache, langmap
+                    ),
+                    source=source,
+                    target=text,
+                    origin=origin,
+                    **kwargs
+                )
+                found += 1
+        return found
 
 
 class Memory(models.Model):
@@ -71,14 +203,19 @@ class Memory(models.Model):
         on_delete=models.deletion.CASCADE,
         null=True,
         blank=True,
+        default=None,
     )
     project = models.ForeignKey(
-        "trans.Project", on_delete=models.deletion.CASCADE, null=True, blank=True
+        "trans.Project",
+        on_delete=models.deletion.CASCADE,
+        null=True,
+        blank=True,
+        default=None,
     )
-    from_file = models.BooleanField(db_index=True)
-    shared = models.BooleanField(db_index=True)
+    from_file = models.BooleanField(db_index=True, default=False)
+    shared = models.BooleanField(db_index=True, default=False)
 
-    objects = MemoryQuerySet.as_manager()
+    objects = MemoryManager.from_queryset(MemoryQuerySet)()
 
     def __str__(self):
         return "Memory: {}:{}".format(self.source_language, self.target_language)
@@ -95,3 +232,25 @@ class Memory(models.Model):
         else:
             text = "Unknown: {}"
         return text.format(self.origin)
+
+    def get_category(self):
+        if self.from_file:
+            return CATEGORY_FILE
+        if self.shared:
+            return CATEGORY_SHARED
+        if self.project_id:
+            return CATEGORY_PRIVATE_OFFSET + self.project_id
+        if self.user_id:
+            return CATEGORY_USER_OFFSET + self.user_id
+        return 0
+
+    def as_dict(self):
+        """Convert to dict suitable for JSON export."""
+        return {
+            "source": self.source,
+            "target": self.target,
+            "source_language": self.source_language.code,
+            "target_language": self.target_language.code,
+            "origin": self.origin,
+            "category": self.get_category(),
+        }

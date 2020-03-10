@@ -10,7 +10,7 @@
 {% if project %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
-{% elif use_file %}
+{% elif from_file %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
 <li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory for the whole platform" %}</a></li>
 {% else %}
@@ -49,7 +49,7 @@
   <th>
     {% if project %}
       {% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}
-    {% elif use_file %}
+    {% elif from_file %}
       {% trans "Number of entries on the whole platform" %}
     {% else %}
       {% trans "Number of your entries" %}
