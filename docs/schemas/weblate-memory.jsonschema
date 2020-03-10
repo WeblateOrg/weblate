@@ -1,0 +1,87 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://weblate.org/schemas/weblate-memory.jsonschema",
+  "type": "array",
+  "title": "Weblate Translation Memory Schema",
+  "items": {
+    "$id": "#/items",
+    "type": "object",
+    "title": "The Transaltion Memory Schema",
+    "required": [
+      "source_language",
+      "target_language",
+      "source",
+      "target",
+      "origin",
+      "category"
+    ],
+    "properties": {
+      "source_language": {
+        "$id": "#/items/properties/source_language",
+        "type": "string",
+        "title": "The Source Language",
+        "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
+        "default": "",
+        "examples": [
+          "en"
+        ],
+        "pattern": "^([^ ]*)$"
+      },
+      "target_language": {
+        "$id": "#/items/properties/target_language",
+        "type": "string",
+        "title": "The Target Language",
+        "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
+        "default": "",
+        "examples": [
+          "cs"
+        ],
+        "pattern": "^([ ]*)$"
+      },
+      "source": {
+        "$id": "#/items/properties/source",
+        "type": "string",
+        "title": "The Source String",
+        "default": "",
+        "examples": [
+          "Hello"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "target": {
+        "$id": "#/items/properties/target",
+        "type": "string",
+        "title": "The Target String",
+        "default": "",
+        "examples": [
+          "Ahoj"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "origin": {
+        "$id": "#/items/properties/origin",
+        "type": "string",
+        "title": "The String Origin",
+        "description": "Filename or component name",
+        "default": "",
+        "examples": [
+          "test"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "category": {
+        "$id": "#/items/properties/category",
+        "type": "integer",
+        "title": "The String Category",
+        "description": "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user specific",
+        "default": 1,
+        "minimum": 0,
+        "examples": [
+          1
+        ]
+      }
+    },
+    "additionalProperties": false
+  }
+}

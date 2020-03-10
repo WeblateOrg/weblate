@@ -288,7 +288,8 @@ Export a JSON file with the Weblate Translation Memory content.
 
 .. seealso::
 
-    :ref:`translation-memory`
+    :ref:`translation-memory`,
+    :ref:`schema-memory`
 
 dumpuserdata
 ------------
@@ -365,7 +366,8 @@ Imports a TMX or JSON file into the Weblate Translation Memory.
 
 .. seealso::
 
-    :ref:`translation-memory`
+    :ref:`translation-memory`,
+    :ref:`schema-memory`
 
 import_project
 --------------

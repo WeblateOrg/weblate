@@ -86,6 +86,10 @@ memories. It can be used to download or import it.
 The downloads in JSON are useful for Weblate, TMX is provided for
 interoperability with other tools.
 
+.. seealso::
+
+    :ref:`schema-memory`
+
 .. image:: /images/memory.png
 
 Management interface
