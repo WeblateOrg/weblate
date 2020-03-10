@@ -41,7 +41,6 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.signals import user_pre_delete
-from weblate.utils.celery import app
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
 
@@ -218,6 +217,8 @@ def auto_component_list(sender, instance, **kwargs):
 @receiver(post_save, sender=Component)
 @disable_for_loaddata
 def post_save_update_checks(sender, instance, **kwargs):
+    from weblate.trans.tasks import update_checks
+
     if instance.old_component.check_flags == instance.check_flags:
         return
     update_checks.delay(instance.pk)
@@ -232,17 +233,3 @@ def post_delete_linked(sender, instance, **kwargs):
             instance.linked_component.update_alerts()
     except Component.DoesNotExist:
         pass
-
-
-@app.task(trail=False)
-def update_checks(pk):
-    component = Component.objects.get(pk=pk)
-    for translation in component.translation_set.exclude(
-        pk=component.source_translation.pk
-    ).iterator():
-        for unit in translation.unit_set.iterator():
-            unit.run_checks()
-    for unit in component.source_translation.unit_set.iterator():
-        unit.run_checks()
-    for translation in component.translation_set.iterator():
-        translation.invalidate_cache()
