@@ -90,7 +90,6 @@ DeepL
 .. versionadded:: 2.20
 
 DeepL is paid service providing good machine translation for a few languages.
-According to some benchmarks it is currently the best available service.
 
 Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_DEEPL_KEY`.
