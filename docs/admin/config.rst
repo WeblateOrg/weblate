@@ -335,8 +335,6 @@ The following subdirectories usually exist:
     Default location for Django static files, specified by ``STATIC_ROOT``.
 :file:`media`
     Default location for Django media files, specified by ``MEDIA_ROOT``.
-:file:`memory`
-    Translation memory data using Whoosh engine (see :ref:`translation-memory`).
 :file:`vcs`
     Version control repositories.
 :file:`whoosh`

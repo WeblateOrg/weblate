@@ -20,7 +20,6 @@
 
 
 from weblate.memory.storage import TranslationMemory
-from weblate.memory.tasks import memory_backup
 from weblate.utils.management.base import BaseCommand
 
 
@@ -45,9 +44,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if options["backup"]:
-            memory_backup(options["indent"])
-            return
         memory = TranslationMemory()
         self.stdout.ending = None
         memory.dump(self.stdout, indent=options["indent"])

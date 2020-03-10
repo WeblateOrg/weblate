@@ -18,14 +18,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import json
 import os
 
 from django.conf import settings
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.memory.tasks import memory_backup
 from weblate.utils.backup import backup, get_paper_key, initialize, prune
 from weblate.utils.data import data_dir
 from weblate.utils.tasks import database_backup, settings_backup
@@ -39,14 +37,6 @@ class BackupTest(SimpleTestCase):
         filename = data_dir("backups", "settings.py")
         with open(filename) as handle:
             self.assertIn(settings.DATA_DIR, handle.read())
-
-    @tempdir_setting("DATA_DIR")
-    def test_memory_backup(self):
-        memory_backup()
-        filename = data_dir("backups", "memory.json")
-        with open(filename) as handle:
-            data = json.load(handle)
-        self.assertEqual(data, [])
 
     @tempdir_setting("DATA_DIR")
     @tempdir_setting("BACKUP_DIR")

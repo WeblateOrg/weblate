@@ -18,11 +18,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-import os
 from time import sleep
 
-from celery.schedules import crontab
 from celery_batches import Batches
 from django.utils.encoding import force_str
 from whoosh.index import LockError
@@ -30,18 +27,7 @@ from whoosh.index import LockError
 from weblate.memory.models import Memory
 from weblate.memory.storage import TranslationMemory
 from weblate.utils.celery import app, extract_batch_kwargs
-from weblate.utils.data import data_dir
 from weblate.utils.state import STATE_TRANSLATED
-
-
-@app.task(trail=False)
-def memory_backup(indent=2):
-    if not os.path.exists(data_dir("backups")):
-        os.makedirs(data_dir("backups"))
-    filename = data_dir("backups", "memory.json")
-    memory = TranslationMemory()
-    with open(filename, "w") as handle:
-        memory.dump(handle, indent)
 
 
 @app.task(trail=False)
@@ -114,10 +100,3 @@ def update_memory_task(self, *args, **kwargs):
         sleep(10)
         for unit in data:
             update_memory_task.delay(**unit)
-
-
-@app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(
-        crontab(hour=1, minute=0), memory_backup.s(), name="translation-memory-backup"
-    )
