@@ -35,6 +35,7 @@ from django.utils.translation import ngettext, override
 from filelock import Timeout
 from whoosh.index import EmptyIndexError
 
+from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
@@ -372,6 +373,22 @@ def auto_translate(
             )
             % auto.updated
         )
+
+
+@app.task(trail=False)
+def create_component(addons_from=None, **kwargs):
+    kwargs["project"] = Project.objects.get(pk=kwargs["project"])
+    component = Component.objects.create(**kwargs)
+    Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
+    if addons_from:
+        addons = Addon.objects.filter(
+            component__pk=addons_from, project_scope=False, repo_scope=False
+        )
+        for addon in addons:
+            if not addon.addon.can_install(component, None):
+                continue
+            addon.addon.create(component, configuration=addon.configuration)
+    return component
 
 
 @app.on_after_finalize.connect

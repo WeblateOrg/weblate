@@ -55,7 +55,6 @@ class WeblateConf(AppConf):
     CELERY_BROKER_URL = "memory://"
 
     CELERY_IMPORTS = [
-        "weblate.trans.discovery",
         "weblate.trans.models",
         "weblate.trans.search",
     ]

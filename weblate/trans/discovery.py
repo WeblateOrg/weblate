@@ -27,12 +27,11 @@ from django.db.models import Q
 from django.utils.functional import cached_property
 from django.utils.text import slugify
 
-from weblate.addons.models import Addon
 from weblate.logger import LOGGER
 from weblate.trans.defines import COMPONENT_NAME_LENGTH
-from weblate.trans.models import Change, Component, Project
+from weblate.trans.models import Component
+from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
-from weblate.utils.celery import app
 from weblate.utils.render import render_template
 
 # Attributes to copy from main component
@@ -241,13 +240,12 @@ class ComponentDiscovery:
         )
 
         self.log("Creating component %s", name)
+        # Can't pass objects, pass only IDs
+        kwargs["project"] = kwargs["project"].pk
         if background:
-            # Can't pass objects, pass only IDs
-            kwargs["project"] = kwargs["project"].pk
             create_component.delay(**kwargs)
             return None
-
-        return create_component_real(**kwargs)
+        return create_component(**kwargs)
 
     def cleanup(self, main, processed, preview=False):
         deleted = []
@@ -321,23 +319,3 @@ class ComponentDiscovery:
             deleted = self.cleanup(main, processed, preview)
 
         return created, matched, deleted
-
-
-def create_component_real(addons_from=None, **kwargs):
-    component = Component.objects.create(**kwargs)
-    Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
-    if addons_from:
-        addons = Addon.objects.filter(
-            component__pk=addons_from, project_scope=False, repo_scope=False
-        )
-        for addon in addons:
-            if not addon.addon.can_install(component, None):
-                continue
-            addon.addon.create(component, configuration=addon.configuration)
-    return component
-
-
-@app.task(trail=False)
-def create_component(**kwargs):
-    kwargs["project"] = Project.objects.get(pk=kwargs["project"])
-    create_component_real(**kwargs)
