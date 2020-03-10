@@ -3,10 +3,7 @@
 Configuration instructions
 ==========================
 
-Installing Weblate
-------------------
-
-Choose an installation method that best fits your environment in our :doc:`quick`.
+.. include:: quick.rst
 
 .. _requirements:
 

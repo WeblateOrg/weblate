@@ -1,5 +1,5 @@
-Installation instructions
-=========================
+Installing Weblate
+------------------
 
 .. toctree::
     :caption: Quick setup guide
