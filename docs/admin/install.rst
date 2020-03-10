@@ -317,6 +317,19 @@ The :file:`settings.py` snippet for PostgreSQL:
         }
     }
 
+MySQL and MariaDB
++++++++++++++++++
+
+Weblate can be also used with MySQL or MariaDB, please see
+:ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with those.
+
+Following configuration is recommended for Weblate:
+
+* Use ``utf8mb4`` charset to allow representation of higher Unicode planes (for example emojis).
+* Configure the server with ``Innodb_large_prefix`` to allow longer indices on text fields.
+* Set isolcation level to ``READ COMMITTED``.
+* The SQL mode should be set to ``STRICT_TRANS_TABLES``.
+
 Other configurations
 --------------------
 
