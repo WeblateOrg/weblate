@@ -24,7 +24,9 @@ from io import StringIO
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.urls import reverse
+from weblate_schemas import load_schema
 
+from jsonschema import validate
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
@@ -81,6 +83,7 @@ class MemoryModelTest(FixtureTestCase):
         output = StringIO()
         call_command("dump_memory", stdout=output)
         data = json.loads(output.getvalue())
+        validate(data, load_schema("weblate-memory.schema.json"))
         self.assertEqual(
             data,
             [
@@ -142,6 +145,10 @@ class MemoryViewTest(FixtureTestCase):
             reverse("memory-download", **kwargs), {"format": "tmx"}
         )
         self.assertContains(response, "<tmx")
+        response = self.client.get(
+            reverse("memory-download", **kwargs), {"format": "json"}
+        )
+        validate(response.json(), load_schema("weblate-memory.schema.json"))
 
         # Test invalid upload
         response = self.upload_file("cs.json", **kwargs)
@@ -152,6 +159,13 @@ class MemoryViewTest(FixtureTestCase):
 
         # Test invalid upload
         response = self.upload_file("memory-broken.json", **kwargs)
+        if fail:
+            self.assertContains(response, "Permission Denied", status_code=403)
+        else:
+            self.assertContains(response, "Failed to parse JSON file")
+
+        # Test invalid upload
+        response = self.upload_file("memory-invalid.json", **kwargs)
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:

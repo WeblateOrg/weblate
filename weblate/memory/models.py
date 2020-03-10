@@ -30,7 +30,10 @@ from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
+from weblate_schemas import load_schema
 
+from jsonschema import validate
+from jsonschema.exceptions import ValidationError
 from weblate.lang.models import Language
 from weblate.memory.utils import (
     CATEGORY_FILE,
@@ -106,13 +109,15 @@ class MemoryManager(models.Manager):
         try:
             data = json.loads(force_str(content))
         except ValueError as error:
-            report_error(error, request, prefix="Failed to parse")
-            raise MemoryImportError(_("Failed to parse JSON file!"))
+            report_error(error, request, prefix="Failed to parse memory")
+            raise MemoryImportError(_("Failed to parse JSON file: {!s}").format(error))
+        try:
+            validate(data, load_schema("weblate-memory.schema.json"))
+        except ValidationError as error:
+            report_error(error, request, prefix="Failed to validate memory")
+            raise MemoryImportError(_("Failed to parse JSON file: {!s}").format(error))
         found = 0
         lang_cache = {}
-        # TODO: Format validation is missing
-        if not isinstance(data, list):
-            raise MemoryImportError(_("Failed to parse JSON file!"))
         for entry in data:
             try:
                 self.get_or_create(

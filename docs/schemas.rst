@@ -5,7 +5,7 @@ Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of exter
 
 .. _schema-memory:
 
-.. jsonschema:: schemas/weblate-memory.jsonschema
+.. jsonschema:: schemas/weblate-memory.schema.json
 
 .. seealso::
 
