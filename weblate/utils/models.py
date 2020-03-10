@@ -54,10 +54,6 @@ class WeblateConf(AppConf):
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_BROKER_URL = "memory://"
 
-    CELERY_IMPORTS = [
-        "weblate.trans.search",
-    ]
-
     DATABASE_BACKUP = "plain"
 
     class Meta:

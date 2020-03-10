@@ -36,7 +36,6 @@ from django.utils.functional import cached_property
 from weblate.auth.models import User
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Component, Project
-from weblate.trans.search import Fulltext
 from weblate.utils.files import remove_readonly
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -168,9 +167,6 @@ class RepoTestMixin:
         test_repo_path = os.path.join(settings.DATA_DIR, "vcs", "test")
         if os.path.exists(test_repo_path):
             shutil.rmtree(test_repo_path, onerror=remove_readonly)
-
-        # Remove indexes
-        Fulltext.cleanup()
 
     def create_project(self, **kwargs):
         """Create test project."""

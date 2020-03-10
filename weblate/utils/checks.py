@@ -262,7 +262,6 @@ def check_data_writable(app_configs=None, **kwargs):
     dirs = [
         settings.DATA_DIR,
         data_dir("home"),
-        data_dir("whoosh"),
         data_dir("ssh"),
         data_dir("vcs"),
         data_dir("celery"),

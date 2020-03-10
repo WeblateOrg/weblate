@@ -317,10 +317,6 @@ class SourceUnitTest(ModelTestCase):
 
 
 class UnitTest(ModelTestCase):
-    def test_more_like(self):
-        unit = Unit.objects.filter(translation__language_code="cs")[0]
-        self.assertEqual(Unit.objects.more_like_this(unit).count(), 0)
-
     def test_newlines(self):
         user = create_test_user()
         unit = Unit.objects.filter(translation__language_code="cs")[0]

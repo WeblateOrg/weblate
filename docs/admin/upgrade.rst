@@ -258,7 +258,7 @@ Notable configuration or dependencies changes:
 * There are several new checks included in the :setting:`CHECK_LIST`.
 * There are several removed, updated and new dependencies.
 * The migration will take some time if you have big translation memory.
-* The translation memory now resides in the database, you can remove the :file:`memory` in :setting:`DATA_DIR` after the upgrade.
+* The translation memory and fulltext search now resides in the database, you can remove the :file:`memory` and :file:`whoosh` folders in the :setting:`DATA_DIR` after the upgrade.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

@@ -22,7 +22,6 @@ import cProfile
 import pstats
 
 from weblate.trans.models import Component, Project
-from weblate.trans.search import Fulltext
 from weblate.utils.management.base import BaseCommand
 
 
@@ -55,7 +54,6 @@ class Command(BaseCommand):
         parser.add_argument("mask", help="File mask")
 
     def handle(self, *args, **options):
-        Fulltext.FAKE = True
         project = Project.objects.get(slug=options["project"])
         # Delete any possible previous tests
         Component.objects.filter(project=project, slug="benchmark").delete()

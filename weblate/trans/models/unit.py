@@ -38,7 +38,6 @@ from weblate.memory.tasks import update_memory
 from weblate.trans.mixins import LoggerMixin
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
-from weblate.trans.search import Fulltext
 from weblate.trans.signals import unit_pre_create
 from weblate.trans.util import (
     get_distinct_translations,
@@ -105,16 +104,6 @@ class UnitQuerySet(models.QuerySet):
     def search(self, query):
         """High level wrapper for searching."""
         return self.prefetch().filter(parse_query(query))
-
-    def more_like_this(self, unit, top=5):
-        """Find closely similar units."""
-        more_results = Fulltext().more_like(unit.pk, unit.source, top)
-
-        return self.filter(
-            pk__in=more_results,
-            translation__language=unit.translation.language,
-            state__gte=STATE_TRANSLATED,
-        )
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
@@ -587,7 +576,6 @@ class Unit(models.Model, LoggerMixin):
             unit.update_has_comment()
             unit.update_has_suggestion()
             unit.save()
-            Fulltext.update_index_unit(unit)
             Change.objects.create(
                 unit=unit,
                 action=Change.ACTION_SOURCE_CHANGE,
@@ -660,10 +648,6 @@ class Unit(models.Model, LoggerMixin):
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
             self.run_checks(same_state, same_content)
-
-        # Update fulltext index if content has changed or this is a new unit
-        if force_insert or not same_content:
-            Fulltext.update_index_unit(self)
 
     @cached_property
     def suggestions(self):

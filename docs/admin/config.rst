@@ -337,8 +337,6 @@ The following subdirectories usually exist:
     Default location for Django media files, specified by ``MEDIA_ROOT``.
 :file:`vcs`
     Version control repositories.
-:file:`whoosh`
-    Fulltext search index using Whoosh engine.
 :file:`backups`
     Dump of data in daily backups, see :ref:`backup-dumps`.
 

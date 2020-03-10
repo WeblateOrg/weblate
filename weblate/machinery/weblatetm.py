@@ -23,6 +23,7 @@ from django.utils.encoding import force_str
 
 from weblate.machinery.base import MachineTranslation
 from weblate.trans.models import Unit
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class WeblateTranslation(MachineTranslation):
@@ -46,17 +47,17 @@ class WeblateTranslation(MachineTranslation):
             kwargs = {
                 "translation__component__project": unit.translation.component.project
             }
-        matching_units = (
-            Unit.objects.prefetch()
-            .filter(**kwargs)
-            .more_like_this(unit, 1000)
-            .distinct()
+        matching_units = Unit.objects.prefetch().filter(
+            source__search=unit.source,
+            translation__language=unit.translation.language,
+            state__gte=STATE_TRANSLATED,
+            **kwargs
         )
 
         for munit in matching_units:
             source = munit.get_source_plurals()[0]
             quality = self.comparer.similarity(text, source)
-            if quality < 50:
+            if quality < 75:
                 continue
             yield {
                 "text": munit.get_target_plurals()[0],

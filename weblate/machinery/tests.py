@@ -21,9 +21,9 @@
 
 import responses
 from botocore.stub import ANY, Stubber
+from django.conf import settings
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.utils.encoding import force_str
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.machinery.apertium import ApertiumAPYTranslation
@@ -47,7 +47,6 @@ from weblate.machinery.weblatetm import WeblateTranslation
 from weblate.machinery.yandex import YandexTranslation
 from weblate.machinery.youdao import YoudaoTranslation
 from weblate.trans.models.unit import Unit
-from weblate.trans.search import update_fulltext
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
@@ -760,6 +759,16 @@ class MachineTranslationTest(TestCase):
 
 
 class WeblateTranslationTest(FixtureTestCase):
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
+
     def test_empty(self):
         machine = WeblateTranslation()
         unit = Unit.objects.filter(translation__language_code="cs")[0]
@@ -779,16 +788,6 @@ class WeblateTranslationTest(FixtureTestCase):
         other.target = "Preklad"
         other.state = STATE_TRANSLATED
         other.save()
-        update_fulltext(
-            None,
-            pk=other.pk,
-            source=force_str(unit.source),
-            context=force_str(unit.context),
-            location=force_str(unit.location),
-            target=force_str(other.target),
-            note="",
-            language=force_str(unit.translation.language.code),
-        )
         # Perform lookup
         machine = WeblateTranslation()
         results = machine.translate(

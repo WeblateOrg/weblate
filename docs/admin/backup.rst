@@ -213,13 +213,6 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up user uploaded files (e.g. :ref:`screenshots`).
 
-Fulltext index
-++++++++++++++
-
-Stored in :setting:`DATA_DIR` ``/whoosh``.
-
-It is recommended to not backup this and regenerate it from scratch on restore.
-
 Celery tasks
 ------------
 
@@ -237,13 +230,7 @@ Restoring manual backup
 
 1. Restore all data you have backed up.
 
-2. Recreate a fulltext index using :djadmin:`rebuild_index`:
-
-   .. code-block:: sh
-
-      ./manage.py rebuild_index --clean --all
-
-3. Update all repositories using :djadmin:`updategit`.
+2. Update all repositories using :djadmin:`updategit`.
 
    .. code-block:: sh
 

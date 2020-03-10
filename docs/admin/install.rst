@@ -1198,12 +1198,6 @@ The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as
 well. You can simply copy them or use :command:`rsync` to do the migration
 more effectively.
 
-Migrating fulltext index
-++++++++++++++++++++++++
-
-For the fulltext index, (stored in :setting:`DATA_DIR`) it is better not to
-migrate it, but rather generate a fresh one using :djadmin:`rebuild_index`.
-
 Other notes
 +++++++++++
 

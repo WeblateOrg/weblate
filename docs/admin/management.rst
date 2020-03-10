@@ -687,28 +687,6 @@ You can either define which project or component to update (for example
     Weblate does push changes automatically if :guilabel:`Push on commit` in
     :ref:`component` is enabled, what is default.
 
-rebuild_index
--------------
-
-.. django-admin:: rebuild_index <project|project/component>
-
-Rebuilds index for fulltext search. This might be lengthy operation if you
-have a huge set of translation strings.
-
-.. django-admin-option:: --clean
-
-    Removes all words from database prior updating, this is implicit when
-    called with ``--all``.
-
-.. django-admin-option:: --optimize
-
-    The index will not be processed again, only its content will be optimized
-    (removing stale entries and merging possibly split index files).
-
-.. seealso::
-
-   :ref:`fulltext`
-
 unlock_translation
 ------------------
 

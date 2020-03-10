@@ -33,11 +33,9 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
 from filelock import Timeout
-from whoosh.index import EmptyIndexError
 
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
-from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -49,7 +47,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.search import Fulltext
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
@@ -127,42 +124,6 @@ def commit_pending(hours=None, pks=None, logger=None):
             logger("Committing {0}".format(component))
 
         perform_commit.delay(component.pk, "commit_pending", None)
-
-
-@app.task(trail=False)
-def cleanup_fulltext():
-    """Remove stale units from fulltext."""
-    fulltext = Fulltext()
-    languages = list(Language.objects.values_list("code", flat=True)) + [None]
-    # We operate only on target indexes as they will have all IDs anyway
-    for lang in languages:
-        if lang is None:
-            index = fulltext.get_source_index()
-        else:
-            index = fulltext.get_target_index(lang)
-        try:
-            fields = index.reader().all_stored_fields()
-        except EmptyIndexError:
-            continue
-        for item in fields:
-            if Unit.objects.filter(pk=item["pk"]).exists():
-                continue
-            fulltext.clean_search_unit(item["pk"], lang)
-
-
-@app.task(trail=False)
-def optimize_fulltext():
-    SEARCH_LOGGER.info("starting optimizing source index")
-    fulltext = Fulltext()
-    index = fulltext.get_source_index()
-    index.optimize()
-    SEARCH_LOGGER.info("completed optimizing source index")
-    languages = Language.objects.have_translation()
-    for lang in languages:
-        SEARCH_LOGGER.info("starting optimizing %s index", lang.code)
-        index = fulltext.get_target_index(lang.code)
-        index.optimize()
-        SEARCH_LOGGER.info("completed optimizing %s index", lang.code)
 
 
 def cleanup_sources(project):
@@ -424,17 +385,4 @@ def setup_periodic_tasks(sender, **kwargs):
     )
     sender.add_periodic_task(
         3600 * 24, cleanup_old_comments.s(), name="cleanup-old-comments"
-    )
-
-    # Following fulltext maintenance tasks should not be
-    # executed at same time
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="saturday"),
-        cleanup_fulltext.s(),
-        name="fulltext-cleanup",
-    )
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="sunday"),
-        optimize_fulltext.s(),
-        name="fulltext-optimize",
     )

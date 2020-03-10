@@ -31,7 +31,6 @@ from django.test import SimpleTestCase
 from weblate.accounts.models import Profile
 from weblate.runner import main
 from weblate.trans.models import Component, Translation
-from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
@@ -314,23 +313,6 @@ class BasicCommandTest(FixtureTestCase):
             call_command("check", "--deploy")
 
 
-class CleanupCommandTest(RepoTestCase):
-    def test_cleanup(self):
-        orig_fake = Fulltext.FAKE
-        Fulltext.FAKE = False
-        fulltext = Fulltext()
-        try:
-            self.create_component()
-            index = fulltext.get_source_index()
-            self.assertEqual(len(list(index.reader().all_stored_fields())), 16)
-            # Remove all translations
-            Translation.objects.all().delete()
-            call_command("cleanuptrans")
-            self.assertEqual(len(list(index.reader().all_stored_fields())), 0)
-        finally:
-            Fulltext.FAKE = orig_fake
-
-
 class CheckGitTest(ViewTestCase):
     """Base class for handling tests of WeblateComponentCommand based commands."""
 
@@ -400,21 +382,6 @@ class UpdateChecksTest(CheckGitTest):
 class UpdateGitTest(CheckGitTest):
     command_name = "updategit"
     expected_string = ""
-
-
-class RebuildIndexTest(CheckGitTest):
-    command_name = "rebuild_index"
-    expected_string = "Processing"
-
-    def test_all_clean(self):
-        self.do_test(all=True, clean=True)
-
-    def test_optimize(self):
-        self.expected_string = ""
-        try:
-            self.do_test(optimize=True)
-        finally:
-            self.expected_string = "Processing"
 
 
 class LockTranslationTest(CheckGitTest):

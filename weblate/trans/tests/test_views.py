@@ -40,7 +40,6 @@ from weblate.accounts.models import Profile
 from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import ComponentList, Project, WhiteboardMessage
-from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -83,12 +82,8 @@ class RegistrationTestMixin:
 
 
 class ViewTestCase(RepoTestCase):
-    fake_search = True
-
     def setUp(self):
         super().setUp()
-        if self.fake_search:
-            Fulltext.FAKE = True
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
         # Create user
@@ -123,11 +118,6 @@ class ViewTestCase(RepoTestCase):
         self.translation_url = self.get_translation().get_absolute_url()
         self.project_url = self.project.get_absolute_url()
         self.component_url = self.component.get_absolute_url()
-
-    def tearDown(self):
-        super().tearDown()
-        if self.fake_search:
-            Fulltext.FAKE = False
 
     def update_fulltext_index(self):
         wait_for_celery()
