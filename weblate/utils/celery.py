@@ -18,7 +18,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Whoosh based full text search."""
+"""Celery integration helper tools."""
 
 
 import logging
