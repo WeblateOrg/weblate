@@ -7,10 +7,37 @@ from django.db import migrations
 def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
+        # Create GIN index on searched fields
         schema_editor.execute(
             "CREATE INDEX unit_source_fulltext ON trans_unit "
             "USING GIN (to_tsvector('english', source))"
         )
+        schema_editor.execute(
+            "CREATE INDEX unit_target_fulltext ON trans_unit "
+            "USING GIN (to_tsvector('english', target))"
+        )
+        schema_editor.execute(
+            "CREATE INDEX unit_context_fulltext ON trans_unit "
+            "USING GIN (to_tsvector('english', context))"
+        )
+        schema_editor.execute(
+            "CREATE INDEX unit_note_fulltext ON trans_unit "
+            "USING GIN (to_tsvector('english', note))"
+        )
+        schema_editor.execute(
+            "CREATE INDEX unit_location_fulltext ON trans_unit "
+            "USING GIN (to_tsvector('english', location))"
+        )
+        schema_editor.execute(
+            "CREATE INDEX suggestion_target_fulltext ON trans_suggestion "
+            "USING GIN (to_tsvector('english', target))"
+        )
+        schema_editor.execute(
+            "CREATE INDEX comment_comment_fulltext ON trans_comment "
+            "USING GIN (to_tsvector('english', comment))"
+        )
+        # Load pg_trgm to utilize GIN on LIKE queries
+        schema_editor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
     elif vendor == "mysql":
         schema_editor.execute(
             "CREATE FULLTEXT INDEX unit_source_fulltext ON trans_unit(source)"
@@ -23,6 +50,12 @@ def drop_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         schema_editor.execute("DROP INDEX unit_source_fulltext")
+        schema_editor.execute("DROP INDEX unit_target_fulltext")
+        schema_editor.execute("DROP INDEX unit_context_fulltext")
+        schema_editor.execute("DROP INDEX unit_note_fulltext")
+        schema_editor.execute("DROP INDEX unit_location_fulltext")
+        schema_editor.execute("DROP INDEX suggestion_target_fulltext")
+        schema_editor.execute("DROP INDEX comment_comment_fulltext")
     elif vendor == "mysql":
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_fulltext")
     else:
