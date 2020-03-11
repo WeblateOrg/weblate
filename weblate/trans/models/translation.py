@@ -561,7 +561,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # Bail out if we have not found anything
             if pounit is None:
                 self.log_error("disappeared string: %s", unit)
-                unit.save(update_fields=["pending"], same_content=True)
+                unit.save(update_fields=["pending"], same_content=True, same_state=True)
                 continue
 
             # Check for changes
@@ -571,7 +571,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 and unit.approved == pounit.is_approved(unit.approved)
                 and unit.fuzzy == pounit.is_fuzzy()
             ):
-                unit.save(update_fields=["pending"], same_content=True)
+                unit.save(update_fields=["pending"], same_content=True, same_state=True)
                 continue
 
             updated = True

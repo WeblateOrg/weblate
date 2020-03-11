@@ -323,6 +323,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW,
         ACTION_REPLACE,
         ACTION_AUTO,
+        ACTION_MARKED_EDIT,
     }
 
     # Content changes considered when looking for last author
