@@ -233,7 +233,6 @@ def check_settings(app_configs, **kwargs):
 
 def check_templates(app_configs, **kwargs):
     """Check for cached DjangoTemplates Loader."""
-
     if settings.DEBUG:
         return []
 
