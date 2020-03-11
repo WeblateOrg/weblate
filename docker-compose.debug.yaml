@@ -1,0 +1,12 @@
+
+version: "2"
+services:
+  weblate:
+    ports:
+      - "21002:11002"
+    expose:
+      - "21002"
+    entrypoint: dlv debug ../github.com/vendasta/weblate/server -l 0.0.0.0:21002 --headless=true --log=true
+    privileged: true
+    security_opt:
+      - seccomp:unconfined

@@ -1,0 +1,14 @@
+steps:
+  - name: 'python test'
+    args: ['./ci/run-test']
+    id: 'python-test'
+    env: ['ENVIRONMENT=test']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '--file=./mscli-Dockerfile', '--tag=gcr.io/$PROJECT_ID/weblate:$BUILD_ID', '.']
+    waitFor: ['python-test']
+images: ['gcr.io/$PROJECT_ID/templates:$BUILD_ID']
+tags:
+  - Weblate
+timeout: 1200s
+options:
+  machineType: N1_HIGHCPU_8
