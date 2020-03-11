@@ -232,28 +232,35 @@ def check_settings(app_configs, **kwargs):
 
 
 def check_templates(app_configs, **kwargs):
-    """Check for sane settings."""
-    errors = []
+    """Check for cached DjangoTemplates Loader."""
 
-    if settings.TEMPLATES:
-        loaders = settings.TEMPLATES[0].get("OPTIONS", {}).get("loaders", [[""]])
-    else:
-        loaders = settings.TEMPLATE_LOADERS
+    if settings.DEBUG:
+        return []
 
-    if isinstance(loaders[0], str):
-        loader = loaders[0]
-    else:
-        loader = loaders[0][0]
+    from django.template import engines
+    from django.template.backends.django import DjangoTemplates
+    from django.template.loaders import cached
 
-    if "cached.Loader" not in loader:
-        errors.append(
-            Error(
-                "Configure cached template loader for better performance",
-                hint=get_doc_url("admin/install", "production-templates"),
-                id="weblate.E016",
-            )
+    is_cached = True
+
+    for engine in engines.all():
+        if not isinstance(engine, DjangoTemplates):
+            continue
+
+        for loader in engine.engine.template_loaders:
+            if not isinstance(loader, cached.Loader):
+                is_cached = False
+
+    if is_cached:
+        return []
+
+    return [
+        Error(
+            "Configure cached template loader for better performance",
+            hint=get_doc_url("admin/install", "production-templates"),
+            id="weblate.E016",
         )
-    return errors
+    ]
 
 
 def check_data_writable(app_configs=None, **kwargs):
