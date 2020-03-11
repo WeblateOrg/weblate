@@ -55,6 +55,7 @@ from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
+from weblate.utils.state import STATE_FUZZY
 from weblate.utils.views import get_translation, show_form_errors
 
 
@@ -309,7 +310,10 @@ def handle_revert(translation, request, next_unit_url):
         return None
     # Store unit
     unit.translate(
-        request.user, change.old, unit.state, change_action=Change.ACTION_REVERT
+        request.user,
+        change.old,
+        STATE_FUZZY if change.action == Change.ACTION_MARKED_EDIT else unit.state,
+        change_action=Change.ACTION_REVERT,
     )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
