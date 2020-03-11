@@ -1,7 +1,7 @@
 Weblate 3.11.3
 --------------
 
-Not yet released.
+Released on March 11th 2020.
 
 * Fixed searching for fields with certain priority.
 * Fixed predefined query for recently added strings.
