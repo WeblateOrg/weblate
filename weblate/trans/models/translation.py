@@ -599,10 +599,16 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # removed)
             state = unit.get_unit_state(pounit, '')
             flags = pounit.flags
+            same_state = True
             if state != unit.state or flags != unit.flags:
                 unit.state = state
                 unit.flags = flags
-            unit.save(update_fields=['state', 'flags', 'pending'], same_content=True)
+                same_state = False
+            unit.save(
+                update_fields=["state", "flags", "pending"],
+                same_content=True,
+                same_state=same_state,
+            )
 
         # Did we do any updates?
         if not updated:
