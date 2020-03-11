@@ -89,6 +89,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     driver_error = ""
     image_path = None
 
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
+
     @contextmanager
     def wait_for_page_load(self, timeout=30):
         old_page = self.driver.find_element_by_tag_name("html")
