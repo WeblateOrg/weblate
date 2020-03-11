@@ -26,6 +26,7 @@ from urllib.parse import urlsplit
 from xml.dom import minidom
 from zipfile import ZipFile
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -82,6 +83,16 @@ class RegistrationTestMixin:
 
 
 class ViewTestCase(RepoTestCase):
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
+
     def setUp(self):
         super().setUp()
         # Many tests needs access to the request factory.
