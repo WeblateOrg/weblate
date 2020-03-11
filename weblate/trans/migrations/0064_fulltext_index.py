@@ -36,6 +36,10 @@ def create_index(apps, schema_editor):
             "CREATE INDEX comment_comment_fulltext ON trans_comment "
             "USING GIN (to_tsvector('english', comment))"
         )
+        schema_editor.execute(
+            "CREATE INDEX dictionary_source_fulltext ON trans_dictionary "
+            "USING GIN (to_tsvector('english', source))"
+        )
     elif vendor == "mysql":
         schema_editor.execute(
             "CREATE FULLTEXT INDEX unit_source_fulltext ON trans_unit(source)"
@@ -54,6 +58,7 @@ def drop_index(apps, schema_editor):
         schema_editor.execute("DROP INDEX unit_location_fulltext")
         schema_editor.execute("DROP INDEX suggestion_target_fulltext")
         schema_editor.execute("DROP INDEX comment_comment_fulltext")
+        schema_editor.execute("DROP INDEX dictionary_source_fulltext")
     elif vendor == "mysql":
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_fulltext")
     else:

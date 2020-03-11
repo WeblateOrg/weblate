@@ -19,23 +19,6 @@
 #
 
 
-ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
-
-
-def re_escape(pattern):
-    """Escape for use in database regexp match.
-
-    This is based on re.escape, but that one escapes too much.
-    """
-    string = list(pattern)
-    for i, char in enumerate(pattern):
-        if char == "\000":
-            string[i] = "\\000"
-        elif char in ESCAPED:
-            string[i] = "\\" + char
-    return "".join(string)
-
-
 def table_has_row(connection, table, rowname):
     """Check whether actual table has row."""
     with connection.cursor() as cursor:
