@@ -283,7 +283,7 @@ class DictionaryTest(FixtureTestCase):
         self.assertContains(response, "datový tok")
 
         # Filtering by string
-        response = self.client.get(dict_url, {"term": "mark"})
+        response = self.client.get(dict_url, {"term": "bookmark"})
         self.assertContains(response, "Czech")
         self.assertNotContains(response, "1 / 1")
         self.assertContains(response, "záložka")
