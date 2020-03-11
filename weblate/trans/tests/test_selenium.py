@@ -526,7 +526,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element_by_id("search-input").send_keys(text)
+        self.driver.find_element_by_id("search-input").send_keys("'{}'".format(text))
         self.click(self.driver.find_element_by_id("screenshots-search"))
         wait_search()
         self.click(self.driver.find_element_by_class_name("add-string"))
@@ -845,7 +845,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("automatic-translation.png")
         self.click("Search")
         element = self.driver.find_element_by_id("id_q")
-        element.send_keys("%(count)s word")
+        element.send_keys("'%(count)s word'")
         with self.wait_for_page_load():
             element.submit()
         self.click("History")

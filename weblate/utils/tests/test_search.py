@@ -257,3 +257,9 @@ class QueryParserTest(TestCase):
             "changed:>=01/20/2020",
             Q(change__timestamp__gte=datetime(2020, 20, 1, 0, 0, tzinfo=utc)),
         )
+
+    @expectedFailure
+    def test_non_quoted_strings(self):
+        self.assert_query(
+            "%(count)s word", parse_query("'%(count)s' 'word'"),
+        )
