@@ -422,7 +422,9 @@ class PoUnit(TTKitUnit):
     @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
-        return Flags(*self.mainunit.typecomments).format()
+        flags = Flags(*self.mainunit.typecomments)
+        flags.remove(Flags("fuzzy"))
+        return flags.format()
 
     @cached_property
     def previous_source(self):

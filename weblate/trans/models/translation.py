@@ -592,8 +592,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             pounit.mark_fuzzy(unit.state == STATE_FUZZY)
             pounit.mark_approved(unit.state == STATE_APPROVED)
 
-            # Update comments as they might have been changed (eg, fuzzy flag
-            # removed)
+            # Update comments as they might have been changed by state changes
             state = unit.get_unit_state(pounit, "")
             flags = pounit.flags
             same_state = True
