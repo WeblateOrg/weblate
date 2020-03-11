@@ -44,6 +44,24 @@ def create_index(apps, schema_editor):
         schema_editor.execute(
             "CREATE FULLTEXT INDEX unit_source_fulltext ON trans_unit(source)"
         )
+        schema_editor.execute(
+            "CREATE FULLTEXT INDEX unit_target_fulltext ON trans_unit(target)"
+        )
+        schema_editor.execute(
+            "CREATE FULLTEXT INDEX unit_context_fulltext ON trans_unit(context)"
+        )
+        schema_editor.execute(
+            "CREATE FULLTEXT INDEX unit_note_fulltext ON trans_unit(note)"
+        )
+        schema_editor.execute(
+            "CREATE FULLTEXT INDEX unit_location_fulltext ON trans_unit(location)"
+        )
+        schema_editor.execute(
+            "CREATE FULLTEXT INDEX comment_comment_fulltext ON trans_comment(comment)"
+        )
+        schema_editor.execute(
+            "CREATE FULLTEXT INDEX dictionary_source_fulltext ON trans_dictionary(source)"
+        )
     else:
         raise Exception("Unsupported database: {}".format(vendor))
 
@@ -61,6 +79,18 @@ def drop_index(apps, schema_editor):
         schema_editor.execute("DROP INDEX dictionary_source_fulltext")
     elif vendor == "mysql":
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_fulltext")
+        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_target_fulltext")
+        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_fulltext")
+        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_note_fulltext")
+        schema_editor.execute(
+            "ALTER TABLE trans_unit DROP INDEX unit_location_fulltext"
+        )
+        schema_editor.execute(
+            "ALTER TABLE trans_comment DROP INDEX comment_comment_fulltext"
+        )
+        schema_editor.execute(
+            "ALTER TABLE trans_dictionary DROP INDEX dictionary_source_fulltext"
+        )
     else:
         raise Exception("Unsupported database: {}".format(vendor))
 
