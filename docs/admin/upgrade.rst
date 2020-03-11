@@ -259,7 +259,6 @@ Notable configuration or dependencies changes:
 * There are several removed, updated and new dependencies.
 * The migration will take some time if you have big translation memory.
 * The translation memory and fulltext search now resides in the database, you can remove the :file:`memory` and :file:`whoosh` folders in the :setting:`DATA_DIR` after the upgrade.
-* The database migration now creates PostgreSQL extensions, Weblate user now has to be superuser or the extensions created manuall, see :ref:`dbsetup-postgres`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

@@ -290,20 +290,10 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     sudo -u postgres psql postgres -c "\password postgres"
 
     # Create a database user called "weblate"
-    sudo -u postgres createuser --superuser --pwprompt weblate
+    sudo -u postgres createuser --no-createdb --pwprompt weblate
 
     # Create the database "weblate" owned by "weblate"
     sudo -u postgres createdb -O weblate weblate
-
-.. hint::
-
-   If you don't want to make Weblate user a superuser in PostgreSQL, you can
-   omit that. In that case you will have to perform some of the migration steps
-   manually as a PostgreSQL superuser:
-
-   .. code-block:: postgres
-
-        CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 Configuring Weblate to use PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

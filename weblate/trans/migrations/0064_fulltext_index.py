@@ -36,8 +36,6 @@ def create_index(apps, schema_editor):
             "CREATE INDEX comment_comment_fulltext ON trans_comment "
             "USING GIN (to_tsvector('english', comment))"
         )
-        # Load pg_trgm to utilize GIN on LIKE queries
-        schema_editor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
     elif vendor == "mysql":
         schema_editor.execute(
             "CREATE FULLTEXT INDEX unit_source_fulltext ON trans_unit(source)"
