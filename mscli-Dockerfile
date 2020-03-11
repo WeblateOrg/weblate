@@ -22,7 +22,7 @@ RUN install -d -o weblate -g weblate -m 755 /usr/local/lib/python3.7/dist-packag
 # correctly handles unicode filenames, configure settings
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DJANGO_SETTINGS_MODULE=weblate.settings_docker
 
-COPY requirements.txt patches /usr/src/weblate/
+COPY requirements.txt /usr/src/weblate/
 
 # Install dependencies
 RUN set -x \
