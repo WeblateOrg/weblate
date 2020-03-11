@@ -42,5 +42,6 @@ STATE_NAMES = {
     "fuzzy": STATE_FUZZY,
     "translated": STATE_TRANSLATED,
     "approved": STATE_APPROVED,
+    "readonly": STATE_READONLY,
     "read-only": STATE_READONLY,
 }

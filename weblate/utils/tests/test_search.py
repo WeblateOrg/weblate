@@ -28,7 +28,13 @@ from pytz import utc
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import Comparer, parse_query
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 
 class ComparerTest(SimpleTestCase):
@@ -196,6 +202,13 @@ class QueryParserTest(TestCase):
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:shaping", Q(shaping__isnull=False))
         self.assert_query("has:label", Q(labels__isnull=False))
+
+    def test_is(self):
+        self.assert_query("is:pending", Q(pending=True))
+        self.assert_query("is:translated", Q(state__gte=STATE_TRANSLATED))
+        self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
+        self.assert_query("is:approved", Q(state=STATE_APPROVED))
+        self.assert_query("is:read-only", Q(state=STATE_READONLY))
 
     def test_suggestions(self):
         self.assert_query(

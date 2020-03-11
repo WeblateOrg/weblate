@@ -14,6 +14,7 @@ Not yet released.
 * Record source string changes in history.
 * Upgraded Microsoft Translator to version 3 API.
 * Reimplemented translation memory backend.
+* Added support for several ``is:`` lookups in :doc:`user/search`.
 
 Weblate 3.11.3
 --------------
