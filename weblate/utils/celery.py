@@ -26,7 +26,6 @@ import os
 
 from celery import Celery
 from celery.signals import task_failure
-from celery_batches import SimpleRequest
 from django.conf import settings
 
 LOGGER = logging.getLogger("weblate.celery")
@@ -73,26 +72,6 @@ def configure_error_handling(sender, **kargs):
     from weblate.utils.errors import init_error_collection
 
     init_error_collection(celery=True)
-
-
-def extract_batch_kwargs(*args, **kwargs):
-    """Wrapper to extract args from batch task.
-
-    It can be either passed directly in eager mode or as requests in batch mode.
-    """
-    if args and isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
-        return [request.kwargs for request in args[0]]
-    return [kwargs]
-
-
-def extract_batch_args(*args):
-    """Wrapper to extract args from batch task.
-
-    It can be either passed directly in eager mode or as requests in batch mode.
-    """
-    if isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
-        return [request.args for request in args[0]]
-    return [args]
 
 
 def get_queue_length(queue="celery"):

@@ -58,7 +58,6 @@ REQUIRES = [
     "openpyxl",
     "celery",
     "kombu",
-    "celery-batches",
     "translation-finder",
     "html2text",
     "pycairo",
