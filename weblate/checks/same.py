@@ -151,6 +151,8 @@ class SameCheck(TargetCheck):
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
+        if "strict-same" in unit.all_flags:
+            return False
         # Ignore some docbook tags
         if unit.note.startswith("Tag: ") and unit.note[5:] in DB_TAGS:
             return True

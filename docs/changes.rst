@@ -15,6 +15,7 @@ Not yet released.
 * Upgraded Microsoft Translator to version 3 API.
 * Reimplemented translation memory backend.
 * Added support for several ``is:`` lookups in :doc:`user/search`.
+* Allow to make :ref:`check-same` avoid internal blacklist.
 
 Weblate 3.11.3
 --------------

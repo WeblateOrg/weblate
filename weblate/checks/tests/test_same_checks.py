@@ -66,6 +66,9 @@ class SameCheckTest(CheckTestCase):
         self.do_test(False, ("1:4", "1:4", ""))
         self.do_test(False, ("1, 3, 10", "1, 3, 10", ""))
 
+    def test_same_strict(self):
+        self.do_test(True, ("Linux kernel", "Linux kernel", "strict-same"))
+
     def test_same_multi(self):
         self.do_test(False, ("Linux kernel", "Linux kernel", ""))
         self.do_test(
