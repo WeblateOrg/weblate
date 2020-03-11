@@ -176,7 +176,7 @@ class DictionaryQuerySet(models.QuerySet):
                 ),
             )
 
-        return results(
+        return results.filter(
             project=unit.translation.component.project,
             language=unit.translation.language,
         )
