@@ -763,6 +763,8 @@ CACHES = {
 
 # Store sessions in cache
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# Store messages in session
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
 REST_FRAMEWORK = {
