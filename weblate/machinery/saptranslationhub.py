@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright ©  2018 Manuel Laggner <manuel.laggner@egger.com>
 #
