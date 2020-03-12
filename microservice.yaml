@@ -27,7 +27,7 @@ microservice:
       minReplicas: 2
       targetCPU: 50
     resources:
-      memoryRequest: 2gi
+      memoryRequest: 2Gi
       memoryLimit: 4Gi
       cpuRequest: 500m
       cpuLimit: 1000m
@@ -54,7 +54,9 @@ microservice:
         value: /etc/weblate/iam-keys/public-key-id
       - key: VENDASTA_SERVICE_ACCOUNT
         value: weblate-prod@iam.vendasta.com
-      ports: []
+      ports:
+      - name: api
+        containerPort: 11000:8080
     zones:
     - us-central1-a
     - us-central1-c
@@ -108,7 +110,9 @@ microservice:
         value: /etc/weblate/iam-keys/public-key-id
       - key: VENDASTA_SERVICE_ACCOUNT
         value: weblate-demo@iam.vendasta.com
-      ports: []
+      ports:
+      - name: api
+        containerPort: 11000:8080
     zones:
     - us-central1-c
     sideCars: []
