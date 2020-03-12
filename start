@@ -102,18 +102,18 @@ if [ -z "$POSTGRES_PORT" ] ; then
     export POSTGRES_PORT=
 fi
 
-#echo "configuring postgres..."
-## Wait for database to get available
-#TIMEOUT=0
-#until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1' > /dev/null ; do
-#    >&2 echo "Postgres is unavailable - waiting $((30 - $TIMEOUT))"
-#    TIMEOUT=$(($TIMEOUT + 1))
-#    if [ $TIMEOUT -gt 30 ] ; then
-#        psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1'
-#        fail_dep PosgreSQL
-#    fi
-#    sleep 1
-#done
+echo "configuring postgres..."
+# Wait for database to get available
+TIMEOUT=0
+until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1' > /dev/null ; do
+    >&2 echo "Postgres is unavailable - waiting $((30 - $TIMEOUT))"
+    TIMEOUT=$(($TIMEOUT + 1))
+    if [ $TIMEOUT -gt 30 ] ; then
+        psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1'
+        fail_dep PosgreSQL
+    fi
+    sleep 1
+done
 
 unset PGPASSWORD
 
@@ -126,59 +126,59 @@ if [ ! -f /app/data/secret ] ; then
     # https://github.com/django/django/blob/1.10.2/django/utils/crypto.py#L54-L56
     python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(50))" > /app/data/secret
 fi
-#
-#echo "Migrating database to current version..."
-## Migrate database to current version and collect static files
-#if [ "x$1" = "xrunserver" ] ; then
-#
-#    # Fail on migration to 3.0
-#    failure=0
-#    run_weblate showmigrations --plan > /tmp/migrations.txt || failure=1
-#    has_old_auth=$(grep -Fc '[X]  auth.0001_initial' /tmp/migrations.txt || true)
-#    missing_new_auth=$(grep -Fc '[ ]  weblate_auth.0001_initial' /tmp/migrations.txt || true)
-#    if [ $failure -gt 0 -o \( $has_old_auth -gt 0 -a $missing_new_auth -gt 0 \) ] ; then
-#        echo
-#        echo "Migration from this version is not supported!"
-#        echo "Please upgrade to 3.0.1-7 first."
-#        exit 1
-#    fi
-#    rm /tmp/migrations.txt
-#
-#    echo "Starting database migration..."
-#    run_weblate migrate
-#    run_weblate cleanup_avatar_cache
-#    run_weblate cleanup_celery
-#    # Run with --clear to ensure all files are up to date
-#    run_weblate collectstatic --noinput --clear
-#    # Create or update admin account
-#    if [ -n "$WEBLATE_ADMIN_PASSWORD" ] ; then
-#        run_weblate createadmin --password="$WEBLATE_ADMIN_PASSWORD" --update --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME"
-#    else
-#        run_weblate createadmin --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME" || true
-#    fi
-#    # Change site name
-#    if [ -n "$WEBLATE_ALLOWED_HOSTS" -a "$WEBLATE_ALLOWED_HOSTS" != '*' ] ; then
-#        run_weblate changesite --set-name "${WEBLATE_ALLOWED_HOSTS%%,*}"
-#    fi
-#
-#    # uswgi dir
-#    mkdir -p /run/uwsgi/app/weblate
-#
-#    # Celery pid, remove possible stale PID file
-#    mkdir -p /run/celery
-#
-#    rm -f /run/celery/beat.pid
-#
-#    ln -sf ${NGINX_ACCESS_LOG:-/dev/stdout} /var/log/nginx/access.log
-#    ln -sf ${NGINX_ERROR_LOG:-/dev/stderr} /var/log/nginx/error.log
-#
-#    #  Execute supervisor
-#    exec supervisord --nodaemon \
-#        --loglevel=${SUPERVISOR_LOGLEVEL:-info} \
-#        --logfile_maxbytes=0 \
-#        --logfile=${SUPERVISOR_LOGFILE:-/dev/null} \
-#        --configuration=/etc/supervisor/supervisord.conf
-#fi
+
+echo "Migrating database to current version..."
+# Migrate database to current version and collect static files
+if [ "x$1" = "xrunserver" ] ; then
+
+    # Fail on migration to 3.0
+    failure=0
+    run_weblate showmigrations --plan > /tmp/migrations.txt || failure=1
+    has_old_auth=$(grep -Fc '[X]  auth.0001_initial' /tmp/migrations.txt || true)
+    missing_new_auth=$(grep -Fc '[ ]  weblate_auth.0001_initial' /tmp/migrations.txt || true)
+    if [ $failure -gt 0 -o \( $has_old_auth -gt 0 -a $missing_new_auth -gt 0 \) ] ; then
+        echo
+        echo "Migration from this version is not supported!"
+        echo "Please upgrade to 3.0.1-7 first."
+        exit 1
+    fi
+    rm /tmp/migrations.txt
+
+    echo "Starting database migration..."
+    run_weblate migrate
+    run_weblate cleanup_avatar_cache
+    run_weblate cleanup_celery
+    # Run with --clear to ensure all files are up to date
+    run_weblate collectstatic --noinput --clear
+    # Create or update admin account
+    if [ -n "$WEBLATE_ADMIN_PASSWORD" ] ; then
+        run_weblate createadmin --password="$WEBLATE_ADMIN_PASSWORD" --update --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME"
+    else
+        run_weblate createadmin --email="$WEBLATE_ADMIN_EMAIL" --name="$WEBLATE_ADMIN_NAME" || true
+    fi
+    # Change site name
+    if [ -n "$WEBLATE_ALLOWED_HOSTS" -a "$WEBLATE_ALLOWED_HOSTS" != '*' ] ; then
+        run_weblate changesite --set-name "${WEBLATE_ALLOWED_HOSTS%%,*}"
+    fi
+
+    # uswgi dir
+    mkdir -p /run/uwsgi/app/weblate
+
+    # Celery pid, remove possible stale PID file
+    mkdir -p /run/celery
+
+    rm -f /run/celery/beat.pid
+
+    ln -sf ${NGINX_ACCESS_LOG:-/dev/stdout} /var/log/nginx/access.log
+    ln -sf ${NGINX_ERROR_LOG:-/dev/stderr} /var/log/nginx/error.log
+
+    #  Execute supervisor
+    exec supervisord --nodaemon \
+        --loglevel=${SUPERVISOR_LOGLEVEL:-info} \
+        --logfile_maxbytes=0 \
+        --logfile=${SUPERVISOR_LOGFILE:-/dev/null} \
+        --configuration=/etc/supervisor/supervisord.conf
+fi
 
 # Start the management command
 echo "Start the management command"
