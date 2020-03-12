@@ -54,9 +54,30 @@ microservice:
         value: /etc/weblate/iam-keys/public-key-id
       - key: VENDASTA_SERVICE_ACCOUNT
         value: weblate-prod@iam.vendasta.com
-      ports:
-      - name: api
-        containerPort: 11000:8080
+      - key: POSTGRES_DATABASE
+        value: weblate
+      - key: POSTGRES_USER
+        value: postgres
+      - key: POSTGRES_PASSWORD
+        value: AMvIFzuMEIaetyrD
+      - key: POSTGRES_HOST
+        value: 35.226.61.253
+      - key: POSTGRES_PORT
+        value: 5432
+      - key: REDIS_HOST
+        value: 10.44.36.108
+      - key: REDIS_PORT
+        value: 6379
+      - name: WEBLATE_ADMIN_NAME
+        value: Weblate Admin
+      - name: WEBLATE_ADMIN_EMAIL
+        value: weblate@example.com
+      - name: WEBLATE_SERVER_EMAIL
+        value: weblate@vendasta.com
+      - name: WEBLATE_DEFAULT_FROM_EMAIL
+        value: weblate@vendasta.com
+      - key:
+      ports: []
     zones:
     - us-central1-a
     - us-central1-c
@@ -110,9 +131,29 @@ microservice:
         value: /etc/weblate/iam-keys/public-key-id
       - key: VENDASTA_SERVICE_ACCOUNT
         value: weblate-demo@iam.vendasta.com
-      ports:
-      - name: api
-        containerPort: 11000:8080
+      - key: POSTGRES_DATABASE
+        value: weblate
+      - key: POSTGRES_USER
+        value: postgres
+      - key: POSTGRES_PASSWORD
+        value: AMvIFzuMEIaetyrD
+      - key: POSTGRES_HOST
+        value: 35.226.61.253
+      - key: POSTGRES_PORT
+        value: 5432
+      - key: REDIS_HOST
+        value: 10.102.223.171
+      - key: REDIS_PORT
+        value: 6379
+      - name: WEBLATE_ADMIN_NAME
+        value: Weblate Admin
+      - name: WEBLATE_ADMIN_EMAIL
+        value: weblate@example.com
+      - name: WEBLATE_SERVER_EMAIL
+        value: weblate@vendasta.com
+      - name: WEBLATE_DEFAULT_FROM_EMAIL
+        value: weblate@vendasta.com
+      ports: []
     zones:
     - us-central1-c
     sideCars: []
