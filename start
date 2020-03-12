@@ -102,18 +102,18 @@ if [ -z "$POSTGRES_PORT" ] ; then
     export POSTGRES_PORT=
 fi
 
-echo "configuring postgres..."
-# Wait for database to get available
-TIMEOUT=0
-until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1' > /dev/null ; do
-    >&2 echo "Postgres is unavailable - waiting $((30 - $TIMEOUT))"
-    TIMEOUT=$(($TIMEOUT + 1))
-    if [ $TIMEOUT -gt 30 ] ; then
-        psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1'
-        fail_dep PosgreSQL
-    fi
-    sleep 1
-done
+#echo "configuring postgres..."
+## Wait for database to get available
+#TIMEOUT=0
+#until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1' > /dev/null ; do
+#    >&2 echo "Postgres is unavailable - waiting $((30 - $TIMEOUT))"
+#    TIMEOUT=$(($TIMEOUT + 1))
+#    if [ $TIMEOUT -gt 30 ] ; then
+#        psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1'
+#        fail_dep PosgreSQL
+#    fi
+#    sleep 1
+#done
 
 unset PGPASSWORD
 
