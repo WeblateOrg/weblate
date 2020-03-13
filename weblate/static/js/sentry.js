@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.14.0 (cf3bf208) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.14.1 (de33eb09) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -931,6 +931,15 @@ var Sentry = (function (exports) {
             // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
             // tslint:disable-next-line:strict-type-predicates
             if (performance.timeOrigin === undefined) {
+                // For webworkers it could mean we don't have performance.timing then we fallback
+                // tslint:disable-next-line:deprecation
+                if (!performance.timing) {
+                    return performanceFallback;
+                }
+                // tslint:disable-next-line:deprecation
+                if (!performance.timing.navigationStart) {
+                    return performanceFallback;
+                }
                 // @ts-ignore
                 // tslint:disable-next-line:deprecation
                 performance.timeOrigin = performance.timing.navigationStart;
@@ -4542,7 +4551,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.14.0';
+    var SDK_VERSION = '5.14.1';
 
     /**
      * The Sentry Browser SDK Client.
