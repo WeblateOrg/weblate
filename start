@@ -150,10 +150,10 @@ if [ "x$1" = "xrunserver" ] ; then
     fi
 
     # uswgi dir
-    sudo mkdir -p /run/uwsgi/app/weblate
+    mkdir -p /run/uwsgi/app/weblate
 
     # Celery pid, remove possible stale PID file
-    sudo mkdir -p /run/celery
+    mkdir -p /run/celery
 
     rm -f /run/celery/beat.pid
 
