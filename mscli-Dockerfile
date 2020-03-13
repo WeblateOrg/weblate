@@ -10,9 +10,9 @@ LABEL version=$VERSION
 # - the tty group for /dev/std* access
 RUN useradd --shell /bin/sh --user-group weblate --groups root,tty \
   && mkdir -p /home/weblate/.ssh \
-  && mkdir -p /run/uwsgi/app/weblate
+  && mkdir -p /run/uwsgi/app/weblate \
   && chown -R weblate:weblate /run/uwsgi/app/weblate \
-  && mkdir -p /run/celery
+  && mkdir -p /run/celery \
   && chown -R weblate:weblate /run/celery \
   && touch /home/weblate/.ssh/authorized_keys \
   && chown -R weblate:weblate /home/weblate \
