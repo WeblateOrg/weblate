@@ -215,3 +215,8 @@ class SameCheckTest(CheckTestCase):
         self.do_test(False, ("RMS", "RMS", ""))
         self.do_test(False, ("<primary>RMS</primary>", "<primary>RMS</primary>", ""))
         self.do_test(True, ("Who is RMS?", "Who is RMS?", ""))
+
+    def test_same_placeholders(self):
+        self.do_test(False, ("string $URL$", "string $URL$", "placeholders:$URL$"))
+        self.do_test(False, ("string $URL$", "string ", "placeholders:$URL$"))
+        self.do_test(True, ("string $URL$", "string $URL$", "placeholders:"))
