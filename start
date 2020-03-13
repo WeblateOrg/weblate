@@ -29,8 +29,6 @@ export PGPASSWORD="$POSTGRES_PASSWORD"
 export PGSSLMODE="$POSTGRES_SSL_MODE"
 
 # Update the time zone
-
-echo "update timezone"
 zonefile="/usr/share/zoneinfo/$WEBLATE_TIME_ZONE"
 if [ -n "$WEBLATE_TIME_ZONE" -a -f "$zonefile" ] ; then
     echo "Updating system timezone to $WEBLATE_TIME_ZONE"
@@ -38,8 +36,6 @@ if [ -n "$WEBLATE_TIME_ZONE" -a -f "$zonefile" ] ; then
     cat /usr/share/zoneinfo/$WEBLATE_TIME_ZONE > /etc/localtime
 fi
 
-
-echo "create fake python app"
 # Create fake Python app for customization
 if [ ! -d $WEBLATE_PY_PATH ] ; then
     echo "Creating $WEBLATE_PY_PATH"
@@ -49,12 +45,10 @@ if [ ! -d $WEBLATE_PY_PATH ] ; then
 fi
 
 run_weblate() {
-    echo "run weblate"
     $WEBLATE_CMD "$@"
 }
 
 fail_dep() {
-    echo "fail dep"
     >&2 echo "$1 not running!"
     >&2 echo
     >&2 echo "$1 is expected to run as separate Docker container."
@@ -64,7 +58,7 @@ fail_dep() {
     exit 1
 }
 
-echo "configuring gitlab..."
+
 if [ ! -z ${WEBLATE_GITLAB_USERNAME+x} ]; then
     if [ -z ${WEBLATE_GITLAB_HOST+x} ] || [ -z ${WEBLATE_GITLAB_TOKEN+x} ] ; then
         echo "WARNING: WEBLATE_GITLAB_HOST or WEBLATE_GITLAB_TOKEN not set. Skip lab.hcl generation..."
@@ -76,12 +70,11 @@ if [ ! -z ${WEBLATE_GITLAB_USERNAME+x} ]; then
     fi;
 fi;
 
-echo "configuring memcached host ..."
+
 if [ -n "$MEMCACHED_HOST" ] ; then
     >&2 echo "memcached is no longer supported, please configure redis"
 fi
 
-echo "configuring redis..."
 # Wait for redis
 TIMEOUT=0
 until run_weblate shell -c 'from django.core.cache import cache; cache.has_key("ping")' > /dev/null ; do
@@ -94,7 +87,6 @@ until run_weblate shell -c 'from django.core.cache import cache; cache.has_key("
     sleep 1
 done
 
-echo "setting up postgres vars..."
 if [ -z "$POSTGRES_HOST" ] ; then
     export POSTGRES_HOST=database
 fi
@@ -102,7 +94,6 @@ if [ -z "$POSTGRES_PORT" ] ; then
     export POSTGRES_PORT=
 fi
 
-echo "configuring postgres..."
 # Wait for database to get available
 TIMEOUT=0
 until psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -d "$POSTGRES_DATABASE" -U "$POSTGRES_USER" -c 'SELECT 1' > /dev/null ; do
@@ -117,17 +108,14 @@ done
 
 unset PGPASSWORD
 
-echo "Postgres is up..."
 >&2 echo "Postgres is up"
 
-echo "generating secret..."
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
     # https://github.com/django/django/blob/1.10.2/django/utils/crypto.py#L54-L56
     python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(50))" > /app/data/secret
 fi
 
-echo "Migrating database to current version..."
 # Migrate database to current version and collect static files
 if [ "x$1" = "xrunserver" ] ; then
 
@@ -162,10 +150,10 @@ if [ "x$1" = "xrunserver" ] ; then
     fi
 
     # uswgi dir
-    mkdir -p /run/uwsgi/app/weblate
+    sudo mkdir -p /run/uwsgi/app/weblate
 
     # Celery pid, remove possible stale PID file
-    mkdir -p /run/celery
+    sudo mkdir -p /run/celery
 
     rm -f /run/celery/beat.pid
 
@@ -181,5 +169,4 @@ if [ "x$1" = "xrunserver" ] ; then
 fi
 
 # Start the management command
-echo "Start the management command"
 run_weblate "$@"
