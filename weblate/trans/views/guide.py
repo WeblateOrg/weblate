@@ -22,7 +22,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 
-from weblate.addons.models import ADDONS
+from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils.docs import get_doc_url
@@ -239,7 +239,11 @@ class AddonGuideline(Guideline):
     url = "addons"
 
     def is_passing(self):
-        return self.component.addon_set.filter(name=self.addon).exists()
+        return (
+            Addon.objects.filter_component(self.component)
+            .filter(name=self.addon)
+            .exists()
+        )
 
     def is_relevant(self):
         if self.addon not in ADDONS:
