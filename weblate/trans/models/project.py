@@ -242,10 +242,9 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def needs_commit(self):
         """Check whether there are any uncommitted changes."""
-        for component in self.component_set.iterator():
-            if component.needs_commit():
-                return True
-        return False
+        return any(
+            component.needs_commit() for component in self.component_set.iterator()
+        )
 
     def on_repo_components(self, default, call, *args, **kwargs):
         """Wrapper for operations on repository."""
