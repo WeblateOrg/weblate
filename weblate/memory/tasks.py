@@ -41,7 +41,7 @@ def import_memory(project_id, component_id=None):
                     translation__component=component, state__gte=STATE_TRANSLATED
                 )
                 .exclude(translation__language=project.source_language)
-                .prefetch_related("translation__language")
+                .prefetch_related("translation", "translation__language")
             )
             for unit in units.iterator():
                 update_memory(None, unit, component, project)
