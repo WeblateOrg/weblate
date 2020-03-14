@@ -2,7 +2,6 @@
     :caption: Administrator docs
     :maxdepth: 1
 
-    admin/quick
     admin/install
     admin/deployments
     admin/upgrade
