@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.db import transaction
+
 from weblate.memory.models import Memory
 from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
@@ -33,15 +35,16 @@ def import_memory(project_id, component_id=None):
         components = components.filter(id=component_id)
 
     for component in components.iterator():
-        units = (
-            Unit.objects.filter(
-                translation__component=component, state__gte=STATE_TRANSLATED
+        with transaction.atomic():
+            units = (
+                Unit.objects.filter(
+                    translation__component=component, state__gte=STATE_TRANSLATED
+                )
+                .exclude(translation__language=project.source_language)
+                .prefetch_related("translation__language")
             )
-            .exclude(translation__language=project.source_language)
-            .prefetch_related("translation__language")
-        )
-        for unit in units.iterator():
-            update_memory(None, unit, component, project)
+            for unit in units.iterator():
+                update_memory(None, unit, component, project)
 
 
 def update_memory(user, unit, component=None, project=None):
