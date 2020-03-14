@@ -27,7 +27,9 @@ from weblate.utils.celery import app
 
 @app.task(trail=False)
 def daily_addons():
-    for addon in Addon.objects.filter(event__event=EVENT_DAILY).iterator():
+    for addon in Addon.objects.filter(event__event=EVENT_DAILY).prefetch_related(
+        "component"
+    ):
         with transaction.atomic():
             addon.addon.daily(addon.component)
 

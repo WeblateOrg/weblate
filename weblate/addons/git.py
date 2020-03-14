@@ -53,7 +53,7 @@ class GitSquashAddon(BaseAddon):
     def get_filenames(self, component):
         languages = defaultdict(list)
         for origin in [component] + list(component.linked_childs):
-            for translation in origin.translation_set.iterator():
+            for translation in origin.translation_set.prefetch_related("language"):
                 code = translation.language.code
                 if not translation.filename:
                     continue

@@ -1089,11 +1089,12 @@ class Component(models.Model, URLMixin, PathMixin):
             Translation.objects.filter(unit__pending=True)
             .filter(Q(component=self) | Q(component__linked_component=self))
             .distinct()
+            .prefetch_related("component")
         )
         components = {}
 
         # Commit pending changes
-        for translation in translations.iterator():
+        for translation in translations:
             if translation.component_id == self.id:
                 translation.component = self
             if translation.component.linked_component_id == self.id:

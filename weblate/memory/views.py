@@ -119,7 +119,7 @@ class MemoryView(TemplateView):
 class DownloadView(MemoryView):
     def get(self, request, *args, **kwargs):
         fmt = request.GET.get("format", "json")
-        data = Memory.objects.filter_type(**self.objects).prefetch_lang().iterator()
+        data = Memory.objects.filter_type(**self.objects).prefetch_lang()
         if fmt == "tmx":
             response = render(
                 request,

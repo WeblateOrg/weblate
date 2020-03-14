@@ -41,7 +41,7 @@ class Command(BaseCommand):
             "watched", "languages", "secondary_languages"
         )
 
-        for profile in profiles.iterator():
+        for profile in profiles:
             if not profile.user.is_active:
                 continue
             data.append(profile.dump_data())

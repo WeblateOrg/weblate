@@ -547,7 +547,7 @@ class Unit(models.Model, LoggerMixin):
         same_source = Unit.objects.filter(
             translation__component=self.translation.component, id_hash=self.id_hash
         ).exclude(id=self.id)
-        for unit in same_source.iterator():
+        for unit in same_source.prefetch():
             # Update source, number of words and content_hash
             unit.source = self.source
             unit.num_words = self.num_words

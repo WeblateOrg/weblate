@@ -128,7 +128,7 @@ def change_labels(sender, instance, **kwargs):
     labels = instance.labels.all()
     list(labels)
 
-    for unit in units.iterator():
+    for unit in units.prefetch():
         # This emulates set in ManyRelatedManager, we just need to know if there was
         # any change to effectively invalidate caches
         old_labels = set(unit.labels.all())
