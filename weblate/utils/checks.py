@@ -65,8 +65,6 @@ def check_mail_connection(app_configs, **kwargs):
 
 def is_celery_queue_long():
     stats = get_queue_stats()
-    if stats.pop("search") > 10000:
-        return True
     if stats.pop("translate", 0) > 1000:
         return True
     return any(stat > 50 for stat in stats.values())
