@@ -58,23 +58,14 @@ def update_memory(user, unit, component=None, project=None):
         "origin": component.full_slug,
     }
 
-    try:
-        Memory.objects.get_or_create(
-            user=None, project=project, from_file=False, shared=False, **params
-        )
-    except Memory.MultipleObjectsReturned:
-        pass
+    Memory.objects.update_entry(
+        user=None, project=project, from_file=False, shared=False, **params
+    )
     if project.contribute_shared_tm:
-        try:
-            Memory.objects.get_or_create(
-                user=None, project=None, from_file=False, shared=True, **params
-            )
-        except Memory.MultipleObjectsReturned:
-            pass
+        Memory.objects.update_entry(
+            user=None, project=None, from_file=False, shared=True, **params
+        )
     if user:
-        try:
-            Memory.objects.get_or_create(
-                user=user, project=None, from_file=False, shared=False, **params
-            )
-        except Memory.MultipleObjectsReturned:
-            pass
+        Memory.objects.update_entry(
+            user=user, project=None, from_file=False, shared=False, **params
+        )

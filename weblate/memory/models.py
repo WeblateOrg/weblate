@@ -119,7 +119,7 @@ class MemoryManager(models.Manager):
         lang_cache = {}
         for entry in data:
             try:
-                self.get_or_create(
+                self.update_entry(
                     source_language=Language.objects.get_by_code(
                         entry["source_language"], lang_cache
                     ),
@@ -174,7 +174,7 @@ class MemoryManager(models.Manager):
                 continue
 
             for lang, text in translations.items():
-                self.get_or_create(
+                self.update_entry(
                     source_language=source_language,
                     target_language=Language.objects.get_by_code(
                         lang, lang_cache, langmap
@@ -186,6 +186,10 @@ class MemoryManager(models.Manager):
                 )
                 found += 1
         return found
+
+    def update_entry(self, **kwargs):
+        if not self.filter(**kwargs).exists():
+            self.create(**kwargs)
 
 
 class Memory(models.Model):
