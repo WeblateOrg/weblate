@@ -156,7 +156,7 @@ def cleanup_project(pk):
 def cleanup_suggestions():
     # Process suggestions
     anonymous_user = get_anonymous()
-    suggestions = Suggestion.objects.prefetch_related("project", "language", "unit")
+    suggestions = Suggestion.objects.prefetch_related("unit")
     for suggestion in suggestions:
         with transaction.atomic():
             # Remove suggestions with same text as real translation
