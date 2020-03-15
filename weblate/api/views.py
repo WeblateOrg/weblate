@@ -665,8 +665,6 @@ class Metrics(APIView):
     def get(self, request, format=None):
         """Return a list of all users."""
         stats = GlobalStats()
-        queues = get_queue_stats()
-
         return Response(
             {
                 "units": stats.all,
@@ -682,11 +680,7 @@ class Metrics(APIView):
                     ignored=False
                 ).count(),
                 "suggestions": Suggestion.objects.count(),
-                "index_updates": queues.get("search", 0),
-                "celery_queue": queues.get("celery", 0),
-                "celery_memory_queue": queues.get("memory", 0),
-                "celery_notification_queue": queues.get("notification", 0),
-                "celery_queues": queues,
+                "celery_queues": get_queue_stats(),
                 "name": settings.SITE_TITLE,
             }
         )
