@@ -84,9 +84,9 @@ class ChangeQuerySet(models.QuerySet):
         if translation is not None:
             base = base.filter(translation=translation)
         elif component is not None:
-            base = base.filter(translation__component=component)
+            base = base.filter(component=component)
         elif project is not None:
-            base = base.filter(translation__component__project=project)
+            base = base.filter(project=project)
 
         # Filter by language
         if language is not None:

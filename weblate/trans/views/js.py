@@ -188,7 +188,7 @@ def git_status_project(request, project):
             "object": obj,
             "project": obj,
             "changes": Change.objects.filter(
-                component__project=obj, action__in=Change.ACTIONS_REPOSITORY
+                project=obj, action__in=Change.ACTIONS_REPOSITORY
             ).order()[:10],
             "statuses": statuses,
             "component": None,
