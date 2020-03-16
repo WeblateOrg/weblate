@@ -4,7 +4,6 @@ steps:
       - --destination=gcr.io/$PROJECT_ID/weblate:$BUILD_ID
       - --cache=true
       - --dockerfile=./mscli-Dockerfile
-images: ['gcr.io/$PROJECT_ID/weblate:$BUILD_ID']
 tags:
   - Weblate
 timeout: 1200s

@@ -13,8 +13,6 @@ microservice:
       host: weblate-prod.apigateway.co
       httpsHost: weblate-prod.apigateway.co
       name: wildcard-apigateway-co
-    apps:
-      redis: null
     network:
       grpcHost: weblate-prod.apigateway.co
       grpcLoadBalancerIp: ""
@@ -68,15 +66,14 @@ microservice:
         value: "10.44.36.108"
       - key: REDIS_PORT
         value: "6379"
-      - name: WEBLATE_ADMIN_NAME
-        value: Weblate Admin
-      - name: WEBLATE_ADMIN_EMAIL
+      - key: WEBLATE_ADMIN_NAME
+        value: "Weblate Admin"
+      - key: WEBLATE_ADMIN_EMAIL
         value: weblate@example.com
-      - name: WEBLATE_SERVER_EMAIL
+      - key: WEBLATE_SERVER_EMAIL
         value: weblate@vendasta.com
-      - name: WEBLATE_DEFAULT_FROM_EMAIL
+      - key: WEBLATE_DEFAULT_FROM_EMAIL
         value: weblate@vendasta.com
-      - key:
       ports: []
     zones:
     - us-central1-a
@@ -90,8 +87,6 @@ microservice:
       host: weblate-demo.apigateway.co
       httpsHost: weblate-demo.apigateway.co
       name: wildcard-apigateway-co
-    apps:
-      redis: null
     network:
       grpcHost: weblate-demo.apigateway.co
       grpcLoadBalancerIp: ""
@@ -138,20 +133,20 @@ microservice:
       - key: POSTGRES_PASSWORD
         value: AMvIFzuMEIaetyrD
       - key: POSTGRES_HOST
-        value: 35.226.61.253
+        value: "35.226.61.253"
       - key: POSTGRES_PORT
-        value: 5432
+        value: "5432"
       - key: REDIS_HOST
-        value: 10.102.223.171
+        value: "10.102.223.171"
       - key: REDIS_PORT
-        value: 6379
-      - name: WEBLATE_ADMIN_NAME
+        value: "6379"
+      - key: WEBLATE_ADMIN_NAME
         value: Weblate Admin
-      - name: WEBLATE_ADMIN_EMAIL
+      - key: WEBLATE_ADMIN_EMAIL
         value: weblate@example.com
-      - name: WEBLATE_SERVER_EMAIL
+      - key: WEBLATE_SERVER_EMAIL
         value: weblate@vendasta.com
-      - name: WEBLATE_DEFAULT_FROM_EMAIL
+      - key: WEBLATE_DEFAULT_FROM_EMAIL
         value: weblate@vendasta.com
       ports: []
     zones:
