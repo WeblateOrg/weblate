@@ -1,6 +1,9 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '--file=./mscli-Dockerfile', '--tag=gcr.io/$PROJECT_ID/weblate:$BUILD_ID', '.']
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --destination=gcr.io/$PROJECT_ID/weblate:$BUILD_ID
+      - --cache=true
+      - --file=./mscli-Dockerfile
 images: ['gcr.io/$PROJECT_ID/weblate:$BUILD_ID']
 tags:
   - Weblate
