@@ -121,6 +121,8 @@ fi
 # Migrate database to current version and collect static files
 if [ "x$1" = "xrunserver" ] ; then
 
+    >&2 echo "Checking database migration"
+
     # Fail on migration to 3.0
     failure=0
     run_weblate showmigrations --plan > /tmp/migrations.txt || failure=1
