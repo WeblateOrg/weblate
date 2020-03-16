@@ -8,6 +8,7 @@ def migrate_changes(apps, schema_editor):
     Change = apps.get_model("trans", "Change")
     for change in (
         Change.objects.using(db_alias)
+        .filter(language=None)
         .exclude(dictionary=None)
         .prefetch_related("dictionary")
     ):
@@ -16,6 +17,7 @@ def migrate_changes(apps, schema_editor):
 
     for change in (
         Change.objects.using(db_alias)
+        .filter(language=None)
         .exclude(translation=None)
         .prefetch_related("translation")
     ):
