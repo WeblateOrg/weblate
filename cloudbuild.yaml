@@ -3,7 +3,7 @@ steps:
     args:
       - --destination=gcr.io/$PROJECT_ID/weblate:$BUILD_ID
       - --cache=true
-      - --file=./mscli-Dockerfile
+      - --dockerfile=./mscli-Dockerfile
 images: ['gcr.io/$PROJECT_ID/weblate:$BUILD_ID']
 tags:
   - Weblate
