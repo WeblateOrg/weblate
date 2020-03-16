@@ -65,11 +65,11 @@ def report_error(
             scope.level = level
             sentry_sdk.capture_exception()
 
-    logger.error("%s: %s: %s", prefix, error.__class__.__name__, force_str(error))
+    log = getattr(logger, level)
+
+    log("%s: %s: %s", prefix, error.__class__.__name__, force_str(error))
     if extra_data:
-        logger.error(
-            "%s: %s: %s", prefix, error.__class__.__name__, force_str(extra_data)
-        )
+        log("%s: %s: %s", prefix, error.__class__.__name__, force_str(extra_data))
     if print_tb:
         logger.exception(prefix)
 
