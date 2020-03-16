@@ -24,6 +24,7 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonRespo
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_str
 from django.utils.http import urlencode
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
@@ -46,12 +47,10 @@ def handle_machinery(request, service, unit, source):
     if not request.user.has_perm(perm, unit.translation):
         raise PermissionDenied()
 
-    translation_service = MACHINE_TRANSLATION_SERVICES[service]
-
     # Error response
     response = {
         "responseStatus": 500,
-        "service": translation_service.name,
+        "service": service,
         "responseDetails": "",
         "translations": [],
         "lang": unit.translation.language.code,
@@ -59,17 +58,23 @@ def handle_machinery(request, service, unit, source):
     }
 
     try:
-        response["translations"] = translation_service.translate(
-            unit.translation.language.code, source, unit, request.user
-        )
-        response["responseStatus"] = 200
-    except MachineTranslationError as exc:
-        response["responseDetails"] = str(exc)
-    except Exception as exc:
-        report_error(exc, request)
-        response["responseDetails"] = "{0}: {1}".format(
-            exc.__class__.__name__, str(exc)
-        )
+        translation_service = MACHINE_TRANSLATION_SERVICES[service]
+        response["service"] = translation_service.name
+    except KeyError:
+        response["responseDetails"] = _("Service is currently not available.")
+    else:
+        try:
+            response["translations"] = translation_service.translate(
+                unit.translation.language.code, source, unit, request.user
+            )
+            response["responseStatus"] = 200
+        except MachineTranslationError as exc:
+            response["responseDetails"] = str(exc)
+        except Exception as exc:
+            report_error(exc, request)
+            response["responseDetails"] = "{0}: {1}".format(
+                exc.__class__.__name__, str(exc)
+            )
 
     return JsonResponse(data=response)
 
