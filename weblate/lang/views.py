@@ -107,7 +107,7 @@ def show_project(request, lang, project):
     pobj = get_project(request, project)
 
     last_changes = Change.objects.last_changes(request.user).filter(
-        translation__language=obj, project=pobj
+        language=obj, project=pobj
     )[:10]
 
     # Paginate translations.
