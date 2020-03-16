@@ -63,17 +63,17 @@ def get_other_units(unit):
 
     translation = unit.translation
 
+    query = Q(source=unit.source)
+    if unit.context:
+        query |= Q(context=unit.context)
+
     units = (
         Unit.objects.prefetch()
         .filter(
             translation__component__project=translation.component.project,
             translation__language=translation.language,
         )
-        .filter(
-            Q(content_hash=unit.content_hash)
-            | Q(id_hash=unit.id_hash)
-            | Q(source=unit.source)
-        )
+        .filter(query)
     )
 
     # Is it only this unit?
