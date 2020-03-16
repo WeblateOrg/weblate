@@ -117,4 +117,4 @@ class LanguageChangesFeed(TranslationChangesFeed):
         return get_object_or_404(Language, code=lang)
 
     def items(self, obj):
-        return Change.objects.filter(translation__language=obj).order()[:10]
+        return Change.objects.filter(language=obj).order()[:10]

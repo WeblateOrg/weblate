@@ -290,9 +290,11 @@ def show_dictionary(request, project, lang):
 
     words = get_paginator(request, words)
 
-    last_changes = Change.objects.last_changes(request.user).filter(
-        project=prj, dictionary__language=lang
-    )[:10]
+    last_changes = (
+        Change.objects.last_changes(request.user)
+        .filter(project=prj, language=lang)
+        .exclude(dictionary=None)[:10]
+    )
 
     return render(
         request,

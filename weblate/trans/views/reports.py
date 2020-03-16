@@ -43,7 +43,7 @@ def generate_credits(user, start_date, end_date, **kwargs):
         base = base.filter(author=user)
 
     for language in Language.objects.filter(**kwargs).distinct().iterator():
-        authors = base.filter(translation__language=language, **kwargs).authors_list(
+        authors = base.filter(language=language, **kwargs).authors_list(
             (start_date, end_date)
         )
         if not authors:

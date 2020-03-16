@@ -90,7 +90,7 @@ class ChangeQuerySet(models.QuerySet):
 
         # Filter by language
         if language is not None:
-            base = base.filter(translation__language=language)
+            base = base.filter(language=language)
 
         # Filter by language
         if user is not None:
@@ -384,6 +384,9 @@ class Change(models.Model, UserDisplayMixin):
     }
 
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
+    language = models.ForeignKey(
+        "lang.Language", null=True, on_delete=models.deletion.CASCADE
+    )
     project = models.ForeignKey("Project", null=True, on_delete=models.deletion.CASCADE)
     component = models.ForeignKey(
         "Component", null=True, on_delete=models.deletion.CASCADE
@@ -522,9 +525,11 @@ class Change(models.Model, UserDisplayMixin):
             self.translation = self.unit.translation
         if self.translation:
             self.component = self.translation.component
+            self.language = self.translation.language
         if self.component:
             self.project = self.component.project
         if self.dictionary:
             self.project = self.dictionary.project
+            self.language = self.dictionary.language
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))

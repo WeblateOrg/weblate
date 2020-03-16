@@ -170,11 +170,7 @@ class DictionaryAdmin(WeblateModelAdmin):
 class ChangeAdmin(WeblateModelAdmin):
     list_display = ["unit", "user", "timestamp"]
     date_hierarchy = "timestamp"
-    list_filter = [
-        "unit__translation__component",
-        "unit__translation__component__project",
-        "unit__translation__language",
-    ]
+    list_filter = ["component", "project", "language"]
     raw_id_fields = ("unit",)
 
 

@@ -73,9 +73,7 @@ def show_language(request, lang):
             messages.success(request, _("Language %s removed.") % obj)
             return redirect("languages")
 
-    last_changes = Change.objects.last_changes(request.user).filter(
-        translation__language=obj
-    )[:10]
+    last_changes = Change.objects.last_changes(request.user).filter(language=obj)[:10]
     projects = request.user.allowed_projects
     dicts = projects.filter(dictionary__language=obj).distinct()
     projects = projects.filter(component__translation__language=obj).distinct()

@@ -21,7 +21,6 @@ import csv
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -179,10 +178,7 @@ class ChangesView(ListView):
             result = result.filter(project=self.project)
 
         if self.language is not None:
-            result = result.filter(
-                Q(translation__language=self.language)
-                | Q(dictionary__language=self.language)
-            )
+            result = result.filter(language=self.language)
 
         if self.actions:
             result = result.filter(action__in=self.actions)
