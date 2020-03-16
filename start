@@ -116,6 +116,8 @@ if [ ! -f /app/data/secret ] ; then
     python3 -c "from django.utils.crypto import get_random_string; print(get_random_string(50))" > /app/data/secret
 fi
 
+>&2 echo "Secret is generated"
+
 # Migrate database to current version and collect static files
 if [ "x$1" = "xrunserver" ] ; then
 
