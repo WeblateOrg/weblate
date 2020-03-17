@@ -32,11 +32,6 @@ class WeblateConf(AppConf):
     AWS_SECRET_ACCESS_KEY = None
     AWS_REGION = None
 
-    # Microsoft Translator service, register at
-    # https://datamarket.azure.com/developer/applications/
-    MICROSOFT_ID = None
-    MICROSOFT_SECRET = None
-
     # Microsoft Conginite Services Translator, register at
     # https://portal.azure.com/
     MICROSOFT_COGNITIVE_KEY = None
