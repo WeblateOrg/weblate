@@ -898,6 +898,16 @@ API key for Google Translate API, you can register at https://cloud.google.com/t
 
    :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_MICROSOFT_BASE_URL
+
+MT_MICROSOFT_BASE_URL
+---------------------
+
+Region base url domain as defined in the `Base URLs section
+<https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_.
+
+Defaults to ``api.cognitive.microsofttranslator.com``.
+
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
 
 MT_MICROSOFT_COGNITIVE_KEY
@@ -915,7 +925,7 @@ Client key for Microsoft Cognitive Services Translator API.
 MT_MICROSOFT_REGION
 -------------------
 
-Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#multi-service-subscription>`_.
+Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
 
 .. setting:: MT_MYMEMORY_EMAIL
 

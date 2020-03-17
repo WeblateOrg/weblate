@@ -32,13 +32,11 @@ class WeblateConf(AppConf):
     AWS_SECRET_ACCESS_KEY = None
     AWS_REGION = None
 
-    # Microsoft Conginite Services Translator, register at
-    # https://portal.azure.com/
+    # Microsoft Conginite Services Translator
     MICROSOFT_COGNITIVE_KEY = None
+    MICROSOFT_BASE_URL = "api.cognitive.microsofttranslator.com"
 
-    # Microsoft Azure services region identification code see
-    # https://docs.microsoft.com/en-us/azure/cognitive-services/translator/
-    # reference/v3-0-reference#multi-service-subscription
+    # Microsoft Azure services region identification code
     MICROSOFT_REGION = None
 
     # MyMemory identification email, see

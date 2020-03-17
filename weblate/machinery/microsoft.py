@@ -24,9 +24,6 @@ from django.utils import timezone
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-BASE_URL = "https://api.cognitive.microsofttranslator.com"
-TRANSLATE_URL = BASE_URL + "/translate"
-LIST_URL = BASE_URL + "/languages?api-version=3.0"
 TOKEN_URL = (
     "https://{0}api.cognitive.microsoft.com/sts/v1.0/" "issueToken?Subscription-Key={1}"
 )
@@ -69,6 +66,10 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
             raise MissingConfiguration("Microsoft Translator requires credentials")
 
+    @staticmethod
+    def get_url(suffix):
+        return "https://{}/{}".format(settings.MT_MICROSOFT_BASE_URL, suffix)
+
     def is_token_expired(self):
         """Check whether token is about to expire."""
         return self._token_expiry <= timezone.now()
@@ -107,7 +108,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         'sr-Latn', 'sk', 'sl', 'es', 'sv', 'ty', 'th', 'to', 'tr', 'uk', 'ur', 'vi',
         'cy']
         """
-        response = self.request("get", LIST_URL)
+        response = self.request(
+            "get", self.get_url("languages"), params={"api-version": "3.0"}
+        )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
@@ -127,7 +130,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             "category": "general",
         }
         response = self.request(
-            "post", TRANSLATE_URL, params=args, json=[{"Text": text[:5000]}]
+            "post", self.get_url("translate"), params=args, json=[{"Text": text[:5000]}]
         )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
