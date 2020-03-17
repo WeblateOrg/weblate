@@ -55,6 +55,7 @@ def handle_task_failure(exception=None, **kwargs):
         skip_sentry=True,
         print_tb=True,
         logger=LOGGER,
+        level="error",
     )
 
 
