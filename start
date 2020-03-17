@@ -161,8 +161,9 @@ if [ "x$1" = "xrunserver" ] ; then
 
     rm -f /run/celery/beat.pid
 
-    ln -sf ${NGINX_ACCESS_LOG:-/dev/stdout} /var/log/nginx/access.log
-    ln -sf ${NGINX_ERROR_LOG:-/dev/stderr} /var/log/nginx/error.log
+# TODO: Put these back in so that we can see the nginx logs
+#    ln -sf ${NGINX_ACCESS_LOG:-/dev/stdout} /var/log/nginx/access.log
+#    ln -sf ${NGINX_ERROR_LOG:-/dev/stderr} /var/log/nginx/error.log
 
     #  Execute supervisor
     exec supervisord --nodaemon \
