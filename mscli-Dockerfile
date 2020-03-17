@@ -10,10 +10,6 @@ LABEL version=$VERSION
 # - the tty group for /dev/std* access
 RUN useradd --shell /bin/sh --user-group weblate --groups root,tty \
   && mkdir -p /home/weblate/.ssh \
-  && mkdir -p /run/uwsgi/app/weblate \
-  && chown -R weblate:weblate /run/uwsgi/app/weblate \
-  && mkdir -p /run/celery \
-  && chown -R weblate:weblate /run/celery \
   && touch /home/weblate/.ssh/authorized_keys \
   && chown -R weblate:weblate /home/weblate \
   && chmod 700 /home/weblate/.ssh
@@ -128,4 +124,4 @@ RUN chmod a+rx /app/bin/start
 EXPOSE 8080 4443
 USER 1000
 ENTRYPOINT ["/app/bin/start"]
-CMD ["runserver", "11000"]
+CMD ["runserver"]
