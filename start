@@ -149,23 +149,23 @@ if [ "x$1" = "xrunserver" ] ; then
         run_weblate changesite --set-name "${WEBLATE_ALLOWED_HOSTS%%,*}"
     fi
 
-    # # uswgi dir
-    # mkdir -p /run/uwsgi/app/weblate
+    # uswgi dir
+    mkdir -p /run/uwsgi/app/weblate
 
-    # # Celery pid, remove possible stale PID file
-    # mkdir -p /run/celery
+    # Celery pid, remove possible stale PID file
+    mkdir -p /run/celery
 
-    # rm -f /run/celery/beat.pid
+    rm -f /run/celery/beat.pid
 
-    # ln -sf ${NGINX_ACCESS_LOG:-/dev/stdout} /var/log/nginx/access.log
-    # ln -sf ${NGINX_ERROR_LOG:-/dev/stderr} /var/log/nginx/error.log
+    ln -sf ${NGINX_ACCESS_LOG:-/dev/stdout} /var/log/nginx/access.log
+    ln -sf ${NGINX_ERROR_LOG:-/dev/stderr} /var/log/nginx/error.log
 
-    # #  Execute supervisor
-    # exec supervisord --nodaemon \
-    #     --loglevel=${SUPERVISOR_LOGLEVEL:-info} \
-    #     --logfile_maxbytes=0 \
-    #     --logfile=${SUPERVISOR_LOGFILE:-/dev/null} \
-    #     --configuration=/etc/supervisor/supervisord.conf
+    #  Execute supervisor
+    exec supervisord --nodaemon \
+        --loglevel=${SUPERVISOR_LOGLEVEL:-info} \
+        --logfile_maxbytes=0 \
+        --logfile=${SUPERVISOR_LOGFILE:-/dev/null} \
+        --configuration=/etc/supervisor/supervisord.conf
 fi
 
 # Start the management command
