@@ -33,6 +33,7 @@ export PGSSLCERT="$POSTGRES_CLI_SSL_CRT"
 export PGSSLKEY="$POSTGRES_CLI_SSL_KEY"
 
 # Fix permissions on postgres certs
+chown -R weblate:weblate /postgres
 chmod 600 $POSTGRES_CLI_SSL_CA 2>/dev/null || true
 chmod 600 $POSTGRES_CLI_SSL_CRT 2>/dev/null || true
 chmod 600 $POSTGRES_CLI_SSL_KEY 2>/dev/null || true
