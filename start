@@ -29,11 +29,11 @@ fi
 export PGPASSWORD="$POSTGRES_PASSWORD"
 export PGSSLMODE="$POSTGRES_SSL_MODE"
 
-cp -r /etc/postgres /postgres
+cp -r /etc/weblate-postgres /postgres
 chown -R weblate:weblate /postgres
-chmod 600 /postgres/server-ca.pem
-chmod 600 /postgres/client-cert.pem
-chmod 600 /postgres/client-key.pem
+chmod 600 $POSTGRES_CLI_SSL_CA
+chmod 600 $POSTGRES_CLI_SSL_CRT
+chmod 600 $POSTGRES_CLI_SSL_KEY
 
 export PGSSLROOTCERT="$POSTGRES_CLI_SSL_CA"
 export PGSSLCERT="$POSTGRES_CLI_SSL_CRT"
