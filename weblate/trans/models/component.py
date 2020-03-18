@@ -782,6 +782,15 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                 }
             )
+        if "terminal prompts disabled" in error_text:
+            raise ValidationError(
+                {
+                    "repo": _(
+                        "The repository requires authentication, please specify "
+                        "credentials in the URL or use SSH access instead."
+                    )
+                }
+            )
         raise ValidationError(
             {"repo": _("Could not fetch the repository: %s") % error_text}
         )
