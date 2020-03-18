@@ -7,10 +7,6 @@ echo "Starting..."
 # Fails silently if the file doesn't exist yet.
 chmod 600 /app/data/ssh/id_rsa 2>/dev/null || true
 
-# Fix permissions on postgres certs
-chmod 600 /postgres/server-ca.pem 2>/dev/null || true
-chmod 600 /postgres/client-cert.pem 2>/dev/null || true
-chmod 600 /postgres/client-key.pem 2>/dev/null || true
 
 # For openshift, create an account in /etc/passwd
 # @see https://docs.okd.io/latest/creating_images/guidelines.html
@@ -35,6 +31,11 @@ export PGSSLMODE="$POSTGRES_SSL_MODE"
 export PGSSLROOTCERT="$POSTGRES_CLI_SSL_CA"
 export PGSSLCERT="$POSTGRES_CLI_SSL_CRT"
 export PGSSLKEY="$POSTGRES_CLI_SSL_KEY"
+
+# Fix permissions on postgres certs
+chmod 600 $POSTGRES_CLI_SSL_CA 2>/dev/null || true
+chmod 600 $POSTGRES_CLI_SSL_CRT 2>/dev/null || true
+chmod 600 $POSTGRES_CLI_SSL_KEY 2>/dev/null || true
 
 # Update the time zone
 zonefile="/usr/share/zoneinfo/$WEBLATE_TIME_ZONE"
