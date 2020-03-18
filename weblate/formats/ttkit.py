@@ -430,7 +430,9 @@ class PoMonoUnit(PoUnit):
         In some cases we have to use ID here to make all backends consistent.
         """
         # Monolingual PO files
-        return self.template.source or self.template.getcontext()
+        if self.template is not None:
+            return self.template.source or self.template.getcontext()
+        return super().context
 
     @cached_property
     def notes(self):
@@ -438,7 +440,9 @@ class PoMonoUnit(PoUnit):
         notes = super().notes
         if notes:
             result.append(notes)
-        if not self.template.source:
+        # Use unit context as note only in case source is present, otherwise
+        # it is used as a context (see above)
+        if self.template is not None and self.template.source:
             context = self.template.getcontext()
             if context:
                 result.append(context)
