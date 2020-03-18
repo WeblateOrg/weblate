@@ -7,6 +7,11 @@ echo "Starting..."
 # Fails silently if the file doesn't exist yet.
 chmod 600 /app/data/ssh/id_rsa 2>/dev/null || true
 
+# Fix permissions on postgres certs
+chmod 600 /postgres/server-ca.pem 2>/dev/null || true
+chmod 600 /postgres/client-cert.pem 2>/dev/null || true
+chmod 600 /postgres/client-key.pem 2>/dev/null || true
+
 # For openshift, create an account in /etc/passwd
 # @see https://docs.okd.io/latest/creating_images/guidelines.html
 if ! whoami &> /dev/null; then
