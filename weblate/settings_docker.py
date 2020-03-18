@@ -57,7 +57,12 @@ DATABASES = {
         # Set to empty string for default.
         "PORT": os.environ["POSTGRES_PORT"],
         # Customizations for databases.
-        "OPTIONS": {"sslmode": os.environ.get("POSTGRES_SSL_MODE", "prefer")},
+        "OPTIONS": {
+            "sslmode": os.environ.get("POSTGRES_SSL_MODE", "verify-ca"),
+            "sslrootcert": os.environ.get("POSTGRES_CLI_SSL_CA", "ca.crt"),
+            "sslcert": os.environ.get("POSTGRES_CLI_SSL_CRT", "client_cert_chain.crt"),
+            "sslkey":  os.environ.get("POSTGRES_CLI_SSL_KEY", "client_key.key")
+        }
     }
 }
 
