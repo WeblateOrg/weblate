@@ -27,6 +27,7 @@ from django.dispatch import receiver
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
+from weblate.trans.models.announcement import Announcement
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
@@ -38,7 +39,6 @@ from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
@@ -53,7 +53,7 @@ __all__ = [
     "Vote",
     "Change",
     "Dictionary",
-    "WhiteboardMessage",
+    "Announcement",
     "ComponentList",
     "WeblateConf",
     "ContributorAgreement",

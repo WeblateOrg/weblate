@@ -17,6 +17,7 @@ Not yet released.
 * Added support for several ``is:`` lookups in :doc:`user/search`.
 * Allow to make :ref:`check-same` avoid internal blacklist.
 * Improved comments extraction from monolingual po files.
+* Renamed whiteboard messages to announcements.
 
 Weblate 3.11.3
 --------------

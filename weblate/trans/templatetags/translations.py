@@ -39,12 +39,12 @@ from weblate.checks import CHECKS, highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
+    Announcement,
     Component,
     ContributorAgreement,
     Dictionary,
     Project,
     Translation,
-    WhiteboardMessage,
 )
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import get_state_css, split_plural
@@ -552,26 +552,26 @@ def get_location_links(profile, unit):
 
 
 @register.simple_tag(takes_context=True)
-def whiteboard_messages(context, project=None, component=None, language=None):
-    """Display whiteboard messages for given context."""
+def announcements(context, project=None, component=None, language=None):
+    """Display announcement messages for given context."""
     ret = []
-
-    whiteboards = WhiteboardMessage.objects.context_filter(project, component, language)
 
     user = context["user"]
 
-    for whiteboard in whiteboards:
+    for announcement in Announcement.objects.context_filter(
+        project, component, language
+    ):
         can_delete = user.has_perm(
-            "component.edit", whiteboard.component
-        ) or user.has_perm("project.edit", whiteboard.project)
+            "component.edit", announcement.component
+        ) or user.has_perm("project.edit", announcement.project)
 
         ret.append(
             render_to_string(
                 "message.html",
                 {
-                    "tags": " ".join((whiteboard.category, "whiteboard")),
-                    "message": whiteboard.render(),
-                    "whiteboard": whiteboard,
+                    "tags": " ".join((announcement.category, "announcement")),
+                    "message": announcement.render(),
+                    "announcement": announcement,
                     "can_delete": can_delete,
                 },
             )

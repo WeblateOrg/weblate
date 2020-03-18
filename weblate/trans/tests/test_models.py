@@ -32,12 +32,12 @@ from weblate.auth.models import Group, User
 from weblate.checks.models import Check
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
+    Announcement,
     AutoComponentList,
     Component,
     ComponentList,
     Project,
     Unit,
-    WhiteboardMessage,
 )
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
@@ -366,26 +366,26 @@ class UnitTest(ModelTestCase):
         self.assertEqual(unit.get_max_length(), 10000)
 
 
-class WhiteboardMessageTest(ModelTestCase):
-    """Test(s) for WhiteboardMessage model."""
+class AnnouncementTest(ModelTestCase):
+    """Test(s) for Announcement model."""
 
     def setUp(self):
         super().setUp()
-        WhiteboardMessage.objects.create(
+        Announcement.objects.create(
             language=Language.objects.get(code="cs"), message="test cs"
         )
-        WhiteboardMessage.objects.create(
+        Announcement.objects.create(
             language=Language.objects.get(code="de"), message="test de"
         )
-        WhiteboardMessage.objects.create(
+        Announcement.objects.create(
             project=self.component.project, message="test project"
         )
-        WhiteboardMessage.objects.create(
+        Announcement.objects.create(
             component=self.component,
             project=self.component.project,
             message="test component",
         )
-        WhiteboardMessage.objects.create(message="test global")
+        Announcement.objects.create(message="test global")
 
     def verify_filter(self, messages, count, message=None):
         """Verify whether messages have given count and first contains string."""
@@ -394,23 +394,23 @@ class WhiteboardMessageTest(ModelTestCase):
             self.assertEqual(messages[0].message, message)
 
     def test_contextfilter_global(self):
-        self.verify_filter(WhiteboardMessage.objects.context_filter(), 1, "test global")
+        self.verify_filter(Announcement.objects.context_filter(), 1, "test global")
 
     def test_contextfilter_project(self):
         self.verify_filter(
-            WhiteboardMessage.objects.context_filter(project=self.component.project),
+            Announcement.objects.context_filter(project=self.component.project),
             1,
             "test project",
         )
 
     def test_contextfilter_component(self):
         self.verify_filter(
-            WhiteboardMessage.objects.context_filter(component=self.component), 2
+            Announcement.objects.context_filter(component=self.component), 2
         )
 
     def test_contextfilter_translation(self):
         self.verify_filter(
-            WhiteboardMessage.objects.context_filter(
+            Announcement.objects.context_filter(
                 component=self.component, language=Language.objects.get(code="cs")
             ),
             3,
@@ -418,14 +418,14 @@ class WhiteboardMessageTest(ModelTestCase):
 
     def test_contextfilter_language(self):
         self.verify_filter(
-            WhiteboardMessage.objects.context_filter(
+            Announcement.objects.context_filter(
                 language=Language.objects.get(code="cs")
             ),
             1,
             "test cs",
         )
         self.verify_filter(
-            WhiteboardMessage.objects.context_filter(
+            Announcement.objects.context_filter(
                 language=Language.objects.get(code="de")
             ),
             1,

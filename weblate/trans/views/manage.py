@@ -25,13 +25,13 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.trans.forms import (
+    AnnouncementForm,
     ComponentMoveForm,
     ComponentRenameForm,
     DeleteForm,
     ProjectRenameForm,
-    WhiteboardForm,
 )
-from weblate.trans.models import Change, WhiteboardMessage
+from weblate.trans.models import Announcement, Change
 from weblate.trans.tasks import component_removal, project_removal
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
@@ -167,18 +167,18 @@ def rename_project(request, project):
 
 @login_required
 @require_POST
-def whiteboard_translation(request, project, component, lang):
+def announcement_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
 
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied()
 
-    form = WhiteboardForm(request.POST)
+    form = AnnouncementForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#whiteboard")
+        return redirect_param(obj, "#announcement")
 
-    WhiteboardMessage.objects.create(
+    Announcement.objects.create(
         project=obj.component.project,
         component=obj.component,
         language=obj.language,
@@ -190,51 +190,49 @@ def whiteboard_translation(request, project, component, lang):
 
 @login_required
 @require_POST
-def whiteboard_component(request, project, component):
+def announcement_component(request, project, component):
     obj = get_component(request, project, component)
 
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied()
 
-    form = WhiteboardForm(request.POST)
+    form = AnnouncementForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#whiteboard")
+        return redirect_param(obj, "#announcement")
 
-    WhiteboardMessage.objects.create(
-        project=obj.project, component=obj, **form.cleaned_data
-    )
+    Announcement.objects.create(project=obj.project, component=obj, **form.cleaned_data)
 
     return redirect(obj)
 
 
 @login_required
 @require_POST
-def whiteboard_project(request, project):
+def announcement_project(request, project):
     obj = get_project(request, project)
 
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied()
 
-    form = WhiteboardForm(request.POST)
+    form = AnnouncementForm(request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
-        return redirect_param(obj, "#whiteboard")
+        return redirect_param(obj, "#announcement")
 
-    WhiteboardMessage.objects.create(project=obj, **form.cleaned_data)
+    Announcement.objects.create(project=obj, **form.cleaned_data)
 
     return redirect(obj)
 
 
 @login_required
 @require_POST
-def whiteboard_delete(request, pk):
-    whiteboard = get_object_or_404(WhiteboardMessage, pk=pk)
+def announcement_delete(request, pk):
+    announcement = get_object_or_404(Announcement, pk=pk)
 
     if request.user.has_perm(
-        "component.edit", whiteboard.component
-    ) or request.user.has_perm("project.edit", whiteboard.project):
-        whiteboard.delete()
+        "component.edit", announcement.component
+    ) or request.user.has_perm("project.edit", announcement.project):
+        announcement.delete()
 
     return JsonResponse({"responseStatus": 200})
 

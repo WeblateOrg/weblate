@@ -86,7 +86,7 @@ GLOBAL_PERMISSIONS = (
     ("group.edit", _("Manage groups (on the entire platform)")),
     ("user.add", _("Add users (on the entire platform)")),
     ("user.edit", _("Manage users (on the entire platform)")),
-    ("whiteboard.edit", _("Manage whiteboard (on the entire platform)")),
+    ("announcement.edit", _("Manage announcements (on the entire platform)")),
     ("memory.edit", _("Manage translation memory (on the entire platform)")),
 )
 

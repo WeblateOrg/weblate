@@ -98,11 +98,11 @@
         <li role="separator" class="divider"></li>
         {% endif %}
         <li><a href="{% url 'memory' project=object.slug %}">{% trans "Translation memory" %}</a></li>
-        {% if whiteboard_form %}
+        {% if announcement_form %}
             {% if request.path != project_url %}
-                <li><a href="{% url 'project' project=object.slug %}#whiteboard">{% trans "Add a project message" %}</a></li>
+                <li><a href="{% url 'project' project=object.slug %}#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
             {% else %}
-                <li><a href="#whiteboard" data-toggle="tab">{% trans "Add a project message" %}</a></li>
+                <li><a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
             {% endif %}
         {% endif %}
         {% if user_can_manage_acl %}

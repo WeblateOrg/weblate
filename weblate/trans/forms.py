@@ -53,14 +53,7 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import (
-    Change,
-    Component,
-    Label,
-    Project,
-    Unit,
-    WhiteboardMessage,
-)
+from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import is_repo_link, sort_choices
 from weblate.trans.validators import validate_check_flags
@@ -1896,11 +1889,11 @@ class DeleteForm(forms.Form):
             )
 
 
-class WhiteboardForm(forms.ModelForm):
+class AnnouncementForm(forms.ModelForm):
     """Component base form."""
 
     class Meta:
-        model = WhiteboardMessage
+        model = Announcement
         fields = ["message", "category", "expiry"]
         widgets = {"expiry": WeblateDateInput()}
 

@@ -31,6 +31,7 @@ from django.views.decorators.cache import never_cache
 from weblate.formats.exporters import list_exporters
 from weblate.lang.models import Language
 from weblate.trans.forms import (
+    AnnouncementForm,
     AutoForm,
     BulkEditForm,
     ComponentMoveForm,
@@ -42,7 +43,6 @@ from weblate.trans.forms import (
     ReplaceForm,
     ReportsForm,
     SearchForm,
-    WhiteboardForm,
     get_new_language_form,
     get_upload_form,
 )
@@ -144,7 +144,9 @@ def show_project(request, project):
             "last_changes_url": urlencode({"project": obj.slug}),
             "language_stats": language_stats,
             "search_form": SearchForm(request.user),
-            "whiteboard_form": optional_form(WhiteboardForm, user, "project.edit", obj),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
+            ),
             "delete_form": optional_form(
                 DeleteForm, user, "project.edit", obj, obj=obj
             ),
@@ -209,8 +211,8 @@ def show_component(request, project, component):
                 project=obj.project,
                 auto_id="id_bulk_%s",
             ),
-            "whiteboard_form": optional_form(
-                WhiteboardForm, user, "component.edit", obj
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "component.edit", obj
             ),
             "delete_form": optional_form(
                 DeleteForm, user, "component.edit", obj, obj=obj
@@ -276,8 +278,8 @@ def show_translation(request, project, component, lang):
             "new_unit_form": NewUnitForm(
                 user, initial={"value": Unit(translation=obj, id_hash=-1)}
             ),
-            "whiteboard_form": optional_form(
-                WhiteboardForm, user, "component.edit", obj
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "component.edit", obj
             ),
             "delete_form": optional_form(
                 DeleteForm, user, "translation.delete", obj, obj=obj

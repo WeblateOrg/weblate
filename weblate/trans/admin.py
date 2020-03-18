@@ -174,7 +174,7 @@ class ChangeAdmin(WeblateModelAdmin):
     raw_id_fields = ("unit",)
 
 
-class WhiteboardMessageAdmin(WeblateModelAdmin):
+class AnnouncementAdmin(WeblateModelAdmin):
     list_display = ["message", "project", "component", "language"]
     prepopulated_fields = {}
     search_fields = ["message"]
