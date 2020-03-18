@@ -894,11 +894,37 @@ API key for the DeepL API, you can register at https://www.deepl.com/pro.html
 MT_GOOGLE_KEY
 -------------
 
-API key for the Google Translate API, you can register at https://cloud.google.com/translate/docs
+API key for Google Translate API v2, you can register at https://cloud.google.com/translate/docs
 
 .. seealso::
 
    :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_MT_GOOGLE_CREDENTIALS
+
+MT_GOOGLE_CREDENTIALS
+---------------------
+
+API v3 json credentials file obtained in Google cloud console. Credentials are per service-account affiliated with certain project.
+See https://cloud.google.com/docs/authentication/getting-started
+
+.. setting:: MT_GOOGLE_PROJECT
+
+MT_GOOGLE_PROJECT
+-----------------
+
+Google cloud `project id` with activated Translation service having billing activated.
+See https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project
+
+.. setting:: MT_GOOGLE_LOCATION
+
+MT_GOOGLE_LOCATION
+------------------
+
+Your Google Cloud Application Engine may be specific to a location.
+Change accordingly if default ``global`` fallback does not work for you.
+
+See https://cloud.google.com/appengine/docs/locations
 
 .. setting:: MT_MICROSOFT_BASE_URL
 
@@ -911,6 +937,10 @@ Region base url domain as defined in the `Base URLs section
 Defaults to ``api.cognitive.microsofttranslator.com``.
 
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
+
+.. seealso::
+
+    :ref:`google-translate-advanced`
 
 MT_MICROSOFT_COGNITIVE_KEY
 --------------------------
