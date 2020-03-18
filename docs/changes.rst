@@ -16,6 +16,7 @@ Not yet released.
 * Reimplemented translation memory backend.
 * Added support for several ``is:`` lookups in :doc:`user/search`.
 * Allow to make :ref:`check-same` avoid internal blacklist.
+* Improved comments extraction from monolingual po files.
 
 Weblate 3.11.3
 --------------

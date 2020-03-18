@@ -408,17 +408,6 @@ class PoUnit(TTKitUnit):
             self.unit.prev_msgctxt = []
 
     @cached_property
-    def context(self):
-        """Return context of message.
-
-        In some cases we have to use ID here to make all backends consistent.
-        """
-        if self.template is not None:
-            # Monolingual PO files
-            return self.template.source or self.template.getcontext()
-        return super().context
-
-    @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
         flags = Flags(*self.mainunit.typecomments)
@@ -431,6 +420,29 @@ class PoUnit(TTKitUnit):
         if not self.is_fuzzy():
             return ""
         return get_string(self.unit.prev_source)
+
+
+class PoMonoUnit(PoUnit):
+    @cached_property
+    def context(self):
+        """Return context of message.
+
+        In some cases we have to use ID here to make all backends consistent.
+        """
+        # Monolingual PO files
+        return self.template.source or self.template.getcontext()
+
+    @cached_property
+    def notes(self):
+        result = []
+        notes = super().notes
+        if notes:
+            result.append(notes)
+        if not self.template.source:
+            context = self.template.getcontext()
+            if context:
+                result.append(context)
+        return " ".join(notes)
 
 
 class XliffUnit(TTKitUnit):
@@ -787,6 +799,7 @@ class PoMonoFormat(PoFormat):
         "Content-Type: text/plain; charset=UTF-8\\n"
         'Content-Transfer-Encoding: 8bit"'
     )
+    unit_class = PoMonoUnit
 
 
 class TSFormat(TTKitFormat):
