@@ -27,6 +27,9 @@ fi
 # Export variables for psql use
 export PGPASSWORD="$POSTGRES_PASSWORD"
 export PGSSLMODE="$POSTGRES_SSL_MODE"
+export PGSSLROOTCERT="$POSTGRES_CLI_SSL_CA"
+export PGSSLCERT="$POSTGRES_CLI_SSL_CRT"
+export PGSSLKEY="$POSTGRES_CLI_SSL_KEY"
 
 # Update the time zone
 zonefile="/usr/share/zoneinfo/$WEBLATE_TIME_ZONE"
