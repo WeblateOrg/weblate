@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Whiteboard model."""
+"""Announcement model."""
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -31,9 +31,9 @@ from django.utils.translation import gettext_lazy
 from weblate.lang.models import Language
 
 
-class WhiteboardManager(models.Manager):
+class AnnouncementManager(models.Manager):
     def context_filter(self, project=None, component=None, language=None):
-        """Filter whiteboard messages by context."""
+        """Filter announcements by context."""
         base = self.filter(Q(expiry__isnull=True) | Q(expiry__gte=timezone.now()))
 
         if language and project is None and component is None:
@@ -60,7 +60,7 @@ class WhiteboardManager(models.Manager):
         return base.filter(project=None, component=None, language=None)
 
 
-class WhiteboardMessage(models.Model):
+class Announcement(models.Model):
     message = models.TextField(verbose_name=gettext_lazy("Message"))
     message_html = models.BooleanField(  # noqa: DJ02
         verbose_name=gettext_lazy("Render as HTML"),
@@ -117,12 +117,12 @@ class WhiteboardMessage(models.Model):
         ),
     )
 
-    objects = WhiteboardManager()
+    objects = AnnouncementManager()
 
     class Meta:
         app_label = "trans"
-        verbose_name = gettext_lazy("Whiteboard message")
-        verbose_name_plural = gettext_lazy("Whiteboard messages")
+        verbose_name = gettext_lazy("Announcement")
+        verbose_name_plural = gettext_lazy("Announcements")
 
     def __str__(self):
         return self.message
@@ -143,7 +143,7 @@ class WhiteboardMessage(models.Model):
                 action=Change.ACTION_MESSAGE,
                 project=self.project,
                 component=self.component,
-                whiteboard=self,
+                announcement=self,
                 target=self.message,
             )
 

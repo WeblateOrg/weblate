@@ -39,7 +39,7 @@ from PIL import Image
 from weblate.accounts.models import Profile
 from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import ComponentList, Project, WhiteboardMessage
+from weblate.trans.models import Announcement, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -604,17 +604,17 @@ class DashboardTest(ViewTestCase):
         response = self.client.get(reverse("projects"))
         self.assertContains(response, "Test")
 
-    def test_home_with_whiteboard(self):
-        msg = WhiteboardMessage(message="test_message")
+    def test_home_with_announcement(self):
+        msg = Announcement(message="test_message")
         msg.save()
 
         response = self.client.get(reverse("home"))
-        self.assertContains(response, "whiteboard")
+        self.assertContains(response, "announcement")
         self.assertContains(response, "test_message")
 
-    def test_home_without_whiteboard(self):
+    def test_home_without_announcement(self):
         response = self.client.get(reverse("home"))
-        self.assertNotContains(response, "whiteboard")
+        self.assertNotContains(response, "announcement")
 
     def test_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")

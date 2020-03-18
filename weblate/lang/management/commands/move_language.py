@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 continue
             translation.language = target
             translation.save()
-        source.whiteboardmessage_set.update(language=target)
+        source.announcement_set.update(language=target)
 
         for profile in source.profile_set.iterator():
             profile.languages.remove(source)

@@ -20,7 +20,7 @@
     admin/config
     admin/sample
     admin/management
-    admin/whiteboard
+    admin/announcements
     admin/componentlists
     admin/optionals
     admin/customize

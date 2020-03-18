@@ -24,7 +24,7 @@ import shutil
 
 from django.urls import reverse
 
-from weblate.trans.models import Component, Project, WhiteboardMessage
+from weblate.trans.models import Announcement, Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.data import data_dir
 
@@ -140,8 +140,8 @@ class RenameTest(ViewTestCase):
             self.assertContains(response, "/projects/xxxx/")
 
 
-class WhiteboardTest(ViewTestCase):
-    data = {"message": "Whiteboard testing", "category": "warning"}
+class AnnouncementTest(ViewTestCase):
+    data = {"message": "Announcement testing", "category": "warning"}
 
     def perform_test(self, url):
         response = self.client.post(url, self.data, follow=True)
@@ -153,24 +153,24 @@ class WhiteboardTest(ViewTestCase):
     def test_translation(self):
         kwargs = {"lang": "cs"}
         kwargs.update(self.kw_component)
-        url = reverse("whiteboard_translation", kwargs=kwargs)
+        url = reverse("announcement_translation", kwargs=kwargs)
         self.perform_test(url)
 
     def test_component(self):
-        url = reverse("whiteboard_component", kwargs=self.kw_component)
+        url = reverse("announcement_component", kwargs=self.kw_component)
         self.perform_test(url)
 
     def test_project(self):
-        url = reverse("whiteboard_project", kwargs=self.kw_project)
+        url = reverse("announcement_project", kwargs=self.kw_project)
         self.perform_test(url)
 
     def test_delete(self):
         self.test_project()
-        message = WhiteboardMessage.objects.all()[0]
-        self.client.post(reverse("whiteboard-delete", kwargs={"pk": message.pk}))
-        self.assertEqual(WhiteboardMessage.objects.count(), 0)
+        message = Announcement.objects.all()[0]
+        self.client.post(reverse("announcement-delete", kwargs={"pk": message.pk}))
+        self.assertEqual(Announcement.objects.count(), 0)
 
     def test_delete_deny(self):
-        message = WhiteboardMessage.objects.create(message="test")
-        self.client.post(reverse("whiteboard-delete", kwargs={"pk": message.pk}))
-        self.assertEqual(WhiteboardMessage.objects.count(), 1)
+        message = Announcement.objects.create(message="test")
+        self.client.post(reverse("announcement-delete", kwargs={"pk": message.pk}))
+        self.assertEqual(Announcement.objects.count(), 1)

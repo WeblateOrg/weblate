@@ -296,7 +296,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
-        (ACTION_MESSAGE, gettext_lazy("New whiteboard message")),
+        (ACTION_MESSAGE, gettext_lazy("New announcement")),
         # Translators: Name of event in the history
         (ACTION_ALERT, gettext_lazy("New alert")),
         # Translators: Name of event in the history
@@ -403,8 +403,8 @@ class Change(models.Model, UserDisplayMixin):
     suggestion = models.ForeignKey(
         "Suggestion", null=True, on_delete=models.deletion.SET_NULL
     )
-    whiteboard = models.ForeignKey(
-        "WhiteboardMessage", null=True, on_delete=models.deletion.SET_NULL
+    announcement = models.ForeignKey(
+        "Announcement", null=True, on_delete=models.deletion.SET_NULL
     )
     alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
     user = models.ForeignKey(

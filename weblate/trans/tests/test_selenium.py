@@ -573,11 +573,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("All components")
 
-        # Whiteboard
+        # Announcement
         with self.wait_for_page_load():
             self.click("Weblate translations")
         with self.wait_for_page_load():
-            self.click("Whiteboard messages")
+            self.click("Announcements")
         with self.wait_for_page_load():
             self.click(self.driver.find_element_by_class_name("addlink"))
         Select(self.driver.find_element_by_id("id_project")).select_by_visible_text(
@@ -585,7 +585,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         element = self.driver.find_element_by_id("id_message")
         element.send_keys("Translations will be used only if they reach 60%.")
-        self.screenshot("whiteboard.png")
+        self.screenshot("announcement.png")
         with self.wait_for_page_load():
             element.submit()
         with self.wait_for_page_load():
@@ -598,14 +598,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             element.submit()
 
-        # Whiteboard display
+        # Announcement display
         self.view_site()
         self.click("Tools")
         with self.wait_for_page_load():
             self.click("All projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.screenshot("whiteboard-project.png")
+        self.click("Manage")
+        self.click("Post announcement")
+        self.screenshot("announcement-project.png")
 
         with self.wait_for_page_load():
             self.click("Dashboard")
@@ -614,7 +616,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("All languages")
         with self.wait_for_page_load():
             self.click("Czech")
-        self.screenshot("whiteboard-language.png")
+        self.screenshot("announcement-language.png")
 
     def test_weblate(self):
         user = self.open_admin()

@@ -49,7 +49,7 @@ from weblate.accounts.tasks import (
 )
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.models import Change, Comment, Suggestion, WhiteboardMessage
+from weblate.trans.models import Announcement, Change, Comment, Suggestion
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
@@ -266,14 +266,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.validate_notifications(1, "[Weblate] New translation component Test/Test")
 
-    def test_notify_new_whiteboard(self):
-        WhiteboardMessage.objects.create(component=self.component, message="Hello word")
-        self.validate_notifications(1, "[Weblate] New whiteboard message on Test")
+    def test_notify_new_announcement(self):
+        Announcement.objects.create(component=self.component, message="Hello word")
+        self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox = []
-        WhiteboardMessage.objects.create(message="Hello global word")
+        Announcement.objects.create(message="Hello global word")
         self.validate_notifications(
             User.objects.filter(is_active=True).count(),
-            "[Weblate] New whiteboard message at Weblate",
+            "[Weblate] New announcement at Weblate",
         )
 
     def test_notify_alert(self):

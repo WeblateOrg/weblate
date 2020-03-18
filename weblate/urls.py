@@ -576,26 +576,26 @@ real_patterns = [
         weblate.trans.views.manage.component_progress_js,
         name="component_progress_js",
     ),
-    # Whiteboard
+    # Announcements
     url(
-        r"^whiteboard/" + PROJECT + "$",
-        weblate.trans.views.manage.whiteboard_project,
-        name="whiteboard_project",
+        r"^announcement/" + PROJECT + "$",
+        weblate.trans.views.manage.announcement_project,
+        name="announcement_project",
     ),
     url(
-        r"^whiteboard/" + COMPONENT + "$",
-        weblate.trans.views.manage.whiteboard_component,
-        name="whiteboard_component",
+        r"^announcement/" + COMPONENT + "$",
+        weblate.trans.views.manage.announcement_component,
+        name="announcement_component",
     ),
     url(
-        r"^whiteboard/" + TRANSLATION + "$",
-        weblate.trans.views.manage.whiteboard_translation,
-        name="whiteboard_translation",
+        r"^announcement/" + TRANSLATION + "$",
+        weblate.trans.views.manage.announcement_translation,
+        name="announcement_translation",
     ),
     url(
-        r"^js/whiteboard/(?P<pk>[0-9]+)/delete/$",
-        weblate.trans.views.manage.whiteboard_delete,
-        name="whiteboard-delete",
+        r"^js/announcement/(?P<pk>[0-9]+)/delete/$",
+        weblate.trans.views.manage.announcement_delete,
+        name="announcement-delete",
     ),
     # VCS manipulation - remove
     url(

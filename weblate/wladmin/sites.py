@@ -48,6 +48,7 @@ from weblate.memory.models import Memory
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
+    AnnouncementAdmin,
     ChangeAdmin,
     CommentAdmin,
     ComponentAdmin,
@@ -58,9 +59,9 @@ from weblate.trans.admin import (
     SuggestionAdmin,
     TranslationAdmin,
     UnitAdmin,
-    WhiteboardMessageAdmin,
 )
 from weblate.trans.models import (
+    Announcement,
     Change,
     Comment,
     Component,
@@ -71,7 +72,6 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
     Unit,
-    WhiteboardMessage,
 )
 from weblate.utils import messages
 from weblate.wladmin.models import ConfigurationError
@@ -115,7 +115,7 @@ class WeblateAdminSite(AdminSite):
         # Translations
         self.register(Project, ProjectAdmin)
         self.register(Component, ComponentAdmin)
-        self.register(WhiteboardMessage, WhiteboardMessageAdmin)
+        self.register(Announcement, AnnouncementAdmin)
         self.register(ComponentList, ComponentListAdmin)
         self.register(ContributorAgreement, ContributorAgreementAdmin)
 

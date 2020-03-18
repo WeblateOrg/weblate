@@ -255,7 +255,7 @@ class Notification:
                 "dictionary",
                 "comment",
                 "suggestion",
-                "whiteboard",
+                "announcement",
                 "alert",
                 "user",
                 "target",
@@ -575,11 +575,11 @@ class NewComponentNotificaton(Notification):
 
 
 @register_notification
-class NewWhiteboardMessageNotificaton(Notification):
+class NewAnnouncementNotificaton(Notification):
     actions = (Change.ACTION_MESSAGE,)
-    verbose = _("New whiteboard message")
-    template_name = "new_whiteboard"
-    required_attr = "whiteboard"
+    verbose = _("New announcement")
+    template_name = "new_announcement"
+    required_attr = "announcement"
 
 
 @register_notification
