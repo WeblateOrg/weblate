@@ -217,5 +217,5 @@ class SameCheckTest(CheckTestCase):
         self.do_test(True, ("Who is RMS?", "Who is RMS?", ""))
 
     def test_same_placeholders(self):
-        self.do_test(False, ("DOMAIN", "DOMAIN", "placeholders:DOMAIN"))
-        self.do_test(True, ("PLACHOLDER", "PLACEHOLDER", "placeholders:DOMAIN"))
+        self.do_test(True, ("%location%", "%location%", ""))
+        self.do_test(False, ("%location%", "%location%.", "placeholders:%location%"))
