@@ -140,6 +140,17 @@ def test_word(word):
     return len(word) <= 2 or word in SAME_BLACKLIST or word in LANGUAGES
 
 
+def strip_placeholders(msg, unit):
+
+    return re.sub(
+        "|".join(
+            re.escape(param) for param in unit.all_flags.get_value("placeholders")
+        ),
+        "",
+        msg,
+    )
+
+
 class SameCheck(TargetCheck):
     """Check for not translated entries."""
 
@@ -168,6 +179,10 @@ class SameCheck(TargetCheck):
             return True
         # Strip format strings
         stripped = strip_string(source, unit.all_flags)
+
+        # Strip placeholder strings
+        if "placeholders" in unit.all_flags:
+            stripped = strip_placeholders(stripped, unit)
 
         # Ignore strings which don't contain any string to translate
         # or just single letter (usually unit or something like that)
