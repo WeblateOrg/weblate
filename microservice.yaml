@@ -42,8 +42,8 @@ microservice:
         secretKey: ""
         envKey: ""
       - name: weblate-admin-password
-        mountPath: /etc/weblate/admin-password
-        secretKey: ""
+        mountPath: ""
+        secretKey: weblate-pass.txt
         envKey: WEBLATE_ADMIN_PASSWORD
       podEnv:
       - key: GOOGLE_APPLICATION_CREDENTIALS
@@ -122,8 +122,8 @@ microservice:
         secretKey: ""
         envKey: ""
       - name: weblate-admin-password
-        mountPath: /etc/weblate/admin-password
-        secretKey: ""
+        mountPath: ""
+        secretKey: weblate-pass.txt
         envKey: WEBLATE_ADMIN_PASSWORD
       podEnv:
       - key: GOOGLE_APPLICATION_CREDENTIALS
