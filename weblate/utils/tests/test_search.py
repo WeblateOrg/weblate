@@ -275,3 +275,15 @@ class QueryParserTest(TestCase):
         self.assert_query(
             "%(count)s word", parse_query("'%(count)s' 'word'"),
         )
+
+    @expectedFailure
+    def test_specialchars(self):
+        self.assert_query(
+            "to %{_topdir}",
+            (Q(source__search="to") | Q(target__search="to") | Q(context__search="to"))
+            & (
+                Q(source__search="%{_topdir}")
+                | Q(target__search="%{_topdir}")
+                | Q(context__search="%{_topdir}")
+            ),
+        )
