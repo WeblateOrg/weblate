@@ -85,6 +85,7 @@ spec:
           value: /etc/weblate/iam-keys/public-key-id
         - name: VENDASTA_SERVICE_ACCOUNT
           value: weblate-prod@iam.vendasta.com
+        # POSTGRES
         - name: POSTGRES_USER
           value: postgres
         - name: POSTGRES_PASSWORD
@@ -103,18 +104,50 @@ spec:
           value: /postgres/client-cert.pem
         - name: POSTGRES_CLI_SSL_KEY
           value: /postgres/client-key.pem
+        # REDIS
         - name: REDIS_HOST
           value: "10.44.36.108"
         - name: REDIS_PORT
           value: "6379"
+        # ADMIN
         - name: WEBLATE_ADMIN_NAME
           value: Weblate Admin
         - name: WEBLATE_ADMIN_EMAIL
           value: weblate@example.com
+        - name: WEBLATE_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: weblate-admin-password
+              key: admin-password
+        # EMAIL
         - name: WEBLATE_SERVER_EMAIL
           value: weblate@vendasta.com
         - name: WEBLATE_DEFAULT_FROM_EMAIL
-          value: weblate@vendasta.com
+          value: noreply@vendasta.com
+        - name: WEBLATE_EMAIL_HOST
+          value: smtp.gmail.com
+        - name: WEBLATE_EMAIL_PORT
+          value: "587"
+        - name: WEBLATE_EMAIL_USE_SSL
+          value: "0"
+        - name: WEBLATE_EMAIL_USE_TLS
+          value: "1"
+        - name: WEBLATE_EMAIL_HOST_USER
+          value: bperreault@vendasta.com
+        - name: WEBLATE_EMAIL_HOST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: weblate-email-host-password
+              key: email-password
+        # OTHER
+        - name: WEBLATE_SITE_TITLE
+          value: "Vendasta Weblate | Web Translate"
+        - name: WEBLATE_REGISTRATION_OPEN
+          value: "0"
+        - name: WEBLATE_TIME_ZONE
+          value: America/Regina
+        - name: WEBLATE_DEBUG
+          value: "0"
         image: gcr.io/repcore-prod/weblate:e421071d-076e-4529-bb81-dab30627b0d3
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -191,4 +224,7 @@ spec:
       - name: weblate-admin-password
         secret:
           secretName: weblate-admin-password
+      - name: weblate-email-host-password
+        secret:
+          secretName: weblate-email-host-password
 status: {}
