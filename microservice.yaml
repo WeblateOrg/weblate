@@ -44,7 +44,7 @@ microservice:
       - name: weblate-admin-password
         mountPath: /etc/weblate/admin-password
         secretKey: ""
-        envKey: ""
+        envKey: WEBLATE_ADMIN_PASSWORD
       podEnv:
       - key: GOOGLE_APPLICATION_CREDENTIALS
         value: /etc/weblate/keys/key.json
@@ -74,8 +74,6 @@ microservice:
         value: "Weblate Admin"
       - key: WEBLATE_ADMIN_EMAIL
         value: weblate@vendasta.com
-      - key: WEBLATE_ADMIN_PASSWORD
-        value: /etc/weblate/admin-password/weblate-pass.txt
       - key: WEBLATE_SERVER_EMAIL
         value: weblate@vendasta.com
       - key: WEBLATE_DEFAULT_FROM_EMAIL
@@ -126,7 +124,7 @@ microservice:
       - name: weblate-admin-password
         mountPath: /etc/weblate/admin-password
         secretKey: ""
-        envKey: ""
+        envKey: WEBLATE_ADMIN_PASSWORD
       podEnv:
       - key: GOOGLE_APPLICATION_CREDENTIALS
         value: /etc/weblate/keys/key.json
@@ -156,8 +154,6 @@ microservice:
         value: Weblate Admin
       - key: WEBLATE_ADMIN_EMAIL
         value: weblate@vendasta.com
-      - key: WEBLATE_ADMIN_PASSWORD
-        value: /etc/weblate/admin-password/weblate-pass.txt
       - key: WEBLATE_SERVER_EMAIL
         value: weblate@vendasta.com
       - key: WEBLATE_DEFAULT_FROM_EMAIL
