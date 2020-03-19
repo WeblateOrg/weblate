@@ -1,0 +1,191 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "56"
+  creationTimestamp: null
+  generation: 1
+  labels:
+    app: weblate
+    environment: prod
+    zone: us-central1-c
+  name: weblate
+  selfLink: /apis/extensions/v1beta1/namespaces/weblate-prod/deployments/weblate
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: weblate
+      environment: prod
+      traffic-enabled: "true"
+      us-central1-c: "true"
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: weblate
+        environment: prod
+        traffic-enabled: "true"
+        us-central1-c: "true"
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: failure-domain.beta.kubernetes.io/zone
+                operator: In
+                values:
+                - us-central1-c
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      containers:
+      - env:
+        - name: GKE_PODNAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: GKE_NODENAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: GKE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: GKE_PODIP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: ENVIRONMENT
+          value: prod
+        - name: DOCKER_IMAGE
+          value: gcr.io/repcore-prod/weblate:e421071d-076e-4529-bb81-dab30627b0d3
+        - name: DOCKER_TAG
+          value: e421071d-076e-4529-bb81-dab30627b0d3
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /etc/weblate/keys/key.json
+        - name: SERVICE_ACCOUNT
+          value: weblate-prod@repcore-prod.iam.gserviceaccount.com
+        - name: VENDASTA_APPLICATION_CREDENTIALS
+          value: /etc/weblate/iam-keys/vendasta-service-account.key
+        - name: VENDASTA_PUBLIC_KEY_ID
+          value: /etc/weblate/iam-keys/public-key-id
+        - name: VENDASTA_SERVICE_ACCOUNT
+          value: weblate-prod@iam.vendasta.com
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: AMvIFzuMEIaetyrD
+        - name: POSTGRES_HOST
+          value: "10.33.49.3"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DATABASE
+          value: weblate
+        - name: POSTGRES_SSL_MODE
+          value: verify-ca
+        - name: POSTGRES_CLI_SSL_CA
+          value: /postgres/server-ca.pem
+        - name: POSTGRES_CLI_SSL_CRT
+          value: /postgres/client-cert.pem
+        - name: POSTGRES_CLI_SSL_KEY
+          value: /postgres/client-key.pem
+        - name: REDIS_HOST
+          value: "10.44.36.108"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: WEBLATE_ADMIN_NAME
+          value: Weblate Admin
+        - name: WEBLATE_ADMIN_EMAIL
+          value: weblate@example.com
+        - name: WEBLATE_SERVER_EMAIL
+          value: weblate@vendasta.com
+        - name: WEBLATE_DEFAULT_FROM_EMAIL
+          value: weblate@vendasta.com
+        image: gcr.io/repcore-prod/weblate:e421071d-076e-4529-bb81-dab30627b0d3
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz/
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: weblate
+        ports:
+        - containerPort: 8080
+          name: weblate
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz/
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/weblate/keys
+          name: weblate-key
+        - mountPath: /etc/weblate/iam-keys
+          name: weblate-iam-key
+        - mountPath: /app/data
+          name: weblate-data
+        - mountPath: /postgres
+          name: weblate-sql-key
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: vendasta-internal
+        secret:
+          defaultMode: 420
+          secretName: vendasta-internal-secret
+      - name: wildcard-apigateway-co
+        secret:
+          defaultMode: 420
+          secretName: wildcard-apigateway-co
+      - name: weblate-key
+        secret:
+          defaultMode: 420
+          secretName: weblate-key
+      - name: weblate-iam-key
+        secret:
+          defaultMode: 420
+          secretName: weblate-iam-key
+      - name: weblate-data
+        persistentVolumeClaim:
+          claimName: weblate-data
+      - name: weblate-sql-key
+        secret:
+          defaultMode: 384
+          secretName: weblate-sql-key
+status: {}

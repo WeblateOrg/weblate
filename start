@@ -28,6 +28,9 @@ fi
 export PGPASSWORD="$POSTGRES_PASSWORD"
 export PGSSLMODE="$POSTGRES_SSL_MODE"
 
+# PSQL expects the secrets to only have user permissions, and not group/world permissions.
+# For some reason, mounting the secrets with the permission mode doesn't change them.
+# Manually copy them and change the permissions.
 cp $POSTGRES_CLI_SSL_CA $HOME
 cp $POSTGRES_CLI_SSL_CRT $HOME
 cp $POSTGRES_CLI_SSL_KEY $HOME
