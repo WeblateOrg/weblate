@@ -12,7 +12,7 @@ RUN useradd --shell /bin/sh --user-group weblate --groups root,tty \
   && mkdir -p /home/weblate/.ssh \
   && touch /home/weblate/.ssh/authorized_keys \
   && chown -R weblate:weblate /home/weblate \
-  && chmod 700 /home/weblate/.ssh
+  && chmod 700 /home/weblate/.ssh \
   && mkdir -p /home/weblate/postgres \
   && chown -R weblate:weblate /home/weblate/postgres
 
