@@ -13,6 +13,8 @@ RUN useradd --shell /bin/sh --user-group weblate --groups root,tty \
   && touch /home/weblate/.ssh/authorized_keys \
   && chown -R weblate:weblate /home/weblate \
   && chmod 700 /home/weblate/.ssh
+  && mkdir -p /home/weblate/postgres \
+  && chown -R weblate:weblate /home/weblate/postgres \
 
 ENV HOME=/home/weblate
 
