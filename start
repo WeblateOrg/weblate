@@ -40,6 +40,10 @@ export PGSSLROOTCERT="$POSTGRES_CLI_SSL_CA"
 export PGSSLCERT="$POSTGRES_CLI_SSL_CRT"
 export PGSSLKEY="$POSTGRES_CLI_SSL_KEY"
 
+chmod 0600 $POSTGRES_CLI_SSL_CA
+chmod 0600 $POSTGRES_CLI_SSL_CRT
+chmod 0600 $POSTGRES_CLI_SSL_KEY
+
 # Update the time zone
 zonefile="/usr/share/zoneinfo/$WEBLATE_TIME_ZONE"
 if [ -n "$WEBLATE_TIME_ZONE" -a -f "$zonefile" ] ; then
