@@ -1010,7 +1010,7 @@ def social_complete(request, backend):
     if "authid" in request.GET and not request.session.session_key:
         try:
             session_key, ip_address = loads(
-                request.GET["authid"], max_age=300, salt="weblate.authid"
+                request.GET["authid"], max_age=600, salt="weblate.authid"
             )
         except (BadSignature, SignatureExpired):
             return auth_redirect_token()
