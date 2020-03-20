@@ -900,7 +900,7 @@ API key for Google Translate API v2, you can register at https://cloud.google.co
 
    :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_MT_GOOGLE_CREDENTIALS
+.. setting:: MT_GOOGLE_CREDENTIALS
 
 MT_GOOGLE_CREDENTIALS
 ---------------------

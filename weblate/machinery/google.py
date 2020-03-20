@@ -123,7 +123,9 @@ class GoogleTranslationV3(MachineTranslation):
             settings.MT_GOOGLE_CREDENTIALS
         )
         self.client = TranslationServiceClient(credentials=credentials)
-        self.parent = self.client.location_path(settings.MT_GOOGLE_PROJECT, "global")
+        self.parent = self.client.location_path(
+            settings.MT_GOOGLE_PROJECT, settings.MT_GOOGLE_LOCATION
+        )
 
     def download_languages(self):
         """List of supported languages."""
