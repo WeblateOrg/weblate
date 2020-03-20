@@ -144,7 +144,7 @@ Google Translate api v3
 Machine translation service provided by Google Cloud services.
 
 This services differs from the former one by having another mean of authentication.
-To enable service, add ``weblate.machinery.google.GoogleTranslationAdvanced`` to
+To enable service, add ``weblate.machinery.google.GoogleTranslationV3`` to
 :setting:`MT_SERVICES` and set
 
  - :setting:`MT_GOOGLE_CREDENTIALS`

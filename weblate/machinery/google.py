@@ -103,7 +103,7 @@ class GoogleTranslation(MachineTranslation):
         return super().get_error_message(exc)
 
 
-class GoogleTranslationAdvanced(MachineTranslation):
+class GoogleTranslationV3(MachineTranslation):
     """Google Translate API v3 machine translation support."""
 
     name = "Google Translate Advanced"

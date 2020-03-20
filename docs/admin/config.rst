@@ -942,10 +942,6 @@ Defaults to ``api.cognitive.microsofttranslator.com``.
 
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
 
-.. seealso::
-
-    :ref:`google-translate-advanced`
-
 MT_MICROSOFT_COGNITIVE_KEY
 --------------------------
 
