@@ -136,7 +136,7 @@ To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` to
     :setting:`MT_GOOGLE_KEY`,
     `Google translate documentation <https://cloud.google.com/translate/docs>`_
 
-.. _google-translate-api3
+.. _google-translate-api3:
 
 Google Translate api v3
 ----------------------------------
