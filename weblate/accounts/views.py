@@ -1013,9 +1013,9 @@ def social_complete(request, backend):
                 request.GET["authid"], max_age=600, salt="weblate.authid"
             )
         except (BadSignature, SignatureExpired):
-            return auth_redirect_token()
+            return auth_redirect_token(request)
         if ip_address != get_ip_address(request):
-            return auth_redirect_token()
+            return auth_redirect_token(request)
         engine = import_module(settings.SESSION_ENGINE)
         request.session = engine.SessionStore(session_key)
 
