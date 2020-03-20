@@ -129,7 +129,11 @@ class ApertiumAPYTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from Apertium."""
-        args = {"langpair": "{0}|{1}".format(source, language), "q": text}
+        args = {
+            "langpair": "{0}|{1}".format(source, language),
+            "q": text,
+            "markUnknown": "no",
+        }
         response = self.request_status(
             "get", "{0}/translate".format(self.url), params=args
         )
