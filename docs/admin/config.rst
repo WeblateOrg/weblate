@@ -913,7 +913,7 @@ See https://cloud.google.com/docs/authentication/getting-started
 MT_GOOGLE_PROJECT
 -----------------
 
-Google cloud `project id` with activated Translation service having billing activated.
+API v3 Google cloud `project id` with activated Translation service having billing activated.
 See https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project
 
 .. setting:: MT_GOOGLE_LOCATION
@@ -921,10 +921,14 @@ See https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creatin
 MT_GOOGLE_LOCATION
 ------------------
 
-Your Google Cloud Application Engine may be specific to a location.
+API v3 Google Cloud Application Engine may be specific to a location.
 Change accordingly if default ``global`` fallback does not work for you.
 
 See https://cloud.google.com/appengine/docs/locations
+
+.. seealso::
+
+   :ref:`google-translate-api3`
 
 .. setting:: MT_MICROSOFT_BASE_URL
 
