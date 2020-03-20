@@ -78,7 +78,7 @@ memories. It can be used to download, wipe or import translation memory.
 
 .. hint::
 
-Translation memory in JSON can be imported into Weblate, TMX is provided for
+    Translation memory in JSON can be imported into Weblate, TMX is provided for
 interoperability with other tools.
 
 .. image:: /images/memory.png
