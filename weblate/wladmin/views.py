@@ -20,6 +20,7 @@
 
 from django.core.checks import run_checks
 from django.core.mail import send_mail
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -27,7 +28,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
-from weblate.trans.models import Alert, Component
+from weblate.trans.models import Alert, Component, Project
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
@@ -251,6 +252,9 @@ def alerts(request):
     context = {
         "alerts": Alert.objects.order_by("name").prefetch_related(
             "component", "component__project"
+        ),
+        "no_components": Project.objects.annotate(Count("component")).filter(
+            component__count=0
         ),
         "menu_items": MENU,
         "menu_page": "alerts",
