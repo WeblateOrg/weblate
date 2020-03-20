@@ -29,7 +29,7 @@ cross-referenced with your preferred languages.
 
 .. hint::
 
-You can switch to different views using the navigation tabs.
+    You can switch to different views using the navigation tabs.
 
 .. image:: /images/dashboard-dropdown.png
 
