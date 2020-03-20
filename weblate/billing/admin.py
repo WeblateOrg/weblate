@@ -35,6 +35,7 @@ class PlanAdmin(WeblateModelAdmin):
         "display_limit_projects",
     )
     ordering = ["price"]
+    prepopulated_fields = {"slug": ("name",)}
 
 
 def format_user(obj):

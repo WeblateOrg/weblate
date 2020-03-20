@@ -53,6 +53,7 @@ class PlanQuerySet(models.QuerySet):
 
 class Plan(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     price = models.IntegerField(default=0)
     yearly_price = models.IntegerField(default=0)
     limit_strings = models.IntegerField(default=0)
