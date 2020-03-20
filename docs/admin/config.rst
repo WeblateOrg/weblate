@@ -818,7 +818,7 @@ List of enabled machine translation services to use.
 .. note::
 
     Many of the services need additional configuration like API keys, please check
-    their documentation for more details.
+    their documentation ref: `machine` for more details.
 
 .. code-block:: python
 
