@@ -106,7 +106,7 @@ class GoogleTranslation(MachineTranslation):
 class GoogleTranslationV3(MachineTranslation):
     """Google Translate API v3 machine translation support."""
 
-    name = "Google Translate Advanced"
+    name = "Google Translate API v3"
     max_score = 90
 
     def __init__(self):
