@@ -22,8 +22,8 @@ from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-# Weblate as a CAT tool should use v1 API
-DEEPL_API = "https://api.deepl.com/v1/translate"
+# New API keys only work with v2 API
+DEEPL_API = "https://api.deepl.com/v2/translate"
 
 
 class DeepLTranslation(MachineTranslation):
