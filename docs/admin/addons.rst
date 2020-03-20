@@ -93,7 +93,7 @@ Bulk edit
 
 .. versionadded:: 3.11
 
-Mass edit flags, labels or state for strings.
+Bulk edit flags, labels or state for strings.
 
 Automating the labeling of new strings can be useful (start out with search query ``NOT
 has:label`` and add desired labels till all strings are properly labeled).
