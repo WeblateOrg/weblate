@@ -905,7 +905,8 @@ API key for Google Translate API v2, you can register at https://cloud.google.co
 MT_GOOGLE_CREDENTIALS
 ---------------------
 
-API v3 json credentials file obtained in Google cloud console. Credentials are per service-account affiliated with certain project.
+API v3 json credentials file obtained in Google cloud console. Please provide full OS path.
+Credentials are per service-account affiliated with certain project.
 See https://cloud.google.com/docs/authentication/getting-started
 
 .. setting:: MT_GOOGLE_PROJECT
