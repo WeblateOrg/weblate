@@ -279,7 +279,7 @@ class EditPoMonoTest(EditTest):
                     "new-unit",
                     kwargs={"project": "test", "component": "test", "lang": "en"},
                 ),
-                {"key": key, "value_0": "Source string"},
+                {"key": key, "value_0": "Source string" * 100000},
                 follow=True,
             )
 
