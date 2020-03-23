@@ -6,8 +6,12 @@ from django.db import migrations
 def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        schema_editor.execute("CREATE INDEX unit_source_index ON trans_unit(source)")
-        schema_editor.execute("CREATE INDEX unit_context_index ON trans_unit(context)")
+        schema_editor.execute(
+            "CREATE INDEX unit_source_index ON trans_unit USING HASH (source)"
+        )
+        schema_editor.execute(
+            "CREATE INDEX unit_context_index ON trans_unit USING HASH (context)"
+        )
     elif vendor == "mysql":
         schema_editor.execute(
             "CREATE INDEX unit_source_index ON trans_unit(source(255))"

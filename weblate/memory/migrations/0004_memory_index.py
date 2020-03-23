@@ -11,7 +11,13 @@ def create_index(apps, schema_editor):
             "USING GIN (to_tsvector('english', source))"
         )
         schema_editor.execute(
-            "CREATE INDEX memory_lookup_index ON memory_memory(source, target, origin)"
+            "CREATE INDEX memory_source_index ON memory_memory USING HASH (source)"
+        )
+        schema_editor.execute(
+            "CREATE INDEX memory_target_index ON memory_memory USING HASH (target)"
+        )
+        schema_editor.execute(
+            "CREATE INDEX memory_origin_index ON memory_memory USING HASH (origin)"
         )
     elif vendor == "mysql":
         schema_editor.execute(
@@ -29,7 +35,9 @@ def drop_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         schema_editor.execute("DROP INDEX memory_source_fulltext")
-        schema_editor.execute("DROP INDEX memory_lookup_index")
+        schema_editor.execute("DROP INDEX memory_source_index")
+        schema_editor.execute("DROP INDEX memory_target_index")
+        schema_editor.execute("DROP INDEX memory_origin_index")
     elif vendor == "mysql":
         schema_editor.execute(
             "ALTER TABLE memory_memory DROP INDEX memory_source_fulltext"
