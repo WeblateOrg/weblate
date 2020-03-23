@@ -467,5 +467,6 @@ def update_invoice_bill(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=Billing.projects.through)
-def change_componentlist(sender, instance, **kwargs):
+@disable_for_loaddata
+def change_billing_projects(sender, instance, **kwargs):
     instance.check_limits()

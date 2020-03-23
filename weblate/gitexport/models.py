@@ -51,6 +51,7 @@ def get_export_url(component):
 
 
 @receiver(pre_save, sender=Component)
+@disable_for_loaddata
 def save_component(sender, instance, **kwargs):
     if not instance.is_repo_link and instance.vcs in SUPPORTED_VCS:
         instance.git_export = get_export_url(instance)

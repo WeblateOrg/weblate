@@ -189,6 +189,7 @@ def user_commit_pending(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
+@disable_for_loaddata
 def change_componentlist(sender, instance, **kwargs):
     instance.stats.invalidate()
 
