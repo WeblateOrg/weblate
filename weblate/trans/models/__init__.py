@@ -116,6 +116,7 @@ def update_source(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
+@disable_for_loaddata
 def change_labels(sender, instance, **kwargs):
     """Update unit labels."""
     if not instance.translation.is_source:
