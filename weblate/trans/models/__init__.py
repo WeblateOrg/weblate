@@ -102,7 +102,12 @@ def update_source(sender, instance, **kwargs):
         translation__component=instance.translation.component, id_hash=instance.id_hash
     )
     # Propagate attributes
-    units.update(extra_flags=instance.extra_flags, extra_context=instance.extra_context)
+    units.exclude(extra_context=instance.extra_context).update(
+        extra_context=instance.extra_context
+    )
+    units.exclude(extra_flags=instance.extra_flags).update(
+        extra_flags=instance.extra_flags
+    )
     # Run checks, update state and priority if flags changed
     if (
         instance.old_unit.extra_flags != instance.extra_flags
