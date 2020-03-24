@@ -18,7 +18,8 @@ tab, selecting :guilabel:`Activity`.
 More reports are accessible on the :guilabel:`Insights`
 tab, selecting :guilabel:`Translation reports`.
 
-The activity of the currently logged-in user can be seen by clicking on :guilabel:`Logged in as ...` from the usr menu on the top right.
+The activity of the currently signed in user can be seen by clicking on
+:guilabel:`Profile` from the user menu on the top right.
 
 Source strings checks
 ---------------------
