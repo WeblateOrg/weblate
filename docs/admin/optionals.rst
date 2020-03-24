@@ -31,7 +31,7 @@ repositories are properly exported:
 
 .. code-block:: sh
 
-    ./manage.py migrate
+    weblate migrate
 
 Usage
 +++++
@@ -81,7 +81,7 @@ should run the database migration:
 
 .. code-block:: sh
 
-    ./manage.py migrate
+    weblate migrate
 
 Usage
 +++++
@@ -159,7 +159,7 @@ should run the database migration:
 
 .. code-block:: sh
 
-    ./manage.py migrate
+    weblate migrate
 
 Now you should edit the legal documents to match your service. You can
 find them in the :file:`weblate/legal/templates/legal/` folder.

@@ -157,7 +157,7 @@ delete such entries manually using management shell (see :ref:`invoke-manage`):
 
 .. code-block:: console
 
-   ./manage.py shell
+   weblate shell
    >>> from weblate.auth.models import User
    >>> User.objects.get(username='anonymous').delete()
 
@@ -234,7 +234,7 @@ Restoring manual backup
 
    .. code-block:: sh
 
-         ./manage.py updategit --all
+         weblate updategit --all
 
 Moving a Weblate installation
 ------------------------------

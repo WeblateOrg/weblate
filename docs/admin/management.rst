@@ -99,7 +99,7 @@ Example:
 
 .. code-block:: sh
 
-    ./manage.py --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
+    weblate --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
 
 
 auto_translate
@@ -146,7 +146,7 @@ Example:
 
 .. code-block:: sh
 
-    ./manage.py --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
+    weblate --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
 
 .. seealso::
 
@@ -455,7 +455,7 @@ separate folder with translations of each chapter:
 
 .. code-block:: sh
 
-    ./manage.py import_project \
+    weblate import_project \
         debian-handbook \
         git://anonscm.debian.org/debian-handbook/debian-handbook.git \
         squeeze/master \
@@ -467,7 +467,7 @@ folder:
 
 .. code-block:: sh
 
-    ./manage.py import_project \
+    weblate import_project \
         --file-format=properties \
         --base-file-template=web-app/tgol-web-app/src/main/resources/i18n/%s-I18N.properties \
         tanaguru \
@@ -481,7 +481,7 @@ language out of filename like
 
 .. code-block:: sh
 
-    ./manage.py import_project \
+    weblate import_project \
         tails \
         git://git.tails.boum.org/tails master \
         'wiki/src/security/(?P<component>.*)\.(?P<language>[^.]*)\.po$'
@@ -525,7 +525,7 @@ You can dump users from existing Django installation using:
 
 .. code-block:: sh
 
-    ./manage.py dumpdata auth.User > users.json
+    weblate dumpdata auth.User > users.json
 
 install_addon
 -------------
@@ -555,7 +555,7 @@ For example installing :ref:`addon-weblate.gettext.customize` to all components:
 
 .. code-block:: shell
 
-   ./manage.py install_addon --addon weblate.gettext.customize --config '{"width": -1}' --update --all
+   weblate install_addon --addon weblate.gettext.customize --config '{"width": -1}' --update --all
 
 .. seealso::
 
@@ -662,7 +662,7 @@ Example:
 
 .. code-block:: sh
 
-   ./manage.py move_language cze cs
+   weblate move_language cze cs
 
 After moving the content, you should review if there is nothing left (this is
 subject to race conditions when somebody updates the repository meanwhile) and

@@ -35,39 +35,39 @@ work, but is not as well tested as single version upgrades.
 
    .. code-block:: sh
 
-        ./manage.py migrate --noinput
+        weblate migrate --noinput
 
 3. Collect updated static files (mostly javascript and CSS):
 
    .. code-block:: sh
 
-        ./manage.py collectstatic --noinput
+        weblate collectstatic --noinput
 
 4. Update language definitions (this is not necessary, but heavily recommended):
 
    .. code-block:: sh
 
-        ./manage.py setuplang
+        weblate setuplang
 
 5. Optionally upgrade default set of privileges definitions (you might want to
    add new permissions manually if you have heavily tweaked access control):
 
    .. code-block:: sh
 
-        ./manage.py setupgroups
+        weblate setupgroups
 
 6. If you are running version from Git, you should also regenerate locale files
    every time you are upgrading. You can do this by invoking:
 
    .. code-block:: sh
 
-        ./manage.py compilemessages
+        weblate compilemessages
 
 7. Verify that your setup is sane (see also :ref:`production`):
 
    .. code-block:: sh
 
-        ./manage.py check --deploy
+        weblate check --deploy
 
 8. Restart celery worker (see :ref:`celery`).
 
@@ -356,16 +356,16 @@ Run migrations and drop any data inserted into the tables:
 
 .. code-block:: sh
 
-   python manage.py migrate --database=postgresql
-   python manage.py sqlflush --database=postgresql | psql
+   weblate migrate --database=postgresql
+   weblate sqlflush --database=postgresql | weblate dbshell --database=postgresql
 
 Dump legacy database and import to PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: sh
 
-   python manage.py dumpdata --all --output weblate.json
-   python manage.py loaddata weblate.json --database=postgresql
+   weblate dumpdata --all --output weblate.json
+   weblate loaddata weblate.json --database=postgresql
 
 Adjust configuration
 ~~~~~~~~~~~~~~~~~~~~
