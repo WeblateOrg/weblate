@@ -427,6 +427,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         self.log_info("committing pending changes (%s)", reason)
 
+        try:
+            store = self.store
+        except FileParseError as error:
+            report_error(error, prefix="Failed to parse file on commit")
+            self.log_error("skipping commit due to error: %s", error)
+            return False
+
         with self.component.repository.lock, transaction.atomic():
             while True:
                 # Find oldest change break loop if there is none left
@@ -445,7 +452,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 author_name = author.get_author_name()
 
                 # Flush pending units for this author
-                self.update_units(author_name, author.id)
+                self.update_units(store, author_name, author.id)
 
                 # Commit changes
                 self.git_commit(
@@ -540,7 +547,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         return True
 
     @transaction.atomic
-    def update_units(self, author_name, author_id):
+    def update_units(self, store, author_name, author_id):
         """Update backend file and unit."""
         updated = False
         for unit in self.unit_set.filter(pending=True).select_for_update():
@@ -550,7 +557,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 continue
 
             try:
-                pounit, add = self.store.find_unit(unit.context, unit.source)
+                pounit, add = store.find_unit(unit.context, unit.source)
             except UnitNotFound as error:
                 report_error(error, prefix="String disappeared")
                 pounit = None
@@ -579,7 +586,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # This has be done prior setting tatget as some formats
             # generate content based on target language.
             if add:
-                self.store.add_unit(pounit.unit)
+                store.add_unit(pounit.unit)
 
             # Store translations
             if unit.is_plural():
@@ -635,10 +642,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             headers["report_msgid_bugs_to"] = report_source_bugs
 
         # Update genric headers
-        self.store.update_header(**headers)
+        store.update_header(**headers)
 
         # save translation changes
-        self.store.save()
+        store.save()
 
     def get_source_checks(self):
         """Return list of failing source checks on current component."""
