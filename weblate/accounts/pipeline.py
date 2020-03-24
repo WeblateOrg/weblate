@@ -148,7 +148,7 @@ def password_reset(
             user,
             strategy.request,
             "reset",
-            method=force_str(get_auth_name(backend.name)),
+            method=backend.name,
             name=social.uid,
             password=user.password,
         )
@@ -353,11 +353,7 @@ def notify_connect(
         else:
             action = "login"
         AuditLog.objects.create(
-            user,
-            strategy.request,
-            action,
-            method=force_str(get_auth_name(backend.name)),
-            name=social.uid,
+            user, strategy.request, action, method=backend.name, name=social.uid,
         )
 
 
@@ -452,6 +448,6 @@ def notify_disconnect(strategy, backend, entries, user, **kwargs):
             user,
             strategy.request,
             "auth-disconnect",
-            method=get_auth_name(backend.name),
+            method=backend.name,
             name=social.uid,
         )

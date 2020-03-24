@@ -192,10 +192,13 @@ class AuditLog(models.Model):
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
 
     def get_params(self):
+        from weblate.accounts.templatetags.authnames import get_auth_name
+
         result = {}
         result.update(self.params)
         if "method" in result:
-            result["method"] = gettext(result["method"])
+            # The gettext is here for legacy entries which contained method name
+            result["method"] = gettext(get_auth_name(result["method"]))
         return result
 
     def get_message(self):

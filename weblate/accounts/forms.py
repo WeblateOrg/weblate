@@ -515,7 +515,7 @@ class LoginForm(forms.Form):
                         user,
                         self.request,
                         "failed-auth",
-                        method="Password",
+                        method="password",
                         name=username,
                     )
                     audit.check_rate_limit(self.request)
@@ -528,7 +528,7 @@ class LoginForm(forms.Form):
                     self.error_messages["inactive"], code="inactive"
                 )
             AuditLog.objects.create(
-                self.user_cache, self.request, "login", method="Password", name=username
+                self.user_cache, self.request, "login", method="password", name=username
             )
             reset_rate_limit("login", self.request)
         return self.cleaned_data
