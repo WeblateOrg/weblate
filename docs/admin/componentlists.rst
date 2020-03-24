@@ -20,8 +20,8 @@ URL.
 
 .. versionchanged:: 2.13
 
-Change dashboard settings for anonymous users from the admin interface,
-altering whatdashboard is presented to unauthenticated users.
+    Change dashboard settings for anonymous users from the admin interface,
+    altering whatdashboard is presented to unauthenticated users.
 
 Automatic component lists
 -------------------------
