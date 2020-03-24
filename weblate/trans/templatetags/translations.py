@@ -156,7 +156,7 @@ def fmt_search(value, search_match, match):
     return value
 
 
-@register.inclusion_tag("format-translation.html")
+@register.inclusion_tag("snippets/format-translation.html")
 def format_translation(
     value,
     language,
