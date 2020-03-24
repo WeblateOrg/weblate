@@ -719,9 +719,9 @@ A list of URLs you want to require logging into. (Besides the standard rules bui
 
 .. hint::
 
-This allows you to password protect a whole installation using:
+    This allows you to password protect a whole installation using:
 
-.. code-block:: python
+    .. code-block:: python
 
     LOGIN_REQUIRED_URLS = (
         r'/(.*)$',
