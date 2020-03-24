@@ -674,7 +674,7 @@ Prevents further translation of a component.
 
 .. hint::
 
-Useful in case you want to do some maintenance on the underlying repository.
+    Useful in case you want to do some maintenance on the underlying repository.
 
 You can either define which project or component to update (for example
 ``weblate/master``), or use ``--all`` to update all existing components.
