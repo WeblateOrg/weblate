@@ -65,8 +65,12 @@ jobs:
       run: pip install -r docs/requirements.txt
     - name: Sphinx linkcheck
       run: |
-        echo "::add-matcher::.github/matchers/sphinx.json"
         ./ci/run-docs linkcheck
+    - name: Sphinx linkcheck collect
+      if: always()
+      run: |
+        echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
+        cat docs/_build/linkcheck/output.txt
         echo "::remove-matcher owner=sphinx::"
     - uses: actions/upload-artifact@v1
       if: always()
