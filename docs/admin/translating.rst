@@ -3,7 +3,6 @@ Translation process
 
 .. _voting:
 
-.. versionadded:: 1.6
 
 Suggestion voting
 -----------------
