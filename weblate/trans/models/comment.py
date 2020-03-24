@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -38,13 +37,13 @@ class CommentManager(models.Manager):
             action=Change.ACTION_COMMENT,
             user=user,
             author=user,
-            details={'comment': text},
+            details={"comment": text},
         )
 
 
 class CommentQuerySet(models.QuerySet):
     def order(self):
-        return self.order_by('timestamp')
+        return self.order_by("timestamp")
 
 
 class Comment(models.Model, UserDisplayMixin):
@@ -62,9 +61,9 @@ class Comment(models.Model, UserDisplayMixin):
     objects = CommentManager.from_queryset(CommentQuerySet)()
 
     class Meta:
-        app_label = 'trans'
+        app_label = "trans"
 
     def __str__(self):
-        return 'comment for {0} by {1}'.format(
-            self.unit, self.user.username if self.user else 'unknown'
+        return "comment for {0} by {1}".format(
+            self.unit, self.user.username if self.user else "unknown"
         )

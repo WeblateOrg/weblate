@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -26,16 +25,17 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 class PlanAdmin(WeblateModelAdmin):
     list_display = (
-        'name',
-        'price',
-        'limit_strings',
-        'limit_languages',
-        'limit_projects',
-        'display_limit_strings',
-        'display_limit_languages',
-        'display_limit_projects',
+        "name",
+        "price",
+        "limit_strings",
+        "limit_languages",
+        "limit_projects",
+        "display_limit_strings",
+        "display_limit_languages",
+        "display_limit_projects",
     )
-    ordering = ['price']
+    ordering = ["price"]
+    prepopulated_fields = {"slug": ("name",)}
 
 
 def format_user(obj):
@@ -44,48 +44,48 @@ def format_user(obj):
 
 class BillingAdmin(WeblateModelAdmin):
     list_display = (
-        'list_projects',
-        'list_owners',
-        'plan',
-        'state',
-        'removal',
-        'expiry',
-        'count_changes_1m',
-        'count_changes_1q',
-        'count_changes_1y',
-        'unit_count',
-        'display_projects',
-        'display_strings',
-        'display_words',
-        'display_languages',
-        'in_limits',
-        'in_display_limits',
-        'paid',
-        'last_invoice',
+        "list_projects",
+        "list_owners",
+        "plan",
+        "state",
+        "removal",
+        "expiry",
+        "count_changes_1m",
+        "count_changes_1q",
+        "count_changes_1y",
+        "unit_count",
+        "display_projects",
+        "display_strings",
+        "display_words",
+        "display_languages",
+        "in_limits",
+        "in_display_limits",
+        "paid",
+        "last_invoice",
     )
-    list_filter = ('plan', 'state', 'paid', 'in_limits')
-    search_fields = ('projects__name',)
-    filter_horizontal = ('projects', 'owners')
+    list_filter = ("plan", "state", "paid", "in_limits")
+    search_fields = ("projects__name",)
+    filter_horizontal = ("projects", "owners")
 
     def list_projects(self, obj):
-        return ','.join(obj.projects.values_list('name', flat=True))
+        return ",".join(obj.projects.values_list("name", flat=True))
 
-    list_projects.short_description = _('Projects')
+    list_projects.short_description = _("Projects")
 
     def list_owners(self, obj):
-        return ','.join(obj.owners.values_list('full_name', flat=True))
+        return ",".join(obj.owners.values_list("full_name", flat=True))
 
-    list_owners.short_description = _('Owners')
+    list_owners.short_description = _("Owners")
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields['owners'].label_from_instance = format_user
+        form.base_fields["owners"].label_from_instance = format_user
         return form
 
 
 class InvoiceAdmin(WeblateModelAdmin):
-    list_display = ('billing', 'start', 'end', 'amount', 'currency', 'ref')
-    list_filter = ('currency', 'billing')
-    search_fields = ('billing__projects__name', 'ref', 'note')
-    date_hierarchy = 'end'
-    ordering = ['billing', '-start']
+    list_display = ("billing", "start", "end", "amount", "currency", "ref")
+    list_filter = ("currency", "billing")
+    search_fields = ("billing__projects__name", "ref", "note")
+    date_hierarchy = "end"
+    ordering = ["billing", "-start"]

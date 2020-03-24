@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -37,43 +36,43 @@ from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
 
 # Email address to ignore
-EMAIL_RE = re.compile(r'[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z0-9-]{2,}', re.IGNORECASE)
+EMAIL_RE = re.compile(r"[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z0-9-]{2,}", re.IGNORECASE)
 
 URL_RE = re.compile(
-    r'(?:http|ftp)s?://'  # http:// or https://
-    r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+'
-    r'(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
-    r'localhost|'  # localhost...
-    r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
-    r'(?::\d+)?'  # optional port
-    r'(?:/?|[/?]\S+)$',
+    r"(?:http|ftp)s?://"  # http:// or https://
+    r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+"
+    r"(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"  # domain...
+    r"localhost|"  # localhost...
+    r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"  # ...or ip
+    r"(?::\d+)?"  # optional port
+    r"(?:/?|[/?]\S+)$",
     re.IGNORECASE,
 )
 
-HASH_RE = re.compile(r'#[A-Za-z0-9_-]*')
+HASH_RE = re.compile(r"#[A-Za-z0-9_-]*")
 
 DOMAIN_RE = re.compile(
-    r'(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+'
-    r'(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)',
+    r"(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+"
+    r"(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)",
     re.IGNORECASE,
 )
 
-PATH_RE = re.compile(r'(^|[ ])(/[a-zA-Z0-9=:?._-]+)+')
+PATH_RE = re.compile(r"(^|[ ])(/[a-zA-Z0-9=:?._-]+)+")
 
-TEMPLATE_RE = re.compile(r'{[a-z_-]+}|@[A-Z_]@', re.IGNORECASE)
+TEMPLATE_RE = re.compile(r"{[a-z_-]+}|@[A-Z_]@", re.IGNORECASE)
 
-RST_MATCH = re.compile(r'(?::(ref|config:option|file|guilabel):`[^`]+`|``[^`]+``)')
+RST_MATCH = re.compile(r"(?::(ref|config:option|file|guilabel):`[^`]+`|``[^`]+``)")
 
 SPLIT_RE = re.compile(
-    r'(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|'
+    r"(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|"
     + r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
     re.IGNORECASE,
 )
 
-EMOJI_RE = re.compile('[\U00002600-\U000027BF]|[\U0001f000-\U0001fffd]')
+EMOJI_RE = re.compile("[\U00002600-\U000027BF]|[\U0001f000-\U0001fffd]")
 
 # Docbook tags to ignore
-DB_TAGS = ('screen', 'indexterm', 'programlisting')
+DB_TAGS = ("screen", "indexterm", "programlisting")
 
 
 def strip_format(msg, flags):
@@ -81,25 +80,25 @@ def strip_format(msg, flags):
 
     These are quite often not changed by translators.
     """
-    if 'python-format' in flags:
+    if "python-format" in flags:
         regex = PYTHON_PRINTF_MATCH
-    elif 'python-brace-format' in flags:
+    elif "python-brace-format" in flags:
         regex = PYTHON_BRACE_MATCH
-    elif 'php-format' in flags:
+    elif "php-format" in flags:
         regex = PHP_PRINTF_MATCH
-    elif 'c-format' in flags:
+    elif "c-format" in flags:
         regex = C_PRINTF_MATCH
-    elif 'qt-format' in flags:
+    elif "qt-format" in flags:
         regex = QT_FORMAT_MATCH
-    elif 'qt-plural-format' in flags:
+    elif "qt-plural-format" in flags:
         regex = QT_PLURAL_MATCH
-    elif 'ruby-format' in flags:
+    elif "ruby-format" in flags:
         regex = RUBY_FORMAT_MATCH
-    elif 'rst-text' in flags:
+    elif "rst-text" in flags:
         regex = RST_MATCH
     else:
         return msg
-    stripped = regex.sub('', msg)
+    stripped = regex.sub("", msg)
     return stripped
 
 
@@ -112,25 +111,25 @@ def strip_string(msg, flags):
     stripped = strip_format(stripped, flags)
 
     # Remove emojis
-    stripped = EMOJI_RE.sub(' ', stripped)
+    stripped = EMOJI_RE.sub(" ", stripped)
 
     # Remove email addresses
-    stripped = EMAIL_RE.sub('', stripped)
+    stripped = EMAIL_RE.sub("", stripped)
 
     # Strip full URLs
-    stripped = URL_RE.sub('', stripped)
+    stripped = URL_RE.sub("", stripped)
 
     # Strip hash tags / IRC channels
-    stripped = HASH_RE.sub('', stripped)
+    stripped = HASH_RE.sub("", stripped)
 
     # Strip domain names/URLs
-    stripped = DOMAIN_RE.sub('', stripped)
+    stripped = DOMAIN_RE.sub("", stripped)
 
     # Strip file/URL paths
-    stripped = PATH_RE.sub('', stripped)
+    stripped = PATH_RE.sub("", stripped)
 
     # Strip template markup
-    stripped = TEMPLATE_RE.sub('', stripped)
+    stripped = TEMPLATE_RE.sub("", stripped)
 
     # Cleanup trailing/leading chars
     return stripped
@@ -141,18 +140,31 @@ def test_word(word):
     return len(word) <= 2 or word in SAME_BLACKLIST or word in LANGUAGES
 
 
+def strip_placeholders(msg, unit):
+
+    return re.sub(
+        "|".join(
+            re.escape(param) for param in unit.all_flags.get_value("placeholders")
+        ),
+        "",
+        msg,
+    )
+
+
 class SameCheck(TargetCheck):
     """Check for not translated entries."""
 
-    check_id = 'same'
-    name = _('Unchanged translation')
-    description = _('Source and translation are identical')
-    severity = 'warning'
+    check_id = "same"
+    name = _("Unchanged translation")
+    description = _("Source and translation are identical")
+    severity = "warning"
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
+        if "strict-same" in unit.all_flags:
+            return False
         # Ignore some docbook tags
-        if unit.note.startswith('Tag: ') and unit.note[5:] in DB_TAGS:
+        if unit.note.startswith("Tag: ") and unit.note[5:] in DB_TAGS:
             return True
 
         # Lower case source
@@ -160,13 +172,17 @@ class SameCheck(TargetCheck):
 
         # Check special things like 1:4 1/2 or copyright
         if (
-            len(source.strip('0123456789:/,.')) <= 1
-            or '(c) copyright' in lower_source
-            or '©' in source
+            len(source.strip("0123456789:/,.")) <= 1
+            or "(c) copyright" in lower_source
+            or "©" in source
         ):
             return True
         # Strip format strings
         stripped = strip_string(source, unit.all_flags)
+
+        # Strip placeholder strings
+        if "placeholders" in unit.all_flags:
+            stripped = strip_placeholders(stripped, unit)
 
         # Ignore strings which don't contain any string to translate
         # or just single letter (usually unit or something like that)
@@ -181,7 +197,8 @@ class SameCheck(TargetCheck):
         return True
 
     def should_skip(self, unit):
-        if super().should_skip(unit):
+        # Skip read-only units and ignored check
+        if unit.readonly or super().should_skip(unit):
             return True
 
         source_language = unit.translation.component.project.source_language.base_code
@@ -190,7 +207,7 @@ class SameCheck(TargetCheck):
         # English variants will have most things not translated
         # Interlingua is also quite often similar to English
         if self.is_language(unit, source_language) or (
-            source_language == 'en' and self.is_language(unit, ('en', 'ia'))
+            source_language == "en" and self.is_language(unit, ("en", "ia"))
         ):
             return True
 

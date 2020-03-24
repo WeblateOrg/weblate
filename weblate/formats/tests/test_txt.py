@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,23 +24,23 @@ from weblate.formats.tests.test_formats import AutoFormatTest
 from weblate.formats.txt import AppStoreFormat
 from weblate.trans.tests.utils import get_test_file
 
-APPSTORE_FILE = get_test_file('short_description.txt')
+APPSTORE_FILE = get_test_file("short_description.txt")
 
 
 class AppStoreFormatTest(AutoFormatTest):
     FORMAT = AppStoreFormat
     FILE = APPSTORE_FILE
-    MIME = 'text/plain'
-    EXT = 'txt'
+    MIME = "text/plain"
+    EXT = "txt"
     COUNT = 1
-    MASK = 'market/*'
-    EXPECTED_PATH = 'market/cs_CZ'
-    FIND = 'Hello world'
-    FIND_CONTEXT = 'short_description.txt:1'
-    FIND_MATCH = 'Hello world'
+    MASK = "market/*"
+    EXPECTED_PATH = "market/cs_CZ"
+    FIND = "Hello world"
+    FIND_CONTEXT = "short_description.txt:1"
+    FIND_MATCH = "Hello world"
     MATCH = None
     BASE = APPSTORE_FILE
-    EXPECTED_FLAGS = 'max-length:80'
+    EXPECTED_FLAGS = "max-length:80"
 
     def parse_file(self, filename):
         return self.FORMAT(os.path.dirname(filename))

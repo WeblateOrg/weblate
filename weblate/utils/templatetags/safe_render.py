@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -43,4 +42,4 @@ def stripext(value):
 
 @register.filter
 def parentdir(value):
-    return value.split('/', 1)[-1]
+    return value.split("/", 1)[-1]

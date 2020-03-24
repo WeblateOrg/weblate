@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -33,10 +32,9 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
 from filelock import Timeout
-from whoosh.index import EmptyIndexError
 
+from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
-from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -48,7 +46,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.search import Fulltext
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.files import remove_readonly
@@ -128,42 +125,6 @@ def commit_pending(hours=None, pks=None, logger=None):
         perform_commit.delay(component.pk, "commit_pending", None)
 
 
-@app.task(trail=False)
-def cleanup_fulltext():
-    """Remove stale units from fulltext."""
-    fulltext = Fulltext()
-    languages = list(Language.objects.values_list("code", flat=True)) + [None]
-    # We operate only on target indexes as they will have all IDs anyway
-    for lang in languages:
-        if lang is None:
-            index = fulltext.get_source_index()
-        else:
-            index = fulltext.get_target_index(lang)
-        try:
-            fields = index.reader().all_stored_fields()
-        except EmptyIndexError:
-            continue
-        for item in fields:
-            if Unit.objects.filter(pk=item["pk"]).exists():
-                continue
-            fulltext.clean_search_unit(item["pk"], lang)
-
-
-@app.task(trail=False)
-def optimize_fulltext():
-    SEARCH_LOGGER.info("starting optimizing source index")
-    fulltext = Fulltext()
-    index = fulltext.get_source_index()
-    index.optimize()
-    SEARCH_LOGGER.info("completed optimizing source index")
-    languages = Language.objects.have_translation()
-    for lang in languages:
-        SEARCH_LOGGER.info("starting optimizing %s index", lang.code)
-        index = fulltext.get_target_index(lang.code)
-        index.optimize()
-        SEARCH_LOGGER.info("completed optimizing %s index", lang.code)
-
-
 def cleanup_sources(project):
     """Remove stale source Unit objects."""
     for component in project.component_set.filter(template="").iterator():
@@ -195,8 +156,8 @@ def cleanup_project(pk):
 def cleanup_suggestions():
     # Process suggestions
     anonymous_user = get_anonymous()
-    suggestions = Suggestion.objects.prefetch_related("project", "language")
-    for suggestion in suggestions.iterator():
+    suggestions = Suggestion.objects.prefetch_related("unit")
+    for suggestion in suggestions:
         with transaction.atomic():
             # Remove suggestions with same text as real translation
             if (
@@ -374,6 +335,36 @@ def auto_translate(
         )
 
 
+@app.task(trail=False)
+def create_component(addons_from=None, **kwargs):
+    kwargs["project"] = Project.objects.get(pk=kwargs["project"])
+    component = Component.objects.create(**kwargs)
+    Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
+    if addons_from:
+        addons = Addon.objects.filter(
+            component__pk=addons_from, project_scope=False, repo_scope=False
+        )
+        for addon in addons:
+            if not addon.addon.can_install(component, None):
+                continue
+            addon.addon.create(component, configuration=addon.configuration)
+    return component
+
+
+@app.task(trail=False)
+def update_checks(pk):
+    component = Component.objects.get(pk=pk)
+    for translation in component.translation_set.exclude(
+        pk=component.source_translation.pk
+    ).iterator():
+        for unit in translation.unit_set.iterator():
+            unit.run_checks()
+    for unit in component.source_translation.unit_set.iterator():
+        unit.run_checks()
+    for translation in component.translation_set.iterator():
+        translation.invalidate_cache()
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
@@ -393,17 +384,4 @@ def setup_periodic_tasks(sender, **kwargs):
     )
     sender.add_periodic_task(
         3600 * 24, cleanup_old_comments.s(), name="cleanup-old-comments"
-    )
-
-    # Following fulltext maintenance tasks should not be
-    # executed at same time
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="saturday"),
-        cleanup_fulltext.s(),
-        name="fulltext-cleanup",
-    )
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="sunday"),
-        optimize_fulltext.s(),
-        name="fulltext-optimize",
     )

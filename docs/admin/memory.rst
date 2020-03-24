@@ -9,11 +9,13 @@ Weblate comes with a built-in translation memory consisting of the following:
 
 * Manually imported translation memory (see :ref:`memory-user`).
 * Automatically stored translations performed in Weblate (depending on :ref:`memory-scopes`).
+* Automatically imported past translations.
 
 Content in the translation memory can be applied one of two ways:
 
 * Manually, :ref:`machine-translation` view while translating.
-* Automatically, by translating strings using :ref:`auto-translation`.
+* Automatically, by translating strings using :ref:`auto-translation`, or
+  :ref:`addon-weblate.autotranslate.autotranslate` addon.
 
 For installation tips, see :ref:`weblate-translation-memory`, which is
 turned on by default.
@@ -74,12 +76,16 @@ User interface
 .. versionadded:: 3.2
 
 In the basic user interface you can manage per user and per project translation
-memories. It can be used to download, wipe or import translation memory.
+memories. It can be used to download or import translation memory.
 
 .. hint::
 
     Translation memory in JSON can be imported into Weblate, TMX is provided for
 interoperability with other tools.
+
+.. seealso::
+
+    :ref:`schema-memory`
 
 .. image:: /images/memory.png
 
@@ -94,7 +100,3 @@ requested by parameters):
     Exports the memory into JSON
 :djadmin:`import_memory`
     Imports TMX or JSON files into the translation memory
-:djadmin:`list_memory`
-    Lists memory content
-:djadmin:`delete_memory`
-    Deletes content from the memory

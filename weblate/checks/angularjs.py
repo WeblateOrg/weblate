@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 # Copyright © 2015 Philipp Wolfer <ph.wolfer@gmail.com>
@@ -26,26 +25,26 @@ from django.utils.translation import gettext_lazy as _
 from .format import BaseFormatCheck
 
 ANGULARJS_INTERPOLATION_MATCH = re.compile(
-    r'''
+    r"""
     {{              # start symbol
         \s*         # ignore whitespace
         ((.+?))
         \s*         # ignore whitespace
     }}              # end symbol
-    ''',
+    """,
     re.VERBOSE,
 )
 
-WHITESPACE = re.compile(r'\s+')
+WHITESPACE = re.compile(r"\s+")
 
 
 class AngularJSInterpolationCheck(BaseFormatCheck):
     """Check for AngularJS interpolation string."""
 
-    check_id = 'angularjs_format'
-    name = _('AngularJS interpolation string')
-    description = _('AngularJS interpolation strings do not match source')
+    check_id = "angularjs_format"
+    name = _("AngularJS interpolation string")
+    description = _("AngularJS interpolation strings do not match source")
     regexp = ANGULARJS_INTERPOLATION_MATCH
 
     def cleanup_string(self, text):
-        return WHITESPACE.sub('', text)
+        return WHITESPACE.sub("", text)

@@ -449,16 +449,3 @@ components and then run :djadmin:`import_project` or
 
    :ref:`manage`,
    :ref:`addon-weblate.discovery.discovery`
-
-.. _fulltext:
-
-Fulltext search
----------------
-
-Fulltext search is based on Whoosh. It is processed in the background if Celery is
-set up. This leads to faster site response, and a less fragmented
-index with the added cost that it might be slightly outdated.
-
-.. seealso::
-
-   :ref:`faq-ft-slow`, :ref:`faq-ft-lock`, :ref:`faq-ft-space`

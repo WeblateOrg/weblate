@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -41,8 +40,8 @@ def report_error(
     error,
     request=None,
     extra_data=None,
-    level='warning',
-    prefix='Handled exception',
+    level="warning",
+    prefix="Handled exception",
     skip_sentry=False,
     print_tb=False,
     logger=None,
@@ -54,7 +53,7 @@ def report_error(
     """
     if logger is None:
         logger = LOGGER
-    if HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
+    if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.report_exc_info(request=request, extra_data=extra_data, level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
@@ -62,21 +61,21 @@ def report_error(
             if extra_data:
                 for key, value in extra_data.items():
                     scope.set_extra(key, value)
-            scope.set_extra('error_cause', prefix)
+            scope.set_extra("error_cause", prefix)
             scope.level = level
             sentry_sdk.capture_exception()
 
-    logger.error('%s: %s: %s', prefix, error.__class__.__name__, force_str(error))
+    log = getattr(logger, level)
+
+    log("%s: %s: %s", prefix, error.__class__.__name__, force_str(error))
     if extra_data:
-        logger.error(
-            '%s: %s: %s', prefix, error.__class__.__name__, force_str(extra_data)
-        )
+        log("%s: %s: %s", prefix, error.__class__.__name__, force_str(extra_data))
     if print_tb:
         logger.exception(prefix)
 
 
 def celery_base_data_hook(request, data):
-    data['framework'] = 'celery'
+    data["framework"] = "celery"
 
 
 def init_error_collection(celery=False):
@@ -89,6 +88,6 @@ def init_error_collection(celery=False):
         )
         ignore_logger("weblate.celery")
 
-    if celery and HAS_ROLLBAR and hasattr(settings, 'ROLLBAR'):
+    if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)
         rollbar.BASE_DATA_HOOK = celery_base_data_hook

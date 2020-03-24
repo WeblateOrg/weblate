@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright ©2018 Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
@@ -31,29 +30,29 @@ from weblate.machinery.base import (
     MissingConfiguration,
 )
 
-NETEASE_API_ROOT = 'https://jianwai.netease.com/api/text/trans'
+NETEASE_API_ROOT = "https://jianwai.netease.com/api/text/trans"
 
 
 class NeteaseSightTranslation(MachineTranslation):
     """Netease Sight API machine translation support."""
 
-    name = 'Netease Sight'
+    name = "Netease Sight"
     max_score = 90
 
     # Map codes used by Netease Sight to codes used by Weblate
-    language_map = {'zh_Hans': 'zh'}
+    language_map = {"zh_Hans": "zh"}
 
     def __init__(self):
         """Check configuration."""
         super().__init__()
         if settings.MT_NETEASE_KEY is None:
-            raise MissingConfiguration('Netease Sight Translate requires app key')
+            raise MissingConfiguration("Netease Sight Translate requires app key")
         if settings.MT_NETEASE_SECRET is None:
-            raise MissingConfiguration('Netease Sight Translate requires app secret')
+            raise MissingConfiguration("Netease Sight Translate requires app secret")
 
     def download_languages(self):
         """List of supported languages."""
-        return ['zh', 'en']
+        return ["zh", "en"]
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
@@ -65,11 +64,11 @@ class NeteaseSightTranslation(MachineTranslation):
         sign = sha1(sign).hexdigest()
 
         return {
-            'Content-Type': 'application/json',
-            'appkey': settings.MT_NETEASE_KEY,
-            'nonce': nonce,
-            'timestamp': timestamp,
-            'signature': sign,
+            "Content-Type": "application/json",
+            "appkey": settings.MT_NETEASE_KEY,
+            "nonce": nonce,
+            "timestamp": timestamp,
+            "signature": sign,
         }
 
     def download_translations(self, source, language, text, unit, user):
@@ -79,14 +78,14 @@ class NeteaseSightTranslation(MachineTranslation):
         )
         payload = response.json()
 
-        if not payload['success']:
-            raise MachineTranslationError(payload['message'])
+        if not payload["success"]:
+            raise MachineTranslationError(payload["message"])
 
-        translation = payload['relatedObject']['content'][0]['transContent']
+        translation = payload["relatedObject"]["content"][0]["transContent"]
 
         yield {
-            'text': translation,
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
+            "text": translation,
+            "quality": self.max_score,
+            "service": self.name,
+            "source": text,
         }

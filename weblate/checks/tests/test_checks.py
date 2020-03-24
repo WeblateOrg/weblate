@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -34,7 +33,7 @@ class MockLanguage(Language):
     class Meta:
         proxy = True
 
-    def __init__(self, code='cs'):
+    def __init__(self, code="cs"):
         super().__init__(code=code)
         self.plural = Plural(language=self)
 
@@ -44,7 +43,7 @@ class MockProject:
 
     def __init__(self):
         self.id = 1
-        self.source_language = MockLanguage('en')
+        self.source_language = MockLanguage("en")
         self.use_shared_tm = True
 
 
@@ -59,7 +58,7 @@ class MockComponent:
 class MockTranslation:
     """Mock translation object."""
 
-    def __init__(self, code='cs'):
+    def __init__(self, code="cs"):
         self.language = MockLanguage(code)
         self.component = MockComponent()
         self.is_template = False
@@ -69,7 +68,7 @@ class MockTranslation:
 class MockUnit:
     """Mock unit object."""
 
-    def __init__(self, id_hash=None, flags='', code='cs', source='', note=''):
+    def __init__(self, id_hash=None, flags="", code="cs", source="", note=""):
         if id_hash is None:
             id_hash = random.randint(0, 65536)
         self.id_hash = id_hash
@@ -78,6 +77,7 @@ class MockUnit:
         self.source = source
         self.fuzzy = False
         self.translated = True
+        self.readonly = False
         self.state = 20
         self.note = note
 
@@ -93,21 +93,21 @@ class CheckTestCase(SimpleTestCase):
     """Generic test, also serves for testing base class."""
 
     check = None
-    default_lang = 'cs'
+    default_lang = "cs"
 
     def setUp(self):
-        self.test_empty = ('', '', '')
-        self.test_good_matching = ('string', 'string', '')
-        self.test_good_none = ('string', 'string', '')
+        self.test_empty = ("", "", "")
+        self.test_good_matching = ("string", "string", "")
+        self.test_good_none = ("string", "string", "")
         self.test_good_ignore = ()
         self.test_good_flag = ()
         self.test_failure_1 = ()
         self.test_failure_2 = ()
         self.test_failure_3 = ()
         self.test_ignore_check = (
-            'x',
-            'x',
-            self.check.ignore_string if self.check else '',
+            "x",
+            "x",
+            self.check.ignore_string if self.check else "",
         )
         self.test_highlight = ()
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -48,22 +47,22 @@ def widgets(request, project):
     lang = None
     component = None
     if form.is_valid():
-        if form.cleaned_data['lang']:
-            lang = Language.objects.get(code=form.cleaned_data['lang']).code
-        if form.cleaned_data['component']:
+        if form.cleaned_data["lang"]:
+            lang = Language.objects.get(code=form.cleaned_data["lang"]).code
+        if form.cleaned_data["component"]:
             component = Component.objects.get(
-                slug=form.cleaned_data['component'], project=obj
+                slug=form.cleaned_data["component"], project=obj
             ).slug
 
-    kwargs = {'project': obj.slug}
+    kwargs = {"project": obj.slug}
     if lang is not None:
-        kwargs['lang'] = lang
-    engage_url = get_site_url(reverse('engage', kwargs=kwargs))
-    engage_url_track = '{0}?utm_source=widget'.format(engage_url)
+        kwargs["lang"] = lang
+    engage_url = get_site_url(reverse("engage", kwargs=kwargs))
+    engage_url_track = "{0}?utm_source=widget".format(engage_url)
     engage_link = mark_safe(
         '<a href="{0}" id="engage-link">{0}</a>'.format(escape(engage_url))
     )
-    widget_base_url = get_site_url(reverse('widgets', kwargs={'project': obj.slug}))
+    widget_base_url = get_site_url(reverse("widgets", kwargs={"project": obj.slug}))
     widget_list = []
     for widget_name in sorted(WIDGETS, key=widgets_sorter):
         widget_class = WIDGETS[widget_name]
@@ -72,34 +71,34 @@ def widgets(request, project):
         color_list = []
         for color in widget_class.colors:
             kwargs = {
-                'project': obj.slug,
-                'widget': widget_name,
-                'color': color,
-                'extension': widget_class.extension,
+                "project": obj.slug,
+                "widget": widget_name,
+                "color": color,
+                "extension": widget_class.extension,
             }
             if lang is not None:
-                kwargs['lang'] = lang
+                kwargs["lang"] = lang
             if component is not None:
-                kwargs['component'] = component
-            color_url = reverse('widget-image', kwargs=kwargs)
-            color_list.append({'name': color, 'url': get_site_url(color_url)})
+                kwargs["component"] = component
+            color_url = reverse("widget-image", kwargs=kwargs)
+            color_list.append({"name": color, "url": get_site_url(color_url)})
         widget_list.append(
-            {'name': widget_name, 'colors': color_list, 'verbose': widget_class.verbose}
+            {"name": widget_name, "colors": color_list, "verbose": widget_class.verbose}
         )
 
     return render(
         request,
-        'widgets.html',
+        "widgets.html",
         {
-            'engage_url': engage_url,
-            'engage_link': engage_link,
-            'engage_url_track': engage_url_track,
-            'widget_list': widget_list,
-            'widget_base_url': widget_base_url,
-            'object': obj,
-            'project': obj,
-            'image_src': widget_list[0]['colors'][0]['url'],
-            'form': form,
+            "engage_url": engage_url,
+            "engage_link": engage_link,
+            "engage_url_track": engage_url_track,
+            "widget_list": widget_list,
+            "widget_base_url": widget_base_url,
+            "object": obj,
+            "project": obj,
+            "image_src": widget_list[0]["colors"][0]["url"],
+            "form": form,
         },
     )
 
@@ -109,11 +108,11 @@ def widgets(request, project):
 def render_widget(
     request,
     project,
-    widget='287x66',
+    widget="287x66",
     color=None,
     lang=None,
     component=None,
-    extension='png',
+    extension="png",
 ):
     # We intentionally skip ACL here to allow widget sharing
     if component is None:
@@ -126,10 +125,10 @@ def render_widget(
         lang = Language.objects.fuzzy_get(code=lang, strict=True)
         if lang is None:
             raise Http404()
-        if 'native' not in request.GET:
+        if "native" not in request.GET:
             try_set_language(lang.code)
     else:
-        try_set_language('en')
+        try_set_language("en")
 
     # Get widget class
     try:
@@ -141,21 +140,21 @@ def render_widget(
     widget_obj = widget_class(obj, color, lang)
 
     # Redirect widget
-    if hasattr(widget_obj, 'redirect'):
+    if hasattr(widget_obj, "redirect"):
         return redirect(widget_obj.redirect(), permanent=True)
 
     # Invalid extension
     if extension != widget_obj.extension or color != widget_obj.color:
         kwargs = {
-            'project': project,
-            'widget': widget,
-            'color': widget_obj.color,
-            'extension': widget_obj.extension,
+            "project": project,
+            "widget": widget,
+            "color": widget_obj.color,
+            "extension": widget_obj.extension,
         }
         if lang:
-            kwargs['lang'] = lang.code
-            return redirect('widget-image', permanent=True, **kwargs)
-        return redirect('widget-image', permanent=True, **kwargs)
+            kwargs["lang"] = lang.code
+            return redirect("widget-image", permanent=True, **kwargs)
+        return redirect("widget-image", permanent=True, **kwargs)
 
     # Render widget
     response = HttpResponse(content_type=widget_obj.content_type)

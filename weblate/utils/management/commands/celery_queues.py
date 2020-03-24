@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,8 +22,8 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'display Celery queue status'
+    help = "display Celery queue status"
 
     def handle(self, *args, **options):
         for key, value in sorted(get_queue_stats().items()):
-            self.stdout.write('{}: {}'.format(key, value))
+            self.stdout.write("{}: {}".format(key, value))

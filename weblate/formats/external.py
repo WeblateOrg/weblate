@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -34,19 +33,19 @@ from weblate.formats.ttkit import CSVFormat
 
 # use the same relugar expression as in openpyxl.cell
 # to remove illegal characters
-ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
+ILLEGAL_CHARACTERS_RE = re.compile(r"[\000-\010]|[\013-\014]|[\016-\037]")
 
 
 class XlsxFormat(CSVFormat):
-    name = _('Excel Open XML')
-    format_id = 'xlsx'
-    autoload = ('*.xlsx',)
+    name = _("Excel Open XML")
+    format_id = "xlsx"
+    autoload = ("*.xlsx",)
 
     def save_content(self, handle):
         workbook = Workbook()
         worksheet = workbook.active
 
-        worksheet.title = self.store.targetlanguage or 'Weblate'
+        worksheet.title = self.store.targetlanguage or "Weblate"
 
         # write headers
         for column, field in enumerate(self.store.fieldnames):
@@ -58,7 +57,7 @@ class XlsxFormat(CSVFormat):
             for column, field in enumerate(self.store.fieldnames):
                 cell = worksheet.cell(column=1 + column, row=2 + row)
                 cell.data_type = TYPE_STRING
-                cell.value = ILLEGAL_CHARACTERS_RE.sub('', data[field])
+                cell.value = ILLEGAL_CHARACTERS_RE.sub("", data[field])
         workbook.save(handle)
 
     @staticmethod
@@ -81,7 +80,7 @@ class XlsxFormat(CSVFormat):
 
         output = StringIO()
 
-        writer = csv.writer(output, dialect='unix')
+        writer = csv.writer(output, dialect="unix")
 
         for row in worksheet.rows:
             writer.writerow([cell.value for cell in row])
@@ -100,20 +99,20 @@ class XlsxFormat(CSVFormat):
     @staticmethod
     def mimetype():
         """Return most common mime type for format."""
-        return 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'xlsx'
+        return "xlsx"
 
     @classmethod
     def create_new_file(cls, filename, language, base):
         """Handle creation of new translation file."""
         if not base:
-            raise ValueError('Not supported')
+            raise ValueError("Not supported")
         # Parse file
         store = cls.parse_store(base)
         cls.untranslate_store(store, language)
-        with open(filename, 'wb') as handle:
+        with open(filename, "wb") as handle:
             XlsxFormat(store).save_content(handle)

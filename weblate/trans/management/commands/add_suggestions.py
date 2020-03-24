@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,16 +28,16 @@ from weblate.trans.management.commands import WeblateTranslationCommand
 class Command(WeblateTranslationCommand):
     """Command for mass importing suggestions."""
 
-    help = 'imports suggestions'
+    help = "imports suggestions"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--author',
-            default='noreply@weblate.org',
-            help=('Email address of author (has to be registered in Weblate)'),
+            "--author",
+            default="noreply@weblate.org",
+            help=("Email address of author (has to be registered in Weblate)"),
         )
-        parser.add_argument('file', type=argparse.FileType('rb'), help='File to import')
+        parser.add_argument("file", type=argparse.FileType("rb"), help="File to import")
 
     def handle(self, *args, **options):
         # Get translation object
@@ -52,12 +51,12 @@ class Command(WeblateTranslationCommand):
         try:
             translation.merge_upload(
                 request,
-                options['file'],
+                options["file"],
                 False,
-                method='suggest',
-                author_email=options['author'],
+                method="suggest",
+                author_email=options["author"],
             )
         except IOError as err:
-            raise CommandError('Failed to import translation file: {}'.format(err))
+            raise CommandError("Failed to import translation file: {}".format(err))
         finally:
-            options['file'].close()
+            options["file"].close()

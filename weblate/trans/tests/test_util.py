@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -26,30 +25,30 @@ from weblate.trans.util import cleanup_path, cleanup_repo_url, translation_perce
 class HideCredentialsTest(SimpleTestCase):
     def test_http(self):
         self.assertEqual(
-            cleanup_repo_url('http://foo:bar@example.com'), 'http://example.com'
+            cleanup_repo_url("http://foo:bar@example.com"), "http://example.com"
         )
 
     def test_http_user(self):
         self.assertEqual(
-            cleanup_repo_url('http://foo@example.com'), 'http://example.com'
+            cleanup_repo_url("http://foo@example.com"), "http://example.com"
         )
 
     def test_git(self):
         self.assertEqual(
-            cleanup_repo_url('git://git.weblate.org/weblate.git'),
-            'git://git.weblate.org/weblate.git',
+            cleanup_repo_url("git://git.weblate.org/weblate.git"),
+            "git://git.weblate.org/weblate.git",
         )
 
     def test_github(self):
         self.assertEqual(
-            cleanup_repo_url('git@github.com:WeblateOrg/weblate.git'),
-            'git@github.com:WeblateOrg/weblate.git',
+            cleanup_repo_url("git@github.com:WeblateOrg/weblate.git"),
+            "git@github.com:WeblateOrg/weblate.git",
         )
 
     def test_git_hg(self):
         self.assertEqual(
-            cleanup_repo_url('hg::https://bitbucket.org/sumwars/sumwars-code'),
-            'hg::https://bitbucket.org/sumwars/sumwars-code',
+            cleanup_repo_url("hg::https://bitbucket.org/sumwars/sumwars-code"),
+            "hg::https://bitbucket.org/sumwars/sumwars-code",
         )
 
 

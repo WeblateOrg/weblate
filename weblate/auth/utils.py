@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -33,11 +32,11 @@ from weblate.auth.data import (
 def migrate_permissions_list(model, permissions):
     for code, name in permissions:
         instance, created = model.objects.get_or_create(
-            codename=code, defaults={'name': name}
+            codename=code, defaults={"name": name}
         )
         if not created and instance.name != name:
             instance.name = name
-            instance.save(update_fields=['name'])
+            instance.save(update_fields=["name"])
 
 
 def migrate_permissions(model):
@@ -62,9 +61,9 @@ def migrate_groups(model, role_model, update=False):
     """Create groups as defined in the data."""
     for group, roles, selection in GROUPS:
         defaults = {
-            'internal': True,
-            'project_selection': selection,
-            'language_selection': SELECTION_ALL,
+            "internal": True,
+            "project_selection": selection,
+            "language_selection": SELECTION_ALL,
         }
         instance, created = model.objects.get_or_create(name=group, defaults=defaults)
         if created or update:
@@ -79,16 +78,16 @@ def create_anonymous(model, group_model, update=True):
     user, created = model.objects.get_or_create(
         username=settings.ANONYMOUS_USER_NAME,
         defaults={
-            'full_name': 'Anonymous',
-            'email': 'noreply@weblate.org',
-            'is_active': False,
-            'password': make_password(None),
+            "full_name": "Anonymous",
+            "email": "noreply@weblate.org",
+            "is_active": False,
+            "password": make_password(None),
         },
     )
     if user.is_active:
         raise ValueError(
-            'Anonymous user ({}) already exists and enabled, '
-            'please change ANONYMOUS_USER_NAME setting.'.format(
+            "Anonymous user ({}) already exists and enabled, "
+            "please change ANONYMOUS_USER_NAME setting.".format(
                 settings.ANONYMOUS_USER_NAME
             )
         )
@@ -97,5 +96,5 @@ def create_anonymous(model, group_model, update=True):
         user.set_unusable_password()
         user.save()
         user.groups.set(
-            group_model.objects.filter(name__in=('Guests', 'Viewers')), clear=True
+            group_model.objects.filter(name__in=("Guests", "Viewers")), clear=True
         )

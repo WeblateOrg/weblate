@@ -14,9 +14,9 @@
 {% endblock %}
 
 {% block object-tools-items %}
-{% if opts.model_name == 'whiteboardmessage' %}
+{% if opts.model_name == 'announcement' %}
 <li>
-<a href="{% documentation 'admin/whiteboard' %}" class="doclink">{% trans "Documentation" %}</a>
+<a href="{% documentation 'admin/announcements' %}" class="doclink">{% trans "Documentation" %}</a>
 </li>
 {% else %}
 {% if opts.model_name == 'componentlist' %}
@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block form_top %}
-{% if opts.model_name == 'project' or opts.model_name == 'component' or opts.model_name == 'whiteboardmessage' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' or opts.model_name == 'contributoragreement' %}
+{% if opts.model_name == 'project' or opts.model_name == 'component' or opts.model_name == 'announcement' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' or opts.model_name == 'contributoragreement' %}
 <p>{% blocktrans %}Required fields are marked in bold.{% endblocktrans %}</p>
 {% else %}
 <p class="errornote">{% blocktrans %}Do not change the object here, please use the Weblate interface instead.{% endblocktrans %}</p>

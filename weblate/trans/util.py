@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -41,23 +40,23 @@ from translate.storage.placeables.lisa import parse_xliff, strelem_to_xml
 
 from weblate.utils.data import data_dir
 
-PLURAL_SEPARATOR = '\x1e\x1e'
+PLURAL_SEPARATOR = "\x1e\x1e"
 LOCALE_SETUP = True
 
 PRIORITY_CHOICES = (
-    (60, gettext_lazy('Very high')),
-    (80, gettext_lazy('High')),
-    (100, gettext_lazy('Medium')),
-    (120, gettext_lazy('Low')),
-    (140, gettext_lazy('Very low')),
+    (60, gettext_lazy("Very high")),
+    (80, gettext_lazy("High")),
+    (100, gettext_lazy("Medium")),
+    (120, gettext_lazy("Low")),
+    (140, gettext_lazy("Very low")),
 )
 
 # Initialize to sane locales for strxfrm
 try:
-    locale.setlocale(locale.LC_ALL, ('C', 'UTF-8'))
+    locale.setlocale(locale.LC_ALL, ("C", "UTF-8"))
 except locale.Error:
     try:
-        locale.setlocale(locale.LC_ALL, ('en_US', 'UTF-8'))
+        locale.setlocale(locale.LC_ALL, ("en_US", "UTF-8"))
     except locale.Error:
         LOCALE_SETUP = False
 
@@ -79,8 +78,8 @@ def get_string(text):
     """Return correctly formatted string from ttkit unit data."""
     # Check for null target (happens with XLIFF)
     if text is None:
-        return ''
-    if hasattr(text, 'strings'):
+        return ""
+    if hasattr(text, "strings"):
         return join_plural(text.strings)
     # We might get integer or float in some formats
     return force_str(text)
@@ -88,7 +87,7 @@ def get_string(text):
 
 def is_repo_link(val):
     """Check whether repository is just a link for other one."""
-    return val.startswith('weblate://')
+    return val.startswith("weblate://")
 
 
 def get_distinct_translations(units):
@@ -138,9 +137,9 @@ def add_configuration_error(name, message, force_cache=False):
             # The table does not have to be created yet (for example migration
             # is about to be executed)
             pass
-    errors = cache.get('configuration-errors', [])
-    errors.append({'name': name, 'message': message, 'timestamp': timezone.now()})
-    cache.set('configuration-errors', errors)
+    errors = cache.get("configuration-errors", [])
+    errors.append({"name": name, "message": message, "timestamp": timezone.now()})
+    cache.set("configuration-errors", errors)
 
 
 def delete_configuration_error(name, force_cache=False):
@@ -158,42 +157,42 @@ def delete_configuration_error(name, force_cache=False):
             # The table does not have to be created yet (for example migration
             # is about to be executed)
             pass
-    errors = cache.get('configuration-errors', [])
-    errors.append({'name': name, 'delete': True})
-    cache.set('configuration-errors', errors)
+    errors = cache.get("configuration-errors", [])
+    errors.append({"name": name, "delete": True})
+    cache.set("configuration-errors", errors)
 
 
 def get_clean_env(extra=None):
     """Return cleaned up environment for subprocess execution."""
     environ = {
-        'LANG': 'C.UTF-8',
-        'LC_ALL': 'C.UTF-8',
-        'HOME': data_dir('home'),
-        'PATH': '/bin:/usr/bin:/usr/local/bin',
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "HOME": data_dir("home"),
+        "PATH": "/bin:/usr/bin:/usr/local/bin",
     }
     if extra is not None:
         environ.update(extra)
     variables = (
         # Keep PATH setup
-        'PATH',
+        "PATH",
         # Keep Python search path
-        'PYTHONPATH',
+        "PYTHONPATH",
         # Keep linker configuration
-        'LD_LIBRARY_PATH',
-        'LD_PRELOAD',
+        "LD_LIBRARY_PATH",
+        "LD_PRELOAD",
         # Needed by Git on Windows
-        'SystemRoot',
+        "SystemRoot",
         # Pass proxy configuration
-        'http_proxy',
-        'https_proxy',
-        'HTTPS_PROXY',
-        'NO_PROXY',
+        "http_proxy",
+        "https_proxy",
+        "HTTPS_PROXY",
+        "NO_PROXY",
         # below two are nedded for openshift3 deployment,
         # where nss_wrapper is used
         # more on the topic on below link:
         # https://docs.openshift.com/enterprise/3.2/creating_images/guidelines.html
-        'NSS_WRAPPER_GROUP',
-        'NSS_WRAPPER_PASSWD',
+        "NSS_WRAPPER_GROUP",
+        "NSS_WRAPPER_PASSWD",
     )
     for var in variables:
         if var in os.environ:
@@ -201,8 +200,8 @@ def get_clean_env(extra=None):
     # Extend path to include virtualenv, avoid insert already existing ones to
     # not break existing ordering (for example PATH injection used in tests)
     venv_path = os.path.join(sys.exec_prefix, "bin")
-    if venv_path not in environ['PATH']:
-        environ['PATH'] = '{}:{}'.format(venv_path, environ['PATH'])
+    if venv_path not in environ["PATH"]:
+        environ["PATH"] = "{}:{}".format(venv_path, environ["PATH"])
     return environ
 
 
@@ -212,9 +211,9 @@ def cleanup_repo_url(url, text=None):
         text = url
     parsed = urlparse(url)
     if parsed.username and parsed.password:
-        return text.replace('{0}:{1}@'.format(parsed.username, parsed.password), '')
+        return text.replace("{0}:{1}@".format(parsed.username, parsed.password), "")
     if parsed.username:
-        return text.replace('{0}@'.format(parsed.username), '')
+        return text.replace("{0}@".format(parsed.username), "")
     return text
 
 
@@ -231,7 +230,7 @@ def cleanup_path(path):
     # interpret absolute pathname as relative, remove drive letter or
     # UNC path, redundant separators, "." and ".." components.
     path = os.path.splitdrive(path)[1]
-    invalid_path_parts = ('', os.path.curdir, os.path.pardir)
+    invalid_path_parts = ("", os.path.curdir, os.path.pardir)
     path = os.path.sep.join(
         x for x in path.split(os.path.sep) if x not in invalid_path_parts
     )
@@ -242,8 +241,8 @@ def cleanup_path(path):
 def get_project_description(project):
     """Return verbose description for project translation."""
     return _(
-        '{0} is translated into {1} languages using Weblate. '
-        'Join the translation or start translating your own project.'
+        "{0} is translated into {1} languages using Weblate. "
+        "Join the translation or start translating your own project."
     ).format(project, project.stats.languages)
 
 
@@ -251,15 +250,15 @@ def render(request, template, context=None, status=None):
     """Wrapper around Django render to extend context."""
     if context is None:
         context = {}
-    if 'project' in context and context['project'] is not None:
-        context['description'] = get_project_description(context['project'])
+    if "project" in context and context["project"] is not None:
+        context["description"] = get_project_description(context["project"])
     return django_render(request, template, context, status=status)
 
 
 def path_separator(path):
     """Alway use / as path separator for consistency."""
-    if os.path.sep != '/':
-        return path.replace(os.path.sep, '/')
+    if os.path.sep != "/":
+        return path.replace(os.path.sep, "/")
     return path
 
 
@@ -283,7 +282,7 @@ def redirect_next(next_url, fallback):
     if (
         next_url is None
         or not is_safe_url(next_url, allowed_hosts=None)
-        or not next_url.startswith('/')
+        or not next_url.startswith("/")
     ):
         return redirect(fallback)
     return HttpResponseRedirect(next_url)
@@ -306,15 +305,15 @@ def rich_to_xliff_string(string_elements):
     Transform rich content (StringElement) into a string with placeholder kept as XML
     """
     # Create dummy root element
-    xml = etree.Element('e')
+    xml = etree.Element("e")
     for string_element in string_elements:
         # Inject placeable from translate-toolkit
         strelem_to_xml(xml, string_element)
 
     # Remove any possible namespace
     for child in xml:
-        if child.tag.startswith('{'):
-            child.tag = child.tag[child.tag.index('}') + 1 :]
+        if child.tag.startswith("{"):
+            child.tag = child.tag[child.tag.index("}") + 1 :]
     etree.cleanup_namespaces(xml)
 
     # Convert to string

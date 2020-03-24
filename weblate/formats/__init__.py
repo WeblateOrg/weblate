@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -20,4 +19,4 @@
 """File format specific behavior."""
 
 
-default_app_config = 'weblate.formats.apps.FormatsConfig'
+default_app_config = "weblate.formats.apps.FormatsConfig"

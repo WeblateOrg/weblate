@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -27,17 +26,17 @@ from weblate.vcs.git import GitRepository
 def get_root_dir():
     """Return Weblate root dir."""
     curdir = os.path.dirname(os.path.abspath(__file__))
-    return os.path.abspath(os.path.join(curdir, '..'))
+    return os.path.abspath(os.path.join(curdir, ".."))
 
 
 # Weblate version
-VERSION = '4.0-dev'
+VERSION = "4.0-dev"
 
 # Version string without suffix
-VERSION_BASE = VERSION.replace('-dev', '')
+VERSION_BASE = VERSION.replace("-dev", "")
 
 # User-Agent string to use
-USER_AGENT = 'Weblate/{0}'.format(VERSION)
+USER_AGENT = "Weblate/{0}".format(VERSION)
 
 # Grab some information from git
 try:

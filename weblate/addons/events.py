@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -33,16 +32,16 @@ EVENT_DAILY = 11
 EVENT_COMPONENT_UPDATE = 12
 
 EVENT_CHOICES = (
-    (EVENT_PRE_PUSH, 'pre push'),
-    (EVENT_POST_PUSH, 'post push'),
-    (EVENT_PRE_UPDATE, 'pre update'),
-    (EVENT_POST_UPDATE, 'post update'),
-    (EVENT_PRE_COMMIT, 'pre commit'),
-    (EVENT_POST_COMMIT, 'post commit'),
-    (EVENT_POST_ADD, 'post add'),
-    (EVENT_UNIT_PRE_CREATE, 'unit post create'),
-    (EVENT_UNIT_POST_SAVE, 'unit post save'),
-    (EVENT_STORE_POST_LOAD, 'store post load'),
-    (EVENT_DAILY, 'daily'),
-    (EVENT_COMPONENT_UPDATE, 'component update'),
+    (EVENT_PRE_PUSH, "pre push"),
+    (EVENT_POST_PUSH, "post push"),
+    (EVENT_PRE_UPDATE, "pre update"),
+    (EVENT_POST_UPDATE, "post update"),
+    (EVENT_PRE_COMMIT, "pre commit"),
+    (EVENT_POST_COMMIT, "post commit"),
+    (EVENT_POST_ADD, "post add"),
+    (EVENT_UNIT_PRE_CREATE, "unit post create"),
+    (EVENT_UNIT_POST_SAVE, "unit post save"),
+    (EVENT_STORE_POST_LOAD, "store post load"),
+    (EVENT_DAILY, "daily"),
+    (EVENT_COMPONENT_UPDATE, "component update"),
 )

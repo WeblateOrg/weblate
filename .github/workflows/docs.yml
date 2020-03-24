@@ -5,10 +5,12 @@ on:
     paths:
       - 'docs/**'
       - '.github/workflows/docs.yml'
+      - 'scripts/weblate_schemas'
   pull_request:
     paths:
       - 'docs/**'
       - '.github/workflows/docs.yml'
+      - 'scripts/weblate_schemas'
 
 jobs:
   build:
@@ -18,12 +20,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout submodules
-      shell: bash
-      run: |
-        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-        git submodule sync
-        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 scripts/weblate_schemas/
     - name: Cache pip
       uses: actions/cache@v1
       with:
@@ -56,12 +52,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Checkout submodules
-      shell: bash
-      run: |
-        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-        git submodule sync
-        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --depth=1 scripts/weblate_schemas/
     - name: Cache pip
       uses: actions/cache@v1
       with:

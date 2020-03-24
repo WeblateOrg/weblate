@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,25 +28,25 @@ from weblate.trans.tests.test_views import FixtureTestCase
 class CommentViewTest(FixtureTestCase):
     def setUp(self):
         super().setUp()
-        self.translation = self.component.translation_set.get(language_code='cs')
+        self.translation = self.component.translation_set.get(language_code="cs")
 
     def test_add_target_comment(self):
         unit = self.get_unit()
 
         # Add comment
         response = self.client.post(
-            reverse('comment', kwargs={'pk': unit.id}),
-            {'comment': 'New target testing comment', 'scope': 'translation'},
+            reverse("comment", kwargs={"pk": unit.id}),
+            {"comment": "New target testing comment", "scope": "translation"},
         )
         self.assertRedirects(response, unit.get_absolute_url())
 
         # Check it is shown on page
         response = self.client.get(unit.get_absolute_url())
-        self.assertContains(response, 'New target testing comment')
+        self.assertContains(response, "New target testing comment")
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(language_code='cs')
+        translation = self.component.translation_set.get(language_code="cs")
         # Check number of comments
         self.assertTrue(unit.has_comment)
         self.assertEqual(translation.stats.comments, 1)
@@ -57,18 +56,18 @@ class CommentViewTest(FixtureTestCase):
 
         # Add comment
         response = self.client.post(
-            reverse('comment', kwargs={'pk': unit.id}),
-            {'comment': 'New source testing comment', 'scope': 'global'},
+            reverse("comment", kwargs={"pk": unit.id}),
+            {"comment": "New source testing comment", "scope": "global"},
         )
         self.assertRedirects(response, unit.get_absolute_url())
 
         # Check it is shown on page
         response = self.client.get(unit.get_absolute_url())
-        self.assertContains(response, 'New source testing comment')
+        self.assertContains(response, "New source testing comment")
 
         # Reload from database
         unit = self.get_unit()
-        translation = self.component.translation_set.get(language_code='cs')
+        translation = self.component.translation_set.get(language_code="cs")
         # Check number of comments
         self.assertFalse(unit.has_comment)
         self.assertEqual(translation.stats.comments, 0)
@@ -79,13 +78,13 @@ class CommentViewTest(FixtureTestCase):
 
         # Add comment
         response = self.client.post(
-            reverse('comment', kwargs={'pk': unit.id}),
-            {'comment': 'New target testing comment', 'scope': 'translation'},
+            reverse("comment", kwargs={"pk": unit.id}),
+            {"comment": "New target testing comment", "scope": "translation"},
         )
 
         comment = Comment.objects.all()[0]
         response = self.client.post(
-            reverse('delete-comment', kwargs={'pk': comment.pk})
+            reverse("delete-comment", kwargs={"pk": comment.pk})
         )
         self.assertRedirects(response, unit.get_absolute_url())
 
@@ -95,13 +94,13 @@ class CommentViewTest(FixtureTestCase):
 
         # Add comment
         response = self.client.post(
-            reverse('comment', kwargs={'pk': unit.id}),
-            {'comment': 'New target testing comment', 'scope': 'translation'},
+            reverse("comment", kwargs={"pk": unit.id}),
+            {"comment": "New target testing comment", "scope": "translation"},
         )
 
         comment = Comment.objects.all()[0]
         response = self.client.post(
-            reverse('resolve-comment', kwargs={'pk': comment.pk})
+            reverse("resolve-comment", kwargs={"pk": comment.pk})
         )
         self.assertRedirects(response, unit.get_absolute_url())
 

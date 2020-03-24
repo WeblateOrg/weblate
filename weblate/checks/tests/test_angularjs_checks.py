@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 # Copyright © 2015 Philipp Wolfer <ph.wolfer@gmail.com>
@@ -29,55 +28,55 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
     check = AngularJSInterpolationCheck()
 
     def test_no_format(self):
-        self.assertFalse(self.check.check_format('strins', 'string', False,))
+        self.assertFalse(self.check.check_format("strins", "string", False))
 
     def test_format(self):
         self.assertFalse(
             self.check.check_format(
-                '{{name}} string {{other}}', '{{name}} {{other}} string', False,
+                "{{name}} string {{other}}", "{{name}} {{other}} string", False
             )
         )
 
     def test_format_ignore_position(self):
         self.assertFalse(
             self.check.check_format(
-                '{{name}} string {{other}}', '{{other}} string {{name}}', False,
+                "{{name}} string {{other}}", "{{other}} string {{name}}", False
             )
         )
 
     def test_different_whitespace(self):
         self.assertFalse(
-            self.check.check_format('{{ name   }} string', '{{name}} string', False,)
+            self.check.check_format("{{ name   }} string", "{{name}} string", False)
         )
 
     def test_missing_format(self):
-        self.assertTrue(self.check.check_format('{{name}} string', 'string', False,))
+        self.assertTrue(self.check.check_format("{{name}} string", "string", False))
 
     def test_wrong_value(self):
         self.assertTrue(
-            self.check.check_format('{{name}} string', '{{nameerror}} string', False,)
+            self.check.check_format("{{name}} string", "{{nameerror}} string", False)
         )
 
     def test_extended_formatting(self):
         self.assertFalse(
             self.check.check_format(
-                'Value: {{ something.value | currency }}',
-                'Wert: {{ something.value | currency }}',
+                "Value: {{ something.value | currency }}",
+                "Wert: {{ something.value | currency }}",
                 False,
             )
         )
         self.assertTrue(
             self.check.check_format(
-                'Value: {{ something.value | currency }}',
-                'Value: {{ something.value }}',
+                "Value: {{ something.value | currency }}",
+                "Value: {{ something.value }}",
                 False,
             )
         )
 
     def test_check_highlight(self):
         highlights = self.check.check_highlight(
-            '{{name}} {{ something.value | currency }} string',
-            MockUnit('angularjs_format', flags='angularjs-format'),
+            "{{name}} {{ something.value | currency }} string",
+            MockUnit("angularjs_format", flags="angularjs-format"),
         )
         self.assertEqual(2, len(highlights))
         self.assertEqual(0, highlights[0][0])
@@ -87,7 +86,7 @@ class AngularJSInterpolationCheckTest(CheckTestCase):
 
     def test_check_highlight_ignored(self):
         highlights = self.check.check_highlight(
-            '{{name}} {{other}} string',
-            MockUnit('angularjs_format', flags='ignore-angularjs-format'),
+            "{{name}} {{other}} string",
+            MockUnit("angularjs_format", flags="ignore-angularjs-format"),
         )
         self.assertEqual([], highlights)

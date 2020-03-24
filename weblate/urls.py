@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -577,26 +576,26 @@ real_patterns = [
         weblate.trans.views.manage.component_progress_js,
         name="component_progress_js",
     ),
-    # Whiteboard
+    # Announcements
     url(
-        r"^whiteboard/" + PROJECT + "$",
-        weblate.trans.views.manage.whiteboard_project,
-        name="whiteboard_project",
+        r"^announcement/" + PROJECT + "$",
+        weblate.trans.views.manage.announcement_project,
+        name="announcement_project",
     ),
     url(
-        r"^whiteboard/" + COMPONENT + "$",
-        weblate.trans.views.manage.whiteboard_component,
-        name="whiteboard_component",
+        r"^announcement/" + COMPONENT + "$",
+        weblate.trans.views.manage.announcement_component,
+        name="announcement_component",
     ),
     url(
-        r"^whiteboard/" + TRANSLATION + "$",
-        weblate.trans.views.manage.whiteboard_translation,
-        name="whiteboard_translation",
+        r"^announcement/" + TRANSLATION + "$",
+        weblate.trans.views.manage.announcement_translation,
+        name="announcement_translation",
     ),
     url(
-        r"^js/whiteboard/(?P<pk>[0-9]+)/delete/$",
-        weblate.trans.views.manage.whiteboard_delete,
-        name="whiteboard-delete",
+        r"^js/announcement/(?P<pk>[0-9]+)/delete/$",
+        weblate.trans.views.manage.announcement_delete,
+        name="announcement-delete",
     ),
     # VCS manipulation - remove
     url(
@@ -695,11 +694,6 @@ real_patterns = [
     # Translation memory
     url(r"^memory/$", weblate.memory.views.MemoryView.as_view(), name="memory"),
     url(
-        r"^memory/delete/$",
-        weblate.memory.views.DeleteView.as_view(),
-        name="memory-delete",
-    ),
-    url(
         r"^memory/upload/$",
         weblate.memory.views.UploadView.as_view(),
         name="memory-upload",
@@ -721,11 +715,6 @@ real_patterns = [
         name="manage-memory",
     ),
     url(
-        r"^(?P<manage>manage)/memory/delete/$",
-        management_access(weblate.memory.views.DeleteView.as_view()),
-        name="memory-delete",
-    ),
-    url(
         r"^(?P<manage>manage)/memory/upload/$",
         management_access(weblate.memory.views.UploadView.as_view()),
         name="memory-upload",
@@ -741,11 +730,6 @@ real_patterns = [
         name="memory",
     ),
     url(
-        r"^memory/project/" + PROJECT + "delete/$",
-        weblate.memory.views.DeleteView.as_view(),
-        name="memory-delete",
-    ),
-    url(
         r"^memory/project/" + PROJECT + "upload/$",
         weblate.memory.views.UploadView.as_view(),
         name="memory-upload",
@@ -754,11 +738,6 @@ real_patterns = [
         r"^memory/project/" + PROJECT + "download/$",
         weblate.memory.views.DownloadView.as_view(),
         name="memory-download",
-    ),
-    url(
-        r"^memory/project/" + PROJECT + "import/$",
-        weblate.memory.views.ImportView.as_view(),
-        name="memory-import",
     ),
     # Languages browsing
     url(r"^languages/$", weblate.lang.views.show_languages, name="languages"),

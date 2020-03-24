@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,29 +28,29 @@ from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.ssh import SSHWrapper, get_host_keys, ssh_file
 
-TEST_HOSTS = get_test_file('known_hosts')
+TEST_HOSTS = get_test_file("known_hosts")
 
 
 class SSHTest(TestCase):
     """Test for customized admin interface."""
 
-    @tempdir_setting('DATA_DIR')
+    @tempdir_setting("DATA_DIR")
     def test_parse(self):
         self.assertEqual(check_data_writable(), [])
-        shutil.copy(TEST_HOSTS, os.path.join(settings.DATA_DIR, 'ssh'))
+        shutil.copy(TEST_HOSTS, os.path.join(settings.DATA_DIR, "ssh"))
         hosts = get_host_keys()
         self.assertEqual(len(hosts), 50)
 
-    @tempdir_setting('DATA_DIR')
+    @tempdir_setting("DATA_DIR")
     def test_create_ssh_wrapper(self):
         self.assertEqual(check_data_writable(), [])
         wrapper = SSHWrapper()
         filename = wrapper.filename
         wrapper.create()
-        with open(filename, 'r') as handle:
+        with open(filename, "r") as handle:
             data = handle.read()
-            self.assertTrue(ssh_file('known_hosts') in data)
-            self.assertTrue(ssh_file('id_rsa') in data)
+            self.assertTrue(ssh_file("known_hosts") in data)
+            self.assertTrue(ssh_file("id_rsa") in data)
             self.assertTrue(settings.DATA_DIR in data)
         self.assertTrue(os.access(filename, os.X_OK))
         # Second run should not touch the file

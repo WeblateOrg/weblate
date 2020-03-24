@@ -19,7 +19,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
-.PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext
+.PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext update-screenshots update-schemas
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -190,3 +190,6 @@ update-screenshots:
 		zopflipng -m tmp-nq8.png images/`basename $$file` ; \
 	done
 	@rm -f tmp.png tmp-nq8.png
+
+update-schemas:
+	@cp ../.venv/lib/python*/site-packages/weblate_schemas/schemas/* schemas/

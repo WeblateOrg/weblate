@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -39,18 +38,18 @@ from weblate.utils.views import get_paginator, get_project
 
 
 def show_languages(request):
-    if request.user.has_perm('language.edit'):
+    if request.user.has_perm("language.edit"):
         languages = Language.objects.all()
     else:
         languages = Language.objects.have_translation()
     return render(
         request,
-        'languages.html',
+        "languages.html",
         {
-            'allow_index': True,
-            'languages': prefetch_stats(sort_objects(languages)),
-            'title': _('Languages'),
-            'global_stats': GlobalStats(),
+            "allow_index": True,
+            "languages": prefetch_stats(sort_objects(languages)),
+            "title": _("Languages"),
+            "global_stats": GlobalStats(),
         },
     )
 
@@ -62,21 +61,19 @@ def show_language(request, lang):
         obj = Language.objects.fuzzy_get(lang)
         if isinstance(obj, Language):
             return redirect(obj)
-        raise Http404('No Language matches the given query.')
+        raise Http404("No Language matches the given query.")
 
-    if request.method == 'POST' and request.user.has_perm('language.edit'):
+    if request.method == "POST" and request.user.has_perm("language.edit"):
         if obj.translation_set.exists():
             messages.error(
-                request, _('Remove all translations using this language first.')
+                request, _("Remove all translations using this language first.")
             )
         else:
             obj.delete()
-            messages.success(request, _('Language %s removed.') % obj)
-            return redirect('languages')
+            messages.success(request, _("Language %s removed.") % obj)
+            return redirect("languages")
 
-    last_changes = Change.objects.last_changes(request.user).filter(
-        translation__language=obj
-    )[:10]
+    last_changes = Change.objects.last_changes(request.user).filter(language=obj)[:10]
     projects = request.user.allowed_projects
     dicts = projects.filter(dictionary__language=obj).distinct()
     projects = projects.filter(component__translation__language=obj).distinct()
@@ -86,14 +83,14 @@ def show_language(request, lang):
 
     return render(
         request,
-        'language.html',
+        "language.html",
         {
-            'allow_index': True,
-            'object': obj,
-            'last_changes': last_changes,
-            'last_changes_url': urlencode({'lang': obj.code}),
-            'dicts': dicts,
-            'projects': projects,
+            "allow_index": True,
+            "object": obj,
+            "last_changes": last_changes,
+            "last_changes_url": urlencode({"lang": obj.code}),
+            "dicts": dicts,
+            "projects": projects,
         },
     )
 
@@ -105,41 +102,41 @@ def show_project(request, lang, project):
         obj = Language.objects.fuzzy_get(lang)
         if isinstance(obj, Language):
             return redirect(obj)
-        raise Http404('No Language matches the given query.')
+        raise Http404("No Language matches the given query.")
 
     pobj = get_project(request, project)
 
     last_changes = Change.objects.last_changes(request.user).filter(
-        translation__language=obj, component__project=pobj
+        language=obj, project=pobj
     )[:10]
 
     # Paginate translations.
     translation_list = (
         obj.translation_set.prefetch()
         .filter(component__project=pobj)
-        .order_by('component__name')
+        .order_by("component__name")
     )
     translations = get_paginator(request, translation_list)
 
     return render(
         request,
-        'language-project.html',
+        "language-project.html",
         {
-            'allow_index': True,
-            'language': obj,
-            'project': pobj,
-            'last_changes': last_changes,
-            'last_changes_url': urlencode({'lang': obj.code, 'project': pobj.slug}),
-            'translations': translations,
-            'title': '{0} - {1}'.format(pobj, obj),
-            'search_form': SearchForm(request.user),
-            'licenses': pobj.component_set.exclude(license='').order_by('license'),
-            'language_stats': pobj.stats.get_single_language_stats(obj),
+            "allow_index": True,
+            "language": obj,
+            "project": pobj,
+            "last_changes": last_changes,
+            "last_changes_url": urlencode({"lang": obj.code, "project": pobj.slug}),
+            "translations": translations,
+            "title": "{0} - {1}".format(pobj, obj),
+            "search_form": SearchForm(request.user),
+            "licenses": pobj.component_set.exclude(license="").order_by("license"),
+            "language_stats": pobj.stats.get_single_language_stats(obj),
         },
     )
 
 
-@method_decorator(permission_required('language.add'), name='dispatch')
+@method_decorator(permission_required("language.add"), name="dispatch")
 class CreateLanguageView(CreateView):
     template_name = "lang/create.html"
 
@@ -165,13 +162,13 @@ class CreateLanguageView(CreateView):
         return redirect(self.object)
 
 
-@method_decorator(permission_required('language.edit'), name='dispatch')
+@method_decorator(permission_required("language.edit"), name="dispatch")
 class EditLanguageView(UpdateView):
     form_class = LanguageForm
     model = Language
 
 
-@method_decorator(permission_required('language.edit'), name='dispatch')
+@method_decorator(permission_required("language.edit"), name="dispatch")
 class EditPluralView(UpdateView):
     form_class = PluralForm
     model = Plural

@@ -891,7 +891,7 @@ $(function () {
         }
     }
 
-    /* Whiteboard message discard */
+    /* Announcement discard */
     $('.alert').on('close.bs.alert', function () {
         var $this = $(this);
         var $form = $('#link-post');

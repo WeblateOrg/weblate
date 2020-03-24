@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,18 +30,18 @@ from weblate.trans.models import Component, Unit
 
 class ScreenshotQuerySet(models.QuerySet):
     def order(self):
-        return self.order_by('name')
+        return self.order_by("name")
 
 
 class Screenshot(models.Model, UserDisplayMixin):
-    name = models.CharField(verbose_name=_('Screenshot name'), max_length=200)
+    name = models.CharField(verbose_name=_("Screenshot name"), max_length=200)
     image = ScreenshotField(
-        verbose_name=_('Image'),
-        help_text=_('Upload JPEG or PNG images up to 2000x2000 pixels.'),
-        upload_to='screenshots/',
+        verbose_name=_("Image"),
+        help_text=_("Upload JPEG or PNG images up to 2000x2000 pixels."),
+        upload_to="screenshots/",
     )
     component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
-    units = models.ManyToManyField(Unit, blank=True, related_name='screenshots')
+    units = models.ManyToManyField(Unit, blank=True, related_name="screenshots")
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -57,4 +56,4 @@ class Screenshot(models.Model, UserDisplayMixin):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('screenshot', kwargs={'pk': self.pk})
+        return reverse("screenshot", kwargs={"pk": self.pk})

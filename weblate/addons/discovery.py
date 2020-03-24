@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,35 +29,35 @@ from weblate.trans.discovery import ComponentDiscovery
 
 class DiscoveryAddon(BaseAddon):
     events = (EVENT_POST_UPDATE,)
-    name = 'weblate.discovery.discovery'
-    verbose = _('Component discovery')
+    name = "weblate.discovery.discovery"
+    verbose = _("Component discovery")
     description = _(
-        'This addon automatically adds or removes components to the '
-        'project based on file changes in the version control system.'
+        "This addon automatically adds or removes components to the "
+        "project based on file changes in the version control system."
     )
     settings_form = DiscoveryForm
     multiple = True
-    icon = 'magnify.svg'
+    icon = "magnify.svg"
     repo_scope = True
     trigger_update = True
 
     def post_update(self, component, previous_head):
         self.discovery.perform(
-            remove=self.instance.configuration['remove'], background=True
+            remove=self.instance.configuration["remove"], background=True
         )
 
     def get_settings_form(self, **kwargs):
         """Return configuration for for this addon."""
-        if 'data' not in kwargs:
-            kwargs['data'] = self.instance.configuration
-            kwargs['data']['confirm'] = False
+        if "data" not in kwargs:
+            kwargs["data"] = self.instance.configuration
+            kwargs["data"]["confirm"] = False
         return super().get_settings_form(**kwargs)
 
     @cached_property
     def discovery(self):
         # Handle old settings which did not have this set
-        if 'new_base_template' not in self.instance.configuration:
-            self.instance.configuration['new_base_template'] = ''
+        if "new_base_template" not in self.instance.configuration:
+            self.instance.configuration["new_base_template"] = ""
         return ComponentDiscovery(
             self.instance.component,
             **ComponentDiscovery.extract_kwargs(self.instance.configuration)

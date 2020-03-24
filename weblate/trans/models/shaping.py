@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -33,4 +32,4 @@ class Shaping(models.Model):
         unique_together = (("key", "component", "shaping_regex"),)
 
     def __str__(self):
-        return '{}: {}'.format(self.component, self.key)
+        return "{}: {}".format(self.component, self.key)

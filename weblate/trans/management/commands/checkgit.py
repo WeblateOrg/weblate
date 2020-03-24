@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,11 +21,11 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'checks status of git repo'
+    help = "checks status of git repo"
     needs_repo = True
 
     def handle(self, *args, **options):
         """Show status of git repository in given projects."""
         for component in self.get_components(*args, **options):
-            self.stdout.write('{0}:'.format(component))
+            self.stdout.write("{0}:".format(component))
             self.stdout.write(component.repository.status())

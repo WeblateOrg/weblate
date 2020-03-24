@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,7 +31,7 @@ def try_get_user(username, list_all=False):
         method = User.objects.filter
     else:
         method = User.objects.get
-    if '@' in username:
+    if "@" in username:
         return method(email=username)
     return method(username=username)
 
@@ -55,15 +54,14 @@ class WeblateUserBackend(ModelBackend):
 
     def get_user(self, user_id):
         try:
-            user = User.objects.select_related('profile').get(pk=user_id)
+            user = User.objects.select_related("profile").get(pk=user_id)
         except User.DoesNotExist:
             return None
         return user if self.user_can_authenticate(user) else None
 
 
 @receiver(pre_save, sender=User)
-def disable_anon_user_password_save(sender, **kwargs):
+def disable_anon_user_password_save(sender, instance, **kwargs):
     """Block setting password for anonymous user."""
-    instance = kwargs['instance']
     if instance.is_anonymous and instance.has_usable_password():
-        raise ValueError('Anonymous user can not have usable password!')
+        raise ValueError("Anonymous user can not have usable password!")

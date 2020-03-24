@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,6 +22,6 @@ from django.apps import AppConfig
 
 
 class ApiConfig(AppConfig):
-    name = 'weblate.api'
-    label = 'api'
-    verbose_name = 'API'
+    name = "weblate.api"
+    label = "api"
+    verbose_name = "API"

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,7 +27,7 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'removes incompatible celery schedule file'
+    help = "removes incompatible celery schedule file"
 
     @staticmethod
     def try_remove(filename):
@@ -45,7 +44,7 @@ class Command(BaseCommand):
         try:
             self.setup_schedule()
         except Exception as error:
-            self.stderr.write('Removing corrupted schedule file: {!r}'.format(error))
+            self.stderr.write("Removing corrupted schedule file: {!r}".format(error))
             self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME)
-            self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + '.db')
+            self.try_remove(settings.CELERY_BEAT_SCHEDULE_FILENAME + ".db")
             self.setup_schedule()
