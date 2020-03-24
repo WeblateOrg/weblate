@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,4 +24,4 @@ from rest_framework.authentication import TokenAuthentication
 class BearerAuthentication(TokenAuthentication):
     """RFC 6750 compatible Bearer authentication."""
 
-    keyword = 'Bearer'
+    keyword = "Bearer"

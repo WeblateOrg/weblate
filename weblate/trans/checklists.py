@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -37,6 +36,6 @@ class TranslationChecklist(list):
                 FILTERS.get_filter_name(name),
                 getattr(stats, name),
                 level,
-                getattr(stats, '{}_words'.format(name)),
+                getattr(stats, "{}_words".format(name)),
             )
         )

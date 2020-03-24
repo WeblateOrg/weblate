@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,22 +23,22 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'setups default user groups'
+    help = "setups default user groups"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--no-privs-update',
-            action='store_false',
-            dest='update',
+            "--no-privs-update",
+            action="store_false",
+            dest="update",
             default=True,
-            help='Prevents updates of privileges of existing groups',
+            help="Prevents updates of privileges of existing groups",
         )
         parser.add_argument(
-            '--no-projects-update',
-            action='store_false',
-            dest='projects',
+            "--no-projects-update",
+            action="store_false",
+            dest="projects",
             default=True,
-            help='Prevents updates of groups for existing projects',
+            help="Prevents updates of groups for existing projects",
         )
 
     def handle(self, *args, **options):
@@ -47,7 +46,7 @@ class Command(BaseCommand):
 
         It also optionally updates them and moves users around to default group.
         """
-        create_groups(options['update'])
-        if options['projects']:
+        create_groups(options["update"])
+        if options["projects"]:
             for project in Project.objects.iterator():
                 setup_project_groups(Project, project)

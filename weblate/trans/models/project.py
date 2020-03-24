@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,7 +23,7 @@ import os
 import os.path
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -34,6 +33,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks import CHECKS
 from weblate.checks.models import Check
 from weblate.lang.models import Language, get_english_lang
+from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
@@ -43,7 +43,7 @@ from weblate.utils.stats import ProjectStats
 
 class ProjectQuerySet(models.QuerySet):
     def order(self):
-        return self.order_by('name')
+        return self.order_by("name")
 
 
 class Project(models.Model, URLMixin, PathMixin):
@@ -53,99 +53,99 @@ class Project(models.Model, URLMixin, PathMixin):
     ACCESS_CUSTOM = 200
 
     ACCESS_CHOICES = (
-        (ACCESS_PUBLIC, gettext_lazy('Public')),
-        (ACCESS_PROTECTED, gettext_lazy('Protected')),
-        (ACCESS_PRIVATE, gettext_lazy('Private')),
-        (ACCESS_CUSTOM, gettext_lazy('Custom')),
+        (ACCESS_PUBLIC, gettext_lazy("Public")),
+        (ACCESS_PROTECTED, gettext_lazy("Protected")),
+        (ACCESS_PRIVATE, gettext_lazy("Private")),
+        (ACCESS_CUSTOM, gettext_lazy("Custom")),
     )
 
     name = models.CharField(
-        verbose_name=gettext_lazy('Project name'),
+        verbose_name=gettext_lazy("Project name"),
         max_length=PROJECT_NAME_LENGTH,
         unique=True,
-        help_text=gettext_lazy('Display name'),
+        help_text=gettext_lazy("Display name"),
     )
     slug = models.SlugField(
-        verbose_name=gettext_lazy('URL slug'),
+        verbose_name=gettext_lazy("URL slug"),
         unique=True,
         max_length=PROJECT_NAME_LENGTH,
-        help_text=gettext_lazy('Name used in URLs and filenames.'),
+        help_text=gettext_lazy("Name used in URLs and filenames."),
     )
     web = models.URLField(
-        verbose_name=gettext_lazy('Project website'),
-        help_text=gettext_lazy('Main website of translated project.'),
+        verbose_name=gettext_lazy("Project website"),
+        help_text=gettext_lazy("Main website of translated project."),
     )
     mail = models.EmailField(
-        verbose_name=gettext_lazy('Mailing list'),
+        verbose_name=gettext_lazy("Mailing list"),
         blank=True,
         max_length=254,
-        help_text=gettext_lazy('Mailing list for translators.'),
+        help_text=gettext_lazy("Mailing list for translators."),
     )
     instructions = models.TextField(
-        verbose_name=gettext_lazy('Translation instructions'),
+        verbose_name=gettext_lazy("Translation instructions"),
         blank=True,
-        help_text=_('You can use Markdown and mention users by @username.'),
+        help_text=_("You can use Markdown and mention users by @username."),
     )
 
     set_language_team = models.BooleanField(
-        verbose_name=gettext_lazy('Set \"Language-Team\" header'),
+        verbose_name=gettext_lazy('Set "Language-Team" header'),
         default=True,
         help_text=gettext_lazy(
-            'Lets Weblate update the \"Language-Team\" file header ' 'of your project.'
+            'Lets Weblate update the "Language-Team" file header ' "of your project."
         ),
     )
     use_shared_tm = models.BooleanField(
-        verbose_name=gettext_lazy('Use shared translation memory'),
+        verbose_name=gettext_lazy("Use shared translation memory"),
         default=settings.DEFAULT_SHARED_TM,
         help_text=gettext_lazy(
-            'Uses the pool of shared translations between projects.'
+            "Uses the pool of shared translations between projects."
         ),
     )
     contribute_shared_tm = models.BooleanField(
-        verbose_name=gettext_lazy('Contribute to shared translation memory'),
+        verbose_name=gettext_lazy("Contribute to shared translation memory"),
         default=settings.DEFAULT_SHARED_TM,
         help_text=gettext_lazy(
-            'Contributes to the pool of shared translations between projects.'
+            "Contributes to the pool of shared translations between projects."
         ),
     )
     access_control = models.IntegerField(
         default=settings.DEFAULT_ACCESS_CONTROL,
         choices=ACCESS_CHOICES,
-        verbose_name=gettext_lazy('Access control'),
+        verbose_name=gettext_lazy("Access control"),
         help_text=gettext_lazy(
-            'How to restrict access to this project is detailed '
-            'in the documentation.'
+            "How to restrict access to this project is detailed "
+            "in the documentation."
         ),
     )
     enable_review = models.BooleanField(
-        verbose_name=gettext_lazy('Enable reviews'),
+        verbose_name=gettext_lazy("Enable reviews"),
         default=False,
-        help_text=gettext_lazy('Requires dedicated reviewers to approve translations.'),
+        help_text=gettext_lazy("Requires dedicated reviewers to approve translations."),
     )
     enable_hooks = models.BooleanField(
-        verbose_name=gettext_lazy('Enable hooks'),
+        verbose_name=gettext_lazy("Enable hooks"),
         default=True,
         help_text=gettext_lazy(
-            'Whether to allow updating this repository by remote hooks.'
+            "Whether to allow updating this repository by remote hooks."
         ),
     )
     source_language = models.ForeignKey(
         Language,
-        verbose_name=gettext_lazy('Source language'),
-        help_text=gettext_lazy('Language used for source strings in all components'),
+        verbose_name=gettext_lazy("Source language"),
+        help_text=gettext_lazy("Language used for source strings in all components"),
         default=get_english_lang,
         on_delete=models.deletion.CASCADE,
     )
 
     is_lockable = True
-    _reverse_url_name = 'project'
+    _reverse_url_name = "project"
 
     objects = ProjectQuerySet.as_manager()
 
     class Meta:
-        app_label = 'trans'
-        verbose_name = gettext_lazy('Project')
-        verbose_name_plural = gettext_lazy('Projects')
+        app_label = "trans"
+        verbose_name = gettext_lazy("Project")
+        verbose_name_plural = gettext_lazy("Projects")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -156,33 +156,33 @@ class Project(models.Model, URLMixin, PathMixin):
         """Add user based on username or email address."""
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
-                group = '@Translate'
+                group = "@Translate"
             else:
-                group = '@Administration'
-        group = self.group_set.get(name='{0}{1}'.format(self.name, group))
+                group = "@Administration"
+        group = self.group_set.get(name="{0}{1}".format(self.name, group))
         user.groups.add(group)
         user.profile.watched.add(self)
 
     def remove_user(self, user, group=None):
         """Add user based on username or email address."""
         if group is None:
-            groups = self.group_set.filter(internal=True, name__contains='@')
+            groups = self.group_set.filter(internal=True, name__contains="@")
             user.groups.remove(*groups)
         else:
-            group = self.group_set.get(name='{0}{1}'.format(self.name, group))
+            group = self.group_set.get(name="{0}{1}".format(self.name, group))
             user.groups.remove(group)
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
-        return {'project': self.slug}
+        return {"project": self.slug}
 
     def get_widgets_url(self):
         """Return absolute URL for widgets."""
-        return get_site_url(reverse('widgets', kwargs={'project': self.slug}))
+        return get_site_url(reverse("widgets", kwargs={"project": self.slug}))
 
     def get_share_url(self):
         """Return absolute URL usable for sharing."""
-        return get_site_url(reverse('engage', kwargs={'project': self.slug}))
+        return get_site_url(reverse("engage", kwargs={"project": self.slug}))
 
     @cached_property
     def locked(self):
@@ -192,12 +192,13 @@ class Project(models.Model, URLMixin, PathMixin):
         )
 
     def _get_path(self):
-        return os.path.join(data_dir('vcs'), self.slug)
+        return os.path.join(data_dir("vcs"), self.slug)
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
+        update_tm = self.contribute_shared_tm
 
         # Renaming detection
         old = None
@@ -213,6 +214,7 @@ class Project(models.Model, URLMixin, PathMixin):
                     component.linked_childs.update(
                         repo=new_component.get_repo_link_url()
                     )
+            update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
 
         self.create_path()
 
@@ -225,6 +227,10 @@ class Project(models.Model, URLMixin, PathMixin):
             for component in self.component_set.iterator():
                 perform_load.delay(component.pk)
 
+        # Update translation memory on enabled sharing
+        if update_tm:
+            transaction.on_commit(lambda: import_memory.delay(self.id))
+
     @cached_property
     def languages(self):
         """Return list of all languages used in project."""
@@ -236,10 +242,9 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def needs_commit(self):
         """Check whether there are any uncommitted changes."""
-        for component in self.component_set.iterator():
-            if component.needs_commit():
-                return True
-        return False
+        return any(
+            component.needs_commit() for component in self.component_set.iterator()
+        )
 
     def on_repo_components(self, default, call, *args, **kwargs):
         """Wrapper for operations on repository."""
@@ -254,40 +259,40 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def commit_pending(self, reason, user):
         """Commit any pending changes."""
-        return self.on_repo_components(True, 'commit_pending', reason, user)
+        return self.on_repo_components(True, "commit_pending", reason, user)
 
     def repo_needs_merge(self):
-        return self.on_repo_components(False, 'repo_needs_merge')
+        return self.on_repo_components(False, "repo_needs_merge")
 
     def repo_needs_push(self):
-        return self.on_repo_components(False, 'repo_needs_push')
+        return self.on_repo_components(False, "repo_needs_push")
 
     def do_update(self, request=None, method=None):
         """Update all Git repos."""
-        return self.on_repo_components(True, 'do_update', request, method=method)
+        return self.on_repo_components(True, "do_update", request, method=method)
 
     def do_push(self, request=None):
         """Push all Git repos."""
-        return self.on_repo_components(True, 'do_push', request)
+        return self.on_repo_components(True, "do_push", request)
 
     def do_reset(self, request=None):
         """Push all Git repos."""
-        return self.on_repo_components(True, 'do_reset', request)
+        return self.on_repo_components(True, "do_reset", request)
 
     def do_cleanup(self, request=None):
         """Push all Git repos."""
-        return self.on_repo_components(True, 'do_cleanup', request)
+        return self.on_repo_components(True, "do_cleanup", request)
 
     def can_push(self):
         """Check whether any suprojects can push."""
-        return self.on_repo_components(False, 'can_push')
+        return self.on_repo_components(False, "can_push")
 
     def all_repo_components(self):
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
         included = {component.get_repo_link_url() for component in result}
 
-        linked = self.component_set.filter(repo__startswith='weblate:')
+        linked = self.component_set.filter(repo__startswith="weblate:")
         for other in linked:
             if other.repo in included:
                 continue
@@ -299,7 +304,7 @@ class Project(models.Model, URLMixin, PathMixin):
     @cached_property
     def paid(self):
         return (
-            'weblate.billing' not in settings.INSTALLED_APPS
+            "weblate.billing" not in settings.INSTALLED_APPS
             or not self.billing_set.exists()
             or self.billing_set.filter(paid=True).exists()
         )
@@ -309,31 +314,31 @@ class Project(models.Model, URLMixin, PathMixin):
         from weblate.trans.models import Unit
 
         create = []
-        meth_name = 'check_{}_project'.format(attr_name)
+        meth_name = "check_{}_project".format(attr_name)
         for check, check_obj in CHECKS.items():
             if not getattr(check_obj, attr_name) or not check_obj.batch_update:
                 continue
-            self.log_info('running batch check: %s', check)
+            self.log_info("running batch check: %s", check)
             # List of triggered checks
             data = getattr(check_obj, meth_name)(self)
             # Fetch existing check instances
             existing = set(
                 Check.objects.filter(
                     unit__translation__component__project=self, check=check
-                ).values_list('unit__content_hash', 'unit__translation__language_id')
+                ).values_list("unit__content_hash", "unit__translation__language_id")
             )
             # Create new check instances
             for item in data:
-                if 'translation__language' not in item:
-                    item['translation__language'] = self.source_language.id
-                key = (item['content_hash'], item['translation__language'])
+                if "translation__language" not in item:
+                    item["translation__language"] = self.source_language.id
+                key = (item["content_hash"], item["translation__language"])
                 if key in existing:
                     existing.discard(key)
                 else:
                     units = Unit.objects.filter(
                         translation__component__project=self,
-                        translation__language_id=item['translation__language'],
-                        content_hash=item['content_hash'],
+                        translation__language_id=item["translation__language"],
+                        content_hash=item["content_hash"],
                     )
                     for unit in units:
                         create.append(Check(unit=unit, check=check, ignore=False))
@@ -355,18 +360,18 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def run_target_checks(self):
         """Run batch executed target checks."""
-        self.run_batch_checks('target')
+        self.run_batch_checks("target")
 
     def run_source_checks(self):
         """Run batch executed source checks."""
-        self.run_batch_checks('source')
+        self.run_batch_checks("source")
 
     def update_unit_flags(self):
         from weblate.trans.models import Unit
 
         units = Unit.objects.filter(translation__component__project=self)
 
-        self.log_debug('updating unit flags: has_failing_check')
+        self.log_debug("updating unit flags: has_failing_check")
 
         units.filter(has_failing_check=False).filter(check__ignore=False).update(
             has_failing_check=True
@@ -374,10 +379,10 @@ class Project(models.Model, URLMixin, PathMixin):
         units.filter(has_failing_check=True).exclude(check__ignore=False).update(
             has_failing_check=False
         )
-        self.log_debug('all unit flags updated')
+        self.log_debug("all unit flags updated")
 
     def invalidate_stats_deep(self):
-        self.log_info('updating stats caches')
+        self.log_info("updating stats caches")
         from weblate.trans.models import Translation
 
         translations = Translation.objects.filter(component__project=self)
@@ -387,20 +392,20 @@ class Project(models.Model, URLMixin, PathMixin):
     def get_stats(self):
         """Return stats dictionary."""
         return {
-            'name': self.name,
-            'total': self.stats.all,
-            'total_words': self.stats.all_words,
-            'last_change': self.stats.last_changed,
-            'recent_changes': self.stats.recent_changes,
-            'translated': self.stats.translated,
-            'translated_words': self.stats.translated_words,
-            'translated_percent': self.stats.translated_percent,
-            'fuzzy': self.stats.fuzzy,
-            'fuzzy_percent': self.stats.fuzzy_percent,
-            'failing': self.stats.allchecks,
-            'failing_percent': self.stats.allchecks_percent,
-            'url': self.get_share_url(),
-            'url_translate': get_site_url(self.get_absolute_url()),
+            "name": self.name,
+            "total": self.stats.all,
+            "total_words": self.stats.all_words,
+            "last_change": self.stats.last_changed,
+            "recent_changes": self.stats.recent_changes,
+            "translated": self.stats.translated,
+            "translated_words": self.stats.translated_words,
+            "translated_percent": self.stats.translated_percent,
+            "fuzzy": self.stats.fuzzy,
+            "fuzzy_percent": self.stats.fuzzy_percent,
+            "failing": self.stats.allchecks,
+            "failing_percent": self.stats.allchecks_percent,
+            "url": self.get_share_url(),
+            "url_translate": get_site_url(self.get_absolute_url()),
         }
 
     def post_create(self, user, billing=None):
@@ -411,7 +416,7 @@ class Project(models.Model, URLMixin, PathMixin):
             self.access_control = Project.ACCESS_PRIVATE
             self.save()
         if not user.is_superuser:
-            self.add_user(user, '@Administration')
+            self.add_user(user, "@Administration")
         Change.objects.create(
             action=Change.ACTION_CREATE_PROJECT, project=self, user=user, author=user
         )

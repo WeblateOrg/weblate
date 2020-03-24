@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,4 +28,4 @@ class ScreenshotForm(forms.ModelForm):
 
     class Meta:
         model = Screenshot
-        fields = ('name', 'image')
+        fields = ("name", "image")

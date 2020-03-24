@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -63,4 +62,4 @@ class TestMailForm(forms.Form):
 class BackupForm(forms.ModelForm):
     class Meta:
         model = BackupService
-        fields = ('repository',)
+        fields = ("repository",)

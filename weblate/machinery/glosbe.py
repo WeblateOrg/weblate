@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,12 +24,12 @@ from weblate.machinery.base import MachineTranslation
 class GlosbeTranslation(MachineTranslation):
     """Glosbe machine translation support."""
 
-    name = 'Glosbe'
+    name = "Glosbe"
     max_score = 90
 
     def convert_language(self, language):
         """Convert language to service specific code."""
-        return language.replace('_', '-').split('-')[0].lower()
+        return language.replace("_", "-").split("-")[0].lower()
 
     def is_supported(self, source, language):
         """Any language is supported."""
@@ -38,21 +37,21 @@ class GlosbeTranslation(MachineTranslation):
 
     def download_translations(self, source, language, text, unit, user):
         """Download list of possible translations from a service."""
-        params = {'from': source, 'dest': language, 'format': 'json', 'phrase': text}
+        params = {"from": source, "dest": language, "format": "json", "phrase": text}
         response = self.request(
-            "get", 'https://glosbe.com/gapi/translate', params=params
+            "get", "https://glosbe.com/gapi/translate", params=params
         )
         payload = response.json()
 
-        if 'tuc' not in payload:
+        if "tuc" not in payload:
             return
 
-        for match in payload['tuc']:
-            if 'phrase' not in match or match['phrase'] is None:
+        for match in payload["tuc"]:
+            if "phrase" not in match or match["phrase"] is None:
                 continue
             yield {
-                'text': match['phrase']['text'],
-                'quality': self.max_score,
-                'service': self.name,
-                'source': text,
+                "text": match["phrase"]["text"],
+                "quality": self.max_score,
+                "service": self.name,
+                "source": text,
             }

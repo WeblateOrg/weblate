@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,6 +22,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class TransConfig(AppConfig):
-    name = 'weblate.trans'
-    label = 'trans'
-    verbose_name = _('Weblate translations')
+    name = "weblate.trans"
+    label = "trans"
+    verbose_name = _("Weblate translations")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -520,6 +519,7 @@ MT_DEEPL_KEY = None
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = None
+MT_MICROSOFT_REGION = None
 
 # MyMemory identification email, see
 # https://mymemory.translated.net/doc/spec.php
@@ -763,6 +763,8 @@ CACHES = {
 
 # Store sessions in cache
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# Store messages in session
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
 REST_FRAMEWORK = {
@@ -829,14 +831,10 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
-    "weblate.trans.search.*": {"queue": "search"},
-    "weblate.trans.tasks.optimize_fulltext": {"queue": "search"},
-    "weblate.trans.tasks.cleanup_fulltext": {"queue": "search"},
     "weblate.trans.tasks.auto_translate": {"queue": "translate"},
     "weblate.memory.tasks.*": {"queue": "memory"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
-    "weblate.memory.tasks.memory_backup": {"queue": "backup"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
     "weblate.utils.tasks.database_backup": {"queue": "backup"},
     "weblate.wladmin.tasks.backup": {"queue": "backup"},

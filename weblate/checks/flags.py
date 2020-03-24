@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -44,6 +43,7 @@ PLAIN_FLAGS["auto-java-messageformat"] = gettext_lazy(
     "Automatically detect Java MessageFormat"
 )
 PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
+PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
 
 TYPED_FLAGS["font-family"] = gettext_lazy("Font family")
 TYPED_FLAGS_ARGS["font-family"] = str

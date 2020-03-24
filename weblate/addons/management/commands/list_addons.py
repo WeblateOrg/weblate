@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,15 +24,15 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'List installed addons'
+    help = "List installed addons"
 
     def handle(self, *args, **options):
         """List installed addons."""
         for _unused, obj in sorted(ADDONS.items()):
-            self.stdout.write('.. _addon-{}:'.format(obj.name))
-            self.stdout.write('\n')
+            self.stdout.write(".. _addon-{}:".format(obj.name))
+            self.stdout.write("\n")
             self.stdout.write(obj.verbose)
-            self.stdout.write('-' * len(obj.verbose))
-            self.stdout.write('\n')
-            self.stdout.write('\n'.join(wrap(obj.description, 79)))
-            self.stdout.write('\n')
+            self.stdout.write("-" * len(obj.verbose))
+            self.stdout.write("\n")
+            self.stdout.write("\n".join(wrap(obj.description, 79)))
+            self.stdout.write("\n")

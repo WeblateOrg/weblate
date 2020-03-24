@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -27,38 +26,38 @@ from weblate.utils.render import render_template
 
 class RenderTest(SimpleTestCase):
     def test_float(self):
-        self.assertEqual(render_template('{{ number }}', number=1.1), '1.1')
+        self.assertEqual(render_template("{{ number }}", number=1.1), "1.1")
 
     def test_float_cs(self):
-        with override('cs'):
+        with override("cs"):
             self.test_float()
 
     def test_replace(self):
         self.assertEqual(
             render_template('{% replace "a-string-with-dashes" "-" " " %}'),
-            'a string with dashes',
+            "a string with dashes",
         )
 
     def test_dirname(self):
         self.assertEqual(
-            render_template('{{ value|dirname }}', value='weblate/test.po'), 'weblate'
+            render_template("{{ value|dirname }}", value="weblate/test.po"), "weblate"
         )
 
     def test_stripext(self):
         self.assertEqual(
-            render_template('{{ value|stripext }}', value='weblate/test.po'),
-            'weblate/test',
+            render_template("{{ value|stripext }}", value="weblate/test.po"),
+            "weblate/test",
         )
 
     def test_parentdir(self):
         self.assertEqual(
-            render_template('{{ value|parentdir }}', value='weblate/test.po'), 'test.po'
+            render_template("{{ value|parentdir }}", value="weblate/test.po"), "test.po"
         )
 
     def test_parentdir_chain(self):
         self.assertEqual(
             render_template(
-                '{{ value|parentdir|parentdir }}', value='foo/bar/weblate/test.po'
+                "{{ value|parentdir|parentdir }}", value="foo/bar/weblate/test.po"
             ),
-            'weblate/test.po',
+            "weblate/test.po",
         )

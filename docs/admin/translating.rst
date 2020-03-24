@@ -10,7 +10,7 @@ Suggestion voting
 
     This feature is available since Weblate 1.6.
 
-By default, everyone can add suggestions, which logged in users can
+By default, everyone can add suggestions, which signed in users can
 accept. Requiring more then one person for acceptance can be achieved by suggestion voting.
 You can enable this on :ref:`component` configuration by
 :guilabel:`Suggestion voting` and :guilabel:`Autoaccept suggestions`. The first

@@ -3,7 +3,7 @@
 
 . ci/lib
 
-TAGS="weblate-3.1.1 weblate-3.2.2 weblate-3.3 weblate-3.4 weblate-3.5.1 weblate-3.7.1 weblate-3.8 weblate-3.9.1 weblate-3.10.3 weblate-3.11"
+TAGS="weblate-3.1.1 weblate-3.2.2 weblate-3.3 weblate-3.4 weblate-3.5.1 weblate-3.7.1 weblate-3.8 weblate-3.9.1 weblate-3.10.3 weblate-3.11.3"
 if [ -n "$1" ] ; then
     TAGS="weblate-$1"
 fi
@@ -66,6 +66,11 @@ for tag in $TAGS ; do
     # Add vote for suggestion
     ./manage.py shell -c 'from weblate.trans.models import Vote, Suggestion; s = Suggestion.objects.all()[0]; vote = Vote(suggestion=s, user=s.user); vote.value = 1; vote.positive = True; vote.save()'
     check
+    # Load translation memory
+    if [ -f ./weblate/trans/tests/data/memory.json ] ; then
+        ./manage.py import_memory ./weblate/trans/tests/data/memory.json
+        check
+    fi
     git reset --hard
     check
     git checkout $HEAD_COMMIT

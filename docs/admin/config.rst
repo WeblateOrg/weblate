@@ -30,7 +30,7 @@ and associate it with a site.
 ANONYMOUS_USER_NAME
 -------------------
 
-User name of user for defining privileges of not logged in user.
+User name of user for defining privileges of not signed in user.
 
 .. seealso::
 
@@ -335,12 +335,8 @@ The following subdirectories usually exist:
     Default location for Django static files, specified by ``STATIC_ROOT``.
 :file:`media`
     Default location for Django media files, specified by ``MEDIA_ROOT``.
-:file:`memory`
-    Translation memory data using Whoosh engine (see :ref:`translation-memory`).
 :file:`vcs`
     Version control repositories.
-:file:`whoosh`
-    Fulltext search index using Whoosh engine.
 :file:`backups`
     Dump of data in daily backups, see :ref:`backup-dumps`.
 
@@ -902,6 +898,16 @@ API key for Google Translate API, you can register at https://cloud.google.com/t
 
    :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_MICROSOFT_BASE_URL
+
+MT_MICROSOFT_BASE_URL
+---------------------
+
+Region base url domain as defined in the `Base URLs section
+<https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_.
+
+Defaults to ``api.cognitive.microsofttranslator.com``.
+
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
 
 MT_MICROSOFT_COGNITIVE_KEY
@@ -913,6 +919,13 @@ Client key for Microsoft Cognitive Services Translator API.
     :ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`,
     `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
+
+.. setting:: MT_MICROSOFT_REGION
+
+MT_MICROSOFT_REGION
+-------------------
+
+Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
 
 .. setting:: MT_MYMEMORY_EMAIL
 
@@ -1089,7 +1102,7 @@ If enabled the captcha is added to all pages where users enter e-mail address:
 * New account registration.
 * Password recovery.
 * Adding e-mail to an account.
-* Contact form for users who are not logged in.
+* Contact form for users who are not signed in.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,15 +27,15 @@ from weblate.addons.events import EVENT_PRE_COMMIT
 class ExampleAddon(BaseAddon):
     # Filter for compatible components, every key is
     # matched against property of component
-    compat = {'file_format': frozenset(('po', 'po-mono'))}
+    compat = {"file_format": frozenset(("po", "po-mono"))}
     # List of events addon should receive
     events = (EVENT_PRE_COMMIT,)
     # Addon unique identifier
-    name = 'weblate.example.example'
+    name = "weblate.example.example"
     # Verbose name shown in the user interface
-    verbose = _('Example addon')
+    verbose = _("Example addon")
     # Detailed addon description
-    description = _('This addon does nothing it is just an example.')
+    description = _("This addon does nothing it is just an example.")
 
     # Callback to implement custom behavior
     def pre_commit(self, translation, author):

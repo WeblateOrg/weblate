@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,67 +30,67 @@ import weblate.accounts.views
 social_urls = [
     # authentication / association
     url(
-        r'^login/(?P<backend>[^/]+)/$', weblate.accounts.views.social_auth, name='begin'
+        r"^login/(?P<backend>[^/]+)/$", weblate.accounts.views.social_auth, name="begin"
     ),
     url(
-        r'^complete/(?P<backend>[^/]+)/$',
+        r"^complete/(?P<backend>[^/]+)/$",
         weblate.accounts.views.social_complete,
-        name='complete',
+        name="complete",
     ),
     # disconnection
     url(
-        r'^disconnect/(?P<backend>[^/]+)/$',
+        r"^disconnect/(?P<backend>[^/]+)/$",
         weblate.accounts.views.social_disconnect,
-        name='disconnect',
+        name="disconnect",
     ),
     url(
-        r'^disconnect/(?P<backend>[^/]+)/(?P<association_id>\d+)/$',
+        r"^disconnect/(?P<backend>[^/]+)/(?P<association_id>\d+)/$",
         weblate.accounts.views.social_disconnect,
-        name='disconnect_individual',
+        name="disconnect_individual",
     ),
 ]
 
 
 urlpatterns = [
     url(
-        r'^email-sent/$',
+        r"^email-sent/$",
         weblate.accounts.views.EmailSentView.as_view(),
-        name='email-sent',
+        name="email-sent",
     ),
-    url(r'^password/$', weblate.accounts.views.password, name='password'),
+    url(r"^password/$", weblate.accounts.views.password, name="password"),
     url(
-        r'^reset-api-key/$', weblate.accounts.views.reset_api_key, name='reset-api-key'
+        r"^reset-api-key/$", weblate.accounts.views.reset_api_key, name="reset-api-key"
     ),
-    url(r'^reset/$', weblate.accounts.views.reset_password, name='password_reset'),
+    url(r"^reset/$", weblate.accounts.views.reset_password, name="password_reset"),
     url(
-        r'^logout/$', weblate.accounts.views.WeblateLogoutView.as_view(), name='logout'
+        r"^logout/$", weblate.accounts.views.WeblateLogoutView.as_view(), name="logout"
     ),
-    url(r'^profile/$', weblate.accounts.views.user_profile, name='profile'),
-    url(r'^userdata/$', weblate.accounts.views.userdata, name='userdata'),
-    url(r'^unsubscribe/$', weblate.accounts.views.unsubscribe, name='unsubscribe'),
-    url(r'^watch/(?P<project>[^/]+)/$', weblate.accounts.views.watch, name='watch'),
+    url(r"^profile/$", weblate.accounts.views.user_profile, name="profile"),
+    url(r"^userdata/$", weblate.accounts.views.userdata, name="userdata"),
+    url(r"^unsubscribe/$", weblate.accounts.views.unsubscribe, name="unsubscribe"),
+    url(r"^watch/(?P<project>[^/]+)/$", weblate.accounts.views.watch, name="watch"),
     url(
-        r'^unwatch/(?P<project>[^/]+)/$', weblate.accounts.views.unwatch, name='unwatch'
+        r"^unwatch/(?P<project>[^/]+)/$", weblate.accounts.views.unwatch, name="unwatch"
     ),
     url(
-        r'^mute/(?P<project>[^/]+)/(?P<component>[^/]+)/$',
+        r"^mute/(?P<project>[^/]+)/(?P<component>[^/]+)/$",
         weblate.accounts.views.mute_component,
-        name='mute',
+        name="mute",
     ),
     url(
-        r'^mute/(?P<project>[^/]+)/$', weblate.accounts.views.mute_project, name='mute'
+        r"^mute/(?P<project>[^/]+)/$", weblate.accounts.views.mute_project, name="mute"
     ),
-    url(r'^remove/$', weblate.accounts.views.user_remove, name='remove'),
-    url(r'^confirm/$', weblate.accounts.views.confirm, name='confirm'),
-    url(r'^login/$', weblate.accounts.views.WeblateLoginView.as_view(), name='login'),
-    url(r'^register/$', weblate.accounts.views.register, name='register'),
-    url(r'^email/$', weblate.accounts.views.email_login, name='email_login'),
-    url(r'', include((social_urls, 'social_auth'), namespace='social')),
+    url(r"^remove/$", weblate.accounts.views.user_remove, name="remove"),
+    url(r"^confirm/$", weblate.accounts.views.confirm, name="confirm"),
+    url(r"^login/$", weblate.accounts.views.WeblateLoginView.as_view(), name="login"),
+    url(r"^register/$", weblate.accounts.views.register, name="register"),
+    url(r"^email/$", weblate.accounts.views.email_login, name="email_login"),
+    url(r"", include((social_urls, "social_auth"), namespace="social")),
 ]
 
-if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
+if "simple_sso.sso_server" in settings.INSTALLED_APPS:
     # pylint: disable=wrong-import-position
     from simple_sso.sso_server.server import Server
 
     server = Server()
-    urlpatterns.append(url(r'^sso/', include(server.get_urls())))
+    urlpatterns.append(url(r"^sso/", include(server.get_urls())))

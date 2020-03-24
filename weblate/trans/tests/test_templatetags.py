@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,35 +29,35 @@ from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.templatetags.translations import get_location_links, naturaltime
 
 TEST_DATA = (
-    (0, 'now'),
-    (1, 'a second from now'),
-    (-1, 'a second ago'),
-    (2, '2 seconds from now'),
-    (-2, '2 seconds ago'),
-    (60, 'a minute from now'),
-    (-60, 'a minute ago'),
-    (120, '2 minutes from now'),
-    (-120, '2 minutes ago'),
-    (3600, 'an hour from now'),
-    (-3600, 'an hour ago'),
-    (3600 * 2, '2 hours from now'),
-    (-3600 * 2, '2 hours ago'),
-    (3600 * 24, 'tomorrow'),
-    (-3600 * 24, 'yesterday'),
-    (3600 * 24 * 2, '2 days from now'),
-    (-3600 * 24 * 2, '2 days ago'),
-    (3600 * 24 * 7, 'a week from now'),
-    (-3600 * 24 * 7, 'a week ago'),
-    (3600 * 24 * 14, '2 weeks from now'),
-    (-3600 * 24 * 14, '2 weeks ago'),
-    (3600 * 24 * 30, 'a month from now'),
-    (-3600 * 24 * 30, 'a month ago'),
-    (3600 * 24 * 60, '2 months from now'),
-    (-3600 * 24 * 60, '2 months ago'),
-    (3600 * 24 * 365, 'a year from now'),
-    (-3600 * 24 * 365, 'a year ago'),
-    (3600 * 24 * 365 * 2, '2 years from now'),
-    (-3600 * 24 * 365 * 2, '2 years ago'),
+    (0, "now"),
+    (1, "a second from now"),
+    (-1, "a second ago"),
+    (2, "2 seconds from now"),
+    (-2, "2 seconds ago"),
+    (60, "a minute from now"),
+    (-60, "a minute ago"),
+    (120, "2 minutes from now"),
+    (-120, "2 minutes ago"),
+    (3600, "an hour from now"),
+    (-3600, "an hour ago"),
+    (3600 * 2, "2 hours from now"),
+    (-3600 * 2, "2 hours ago"),
+    (3600 * 24, "tomorrow"),
+    (-3600 * 24, "yesterday"),
+    (3600 * 24 * 2, "2 days from now"),
+    (-3600 * 24 * 2, "2 days ago"),
+    (3600 * 24 * 7, "a week from now"),
+    (-3600 * 24 * 7, "a week ago"),
+    (3600 * 24 * 14, "2 weeks from now"),
+    (-3600 * 24 * 14, "2 weeks ago"),
+    (3600 * 24 * 30, "a month from now"),
+    (-3600 * 24 * 30, "a month ago"),
+    (3600 * 24 * 60, "2 months from now"),
+    (-3600 * 24 * 60, "2 months ago"),
+    (3600 * 24 * 365, "a year from now"),
+    (-3600 * 24 * 365, "a year ago"),
+    (3600 * 24 * 365 * 2, "2 years from now"),
+    (-3600 * 24 * 365 * 2, "2 years ago"),
 )
 
 
@@ -85,9 +84,9 @@ class LocationLinksTest(TestCase):
         self.unit = Unit(
             translation=Translation(
                 component=Component(
-                    project=Project(source_language=Language(), slug='p', name='p'),
-                    slug='c',
-                    name='c',
+                    project=Project(source_language=Language(), slug="p", name="p"),
+                    slug="c",
+                    name="c",
                 ),
                 language=Language(),
             )
@@ -95,32 +94,32 @@ class LocationLinksTest(TestCase):
         self.profile = Profile()
 
     def test_empty(self):
-        self.assertEqual(get_location_links(self.profile, self.unit), '')
+        self.assertEqual(get_location_links(self.profile, self.unit), "")
 
     def test_numeric(self):
-        self.unit.location = '123'
-        self.assertEqual(get_location_links(self.profile, self.unit), 'string ID 123')
+        self.unit.location = "123"
+        self.assertEqual(get_location_links(self.profile, self.unit), "string ID 123")
 
     def test_filename(self):
-        self.unit.location = 'f&oo.bar:123'
+        self.unit.location = "f&oo.bar:123"
         self.assertEqual(
-            get_location_links(self.profile, self.unit), 'f&amp;oo.bar:123'
+            get_location_links(self.profile, self.unit), "f&amp;oo.bar:123"
         )
 
     def test_filenames(self):
-        self.unit.location = 'foo.bar:123,bar.foo:321'
+        self.unit.location = "foo.bar:123,bar.foo:321"
         self.assertEqual(
-            get_location_links(self.profile, self.unit), 'foo.bar:123\nbar.foo:321'
+            get_location_links(self.profile, self.unit), "foo.bar:123\nbar.foo:321"
         )
 
     def test_repowebs(self):
         self.unit.translation.component.repoweb = (
-            'http://example.net/{{filename}}#L{{line}}'
+            "http://example.net/{{filename}}#L{{line}}"
         )
-        self.unit.location = 'foo.bar:123,bar.foo:321'
+        self.unit.location = "foo.bar:123,bar.foo:321"
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
-            '''
+            """
             <a class="long-filename"
                 href="http://example.net/foo.bar#L123" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
@@ -131,38 +130,38 @@ class LocationLinksTest(TestCase):
                 dir="ltr" rel="noopener noreferrer">
             bar.foo:321
             </a>
-            ''',
+            """,
         )
 
     def test_repoweb(self):
         self.unit.translation.component.repoweb = (
-            'http://example.net/{{filename}}#L{{line}}'
+            "http://example.net/{{filename}}#L{{line}}"
         )
-        self.unit.location = 'foo.bar:123'
+        self.unit.location = "foo.bar:123"
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
-            '''
+            """
             <a class="long-filename"
                 href="http://example.net/foo.bar#L123" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
-            ''',
+            """,
         )
 
     def test_user_url(self):
         self.unit.translation.component.repoweb = (
-            'http://example.net/{{filename}}#L{{line}}'
+            "http://example.net/{{filename}}#L{{line}}"
         )
-        self.profile.editor_link = 'editor://open/?file={{filename}}&line={{line}}'
-        self.unit.location = 'foo.bar:123'
+        self.profile.editor_link = "editor://open/?file={{filename}}&line={{line}}"
+        self.unit.location = "foo.bar:123"
         self.assertHTMLEqual(
             get_location_links(self.profile, self.unit),
-            '''
+            """
             <a class="long-filename"
                 href="editor://open/?file=foo.bar&amp;line=123" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
-            ''',
+            """,
         )

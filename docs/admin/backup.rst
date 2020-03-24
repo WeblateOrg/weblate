@@ -157,7 +157,7 @@ delete such entries manually using management shell (see :ref:`invoke-manage`):
 
 .. code-block:: console
 
-   ./manage.py shell
+   weblate shell
    >>> from weblate.auth.models import User
    >>> User.objects.get(username='anonymous').delete()
 
@@ -180,7 +180,6 @@ Weblate dumps various data here, and you can include these files for more comple
 backups. The files are updated daily (requires a running Celery beats server, see
 :ref:`celery`). Currently, this includes:
 
-* Translation memory dump, in JSON format.
 * Weblate settings as :file:`settings.py`.
 * PostgreSQL database backup as :file:`database.sql`.
 
@@ -214,23 +213,6 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up user uploaded files (e.g. :ref:`screenshots`).
 
-Translation memory
-++++++++++++++++++
-
-Stored in :setting:`DATA_DIR` ``/memory``.
-
-It is recommended to back up this content using
-:djadmin:`dump_memory` in JSON-, instead of binary format, as that
-might eventually change (and is also incompatible going from Python 2 to Python 3).
-Weblate prepares this dump daily, see :ref:`backup-dumps`.
-
-Fulltext index
-++++++++++++++
-
-Stored in :setting:`DATA_DIR` ``/whoosh``.
-
-It is recommended to not backup this and regenerate it from scratch on restore.
-
 Celery tasks
 ------------
 
@@ -248,23 +230,11 @@ Restoring manual backup
 
 1. Restore all data you have backed up.
 
-2. Recreate a fulltext index using :djadmin:`rebuild_index`:
+2. Update all repositories using :djadmin:`updategit`.
 
    .. code-block:: sh
 
-      ./manage.py rebuild_index --clean --all
-
-3. Restore your :ref:`translation-memory` using :djadmin:`import_memory`.
-
-   .. code-block:: sh
-
-         ./manage.py import_memory memory.json
-
-4. Update all repositories using :djadmin:`updategit`.
-
-   .. code-block:: sh
-
-         ./manage.py updategit --all
+         weblate updategit --all
 
 Moving a Weblate installation
 ------------------------------

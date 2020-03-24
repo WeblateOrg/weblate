@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright ©2018 Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
@@ -27,41 +26,41 @@ from weblate.machinery.base import (
     MissingConfiguration,
 )
 
-YOUDAO_API_ROOT = 'https://openapi.youdao.com/api'
+YOUDAO_API_ROOT = "https://openapi.youdao.com/api"
 
 
 class YoudaoTranslation(MachineTranslation):
     """Youdao Zhiyun API machine translation support."""
 
-    name = 'Youdao Zhiyun'
+    name = "Youdao Zhiyun"
     max_score = 90
 
     # Map codes used by Youdao to codes used by Weblate
-    language_map = {'zh_Hans': 'zh-CHS', 'zh': 'zh-CHS', 'en': 'EN'}
+    language_map = {"zh_Hans": "zh-CHS", "zh": "zh-CHS", "en": "EN"}
 
     def __init__(self):
         """Check configuration."""
         super().__init__()
         if settings.MT_YOUDAO_ID is None:
-            raise MissingConfiguration('Youdao Translate requires app key')
+            raise MissingConfiguration("Youdao Translate requires app key")
         if settings.MT_YOUDAO_SECRET is None:
-            raise MissingConfiguration('Youdao Translate requires app secret')
+            raise MissingConfiguration("Youdao Translate requires app secret")
 
     def download_languages(self):
         """List of supported languages."""
         return [
-            'zh-CHS',
-            'ja',
-            'EN',  # Officially youdao uses uppercase for en
-            'ko',
-            'fr',
-            'ru',
-            'pt',
-            'es',
-            'vi',
-            'de',
-            'ar',
-            'id',
+            "zh-CHS",
+            "ja",
+            "EN",  # Officially youdao uses uppercase for en
+            "ko",
+            "fr",
+            "ru",
+            "pt",
+            "es",
+            "vi",
+            "de",
+            "ar",
+            "id",
         ]
 
     def download_translations(self, source, language, text, unit, user):
@@ -74,24 +73,24 @@ class YoudaoTranslation(MachineTranslation):
             "get",
             YOUDAO_API_ROOT,
             params={
-                'q': text,
-                '_from': source,
-                'to': language,
-                'appKey': settings.MT_YOUDAO_ID,
-                'salt': salt,
-                'sign': sign,
+                "q": text,
+                "_from": source,
+                "to": language,
+                "appKey": settings.MT_YOUDAO_ID,
+                "salt": salt,
+                "sign": sign,
             },
         )
         payload = response.json()
 
-        if int(payload['errorCode']) != 0:
-            raise MachineTranslationError('Error code: {}'.format(payload['errorCode']))
+        if int(payload["errorCode"]) != 0:
+            raise MachineTranslationError("Error code: {}".format(payload["errorCode"]))
 
-        translation = payload['translation'][0]
+        translation = payload["translation"][0]
 
         yield {
-            'text': translation,
-            'quality': self.max_score,
-            'service': self.name,
-            'source': text,
+            "text": translation,
+            "quality": self.max_score,
+            "service": self.name,
+            "source": text,
         }

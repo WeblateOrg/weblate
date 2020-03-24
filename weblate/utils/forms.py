@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -46,7 +45,7 @@ class SortedSelect(SortedSelectMixin, forms.Select):
 
 class ContextDiv(Div):
     def __init__(self, *fields, **kwargs):
-        self.context = kwargs.pop('context', {})
+        self.context = kwargs.pop("context", {})
         super().__init__(*fields, **kwargs)
 
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):

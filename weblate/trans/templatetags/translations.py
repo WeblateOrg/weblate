@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -40,12 +39,12 @@ from weblate.checks import CHECKS, highlight_string
 from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
+    Announcement,
     Component,
     ContributorAgreement,
     Dictionary,
     Project,
     Translation,
-    WhiteboardMessage,
 )
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import get_state_css, split_plural
@@ -157,7 +156,7 @@ def fmt_search(value, search_match, match):
     return value
 
 
-@register.inclusion_tag("format-translation.html")
+@register.inclusion_tag("snippets/format-translation.html")
 def format_translation(
     value,
     language,
@@ -524,7 +523,7 @@ def get_state_badge(unit):
 @register.inclusion_tag("snippets/unit-state.html")
 def get_state_flags(unit):
     """Return state flags."""
-    return {'state': ' '.join(get_state_css(unit))}
+    return {"state": " ".join(get_state_css(unit))}
 
 
 @register.simple_tag
@@ -553,26 +552,26 @@ def get_location_links(profile, unit):
 
 
 @register.simple_tag(takes_context=True)
-def whiteboard_messages(context, project=None, component=None, language=None):
-    """Display whiteboard messages for given context."""
+def announcements(context, project=None, component=None, language=None):
+    """Display announcement messages for given context."""
     ret = []
-
-    whiteboards = WhiteboardMessage.objects.context_filter(project, component, language)
 
     user = context["user"]
 
-    for whiteboard in whiteboards:
+    for announcement in Announcement.objects.context_filter(
+        project, component, language
+    ):
         can_delete = user.has_perm(
-            "component.edit", whiteboard.component
-        ) or user.has_perm("project.edit", whiteboard.project)
+            "component.edit", announcement.component
+        ) or user.has_perm("project.edit", announcement.project)
 
         ret.append(
             render_to_string(
                 "message.html",
                 {
-                    "tags": " ".join((whiteboard.category, "whiteboard")),
-                    "message": whiteboard.render(),
-                    "whiteboard": whiteboard,
+                    "tags": " ".join((announcement.category, "announcement")),
+                    "message": announcement.render(),
+                    "announcement": announcement,
                     "can_delete": can_delete,
                 },
             )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,12 +30,12 @@ class RepoAdminMixin:
     def force_commit(self, request, queryset):
         """Commit pending changes for selected components."""
         for obj in queryset:
-            obj.commit_pending('admin', request)
+            obj.commit_pending("admin", request)
         self.message_user(
             request, "Flushed changes in {0:d} git repos.".format(queryset.count())
         )
 
-    force_commit.short_description = _('Commit pending changes')
+    force_commit.short_description = _("Commit pending changes")
 
     def update_from_git(self, request, queryset):
         """Update selected components from git."""
@@ -44,7 +43,7 @@ class RepoAdminMixin:
             obj.do_update(request)
         self.message_user(request, "Updated {0:d} git repos.".format(queryset.count()))
 
-    update_from_git.short_description = _('Update VCS repository')
+    update_from_git.short_description = _("Update VCS repository")
 
     def get_qs_units(self, queryset):
         raise NotImplementedError()
@@ -63,53 +62,53 @@ class RepoAdminMixin:
 
         self.message_user(request, "Updated checks for {0:d} units.".format(len(units)))
 
-    update_checks.short_description = _('Update quality checks')
+    update_checks.short_description = _("Update quality checks")
 
 
 class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     list_display = (
-        'name',
-        'slug',
-        'web',
-        'list_admins',
-        'access_control',
-        'enable_hooks',
-        'num_vcs',
-        'get_total',
-        'get_source_words',
-        'get_language_count',
+        "name",
+        "slug",
+        "web",
+        "list_admins",
+        "access_control",
+        "enable_hooks",
+        "num_vcs",
+        "get_total",
+        "get_source_words",
+        "get_language_count",
     )
-    prepopulated_fields = {'slug': ('name',)}
-    search_fields = ['name', 'slug', 'web']
-    actions = ['update_from_git', 'update_checks', 'force_commit']
+    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ["name", "slug", "web"]
+    actions = ["update_from_git", "update_checks", "force_commit"]
 
     def list_admins(self, obj):
-        return ', '.join(
-            User.objects.all_admins(obj).values_list('username', flat=True)
+        return ", ".join(
+            User.objects.all_admins(obj).values_list("username", flat=True)
         )
 
-    list_admins.short_description = _('Administrators')
+    list_admins.short_description = _("Administrators")
 
     def get_total(self, obj):
         return obj.stats.source_strings
 
-    get_total.short_description = _('Source strings')
+    get_total.short_description = _("Source strings")
 
     def get_source_words(self, obj):
         return obj.stats.source_words
 
-    get_source_words.short_description = _('Source words')
+    get_source_words.short_description = _("Source words")
 
     def get_language_count(self, obj):
         """Return number of languages used in this project."""
         return obj.stats.languages
 
-    get_language_count.short_description = _('Languages')
+    get_language_count.short_description = _("Languages")
 
     def num_vcs(self, obj):
         return obj.component_set.with_repo().count()
 
-    num_vcs.short_description = _('VCS repositories')
+    num_vcs.short_description = _("VCS repositories")
 
     def get_qs_units(self, queryset):
         return Unit.objects.filter(translation__component__project__in=queryset)
@@ -120,18 +119,18 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """Wrapper to sort languages by localized names."""
         result = super().formfield_for_foreignkey(db_field, request, **kwargs)
-        if db_field.name == 'source_language':
+        if db_field.name == "source_language":
             result.choices = sort_choices(result.choices)
         return result
 
 
 class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
-    list_display = ['name', 'slug', 'project', 'repo', 'branch', 'vcs', 'file_format']
-    prepopulated_fields = {'slug': ('name',)}
-    search_fields = ['name', 'slug', 'repo', 'branch', 'project__name', 'project__slug']
-    list_filter = ['project', 'vcs', 'file_format']
-    actions = ['update_from_git', 'update_checks', 'force_commit']
-    ordering = ['project__name', 'name']
+    list_display = ["name", "slug", "project", "repo", "branch", "vcs", "file_format"]
+    prepopulated_fields = {"slug": ("name",)}
+    search_fields = ["name", "slug", "repo", "branch", "project__name", "project__slug"]
+    list_filter = ["project", "vcs", "file_format"]
+    actions = ["update_from_git", "update_checks", "force_commit"]
+    ordering = ["project__name", "name"]
 
     def get_qs_units(self, queryset):
         return Unit.objects.filter(translation__component__in=queryset)
@@ -141,49 +140,45 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
 
 
 class TranslationAdmin(WeblateModelAdmin):
-    list_display = ['component', 'language', 'revision', 'filename']
-    search_fields = ['component__name', 'language__code', 'revision', 'filename']
-    list_filter = ['component__project', 'component', 'language']
+    list_display = ["component", "language", "revision", "filename"]
+    search_fields = ["component__name", "language__code", "revision", "filename"]
+    list_filter = ["component__project", "component", "language"]
 
 
 class UnitAdmin(WeblateModelAdmin):
-    list_display = ['source', 'target', 'position', 'state']
-    search_fields = ['source', 'target', 'id_hash']
-    list_filter = ['translation__component', 'translation__language', 'state']
+    list_display = ["source", "target", "position", "state"]
+    search_fields = ["source", "target", "id_hash"]
+    list_filter = ["translation__component", "translation__language", "state"]
 
 
 class SuggestionAdmin(WeblateModelAdmin):
-    list_display = ['target', 'unit', 'user']
-    search_fields = ['unit__content_hash', 'target']
+    list_display = ["target", "unit", "user"]
+    search_fields = ["unit__content_hash", "target"]
 
 
 class CommentAdmin(WeblateModelAdmin):
-    list_display = ['comment', 'unit', 'user']
-    search_fields = ['unit__content_hash', 'comment']
+    list_display = ["comment", "unit", "user"]
+    search_fields = ["unit__content_hash", "comment"]
 
 
 class DictionaryAdmin(WeblateModelAdmin):
-    list_display = ['source', 'target', 'project', 'language']
-    search_fields = ['source', 'target']
-    list_filter = ['project', 'language']
+    list_display = ["source", "target", "project", "language"]
+    search_fields = ["source", "target"]
+    list_filter = ["project", "language"]
 
 
 class ChangeAdmin(WeblateModelAdmin):
-    list_display = ['unit', 'user', 'timestamp']
-    date_hierarchy = 'timestamp'
-    list_filter = [
-        'unit__translation__component',
-        'unit__translation__component__project',
-        'unit__translation__language',
-    ]
-    raw_id_fields = ('unit',)
+    list_display = ["unit", "user", "timestamp"]
+    date_hierarchy = "timestamp"
+    list_filter = ["component", "project", "language"]
+    raw_id_fields = ("unit",)
 
 
-class WhiteboardMessageAdmin(WeblateModelAdmin):
-    list_display = ['message', 'project', 'component', 'language']
+class AnnouncementAdmin(WeblateModelAdmin):
+    list_display = ["message", "project", "component", "language"]
     prepopulated_fields = {}
-    search_fields = ['message']
-    list_filter = ['project', 'language']
+    search_fields = ["message"]
+    list_filter = ["project", "language"]
 
 
 class AutoComponentListAdmin(admin.TabularInline):
@@ -192,15 +187,15 @@ class AutoComponentListAdmin(admin.TabularInline):
 
 
 class ComponentListAdmin(WeblateModelAdmin):
-    list_display = ['name', 'show_dashboard']
-    list_filter = ['show_dashboard']
-    prepopulated_fields = {'slug': ('name',)}
-    filter_horizontal = ('components',)
+    list_display = ["name", "show_dashboard"]
+    list_filter = ["show_dashboard"]
+    prepopulated_fields = {"slug": ("name",)}
+    filter_horizontal = ("components",)
     inlines = [AutoComponentListAdmin]
-    ordering = ['name']
+    ordering = ["name"]
 
 
 class ContributorAgreementAdmin(WeblateModelAdmin):
-    list_display = ['user', 'component', 'timestamp']
-    date_hierarchy = 'timestamp'
-    ordering = ('user__username', 'component__project__name', 'component__name')
+    list_display = ["user", "component", "timestamp"]
+    date_hierarchy = "timestamp"
+    ordering = ("user__username", "component__project__name", "component__name")

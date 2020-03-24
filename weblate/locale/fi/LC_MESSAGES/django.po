@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-03-01 05:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-03-23 03:47+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -176,7 +176,7 @@ msgstr "Projektin nimi"
 #: weblate/accounts/forms.py:555 weblate/templates/project_info.html:5
 #: weblate/trans/models/project.py:75
 msgid "Project website"
-msgstr "Projektin verkkosivu"
+msgstr "Projektin verkkosivusto"
 
 #: weblate/accounts/forms.py:557 weblate/trans/forms.py:1511
 #: weblate/trans/models/component.py:193
@@ -696,7 +696,7 @@ msgstr "Hostaus"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:172
 msgid "Sign in"
-msgstr ""
+msgstr "Kirjaudu"
 
 #: weblate/accounts/views.py:602 weblate/wladmin/sites.py:176
 msgid "Thank you for using Weblate."
@@ -918,11 +918,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:54
 msgid "Path of generated MO file"
-msgstr "Generoidun MO-tiedoston nimi"
+msgstr "Generoidun MO-tiedoston polku"
 
 #: weblate/addons/forms.py:57
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Jos ei ole määritelty, käytetään PO-tiedoston sijaintia."
+msgstr "Jos ei määritetty, käytetään PO-tiedoston sijaintia."
 
 #: weblate/addons/forms.py:77
 msgid "Name of generated file"
@@ -938,8 +938,7 @@ msgstr "Pitkien rivien rivitys"
 
 #: weblate/addons/forms.py:108
 msgid "Wrap lines at 77 chars and at newlines"
-msgstr ""
-"Rivitä rivit sekä 77 merkkin kohdalta että rivinvaihtomerkkien kohdalta"
+msgstr "Rivitä rivit sekä 77 merkin kohdalta että rivinvaihtomerkkien kohdalta"
 
 #: weblate/addons/forms.py:109
 msgid "Only wrap lines at newlines"
@@ -1076,8 +1075,8 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Sen tiedoston tiedostonimi, jota käytetään uusien käännösten luomisessa. Jos "
-"käytät Gettext:iä valitse .pot tiedosto."
+"Uusien käännösten luomiseen käytettävän tiedoston nimi. Jos käytät "
+"gettextiä, valitse .pot-tiedosto."
 
 #: weblate/addons/forms.py:237 weblate/trans/models/component.py:467
 msgid "Language filter"
@@ -1164,13 +1163,13 @@ msgstr ""
 
 #: weblate/addons/gettext.py:258
 msgid "Customize gettext output"
-msgstr "Muokkaa gettext:in tulostusta"
+msgstr "Mukauta gettextin tulostus"
 
 #: weblate/addons/gettext.py:260
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr ""
-"Sallii gettext:in tulostuksen muokkaamisen, esimerkiksi rivityksen "
+"Sallii gettextin tulostuksen mukauttamisen, esimerkiksi rivityksen "
 "säätämisen."
 
 #: weblate/addons/gettext.py:271
@@ -1248,7 +1247,7 @@ msgstr "Virheellinen lisäosan nimi!"
 
 #: weblate/addons/yaml.py:32
 msgid "Customize YAML output"
-msgstr "Muokkaa YAML-tulostusta"
+msgstr "Mukauta YAML-tulostusta"
 
 #: weblate/addons/yaml.py:34
 msgid ""
@@ -3570,17 +3569,15 @@ msgstr ""
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "Kirjaudu käyttäen palvelua:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
 msgstr "Unohditko salasanasi?"
 
 #: weblate/templates/accounts/login.html:64
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Register new account"
-msgstr "Poista käyttäjätilini"
+msgstr "Rekisteröi uusi käyttäjätili"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3898,7 +3895,7 @@ msgstr "Rekisteröidy sähköpostilla"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "Luo käyttäjätili käyttäen palvelua:"
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -4247,7 +4244,7 @@ msgstr "Asetukset"
 
 #: weblate/templates/base.html:210 weblate/wladmin/sites.py:180
 msgid "Sign out"
-msgstr ""
+msgstr "Kirjaudu ulos"
 
 #: weblate/templates/base.html:217
 msgid "Help"
@@ -4974,10 +4971,8 @@ msgid "Configure dashboard"
 msgstr "Muuta kojelaudan asetuksia"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent edits"
 msgid "Recent additions"
-msgstr "Viimeaikaiset muokkaukset"
+msgstr "Viimeaikaiset lisäykset"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -5557,13 +5552,8 @@ msgstr ""
 "eivät auta kovinkaan paljon."
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr ""
-"Salasanasi ei voi olla yhden merkin mittainen, tai sisältää pelkästään "
-"tulostumattomia merkkejä."
+msgstr "Salasana ei voi sisältää toistuvia sanoja tai merkkejä."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -6141,10 +6131,8 @@ msgid "You do not have permission to change project access control."
 msgstr "Sinulla ei ole oikeuksia muuttaa projektin pääsynhallinta-asetuksia."
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "Komponenttilistat"
+msgstr "Komponenttihälytykset"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6863,7 +6851,7 @@ msgstr "Verkkopohjaista <strong>jatkuvaa</strong> lokalisointia"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "Rekisteröitymällä ja kirjautumalla hyväksyt seuraavat:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -7115,14 +7103,12 @@ msgid ""
 msgstr "Tiedostonimi ei saa sisältää viittausta ylätason hakemistoon."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "Tämän komponentin määritykset ovat virheelliset."
+msgstr "Tämän projektin määritykset ovat virheelliset."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "Projektin verkkosivuston URL-osoite johtaa olemattomaan sijaintiin:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 #, fuzzy
@@ -7131,12 +7117,8 @@ msgid "Some linked components have the same filemask."
 msgstr "Osassa tämän projektin komponentteja on hälytyksiä."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
-#, fuzzy
-#| msgid ""
-#| "Please fix this by removing one of the duplicated strings from the "
-#| "translation files."
 msgid "Please fix this by removing one of them."
-msgstr "Korjaa tämä poistamalla käännöstiedostoista tekstin kaksoiskappale."
+msgstr "Korjaa tämä poistamalla toinen."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
 #, fuzzy
@@ -7157,22 +7139,24 @@ msgid "Please fix this by removing one of the translation files."
 msgstr "Korjaa tämä poistamalla jokin käännöstiedostoista."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please confirm your logout."
 msgid "Please consider following steps:"
-msgstr "Vahvista uloskirjautumisesi."
+msgstr "Harkitse seuraavia toimenpiteitä:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Remove the translation file for the source language or change the source "
 "language in the project settings."
 msgstr ""
+"Poista lähdekielen käännöstiedosto tai vaihda lähdekieltä projektin "
+"asetuksissa."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
 "Avoid having translation files for both plain language code and code with "
 "default country (for example de and de_DE)."
 msgstr ""
+"Älä pidä käännöstiedostoja sekä pelkälle kielikoodille että koodille, johon "
+"sisältyy oletusmaa (esim. de ja de_DE)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -8645,18 +8629,16 @@ msgid "Name of the translation"
 msgstr "Käännöksen nimi"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "Kirjoita käännöksen nimi vahvistaaksesi."
+msgstr "Kirjoita käännöksen koko nimi vahvistaaksesi."
 
 #: weblate/trans/forms.py:1836
 msgid ""
 "This action cannot be undone. This will permanently delete the {} "
 "translation and all related content."
 msgstr ""
-"Tätä toimintoa ei voi perua. Tämä poistaa peruuttamattomasti käännöksen {} "
-"ja siihen liittyvän sisällön."
+"Tätä toimintoa ei voi kumota. Tämä poistaa peruuttamattomasti käännöksen {} "
+"ja kaiken siihen liittyvän sisällön."
 
 #: weblate/trans/forms.py:1847
 msgid "The translation name does not match the one marked for deletion!"
@@ -8743,10 +8725,8 @@ msgstr "Arkistoselain"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "Projektin verkkosivu"
+msgstr "Virheellinen projektin verkkosivuston URL-osoite"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -9184,10 +9164,8 @@ msgstr ""
 "mahdolliset arvot."
 
 #: weblate/trans/models/component.py:340
-#, fuzzy
-#| msgid "Ignored checks"
 msgid "Enforced checks"
-msgstr "Huomioimatta jätetyt tarkistukset"
+msgstr "Pakolliset tarkistukset"
 
 #: weblate/trans/models/component.py:341
 msgid "List of checks which can not be ignored."
@@ -9573,7 +9551,7 @@ msgstr "Punainen"
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:56
 msgid "Maroon"
-msgstr ""
+msgstr "Kastanjanruskea"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:58
@@ -10646,7 +10624,7 @@ msgstr "Tiedostonimi ei voi olla absoluuttinen polku."
 
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
-msgstr ""
+msgstr "Tiedoston nimen tulisi olla mahdollisimman yksinkertainen. Ehdotus: {}"
 
 #: weblate/utils/views.py:234
 #, python-format

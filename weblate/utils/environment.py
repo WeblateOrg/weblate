@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -26,7 +25,7 @@ def get_env_list(name, default=None):
     """Helper to get list from environment."""
     if name not in os.environ:
         return default or []
-    return os.environ[name].split(',')
+    return os.environ[name].split(",")
 
 
 def get_env_map(name, default=None):
@@ -35,7 +34,7 @@ def get_env_map(name, default=None):
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """
     if os.environ.get(name):
-        return dict(e.split(':') for e in os.environ[name].split(','))
+        return dict(e.split(":") for e in os.environ[name].split(","))
     return default or {}
 
 
@@ -43,7 +42,7 @@ def get_env_bool(name, default=False):
     """Helper to get boolean value from environment."""
     if name not in os.environ:
         return default
-    true_values = {'true', 'yes', '1'}
+    true_values = {"true", "yes", "1"}
     return os.environ[name].lower() in true_values
 
 

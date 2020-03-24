@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -35,13 +34,13 @@ class AutoTranslate:
         self.mode = mode
         self.updated = 0
         self.total = 0
-        self.target_state = STATE_FUZZY if mode == 'fuzzy' else STATE_TRANSLATED
+        self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
 
     def get_units(self):
         units = self.translation.unit_set.all()
-        if self.mode == 'suggest':
+        if self.mode == "suggest":
             units = units.exclude(has_suggestion=True)
-        return units.filter_type(self.filter_type)
+        return units.filter_type(self.filter_type).prefetch()
 
     def set_progress(self, current):
         if current_task and current_task.request.id and self.total:
@@ -50,7 +49,7 @@ class AutoTranslate:
             )
 
     def update(self, unit, state, target):
-        if self.mode == 'suggest':
+        if self.mode == "suggest":
             Suggestion.objects.add(unit, target, None, False)
         else:
             unit.translate(self.user, target, state, Change.ACTION_AUTO, False)
@@ -89,7 +88,7 @@ class AutoTranslate:
         units = self.get_units().filter(source__in=sources.values("source"))
         self.total = units.count()
 
-        for pos, unit in enumerate(units.select_for_update().iterator()):
+        for pos, unit in enumerate(units.select_for_update()):
             # Get first matching entry
             update = sources.filter(source=unit.source)[0]
             # No save if translation is same
@@ -105,7 +104,7 @@ class AutoTranslate:
         """Get the translations."""
         translations = {}
 
-        for pos, unit in enumerate(self.get_units().iterator()):
+        for pos, unit in enumerate(self.get_units()):
             # a list to store all found translations
             max_quality = threshold - 1
             translation = None
@@ -156,7 +155,7 @@ class AutoTranslate:
 
         with transaction.atomic():
             # Perform the translation
-            for pos, unit in enumerate(self.get_units().select_for_update().iterator()):
+            for pos, unit in enumerate(self.get_units().select_for_update()):
                 # Copy translation
                 try:
                     self.update(unit, self.target_state, translations[unit.pk])

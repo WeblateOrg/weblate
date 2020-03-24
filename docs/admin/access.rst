@@ -44,13 +44,13 @@ Per project permissions
 Set your projects to `Protected` or `Private`, and manage users per
 project in the Weblate interface.
 
-Adding permissions to languages, projects or component sets
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Adding permissions to languages or projects
++++++++++++++++++++++++++++++++++++++++++++
 
-You can additionally grant permissions to any user based on project, language
-or a component set. To achieve this, create a new group (e.g. `Czech
-translators`) and configure it for a given resource. Any assigned permissions will
-be granted to members of that group for selected resources.
+You can additionally grant permissions to any user based on project or language
+set. To achieve this, create a new group (e.g. `Czech translators`) and
+configure it for a given resource. Any assigned permissions will be granted to
+members of that group for selected resources.
 
 This will work just fine without additional setup, if using per project
 permissions. For permissions on the whole instance, you will probably also want to remove
@@ -361,7 +361,7 @@ Global privileges
     Manage groups (global)
     Add users (global)
     Manage users (global)
-    Manage whiteboard (global)
+    Manage announcements (global)
     Manage translation memory (global)
 
 .. note::

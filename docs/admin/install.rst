@@ -3,10 +3,7 @@
 Configuration instructions
 ==========================
 
-Installing Weblate
-------------------
-
-Choose an installation method that best fits your environment in our :doc:`quick`.
+.. include:: quick.rst
 
 .. _requirements:
 
@@ -280,6 +277,8 @@ database used for implementing Django database layer.
 
     :ref:`django:postgresql-notes`
 
+.. _dbsetup-postgres:
+
 Creating a database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -291,7 +290,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     sudo -u postgres psql postgres -c "\password postgres"
 
     # Create a database user called "weblate"
-    sudo -u postgres createuser -D -P weblate
+    sudo -u postgres createuser --no-createdb --pwprompt weblate
 
     # Create the database "weblate" owned by "weblate"
     sudo -u postgres createdb -O weblate weblate
@@ -319,6 +318,19 @@ The :file:`settings.py` snippet for PostgreSQL:
             'PORT': '',
         }
     }
+
+MySQL and MariaDB
++++++++++++++++++
+
+Weblate can be also used with MySQL or MariaDB, please see
+:ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using Django with those.
+
+Following configuration is recommended for Weblate:
+
+* Use ``utf8mb4`` charset to allow representation of higher Unicode planes (for example emojis).
+* Configure the server with ``Innodb_large_prefix`` to allow longer indices on text fields.
+* Set isolcation level to ``READ COMMITTED``.
+* The SQL mode should be set to ``STRICT_TRANS_TABLES``.
 
 Other configurations
 --------------------
@@ -412,7 +424,7 @@ options:
 
     Configure how your sessions will be stored. In case you keep the default
     database backend engine, you should schedule:
-    :command:`./manage.py clearsessions` to remove stale session data from the
+    :command:`weblate clearsessions` to remove stale session data from the
     database.
 
     If you are using Redis as cache (see :ref:`production-cache`) it is
@@ -489,11 +501,11 @@ Filling up the database
 -----------------------
 
 After your configuration is ready, you can run
-:samp:`./manage.py migrate` to create the database structure. Now you should be
+:samp:`weblate migrate` to create the database structure. Now you should be
 able to create translation projects using the admin interface.
 
 In case you want to run an installation non interactively, you can use
-:samp:`./manage.py migrate --noinput`, and then create an admin user using
+:samp:`weblate migrate --noinput`, and then create an admin user using
 :djadmin:`createadmin` command.
 
 You should also log in to the admin interface (on ``/admin/`` URL) and adjust the
@@ -515,7 +527,7 @@ Production setup
 
 For a production setup you should carry out adjustments described in the following sections.
 The most critical settings will trigger a warning, which is indicated by a red
-exclamation mark in the top bar if logged in as a superuser:
+exclamation mark in the top bar if signed in as a superuser:
 
 .. image:: /images/admin-wrench.png
 
@@ -524,7 +536,7 @@ need to fix all of them):
 
 .. code-block:: sh
 
-    ./manage.py check --deploy
+    weblate check --deploy
 
 .. seealso::
 
@@ -590,13 +602,13 @@ Alternatively, you can set the site name from the commandline using
 
 .. code-block:: sh
 
-    ./manage.py changesite --set-name 127.0.0.1:8000
+    weblate changesite --set-name 127.0.0.1:8000
 
 For a production site, you want something like:
 
 .. code-block:: sh
 
-    ./manage.py changesite --set-name weblate.example.com
+    weblate changesite --set-name weblate.example.com
 
 .. seealso::
 
@@ -873,7 +885,7 @@ For testing purposes, you can use the built-in web server in Django:
 
 .. code-block:: sh
 
-    ./manage.py runserver
+    weblate runserver
 
 .. warning::
 
@@ -890,7 +902,7 @@ Serving static files
     framework and the setup was more complex.
 
 Django needs to collect its static files in a single directory. To do so,
-execute :samp:`./manage.py collectstatic --noinput`. This will copy the static
+execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
 a ``static`` directory inside :setting:`DATA_DIR`).
 
@@ -1177,9 +1189,9 @@ management to dump and import the database:
 .. code-block:: sh
 
     # Export current data
-    ./manage.py dumpdata > /tmp/weblate.dump
+    weblate dumpdata > /tmp/weblate.dump
     # Import dump
-    ./manage.py loaddata /tmp/weblate.dump
+    weblate loaddata /tmp/weblate.dump
 
 Migrating VCS repositories
 +++++++++++++++++++++++++++
@@ -1187,12 +1199,6 @@ Migrating VCS repositories
 The VCS repositories stored under :setting:`DATA_DIR` need to be migrated as
 well. You can simply copy them or use :command:`rsync` to do the migration
 more effectively.
-
-Migrating fulltext index
-++++++++++++++++++++++++
-
-For the fulltext index, (stored in :setting:`DATA_DIR`) it is better not to
-migrate it, but rather generate a fresh one using :djadmin:`rebuild_index`.
 
 Other notes
 +++++++++++

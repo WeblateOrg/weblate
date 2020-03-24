@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,80 +29,80 @@ from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
 from weblate.vcs.ssh import get_key_data
 
 MENU = (
-    ('index', 'about', _('About Weblate')),
-    ('stats', 'stats', _('Statistics')),
-    ('keys', 'keys', _('Keys')),
+    ("index", "about", _("About Weblate")),
+    ("stats", "stats", _("Statistics")),
+    ("keys", "keys", _("Keys")),
 )
 
 
 class AboutView(TemplateView):
-    page = 'index'
+    page = "index"
 
     def page_context(self, context):
         context.update(
             {
-                'title': _('About Weblate'),
-                'versions': get_versions_list(),
-                'allow_index': True,
+                "title": _("About Weblate"),
+                "versions": get_versions_list(),
+                "allow_index": True,
             }
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['menu_items'] = MENU
-        context['menu_page'] = self.page
+        context["menu_items"] = MENU
+        context["menu_page"] = self.page
 
         self.page_context(context)
 
         return context
 
     def get_template_names(self):
-        return ['about/{0}.html'.format(self.page)]
+        return ["about/{0}.html".format(self.page)]
 
 
 class StatsView(AboutView):
-    page = 'stats'
+    page = "stats"
 
     def page_context(self, context):
-        context['title'] = _('Weblate statistics')
+        context["title"] = _("Weblate statistics")
 
         stats = GlobalStats()
 
         totals = Profile.objects.aggregate(
-            Sum('translated'), Sum('suggested'), Count('id')
+            Sum("translated"), Sum("suggested"), Count("id")
         )
 
-        context['total_translations'] = totals['translated__sum']
-        context['total_suggestions'] = totals['suggested__sum']
-        context['total_users'] = totals['id__count']
-        context['source_strings'] = stats.source_strings
-        context['source_words'] = stats.source_words
-        context['total_units'] = stats.all
-        context['total_words'] = stats.all_words
-        context['total_languages'] = stats.languages
-        context['total_checks'] = Check.objects.count()
-        context['ignored_checks'] = Check.objects.filter(ignore=True).count()
+        context["total_translations"] = totals["translated__sum"]
+        context["total_suggestions"] = totals["suggested__sum"]
+        context["total_users"] = totals["id__count"]
+        context["source_strings"] = stats.source_strings
+        context["source_words"] = stats.source_words
+        context["total_units"] = stats.all
+        context["total_words"] = stats.all_words
+        context["total_languages"] = stats.languages
+        context["total_checks"] = Check.objects.count()
+        context["ignored_checks"] = Check.objects.filter(ignore=True).count()
 
-        top_translations = Profile.objects.order_by('-translated')[:10]
-        top_suggestions = Profile.objects.order_by('-suggested')[:10]
-        top_uploads = Profile.objects.order_by('-uploaded')[:10]
+        top_translations = Profile.objects.order_by("-translated")[:10]
+        top_suggestions = Profile.objects.order_by("-suggested")[:10]
+        top_uploads = Profile.objects.order_by("-uploaded")[:10]
 
-        context['top_translations'] = top_translations.select_related('user')
-        context['top_suggestions'] = top_suggestions.select_related('user')
-        context['top_uploads'] = top_uploads.select_related('user')
+        context["top_translations"] = top_translations.select_related("user")
+        context["top_suggestions"] = top_suggestions.select_related("user")
+        context["top_uploads"] = top_uploads.select_related("user")
 
 
 class KeysView(AboutView):
-    page = 'keys'
+    page = "keys"
 
     def page_context(self, context):
         context.update(
             {
-                'title': _('Weblate keys'),
-                'gpg_key_id': get_gpg_sign_key(),
-                'gpg_key': get_gpg_public_key(),
-                'ssh_key': get_key_data(),
-                'allow_index': True,
+                "title": _("Weblate keys"),
+                "gpg_key_id": get_gpg_sign_key(),
+                "gpg_key": get_gpg_public_key(),
+                "ssh_key": get_key_data(),
+                "allow_index": True,
             }
         )

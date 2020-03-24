@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,7 +21,6 @@ import csv
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
@@ -59,102 +57,102 @@ class ChangesView(ListView):
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
         context = super().get_context_data(**kwargs)
-        context['project'] = self.project
+        context["project"] = self.project
 
         url = {}
 
         if self.translation is not None:
-            context['project'] = self.translation.component.project
-            context['component'] = self.translation.component
-            context['translation'] = self.translation
-            url['lang'] = self.translation.language.code
-            url['component'] = self.translation.component.slug
-            url['project'] = self.translation.component.project.slug
-            context['changes_rss'] = reverse('rss-translation', kwargs=url)
-            context['title'] = (
-                pgettext('Changes in translation', 'Changes in %s') % self.translation
+            context["project"] = self.translation.component.project
+            context["component"] = self.translation.component
+            context["translation"] = self.translation
+            url["lang"] = self.translation.language.code
+            url["component"] = self.translation.component.slug
+            url["project"] = self.translation.component.project.slug
+            context["changes_rss"] = reverse("rss-translation", kwargs=url)
+            context["title"] = (
+                pgettext("Changes in translation", "Changes in %s") % self.translation
             )
         elif self.component is not None:
-            context['project'] = self.component.project
-            context['component'] = self.component
-            url['component'] = self.component.slug
-            url['project'] = self.component.project.slug
-            context['changes_rss'] = reverse('rss-component', kwargs=url)
-            context['title'] = (
-                pgettext('Changes in component', 'Changes in %s') % self.component
+            context["project"] = self.component.project
+            context["component"] = self.component
+            url["component"] = self.component.slug
+            url["project"] = self.component.project.slug
+            context["changes_rss"] = reverse("rss-component", kwargs=url)
+            context["title"] = (
+                pgettext("Changes in component", "Changes in %s") % self.component
             )
         elif self.project is not None:
-            context['project'] = self.project
-            url['project'] = self.project.slug
-            context['changes_rss'] = reverse('rss-project', kwargs=url)
-            context['title'] = (
-                pgettext('Changes in project', 'Changes in %s') % self.project
+            context["project"] = self.project
+            url["project"] = self.project.slug
+            context["changes_rss"] = reverse("rss-project", kwargs=url)
+            context["title"] = (
+                pgettext("Changes in project", "Changes in %s") % self.project
             )
 
         if self.language is not None:
-            context['language'] = self.language
-            url['lang'] = self.language.code
-            if 'changes_rss' not in context:
-                context['changes_rss'] = reverse('rss-language', kwargs=url)
-            if 'title' not in context:
-                context['title'] = (
-                    pgettext('Changes in language', 'Changes in %s') % self.language
+            context["language"] = self.language
+            url["lang"] = self.language.code
+            if "changes_rss" not in context:
+                context["changes_rss"] = reverse("rss-language", kwargs=url)
+            if "title" not in context:
+                context["title"] = (
+                    pgettext("Changes in language", "Changes in %s") % self.language
                 )
 
         if self.user is not None:
-            context['changes_user'] = self.user
-            url['user'] = self.user.username
-            if 'title' not in context:
-                context['title'] = (
-                    pgettext('Changes by user', 'Changes by %s') % self.user.full_name
+            context["changes_user"] = self.user
+            url["user"] = self.user.username
+            if "title" not in context:
+                context["title"] = (
+                    pgettext("Changes by user", "Changes by %s") % self.user.full_name
                 )
 
         url = list(url.items())
         for action in self.actions:
-            url.append(('action', action))
+            url.append(("action", action))
 
         if not url:
-            context['changes_rss'] = reverse('rss')
+            context["changes_rss"] = reverse("rss")
 
-        context['query_string'] = urlencode(url)
+        context["query_string"] = urlencode(url)
 
-        context['form'] = ChangesForm(self.request, data=self.request.GET)
+        context["form"] = ChangesForm(self.request, data=self.request.GET)
 
         return context
 
     def _get_queryset_project(self):
         """Filtering by translation/project."""
-        if 'project' not in self.request.GET:
+        if "project" not in self.request.GET:
             return
         try:
             self.project, self.component, self.translation = get_project_translation(
                 self.request,
-                self.request.GET.get('project'),
-                self.request.GET.get('component'),
-                self.request.GET.get('lang'),
+                self.request.GET.get("project"),
+                self.request.GET.get("component"),
+                self.request.GET.get("lang"),
             )
         except Http404:
-            messages.error(self.request, _('Failed to find matching project!'))
+            messages.error(self.request, _("Failed to find matching project!"))
 
     def _get_queryset_language(self):
         """Filtering by language."""
-        if self.translation is None and self.request.GET.get('lang'):
+        if self.translation is None and self.request.GET.get("lang"):
             try:
-                self.language = Language.objects.get(code=self.request.GET['lang'])
+                self.language = Language.objects.get(code=self.request.GET["lang"])
             except Language.DoesNotExist:
-                messages.error(self.request, _('Failed to find matching language!'))
+                messages.error(self.request, _("Failed to find matching language!"))
 
     def _get_queryset_user(self):
         """Filtering by user."""
-        if 'user' in self.request.GET:
+        if "user" in self.request.GET:
             try:
-                self.user = User.objects.get(username=self.request.GET['user'])
+                self.user = User.objects.get(username=self.request.GET["user"])
             except User.DoesNotExist:
-                messages.error(self.request, _('Failed to find matching user!'))
+                messages.error(self.request, _("Failed to find matching user!"))
 
     def _get_request_actions(self):
-        if 'action' in self.request.GET:
-            for action in self.request.GET.getlist('action'):
+        if "action" in self.request.GET:
+            for action in self.request.GET.getlist("action"):
                 try:
                     self.actions.add(int(action))
                 except ValueError:
@@ -180,10 +178,7 @@ class ChangesView(ListView):
             result = result.filter(project=self.project)
 
         if self.language is not None:
-            result = result.filter(
-                Q(translation__language=self.language)
-                | Q(dictionary__language=self.language)
-            )
+            result = result.filter(language=self.language)
 
         if self.actions:
             result = result.filter(action__in=self.actions)
@@ -210,26 +205,26 @@ class ChangesCSVView(ChangesView):
                     acl_obj = change.component
                     break
 
-        if not request.user.has_perm('change.download', acl_obj):
+        if not request.user.has_perm("change.download", acl_obj):
             raise PermissionDenied()
 
         # Always output in english
-        activate('en')
+        activate("en")
 
-        response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Disposition'] = 'attachment; filename=changes.csv'
+        response = HttpResponse(content_type="text/csv; charset=utf-8")
+        response["Content-Disposition"] = "attachment; filename=changes.csv"
 
         writer = csv.writer(response)
 
         # Add header
-        writer.writerow(('timestamp', 'action', 'user', 'url', 'target'))
+        writer.writerow(("timestamp", "action", "user", "url", "target"))
 
         for change in object_list:
             writer.writerow(
                 (
                     change.timestamp.isoformat(),
                     change.get_action_display(),
-                    change.user.username if change.user else '',
+                    change.user.username if change.user else "",
                     get_site_url(change.get_absolute_url()),
                     change.target,
                 )
@@ -242,27 +237,27 @@ class ChangesCSVView(ChangesView):
 def show_change(request, pk):
     change = get_object_or_404(Change, pk=pk)
     acl_obj = change.translation or change.component or change.project
-    if not request.user.has_perm('unit.edit', acl_obj):
+    if not request.user.has_perm("unit.edit", acl_obj):
         raise PermissionDenied()
-    others = request.GET.getlist('other')
+    others = request.GET.getlist("other")
     changes = None
     if others:
         changes = Change.objects.filter(pk__in=others + [change.pk])
         for change in changes:
             acl_obj = change.translation or change.component or change.project
-            if not request.user.has_perm('unit.edit', acl_obj):
+            if not request.user.has_perm("unit.edit", acl_obj):
                 raise PermissionDenied()
     if change.action not in NOTIFICATIONS_ACTIONS:
-        content = ''
+        content = ""
     else:
         notifications = NOTIFICATIONS_ACTIONS[change.action]
         notification = notifications[0](None)
         context = notification.get_context(change if not others else None)
-        context['request'] = request
-        context['changes'] = changes
-        context['subject'] = notification.render_template(
-            '_subject.txt', context, digest=bool(others)
+        context["request"] = request
+        context["changes"] = changes
+        context["subject"] = notification.render_template(
+            "_subject.txt", context, digest=bool(others)
         )
-        content = notification.render_template('.html', context, digest=bool(others))
+        content = notification.render_template(".html", context, digest=bool(others))
 
-    return HttpResponse(content_type='text/html; charset=utf-8', content=content)
+    return HttpResponse(content_type="text/html; charset=utf-8", content=content)

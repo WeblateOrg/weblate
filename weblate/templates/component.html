@@ -15,7 +15,7 @@
 
 {% block content %}
 
-{% whiteboard_messages component=object %}
+{% announcements component=object %}
 
 {% include "show-component-state.html" %}
 
@@ -94,8 +94,8 @@
       {% endif %}
       <li><a href="{% url 'screenshots' project=object.project.slug component=object.slug %}">{% trans "Screenshots" %}</a></li>
       <li><a href="{% url 'memory' project=object.project.slug %}">{% trans "Translation memory" %}</a></li>
-      {% if whiteboard_form %}
-      <li><a href="#whiteboard" data-toggle="tab">{% trans "Add a component message" %}</a></li>
+      {% if announcement_form %}
+      <li><a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
       {% endif %}
       {% if user_can_manage_acl %}
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
@@ -221,14 +221,17 @@
 
 {% include "activity-tab.html" %}
 
-{% if whiteboard_form %}
-<div class="tab-pane" id="whiteboard">
-<form action="{% url 'whiteboard_component' project=object.project.slug component=object.slug %}" method="post">
+{% if announcement_form %}
+<div class="tab-pane" id="announcement">
+<form action="{% url 'announcement_component' project=object.project.slug component=object.slug %}" method="post">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add a component message" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/announcements' right=True %}
+    {% trans "Post announcement" %}
+</h4></div>
 <div class="panel-body">
 {% csrf_token %}
-{{ whiteboard_form|crispy }}
+{{ announcement_form|crispy }}
 <p class="help-block">{% trans "The message is shown for all translations within the component, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">

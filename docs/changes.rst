@@ -12,11 +12,17 @@ Not yet released.
 * Added check and highlighter for percent interpolation.
 * Display failing checks for suggestions.
 * Record source string changes in history.
+* Upgraded Microsoft Translator to version 3 API.
+* Reimplemented translation memory backend.
+* Added support for several ``is:`` lookups in :doc:`user/search`.
+* Allow to make :ref:`check-same` avoid internal blacklist.
+* Improved comments extraction from monolingual po files.
+* Renamed whiteboard messages to announcements.
 
 Weblate 3.11.3
 --------------
 
-Not yet released.
+Released on March 11th 2020.
 
 * Fixed searching for fields with certain priority.
 * Fixed predefined query for recently added strings.
@@ -34,6 +40,8 @@ Not yet released.
 * Fixed listing project level changes in history.
 * Fixed stats invalidation in some corner cases.
 * Fixed searching for certain string states.
+* Improved format string checks behavior on missing percent.
+* Fixed authentication using some third party providers.
 
 Weblate 3.11.2
 --------------

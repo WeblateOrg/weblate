@@ -86,6 +86,8 @@ Here is a list of flags currently accepted:
     Skip the "Mismatched \n" quality check.
 ``ignore-same``
     Skip the "Unchanged translation" quality check.
+``strict-same``
+    Make "Unchanged translation" avoid using built in words blacklist, see :ref:`check-same`.
 ``ignore-end-question``
     Skip the "Trailing question" quality check.
 ``ignore-end-ellipsis``

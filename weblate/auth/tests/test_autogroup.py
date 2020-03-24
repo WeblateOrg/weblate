@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -26,7 +25,7 @@ from weblate.auth.models import AutoGroup, Group, User
 class AutoGroupTest(TestCase):
     @staticmethod
     def create_user():
-        return User.objects.create_user('test1', 'noreply1@weblate.org', 'pass')
+        return User.objects.create_user("test1", "noreply1@weblate.org", "pass")
 
     def test_default(self):
         user = self.create_user()
@@ -39,14 +38,14 @@ class AutoGroupTest(TestCase):
 
     def test_matching(self):
         AutoGroup.objects.create(
-            match='^.*@weblate.org', group=Group.objects.get(name='Guests')
+            match="^.*@weblate.org", group=Group.objects.get(name="Guests")
         )
         user = self.create_user()
         self.assertEqual(user.groups.count(), 3)
 
     def test_nonmatching(self):
         AutoGroup.objects.create(
-            match='^.*@example.net', group=Group.objects.get(name='Guests')
+            match="^.*@example.net", group=Group.objects.get(name="Guests")
         )
         user = self.create_user()
         self.assertEqual(user.groups.count(), 2)

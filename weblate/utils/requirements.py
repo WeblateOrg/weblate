@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -58,7 +57,6 @@ REQUIRES = [
     "openpyxl",
     "celery",
     "kombu",
-    "celery-batches",
     "translation-finder",
     "html2text",
     "pycairo",

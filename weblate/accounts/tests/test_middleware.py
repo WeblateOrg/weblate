@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,31 +29,31 @@ from weblate.auth.models import User, get_anonymous
 
 class MiddlewareTest(TestCase):
     def view_method(self):
-        return 'VIEW'
+        return "VIEW"
 
     def test_disabled(self):
         middleware = RequireLoginMiddleware()
         request = HttpRequest()
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
 
-    @override_settings(LOGIN_REQUIRED_URLS=(r'/project/(.*)$',))
+    @override_settings(LOGIN_REQUIRED_URLS=(r"/project/(.*)$",))
     def test_protect_project(self):
         middleware = RequireLoginMiddleware()
         request = HttpRequest()
         request.user = User()
-        request.META['SERVER_NAME'] = 'testserver'
-        request.META['SERVER_PORT'] = '80'
+        request.META["SERVER_NAME"] = "testserver"
+        request.META["SERVER_PORT"] = "80"
         # No protection for not protected path
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
-        request.path = '/project/foo/'
-        # No protection for protected path and logged in user
+        request.path = "/project/foo/"
+        # No protection for protected path and signed in user
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
-        # Protection for protected path and not logged in user
+        # Protection for protected path and not signed in user
         request.user = get_anonymous()
         self.assertIsInstance(
             middleware.process_view(request, self.view_method, (), {}),
             HttpResponseRedirect,
         )
-        # No protection for login and not logged in user
-        request.path = '/accounts/login/'
+        # No protection for login and not signed in user
+        request.path = "/accounts/login/"
         self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))

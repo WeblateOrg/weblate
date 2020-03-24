@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,17 +27,7 @@ class UploadForm(forms.Form):
     """Uploading file to a dictionary."""
 
     file = forms.FileField(
-        label=_('File'),
-        validators=[FileExtensionValidator(allowed_extensions=['json', 'tmx'])],
-        help_text=_('You can upload a TMX or JSON file.'),
+        label=_("File"),
+        validators=[FileExtensionValidator(allowed_extensions=["json", "tmx"])],
+        help_text=_("You can upload a TMX or JSON file."),
     )
-
-
-class DeleteForm(forms.Form):
-    confirm = forms.BooleanField(
-        label=_('Confirm deleting all translation memory entries'), required=True
-    )
-
-
-class ImportForm(forms.Form):
-    confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)

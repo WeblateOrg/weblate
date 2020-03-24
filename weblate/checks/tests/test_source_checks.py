@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,13 +31,13 @@ class OptionalPluralCheckTest(TestCase):
         self.check = OptionalPluralCheck()
 
     def test_none(self):
-        self.assertFalse(self.check.check_source(['text'], MockUnit()))
+        self.assertFalse(self.check.check_source(["text"], MockUnit()))
 
     def test_plural(self):
-        self.assertFalse(self.check.check_source(['text', 'texts'], MockUnit()))
+        self.assertFalse(self.check.check_source(["text", "texts"], MockUnit()))
 
     def test_failing(self):
-        self.assertTrue(self.check.check_source(['text(s)'], MockUnit()))
+        self.assertTrue(self.check.check_source(["text(s)"], MockUnit()))
 
 
 class EllipsisCheckTest(TestCase):
@@ -46,10 +45,10 @@ class EllipsisCheckTest(TestCase):
         self.check = EllipsisCheck()
 
     def test_none(self):
-        self.assertFalse(self.check.check_source(['text'], MockUnit()))
+        self.assertFalse(self.check.check_source(["text"], MockUnit()))
 
     def test_good(self):
-        self.assertFalse(self.check.check_source(['text…'], MockUnit()))
+        self.assertFalse(self.check.check_source(["text…"], MockUnit()))
 
     def test_failing(self):
-        self.assertTrue(self.check.check_source(['text...'], MockUnit()))
+        self.assertTrue(self.check.check_source(["text..."], MockUnit()))

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -50,9 +49,9 @@ class BaseAddon:
     name = None
     compat = {}
     multiple = False
-    verbose = 'Base addon'
-    description = 'Base addon'
-    icon = 'cog.svg'
+    verbose = "Base addon"
+    description = "Base addon"
+    icon = "cog.svg"
     project_scope = False
     repo_scope = False
     has_summary = False
@@ -71,7 +70,7 @@ class BaseAddon:
 
     @classmethod
     def get_doc_anchor(cls):
-        return 'addon-{}'.format(cls.name.replace('.', '-').replace('_', '-'))
+        return "addon-{}".format(cls.name.replace(".", "-").replace("_", "-"))
 
     @cached_property
     def has_settings(self):
@@ -121,8 +120,8 @@ class BaseAddon:
         """Return configuration for for this addon."""
         if self.settings_form is None:
             return None
-        if 'data' not in kwargs:
-            kwargs['data'] = self.instance.configuration
+        if "data" not in kwargs:
+            kwargs["data"] = self.instance.configuration
         # pylint: disable=not-callable
         return self.settings_form(self, **kwargs)
 
@@ -152,7 +151,7 @@ class BaseAddon:
                 self.post_commit(component)
         if EVENT_POST_UPDATE in self.events:
             for component in components:
-                self.post_update(component, '')
+                self.post_update(component, "")
         if EVENT_COMPONENT_UPDATE in self.events:
             for component in components:
                 self.component_update(component)
@@ -165,7 +164,7 @@ class BaseAddon:
 
     def save_state(self):
         """Save addon state information."""
-        self.instance.save(update_fields=['state'])
+        self.instance.save(update_fields=["state"])
 
     @classmethod
     def can_install(cls, component, user):
@@ -209,7 +208,7 @@ class BaseAddon:
         return
 
     def execute_process(self, component, cmd, env=None):
-        component.log_debug('%s addon exec: %s', self.name, ' '.join(cmd))
+        component.log_debug("%s addon exec: %s", self.name, " ".join(cmd))
         try:
             output = subprocess.check_output(
                 cmd,
@@ -217,18 +216,18 @@ class BaseAddon:
                 cwd=component.full_path,
                 stderr=subprocess.STDOUT,
             )
-            component.log_debug('exec result: %s', output.decode())
+            component.log_debug("exec result: %s", output.decode())
         except (OSError, subprocess.CalledProcessError) as err:
-            output = getattr(err, 'output', b'').decode()
-            component.log_error('failed to exec %s: %s', repr(cmd), err)
+            output = getattr(err, "output", b"").decode()
+            component.log_error("failed to exec %s: %s", repr(cmd), err)
             for line in output.splitlines():
-                component.log_error('program output: %s', line)
+                component.log_error("program output: %s", line)
             self.alerts.append(
                 {
-                    'addon': self.name,
-                    'command': ' '.join(cmd),
-                    'output': output,
-                    'error': str(err),
+                    "addon": self.name,
+                    "command": " ".join(cmd),
+                    "output": output,
+                    "error": str(err),
                 }
             )
 
@@ -289,7 +288,7 @@ class BaseAddon:
             if os.path.exists(filename):
                 component.repository.resolve_symlinks(filename)
         except ValueError:
-            component.log_error('refused to write out of repository: %s', filename)
+            component.log_error("refused to write out of repository: %s", filename)
             return None
 
         return filename
@@ -297,13 +296,13 @@ class BaseAddon:
     @classmethod
     def pre_install(cls, component, request):
         if cls.trigger_update:
-            perform_update.delay('Component', component.pk, auto=True)
+            perform_update.delay("Component", component.pk, auto=True)
             if component.repo_needs_merge():
                 messages.warning(
                     request,
                     _(
-                        'The repository is outdated, you might not get '
-                        'expected results until you update it.'
+                        "The repository is outdated, you might not get "
+                        "expected results until you update it."
                     ),
                 )
 
@@ -312,9 +311,9 @@ class TestAddon(BaseAddon):
     """Testing addong doing nothing."""
 
     settings_form = BaseAddonForm
-    name = 'weblate.base.test'
-    verbose = 'Test addon'
-    description = 'Test addon'
+    name = "weblate.base.test"
+    verbose = "Test addon"
+    description = "Test addon"
 
 
 class UpdateBaseAddon(BaseAddon):
@@ -333,7 +332,7 @@ class UpdateBaseAddon(BaseAddon):
         raise NotImplementedError()
 
     def post_update(self, component, previous_head):
-        component.commit_pending('addon', None, skip_push=True)
+        component.commit_pending("addon", None, skip_push=True)
         try:
             self.update_translations(component, previous_head)
         except FileParseError:
@@ -349,17 +348,17 @@ class TestException(Exception):
 class TestCrashAddon(UpdateBaseAddon):
     """Testing addong doing nothing."""
 
-    name = 'weblate.base.crash'
-    verbose = 'Crash test addon'
-    description = 'Crash test addon'
+    name = "weblate.base.crash"
+    verbose = "Crash test addon"
+    description = "Crash test addon"
 
     def update_translations(self, component, previous_head):
         if previous_head:
-            raise TestException('Test error')
+            raise TestException("Test error")
 
 
 class StoreBaseAddon(BaseAddon):
     """Base class for addons tweaking store."""
 
     events = (EVENT_STORE_POST_LOAD,)
-    icon = 'wrench.svg'
+    icon = "wrench.svg"

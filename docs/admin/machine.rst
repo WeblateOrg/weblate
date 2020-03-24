@@ -3,19 +3,18 @@
 Machine translation
 ===================
 
-Weblate has built in support for several machine translation services and it's
-up to the administrator to enable them. The services have different terms of use, so
-please check whether you are allowed to use them before enabling them in Weblate.
-The individual services are enabled using :setting:`MT_SERVICES`.
+Built-in support for several machine translation services and can be turned on
+by the administrator using :setting:`MT_SERVICES` for each one. They come subject
+to their terms of use, so ensure you are allowed to use them how you want.
 
 The source language can be configured at :ref:`project`.
 
 Amagama
 -------
 
-Special installation of :ref:`tmserver` run by Virtaal authors.
+Special installation of :ref:`tmserver` run by the authors of Virtaal.
 
-To enable this service, add ``weblate.machinery.tmserver.AmagamaTranslation`` to
+Turn on this service by adding ``weblate.machinery.tmserver.AmagamaTranslation`` to
 :setting:`MT_SERVICES`.
 
 .. seealso::
@@ -28,12 +27,12 @@ To enable this service, add ``weblate.machinery.tmserver.AmagamaTranslation`` to
 Apertium
 --------
 
-A free/open-source machine translation platform providing translation to
+A libre software machine translation platform providing translations to
 a limited set of languages.
 
-The recommended way to use Apertium is to run your own Apertium APy server.
+The recommended way to use Apertium is to run your own Apertium-APy server.
 
-To enable this service, add ``weblate.machinery.apertium.ApertiumAPYTranslation`` to
+Turn on this service by adding ``weblate.machinery.apertium.ApertiumAPYTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_APERTIUM_APY`.
 
 .. seealso::
@@ -51,8 +50,11 @@ AWS
 Amazon Translate is a neural machine translation service for translating text
 to and from English across a breadth of supported languages.
 
-To enable this service, add ``weblate.machinery.aws.AWSTranslation`` to
-:setting:`MT_SERVICES`, install the `boto3` module and set the settings.
+1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` to
+:setting:`MT_SERVICES`.
+
+2. Install the `boto3` module.
+3. Configure Weblate.
 
 .. seealso::
 
@@ -68,9 +70,9 @@ Baidu API machine translation
 
 Machine translation service provided by Baidu.
 
-This service uses an API and you need to obtain ID and API key from Baidu.
+This service uses an API and you need to obtain an ID and API key from Baidu to use it.
 
-To enable this service, add ``weblate.machinery.baidu.BaiduTranslation`` to
+Turn on this service by adding ``weblate.machinery.baidu.BaiduTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and
 :setting:`MT_BAIDU_SECRET`.
 
@@ -87,10 +89,9 @@ DeepL
 
 .. versionadded:: 2.20
 
-DeepL is paid service providing good machine translation for few languages.
-According to some benchmark it's currently best available service.
+DeepL is paid service providing good machine translation for a few languages.
 
-To enable this service, add ``weblate.machinery.deepl.DeepLTranslation`` to
+Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_DEEPL_KEY`.
 
 .. seealso::
@@ -106,11 +107,11 @@ Glosbe
 
 Free dictionary and translation memory for almost every living language.
 
-API is free to use, but subject to the used data source license. There is a limit
-of calls that may be done from one IP in fixed period of time, to prevent
+The API is gratis to use, but subject to the used data source license. There is a limit
+of calls that may be done from one IP in a set period of time, to prevent
 abuse.
 
-To enable this service, add ``weblate.machinery.glosbe.GlosbeTranslation`` to
+Turn on this service by adding ``weblate.machinery.glosbe.GlosbeTranslation`` to
 :setting:`MT_SERVICES`.
 
 .. seealso::
@@ -124,10 +125,10 @@ Google Translate
 
 Machine translation service provided by Google.
 
-This service uses Translation API and you need to obtain an API key and enable
-billing on Google API console.
+This service uses the Google Translation API, and you need to obtain an API key and turn on
+billing in the Google API console.
 
-To enable this service, add ``weblate.machinery.google.GoogleTranslation`` to
+To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`.
 
 .. seealso::
@@ -145,14 +146,23 @@ Microsoft Cognitive Services Translator
 Machine translation service provided by Microsoft in Azure portal as a one of
 Cognitive Services.
 
-You need to register at Azure portal and use the key you obtain there.
+Weblate implements Translator API V3.
 
 To enable this service, add ``weblate.machinery.microsoft.MicrosoftCognitiveTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_MICROSOFT_COGNITIVE_KEY`.
 
+Translator Text API V2
+``````````````````````
+The key you use with Translator API V2 can be used with API 3.
+
+Translator Text API V3
+``````````````````````
+You need to register at Azure portal and use the key you obtain there.
+With new Azure keys, you also need to set :setting:`MT_MICROSOFT_REGION` to locale of your service.
+
 .. seealso::
 
-    :setting:`MT_MICROSOFT_COGNITIVE_KEY`,
+    :setting:`MT_MICROSOFT_COGNITIVE_KEY`, :setting:`MT_MICROSOFT_REGION`,
     `Cognitive Services - Text Translation API <https://azure.microsoft.com/services/cognitive-services/translator-text-api/>`_,
     `Microsoft Azure Portal <https://portal.azure.com/>`_
 
@@ -164,10 +174,10 @@ Microsoft Terminology Service
 .. versionadded:: 2.19
 
 The Microsoft Terminology Service API allows you to programmatically access the
-terminology, definitions and user interface (UI) strings available on the
+terminology, definitions and user interface (UI) strings available in the
 Language Portal through a web service.
 
-To enable this service, add ``weblate.machinery.microsoftterminology.MicrosoftTerminologyService`` to
+Turn this service on by adding ``weblate.machinery.microsoftterminology.MicrosoftTerminologyService`` to
 :setting:`MT_SERVICES`.
 
 .. seealso::
@@ -182,10 +192,10 @@ MyMemory
 Huge translation memory with machine translation.
 
 Free, anonymous usage is currently limited to 100 requests/day, or to 1000
-requests/day when you provide contact e-mail in :setting:`MT_MYMEMORY_EMAIL`.
+requests/day when you provide a contact e-mail address in :setting:`MT_MYMEMORY_EMAIL`.
 You can also ask them for more.
 
-To enable this service, add ``weblate.machinery.mymemory.MyMemoryTranslation`` to
+Turn on this service by adding ``weblate.machinery.mymemory.MyMemoryTranslation`` to
 :setting:`MT_SERVICES` and  set :setting:`MT_MYMEMORY_EMAIL`.
 
 .. seealso::
@@ -197,16 +207,16 @@ To enable this service, add ``weblate.machinery.mymemory.MyMemoryTranslation`` t
 
 .. _netease-translate:
 
-Netease Sight API machine translation
+NetEase Sight API machine translation
 -------------------------------------
 
 .. versionadded:: 3.3
 
 Machine translation service provided by Netease.
 
-This service uses an API and you need to obtain key and secret from Netease.
+This service uses an API, and you need to obtain key and secret from NetEase.
 
-To enable this service, add ``weblate.machinery.youdao.NeteaseSightTranslation`` to
+Turn on this service by adding ``weblate.machinery.youdao.NeteaseSightTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_NETEASE_KEY` and
 :setting:`MT_NETEASE_SECRET`.
 
@@ -221,13 +231,13 @@ To enable this service, add ``weblate.machinery.youdao.NeteaseSightTranslation``
 tmserver
 --------
 
-You can run your own translation memory server which is bundled with
-Translate-toolkit and let Weblate talk to it. You can also use it with
+You can run your own translation memory server by using the one bundled with
+Translate-toolkit and let Weblate talk to it. You can also use it with an
 amaGama server, which is an enhanced version of tmserver.
 
-First you will want to import some data to the translation memory:
+1. First you will want to import some data to the translation memory:
 
-To enable this service, add ``weblate.machinery.tmserver.TMServerTranslation`` to
+2. Turn on this service by adding ``weblate.machinery.tmserver.TMServerTranslation`` to
 :setting:`MT_SERVICES`.
 
 .. code-block:: sh
@@ -236,13 +246,13 @@ To enable this service, add ``weblate.machinery.tmserver.TMServerTranslation`` t
     build_tmdb -d /var/lib/tm/db -s en -t de locale/de/LC_MESSAGES/django.po
     build_tmdb -d /var/lib/tm/db -s en -t fr locale/fr/LC_MESSAGES/django.po
 
-Now you can start tmserver to listen to your requests:
+3. Start tmserver to listen to your requests:
 
 .. code-block:: sh
 
     tmserver -d /var/lib/tm/db
 
-And configure Weblate to talk to it:
+4. Configure Weblate to talk to it:
 
 .. code-block:: python
 
@@ -263,10 +273,10 @@ Yandex Translate
 
 Machine translation service provided by Yandex.
 
-This service uses Translation API and you need to obtain API key from Yandex.
+This service uses a Translation API, and you need to obtain an API key from Yandex.
 
-To enable this service, add ``weblate.machinery.yandex.YandexTranslation`` to
-:setting:`MT_SERVICES` and set :setting:`MT_YANDEX_KEY`.
+Turn on this service by adding ``weblate.machinery.yandex.YandexTranslation`` to
+:setting:`MT_SERVICES`, and set :setting:`MT_YANDEX_KEY`.
 
 .. seealso::
 
@@ -283,9 +293,9 @@ Youdao Zhiyun API machine translation
 
 Machine translation service provided by Youdao.
 
-This service uses an API and you need to obtain ID and API key from Youdao.
+This service uses an API, and you need to obtain an ID and an API key from Youdao.
 
-To enable this service, add ``weblate.machinery.youdao.YoudaoTranslation`` to
+Turn on this service by adding ``weblate.machinery.youdao.YoudaoTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_YOUDAO_ID` and
 :setting:`MT_YOUDAO_SECRET`.
 
@@ -298,11 +308,10 @@ To enable this service, add ``weblate.machinery.youdao.YoudaoTranslation`` to
 Weblate
 -------
 
-Weblate can be source of machine translation as well. It is based on the fulltext
-engine Whoosh and provides both exact and inexact matches.
+Weblate can be the source of machine translations as well.
+It is based on the Woosh fulltext engine, and provides both exact and inexact matches.
 
-To enable these services, add
-``weblate.machinery.weblatetm.WeblateTranslation`` to
+Turn on these services by adding ``weblate.machinery.weblatetm.WeblateTranslation`` to
 :setting:`MT_SERVICES`.
 
 .. _weblate-translation-memory:
@@ -312,11 +321,11 @@ Weblate Translation Memory
 
 .. versionadded:: 2.20
 
-The :ref:`translation-memory` can be used as source for machine translation
+The :ref:`translation-memory` can be used as a source for machine translation
 suggestions as well.
 
-To enable these services, add ``weblate.memory.machine.WeblateMemory`` to
-the :setting:`MT_SERVICES`. This service is enabled by
+Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to
+the :setting:`MT_SERVICES`. This service is turned on by
 default.
 
 .. _saptranslationhub:
@@ -329,10 +338,9 @@ Machine translation service provided by SAP.
 You need to have a SAP account (and enabled the SAP Translation Hub in the SAP Cloud
 Platform) to use this service.
 
-To enable this service, add
-``weblate.machinery.saptranslationhub.SAPTranslationHub`` to
-:setting:`MT_SERVICES` and set appropriate access to either
-sandbox or productive API.
+Turn on this service by adding ``weblate.machinery.saptranslationhub.SAPTranslationHub`` to
+:setting:`MT_SERVICES` and set the appropriate access to either
+sandbox or the productive API.
 
 .. note::
 
@@ -355,7 +363,7 @@ Custom machine translation
 --------------------------
 
 You can also implement your own machine translation services using a few lines of
-Python code. This example implements translation to a fixed list of
+Python code. This example implements machine translation in a fixed list of
 languages using ``dictionary`` Python module:
 
 .. literalinclude:: ../../weblate/examples/mt_service.py

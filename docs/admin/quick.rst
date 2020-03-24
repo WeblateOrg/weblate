@@ -1,5 +1,5 @@
-Installation instructions
-=========================
+Installing Weblate
+------------------
 
 .. toctree::
     :caption: Quick setup guide
@@ -10,6 +10,7 @@ Installation instructions
     install/venv-debian
     install/venv-suse
     install/venv-redhat
+    install/venv-macos
     install/source
     install/openshift
 
@@ -22,6 +23,7 @@ Depending on your setup and experience, choose appropriate installation method:
    * :doc:`install/venv-debian`
    * :doc:`install/venv-suse`
    * :doc:`install/venv-redhat`
+   * :doc:`install/venv-macos`
 
 * :ref:`quick-source`, recommended for development.
 

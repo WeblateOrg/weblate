@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-03-01 05:50+0000\n"
+"PO-Revision-Date: 2020-03-13 11:33+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -36,7 +36,8 @@ msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
-"Este correo electrónico ya está en uso. Proporcione uno diferente, por favor."
+"Esta dirección de correo electrónico ya está en uso. Proporcione una "
+"diferente."
 
 #: weblate/accounts/forms.py:121 weblate/auth/models.py:281
 #: weblate/utils/validators.py:172
@@ -45,7 +46,7 @@ msgid ""
 "+ - _"
 msgstr ""
 "El nombre de usuario solamente puede contener letras, números o los "
-"siguientes caracteres: @ . + - _"
+"caracteres siguientes: @ . + - _"
 
 #: weblate/accounts/forms.py:124 weblate/templates/accounts/user.html:22
 #: weblate/templates/manage-access.html:24
@@ -101,7 +102,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:322
 msgid "Activation e-mail will be sent here."
-msgstr "El correo de activación se enviará aquí."
+msgstr "El mensaje de activación se enviará aquí."
 
 #: weblate/accounts/forms.py:359
 msgid "Too many failed registration attempts from this location!"
@@ -130,7 +131,7 @@ msgstr "¿Cuánto es %s?"
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:432
 msgid "That was not correct, please try again."
-msgstr "Eso no es correcto, intenta de nuevo."
+msgstr "La respuesta es incorrecta. Inténtelo de nuevo."
 
 #: weblate/accounts/forms.py:456
 msgid "Current password"
@@ -326,7 +327,7 @@ msgstr "Se eliminaron la cuenta y todos los datos privados."
 #: weblate/accounts/models.py:94
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
-msgstr "Acuerdo con los Términos de Servicio {date}."
+msgstr "Acuerdo con los Términos de servicio {date}."
 
 #: weblate/accounts/models.py:99
 msgid "You can now log in using password."
@@ -608,7 +609,7 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:69
 msgid "Can not reuse previously used password!"
-msgstr "¡No puede reutilizar una contraseña anterior!"
+msgstr "No puede reutilizar una contraseña anterior."
 
 #: weblate/accounts/password_validation.py:74
 msgid "Your password can't match a password you have used in the past."
@@ -639,14 +640,14 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Su correo electrónico ya no pertenece a una cuenta verificada, se ha "
+"Su correo electrónico ya no pertenece a una cuenta verificada; se ha "
 "cambiado a {0}."
 
 #: weblate/accounts/views.py:159 weblate/accounts/views.py:747
 #: weblate/accounts/views.py:793 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
-msgstr "Reinicializar contraseña"
+msgstr "Restablecer contraseña"
 
 #: weblate/accounts/views.py:162
 msgid "Remove account"
@@ -658,7 +659,7 @@ msgstr "Registro de usuarios"
 
 #: weblate/accounts/views.py:193
 msgid "Message could not be sent to administrator!"
-msgstr "¡No se ha podido enviar el mensaje al administrador!"
+msgstr "No se pudo enviar el mensaje al administrador."
 
 #: weblate/accounts/views.py:213
 msgid "Message has been sent to administrator."
@@ -678,7 +679,7 @@ msgstr "Se ha eliminado su cuenta."
 
 #: weblate/accounts/views.py:455
 msgid "Too many messages sent, please try again later!"
-msgstr "¡Demasiados mensajes enviados, inténtelo de nuevo más tarde!"
+msgstr "Se enviaron demasiados mensajes. Inténtelo de nuevo más tarde."
 
 #: weblate/accounts/views.py:478 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:220
@@ -2845,7 +2846,7 @@ msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
-"Tenemos una versión nueva del documento de Términos de Servicio; léalo y "
+"Tenemos una versión nueva del documento de Términos de servicio; léalo y "
 "confirme que está de acuerdo con este."
 
 #: weblate/legal/templates/legal/confirm.html:6
@@ -2860,7 +2861,7 @@ msgstr "Información legal"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr "Debe aceptar los Términos de Servicio"
+msgstr "Debe aceptar los Términos de servicio"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
@@ -5580,16 +5581,12 @@ msgstr "Palabras invertidas no son mucho más difíciles de adivinar."
 
 #: weblate/templates/i18n.html:49
 msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
-msgstr "Sustituciones predecibles como '@' en lugar de 'a', no ayuda mucho."
+msgstr ""
+"No son de mucha ayuda las sustituciones predecibles como «@» en lugar de «a»."
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr ""
-"Su contraseña no puede consistir solamente de un solo carácter o espacios en "
-"blanco."
+msgstr "Su contraseña no puede contener palabras o caracteres repetidos."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13

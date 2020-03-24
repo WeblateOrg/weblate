@@ -1,18 +1,6 @@
 name: Lint
 
-on:
-  push:
-    paths:
-      - '**.py'
-      - 'setup.cfg'
-      - 'requirements*.txt'
-      - '.github/workflows/lint.yml'
-  pull_request:
-    paths:
-      - '**.py'
-      - 'setup.cfg'
-      - 'requirements*.txt'
-      - '.github/workflows/lint.yml'
+on: [push, pull_request]
 
 jobs:
   flake8:

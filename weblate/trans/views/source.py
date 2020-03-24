@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -39,9 +38,9 @@ from weblate.utils.views import get_component, show_form_errors
 def edit_context(request, pk):
     unit = get_object_or_404(Unit, pk=pk)
     if not unit.translation.is_source:
-        raise Http404('Non source unit!')
+        raise Http404("Non source unit!")
 
-    if not request.user.has_perm('source.edit', unit.translation.component):
+    if not request.user.has_perm("source.edit", unit.translation.component):
         raise PermissionDenied()
 
     form = ContextForm(request.POST, instance=unit, user=request.user)
@@ -49,10 +48,10 @@ def edit_context(request, pk):
     if form.is_valid():
         form.save()
     else:
-        messages.error(request, _('Failed to change a context!'))
+        messages.error(request, _("Failed to change a context!"))
         show_form_errors(request, form)
 
-    return redirect_next(request.POST.get('next'), unit.get_absolute_url())
+    return redirect_next(request.POST.get("next"), unit.get_absolute_url())
 
 
 @login_required
@@ -64,25 +63,25 @@ def matrix(request, project, component):
     languages = None
     language_codes = None
 
-    if 'lang' in request.GET:
+    if "lang" in request.GET:
         form = MatrixLanguageForm(obj, request.GET)
         show = form.is_valid()
     else:
         form = MatrixLanguageForm(obj)
 
     if show:
-        languages = Language.objects.filter(code__in=form.cleaned_data['lang']).order()
-        language_codes = ','.join(languages.values_list('code', flat=True))
+        languages = Language.objects.filter(code__in=form.cleaned_data["lang"]).order()
+        language_codes = ",".join(languages.values_list("code", flat=True))
 
     return render(
         request,
-        'matrix.html',
+        "matrix.html",
         {
-            'object': obj,
-            'project': obj.project,
-            'languages': languages,
-            'language_codes': language_codes,
-            'languages_form': form,
+            "object": obj,
+            "project": obj.project,
+            "languages": languages,
+            "language_codes": language_codes,
+            "languages_form": form,
         },
     )
 
@@ -93,17 +92,17 @@ def matrix_load(request, project, component):
     obj = get_component(request, project, component)
 
     try:
-        offset = int(request.GET.get('offset', ''))
+        offset = int(request.GET.get("offset", ""))
     except ValueError:
-        return HttpResponseServerError('Missing offset')
-    language_codes = request.GET.get('lang')
+        return HttpResponseServerError("Missing offset")
+    language_codes = request.GET.get("lang")
     if not language_codes or offset is None:
-        return HttpResponseServerError('Missing lang')
+        return HttpResponseServerError("Missing lang")
 
     # Can not use filter to keep ordering
     translations = [
         get_object_or_404(obj.translation_set, language__code=lang)
-        for lang in language_codes.split(',')
+        for lang in language_codes.split(",")
     ]
 
     data = []
@@ -120,10 +119,10 @@ def matrix_load(request, project, component):
 
     return render(
         request,
-        'matrix-table.html',
+        "matrix-table.html",
         {
-            'object': obj,
-            'data': data,
-            'last': translations[0].unit_set.count() <= offset + 20,
+            "object": obj,
+            "data": data,
+            "last": translations[0].unit_set.count() <= offset + 20,
         },
     )

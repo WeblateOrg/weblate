@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -39,9 +38,9 @@ class LockTest(ViewTestCase):
             slug=self.component.slug, project__slug=self.project.slug
         )
         self.assertTrue(component.locked)
-        response = self.client.get(reverse('component', kwargs=self.kw_component))
+        response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(
-            response, 'This translation is currently locked for updates.'
+            response, "This translation is currently locked for updates."
         )
 
     def assert_component_not_locked(self):
@@ -49,38 +48,38 @@ class LockTest(ViewTestCase):
             slug=self.component.slug, project__slug=self.project.slug
         )
         self.assertFalse(component.locked)
-        response = self.client.get(reverse('component', kwargs=self.kw_component))
+        response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertNotContains(
-            response, 'This translation is currently locked for updates.'
+            response, "This translation is currently locked for updates."
         )
 
     def test_component(self):
-        response = self.client.post(reverse('lock_component', kwargs=self.kw_component))
-        redirect_url = '{}#repository'.format(
-            reverse('component', kwargs=self.kw_component)
+        response = self.client.post(reverse("lock_component", kwargs=self.kw_component))
+        redirect_url = "{}#repository".format(
+            reverse("component", kwargs=self.kw_component)
         )
         self.assertRedirects(response, redirect_url)
         self.assert_component_locked()
 
         response = self.client.post(
-            reverse('unlock_component', kwargs=self.kw_component)
+            reverse("unlock_component", kwargs=self.kw_component)
         )
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()
 
     def test_project(self):
-        response = self.client.post(reverse('lock_project', kwargs=self.kw_project))
-        redirect_url = '{}#repository'.format(
-            reverse('project', kwargs=self.kw_project)
+        response = self.client.post(reverse("lock_project", kwargs=self.kw_project))
+        redirect_url = "{}#repository".format(
+            reverse("project", kwargs=self.kw_project)
         )
         self.assertRedirects(response, redirect_url)
         self.assert_component_locked()
 
-        response = self.client.get(reverse('component', kwargs=self.kw_component))
+        response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(
-            response, 'This translation is currently locked for updates.'
+            response, "This translation is currently locked for updates."
         )
 
-        response = self.client.post(reverse('unlock_project', kwargs=self.kw_project))
+        response = self.client.post(reverse("unlock_project", kwargs=self.kw_project))
         self.assertRedirects(response, redirect_url)
         self.assert_component_not_locked()

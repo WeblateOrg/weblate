@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,7 +31,12 @@ from jellyfish import damerau_levenshtein_distance
 from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
 
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.state import STATE_NAMES, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_NAMES,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 
 class Comparer:
@@ -98,7 +102,7 @@ def state_to_int(text):
     try:
         return STATE_NAMES[text]
     except KeyError:
-        raise ValueError(_('Unsupported state: {}').format(text))
+        raise ValueError(_("Unsupported state: {}").format(text))
 
 
 class QueryParser(whoosh.qparser.QueryParser):
@@ -112,34 +116,34 @@ class QueryParser(whoosh.qparser.QueryParser):
 
     def __init__(self):
         # Define fields for parsing
-        schema = Schema(
+        fields = {
             # Unit fields
-            source=TEXT,
-            target=TEXT,
-            context=TEXT,
-            note=TEXT,
-            location=TEXT,
-            priority=NumberField,
-            added=DATETIME,
-            state=StateField,
-            pending=BOOLEAN,
-            has=TEXT,
+            "source": TEXT,
+            "target": TEXT,
+            "context": TEXT,
+            "note": TEXT,
+            "location": TEXT,
+            "priority": NumberField,
+            "added": DATETIME,
+            "state": StateField,
+            "pending": BOOLEAN,
+            "has": TEXT,
+            "is": TEXT,
             # Language
-            language=TEXT,
+            "language": TEXT,
             # Change fields
-            changed=DATETIME,
-            changed_by=TEXT,
+            "changed": DATETIME,
+            "changed_by": TEXT,
             # Unit data
-            check=TEXT,
-            ignored_check=TEXT,
-            suggestion=TEXT,
-            suggestion_author=TEXT,
-            comment=TEXT,
-            comment_author=TEXT,
-            label=TEXT,
-        )
-        # Features to implement and corresponding blockers
-        # - unitdata lookups, https://github.com/WeblateOrg/weblate/issues/3007
+            "check": TEXT,
+            "ignored_check": TEXT,
+            "suggestion": TEXT,
+            "suggestion_author": TEXT,
+            "comment": TEXT,
+            "comment_author": TEXT,
+            "label": TEXT,
+        }
+        schema = Schema(**fields)
 
         # List of plugins
         plugins = [
@@ -183,7 +187,7 @@ EXACT_FIELD_MAP = {
 }
 
 
-def field_name(field, suffix="icontains"):
+def field_name(field, suffix="search"):
     if field in FIELD_MAP:
         return FIELD_MAP[field]
     if field in PLAIN_FIELDS:
@@ -192,7 +196,7 @@ def field_name(field, suffix="icontains"):
         return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
     if field in EXACT_FIELD_MAP:
         # Change contains to exact, do not change other (for example regex)
-        if suffix == "icontains":
+        if suffix == "search":
             suffix = "iexact"
         return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
     return field
@@ -245,6 +249,21 @@ def has_sql(text):
     raise ValueError("Unsupported has lookup: {}".format(text))
 
 
+def is_sql(text):
+    if text in ("read-only", "readonly"):
+        return Q(state=STATE_READONLY)
+    if text == "approved":
+        return Q(state=STATE_APPROVED)
+    if text == "translated":
+        return Q(state__gte=STATE_TRANSLATED)
+    if text == "untranslated":
+        return Q(state__lt=STATE_TRANSLATED)
+    if text == "pending":
+        return Q(pending=True)
+
+    raise ValueError("Unsupported is lookup: {}".format(text))
+
+
 def query_sql(obj):
     if isinstance(obj, whoosh.query.And):
         return reduce(
@@ -261,6 +280,8 @@ def query_sql(obj):
     if isinstance(obj, whoosh.query.Term):
         if obj.fieldname == "has":
             return has_sql(obj.text)
+        if obj.fieldname == "is":
+            return is_sql(obj.text)
         return field_extra(obj.fieldname, Q(**{field_name(obj.fieldname): obj.text}))
     if isinstance(obj, whoosh.query.DateRange):
         return field_extra(

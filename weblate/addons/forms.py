@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -51,95 +50,95 @@ class BaseAddonForm(forms.Form, AddonFormMixin):
 
 class GenerateMoForm(BaseAddonForm):
     path = forms.CharField(
-        label=_('Path of generated MO file'),
+        label=_("Path of generated MO file"),
         required=False,
-        initial='{{ filename|stripext }}.mo',
-        help_text=_('If not specified, the location of the PO file will be used.'),
+        initial="{{ filename|stripext }}.mo",
+        help_text=_("If not specified, the location of the PO file will be used."),
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('path'), Div(template='addons/generatemo_help.html')
+            Field("path"), Div(template="addons/generatemo_help.html")
         )
 
     def test_render(self, value):
         validate_render_component(value, translation=True)
 
     def clean_path(self):
-        self.test_render(self.cleaned_data['path'])
-        validate_filename(self.cleaned_data['path'])
-        return self.cleaned_data['path']
+        self.test_render(self.cleaned_data["path"])
+        validate_filename(self.cleaned_data["path"])
+        return self.cleaned_data["path"]
 
 
 class GenerateForm(BaseAddonForm):
-    filename = forms.CharField(label=_('Name of generated file'), required=True)
+    filename = forms.CharField(label=_("Name of generated file"), required=True)
     template = forms.CharField(
-        widget=forms.Textarea(), label=_('Content of generated file'), required=True
+        widget=forms.Textarea(), label=_("Content of generated file"), required=True
     )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('filename'),
-            Field('template'),
-            Div(template='addons/generate_help.html'),
+            Field("filename"),
+            Field("template"),
+            Div(template="addons/generate_help.html"),
         )
 
     def test_render(self, value):
         validate_render_component(value, translation=True)
 
     def clean_filename(self):
-        self.test_render(self.cleaned_data['filename'])
-        validate_filename(self.cleaned_data['filename'])
-        return self.cleaned_data['filename']
+        self.test_render(self.cleaned_data["filename"])
+        validate_filename(self.cleaned_data["filename"])
+        return self.cleaned_data["filename"]
 
     def clean_template(self):
-        self.test_render(self.cleaned_data['template'])
-        return self.cleaned_data['template']
+        self.test_render(self.cleaned_data["template"])
+        return self.cleaned_data["template"]
 
 
 class GettextCustomizeForm(BaseAddonForm):
     width = forms.ChoiceField(
-        label=_('Long lines wrapping'),
+        label=_("Long lines wrapping"),
         choices=[
-            (77, _('Wrap lines at 77 chars and at newlines')),
-            (65535, _('Only wrap lines at newlines')),
-            (-1, _('No line wrapping')),
+            (77, _("Wrap lines at 77 chars and at newlines")),
+            (65535, _("Only wrap lines at newlines")),
+            (-1, _("No line wrapping")),
         ],
         required=True,
         initial=77,
         help_text=_(
-            'By default gettext wraps lines at 77 chars and newlines. '
-            'With --no-wrap parameter, it wraps only at newlines.'
+            "By default gettext wraps lines at 77 chars and newlines. "
+            "With --no-wrap parameter, it wraps only at newlines."
         ),
     )
 
 
 class MsgmergeForm(BaseAddonForm):
     previous = forms.BooleanField(
-        label=_('Keep previous msgids of translated strings'),
+        label=_("Keep previous msgids of translated strings"),
         required=False,
         initial=True,
     )
     fuzzy = forms.BooleanField(
-        label=_('Use fuzzy matching'), required=False, initial=True
+        label=_("Use fuzzy matching"), required=False, initial=True
     )
 
 
 class GitSquashForm(BaseAddonForm):
     squash = forms.ChoiceField(
-        label=_('Commit squashing'),
+        label=_("Commit squashing"),
         widget=forms.RadioSelect,
         choices=(
-            ('all', _('All commits into one')),
-            ('language', _('Per language')),
-            ('file', _('Per file')),
-            ('author', _('Per author')),
+            ("all", _("All commits into one")),
+            ("language", _("Per language")),
+            ("file", _("Per file")),
+            ("author", _("Per author")),
         ),
-        initial='all',
+        initial="all",
         required=True,
     )
 
@@ -147,112 +146,112 @@ class GitSquashForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('squash'), Div(template='addons/squash_help.html')
+            Field("squash"), Div(template="addons/squash_help.html")
         )
 
 
 class JSONCustomizeForm(BaseAddonForm):
-    sort_keys = forms.BooleanField(label=_('Sort JSON keys'), required=False)
+    sort_keys = forms.BooleanField(label=_("Sort JSON keys"), required=False)
     indent = forms.IntegerField(
-        label=_('JSON indentation'), min_value=0, initial=4, required=True
+        label=_("JSON indentation"), min_value=0, initial=4, required=True
     )
 
 
 class YAMLCustomizeForm(BaseAddonForm):
     indent = forms.IntegerField(
-        label=_('YAML indentation'), min_value=1, max_value=10, initial=2, required=True
+        label=_("YAML indentation"), min_value=1, max_value=10, initial=2, required=True
     )
     width = forms.ChoiceField(
-        label=_('Long lines wrapping'),
+        label=_("Long lines wrapping"),
         choices=[
-            ('80', _('Wrap lines at 80 chars')),
-            ('100', _('Wrap lines at 100 chars')),
-            ('120', _('Wrap lines at 120 chars')),
-            ('180', _('Wrap lines at 180 chars')),
-            ('65535', _('No line wrapping')),
+            ("80", _("Wrap lines at 80 chars")),
+            ("100", _("Wrap lines at 100 chars")),
+            ("120", _("Wrap lines at 120 chars")),
+            ("180", _("Wrap lines at 180 chars")),
+            ("65535", _("No line wrapping")),
         ],
         required=True,
         initial=80,
     )
     line_break = forms.ChoiceField(
-        label=_('Line breaks'),
+        label=_("Line breaks"),
         choices=[
-            ('dos', _('DOS (\\r\\n)')),
-            ('unix', _('UNIX (\\n)')),
-            ('mac', _('MAC (\\r)')),
+            ("dos", _("DOS (\\r\\n)")),
+            ("unix", _("UNIX (\\n)")),
+            ("mac", _("MAC (\\r)")),
         ],
         required=True,
-        initial='unix',
+        initial="unix",
     )
 
 
 class RemoveForm(BaseAddonForm):
     age = forms.IntegerField(
-        label=_('Days to keep'), min_value=0, initial=30, required=True
+        label=_("Days to keep"), min_value=0, initial=30, required=True
     )
 
 
 class RemoveSuggestionForm(RemoveForm):
     votes = forms.IntegerField(
-        label=_('Voting threshold'),
+        label=_("Voting threshold"),
         initial=0,
         required=True,
         help_text=_(
-            'Threshold for removal. This field has no effect with ' 'voting turned off.'
+            "Threshold for removal. This field has no effect with " "voting turned off."
         ),
     )
 
 
 class DiscoveryForm(BaseAddonForm):
     match = forms.CharField(
-        label=_('Regular expression to match translation files against'), required=True
+        label=_("Regular expression to match translation files against"), required=True
     )
     file_format = forms.ChoiceField(
-        label=_('File format'),
+        label=_("File format"),
         choices=FILE_FORMATS.get_choices(empty=True),
-        initial='',
+        initial="",
         required=True,
     )
     name_template = forms.CharField(
-        label=_('Customize the component name'),
-        initial='{{ component }}',
+        label=_("Customize the component name"),
+        initial="{{ component }}",
         required=True,
     )
     base_file_template = forms.CharField(
-        label=_('Define the monolingual base filename'),
-        initial='',
+        label=_("Define the monolingual base filename"),
+        initial="",
         required=False,
-        help_text=_('Leave empty for bilingual translation files.'),
+        help_text=_("Leave empty for bilingual translation files."),
     )
     new_base_template = forms.CharField(
-        label=_('Define the base file for new translations'),
-        initial='',
+        label=_("Define the base file for new translations"),
+        initial="",
         required=False,
         help_text=_(
-            'Filename of file used for creating new translations. '
-            'For gettext choose .pot file.'
+            "Filename of file used for creating new translations. "
+            "For gettext choose .pot file."
         ),
     )
     language_regex = forms.CharField(
-        label=_('Language filter'),
+        label=_("Language filter"),
         max_length=200,
-        initial='^[^.]+$',
+        initial="^[^.]+$",
         validators=[validate_re],
         help_text=_(
-            'Regular expression to filter '
-            'translation against when scanning for filemask.'
+            "Regular expression to filter "
+            "translation against when scanning for filemask."
         ),
     )
     copy_addons = forms.BooleanField(
-        label=_('Clone addons from the main component to the newly created ones'),
+        label=_("Clone addons from the main component to the newly created ones"),
         required=False,
         initial=True,
     )
     remove = forms.BooleanField(
-        label=_('Remove components for inexistant files'), required=False
+        label=_("Remove components for inexistant files"), required=False
     )
     confirm = forms.BooleanField(
-        label=_('I confirm the above matches look correct'),
+        label=_("I confirm the above matches look correct"),
         required=False,
         widget=forms.HiddenInput,
     )
@@ -261,34 +260,34 @@ class DiscoveryForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field('match'),
-            Field('file_format'),
-            Field('name_template'),
-            Field('base_file_template'),
-            Field('new_base_template'),
-            Field('language_regex'),
-            Field('copy_addons'),
-            Field('remove'),
-            Div(template='addons/discovery_help.html'),
+            Field("match"),
+            Field("file_format"),
+            Field("name_template"),
+            Field("base_file_template"),
+            Field("new_base_template"),
+            Field("language_regex"),
+            Field("copy_addons"),
+            Field("remove"),
+            Div(template="addons/discovery_help.html"),
         )
         if self.is_bound:
             # Perform form validation
             self.full_clean()
             # Show preview if form was submitted
-            if self.cleaned_data['preview']:
-                self.fields['confirm'].widget = forms.CheckboxInput()
-                self.helper.layout.insert(0, Field('confirm'))
+            if self.cleaned_data["preview"]:
+                self.fields["confirm"].widget = forms.CheckboxInput()
+                self.helper.layout.insert(0, Field("confirm"))
                 created, matched, deleted = self.discovery.perform(
-                    preview=True, remove=self.cleaned_data['remove']
+                    preview=True, remove=self.cleaned_data["remove"]
                 )
                 self.helper.layout.insert(
                     0,
                     ContextDiv(
-                        template='addons/discovery_preview.html',
+                        template="addons/discovery_preview.html",
                         context={
-                            'matches_created': created,
-                            'matches_matched': matched,
-                            'matches_deleted': deleted,
+                            "matches_created": created,
+                            "matches_matched": matched,
+                            "matches_deleted": deleted,
                         },
                     ),
                 )
@@ -301,43 +300,43 @@ class DiscoveryForm(BaseAddonForm):
         )
 
     def clean(self):
-        self.cleaned_data['preview'] = False
+        self.cleaned_data["preview"] = False
 
         # There are some other errors or the form was loaded from db
         if self.errors or not isinstance(self.data, QueryDict):
             return
 
-        self.cleaned_data['preview'] = True
-        if not self.cleaned_data['confirm']:
+        self.cleaned_data["preview"] = True
+        if not self.cleaned_data["confirm"]:
             raise forms.ValidationError(
-                _('Please review and confirm the matched components.')
+                _("Please review and confirm the matched components.")
             )
 
     def clean_match(self):
-        match = self.cleaned_data['match']
-        validate_re(match, ('component', 'language'))
+        match = self.cleaned_data["match"]
+        validate_re(match, ("component", "language"))
         return match
 
     @staticmethod
     def test_render(value):
-        return validate_render(value, component='test')
+        return validate_render(value, component="test")
 
     def template_clean(self, name):
         result = self.test_render(self.cleaned_data[name])
         if result and result == self.cleaned_data[name]:
             raise forms.ValidationError(
-                _('Please include component markup in the template.')
+                _("Please include component markup in the template.")
             )
         return self.cleaned_data[name]
 
     def clean_name_template(self):
-        return self.template_clean('name_template')
+        return self.template_clean("name_template")
 
     def clean_base_file_template(self):
-        return self.template_clean('base_file_template')
+        return self.template_clean("base_file_template")
 
     def clean_new_base_template(self):
-        return self.template_clean('new_base_template')
+        return self.template_clean("new_base_template")
 
 
 class AutoAddonForm(AutoForm, AddonFormMixin):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -36,13 +35,13 @@ class RequireTOSMiddleware:
         self.get_response = get_response
         # Ignored paths regexp, mostly covers API and legal pages
         self.matcher = re.compile(
-            r'^/(legal|about|contact|api|static|widgets|data|hooks)/'
+            r"^/(legal|about|contact|api|static|widgets|data|hooks)/"
         )
 
     def process_view(self, request, view_func, view_args, view_kwargs):
         """Check request whether user has agreed to TOS."""
         # We intercept only GET requests for authenticated users
-        if request.method != 'GET' or not request.user.is_authenticated:
+        if request.method != "GET" or not request.user.is_authenticated:
             return None
 
         # Some paths are ignored
@@ -55,14 +54,14 @@ class RequireTOSMiddleware:
             messages.info(
                 request,
                 _(
-                    'We have new version of the Terms of Service document, '
-                    'please read it and confirm that you agree with it.'
+                    "We have new version of the Terms of Service document, "
+                    "please read it and confirm that you agree with it."
                 ),
             )
             return redirect(
-                '{0}?{1}'.format(
-                    reverse('legal:confirm'),
-                    urlencode({'next': request.get_full_path()}),
+                "{0}?{1}".format(
+                    reverse("legal:confirm"),
+                    urlencode({"next": request.get_full_path()}),
                 )
             )
 

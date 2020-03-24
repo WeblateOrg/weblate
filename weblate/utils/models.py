@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,7 +29,7 @@ from weblate.utils.decorators import disable_for_loaddata
 
 class WeblateConf(AppConf):
     WEBLATE_GPG_IDENTITY = None
-    WEBLATE_GPG_ALGO = 'default'
+    WEBLATE_GPG_ALGO = "default"
 
     RATELIMIT_ATTEMPTS = 5
     RATELIMIT_WINDOW = 300
@@ -52,19 +51,12 @@ class WeblateConf(AppConf):
     SENTRY_DSN = None
 
     CELERY_TASK_ALWAYS_EAGER = True
-    CELERY_BROKER_URL = 'memory://'
+    CELERY_BROKER_URL = "memory://"
 
-    CELERY_IMPORTS = [
-        'weblate.accounts.notifications',
-        'weblate.trans.discovery',
-        'weblate.trans.models',
-        'weblate.trans.search',
-    ]
-
-    DATABASE_BACKUP = 'plain'
+    DATABASE_BACKUP = "plain"
 
     class Meta:
-        prefix = ''
+        prefix = ""
 
 
 @receiver(post_save, sender=Change)
@@ -77,7 +69,7 @@ def update_source(sender, instance, created, **kwargs):
     ):
         return
     cache.set(
-        'last-content-change-{}'.format(instance.translation.pk),
+        "last-content-change-{}".format(instance.translation.pk),
         instance.pk,
         180 * 86400,
     )

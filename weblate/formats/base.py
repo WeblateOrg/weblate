@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -52,23 +51,23 @@ class TranslationUnit:
 
     def _invalidate_target(self):
         """Invalidate target cache."""
-        if 'target' in self.__dict__:
-            del self.__dict__['target']
+        if "target" in self.__dict__:
+            del self.__dict__["target"]
 
     @cached_property
     def locations(self):
         """Return comma separated list of locations."""
-        return ''
+        return ""
 
     @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
-        return ''
+        return ""
 
     @cached_property
     def notes(self):
         """Return notes from units."""
-        return ''
+        return ""
 
     @cached_property
     def source(self):
@@ -91,7 +90,7 @@ class TranslationUnit:
     @cached_property
     def previous_source(self):
         """Return previous message source if there was any."""
-        return ''
+        return ""
 
     @cached_property
     def id_hash(self):
@@ -146,14 +145,14 @@ class TranslationUnit:
 class TranslationFormat:
     """Generic object defining file format loader."""
 
-    name = ''
-    format_id = ''
+    name = ""
+    format_id = ""
     monolingual = None
     check_flags = ()
     unit_class = TranslationUnit
     autoload = ()
     can_add_unit = True
-    language_format = 'posix'
+    language_format = "posix"
     simple_filename = True
     new_translation = None
 
@@ -176,8 +175,8 @@ class TranslationFormat:
         self, storefile, template_store=None, language_code=None, is_template=False
     ):
         """Create file format object, wrapping up translate-toolkit's store."""
-        if not isinstance(storefile, str) and not hasattr(storefile, 'mode'):
-            storefile.mode = 'r'
+        if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
+            storefile.mode = "r"
 
         self.storefile = storefile
 
@@ -192,7 +191,7 @@ class TranslationFormat:
         """Check store validity."""
         if not self.is_valid():
             raise ValueError(
-                _('Failed to load strings from the file, try choosing other format.')
+                _("Failed to load strings from the file, try choosing other format.")
             )
 
     def get_filenames(self):
@@ -236,7 +235,7 @@ class TranslationFormat:
         # We always need new unit to translate
         if ttkit_unit is None:
             if template_ttkit_unit is None:
-                raise UnitNotFound('Unit not found: {}'.format(context))
+                raise UnitNotFound("Unit not found: {}".format(context))
             ttkit_unit = deepcopy(template_ttkit_unit)
             add = True
         else:
@@ -253,7 +252,7 @@ class TranslationFormat:
         try:
             return (self._source_index[context, source], False)
         except KeyError:
-            raise UnitNotFound('Unit not found: {}, {}'.format(context, source))
+            raise UnitNotFound("Unit not found: {}, {}".format(context, source))
 
     def find_unit(self, context, source):
         """Find unit by context and source.
@@ -315,12 +314,12 @@ class TranslationFormat:
     @staticmethod
     def mimetype():
         """Return most common mime type for format."""
-        return 'text/plain'
+        return "text/plain"
 
     @staticmethod
     def extension():
         """Return most common file extension for format."""
-        return 'txt'
+        return "txt"
 
     def is_valid(self):
         """Check whether store seems to be valid."""
@@ -336,7 +335,7 @@ class TranslationFormat:
         """Do any possible formatting needed for language code."""
         if not language_format:
             language_format = cls.language_format
-        return getattr(cls, 'get_language_{}'.format(language_format))(code)
+        return getattr(cls, "get_language_{}".format(language_format))(code)
 
     @staticmethod
     def get_language_posix(code):
@@ -344,31 +343,31 @@ class TranslationFormat:
 
     @staticmethod
     def get_language_bcp(code):
-        return code.replace('_', '-')
+        return code.replace("_", "-")
 
     @staticmethod
     def get_language_android(code):
         # Android doesn't use Hans/Hant, but rather TW/CN variants
-        if code == 'zh_Hans':
-            return 'zh-rCN'
-        if code == 'zh_Hant':
-            return 'zh-rTW'
-        sanitized = code.replace('-', '_')
-        if '_' in sanitized and len(sanitized.split('_')[1]) > 2:
-            return 'b+{}'.format(sanitized.replace('_', '+'))
-        return sanitized.replace('_', '-r')
+        if code == "zh_Hans":
+            return "zh-rCN"
+        if code == "zh_Hant":
+            return "zh-rTW"
+        sanitized = code.replace("-", "_")
+        if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
+            return "b+{}".format(sanitized.replace("_", "+"))
+        return sanitized.replace("_", "-r")
 
     @classmethod
     def get_language_java(cls, code):
         # Java doesn't use Hans/Hant, but rather TW/CN variants
-        if code == 'zh_Hans':
-            return 'zh-CN'
-        if code == 'zh_Hant':
-            return 'zh-TW'
-        if code == 'zh_Hans_SG':
-            return 'zh-SG'
-        if code == 'zh_Hant_HK':
-            return 'zh-HK'
+        if code == "zh_Hans":
+            return "zh-CN"
+        if code == "zh_Hant":
+            return "zh-TW"
+        if code == "zh_Hans_SG":
+            return "zh-SG"
+        if code == "zh_Hant_HK":
+            return "zh-HK"
         return cls.get_language_bcp(code)
 
     @classmethod
@@ -377,7 +376,7 @@ class TranslationFormat:
 
         Calculated forfor given path, filemask and language code.
         """
-        return mask.replace('*', cls.get_language_code(code))
+        return mask.replace("*", cls.get_language_code(code))
 
     @classmethod
     def add_language(cls, filename, language, base):
@@ -411,7 +410,7 @@ class TranslationFormat:
             set_fuzzy = False
             if fuzzy and unit.is_fuzzy():
                 unit.mark_fuzzy(False)
-                if fuzzy != 'approve':
+                if fuzzy != "approve":
                     set_fuzzy = True
 
             yield set_fuzzy, unit
@@ -435,7 +434,7 @@ class EmptyFormat(TranslationFormat):
 
     @classmethod
     def load(cls, storefile):
-        return type(str(''), (object,), {"units": []})()
+        return type(str(""), (object,), {"units": []})()
 
     def save(self):
         return

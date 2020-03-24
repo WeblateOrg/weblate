@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,15 +28,15 @@ from weblate.utils.render import render_template
 
 class GenerateFileAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
-    name = 'weblate.generate.generate'
-    verbose = _('Statistics generator')
+    name = "weblate.generate.generate"
+    verbose = _("Statistics generator")
     description = _(
-        'This addon generates a file containing detailed information '
-        'about the translation.'
+        "This addon generates a file containing detailed information "
+        "about the translation."
     )
     settings_form = GenerateForm
     multiple = True
-    icon = 'poll.svg'
+    icon = "poll.svg"
 
     @classmethod
     def can_install(cls, component, user):
@@ -47,13 +46,13 @@ class GenerateFileAddon(BaseAddon):
 
     def pre_commit(self, translation, author):
         filename = self.render_repo_filename(
-            self.instance.configuration['filename'], translation
+            self.instance.configuration["filename"], translation
         )
         if not filename:
             return
         content = render_template(
-            self.instance.configuration['template'], translation=translation
+            self.instance.configuration["template"], translation=translation
         )
-        with open(filename, 'w') as handle:
+        with open(filename, "w") as handle:
             handle.write(content)
         translation.addon_commit_files.append(filename)

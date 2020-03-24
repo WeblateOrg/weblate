@@ -14,7 +14,7 @@
 
 {% block content %}
 
-{% whiteboard_messages project=object %}
+{% announcements project=object %}
 
 {% include "watch-dropdown.html" with project=object %}
 
@@ -110,14 +110,17 @@
 {% endif %}
 
 
-{% if whiteboard_form %}
-<div class="tab-pane" id="whiteboard">
-<form action="{% url 'whiteboard_project' project=object.slug %}" method="post">
+{% if announcement_form %}
+<div class="tab-pane" id="announcement">
+<form action="{% url 'announcement_project' project=object.slug %}" method="post">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add a project message" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+{% documentation_icon 'admin/announcement' right=True %}
+{% trans "Post announcement" %}
+</h4></div>
 <div class="panel-body">
 {% csrf_token %}
-{{ whiteboard_form|crispy }}
+{{ announcement_form|crispy }}
 <p class="help-block">{% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">

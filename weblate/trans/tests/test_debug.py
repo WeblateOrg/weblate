@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -35,11 +34,11 @@ class ReportFilterTest(TestCase):
         reporter = WeblateExceptionReporterFilter()
         request = HttpRequest()
         reporter.get_post_parameters(request)
-        self.assertIn('WEBLATE_VERSION:Weblate', request.META)
+        self.assertIn("WEBLATE_VERSION:Weblate", request.META)
 
     def test_report_language(self):
         reporter = WeblateExceptionReporterFilter()
         request = HttpRequest()
-        request.session = {'django_language': 'testlang'}
+        request.session = {"django_language": "testlang"}
         reporter.get_post_parameters(request)
-        self.assertIn('WEBLATE_LANGUAGE', request.META)
+        self.assertIn("WEBLATE_LANGUAGE", request.META)

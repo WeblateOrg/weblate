@@ -96,7 +96,7 @@ Example:
 
 .. code-block:: sh
 
-    ./manage.py --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
+    weblate --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
 
 
 auto_translate
@@ -143,7 +143,7 @@ Example:
 
 .. code-block:: sh
 
-    ./manage.py --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
+    weblate --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
 
 .. seealso::
 
@@ -273,27 +273,6 @@ Creates an ``admin`` account with a random password, unless it is specified.
 
     Added parameters ``--username``, ``--email``, ``--name`` and ``--update``.
 
-delete_memory
--------------
-
-.. django-admin:: delete_memory
-
-.. versionadded:: 2.20
-
-Deletes entries in the Weblate translation memory.
-
-.. django-admin-option:: --origin ORIGIN
-
-    Origin to delete, for imported files the origin is the filename without its path.
-
-.. django-admin-option:: --all
-
-    Delete all translation memory content and recreate the database.
-
-.. seealso::
-
-    :ref:`translation-memory`
-
 dump_memory
 -----------
 
@@ -305,7 +284,8 @@ Export a JSON file containing Weblate Translation Memory content.
 
 .. seealso::
 
-    :ref:`translation-memory`
+    :ref:`translation-memory`,
+    :ref:`schema-memory`
 
 dumpuserdata
 ------------
@@ -384,7 +364,8 @@ Imports a TMX or JSON file into the Weblate translation memory.
 
 .. seealso::
 
-    :ref:`translation-memory`
+    :ref:`translation-memory`,
+    :ref:`schema-memory`
 
 import_project
 --------------
@@ -472,7 +453,7 @@ separate a folder with the translations of each chapter:
 
 .. code-block:: sh
 
-    ./manage.py import_project \
+    weblate import_project \
         debian-handbook \
         git://anonscm.debian.org/debian-handbook/debian-handbook.git \
         squeeze/master \
@@ -484,7 +465,7 @@ are located in single folder:
 
 .. code-block:: sh
 
-    ./manage.py import_project \
+    weblate import_project \
         --file-format=properties \
         --base-file-template=web-app/tgol-web-app/src/main/resources/i18n/%s-I18N.properties \
         tanaguru \
@@ -498,7 +479,7 @@ language out of a filename like
 
 .. code-block:: sh
 
-    ./manage.py import_project \
+    weblate import_project \
         tails \
         git://git.tails.boum.org/tails master \
         'wiki/src/security/(?P<component>.*)\.(?P<language>[^.]*)\.po$'
@@ -542,7 +523,7 @@ You can dump users from the existing Django installation using:
 
 .. code-block:: sh
 
-    ./manage.py dumpdata auth.User > users.json
+    weblate dumpdata auth.User > users.json
 
 install_addon
 -------------
@@ -572,7 +553,7 @@ To install :ref:`addon-weblate.gettext.customize` for all components:
 
 .. code-block:: shell
 
-   ./manage.py install_addon --addon weblate.gettext.customize --config '{"width": -1}' --update --all
+   weblate install_addon --addon weblate.gettext.customize --config '{"width": -1}' --update --all
 
 .. seealso::
 
@@ -595,23 +576,6 @@ Lists supported languages in MediaWiki markup - language codes, English names
 and localized names.
 
 This is used to generate <https://wiki.l10n.cz/Jazyky>.
-
-list_memory
------------
-
-.. django-admin:: list_memory
-
-.. versionadded:: 2.20
-
-Lists the contents of the Weblate translation memory.
-
-.. django-admin-option:: --type {origin}
-
-    Type of info to list, defaults to listing used origins.
-
-.. seealso::
-
-    :ref:`translation-memory`
 
 list_translators
 ----------------
@@ -699,31 +663,11 @@ Example:
 
 .. code-block:: sh
 
-   ./manage.py move_language cze cs
+   weblate move_language cze cs
 
 After moving the content, you should check whether there is anything left (this is
 subject to race conditions when somebody updates the repository meanwhile) and
 remove the `(generated)` language.
-
-optimize_memory
----------------
-
-.. django-admin:: optimize_memory
-
-.. versionadded:: 3.2
-
-Optimizes translation memory storage.
-
-.. django-admin-option:: --rebuild
-
-    The index will be completely rebuilt by dumping all content and creating it again.
-    It is recommended to make a backup of it prior to this operation.
-
-.. seealso::
-
-    :ref:`translation-memory`,
-    :doc:`backup`,
-    :djadmin:`dump_memory`
 
 pushgit
 -------
@@ -743,28 +687,6 @@ You can either define which project or component to update (for example
 
     Weblate pushes changes automatically if :guilabel:`Push on commit` in
     :ref:`component` is turned on, which is the default.
-
-rebuild_index
--------------
-
-.. django-admin:: rebuild_index <project|project/component>
-
-Rebuilds the index for fulltext search. This might be a lengthy operation if you
-have a huge set of translation strings.
-
-.. django-admin-option:: --clean
-
-    Removes all words from a database prior to updating, this is implicit when
-    called with ``--all``.
-
-.. django-admin-option:: --optimize
-
-    The index will not be processed again, only its content will be optimized
-    (removing stale entries and merging possibly split index files).
-
-.. seealso::
-
-   :ref:`fulltext`
 
 unlock_translation
 ------------------

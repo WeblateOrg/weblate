@@ -170,6 +170,24 @@ You might also want to update the ``docker-compose`` repository, though it's
 not needed in most case. Please beware of PostgreSQL version changes in this
 case as it's not straightforward to upgrade the database, see `GitHub issue <https://github.com/docker-library/postgres/issues/37>`_ for more info.
 
+.. _docker-admin-login:
+
+Admin login
+-----------
+
+After container setup, you can sign in as `admin` user with password provided
+in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated on first
+start if that was not set.
+
+To reset `admin` password, restart the container with
+:envvar:`WEBLATE_ADMIN_PASSWORD` set to new password.
+
+.. seealso::
+
+        :envvar:`WEBLATE_ADMIN_PASSWORD`,
+        :envvar:`WEBLATE_ADMIN_NAME`,
+        :envvar:`WEBLATE_ADMIN_EMAIL`
+
 .. _docker-environment:
 
 Docker environment variables
@@ -207,7 +225,9 @@ Generic settings
 .. envvar:: WEBLATE_ADMIN_NAME
 .. envvar:: WEBLATE_ADMIN_EMAIL
 
-    Configures the site-admin's name and e-mail.
+    Configures the site-admin's name and e-mail. It is used for both
+    :setting:`ADMINS` setting and creating `admin` user (see
+    :envvar:`WEBLATE_ADMIN_PASSWORD` for more info on that).
 
     **Example:**
 
@@ -219,18 +239,34 @@ Generic settings
 
     .. seealso::
 
-            :ref:`production-admins`
+            :ref:`docker-admin-login`,
+            :ref:`production-admins`,
+            :setting:`ADMINS`
 
 .. envvar:: WEBLATE_ADMIN_PASSWORD
 
-    Sets the password for the admin user. If not set, the admin user is created with a random
-    password shown on first startup.
+    Sets the password for the `admin` user.
 
-    .. versionchanged:: 2.9
+    * If not set and `admin` user does not exist, it is created with a random
+      password shown on first container startup.
+    * If not set and `admin` user exists, no action is performed.
+    * If set the `admin` user is adjusted on every container startup to match
+      :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and
+      :envvar:`WEBLATE_ADMIN_EMAIL`.
 
-        Since version 2.9, the admin user is adjusted on every container
-        startup to match :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`
-        and :envvar:`WEBLATE_ADMIN_EMAIL`.
+    .. warning::
+
+        It might be a security risk to store password in the configuration
+        file. Consider using this variable only for initial setup (or let
+        Weblate generate random password on initial startup) or for password
+        recovery.
+
+    .. seealso::
+
+            :ref:`docker-admin-login`,
+            :envvar:`WEBLATE_ADMIN_PASSWORD`,
+            :envvar:`WEBLATE_ADMIN_NAME`,
+            :envvar:`WEBLATE_ADMIN_EMAIL`
 
 .. envvar:: WEBLATE_SERVER_EMAIL
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL

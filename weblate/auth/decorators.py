@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,7 +28,7 @@ def management_access(view):
 
     @wraps(view)
     def wrapper(request, *args, **kwargs):
-        if not request.user.has_perm('management.use'):
+        if not request.user.has_perm("management.use"):
             raise PermissionDenied
         return view(request, *args, **kwargs)
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -26,7 +25,7 @@ from weblate.utils.classloader import ClassLoader
 
 class VcsClassLoader(ClassLoader):
     def __init__(self):
-        super().__init__('VCS_BACKENDS', False)
+        super().__init__("VCS_BACKENDS", False)
 
     def load_data(self):
         result = super().load_data()
@@ -44,16 +43,16 @@ VCS_REGISTRY = VcsClassLoader()
 
 class VCSConf(AppConf):
     BACKENDS = (
-        'weblate.vcs.git.GitRepository',
-        'weblate.vcs.git.GitWithGerritRepository',
-        'weblate.vcs.git.SubversionRepository',
-        'weblate.vcs.git.GithubRepository',
-        'weblate.vcs.git.GitLabRepository',
-        'weblate.vcs.git.LocalRepository',
-        'weblate.vcs.git.GitForcePushRepository',
-        'weblate.vcs.mercurial.HgRepository',
+        "weblate.vcs.git.GitRepository",
+        "weblate.vcs.git.GitWithGerritRepository",
+        "weblate.vcs.git.SubversionRepository",
+        "weblate.vcs.git.GithubRepository",
+        "weblate.vcs.git.GitLabRepository",
+        "weblate.vcs.git.LocalRepository",
+        "weblate.vcs.git.GitForcePushRepository",
+        "weblate.vcs.mercurial.HgRepository",
     )
     CLONE_DEPTH = 1
 
     class Meta:
-        prefix = 'VCS'
+        prefix = "VCS"

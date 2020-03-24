@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,7 +22,7 @@ from rest_framework import routers
 
 
 class WeblateRouter(routers.DefaultRouter):
-    def get_lookup_regex(self, viewset, lookup_prefix=''):
+    def get_lookup_regex(self, viewset, lookup_prefix=""):
         """Get lookup regex for a viewset.
 
         Given a viewset, return the portion of URL regex that is used
@@ -35,15 +34,15 @@ class WeblateRouter(routers.DefaultRouter):
 
         https://github.com/alanjds/drf-nested-routers
         """
-        base_regex = '(?P<{lookup_prefix}{lookup_url_kwarg}>{lookup_value})'
+        base_regex = "(?P<{lookup_prefix}{lookup_url_kwarg}>{lookup_value})"
         # Use `pk` as default field, unset set.  Default regex should not
         # consume `.json` style suffixes and should break at '/' boundaries.
-        lookup_field = getattr(viewset, 'lookup_field', 'pk')
-        lookup_fields = getattr(viewset, 'lookup_fields', None)
+        lookup_field = getattr(viewset, "lookup_field", "pk")
+        lookup_fields = getattr(viewset, "lookup_fields", None)
         if lookup_fields is None:
             lookup_fields = [lookup_field]
 
-        lookup_value = getattr(viewset, 'lookup_value_regex', '[^/]+')
+        lookup_value = getattr(viewset, "lookup_value_regex", "[^/]+")
 
         result = []
 
@@ -55,4 +54,4 @@ class WeblateRouter(routers.DefaultRouter):
                     lookup_value=lookup_value,
                 )
             )
-        return '/'.join(result)
+        return "/".join(result)
