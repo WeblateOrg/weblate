@@ -77,6 +77,7 @@ class MockUnit:
         self.source = source
         self.fuzzy = False
         self.translated = True
+        self.readonly = False
         self.state = 20
         self.note = note
 
