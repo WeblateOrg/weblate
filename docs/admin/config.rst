@@ -85,7 +85,7 @@ Updates all repositories on a daily basis.
 
 .. hint::
 
-Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
+    Useful if you are not using :ref:`hooks` to update Weblate repositories automatically.
 
 .. note::
 
@@ -209,8 +209,8 @@ List of automatic fixes to apply when saving a string.
 
 .. note::
 
-Provide a fully-qualified path to the Python class that implementing the
-autofixer interface.
+    Provide a fully-qualified path to the Python class that implementing the
+    autofixer interface.
 
 Available fixes:
 
@@ -259,8 +259,8 @@ List of quality checks to perform on a translation.
 
 .. note::
 
-Provide a fully-qualified path to the Python class implementing the check
-interface.
+    Provide a fully-qualified path to the Python class implementing the check
+    interface.
 
 Adjust the list list of checks to include the ones you want to have performed.
 
@@ -556,7 +556,7 @@ error messages too in a similar manner.
 
 .. note::
 
-This is turned on by default.
+    This is turned on by default.
 
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
@@ -573,7 +573,7 @@ otherwise users will be able to fake the IP address.
 
 .. note::
 
-This is not on by default.
+    This is not on by default.
 
 .. seealso::
 
@@ -634,8 +634,8 @@ URL where your Weblate instance shows its legal documents.
 
 .. hint::
 
-Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
-please see :ref:`legal`.
+    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
+    please see :ref:`legal`.
 
 Example:
 
@@ -652,7 +652,7 @@ Additional licenses to include in the license choices.
 
 .. note::
 
-Each license definition should be tuple of its short name, a long name and an URL.
+    Each license definition should be tuple of its short name, a long name and an URL.
 
 For example:
 
@@ -675,7 +675,7 @@ Optional addition of licenses to show.
 
 .. note::
 
-This filter uses the short license names.
+    This filter uses the short license names.
 
 For example:
 
@@ -692,7 +692,7 @@ Defines whether the license attribute in :ref:`component` is required.
 
 .. note::
 
-This is off by default.
+    This is off by default.
 
 .. setting:: LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
 
@@ -704,11 +704,11 @@ The restriction is the length of the source string * 10 characters.
 
 .. hint::
 
-Set this to ``False`` to allow longer translations (up to 10.000 characters) irrespective of source string length.
+    Set this to ``False`` to allow longer translations (up to 10.000 characters) irrespective of source string length.
 
 .. note::
 
-Defaults to ``True``.
+    Defaults to ``True``.
 
 .. setting:: LOGIN_REQUIRED_URLS
 
