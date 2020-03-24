@@ -36,4 +36,4 @@ This is how it looks on the language overview page:
 And on the project page:
 
 .. image:: /images/whiteboard-project.png
-   alt : Image showing a message that reads: "Translations will be used only if they reach 60%" atop the dashboard view.
+    :alt: Image showing a message that reads: "Translations will be used only if they reach 60%" atop the dashboard view.
