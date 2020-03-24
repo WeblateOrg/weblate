@@ -66,7 +66,7 @@ This is also the default setup in Weblate.
 +------------------------+------------+-------------------------------------+
 | Translators group      | Users      | Or Translate with access control.   |
 +------------------------+------------+-------------------------------------+
-| Reviewers group        | N/A        | Not used.                            |
+| Reviewers group        | N/A        | Not used.                           |
 +------------------------+------------+-------------------------------------+
 
 
