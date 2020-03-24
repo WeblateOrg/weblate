@@ -723,8 +723,8 @@ A list of URLs you want to require logging into. (Besides the standard rules bui
 
     .. code-block:: python
 
-    LOGIN_REQUIRED_URLS = (
-        r'/(.*)$',
+        LOGIN_REQUIRED_URLS = (
+            r'/(.*)$',
     )
     REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
         "rest_framework.permissions.IsAuthenticated"
@@ -766,7 +766,7 @@ ID of a site in Matomo (formerly Piwik) you want to track.
 
 .. note::
 
-This integration does not support the Matomo Tag Manager.
+    This integration does not support the Matomo Tag Manager.
 
 .. seealso::
 
@@ -784,7 +784,7 @@ to use to track Weblate use. For more info about Matomo, see
 
 .. hint::
 
-This integration does not support the Matomo Tag Manager.
+    This integration does not support the Matomo Tag Manager.
 
 For example:
 
@@ -1260,12 +1260,12 @@ being run from the webserver root).
 
 .. note::
 
-To use this setting, you also need to configure your server to strip this prefix.
-For example with WSGI, this can be achieved by setting ``WSGIScriptAlias``.
+    To use this setting, you also need to configure your server to strip this prefix.
+    For example with WSGI, this can be achieved by setting ``WSGIScriptAlias``.
 
 .. hint::
 
-The prefix should start with a ``/``.
+    The prefix should start with a ``/``.
 
 Example:
 
@@ -1287,11 +1287,11 @@ Configuration of available VCS backends.
 
 .. note::
 
-Weblate tries to use all supported backends you have the tools for.
+    Weblate tries to use all supported backends you have the tools for.
 
 .. hint::
 
-You can limit choices or add custom VCS back-ends by using this.
+    You can limit choices or add custom VCS back-ends by using this.
 
 .. code-block:: python
 
@@ -1314,15 +1314,15 @@ Configures how deep cloning of repositories Weblate should do.
 
 .. note::
 
-Currently this is only supported in :ref:`vcs-git`. By default Weblate does shallow clones of the
-repositories to make cloning faster and save disk space. Depending on your usage
-(for example when using custom :ref:`addons`), you might want to increase
-the depth or turn off shallow clones completely by setting this to 0.
+    Currently this is only supported in :ref:`vcs-git`. By default Weblate does shallow clones of the
+    repositories to make cloning faster and save disk space. Depending on your usage
+    (for example when using custom :ref:`addons`), you might want to increase
+    the depth or turn off shallow clones completely by setting this to 0.
 
 .. hint::
 
-In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow
-<commit hash>'`` error when pushing from Weblate, turn off shallow clones completely by setting:
+    In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow
+    <commit hash>'`` error when pushing from Weblate, turn off shallow clones completely by setting:
 
 .. code-block:: python
 
@@ -1385,7 +1385,7 @@ List of file formats available for use.
 
 .. note::
 
-The default list already has the common formats.
+    The default list already has the common formats.
 
 .. seealso::
 
