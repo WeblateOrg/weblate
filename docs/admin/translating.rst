@@ -64,7 +64,7 @@ using the ``priority`` flag
 
 .. hint::
 
-This can be used to order the flow of translation in a logical manner.
+    This can be used to order the flow of translation in a logical manner.
 
 .. seealso:: :ref:`checks`
 
