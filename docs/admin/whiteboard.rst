@@ -31,7 +31,7 @@ Language specified
 This is how it looks on the language overview page:
 
 .. image:: /images/whiteboard-language.png
-   alt : Image showing a message that reads: "Czech translators rock!" atop the Czech language overview.
+   :alt: Image showing a message that reads: "Czech translators rock!" atop the Czech language overview.
 
 And on the project page:
 
