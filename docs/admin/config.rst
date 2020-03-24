@@ -508,7 +508,7 @@ This setting affects sent e-mails and generated absolute URLs.
 ENABLE_SHARING
 --------------
 
-Whether to show links to share translation progress on social networks.
+Turn on/off the Share menu so users can share translation progress on social networks.
 
 .. setting:: GITLAB_USERNAME
 
