@@ -83,7 +83,7 @@ Usage
 
 Installation lets you control billing and create/import new components and projects from your admin interface
 if the billing is within its configured limits (any overusage prevents project/component creation)
-  and paid (if its price is non zero).
+and paid (if its price is non zero).
 
 Admins can create new components for their projects without escalating to superuser status (see :ref:`adding-projects`).
 
