@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -49,7 +48,7 @@ class UnitdataTestCase(FixtureTestCase):
 
     def test_check_render(self):
         unit = self.get_unit()
-        unit.source_info.extra_flags = 'max-size:1:1'
+        unit.source_info.extra_flags = "max-size:1:1"
         unit.source_info.save()
         check = self.create_check("max-size")
         url = reverse("render-check", kwargs={"check_id": check.pk})

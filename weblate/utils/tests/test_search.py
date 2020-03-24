@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,8 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from datetime import datetime
+from unittest import expectedFailure
 
 from django.db.models import Q
 from django.test import SimpleTestCase, TestCase
@@ -28,7 +27,13 @@ from pytz import utc
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.search import Comparer, parse_query
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 
 
 class ComparerTest(SimpleTestCase):
@@ -58,22 +63,22 @@ class QueryParserTest(TestCase):
         self.assert_query(
             "hello world",
             (
-                Q(source__icontains="hello")
-                | Q(target__icontains="hello")
-                | Q(context__icontains="hello")
+                Q(source__search="hello")
+                | Q(target__search="hello")
+                | Q(context__search="hello")
             )
             & (
-                Q(source__icontains="world")
-                | Q(target__icontains="world")
-                | Q(context__icontains="world")
+                Q(source__search="world")
+                | Q(target__search="world")
+                | Q(context__search="world")
             ),
         )
 
     def test_quote(self):
         expected = (
-            Q(source__icontains="hello world")
-            | Q(target__icontains="hello world")
-            | Q(context__icontains="hello world")
+            Q(source__search="hello world")
+            | Q(target__search="hello world")
+            | Q(context__search="hello world")
         )
         self.assert_query('"hello world"', expected)
         self.assert_query("'hello world'", expected)
@@ -81,9 +86,9 @@ class QueryParserTest(TestCase):
     def test_field(self):
         self.assert_query(
             "source:hello target:world",
-            Q(source__icontains="hello") & Q(target__icontains="world"),
+            Q(source__search="hello") & Q(target__search="world"),
         )
-        self.assert_query("location:hello.c", Q(location__icontains="hello.c"))
+        self.assert_query("location:hello.c", Q(location__search="hello.c"))
 
     def test_regex(self):
         self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
@@ -93,20 +98,18 @@ class QueryParserTest(TestCase):
     def test_logic(self):
         self.assert_query(
             "source:hello AND NOT target:world",
-            Q(source__icontains="hello") & ~Q(target__icontains="world"),
+            Q(source__search="hello") & ~Q(target__search="world"),
         )
         self.assert_query(
             "source:hello OR target:world",
-            Q(source__icontains="hello") | Q(target__icontains="world"),
+            Q(source__search="hello") | Q(target__search="world"),
         )
 
     def test_empty(self):
         self.assert_query("", Q())
 
     def test_invalid(self):
-        self.assert_query(
-            "changed:inval AND target:world", Q(target__icontains="world")
-        )
+        self.assert_query("changed:inval AND target:world", Q(target__search="world"))
 
     def test_dates(self):
         action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
@@ -164,14 +167,17 @@ class QueryParserTest(TestCase):
         self.assert_query("state:<translated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
-        # This should probably raise an error
-        self.assert_query("state:invalid", Q())
+
+    @expectedFailure
+    def test_invalid_state(self):
+        with self.assertRaises(ValueError):
+            self.assert_query("state:invalid", Q())
 
     def test_parenthesis(self):
         self.assert_query(
             "state:translated AND (source:hello OR source:bar)",
             Q(state=STATE_TRANSLATED)
-            & (Q(source__icontains="hello") | Q(source__icontains="bar")),
+            & (Q(source__search="hello") | Q(source__search="bar")),
         )
 
     def test_language(self):
@@ -181,9 +187,9 @@ class QueryParserTest(TestCase):
     def test_html(self):
         self.assert_query(
             "<b>bold</b>",
-            Q(source__icontains="<b>bold</b>")
-            | Q(target__icontains="<b>bold</b>")
-            | Q(context__icontains="<b>bold</b>"),
+            Q(source__search="<b>bold</b>")
+            | Q(target__search="<b>bold</b>")
+            | Q(context__search="<b>bold</b>"),
         )
 
     def test_has(self):
@@ -195,6 +201,13 @@ class QueryParserTest(TestCase):
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:shaping", Q(shaping__isnull=False))
         self.assert_query("has:label", Q(labels__isnull=False))
+
+    def test_is(self):
+        self.assert_query("is:pending", Q(pending=True))
+        self.assert_query("is:translated", Q(state__gte=STATE_TRANSLATED))
+        self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
+        self.assert_query("is:approved", Q(state=STATE_APPROVED))
+        self.assert_query("is:read-only", Q(state=STATE_READONLY))
 
     def test_suggestions(self):
         self.assert_query(
@@ -217,3 +230,60 @@ class QueryParserTest(TestCase):
     def test_priority(self):
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))
+
+    @expectedFailure
+    def test_text_html(self):
+        self.assert_query("target:<name>", Q(target="<name>"))
+
+    @expectedFailure
+    def test_text_long(self):
+        self.assert_query(
+            "[one to other]",
+            (
+                Q(source__search="[one")
+                | Q(target__search="[one")
+                | Q(context__search="[one")
+            )
+            & (
+                Q(source__search="to")
+                | Q(target__search="to")
+                | Q(context__search="to")
+            )
+            & (
+                Q(source__search="other]")
+                | Q(target__search="other]")
+                | Q(context__search="other]")
+            ),
+        )
+
+    @expectedFailure
+    def test_lowercase_or(self):
+        self.assert_query(
+            "state:<translated or state:empty",
+            Q(state__lt=STATE_TRANSLATED) | Q(state=STATE_EMPTY),
+        )
+
+    @expectedFailure
+    def test_timestamp_format(self):
+        self.assert_query(
+            "changed:>=01/20/2020",
+            Q(change__timestamp__gte=datetime(2020, 20, 1, 0, 0, tzinfo=utc)),
+        )
+
+    @expectedFailure
+    def test_non_quoted_strings(self):
+        self.assert_query(
+            "%(count)s word", parse_query("'%(count)s' 'word'"),
+        )
+
+    @expectedFailure
+    def test_specialchars(self):
+        self.assert_query(
+            "to %{_topdir}",
+            (Q(source__search="to") | Q(target__search="to") | Q(context__search="to"))
+            & (
+                Q(source__search="%{_topdir}")
+                | Q(target__search="%{_topdir}")
+                | Q(context__search="%{_topdir}")
+            ),
+        )

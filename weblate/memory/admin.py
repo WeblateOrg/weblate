@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -17,3 +16,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from django.contrib import admin
+
+
+class MemoryAdmin(admin.ModelAdmin):
+    list_display = [
+        "source_language",
+        "target_language",
+        "source",
+        "origin",
+        "from_file",
+        "shared",
+    ]
+    search_fields = [
+        "source_language__code",
+        "target_language__code",
+        "source",
+        "target",
+        "origin",
+    ]
+    list_filter = [("project", admin.RelatedOnlyFieldListFilter), "shared", "from_file"]

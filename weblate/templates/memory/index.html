@@ -10,7 +10,7 @@
 {% if project %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
-{% elif use_file %}
+{% elif from_file %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
 <li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory for the whole platform" %}</a></li>
 {% else %}
@@ -41,7 +41,7 @@
     {% trans "off" %}
   {% endif %}
   {% perm 'project.edit' project as user_can_edit_project %}
-  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}" class="btn btn-link btn-xs" title="{% trans "Edit" %}">{% icon "pencil.svg" %}</a>{% endif %}
+  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}#workflow" class="btn btn-link btn-xs" title="{% trans "Edit" %}">{% icon "pencil.svg" %}</a>{% endif %}
   </td>
   </tr>
   {% endif %}
@@ -49,7 +49,7 @@
   <th>
     {% if project %}
       {% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}
-    {% elif use_file %}
+    {% elif from_file %}
       {% trans "Number of entries on the whole platform" %}
     {% else %}
       {% trans "Number of your entries" %}
@@ -84,37 +84,6 @@
   </div>
   <div class="panel-footer">
   <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" />
-  </div>
-</div>
-</form>
-{% endif %}
-
-{% if import_form %}
-<form action="{{ import_url }}" method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Import existing translations" %}</h4></div>
-  <div class="panel-body">
-  <p class="help-block">{% trans "Schedules import of all existing translations within this project into translation memory. This can be useful after wiping memory or after initial setup." %}</p>
-  {{ import_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Import" %}" />
-  </div>
-</div>
-</form>
-{% endif %}
-
-{% if delete_form %}
-<form action="{{ delete_url }}" method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-<div class="panel panel-danger">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Wipe translation memory" %}</h4></div>
-  <div class="panel-body">
-  {{ delete_form|crispy }}
-  </div>
-  <div class="panel-footer">
-  <input type="submit" class="btn btn-danger" value="{% trans "Wipe" %}" />
   </div>
 </div>
 </form>

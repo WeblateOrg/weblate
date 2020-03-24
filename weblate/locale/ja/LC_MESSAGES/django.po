@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-03-08 07:25+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2020-03-23 03:47+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -312,7 +312,7 @@ msgstr "誰かがあなたのメールアドレスを利用して、登録しよ
 #: weblate/accounts/models.py:91
 #, python-brace-format
 msgid "Could not log in using {method} ({name})."
-msgstr "{method}を使用してログインできませんでした ({name})。"
+msgstr "{method} ({name}) を使用してログインできませんでした。"
 
 #: weblate/accounts/models.py:92
 msgid "Account locked due to many failed logins."
@@ -472,9 +472,7 @@ msgstr "デフォルトのコンポーネント リスト"
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
-msgstr ""
-"監視中のプロジェクトから通知を受け取り、デフォルトでダッシュボードに表示しま"
-"す。"
+msgstr "監視中のプロジェクトの通知は、メールで受信でき、デフォルトでダッシュボードにも表示されます。"
 
 #: weblate/accounts/models.py:427
 msgid ""
@@ -699,7 +697,7 @@ msgstr "メールアドレスの登録"
 #: weblate/accounts/views.py:723 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:132
 msgid "Change password"
-msgstr "パスワードを変更する"
+msgstr "パスワードの変更"
 
 #: weblate/accounts/views.py:733
 msgid "Password reset has been already completed!"
@@ -727,7 +725,7 @@ msgstr "セッション状態が無効なため、認証できませんでした
 
 #: weblate/accounts/views.py:959
 msgid "Got no e-mail address from third party authentication service."
-msgstr "サード パーティの認証サービスから、メールアドレスを取得できません。"
+msgstr "サードパーティの認証サービスから、メールアドレスを取得できません。"
 
 #: weblate/accounts/views.py:961
 msgid "Please register using e-mail instead."
@@ -1124,7 +1122,7 @@ msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"新しい翻訳を追加する際に、configure、configure.in、configure.ac ファイルの ALL_LINGUAS 変数を更新します。"
+"新しい翻訳を追加すると、configure、configure.in、configure.ac ファイルの ALL_LINGUAS 変数は更新されます。"
 
 #: weblate/addons/gettext.py:212
 msgid "Update PO files to match POT (msgmerge)"
@@ -2374,7 +2372,7 @@ msgstr "未対応のファイル形式です。"
 #: weblate/fonts/views.py:147 weblate/trans/forms.py:1469
 #: weblate/trans/forms.py:1472
 msgid "Entry by the same name already exists."
-msgstr "ユーザ名はすでに登録済みです。"
+msgstr "同じ名前の項目は既にあります。"
 
 #: weblate/fonts/views.py:75
 msgid "Creation failed, please the fix errors below."
@@ -3204,7 +3202,7 @@ msgstr "商用ホスティングに関する連絡先"
 
 #: weblate/templates/about/index.html:49
 msgid "Weblate is built on libre software"
-msgstr "Weblate はリブレ ソフトウェアを基に作られています"
+msgstr "Weblate はリブレ ソフトウェアを用いて作られています"
 
 #: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:103
 msgid "Weblate keys"
@@ -3851,7 +3849,7 @@ msgstr "メールアドレスを使用して登録"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "登録に使用するアカウント:"
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -5020,9 +5018,7 @@ msgstr "通知フック"
 msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
-msgstr ""
-"通知フックを利用することで、Weblate は開発者が実施した変更を自動的に取り込"
-"み、継続的な現地語化を可能にします。"
+msgstr "通知フックを利用することで、Weblate は開発者が実施した変更を自動的に取り込み、Web サービスを連携して翻訳を可能にします。"
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -5707,7 +5703,7 @@ msgstr "プロジェクト情報"
 
 #: weblate/templates/mail/base.html:302
 msgid "Weblate, the libre continuous localization system."
-msgstr "Weblate、継続開発しているリブレな翻訳システム。"
+msgstr "Weblate、Web サービスを連携して動作するリブレな翻訳システム。"
 
 #: weblate/templates/mail/base.html:309
 msgid "Turn off this notification"
@@ -6766,7 +6762,7 @@ msgstr "該当する項目はありません。"
 
 #: weblate/templates/snippets/login-info.html:4
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr "<strong>進化する</strong> Web ベースの翻訳システム"
+msgstr "Web ベースの<strong>サービスを連携</strong>して動作する翻訳システム"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
@@ -7804,19 +7800,19 @@ msgstr "監視中"
 #: weblate/templates/watch-dropdown.html:13
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "プロジェクト %(project)s の監視を解除"
+msgstr "%(project)s プロジェクト の監視解除"
 
 #: weblate/templates/watch-dropdown.html:15
 #: weblate/templates/watch-dropdown.html:18
 #, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "%(object)s の通知を設定"
+msgstr "%(object)s の通知設定"
 
 #: weblate/templates/watch-dropdown.html:16
 #: weblate/templates/watch-dropdown.html:19
 #, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "%(object)s の通知を無効"
+msgstr "%(object)s の通知無効化"
 
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
@@ -8898,9 +8894,8 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
-"翻訳時に使用するリポジトリに、アクセスするためのバージョン管理システム。マー"
-"ジ リクエストの送信のために、サード パーティ プロバイダとの統合の追加も選択で"
-"きます。"
+"翻訳時に使用するリポジトリに、アクセスするためのバージョン管理システム。マージ リクエストの送信のために、サードパーティ "
+"プロバイダとの統合の追加も選択できます。"
 
 #: weblate/trans/models/component.py:196
 msgid ""
@@ -9613,41 +9608,41 @@ msgstr "コンポーネントとプロジェクトの両方を指定してはな
 
 #: weblate/trans/specialchars.py:31
 msgid "Insert tab character"
-msgstr "タブ文字を挿入"
+msgstr "タブ文字の挿入"
 
 #: weblate/trans/specialchars.py:32
 msgid "Insert new line"
-msgstr "新しい行を挿入"
+msgstr "改行の挿入"
 
 #: weblate/trans/specialchars.py:33
 msgid "Insert horizontal ellipsis"
-msgstr "水平省略記号を挿入"
+msgstr "水平省略記号の挿入"
 
 #: weblate/trans/specialchars.py:619
 #, python-brace-format
 msgid "Insert {0}"
-msgstr "{0} を挿入"
+msgstr "{0} の挿入"
 
 #: weblate/trans/specialchars.py:624 weblate/trans/specialchars.py:626
 #, python-brace-format
 msgid "Insert character {0}"
-msgstr "文字 {0} を挿入"
+msgstr "文字 {0} の挿入"
 
 #: weblate/trans/specialchars.py:640
 msgid "Opening double quote"
-msgstr "開き二重引用符"
+msgstr "始めかぎ括弧"
 
 #: weblate/trans/specialchars.py:641
 msgid "Closing double quote"
-msgstr "閉じ二重引用符"
+msgstr "終わりかぎ括弧"
 
 #: weblate/trans/specialchars.py:642
 msgid "Opening single quote"
-msgstr "開き単一引用符"
+msgstr "始め二重かぎ括弧"
 
 #: weblate/trans/specialchars.py:643
 msgid "Closing single quote"
-msgstr "閉じ単一引用符"
+msgstr "終わり二重かぎ括弧"
 
 #: weblate/trans/specialchars.py:646
 msgid "Hyphen"

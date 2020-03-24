@@ -39,9 +39,9 @@ Installing from sources
 
    .. code-block:: sh
 
-        ./manage.py migrate
-        ./manage.py collectstatic
-        ./scripts/generate-locales
+        weblate migrate
+        weblate collectstatic
+        weblate compilemessages
 
    .. note::
 

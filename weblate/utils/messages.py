@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,36 +27,36 @@ from django.contrib.messages import add_message, constants
 
 def get_request(request):
     """Return Django request object even for DRF requests."""
-    if hasattr(request, '_request'):
+    if hasattr(request, "_request"):
         return request._request
     return request
 
 
-def debug(request, message, extra_tags=''):
+def debug(request, message, extra_tags=""):
     """Add a message with the ``DEBUG`` level."""
     if request is not None:
         add_message(get_request(request), constants.DEBUG, message, extra_tags)
 
 
-def info(request, message, extra_tags=''):
+def info(request, message, extra_tags=""):
     """Add a message with the ``INFO`` level."""
     if request is not None:
         add_message(get_request(request), constants.INFO, message, extra_tags)
 
 
-def success(request, message, extra_tags=''):
+def success(request, message, extra_tags=""):
     """Add a message with the ``SUCCESS`` level."""
     if request is not None:
         add_message(get_request(request), constants.SUCCESS, message, extra_tags)
 
 
-def warning(request, message, extra_tags=''):
+def warning(request, message, extra_tags=""):
     """Add a message with the ``WARNING`` level."""
     if request is not None:
         add_message(get_request(request), constants.WARNING, message, extra_tags)
 
 
-def error(request, message, extra_tags=''):
+def error(request, message, extra_tags=""):
     """Add a message with the ``ERROR`` level."""
     if request is not None:
         add_message(get_request(request), constants.ERROR, message, extra_tags)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,8 +28,8 @@ from weblate.trans.autofixes.base import AutoFix
 QUOTE_PARAM = re.compile(r"'(\{[^}]+\})'")
 SINGLE_APO = re.compile(r"'{1,3}")
 DOUBLE_APO = re.compile(r"'{4,}")
-REPLACEMENT = '__weblate:quote__'
-REPLACE_STRING = r'{0}\1{0}'.format(REPLACEMENT)
+REPLACEMENT = "__weblate:quote__"
+REPLACE_STRING = r"{0}\1{0}".format(REPLACEMENT)
 
 
 class DoubleApostrophes(AutoFix):
@@ -42,13 +41,13 @@ class DoubleApostrophes(AutoFix):
     why it's not enabled by default.
     """
 
-    fix_id = 'java-messageformat'
-    name = _('Apostrophes in Java MessageFormat')
+    fix_id = "java-messageformat"
+    name = _("Apostrophes in Java MessageFormat")
 
     def fix_single_target(self, target, source, unit):
         flags = unit.all_flags
-        if ('auto-java-messageformat' not in flags or '{0' not in source) and (
-            'java-messageformat' not in flags
+        if ("auto-java-messageformat" not in flags or "{0" not in source) and (
+            "java-messageformat" not in flags
         ):
             return target, False
         # Split on apostrophe

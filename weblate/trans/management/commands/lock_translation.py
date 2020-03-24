@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,7 +21,7 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'locks component for editing'
+    help = "locks component for editing"
 
     def handle(self, *args, **options):
         for component in self.get_components(*args, **options):

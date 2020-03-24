@@ -48,12 +48,23 @@ good quality translations.
 Unchanged translation
 ~~~~~~~~~~~~~~~~~~~~~
 
-Happens if the source and correspanding translation strings is identical, down to
+Happens if the source and corresponding translation strings is identical, down to
 at least one of the plural forms. Some strings commonly found across all
 languages are ignored, and various markup is stripped. This reduces
 the number of false positives.
 
 This check can help find strings mistakenly untranslated.
+
+The default behavior of this check is to exclude words from the built-in
+blacklist from the checking. These are words which are frequently not being
+translated. This is useful to avoid false positives on short strings, which
+consist only of single word which is same in several languages. This blacklist
+can be disabled by adding ``strict-same`` flag to string or component.
+
+.. seealso::
+
+   :ref:`component`,
+   :ref:`custom-checks`
 
 .. _check-begin-newline:
 .. _check-end-newline:

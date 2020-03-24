@@ -7,10 +7,10 @@
 
 <p class="alert alert-info">
 {% blocktrans %}This site runs {{ weblate_name_link }} for translating the software projects listed below.{% endblocktrans %}
-{% trans "You need to be logged in to translate, otherwise you can only make suggestions." %}
+{% trans "You need to be signed in to translate, otherwise you can only make suggestions." %}
 </p>
 
-{% whiteboard_messages %}
+{% announcements %}
 
 {% include "list-projects.html" with projects=top_projects %}
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,26 +31,26 @@ def download_invoice(request, pk):
     invoice = get_object_or_404(Invoice, pk=pk)
 
     if not invoice.ref:
-        raise Http404('No reference!')
+        raise Http404("No reference!")
 
     allowed_billing = Billing.objects.for_user(request.user).filter(
         pk=invoice.billing.pk
     )
 
     if not allowed_billing.exists():
-        raise PermissionDenied('Not an owner!')
+        raise PermissionDenied("Not an owner!")
 
     if not invoice.filename_valid:
-        raise Http404('File {0} does not exist!'.format(invoice.filename))
+        raise Http404("File {0} does not exist!".format(invoice.filename))
 
-    with open(invoice.full_filename, 'rb') as handle:
+    with open(invoice.full_filename, "rb") as handle:
         data = handle.read()
 
-    response = HttpResponse(data, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename={0}'.format(
+    response = HttpResponse(data, content_type="application/pdf")
+    response["Content-Disposition"] = "attachment; filename={0}".format(
         invoice.filename
     )
-    response['Content-Length'] = len(data)
+    response["Content-Length"] = len(data)
 
     return response
 
@@ -63,8 +62,8 @@ def handle_post(request, billings):
         except (KeyError, ValueError):
             return None
 
-    recurring = get('recurring')
-    terminate = get('terminate')
+    recurring = get("recurring")
+    terminate = get("terminate")
     if not recurring and not terminate:
         return
     try:
@@ -72,8 +71,8 @@ def handle_post(request, billings):
     except Billing.DoesNotExist:
         return
     if recurring:
-        if 'recurring' in billing.payment:
-            del billing.payment['recurring']
+        if "recurring" in billing.payment:
+            del billing.payment["recurring"]
         billing.save()
     elif terminate:
         billing.state = Billing.STATE_TERMINATED
@@ -83,9 +82,9 @@ def handle_post(request, billings):
 @login_required
 def overview(request):
     billings = Billing.objects.for_user(request.user).prefetch_related(
-        'plan', 'projects', 'invoice_set'
+        "plan", "projects", "invoice_set"
     )
-    if request.method == 'POST':
+    if request.method == "POST":
         handle_post(request, billings)
-        return redirect('billing')
-    return render(request, 'billing/overview.html', {'billings': billings})
+        return redirect("billing")
+    return render(request, "billing/overview.html", {"billings": billings})

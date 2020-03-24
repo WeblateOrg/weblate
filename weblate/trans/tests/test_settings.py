@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -37,7 +36,7 @@ class SettingsTest(ViewTestCase):
 
     def test_project(self):
         self.project.add_user(self.user, "@Administration")
-        self.project.component_set.update(license='MIT')
+        self.project.component_set.update(license="MIT")
         url = reverse("settings", kwargs=self.kw_project)
         response = self.client.get(url)
         self.assertContains(response, "Settings")
@@ -49,15 +48,15 @@ class SettingsTest(ViewTestCase):
             Project.objects.get(pk=self.project.pk).web, "https://example.com/test/"
         )
 
-    @modify_settings(INSTALLED_APPS={'append': 'weblate.billing'})
+    @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
     def test_change_access(self):
-        self.project.add_user(self.user, '@Administration')
+        self.project.add_user(self.user, "@Administration")
         url = reverse("settings", kwargs=self.kw_project)
 
         # Get initial form data
         response = self.client.get(url)
         data = response.context["settings_form"].initial
-        data['access_control'] = Project.ACCESS_PROTECTED
+        data["access_control"] = Project.ACCESS_PROTECTED
 
         # No permissions
         response = self.client.post(url, data)
@@ -74,10 +73,10 @@ class SettingsTest(ViewTestCase):
         # Editing should now work, but components do not have a license
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'You must specify a license for these components')
+        self.assertContains(response, "You must specify a license for these components")
 
         # Set component license
-        self.project.component_set.update(license='MIT')
+        self.project.component_set.update(license="MIT")
 
         # Editing should now work
         response = self.client.post(url, data, follow=True)

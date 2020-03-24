@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,9 +23,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class LangConfig(AppConfig):
-    name = 'weblate.lang'
-    label = 'lang'
-    verbose_name = _('Weblate languages')
+    name = "weblate.lang"
+    label = "lang"
+    verbose_name = _("Weblate languages")
 
     def ready(self):
         from weblate.lang.models import setup_lang

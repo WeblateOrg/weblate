@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,7 +21,7 @@ from weblate.trans.management.commands import WeblateLangCommand
 
 
 class Command(WeblateLangCommand):
-    help = 'updates checks for units'
+    help = "updates checks for units"
 
     def handle(self, *args, **options):
         translations = {}

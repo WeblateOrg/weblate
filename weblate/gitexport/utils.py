@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,27 +21,27 @@ import os.path
 import subprocess
 
 GIT_PATHS = [
-    '/usr/lib/git',
-    '/usr/lib/git-core',
-    '/usr/libexec/git',
-    '/usr/libexec/git-core',
+    "/usr/lib/git",
+    "/usr/lib/git-core",
+    "/usr/libexec/git",
+    "/usr/libexec/git-core",
 ]
 
 
 def find_git_http_backend():
     """Find git http backend."""
-    if hasattr(find_git_http_backend, 'result'):
+    if hasattr(find_git_http_backend, "result"):
         return find_git_http_backend.result
 
     try:
-        path = subprocess.check_output(['git', '--exec-path']).decode().strip()
+        path = subprocess.check_output(["git", "--exec-path"]).decode().strip()
         if path:
             GIT_PATHS.insert(0, path)
     except OSError:
         pass
 
     for path in GIT_PATHS:
-        name = os.path.join(path, 'git-http-backend')
+        name = os.path.join(path, "git-http-backend")
         if os.path.exists(name):
             find_git_http_backend.result = name
             return name

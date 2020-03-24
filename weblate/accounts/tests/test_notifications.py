@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -50,37 +49,37 @@ from weblate.accounts.tasks import (
 )
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.models import Change, Comment, Suggestion, WhiteboardMessage
+from weblate.trans.models import Announcement, Change, Comment, Suggestion
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
-TEMPLATES_RAISE[0]['OPTIONS']['string_if_invalid'] = 'TEMPLATE_BUG[%s]'
+TEMPLATES_RAISE[0]["OPTIONS"]["string_if_invalid"] = "TEMPLATE_BUG[%s]"
 
 
 @override_settings(TEMPLATES=TEMPLATES_RAISE)
 class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def setUp(self):
         super().setUp()
-        self.user.email = 'noreply+notify@weblate.org'
+        self.user.email = "noreply+notify@weblate.org"
         self.user.save()
-        czech = Language.objects.get(code='cs')
+        czech = Language.objects.get(code="cs")
         profile = Profile.objects.get(user=self.user)
         profile.watched.add(self.project)
         profile.languages.add(czech)
         profile.save()
         notifications = (
-            'MergeFailureNotification',
-            'RepositoryNotification',
-            'ParseErrorNotification',
-            'NewStringNotificaton',
-            'NewContributorNotificaton',
-            'NewSuggestionNotificaton',
-            'NewCommentNotificaton',
-            'NewComponentNotificaton',
-            'ChangedStringNotificaton',
-            'NewTranslationNotificaton',
-            'MentionCommentNotificaton',
-            'LastAuthorCommentNotificaton',
+            "MergeFailureNotification",
+            "RepositoryNotification",
+            "ParseErrorNotification",
+            "NewStringNotificaton",
+            "NewContributorNotificaton",
+            "NewSuggestionNotificaton",
+            "NewCommentNotificaton",
+            "NewComponentNotificaton",
+            "ChangedStringNotificaton",
+            "NewTranslationNotificaton",
+            "MentionCommentNotificaton",
+            "LastAuthorCommentNotificaton",
         )
         for notification in notifications:
             Subscription.objects.create(
@@ -90,14 +89,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
                 frequency=FREQ_INSTANT,
             )
         self.thirduser = User.objects.create_user(
-            'thirduser', 'noreply+third@example.org', 'testpassword'
+            "thirduser", "noreply+third@example.org", "testpassword"
         )
 
     def validate_notifications(self, count, subject):
         for message in mail.outbox:
-            self.assertNotIn('TEMPLATE_BUG', message.subject)
-            self.assertNotIn('TEMPLATE_BUG', message.body)
-            self.assertNotIn('TEMPLATE_BUG', message.alternatives[0][0])
+            self.assertNotIn("TEMPLATE_BUG", message.subject)
+            self.assertNotIn("TEMPLATE_BUG", message.body)
+            self.assertNotIn("TEMPLATE_BUG", message.alternatives[0][0])
             if subject:
                 self.assertEqual(message.subject, subject)
         self.assertEqual(len(mail.outbox), count)
@@ -105,7 +104,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_merge_failure(self):
         change = Change.objects.create(
             component=self.component,
-            details={'error': 'Failed merge', 'status': 'Error\nstatus'},
+            details={"error": "Failed merge", "status": "Error\nstatus"},
             action=Change.ACTION_FAILED_MERGE,
         )
 
@@ -113,11 +112,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.anotheruser, '@Administration')
+        self.component.project.add_user(self.anotheruser, "@Administration")
         notify_change(change.pk)
 
         # Check mail
-        self.validate_notifications(2, '[Weblate] Repository failure in Test/Test')
+        self.validate_notifications(2, "[Weblate] Repository failure in Test/Test")
 
     def test_notify_repository(self):
         change = Change.objects.create(
@@ -128,16 +127,16 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.anotheruser, '@Administration')
+        self.component.project.add_user(self.anotheruser, "@Administration")
         notify_change(change.pk)
 
         # Check mail
-        self.validate_notifications(2, '[Weblate] Repository operation in Test/Test')
+        self.validate_notifications(2, "[Weblate] Repository operation in Test/Test")
 
     def test_notify_parse_error(self):
         change = Change.objects.create(
             translation=self.get_translation(),
-            details={'error_message': 'Failed merge', 'filename': 'test/file.po'},
+            details={"error_message": "Failed merge", "filename": "test/file.po"},
             action=Change.ACTION_PARSE_ERROR,
         )
 
@@ -145,11 +144,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(self.anotheruser, '@Administration')
+        self.component.project.add_user(self.anotheruser, "@Administration")
         notify_change(change.pk)
 
         # Check mail
-        self.validate_notifications(3, '[Weblate] Parse error in Test/Test')
+        self.validate_notifications(3, "[Weblate] Parse error in Test/Test")
 
     def test_notify_new_string(self):
         Change.objects.create(
@@ -158,26 +157,26 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Check mail
         self.validate_notifications(
-            1, '[Weblate] New string to translate in Test/Test — Czech'
+            1, "[Weblate] New string to translate in Test/Test — Czech"
         )
 
     def test_notify_new_translation(self):
         Change.objects.create(
             unit=self.get_unit(),
             user=self.anotheruser,
-            old='',
+            old="",
             action=Change.ACTION_CHANGE,
         )
 
         # Check mail
-        self.validate_notifications(1, '[Weblate] New translation in Test/Test — Czech')
+        self.validate_notifications(1, "[Weblate] New translation in Test/Test — Czech")
 
     def test_notify_new_language(self):
         anotheruser = self.anotheruser
         change = Change.objects.create(
             user=anotheruser,
             component=self.component,
-            details={'language': 'de'},
+            details={"language": "de"},
             action=Change.ACTION_REQUESTED_LANGUAGE,
         )
 
@@ -185,11 +184,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 1)
 
         # Add project owner
-        self.component.project.add_user(anotheruser, '@Administration')
+        self.component.project.add_user(anotheruser, "@Administration")
         notify_change(change.pk)
 
         # Check mail
-        self.validate_notifications(2, '[Weblate] New language request in Test/Test')
+        self.validate_notifications(2, "[Weblate] New language request in Test/Test")
 
     def test_notify_new_contributor(self):
         Change.objects.create(
@@ -199,19 +198,19 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
 
         # Check mail
-        self.validate_notifications(1, '[Weblate] New contributor in Test/Test — Czech')
+        self.validate_notifications(1, "[Weblate] New contributor in Test/Test — Czech")
 
     def test_notify_new_suggestion(self):
         unit = self.get_unit()
         Change.objects.create(
             unit=unit,
-            suggestion=Suggestion.objects.create(unit=unit, target='Foo'),
+            suggestion=Suggestion.objects.create(unit=unit, target="Foo"),
             user=self.anotheruser,
             action=Change.ACTION_SUGGESTION,
         )
 
         # Check mail
-        self.validate_notifications(1, '[Weblate] New suggestion in Test/Test — Czech')
+        self.validate_notifications(1, "[Weblate] New suggestion in Test/Test — Czech")
 
     def add_comment(self, comment="Foo", language="en"):
         unit = self.get_unit(language=language)
@@ -222,16 +221,16 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_COMMENT,
         )
 
-    def test_notify_new_comment(self, expected=1, comment='Foo'):
+    def test_notify_new_comment(self, expected=1, comment="Foo"):
         self.add_comment(comment=comment)
 
         # Check mail
-        self.validate_notifications(expected, '[Weblate] New comment in Test/Test')
+        self.validate_notifications(expected, "[Weblate] New comment in Test/Test")
 
     def test_notify_new_comment_language(self):
         # Subscribed language
         self.add_comment(language="cs")
-        self.validate_notifications(1, '[Weblate] New comment in Test/Test')
+        self.validate_notifications(1, "[Weblate] New comment in Test/Test")
 
         # Empty outbox
         mail.outbox = []
@@ -241,20 +240,20 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_notify_new_comment_report(self):
-        self.component.report_source_bugs = 'noreply@weblate.org'
+        self.component.report_source_bugs = "noreply@weblate.org"
         self.component.save()
         self.test_notify_new_comment(2)
 
     def test_notify_new_comment_mention(self):
         self.test_notify_new_comment(
-            2, 'Hello @{} and @invalid'.format(self.anotheruser.username)
+            2, "Hello @{} and @invalid".format(self.anotheruser.username)
         )
 
     def test_notify_new_comment_author(self):
-        self.edit_unit('Hello, world!\n', 'Ahoj svete!\n')
+        self.edit_unit("Hello, world!\n", "Ahoj svete!\n")
         # No notification for own edit
         self.assertEqual(len(mail.outbox), 0)
-        change = self.get_unit().change_set.content().order_by('-timestamp')[0]
+        change = self.get_unit().change_set.content().order_by("-timestamp")[0]
         change.user = self.anotheruser
         change.save()
         # Notification for other user edit
@@ -265,34 +264,34 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Change.objects.create(
             component=self.component, action=Change.ACTION_CREATE_COMPONENT
         )
-        self.validate_notifications(1, '[Weblate] New translation component Test/Test')
+        self.validate_notifications(1, "[Weblate] New translation component Test/Test")
 
-    def test_notify_new_whiteboard(self):
-        WhiteboardMessage.objects.create(component=self.component, message='Hello word')
-        self.validate_notifications(1, '[Weblate] New whiteboard message on Test')
+    def test_notify_new_announcement(self):
+        Announcement.objects.create(component=self.component, message="Hello word")
+        self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox = []
-        WhiteboardMessage.objects.create(message='Hello global word')
+        Announcement.objects.create(message="Hello global word")
         self.validate_notifications(
             User.objects.filter(is_active=True).count(),
-            '[Weblate] New whiteboard message at Weblate',
+            "[Weblate] New announcement at Weblate",
         )
 
     def test_notify_alert(self):
-        self.component.project.add_user(self.user, '@Administration')
+        self.component.project.add_user(self.user, "@Administration")
         self.component.add_alert("PushFailure", error="Some error")
-        self.validate_notifications(1, '[Weblate] New alert on Test/Test')
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
 
     def test_notify_alert_ignore(self):
-        self.component.project.add_user(self.user, '@Administration')
+        self.component.project.add_user(self.user, "@Administration")
         # Create linked component, this triggers missing license alert
         self.create_link_existing()
         mail.outbox = []
         self.component.add_alert("PushFailure", error="Some error")
-        self.validate_notifications(1, '[Weblate] New alert on Test/Test')
+        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
 
     def test_notify_account(self):
         request = self.get_request()
-        AuditLog.objects.create(request.user, request, 'password')
+        AuditLog.objects.create(request.user, request, "password")
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
         # Verify site root expansion in email
@@ -300,33 +299,33 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.assertNotIn('href="/', content)
 
     def test_notify_html_language(self):
-        self.user.profile.language = 'cs'
+        self.user.profile.language = "cs"
         self.user.profile.save()
         request = self.get_request()
-        AuditLog.objects.create(request.user, request, 'password')
+        AuditLog.objects.create(request.user, request, "password")
         self.assertEqual(len(mail.outbox), 1)
         # There is just one (html) alternative
         content = mail.outbox[0].alternatives[0][0]
         self.assertIn('lang="cs"', content)
-        self.assertIn('změněno', content)
+        self.assertIn("změněno", content)
 
     def test_digest(
         self,
         frequency=FREQ_DAILY,
         notify=notify_daily,
         change=Change.ACTION_FAILED_MERGE,
-        subj='Repository failure',
+        subj="Repository failure",
     ):
         Subscription.objects.filter(
             frequency=FREQ_INSTANT,
-            notification__in=('MergeFailureNotification', 'NewTranslationNotificaton'),
+            notification__in=("MergeFailureNotification", "NewTranslationNotificaton"),
         ).update(frequency=frequency)
         Change.objects.create(
             component=self.component,
             details={
-                'error': 'Failed merge',
-                'status': 'Error\nstatus',
-                'language': 'de',
+                "error": "Failed merge",
+                "status": "Error\nstatus",
+                "language": "de",
             },
             action=change,
         )
@@ -336,7 +335,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Trigger notification
         notify()
-        self.validate_notifications(1, '[Weblate] Digest: {}'.format(subj))
+        self.validate_notifications(1, "[Weblate] Digest: {}".format(subj))
         content = mail.outbox[0].alternatives[0][0]
         self.assertNotIn('img src="/', content)
 
@@ -347,14 +346,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.test_digest(FREQ_MONTHLY, notify_monthly)
 
     def test_digest_new_lang(self):
-        self.test_digest(change=Change.ACTION_REQUESTED_LANGUAGE, subj='New language')
+        self.test_digest(change=Change.ACTION_REQUESTED_LANGUAGE, subj="New language")
 
     def test_reminder(
         self,
         frequency=FREQ_DAILY,
         notify=notify_daily,
-        notification='ToDoStringsNotification',
-        subj='Strings needing action in Test/Test',
+        notification="ToDoStringsNotification",
+        subj="Strings needing action in Test/Test",
     ):
         self.user.subscription_set.create(
             scope=SCOPE_DEFAULT, notification=notification, frequency=frequency
@@ -364,7 +363,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
         # Trigger notification
         notify()
-        self.validate_notifications(1, '[Weblate] {}'.format(subj))
+        self.validate_notifications(1, "[Weblate] {}".format(subj))
 
     def test_reminder_weekly(self):
         self.test_reminder(FREQ_WEEKLY, notify_weekly)
@@ -374,10 +373,10 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
 
     def test_reminder_suggestion(self):
         unit = self.get_unit()
-        Suggestion.objects.create(unit=unit, target='Foo')
+        Suggestion.objects.create(unit=unit, target="Foo")
         self.test_reminder(
-            notification='PendingSuggestionsNotification',
-            subj='Pending suggestions in Test/Test',
+            notification="PendingSuggestionsNotification",
+            subj="Pending suggestions in Test/Test",
         )
 
 
@@ -420,7 +419,7 @@ class SubscriptionTest(ViewTestCase):
         self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 0)
         self.assertEqual(len(self.get_users(FREQ_MONTHLY)), 1)
 
-        self.component.project.add_user(self.user, '@Administration')
+        self.component.project.add_user(self.user, "@Administration")
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
         self.assertEqual(len(self.get_users(FREQ_DAILY)), 0)
         self.assertEqual(len(self.get_users(FREQ_WEEKLY)), 1)
@@ -470,7 +469,7 @@ class SubscriptionTest(ViewTestCase):
         # Subscribe to parent event
         self.user.subscription_set.create(
             scope=SCOPE_DEFAULT,
-            notification='NewAlertNotificaton',
+            notification="NewAlertNotificaton",
             frequency=FREQ_INSTANT,
         )
         self.assertEqual(len(self.get_users(FREQ_INSTANT)), 0)
@@ -478,8 +477,8 @@ class SubscriptionTest(ViewTestCase):
 
 class SendMailsTest(SimpleTestCase):
     @override_settings(
-        EMAIL_HOST='nonexisting.weblate.org',
-        EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend',
+        EMAIL_HOST="nonexisting.weblate.org",
+        EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",
     )
     def test_error_handling(self):
         send_mails([{}])

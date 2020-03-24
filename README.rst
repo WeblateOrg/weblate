@@ -23,7 +23,7 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
 .. image:: https://img.shields.io/pypi/v/Weblate.svg
     :target: https://pypi.org/project/Weblate/
 
-.. image:: https://img.shields.io/readthedocs/weblate.svg
+.. image:: https://readthedocs.org/projects/weblate/badge/
     :target: https://docs.weblate.org/
 
 .. image:: https://img.shields.io/github/license/WeblateOrg/weblate.svg

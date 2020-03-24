@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,4 +17,4 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-default_app_config = 'weblate.accounts.apps.AccountsConfig'
+default_app_config = "weblate.accounts.apps.AccountsConfig"

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -45,21 +44,21 @@ class GPGTest(TestCase):
         super().setUpClass()
         try:
             output = subprocess.check_output(
-                ['gpg', '--version'], stderr=subprocess.STDOUT
+                ["gpg", "--version"], stderr=subprocess.STDOUT
             ).decode()
             version = output.splitlines()[0].strip().rsplit(None, 1)[-1]
-            if LooseVersion(version) < LooseVersion('2.1'):
-                cls.gpg_error = 'gpg too old'
+            if LooseVersion(version) < LooseVersion("2.1"):
+                cls.gpg_error = "gpg too old"
         except (subprocess.CalledProcessError, OSError):
-            cls.gpg_error = 'gpg not found'
+            cls.gpg_error = "gpg not found"
 
     def setUp(self):
         if self.gpg_error:
             raise SkipTest(self.gpg_error)
 
-    @tempdir_setting('DATA_DIR')
+    @tempdir_setting("DATA_DIR")
     @override_settings(
-        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>', WEBLATE_GPG_ALGO='rsa512'
+        WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
     def test_generate(self):
         self.assertEqual(check_data_writable(), [])
@@ -68,9 +67,9 @@ class GPGTest(TestCase):
         self.assertIsNotNone(key)
         self.assertEqual(key, get_gpg_key())
 
-    @tempdir_setting('DATA_DIR')
+    @tempdir_setting("DATA_DIR")
     @override_settings(
-        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>', WEBLATE_GPG_ALGO='rsa512'
+        WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
     def test_get(self):
         self.assertEqual(check_data_writable(), [])
@@ -80,12 +79,12 @@ class GPGTest(TestCase):
         # Check cache access
         self.assertEqual(key, get_gpg_sign_key())
         # Check empty cache
-        cache.delete('gpg-key-id')
+        cache.delete("gpg-key-id")
         self.assertEqual(key, get_gpg_sign_key())
 
-    @tempdir_setting('DATA_DIR')
+    @tempdir_setting("DATA_DIR")
     @override_settings(
-        WEBLATE_GPG_IDENTITY='Weblate <weblate@example.com>', WEBLATE_GPG_ALGO='rsa512'
+        WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
     )
     def test_public(self):
         self.assertEqual(check_data_writable(), [])

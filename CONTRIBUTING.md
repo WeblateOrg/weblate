@@ -15,7 +15,7 @@ you can obtain the full backtrace using ``--traceback`` parameter.
 
 Bugs might also be caused by third party libraries, so please include
 their versions as well. You can collect them all using:
-``./manage.py list_versions``.
+``weblate list_versions``.
 
 [1]: https://github.com/WeblateOrg/weblate/issues
 

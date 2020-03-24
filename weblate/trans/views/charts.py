@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -33,12 +32,12 @@ from weblate.utils.views import get_project_translation
 def cache_key(*args):
     def makekey(val):
         if not val:
-            return '0'
-        if hasattr(val, 'id'):
+            return "0"
+        if hasattr(val, "id"):
             return str(val.id)
         return str(val)
 
-    return 'activity-{}'.format('-'.join(makekey(arg) for arg in args))
+    return "activity-{}".format("-".join(makekey(arg) for arg in args))
 
 
 def get_json_stats(
@@ -95,14 +94,14 @@ def yearly_activity(request, project=None, component=None, lang=None, user=None)
         if month != item[0].month:
             labels.append(
                 pgettext(
-                    'Format string for yearly activity chart', '{month}/{year}'
+                    "Format string for yearly activity chart", "{month}/{year}"
                 ).format(month=item[0].month, year=item[0].year)
             )
             month = item[0].month
         else:
-            labels.append('')
+            labels.append("")
 
-    return JsonResponse(data={'series': [serie], 'labels': labels})
+    return JsonResponse(data={"series": [serie], "labels": labels})
 
 
 def monthly_activity(request, project=None, component=None, lang=None, user=None):
@@ -117,10 +116,10 @@ def monthly_activity(request, project=None, component=None, lang=None, user=None
         if pos % 5 == 0:
             labels.append(
                 pgettext(
-                    'Format string for monthly activity chart', '{day}/{month}'
+                    "Format string for monthly activity chart", "{day}/{month}"
                 ).format(day=item[0].day, month=item[0].month, year=item[0].year)
             )
         else:
-            labels.append('')
+            labels.append("")
 
-    return JsonResponse(data={'series': [serie], 'labels': labels})
+    return JsonResponse(data={"series": [serie], "labels": labels})

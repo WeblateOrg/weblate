@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -39,8 +38,8 @@ from weblate.utils.errors import report_error
 def cleanup_social_auth():
     """Cleanup expired partial social authentications."""
     for partial in Partial.objects.iterator():
-        kwargs = partial.data['kwargs']
-        if 'weblate_expires' not in kwargs or kwargs['weblate_expires'] < time.time():
+        kwargs = partial.data["kwargs"]
+        if "weblate_expires" not in kwargs or kwargs["weblate_expires"] < time.time():
             # Old entry without expiry set, or expired entry
             partial.delete()
 
@@ -91,17 +90,17 @@ def notify_digest(method):
 
 @app.task(trail=False)
 def notify_daily():
-    notify_digest('notify_daily')
+    notify_digest("notify_daily")
 
 
 @app.task(trail=False)
 def notify_weekly():
-    notify_digest('notify_weekly')
+    notify_digest("notify_weekly")
 
 
 @app.task(trail=False)
 def notify_monthly():
-    notify_digest('notify_monthly')
+    notify_digest("notify_monthly")
 
 
 @app.task(trail=False)
@@ -113,14 +112,14 @@ def notify_auditlog(log_id, email):
     send_notification_email(
         audit.user.profile.language,
         [email],
-        'account_activity',
+        "account_activity",
         context={
-            'message': audit.get_message,
-            'extra_message': audit.get_extra_message,
-            'address': audit.address,
-            'user_agent': audit.user_agent,
+            "message": audit.get_message,
+            "extra_message": audit.get_extra_message,
+            "address": audit.address,
+            "user_agent": audit.user_agent,
         },
-        info='{0} from {1}'.format(audit.activity, audit.address),
+        info="{0} from {1}".format(audit.activity, audit.address),
     )
 
 
@@ -128,19 +127,19 @@ def notify_auditlog(log_id, email):
 def send_mails(mails):
     """Send multiple mails in single connection."""
     images = []
-    for name in ('email-logo.png', 'email-logo-footer.png'):
+    for name in ("email-logo.png", "email-logo-footer.png"):
         filename = os.path.join(settings.STATIC_ROOT, name)
-        with open(filename, 'rb') as handle:
+        with open(filename, "rb") as handle:
             image = MIMEImage(handle.read())
-        image.add_header('Content-ID', '<{}@cid.weblate.org>'.format(name))
-        image.add_header('Content-Disposition', 'inline', filename=name)
+        image.add_header("Content-ID", "<{}@cid.weblate.org>".format(name))
+        image.add_header("Content-Disposition", "inline", filename=name)
         images.append(image)
 
     connection = get_connection()
     try:
         connection.open()
     except Exception as error:
-        report_error(error, prefix='Failed to send notifications')
+        report_error(error, prefix="Failed to send notifications")
         connection.close()
         return
 
@@ -152,16 +151,16 @@ def send_mails(mails):
     try:
         for mail in mails:
             email = EmailMultiAlternatives(
-                settings.EMAIL_SUBJECT_PREFIX + mail['subject'],
-                html2text.handle(mail['body']),
-                to=[mail['address']],
-                headers=mail['headers'],
+                settings.EMAIL_SUBJECT_PREFIX + mail["subject"],
+                html2text.handle(mail["body"]),
+                to=[mail["address"]],
+                headers=mail["headers"],
                 connection=connection,
             )
-            email.mixed_subtype = 'related'
+            email.mixed_subtype = "related"
             for image in images:
                 email.attach(image)
-            email.attach_alternative(mail['body'], 'text/html')
+            email.attach_alternative(mail["body"], "text/html")
             email.send()
     finally:
         connection.close()
@@ -169,16 +168,16 @@ def send_mails(mails):
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600, cleanup_social_auth.s(), name='social-auth-cleanup')
-    sender.add_periodic_task(3600, cleanup_auditlog.s(), name='auditlog-cleanup')
+    sender.add_periodic_task(3600, cleanup_social_auth.s(), name="social-auth-cleanup")
+    sender.add_periodic_task(3600, cleanup_auditlog.s(), name="auditlog-cleanup")
     sender.add_periodic_task(
-        crontab(hour=1, minute=0), notify_daily.s(), name='notify-daily'
+        crontab(hour=1, minute=0), notify_daily.s(), name="notify-daily"
     )
     sender.add_periodic_task(
-        crontab(hour=2, minute=0, day_of_week='monday'),
+        crontab(hour=2, minute=0, day_of_week="monday"),
         notify_weekly.s(),
-        name='notify-weekly',
+        name="notify-weekly",
     )
     sender.add_periodic_task(
-        crontab(hour=3, minute=0, day=1), notify_monthly.s(), name='notify-monthly'
+        crontab(hour=3, minute=0, day=1), notify_monthly.s(), name="notify-monthly"
     )

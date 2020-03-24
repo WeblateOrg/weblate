@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -45,9 +44,9 @@ from weblate.utils.views import get_paginator, get_project, import_message
 
 def dict_title(prj, lang):
     """Return dictionary title."""
-    return _('%(language)s glossary for %(project)s') % {
-        'language': lang,
-        'project': prj,
+    return _("%(language)s glossary for %(project)s") % {
+        "language": lang,
+        "project": prj,
     }
 
 
@@ -56,14 +55,14 @@ def show_dictionaries(request, project):
     obj = get_project(request, project)
     return render(
         request,
-        'dictionaries.html',
+        "dictionaries.html",
         {
-            'title': _('Glossaries'),
-            'object': obj,
-            'dicts': sort_objects(
+            "title": _("Glossaries"),
+            "object": obj,
+            "dicts": sort_objects(
                 Language.objects.filter(translation__component__project=obj).distinct()
             ),
-            'project': obj,
+            "project": obj,
         },
     )
 
@@ -71,18 +70,18 @@ def show_dictionaries(request, project):
 @never_cache
 def edit_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
-    if not request.user.has_perm('glossary.edit', prj):
+    if not request.user.has_perm("glossary.edit", prj):
         raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
     word = get_object_or_404(Dictionary, project=prj, language=lang, id=pk)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = WordForm(request.POST)
         if form.is_valid():
-            word.edit(request, form.cleaned_data['source'], form.cleaned_data['target'])
-            return redirect('show_dictionary', project=prj.slug, lang=lang.code)
+            word.edit(request, form.cleaned_data["source"], form.cleaned_data["target"])
+            return redirect("show_dictionary", project=prj.slug, lang=lang.code)
     else:
-        form = WordForm(initial={'source': word.source, 'target': word.target})
+        form = WordForm(initial={"source": word.source, "target": word.target})
 
     last_changes = Change.objects.last_changes(request.user).filter(dictionary=word)[
         :10
@@ -90,20 +89,20 @@ def edit_dictionary(request, project, lang, pk):
 
     return render(
         request,
-        'edit_dictionary.html',
+        "edit_dictionary.html",
         {
-            'title': dict_title(prj, lang),
-            'project': prj,
-            'language': lang,
-            'form': form,
-            'last_changes': last_changes,
-            'last_changes_url': urlencode(
+            "title": dict_title(prj, lang),
+            "project": prj,
+            "language": lang,
+            "form": form,
+            "last_changes": last_changes,
+            "last_changes_url": urlencode(
                 (
-                    ('project', prj.slug),
-                    ('lang', lang.code),
-                    ('action', Change.ACTION_DICTIONARY_NEW),
-                    ('action', Change.ACTION_DICTIONARY_EDIT),
-                    ('action', Change.ACTION_DICTIONARY_UPLOAD),
+                    ("project", prj.slug),
+                    ("lang", lang.code),
+                    ("action", Change.ACTION_DICTIONARY_NEW),
+                    ("action", Change.ACTION_DICTIONARY_EDIT),
+                    ("action", Change.ACTION_DICTIONARY_UPLOAD),
                 )
             ),
         },
@@ -114,7 +113,7 @@ def edit_dictionary(request, project, lang, pk):
 @login_required
 def delete_dictionary(request, project, lang, pk):
     prj = get_project(request, project)
-    if not request.user.has_perm('glossary.delete', prj):
+    if not request.user.has_perm("glossary.delete", prj):
         raise PermissionDenied()
 
     lang = get_object_or_404(Language, code=lang)
@@ -123,24 +122,24 @@ def delete_dictionary(request, project, lang, pk):
     word.delete()
 
     params = {}
-    for param in ('letter', 'limit', 'page'):
+    for param in ("letter", "limit", "page"):
         if param in request.POST:
             params[param] = request.POST[param]
 
     if params:
-        param = '?' + urlencode(params)
+        param = "?" + urlencode(params)
     else:
-        param = ''
+        param = ""
 
-    return redirect_param('show_dictionary', param, project=prj.slug, lang=lang.code)
+    return redirect_param("show_dictionary", param, project=prj.slug, lang=lang.code)
 
 
 @require_POST
 @login_required
-@session_ratelimit_post('glossary')
+@session_ratelimit_post("glossary")
 def upload_dictionary(request, project, lang):
     prj = get_project(request, project)
-    if not request.user.has_perm('glossary.upload', prj):
+    if not request.user.has_perm("glossary.upload", prj):
         raise PermissionDenied()
     lang = get_object_or_404(Language, code=lang)
 
@@ -148,24 +147,24 @@ def upload_dictionary(request, project, lang):
     if form.is_valid():
         try:
             count = Dictionary.objects.upload(
-                request, prj, lang, request.FILES['file'], form.cleaned_data['method']
+                request, prj, lang, request.FILES["file"], form.cleaned_data["method"]
             )
             import_message(
                 request,
                 count,
-                _('No words to import found in file.'),
+                _("No words to import found in file."),
                 ngettext(
-                    'Imported %d word from the uploaded file.',
-                    'Imported %d words from the uploaded file.',
+                    "Imported %d word from the uploaded file.",
+                    "Imported %d words from the uploaded file.",
                     count,
                 ),
             )
         except Exception as error:
-            report_error(error, request, prefix='Failed to handle upload')
-            messages.error(request, _('File upload has failed: %s') % force_str(error))
+            report_error(error, request, prefix="Failed to handle upload")
+            messages.error(request, _("File upload has failed: %s") % force_str(error))
     else:
-        messages.error(request, _('Failed to process form!'))
-    return redirect('show_dictionary', project=prj.slug, lang=lang.code)
+        messages.error(request, _("Failed to process form!"))
+    return redirect("show_dictionary", project=prj.slug, lang=lang.code)
 
 
 @never_cache
@@ -176,10 +175,10 @@ def download_dictionary(request, project, lang):
 
     # Parse parameters
     export_format = None
-    if 'format' in request.GET:
-        export_format = request.GET['format']
-    if export_format not in ('csv', 'po', 'tbx', 'xliff'):
-        export_format = 'csv'
+    if "format" in request.GET:
+        export_format = request.GET["format"]
+    if export_format not in ("csv", "po", "tbx", "xliff"):
+        export_format = "csv"
 
     # Grab all words
     words = Dictionary.objects.filter(project=prj, language=lang).order()
@@ -189,9 +188,9 @@ def download_dictionary(request, project, lang):
         prj,
         lang,
         get_site_url(
-            reverse('show_dictionary', kwargs={'project': prj.slug, 'lang': lang.code})
+            reverse("show_dictionary", kwargs={"project": prj.slug, "lang": lang.code})
         ),
-        fieldnames=('source', 'target'),
+        fieldnames=("source", "target"),
     )
 
     # Add words
@@ -199,12 +198,12 @@ def download_dictionary(request, project, lang):
         exporter.add_dictionary(word)
 
     # Save to response
-    return exporter.get_response('glossary-{project}-{language}.{extension}')
+    return exporter.get_response("glossary-{project}-{language}.{extension}")
 
 
 @require_POST
 @login_required
-@session_ratelimit_post('glossary')
+@session_ratelimit_post("glossary")
 def add_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
     request.user.check_access(unit.translation.component.project)
@@ -213,60 +212,60 @@ def add_dictionary(request, unit_id):
     lang = unit.translation.language
 
     code = 403
-    results = ''
+    results = ""
     words = []
 
-    if request.user.has_perm('glossary.add', prj):
+    if request.user.has_perm("glossary.add", prj):
         form = WordForm(request.POST)
         if form.is_valid():
             word = Dictionary.objects.create(
                 request.user,
                 project=prj,
                 language=lang,
-                source=form.cleaned_data['source'],
-                target=form.cleaned_data['target'],
+                source=form.cleaned_data["source"],
+                target=form.cleaned_data["target"],
             )
-            words = form.cleaned_data['words']
+            words = form.cleaned_data["words"]
             words.append(word.id)
             code = 200
             results = render_to_string(
-                'snippets/glossary.html',
+                "snippets/glossary.html",
                 {
-                    'glossary': (
+                    "glossary": (
                         Dictionary.objects.get_words(unit).order()
                         | Dictionary.objects.filter(project=prj, pk__in=words).order()
                     ),
-                    'unit': unit,
-                    'user': request.user,
+                    "unit": unit,
+                    "user": request.user,
                 },
             )
 
     return JsonResponse(
         data={
-            'responseCode': code,
-            'results': results,
-            'words': ','.join(str(x) for x in words),
+            "responseCode": code,
+            "results": results,
+            "words": ",".join(str(x) for x in words),
         }
     )
 
 
 @never_cache
-@session_ratelimit_post('glossary')
+@session_ratelimit_post("glossary")
 def show_dictionary(request, project, lang):
     prj = get_project(request, project)
     lang = get_object_or_404(Language, code=lang)
 
-    if request.method == 'POST' and request.user.has_perm('glossary.add', prj):
+    if request.method == "POST" and request.user.has_perm("glossary.add", prj):
         form = WordForm(request.POST)
         if form.is_valid():
             Dictionary.objects.create(
                 request.user,
                 project=prj,
                 language=lang,
-                source=form.cleaned_data['source'],
-                target=form.cleaned_data['target'],
+                source=form.cleaned_data["source"],
+                target=form.cleaned_data["target"],
             )
-        return redirect_next(request.POST.get('next'), request.get_full_path())
+        return redirect_next(request.POST.get("next"), request.get_full_path())
     form = WordForm()
 
     uploadform = DictUploadForm()
@@ -277,46 +276,48 @@ def show_dictionary(request, project, lang):
 
     searchform = OneWordForm(request.GET)
 
-    if searchform.is_valid() and searchform.cleaned_data['term'] != '':
-        words = words.filter(source__icontains=searchform.cleaned_data['term'])
-        search = searchform.cleaned_data['term']
+    if searchform.is_valid() and searchform.cleaned_data["term"] != "":
+        words = words.filter(source__search=searchform.cleaned_data["term"])
+        search = searchform.cleaned_data["term"]
     else:
-        search = ''
+        search = ""
 
-    if letterform.is_valid() and letterform.cleaned_data['letter'] != '':
-        words = words.filter(source__istartswith=letterform.cleaned_data['letter'])
-        letter = letterform.cleaned_data['letter']
+    if letterform.is_valid() and letterform.cleaned_data["letter"] != "":
+        words = words.filter(source__istartswith=letterform.cleaned_data["letter"])
+        letter = letterform.cleaned_data["letter"]
     else:
-        letter = ''
+        letter = ""
 
     words = get_paginator(request, words)
 
-    last_changes = Change.objects.last_changes(request.user).filter(
-        dictionary__project=prj, dictionary__language=lang
-    )[:10]
+    last_changes = (
+        Change.objects.last_changes(request.user)
+        .filter(project=prj, language=lang)
+        .exclude(dictionary=None)[:10]
+    )
 
     return render(
         request,
-        'dictionary.html',
+        "dictionary.html",
         {
-            'title': dict_title(prj, lang),
-            'project': prj,
-            'language': lang,
-            'page_obj': words,
-            'form': form,
-            'query_string': urlencode({'term': search, 'letter': letter}),
-            'uploadform': uploadform,
-            'letterform': letterform,
-            'searchform': searchform,
-            'letter': letter,
-            'last_changes': last_changes,
-            'last_changes_url': urlencode(
+            "title": dict_title(prj, lang),
+            "project": prj,
+            "language": lang,
+            "page_obj": words,
+            "form": form,
+            "query_string": urlencode({"term": search, "letter": letter}),
+            "uploadform": uploadform,
+            "letterform": letterform,
+            "searchform": searchform,
+            "letter": letter,
+            "last_changes": last_changes,
+            "last_changes_url": urlencode(
                 (
-                    ('project', prj.slug),
-                    ('lang', lang.code),
-                    ('action', Change.ACTION_DICTIONARY_NEW),
-                    ('action', Change.ACTION_DICTIONARY_EDIT),
-                    ('action', Change.ACTION_DICTIONARY_UPLOAD),
+                    ("project", prj.slug),
+                    ("lang", lang.code),
+                    ("action", Change.ACTION_DICTIONARY_NEW),
+                    ("action", Change.ACTION_DICTIONARY_EDIT),
+                    ("action", Change.ACTION_DICTIONARY_UPLOAD),
                 )
             ),
         },

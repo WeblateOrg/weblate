@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,6 +22,6 @@ from django.apps import AppConfig
 
 
 class MemoryConfig(AppConfig):
-    name = 'weblate.memory'
-    label = 'memory'
-    verbose_name = 'Translation Memory'
+    name = "weblate.memory"
+    label = "memory"
+    verbose_name = "Translation Memory"

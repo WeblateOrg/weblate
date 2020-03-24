@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -89,6 +88,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     driver_error = ""
     image_path = None
 
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
+
     @contextmanager
     def wait_for_page_load(self, timeout=30):
         old_page = self.driver.find_element_by_tag_name("html")
@@ -118,7 +127,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             cls.driver = webdriver.Chrome(options=options)
         except WebDriverException as error:
             cls.driver_error = str(error)
-            if 'CI_SELENIUM' in os.environ:
+            if "CI_SELENIUM" in os.environ:
                 raise
 
         # Restore custom fontconfig settings
@@ -334,7 +343,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "You have activated" in self.driver.find_element_by_tag_name("body").text
         )
 
-        # Check we're logged in
+        # Check we're signed in
         self.click(self.driver.find_element_by_id("user-dropdown"))
         self.assertTrue(
             "Test Example" in self.driver.find_element_by_id("profile-name").text
@@ -526,7 +535,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.screenshot("screenshot-ocr.png")
 
         # Add string manually
-        self.driver.find_element_by_id("search-input").send_keys(text)
+        self.driver.find_element_by_id("search-input").send_keys("'{}'".format(text))
         self.click(self.driver.find_element_by_id("screenshots-search"))
         wait_search()
         self.click(self.driver.find_element_by_class_name("add-string"))
@@ -564,11 +573,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("All components")
 
-        # Whiteboard
+        # Announcement
         with self.wait_for_page_load():
             self.click("Weblate translations")
         with self.wait_for_page_load():
-            self.click("Whiteboard messages")
+            self.click("Announcements")
         with self.wait_for_page_load():
             self.click(self.driver.find_element_by_class_name("addlink"))
         Select(self.driver.find_element_by_id("id_project")).select_by_visible_text(
@@ -576,7 +585,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         element = self.driver.find_element_by_id("id_message")
         element.send_keys("Translations will be used only if they reach 60%.")
-        self.screenshot("whiteboard.png")
+        self.screenshot("announcement.png")
         with self.wait_for_page_load():
             element.submit()
         with self.wait_for_page_load():
@@ -589,14 +598,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             element.submit()
 
-        # Whiteboard display
+        # Announcement display
         self.view_site()
         self.click("Tools")
         with self.wait_for_page_load():
             self.click("All projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
-        self.screenshot("whiteboard-project.png")
+        self.click("Manage")
+        self.click("Post announcement")
+        self.screenshot("announcement-project.png")
 
         with self.wait_for_page_load():
             self.click("Dashboard")
@@ -605,7 +616,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("All languages")
         with self.wait_for_page_load():
             self.click("Czech")
-        self.screenshot("whiteboard-language.png")
+        self.screenshot("announcement-language.png")
 
     def test_weblate(self):
         user = self.open_admin()
@@ -845,7 +856,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("automatic-translation.png")
         self.click("Search")
         element = self.driver.find_element_by_id("id_q")
-        element.send_keys("%(count)s word")
+        element.send_keys("'%(count)s word'")
         with self.wait_for_page_load():
             element.submit()
         self.click("History")

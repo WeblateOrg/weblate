@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,6 +20,7 @@
 
 from django.core.checks import run_checks
 from django.core.mail import send_mail
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -28,7 +28,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
-from weblate.trans.models import Alert, Component
+from weblate.trans.models import Alert, Component, Project
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
@@ -47,14 +47,14 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 from weblate.wladmin.tasks import backup_service
 
 MENU = (
-    ('index', 'manage', gettext_lazy('Weblate status')),
-    ('backups', 'manage-backups', gettext_lazy('Backups')),
-    ('memory', 'manage-memory', gettext_lazy('Translation memory')),
-    ('performance', 'manage-performance', gettext_lazy('Performance report')),
-    ('ssh', 'manage-ssh', gettext_lazy('SSH keys')),
-    ('alerts', 'manage-alerts', gettext_lazy('Component alerts')),
-    ('repos', 'manage-repos', gettext_lazy('Status of repositories')),
-    ('tools', 'manage-tools', gettext_lazy('Tools')),
+    ("index", "manage", gettext_lazy("Weblate status")),
+    ("backups", "manage-backups", gettext_lazy("Backups")),
+    ("memory", "manage-memory", gettext_lazy("Translation memory")),
+    ("performance", "manage-performance", gettext_lazy("Performance report")),
+    ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
+    ("alerts", "manage-alerts", gettext_lazy("Component alerts")),
+    ("repos", "manage-repos", gettext_lazy("Status of repositories")),
+    ("tools", "manage-tools", gettext_lazy("Tools")),
 )
 
 
@@ -65,17 +65,17 @@ def manage(request):
         request,
         "manage/index.html",
         {
-            'menu_items': MENU,
-            'menu_page': 'index',
-            'support': support,
-            'activate_form': ActivateForm(),
+            "menu_items": MENU,
+            "menu_page": "index",
+            "support": support,
+            "activate_form": ActivateForm(),
         },
     )
 
 
 def send_test_mail(email):
     send_mail(
-        subject='Test e-mail from Weblate on %s' % timezone.now(),
+        subject="Test e-mail from Weblate on %s" % timezone.now(),
         message="It works.",
         recipient_list=[email],
         from_email=None,
@@ -84,23 +84,23 @@ def send_test_mail(email):
 
 @management_access
 def tools(request):
-    emailform = TestMailForm(initial={'email': request.user.email})
+    emailform = TestMailForm(initial={"email": request.user.email})
 
-    if request.method == 'POST':
-        if 'email' in request.POST:
+    if request.method == "POST":
+        if "email" in request.POST:
             emailform = TestMailForm(request.POST)
             if emailform.is_valid():
                 try:
                     send_test_mail(**emailform.cleaned_data)
-                    messages.success(request, _('Test e-mail sent.'))
+                    messages.success(request, _("Test e-mail sent."))
                 except Exception as error:
                     report_error(error, request)
-                    messages.error(request, _('Could not send test e-mail: %s') % error)
+                    messages.error(request, _("Could not send test e-mail: %s") % error)
 
     return render(
         request,
         "manage/tools.html",
-        {'menu_items': MENU, 'menu_page': 'tools', 'email_form': emailform},
+        {"menu_items": MENU, "menu_page": "tools", "email_form": emailform},
     )
 
 
@@ -112,28 +112,28 @@ def activate(request):
         try:
             support.refresh()
             support.save()
-            messages.success(request, _('Activation completed.'))
+            messages.success(request, _("Activation completed."))
         except Exception as error:
             report_error(error, request)
             messages.error(
                 request,
                 _(
-                    'Could not activate your installation. '
-                    'Please ensure your activation token is correct.'
+                    "Could not activate your installation. "
+                    "Please ensure your activation token is correct."
                 ),
             )
     else:
         show_form_errors(request, form)
-    return redirect('manage')
+    return redirect("manage")
 
 
 @management_access
 def repos(request):
     """Provide report about Git status of all repos."""
     context = {
-        'components': Component.objects.order_project(),
-        'menu_items': MENU,
-        'menu_page': 'repos',
+        "components": Component.objects.order_project(),
+        "menu_items": MENU,
+        "menu_page": "repos",
     }
     return render(request, "manage/repos.html", context)
 
@@ -142,60 +142,60 @@ def repos(request):
 def backups(request):
     form = BackupForm()
     if request.method == "POST":
-        if 'repository' in request.POST:
+        if "repository" in request.POST:
             form = BackupForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('manage-backups')
-        elif 'remove' in request.POST:
-            service = BackupService.objects.get(pk=request.POST['service'])
+                return redirect("manage-backups")
+        elif "remove" in request.POST:
+            service = BackupService.objects.get(pk=request.POST["service"])
             service.delete()
-            return redirect('manage-backups')
-        elif 'toggle' in request.POST:
-            service = BackupService.objects.get(pk=request.POST['service'])
+            return redirect("manage-backups")
+        elif "toggle" in request.POST:
+            service = BackupService.objects.get(pk=request.POST["service"])
             service.enabled = not service.enabled
             service.save()
-            return redirect('manage-backups')
-        elif 'trigger' in request.POST:
-            backup_service.delay(pk=request.POST['service'])
-            messages.success(request, _('Backup process triggered'))
-            return redirect('manage-backups')
+            return redirect("manage-backups")
+        elif "trigger" in request.POST:
+            backup_service.delay(pk=request.POST["service"])
+            messages.success(request, _("Backup process triggered"))
+            return redirect("manage-backups")
 
     context = {
-        'services': BackupService.objects.all(),
-        'menu_items': MENU,
-        'menu_page': 'backups',
-        'form': form,
-        'activate_form': ActivateForm(),
+        "services": BackupService.objects.all(),
+        "menu_items": MENU,
+        "menu_page": "backups",
+        "form": form,
+        "activate_form": ActivateForm(),
     }
     return render(request, "manage/backups.html", context)
 
 
 def handle_dismiss(request):
     try:
-        error = ConfigurationError.objects.get(pk=int(request.POST['pk']))
-        if 'ignore' in request.POST:
+        error = ConfigurationError.objects.get(pk=int(request.POST["pk"]))
+        if "ignore" in request.POST:
             error.ignored = True
-            error.save(update_fields=['ignored'])
+            error.save(update_fields=["ignored"])
         else:
             error.delete()
     except (ValueError, KeyError, ConfigurationError.DoesNotExist):
-        messages.error(request, _('Could not dismiss the configuration error!'))
-    return redirect('manage-performance')
+        messages.error(request, _("Could not dismiss the configuration error!"))
+    return redirect("manage-performance")
 
 
 @management_access
 def performance(request):
     """Show performance tuning tips."""
-    if request.method == 'POST':
+    if request.method == "POST":
         return handle_dismiss(request)
 
     context = {
-        'checks': run_checks(include_deployment_checks=True),
-        'errors': ConfigurationError.objects.filter(ignored=False),
-        'queues': get_queue_stats().items(),
-        'menu_items': MENU,
-        'menu_page': 'performance',
+        "checks": run_checks(include_deployment_checks=True),
+        "errors": ConfigurationError.objects.filter(ignored=False),
+        "queues": get_queue_stats().items(),
+        "menu_items": MENU,
+        "menu_page": "performance",
     }
 
     return render(request, "manage/performance.html", context)
@@ -203,11 +203,11 @@ def performance(request):
 
 @management_access
 def ssh_key(request):
-    with open(ssh_file(RSA_KEY), 'r') as handle:
+    with open(ssh_file(RSA_KEY), "r") as handle:
         data = handle.read()
-    response = HttpResponse(data, content_type='text/plain')
-    response['Content-Disposition'] = 'attachment; filename={0}'.format(RSA_KEY)
-    response['Content-Length'] = len(data)
+    response = HttpResponse(data, content_type="text/plain")
+    response["Content-Disposition"] = "attachment; filename={0}".format(RSA_KEY)
+    response["Content-Length"] = len(data)
     return response
 
 
@@ -218,10 +218,10 @@ def ssh(request):
     can_generate = can_generate_key()
 
     # Grab action type
-    action = request.POST.get('action')
+    action = request.POST.get("action")
 
     # Generate key if it does not exist yet
-    if can_generate and action == 'generate':
+    if can_generate and action == "generate":
         generate_ssh_key(request)
 
     # Read key data if it exists
@@ -229,18 +229,18 @@ def ssh(request):
 
     # Add host key
     form = SSHAddForm()
-    if action == 'add-host':
+    if action == "add-host":
         form = SSHAddForm(request.POST)
         if form.is_valid():
             add_host_key(request, **form.cleaned_data)
 
     context = {
-        'public_key': key,
-        'can_generate': can_generate,
-        'host_keys': get_host_keys(),
-        'menu_items': MENU,
-        'menu_page': 'ssh',
-        'add_form': form,
+        "public_key": key,
+        "can_generate": can_generate,
+        "host_keys": get_host_keys(),
+        "menu_items": MENU,
+        "menu_page": "ssh",
+        "add_form": form,
     }
 
     return render(request, "manage/ssh.html", context)
@@ -250,11 +250,14 @@ def ssh(request):
 def alerts(request):
     """Shows component alerts."""
     context = {
-        'alerts': Alert.objects.order_by("name").prefetch_related(
-            'component', 'component__project'
+        "alerts": Alert.objects.order_by("name").prefetch_related(
+            "component", "component__project"
         ),
-        'menu_items': MENU,
-        'menu_page': 'alerts',
+        "no_components": Project.objects.annotate(Count("component")).filter(
+            component__count=0
+        ),
+        "menu_items": MENU,
+        "menu_page": "alerts",
     }
 
     return render(request, "manage/alerts.html", context)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,11 +27,13 @@ from weblate.utils.celery import app
 
 @app.task(trail=False)
 def daily_addons():
-    for addon in Addon.objects.filter(event__event=EVENT_DAILY).iterator():
+    for addon in Addon.objects.filter(event__event=EVENT_DAILY).prefetch_related(
+        "component"
+    ):
         with transaction.atomic():
             addon.addon.daily(addon.component)
 
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(3600 * 24, daily_addons.s(), name='daily-addons')
+    sender.add_periodic_task(3600 * 24, daily_addons.s(), name="daily-addons")

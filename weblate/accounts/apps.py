@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,9 +24,9 @@ from weblate.accounts.checks import check_avatars
 
 
 class AccountsConfig(AppConfig):
-    name = 'weblate.accounts'
-    label = 'accounts'
-    verbose_name = 'Accounts'
+    name = "weblate.accounts"
+    label = "accounts"
+    verbose_name = "Accounts"
 
     def ready(self):
         super().ready()

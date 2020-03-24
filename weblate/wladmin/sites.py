@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -44,9 +43,12 @@ from weblate.fonts.admin import FontAdmin, FontGroupAdmin
 from weblate.fonts.models import Font, FontGroup
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
+from weblate.memory.admin import MemoryAdmin
+from weblate.memory.models import Memory
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
+    AnnouncementAdmin,
     ChangeAdmin,
     CommentAdmin,
     ComponentAdmin,
@@ -57,9 +59,9 @@ from weblate.trans.admin import (
     SuggestionAdmin,
     TranslationAdmin,
     UnitAdmin,
-    WhiteboardMessageAdmin,
 )
 from weblate.trans.models import (
+    Announcement,
     Change,
     Comment,
     Component,
@@ -70,7 +72,6 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
     Unit,
-    WhiteboardMessage,
 )
 from weblate.utils import messages
 from weblate.wladmin.models import ConfigurationError
@@ -78,15 +79,15 @@ from weblate.wladmin.models import ConfigurationError
 
 class WeblateAdminSite(AdminSite):
     login_form = LoginForm
-    site_header = _('Weblate administration')
-    site_title = _('Weblate administration')
-    index_template = 'admin/weblate-index.html'
+    site_header = _("Weblate administration")
+    site_title = _("Weblate administration")
+    index_template = "admin/weblate-index.html"
 
     @property
     def site_url(self):
         if settings.URL_PREFIX:
             return settings.URL_PREFIX
-        return '/'
+        return "/"
 
     def discover(self):
         """Manual discovery."""
@@ -101,6 +102,9 @@ class WeblateAdminSite(AdminSite):
         # Languages
         self.register(Language, LanguageAdmin)
 
+        # Memory
+        self.register(Memory, MemoryAdmin)
+
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
 
@@ -111,7 +115,7 @@ class WeblateAdminSite(AdminSite):
         # Translations
         self.register(Project, ProjectAdmin)
         self.register(Component, ComponentAdmin)
-        self.register(WhiteboardMessage, WhiteboardMessageAdmin)
+        self.register(Announcement, AnnouncementAdmin)
         self.register(ComponentList, ComponentListAdmin)
         self.register(ContributorAgreement, ContributorAgreementAdmin)
 
@@ -126,7 +130,7 @@ class WeblateAdminSite(AdminSite):
             self.register(Change, ChangeAdmin)
 
         # Billing
-        if 'weblate.billing' in settings.INSTALLED_APPS:
+        if "weblate.billing" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             from weblate.billing.admin import PlanAdmin, BillingAdmin, InvoiceAdmin
             from weblate.billing.models import Plan, Billing, Invoice
@@ -136,7 +140,7 @@ class WeblateAdminSite(AdminSite):
             self.register(Invoice, InvoiceAdmin)
 
         # Hosted
-        if 'wlhosted.integrations' in settings.INSTALLED_APPS:
+        if "wlhosted.integrations" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             from wlhosted.payments.admin import CustomerAdmin, PaymentAdmin
             from wlhosted.payments.models import Customer, Payment
@@ -145,7 +149,7 @@ class WeblateAdminSite(AdminSite):
             self.register(Payment, PaymentAdmin)
 
         # Legal
-        if 'weblate.legal' in settings.INSTALLED_APPS:
+        if "weblate.legal" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             from weblate.legal.admin import AgreementAdmin
             from weblate.legal.models import Agreement
@@ -164,7 +168,7 @@ class WeblateAdminSite(AdminSite):
         self.register(Site, SiteAdmin)
 
         # Simple SSO
-        if 'simple_sso.sso_server' in settings.INSTALLED_APPS:
+        if "simple_sso.sso_server" in settings.INSTALLED_APPS:
             from simple_sso.sso_server.server import ConsumerAdmin
             from simple_sso.sso_server.models import Consumer
 
@@ -172,20 +176,20 @@ class WeblateAdminSite(AdminSite):
 
     @never_cache
     def logout(self, request, extra_context=None):
-        if request.method == 'POST':
-            messages.info(request, _('Thank you for using Weblate.'))
+        if request.method == "POST":
+            messages.info(request, _("Thank you for using Weblate."))
             request.current_app = self.name
-            return LogoutView.as_view(next_page=reverse('admin:login'))(request)
+            return LogoutView.as_view(next_page=reverse("admin:login"))(request)
         context = self.each_context(request)
-        context['title'] = _('Sign out')
-        return render(request, 'admin/logout-confirm.html', context)
+        context["title"] = _("Sign out")
+        return render(request, "admin/logout-confirm.html", context)
 
     def each_context(self, request):
         result = super().each_context(request)
-        empty = [_('Object listing turned off')]
-        result['empty_selectable_objects_list'] = [empty]
-        result['empty_objects_list'] = empty
-        result['configuration_errors'] = ConfigurationError.objects.filter(
+        empty = [_("Object listing turned off")]
+        result["empty_selectable_objects_list"] = [empty]
+        result["empty_objects_list"] = empty
+        result["configuration_errors"] = ConfigurationError.objects.filter(
             ignored=False
         )
         return result

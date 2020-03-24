@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -54,10 +53,10 @@ class ChangeQuerySet(models.QuerySet):
 
             # Count changes
             int_base = base.filter(timestamp__range=(int_start, int_end))
-            count = int_base.aggregate(Count('id'))
+            count = int_base.aggregate(Count("id"))
 
             # Append to result
-            result.append((int_start, count['id__count']))
+            result.append((int_start, count["id__count"]))
 
             # Advance to next interval
             dtstart = int_end
@@ -85,13 +84,13 @@ class ChangeQuerySet(models.QuerySet):
         if translation is not None:
             base = base.filter(translation=translation)
         elif component is not None:
-            base = base.filter(translation__component=component)
+            base = base.filter(component=component)
         elif project is not None:
-            base = base.filter(translation__component__project=project)
+            base = base.filter(project=project)
 
         # Filter by language
         if language is not None:
-            base = base.filter(translation__language=language)
+            base = base.filter(language=language)
 
         # Filter by language
         if user is not None:
@@ -102,22 +101,22 @@ class ChangeQuerySet(models.QuerySet):
     def prefetch(self):
         """Fetch related fields in a big chungs to avoid loading them individually."""
         return self.prefetch_related(
-            'user',
-            'translation',
-            'component',
-            'project',
-            'unit',
-            'dictionary',
-            'translation__language',
-            'translation__component',
-            'translation__component__project',
-            'unit__translation',
-            'unit__translation__language',
-            'unit__translation__plural',
-            'unit__translation__component',
-            'unit__translation__component__project',
-            'component__project',
-            'project',
+            "user",
+            "translation",
+            "component",
+            "project",
+            "unit",
+            "dictionary",
+            "translation__language",
+            "translation__component",
+            "translation__component__project",
+            "unit__translation",
+            "unit__translation__language",
+            "unit__translation__plural",
+            "unit__translation__component",
+            "unit__translation__component__project",
+            "component__project",
+            "project",
         )
 
     def last_changes(self, user):
@@ -133,10 +132,10 @@ class ChangeQuerySet(models.QuerySet):
         authors = self.content()
         if date_range is not None:
             authors = authors.filter(timestamp__range=date_range)
-        return authors.values_list('author__email', 'author__full_name')
+        return authors.values_list("author__email", "author__full_name")
 
     def order(self):
-        return self.order_by('-timestamp')
+        return self.order_by("-timestamp")
 
 
 class ChangeManager(models.Manager):
@@ -202,116 +201,119 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_CREATE_COMPONENT = 51
     ACTION_INVITE_USER = 52
     ACTION_HOOK = 53
+    ACTION_REPLACE_UPLOAD = 54
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
-        (ACTION_UPDATE, gettext_lazy('Resource update')),
+        (ACTION_UPDATE, gettext_lazy("Resource update")),
         # Translators: Name of event in the history
-        (ACTION_COMPLETE, gettext_lazy('Translation completed')),
+        (ACTION_COMPLETE, gettext_lazy("Translation completed")),
         # Translators: Name of event in the history
-        (ACTION_CHANGE, gettext_lazy('Translation changed')),
+        (ACTION_CHANGE, gettext_lazy("Translation changed")),
         # Translators: Name of event in the history
-        (ACTION_NEW, gettext_lazy('New translation')),
+        (ACTION_NEW, gettext_lazy("New translation")),
         # Translators: Name of event in the history
-        (ACTION_COMMENT, gettext_lazy('Comment added')),
+        (ACTION_COMMENT, gettext_lazy("Comment added")),
         # Translators: Name of event in the history
-        (ACTION_SUGGESTION, gettext_lazy('Suggestion added')),
+        (ACTION_SUGGESTION, gettext_lazy("Suggestion added")),
         # Translators: Name of event in the history
-        (ACTION_AUTO, gettext_lazy('Automatic translation')),
+        (ACTION_AUTO, gettext_lazy("Automatic translation")),
         # Translators: Name of event in the history
-        (ACTION_ACCEPT, gettext_lazy('Suggestion accepted')),
+        (ACTION_ACCEPT, gettext_lazy("Suggestion accepted")),
         # Translators: Name of event in the history
-        (ACTION_REVERT, gettext_lazy('Translation reverted')),
+        (ACTION_REVERT, gettext_lazy("Translation reverted")),
         # Translators: Name of event in the history
-        (ACTION_UPLOAD, gettext_lazy('Translation uploaded')),
+        (ACTION_UPLOAD, gettext_lazy("Translation uploaded")),
         # Translators: Name of event in the history
-        (ACTION_DICTIONARY_NEW, gettext_lazy('Glossary added')),
+        (ACTION_DICTIONARY_NEW, gettext_lazy("Glossary added")),
         # Translators: Name of event in the history
-        (ACTION_DICTIONARY_EDIT, gettext_lazy('Glossary updated')),
+        (ACTION_DICTIONARY_EDIT, gettext_lazy("Glossary updated")),
         # Translators: Name of event in the history
-        (ACTION_DICTIONARY_UPLOAD, gettext_lazy('Glossary uploaded')),
+        (ACTION_DICTIONARY_UPLOAD, gettext_lazy("Glossary uploaded")),
         # Translators: Name of event in the history
-        (ACTION_NEW_SOURCE, gettext_lazy('New source string')),
+        (ACTION_NEW_SOURCE, gettext_lazy("New source string")),
         # Translators: Name of event in the history
-        (ACTION_LOCK, gettext_lazy('Component locked')),
+        (ACTION_LOCK, gettext_lazy("Component locked")),
         # Translators: Name of event in the history
-        (ACTION_UNLOCK, gettext_lazy('Component unlocked')),
+        (ACTION_UNLOCK, gettext_lazy("Component unlocked")),
         # Translators: Name of event in the history
-        (ACTION_DUPLICATE_STRING, gettext_lazy('Found duplicated string')),
+        (ACTION_DUPLICATE_STRING, gettext_lazy("Found duplicated string")),
         # Translators: Name of event in the history
-        (ACTION_COMMIT, gettext_lazy('Committed changes')),
+        (ACTION_COMMIT, gettext_lazy("Committed changes")),
         # Translators: Name of event in the history
-        (ACTION_PUSH, gettext_lazy('Pushed changes')),
+        (ACTION_PUSH, gettext_lazy("Pushed changes")),
         # Translators: Name of event in the history
-        (ACTION_RESET, gettext_lazy('Reset repository')),
+        (ACTION_RESET, gettext_lazy("Reset repository")),
         # Translators: Name of event in the history
-        (ACTION_MERGE, gettext_lazy('Merged repository')),
+        (ACTION_MERGE, gettext_lazy("Merged repository")),
         # Translators: Name of event in the history
-        (ACTION_REBASE, gettext_lazy('Rebased repository')),
+        (ACTION_REBASE, gettext_lazy("Rebased repository")),
         # Translators: Name of event in the history
-        (ACTION_FAILED_MERGE, gettext_lazy('Failed merge on repository')),
+        (ACTION_FAILED_MERGE, gettext_lazy("Failed merge on repository")),
         # Translators: Name of event in the history
-        (ACTION_FAILED_REBASE, gettext_lazy('Failed rebase on repository')),
+        (ACTION_FAILED_REBASE, gettext_lazy("Failed rebase on repository")),
         # Translators: Name of event in the history
-        (ACTION_FAILED_PUSH, gettext_lazy('Failed push on repository')),
+        (ACTION_FAILED_PUSH, gettext_lazy("Failed push on repository")),
         # Translators: Name of event in the history
-        (ACTION_PARSE_ERROR, gettext_lazy('Parse error')),
+        (ACTION_PARSE_ERROR, gettext_lazy("Parse error")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_TRANSLATION, gettext_lazy('Removed translation')),
+        (ACTION_REMOVE_TRANSLATION, gettext_lazy("Removed translation")),
         # Translators: Name of event in the history
-        (ACTION_SUGGESTION_DELETE, gettext_lazy('Suggestion removed')),
+        (ACTION_SUGGESTION_DELETE, gettext_lazy("Suggestion removed")),
         # Translators: Name of event in the history
-        (ACTION_REPLACE, gettext_lazy('Search and replace')),
+        (ACTION_REPLACE, gettext_lazy("Search and replace")),
         # Translators: Name of event in the history
-        (ACTION_SUGGESTION_CLEANUP, gettext_lazy('Suggestion removed during cleanup')),
+        (ACTION_SUGGESTION_CLEANUP, gettext_lazy("Suggestion removed during cleanup")),
         # Translators: Name of event in the history
-        (ACTION_SOURCE_CHANGE, gettext_lazy('Source string changed')),
+        (ACTION_SOURCE_CHANGE, gettext_lazy("Source string changed")),
         # Translators: Name of event in the history
-        (ACTION_NEW_UNIT, gettext_lazy('New string added')),
+        (ACTION_NEW_UNIT, gettext_lazy("New string added")),
         # Translators: Name of event in the history
-        (ACTION_MASS_STATE, gettext_lazy('Bulk status change')),
+        (ACTION_MASS_STATE, gettext_lazy("Bulk status change")),
         # Translators: Name of event in the history
-        (ACTION_ACCESS_EDIT, gettext_lazy('Changed visibility')),
+        (ACTION_ACCESS_EDIT, gettext_lazy("Changed visibility")),
         # Translators: Name of event in the history
-        (ACTION_ADD_USER, gettext_lazy('Added user')),
+        (ACTION_ADD_USER, gettext_lazy("Added user")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_USER, gettext_lazy('Removed user')),
+        (ACTION_REMOVE_USER, gettext_lazy("Removed user")),
         # Translators: Name of event in the history
-        (ACTION_APPROVE, gettext_lazy('Translation approved')),
+        (ACTION_APPROVE, gettext_lazy("Translation approved")),
         # Translators: Name of event in the history
-        (ACTION_MARKED_EDIT, gettext_lazy('Marked for edit')),
+        (ACTION_MARKED_EDIT, gettext_lazy("Marked for edit")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_COMPONENT, gettext_lazy('Removed component')),
+        (ACTION_REMOVE_COMPONENT, gettext_lazy("Removed component")),
         # Translators: Name of event in the history
-        (ACTION_REMOVE_PROJECT, gettext_lazy('Removed project')),
+        (ACTION_REMOVE_PROJECT, gettext_lazy("Removed project")),
         # Translators: Name of event in the history
-        (ACTION_DUPLICATE_LANGUAGE, gettext_lazy('Found duplicated language')),
+        (ACTION_DUPLICATE_LANGUAGE, gettext_lazy("Found duplicated language")),
         # Translators: Name of event in the history
-        (ACTION_RENAME_PROJECT, gettext_lazy('Renamed project')),
+        (ACTION_RENAME_PROJECT, gettext_lazy("Renamed project")),
         # Translators: Name of event in the history
-        (ACTION_RENAME_COMPONENT, gettext_lazy('Renamed component')),
+        (ACTION_RENAME_COMPONENT, gettext_lazy("Renamed component")),
         # Translators: Name of event in the history
-        (ACTION_MOVE_COMPONENT, gettext_lazy('Moved component')),
+        (ACTION_MOVE_COMPONENT, gettext_lazy("Moved component")),
         # Translators: Name of event in the history
-        (ACTION_NEW_STRING, gettext_lazy('New string to translate')),
+        (ACTION_NEW_STRING, gettext_lazy("New string to translate")),
         # Translators: Name of event in the history
-        (ACTION_NEW_CONTRIBUTOR, gettext_lazy('New contributor')),
+        (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
-        (ACTION_MESSAGE, gettext_lazy('New whiteboard message')),
+        (ACTION_MESSAGE, gettext_lazy("New announcement")),
         # Translators: Name of event in the history
-        (ACTION_ALERT, gettext_lazy('New alert')),
+        (ACTION_ALERT, gettext_lazy("New alert")),
         # Translators: Name of event in the history
-        (ACTION_ADDED_LANGUAGE, gettext_lazy('Added new language')),
+        (ACTION_ADDED_LANGUAGE, gettext_lazy("Added new language")),
         # Translators: Name of event in the history
-        (ACTION_REQUESTED_LANGUAGE, gettext_lazy('Requested new language')),
+        (ACTION_REQUESTED_LANGUAGE, gettext_lazy("Requested new language")),
         # Translators: Name of event in the history
-        (ACTION_CREATE_PROJECT, gettext_lazy('Created project')),
+        (ACTION_CREATE_PROJECT, gettext_lazy("Created project")),
         # Translators: Name of event in the history
-        (ACTION_CREATE_COMPONENT, gettext_lazy('Created component')),
+        (ACTION_CREATE_COMPONENT, gettext_lazy("Created component")),
         # Translators: Name of event in the history
-        (ACTION_INVITE_USER, gettext_lazy('Invited user')),
+        (ACTION_INVITE_USER, gettext_lazy("Invited user")),
         # Translators: Name of event in the history
-        (ACTION_HOOK, gettext_lazy('Received repository notification')),
+        (ACTION_HOOK, gettext_lazy("Received repository notification")),
+        # Translators: Name of event in the history
+        (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
     )
 
     # Actions which can be reverted
@@ -323,6 +325,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW,
         ACTION_REPLACE,
         ACTION_AUTO,
+        ACTION_MARKED_EDIT,
     }
 
     # Content changes considered when looking for last author
@@ -383,59 +386,62 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     }
 
-    unit = models.ForeignKey('Unit', null=True, on_delete=models.deletion.CASCADE)
-    project = models.ForeignKey('Project', null=True, on_delete=models.deletion.CASCADE)
+    unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
+    language = models.ForeignKey(
+        "lang.Language", null=True, on_delete=models.deletion.CASCADE
+    )
+    project = models.ForeignKey("Project", null=True, on_delete=models.deletion.CASCADE)
     component = models.ForeignKey(
-        'Component', null=True, on_delete=models.deletion.CASCADE
+        "Component", null=True, on_delete=models.deletion.CASCADE
     )
     translation = models.ForeignKey(
-        'Translation', null=True, on_delete=models.deletion.CASCADE
+        "Translation", null=True, on_delete=models.deletion.CASCADE
     )
     dictionary = models.ForeignKey(
-        'Dictionary', null=True, on_delete=models.deletion.CASCADE
+        "Dictionary", null=True, on_delete=models.deletion.CASCADE
     )
     comment = models.ForeignKey(
-        'Comment', null=True, on_delete=models.deletion.SET_NULL
+        "Comment", null=True, on_delete=models.deletion.SET_NULL
     )
     suggestion = models.ForeignKey(
-        'Suggestion', null=True, on_delete=models.deletion.SET_NULL
+        "Suggestion", null=True, on_delete=models.deletion.SET_NULL
     )
-    whiteboard = models.ForeignKey(
-        'WhiteboardMessage', null=True, on_delete=models.deletion.SET_NULL
+    announcement = models.ForeignKey(
+        "Announcement", null=True, on_delete=models.deletion.SET_NULL
     )
-    alert = models.ForeignKey('Alert', null=True, on_delete=models.deletion.SET_NULL)
+    alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
-        related_name='author_set',
+        related_name="author_set",
         on_delete=models.deletion.CASCADE,
     )
     timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
     action = models.IntegerField(
         choices=ACTION_CHOICES, default=ACTION_CHANGE, db_index=True
     )
-    target = models.TextField(default='', blank=True)
-    old = models.TextField(default='', blank=True)
+    target = models.TextField(default="", blank=True)
+    old = models.TextField(default="", blank=True)
     details = JSONField()
 
     objects = ChangeManager.from_queryset(ChangeQuerySet)()
 
     class Meta:
-        app_label = 'trans'
+        app_label = "trans"
 
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
         super().__init__(*args, **kwargs)
 
     def __str__(self):
-        return _('%(action)s at %(time)s on %(translation)s by %(user)s') % {
-            'action': self.get_action_display(),
-            'time': self.timestamp,
-            'translation': self.translation,
-            'user': self.get_user_display(False),
+        return _("%(action)s at %(time)s on %(translation)s by %(user)s") % {
+            "action": self.get_action_display(),
+            "time": self.timestamp,
+            "translation": self.translation,
+            "user": self.get_user_display(False),
         }
 
     def is_merge_failure(self):
@@ -477,7 +483,7 @@ class Change(models.Model, UserDisplayMixin):
         from weblate.utils.markdown import render_markdown
 
         if not self.details:
-            return ''
+            return ""
         user_actions = {
             self.ACTION_ADD_USER,
             self.ACTION_INVITE_USER,
@@ -486,34 +492,34 @@ class Change(models.Model, UserDisplayMixin):
 
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
-                if number == self.details['access_control']:
+                if number == self.details["access_control"]:
                     return name
-            return 'Unknonwn {}'.format(self.details['access_control'])
+            return "Unknonwn {}".format(self.details["access_control"])
         if self.action in user_actions:
-            if 'group' in self.details:
-                return '{username} ({group})'.format(**self.details)
-            return self.details['username']
+            if "group" in self.details:
+                return "{username} ({group})".format(**self.details)
+            return self.details["username"]
         if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
         ):  # noqa: E501
             try:
-                return Language.objects.get(code=self.details['language'])
+                return Language.objects.get(code=self.details["language"])
             except Language.DoesNotExist:
-                return self.details['language']
+                return self.details["language"]
         if self.action == self.ACTION_ALERT:
             try:
-                return ALERTS[self.details['alert']].verbose
+                return ALERTS[self.details["alert"]].verbose
             except KeyError:
-                return self.details['alert']
+                return self.details["alert"]
         if self.action == self.ACTION_PARSE_ERROR:
-            return '{filename}: {error_message}'.format(**self.details)
+            return "{filename}: {error_message}".format(**self.details)
         if self.action == self.ACTION_HOOK:
-            return '{service_long_name}: {repo_url}, {branch}'.format(**self.details)
-        if self.action == self.ACTION_COMMENT and 'comment' in self.details:
-            return render_markdown(self.details['comment'])
+            return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
+        if self.action == self.ACTION_COMMENT and "comment" in self.details:
+            return render_markdown(self.details["comment"])
 
-        return ''
+        return ""
 
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
@@ -522,9 +528,11 @@ class Change(models.Model, UserDisplayMixin):
             self.translation = self.unit.translation
         if self.translation:
             self.component = self.translation.component
+            self.language = self.translation.language
         if self.component:
             self.project = self.component.project
         if self.dictionary:
             self.project = self.dictionary.project
+            self.language = self.dictionary.language
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))

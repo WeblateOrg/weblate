@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,22 +22,22 @@ from weblate.trans.tasks import perform_update
 
 
 class Command(WeblateComponentCommand):
-    help = 'updates git repos'
+    help = "updates git repos"
     needs_repo = True
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--foreground',
-            action='store_true',
+            "--foreground",
+            action="store_true",
             default=False,
-            help='Perform load in foreground (by default backgroud task is used)',
+            help="Perform load in foreground (by default backgroud task is used)",
         )
 
     def handle(self, *args, **options):
-        if options['foreground']:
+        if options["foreground"]:
             updater = perform_update
         else:
             updater = perform_update.delay
         for component in self.get_components(*args, **options):
-            updater('Component', component.pk)
+            updater("Component", component.pk)

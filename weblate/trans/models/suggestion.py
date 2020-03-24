@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -64,8 +63,8 @@ class SuggestionManager(models.Manager):
             unit=unit,
             user=user,
             userdetails={
-                'address': get_ip_address(request) if request else '',
-                'agent': request.META.get('HTTP_USER_AGENT', '') if request else '',
+                "address": get_ip_address(request) if request else "",
+                "agent": request.META.get("HTTP_USER_AGENT", "") if request else "",
             },
         )
 
@@ -93,7 +92,7 @@ class SuggestionManager(models.Manager):
 
 class SuggestionQuerySet(models.QuerySet):
     def order(self):
-        return self.order_by('-timestamp')
+        return self.order_by("-timestamp")
 
 
 class Suggestion(models.Model, UserDisplayMixin):
@@ -109,23 +108,23 @@ class Suggestion(models.Model, UserDisplayMixin):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     votes = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, through='Vote', related_name='user_votes'
+        settings.AUTH_USER_MODEL, through="Vote", related_name="user_votes"
     )
 
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
 
     class Meta:
-        app_label = 'trans'
+        app_label = "trans"
 
     def __str__(self):
-        return 'suggestion for {0} by {1}'.format(
-            self.unit, self.user.username if self.user else 'unknown'
+        return "suggestion for {0} by {1}".format(
+            self.unit, self.user.username if self.user else "unknown"
         )
 
     @transaction.atomic
-    def accept(self, translation, request, permission='suggestion.accept'):
+    def accept(self, translation, request, permission="suggestion.accept"):
         if not request.user.has_perm(permission, self.unit):
-            messages.error(request, _('Failed to accept suggestion!'))
+            messages.error(request, _("Failed to accept suggestion!"))
             return
 
         # Skip if there is no change
@@ -143,7 +142,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         """Delete with logging change."""
         if is_spam and self.userdetails:
             report_spam(
-                self.userdetails['address'], self.userdetails['agent'], self.target
+                self.userdetails["address"], self.userdetails["agent"], self.target
             )
         Change.objects.create(
             unit=self.unit, action=change, user=user, target=self.target, author=user
@@ -152,7 +151,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def get_num_votes(self):
         """Return number of votes."""
-        return self.vote_set.aggregate(Sum('value'))['value__sum'] or 0
+        return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
     def add_vote(self, translation, request, value):
         """Add (or updates) vote for a suggestion."""
@@ -160,7 +159,7 @@ class Suggestion(models.Model, UserDisplayMixin):
             return
 
         vote, created = Vote.objects.get_or_create(
-            suggestion=self, user=request.user, defaults={'value': value}
+            suggestion=self, user=request.user, defaults={"value": value}
         )
         if not created or vote.value != value:
             vote.value = value
@@ -169,7 +168,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         # Automatic accepting
         required_votes = translation.component.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
-            self.accept(translation, request, 'suggestion.vote')
+            self.accept(translation, request, "suggestion.vote")
 
     def get_checks(self):
         # Build fake unit to run checks
@@ -199,10 +198,10 @@ class Vote(models.Model):
     NEGATIVE = -1
 
     class Meta:
-        unique_together = ('suggestion', 'user')
-        app_label = 'trans'
+        unique_together = ("suggestion", "user")
+        app_label = "trans"
 
     def __str__(self):
-        return '{0:+d} for {1} by {2}'.format(
+        return "{0:+d} for {1} by {2}".format(
             self.value, self.suggestion, self.user.username
         )

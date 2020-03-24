@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.13.2 (9cfa4a5b) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.15.0 (3ce26d5c) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -901,11 +901,50 @@ var Sentry = (function (exports) {
         }
         return out.join('');
     }
+    var INITIAL_TIME = Date.now();
+    var prevNow = 0;
+    var performanceFallback = {
+        now: function () {
+            var now = Date.now() - INITIAL_TIME;
+            if (now < prevNow) {
+                now = prevNow;
+            }
+            prevNow = now;
+            return now;
+        },
+        timeOrigin: INITIAL_TIME,
+    };
+    var crossPlatformPerformance = (function () {
+        if (isNodeEnv()) {
+            try {
+                var perfHooks = dynamicRequire(module, 'perf_hooks');
+                return perfHooks.performance;
+            }
+            catch (_) {
+                return performanceFallback;
+            }
+        }
+        if (getGlobalObject().performance) {
+            // Polyfill for performance.timeOrigin.
+            //
+            // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
+            // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
+            // tslint:disable-next-line:strict-type-predicates
+            if (performance.timeOrigin === undefined) {
+                // As of writing, performance.timing is not available in Web Workers in mainstream browsers, so it is not always a
+                // valid fallback. In the absence of a initial time provided by the browser, fallback to INITIAL_TIME.
+                // @ts-ignore
+                // tslint:disable-next-line:deprecation
+                performance.timeOrigin = (performance.timing && performance.timing.navigationStart) || INITIAL_TIME;
+            }
+        }
+        return getGlobalObject().performance || performanceFallback;
+    })();
     /**
-     * Returns a timestamp in seconds with milliseconds precision.
+     * Returns a timestamp in seconds with milliseconds precision since the UNIX epoch calculated with the monotonic clock.
      */
     function timestampWithMs() {
-        return Date.now() / 1000;
+        return (crossPlatformPerformance.timeOrigin + crossPlatformPerformance.now()) / 1000;
     }
     var defaultRetryAfter = 60 * 1000; // 60 seconds
     /**
@@ -1732,6 +1771,8 @@ var Sentry = (function (exports) {
      *  - XHR API
      *  - History API
      *  - DOM API (click/typing)
+     *  - Error API
+     *  - UnhandledRejection API
      */
     var handlers = {};
     var instrumented = {};
@@ -1756,6 +1797,12 @@ var Sentry = (function (exports) {
                 break;
             case 'history':
                 instrumentHistory();
+                break;
+            case 'error':
+                instrumentError();
+                break;
+            case 'unhandledrejection':
+                instrumentUnhandledRejection();
                 break;
             default:
                 logger.warn('unknown instrumentation type:', type);
@@ -2118,6 +2165,36 @@ var Sentry = (function (exports) {
             }, debounceDuration);
         };
     }
+    var _oldOnErrorHandler = null;
+    /** JSDoc */
+    function instrumentError() {
+        _oldOnErrorHandler = global$2.onerror;
+        global$2.onerror = function (msg, url, line, column, error) {
+            triggerHandlers('error', {
+                column: column,
+                error: error,
+                line: line,
+                msg: msg,
+                url: url,
+            });
+            if (_oldOnErrorHandler) {
+                return _oldOnErrorHandler.apply(this, arguments);
+            }
+            return false;
+        };
+    }
+    var _oldOnUnhandledRejectionHandler = null;
+    /** JSDoc */
+    function instrumentUnhandledRejection() {
+        _oldOnUnhandledRejectionHandler = global$2.onunhandledrejection;
+        global$2.onunhandledrejection = function (e) {
+            triggerHandlers('unhandledrejection', e);
+            if (_oldOnUnhandledRejectionHandler) {
+                return _oldOnUnhandledRejectionHandler.apply(this, arguments);
+            }
+            return true;
+        };
+    }
 
     /** Regular expression used to parse a Dsn. */
     var DSN_REGEX = /^(?:(\w+):)\/\/(?:(\w+)(?::(\w+))?@)([\w\.-]+)(?::(\d+))?\/(.+)/;
@@ -2470,6 +2547,9 @@ var Sentry = (function (exports) {
             if (this._transaction) {
                 event.transaction = this._transaction;
             }
+            if (this._span) {
+                event.contexts = __assign({ trace: this._span.getTraceContext() }, event.contexts);
+            }
             this._applyFingerprint(event);
             event.breadcrumbs = __spread((event.breadcrumbs || []), this._breadcrumbs);
             event.breadcrumbs = event.breadcrumbs.length > 0 ? event.breadcrumbs : undefined;
@@ -2562,6 +2642,9 @@ var Sentry = (function (exports) {
         Hub.prototype.bindClient = function (client) {
             var top = this.getStackTop();
             top.client = client;
+            if (client && client.setupIntegrations) {
+                client.setupIntegrations();
+            }
         };
         /**
          * @inheritDoc
@@ -3280,9 +3363,6 @@ var Sentry = (function (exports) {
             if (options.dsn) {
                 this._dsn = new Dsn(options.dsn);
             }
-            if (this._isEnabled()) {
-                this._integrations = setupIntegrations(this._options);
-            }
         }
         /**
          * @inheritDoc
@@ -3383,10 +3463,12 @@ var Sentry = (function (exports) {
             });
         };
         /**
-         * @inheritDoc
+         * Sets up the integrations
          */
-        BaseClient.prototype.getIntegrations = function () {
-            return this._integrations || {};
+        BaseClient.prototype.setupIntegrations = function () {
+            if (this._isEnabled()) {
+                this._integrations = setupIntegrations(this._options);
+            }
         };
         /**
          * @inheritDoc
@@ -3702,7 +3784,9 @@ var Sentry = (function (exports) {
         if (options.debug === true) {
             logger.enable();
         }
-        getCurrentHub().bindClient(new clientClass(options));
+        var hub = getCurrentHub();
+        var client = new clientClass(options);
+        hub.bindClient(client);
     }
 
     var originalFunctionToString;
@@ -4464,7 +4548,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.13.2';
+    var SDK_VERSION = '5.15.0';
 
     /**
      * The Sentry Browser SDK Client.
@@ -4673,12 +4757,6 @@ var Sentry = (function (exports) {
              */
             this.name = GlobalHandlers.id;
             /** JSDoc */
-            this._global = getGlobalObject();
-            /** JSDoc */
-            this._oldOnErrorHandler = null;
-            /** JSDoc */
-            this._oldOnUnhandledRejectionHandler = null;
-            /** JSDoc */
             this._onErrorHandlerInstalled = false;
             /** JSDoc */
             this._onUnhandledRejectionHandlerInstalled = false;
@@ -4700,99 +4778,91 @@ var Sentry = (function (exports) {
         };
         /** JSDoc */
         GlobalHandlers.prototype._installGlobalOnErrorHandler = function () {
+            var _this = this;
             if (this._onErrorHandlerInstalled) {
                 return;
             }
-            var self = this; // tslint:disable-line:no-this-assignment
-            this._oldOnErrorHandler = this._global.onerror;
-            this._global.onerror = function (msg, url, line, column, error) {
-                var currentHub = getCurrentHub();
-                var hasIntegration = currentHub.getIntegration(GlobalHandlers);
-                var isFailedOwnDelivery = error && error.__sentry_own_request__ === true;
-                if (!hasIntegration || shouldIgnoreOnError() || isFailedOwnDelivery) {
-                    if (self._oldOnErrorHandler) {
-                        return self._oldOnErrorHandler.apply(this, arguments);
+            addInstrumentationHandler({
+                callback: function (data) {
+                    var error = data.error;
+                    var currentHub = getCurrentHub();
+                    var hasIntegration = currentHub.getIntegration(GlobalHandlers);
+                    var isFailedOwnDelivery = error && error.__sentry_own_request__ === true;
+                    if (!hasIntegration || shouldIgnoreOnError() || isFailedOwnDelivery) {
+                        return;
                     }
-                    return false;
-                }
-                var client = currentHub.getClient();
-                var event = isPrimitive(error)
-                    ? self._eventFromIncompleteOnError(msg, url, line, column)
-                    : self._enhanceEventWithInitialFrame(eventFromUnknownInput(error, undefined, {
-                        attachStacktrace: client && client.getOptions().attachStacktrace,
-                        rejection: false,
-                    }), url, line, column);
-                addExceptionMechanism(event, {
-                    handled: false,
-                    type: 'onerror',
-                });
-                currentHub.captureEvent(event, {
-                    originalException: error,
-                });
-                if (self._oldOnErrorHandler) {
-                    return self._oldOnErrorHandler.apply(this, arguments);
-                }
-                return false;
-            };
+                    var client = currentHub.getClient();
+                    var event = isPrimitive(error)
+                        ? _this._eventFromIncompleteOnError(data.msg, data.url, data.line, data.column)
+                        : _this._enhanceEventWithInitialFrame(eventFromUnknownInput(error, undefined, {
+                            attachStacktrace: client && client.getOptions().attachStacktrace,
+                            rejection: false,
+                        }), data.url, data.line, data.column);
+                    addExceptionMechanism(event, {
+                        handled: false,
+                        type: 'onerror',
+                    });
+                    currentHub.captureEvent(event, {
+                        originalException: error,
+                    });
+                },
+                type: 'error',
+            });
             this._onErrorHandlerInstalled = true;
         };
         /** JSDoc */
         GlobalHandlers.prototype._installGlobalOnUnhandledRejectionHandler = function () {
+            var _this = this;
             if (this._onUnhandledRejectionHandlerInstalled) {
                 return;
             }
-            var self = this; // tslint:disable-line:no-this-assignment
-            this._oldOnUnhandledRejectionHandler = this._global.onunhandledrejection;
-            this._global.onunhandledrejection = function (e) {
-                var error = e;
-                // dig the object of the rejection out of known event types
-                try {
-                    // PromiseRejectionEvents store the object of the rejection under 'reason'
-                    // see https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
-                    if ('reason' in e) {
-                        error = e.reason;
+            addInstrumentationHandler({
+                callback: function (e) {
+                    var error = e;
+                    // dig the object of the rejection out of known event types
+                    try {
+                        // PromiseRejectionEvents store the object of the rejection under 'reason'
+                        // see https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
+                        if ('reason' in e) {
+                            error = e.reason;
+                        }
+                        // something, somewhere, (likely a browser extension) effectively casts PromiseRejectionEvents
+                        // to CustomEvents, moving the `promise` and `reason` attributes of the PRE into
+                        // the CustomEvent's `detail` attribute, since they're not part of CustomEvent's spec
+                        // see https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent and
+                        // https://github.com/getsentry/sentry-javascript/issues/2380
+                        else if ('detail' in e && 'reason' in e.detail) {
+                            error = e.detail.reason;
+                        }
                     }
-                    // something, somewhere, (likely a browser extension) effectively casts PromiseRejectionEvents
-                    // to CustomEvents, moving the `promise` and `reason` attributes of the PRE into
-                    // the CustomEvent's `detail` attribute, since they're not part of CustomEvent's spec
-                    // see https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent and
-                    // https://github.com/getsentry/sentry-javascript/issues/2380
-                    else if ('detail' in e && 'reason' in e.detail) {
-                        error = e.detail.reason;
+                    catch (_oO) {
+                        // no-empty
                     }
-                }
-                catch (_oO) {
-                    // no-empty
-                }
-                var currentHub = getCurrentHub();
-                var hasIntegration = currentHub.getIntegration(GlobalHandlers);
-                var isFailedOwnDelivery = error && error.__sentry_own_request__ === true;
-                if (!hasIntegration || shouldIgnoreOnError() || isFailedOwnDelivery) {
-                    if (self._oldOnUnhandledRejectionHandler) {
-                        return self._oldOnUnhandledRejectionHandler.apply(this, arguments);
+                    var currentHub = getCurrentHub();
+                    var hasIntegration = currentHub.getIntegration(GlobalHandlers);
+                    var isFailedOwnDelivery = error && error.__sentry_own_request__ === true;
+                    if (!hasIntegration || shouldIgnoreOnError() || isFailedOwnDelivery) {
+                        return true;
                     }
-                    return true;
-                }
-                var client = currentHub.getClient();
-                var event = isPrimitive(error)
-                    ? self._eventFromIncompleteRejection(error)
-                    : eventFromUnknownInput(error, undefined, {
-                        attachStacktrace: client && client.getOptions().attachStacktrace,
-                        rejection: true,
+                    var client = currentHub.getClient();
+                    var event = isPrimitive(error)
+                        ? _this._eventFromIncompleteRejection(error)
+                        : eventFromUnknownInput(error, undefined, {
+                            attachStacktrace: client && client.getOptions().attachStacktrace,
+                            rejection: true,
+                        });
+                    event.level = exports.Severity.Error;
+                    addExceptionMechanism(event, {
+                        handled: false,
+                        type: 'onunhandledrejection',
                     });
-                event.level = exports.Severity.Error;
-                addExceptionMechanism(event, {
-                    handled: false,
-                    type: 'onunhandledrejection',
-                });
-                currentHub.captureEvent(event, {
-                    originalException: error,
-                });
-                if (self._oldOnUnhandledRejectionHandler) {
-                    return self._oldOnUnhandledRejectionHandler.apply(this, arguments);
-                }
-                return true;
-            };
+                    currentHub.captureEvent(event, {
+                        originalException: error,
+                    });
+                    return;
+                },
+                type: 'unhandledrejection',
+            });
             this._onUnhandledRejectionHandlerInstalled = true;
         };
         /**
@@ -5135,7 +5205,7 @@ var Sentry = (function (exports) {
                 return;
             }
             // We only capture issued sentry requests
-            if (handlerData.xhr.__sentry_own_request__) {
+            if (this._options.sentry && handlerData.xhr.__sentry_own_request__) {
                 addSentryBreadcrumb(handlerData.args[0]);
             }
         };
@@ -5149,7 +5219,7 @@ var Sentry = (function (exports) {
             }
             var client = getCurrentHub().getClient();
             var dsn = client && client.getDsn();
-            if (dsn) {
+            if (this._options.sentry && dsn) {
                 var filterUrl = new API(dsn).getStoreEndpoint();
                 // if Sentry key appears in URL, don't capture it as a request
                 // but rather as our own 'sentry' type breadcrumb

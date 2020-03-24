@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -40,7 +39,7 @@ def avatar_for_email(email, size=80):
     """Generate url for avatar."""
     # Safely handle blank e-mail
     if not email:
-        email = 'noreply@weblate.org'
+        email = "noreply@weblate.org"
 
     mail_hash = hashlib.md5(email.lower().encode()).hexdigest()
 
@@ -54,25 +53,25 @@ def avatar_for_email(email, size=80):
 
 def get_fallback_avatar_url(size):
     """Return URL of fallback avatar."""
-    return os.path.join(settings.STATIC_URL, 'weblate-{0}.png'.format(size))
+    return os.path.join(settings.STATIC_URL, "weblate-{0}.png".format(size))
 
 
 def get_fallback_avatar(size):
     """Return fallback avatar."""
-    filename = finders.find('weblate-{0}.png'.format(size))
-    with open(filename, 'rb') as handle:
+    filename = finders.find("weblate-{0}.png".format(size))
+    with open(filename, "rb") as handle:
         return handle.read()
 
 
 def get_avatar_image(user, size):
     """Return avatar image from cache (if available) or download it."""
-    cache_key = '-'.join(('avatar-img', user.username, str(size)))
+    cache_key = "-".join(("avatar-img", user.username, str(size)))
 
     # Try using avatar specific cache if available
     try:
-        cache = caches['avatar']
+        cache = caches["avatar"]
     except InvalidCacheBackendError:
-        cache = caches['default']
+        cache = caches["default"]
 
     image = cache.get(cache_key)
     if image is None:
@@ -82,8 +81,8 @@ def get_avatar_image(user, size):
         except (IOError, CertificateError) as error:
             report_error(
                 error,
-                extra_data={'avatar': user.username},
-                prefix='Failed to fetch avatar',
+                extra_data={"avatar": user.username},
+                prefix="Failed to fetch avatar",
             )
             return get_fallback_avatar(size)
 
@@ -97,18 +96,18 @@ def download_avatar_image(user, size):
     return response.content
 
 
-def get_user_display(user, icon=True, link=False, prefix=''):
+def get_user_display(user, icon=True, link=False, prefix=""):
     """Nicely format user for display."""
     # Did we get any user?
     if user is None:
         # None user, probably remotely triggered action
-        username = full_name = pgettext('No known user', 'None')
+        username = full_name = pgettext("No known user", "None")
     else:
         # Get full name
         full_name = user.full_name
 
         # Use user name if full name is empty
-        if full_name.strip() == '':
+        if full_name.strip() == "":
             full_name = user.username
         username = user.username
 
@@ -118,10 +117,10 @@ def get_user_display(user, icon=True, link=False, prefix=''):
 
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:
-        if user is None or user.email == 'noreply@weblate.org':
+        if user is None or user.email == "noreply@weblate.org":
             avatar = get_fallback_avatar_url(32)
         else:
-            avatar = reverse('user_avatar', kwargs={'user': user.username, 'size': 32})
+            avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
         username = '<img src="{avatar}" class="avatar" /> {prefix}{name}'.format(
             name=username, avatar=avatar, prefix=prefix

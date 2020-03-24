@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -82,7 +81,7 @@ def borg(cmd, env=None):
         report_error(error)
         raise BackupError("Could not execute borg program: {}".format(error))
     except subprocess.CalledProcessError as error:
-        report_error(error, extra_data={'stdout': error.stdout.decode()})
+        report_error(error, extra_data={"stdout": error.stdout.decode()})
         raise BackupError(error.stdout.decode())
 
 

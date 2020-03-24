@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,41 +22,41 @@ from weblate.utils.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = 'lists top ignored checks'
+    help = "lists top ignored checks"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--count',
+            "--count",
             type=int,
-            dest='count',
+            dest="count",
             default=100,
-            help='Number of top checks to list',
+            help="Number of top checks to list",
         )
         parser.add_argument(
-            '--list-all',
-            action='store_true',
-            dest='list_all',
+            "--list-all",
+            action="store_true",
+            dest="list_all",
             default=False,
-            help='List all checks (not only ignored)',
+            help="List all checks (not only ignored)",
         )
 
     def handle(self, *args, **options):
         results = {}
-        if options['list_all']:
+        if options["list_all"]:
             checks = Check.objects.all()
         else:
             checks = Check.objects.filter(ignore=True)
         for check in checks.iterator():
-            name = '{0}-{1}'.format(check.check, check.unit.content_hash)
+            name = "{0}-{1}".format(check.check, check.unit.content_hash)
             if name in results:
-                results[name]['count'] += 1
+                results[name]["count"] += 1
             else:
                 results[name] = {
-                    'count': 1,
-                    'check': check.check,
-                    'source': check.unit.source,
+                    "count": 1,
+                    "check": check.check,
+                    "source": check.unit.source,
                 }
-        results = sorted(results.values(), key=lambda x: -x['count'])
-        for result in results[: options['count']]:
-            self.stdout.write('{count:5d} {check:20} {source}'.format(**result))
+        results = sorted(results.values(), key=lambda x: -x["count"])
+        for result in results[: options["count"]]:
+            self.stdout.write("{count:5d} {check:20} {source}".format(**result))

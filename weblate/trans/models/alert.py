@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -42,13 +41,13 @@ def register(cls):
 
 
 class Alert(models.Model):
-    component = models.ForeignKey('Component', on_delete=models.deletion.CASCADE)
+    component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=150)
     details = JSONField(default={})
 
     class Meta:
-        unique_together = ('component', 'name')
+        unique_together = ("component", "name")
 
     @cached_property
     def obj(self):
@@ -70,12 +69,12 @@ class Alert(models.Model):
                 action=Change.ACTION_ALERT,
                 component=self.component,
                 alert=self,
-                details={'alert': self.name},
+                details={"alert": self.name},
             )
 
 
 class BaseAlert:
-    verbose = ''
+    verbose = ""
     on_import = False
     link_wide = False
 
@@ -87,18 +86,18 @@ class BaseAlert:
 
     def get_context(self):
         result = {
-            'alert': self.instance,
-            'component': self.instance.component,
-            'timestamp': self.instance.timestamp,
-            'details': self.instance.details,
-            'analysis': self.get_analysis(),
+            "alert": self.instance,
+            "component": self.instance.component,
+            "timestamp": self.instance.timestamp,
+            "details": self.instance.details,
+            "analysis": self.get_analysis(),
         }
         result.update(self.instance.details)
         return result
 
     def render(self):
         return render_to_string(
-            'trans/alert/{}.html'.format(self.__class__.__name__.lower()),
+            "trans/alert/{}.html".format(self.__class__.__name__.lower()),
             self.get_context(),
         )
 
@@ -116,7 +115,7 @@ class MultiAlert(BaseAlert):
 
     def get_context(self):
         result = super().get_context()
-        result['occurrences'] = self.occurrences
+        result["occurrences"] = self.occurrences
         return result
 
     def process_occurrences(self, occurrences):
@@ -124,8 +123,8 @@ class MultiAlert(BaseAlert):
         from weblate.trans.models import Unit
 
         processors = (
-            ('language_code', 'language', Language, 'code'),
-            ('unit_pk', 'unit', Unit, 'pk'),
+            ("language_code", "language", Language, "code"),
+            ("unit_pk", "unit", Unit, "pk"),
         )
         for occurrence in occurrences:
             for key, target, obj, lookup in processors:
@@ -141,35 +140,35 @@ class MultiAlert(BaseAlert):
 @register
 class DuplicateString(MultiAlert):
     # Translators: Name of an alert
-    verbose = _('Duplicated string found in the file.')
+    verbose = _("Duplicated string found in the file.")
     on_import = True
 
 
 @register
 class DuplicateLanguage(MultiAlert):
     # Translators: Name of an alert
-    verbose = _('Duplicated translation.')
+    verbose = _("Duplicated translation.")
     on_import = True
 
     def get_analysis(self):
         result = {}
         source = self.instance.component.project.source_language
         for occurrence in self.occurrences:
-            if occurrence['language'] == source:
-                result['source_language'] = True
+            if occurrence["language"] == source:
+                result["source_language"] = True
             codes = {
-                code.strip().replace('-', '_').lower()
-                for code in occurrence['codes'].split(',')
+                code.strip().replace("-", "_").lower()
+                for code in occurrence["codes"].split(",")
             }
             if codes.intersection(DEFAULT_LANGS):
-                result['default_country'] = True
+                result["default_country"] = True
         return result
 
 
 @register
 class DuplicateFilemask(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Duplicated filemask.')
+    verbose = _("Duplicated filemask.")
     link_wide = True
 
     def __init__(self, instance, duplicates):
@@ -180,79 +179,79 @@ class DuplicateFilemask(BaseAlert):
 @register
 class MergeFailure(ErrorAlert):
     # Translators: Name of an alert
-    verbose = _('Could not merge the repository.')
+    verbose = _("Could not merge the repository.")
     link_wide = True
 
 
 @register
 class UpdateFailure(ErrorAlert):
     # Translators: Name of an alert
-    verbose = _('Could not update the repository.')
+    verbose = _("Could not update the repository.")
     link_wide = True
 
 
 @register
 class PushFailure(ErrorAlert):
     # Translators: Name of an alert
-    verbose = _('Could not push the repository.')
+    verbose = _("Could not push the repository.")
     link_wide = True
 
 
 @register
 class ParseError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _('Could not parse translation files.')
+    verbose = _("Could not parse translation files.")
     on_import = True
 
 
 @register
 class BillingLimit(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Your billing plan has exceeded its limits.')
+    verbose = _("Your billing plan has exceeded its limits.")
 
 
 @register
 class RepositoryOutdated(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Repository outdated.')
+    verbose = _("Repository outdated.")
     link_wide = True
 
 
 @register
 class RepositoryChanges(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Repository has changes.')
+    verbose = _("Repository has changes.")
     link_wide = True
 
 
 @register
 class MissingLicense(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('License info missing.')
+    verbose = _("License info missing.")
 
 
 @register
 class AddonScriptError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _('Could not run addon.')
+    verbose = _("Could not run addon.")
 
 
 @register
 class MsgmergeAddonError(MultiAlert):
     # Translators: Name of an alert
-    verbose = _('Could not run addon.')
+    verbose = _("Could not run addon.")
 
 
 @register
 class MonolingualTranslation(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Misconfigured monolingual translation.')
+    verbose = _("Misconfigured monolingual translation.")
 
 
 @register
 class UnsupportedConfiguration(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Unsupported component configuration')
+    verbose = _("Unsupported component configuration")
 
     def __init__(self, instance, vcs, file_format):
         super().__init__(instance)
@@ -263,7 +262,7 @@ class UnsupportedConfiguration(BaseAlert):
 @register
 class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Broken repository browser URL')
+    verbose = _("Broken repository browser URL")
 
     def __init__(self, instance, links):
         super().__init__(instance)
@@ -273,7 +272,7 @@ class BrokenBrowserURL(BaseAlert):
 @register
 class BrokenProjectURL(BaseAlert):
     # Translators: Name of an alert
-    verbose = _('Broken project website URL')
+    verbose = _("Broken project website URL")
 
     def __init__(self, instance, error=None):
         super().__init__(instance)

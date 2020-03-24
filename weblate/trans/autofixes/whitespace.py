@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,38 +24,38 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.trans.autofixes.base import AutoFix
 
-NEWLINES = re.compile(r'\r\n|\r|\n')
-START = re.compile(r'^(\s+)', re.UNICODE)
-END = re.compile(r'(\s+)$', re.UNICODE)
+NEWLINES = re.compile(r"\r\n|\r|\n")
+START = re.compile(r"^(\s+)", re.UNICODE)
+END = re.compile(r"(\s+)$", re.UNICODE)
 
 
 class SameBookendingWhitespace(AutoFix):
     """Help non-techy translators with their whitespace."""
 
-    fix_id = 'end-whitespace'
-    name = _('Trailing and leading whitespace')
+    fix_id = "end-whitespace"
+    name = _("Trailing and leading whitespace")
 
     def fix_single_target(self, target, source, unit):
         # normalize newlines of source
-        source = NEWLINES.sub('\n', source)
+        source = NEWLINES.sub("\n", source)
 
         flags = unit.all_flags
         stripped = target
 
         # Capture and strip leading space
-        if 'ignore-begin-space' in flags:
-            head = ''
+        if "ignore-begin-space" in flags:
+            head = ""
         else:
             start = START.search(source)
-            head = start.group() if start else ''
+            head = start.group() if start else ""
             stripped = stripped.lstrip()
 
         # Capture and strip trailing space
-        if 'ignore-end-space' in flags:
-            tail = ''
+        if "ignore-end-space" in flags:
+            tail = ""
         else:
             end = END.search(source)
-            tail = end.group() if end else ''
+            tail = end.group() if end else ""
             stripped = stripped.rstrip()
 
         # add the whitespace around the target translation (ignore blanks)

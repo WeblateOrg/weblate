@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,105 +17,55 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.db import transaction
 
-import os
-from time import sleep
-
-from celery.schedules import crontab
-from celery_batches import Batches
-from django.utils.encoding import force_str
-from whoosh.index import LockError
-
-from weblate.memory.storage import (
-    CATEGORY_PRIVATE_OFFSET,
-    CATEGORY_SHARED,
-    CATEGORY_USER_OFFSET,
-    TranslationMemory,
-)
-from weblate.utils.celery import app, extract_batch_kwargs
-from weblate.utils.data import data_dir
+from weblate.memory.models import Memory
+from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
 
 
 @app.task(trail=False)
-def memory_backup(indent=2):
-    if not os.path.exists(data_dir('backups')):
-        os.makedirs(data_dir('backups'))
-    filename = data_dir('backups', 'memory.json')
-    memory = TranslationMemory()
-    with open(filename, 'w') as handle:
-        memory.dump(handle, indent)
+def import_memory(project_id, component_id=None):
+    from weblate.trans.models import Project, Unit
+
+    project = Project.objects.get(pk=project_id)
+
+    components = project.component_set.all()
+    if component_id:
+        components = components.filter(id=component_id)
+
+    for component in components.iterator():
+        with transaction.atomic():
+            units = (
+                Unit.objects.filter(
+                    translation__component=component, state__gte=STATE_TRANSLATED
+                )
+                .exclude(translation__language=project.source_language)
+                .prefetch_related("translation", "translation__language")
+            )
+            for unit in units:
+                update_memory(None, unit, component, project)
 
 
-@app.task(trail=False)
-def import_memory(project_id):
-    from weblate.trans.models import Unit
+def update_memory(user, unit, component=None, project=None):
+    component = component or unit.translation.component
+    project = project or component.project
+    params = {
+        "source_language": project.source_language,
+        "target_language": unit.translation.language,
+        "source": unit.source,
+        "target": unit.target,
+        "origin": component.full_slug,
+    }
 
-    units = Unit.objects.filter(
-        translation__component__project_id=project_id, state__gte=STATE_TRANSLATED
+    Memory.objects.update_entry(
+        user=None, project=project, from_file=False, shared=False, **params
     )
-    for unit in units.iterator():
-        update_memory(None, unit)
-
-
-def update_memory(user, unit):
-    component = unit.translation.component
-    project = component.project
-
-    categories = [CATEGORY_PRIVATE_OFFSET + project.pk]
-    if user:
-        categories.append(CATEGORY_USER_OFFSET + user.id)
-    if unit.translation.component.project.contribute_shared_tm:
-        categories.append(CATEGORY_SHARED)
-
-    for category in categories:
-        update_memory_task.delay(
-            source_language=project.source_language.code,
-            target_language=unit.translation.language.code,
-            source=unit.source,
-            target=unit.target,
-            origin=component.full_slug,
-            category=category,
+    if project.contribute_shared_tm:
+        Memory.objects.update_entry(
+            user=None, project=None, from_file=False, shared=True, **params
         )
-
-
-@app.task(trail=False, base=Batches, flush_every=1000, flush_interval=300, bind=True)
-def update_memory_task(self, *args, **kwargs):
-    def fixup_strings(data):
-        result = {}
-        for key, value in data.items():
-            if isinstance(value, int):
-                result[key] = value
-            else:
-                result[key] = force_str(value)
-        return result
-
-    data = extract_batch_kwargs(*args, **kwargs)
-
-    memory = TranslationMemory()
-    try:
-        with memory.writer() as writer:
-            for item in data:
-                writer.add_document(**fixup_strings(item))
-    except LockError:
-        # Manually handle retries, it doesn't work
-        # with celery-batches
-        sleep(10)
-        for unit in data:
-            update_memory_task.delay(**unit)
-
-
-@app.task(trail=False)
-def memory_optimize():
-    memory = TranslationMemory()
-    memory.index.optimize()
-
-
-@app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(
-        crontab(hour=1, minute=0), memory_backup.s(), name='translation-memory-backup'
-    )
-    sender.add_periodic_task(
-        3600 * 24 * 7, memory_optimize.s(), name='translation-memory-optimize'
-    )
+    if user:
+        Memory.objects.update_entry(
+            user=user, project=None, from_file=False, shared=False, **params
+        )

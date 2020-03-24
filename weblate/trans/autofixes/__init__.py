@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,7 +23,7 @@ Note, unlike checks, using a sortable data object so fixes are applied in desire
 
 from weblate.utils.classloader import ClassLoader
 
-AUTOFIXES = ClassLoader('AUTOFIX_LIST')
+AUTOFIXES = ClassLoader("AUTOFIX_LIST")
 
 
 def fix_target(target, unit):
