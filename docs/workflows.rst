@@ -3,10 +3,10 @@
 Translation workflows
 =====================
 
-Weblate can be configured to support several translation workflows. This
-document is not a complete listing of ways to configure Weblate, there are
-certainly more options. You can base another workflow on the most usual
-examples listed here.
+Several translation workflows are supported.
+
+The following is not a complete list of ways to configure Weblate.
+You can base other workflows on the most usual examples listed here.
 
 Translation access
 ------------------
@@ -14,9 +14,9 @@ Translation access
 The :ref:`privileges` is not much discussed in the workflows as each access control option can be applied to any workflow. Please consult that
 documentation for information on how to manage access to translations.
 
-In the following chapters, *any user* means any user who has access to the
-translation. It can be any authenticated user if project is public or user
-having :guilabel:`Translate` permission on the project.
+In the following chapters, *any user* means a user who has access to the
+translation. It can be any authenticated user if the project is public, or a user
+that has a :guilabel:`Translate` permission for the project.
 
 .. _states:
 
@@ -31,9 +31,9 @@ Untranslated
 Needs editing
     Translation needs editing, this is usually the result of a source string change.
     The translation is stored in the file, depending on the file format it might
-    be marked as needing edit (for example fuzzy flag).
+    be marked as needing edit (for example as it gets a fuzzy flag).
 Waiting for review
-    Translation is done, but not reviewed. It is stored in the file as a valid
+    Translation is made, but not reviewed. It is stored in the file as a valid
     translation.
 Approved
     Translation has been approved in the review. It can no longer be changed by
@@ -45,8 +45,8 @@ Suggestions
 
 Direct translation
 ------------------
-This is most usual setup for smaller teams - anybody can directly translate.
-This is also default setup in Weblate.
+This is most usual setup for smaller teams, anybody can directly translate.
+This is also the default setup in Weblate.
 
 * *Any user* can edit translations.
 * Suggestions are optional ways to suggest changes, when translators are not
@@ -55,18 +55,18 @@ This is also default setup in Weblate.
 +------------------------+------------+-------------------------------------+
 | Setting                |   Value    |   Note                              |
 +========================+============+=====================================+
-| Enable reviews         | disabled   | configured at project level         |
+| Enable reviews         | Off        | Configured at project level.        |
 +------------------------+------------+-------------------------------------+
-| Enable suggestions     | enabled    | it is useful for users to be able to|
-|                        |            | suggest when they are not sure      |
+| Enable suggestions     | On         | It is useful for users to be able to|
+|                        |            | suggest when they are not sure.     |
 +------------------------+------------+-------------------------------------+
-| Suggestion voting      | disabled   |                                     |
+| Suggestion voting      | Off        |                                     |
 +------------------------+------------+-------------------------------------+
 | Autoaccept suggestions | 0          |                                     |
 +------------------------+------------+-------------------------------------+
-| Translators group      | Users      | or Translate with access control    |
+| Translators group      | Users      | Or Translate with access control.   |
 +------------------------+------------+-------------------------------------+
-| Reviewers group        | N/A        | not used                            |
+| Reviewers group        | N/A        | Not used.                           |
 +------------------------+------------+-------------------------------------+
 
 
@@ -75,28 +75,28 @@ This is also default setup in Weblate.
 Peer review
 -----------
 
-With this workflow, anybody can add suggestions, however they need approval
+With this workflow, anybody can add suggestions, and need approval
 from additional member(s) before it is accepted as a translation.
 
-* *Any user* can add suggestions
-* *Any user* can vote for suggestions
-* Suggestions become translations when they get given number of votes
+* *Any user* can add suggestions.
+* *Any user* can vote for suggestions.
+* Suggestions become translations when given a predetermined number of votes.
 
 +------------------------+------------+-------------------------------------+
 | Setting                |   Value    |   Note                              |
 +========================+============+=====================================+
-| Enable reviews         | disabled   | configured at project level         |
+| Enable reviews         | off        | Configured at project level.        |
 +------------------------+------------+-------------------------------------+
-| Enable suggestions     | enabled    |                                     |
+| Enable suggestions     | on         |                                     |
 +------------------------+------------+-------------------------------------+
-| Suggestion voting      | enabled    |                                     |
+| Suggestion voting      | on         |                                     |
 +------------------------+------------+-------------------------------------+
-| Autoaccept suggestions | 1          | you can set higher value to require |
-|                        |            | more peer reviews                   |
+| Autoaccept suggestions | 1          | You can set higher value to require |
+|                        |            | more peer reviews.                  |
 +------------------------+------------+-------------------------------------+
-| Translators group      | Users      | or Translate with access control    |
+| Translators group      | Users      | Or Translate with access control.   |
 +------------------------+------------+-------------------------------------+
-| Reviewers group        | N/A        | not used, all translators review    |
+| Reviewers group        | N/A        | Not used, all translators review.   |
 +------------------------+------------+-------------------------------------+
 
 .. _reviews:
@@ -108,38 +108,38 @@ Dedicated reviewers
 
     The proper review workflow is supported since Weblate 2.18.
 
-With dedicated reviewers you have two groups of users - one which can submit
-translations and one which reviews them. Review is there to ensure the
-translations are consistent and in a good quality.
+With dedicated reviewers you have two groups of users, one able to submit
+translations, and one able to review them to ensure translations are
+consistent and that the quality is good.
 
-* *Any user* can edit non approved translations.
+* *Any user* can edit unapproved translations.
 * *Reviewer* can approve / unapproved strings.
 * *Reviewer* can edit all translations (including approved ones).
-* Suggestions are now also a way to suggest changes for approved strings.
+* Suggestions can also be used to suggest changes for approved strings.
 
 +------------------------+------------+-------------------------------------+
 | Setting                |   Value    |   Note                              |
 +========================+============+=====================================+
-| Enable reviews         | enabled    | configured at project level         |
+| Enable reviews         | on         | Configured at project level.        |
 +------------------------+------------+-------------------------------------+
-| Enable suggestions     | enabled    | it is useful for users to be able to|
-|                        |            | suggest when they are not sure      |
+| Enable suggestions     | off        | It is useful for users to be able to|
+|                        |            | suggest when they are not sure.     |
 +------------------------+------------+-------------------------------------+
-| Suggestion voting      | disabled   |                                     |
+| Suggestion voting      | off        |                                     |
 +------------------------+------------+-------------------------------------+
 | Autoaccept suggestions | 0          |                                     |
 +------------------------+------------+-------------------------------------+
-| Translators group      | Users      | or Translate with access control    |
+| Translators group      | Users      | Or Translate with access control.   |
 +------------------------+------------+-------------------------------------+
-| Reviewers group        | Reviewers  | or Review with access control       |
+| Reviewers group        | Reviewers  | Or Review with access control.      |
 +------------------------+------------+-------------------------------------+
 
-Enabling reviews
-----------------
+Turning on reviews
+------------------
 
-The reviews can be enabled on project configuration, you can find the setting
-on :guilabel:`Workflow` subpage of project settings (to be found in the
-:guilabel:`Manage` > `Settings` menu):
+Reviews can be turned on in the project configuration, from the
+:guilabel:`Workflow` subpage of project settings (to be found in the
+:guilabel:`Manage` → `Settings` menu):
 
 .. image:: images/project-workflow.png
 
