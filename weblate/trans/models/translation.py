@@ -838,7 +838,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     self.component.create_translations(request=request, force=True)
                 else:
                     self.check_sync(
-                        force=True, request=request, change=Change.ACTION_UPLOAD
+                        force=True,
+                        request=request,
+                        change=Change.ACTION_REPLACE_UPLOAD,
                     )
                     self.invalidate_cache()
 

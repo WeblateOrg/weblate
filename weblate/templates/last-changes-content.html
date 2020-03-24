@@ -46,7 +46,7 @@
                 {% format_translation change.unit.source change.unit.translation.component.project.source_language %}
                 <label>{{ change.unit.translation.language }}</label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
-            {% elif change.show_content %}
+            {% elif change.show_content and change.unit %}
                 <label>{{ change.unit.translation.component.project.source_language }}</label>
                 {% format_translation change.unit.source change.unit.translation.component.project.source_language %}
                 <label>{{ change.unit.translation.language }}</label>

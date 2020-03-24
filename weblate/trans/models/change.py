@@ -201,6 +201,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_CREATE_COMPONENT = 51
     ACTION_INVITE_USER = 52
     ACTION_HOOK = 53
+    ACTION_REPLACE_UPLOAD = 54
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -311,6 +312,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_INVITE_USER, gettext_lazy("Invited user")),
         # Translators: Name of event in the history
         (ACTION_HOOK, gettext_lazy("Received repository notification")),
+        # Translators: Name of event in the history
+        (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
     )
 
     # Actions which can be reverted
