@@ -7,15 +7,15 @@ Translation organization
 Weblate organizes translatable VCS content of project/components into a tree-like structure.
 
 * The bottom level object is :ref:`project`, which should hold all translations belonging
-together (for example translation of an application in several versions
-and/or accompanying documentation).
+  together (for example translation of an application in several versions
+  and/or accompanying documentation).
 
 * On the level above, :ref:`component`, which is
-actually the component to translate, you define the VCS repository to use, and
-the mask of files to translate.
+  actually the component to translate, you define the VCS repository to use, and
+  the mask of files to translate.
 
 * Above :ref:`component` there are individual translations, handled automatically by Weblate as translation
-files (which match the mask defined in :ref:`component`) appear in the VCS repository.
+  files (which match the mask defined in :ref:`component`) appear in the VCS repository.
 
 Weblate supports a wide range of translation formats (both bilingual and
 monolingual ones) supported by Translate Toolkit, see :ref:`formats`.
