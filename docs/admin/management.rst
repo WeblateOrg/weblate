@@ -634,7 +634,7 @@ lock_translation
 
 .. django-admin:: lock_translation <project|project/component>
 
-Prevents further translation of a component. 
+Prevents further translation of a component.
 
 .. hint::
 
