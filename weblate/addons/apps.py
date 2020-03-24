@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,6 +22,6 @@ from django.apps import AppConfig
 
 
 class AddonsConfig(AppConfig):
-    name = 'weblate.addons'
-    label = 'addons'
-    verbose_name = 'Addons'
+    name = "weblate.addons"
+    label = "addons"
+    verbose_name = "Addons"

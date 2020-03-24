@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -27,44 +26,44 @@ from weblate.utils.site import check_domain
 
 
 class Command(BaseCommand):
-    help = 'changes default site name'
+    help = "changes default site name"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--set-name', dest='set_name', default=None, help='site name to set'
+            "--set-name", dest="set_name", default=None, help="site name to set"
         )
         parser.add_argument(
-            '--site-id',
+            "--site-id",
             type=int,
-            dest='site_id',
+            dest="site_id",
             default=1,
-            help='site ID to manipulate (1 by default)',
+            help="site ID to manipulate (1 by default)",
         )
         parser.add_argument(
-            '--get-name',
-            action='store_true',
-            dest='get_name',
+            "--get-name",
+            action="store_true",
+            dest="get_name",
             default=False,
-            help='just display the site name',
+            help="just display the site name",
         )
 
     def handle(self, *args, **options):
-        if options['set_name']:
-            if not check_domain(options['set_name']):
-                raise CommandError('Please provide valid domain name!')
+        if options["set_name"]:
+            if not check_domain(options["set_name"]):
+                raise CommandError("Please provide valid domain name!")
             site, created = Site.objects.get_or_create(
-                pk=options['site_id'],
-                defaults={'domain': options['set_name'], 'name': options['set_name']},
+                pk=options["site_id"],
+                defaults={"domain": options["set_name"], "name": options["set_name"]},
             )
             if not created:
-                site.domain = options['set_name']
-                site.name = options['set_name']
+                site.domain = options["set_name"]
+                site.name = options["set_name"]
                 site.save()
-        elif options['get_name']:
+        elif options["get_name"]:
             try:
-                site = Site.objects.get(pk=options['site_id'])
+                site = Site.objects.get(pk=options["site_id"])
                 self.stdout.write(site.domain)
             except Site.DoesNotExist:
-                raise CommandError('Site does not exist!')
+                raise CommandError("Site does not exist!")
         else:
-            raise CommandError('Please specify desired action!')
+            raise CommandError("Please specify desired action!")

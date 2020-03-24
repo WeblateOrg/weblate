@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -17,27 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from django.db import models
 
 
-from weblate.memory.storage import TranslationMemory
-from weblate.utils.management.base import BaseCommand
+class MySQLSearchLookup(models.Lookup):
+    lookup_name = "search"
 
-
-class Command(BaseCommand):
-    help = 'list translation memory origins'
-
-    def add_arguments(self, parser):
-        super().add_arguments(parser)
-        parser.add_argument(
-            '--type',
-            choices=['origin', 'category'],
-            default='origin',
-            required=False,
-            help='Type of objects to list',
-        )
-
-    def handle(self, *args, **options):
-        """Translation memory cleanup."""
-        memory = TranslationMemory()
-        for item in memory.get_values(options['type']):
-            self.stdout.write(item)
+    def as_sql(self, compiler, connection):
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
+        params = lhs_params + rhs_params
+        return "MATCH (%s) AGAINST (%s IN NATURAL LANGUAGE MODE)" % (lhs, rhs), params

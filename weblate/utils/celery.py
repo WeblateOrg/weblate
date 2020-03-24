@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Whoosh based full text search."""
+"""Celery integration helper tools."""
 
 
 import logging
@@ -26,21 +25,20 @@ import os
 
 from celery import Celery
 from celery.signals import task_failure
-from celery_batches import SimpleRequest
 from django.conf import settings
 
-LOGGER = logging.getLogger('weblate.celery')
+LOGGER = logging.getLogger("weblate.celery")
 
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'weblate.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
-app = Celery('weblate')
+app = Celery("weblate")
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
 # - namespace='CELERY' means all celery-related configuration keys
 #   should have a `CELERY_` prefix.
-app.config_from_object('django.conf:settings', namespace='CELERY')
+app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
@@ -53,10 +51,11 @@ def handle_task_failure(exception=None, **kwargs):
     report_error(
         exception,
         extra_data=kwargs,
-        prefix='Failure while executing task',
+        prefix="Failure while executing task",
         skip_sentry=True,
         print_tb=True,
         logger=LOGGER,
+        level="error",
     )
 
 
@@ -67,7 +66,7 @@ def configure_error_handling(sender, **kargs):
     Based on
     https://www.mattlayman.com/blog/2017/django-celery-rollbar/
     """
-    if not bool(os.environ.get('CELERY_WORKER_RUNNING', False)):
+    if not bool(os.environ.get("CELERY_WORKER_RUNNING", False)):
         return
 
     from weblate.utils.errors import init_error_collection
@@ -75,27 +74,7 @@ def configure_error_handling(sender, **kargs):
     init_error_collection(celery=True)
 
 
-def extract_batch_kwargs(*args, **kwargs):
-    """Wrapper to extract args from batch task.
-
-    It can be either passed directly in eager mode or as requests in batch mode.
-    """
-    if args and isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
-        return [request.kwargs for request in args[0]]
-    return [kwargs]
-
-
-def extract_batch_args(*args):
-    """Wrapper to extract args from batch task.
-
-    It can be either passed directly in eager mode or as requests in batch mode.
-    """
-    if isinstance(args[0], list) and isinstance(args[0][0], SimpleRequest):
-        return [request.args for request in args[0]]
-    return [args]
-
-
-def get_queue_length(queue='celery'):
+def get_queue_length(queue="celery"):
     with app.connection_or_acquire() as conn:
         return conn.default_channel.queue_declare(
             queue=queue, durable=True, auto_delete=False
@@ -104,10 +83,10 @@ def get_queue_length(queue='celery'):
 
 def get_queue_list():
     """List queues in Celery."""
-    result = {'celery'}
+    result = {"celery"}
     for route in settings.CELERY_TASK_ROUTES.values():
-        if 'queue' in route:
-            result.add(route['queue'])
+        if "queue" in route:
+            result.add(route["queue"])
     return result
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,6 +21,6 @@ from weblate.wladmin.models import WeblateModelAdmin
 
 
 class CheckAdmin(WeblateModelAdmin):
-    list_display = ['check', 'unit', 'ignore']
-    search_fields = ['unit__content_hash', 'check']
-    list_filter = ['check', 'ignore']
+    list_display = ["check", "unit", "ignore"]
+    search_fields = ["unit__content_hash", "check"]
+    list_filter = ["check", "ignore"]

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -162,7 +161,7 @@ def upload_translation(request, project, component, lang):
     except PluralFormsMismatch:
         messages.error(
             request,
-            _('Plural forms in the uploaded file do not match current translation.'),
+            _("Plural forms in the uploaded file do not match current translation."),
         )
     except Exception as error:
         messages.error(request, _("File upload has failed: %s") % force_str(error))

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -34,61 +33,61 @@ from weblate.utils.decorators import disable_for_loaddata
 class WeblateChecksConf(AppConf):
     # List of quality checks
     CHECK_LIST = (
-        'weblate.checks.same.SameCheck',
-        'weblate.checks.chars.BeginNewlineCheck',
-        'weblate.checks.chars.EndNewlineCheck',
-        'weblate.checks.chars.BeginSpaceCheck',
-        'weblate.checks.chars.EndSpaceCheck',
-        'weblate.checks.chars.DoubleSpaceCheck',
-        'weblate.checks.chars.EndStopCheck',
-        'weblate.checks.chars.EndColonCheck',
-        'weblate.checks.chars.EndQuestionCheck',
-        'weblate.checks.chars.EndExclamationCheck',
-        'weblate.checks.chars.EndEllipsisCheck',
-        'weblate.checks.chars.EndSemicolonCheck',
-        'weblate.checks.chars.MaxLengthCheck',
-        'weblate.checks.chars.KashidaCheck',
-        'weblate.checks.chars.PuctuationSpacingCheck',
-        'weblate.checks.format.PythonFormatCheck',
-        'weblate.checks.format.PythonBraceFormatCheck',
-        'weblate.checks.format.PHPFormatCheck',
-        'weblate.checks.format.CFormatCheck',
-        'weblate.checks.format.PerlFormatCheck',
-        'weblate.checks.format.JavaScriptFormatCheck',
-        'weblate.checks.format.CSharpFormatCheck',
-        'weblate.checks.format.JavaFormatCheck',
-        'weblate.checks.format.JavaMessageFormatCheck',
+        "weblate.checks.same.SameCheck",
+        "weblate.checks.chars.BeginNewlineCheck",
+        "weblate.checks.chars.EndNewlineCheck",
+        "weblate.checks.chars.BeginSpaceCheck",
+        "weblate.checks.chars.EndSpaceCheck",
+        "weblate.checks.chars.DoubleSpaceCheck",
+        "weblate.checks.chars.EndStopCheck",
+        "weblate.checks.chars.EndColonCheck",
+        "weblate.checks.chars.EndQuestionCheck",
+        "weblate.checks.chars.EndExclamationCheck",
+        "weblate.checks.chars.EndEllipsisCheck",
+        "weblate.checks.chars.EndSemicolonCheck",
+        "weblate.checks.chars.MaxLengthCheck",
+        "weblate.checks.chars.KashidaCheck",
+        "weblate.checks.chars.PuctuationSpacingCheck",
+        "weblate.checks.format.PythonFormatCheck",
+        "weblate.checks.format.PythonBraceFormatCheck",
+        "weblate.checks.format.PHPFormatCheck",
+        "weblate.checks.format.CFormatCheck",
+        "weblate.checks.format.PerlFormatCheck",
+        "weblate.checks.format.JavaScriptFormatCheck",
+        "weblate.checks.format.CSharpFormatCheck",
+        "weblate.checks.format.JavaFormatCheck",
+        "weblate.checks.format.JavaMessageFormatCheck",
         "weblate.checks.format.PercentInterpolationCheck",
         "weblate.checks.format.I18NextInterpolationCheck",
-        'weblate.checks.angularjs.AngularJSInterpolationCheck',
-        'weblate.checks.qt.QtFormatCheck',
-        'weblate.checks.qt.QtPluralCheck',
-        'weblate.checks.ruby.RubyFormatCheck',
-        'weblate.checks.consistency.PluralsCheck',
-        'weblate.checks.consistency.SamePluralsCheck',
-        'weblate.checks.consistency.ConsistencyCheck',
-        'weblate.checks.consistency.TranslatedCheck',
-        'weblate.checks.chars.EscapedNewlineCountingCheck',
-        'weblate.checks.chars.NewLineCountCheck',
-        'weblate.checks.markup.BBCodeCheck',
-        'weblate.checks.chars.ZeroWidthSpaceCheck',
-        'weblate.checks.render.MaxSizeCheck',
-        'weblate.checks.markup.XMLValidityCheck',
-        'weblate.checks.markup.XMLTagsCheck',
-        'weblate.checks.markup.MarkdownRefLinkCheck',
-        'weblate.checks.markup.MarkdownLinkCheck',
-        'weblate.checks.markup.MarkdownSyntaxCheck',
-        'weblate.checks.markup.URLCheck',
-        'weblate.checks.markup.SafeHTMLCheck',
-        'weblate.checks.placeholders.PlaceholderCheck',
-        'weblate.checks.placeholders.RegexCheck',
-        'weblate.checks.source.OptionalPluralCheck',
-        'weblate.checks.source.EllipsisCheck',
-        'weblate.checks.source.MultipleFailingCheck',
+        "weblate.checks.angularjs.AngularJSInterpolationCheck",
+        "weblate.checks.qt.QtFormatCheck",
+        "weblate.checks.qt.QtPluralCheck",
+        "weblate.checks.ruby.RubyFormatCheck",
+        "weblate.checks.consistency.PluralsCheck",
+        "weblate.checks.consistency.SamePluralsCheck",
+        "weblate.checks.consistency.ConsistencyCheck",
+        "weblate.checks.consistency.TranslatedCheck",
+        "weblate.checks.chars.EscapedNewlineCountingCheck",
+        "weblate.checks.chars.NewLineCountCheck",
+        "weblate.checks.markup.BBCodeCheck",
+        "weblate.checks.chars.ZeroWidthSpaceCheck",
+        "weblate.checks.render.MaxSizeCheck",
+        "weblate.checks.markup.XMLValidityCheck",
+        "weblate.checks.markup.XMLTagsCheck",
+        "weblate.checks.markup.MarkdownRefLinkCheck",
+        "weblate.checks.markup.MarkdownLinkCheck",
+        "weblate.checks.markup.MarkdownSyntaxCheck",
+        "weblate.checks.markup.URLCheck",
+        "weblate.checks.markup.SafeHTMLCheck",
+        "weblate.checks.placeholders.PlaceholderCheck",
+        "weblate.checks.placeholders.RegexCheck",
+        "weblate.checks.source.OptionalPluralCheck",
+        "weblate.checks.source.EllipsisCheck",
+        "weblate.checks.source.MultipleFailingCheck",
     )
 
     class Meta:
-        prefix = ''
+        prefix = ""
 
 
 class Check(models.Model):
@@ -104,10 +103,10 @@ class Check(models.Model):
             return None
 
     class Meta:
-        unique_together = ('unit', 'check')
+        unique_together = ("unit", "check")
 
     def __str__(self):
-        return '{0}: {1}'.format(self.unit, self.check)
+        return "{0}: {1}".format(self.unit, self.check)
 
     def is_enforced(self):
         return self.check in self.unit.translation.component.enforced_checks
@@ -142,12 +141,12 @@ class Check(models.Model):
     def get_severity(self):
         if self.check_obj:
             return self.check_obj.severity
-        return 'info'
+        return "info"
 
     def get_doc_url(self):
         if self.check_obj:
             return self.check_obj.get_doc_url()
-        return ''
+        return ""
 
     def set_ignore(self, state=True):
         """Set ignore flag."""

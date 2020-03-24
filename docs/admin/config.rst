@@ -30,7 +30,7 @@ and associate it with a site.
 ANONYMOUS_USER_NAME
 -------------------
 
-Username of users that are not logged in.
+Username of users that are not signed in.
 
 .. seealso::
 
@@ -336,12 +336,8 @@ The following subdirectories usually exist:
     Default location for static Django files, specified by ``STATIC_ROOT``.
 :file:`media`
     Default location for Django media files, specified by ``MEDIA_ROOT``.
-:file:`memory`
-    Translation memory data using the Whoosh engine (see :ref:`translation-memory`).
 :file:`vcs`
     Version control repositories.
-:file:`whoosh`
-    Fulltext search index using the Whoosh engine.
 :file:`backups`
     Daily backup data, see :ref:`backup-dumps`.
 
@@ -931,6 +927,16 @@ API key for the Google Translate API, you can register at https://cloud.google.c
 
    :ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_MICROSOFT_BASE_URL
+
+MT_MICROSOFT_BASE_URL
+---------------------
+
+Region base url domain as defined in the `Base URLs section
+<https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_.
+
+Defaults to ``api.cognitive.microsofttranslator.com``.
+
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
 
 MT_MICROSOFT_COGNITIVE_KEY
@@ -948,7 +954,7 @@ Client key for the Microsoft Cognitive Services Translator API.
 MT_MICROSOFT_REGION
 -------------------
 
-Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#multi-service-subscription>`_.
+Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
 
 .. setting:: MT_MYMEMORY_EMAIL
 
@@ -1125,7 +1131,7 @@ If turned on, a CAPTCHA is added to all pages where a users enters their e-mail 
 * New account registration.
 * Password recovery.
 * Adding e-mail to an account.
-* Contact form for users that are not logged in..
+* Contact form for users that are not signed in.
 
 .. setting:: REGISTRATION_EMAIL_MATCH
 

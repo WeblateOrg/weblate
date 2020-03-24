@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,17 +20,17 @@
 import weblate
 
 
-def get_doc_url(page, anchor=''):
+def get_doc_url(page, anchor=""):
     """Return URL to documentation."""
     # Should we use tagged release or latest version
-    if '-dev' in weblate.VERSION:
-        version = 'latest'
+    if "-dev" in weblate.VERSION:
+        version = "latest"
     else:
-        version = 'weblate-{0}'.format(weblate.VERSION)
+        version = "weblate-{0}".format(weblate.VERSION)
     # Generate URL
-    url = 'https://docs.weblate.org/en/{0}/{1}.html'.format(version, page)
+    url = "https://docs.weblate.org/en/{0}/{1}.html".format(version, page)
     # Optionally append anchor
-    if anchor != '':
-        url += '#{0}'.format(anchor)
+    if anchor != "":
+        url += "#{0}".format(anchor)
 
     return url

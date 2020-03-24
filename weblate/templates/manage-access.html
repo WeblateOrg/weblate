@@ -36,7 +36,7 @@
   <td>{{ user.username }}</td>
   <td>{{ user.full_name }}</td>
   <td>{{ user.email }}</td>
-  <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet logged in" %}{% endif %}</td>
+  <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
   {% user_permissions user groups %}
   <td>
 <form action="{% url "delete-user" project=object.slug %}" method="post" class="inlineform">

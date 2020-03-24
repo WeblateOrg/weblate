@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -54,7 +53,7 @@ def get_untranslated(base, limit=None):
 def get_suggestions(request, user, user_has_languages, base, filtered=False):
     """Return suggested translations for user."""
     if not filtered:
-        non_alerts = base.annotate(alert_count=Count('component__alert__pk')).filter(
+        non_alerts = base.annotate(alert_count=Count("component__alert__pk")).filter(
             alert_count=0
         )
         result = get_suggestions(request, user, user_has_languages, non_alerts, True)
@@ -81,7 +80,7 @@ def guess_user_language(request, translations):
     """
     # Session language
     session_lang = translation.get_language()
-    if session_lang and session_lang != 'en':
+    if session_lang and session_lang != "en":
         try:
             return Language.objects.get(code=session_lang)
         except Language.DoesNotExist:
@@ -90,9 +89,9 @@ def guess_user_language(request, translations):
     # Accept-Language HTTP header, for most browser it consists of browser
     # language with higher rank and OS language with lower rank so it still
     # might be usable guess
-    accept = request.META.get('HTTP_ACCEPT_LANGUAGE', '')
+    accept = request.META.get("HTTP_ACCEPT_LANGUAGE", "")
     for accept_lang, _unused in parse_accept_lang_header(accept):
-        if accept_lang == 'en':
+        if accept_lang == "en":
             continue
         try:
             return Language.objects.get(code=accept_lang)
@@ -102,7 +101,7 @@ def guess_user_language(request, translations):
     # Random language from existing translations, we do not want to list all
     # languages by default
     try:
-        return translations.order_by('?')[0].language
+        return translations.order_by("?")[0].language
     except IndexError:
         # There are no existing translations
         return None
@@ -116,7 +115,7 @@ def get_user_translations(request, user, user_has_languages):
     result = (
         Translation.objects.prefetch()
         .filter(component__project_id__in=user.allowed_project_ids)
-        .order_by('component__priority', 'component__project__name', 'component__name')
+        .order_by("component__priority", "component__project__name", "component__name")
     )
 
     if user_has_languages:
@@ -137,24 +136,24 @@ def home(request):
 
     # This is used on Hosted Weblate to handle removed translation projects.
     # The redirect itself is done in the http server.
-    if 'removed' in request.GET:
+    if "removed" in request.GET:
         messages.warning(
             request,
             _(
-                'The project you were looking for has been removed, '
-                'however you are welcome to contribute to other ones.'
+                "The project you were looking for has been removed, "
+                "however you are welcome to contribute to other ones."
             ),
         )
 
-    if 'show_set_password' in request.session:
+    if "show_set_password" in request.session:
         messages.warning(
             request,
             _(
-                'You have activated your account, now you should set '
-                'the password to be able to login next time.'
+                "You have activated your account, now you should set "
+                "the password to be able to login next time."
             ),
         )
-        return redirect('password')
+        return redirect("password")
 
     # Warn about not filled in username (usually caused by migration of
     # users from older system
@@ -163,8 +162,8 @@ def home(request):
             request,
             mark_safe(
                 '<a href="{0}">{1}</a>'.format(
-                    reverse('profile') + '#account',
-                    escape(_('Please set your full name and e-mail in your profile.')),
+                    reverse("profile") + "#account",
+                    escape(_("Please set your full name and e-mail in your profile.")),
                 )
             ),
         )
@@ -236,22 +235,22 @@ def dashboard_user(request):
 
     return render(
         request,
-        'dashboard/user.html',
+        "dashboard/user.html",
         {
-            'allow_index': True,
-            'suggestions': suggestions,
-            'search_form': SearchForm(request.user),
-            'usersubscriptions': get_paginator(request, usersubscriptions),
-            'componentlists': componentlists,
-            'all_componentlists': prefetch_stats(
+            "allow_index": True,
+            "suggestions": suggestions,
+            "search_form": SearchForm(request.user),
+            "usersubscriptions": get_paginator(request, usersubscriptions),
+            "componentlists": componentlists,
+            "all_componentlists": prefetch_stats(
                 ComponentList.objects.filter(
                     components__project_id__in=request.user.allowed_project_ids
                 )
                 .distinct()
                 .order()
             ),
-            'active_tab_slug': active_tab_slug,
-            'reports_form': ReportsForm(),
+            "active_tab_slug": active_tab_slug,
+            "reports_form": ReportsForm(),
         },
     )
 
@@ -263,6 +262,6 @@ def dashboard_anonymous(request):
 
     return render(
         request,
-        'dashboard/anonymous.html',
-        {'top_projects': top_projects[:20], 'all_projects': len(all_projects)},
+        "dashboard/anonymous.html",
+        {"top_projects": top_projects[:20], "all_projects": len(all_projects)},
     )

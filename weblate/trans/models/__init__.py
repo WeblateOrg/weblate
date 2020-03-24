@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,6 +27,7 @@ from django.dispatch import receiver
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
+from weblate.trans.models.announcement import Announcement
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
@@ -39,29 +39,27 @@ from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.whiteboard import WhiteboardMessage
 from weblate.trans.signals import user_pre_delete
-from weblate.utils.celery import app
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
 
 __all__ = [
-    'Project',
-    'Component',
-    'Translation',
-    'Unit',
-    'Suggestion',
-    'Comment',
-    'Vote',
-    'Change',
-    'Dictionary',
-    'WhiteboardMessage',
-    'ComponentList',
-    'WeblateConf',
-    'ContributorAgreement',
-    'Alert',
-    'Shaping',
-    'Label',
+    "Project",
+    "Component",
+    "Translation",
+    "Unit",
+    "Suggestion",
+    "Comment",
+    "Vote",
+    "Change",
+    "Dictionary",
+    "Announcement",
+    "ComponentList",
+    "WeblateConf",
+    "ContributorAgreement",
+    "Alert",
+    "Shaping",
+    "Label",
 ]
 
 
@@ -104,7 +102,12 @@ def update_source(sender, instance, **kwargs):
         translation__component=instance.translation.component, id_hash=instance.id_hash
     )
     # Propagate attributes
-    units.update(extra_flags=instance.extra_flags, extra_context=instance.extra_context)
+    units.exclude(extra_context=instance.extra_context).update(
+        extra_context=instance.extra_context
+    )
+    units.exclude(extra_flags=instance.extra_flags).update(
+        extra_flags=instance.extra_flags
+    )
     # Run checks, update state and priority if flags changed
     if (
         instance.old_unit.extra_flags != instance.extra_flags
@@ -118,6 +121,7 @@ def update_source(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
+@disable_for_loaddata
 def change_labels(sender, instance, **kwargs):
     """Update unit labels."""
     if not instance.translation.is_source:
@@ -130,7 +134,7 @@ def change_labels(sender, instance, **kwargs):
     labels = instance.labels.all()
     list(labels)
 
-    for unit in units.iterator():
+    for unit in units.prefetch():
         # This emulates set in ManyRelatedManager, we just need to know if there was
         # any change to effectively invalidate caches
         old_labels = set(unit.labels.all())
@@ -176,7 +180,7 @@ def user_commit_pending(sender, instance, **kwargs):
     all_changes = Change.objects.last_changes(instance).filter(user=instance)
 
     # Filter where project is active
-    user_translation_ids = all_changes.values_list('translation', flat=True).distinct()
+    user_translation_ids = all_changes.values_list("translation", flat=True).distinct()
 
     # Commit changes where user is last author
     for translation in Translation.objects.filter(pk__in=user_translation_ids):
@@ -186,10 +190,11 @@ def user_commit_pending(sender, instance, **kwargs):
             # Non content changes
             continue
         if last_author == instance:
-            translation.commit_pending('user delete', None)
+            translation.commit_pending("user delete", None)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
+@disable_for_loaddata
 def change_componentlist(sender, instance, **kwargs):
     instance.stats.invalidate()
 
@@ -218,6 +223,8 @@ def auto_component_list(sender, instance, **kwargs):
 @receiver(post_save, sender=Component)
 @disable_for_loaddata
 def post_save_update_checks(sender, instance, **kwargs):
+    from weblate.trans.tasks import update_checks
+
     if instance.old_component.check_flags == instance.check_flags:
         return
     update_checks.delay(instance.pk)
@@ -232,17 +239,3 @@ def post_delete_linked(sender, instance, **kwargs):
             instance.linked_component.update_alerts()
     except Component.DoesNotExist:
         pass
-
-
-@app.task(trail=False)
-def update_checks(pk):
-    component = Component.objects.get(pk=pk)
-    for translation in component.translation_set.exclude(
-        pk=component.source_translation.pk
-    ).iterator():
-        for unit in translation.unit_set.iterator():
-            unit.run_checks()
-    for unit in component.source_translation.unit_set.iterator():
-        unit.run_checks()
-    for translation in component.translation_set.iterator():
-        translation.invalidate_cache()

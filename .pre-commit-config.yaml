@@ -1,6 +1,10 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
+-   repo: https://github.com/pre-commit/mirrors-isort
+    rev: v4.3.21
+    hooks:
+    -   id: isort
 -   repo: https://github.com/ambv/black
     rev: 19.10b0
     hooks:
@@ -17,11 +21,10 @@ repos:
     -   id: check-merge-conflict
     -   id: check-json
     -   id: fix-encoding-pragma
+        args: [--remove]
     -   id: sort-simple-yaml
--   repo: https://github.com/pre-commit/mirrors-isort
-    rev: v4.3.21
-    hooks:
-    -   id: isort
+    -   id: mixed-line-ending
+        args: [--fix=lf]
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 3.7.9
     hooks:

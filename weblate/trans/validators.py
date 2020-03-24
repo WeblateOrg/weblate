@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,9 +24,9 @@ from weblate.checks.flags import Flags
 
 def validate_filemask(val):
     """Validate that filemask contains *."""
-    if '*' not in val:
+    if "*" not in val:
         raise ValidationError(
-            _('Filemask does not contain * as a language placeholder!')
+            _("Filemask does not contain * as a language placeholder!")
         )
 
 
@@ -36,8 +35,8 @@ def validate_autoaccept(val):
     if val == 1:
         raise ValidationError(
             _(
-                'A value of 1 is not allowed for autoaccept as '
-                'it would permit users to vote on their own suggestions.'
+                "A value of 1 is not allowed for autoaccept as "
+                "it would permit users to vote on their own suggestions."
             )
         )
 

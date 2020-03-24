@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,12 +17,22 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from unittest import TestCase
+CATEGORY_FILE = 1
+CATEGORY_SHARED = 2
+CATEGORY_PRIVATE_OFFSET = 10000000
+CATEGORY_USER_OFFSET = 20000000
 
-from weblate.utils.db import re_escape
 
+def parse_category(category):
+    """
+    Parse category field.
 
-class DbTest(TestCase):
-    def test_re_escape(self):
-        self.assertEqual(re_escape('[a-z]'), '\\[a\\-z\\]')
-        self.assertEqual(re_escape('a{1,4}'), 'a\\{1,4\\}')
+    Returns tuple with from_file, shared, project_id, user_id.
+    """
+    if category == CATEGORY_FILE:
+        return True, False, None, None
+    if category == CATEGORY_SHARED:
+        return False, True, None, None
+    if CATEGORY_PRIVATE_OFFSET <= category < CATEGORY_USER_OFFSET:
+        return False, False, category - CATEGORY_PRIVATE_OFFSET, None
+    return False, False, None, category - CATEGORY_USER_OFFSET

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -81,7 +80,7 @@ class FilterRegistry:
         try:
             return self.id_name[name]
         except KeyError:
-            if name.startswith('label:'):
+            if name.startswith("label:"):
                 return _("Labeled: {}").format(name[6:])
             raise
 
@@ -93,7 +92,7 @@ class FilterRegistry:
         try:
             return self.id_query[name]
         except KeyError:
-            if name.startswith('label:'):
+            if name.startswith("label:"):
                 return 'label:"{}"'.format(name[6:])
             raise
 
@@ -123,7 +122,7 @@ def get_filter_choice(project=None):
     )
     if project is not None:
         result.extend(
-            ('label:{}'.format(label.name), format_lazy(_("Labeled: {}"), label.name))
+            ("label:{}".format(label.name), format_lazy(_("Labeled: {}"), label.name))
             for label in project.label_set.all()
         )
     return result

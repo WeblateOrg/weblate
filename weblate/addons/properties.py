@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,8 +31,8 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_PRE_COMMIT
 
-SPLITTER = re.compile(r'\s*=\s*')
-UNICODE = re.compile(r'\\[uU][0-9a-fA-F]{4}')
+SPLITTER = re.compile(r"\s*=\s*")
+UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
 
 
 def sort_key(line):
@@ -44,16 +43,16 @@ def sort_key(line):
 
 def unicode_format(match):
     """Callback for re.sub for formatting unicode chars."""
-    return '\\u{0}'.format(match.group(0)[2:].upper())
+    return "\\u{0}".format(match.group(0)[2:].upper())
 
 
 def fix_newlines(lines):
     """Convert newlines to unix."""
     for i, line in enumerate(lines):
-        if line.endswith('\r\n'):
-            lines[i] = line[:-2] + '\n'
-        elif line.endswith('\r'):
-            lines[i] = line[:-1] + '\n'
+        if line.endswith("\r\n"):
+            lines[i] = line[:-2] + "\n"
+        elif line.endswith("\r"):
+            lines[i] = line[:-1] + "\n"
 
 
 def format_unicode(lines):
@@ -68,9 +67,9 @@ def value_quality(value):
     """Calculate value quality."""
     if not value:
         return 0
-    if '[translate me]' in value:
+    if "[translate me]" in value:
         return 1
-    if '[auto]' in value:
+    if "[auto]" in value:
         return 2
     return 3
 
@@ -83,7 +82,7 @@ def filter_lines(lines):
 
     for line in lines:
         # Skip comments and blank lines
-        if line[0] == '#' or line.strip() == '':
+        if line[0] == "#" or line.strip() == "":
             continue
         parts = SPLITTER.split(line, 1)
 
@@ -96,7 +95,7 @@ def filter_lines(lines):
         value = value[:-1]
 
         # Empty translation
-        if value in ('', '[auto]', '[translate me]'):
+        if value in ("", "[auto]", "[translate me]"):
             continue
 
         # Check for duplicate key
@@ -124,7 +123,7 @@ def filter_lines(lines):
 
 def format_file(filename):
     """Format single properties file."""
-    with open(filename, 'r') as handle:
+    with open(filename, "r") as handle:
         lines = handle.readlines()
 
     result = sorted(lines, key=sort_key)
@@ -134,17 +133,17 @@ def format_file(filename):
     result = filter_lines(result)
 
     if lines != result:
-        with open(filename, 'w') as handle:
+        with open(filename, "w") as handle:
             handle.writelines(result)
 
 
 class PropertiesSortAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
-    name = 'weblate.properties.sort'
-    verbose = _('Formats the Java properties file')
-    description = _('This addon sorts the Java properties file.')
-    compat = {'file_format': frozenset(('properties-utf8', 'properties'))}
-    icon = 'sort-alphabetical.svg'
+    name = "weblate.properties.sort"
+    verbose = _("Formats the Java properties file")
+    description = _("This addon sorts the Java properties file.")
+    compat = {"file_format": frozenset(("properties-utf8", "properties"))}
+    icon = "sort-alphabetical.svg"
 
     def pre_commit(self, translation, author):
         format_file(translation.get_filename())

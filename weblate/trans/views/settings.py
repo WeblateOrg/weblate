@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -36,26 +35,26 @@ from weblate.utils.views import get_component, get_project
 def change_project(request, project):
     obj = get_project(request, project)
 
-    if not request.user.has_perm('project.edit', obj):
+    if not request.user.has_perm("project.edit", obj):
         raise Http404()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         settings_form = ProjectSettingsForm(request, request.POST, instance=obj)
         if settings_form.is_valid():
             settings_form.save()
-            messages.success(request, _('Settings saved'))
-            return redirect('settings', project=obj.slug)
+            messages.success(request, _("Settings saved"))
+            return redirect("settings", project=obj.slug)
         else:
             messages.error(
-                request, _('Invalid settings, please check the form for errors!')
+                request, _("Invalid settings, please check the form for errors!")
             )
     else:
         settings_form = ProjectSettingsForm(request, instance=obj)
 
     return render(
         request,
-        'project-settings.html',
-        {'object': obj, 'settings_form': settings_form},
+        "project-settings.html",
+        {"object": obj, "settings_form": settings_form},
     )
 
 
@@ -64,24 +63,24 @@ def change_project(request, project):
 def change_component(request, project, component):
     obj = get_component(request, project, component)
 
-    if not request.user.has_perm('component.edit', obj):
+    if not request.user.has_perm("component.edit", obj):
         raise Http404()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ComponentSettingsForm(request, request.POST, instance=obj)
         if form.is_valid():
             form.save()
-            messages.success(request, _('Settings saved'))
-            return redirect('settings', project=obj.project.slug, component=obj.slug)
+            messages.success(request, _("Settings saved"))
+            return redirect("settings", project=obj.project.slug, component=obj.slug)
         else:
             messages.error(
-                request, _('Invalid settings, please check the form for errors!')
+                request, _("Invalid settings, please check the form for errors!")
             )
     else:
         form = ComponentSettingsForm(request, instance=obj)
 
     return render(
         request,
-        'component-settings.html',
-        {'project': obj.project, 'object': obj, 'form': form},
+        "component-settings.html",
+        {"project": obj.project, "object": obj, "form": form},
     )

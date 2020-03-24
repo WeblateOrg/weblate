@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -45,6 +44,7 @@ from django.utils.translation import gettext_lazy, ngettext
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
+from weblate.memory.tasks import import_memory
 from weblate.trans.defines import (
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
@@ -639,9 +639,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
             # Set correct state depending on template editing
             if self.template and self.edit_template:
-                kwargs['state'] = STATE_TRANSLATED
+                kwargs["state"] = STATE_TRANSLATED
             else:
-                kwargs['state'] = STATE_READONLY
+                kwargs["state"] = STATE_READONLY
 
             # Create source unit
             source = self.source_translation.unit_set.create(id_hash=id_hash, **kwargs)
@@ -782,6 +782,15 @@ class Component(models.Model, URLMixin, PathMixin):
                     )
                 }
             )
+        if "terminal prompts disabled" in error_text:
+            raise ValidationError(
+                {
+                    "repo": _(
+                        "The repository requires authentication, please specify "
+                        "credentials in the URL or use SSH access instead."
+                    )
+                }
+            )
         raise ValidationError(
             {"repo": _("Could not fetch the repository: %s") % error_text}
         )
@@ -798,7 +807,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     previous = self.repository.last_remote_revision
                 except RepositoryException:
                     # Repository not yet configured
-                    previous = ''
+                    previous = ""
                 self.repository.update_remote()
                 timediff = time.time() - start
                 self.log_info("update took %.2f seconds", timediff)
@@ -1089,11 +1098,12 @@ class Component(models.Model, URLMixin, PathMixin):
             Translation.objects.filter(unit__pending=True)
             .filter(Q(component=self) | Q(component__linked_component=self))
             .distinct()
+            .prefetch_related("component")
         )
         components = {}
 
         # Commit pending changes
-        for translation in translations.iterator():
+        for translation in translations:
             if translation.component_id == self.id:
                 translation.component = self
             if translation.component.linked_component_id == self.id:
@@ -1115,9 +1125,9 @@ class Component(models.Model, URLMixin, PathMixin):
     def handle_parse_error(self, error, translation=None):
         """Handler for parse errors."""
         report_error(error, prefix="Parse error")
-        error_message = getattr(error, 'strerror', '')
+        error_message = getattr(error, "strerror", "")
         if not error_message:
-            error_message = force_str(error).replace(self.full_path, '')
+            error_message = force_str(error).replace(self.full_path, "")
         if translation is None:
             filename = self.template
         else:
@@ -1271,7 +1281,7 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         if not created:
             obj.details = details
-            obj.save(update_fields=['details'])
+            obj.save(update_fields=["details"])
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.add_alert(alert, **details)
@@ -1428,6 +1438,8 @@ class Component(models.Model, URLMixin, PathMixin):
         if was_change:
             self.update_shapings()
             component_post_update.send(sender=self.__class__, component=self)
+            # Update translation memory
+            transaction.on_commit(lambda: import_memory.delay(self.project_id, self.id))
 
         self.log_info("updating completed")
         return was_change
@@ -1830,11 +1842,11 @@ class Component(models.Model, URLMixin, PathMixin):
         )
         for unit in units.iterator():
             if shaping_re.findall(unit.context):
-                key = shaping_re.sub('', unit.context)
+                key = shaping_re.sub("", unit.context)
                 unit.shaping = Shaping.objects.get_or_create(
                     key=key, component=self, shaping_regex=self.shaping_regex
                 )[0]
-                unit.save(update_fields=['shaping'])
+                unit.save(update_fields=["shaping"])
         for shaping in Shaping.objects.filter(component=self).iterator():
             Unit.objects.filter(
                 translation__component=self, shaping=None, context=shaping.key
@@ -1878,7 +1890,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         base = self.linked_component if self.is_repo_link else self
         masks = [base.filemask]
-        masks.extend(base.linked_childs.values_list('filemask', flat=True))
+        masks.extend(base.linked_childs.values_list("filemask", flat=True))
         duplicates = [item for item, count in Counter(masks).items() if count > 1]
         if duplicates:
             self.add_alert("DuplicateFilemask", duplicates=duplicates)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,13 +29,13 @@ class ExamplePreAddon(BaseScriptAddon):
     # Event used to trigger the script
     events = (EVENT_PRE_COMMIT,)
     # Name of the addon, has to be unique
-    name = 'weblate.example.pre'
+    name = "weblate.example.pre"
     # Verbose name and long descrption
-    verbose = _('Execute script before commit')
-    description = _('This addon executes a script.')
+    verbose = _("Execute script before commit")
+    description = _("This addon executes a script.")
 
     # Script to execute
-    script = '/bin/true'
+    script = "/bin/true"
     # File to add in commit (for pre commit event)
     # does not have to be set
-    add_file = 'po/{{ language_code }}.po'
+    add_file = "po/{{ language_code }}.po"

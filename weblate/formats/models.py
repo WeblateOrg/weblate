@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,7 +27,7 @@ from weblate.utils.classloader import ClassLoader
 
 class FileFormatLoader(ClassLoader):
     def __init__(self):
-        super().__init__('WEBLATE_FORMATS', False)
+        super().__init__("WEBLATE_FORMATS", False)
         self.errors = {}
 
     @cached_property
@@ -43,13 +42,13 @@ class FileFormatLoader(ClassLoader):
         result = super().load_data()
 
         for fileformat in list(result.values()):
-            error_name = 'File format: {0}'.format(fileformat.format_id)
+            error_name = "File format: {0}".format(fileformat.format_id)
             delete_configuration_error(error_name)
             try:
                 fileformat.get_class()
             except (AttributeError, ImportError) as error:
                 result.pop(fileformat.format_id)
-                if fileformat.format_id != 'rc':
+                if fileformat.format_id != "rc":
                     self.errors[fileformat.format_id] = str(error)
 
         return result
@@ -60,39 +59,39 @@ FILE_FORMATS = FileFormatLoader()
 
 class FormatsConf(AppConf):
     FORMATS = (
-        'weblate.formats.ttkit.PoFormat',
-        'weblate.formats.ttkit.PoMonoFormat',
-        'weblate.formats.ttkit.TSFormat',
-        'weblate.formats.ttkit.XliffFormat',
-        'weblate.formats.ttkit.PoXliffFormat',
-        'weblate.formats.ttkit.StringsFormat',
-        'weblate.formats.ttkit.StringsUtf8Format',
-        'weblate.formats.ttkit.PropertiesUtf8Format',
-        'weblate.formats.ttkit.PropertiesUtf16Format',
-        'weblate.formats.ttkit.PropertiesFormat',
-        'weblate.formats.ttkit.JoomlaFormat',
-        'weblate.formats.ttkit.PhpFormat',
-        'weblate.formats.ttkit.RESXFormat',
-        'weblate.formats.ttkit.AndroidFormat',
-        'weblate.formats.ttkit.JSONFormat',
-        'weblate.formats.ttkit.JSONNestedFormat',
-        'weblate.formats.ttkit.WebExtensionJSONFormat',
-        'weblate.formats.ttkit.I18NextFormat',
-        'weblate.formats.ttkit.CSVFormat',
-        'weblate.formats.ttkit.CSVSimpleFormat',
-        'weblate.formats.ttkit.CSVSimpleFormatISO',
-        'weblate.formats.ttkit.YAMLFormat',
-        'weblate.formats.ttkit.RubyYAMLFormat',
-        'weblate.formats.ttkit.SubRipFormat',
-        'weblate.formats.ttkit.MicroDVDFormat',
-        'weblate.formats.ttkit.AdvSubStationAlphaFormat',
-        'weblate.formats.ttkit.SubStationAlphaFormat',
-        'weblate.formats.ttkit.DTDFormat',
-        'weblate.formats.ttkit.WindowsRCFormat',
-        'weblate.formats.ttkit.FlatXMLFormat',
-        'weblate.formats.external.XlsxFormat',
-        'weblate.formats.txt.AppStoreFormat',
+        "weblate.formats.ttkit.PoFormat",
+        "weblate.formats.ttkit.PoMonoFormat",
+        "weblate.formats.ttkit.TSFormat",
+        "weblate.formats.ttkit.XliffFormat",
+        "weblate.formats.ttkit.PoXliffFormat",
+        "weblate.formats.ttkit.StringsFormat",
+        "weblate.formats.ttkit.StringsUtf8Format",
+        "weblate.formats.ttkit.PropertiesUtf8Format",
+        "weblate.formats.ttkit.PropertiesUtf16Format",
+        "weblate.formats.ttkit.PropertiesFormat",
+        "weblate.formats.ttkit.JoomlaFormat",
+        "weblate.formats.ttkit.PhpFormat",
+        "weblate.formats.ttkit.RESXFormat",
+        "weblate.formats.ttkit.AndroidFormat",
+        "weblate.formats.ttkit.JSONFormat",
+        "weblate.formats.ttkit.JSONNestedFormat",
+        "weblate.formats.ttkit.WebExtensionJSONFormat",
+        "weblate.formats.ttkit.I18NextFormat",
+        "weblate.formats.ttkit.CSVFormat",
+        "weblate.formats.ttkit.CSVSimpleFormat",
+        "weblate.formats.ttkit.CSVSimpleFormatISO",
+        "weblate.formats.ttkit.YAMLFormat",
+        "weblate.formats.ttkit.RubyYAMLFormat",
+        "weblate.formats.ttkit.SubRipFormat",
+        "weblate.formats.ttkit.MicroDVDFormat",
+        "weblate.formats.ttkit.AdvSubStationAlphaFormat",
+        "weblate.formats.ttkit.SubStationAlphaFormat",
+        "weblate.formats.ttkit.DTDFormat",
+        "weblate.formats.ttkit.WindowsRCFormat",
+        "weblate.formats.ttkit.FlatXMLFormat",
+        "weblate.formats.external.XlsxFormat",
+        "weblate.formats.txt.AppStoreFormat",
     )
 
     class Meta:
-        prefix = 'WEBLATE'
+        prefix = "WEBLATE"

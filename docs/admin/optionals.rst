@@ -31,7 +31,7 @@ repositories are properly exported:
 
 .. code-block:: sh
 
-    ./manage.py migrate
+    weblate migrate
 
 Usage
 +++++
@@ -81,7 +81,7 @@ should run the database migration:
 
 .. code-block:: sh
 
-    ./manage.py migrate
+    weblate migrate
 
 Usage
 +++++
@@ -149,7 +149,7 @@ To install, simply add ``weblate.legal`` to installed applications in
         'weblate.legal.pipeline.tos_confirm',
     )
 
-    # Middleware to enforce TOS confirmation of logged in users
+    # Middleware to enforce TOS confirmation of signed in users
     MIDDLEWARE += [
         'weblate.legal.middleware.RequireTOSMiddleware',
     ]
@@ -159,7 +159,7 @@ should run the database migration:
 
 .. code-block:: sh
 
-    ./manage.py migrate
+    weblate migrate
 
 Now you should edit the legal documents to match your service. You can
 find them in the :file:`weblate/legal/templates/legal/` folder.

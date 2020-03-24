@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -35,7 +34,7 @@ def get_user(request):
     Adds handling of anonymous user which is stored in database.
     """
     # pylint: disable=protected-access
-    if not hasattr(request, '_cached_user'):
+    if not hasattr(request, "_cached_user"):
         user = auth.get_user(request)
         if isinstance(user, AnonymousUser):
             user = get_anonymous()
@@ -96,19 +95,19 @@ class RequireLoginMiddleware:
         if not self.required:
             return None
 
-        # No need to process URLs if user already logged in
+        # No need to process URLs if user already signed in
         if request.user.is_authenticated:
             return None
 
         # Let gitexporter handle authentication
         # - it doesn't go through standard Django authentication
         # - once HTTP_AUTHORIZATION is set, it enforces it
-        if 'weblate.gitexport' in settings.INSTALLED_APPS:
+        if "weblate.gitexport" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
             import weblate.gitexport.views
 
-            if request.path.startswith('/git/'):
-                if request.META.get('HTTP_AUTHORIZATION'):
+            if request.path.startswith("/git/"):
+                if request.META.get("HTTP_AUTHORIZATION"):
                     return None
                 return weblate.gitexport.views.response_authenticate()
 

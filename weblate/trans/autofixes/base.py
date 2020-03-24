@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,7 +21,7 @@
 class AutoFix:
     """Base class for AutoFixes."""
 
-    fix_id = 'auto'
+    fix_id = "auto"
 
     def get_identifier(self):
         return self.fix_id

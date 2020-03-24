@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,11 +31,11 @@ def cleanup_screenshot_files():
     """Remove stale screenshots."""
     storage = DefaultStorage()
     try:
-        files = storage.listdir('screenshots')[1]
+        files = storage.listdir("screenshots")[1]
     except OSError:
         return
     for name in files:
-        fullname = os.path.join('screenshots', name)
+        fullname = os.path.join("screenshots", name)
         if not Screenshot.objects.filter(image=fullname).exists():
             storage.delete(fullname)
 
@@ -44,5 +43,5 @@ def cleanup_screenshot_files():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        3600 * 24, cleanup_screenshot_files.s(), name='screenshot-files-cleanup'
+        3600 * 24, cleanup_screenshot_files.s(), name="screenshot-files-cleanup"
     )

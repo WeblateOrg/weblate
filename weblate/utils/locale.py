@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -27,7 +26,7 @@ from locale import LC_ALL, Error, getlocale, setlocale
 def c_locale():
     """Context to execute something in C locale."""
     # List of locales to reset
-    locales = [('C', 'UTF-8'), ('en_US', 'UTF-8'), '']
+    locales = [("C", "UTF-8"), ("en_US", "UTF-8"), ""]
     try:
         # If locale is set, insert it to the top
         currlocale = getlocale()
@@ -36,7 +35,7 @@ def c_locale():
     except Error:
         pass
     # Set C locale for the execution
-    setlocale(LC_ALL, 'C')
+    setlocale(LC_ALL, "C")
     try:
         # Here the context gets executed
         yield

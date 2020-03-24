@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -36,48 +35,48 @@ from weblate.utils.errors import report_error
 from weblate.utils.views import get_component, get_project
 
 BITBUCKET_GIT_REPOS = (
-    'ssh://git@{server}/{full_name}.git',
-    'ssh://git@{server}/{full_name}',
-    'git@{server}:{full_name}.git',
-    'git@{server}:{full_name}',
-    'https://{server}/{full_name}.git',
-    'https://{server}/{full_name}',
+    "ssh://git@{server}/{full_name}.git",
+    "ssh://git@{server}/{full_name}",
+    "git@{server}:{full_name}.git",
+    "git@{server}:{full_name}",
+    "https://{server}/{full_name}.git",
+    "https://{server}/{full_name}",
 )
 
 BITBUCKET_HG_REPOS = (
-    'https://{server}/{full_name}',
-    'ssh://hg@{server}/{full_name}',
-    'hg::ssh://hg@{server}/{full_name}',
-    'hg::https://{server}/{full_name}',
+    "https://{server}/{full_name}",
+    "ssh://hg@{server}/{full_name}",
+    "hg::ssh://hg@{server}/{full_name}",
+    "hg::https://{server}/{full_name}",
 )
 
 GITHUB_REPOS = (
-    'git://github.com/%(owner)s/%(slug)s.git',
-    'git://github.com/%(owner)s/%(slug)s',
-    'https://github.com/%(owner)s/%(slug)s.git',
-    'https://github.com/%(owner)s/%(slug)s',
-    'git@github.com:%(owner)s/%(slug)s.git',
-    'git@github.com:%(owner)s/%(slug)s',
+    "git://github.com/%(owner)s/%(slug)s.git",
+    "git://github.com/%(owner)s/%(slug)s",
+    "https://github.com/%(owner)s/%(slug)s.git",
+    "https://github.com/%(owner)s/%(slug)s",
+    "git@github.com:%(owner)s/%(slug)s.git",
+    "git@github.com:%(owner)s/%(slug)s",
 )
 
 PAGURE_REPOS = (
-    'https://{server}/{project}',
-    'https://{server}/{project}.git',
-    'ssh://git@{server}/{project}',
-    'ssh://git@{server}/{project}.git',
+    "https://{server}/{project}",
+    "https://{server}/{project}.git",
+    "ssh://git@{server}/{project}",
+    "ssh://git@{server}/{project}.git",
 )
 
 HOOK_HANDLERS = {}
 
 
-def hook_response(response='Update triggered', message='success', status=200):
+def hook_response(response="Update triggered", message="success", status=200):
     """Generic okay hook response."""
-    return JsonResponse(data={'status': message, 'message': response}, status=status)
+    return JsonResponse(data={"status": message, "message": response}, status=status)
 
 
 def register_hook(handler):
     """Register hook handler."""
-    name = handler.__name__.split('_')[0]
+    name = handler.__name__.split("_")[0]
     HOOK_HANDLERS[name] = handler
     return handler
 
@@ -90,7 +89,7 @@ def update_component(request, project, component):
     obj = get_component(request, project, component, True)
     if not obj.project.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update.delay('Component', obj.pk)
+    perform_update.delay("Component", obj.pk)
     return hook_response()
 
 
@@ -102,7 +101,7 @@ def update_project(request, project):
     obj = get_project(request, project, True)
     if not obj.enable_hooks:
         return HttpResponseNotAllowed([])
-    perform_update.delay('Project', obj.pk)
+    perform_update.delay("Project", obj.pk)
     return hook_response()
 
 
@@ -111,9 +110,9 @@ def parse_hook_payload(request):
 
     We handle both application/x-www-form-urlencoded and application/json.
     """
-    if 'application/json' in request.META['CONTENT_TYPE'].lower():
+    if "application/json" in request.META["CONTENT_TYPE"].lower():
         return json.loads(request.body.decode())
-    return json.loads(request.POST['payload'])
+    return json.loads(request.POST["payload"])
 
 
 @require_POST
@@ -132,10 +131,10 @@ def vcs_service_hook(request, service):
     try:
         data = parse_hook_payload(request)
     except (ValueError, KeyError):
-        return HttpResponseBadRequest('Could not parse JSON payload!')
+        return HttpResponseBadRequest("Could not parse JSON payload!")
 
     if not data:
-        return HttpResponseBadRequest('Invalid data in json payload!')
+        return HttpResponseBadRequest("Invalid data in json payload!")
 
     # Get service helper
     hook_helper = HOOK_HANDLERS[service]
@@ -144,35 +143,35 @@ def vcs_service_hook(request, service):
     try:
         service_data = hook_helper(data, request)
     except Exception as error:
-        LOGGER.error('failed to parse service %s data', service)
+        LOGGER.error("failed to parse service %s data", service)
         report_error(error, request)
-        return HttpResponseBadRequest('Invalid data in json payload!')
+        return HttpResponseBadRequest("Invalid data in json payload!")
 
     # This happens on ping request upon installation
     if service_data is None:
-        return hook_response('Hook working', status=201)
+        return hook_response("Hook working", status=201)
 
     # Log data
-    service_long_name = service_data['service_long_name']
-    repos = service_data['repos']
-    repo_url = service_data['repo_url']
-    branch = service_data['branch']
-    full_name = service_data['full_name']
+    service_long_name = service_data["service_long_name"]
+    repos = service_data["repos"]
+    repo_url = service_data["repo_url"]
+    branch = service_data["branch"]
+    full_name = service_data["full_name"]
 
     # Generate filter
     spfilter = Q(repo__in=repos) | Q(repo__iendswith=full_name)
 
     # We need to match also URLs which include username and password
     for repo in repos:
-        if repo.startswith('http://'):
+        if repo.startswith("http://"):
             spfilter = spfilter | (
-                Q(repo__startswith='http://')
-                & Q(repo__endswith='@{0}'.format(repo[7:]))
+                Q(repo__startswith="http://")
+                & Q(repo__endswith="@{0}".format(repo[7:]))
             )
-        elif repo.startswith('https://'):
+        elif repo.startswith("https://"):
             spfilter = spfilter | (
-                Q(repo__startswith='https://')
-                & Q(repo__endswith='@{0}'.format(repo[8:]))
+                Q(repo__startswith="https://")
+                & Q(repo__endswith="@{0}".format(repo[8:]))
             )
 
     all_components = Component.objects.filter(spfilter)
@@ -183,8 +182,8 @@ def vcs_service_hook(request, service):
     components = all_components.filter(project__enable_hooks=True)
 
     LOGGER.info(
-        'received %s notification on repository %s, branch %s, '
-        '%d matching components, %d to process',
+        "received %s notification on repository %s, branch %s, "
+        "%d matching components, %d to process",
         service_long_name,
         repo_url,
         branch,
@@ -196,27 +195,27 @@ def vcs_service_hook(request, service):
     updates = 0
     for obj in components:
         updates += 1
-        LOGGER.info('%s notification will update %s', service_long_name, obj)
+        LOGGER.info("%s notification will update %s", service_long_name, obj)
         Change.objects.create(
             component=obj, action=Change.ACTION_HOOK, details=service_data
         )
-        perform_update.delay('Component', obj.pk)
+        perform_update.delay("Component", obj.pk)
 
     if updates == 0:
-        return hook_response('No matching repositories found!', 'failure', status=202)
+        return hook_response("No matching repositories found!", "failure", status=202)
 
     return hook_response(
-        'Update triggered: {}'.format(', '.join(obj.full_slug for obj in components))
+        "Update triggered: {}".format(", ".join(obj.full_slug for obj in components))
     )
 
 
 def bitbucket_extract_changes(data):
-    if 'changes' in data:
-        return data['changes']
-    if 'push' in data:
-        return data['push']['changes']
-    if 'commits' in data:
-        return data['commits']
+    if "changes" in data:
+        return data["changes"]
+    if "push" in data:
+        return data["push"]["changes"]
+    if "commits" in data:
+        return data["commits"]
     return {}
 
 
@@ -224,62 +223,62 @@ def bitbucket_extract_branch(data):
     changes = bitbucket_extract_changes(data)
     if changes:
         last = changes[-1]
-        if 'branch' in last:
-            return last['branch']
-        if last.get('new'):
-            return changes[-1]['new']['name']
-        if last.get('old'):
-            return changes[-1]['old']['name']
-        if 'ref' in last:
-            return last['ref']['displayId']
+        if "branch" in last:
+            return last["branch"]
+        if last.get("new"):
+            return changes[-1]["new"]["name"]
+        if last.get("old"):
+            return changes[-1]["old"]["name"]
+        if "ref" in last:
+            return last["ref"]["displayId"]
     return None
 
 
 def bitbucket_extract_full_name(repository):
-    if 'full_name' in repository:
-        return repository['full_name']
-    if 'fullName' in repository:
-        return repository['fullName']
-    if 'owner' in repository and 'slug' in repository:
-        return '{}/{}'.format(repository['owner'], repository['slug'])
-    if 'project' in repository and 'slug' in repository:
-        return '{}/{}'.format(repository['project']['key'], repository['slug'])
-    raise ValueError('Could not determine repository full name')
+    if "full_name" in repository:
+        return repository["full_name"]
+    if "fullName" in repository:
+        return repository["fullName"]
+    if "owner" in repository and "slug" in repository:
+        return "{}/{}".format(repository["owner"], repository["slug"])
+    if "project" in repository and "slug" in repository:
+        return "{}/{}".format(repository["project"]["key"], repository["slug"])
+    raise ValueError("Could not determine repository full name")
 
 
 def bitbucket_extract_repo_url(data, repository):
-    if 'links' in repository:
-        if 'html' in data['repository']['links']:
-            return repository['links']['html']['href']
-        return repository['links']['self'][0]['href']
-    if 'canon_url' in data:
-        return '{}{}'.format(data['canon_url'], repository['absolute_url'])
-    raise ValueError('Could not determine repository URL')
+    if "links" in repository:
+        if "html" in data["repository"]["links"]:
+            return repository["links"]["html"]["href"]
+        return repository["links"]["self"][0]["href"]
+    if "canon_url" in data:
+        return "{}{}".format(data["canon_url"], repository["absolute_url"])
+    raise ValueError("Could not determine repository URL")
 
 
 @register_hook
 def bitbucket_hook_helper(data, request):
     """API to handle service hooks from Bitbucket."""
     # Bitbucket ping event
-    if request and request.META.get('HTTP_X_EVENT_KEY') not in (
-        'repo:push',
-        'repo:refs_changed',
+    if request and request.META.get("HTTP_X_EVENT_KEY") not in (
+        "repo:push",
+        "repo:refs_changed",
     ):
         return None
 
-    repository = data['repository']
+    repository = data["repository"]
     full_name = bitbucket_extract_full_name(repository)
     repo_url = bitbucket_extract_repo_url(data, repository)
 
     # Extract repository links
-    if 'links' in repository and 'clone' in repository['links']:
-        repos = [val['href'] for val in repository['links']['clone']]
+    if "links" in repository and "clone" in repository["links"]:
+        repos = [val["href"] for val in repository["links"]["clone"]]
     else:
-        repo_servers = {'bitbucket.org', urlparse(repo_url).hostname}
+        repo_servers = {"bitbucket.org", urlparse(repo_url).hostname}
         repos = []
-        if 'scm' not in data['repository']:
+        if "scm" not in data["repository"]:
             templates = BITBUCKET_GIT_REPOS + BITBUCKET_HG_REPOS
-        elif data['repository']['scm'] == 'hg':
+        elif data["repository"]["scm"] == "hg":
             templates = BITBUCKET_HG_REPOS
         else:
             templates = BITBUCKET_GIT_REPOS
@@ -293,15 +292,15 @@ def bitbucket_hook_helper(data, request):
             )
 
     if not repos:
-        LOGGER.error('unsupported repository: %s', repr(data['repository']))
-        raise ValueError('unsupported repository')
+        LOGGER.error("unsupported repository: %s", repr(data["repository"]))
+        raise ValueError("unsupported repository")
 
     return {
-        'service_long_name': 'Bitbucket',
-        'repo_url': repo_url,
-        'repos': repos,
-        'branch': bitbucket_extract_branch(data),
-        'full_name': '{}.git'.format(full_name),
+        "service_long_name": "Bitbucket",
+        "repo_url": repo_url,
+        "repos": repos,
+        "branch": bitbucket_extract_branch(data),
+        "full_name": "{}.git".format(full_name),
     }
 
 
@@ -309,64 +308,64 @@ def bitbucket_hook_helper(data, request):
 def github_hook_helper(data, request):
     """API to handle commit hooks from GitHub."""
     # Ignore non push events
-    if request and request.META.get('HTTP_X_GITHUB_EVENT') != 'push':
+    if request and request.META.get("HTTP_X_GITHUB_EVENT") != "push":
         return None
     # Parse owner, branch and repository name
-    o_data = data['repository']['owner']
-    owner = o_data['login'] if 'login' in o_data else o_data['name']
-    slug = data['repository']['name']
-    branch = re.sub(r'^refs/heads/', '', data['ref'])
+    o_data = data["repository"]["owner"]
+    owner = o_data["login"] if "login" in o_data else o_data["name"]
+    slug = data["repository"]["name"]
+    branch = re.sub(r"^refs/heads/", "", data["ref"])
 
-    params = {'owner': owner, 'slug': slug}
+    params = {"owner": owner, "slug": slug}
 
-    if 'clone_url' not in data['repository']:
+    if "clone_url" not in data["repository"]:
         # Construct possible repository URLs
         repos = [repo % params for repo in GITHUB_REPOS]
     else:
         repos = []
-        keys = ['clone_url', 'git_url', 'ssh_url', 'svn_url', 'html_url', 'url']
+        keys = ["clone_url", "git_url", "ssh_url", "svn_url", "html_url", "url"]
         for key in keys:
-            if key in data['repository']:
-                repos.append(data['repository'][key])
+            if key in data["repository"]:
+                repos.append(data["repository"][key])
 
     return {
-        'service_long_name': 'GitHub',
-        'repo_url': data['repository']['url'],
-        'repos': repos,
-        'branch': branch,
-        'full_name': '{}/{}.git'.format(owner, slug),
+        "service_long_name": "GitHub",
+        "repo_url": data["repository"]["url"],
+        "repos": repos,
+        "branch": branch,
+        "full_name": "{}/{}.git".format(owner, slug),
     }
 
 
 @register_hook
 def gitea_hook_helper(data, request):
     return {
-        'service_long_name': 'Gitea',
-        'repo_url': data['repository']['html_url'],
-        'repos': [
-            data['repository']['clone_url'],
-            data['repository']['ssh_url'],
-            data['repository']['html_url'],
+        "service_long_name": "Gitea",
+        "repo_url": data["repository"]["html_url"],
+        "repos": [
+            data["repository"]["clone_url"],
+            data["repository"]["ssh_url"],
+            data["repository"]["html_url"],
         ],
-        'branch': re.sub(r'^refs/heads/', '', data['ref']),
-        'full_name': '{}.git'.format(data['repository']['full_name']),
+        "branch": re.sub(r"^refs/heads/", "", data["ref"]),
+        "full_name": "{}.git".format(data["repository"]["full_name"]),
     }
 
 
 @register_hook
 def gitee_hook_helper(data, request):
     return {
-        'service_long_name': 'Gitee',
-        'repo_url': data['repository']['html_url'],
-        'repos': [
-            data['repository']['git_http_url'],
-            data['repository']['git_ssh_url'],
-            data['repository']['git_url'],
-            data['repository']['ssh_url'],
-            data['repository']['html_url'],
+        "service_long_name": "Gitee",
+        "repo_url": data["repository"]["html_url"],
+        "repos": [
+            data["repository"]["git_http_url"],
+            data["repository"]["git_ssh_url"],
+            data["repository"]["git_url"],
+            data["repository"]["ssh_url"],
+            data["repository"]["html_url"],
         ],
-        'branch': re.sub(r'^refs/heads/', '', data['ref']),
-        'full_name': '{}.git'.format(data['repository']['path_with_namespace']),
+        "branch": re.sub(r"^refs/heads/", "", data["ref"]),
+        "full_name": "{}.git".format(data["repository"]["path_with_namespace"]),
     }
 
 
@@ -374,27 +373,27 @@ def gitee_hook_helper(data, request):
 def gitlab_hook_helper(data, request):
     """API to handle commit hooks from GitLab."""
     # Ignore non known events
-    if 'ref' not in data:
+    if "ref" not in data:
         return None
-    ssh_url = data['repository']['url']
-    http_url = '.'.join((data['repository']['homepage'], 'git'))
-    branch = re.sub(r'^refs/heads/', '', data['ref'])
+    ssh_url = data["repository"]["url"]
+    http_url = ".".join((data["repository"]["homepage"], "git"))
+    branch = re.sub(r"^refs/heads/", "", data["ref"])
 
     # Construct possible repository URLs
     repos = [
         ssh_url,
         http_url,
-        data['repository']['git_http_url'],
-        data['repository']['git_ssh_url'],
-        data['repository']['homepage'],
+        data["repository"]["git_http_url"],
+        data["repository"]["git_ssh_url"],
+        data["repository"]["homepage"],
     ]
 
     return {
-        'service_long_name': 'GitLab',
-        'repo_url': data['repository']['homepage'],
-        'repos': repos,
-        'branch': branch,
-        'full_name': ssh_url.split(':', 1)[1],
+        "service_long_name": "GitLab",
+        "repo_url": data["repository"]["homepage"],
+        "repos": repos,
+        "branch": branch,
+        "full_name": ssh_url.split(":", 1)[1],
     }
 
 
@@ -402,20 +401,20 @@ def gitlab_hook_helper(data, request):
 def pagure_hook_helper(data, request):
     """API to handle commit hooks from Pagure."""
     # Ignore non known events
-    if 'msg' not in data or data.get('topic') != 'git.receive':
+    if "msg" not in data or data.get("topic") != "git.receive":
         return None
 
-    server = urlparse(data['msg']['pagure_instance']).hostname
-    project = data['msg']['project_fullname']
+    server = urlparse(data["msg"]["pagure_instance"]).hostname
+    project = data["msg"]["project_fullname"]
 
     repos = [repo.format(server=server, project=project) for repo in PAGURE_REPOS]
 
     return {
-        'service_long_name': 'Pagure',
-        'repo_url': repos[0],
-        'repos': repos,
-        'branch': data['msg']['branch'],
-        'full_name': project,
+        "service_long_name": "Pagure",
+        "repo_url": repos[0],
+        "repos": repos,
+        "branch": data["msg"]["branch"],
+        "full_name": project,
     }
 
 
@@ -425,9 +424,9 @@ def azure_hook_helper(data, request):
         return None
     http_url = data["resource"]["repository"]["remoteUrl"]
     return {
-        'service_long_name': 'Azure',
-        'repo_url': http_url,
-        'repos': [http_url],
-        'branch': data["resource"]["refUpdates"][0]["name"].rsplit('/')[-1],
-        'full_name': data["resource"]["repository"]["name"],
+        "service_long_name": "Azure",
+        "repo_url": http_url,
+        "repos": [http_url],
+        "branch": data["resource"]["refUpdates"][0]["name"].rsplit("/")[-1],
+        "full_name": data["resource"]["repository"]["name"],
     }

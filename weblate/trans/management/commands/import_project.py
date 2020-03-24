@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -40,90 +39,90 @@ from weblate.vcs.models import VCS_REGISTRY
 class Command(BaseCommand):
     """Command for mass importing of repositories into Weblate."""
 
-    help = 'imports projects with more components'
+    help = "imports projects with more components"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--name-template',
-            default='{{ component }}',
+            "--name-template",
+            default="{{ component }}",
             help=(
-                'Template string, transforming the filemask ' 'match to a project name'
+                "Template string, transforming the filemask " "match to a project name"
             ),
         )
         parser.add_argument(
-            '--base-file-template',
-            default='',
+            "--base-file-template",
+            default="",
             help=(
-                'Template string, transforming the filemask '
-                'match to a monolingual base filename'
+                "Template string, transforming the filemask "
+                "match to a monolingual base filename"
             ),
         )
         parser.add_argument(
-            '--new-base-template',
-            default='',
+            "--new-base-template",
+            default="",
             help=(
-                'Template string, transforming the filemask '
-                'match to a base filename for new translations'
+                "Template string, transforming the filemask "
+                "match to a base filename for new translations"
             ),
         )
         parser.add_argument(
-            '--file-format',
-            default='po',
-            help='File format type, defaults to Gettext PO',
+            "--file-format",
+            default="po",
+            help="File format type, defaults to Gettext PO",
         )
         parser.add_argument(
-            '--language-regex',
-            default='^[^.]+$',
+            "--language-regex",
+            default="^[^.]+$",
             help=(
-                'Language filter regular expression to be used for created'
-                ' components'
+                "Language filter regular expression to be used for created"
+                " components"
             ),
         )
         parser.add_argument(
-            '--license', default='', help='License of imported components'
+            "--license", default="", help="License of imported components"
         )
         parser.add_argument(
-            '--license-url', default='', help='License URL of imported components'
+            "--license-url", default="", help="License URL of imported components"
         )
         parser.add_argument(
-            '--vcs', default=settings.DEFAULT_VCS, help='Version control system to use'
+            "--vcs", default=settings.DEFAULT_VCS, help="Version control system to use"
         )
         parser.add_argument(
-            '--push-url', default='', help='Set push URL for the project'
+            "--push-url", default="", help="Set push URL for the project"
         )
         parser.add_argument(
-            '--push-url-same',
-            action='store_true',
+            "--push-url-same",
+            action="store_true",
             default=False,
-            help='Set push URL for the project to same as pull',
+            help="Set push URL for the project to same as pull",
         )
         parser.add_argument(
-            '--disable-push-on-commit',
-            action='store_false',
+            "--disable-push-on-commit",
+            action="store_false",
             default=settings.DEFAULT_PUSH_ON_COMMIT,
-            dest='push_on_commit',
-            help='Disable push on commit for created components',
+            dest="push_on_commit",
+            help="Disable push on commit for created components",
         )
         parser.add_argument(
-            '--push-on-commit',
-            action='store_true',
+            "--push-on-commit",
+            action="store_true",
             default=settings.DEFAULT_PUSH_ON_COMMIT,
-            dest='push_on_commit',
-            help='Enable push on commit for created components',
+            dest="push_on_commit",
+            help="Enable push on commit for created components",
         )
         parser.add_argument(
-            '--main-component',
+            "--main-component",
             default=None,
             help=(
-                'Define which component will be used as main - including full'
-                ' VCS repository'
+                "Define which component will be used as main - including full"
+                " VCS repository"
             ),
         )
-        parser.add_argument('project', help='Existing project slug')
-        parser.add_argument('repo', help='VCS repository URL')
-        parser.add_argument('branch', help='VCS repository branch')
-        parser.add_argument('filemask', help='File mask')
+        parser.add_argument("project", help="Existing project slug")
+        parser.add_argument("repo", help="VCS repository URL")
+        parser.add_argument("branch", help="VCS repository branch")
+        parser.add_argument("filemask", help="File mask")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -150,12 +149,12 @@ class Command(BaseCommand):
         os.chmod(workdir, 0o755)
 
         # Initialize git repository
-        self.logger.info('Cloning git repository...')
+        self.logger.info("Cloning git repository...")
         try:
             gitrepo = VCS_REGISTRY[self.vcs].clone(repo, workdir)
         except RepositoryException as error:
-            raise CommandError('Failed clone: {}'.format(error))
-        self.logger.info('Updating working copy in git repository...')
+            raise CommandError("Failed clone: {}".format(error))
+        self.logger.info("Updating working copy in git repository...")
         with gitrepo.lock:
             gitrepo.configure_branch(branch)
 
@@ -163,47 +162,47 @@ class Command(BaseCommand):
 
     def parse_options(self, repo, options):
         """Parse parameters."""
-        self.filemask = options['filemask']
-        self.vcs = options['vcs']
-        if options['push_url_same']:
+        self.filemask = options["filemask"]
+        self.vcs = options["vcs"]
+        if options["push_url_same"]:
             self.push_url = repo
         else:
-            self.push_url = options['push_url']
-        self.file_format = options['file_format']
-        self.language_regex = options['language_regex']
-        self.main_component = options['main_component']
-        self.name_template = options['name_template']
-        if '%s' in self.name_template:
-            self.name_template = self.name_template.replace('%s', '{{ component }}')
-        self.license = options['license']
-        self.push_on_commit = options['push_on_commit']
-        self.base_file_template = options['base_file_template']
-        self.new_base_template = options['new_base_template']
-        if '%s' in self.base_file_template:
+            self.push_url = options["push_url"]
+        self.file_format = options["file_format"]
+        self.language_regex = options["language_regex"]
+        self.main_component = options["main_component"]
+        self.name_template = options["name_template"]
+        if "%s" in self.name_template:
+            self.name_template = self.name_template.replace("%s", "{{ component }}")
+        self.license = options["license"]
+        self.push_on_commit = options["push_on_commit"]
+        self.base_file_template = options["base_file_template"]
+        self.new_base_template = options["new_base_template"]
+        if "%s" in self.base_file_template:
             self.base_file_template = self.base_file_template.replace(
-                '%s', '{{ component }}'
+                "%s", "{{ component }}"
             )
 
         # Is file format supported?
         if self.file_format not in FILE_FORMATS:
             raise CommandError(
-                'Invalid file format: {0}'.format(options['file_format'])
+                "Invalid file format: {0}".format(options["file_format"])
             )
 
         # Is vcs supported?
         if self.vcs not in VCS_REGISTRY:
-            raise CommandError('Invalid vcs: {0}'.format(options['vcs']))
+            raise CommandError("Invalid vcs: {0}".format(options["vcs"]))
 
         # Do we have correct mask?
         # - if there is **, then it's simple mask (it's invalid in regexp)
         # - validate regexp otherwise
-        if '**' in self.filemask and '*' in self.filemask.replace('**', ''):
+        if "**" in self.filemask and "*" in self.filemask.replace("**", ""):
             match = re.escape(self.filemask)
-            match = match.replace(r'\*\*', '(?P<component>[[WILDCARD]])', 1)
-            match = match.replace(r'\*\*', '(?P=component)')
-            match = match.replace(r'\*', '(?P<language>[[WILDCARD]])', 1)
-            match = match.replace(r'\*', '(?P=language)')
-            match = match.replace('[[WILDCARD]]', '[^/]*')
+            match = match.replace(r"\*\*", "(?P<component>[[WILDCARD]])", 1)
+            match = match.replace(r"\*\*", "(?P=component)")
+            match = match.replace(r"\*", "(?P<language>[[WILDCARD]])", 1)
+            match = match.replace(r"\*", "(?P=language)")
+            match = match.replace("[[WILDCARD]]", "[^/]*")
             self.filemask = match
         else:
             try:
@@ -215,28 +214,28 @@ class Command(BaseCommand):
                     )
                 )
             if (
-                'component' not in compiled.groupindex
-                or 'language' not in compiled.groupindex
+                "component" not in compiled.groupindex
+                or "language" not in compiled.groupindex
             ):
                 raise CommandError(
-                    'Component regular expression lacks named group '
+                    "Component regular expression lacks named group "
                     '"component" and/or "language"'
                 )
 
     def handle(self, *args, **options):
         """Automatic import of project."""
         # Read params
-        repo = options['repo']
-        branch = options['branch']
+        repo = options["repo"]
+        branch = options["branch"]
         self.parse_options(repo, options)
 
         # Try to get project
         try:
-            project = Project.objects.get(slug=options['project'])
+            project = Project.objects.get(slug=options["project"])
         except Project.DoesNotExist:
             raise CommandError(
                 'Project "{0}" not found, please create it first!'.format(
-                    options['project']
+                    options["project"]
                 )
             )
 
@@ -249,7 +248,7 @@ class Command(BaseCommand):
                     component = component.linked_component
             except Component.DoesNotExist:
                 raise CommandError(
-                    'Component "{0}" not found, ' 'please create it first!'.format(repo)
+                    'Component "{0}" not found, ' "please create it first!".format(repo)
                 )
         else:
             component = self.import_initial(project, repo, branch)
@@ -273,25 +272,25 @@ class Command(BaseCommand):
                 path=path,
             )
             self.logger.info(
-                'Found %d matching files', len(self.discovery.matched_files)
+                "Found %d matching files", len(self.discovery.matched_files)
             )
 
             if not self.discovery.matched_files:
-                raise CommandError('Your mask did not match any files!')
+                raise CommandError("Your mask did not match any files!")
 
             self.logger.info(
-                'Found %d components', len(self.discovery.matched_components)
+                "Found %d components", len(self.discovery.matched_components)
             )
             langs = set()
             for match in self.discovery.matched_components.values():
-                langs.update(match['languages'])
-            self.logger.info('Found %d languages', len(langs))
+                langs.update(match["languages"])
+            self.logger.info("Found %d languages", len(langs))
 
             # Do some basic sanity check on languages
             if Language.objects.filter(code__in=langs).count() == 0:
                 raise CommandError(
-                    'None of matched languages exists, maybe you have '
-                    'mixed * and ** in the mask?'
+                    "None of matched languages exists, maybe you have "
+                    "mixed * and ** in the mask?"
                 )
         return self.discovery
 
@@ -310,17 +309,17 @@ class Command(BaseCommand):
         if self.main_component:
             match = None
             for match in discovery.matched_components.values():
-                if match['slug'] == self.main_component:
+                if match["slug"] == self.main_component:
                     break
-            if match is None or match['slug'] != self.main_component:
+            if match is None or match["slug"] != self.main_component:
                 raise CommandError(
-                    'Specified --main-component was not found in matches!'
+                    "Specified --main-component was not found in matches!"
                 )
         else:
             # Try if one is already there
             for match in discovery.matched_components.values():
                 try:
-                    component = components.get(repo=repo, filemask=match['mask'])
+                    component = components.get(repo=repo, filemask=match["mask"])
                 except Component.DoesNotExist:
                     continue
             # Pick random
@@ -329,18 +328,18 @@ class Command(BaseCommand):
 
         try:
             if component is None:
-                component = components.get(slug=match['slug'])
+                component = components.get(slug=match["slug"])
             self.logger.warning(
-                'Component %s already exists, skipping and using it '
-                'as a main component',
-                match['slug'],
+                "Component %s already exists, skipping and using it "
+                "as a main component",
+                match["slug"],
             )
             shutil.rmtree(workdir)
         except Component.DoesNotExist:
-            self.logger.info('Creating component %s as main one', match['slug'])
+            self.logger.info("Creating component %s as main one", match["slug"])
 
             # Rename gitrepository to new name
-            os.rename(workdir, os.path.join(project.full_path, match['slug']))
+            os.rename(workdir, os.path.join(project.full_path, match["slug"]))
 
             # Create new component
             component = discovery.create_component(

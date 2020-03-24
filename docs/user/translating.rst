@@ -50,7 +50,7 @@ Suggestions
     Actual permissions might vary depending on your Weblate configuration.
 
 Anonymous users can only (if permitted) forward suggestions.  Doing so is still
-available to logged in users, in cases where uncertainty about the translation
+available to signed in users, in cases where uncertainty about the translation
 arises, which will prompt another translator to review it.
 
 The suggestions are scanned on a daily basis to remove duplicate ones or

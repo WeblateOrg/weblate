@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,19 +21,19 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = 'pushes all changes to upstream repository'
+    help = "pushes all changes to upstream repository"
     needs_repo = True
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            '--force-commit',
-            action='store_true',
-            dest='force_commit',
+            "--force-commit",
+            action="store_true",
+            dest="force_commit",
             default=False,
-            help='Forces committing pending changes',
+            help="Forces committing pending changes",
         )
 
     def handle(self, *args, **options):
         for component in self.get_components(**options):
-            component.do_push(None, force_commit=options['force_commit'])
+            component.do_push(None, force_commit=options["force_commit"])

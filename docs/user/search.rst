@@ -41,6 +41,8 @@ Fields
    String pending for flushing to VCS.
 ``has:TEXT``
    Search for string having attributes (``plural``, ``suggestion``, ``comment``, ``check``, ``ignored-check``, ``translation``, ``shaping``).
+``is:TEXT``
+   Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
    String target language.
 ``changed_by:TEXT``

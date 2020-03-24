@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Whiteboard model."""
+"""Announcement model."""
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -32,9 +31,9 @@ from django.utils.translation import gettext_lazy
 from weblate.lang.models import Language
 
 
-class WhiteboardManager(models.Manager):
+class AnnouncementManager(models.Manager):
     def context_filter(self, project=None, component=None, language=None):
-        """Filter whiteboard messages by context."""
+        """Filter announcements by context."""
         base = self.filter(Q(expiry__isnull=True) | Q(expiry__gte=timezone.now()))
 
         if language and project is None and component is None:
@@ -61,76 +60,76 @@ class WhiteboardManager(models.Manager):
         return base.filter(project=None, component=None, language=None)
 
 
-class WhiteboardMessage(models.Model):
-    message = models.TextField(verbose_name=gettext_lazy('Message'))
+class Announcement(models.Model):
+    message = models.TextField(verbose_name=gettext_lazy("Message"))
     message_html = models.BooleanField(  # noqa: DJ02
-        verbose_name=gettext_lazy('Render as HTML'),
+        verbose_name=gettext_lazy("Render as HTML"),
         help_text=gettext_lazy(
-            'When turned off, URLs will be converted to links and '
-            'any markup will be escaped.'
+            "When turned off, URLs will be converted to links and "
+            "any markup will be escaped."
         ),
         blank=True,
         default=False,
     )
 
     project = models.ForeignKey(
-        'Project',
-        verbose_name=gettext_lazy('Project'),
+        "Project",
+        verbose_name=gettext_lazy("Project"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     component = models.ForeignKey(
-        'Component',
-        verbose_name=gettext_lazy('Component'),
+        "Component",
+        verbose_name=gettext_lazy("Component"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     language = models.ForeignKey(
         Language,
-        verbose_name=gettext_lazy('Language'),
+        verbose_name=gettext_lazy("Language"),
         null=True,
         blank=True,
         on_delete=models.deletion.CASCADE,
     )
     category = models.CharField(
         max_length=25,
-        verbose_name=gettext_lazy('Category'),
-        help_text=gettext_lazy('Category defines color used for the message.'),
+        verbose_name=gettext_lazy("Category"),
+        help_text=gettext_lazy("Category defines color used for the message."),
         choices=(
-            ('info', gettext_lazy('Info (light blue)')),
-            ('warning', gettext_lazy('Warning (yellow)')),
-            ('danger', gettext_lazy('Danger (red)')),
-            ('success', gettext_lazy('Success (green)')),
+            ("info", gettext_lazy("Info (light blue)")),
+            ("warning", gettext_lazy("Warning (yellow)")),
+            ("danger", gettext_lazy("Danger (red)")),
+            ("success", gettext_lazy("Success (green)")),
         ),
-        default='info',
+        default="info",
     )
     expiry = models.DateField(
         null=True,
         blank=True,
         db_index=True,
-        verbose_name=gettext_lazy('Expiry date'),
+        verbose_name=gettext_lazy("Expiry date"),
         help_text=gettext_lazy(
-            'The message will be not shown after this date. '
-            'Use it to announce string freeze and translation '
-            'deadline for next release.'
+            "The message will be not shown after this date. "
+            "Use it to announce string freeze and translation "
+            "deadline for next release."
         ),
     )
 
-    objects = WhiteboardManager()
+    objects = AnnouncementManager()
 
     class Meta:
-        app_label = 'trans'
-        verbose_name = gettext_lazy('Whiteboard message')
-        verbose_name_plural = gettext_lazy('Whiteboard messages')
+        app_label = "trans"
+        verbose_name = gettext_lazy("Announcement")
+        verbose_name_plural = gettext_lazy("Announcements")
 
     def __str__(self):
         return self.message
 
     def clean(self):
         if self.project and self.component and self.component.project != self.project:
-            raise ValidationError(_('Do not specify both component and project!'))
+            raise ValidationError(_("Do not specify both component and project!"))
         if not self.project and self.component:
             self.project = self.component.project
 
@@ -144,7 +143,7 @@ class WhiteboardMessage(models.Model):
                 action=Change.ACTION_MESSAGE,
                 project=self.project,
                 component=self.component,
-                whiteboard=self,
+                announcement=self,
                 target=self.message,
             )
 
