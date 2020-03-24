@@ -63,7 +63,7 @@ Please consider carefully whether to turn this this feature on for shared Weblat
 installations, as it can have severe implications:
 
 * The translations can be used by anybody else.
-* This might lead to disclosing secret info.
+* This might lead to disclosing secret information.
 
 Managing translation memory
 ---------------------------
