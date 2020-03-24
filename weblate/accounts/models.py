@@ -83,8 +83,8 @@ ACCOUNT_ACTIVITY = {
     "reset": _("Password reset confirmed, password turned off."),
     "auth-connect": _("You can now log in using {method} ({name})."),
     "auth-disconnect": _("You can no longer log in using {method} ({name})."),
-    "login": _("Logged on using {method} ({name})."),
-    "login-new": _("Logged on using {method} ({name}) from a new device."),
+    "login": _("Signed in using {method} ({name})."),
+    "login-new": _("Signed in using {method} ({name}) from a new device."),
     "register": _("Somebody has attempted to register with your e-mail."),
     "connect": _("Somebody has attempted to register using your e-mail address."),
     "failed-auth": _("Could not log in using {method} ({name})."),
@@ -96,8 +96,8 @@ ACCOUNT_ACTIVITY = {
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
         "auth-connect": _("You can now log in using password."),
-        "login": _("Logged on using password."),
-        "login-new": _("Logged on using password from a new device."),
+        "login": _("Signed in using password."),
+        "login-new": _("Signed in using password from a new device."),
         "failed-auth": _("Could not log in using password."),
     }
 }
