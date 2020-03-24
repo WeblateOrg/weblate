@@ -725,10 +725,10 @@ A list of URLs you want to require logging into. (Besides the standard rules bui
 
         LOGIN_REQUIRED_URLS = (
             r'/(.*)$',
-    )
-    REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
-        "rest_framework.permissions.IsAuthenticated"
-    ]
+        )
+        REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
+            "rest_framework.permissions.IsAuthenticated"
+        ]
 
 .. hint::
 
