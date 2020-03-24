@@ -124,8 +124,7 @@ A source code link is shown in the web-browser configured in the
     By setting the :guilabel:`Editor link`, you use your local editor to open the VCS source code
 file of translated strings. You can use :ref:`markup`.
 
-Usually something like ``editor://open/?file={{filename}}&line={{line}}`` is a good
-option.
+    Usually something like ``editor://open/?file={{filename}}&line={{line}}`` is a good option.
 
 .. seealso::
 
