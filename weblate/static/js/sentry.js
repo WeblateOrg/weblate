@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.14.2 (455ebad2) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.15.0 (3ce26d5c) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2642,6 +2642,9 @@ var Sentry = (function (exports) {
         Hub.prototype.bindClient = function (client) {
             var top = this.getStackTop();
             top.client = client;
+            if (client && client.setupIntegrations) {
+                client.setupIntegrations();
+            }
         };
         /**
          * @inheritDoc
@@ -3360,9 +3363,6 @@ var Sentry = (function (exports) {
             if (options.dsn) {
                 this._dsn = new Dsn(options.dsn);
             }
-            if (this._isEnabled()) {
-                this._integrations = setupIntegrations(this._options);
-            }
         }
         /**
          * @inheritDoc
@@ -3463,10 +3463,12 @@ var Sentry = (function (exports) {
             });
         };
         /**
-         * @inheritDoc
+         * Sets up the integrations
          */
-        BaseClient.prototype.getIntegrations = function () {
-            return this._integrations || {};
+        BaseClient.prototype.setupIntegrations = function () {
+            if (this._isEnabled()) {
+                this._integrations = setupIntegrations(this._options);
+            }
         };
         /**
          * @inheritDoc
@@ -3782,7 +3784,9 @@ var Sentry = (function (exports) {
         if (options.debug === true) {
             logger.enable();
         }
-        getCurrentHub().bindClient(new clientClass(options));
+        var hub = getCurrentHub();
+        var client = new clientClass(options);
+        hub.bindClient(client);
     }
 
     var originalFunctionToString;
@@ -4544,7 +4548,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.14.2';
+    var SDK_VERSION = '5.15.0';
 
     /**
      * The Sentry Browser SDK Client.
@@ -5201,7 +5205,7 @@ var Sentry = (function (exports) {
                 return;
             }
             // We only capture issued sentry requests
-            if (handlerData.xhr.__sentry_own_request__) {
+            if (this._options.sentry && handlerData.xhr.__sentry_own_request__) {
                 addSentryBreadcrumb(handlerData.args[0]);
             }
         };
@@ -5215,7 +5219,7 @@ var Sentry = (function (exports) {
             }
             var client = getCurrentHub().getClient();
             var dsn = client && client.getDsn();
-            if (dsn) {
+            if (this._options.sentry && dsn) {
                 var filterUrl = new API(dsn).getStoreEndpoint();
                 // if Sentry key appears in URL, don't capture it as a request
                 // but rather as our own 'sentry' type breadcrumb
