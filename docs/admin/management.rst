@@ -746,7 +746,7 @@ Updates all checks for all strings.
 
 .. hint::
 
-Useful for upgrades which do major changes to checks.
+    Useful for upgrades which do major changes to checks.
 
 You can either define which project or component to update (for example
 ``weblate/master``), or use ``--all`` to update all existing components.
