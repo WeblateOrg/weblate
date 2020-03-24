@@ -69,7 +69,7 @@ The user profile contains your preferences. Name and e-mail address is used in V
 .. note::
 
     All language selections only offer currently translated languages.
-    
+
 .. hint::
 
     Request or add other languages you want to translate by clicking the button to make
