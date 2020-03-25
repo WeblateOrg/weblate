@@ -24,7 +24,9 @@ RUN install -d -o weblate -g weblate -m 755 /usr/local/lib/python3.7/dist-packag
 # correctly handles unicode filenames, configure settings
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DJANGO_SETTINGS_MODULE=weblate.settings_docker
 
-COPY requirements-ci.txt /usr/src/weblate/
+COPY setup-ci.py /usr/src/setup.py
+COPY requirements-ci.txt /usr/src/
+COPY weblate /usr/src/weblate/
 
 # Install dependencies
 RUN set -x \
@@ -78,7 +80,7 @@ RUN set -x \
     g++ \
     tesseract-ocr \
     patch \
-  && pip3 install Weblate==$VERSION -r /usr/src/weblate/requirements-ci.txt \
+  && pip3 install /usr/src \
   && pip install supervisor-stdout \
   && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
   && ln -s /usr/local/share/weblate/examples/ /app/ \
