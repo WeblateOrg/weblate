@@ -363,7 +363,7 @@ class XlsxExporter(CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     extension = "xlsx"
-    verbose = _("JSON")
+    verbose = _("Excel Open XML")
 
     def serialize(self):
         """Return storage content."""
