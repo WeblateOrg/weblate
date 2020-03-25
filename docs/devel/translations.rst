@@ -6,54 +6,45 @@ Managing translations
 Adding new translations
 -----------------------
 
-Weblate can add new translations to your translation components when there is a configured
-:guilabel:`Template for new translations` (see :ref:`component`), or when your file
-format doesn't require a template (for most monolingual files it is okay to start
-with blank files).
+New strings can be made available for translation when they appear in the base file,
+called :guilabel:`Template for new translations` (see :ref:`component`).
+If your file format doesn't require such a file, as is the case with most monolingual
+translation flows, you can start with blank files).
 
-Weblate can be configured to automatically add a translation when requested by a
-user or to send notification to project admins for approval and manual
-processing. This can be done using :guilabel:`Start new translation` in
-:ref:`component`. The project admins can still start translation within Weblate
-even if the contact form is shown for regular users.
+New languages can be added right away when requested by a user in Weblate, or a
+notification will be sent to project admins for approval and manual addition.
+This can be done using :guilabel:`Start new translation` in :ref:`component`.
 
-Alternatively you can add the files manually to the VCS. Weblate will
-automatically detect new languages which are added to the VCS repository and
-will make them available for translation. This makes adding new translations
-incredibly easy:
+Project admins can always start translation within Weblate directly.
 
-1. Add the translation file to VCS.
-2. Let Weblate update the repository (usually set up automatically, see
-   :ref:`update-vcs`).
-
+Language files added manually to the VCS are added when Weblate updates
+the repository if set up, see :ref:`update-vcs`).
 
 .. _shapings:
 
 String shapings
 ---------------
 
-Shapings are useful to group several strings together so that translators can
-see all variants of the string at one place. You can define regular expression
-to group the strings in the :ref:`component`:
+To see variants of one string, it can be defined as belonging to a string shaping
+by using a regular expression to group the respective strings in the :ref:`component`:
 
 .. image:: /images/shapings-settings.png
 
-The expression is matched against :guilabel:`Context` to generate root key of
-the shaping. All strings with same root key are then part of single shapings
-group, including the translation exactly matching the root key, even if that is
-not matched by the regular expression.
+The expression compared to :guilabel:`Context`.
+All matching strings are added to the same string shaping,
+including any translations exactly matching the expression.
 
-Following table lists some usage examples:
+The following table lists some usage examples:
 
 +---------------------------+-------------------------------+-----------------------------------------------+
-| Use case                  | Shapings regular expression   | Matched keys                                  |
+| Use case                  | Regular expression shaping    | Matched translation keys                      |
 +===========================+===============================+===============================================+
 | Suffix identification     | ``(Short|Min)$``              | ``monthShort``, ``monthMin``, ``month``       |
 +---------------------------+-------------------------------+-----------------------------------------------+
 | Inline identification     | ``#[SML]``                    | ``dial#S.key``, ``dial#M.key``, ``dial.key``  |
 +---------------------------+-------------------------------+-----------------------------------------------+
 
-The shapings are later groupped when translating:
+The shapings are later grouped when translating:
 
 .. image:: /images/shapings-translate.png
 
@@ -62,10 +53,9 @@ The shapings are later groupped when translating:
 String labels
 -------------
 
-The labels can be defined in the project configuration and can be used to split
-translation strings into categories:
+Split component translation strings into categories by text and colour in the project configuration.
 
 .. image:: /images/labels.png
 
-The labels can be assigned to units in :ref:`additional` or by using bulk
-editing or :ref:`addon-weblate.flags.bulk` addon.
+Labels can be assigned to units in :ref:`additional`, from bulk
+editing, or by using the :ref:`addon-weblate.flags.bulk` addon.
