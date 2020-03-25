@@ -70,7 +70,7 @@ jobs:
       if: always()
       run: |
         echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
-        cat docs/_build/linkcheck/output.txt
+        sed 's@^@docs/@' docs/_build/linkcheck/output.txt
         echo "::remove-matcher owner=sphinx::"
     - uses: actions/upload-artifact@v1
       if: always()
