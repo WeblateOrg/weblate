@@ -1222,7 +1222,7 @@ update individual repositories; see
 
         :ref:`azure-setup`
             For instruction on setting up Azure integration
-        https://docs.microsoft.com/azure/devops/service-hooks/services/webhooks
+        https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks
             Generic information about Azure Repos Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

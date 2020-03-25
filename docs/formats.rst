@@ -721,7 +721,7 @@ Example file:
 
     :doc:`tt:formats/json`,
     `Google chrome.i18n <https://developer.chrome.com/extensions/i18n>`_,
-    `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Internationalization>`_
+    `Mozilla Extensions Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_
 
 .. _dotnet:
 

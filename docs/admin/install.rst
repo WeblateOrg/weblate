@@ -371,7 +371,7 @@ environment. The recommended approach is to define proxy settings in
 
 .. seealso::
 
-   `Proxy Environment Variables <https://ec.haxx.se/usingcurl-proxies.html#proxy-environment-variables>`_
+   `Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-proxies#proxy-environment-variables>`_
 
 .. _configuration:
 

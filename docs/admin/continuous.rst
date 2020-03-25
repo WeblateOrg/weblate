@@ -206,7 +206,7 @@ settings`.
 
 .. seealso::
 
-   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/azure/devops/service-hooks/services/webhooks>`_,
+   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks>`_,
    :http:post:`/hooks/azure/`, :ref:`hosted-push`
 
 .. _gitea-setup:
