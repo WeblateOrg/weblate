@@ -2,7 +2,7 @@ steps:
   - name: 'gcr.io/kaniko-project/executor:latest'
     args:
       - --destination=gcr.io/$PROJECT_ID/weblate:$BUILD_ID
-      - --cache=true
+      - --cache=false
       - --dockerfile=./mscli-Dockerfile
 tags:
   - Weblate
