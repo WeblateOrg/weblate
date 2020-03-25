@@ -150,7 +150,7 @@ Rate limiting
 ~~~~~~~~~~~~~
 
 The API requests are rate limited; the default configuration limits it to 100
-requests per day for anonymous users and 1000 requests per day for authenticated
+requests per day for anonymous users and 5000 requests per hour for authenticated
 users.
 
 Rate limiting can be adjusted in the :file:`settings.py`; see
