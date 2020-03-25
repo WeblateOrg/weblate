@@ -300,10 +300,12 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     # Create the database "weblate" owned by "weblate"
     sudo -u postgres createdb -O weblate weblate
 
-Configuring Weblate to use PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Migrating using Django JSON dumps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Add PostgeSQL as additional database connection to the :file:`settings.py`:
+The simplest approach for migration is to utilize Django JSON dumps. This works well for smaller installations. On bigger sites you might want to use pgloader instead, see :ref:`pgloader-migration`.
+
+1. Add PostgeSQL as additional database connection to the :file:`settings.py`:
 
 .. code-block:: python
 
@@ -349,31 +351,80 @@ Add PostgeSQL as additional database connection to the :file:`settings.py`:
         }
     }
 
-Create empty tables in the PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Run migrations and drop any data inserted into the tables:
+2. Run migrations and drop any data inserted into the tables:
 
 .. code-block:: sh
 
    weblate migrate --database=postgresql
    weblate sqlflush --database=postgresql | weblate dbshell --database=postgresql
 
-Dump legacy database and import to PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. Dump legacy database and import to PostgreSQL
 
 .. code-block:: sh
 
    weblate dumpdata --all --output weblate.json
    weblate loaddata weblate.json --database=postgresql
 
-Adjust configuration
-~~~~~~~~~~~~~~~~~~~~
-
-Adjust :setting:`django:DATABASES` to use just PostgreSQL database as default,
-remove legacy connection.
+4. Adjust :setting:`django:DATABASES` to use just PostgreSQL database as default,
+   remove legacy connection.
 
 Weblate should be now ready to run from the PostgreSQL database.
+
+.. _pgloader-migration:
+
+Migrating to PotsgreSQL using pgloader
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You can use it to migrate Weblate database.
+
+The following script can be used to migrate the database, but you might want to learn more about `pgloader`_ to understand what it does and tweak it to match your setup:
+
+.. code-block:: postgresql
+
+    LOAD DATABASE
+         FROM      mysql://weblate:password@localhost/weblate
+         INTO postgresql://weblate:password@localhost/weblate
+
+    WITH include no drop, truncate, create no tables, create no indexes, reset sequences, data only
+
+    ALTER SCHEMA 'weblate' RENAME TO 'public'
+
+    -- Remove some of the indices which slow down the import and recreate them after it
+    AFTER LOAD DO
+            $$ CREATE INDEX memory_source_fulltext ON memory_memory USING GIN (to_tsvector('english', source)); $$,
+            $$ CREATE INDEX memory_source_index ON memory_memory USING HASH (source); $$,
+            $$ CREATE INDEX memory_target_index ON memory_memory USING HASH (target); $$,
+            $$ CREATE INDEX memory_origin_index ON memory_memory USING HASH (origin); $$,
+            $$ CREATE INDEX unit_source_fulltext ON trans_unit USING GIN (to_tsvector('english', source)); $$,
+            $$ CREATE INDEX unit_target_fulltext ON trans_unit USING GIN (to_tsvector('english', target)); $$,
+            $$ CREATE INDEX unit_context_fulltext ON trans_unit USING GIN (to_tsvector('english', context)); $$,
+            $$ CREATE INDEX unit_note_fulltext ON trans_unit USING GIN (to_tsvector('english', note)); $$,
+            $$ CREATE INDEX unit_location_fulltext ON trans_unit USING GIN (to_tsvector('english', location)); $$,
+            $$ CREATE INDEX suggestion_target_fulltext ON trans_suggestion USING GIN (to_tsvector('english', target)); $$,
+            $$ CREATE INDEX comment_comment_fulltext ON trans_comment USING GIN (to_tsvector('english', comment)); $$,
+            $$ CREATE INDEX dictionary_source_fulltext ON trans_dictionary USING GIN (to_tsvector('english', source)); $$,
+            $$ CREATE INDEX unit_source_index ON trans_unit USING HASH (source); $$,
+            $$ CREATE INDEX unit_context_index ON trans_unit USING HASH (context); $$
+
+     BEFORE LOAD DO
+            $$ DROP INDEX IF EXISTS memory_source_fulltext; $$,
+            $$ DROP INDEX IF EXISTS memory_source_index; $$,
+            $$ DROP INDEX IF EXISTS memory_target_index; $$,
+            $$ DROP INDEX IF EXISTS memory_origin_index; $$,
+            $$ DROP INDEX IF EXISTS unit_source_fulltext; $$,
+            $$ DROP INDEX IF EXISTS unit_target_fulltext; $$,
+            $$ DROP INDEX IF EXISTS unit_context_fulltext; $$,
+            $$ DROP INDEX IF EXISTS unit_note_fulltext; $$,
+            $$ DROP INDEX IF EXISTS unit_location_fulltext; $$,
+            $$ DROP INDEX IF EXISTS suggestion_target_fulltext; $$,
+            $$ DROP INDEX IF EXISTS comment_comment_fulltext; $$,
+            $$ DROP INDEX IF EXISTS dictionary_source_fulltext; $$,
+            $$ DROP INDEX IF EXISTS unit_source_index; $$,
+            $$ DROP INDEX IF EXISTS unit_context_index; $$
+    ;
+
+
+.. _pgloader: https://pgloader.io/
 
 .. _pootle-migration:
 
