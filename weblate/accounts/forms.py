@@ -379,11 +379,8 @@ class SetPasswordForm(DjangoSetPasswordForm):
         self.user.save(update_fields=["password"])
 
         # Updating the password logs out all other sessions for the user
-        # except the current one.
+        # except the current one and change key for current session
         update_session_auth_hash(request, self.user)
-
-        # Change key for current session
-        request.session.cycle_key()
 
         # Invalidate password reset codes
         invalidate_reset_codes(self.user)
