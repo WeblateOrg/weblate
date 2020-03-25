@@ -15,10 +15,12 @@ New languages can be added right away when requested by a user in Weblate, or a
 notification will be sent to project admins for approval and manual addition.
 This can be done using :guilabel:`Start new translation` in :ref:`component`.
 
-Project admins can always start translation within Weblate directly.
+.. note::
+
+    Project admins can always start translation within Weblate directly.
 
 Language files added manually to the VCS are added when Weblate updates
-the repository if set up, see :ref:`update-vcs`).
+the repository if that is set up, see :ref:`update-vcs`).
 
 .. _shapings:
 
@@ -44,7 +46,7 @@ The following table lists some usage examples:
 | Inline identification     | ``#[SML]``                    | ``dial#S.key``, ``dial#M.key``, ``dial.key``  |
 +---------------------------+-------------------------------+-----------------------------------------------+
 
-The shapings are later grouped when translating:
+The shaping is later grouped when translating:
 
 .. image:: /images/shapings-translate.png
 
@@ -57,5 +59,7 @@ Split component translation strings into categories by text and colour in the pr
 
 .. image:: /images/labels.png
 
-Labels can be assigned to units in :ref:`additional`, from bulk
-editing, or by using the :ref:`addon-weblate.flags.bulk` addon.
+.. hint::
+
+    Labels can be assigned to units in :ref:`additional`, from bulk
+    editing, or by using the :ref:`addon-weblate.flags.bulk` addon.
