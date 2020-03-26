@@ -21,7 +21,7 @@
 
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -33,7 +33,7 @@ setup(
     name="Weblate",
     version="4.0",
     python_requires=">=3.5",
-    packages=["weblate"],
+    packages=find_packages(),
     include_package_data=True,
     description=(
         "A web-based continuous localization system with "
