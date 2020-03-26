@@ -1054,7 +1054,8 @@ def social_complete(request, backend):
                 "or connection error."
             ),
         )
-    except AuthCanceled:
+    except AuthCanceled as error:
+        report_error(error, request)
         return auth_fail(request, _("Authentication cancelled."))
     except AuthForbidden as error:
         report_error(error, request)
