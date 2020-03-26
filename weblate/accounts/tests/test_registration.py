@@ -29,6 +29,7 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
@@ -50,6 +51,7 @@ GH_BACKENDS = (
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
     clear_cookie = False
+    social_cleanup = False
 
     @classmethod
     def setUpClass(cls):
@@ -74,6 +76,10 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
         if self.clear_cookie and "sessionid" in self.client.cookies:
             del self.client.cookies["sessionid"]
+
+        # Verify that cleanup does not break the workflow
+        if self.social_cleanup:
+            cleanup_social_auth()
 
         # Confirm account
         response = self.client.get(url, follow=True)
@@ -658,3 +664,8 @@ class CookieRegistrationTest(BaseRegistrationTest):
 
 class NoCookieRegistrationTest(CookieRegistrationTest):
     clear_cookie = True
+
+
+class NoCookieCleanupRegistrationTest(CookieRegistrationTest):
+    clear_cookie = True
+    social_cleanup = True

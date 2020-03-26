@@ -18,6 +18,7 @@ Not yet released.
 * Allow to make :ref:`check-same` avoid internal blacklist.
 * Improved comments extraction from monolingual po files.
 * Renamed whiteboard messages to announcements.
+* Fixed occasional problems with registration mails.
 
 Weblate 3.11.3
 --------------

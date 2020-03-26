@@ -43,7 +43,7 @@ def cleanup_social_auth():
             # Old entry without expiry set, or expired entry
             partial.delete()
 
-    age = now() + timedelta(seconds=settings.AUTH_TOKEN_VALID)
+    age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
     Code.objects.filter(verified=False, timestamp__lt=age).delete()
 
