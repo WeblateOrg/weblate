@@ -11,6 +11,9 @@ fi
 HEAD_COMMIT=$(git rev-parse HEAD)
 PYTHON_VERSION=$(python -c 'import sys; print(sys.version_info[0])')
 
+# Install fixed version to avoid breakage with 1.0.0
+pip install httpretty==0.9.7
+
 for tag in $TAGS ; do
     echo
     echo "Testing migration from $tag on $CI_DATABASE..."
