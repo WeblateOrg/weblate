@@ -397,39 +397,6 @@ The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You c
        WITH include no drop, truncate, create no tables, create no indexes, reset sequences, data only
 
        ALTER SCHEMA 'weblate' RENAME TO 'public'
-
-       -- Remove some of the indices which slow down the import and recreate them after it
-       AFTER LOAD DO
-               $$ CREATE INDEX memory_source_fulltext ON memory_memory USING GIN (to_tsvector('english', source)); $$,
-               $$ CREATE INDEX memory_source_index ON memory_memory USING HASH (source); $$,
-               $$ CREATE INDEX memory_target_index ON memory_memory USING HASH (target); $$,
-               $$ CREATE INDEX memory_origin_index ON memory_memory USING HASH (origin); $$,
-               $$ CREATE INDEX unit_source_fulltext ON trans_unit USING GIN (to_tsvector('english', source)); $$,
-               $$ CREATE INDEX unit_target_fulltext ON trans_unit USING GIN (to_tsvector('english', target)); $$,
-               $$ CREATE INDEX unit_context_fulltext ON trans_unit USING GIN (to_tsvector('english', context)); $$,
-               $$ CREATE INDEX unit_note_fulltext ON trans_unit USING GIN (to_tsvector('english', note)); $$,
-               $$ CREATE INDEX unit_location_fulltext ON trans_unit USING GIN (to_tsvector('english', location)); $$,
-               $$ CREATE INDEX suggestion_target_fulltext ON trans_suggestion USING GIN (to_tsvector('english', target)); $$,
-               $$ CREATE INDEX comment_comment_fulltext ON trans_comment USING GIN (to_tsvector('english', comment)); $$,
-               $$ CREATE INDEX dictionary_source_fulltext ON trans_dictionary USING GIN (to_tsvector('english', source)); $$,
-               $$ CREATE INDEX unit_source_index ON trans_unit USING HASH (source); $$,
-               $$ CREATE INDEX unit_context_index ON trans_unit USING HASH (context); $$
-
-        BEFORE LOAD DO
-               $$ DROP INDEX IF EXISTS memory_source_fulltext; $$,
-               $$ DROP INDEX IF EXISTS memory_source_index; $$,
-               $$ DROP INDEX IF EXISTS memory_target_index; $$,
-               $$ DROP INDEX IF EXISTS memory_origin_index; $$,
-               $$ DROP INDEX IF EXISTS unit_source_fulltext; $$,
-               $$ DROP INDEX IF EXISTS unit_target_fulltext; $$,
-               $$ DROP INDEX IF EXISTS unit_context_fulltext; $$,
-               $$ DROP INDEX IF EXISTS unit_note_fulltext; $$,
-               $$ DROP INDEX IF EXISTS unit_location_fulltext; $$,
-               $$ DROP INDEX IF EXISTS suggestion_target_fulltext; $$,
-               $$ DROP INDEX IF EXISTS comment_comment_fulltext; $$,
-               $$ DROP INDEX IF EXISTS dictionary_source_fulltext; $$,
-               $$ DROP INDEX IF EXISTS unit_source_index; $$,
-               $$ DROP INDEX IF EXISTS unit_context_index; $$
        ;
 
 
