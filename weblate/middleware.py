@@ -131,7 +131,7 @@ class SecurityMiddleware:
 
         # CDN for fonts
         if settings.FONTS_CDN_URL:
-            domain = urlparse(settings.STATIC_URL).hostname
+            domain = urlparse(settings.FONTS_CDN_URL).hostname
             style.add(domain)
             font.add(domain)
 
