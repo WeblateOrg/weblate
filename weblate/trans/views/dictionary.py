@@ -277,7 +277,7 @@ def show_dictionary(request, project, lang):
     searchform = OneWordForm(request.GET)
 
     if searchform.is_valid() and searchform.cleaned_data["term"] != "":
-        words = words.filter(source__search=searchform.cleaned_data["term"])
+        words = words.filter(source__substring=searchform.cleaned_data["term"])
         search = searchform.cleaned_data["term"]
     else:
         search = ""
