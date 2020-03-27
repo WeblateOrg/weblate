@@ -6,38 +6,41 @@ from django.db import migrations
 def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        # Create GIN index on searched fields
+        # Install pg_trgm for trigram search and index
+        schema_editor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
+
+        # Create GIN trigram index on searched fields
         schema_editor.execute(
             "CREATE INDEX unit_source_fulltext ON trans_unit "
-            "USING GIN (to_tsvector('english', source))"
+            "USING GIN (source gin_trgm_ops)"
         )
         schema_editor.execute(
             "CREATE INDEX unit_target_fulltext ON trans_unit "
-            "USING GIN (to_tsvector('english', target))"
+            "USING GIN (target gin_trgm_ops)"
         )
         schema_editor.execute(
             "CREATE INDEX unit_context_fulltext ON trans_unit "
-            "USING GIN (to_tsvector('english', context))"
+            "USING GIN (context gin_trgm_ops)"
         )
         schema_editor.execute(
             "CREATE INDEX unit_note_fulltext ON trans_unit "
-            "USING GIN (to_tsvector('english', note))"
+            "USING GIN (note gin_trgm_ops)"
         )
         schema_editor.execute(
             "CREATE INDEX unit_location_fulltext ON trans_unit "
-            "USING GIN (to_tsvector('english', location))"
+            "USING GIN (location gin_trgm_ops)"
         )
         schema_editor.execute(
             "CREATE INDEX suggestion_target_fulltext ON trans_suggestion "
-            "USING GIN (to_tsvector('english', target))"
+            "USING GIN (target gin_trgm_ops)"
         )
         schema_editor.execute(
             "CREATE INDEX comment_comment_fulltext ON trans_comment "
-            "USING GIN (to_tsvector('english', comment))"
+            "USING GIN (comment gin_trgm_ops)"
         )
         schema_editor.execute(
             "CREATE INDEX dictionary_source_fulltext ON trans_dictionary "
-            "USING GIN (to_tsvector('english', source))"
+            "USING GIN (source gin_trgm_ops)"
         )
     elif vendor == "mysql":
         schema_editor.execute(
