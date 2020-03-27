@@ -19,7 +19,7 @@
 """Database specific code to extend Django."""
 
 from django.db import models
-from django.db.models.lookups import PatternLookup
+from django.db.models.lookups import Exact, PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 
@@ -38,6 +38,10 @@ class MySQLSubstringLookup(MySQLSearchLookup):
     lookup_name = "substring"
 
 
+class MySQLStringLookup(Exact):
+    lookup_name = "string"
+
+
 class PostgreSQLSubstringLookup(PatternLookup):
     """
     Case insensitive substring lookup.
@@ -47,12 +51,26 @@ class PostgreSQLSubstringLookup(PatternLookup):
     """
 
     lookup_name = "substring"
+    param_pattern = "%%%s%%"
+    operator = "ILIKE"
 
     def as_sql(self, compiler, connection):
         lhs, lhs_params = self.process_lhs(compiler, connection)
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
-        return "%s ILIKE %s" % (lhs, rhs), params
+        return "%s %s %s" % (lhs, self.operator, rhs), params
+
+
+class PostgreSQLStringLookup(PostgreSQLSubstringLookup):
+    """
+    Case sensitive exact string lookup using LIKE.
+
+    We could be using simple equals, but that doesn't utilize pg_trgm index.
+    """
+
+    lookup_name = "string"
+    param_pattern = "%s"
+    operator = "LIKE"
 
 
 def table_has_row(connection, table, rowname):

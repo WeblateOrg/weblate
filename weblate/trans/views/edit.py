@@ -63,9 +63,9 @@ def get_other_units(unit):
 
     translation = unit.translation
 
-    query = Q(source=unit.source)
+    query = Q(source__string=unit.source)
     if unit.context:
-        query |= Q(context=unit.context)
+        query |= Q(context__string=unit.context)
 
     units = (
         Unit.objects.prefetch()
