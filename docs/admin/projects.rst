@@ -251,11 +251,17 @@ VCS to use, see :ref:`vcs` for details.
 Source code repository
 ++++++++++++++++++++++
 
-VCS repository used to pull changes, see :ref:`vcs-repos` for more details.
+VCS repository used to pull changes.
 
-This can either be a real VCS URL or ``weblate://project/component``
-indicating that the repository should be shared with another component.
-See :ref:`internal-urls` for more details.
+.. seealso::
+
+    See :ref:`vcs-repos` for more details on specifying URLs.
+
+.. hint::
+
+    This can either be a real VCS URL or ``weblate://project/component``
+    indicating that the repository should be shared with another component.
+    See :ref:`internal-urls` for more details.
 
 .. _component-push:
 
@@ -263,8 +269,12 @@ Repository push URL
 +++++++++++++++++++
 
 Repository URL used for pushing. This is completely optional and push
-support is turned off when this is empty. See :ref:`vcs-repos` for more
-details on how to specify a repository URL.
+support is turned off when this is empty.
+
+.. seealso::
+
+   See :ref:`vcs-repos` for more details on how to specify a repository URL and
+   :ref:`push-changes` for more details on pushing changes from Weblate.
 
 .. _component-repoweb:
 

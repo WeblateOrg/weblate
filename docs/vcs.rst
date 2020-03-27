@@ -13,20 +13,28 @@ Accessing repositories
 ----------------------
 
 The VCS repository you want to use has to be accessible to Weblate. With a
-publicly available repository you just need to enter the correct URL (for example
-``git@github.com:WeblateOrg/weblate.git`` or
-``https://github.com/WeblateOrg/weblate.git``), but for private repositories the
-setup might be more complex.
+publicly available repository you just need to enter the correct URL (for
+example ``https://github.com/WeblateOrg/weblate.git``), but for private
+repositories or for push URLs the setup is more complex and requires
+authentication.
 
-.. _internal-urls:
+.. _hosted-push:
 
-Weblate internal URLs
-+++++++++++++++++++++
+Accessing repositories from Hosted Weblate
+++++++++++++++++++++++++++++++++++++++++++
 
-To share one repository between different components you can use a special URL
-like ``weblate://project/component``. This way, the component will share the VCS
-repository configuration with the referenced component, and the VCS repository will
-be stored just once on the disk.
+For Hosted Weblate there is a dedicated push user registered on GitHub, Bitbucket
+and GitLab (with username :guilabel:`weblate` named
+:guilabel:`Weblate push user`). You need to add this user as a collaborator and
+give it appropriate permission to your repository (read only is okay for
+cloning, write is required for pushing). Depending on service and your
+organization settings, this happens immediately or requires confirmation from
+Weblate side. The invitations on GitHub are accepted automatically within five
+minutes, on other services manual processing is needed, so please be patient.
+
+Once the :guilabel:`weblate` user is added, you can configure
+:ref:`component-repo` and :ref:`component-push` using SSH protocol (for example
+``git@github.com:WeblateOrg/weblate.git``).
 
 .. _ssh-repos:
 
@@ -39,8 +47,8 @@ repository this way.
 
 .. warning::
 
-    On GitHub, the key can be added to only one repository. Other solutions
-    are to be found in the corresponding sections below.
+    On GitHub, each key can be added to only one repository, see
+    :ref:`vcs-repos-github` and :ref:`hosted-push`.
 
 Weblate also stores the host key fingerprint upon first connection, and fails to
 connect to the host should it be changed later (see :ref:`verify-ssh`).
@@ -55,11 +63,10 @@ In case adjustment is needed, do so from the Weblate admin interface:
 Weblate SSH key
 ~~~~~~~~~~~~~~~
 
-Generate or display the public key currently used by Weblate in the (from :guilabel:`SSH keys`)
-on the admin interface landing page. Once done, Weblate should be able to
-access your repository.
-
 The Weblate public key is visible to all users browsing the :guilabel:`About` page.
+
+Admins can generate or display the public key currently used by Weblate in the
+(from :guilabel:`SSH keys`) on the admin interface landing page.
 
 .. note::
 
@@ -86,6 +93,40 @@ its fingerprint matches the server you added. They are shown in the
 confirmation message:
 
 .. image:: images/ssh-keys-added.png
+
+.. _vcs-repos-github:
+
+GitHub repositories
++++++++++++++++++++
+
+Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to
+access more than one repository, you will hit a GitHub limitation on allowed
+SSH key usage (since one key can be used only for one repository).
+
+For smaller deployments, use HTTPS authentication with a personal access
+token and your GitHub account, see `Creating an access token for command-line use`_.
+
+.. _Creating an access token for command-line use: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+
+For bigger setups, it is usually better to create a dedicated user for Weblate,
+assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)
+and grant it access to all the repositories you want to translate. This
+approach is also used for Hosted Weblate, there is dedicated
+:guilabel:`weblate` user for that.
+
+.. seealso::
+
+    :ref:`hosted-push`
+
+.. _internal-urls:
+
+Weblate internal URLs
++++++++++++++++++++++
+
+To share one repository between different components you can use a special URL
+like ``weblate://project/component``. This way, the component will share the VCS
+repository configuration with the referenced component, and the VCS repository will
+be stored just once on the disk.
 
 
 HTTPS repositories
@@ -150,29 +191,6 @@ for translations.
 
     Use with caution, as this easily leads to lost commits in your
     upstream repository.
-
-.. _vcs-repos-github:
-
-GitHub repositories
-+++++++++++++++++++
-
-Access via SSH is possible (as mentioned above), but in case you need to access more
-than one repository, you will hit a GitHub limitation on allowed SSH key
-usage (since one key can be used only for one repository).
-
-For smaller deployments, use HTTPS authentication with a personal access
-token and your GitHub account, see `Creating an access token for command-line use`_.
-
-.. _Creating an access token for command-line use: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
-
-For bigger setups, it is usually better to create a dedicated user for Weblate,
-assign it the public SSH key generated in Weblate and grant it access to all
-the repositories you want to translate.
-
-On Hosted Weblate, adding the ``weblate`` user is enough to grant the service
-access to a repository. Once invited, the bot accepts the invitation
-within five minutes, and as with :ref:`hosted-push`, you can use the SSH URL
-to access your repo (for example ``git@github.com:WeblateOrg/weblate.git```).
 
 Customizing Git configuration
 +++++++++++++++++++++++++++++
