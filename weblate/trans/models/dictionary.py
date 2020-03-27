@@ -23,7 +23,6 @@ from functools import reduce
 from itertools import islice
 
 from django.conf import settings
-from django.contrib.postgres.search import SearchQuery
 from django.db import models
 from django.db.models.functions import Lower
 from django.urls import reverse
@@ -36,6 +35,7 @@ from weblate.formats.auto import AutodetectFormat
 from weblate.lang.models import Language
 from weblate.trans.defines import GLOSSARY_LENGTH
 from weblate.trans.models.project import Project
+from weblate.utils.db import re_escape
 from weblate.utils.errors import report_error
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
@@ -161,9 +161,10 @@ class DictionaryQuerySet(models.QuerySet):
         # We want case insensitive lookup
         words = islice(words, 1000)
         if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+            # Use regex as that is utilizing pg_trgm index
             results = self.filter(
-                source__search=reduce(
-                    lambda x, y: x | y, (SearchQuery(word) for word in words)
+                source__iregex=r"(^|[ \t\n\r\f\v])({0})($|[ \t\n\r\f\v])".format(
+                    "|".join(re_escape(word) for word in words)
                 ),
             )
         else:
