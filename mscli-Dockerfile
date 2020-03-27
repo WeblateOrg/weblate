@@ -133,6 +133,7 @@ RUN rm -f /etc/localtime && cp /usr/share/zoneinfo/Etc/UTC /etc/localtime \
 
 # Search path for custom modules
 RUN echo "/app/data/python" > /usr/local/lib/python3.7/dist-packages/weblate-docker.pth
+RUN echo "/usr/src" >> /usr/local/lib/python3.7/dist-packages/weblate-docker.pth
 
 # Entrypoint
 COPY start /app/bin/

@@ -21,7 +21,7 @@
 
 import os
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -30,25 +30,10 @@ with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
 
-# find non-python package files
-def package_files(directory):
-    paths = []
-    for (path, directories, filenames) in os.walk(directory):
-        for filename in filenames:
-            paths.append(os.path.join('..', path, filename))
-    return paths
-
-
-templates = package_files('weblate/templates')
-
-
 setup(
     name="Weblate",
     version="4.0",
     python_requires=">=3.5",
-    packages=find_packages(),
-    package_data={'': templates},
-    include_package_data=True,
     description=(
         "A web-based continuous localization system with "
         "tight version control integration"
