@@ -80,6 +80,45 @@ class UpdateLinguasAddon(GettextBaseAddon):
         path = cls.get_linguas_path(component)
         return path and os.path.exists(path)
 
+    @staticmethod
+    def update_linguas(lines, codes):
+        changed = False
+        remove = []
+
+        for i, line in enumerate(lines):
+            # Split at comment and strip whitespace
+            stripped = line.split("#", 1)[0].strip()
+            # Comment/blank lines
+            if not stripped:
+                continue
+            # Languages in one line
+            if " " in stripped:
+                expected = " ".join(sorted(codes))
+                if stripped != expected:
+                    lines[i] = expected + "\n"
+                    changed = True
+                codes = set()
+                break
+            # Language is already there
+            if stripped in codes:
+                codes.remove(stripped)
+            else:
+                remove.append(i)
+
+        # Remove no longer present codes
+        if remove:
+            for i in reversed(remove):
+                del lines[i]
+            changed = True
+
+        # Add missing codes
+        if codes:
+            for code in codes:
+                lines.append("{}\n".format(code))
+            changed = True
+
+        return changed, lines
+
     def sync_linguas(self, component, path):
         with open(path, "r") as handle:
             lines = handle.readlines()
@@ -90,33 +129,13 @@ class UpdateLinguasAddon(GettextBaseAddon):
             ).values_list("language_code", flat=True)
         )
 
-        added = False
-        for i, line in enumerate(lines):
-            stripped = line.strip()
-            # Comment
-            if stripped.startswith("#"):
-                continue
-            # Languages in one line
-            if " " in stripped:
-                expected = " ".join(sorted(codes))
-                if lines[i] != expected:
-                    lines[i] = expected
-                    added = True
-                codes = set()
-                break
-            # Language is already there
-            if stripped in codes:
-                codes.remove(stripped)
-        if codes:
-            for code in codes:
-                lines.append("{}\n".format(code))
-            added = True
+        changed, lines = self.update_linguas(lines, codes)
 
-        if added:
+        if changed:
             with open(path, "w") as handle:
                 handle.writelines(lines)
 
-        return added
+        return changed
 
     def post_add(self, translation):
         with translation.component.repository.lock:

@@ -19,6 +19,7 @@ Not yet released.
 * Improved comments extraction from monolingual po files.
 * Renamed whiteboard messages to announcements.
 * Fixed occasional problems with registration mails.
+* Improved LINGUAS update addon to handle more syntax variants.
 
 Weblate 3.11.3
 --------------

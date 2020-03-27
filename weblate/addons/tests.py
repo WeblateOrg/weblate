@@ -186,6 +186,44 @@ class GettextAddonTest(ViewTestCase):
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
 
+    def assert_linguas(self, source, expected_add, expected_remove):
+        # Test no-op
+        self.assertEqual(
+            UpdateLinguasAddon.update_linguas(source, {"de", "it"}), (False, source)
+        )
+        # Test adding cs
+        self.assertEqual(
+            UpdateLinguasAddon.update_linguas(source, {"cs", "de", "it"}),
+            (True, expected_add),
+        )
+        # Test adding cs and removing de
+        self.assertEqual(
+            UpdateLinguasAddon.update_linguas(source, {"cs", "it"}),
+            (True, expected_remove),
+        )
+
+    def test_linguas_files_oneline(self):
+        self.assert_linguas(["de it\n"], ["cs de it\n"], ["cs it\n"])
+
+    def test_linguas_files_line(self):
+        self.assert_linguas(
+            ["de\n", "it\n"], ["de\n", "it\n", "cs\n"], ["it\n", "cs\n"]
+        )
+
+    def test_linguas_files_line_comment(self):
+        self.assert_linguas(
+            ["# Linguas list\n", "de\n", "it\n"],
+            ["# Linguas list\n", "de\n", "it\n", "cs\n"],
+            ["# Linguas list\n", "it\n", "cs\n"],
+        )
+
+    def test_linguas_files_inline_comment(self):
+        self.assert_linguas(
+            ["de # German\n", "it # Italian\n"],
+            ["de # German\n", "it # Italian\n", "cs\n"],
+            ["it # Italian\n", "cs\n"],
+        )
+
     def test_update_configure(self):
         translation = self.get_translation()
         self.assertTrue(UpdateConfigureAddon.can_install(translation.component, None))
