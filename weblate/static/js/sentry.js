@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.15.0 (3ce26d5c) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.15.2 (4df86f40) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -643,15 +643,6 @@ var Sentry = (function (exports) {
     }
 
     /**
-     * Requires a module which is protected _against bundler minification.
-     *
-     * @param request The module path to resolve
-     */
-    function dynamicRequire(mod, request) {
-        // tslint:disable-next-line: no-unsafe-any
-        return mod.require(request);
-    }
-    /**
      * Checks whether we're in the Node.js or Browser environment
      *
      * @returns Answer to given question
@@ -917,7 +908,8 @@ var Sentry = (function (exports) {
     var crossPlatformPerformance = (function () {
         if (isNodeEnv()) {
             try {
-                var perfHooks = dynamicRequire(module, 'perf_hooks');
+                var req = require;
+                var perfHooks = req('perf_hooks');
                 return perfHooks.performance;
             }
             catch (_) {
@@ -1433,22 +1425,24 @@ var Sentry = (function (exports) {
                 if (_this._state === States.PENDING) {
                     return;
                 }
-                if (_this._state === States.REJECTED) {
-                    _this._handlers.forEach(function (handler) {
+                var cachedHandlers = _this._handlers.slice();
+                _this._handlers = [];
+                cachedHandlers.forEach(function (handler) {
+                    if (handler.done) {
+                        return;
+                    }
+                    if (_this._state === States.RESOLVED) {
+                        if (handler.onfulfilled) {
+                            handler.onfulfilled(_this._value);
+                        }
+                    }
+                    if (_this._state === States.REJECTED) {
                         if (handler.onrejected) {
                             handler.onrejected(_this._value);
                         }
-                    });
-                }
-                else {
-                    _this._handlers.forEach(function (handler) {
-                        if (handler.onfulfilled) {
-                            // tslint:disable-next-line:no-unsafe-any
-                            handler.onfulfilled(_this._value);
-                        }
-                    });
-                }
-                _this._handlers = [];
+                    }
+                    handler.done = true;
+                });
             };
             try {
                 executor(this._resolve, this._reject);
@@ -1505,6 +1499,7 @@ var Sentry = (function (exports) {
             var _this = this;
             return new SyncPromise(function (resolve, reject) {
                 _this._attachHandler({
+                    done: false,
                     onfulfilled: function (result) {
                         if (!onfulfilled) {
                             // TODO: ¯\_(ツ)_/¯
@@ -1565,7 +1560,6 @@ var Sentry = (function (exports) {
                         reject(val);
                         return;
                     }
-                    // tslint:disable-next-line:no-unsafe-any
                     resolve(val);
                 });
             });
@@ -1702,7 +1696,8 @@ var Sentry = (function (exports) {
         // so create a "pure" iframe to see if that has native fetch
         var result = false;
         var doc = global.document;
-        if (doc) {
+        // tslint:disable-next-line:no-unbound-method deprecation
+        if (doc && typeof doc.createElement === "function") {
             try {
                 var sandbox = doc.createElement('iframe');
                 sandbox.hidden = true;
@@ -2216,7 +2211,7 @@ var Sentry = (function (exports) {
          * Renders the string representation of this Dsn.
          *
          * By default, this will render the public representation without the password
-         * component. To get the deprecated private _representation, set `withPassword`
+         * component. To get the deprecated private representation, set `withPassword`
          * to true.
          *
          * @param withPassword When set to true, the password will be included.
@@ -2960,10 +2955,8 @@ var Sentry = (function (exports) {
      */
     function getHubFromActiveDomain(registry) {
         try {
-            // We need to use `dynamicRequire` because `require` on it's own will be optimized by webpack.
-            // We do not want this to happen, we need to try to `require` the domain node module and fail if we are in browser
-            // for example so we do not have to shim it and use `getCurrentHub` universally.
-            var domain = dynamicRequire(module, 'domain');
+            var req = require;
+            var domain = req('domain');
             var activeDomain = domain.active;
             // If there no active domain, just return global hub
             if (!activeDomain) {
@@ -4548,7 +4541,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.15.0';
+    var SDK_VERSION = '5.15.2';
 
     /**
      * The Sentry Browser SDK Client.
