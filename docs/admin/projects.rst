@@ -125,13 +125,6 @@ Source language
     Most of the fields can be edited by project owners or managers, in the
     Weblate interface.
 
-Adjusting interaction
-+++++++++++++++++++++
-
-There are also additional features which you can control, like automatic
-pushing of changes (see also :ref:`push-changes`) or maintainership of the
-``Language-Team`` header.
-
 .. _component:
 
 Component configuration
@@ -212,8 +205,6 @@ File format
 Source string bug report address
     Email address used for reporting upstream bugs. This address will also receive
     notification about any source string comments made in Weblate.
-Locked
-    You can lock the translation to prevent updates by users.
 Allow translation propagation
     You can turn off propagation of translations to this component from other
     components within same project. This really depends on what you are
