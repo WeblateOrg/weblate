@@ -292,6 +292,13 @@ def documentation_icon(page, anchor="", right=False):
     return {"right": right, "doc_url": get_doc_url(page, anchor)}
 
 
+@register.inclusion_tag("documentation-icon.html")
+def form_field_doc_link(form, field):
+    if hasattr(form, "get_field_doc"):
+        return {"right": False, "doc_url": get_doc_url(*form.get_field_doc(field))}
+    return {}
+
+
 @register.inclusion_tag("message.html")
 def show_message(tags, message):
     tags = tags.split()

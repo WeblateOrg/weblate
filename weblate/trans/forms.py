@@ -1211,7 +1211,19 @@ class SelectChecksWidget(SortedSelectMultiple):
         return json.dumps(super().format_value(value))
 
 
-class ComponentSettingsForm(SettingsBaseForm):
+class ComponentDocsMixin:
+    @staticmethod
+    def get_field_doc(field):
+        return ("admin/projects", "component-{}".format(field.name))
+
+
+class ProjectDocsMixin:
+    @staticmethod
+    def get_field_doc(field):
+        return ("admin/projects", "project-{}".format(field.name))
+
+
+class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
     """Component settings form."""
 
     class Meta:
@@ -1342,7 +1354,7 @@ class ComponentSettingsForm(SettingsBaseForm):
         ]
 
 
-class ComponentCreateForm(SettingsBaseForm):
+class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
     """Component creation form."""
 
     class Meta:
@@ -1368,7 +1380,7 @@ class ComponentCreateForm(SettingsBaseForm):
         ]
 
 
-class ComponentNameForm(forms.Form):
+class ComponentNameForm(forms.Form, ComponentDocsMixin):
     name = forms.CharField(
         label=_("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -1605,7 +1617,7 @@ class ComponentMoveForm(SettingsBaseForm):
         self.fields["project"].queryset = request.user.owned_projects
 
 
-class ProjectSettingsForm(SettingsBaseForm):
+class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
     """Project settings form."""
 
     class Meta:
@@ -1739,7 +1751,7 @@ class ProjectRenameForm(SettingsBaseForm):
         fields = ["slug"]
 
 
-class ProjectCreateForm(SettingsBaseForm):
+class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
     """Project creation form."""
 
     # This is fake field with is either hidden or configured

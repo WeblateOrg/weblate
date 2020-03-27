@@ -99,26 +99,91 @@ project (unless turned off in the component configuration), see :ref:`memory`.
 
 These basic attributes set up and inform translators of a project:
 
+.. _project-name:
+
+Project name
+++++++++++++
+
+Verbose project name, used to display the project name.
+
+.. _project-slug:
+
+Project slug
+++++++++++++
+
+Project name suitable for URLs.
+
+.. _project-web:
+
 Project website
-    URL where translators can find more info about the project.
++++++++++++++++
+
+URL where translators can find more info about the project.
+
+.. _project-mail:
+
 Mailing list
-    Mailing list where translators can discuss or comment translations.
+++++++++++++
+
+Mailing list where translators can discuss or comment translations.
+
+.. _project-instructions:
+
 Translation instructions
-    URL to more site with more detailed instructions for translators.
+++++++++++++++++++++++++
+
+URL to more site with more detailed instructions for translators.
+
+.. _project-set_language_team:
+
 Set Language-Team header
-    Whether Weblate should manage the ``Language-Team`` header (this is a
-    :ref:`gettext` only feature right now).
+++++++++++++++++++++++++
+
+Whether Weblate should manage the ``Language-Team`` header (this is a
+:ref:`gettext` only feature right now).
+
+.. _project-use_shared_tm:
+
 Use shared translation memory
-    Whether to use shared translation memory, see :ref:`shared-tm` for more details.
++++++++++++++++++++++++++++++
+
+Whether to use shared translation memory, see :ref:`shared-tm` for more details.
+
+.. _project-contribute_shared_tm:
+
+Contribute to shared translation memory
++++++++++++++++++++++++++++++++++++++++
+
+Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
+
+.. _project-access_control:
+
 Access control
-    Configure per project access control, see :ref:`acl` for more details.
+++++++++++++++
+
+Configure per project access control, see :ref:`acl` for more details.
+
+.. _project-enable_review:
+
 Enable reviews
-    Enable review workflow, see :ref:`reviews`.
+++++++++++++++
+
+Enable review workflow, see :ref:`reviews`.
+
+.. _project-enable_hooks:
+
 Enable hooks
-    Whether unauthenticated :ref:`hooks` are to be used for this repository.
+++++++++++++
+
+Whether unauthenticated :ref:`hooks` are to be used for this repository.
+
+.. _project-source_language:
+
 Source language
-    Language used for source strings in all components. Change this if you are
-    translating from something else than English.
++++++++++++++++
+
+Language used for source strings in all components. Change this if you are
+translating from something else than English.
 
 .. note::
 
@@ -153,121 +218,294 @@ next release.
 The component contains all important parameters for working with the VCS, and
 for getting translations out of it:
 
+.. _component-name:
+
+Component name
+++++++++++++++
+
+Verbose component name, used to display the component name.
+
+.. _component-slug:
+
+Component slug
+++++++++++++++
+
+Component name suitable for URLs.
+
+.. _component-project:
+
+Component project
++++++++++++++++++
+
+:ref:`project` where the component belongs.
+
+.. _component-vcs:
+
 Version control system
-    VCS to use, see :ref:`vcs` for details.
+++++++++++++++++++++++
+
+VCS to use, see :ref:`vcs` for details.
+
+.. _component-repo:
+
 Source code repository
-    VCS repository used to pull changes, see :ref:`vcs-repos` for more details.
+++++++++++++++++++++++
 
-    This can either be a real VCS URL or ``weblate://project/component``
-    indicating that the repository should be shared with another component.
-    See :ref:`internal-urls` for more details.
+VCS repository used to pull changes, see :ref:`vcs-repos` for more details.
+
+This can either be a real VCS URL or ``weblate://project/component``
+indicating that the repository should be shared with another component.
+See :ref:`internal-urls` for more details.
+
+.. _component-push:
+
 Repository push URL
-    Repository URL used for pushing. This is completely optional and push
-    support is turned off when this is empty. See :ref:`vcs-repos` for more
-    details on how to specify a repository URL.
++++++++++++++++++++
+
+Repository URL used for pushing. This is completely optional and push
+support is turned off when this is empty. See :ref:`vcs-repos` for more
+details on how to specify a repository URL.
+
+.. _component-repoweb:
+
 Repository browser
-    URL of repository browser used to display source files (location of used messages).
-    When empty, no such links will be generated. You can use :ref:`markup`.
+++++++++++++++++++
 
-    For example on GitHub, use something like:
-    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
+URL of repository browser used to display source files (location of used messages).
+When empty, no such links will be generated. You can use :ref:`markup`.
 
-    In case your paths are relative to different folder, you might want to strip leading
-    directory by ``parentdir`` filter (see :ref:`markup`):
-    ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
+For example on GitHub, use something like:
+``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
+
+In case your paths are relative to different folder, you might want to strip leading
+directory by ``parentdir`` filter (see :ref:`markup`):
+``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
+
+.. _component-git_export:
+
 Exported repository URL
-    URL where changes made by Weblate are exported. This is important when
-    :ref:`continuous-translation` is not used, or when there is a need to manually
-    merge changes. You can use :ref:`git-exporter` to automate this for Git
-    repositories.
++++++++++++++++++++++++
+
+URL where changes made by Weblate are exported. This is important when
+:ref:`continuous-translation` is not used, or when there is a need to manually
+merge changes. You can use :ref:`git-exporter` to automate this for Git
+repositories.
+
+.. _component-branch:
+
 Repository branch
-    Which branch to checkout from the VCS, and where to look for translations.
++++++++++++++++++
+
+Which branch to checkout from the VCS, and where to look for translations.
+
+.. _component-filemask:
+
 File mask
-    Mask of files to translate, including path. It should include one "*"
-    replacing language code (see :ref:`languages` for info on how this is
-    processed). In case your repository contains more than one translation
-    file (e.g. more gettext domains), you need to create a component for
-    each of them.
++++++++++
 
-    For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
+Mask of files to translate, including path. It should include one "*"
+replacing language code (see :ref:`languages` for info on how this is
+processed). In case your repository contains more than one translation
+file (e.g. more gettext domains), you need to create a component for
+each of them.
 
-    In case your filename contains special characters such as ``[``, ``]``, these need
-    to be escaped as ``[[]`` or ``[]]``.
+For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
+
+In case your filename contains special characters such as ``[``, ``]``, these need
+to be escaped as ``[[]`` or ``[]]``.
+
+.. _component-template:
+
 Monolingual base language file
-    Base file containing string definitions for :ref:`monolingual`.
-Edit base file
-    Whether to allow editing the base file for :ref:`monolingual`.
-Template for new translations
-    Base file used to generate new translations, e.g. ``.pot`` file with gettext,
-    see :ref:`new-translations` for more info.
-File format
-    Translation file format, see also :ref:`formats`.
-Source string bug report address
-    Email address used for reporting upstream bugs. This address will also receive
-    notification about any source string comments made in Weblate.
-Allow translation propagation
-    You can turn off propagation of translations to this component from other
-    components within same project. This really depends on what you are
-    translating, sometimes it's desirable to have make use of a translation more than once.
+++++++++++++++++++++++++++++++
 
-    It's usually a good idea to turn this off for monolingual translations, unless
-    you are using the same IDs across the whole project.
-Save translation history
-    Whether to store a history of translation changes in the database.
+Base file containing string definitions for :ref:`monolingual`.
+
+.. _component-edit_template:
+
+Edit base file
+++++++++++++++
+
+Whether to allow editing the base file for :ref:`monolingual`.
+
+.. _component-new_base:
+
+Template for new translations
++++++++++++++++++++++++++++++
+
+Base file used to generate new translations, e.g. ``.pot`` file with gettext,
+see :ref:`new-translations` for more info.
+
+.. _component-file_format:
+
+File format
++++++++++++
+
+Translation file format, see also :ref:`formats`.
+
+.. _component-report_source_bugs:
+
+Source string bug report address
+++++++++++++++++++++++++++++++++
+
+Email address used for reporting upstream bugs. This address will also receive
+notification about any source string comments made in Weblate.
+
+.. _component-allow_translation_propagation:
+
+Allow translation propagation
++++++++++++++++++++++++++++++
+
+You can turn off propagation of translations to this component from other
+components within same project. This really depends on what you are
+translating, sometimes it's desirable to have make use of a translation more than once.
+
+It's usually a good idea to turn this off for monolingual translations, unless
+you are using the same IDs across the whole project.
+
+.. _component-enable_suggestions:
+
 Enable suggestions
-    Whether translation suggestions are accepted for this component.
+++++++++++++++++++
+
+Whether translation suggestions are accepted for this component.
+
+.. _component-suggestion_voting:
+
 Suggestion voting
-    Turns on votecasting for suggestions, see :ref:`voting`.
++++++++++++++++++
+
+Turns on votecasting for suggestions, see :ref:`voting`.
+
+.. _component-suggestion_autoaccept:
+
 Autoaccept suggestions
-    Automatically accept voted suggestions, see :ref:`voting`.
+++++++++++++++++++++++
+
+Automatically accept voted suggestions, see :ref:`voting`.
+
+.. _component-check_flags:
+
 Translation flags
-    Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
++++++++++++++++++
+
+Customization of quality checks and other Weblate behavior, see :ref:`custom-checks`.
+
+.. _component-enforced_checks:
+
 Enforced checks
-    List of checks which can not be ignored, see :ref:`enforcing-checks`.
++++++++++++++++
+
+List of checks which can not be ignored, see :ref:`enforcing-checks`.
+
+.. _component-license:
+
 Translation license
-    License of the translation, (does not need to be the same as the source code license).
-License URL
-    URL where users can find the actual text of a license in full.
-New translation
-    How to handle requests for creation of new languages. See :ref:`adding-translation`.
++++++++++++++++++++
+
+License of the translation, (does not need to be the same as the source code license).
+
+.. _component-agreement:
+
+Contributor agreement
++++++++++++++++++++++
+
+User agreement which needs to be approved before a user can translate this
+component.
+
+.. _component-new_lang:
+
+Adding new translation
+++++++++++++++++++++++
+
+How to handle requests for creation of new languages. See :ref:`adding-translation`.
+
+.. _component-language_code_style:
+
 Language code style
-   Customize language code used to generate the filename for translations
-   created by Weblate, see :ref:`new-translations` for more details.
++++++++++++++++++++
+
+Customize language code used to generate the filename for translations
+created by Weblate, see :ref:`new-translations` for more details.
+
+.. _component-merge_style:
+
 Merge style
-    You can configure how updates from the upstream repository are handled.
-    This might not be supported for some VCSs. See :ref:`merge-rebase` for
-    more details.
-Commit message
-    Message used when committing a translation, see :ref:`markup`, default can be
-    changed in :setting:`DEFAULT_COMMIT_MESSAGE`.
++++++++++++
+
+You can configure how updates from the upstream repository are handled.
+This might not be supported for some VCSs. See :ref:`merge-rebase` for
+more details.
+
+.. _component-commit_message:
+.. _component-add_message:
+.. _component-delete_message:
+.. _component-merge_message:
+.. _component-addon_message:
+
+Commit, add, delete, merge and addon messages
++++++++++++++++++++++++++++++++++++++++++++++
+
+Message used when committing a translation, see :ref:`markup`, default can be
+changed in :setting:`DEFAULT_COMMIT_MESSAGE`.
+
+.. _component-committer_name:
+
 Committer name
-    Name of the committer used for Weblate commits, the author will always be the
-    real translator. On some VCSs this might be not supported. Default value
-    can be changed in :setting:`DEFAULT_COMMITER_NAME`.
+++++++++++++++
+
+Name of the committer used for Weblate commits, the author will always be the
+real translator. On some VCSs this might be not supported. Default value
+can be changed in :setting:`DEFAULT_COMMITER_NAME`.
+
+.. _component-committer_email:
+
 Committer e-mail
-    Email of committer used for Weblate commits, the author will always be the
-    real translator. On some VCSs this might be not supported. The default value
-    can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
+++++++++++++++++
+
+Email of committer used for Weblate commits, the author will always be the
+real translator. On some VCSs this might be not supported. The default value
+can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
+
+.. _component-push_on_commit:
+
 Push on commit
-    Whether committed changes should be automatically pushed to the upstream
-    repository. When enabled, the push is initiated once Weblate commits
-    changes to its internal repository (see :ref:`lazy-commit`). To actually
-    enable pushing :guilabel:`Repository push URL` has to be configured as
-    well.
+++++++++++++++
+
+Whether committed changes should be automatically pushed to the upstream
+repository. When enabled, the push is initiated once Weblate commits
+changes to its internal repository (see :ref:`lazy-commit`). To actually
+enable pushing :guilabel:`Repository push URL` has to be configured as
+well.
+
+.. _component-commit_pending_age:
+
 Age of changes to commit
-    Sets how old changes (in hours) are to get before they are committed by
-    background task or :djadmin:`commit_pending` management command.  All
-    changes in a component are committed once there is at least one older than
-    this period. The Default value can be changed in
-    :setting:`COMMIT_PENDING_HOURS`.
+++++++++++++++++++++++++
+
+Sets how old changes (in hours) are to get before they are committed by
+background task or :djadmin:`commit_pending` management command.  All
+changes in a component are committed once there is at least one older than
+this period. The Default value can be changed in
+:setting:`COMMIT_PENDING_HOURS`.
+
+.. _component-language_regex:
+
 Language filter
-    Regular expression used to filter the translation when scanning for
-    filemask. This can be used to limit the list of languages managed by Weblate
-    (e.g. ``^(cs|de|es)$`` will include only these languages. Please note
-    that you need to list language codes as they appear in the filename.
++++++++++++++++
+
+Regular expression used to filter the translation when scanning for
+filemask. This can be used to limit the list of languages managed by Weblate
+(e.g. ``^(cs|de|es)$`` will include only these languages. Please note
+that you need to list language codes as they appear in the filename.
+
+.. _component-shaping_regex:
+
 Shapings regular expression
-    Regular expression used to determine the shapings of a string, see
-    :ref:`shapings`.
++++++++++++++++++++++++++++
+
+Regular expression used to determine the shapings of a string, see
+:ref:`shapings`.
 
 .. note::
 
@@ -277,6 +515,13 @@ Shapings regular expression
 .. seealso::
 
    :ref:`faq-vcs`, :ref:`alerts`
+
+.. _component-priority:
+
+Priority
++++++++++
+
+Components with higher priority are offered first to translators.
 
 .. _markup:
 
