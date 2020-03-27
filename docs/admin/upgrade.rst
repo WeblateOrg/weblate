@@ -394,7 +394,7 @@ The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You c
             FROM      mysql://weblate:password@localhost/weblate
             INTO postgresql://weblate:password@localhost/weblate
 
-       WITH include no drop, truncate, create no tables, create no indexes, reset sequences, data only
+       WITH include no drop, truncate, create no tables, create no indexes, no foreign keys, disable triggers, reset sequences, data only
 
        ALTER SCHEMA 'weblate' RENAME TO 'public'
        ;
