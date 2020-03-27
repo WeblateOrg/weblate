@@ -22,6 +22,7 @@ import time
 import unicodedata
 
 from django.conf import settings
+from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.encoding import force_str
@@ -413,9 +414,12 @@ def slugify_username(value):
     return CLEANUP_MATCHER.sub("-", value)
 
 
-def cycle_session(strategy, *args, **kwargs):
-    # Change key for current session
-    strategy.request.session.cycle_key()
+def cycle_session(strategy, user, *args, **kwargs):
+    # Change unusable password hash to be able to invalidate other sessions
+    if not user.has_usable_password():
+        user.set_unusable_password()
+    # Change key for current session and invalidate others
+    update_session_auth_hash(strategy.request, user)
 
 
 def adjust_primary_mail(strategy, entries, user, *args, **kwargs):
