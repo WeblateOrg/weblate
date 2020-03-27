@@ -63,22 +63,22 @@ class QueryParserTest(TestCase):
         self.assert_query(
             "hello world",
             (
-                Q(source__search="hello")
-                | Q(target__search="hello")
-                | Q(context__search="hello")
+                Q(source__substring="hello")
+                | Q(target__substring="hello")
+                | Q(context__substring="hello")
             )
             & (
-                Q(source__search="world")
-                | Q(target__search="world")
-                | Q(context__search="world")
+                Q(source__substring="world")
+                | Q(target__substring="world")
+                | Q(context__substring="world")
             ),
         )
 
     def test_quote(self):
         expected = (
-            Q(source__search="hello world")
-            | Q(target__search="hello world")
-            | Q(context__search="hello world")
+            Q(source__substring="hello world")
+            | Q(target__substring="hello world")
+            | Q(context__substring="hello world")
         )
         self.assert_query('"hello world"', expected)
         self.assert_query("'hello world'", expected)
@@ -86,9 +86,9 @@ class QueryParserTest(TestCase):
     def test_field(self):
         self.assert_query(
             "source:hello target:world",
-            Q(source__search="hello") & Q(target__search="world"),
+            Q(source__substring="hello") & Q(target__substring="world"),
         )
-        self.assert_query("location:hello.c", Q(location__search="hello.c"))
+        self.assert_query("location:hello.c", Q(location__substring="hello.c"))
 
     def test_regex(self):
         self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
@@ -98,18 +98,20 @@ class QueryParserTest(TestCase):
     def test_logic(self):
         self.assert_query(
             "source:hello AND NOT target:world",
-            Q(source__search="hello") & ~Q(target__search="world"),
+            Q(source__substring="hello") & ~Q(target__substring="world"),
         )
         self.assert_query(
             "source:hello OR target:world",
-            Q(source__search="hello") | Q(target__search="world"),
+            Q(source__substring="hello") | Q(target__substring="world"),
         )
 
     def test_empty(self):
         self.assert_query("", Q())
 
     def test_invalid(self):
-        self.assert_query("changed:inval AND target:world", Q(target__search="world"))
+        self.assert_query(
+            "changed:inval AND target:world", Q(target__substring="world")
+        )
 
     def test_dates(self):
         action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
@@ -177,7 +179,7 @@ class QueryParserTest(TestCase):
         self.assert_query(
             "state:translated AND (source:hello OR source:bar)",
             Q(state=STATE_TRANSLATED)
-            & (Q(source__search="hello") | Q(source__search="bar")),
+            & (Q(source__substring="hello") | Q(source__substring="bar")),
         )
 
     def test_language(self):
@@ -187,9 +189,9 @@ class QueryParserTest(TestCase):
     def test_html(self):
         self.assert_query(
             "<b>bold</b>",
-            Q(source__search="<b>bold</b>")
-            | Q(target__search="<b>bold</b>")
-            | Q(context__search="<b>bold</b>"),
+            Q(source__substring="<b>bold</b>")
+            | Q(target__substring="<b>bold</b>")
+            | Q(context__substring="<b>bold</b>"),
         )
 
     def test_has(self):
@@ -240,19 +242,19 @@ class QueryParserTest(TestCase):
         self.assert_query(
             "[one to other]",
             (
-                Q(source__search="[one")
-                | Q(target__search="[one")
-                | Q(context__search="[one")
+                Q(source__substring="[one")
+                | Q(target__substring="[one")
+                | Q(context__substring="[one")
             )
             & (
-                Q(source__search="to")
-                | Q(target__search="to")
-                | Q(context__search="to")
+                Q(source__substring="to")
+                | Q(target__substring="to")
+                | Q(context__substring="to")
             )
             & (
-                Q(source__search="other]")
-                | Q(target__search="other]")
-                | Q(context__search="other]")
+                Q(source__substring="other]")
+                | Q(target__substring="other]")
+                | Q(context__substring="other]")
             ),
         )
 
@@ -280,10 +282,14 @@ class QueryParserTest(TestCase):
     def test_specialchars(self):
         self.assert_query(
             "to %{_topdir}",
-            (Q(source__search="to") | Q(target__search="to") | Q(context__search="to"))
+            (
+                Q(source__substring="to")
+                | Q(target__substring="to")
+                | Q(context__substring="to")
+            )
             & (
-                Q(source__search="%{_topdir}")
-                | Q(target__search="%{_topdir}")
-                | Q(context__search="%{_topdir}")
+                Q(source__substring="%{_topdir}")
+                | Q(target__substring="%{_topdir}")
+                | Q(context__substring="%{_topdir}")
             ),
         )

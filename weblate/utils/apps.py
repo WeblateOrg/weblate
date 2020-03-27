@@ -39,7 +39,7 @@ from weblate.utils.django_hacks import monkey_patch_translate
 from weblate.utils.errors import init_error_collection
 from weblate.utils.version import check_version
 
-from .db import MySQLSearchLookup
+from .db import MySQLSearchLookup, MySQLSubstringLookup, PostgreSQLSubstringLookup
 
 
 class UtilsConfig(AppConfig):
@@ -69,8 +69,12 @@ class UtilsConfig(AppConfig):
         if engine == "django.db.backends.postgresql":
             CharField.register_lookup(SearchLookup)
             TextField.register_lookup(SearchLookup)
+            CharField.register_lookup(PostgreSQLSubstringLookup)
+            TextField.register_lookup(PostgreSQLSubstringLookup)
         elif engine == "django.db.backends.mysql":
             CharField.register_lookup(MySQLSearchLookup)
             TextField.register_lookup(MySQLSearchLookup)
+            CharField.register_lookup(MySQLSubstringLookup)
+            TextField.register_lookup(MySQLSubstringLookup)
         else:
             raise Exception("Unsupported database: {}".format(engine))

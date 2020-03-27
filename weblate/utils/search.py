@@ -187,7 +187,7 @@ EXACT_FIELD_MAP = {
 }
 
 
-def field_name(field, suffix="search"):
+def field_name(field, suffix="substring"):
     if field in FIELD_MAP:
         return FIELD_MAP[field]
     if field in PLAIN_FIELDS:
@@ -196,7 +196,7 @@ def field_name(field, suffix="search"):
         return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
     if field in EXACT_FIELD_MAP:
         # Change contains to exact, do not change other (for example regex)
-        if suffix == "search":
+        if suffix == "substring":
             suffix = "iexact"
         return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
     return field

@@ -17,7 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 """Database specific code to extend Django."""
+
 from django.db import models
+from django.db.models.lookups import PatternLookup
 
 
 class MySQLSearchLookup(models.Lookup):
@@ -28,6 +30,27 @@ class MySQLSearchLookup(models.Lookup):
         rhs, rhs_params = self.process_rhs(compiler, connection)
         params = lhs_params + rhs_params
         return "MATCH (%s) AGAINST (%s IN NATURAL LANGUAGE MODE)" % (lhs, rhs), params
+
+
+class MySQLSubstringLookup(MySQLSearchLookup):
+    lookup_name = "substring"
+
+
+class PostgreSQLSubstringLookup(PatternLookup):
+    """
+    Case insensitive substring lookup.
+
+    This is essentially same as icontains in Django, but utilizes ILIKE
+    operator which can use pg_trgm index.
+    """
+
+    lookup_name = "substring"
+
+    def as_sql(self, compiler, connection):
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
+        params = lhs_params + rhs_params
+        return "%s ILIKE %s" % (lhs, rhs), params
 
 
 def table_has_row(connection, table, rowname):
