@@ -2,6 +2,23 @@
 
 from django.db import migrations
 
+FIELDS = (
+    ("unit", "source"),
+    ("unit", "target"),
+    ("unit", "context"),
+    ("unit", "note"),
+    ("unit", "location"),
+    ("suggestion", "target"),
+    ("comment", "comment"),
+    ("dictionary", "source"),
+)
+
+PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops)"
+PG_DROP = "DROP INDEX {0}_{1}_fulltext"
+
+MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
+MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
+
 
 def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
@@ -10,60 +27,11 @@ def create_index(apps, schema_editor):
         schema_editor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
 
         # Create GIN trigram index on searched fields
-        schema_editor.execute(
-            "CREATE INDEX unit_source_fulltext ON trans_unit "
-            "USING GIN (source gin_trgm_ops)"
-        )
-        schema_editor.execute(
-            "CREATE INDEX unit_target_fulltext ON trans_unit "
-            "USING GIN (target gin_trgm_ops)"
-        )
-        schema_editor.execute(
-            "CREATE INDEX unit_context_fulltext ON trans_unit "
-            "USING GIN (context gin_trgm_ops)"
-        )
-        schema_editor.execute(
-            "CREATE INDEX unit_note_fulltext ON trans_unit "
-            "USING GIN (note gin_trgm_ops)"
-        )
-        schema_editor.execute(
-            "CREATE INDEX unit_location_fulltext ON trans_unit "
-            "USING GIN (location gin_trgm_ops)"
-        )
-        schema_editor.execute(
-            "CREATE INDEX suggestion_target_fulltext ON trans_suggestion "
-            "USING GIN (target gin_trgm_ops)"
-        )
-        schema_editor.execute(
-            "CREATE INDEX comment_comment_fulltext ON trans_comment "
-            "USING GIN (comment gin_trgm_ops)"
-        )
-        schema_editor.execute(
-            "CREATE INDEX dictionary_source_fulltext ON trans_dictionary "
-            "USING GIN (source gin_trgm_ops)"
-        )
+        for table, field in FIELDS:
+            schema_editor.execute(PG_TRGM.format(table, field))
     elif vendor == "mysql":
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX unit_source_fulltext ON trans_unit(source)"
-        )
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX unit_target_fulltext ON trans_unit(target)"
-        )
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX unit_context_fulltext ON trans_unit(context)"
-        )
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX unit_note_fulltext ON trans_unit(note)"
-        )
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX unit_location_fulltext ON trans_unit(location)"
-        )
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX comment_comment_fulltext ON trans_comment(comment)"
-        )
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX dictionary_source_fulltext ON trans_dictionary(source)"
-        )
+        for table, field in FIELDS:
+            schema_editor.execute(MY_FTX.format(table, field))
     else:
         raise Exception("Unsupported database: {}".format(vendor))
 
@@ -71,28 +39,11 @@ def create_index(apps, schema_editor):
 def drop_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        schema_editor.execute("DROP INDEX unit_source_fulltext")
-        schema_editor.execute("DROP INDEX unit_target_fulltext")
-        schema_editor.execute("DROP INDEX unit_context_fulltext")
-        schema_editor.execute("DROP INDEX unit_note_fulltext")
-        schema_editor.execute("DROP INDEX unit_location_fulltext")
-        schema_editor.execute("DROP INDEX suggestion_target_fulltext")
-        schema_editor.execute("DROP INDEX comment_comment_fulltext")
-        schema_editor.execute("DROP INDEX dictionary_source_fulltext")
+        for table, field in FIELDS:
+            schema_editor.execute(PG_DROP.format(table, field))
     elif vendor == "mysql":
-        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_fulltext")
-        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_target_fulltext")
-        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_fulltext")
-        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_note_fulltext")
-        schema_editor.execute(
-            "ALTER TABLE trans_unit DROP INDEX unit_location_fulltext"
-        )
-        schema_editor.execute(
-            "ALTER TABLE trans_comment DROP INDEX comment_comment_fulltext"
-        )
-        schema_editor.execute(
-            "ALTER TABLE trans_dictionary DROP INDEX dictionary_source_fulltext"
-        )
+        for table, field in FIELDS:
+            schema_editor.execute(MY_DROP.format(table, field))
     else:
         raise Exception("Unsupported database: {}".format(vendor))
 
