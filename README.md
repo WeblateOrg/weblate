@@ -29,18 +29,27 @@ the base branch for new work.
 ### Local Development
 
 **weblate** runs on Python 3.7 and Django. In order to develop locally, 
-install Python 3
+install Python 3.7 or 3.8:  
+ ```
+ brew install python
+ ```
 
 Since you're most likely using Python 2 for your other projects, it's 
 best to use a virtual environment for developing weblate:  
- `python3 -m venv venv; source venv/bin/activate` 
+ ```
+ python3 -m venv venv; source venv/bin/activate
+ ``` 
 
 Install requirements:  
- `pip install -r requirements.txt --no-binary pygobject`
+ ```
+ pip install -r requirements.txt --no-binary pygobject
+ ```
 
 This process isn't quite working yet, but when it is, you should be able to run:  
-`docker build -t local --file mscli-Dockerfile .`  
-`docker run local`
+ ```
+ docker build -t local --file mscli-Dockerfile .  
+ docker run local
+ ```
 
 The local image should be viewable on `localhost:8080`.
 
