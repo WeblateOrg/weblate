@@ -1,17 +1,18 @@
 {% load crispy_forms_field %}
+{% comment %}Removed sr-only class from the field label.{% endcomment %}
 
 {% if field.is_hidden %}
-	{{ field }}
+    {{ field }}
 {% else %}
     {% if field|is_checkbox %}
-        <div id="div_{{ field.auto_id }}" class="checkbox">
+        <div id="div_{{ field.auto_id }}" class="checkbox{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
             <label for="{{ field.id_for_label }}" class="{% if field.field.required %} requiredField{% endif %}">
                 {% crispy_field field 'class' 'checkbox' %}
                 {{ field.label|safe }}
             </label>
         </div>
     {% else %}
-        <div id="div_{{ field.auto_id }}" class="form-group">
+        <div id="div_{{ field.auto_id }}" class="form-group{% if wrapper_class %} {{ wrapper_class }}{% endif %}">
             <label for="{{ field.id_for_label }}" class="{% if field.field.required %} requiredField{% endif %}">
                 {{ field.label|safe }}
             </label>
