@@ -39,7 +39,7 @@ from weblate.utils.django_hacks import monkey_patch_translate
 from weblate.utils.errors import init_error_collection
 from weblate.utils.version import check_version
 
-from .mysql import MySQLSearchLookup
+from .db import MySQLSearchLookup
 
 
 class UtilsConfig(AppConfig):
