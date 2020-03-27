@@ -5,23 +5,33 @@ from django.db import migrations
 
 def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
-    if vendor == "mysql":
+    if vendor == "postgresql":
+        schema_editor.execute(
+            "CREATE INDEX unit_source_index ON trans_unit USING HASH (source)"
+        )
+        schema_editor.execute(
+            "CREATE INDEX unit_context_index ON trans_unit USING HASH (context)"
+        )
+    elif vendor == "mysql":
         schema_editor.execute(
             "CREATE INDEX unit_source_index ON trans_unit(source(255))"
         )
         schema_editor.execute(
             "CREATE INDEX unit_context_index ON trans_unit(context(255))"
         )
-    elif vendor != "postgresql":
+    else:
         raise Exception("Unsupported database: {}".format(vendor))
 
 
 def drop_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
-    if vendor == "mysql":
+    if vendor == "postgresql":
+        schema_editor.execute("DROP INDEX unit_source_index")
+        schema_editor.execute("DROP INDEX unit_context_index")
+    elif vendor == "mysql":
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_index")
         schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_index")
-    elif vendor != "postgresql":
+    else:
         raise Exception("Unsupported database: {}".format(vendor))
 
 

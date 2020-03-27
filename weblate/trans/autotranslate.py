@@ -90,7 +90,7 @@ class AutoTranslate:
 
         for pos, unit in enumerate(units.select_for_update()):
             # Get first matching entry
-            update = sources.filter(source__string=unit.source)[0]
+            update = sources.filter(source=unit.source)[0]
             # No save if translation is same
             if unit.state == update.state and unit.target == update.target:
                 continue
