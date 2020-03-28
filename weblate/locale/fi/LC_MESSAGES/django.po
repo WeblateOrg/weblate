@@ -10,13 +10,14 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # odamite <odamite@gmail.com>, 2020.
+# Tuomas Lähteenmäki <lahtis@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
 "PO-Revision-Date: 2020-03-28 15:39+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Last-Translator: Tuomas Lähteenmäki <lahtis@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -788,7 +789,7 @@ msgstr ""
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:63
 #: weblate/templates/translation.html:236 weblate/trans/models/change.py:226
 msgid "Automatic translation"
-msgstr "Automaattinen kääntäminen"
+msgstr "Automaattinen käännös"
 
 #: weblate/addons/autotranslate.py:36
 msgid ""
@@ -5712,10 +5713,8 @@ msgid "No matching activity found."
 msgstr "Haetun kaltaisia toimintoja ei löytynyt."
 
 #: weblate/templates/list-comments.html:13
-#, fuzzy
-#| msgid "Removed component"
 msgid "Resolved comment"
-msgstr "Poistettu komponentti"
+msgstr "Ratkaistu kommentti"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
@@ -5728,10 +5727,8 @@ msgid "Translation comment"
 msgstr "Käännöksen kommentti"
 
 #: weblate/templates/list-comments.html:29
-#, fuzzy
-#| msgid "source"
 msgid "Resolve"
-msgstr "Lähde"
+msgstr "Ratkaistu"
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
@@ -6035,8 +6032,8 @@ msgstr ""
 #, python-format
 msgid "The confirmation URL will expire after %(count)s hour."
 msgid_plural "The confirmation URL will expire after %(count)s hours."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vahvistuksen URL-osoite vanhenee %(count)s tunnin kuluttua."
+msgstr[1] "Vahvistuksen URL-osoite vanhenee %(count)s tunnin kuluttua."
 
 #: weblate/templates/mail/shared-registration.html:12
 msgid "If there is a problem with your registration, please contact us."
@@ -6259,7 +6256,7 @@ msgstr "Järjestelmätarkistukset"
 
 #: weblate/templates/manage/performance.html:98
 msgid "Celery queues"
-msgstr ""
+msgstr "Selleri jonot"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6525,29 +6522,23 @@ msgstr "Vaatii muokkaamista"
 #: weblate/templates/snippets/project-nav.html:113
 #: weblate/templates/translate.html:574 weblate/trans/models/unit.py:210
 msgid "Labels"
-msgstr ""
+msgstr "Otsikot"
 
 #: weblate/templates/project-label-edit.html:16
-#, fuzzy
-#| msgid "Edit base file"
 msgid "Edit label"
-msgstr "Muokkaa kantatiedostoa"
+msgstr "Muokkaa otsikkoa"
 
 #: weblate/templates/project-labels.html:17 weblate/trans/models/label.py:30
-#, fuzzy
-#| msgid "Language name"
 msgid "Label name"
-msgstr "Kielen nimi"
+msgstr "Otsikon nimi"
 
 #: weblate/templates/project-labels.html:18 weblate/trans/models/label.py:32
 msgid "Color"
 msgstr "Väri"
 
 #: weblate/templates/project-labels.html:37
-#, fuzzy
-#| msgid "Add language"
 msgid "Add label"
-msgstr "Lisää kieli"
+msgstr "Lisää otsikko"
 
 #: weblate/templates/project.html:63
 msgid "Browse all project changes"
@@ -6804,10 +6795,12 @@ msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
 msgstr ""
+"Lisämerkinnät voidaan määritellä <a href=\"%(url)s\">projektin "
+"asetuksista</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
-msgstr ""
+msgstr "Projektin järjestelmänvalvoja voi määrittää lisämerkinnät."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -7094,15 +7087,15 @@ msgstr "Tämän komponentin määritykset ovat virheelliset."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
-msgstr ""
+msgstr "Arkistoselaimen URL-osoite viittaa olemattomiin sijainteihin:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "Tiedostonimi ei saa sisältää viittausta ylätason hakemistoon."
+msgstr ""
+"Näin voi käydä, jos käännöstiedostojen polku sisältää viittauksia vanhempaan "
+"hakemistoon."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
@@ -7113,20 +7106,16 @@ msgid "The project website URL points to non existing location:"
 msgstr "Projektin verkkosivuston URL-osoite johtaa olemattomaan sijaintiin:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid "Some linked components have the same filemask."
-msgstr "Osassa tämän projektin komponentteja on hälytyksiä."
+msgstr "Joillakin linkitetyillä komponenteilla on sama tiedostomaski."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid "Please fix this by removing one of them."
 msgstr "Korjaa tämä poistamalla toinen."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "The following occurrences were found:"
 msgid "The following filemasks were found multiple times:"
-msgstr "Seuraavat esiintymät löydettiin:"
+msgstr "Seuraavat tiedostomaskit löytyivät useita kertoja:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
 msgid ""
@@ -7571,16 +7560,12 @@ msgid "Nearby keys"
 msgstr "Viereiset avainsanat"
 
 #: weblate/templates/translate.html:219
-#, fuzzy
-#| msgid "Changed string"
 msgid "Shapings of the string"
-msgstr "Muutettu teksti"
+msgstr "Muotoilut merkkijonot"
 
 #: weblate/templates/translate.html:219 weblate/templates/translate.html:471
-#, fuzzy
-#| msgid "Strings"
 msgid "Shapings"
-msgstr "Tekstit"
+msgstr "Muotoilut"
 
 #: weblate/templates/translate.html:225
 msgid "Other occurrences"
@@ -7671,13 +7656,11 @@ msgstr[0] "Tekstille on %(count)s kommentti."
 msgstr[1] "Tekstille on %(count)s kommenttia."
 
 #: weblate/templates/translate.html:473
-#, fuzzy, python-format
-#| msgid "There is %(count)s suggestion for this string."
-#| msgid_plural "There are %(count)s suggestions for this string."
+#, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] "Tekstille on  %(count)s ehdotus."
-msgstr[1] "Tekstille on %(count)s ehdotusta."
+msgstr[0] "Tälle merkkijonolle on %(count)s muotoilu ehdotus."
+msgstr[1] "Tälle merkkijonolle on %(count)s muotoilu ehdotusta."
 
 #: weblate/templates/translate.html:488
 msgid "Manage glossary"
@@ -7704,10 +7687,8 @@ msgid "No context currently associated!"
 msgstr "Asiayhteyttä ei ole määritelty!"
 
 #: weblate/templates/translate.html:579
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No labels currently set!"
-msgstr "Automaattitarkistuksia ei ole asetettu!"
+msgstr "Ei merkintöjä tällä hetkellä!"
 
 #: weblate/templates/translate.html:587
 msgid "Flags"
@@ -8081,16 +8062,12 @@ msgid "Strings marked for edit"
 msgstr "Muokkaamista vaativiksi merkityt tekstit"
 
 #: weblate/trans/filter.py:39
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "Strings with shapings"
-msgstr "Tekstit, joihin on ehdotuksia"
+msgstr "Muotoillut merkkijonot"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with similar keys"
 msgid "Strings with labels"
-msgstr "Tekstit joilla on samat avainsanat"
+msgstr "Merkkijono merkinnät"
 
 #: weblate/trans/filter.py:43 weblate/trans/filter.py:113
 msgid "Strings needing action without suggestions"
@@ -8109,11 +8086,8 @@ msgid "Failed check: {}"
 msgstr "Tarkistus löysi virheen: {}"
 
 #: weblate/trans/filter.py:85 weblate/trans/filter.py:126
-#, fuzzy
-#| msgctxt "Translation memory category"
-#| msgid "Shared: {}"
 msgid "Labeled: {}"
-msgstr "Jaettu: {}"
+msgstr "Merkitty: {}"
 
 #: weblate/trans/forms.py:150
 msgid "Invalid checksum specified!"
@@ -8599,28 +8573,20 @@ msgid "Do not change"
 msgstr "Älä muuta"
 
 #: weblate/trans/forms.py:1784
-#, fuzzy
-#| msgid "Translation flags"
 msgid "Translation flags to add"
-msgstr "Käännösehdot"
+msgstr "Lisättävät käännösliput"
 
 #: weblate/trans/forms.py:1785
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation flags to remove"
-msgstr "Käännös on poistettu."
+msgstr "Poistettavat käännösliput"
 
 #: weblate/trans/forms.py:1788
-#, fuzzy
-#| msgid "User to add"
 msgid "Labels to add"
-msgstr "Lisättävä käyttäjä"
+msgstr "Lisättävät merkinnät"
 
 #: weblate/trans/forms.py:1794
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Labels to remove"
-msgstr "Ehdotus poistettu"
+msgstr "Poistettavat merkinnät"
 
 #: weblate/trans/forms.py:1819
 msgid "I accept the contributor agreement"
@@ -8658,10 +8624,8 @@ msgstr "Duplikaattikäännös."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:172
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Duplicated filemask."
-msgstr "Duplikaattikäännös."
+msgstr "Tiedostomaskin dublikaatti."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:183
@@ -8720,10 +8684,8 @@ msgstr "Komponentin asetuksia ei tueta"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "Arkistoselain"
+msgstr "Rikkinäinen arkistoselaimen URL-osoite"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
@@ -9171,7 +9133,7 @@ msgstr "Pakolliset tarkistukset"
 
 #: weblate/trans/models/component.py:341
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "Luettelo tarkistuksista, joita ei voida sivuuttaa."
 
 #: weblate/trans/models/component.py:359
 msgid ""
@@ -9280,10 +9242,8 @@ msgstr ""
 "projektin tiedostoista."
 
 #: weblate/trans/models/component.py:476
-#, fuzzy
-#| msgid "E-mail regular expression"
 msgid "Shapings regular expression"
-msgstr "Sähköpostiosoitteen säännöllinen lauseke (regex)"
+msgstr "Säännöllisen lausekeen muotoilu"
 
 #: weblate/trans/models/component.py:482
 msgid "Regular expression used to determine shapings of a string."
@@ -9513,7 +9473,7 @@ msgstr "Sininen"
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:40
 msgid "Aqua"
-msgstr ""
+msgstr "vaalean sinertävän vihreä (Aqua)"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:42
@@ -9533,7 +9493,7 @@ msgstr "Vihreä"
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:48
 msgid "Lime"
-msgstr ""
+msgstr "kirkkaan vaaleanvihreä (lime)"
 
 #. Translators: Name of a color
 #: weblate/trans/models/label.py:50
@@ -10306,10 +10266,8 @@ msgid "Translation comment has been deleted."
 msgstr "Käännöksen kommentti on poistettu."
 
 #: weblate/trans/views/edit.py:617
-#, fuzzy
-#| msgid "Translation component has been removed."
 msgid "Translation comment has been resolved."
-msgstr "Käännöskomponentti on poistettu."
+msgstr "Käännöskommentti on ratkaistu."
 
 #: weblate/trans/views/edit.py:764
 msgid "Translation with this key seem to already exist!"
@@ -10606,7 +10564,7 @@ msgstr "Käyttäjätunnus ei voi alkaa pisteellä."
 
 #: weblate/utils/validators.py:182 weblate/utils/validators.py:185
 msgid "Enter a valid e-mail address."
-msgstr "Anna toimiva sähköpostiosoite."
+msgstr "Anna voimassa oleva sähköpostiosoite."
 
 #: weblate/utils/validators.py:187
 msgid "This e-mail address is not allowed."
