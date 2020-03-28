@@ -596,6 +596,11 @@ class GithubRepository(GitMergeRequestBase):
     name = "GitHub"
     _cmd = "hub"
 
+    @classmethod
+    def _get_version(cls):
+        """Return VCS program version."""
+        return cls._popen(["--version"], merge_err=False).split()[-1]
+
     @staticmethod
     def get_username():
         return settings.GITHUB_USERNAME
@@ -721,6 +726,11 @@ class GitLabRepository(GitMergeRequestBase):
 
     # docs: https://zaquestion.github.io/lab/
     _cmd = "lab"
+
+    @classmethod
+    def _get_version(cls):
+        """Return VCS program version."""
+        return cls._popen(["--version"], merge_err=False).split()[-1]
 
     @staticmethod
     def get_username():
