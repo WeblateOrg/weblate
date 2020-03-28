@@ -17,7 +17,7 @@ No context specified
 
 Project specified
 
-    Shown for project, and all its components and translations.
+    Shown for project, including all its components and translations.
 
 Component specified
 
