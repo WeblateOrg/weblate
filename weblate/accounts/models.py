@@ -237,6 +237,7 @@ class AuditLog(models.Model):
 
         elif self.activity == "reset-request":
             failures = AuditLog.objects.filter(
+                user=self.user,
                 timestamp__gte=timezone.now() - datetime.timedelta(days=1),
                 activity="reset-request",
             )
