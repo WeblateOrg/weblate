@@ -21,7 +21,7 @@ Project specified
 
 Component specified
 
-    Shown for a component and all its translations.
+    Shown for a given component and all its translations.
 
 Language specified
 
