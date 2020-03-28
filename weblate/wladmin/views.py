@@ -191,7 +191,11 @@ def performance(request):
         return handle_dismiss(request)
 
     context = {
-        "checks": run_checks(include_deployment_checks=True),
+        "checks": [
+            check
+            for check in run_checks(include_deployment_checks=True)
+            if not check.is_silenced()
+        ],
         "errors": ConfigurationError.objects.filter(ignored=False),
         "queues": get_queue_stats().items(),
         "menu_items": MENU,

@@ -72,13 +72,11 @@
   </thead>
   <tbody>
   {% for check in checks %}
-  {% if not check.is_silenced %}
   <tr class="row{% cycle '1' '2' %}">
       <td>{{ check.id }}</td>
       <td>{{ check.msg }}</td>
       <td>{% check_link check %}</td>
   </tr>
-  {% endif %}
   {% endfor %}
   </tbody>
   </table>
