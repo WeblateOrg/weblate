@@ -723,6 +723,7 @@ class LocalRepository(GitRepository):
 class GitLabRepository(GitMergeRequestBase):
 
     name = "GitLab"
+    req_version = "0.16"
 
     # docs: https://zaquestion.github.io/lab/
     _cmd = "lab"
