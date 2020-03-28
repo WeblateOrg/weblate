@@ -5,7 +5,7 @@ Provide info to your translators.by posting messages, site-wide, per component, 
 
 Announce the purpose, deadlines, status, or specify targets for translation.
 
-Adding whiteboard messages can be done from the admin interface, or each respective cateogry for admins:
+Adding whiteboard messages can be done from the admin interface, or in each respective category for admins:
 
 .. image:: /images/whiteboard.png
 
