@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-01 11:51+0000\n"
-"PO-Revision-Date: 2020-02-19 10:33+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2020-03-29 13:43+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.11\n"
+"X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:105
 msgctxt "No known user"
@@ -662,7 +662,7 @@ msgstr "託管服務"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:172
 msgid "Sign in"
-msgstr ""
+msgstr "登入"
 
 #: weblate/accounts/views.py:602 weblate/wladmin/sites.py:176
 msgid "Thank you for using Weblate."
@@ -3446,17 +3446,15 @@ msgstr "找不到此帳號/密碼組合。請再試一次。"
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "登入方式："
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
 msgstr "忘記您的密碼？"
 
 #: weblate/templates/accounts/login.html:64
-#, fuzzy
-#| msgid "Remove my account"
 msgid "Register new account"
-msgstr "移除我的帳號"
+msgstr "註冊新帳號"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3758,7 +3756,7 @@ msgstr "使用電子郵件註冊"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "使用以下方式建立帳號："
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -4088,7 +4086,7 @@ msgstr "設定"
 
 #: weblate/templates/base.html:210 weblate/wladmin/sites.py:180
 msgid "Sign out"
-msgstr ""
+msgstr "登出"
 
 #: weblate/templates/base.html:217
 msgid "Help"
@@ -4791,10 +4789,8 @@ msgid "Configure dashboard"
 msgstr "設定控制面板"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Recent additions"
-msgstr "最近更動"
+msgstr "最近新增"
 
 #: weblate/templates/dashboard/user.html:51
 msgid "Checks overview"
@@ -5338,11 +5334,8 @@ msgid "Predictable substitutions like '@' instead of 'a' don't help very much."
 msgstr "可預測的文字替換法，例如用「@」取代「a」這種，其實幫助不大。"
 
 #: weblate/templates/i18n.html:50
-#, fuzzy
-#| msgid ""
-#| "Your password can't consist of a single character or only whitespace."
 msgid "Your password can't contain repeated words or characters."
-msgstr "您的密碼不能只有單一字元或由空白組成。"
+msgstr "您的密碼不能有重複的單字或字元。"
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -5896,10 +5889,8 @@ msgid "You do not have permission to change project access control."
 msgstr "您沒有獲得更改專案存取控制的許可。"
 
 #: weblate/templates/manage/alerts.html:7 weblate/wladmin/views.py:55
-#, fuzzy
-#| msgid "Component lists"
 msgid "Component alerts"
-msgstr "組件列表"
+msgstr "組件警告"
 
 #: weblate/templates/manage/alerts.html:26
 #: weblate/templates/manage/performance.html:90
@@ -6019,7 +6010,7 @@ msgstr "系統查核"
 
 #: weblate/templates/manage/performance.html:98
 msgid "Celery queues"
-msgstr ""
+msgstr "Celery 佇列"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6530,11 +6521,11 @@ msgstr "在詞彙表中找不到相關字串。"
 msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
-msgstr ""
+msgstr "額外標籤可以在<a href=\"%(url)s\">專案設定</a>定義。"
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrator."
-msgstr ""
+msgstr "專案管理員可以定義額外標籤。"
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -6575,14 +6566,12 @@ msgid "Nothing to list here."
 msgstr "沒有可列出的項目。"
 
 #: weblate/templates/snippets/login-info.html:4
-#, fuzzy
-#| msgid "Weblate, the libre continuous localization system."
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr "Weblate，一個自由的持續性本地化系統。"
+msgstr "基於網頁的<strong>持續性</strong>本地化"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "當您註冊或登入此服務，即表示您接受我們的："
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -6817,25 +6806,21 @@ msgstr "此組件的設置不正確。"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non existing locations:"
-msgstr ""
+msgstr "儲存庫的瀏覽器網址指向了不存在的位置："
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid ""
 "This can happen if path in translation files contain references to parent "
 "directory or is absolute."
-msgstr "檔案名稱不能包含上層目錄的參照。"
+msgstr "這可能會發生在翻譯檔案中的路徑包含上層目錄的參照，或是絕對路徑。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This project is set up incorrectly."
-msgstr "此組件的設置不正確。"
+msgstr "此專案設定錯誤。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to non existing location:"
-msgstr ""
+msgstr "專案的網站網址指向了不存在的位置："
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -8262,10 +8247,8 @@ msgid "Name of the translation"
 msgstr "翻譯的名稱"
 
 #: weblate/trans/forms.py:1827
-#, fuzzy
-#| msgid "Please type in the name of the translation to confirm."
 msgid "Please type in the full name of the translation to confirm."
-msgstr "請輸入翻譯的名稱作為確認。"
+msgstr "請輸入翻譯的全名以確認。"
 
 #: weblate/trans/forms.py:1836
 msgid ""
@@ -8349,17 +8332,13 @@ msgstr "不支援的組件設定"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:266
-#, fuzzy
-#| msgid "Repository browser"
 msgid "Broken repository browser URL"
-msgstr "儲存庫瀏覽器"
+msgstr "儲存庫瀏覽器網址是損壞的"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:276
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "專案網站"
+msgstr "專案網站網址是損壞的"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:214
@@ -10138,7 +10117,7 @@ msgstr "使用者名稱不能以英文句號開頭。"
 
 #: weblate/utils/validators.py:182 weblate/utils/validators.py:185
 msgid "Enter a valid e-mail address."
-msgstr "請輸入有效的電子郵件位址。"
+msgstr "請輸入有效的電子信箱位址。"
 
 #: weblate/utils/validators.py:187
 msgid "This e-mail address is not allowed."
@@ -10158,7 +10137,7 @@ msgstr "檔案名稱不能為絕對路徑。"
 
 #: weblate/utils/validators.py:209
 msgid "Filename should be as simple as possible. Maybe you want to use: {}"
-msgstr ""
+msgstr "檔案名稱應盡可能簡單。或許您想使用：{}"
 
 #: weblate/utils/views.py:234
 #, python-format
