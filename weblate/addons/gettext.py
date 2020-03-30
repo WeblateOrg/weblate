@@ -253,6 +253,8 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             cmd.insert(1, "--no-fuzzy-matching")
         if self.instance.configuration.get("previous", True):
             cmd.insert(1, "--previous")
+        if self.instance.configuration.get("no_location", False):
+            cmd.insert(1, "--no-location")
         try:
             width = component.addon_set.get(
                 name="weblate.gettext.customize"
