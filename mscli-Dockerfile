@@ -27,6 +27,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DJANGO_SETTINGS_MODULE=weblate.settings_docker
 COPY setup-ci.py /usr/src/setup.py
 COPY requirements.txt /usr/src/
 COPY weblate /usr/src/weblate/
+COPY weblate /usr/local/lib/python3.7/dist-packages/weblate/
 
 # Install dependencies
 RUN set -x \
@@ -127,7 +128,7 @@ COPY etc /etc/
 # - disable su for non root to avoid privilege escapation by chaging /etc/passwd
 RUN rm -f /etc/localtime && cp /usr/share/zoneinfo/Etc/UTC /etc/localtime \
   && chgrp -R 0 /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /run /home/weblate /etc/timezone /etc/localtime \
-  && chmod -R 770 /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /run /home /home/weblate /etc/timezone /etc/localtime \
+  && chmod -R 777 /etc/nginx/sites-available/ /var/log/nginx/ /var/lib/nginx /app/data /run /home /home/weblate /etc/timezone /etc/localtime \
   && chmod 664 /etc/passwd /etc/group \
   && sed -i '/pam_rootok.so/a auth requisite pam_deny.so' /etc/pam.d/su
 
