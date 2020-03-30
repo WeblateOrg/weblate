@@ -227,7 +227,7 @@ XLIFF
     pair: XLIFF; file format
 
 XML-based format created to standardize translation files, but in the end it
-is one of many standards in this area.
+is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
 XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
 
