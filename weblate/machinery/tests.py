@@ -24,7 +24,6 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from weblate.checks.tests.test_checks import MockUnit
-from weblate.lang.models import Language
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
@@ -268,12 +267,15 @@ class MachineTranslationTest(TestCase):
 
     def test_translate(self):
         machine_translation = self.get_machine(DummyTranslation)
-        lang = Language.objects.get(code="cs")
         self.assertEqual(
-            machine_translation.translate(lang, "Hello", MockUnit(), None), []
+            machine_translation.translate(MockUnit(code="cs", source="Hello")), []
         )
         self.assertEqual(
-            len(machine_translation.translate(lang, "Hello, world!", MockUnit(), None)),
+            len(
+                machine_translation.translate(
+                    MockUnit(code="cs", source="Hello, world!")
+                )
+            ),
             2,
         )
 
@@ -282,10 +284,7 @@ class MachineTranslationTest(TestCase):
         self.assertEqual(
             len(
                 machine_translation.translate(
-                    Language.objects.get_or_create(code="cs_CZ")[0],
-                    "Hello, world!",
-                    MockUnit(),
-                    None,
+                    MockUnit(code="cs_CZ", source="Hello, world!")
                 )
             ),
             2,
@@ -295,18 +294,13 @@ class MachineTranslationTest(TestCase):
         machine_translation = self.get_machine(DummyTranslation)
         self.assertEqual(
             machine_translation.translate(
-                Language.objects.get_or_create(code="de_CZ")[0],
-                "Hello, world!",
-                MockUnit(),
-                None,
+                MockUnit(code="de_CZ", source="Hello, world!"),
             ),
             [],
         )
 
     def assert_translate(self, machine, lang="cs", word="world", empty=False):
-        translation = machine.translate(
-            Language.objects.get_or_create(code=lang)[0], word, MockUnit(), None
-        )
+        translation = machine.translate(MockUnit(code=lang, source=word))
         self.assertIsInstance(translation, list)
         if not empty:
             self.assertTrue(translation)
@@ -771,10 +765,7 @@ class MachineTranslationTest(TestCase):
 class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation()
-        unit = Unit.objects.filter(translation__language_code="cs")[0]
-        results = machine.translate(
-            unit.translation.language, unit.get_source_plurals()[0], unit, self.user,
-        )
+        results = machine.translate(self.get_unit(), self.user)
         self.assertEqual(results, [])
 
     def test_exists(self):
@@ -787,7 +778,5 @@ class WeblateTranslationTest(FixtureTestCase):
         other.save()
         # Perform lookup
         machine = WeblateTranslation()
-        results = machine.translate(
-            unit.translation.language, unit.get_source_plurals()[0], unit, self.user,
-        )
+        results = machine.translate(unit, self.user)
         self.assertNotEqual(results, [])

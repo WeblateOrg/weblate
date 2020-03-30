@@ -52,9 +52,7 @@ class MemoryModelTest(FixtureTestCase):
         unit = self.get_unit()
         machine_translation = WeblateMemory()
         self.assertEqual(
-            machine_translation.translate(
-                unit.translation.language, "Hello", unit, None
-            ),
+            machine_translation.translate(unit, search="Hello"),
             [
                 {
                     "quality": 100,

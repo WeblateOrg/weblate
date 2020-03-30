@@ -35,7 +35,7 @@ class GlosbeTranslation(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         params = {"from": source, "dest": language, "format": "json", "phrase": text}
         response = self.request(

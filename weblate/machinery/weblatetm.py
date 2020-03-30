@@ -40,7 +40,7 @@ class WeblateTranslation(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         if user:
             kwargs = {
@@ -60,7 +60,7 @@ class WeblateTranslation(MachineTranslation):
         for munit in matching_units:
             source = munit.get_source_plurals()[0]
             quality = self.comparer.similarity(text, source)
-            if quality < 75:
+            if quality < 10 or (quality < 75 and not search):
                 continue
             yield {
                 "text": munit.get_target_plurals()[0],

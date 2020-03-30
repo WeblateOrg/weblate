@@ -71,7 +71,7 @@ class MyMemoryTranslation(MachineTranslation):
 
         return result
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from MyMemory."""
         args = {
             "q": text.split(". ")[0][:500],

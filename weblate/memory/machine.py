@@ -37,7 +37,7 @@ class WeblateMemory(MachineTranslation):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         comparer = Comparer()
         for result in Memory.objects.lookup(
@@ -49,7 +49,7 @@ class WeblateMemory(MachineTranslation):
             unit.translation.component.project.use_shared_tm,
         ).iterator():
             quality = comparer.similarity(text, result.source)
-            if quality < 75:
+            if quality < 10 or (quality < 75 and not search):
                 continue
             yield {
                 "text": result.target,

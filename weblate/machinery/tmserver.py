@@ -74,7 +74,7 @@ class TMServerTranslation(MachineTranslation):
             return True
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         url = "{0}/{1}/{2}/unit/{3}".format(
             self.url,

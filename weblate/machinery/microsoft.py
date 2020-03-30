@@ -121,7 +121,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         return payload["translation"].keys()
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         args = {
             "api-version": "3.0",

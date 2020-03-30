@@ -124,12 +124,7 @@ class AutoTranslate:
                 if max_quality >= translation_service.max_score:
                     continue
 
-                result = translation_service.translate(
-                    self.translation.language,
-                    unit.get_source_plurals()[0],
-                    unit,
-                    self.user,
-                )
+                result = translation_service.translate(unit, self.user)
 
                 for item in result:
                     if item["quality"] > max_quality:

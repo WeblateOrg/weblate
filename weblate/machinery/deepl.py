@@ -44,7 +44,7 @@ class DeepLTranslation(MachineTranslation):
         """List of supported languages is currently hardcoded."""
         return ("en", "de", "fr", "es", "it", "nl", "pl", "pt", "ru")
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         response = self.request(
             "post",

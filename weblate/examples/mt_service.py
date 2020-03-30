@@ -31,7 +31,7 @@ class SampleTranslation(MachineTranslation):
         """Return list of languages your machine translation supports."""
         return {"cs"}
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Return tuple with translations."""
         for t in dictionary.translate(text):
             yield {"text": t, "quality": 100, "service": self.name, "source": text}
