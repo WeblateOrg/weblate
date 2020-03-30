@@ -50,12 +50,13 @@ Build local dockerfile "weblate-dev" and run it on `localhost:8080`:
  inv serve
  ```
 
-
-
 #### Before Committing
 
-Run `pre-commit` to ensure all linting rules are being observed. 
-If you don't have pre-commit installed you can do so with `pip install -r requirements-pre-commit`. 
+Run `inv lint` to ensure all linting rules are being observed. 
+If you are missing pip modules you can install them using:
+ ```
+ pip install -r requirements-lint.txt`
+ ``` 
 
 License
 -------
