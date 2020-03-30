@@ -52,11 +52,11 @@ Build local dockerfile "weblate-dev" and run it on `localhost:8080`:
 
 #### Before Committing
 
-Run `inv lint` to ensure all linting rules are being observed. 
+Run `inv lint` to ensure all linting rules are being observed.
 If you are missing pip modules you can install them using:
  ```
  pip install -r requirements-lint.txt`
- ``` 
+ ```
 
 License
 -------
