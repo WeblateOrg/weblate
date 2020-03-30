@@ -3,9 +3,9 @@
 Supported file formats
 ======================
 
-Weblate supports most translation format understood by the translate-toolkit,
-however each format being slightly different, there might be some issues with
-formats that are not well tested.
+Weblate supports most translation format understood by translate-toolkit,
+however each format being slightly different, some issues with
+formats that are not well tested can arise.
 
 .. seealso::
 
@@ -15,7 +15,7 @@ formats that are not well tested.
 
     When choosing a file format for your application, it's better to stick some
     well established format in the toolkit/platform you use. This way your
-    translators can use whatever tools they are get used to and will more
+    translators can additionally use whatever tools they are used to, and will more
     likely contribute to your project.
 
 
@@ -24,32 +24,32 @@ formats that are not well tested.
 Bilingual and monolingual formats
 ---------------------------------
 
-Weblate does support both :index:`monolingual <pair: translation; monolingual>`
-and :index:`bilingual <pair: translation; bilingual>` formats. Bilingual
-formats store two languages in single file - source and translation (typical
-examples are :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
-monolingual formats identify the string by ID and each language file contains
-only mapping of those to given language (typically :ref:`aresource`). Some file
-formats are used in both variants, see detailed description below.
+Both :index:`monolingual <pair: translation; monolingual>`
+and :index:`bilingual <pair: translation; bilingual>` formats are supported.
+Bilingual formats store two languages in single file—source and translation
+(typical examples are :ref:`gettext`, :ref:`xliff` or :ref:`apple`). On the other side,
+monolingual formats identify the string by ID, and each language file contains
+only the mapping of those to any given language (typically :ref:`aresource`). Some file
+formats are used in both variants, see the detailed description below.
 
 For correct use of monolingual files, Weblate requires access to a file
-containing complete list of strings to translate with their source - this file
-is called :guilabel:`Monolingual base language file` within Weblate, though the
-naming might vary in your application.
+containing a complete list of strings to translate with their source—this file
+is called the :guilabel:`Monolingual base language file` within Weblate, though the
+naming might vary in your paradigm.
 
 Automatic detection
 -------------------
 
-Weblate can automatically detect several widely spread file formats, but this
+Weblate can automatically detect several widespread file formats, but this
 detection can harm your performance and will limit features specific to given
-file format (for example automatic adding of new translations).
+file format (for example automatic addition of new translations).
 
 .. _fmt_capabs:
 
 Translation types capabilities
 ------------------------------
 
-Below are listed capabilities of all supported formats.
+Capabilities of all supported formats:
 
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | Format              | Linguality [#m]_ | Plurals [#p]_ | Comments [#n]_ | Context [#c]_ | Location [#l]_ | Flags [#f]_    | Additional states [#a]_ |
@@ -101,31 +101,31 @@ Below are listed capabilities of all supported formats.
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
-.. [#n] Comments can be used to pass additional information about string to translate.
-.. [#c] Context is used to differentiate same strings used in different scope (for example `Sun` can be used as abbreviated name of day or as a name of our closest star).
-.. [#l] Location of string in source code might help skilled translators to figure out how the string is used.
-.. [#a] Additional states supported by the file format in addition to not translated and translated.
-.. [#x] XML comment placed before the ``<string>`` element is parsed as a developer comment.
+.. [#n] Comments can be used to pass additional info about string to translate.
+.. [#c] Context is used to differentiate identical strings used in different scopes (for example `Sun` can be used as an abbreviated name of the day "Sunday" or as the name of our closest star).
+.. [#l] Location of a string in source code might help proficient translators figure out how the string is used.
+.. [#a] Additional states supported by the file format in addition to "Not translated" and "Translated".
+.. [#x] XML comment placed before the ``<string>`` element, parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
-.. [#po] The Gettext type comments are used as flags.
-.. [#xl] The flags are extracted from non standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through ``maxwidth`` attribute as defined in the Xliff standard, see :ref:`xliff-flags`.
+.. [#po] The gettext type comments are used as flags.
+.. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` attribute as defined in the XLIFF standard, see :ref:`xliff-flags`.
 
 .. _gettext:
 
-GNU Gettext
+GNU gettext
 -----------
 
 .. index::
-    pair: Gettext; file format
+    pair: gettext; file format
     pair: PO; file format
 
-Most widely used format in translating free software. This was first format
+Most widely used format for translating libre software. This was first format
 supported by Weblate and still has the best support.
 
-Weblate supports contextual information stored in the file, adjusting its
+Contextual info stored in the file is supported by adjusting its
 headers or linking to corresponding source files.
 
-The bilingual gettext PO file typically looks like:
+The bilingual gettext PO file typically looks like this:
 
 .. code-block:: po
 
@@ -145,7 +145,7 @@ The bilingual gettext PO file typically looks like:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``po/*.po``                      |
+| Filemask                       | ``po/*.po``                      |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -166,15 +166,15 @@ The bilingual gettext PO file typically looks like:
 
 .. _mono_gettext:
 
-Monolingual Gettext
+Monolingual gettext
 +++++++++++++++++++
 
-Some projects decide to use Gettext as monolingual formats - they code just IDs
-in their source code and the string needs to be translated to all languages,
-including English. Weblate does support this, though you have to choose explicitly
-this file format when importing components into Weblate.
+Some projects decide to use gettext as monolingual formats—they code just the IDs
+in their source code and the string then needs to be translated to all languages,
+including English. This is supported, though you have to choose
+this file format explicitly when importing components into Weblate.
 
-The monolingual gettext PO file typically looks like:
+The monolingual gettext PO file typically looks like this:
 
 .. code-block:: po
 
@@ -209,7 +209,7 @@ While the base language file will be:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``po/*.po``                      |
+| Filemask                       | ``po/*.po``                      |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``po/en.po``                     |
 +--------------------------------+----------------------------------+
@@ -231,36 +231,36 @@ is one of many standards in this area.
 
 XLIFF is usually used as bilingual, but Weblate supports it as monolingual as well.
 
-Translations states
+Translation states
 +++++++++++++++++++
 
 .. versionchanged:: 3.3
 
-   Weblate did ignore the state attribute prior to the 3.3 release.
+   Weblate ignored the state attribute prior to the 3.3 release.
 
-The ``state`` attribute in the file is partially processed and mapped to needs
-edit state in Weblate (the following states are used to flag the string as
-needing edit if there is some target present: ``new``, ``needs-translation``,
+The ``state`` attribute in the file is partially processed and mapped to the
+"Needs edit" state in Weblate (the following states are used to flag the string as
+needing edit if there is a target present: ``new``, ``needs-translation``,
 ``needs-adaptation``, ``needs-l10n``). Should the ``state`` attribute be
-missing a string is considered translated as soon as a ``<target>`` element
+missing, a string is considered translated as soon as a ``<target>`` element
 exists.
 
-Also if the translation string has ``approved="yes"`` it will be imported into Weblate
-as approved, anything else will be imported as waiting for review (which matches XLIFF
-specification).
+If the translation string has ``approved="yes"``, it will also be imported into Weblate
+as "Approved", anything else will be imported as "Waiting for review" (which matches the
+XLIFF specification).
 
-That means that when using XLIFF format, it is strongly recommended to enable Weblate
-review process, in order to see and change the approved state of strings.
+That means that when using the XLIFF format, it is strongly recommended to turn on the
+Weblate review process, in order to see and change the approved state of strings.
 See :ref:`reviews`.
 
-Similarly on importing such files, you should choose
+Similarly upon importing such files, you should choose
 :guilabel:`Import as translated` under
 :guilabel:`Processing of strings needing review`.
 
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
 
-Generally the XML formats do not differentiate between types or amounts of whitespace.
+Generally types or amounts of whitespace is not differentiated between in XML formats.
 If you want to keep it, you have to add the ``xml:space="preserve"`` flag to
 the string.
 
@@ -279,9 +279,9 @@ For example:
 Specifying translation flags
 ++++++++++++++++++++++++++++
 
-You can specify additional translation flags (see :ref:`custom-checks`) in
-using ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` and ``font``
-attributes from the Xliff specification:
+You can specify additional translation flags (see :ref:`custom-checks`) by
+using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` and ``font``
+attributes from the XLIFF specification:
 
 .. code-block:: xml
 
@@ -295,13 +295,13 @@ attributes from the Xliff specification:
 The ``font`` attribute is parsed for font family, size and weight, the above
 example shows all of that, though only font family is required. Any whitespace
 in the font family is converted to underscore, so ``Source Sans Pro`` becomes
-``Source_Sans_Pro``, please keep that in mind when naming font group (see
+``Source_Sans_Pro``, please keep that in mind when naming the font group (see
 :ref:`fonts`).
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for bilingual XLIFF              |
 +================================+==================================+
-| File mask                      | ``localizations/*.xliff``        |
+| Filemask                       | ``localizations/*.xliff``        |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -339,22 +339,22 @@ Java properties
 
 Native Java format for translations.
 
-Java properties are usually used as monolingual.
+Java properties are usually used as monolingual translations.
 
 Weblate supports ISO-8859-1, UTF-8 and UTF-16 variants of this format. All of
-them supports storing all Unicode characters, it's just differently encoded. In
-the ISO-8859-1 the Unicode escape sequences are used (for example ``zkou\u0161ka``),
+them support storing all Unicode characters, it is just differently encoded.
+In the ISO-8859-1, the Unicode escape sequences are used (for example ``zkou\u0161ka``),
 all others encode characters directly either in UTF-8 or UTF-16.
 
 .. note::
 
-   Loading of escape sequences will work in UTF-8 mode as well, so please be
-   careful choosing correct enconding set matching your application needs.
+   Loading escape sequences works in UTF-8 mode as well, so please be
+   careful choosing the correct enconding set to match your application needs.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``src/app/Bundle_*.properties``  |
+| Filemask                       | ``src/app/Bundle_*.properties``  |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``src/app/Bundle.properties``    |
 +--------------------------------+----------------------------------+
@@ -382,12 +382,12 @@ Joomla translations
 
 Native Joomla format for translations.
 
-Joomla translations are usually used as monolingual.
+Joomla translations are usually used as monolingual translations.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``language/*/com_foobar.ini``    |
+| Filemask                       | ``language/*/com_foobar.ini``    |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``language/en-GB/com_foobar.ini``|
 +--------------------------------+----------------------------------+
@@ -412,12 +412,12 @@ Qt Linguist .ts
 
 Translation format used in Qt based applications.
 
-Qt Linguist files are used as both bilingual and monolingual.
+Qt Linguist files are used as both bilingual and monolingual translations.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` when using as bilingual          |
 +================================+==================================+
-| File mask                      | ``i18n/app.*.ts``                |
+| Filemask                       | ``i18n/app.*.ts``                |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -429,7 +429,7 @@ Qt Linguist files are used as both bilingual and monolingual.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` when using as monolingual        |
 +================================+==================================+
-| File mask                      | ``i18n/app.*.ts``                |
+| Filemask                       | ``i18n/app.*.ts``                |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``i18n/app.en.ts``               |
 +--------------------------------+----------------------------------+
@@ -462,7 +462,7 @@ location from the others :file:`res/values/strings.xml`.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``res/values-*/strings.xml``     |
+| Filemask                       | ``res/values-*/strings.xml``     |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``res/values/strings.xml``       |
 +--------------------------------+----------------------------------+
@@ -479,7 +479,7 @@ location from the others :file:`res/values/strings.xml`.
 .. note::
 
     Android `string-array` structures are not currently supported. To work around this,
-    you can break you string arrays apart:
+    you can break your string arrays apart:
 
     .. code-block:: xml
 
@@ -500,7 +500,7 @@ location from the others :file:`res/values/strings.xml`.
         <string name="several_strings_1">Second string</string>
 
     The `string-array` that points to the `string` elements should be stored in a different
-    file, and not localized.
+    file, and not be made available for translation.
 
     This script may help pre-process your existing strings.xml files and translations: https://gist.github.com/paour/11291062
 
@@ -515,12 +515,12 @@ Apple iOS strings
 Apple specific file format for translating applications, used for both iOS
 and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; translation>` application translations.
 
-Apple iOS strings are usually used as bilingual.
+Apple iOS strings are usually used as bilingual translations.
 
 +---------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                          |
 +================================+==========================================+
-| File mask                      |``Resources/*.lproj/Localizable.strings`` |
+| Filemask                       |``Resources/*.lproj/Localizable.strings`` |
 +--------------------------------+------------------------------------------+
 | Monolingual base language file |``Resources/en.lproj/Localizable.strings``|
 +--------------------------------+------------------------------------------+
@@ -531,7 +531,7 @@ Apple iOS strings are usually used as bilingual.
 
 .. seealso::
 
-    `Apple Strings Files documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
+    `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
     :doc:`tt:formats/strings`
 
 .. _php:
@@ -543,8 +543,8 @@ PHP strings
    pair: PHP strings; file format
 
 
-PHP translations are usually monolingual, so it is recommended to specify base
-file with English strings.
+PHP translations are usually monolingual, so it is recommended to specify a base
+file with (what is most often the) English strings.
 
 Example file:
 
@@ -555,7 +555,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``lang/*/texts.php``             |
+| Filemask                       | ``lang/*/texts.php``             |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``lang/en/texts.php``            |
 +--------------------------------+----------------------------------+
@@ -567,12 +567,12 @@ Example file:
 .. note::
 
     Translate-toolkit currently has some limitations in processing PHP files,
-    so please double check that your files won't get corrupted  before using
-    Weblate in production setup.
+    so please double check that your files will not get corrupted before using
+    Weblate in a production setup.
 
     Following things are known to be broken:
 
-    * Adding new strings to translation, every translation has to contain all strings (even if empty).
+    * Addition of new strings to a translation, every translation has to contain all strings (even if empty).
     * Handling of special characters like newlines.
 
 
@@ -592,7 +592,7 @@ JSON files
 
 .. versionchanged:: 2.16
 
-    Since Weblate 2.16 and with translate-toolkit at least 2.2.4 nested
+    Since Weblate 2.16 and with translate-toolkit at-least 2.2.4, nested
     structure JSON files are supported as well.
 
 JSON format is used mostly for translating applications implemented in
@@ -605,8 +605,8 @@ Weblate currently supports several variants of JSON translations:
 * :ref:`js-i18next`
 * :ref:`webex`
 
-JSON translations are usually monolingual, so it is recommended to specify base
-file with English strings.
+JSON translations are usually monolingual, so it is recommended to specify a base
+file with (what is most often the) English strings.
 
 Example file:
 
@@ -614,7 +614,7 @@ Example file:
     :language: json
     :encoding: utf-8
 
-Nested files are supported as well (see above for requirements), such file can look like:
+Nested files are supported as well (see above for requirements), such a file can look like:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-nested.json
     :language: json
@@ -623,7 +623,7 @@ Nested files are supported as well (see above for requirements), such file can l
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``langs/translation-*.json``     |
+| Filemask                       | ``langs/translation-*.json``     |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``langs/translation-en.json``    |
 +--------------------------------+----------------------------------+
@@ -648,20 +648,20 @@ JSON i18next files
 
 .. versionchanged:: 2.17
 
-    Since Weblate 2.17 and with translate-toolkit at least 2.2.5 i18next
+    Since Weblate 2.17 and with translate-toolkit at-least 2.2.5, i18next
     JSON files with plurals are supported as well.
 
-`i18next <https://www.i18next.com/>`_ is an internationalization-framework
+`i18next <https://www.i18next.com/>`_ is an internationalization framework
 written in and for JavaScript. Weblate supports its localization files with
 features such as plurals.
 
-i18next translations are monolingual, so it is recommended to specify base file
-with English strings.
+i18next translations are monolingual, so it is recommended to specify a base file
+with (what is most often the) English strings.
 
 .. note::
 
-   Weblate supports i18next JSON v3 format. The v2 and v1 variants are mostly
-   compatible, with exception of handling plurals.
+   Weblate supports the i18next JSON v3 format. The v2 and v1 variants are mostly
+   compatible, with the exception of handling plurals.
 
 Example file:
 
@@ -672,7 +672,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``langs/*.json``                 |
+| Filemask                       | ``langs/*.json``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``langs/en.json``                |
 +--------------------------------+----------------------------------+
@@ -695,9 +695,9 @@ WebExtension JSON
 
 .. versionadded:: 2.16
 
-    This is supported since Weblate 2.16 and with translate-toolkit at least 2.2.4.
+    This is supported since Weblate 2.16 and with translate-toolkit at-least 2.2.4.
 
-File format used when translating extensions for Google Chrome or Mozilla Firefox.
+File format used when translating extensions for Mozilla Firefox or Google Chromium.
 
 Example file:
 
@@ -708,7 +708,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``_locales/*/messages.json``     |
+| Filemask                       | ``_locales/*/messages.json``     |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``_locales/en/messages.json``    |
 +--------------------------------+----------------------------------+
@@ -735,13 +735,13 @@ Example file:
 .. versionadded:: 2.3
 
 .NET Resource (.resx) file is a monolingual XML file format used in Microsoft
-.NET Applications. It works with .resw files as well as they use identical
+.NET applications. It works with .resw files as well as when they use identical
 syntax to .resx.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``Resources/Language.*.resx``    |
+| Filemask                       | ``Resources/Language.*.resx``    |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``Resources/Language.resx``      |
 +--------------------------------+----------------------------------+
@@ -769,18 +769,18 @@ CSV files
 CSV files can contain a simple list of source and translation. Weblate supports
 the following files:
 
-* Files with header defining fields (source, translation, location, ...). This
-  is recommended approach as it's least error prone.
-* Files with two fields - source and translation (in this order), choose
+* Files with header defining fields (source, translation, location, …). This
+  is the recommended approach, as it is the least error prone.
+* Files with two fields—source and translation (in this order), choose
   :guilabel:`Simple CSV file` as file format
 * Files with fields as defined by translate-toolkit: location, source,
   target, id, fuzzy, context, translator_comments, developer_comments
 
 .. warning::
 
-   The CSV format currently automatically detects dialect of the CSV file. In
-   some cases the automatic detection might fail and you will get mixed
-   results. This is especially true for the CSV files with newlines in the
+   The CSV format currently automatically detects the dialect of the CSV file.
+   In some cases the automatic detection might fail and you will get mixed
+   results. This is especially true for CSV files with newlines in the
    values. As a workaround it is recommended to avoid omitting quoting characters.
 
 Example file:
@@ -792,7 +792,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``locale/*.csv``                 |
+| Filemask                       | ``locale/*.csv``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -816,7 +816,7 @@ YAML files
 
 The plain YAML files with string keys and values.
 
-Example YAML file:
+Example of a YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.pyml
     :language: yaml
@@ -825,7 +825,7 @@ Example YAML file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``translations/messages.*.yml``  |
+| Filemask                       | ``translations/messages.*.yml``  |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``translations/messages.en.yml`` |
 +--------------------------------+----------------------------------+
@@ -859,7 +859,7 @@ Example Ruby i18n YAML file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``translations/messages.*.yml``  |
+| Filemask                       | ``translations/messages.*.yml``  |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``translations/messages.en.yml`` |
 +--------------------------------+----------------------------------+
@@ -889,7 +889,7 @@ Example DTD file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``locale/*.dtd``                 |
+| Filemask                       | ``locale/*.dtd``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``locale/en.dtd``                |
 +--------------------------------+----------------------------------+
@@ -910,7 +910,7 @@ Flat XML files
 
 .. versionadded:: 3.9
 
-Example falt XML file:
+Example of a flat XML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-flat.xml
     :language: xml
@@ -919,7 +919,7 @@ Example falt XML file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``locale/*.xml``                 |
+| Filemask                       | ``locale/*.xml``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``locale/en.xml``                |
 +--------------------------------+----------------------------------+
@@ -937,7 +937,7 @@ Windows RC files
 
 .. versionadded:: 3.0
 
-    Experimental support has been added in Weblate 3.0, not supported on Python 3.
+    Experimental support has been added in Weblate 3.0, and is not supported in Python 3.
 
 .. index::
     pair: RC; file format
@@ -951,7 +951,7 @@ Example Windows RC file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| File mask                      | ``lang/*.rc``                    |
+| Filemask                       | ``lang/*.rc``                    |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``lang/en-US.rc``                |
 +--------------------------------+----------------------------------+
@@ -969,20 +969,20 @@ App store metadata files
 
 .. versionadded:: 3.5
 
-Weblate can translate metadata used for publishing apps in various app stores.
-Currently it is known to be compatible with following tools:
+Metadata used for publishing apps in various app stores can be translated.
+Currently the following tools are compatible:
 
 * `Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-publisher>`_
 * `Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-your-app-metadata>`_
 * `F-Droid <https://f-droid.org/docs/All_About_Descriptions_Graphics_and_Screenshots/>`_
 
-The metadata consist of several text files which Weblate will present as
+The metadata consists of several textfiles, which Weblate will present as
 separate strings to translate.
 
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
-| File mask                      | ``fastlane/android/metadata/*``     |
+| Filemask                       | ``fastlane/android/metadata/*``     |
 +--------------------------------+-------------------------------------+
 | Monolingual base language file | ``fastlane/android/metadata/en-US`` |
 +--------------------------------+-------------------------------------+
@@ -1001,14 +1001,14 @@ Subtitle files
 Weblate can translate various subtile files:
 
 * SubRip subtitle file (``*.srt``)
-* MicroDVD subtitles file (``*.sub``)
+* MicroDVD subtitle file (``*.sub``)
 * Advanced Substation Alpha subtitles file (``*.ass``)
-* Substation Alpha subtitles file (``*.ssa``)
+* Substation Alpha subtitle file (``*.ssa``)
 
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
-| File mask                      | ``path/*.srt``                      |
+| Filemask                       | ``path/*.srt``                      |
 +--------------------------------+-------------------------------------+
 | Monolingual base language file | ``path/en.srt``                     |
 +--------------------------------+-------------------------------------+
@@ -1028,13 +1028,13 @@ Excel Open XML
 
 .. versionadded:: 3.2
 
-Weblate can import and export Excel Open XML (xlsx) files.
+Excel Open XML (xlsx) files can be imported and exported.
 
-When using xlsx files for translation upload, be aware that only the active
-worksheet is considered and there must be at least a column called ``source``
+When uploading XLSX files for translation, be aware that only the active
+worksheet is considered, and there must be at least a column called ``source``
 (which contains the source string) and a column called ``target`` (which
-contains the translation). Additionally there should be the column ``context``
-(which contains the context path of the translation string). If you use the xlsx
+contains the translation). Additionally there should be the column called ``context``
+(which contains the context path of the translation string). If you use the XLSX
 download for exporting the translations into an Excel workbook, you already get
 a file with the correct file format.
 
@@ -1064,18 +1064,18 @@ Adding new translations
 Weblate can automatically start new translation for all of the file
 formats.
 
-Some formats expect to start with empty file and only translated
+Some formats expect to start with an empty file and only translated
 strings to be included (for example :ref:`aresource`), while others expect to have all
 keys present (for example :ref:`gettext`). In some situations this really doesn't depend
-on the format, but rather on framework you use to handle the translation (for example with
+on the format, but rather on the framework you use to handle the translation (for example with
 :ref:`json`).
 
 When you specify :guilabel:`Template for new translations` in
 :ref:`component`, Weblate will use this file to start new translations. Any
 exiting translations will be removed from the file when doing so.
 
-When :guilabel:`Template for new translations` is empty and file format
-supports it, empty file is created where new strings will be added once they are
+When :guilabel:`Template for new translations` is empty and the file format
+supports it, an empty file is created where new strings will be added once they are
 translated.
 
 The :guilabel:`Language code style` allows you to customize language code used
@@ -1084,16 +1084,16 @@ in generated filenames:
 Default based on the file format
    Dependent on file format, for most of them POSIX is used.
 POSIX style using underscore as a separator
-   Typically used by Gettext and related tools, produces language codes like
+   Typically used by gettext and related tools, produces language codes like
    `pt_BR`.
 BCP style using hyphen as a separator
    Typically used on web platforms, produces language codes like
    `pt-BR`.
 Android style
-   Used only on Android apps, produces language codes like
+   Only used in Android apps, produces language codes like
    `pt-rBR`.
 Java style
-   User by Java - mostly BCP with legacy codes for Chinese.
+   User by Java—mostly BCP with legacy codes for Chinese.
 
 .. note::
 
@@ -1107,7 +1107,7 @@ Read only strings
 
 .. versionadded:: 3.10
 
-Weblate will also include read only strings from the translation files, but
-will not allow editing them. This feature is natively supported by few formats
-(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding
+Read-only strings from translation files will be included, but
+can not be edited in Weblate. This feature is natively supported by few formats
+(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a
 ``read-only`` flag, see :ref:`custom-checks`.
