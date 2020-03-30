@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-30 08:19+0000\n"
-"PO-Revision-Date: 2020-03-30 13:37+0000\n"
+"PO-Revision-Date: 2020-03-31 01:28+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -651,7 +651,7 @@ msgid ""
 "{0}."
 msgstr ""
 "Votre adresse courriel n’est plus associée à un compte vérifié, elle a été "
-"modifiée pour {0}."
+"remplacée par {0}."
 
 #: weblate/accounts/views.py:169 weblate/accounts/views.py:757
 #: weblate/accounts/views.py:803 weblate/templates/accounts/reset.html:7
@@ -2126,10 +2126,8 @@ msgid "Read only"
 msgstr "Lecture seule"
 
 #: weblate/checks/flags.py:46
-#, fuzzy
-#| msgid "String changed by"
 msgid "Strict unchanged check"
-msgstr "Chaîne modifiée par"
+msgstr "Contrôle strict de l'absence de modification"
 
 #: weblate/checks/flags.py:48 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2252,7 +2250,7 @@ msgstr "La chaîne MessageFormat Java ne correspond pas à celle de la source"
 
 #: weblate/checks/format.py:433
 msgid "You need to screen an apostrophe with another one."
-msgstr ""
+msgstr "Une apostrophe est manquante."
 
 #: weblate/checks/format.py:439
 msgid "i18next interpolation"
@@ -6959,6 +6957,8 @@ msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
 msgstr ""
+"Le système de contrôle de version ou les fichiers à traduire sont paramétrés "
+"sur des composants individuels :"
 
 #: weblate/templates/snippets/project-nav.html:137
 msgid "Tweet this translation"
@@ -7241,16 +7241,12 @@ msgstr ""
 "fichier de traduction ."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Avoid having translation files for both plain language code and code with "
-#| "default country (for example de and de_DE)."
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
-"Évitez d’avoir des fichiers de traduction à la fois pour le code en langage "
-"plein et pour le code avec le pays par défaut (par exemple de et de_DE)."
+"Évite d’avoir des fichiers de traduction à la fois pour le code langage et "
+"pour le code langue régional (par exemple fr et fr_CA)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -10477,10 +10473,10 @@ msgstr[1] ""
 "mises à jour {3})."
 
 #: weblate/trans/views/files.py:164
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "Le fichier envoyé sera fusionné avec la traduction actuelle."
+msgstr ""
+"Les formes plurielles du fichier téléversé ne correspondent pas à la "
+"traduction actuelle."
 
 #: weblate/trans/views/git.py:42
 msgid "Failed to lock the repository, another operation is in progress."
@@ -10735,28 +10731,23 @@ msgid "Invalid image!"
 msgstr "Image non valide !"
 
 #: weblate/utils/validators.py:126
-#, fuzzy, python-format
-#| msgid "Not supported image type: %s"
+#, python-format
 msgid "Unsupported image type: %s"
 msgstr "Type d’image non supporté : %s"
 
 #: weblate/utils/validators.py:132
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
 msgstr ""
-"L’image est de trop grande dimension, veuillez la réduire ou sélectionner la "
-"partie pertinente !"
+"L’image est de trop grandes dimensions, veuillez la rogner à la partie "
+"pertinente ou la retailler."
 
 #: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
 msgstr "Veuillez éviter de saisir des caractères spéciaux dans le nom complet."
 
 #: weblate/utils/validators.py:165
-#, fuzzy
-#| msgid "Username can not start with a full stop."
 msgid "The username can not start with a full stop."
-msgstr "Un nom d’utilisateur ne peut commencer par un point."
+msgstr "Le nom d’utilisateur ne peut pas commencer par un point."
 
 #: weblate/utils/validators.py:179 weblate/utils/validators.py:182
 msgid "Enter a valid e-mail address."
@@ -10767,10 +10758,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Cette adresse courriel n’est pas autorisée."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Could not evaluate plural equation: {}"
-msgstr "Échec à l’évaluation de l’équation plurielle : {}"
+msgstr "Impossible d’évaluer l’équation plurielle : {}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
