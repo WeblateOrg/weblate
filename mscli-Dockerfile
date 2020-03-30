@@ -27,7 +27,6 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DJANGO_SETTINGS_MODULE=weblate.settings_docker
 COPY setup-ci.py /usr/src/setup.py
 COPY requirements.txt /usr/src/
 COPY weblate /usr/src/weblate/
-COPY weblate /usr/local/lib/python3.7/dist-packages/weblate/
 
 # Install dependencies
 RUN set -x \
