@@ -897,8 +897,8 @@ class SuggestionView(ListView):
             user=user, unit__translation__component__project_id__in=allowed_project_ids
         ).order()
 
-    def get_context_data(self):
-        result = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
         if self.kwargs["user"] == "-":
             user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         else:

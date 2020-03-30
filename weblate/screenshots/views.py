@@ -68,8 +68,8 @@ class ScreenshotList(ListView, ComponentViewMixin):
         self.kwargs["component"] = self.get_component()
         return Screenshot.objects.filter(component=self.kwargs["component"]).order()
 
-    def get_context_data(self):
-        result = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
         component = self.kwargs["component"]
         result["object"] = component
         if self.request.user.has_perm("screenshot.add", component):
