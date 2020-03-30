@@ -29,9 +29,7 @@ from logging.handlers import SysLogHandler
 
 DEBUG = True
 
-ADMINS = (
-    ('admin', 'weblate@example.com'),
-)
+ADMINS = (("admin", "weblate@example.com"),)
 
 MANAGERS = ADMINS
 

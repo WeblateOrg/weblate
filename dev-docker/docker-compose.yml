@@ -11,16 +11,13 @@ version: '3'
 
 services:
   weblate:
-    image: weblate-dev:latest
+    image: weblate-dev
     build:
       context: ../
-      dockerfile: dev-docker/Dockerfile
-      args:
-        USER_ID: ${USER_ID}
-        GROUP_ID: ${GROUP_ID}
+      dockerfile: mscli-Dockerfile
     ports:
-      - ${WEBLATE_HOST}:8080
-    user: $USER_ID:$GROUP_ID
+      - 8080:8080
+    user: 1000:1000
     userns_mode: "host"
     volumes:
       # Local data directory
