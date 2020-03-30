@@ -153,7 +153,7 @@ class MemoryManager(models.Manager):
                 header.get("srclang"), lang_cache, langmap
             )
         except Language.DoesNotExist:
-            raise MemoryImportError(_("Failed to find source languge!"))
+            raise MemoryImportError(_("Failed to find source language!"))
 
         found = 0
         for unit in storage.units:
