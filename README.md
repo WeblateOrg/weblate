@@ -3,8 +3,8 @@
 **Weblate is a copylefted libre software web-based continuous localization system,
 used by over 1150 libre projects and companies in more than 115 countries.**
 
-This repository has been forked from https://github.com/WeblateOrg/Weblate. 
-It is a **public** repository, so take special care not to commit keys.  
+This repository has been forked from https://github.com/WeblateOrg/Weblate.
+It is a **public** repository, so take special care not to commit keys.
 
 ### Documentation
 
@@ -13,34 +13,34 @@ viewed online on [https://docs.weblate.org/]
 
 ### Branching
 
-This project uses a unique branching structure since not all changes 
-are appropriate to push upstream. 
+This project uses a unique branching structure since not all changes
+are appropriate to push upstream.
 
 `vendasta`: This branch is our "working master". It should be branched 
 off when starting new work and used as a base for pull requests. If code 
-committed to this branch can potentially be contributed to the Weblate 
+committed to this branch can potentially be contributed to the Weblate
 project, please cherry-pick the relevant commits into a pull request
-against **master**. 
+against **master**.
 
-`master`: This branch is reserved for code that can potentially be 
+`master`: This branch is reserved for code that can potentially be
 contributed back to the Weblate project. This should **not** be treated as
-the base branch for new work. 
+the base branch for new work.
 
 ### Local Development
 
-**weblate** runs on Python 3.7 and Django. In order to develop locally, 
-install Python 3.7 or 3.8:  
+**weblate** runs on Python 3.7 and Django. In order to develop locally,
+install Python 3.7 or 3.8:
  ```
  brew install python
  ```
 
-Since you're most likely using Python 2 for your other projects, it's 
-best to use a virtual environment for developing weblate:  
+Since you're most likely using Python 2 for your other projects, it's
+best to use a virtual environment for developing weblate:
  ```
  python3 -m venv venv; source venv/bin/activate
- ``` 
+ ```
 
-Install requirements:  
+Install requirements:
  ```
  pip install -r requirements.txt --no-binary pygobject
  ```
