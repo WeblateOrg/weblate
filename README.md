@@ -45,18 +45,17 @@ Install requirements:
  pip install -r requirements.txt --no-binary pygobject
  ```
 
-This process isn't quite working yet, but when it is, you should be able to run:  
+Build local dockerfile "weblate-dev" and run it on `localhost:8080`:
  ```
- docker build -t local --file mscli-Dockerfile .  
- docker run local
+ inv serve
  ```
 
-The local image should be viewable on `localhost:8080`.
+
 
 #### Before Committing
 
 Run `pre-commit` to ensure all linting rules are being observed. 
-If you don't have pre-commit installed you can do so with `pip install pre-commit`. 
+If you don't have pre-commit installed you can do so with `pip install -r requirements-pre-commit`. 
 
 License
 -------
