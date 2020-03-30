@@ -22,7 +22,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-30 08:19+0000\n"
 "PO-Revision-Date: 2020-03-30 11:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
 "Language: fr\n"
@@ -299,14 +299,12 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Vous ne pouvez plus vous connecter en utilisant {method} ({name})."
 
 #: weblate/accounts/models.py:86
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "Connecté en utilisant {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Connecté en utilisant {method} ({name}) à partir d’un nouvel appareil."
 
@@ -345,14 +343,10 @@ msgid "You can now log in using password."
 msgstr "Vous pouvez maintenant vous connecter en utilisant un mot de passe."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
 msgstr "Connecté en utilisant un mot de passe."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
 msgstr "Connecté en utilisant un mot de passe depuis un nouvel appareil."
 
@@ -591,10 +585,8 @@ msgstr "Nouveau composant de traduction"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Nouveau commentaire"
+msgstr "Nouvelle annonce"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -637,25 +629,18 @@ msgid "Your password can't match a password you have used in the past."
 msgstr "Le mot de passe ne doit pas avoir été utilisé par le passé."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
-msgstr ""
-"Vous ne pouvez pas réinitialiser votre mot de passe en étant connecté !"
+msgstr "Vous ne pouvez pas réinitialiser votre mot de passe en étant connecté !"
 
 #: weblate/accounts/pipeline.py:296 weblate/accounts/pipeline.py:319
 msgid "The registration link has been invalidated."
 msgstr "Le lien d’inscription n’est plus valide."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
 msgstr "Vous ne pouvez pas terminer l’inscription en étant connecté !"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
 msgstr "Vous ne pouvez confirmer votre inscription qu’en en étant connecté !"
 
@@ -1527,10 +1512,8 @@ msgid "Manage users (on the entire platform)"
 msgstr "Gérer les utilisateurs (de toute la plateforme)"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Gérer les utilisateurs (de toute la plateforme)"
+msgstr "Gérer les annonces (de toute la plateforme)"
 
 #: weblate/auth/data.py:90
 msgid "Manage translation memory (on the entire platform)"
@@ -2272,28 +2255,20 @@ msgid "You need to screen an apostrophe with another one."
 msgstr ""
 
 #: weblate/checks/format.py:439
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "Traduction automatisée"
+msgstr "Interpolation i18next"
 
 #: weblate/checks/format.py:440
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
-msgstr "Les BBcodes dans la traduction ne correspondent pas à la source"
+msgstr "L’interpolation i18next ne correspondent pas à la source"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Percent interpolation"
-msgstr "Intégration avec le système de contrôle de versions"
+msgstr "Interpolation par symbole pour cent"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent interpolation does not match source"
-msgstr "Les BBcodes dans la traduction ne correspondent pas à la source"
+msgstr "L’interpolation par symbole pour cent ne correspondent pas à la source"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -3101,20 +3076,16 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Aucune entrée valide n’a été trouvée dans le fichier téléversé !"
 
 #: weblate/memory/models.py:112 weblate/memory/models.py:117
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Échec d’analyse du fichier JSON !"
+msgstr "Échec d’analyse du fichier JSON : {!s}"
 
 #: weblate/memory/models.py:146
 msgid "Failed to parse TMX file!"
 msgstr "Échec de l’analyse du fichier TMX !"
 
 #: weblate/memory/models.py:156
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Failed to find source languge!"
-msgstr "Échec de recherche de langue correspondante !"
+msgstr "Échec de recherche de langue source !"
 
 #: weblate/memory/models.py:233
 msgctxt "Translation memory category"
@@ -3514,14 +3485,11 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:25
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
 msgstr ""
-"Si le lien de confirmation arrive à expiration avant que vous ne "
-"l’utilisiez, veuillez vous inscrire de nouveau."
+"Si le lien de confirmation arrive à expiration avant que vous ne l’"
+"utilisiez, veuillez en demander un nouveau."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -4500,7 +4468,7 @@ msgstr "%(used)s utilisé sur %(total)s"
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:32
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "Visible to everybody."
-msgstr ""
+msgstr "Visible pour tout le monde."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:35
 #: weblate/templates/component_info.html:26
@@ -4514,10 +4482,8 @@ msgid "Only chosen users can contribute."
 msgstr "Seuls les utilisateurs sélectionnés peuvent contribuer."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "Visible et traduisible uniquement par les utilisateurs sélectionnés"
+msgstr "Visible uniquement pour les utilisateurs sélectionnés."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -4798,10 +4764,8 @@ msgstr "Captures d’écran"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:351
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "Publier un commentaire"
+msgstr "Publier une annonce"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -5078,10 +5042,6 @@ msgstr ""
 "dessous."
 
 #: weblate/templates/dashboard/anonymous.html:10
-#, fuzzy
-#| msgid ""
-#| "You need to be logged in to translate, otherwise you can only make "
-#| "suggestions."
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
@@ -5918,7 +5878,7 @@ msgstr "Arrêter cette notification"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "Généré le %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -6014,16 +5974,14 @@ msgid "Announcement"
 msgstr "Annonce"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Nouveau commentaire pour %(component)s"
+msgstr "Nouvelle annonce de %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message at %(site_title)s"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Nouveau message sur le tableau blanc du site %(site_title)s"
+msgstr "Nouvelle annonce sur %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -6238,8 +6196,6 @@ msgid "Last login"
 msgstr "Dernière connexion"
 
 #: weblate/templates/manage-access.html:39
-#, fuzzy
-#| msgid "Not yet logged in"
 msgid "Not yet signed in"
 msgstr "Pas encore connecté"
 
@@ -6280,10 +6236,8 @@ msgid "Component alerts"
 msgstr "Alertes du composant"
 
 #: weblate/templates/manage/alerts.html:30
-#, fuzzy
-#| msgid "Project / Component"
 msgid "Projects without components"
-msgstr "Projet / Composant"
+msgstr "Projets sans composants"
 
 #: weblate/templates/manage/alerts.html:42
 #: weblate/templates/manage/performance.html:88
@@ -6932,10 +6886,9 @@ msgstr ""
 "\">paramètres du projet</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
-#, fuzzy
-#| msgid "Additional labels can be defined by project administrator."
 msgid "Additional labels can be defined by project administrators."
-msgstr "D’autres libellés peuvent être définis par l’administrateur du projet."
+msgstr ""
+"D’autres libellés peuvent être définis par les administrateurs du projet."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -7155,10 +7108,8 @@ msgid "Suggested change:"
 msgstr "Modifications suggérées :"
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "Erreurs de validation"
+msgstr "Erreurs de validation :"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:516 weblate/utils/state.py:31
@@ -7234,30 +7185,22 @@ msgid "This component is set up incorrectly."
 msgstr "Ce composant n’est pas paramétré correctement."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
-#, fuzzy
-#| msgid "The repository browser URL points to non existing locations:"
 msgid "The repository browser URL points to non-existing locations:"
 msgstr "L’URL du dépôt n’est pas une destination valide :"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid ""
-#| "This can happen if path in translation files contain references to parent "
-#| "directory or is absolute."
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
 msgstr ""
 "Cela peut se produire si le chemin dans les fichiers de traduction contient "
-"des références au répertoire parent ou est absolu."
+"des références à un répertoire parent ou est absolu."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
 msgstr "Ce projet n’est pas paramétré correctement."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
-#, fuzzy
-#| msgid "The project website URL points to non existing location:"
 msgid "The project website URL points to a non-existing location:"
 msgstr "L’URL du site Web du projet n’est pas une destination valide :"
 
@@ -7274,10 +7217,6 @@ msgid "The following filemasks were found multiple times:"
 msgstr "Les masques de fichiers suivants ont été trouvés plusieurs fois :"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to single "
-#| "language in Weblate."
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
@@ -7290,10 +7229,8 @@ msgid "Please fix this by removing one of the translation files."
 msgstr "Veuillez corriger en supprimant l’un des fichiers de traduction."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please consider following steps:"
 msgid "Please consider the following:"
-msgstr "Veuillez réaliser les étapes suivantes :"
+msgstr "Veuillez tenir compte de ce qui suit :"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
@@ -8317,10 +8254,8 @@ msgid "Please choose a valid filter type."
 msgstr "Veuillez sélectionner un type de filtre valide."
 
 #: weblate/trans/forms.py:404
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "La chaîne que vous souhaitiez traduire n’est plus disponible !"
+msgstr "La chaîne que vous souhaitiez traduire n’est plus disponible."
 
 #: weblate/trans/forms.py:414
 msgid ""
@@ -8540,6 +8475,7 @@ msgstr "Utilisateur à ajouter"
 #: weblate/trans/forms.py:1031
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
+"Veuillez saisir un nom de compte Weblate existant ou une adresse courriel."
 
 #: weblate/trans/forms.py:1079
 msgid "Report format"
@@ -8712,14 +8648,12 @@ msgstr ""
 "accessibles publiquement : %s"
 
 #: weblate/trans/forms.py:1708
-#, fuzzy
-#| msgid "API access"
 msgid "Access"
-msgstr "Accès par API"
+msgstr "Accès"
 
 #: weblate/trans/forms.py:1717
 msgid "Workflow"
-msgstr ""
+msgstr "Flux de travail"
 
 #: weblate/trans/forms.py:1741
 msgid ""
@@ -8939,7 +8873,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:125
 msgid "Announcements"
-msgstr ""
+msgstr "Annonces"
 
 #: weblate/trans/models/announcement.py:132
 msgid "Do not specify both component and project!"
@@ -9183,7 +9117,7 @@ msgstr "Notification de dépôt reçue"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
 msgid "Replaced file by upload"
-msgstr ""
+msgstr "Fichier remplacé par téléversement"
 
 #: weblate/trans/models/change.py:443
 #, python-format
@@ -9528,6 +9462,8 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
+"Le dépôt nécessite une authentification, veuillez préciser les informations "
+"d’identification dans l’URL ou utiliser un accès SSH à la place."
 
 #: weblate/trans/models/component.py:795
 #, python-format
@@ -10621,10 +10557,8 @@ msgid "Workflow customization"
 msgstr "Personnalisation du flux"
 
 #: weblate/trans/views/js.py:64
-#, fuzzy
-#| msgid "SSH key not available."
 msgid "Service is currently not available."
-msgstr "Clef SSH non disponible."
+msgstr "Service actuellement non disponible."
 
 #: weblate/trans/views/lock.py:40
 msgid "Component is now locked for translation updates!"
@@ -10777,16 +10711,13 @@ msgid "Read only"
 msgstr "Lecture seule"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Composant : {}"
+msgstr "Échec de la compilation : {0}"
 
 #: weblate/utils/validators.py:69
-#, fuzzy
-#| msgid "Regular expression should not match empty string."
 msgid "The regular expression can not match an empty string."
-msgstr "L’expression rationnelle ne doit pas détecter une chaîne vide."
+msgstr "L’expression rationnelle ne peut pas détecter une chaîne vide."
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
@@ -10830,8 +10761,6 @@ msgid "Enter a valid e-mail address."
 msgstr "Saisissez une adresse courriel valide."
 
 #: weblate/utils/validators.py:184
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "This e-mail address is disallowed."
 msgstr "Cette adresse courriel n’est pas autorisée."
 
@@ -10842,21 +10771,14 @@ msgid "Could not evaluate plural equation: {}"
 msgstr "Échec à l’évaluation de l’équation plurielle : {}"
 
 #: weblate/utils/validators.py:197
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid "The filename can not contain reference to a parent directory."
-msgstr ""
-"Le nom de fichier ne peut pas contenir une référence au dossier parent."
+msgstr "Le nom de fichier ne peut pas contenir une référence au dossier parent."
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "Filename can not be an absolute path."
 msgid "The filename can not be an absolute path."
 msgstr "Le nom de fichier ne peut pas être un chemin absolu."
 
 #: weblate/utils/validators.py:206
-#, fuzzy
-#| msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 "Le nom de fichier doit être aussi simple que possible. Vous pourriez "
