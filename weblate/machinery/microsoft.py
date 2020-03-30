@@ -89,12 +89,12 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         return self._access_token
 
-    def convert_language(self, language):
+    def map_language_code(self, language):
         """Convert language to service specific code.
 
         Remove second part of locale in most of cases.
         """
-        return super().convert_language(language.replace("_", "-").lower())
+        return super().map_language_code(language.replace("_", "-").lower())
 
     def download_languages(self):
         """Download list of supported languages from a service.

@@ -118,12 +118,15 @@ class MachineTranslation:
         """
         raise NotImplementedError()
 
-    def convert_language(self, language):
-        """Convert language to service specific code."""
-        if language in self.language_map:
-            return self.language_map[language]
+    def map_language_code(self, code):
+        """Map language code to service specific."""
+        if code in self.language_map:
+            return self.language_map[code]
+        return code
 
-        return language
+    def convert_language(self, language):
+        """Convert language to service specific object."""
+        return self.map_language_code(language.code)
 
     def report_error(self, exc, message):
         """Wrapper for handling error situations."""
@@ -199,7 +202,7 @@ class MachineTranslation:
         if source is None:
             language = self.convert_language(language)
             source = self.convert_language(
-                unit.translation.component.project.source_language.code
+                unit.translation.component.project.source_language
             )
 
         if not text or self.is_rate_limited() or source == language:

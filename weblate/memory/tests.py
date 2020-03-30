@@ -49,9 +49,12 @@ def add_document():
 class MemoryModelTest(FixtureTestCase):
     def test_machine(self):
         add_document()
+        unit = self.get_unit()
         machine_translation = WeblateMemory()
         self.assertEqual(
-            machine_translation.translate("cs", "Hello", self.get_unit(), None),
+            machine_translation.translate(
+                unit.translation.language, "Hello", unit, None
+            ),
             [
                 {
                     "quality": 100,

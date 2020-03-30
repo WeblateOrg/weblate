@@ -125,7 +125,7 @@ class AutoTranslate:
                     continue
 
                 result = translation_service.translate(
-                    self.translation.language.code,
+                    self.translation.language,
                     unit.get_source_plurals()[0],
                     unit,
                     self.user,

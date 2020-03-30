@@ -46,7 +46,7 @@ class TMServerTranslation(MachineTranslation):
 
         return settings.MT_TMSERVER.rstrip("/")
 
-    def convert_language(self, language):
+    def map_language_code(self, language):
         """Convert language to service specific code."""
         return language.replace("-", "_").lower()
 

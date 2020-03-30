@@ -82,7 +82,7 @@ class MicrosoftTerminologyService(MachineTranslation):
                 "source": item["OriginalText"],
             }
 
-    def convert_language(self, language):
+    def map_language_code(self, language):
         """Convert language to service specific code.
 
         Add country part of locale if missing.

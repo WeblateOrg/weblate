@@ -107,7 +107,7 @@ class ApertiumAPYTranslation(MachineTranslation):
         langs = self.supported_languages
         return set([l[0] for l in langs] + [l[1] for l in langs])
 
-    def convert_language(self, language):
+    def map_language_code(self, language):
         """Convert language to service specific code."""
         # Force download of supported languages
         language = language.replace("-", "_")

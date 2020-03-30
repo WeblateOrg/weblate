@@ -32,6 +32,10 @@ class WeblateTranslation(MachineTranslation):
     rank_boost = 1
     cache_translations = False
 
+    def convert_language(self, language):
+        """No conversion of language object."""
+        return language
+
     def is_supported(self, source, language):
         """Any language is supported."""
         return True
@@ -47,8 +51,8 @@ class WeblateTranslation(MachineTranslation):
                 "translation__component__project": unit.translation.component.project
             }
         matching_units = Unit.objects.prefetch().filter(
-            source__search=unit.source,
-            translation__language=unit.translation.language,
+            source__search=text,
+            translation__language=language,
             state__gte=STATE_TRANSLATED,
             **kwargs
         )

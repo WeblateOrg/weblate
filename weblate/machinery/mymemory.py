@@ -28,7 +28,7 @@ class MyMemoryTranslation(MachineTranslation):
 
     name = "MyMemory"
 
-    def convert_language(self, language):
+    def map_language_code(self, language):
         """Convert language to service specific code."""
         return language.replace("_", "-").lower()
 

@@ -64,7 +64,7 @@ def handle_machinery(request, service, unit, source):
     else:
         try:
             response["translations"] = translation_service.translate(
-                unit.translation.language.code, source, unit, request.user
+                unit.translation.language, source, unit, request.user
             )
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
