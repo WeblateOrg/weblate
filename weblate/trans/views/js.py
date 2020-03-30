@@ -40,11 +40,10 @@ from weblate.utils.views import get_component, get_project, get_translation
 
 def handle_machinery(request, service, unit, source):
     request.user.check_access(unit.translation.component.project)
-    if service == "weblate-translation-memory":
-        perm = "memory.view"
-    else:
-        perm = "machinery.view"
-    if not request.user.has_perm(perm, unit.translation):
+    if not request.user.has_perm(
+        "memory.view" if service == "weblate-translation-memory" else "machinery.view",
+        unit.translation,
+    ):
         raise PermissionDenied()
 
     # Error response
