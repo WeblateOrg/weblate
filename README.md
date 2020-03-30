@@ -16,8 +16,8 @@ viewed online on [https://docs.weblate.org/]
 This project uses a unique branching structure since not all changes
 are appropriate to push upstream.
 
-`vendasta`: This branch is our "working master". It should be branched 
-off when starting new work and used as a base for pull requests. If code 
+`vendasta`: This branch is our "working master". It should be branched
+off when starting new work and used as a base for pull requests. If code
 committed to this branch can potentially be contributed to the Weblate
 project, please cherry-pick the relevant commits into a pull request
 against **master**.
