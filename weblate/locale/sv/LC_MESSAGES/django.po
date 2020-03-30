@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-30 08:19+0000\n"
-"PO-Revision-Date: 2020-03-30 11:50+0000\n"
+"PO-Revision-Date: 2020-03-31 02:52+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -2183,31 +2183,23 @@ msgstr "Java Message-formatsträngen matchar inte källan"
 
 #: weblate/checks/format.py:433
 msgid "You need to screen an apostrophe with another one."
-msgstr ""
+msgstr "Du måste använda dubbel apostrof för att få ut en."
 
 #: weblate/checks/format.py:439
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "Maskinöversättning"
+msgstr "i18next interpolation"
 
 #: weblate/checks/format.py:440
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
-msgstr "BB-kod i översättningen matchar inte källan"
+msgstr "i18next interpolationen matchar inte källan"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Percent interpolation"
-msgstr "Integration av versionskontroll"
+msgstr "Procent interpolation"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent interpolation does not match source"
-msgstr "BB-kod i översättningen matchar inte källan"
+msgstr "Procent interpolationen matchar inte källan"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -3006,20 +2998,16 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Hittade inga giltiga poster i den uppladdade filen!"
 
 #: weblate/memory/models.py:112 weblate/memory/models.py:117
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Kunde inte tolka JSON-fil!"
+msgstr "Kunde inte tolka JSON-filen: {!s}"
 
 #: weblate/memory/models.py:146
 msgid "Failed to parse TMX file!"
 msgstr "Kunde inte tolka TMX-fil!"
 
 #: weblate/memory/models.py:156
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
-msgstr "Kunde inte hitta matchande språk!"
+msgstr "Kunde inte hitta källspråk!"
 
 #: weblate/memory/models.py:233
 msgctxt "Translation memory category"
@@ -3411,14 +3399,11 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:25
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
 msgstr ""
-"Om bekräftelselänken förfaller innan du hunnit använda den, registrera dig "
-"igen."
+"Om bekräftelselänken upphör att gälla innan du hunnit använda den, begär en "
+"ny."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -4375,7 +4360,7 @@ msgstr "Använder %(used)s av %(total)s"
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:32
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "Visible to everybody."
-msgstr ""
+msgstr "Synlig för alla."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:35
 #: weblate/templates/component_info.html:26
@@ -4389,10 +4374,8 @@ msgid "Only chosen users can contribute."
 msgstr "Bara utvalda användare kan bidra."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "Synlig men kan bara översättas av utvalda användare"
+msgstr "Synlig endast för utvalda användare."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -4674,10 +4657,8 @@ msgstr "Skärmdumpar"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:351
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "Lägg till kommentar"
+msgstr "Skicka meddelande"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -4952,10 +4933,6 @@ msgstr ""
 "listade nedan."
 
 #: weblate/templates/dashboard/anonymous.html:10
-#, fuzzy
-#| msgid ""
-#| "You need to be logged in to translate, otherwise you can only make "
-#| "suggestions."
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
@@ -5777,7 +5754,7 @@ msgstr "Stäng av det här meddelandet"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "Genererades på %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -5872,16 +5849,14 @@ msgid "Announcement"
 msgstr "Tillkännagivande"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Ny kommentar i %(component)s"
+msgstr "Nytt meddelande för %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message at %(site_title)s"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Nytt meddelande på anslagstavlan för %(site_title)s"
+msgstr "Nytt meddelande på %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -6090,8 +6065,6 @@ msgid "Last login"
 msgstr "Senaste inloggning"
 
 #: weblate/templates/manage-access.html:39
-#, fuzzy
-#| msgid "Not yet logged in"
 msgid "Not yet signed in"
 msgstr "Ännu inte inloggad"
 
@@ -6132,10 +6105,8 @@ msgid "Component alerts"
 msgstr "Komponentvarningar"
 
 #: weblate/templates/manage/alerts.html:30
-#, fuzzy
-#| msgid "Subproject"
 msgid "Projects without components"
-msgstr "Underprojekt"
+msgstr "Projekt utan komponenter"
 
 #: weblate/templates/manage/alerts.html:42
 #: weblate/templates/manage/performance.html:88
@@ -6778,8 +6749,6 @@ msgstr ""
 "\">projektinställningar</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
-#, fuzzy
-#| msgid "Additional labels can be defined by project administrator."
 msgid "Additional labels can be defined by project administrators."
 msgstr "Ytterligare etiketter kan definieras av projektadministratören."
 
@@ -6852,6 +6821,8 @@ msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
 msgstr ""
+"Versionskontroll eller filer som ska översättas konfigureras på enskilda "
+"komponenter:"
 
 #: weblate/templates/snippets/project-nav.html:137
 msgid "Tweet this translation"
@@ -7001,10 +6972,8 @@ msgid "Suggested change:"
 msgstr "Föreslagen ändring:"
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "Fallerande kontroller"
+msgstr "Fallerande kontroller:"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:516 weblate/utils/state.py:31
@@ -7079,30 +7048,22 @@ msgid "This component is set up incorrectly."
 msgstr "Den här komponenten är felaktig inställd."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
-#, fuzzy
-#| msgid "The repository browser URL points to non existing locations:"
 msgid "The repository browser URL points to non-existing locations:"
 msgstr "Url:en för databasbläddring pekar på platser som inte finns:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid ""
-#| "This can happen if path in translation files contain references to parent "
-#| "directory or is absolute."
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
 msgstr ""
-"Detta kan inträffa om sökvägen i översättningsfiler innehåller referenser "
-"till överordnad katalog eller är absolut."
+"Detta kan inträffa om en sökväg i översättningsfilerna innehåller referenser "
+"till en överordnad katalog eller är absolut."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
 msgstr "Detta projekt är felaktigt inställt."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
-#, fuzzy
-#| msgid "The project website URL points to non existing location:"
 msgid "The project website URL points to a non-existing location:"
 msgstr ""
 "Webbadressen till projektets webbplats pekar på en plats som inte finns:"
@@ -7120,10 +7081,6 @@ msgid "The following filemasks were found multiple times:"
 msgstr "Följande filmasker hittades flera gånger:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to single "
-#| "language in Weblate."
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
@@ -7136,28 +7093,24 @@ msgid "Please fix this by removing one of the translation files."
 msgstr "Åtgärda detta genom att ta bort en av översättningsfilerna."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please consider following steps:"
 msgid "Please consider the following:"
-msgstr "Överväg följande åtgärder:"
+msgstr "Tänk på följande:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Change the source language in the project settings, or remove its "
 "translation file."
 msgstr ""
+"Ändra källspråket i projektinställningarna eller ta bort dess "
+"översättningsfil."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Avoid having translation files for both plain language code and code with "
-#| "default country (for example de and de_DE)."
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
-"Undvik att ha översättningsfiler för både vanlig språkkod och kod med "
-"standardland (till exempel se och sv_SE)."
+"Undvik att ha översättningsfiler för både endast språkkod och kod med dess "
+"motsvarande områdesbeteckning (till exempel se och sv_SE)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -8147,10 +8100,8 @@ msgid "Please choose a valid filter type."
 msgstr "Välj en giltig filtertyp."
 
 #: weblate/trans/forms.py:404
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "Strängen du ville översätta är ej längre tillgängligt!"
+msgstr "Strängen du ville översätta är ej längre tillgänglig."
 
 #: weblate/trans/forms.py:414
 msgid ""
@@ -8359,7 +8310,7 @@ msgstr "Användare att lägga till"
 
 #: weblate/trans/forms.py:1031
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr ""
+msgstr "Skriv in ett befintligt Weblate-kontonamn eller en e-postadress."
 
 #: weblate/trans/forms.py:1079
 msgid "Report format"
@@ -8533,14 +8484,12 @@ msgstr ""
 "tillgängliga: %s"
 
 #: weblate/trans/forms.py:1708
-#, fuzzy
-#| msgid "API access"
 msgid "Access"
-msgstr "API-åtkomst"
+msgstr "Åtkomst"
 
 #: weblate/trans/forms.py:1717
 msgid "Workflow"
-msgstr ""
+msgstr "Arbetsflöde"
 
 #: weblate/trans/forms.py:1741
 msgid ""
@@ -8757,7 +8706,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:125
 msgid "Announcements"
-msgstr ""
+msgstr "Meddelanden"
 
 #: weblate/trans/models/announcement.py:132
 msgid "Do not specify both component and project!"
@@ -9001,7 +8950,7 @@ msgstr "Mottaget arkivmeddelande"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
 msgid "Replaced file by upload"
-msgstr ""
+msgstr "Fil ersatt genom uppladdning"
 
 #: weblate/trans/models/change.py:443
 #, python-format
@@ -9339,6 +9288,8 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
+"Arkivet kräver autentisering, ange autentiseringsuppgifter i URL-adressen "
+"eller använd SSH-åtkomst istället."
 
 #: weblate/trans/models/component.py:795
 #, python-format
@@ -10328,11 +10279,10 @@ msgstr[1] ""
 "inte: {2}, uppdaterade: {3})."
 
 #: weblate/trans/views/files.py:164
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
-"Den uppladdade filen kommer att sammanfogas med nuvarande översättningen."
+"Flertalsformer i den uppladdade filen matchar inte den aktuella "
+"översättningen."
 
 #: weblate/trans/views/git.py:42
 msgid "Failed to lock the repository, another operation is in progress."
@@ -10408,10 +10358,8 @@ msgid "Workflow customization"
 msgstr "Anpassning av arbetsflöde"
 
 #: weblate/trans/views/js.py:64
-#, fuzzy
-#| msgid "SSH key not available."
 msgid "Service is currently not available."
-msgstr "SSH-nyckel inte tillgänglig."
+msgstr "Tjänsten är för närvarande inte tillgänglig."
 
 #: weblate/trans/views/lock.py:40
 msgid "Component is now locked for translation updates!"
@@ -10558,16 +10506,13 @@ msgid "Read only"
 msgstr "Skrivskyddad"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Komponent: {}"
+msgstr "Kompileringen misslyckades: {0}"
 
 #: weblate/utils/validators.py:69
-#, fuzzy
-#| msgid "Regular expression should not match empty string."
 msgid "The regular expression can not match an empty string."
-msgstr "Reguljärt uttryck ska inte matcha en tom sträng."
+msgstr "Det reguljära uttrycket kan inte matcha en tom sträng."
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
@@ -10583,24 +10528,19 @@ msgid "Invalid image!"
 msgstr "Ogiltig bild!"
 
 #: weblate/utils/validators.py:126
-#, fuzzy, python-format
-#| msgid "Not supported image type: %s"
+#, python-format
 msgid "Unsupported image type: %s"
 msgstr "Bildtypen '%s' stöds inte"
 
 #: weblate/utils/validators.py:132
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
-msgstr "Bilden är för stor, skala ner eller skära ut den relevanta delen!"
+msgstr "Bilden är för stor, beskär eller skala ner den."
 
 #: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
 msgstr "Undvik att använda specialtecken i fullständigt namn."
 
 #: weblate/utils/validators.py:165
-#, fuzzy
-#| msgid "Username can not start with a full stop."
 msgid "The username can not start with a full stop."
 msgstr "Användarnamnet kan inte börja med punkt."
 
@@ -10609,32 +10549,22 @@ msgid "Enter a valid e-mail address."
 msgstr "Ange en giltig e-postadress."
 
 #: weblate/utils/validators.py:184
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "This e-mail address is disallowed."
-msgstr "Denna e-postadressen är inte tillåten."
+msgstr "Den här e-postadressen är inte tillåten."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Could not evaluate plural equation: {}"
 msgstr "Kunde inte evaluera pluralekvationen: {}"
 
 #: weblate/utils/validators.py:197
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid "The filename can not contain reference to a parent directory."
-msgstr "Filnamn kan inte innehålla referens till en överordnad katalog."
+msgstr "Filnamnet kan inte innehålla en referens till en överordnad katalog."
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "Filename can not be an absolute path."
 msgid "The filename can not be an absolute path."
-msgstr "Filnamn kan inte vara en absolut sökväg."
+msgstr "Filnamnet kan inte vara en absolut sökväg."
 
 #: weblate/utils/validators.py:206
-#, fuzzy
-#| msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "Filnamnet bör vara så enkelt som möjligt. Du kanske vill använda: {}"
 
