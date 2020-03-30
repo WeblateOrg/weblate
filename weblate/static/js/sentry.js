@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.15.2 (4df86f40) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.15.4 (f6c76cf0) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -643,6 +643,15 @@ var Sentry = (function (exports) {
     }
 
     /**
+     * Requires a module which is protected against bundler minification.
+     *
+     * @param request The module path to resolve
+     */
+    function dynamicRequire(mod, request) {
+        // tslint:disable-next-line: no-unsafe-any
+        return mod.require(request);
+    }
+    /**
      * Checks whether we're in the Node.js or Browser environment
      *
      * @returns Answer to given question
@@ -908,8 +917,7 @@ var Sentry = (function (exports) {
     var crossPlatformPerformance = (function () {
         if (isNodeEnv()) {
             try {
-                var req = require;
-                var perfHooks = req('perf_hooks');
+                var perfHooks = dynamicRequire(module, 'perf_hooks');
                 return perfHooks.performance;
             }
             catch (_) {
@@ -2955,8 +2963,14 @@ var Sentry = (function (exports) {
      */
     function getHubFromActiveDomain(registry) {
         try {
-            var req = require;
-            var domain = req('domain');
+            var property = 'domain';
+            var carrier = getMainCarrier();
+            var sentry = carrier.__SENTRY__;
+            // tslint:disable-next-line: strict-type-predicates
+            if (!sentry || !sentry.extensions || !sentry.extensions[property]) {
+                return getHubFromCarrier(registry);
+            }
+            var domain = sentry.extensions[property];
             var activeDomain = domain.active;
             // If there no active domain, just return global hub
             if (!activeDomain) {
@@ -4541,7 +4555,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.15.2';
+    var SDK_VERSION = '5.15.4';
 
     /**
      * The Sentry Browser SDK Client.
