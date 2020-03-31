@@ -208,6 +208,12 @@ class ComponentTest(RepoTestCase):
         # For Czech the English source string should be used
         self.verify_component(component, 2, "cs", 4, source_units=3)
 
+    def test_create_json_intermediate_empty(self):
+        # This should automatically create empty English file
+        component = self.create_json_intermediate_empty()
+        # The English one should have source from intermediate and no translated units
+        self.verify_component(component, 1, "en", 4, "Hello world!\n", source_units=0)
+
     def test_create_joomla(self):
         component = self.create_joomla()
         self.verify_component(component, 3, "cs", 4)
