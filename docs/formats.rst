@@ -939,6 +939,11 @@ Windows RC files
 
     Experimental support has been added in Weblate 3.0, not supported on Python 3.
 
+.. warning::
+
+    This format is still not supported on Python 3 due to bugs in underlying library,
+    see <https://github.com/translate/translate/issues/3204>.
+
 .. index::
     pair: RC; file format
 
