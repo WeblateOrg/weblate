@@ -139,6 +139,13 @@
             {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
             </div>
         {% endif %}
+        {% if unit.translation.component.intermediate %}
+            <!-- editing template -->
+            <div class="form-group">
+            <label>{% trans "Intermediate language" %}</label>
+            {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+            </div>
+        {% endif %}
     {% else %}
         {% if unit.note %}
             <!-- note -->
