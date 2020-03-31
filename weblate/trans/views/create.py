@@ -43,6 +43,8 @@ from weblate.trans.forms import (
     ProjectCreateForm,
 )
 from weblate.trans.models import Component, Project
+from weblate.trans.tasks import perform_update
+from weblate.utils import messages
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -180,6 +182,19 @@ class CreateComponent(BaseCreateView):
             "component_progress", kwargs=self.object.get_reverse_url_kwargs()
         )
 
+    def warn_outdated(self, form):
+        linked = form.instance.linked_component
+        if linked:
+            perform_update.delay("Component", linked.pk, auto=True)
+            if linked.repo_needs_merge():
+                messages.warning(
+                    self.request,
+                    _(
+                        "The repository is outdated, you might not get "
+                        "expected results until you update it."
+                    ),
+                )
+
     def form_valid(self, form):
         if self.stage == "create":
             result = super().form_valid(form)
@@ -190,11 +205,13 @@ class CreateComponent(BaseCreateView):
             self.initial = form.cleaned_data
             self.stage = "create"
             self.request.method = "GET"
+            self.warn_outdated(form)
             return self.get(self, self.request)
         # Move to discover
         self.stage = "discover"
         self.request.method = "GET"
         self.initial = form.cleaned_data
+        self.warn_outdated(form)
         return self.get(self, self.request)
 
     def get_form(self, form_class=None, empty=False):
