@@ -1652,6 +1652,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Validate template loading
         if self.has_template():
+            self.create_template_if_missing()
             full_path = os.path.join(self.full_path, self.template)
             if not os.path.exists(full_path):
                 msg = _("Could not find template file.")
@@ -1765,6 +1766,34 @@ class Component(models.Model, URLMixin, PathMixin):
             return None
         return os.path.join(self.full_path, self.new_base)
 
+    def create_template_if_missing(self):
+        """Create blank template in case intermediate language is enabled."""
+        fullname = self.get_template_filename()
+        if (
+            not self.intermediate
+            or not self.is_valid_base_for_new()
+            or os.path.exists(fullname)
+            or not os.path.exists(self.get_intermediate_filename())
+        ):
+            return
+        self.file_format_cls.add_language(
+            fullname, self.project.source_language, self.get_new_base_filename()
+        )
+
+        message = render_template(
+            self.add_message,
+            translation=Translation(
+                filename=self.template,
+                language_code=self.project.source_language.code,
+                language=self.project.source_language,
+                component=self,
+            ),
+        )
+        with self.repository.lock:
+            self.repository.commit(
+                message, "Weblate <noreply@weblate.org>", timezone.now(), [fullname]
+            )
+
     def save(self, *args, **kwargs):
         """Save wrapper.
 
@@ -1807,6 +1836,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
         self.template = cleanup_path(self.template)
+        self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
         # Save/Create object
@@ -1839,6 +1869,9 @@ class Component(models.Model, URLMixin, PathMixin):
         # Configure git repo if there were changes
         if changed_git:
             self.sync_git_repo(skip_push=skip_push)
+
+        # Create template in case intermediate file is present
+        self.create_template_if_missing()
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
