@@ -108,14 +108,35 @@ class CleanupAddon(BaseCleanupAddon):
             storage.save()
 
     def update_translations(self, component, previous_head):
+        def get_index(index, intermediate, translation):
+            if intermediate and translation.is_source:
+                return intermediate
+            return index
+
         index = self.build_index(self.template_store)
+        if self.intermediate:
+            intermediate = self.build_index(self.intermediate_store)
+        else:
+            intermediate = {}
 
         if isinstance(self.template_store, AppStoreParser):
             for translation in self.iterate_translations(component):
-                self.update_appstore(index, translation, translation.store)
+                self.update_appstore(
+                    get_index(index, intermediate, translation),
+                    translation,
+                    translation.store,
+                )
         elif isinstance(self.template_store, LISAfile):
             for translation in self.iterate_translations(component):
-                self.update_lisa(index, translation, translation.store)
+                self.update_lisa(
+                    get_index(index, intermediate, translation),
+                    translation,
+                    translation.store,
+                )
         else:
             for translation in self.iterate_translations(component):
-                self.update_units(index, translation, translation.store)
+                self.update_units(
+                    get_index(index, intermediate, translation),
+                    translation,
+                    translation.store,
+                )
