@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-30 08:19+0000\n"
-"PO-Revision-Date: 2020-03-31 02:52+0000\n"
+"PO-Revision-Date: 2020-03-31 15:55+0000\n"
 "Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
@@ -2137,28 +2137,20 @@ msgid "You need to screen an apostrophe with another one."
 msgstr ""
 
 #: weblate/checks/format.py:439
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "机器翻译"
+msgstr "i18next 插补"
 
 #: weblate/checks/format.py:440
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
-msgstr "译文中的 BBcode 和原文不一致"
+msgstr "提供的 i18next 插补和原文不一致"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Percent interpolation"
-msgstr "版本控制集成"
+msgstr "百分号插补"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent interpolation does not match source"
-msgstr "译文中的 BBcode 和原文不一致"
+msgstr "提供的百分号插补和原文不一致"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2938,20 +2930,16 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "在上传的文件中未找到有效条目！"
 
 #: weblate/memory/models.py:112 weblate/memory/models.py:117
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "解析 JSON 文件失败！"
+msgstr "解析 JSON 文件失败：{!s}"
 
 #: weblate/memory/models.py:146
 msgid "Failed to parse TMX file!"
 msgstr "解析 TMX 文件失败！"
 
 #: weblate/memory/models.py:156
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
-msgstr "找不到匹配的语言！"
+msgstr "找不到源语言！"
 
 #: weblate/memory/models.py:233
 msgctxt "Translation memory category"
@@ -3327,12 +3315,9 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:25
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
-msgstr "如果确认链接使用时已过期，请重新注册。"
+msgstr "如果确认链接使用时已过期，请请求一个新链接。"
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -4238,7 +4223,7 @@ msgstr "已使用 %(used)s / %(total)s"
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:32
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "Visible to everybody."
-msgstr ""
+msgstr "对所有人可见。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:35
 #: weblate/templates/component_info.html:26
@@ -4252,10 +4237,8 @@ msgid "Only chosen users can contribute."
 msgstr "只允许指定用户贡献。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "只有指定的用户可以查看和翻译"
+msgstr "只有指定的用户可见。"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -4530,10 +4513,8 @@ msgstr "截图"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:351
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "发送注释"
+msgstr "发送公告"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -4795,10 +4776,6 @@ msgid ""
 msgstr "本站运行着 %(weblate_name_link)s 用于翻译下列软件项目。"
 
 #: weblate/templates/dashboard/anonymous.html:10
-#, fuzzy
-#| msgid ""
-#| "You need to be logged in to translate, otherwise you can only make "
-#| "suggestions."
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
@@ -5582,7 +5559,7 @@ msgstr "关闭此通知"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "生成于 %(timestamp)s。"
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -5671,16 +5648,14 @@ msgid "Announcement"
 msgstr "公告"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "%(component)s 中有新注释"
+msgstr "%(project)s 中有新公告"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message at %(site_title)s"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "%(site_title)s 上有新白板消息"
+msgstr "%(site_title)s 上有新公告"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -5881,8 +5856,6 @@ msgid "Last login"
 msgstr "上次登录"
 
 #: weblate/templates/manage-access.html:39
-#, fuzzy
-#| msgid "Not yet logged in"
 msgid "Not yet signed in"
 msgstr "尚未登录"
 
@@ -5919,10 +5892,8 @@ msgid "Component alerts"
 msgstr "组件警报"
 
 #: weblate/templates/manage/alerts.html:30
-#, fuzzy
-#| msgid "Project / Component"
 msgid "Projects without components"
-msgstr "项目 / 组件"
+msgstr "没有组件的项目"
 
 #: weblate/templates/manage/alerts.html:42
 #: weblate/templates/manage/performance.html:88
@@ -6527,8 +6498,6 @@ msgid ""
 msgstr "可以在<a href=\"%(url)s\">项目设置</a>中定义其他标签。"
 
 #: weblate/templates/snippets/labels_description.html:9
-#, fuzzy
-#| msgid "Additional labels can be defined by project administrator."
 msgid "Additional labels can be defined by project administrators."
 msgstr "项目管理员可以定义其他标签。"
 
@@ -6597,7 +6566,7 @@ msgstr "该等式确定了在数量 (n) 时所要使用的复数形式。"
 msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
-msgstr ""
+msgstr "版本控制或者要翻译的文件按照独立的组件进行配置："
 
 #: weblate/templates/snippets/project-nav.html:137
 msgid "Tweet this translation"
@@ -6746,10 +6715,8 @@ msgid "Suggested change:"
 msgstr "建议更改："
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "未通过检查"
+msgstr "未通过的检查："
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:516 weblate/utils/state.py:31
@@ -6822,16 +6789,10 @@ msgid "This component is set up incorrectly."
 msgstr "此组件设置不正确。"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
-#, fuzzy
-#| msgid "The repository browser URL points to non existing locations:"
 msgid "The repository browser URL points to non-existing locations:"
 msgstr "存储库浏览器 URL 指向不存在的位置："
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid ""
-#| "This can happen if path in translation files contain references to parent "
-#| "directory or is absolute."
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
@@ -6842,8 +6803,6 @@ msgid "This project is set up incorrectly."
 msgstr "此项目的设置不正确。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
-#, fuzzy
-#| msgid "The project website URL points to non existing location:"
 msgid "The project website URL points to a non-existing location:"
 msgstr "项目网站 URL 指向不存在的位置："
 
@@ -6860,10 +6819,6 @@ msgid "The following filemasks were found multiple times:"
 msgstr "多次找到以下文件掩码："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to single "
-#| "language in Weblate."
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
@@ -6874,27 +6829,20 @@ msgid "Please fix this by removing one of the translation files."
 msgstr "请通过删除其中一个翻译文件来解决此问题。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please consider following steps:"
 msgid "Please consider the following:"
-msgstr "请考虑以下步骤："
+msgstr "请考虑以下操作："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Change the source language in the project settings, or remove its "
 "translation file."
-msgstr ""
+msgstr "在项目设置中变更源语言，或者移除其翻译文件。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Avoid having translation files for both plain language code and code with "
-#| "default country (for example de and de_DE)."
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
-msgstr ""
-"避免同时具有普通语言代码和具有默认国家/地区代码的翻译文件（例如de和de_DE）。"
+msgstr "避免同时具有普通语言代码和具有等效国家/地区代码的翻译文件（例如de和de_DE）。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -7835,10 +7783,8 @@ msgid "Please choose a valid filter type."
 msgstr "请选择一个有效的筛选器类型。"
 
 #: weblate/trans/forms.py:404
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "您想要翻译的字符串已不可用了！"
+msgstr "您想要翻译的字符串现在已不可用。"
 
 #: weblate/trans/forms.py:414
 msgid ""
@@ -8039,7 +7985,7 @@ msgstr "要添加的用户"
 
 #: weblate/trans/forms.py:1031
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr ""
+msgstr "请输入一个已存在的 Weblate 用户名或电子邮箱地址。"
 
 #: weblate/trans/forms.py:1079
 msgid "Report format"
@@ -8207,14 +8153,12 @@ msgid ""
 msgstr "您必须为这些组件指定允许它们被公开访问的许可证：%s"
 
 #: weblate/trans/forms.py:1708
-#, fuzzy
-#| msgid "API access"
 msgid "Access"
-msgstr "API 访问"
+msgstr "访问"
 
 #: weblate/trans/forms.py:1717
 msgid "Workflow"
-msgstr ""
+msgstr "工作流"
 
 #: weblate/trans/forms.py:1741
 msgid ""
@@ -8422,7 +8366,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:125
 msgid "Announcements"
-msgstr ""
+msgstr "公告"
 
 #: weblate/trans/models/announcement.py:132
 msgid "Do not specify both component and project!"
@@ -8666,7 +8610,7 @@ msgstr "收到仓库通知"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
 msgid "Replaced file by upload"
-msgstr ""
+msgstr "上传并替换文件"
 
 #: weblate/trans/models/change.py:443
 #, python-format
@@ -8976,7 +8920,7 @@ msgstr "无法验证 SSH 主机密钥，请在管理员界面的 SSH 页增加�
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
-msgstr ""
+msgstr "仓库要求进行验证，请在 URL 中提供凭据或者改为使用 SSH 访问。"
 
 #: weblate/trans/models/component.py:795
 #, python-format
@@ -9922,10 +9866,8 @@ msgstr[0] ""
 "已处理上传文件中的 {0} 个字符串（跳过：{1}，未找到：{2}，更新：{3}）。"
 
 #: weblate/trans/views/files.py:164
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "已上传的文件将与当前译文合并。"
+msgstr "上传文件的复数形式和当前翻译不符。"
 
 #: weblate/trans/views/git.py:42
 msgid "Failed to lock the repository, another operation is in progress."
@@ -9996,10 +9938,8 @@ msgid "Workflow customization"
 msgstr "定制工作流程"
 
 #: weblate/trans/views/js.py:64
-#, fuzzy
-#| msgid "SSH key not available."
 msgid "Service is currently not available."
-msgstr "SSH 密钥不可用。"
+msgstr "服务当前不可用。"
 
 #: weblate/trans/views/lock.py:40
 msgid "Component is now locked for translation updates!"
@@ -10144,16 +10084,13 @@ msgid "Read only"
 msgstr "只读"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "组件：{}"
+msgstr "编译失败：{0}"
 
 #: weblate/utils/validators.py:69
-#, fuzzy
-#| msgid "Regular expression should not match empty string."
 msgid "The regular expression can not match an empty string."
-msgstr "正则表达式不应匹配空字符串。"
+msgstr "正则表达式不能匹配空字符串。"
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
@@ -10167,24 +10104,19 @@ msgid "Invalid image!"
 msgstr "无效图像！"
 
 #: weblate/utils/validators.py:126
-#, fuzzy, python-format
-#| msgid "Not supported image type: %s"
+#, python-format
 msgid "Unsupported image type: %s"
 msgstr "不支持的图像类型：%s"
 
 #: weblate/utils/validators.py:132
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
-msgstr "图像太大，请缩小比例或裁剪无关部分！"
+msgstr "图像太大，请缩小比例或裁剪无关部分。"
 
 #: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
 msgstr "避免在全名中使用特殊字符。"
 
 #: weblate/utils/validators.py:165
-#, fuzzy
-#| msgid "Username can not start with a full stop."
 msgid "The username can not start with a full stop."
 msgstr "用户名不能以句点开头。"
 
@@ -10193,32 +10125,22 @@ msgid "Enter a valid e-mail address."
 msgstr "输入一个有效的电子邮箱地址。"
 
 #: weblate/utils/validators.py:184
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "This e-mail address is disallowed."
-msgstr "该电子邮箱地址不被允许使用。"
+msgstr "该电子邮箱地址被禁止使用。"
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Could not evaluate plural equation: {}"
-msgstr "计算复数方程失败：{}"
+msgstr "无法计算复数方程：{}"
 
 #: weblate/utils/validators.py:197
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid "The filename can not contain reference to a parent directory."
 msgstr "文件名不能包含指向父目录的引用。"
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "Filename can not be an absolute path."
 msgid "The filename can not be an absolute path."
-msgstr "文件名不能是一个绝对路径。"
+msgstr "文件名不能是绝对路径。"
 
 #: weblate/utils/validators.py:206
-#, fuzzy
-#| msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "文件名应尽可能简单。也许您想使用：{}"
 
