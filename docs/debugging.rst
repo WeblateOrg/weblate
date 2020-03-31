@@ -5,6 +5,21 @@ Bugs can behave as application crashes or as a misbehavior.
 You are welcome to collect info on any such issue and submit it to our `issue tracker
 <https://github.com/WeblateOrg/weblate/issues>`_.
 
+Weblate logs
+------------
+
+Weblate can produce detailed logs of what is going in in the background. In
+default configuration it uses syslog and that makes the log appear either in
+:file:`/var/log/messages` or :file:`/var/log/syslog` (depending on your syslog
+daemon configuration).
+
+The Docker containers log (as usual in the Docker world) to their output, so
+you can look at the logs using `docker-compose logs`.
+
+.. seealso::
+
+   :ref:`sample-configuration` contains :setting:`django:LOGGING` configuration.
+
 Analyzing application crashes
 -----------------------------
 
