@@ -1632,8 +1632,15 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Prohibit intermediate usage without template
         if self.intermediate and not self.template:
-            msg = _("Intermediate language file can not be used without template.")
+            msg = _(
+                "Intermediate language file can not be used without editing template."
+            )
             raise ValidationError({"template": msg, "intermediate": msg})
+        if self.intermediate and not self.edit_template:
+            msg = _(
+                "Intermediate language file can not be used without editing template."
+            )
+            raise ValidationError({"edit_template": msg, "intermediate": msg})
 
         # Special case for Gettext
         if self.template.endswith(".pot") and self.filemask.endswith(".po"):
