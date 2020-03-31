@@ -252,8 +252,14 @@ class Unit(models.Model, LoggerMixin):
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
-        if unit.is_readonly() or (
-            flags is not None and "read-only" in self.get_all_flags(flags)
+        if (
+            unit.is_readonly()
+            or (flags is not None and "read-only" in self.get_all_flags(flags))
+            or (
+                flags is not None
+                and self.source_info != self
+                and self.source_info.state < STATE_TRANSLATED
+            )
         ):
             return STATE_READONLY
 
@@ -506,7 +512,7 @@ class Unit(models.Model, LoggerMixin):
         if self.old_unit.state == self.state and self.old_unit.target == self.target:
             return False
 
-        if self.translation.is_source:
+        if self.translation.is_source and not self.translation.component.intermediate:
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
 
