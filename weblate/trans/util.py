@@ -345,5 +345,4 @@ def get_state_css(unit):
 
     if unit.has_suggestion:
         flags.append("state-suggest")
-    print(unit, flags)
     return flags
