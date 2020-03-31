@@ -134,7 +134,7 @@ class GoogleTranslationV3(MachineTranslation):
             for l in self.client.get_supported_languages(self.parent).languages
         ]
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         trans = self.client.translate_text(
             [text], language, self.parent, source_language_code=source
