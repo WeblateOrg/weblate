@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Michal Čihař <michal@cihar.com>, 2012, 2018, 2019, 2020.
-# Pavel Borecki <pavel.borecki@gmail.com>, 2018, 2019.
+# Pavel Borecki <pavel.borecki@gmail.com>, 2018, 2019, 2020.
 # Filip Hron <filip.hron@gmail.com>, 2018, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
 msgid ""
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-03-30 08:19+0000\n"
-"PO-Revision-Date: 2020-03-30 11:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-03-31 18:11+0000\n"
+"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
 "\n"
 "Language: cs\n"
@@ -284,14 +284,12 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Od teď se nemůžete přihlásit prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:86
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "Přihlášení prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Přihlášení prostřednictvím {method} ({name}) z nového zařízení."
 
@@ -326,14 +324,10 @@ msgid "You can now log in using password."
 msgstr "Od teď se můžete přihlásit prostřednictvím hesla."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
 msgstr "Přihlášení pomocí hesla."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
 msgstr "Přihlášení pomocí hesla z nového zařízení."
 
@@ -566,10 +560,8 @@ msgstr "Nová součást překladu"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Nový komentář"
+msgstr "Nové oznámení"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -610,8 +602,6 @@ msgid "Your password can't match a password you have used in the past."
 msgstr "Heslo nesmí být stejné jako to, které jste používali v minulosti."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
 msgstr "Nelze dokončit obnovení hesla pokud jste přihlášeni!"
 
@@ -620,14 +610,10 @@ msgid "The registration link has been invalidated."
 msgstr "Odkaz pro registraci byl zneplatněn."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
 msgstr "Nemůžete dokončit registraci pokud jste přihlášeni!"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
 msgstr "Registraci můžete potvrdit pouze pokud jste přihlášeni!"
 
@@ -1475,10 +1461,8 @@ msgid "Manage users (on the entire platform)"
 msgstr "Spravovat uživatele (na celé platformě)"
 
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Spravovat uživatele (na celé platformě)"
+msgstr "Spravovat oznámení (na celé platformě)"
 
 #: weblate/auth/data.py:90
 msgid "Manage translation memory (on the entire platform)"
@@ -1958,7 +1942,7 @@ msgstr "Počet \\n v překladu neodpovídá zdroji"
 
 #: weblate/checks/chars.py:332
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Neshodují se zalomení řádků"
 
 #: weblate/checks/chars.py:333
 msgid "Number of new lines in translation does not match source"
@@ -2068,10 +2052,8 @@ msgid "Read only"
 msgstr "Pouze ke čtení"
 
 #: weblate/checks/flags.py:46
-#, fuzzy
-#| msgid "String changed by"
 msgid "Strict unchanged check"
-msgstr "Řetězec změněn autorem"
+msgstr "Striktní kontrola překladů shodných s originálem"
 
 #: weblate/checks/flags.py:48 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2194,31 +2176,23 @@ msgstr "Formátovací řetězec Java zpráv v překladu neodpovídá zdroji"
 
 #: weblate/checks/format.py:433
 msgid "You need to screen an apostrophe with another one."
-msgstr ""
+msgstr "Je třeba zobrazit apostrof jiným."
 
 #: weblate/checks/format.py:439
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "Strojový překlad"
+msgstr "i18next interpolace"
 
 #: weblate/checks/format.py:440
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
-msgstr "BBcode v překladu neodpovídá zdroji"
+msgstr "i18next interpolace se neshoduje se zdrojem"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Percent interpolation"
-msgstr "Používání verzovacího systému"
+msgstr "Procent interpolace"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent interpolation does not match source"
-msgstr "BBcode v překladu neodpovídá zdroji"
+msgstr "Procento interpolace neodpovídá zdroji"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
