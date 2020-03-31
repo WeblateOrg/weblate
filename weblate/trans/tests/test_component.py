@@ -37,8 +37,16 @@ class ComponentTest(RepoTestCase):
     """Component object testing."""
 
     def verify_component(
-        self, component, translations, lang=None, units=0, unit="Hello, world!\n"
+        self,
+        component,
+        translations,
+        lang=None,
+        units=0,
+        unit="Hello, world!\n",
+        source_units=None,
     ):
+        if source_units is None:
+            source_units = units
         # Validation
         component.full_clean()
         # Correct path
@@ -60,7 +68,8 @@ class ComponentTest(RepoTestCase):
             self.assertEqual(translation.unit_set.count(), units)
             # Count translated units in it
             self.assertEqual(
-                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(), units
+                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(),
+                source_units,
             )
 
     def test_create(self):
@@ -190,6 +199,14 @@ class ComponentTest(RepoTestCase):
     def test_create_json_webextension(self):
         component = self.create_json_webextension()
         self.verify_component(component, 2, "cs", 4)
+
+    def test_create_json_intermediate(self):
+        component = self.create_json_intermediate()
+        # The English one should have source from intermediate
+        # Only 3 source units are "translated" here
+        self.verify_component(component, 2, "en", 4, "Hello world!\n", source_units=3)
+        # For Czech the English source string should be used
+        self.verify_component(component, 2, "cs", 4, source_units=3)
 
     def test_create_joomla(self):
         component = self.create_joomla()

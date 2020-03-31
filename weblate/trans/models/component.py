@@ -274,6 +274,18 @@ class Component(models.Model, URLMixin, PathMixin):
             "for monolingual translations."
         ),
     )
+    intermediate = models.CharField(
+        verbose_name=gettext_lazy("Intermediate language file"),
+        max_length=FILENAME_LENGTH,
+        blank=True,
+        help_text=gettext_lazy(
+            "Filename of intermediate translation file. In most cases "
+            "this is a translation file provided by developers and is "
+            "used when creating actual source strings."
+        ),
+        validators=[validate_filename],
+    )
+
     new_base = models.CharField(
         verbose_name=gettext_lazy("Template for new translations"),
         max_length=FILENAME_LENGTH,
@@ -856,6 +868,8 @@ class Component(models.Model, URLMixin, PathMixin):
         """Detect whether list of changed files matches configuration."""
         if self.template and self.template in changed:
             return True
+        if self.intermediate and self.intermediate in changed:
+            return True
         for path in changed:
             if self.filemask_re.match(path):
                 return True
@@ -1244,6 +1258,9 @@ class Component(models.Model, URLMixin, PathMixin):
                 matches.discard(filename)
 
         if self.has_template():
+            # We do not want to show intermediate translation standalone
+            if self.intermediate:
+                matches.discard(self.intermediate)
             # We want to list template among translations as well
             matches.discard(self.template)
             return [self.template] + sorted(matches)
@@ -1613,6 +1630,11 @@ class Component(models.Model, URLMixin, PathMixin):
             msg = _("You can not use a base file for bilingual translation.")
             raise ValidationError({"template": msg, "file_format": msg})
 
+        # Prohibit intermediate usage without template
+        if self.intermediate and not self.template:
+            msg = _("Intermediate language file can not be used without template.")
+            raise ValidationError({"template": msg, "intermediate": msg})
+
         # Special case for Gettext
         if self.template.endswith(".pot") and self.filemask.endswith(".po"):
             msg = _("Using a .pot file as base file is unsupported.")
@@ -1726,6 +1748,10 @@ class Component(models.Model, URLMixin, PathMixin):
         """Create absolute filename for template."""
         return os.path.join(self.full_path, self.template)
 
+    def get_intermediate_filename(self):
+        """Create absolute filename for intermediate."""
+        return os.path.join(self.full_path, self.intermediate)
+
     def get_new_base_filename(self):
         """Create absolute filename for base file for new translations."""
         if not self.new_base:
@@ -1756,12 +1782,14 @@ class Component(models.Model, URLMixin, PathMixin):
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
             )
+            changed_template = (old.intermediate != self.intermediate) or (
+                old.template != self.template
+            )
             changed_setup = (
                 (old.file_format != self.file_format)
                 or (old.edit_template != self.edit_template)
-                or (old.template != self.template)
+                or changed_template
             )
-            changed_template = old.template != self.template
             changed_shaping = old.shaping_regex != self.shaping_regex
             # Detect slug changes and rename git repo
             self.check_rename(old)
@@ -1956,13 +1984,31 @@ class Component(models.Model, URLMixin, PathMixin):
         monolingual = self.file_format_cls.monolingual
         return (monolingual or monolingual is None) and self.template
 
-    def load_template_store(self):
-        """Load translate-toolkit store for template."""
-        return self.file_format_cls.parse(self.get_template_filename())
-
     def drop_template_store_cache(self):
         if "template_store" in self.__dict__:
             del self.__dict__["template_store"]
+        if "intermediate_store" in self.__dict__:
+            del self.__dict__["intermediate_store"]
+
+    def load_intermediate_store(self):
+        """Load translate-toolkit store for intermediate."""
+        return self.file_format_cls.parse(self.get_intermediate_filename())
+
+    @cached_property
+    def intermediate_store(self):
+        """Get translate-toolkit store for intermediate."""
+        # Do we need template?
+        if not self.has_template() or not self.intermediate:
+            return None
+
+        try:
+            return self.load_intermediate_store()
+        except Exception as exc:
+            self.handle_parse_error(exc)
+
+    def load_template_store(self):
+        """Load translate-toolkit store for template."""
+        return self.file_format_cls.parse(self.get_template_filename())
 
     @cached_property
     def template_store(self):

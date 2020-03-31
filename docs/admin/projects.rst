@@ -331,12 +331,33 @@ Monolingual base language file
 
 Base file containing string definitions for :ref:`monolingual`.
 
+.. seealso::
+
+   :ref:`bimono`
+
 .. _component-edit_template:
 
 Edit base file
 ++++++++++++++
 
 Whether to allow editing the base file for :ref:`monolingual`.
+
+.. _component-intermediate:
+
+Intermediate language file
+++++++++++++++++++++++++++
+
+Intermediate language file for :ref:`monolingual`. In most cases this is a
+translation file provided by developers and is used when creating actual source
+strings.
+
+When set, the source translation is based on this file, but all others are
+based on :ref:`component-template`. In case the string is not translated in
+source translation, translating to other languages is prohibited.
+
+.. seealso::
+
+   :ref:`bimono`
 
 .. _component-new_base:
 
