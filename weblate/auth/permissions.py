@@ -44,7 +44,7 @@ def register_perm(*perms):
 def cache_perm(func):
     """Caching for permissions check."""
 
-    def cache_perm_wrapper(user, permission, obj, *args):
+    def cache_perm_wrapper(user, permission, obj, *args, **kwargs):
         cache_key = (
             func.__name__,
             obj.__class__.__name__,
@@ -54,7 +54,7 @@ def cache_perm(func):
 
         # Calculate if not in cache
         if cache_key not in user.perm_cache:
-            user.perm_cache[cache_key] = func(user, permission, obj, *args)
+            user.perm_cache[cache_key] = func(user, permission, obj, *args, **kwargs)
         return user.perm_cache[cache_key]
 
     return cache_perm_wrapper
