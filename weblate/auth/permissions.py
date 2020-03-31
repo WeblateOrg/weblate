@@ -28,7 +28,6 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.utils.state import STATE_READONLY
 
 SPECIALS = {}
 
@@ -168,13 +167,13 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
 @register_perm("unit.review")
 @cache_perm
-def check_unit_review(user, permission, obj):
+def check_unit_review(user, permission, obj, skip_enabled=False):
     project = obj
     if hasattr(project, "component"):
         project = project.component
     if hasattr(project, "project"):
         project = project.project
-    if not project.enable_review:
+    if not skip_enabled and not project.enable_review:
         return False
     return check_can_edit(user, permission, obj)
 
@@ -184,10 +183,10 @@ def check_unit_review(user, permission, obj):
 def check_edit_approved(user, permission, obj):
     if isinstance(obj, Unit):
         unit = obj
-        if unit.state == STATE_READONLY:
-            return False
         obj = unit.translation
-        if unit.approved and not check_unit_review(user, "unit.review", obj):
+        if (unit.readonly or unit.approved) and not check_unit_review(
+            user, "unit.review", obj, skip_enabled=True
+        ):
             return False
     if isinstance(obj, Translation) and obj.is_readonly:
         return False
