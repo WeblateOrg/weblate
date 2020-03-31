@@ -243,13 +243,18 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             return None
         return os.path.join(self.component.full_path, self.filename)
 
-    def load_store(self, fileobj=None):
+    def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
         if fileobj is None:
             fileobj = self.get_filename()
+        # Use intermediate store as template for source translation
+        if force_intermediate or (self.is_template and self.component.intermediate):
+            template = self.component.intermediate_store
+        else:
+            template = self.component.template_store
         store = self.component.file_format_cls.parse(
             fileobj,
-            self.component.template_store,
+            template,
             language_code=self.language_code,
             is_template=self.is_template,
         )
@@ -266,6 +271,33 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         except Exception as exc:
             report_error(cause="Translation parse error")
             self.component.handle_parse_error(exc, self)
+
+    def sync_unit(self, dbunits, updated, id_hash, unit, pos):
+        try:
+            newunit = dbunits[id_hash]
+            is_new = False
+        except KeyError:
+            newunit = Unit(translation=self, id_hash=id_hash, state=-1)
+            is_new = True
+
+        newunit.update_from_unit(unit, pos, is_new)
+
+        # Check if unit is worth notification:
+        # - new and untranslated
+        # - newly not translated
+        # - newly fuzzy
+        # - source string changed
+        self.was_new = self.was_new or (
+            newunit.state < STATE_TRANSLATED
+            and (
+                newunit.state != newunit.old_unit.state
+                or is_new
+                or newunit.source != newunit.old_unit.source
+            )
+        )
+
+        # Store current unit ID
+        updated[id_hash] = newunit
 
     def check_sync(self, force=False, request=None, change=None):
         """Check whether database is in sync with git and possibly updates."""
@@ -292,6 +324,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # List of updated units (used for cleanup and duplicates detection)
         updated = {}
 
+        # Position of current unit
+        pos = 0
+
         try:
             store = self.store
 
@@ -303,17 +338,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Was there change?
             self.was_new = False
-            # Position of current unit
-            pos = 0
 
             # Select all current units for update
             dbunits = {unit.id_hash: unit for unit in self.unit_set.select_for_update()}
 
             for unit in store.content_units:
                 id_hash = unit.id_hash
-
-                # Update position
-                pos += 1
 
                 # Check for possible duplicate units
                 if id_hash in updated:
@@ -337,31 +367,27 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                     )
                     continue
 
-                try:
-                    newunit = dbunits[id_hash]
-                    is_new = False
-                except KeyError:
-                    newunit = Unit(translation=self, id_hash=id_hash, state=-1)
-                    is_new = True
+                # Update position
+                pos += 1
 
-                newunit.update_from_unit(unit, pos, is_new)
+                self.sync_unit(dbunits, updated, id_hash, unit, pos)
 
-                # Check if unit is worth notification:
-                # - new and untranslated
-                # - newly not translated
-                # - newly fuzzy
-                # - source string changed
-                self.was_new = self.was_new or (
-                    newunit.state < STATE_TRANSLATED
-                    and (
-                        newunit.state != newunit.old_unit.state
-                        or is_new
-                        or newunit.source != newunit.old_unit.source
-                    )
-                )
+            # Add missing units which are not yet present in source translation, but
+            # are present in intermediate
+            if self.component.intermediate:
+                store = self.load_store(force_intermediate=True)
+                for unit in store.content_units:
+                    id_hash = unit.id_hash
 
-                # Store current unit ID
-                updated[id_hash] = newunit
+                    # Check for already processed units
+                    if id_hash in updated:
+                        continue
+
+                    # Update position
+                    pos += 1
+
+                    self.sync_unit(dbunits, updated, id_hash, unit, pos)
+
         except FileParseError as error:
             self.log_warning("skipping update due to parse error: %s", error)
             return

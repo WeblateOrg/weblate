@@ -1220,6 +1220,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "new_base",
             "filemask",
             "template",
+            "intermediate",
             "language_regex",
             "shaping_regex",
         )
@@ -1294,7 +1295,10 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "language_regex",
                     ),
                     Fieldset(
-                        _("Monolingual translations"), "template", "edit_template"
+                        _("Monolingual translations"),
+                        "template",
+                        "edit_template",
+                        "intermediate",
                     ),
                     Fieldset(
                         _("Adding new languages"),
@@ -1333,6 +1337,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
             "filemask",
             "template",
             "edit_template",
+            "intermediate",
             "new_base",
             "license",
             "new_lang",

@@ -34,8 +34,12 @@ formats are used in both variants, see detailed description below.
 
 For correct use of monolingual files, Weblate requires access to a file
 containing complete list of strings to translate with their source - this file
-is called :guilabel:`Monolingual base language file` within Weblate, though the
-naming might vary in your application.
+is called :ref:`component-template` within Weblate, though the naming might
+vary in your application.
+
+Additionally this workflow can be extended by utilizing
+:ref:`component-intermediate` to include strings provided by developers, but
+not to be used as is in the final strings.
 
 Automatic detection
 -------------------

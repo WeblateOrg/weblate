@@ -24,6 +24,7 @@ Not yet released.
 * Added support for exact matching in :doc:`user/search`.
 * Extended API to cover screenshots and extended creating projects.
 * Add support for source upload on bilingual translations.
+* Added support for intermediate language from developers.
 
 Weblate 3.11.3
 --------------
