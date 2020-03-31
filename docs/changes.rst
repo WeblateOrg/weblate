@@ -20,6 +20,7 @@ Not yet released.
 * Renamed whiteboard messages to announcements.
 * Fixed occasional problems with registration mails.
 * Improved LINGUAS update addon to handle more syntax variants.
+* Fixed editing monolingual XLIFF source file.
 
 Weblate 3.11.3
 --------------

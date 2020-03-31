@@ -491,9 +491,10 @@ class XliffUnit(TTKitUnit):
             if self.parent.is_template:
                 # Use source for monolingual files if editing template
                 self.unit.rich_source = converted
-                return
-            if self.unit.source:
+            elif self.unit.source:
+                # Update source to match current source
                 self.unit.rich_source = self.template.rich_source
+        # Always set target, even in monolingual template
         self.unit.rich_target = converted
 
     @cached_property
