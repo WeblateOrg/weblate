@@ -396,12 +396,30 @@ class ExportTest(ViewTestCase):
         # Add some content so that .mo files is non empty
         self.edit_unit(self.source, self.target)
 
+    def assert_response_contains(self, response, *matches):
+        """Replacement of assertContains to work on streamed responses."""
+        self.assertEqual(
+            response.status_code,
+            200,
+            "Couldn't retrieve content: Response code was %d" % response.status_code,
+        )
+
+        if response.streaming:
+            content = b"".join(response.streaming_content)
+        else:
+            content = response.content
+        for match in matches:
+            self.assertIn(
+                match.encode() if isinstance(match, str) else match,
+                content,
+                f"Couldn't find {match!r} in response",
+            )
+
     def test_export(self):
         response = self.client.get(
             reverse("download_translation", kwargs=self.kw_translation)
         )
-        self.assertContains(response, self.test_match_1)
-        self.assertContains(response, self.test_match_2)
+        self.assert_response_contains(response, self.test_match_1, self.test_match_2)
         self.assertEqual(response["Content-Disposition"], self.test_header)
 
     def export_format(self, fmt, **extra):
@@ -412,29 +430,37 @@ class ExportTest(ViewTestCase):
 
     def test_export_po(self):
         response = self.export_format("po")
-        self.assertContains(response, self.test_source)
-        self.assertContains(response, self.test_source_plural)
-        self.assertContains(response, "/projects/test/test/cs/")
+        self.assert_response_contains(
+            response,
+            self.test_source,
+            self.test_source_plural,
+            "/projects/test/test/cs/",
+        )
 
     def test_export_po_todo(self):
         response = self.export_format("po", q="state:<translated")
-        self.assertContains(response, self.test_source)
-        self.assertContains(response, self.test_source_plural)
-        self.assertContains(response, "/projects/test/test/cs/")
+        self.assert_response_contains(
+            response,
+            self.test_source,
+            self.test_source_plural,
+            "/projects/test/test/cs/",
+        )
 
     def test_export_tmx(self):
         response = self.export_format("tmx")
-        self.assertContains(response, self.test_source)
+        self.assert_response_contains(response, self.test_source)
 
     def test_export_xliff(self):
         response = self.export_format("xliff")
-        self.assertContains(response, self.test_source)
-        self.assertContains(response, self.test_source_plural)
+        self.assert_response_contains(
+            response, self.test_source, self.test_source_plural
+        )
 
     def test_export_xliff11(self):
         response = self.export_format("xliff11")
-        self.assertContains(response, "urn:oasis:names:tc:xliff:document:1.1")
-        self.assertContains(response, self.test_source)
+        self.assert_response_contains(
+            response, "urn:oasis:names:tc:xliff:document:1.1", self.test_source
+        )
 
     def test_export_xlsx(self):
         response = self.export_format("xlsx")

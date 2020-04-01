@@ -23,7 +23,7 @@ from time import mktime
 from zipfile import ZipFile
 
 from django.core.paginator import EmptyPage, Paginator
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
 from django.utils.translation import activate
@@ -194,10 +194,9 @@ def download_translation_file(translation, fmt=None, units=None):
         if len(filenames) == 1:
             extension = translation.store.extension()
             # Create response
-            with open(filenames[0], "rb") as handle:
-                response = HttpResponse(
-                    handle.read(), content_type=translation.store.mimetype()
-                )
+            response = FileResponse(
+                open(filenames[0], "rb"), content_type=translation.store.mimetype()
+            )
         else:
             extension = "zip"
             response = zip_download(translation.get_filename(), filenames)
