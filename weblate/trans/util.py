@@ -32,7 +32,7 @@ from django.shortcuts import render as django_render
 from django.shortcuts import resolve_url
 from django.utils import timezone
 from django.utils.encoding import force_str
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from lxml import etree
@@ -281,7 +281,7 @@ def redirect_next(next_url, fallback):
     """Redirect to next URL from request after validating it."""
     if (
         next_url is None
-        or not is_safe_url(next_url, allowed_hosts=None)
+        or not url_has_allowed_host_and_scheme(next_url, allowed_hosts=None)
         or not next_url.startswith("/")
     ):
         return redirect(fallback)
