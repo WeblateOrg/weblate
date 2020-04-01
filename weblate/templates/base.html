@@ -90,8 +90,8 @@ var _rollbarConfig = {
 
   <meta name="robots" content="index, follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}" />
-  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{% if object %}{{ object }}{% else %}{% if page_user %}{{ page_user }}{% else %}{% if site_title %}{{ site_title }}{% else %}Weblate{% endif %}{% endif %}{% endif %}{% endif %}" />
+  <meta property="og:site_name" content="{% if site_title %}{{ site_title }}{% else %}CivicDataLab{% endif %}" />
+  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{% if object %}{{ object }}{% else %}{% if page_user %}{{ page_user }}{% else %}{% if site_title %}{{ site_title }}{% else %}CivicDataLab{% endif %}{% endif %}{% endif %}{% endif %}" />
   <meta property="og:description" content="{{ description }}" />
 
 {% block extra_meta %}
@@ -218,10 +218,10 @@ var _rollbarConfig = {
           <ul class="dropdown-menu">
             <li><a href="https://weblate.org/support/">{% trans "Support" %}</a></li>
             <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
-            <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
+            <li><a href="{% url 'about' %}">{% blocktrans %}About CivicDataLab{% endblocktrans %}</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="{% documentation 'index' %}">{% trans "Documentation" %}</a></li>
-            <li><a href="https://weblate.org/contribute/">{% trans "Contribute to Weblate" %}</a></li>
+            <li><a href="https://weblate.org/contribute/">{% trans "Contribute to CivicDataLab" %}</a></li>
           </ul>
         </li>
       </ul>
