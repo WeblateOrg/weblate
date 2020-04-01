@@ -264,6 +264,10 @@ def is_sql(text):
     raise ValueError("Unsupported is lookup: {}".format(text))
 
 
+def exact_sql(field, text):
+    return Q(**{field_name(field, "iexact"): text[1:]})
+
+
 def query_sql(obj):
     if isinstance(obj, whoosh.query.And):
         return reduce(
@@ -282,6 +286,8 @@ def query_sql(obj):
             return has_sql(obj.text)
         if obj.fieldname == "is":
             return is_sql(obj.text)
+        if obj.text.startswith("="):
+            return exact_sql(obj.fieldname, obj.text)
         return field_extra(obj.fieldname, Q(**{field_name(obj.fieldname): obj.text}))
     if isinstance(obj, whoosh.query.DateRange):
         return field_extra(
