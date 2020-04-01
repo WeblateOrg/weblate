@@ -26,7 +26,7 @@ class MarkupExtractor(HTMLParser):
     def __init__(self):
         self.found_tags = set()
         self.found_attributes = defaultdict(set)
-        super().__init__()
+        super().__init__(collect_ids=False)
 
     def handle_starttag(self, tag, attrs):
         self.found_tags.add(tag)
