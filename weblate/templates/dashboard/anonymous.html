@@ -6,7 +6,7 @@
 {% block content %}
 
 <p class="alert alert-info">
-{% blocktrans %}This site runs {{ weblate_name_link }} for translating the software projects listed below.{% endblocktrans %}
+<!-- {% blocktrans %}This site runs {{ weblate_name_link }} for translating the software projects listed below.{% endblocktrans %} -->
 {% trans "You need to be signed in to translate, otherwise you can only make suggestions." %}
 </p>
 
@@ -14,6 +14,6 @@
 
 {% include "list-projects.html" with projects=top_projects %}
 
-<p><a class="btn btn-primary" id="browse-projects" href="{% url 'projects' %}">{% blocktrans count count=all_projects %}Browse {{ count }} project{% plural %}Browse all {{ count }} projects{% endblocktrans %}</a></p>
+<p><a class="btn btn-primary" id="browse-projects" href="{% url 'projects' %}">{% blocktrans count count=all_projects %}Browse {{ count }} project{% plural %}Browse all {{ count }} COVID19 resources{% endblocktrans %}</a></p>
 
 {% endblock %}
