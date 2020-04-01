@@ -3,7 +3,7 @@ Weblate 4.0
 
 Not yet released.
 
-* Weblate now requires Python 3.5 or newer.
+* Weblate now requires Python 3.6 or newer.
 * Added management overview of component alerts.
 * Added component alert for broken repository browser URLs.
 * Improved log in and registration pages.

@@ -253,7 +253,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
-* Python versions older than 3.5 are no longer supported, see :ref:`py3`
+* Python versions older than 3.6 are no longer supported, see :ref:`py3`
 * The only database backends supported by Weblate are now PostgreSQL, MySQL and MariaDB.
 * There are several new checks included in the :setting:`CHECK_LIST`.
 * There are several removed, updated and new dependencies.
