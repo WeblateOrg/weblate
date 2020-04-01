@@ -74,4 +74,4 @@ class UtilsConfig(AppConfig):
             CharField.register_lookup(MySQLSubstringLookup)
             TextField.register_lookup(MySQLSubstringLookup)
         else:
-            raise Exception("Unsupported database: {}".format(engine))
+            raise Exception(f"Unsupported database: {engine}")

@@ -53,12 +53,12 @@ def avatar_for_email(email, size=80):
 
 def get_fallback_avatar_url(size):
     """Return URL of fallback avatar."""
-    return os.path.join(settings.STATIC_URL, "weblate-{0}.png".format(size))
+    return os.path.join(settings.STATIC_URL, f"weblate-{size}.png")
 
 
 def get_fallback_avatar(size):
     """Return fallback avatar."""
-    filename = finders.find("weblate-{0}.png".format(size))
+    filename = finders.find(f"weblate-{size}.png")
     with open(filename, "rb") as handle:
         return handle.read()
 
@@ -122,9 +122,7 @@ def get_user_display(user, icon=True, link=False, prefix=""):
         else:
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
-        username = '<img src="{avatar}" class="avatar" /> {prefix}{name}'.format(
-            name=username, avatar=avatar, prefix=prefix
-        )
+        username = f'<img src="{avatar}" class="avatar" /> {prefix}{username}'
     else:
         username = prefix + username
 
@@ -134,8 +132,4 @@ def get_user_display(user, icon=True, link=False, prefix=""):
                 name=full_name, username=username, link=user.get_absolute_url()
             )
         )
-    return mark_safe(
-        '<span title="{name}">{username}</span>'.format(
-            name=full_name, username=username
-        )
-    )
+    return mark_safe(f'<span title="{full_name}">{username}</span>')
