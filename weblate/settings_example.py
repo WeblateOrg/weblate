@@ -43,7 +43,7 @@ DATABASES = {
         # Database user.
         "USER": "weblate",
         # Database password.
-        "PASSWORD": "",
+        "PASSWORD": "shreya",
         # Set to empty string for localhost.
         "HOST": "127.0.0.1",
         # Set to empty string for default.
