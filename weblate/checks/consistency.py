@@ -77,6 +77,7 @@ class ConsistencyCheck(TargetCheck):
     ignore_untranslated = False
     severity = "warning"
     batch_update = True
+    propagates = False
 
     def check_target_project(self, project):
         """Batch check for whole project."""

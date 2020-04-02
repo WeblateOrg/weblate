@@ -22,7 +22,7 @@ import json
 
 from appconf import AppConf
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
@@ -166,3 +166,14 @@ def update_failed_check_flag(sender, instance, created, **kwargs):
         )
     except IndexError:
         return
+
+
+@receiver(post_delete, sender=Check)
+@disable_for_loaddata
+def remove_complimentary_checks(sender, instance, **kwargs):
+    """Remove propagate checks from all units."""
+    if not instance.check_obj.propagates:
+        return
+    for unit in instance.unit.same_source_units():
+        if unit.check_set.filter(check=instance.check).delete()[0]:
+            unit.update_has_failing_check(invalidate=True)
