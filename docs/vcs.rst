@@ -287,6 +287,68 @@ Weblate.
 
 .. _hub: https://hub.github.com/
 
+.. _vcs-gitlab:
+
+GitLab
+------
+
+.. versionadded:: 3.9
+
+This just adds a thin layer atop :ref:`vcs-git` using the `lab`_ tool to allow
+pushing translation changes as merge requests instead of
+pushing directly to the repository.
+
+There is no need to use this access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-gitlab` creates merge request.
+
+.. _gitlab-push:
+
+Pushing changes to GitLab as merge requests
++++++++++++++++++++++++++++++++++++++++++++
+
+If not wanting to push translations to a GitLab repository, they can be sent as either
+one or many merge requests instead.
+
+Configure the `lab`_ command line tool and set :setting:`GITLAB_USERNAME` for this to work.
+
+.. seealso::
+
+   :setting:`GITLAB_USERNAME`, :ref:`lab-setup` for configuration instructions
+
+.. _lab-setup:
+
+Setting up Lab
+++++++++++++++
+
+:ref:`gitlab-push` requires a configured `lab`_ installation on your server.
+Follow the installation instructions at `lab`_ and run it without any arguments to
+finish the configuration, for example:
+
+.. code-block:: sh
+
+    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
+    $ HOME=${DATA_DIR}/home lab
+    Enter GitLab host (default: https://gitlab.com):
+    Create a token here: https://gitlab.com/profile/personal_access_tokens
+    Enter default GitLab token (scope: api):
+    (Config is saved to ~/.config/lab.hcl)
+
+
+The `lab`_ will ask you for your GitLab access token, retrieve it and
+store it in :file:`~/.config/lab.hcl`. The file has to be readable by
+the user running Weblate.
+
+
+.. note::
+
+    Use the username you configured :guilabel:`lab` with, as
+    :setting:`GITLAB_USERNAME` (:envvar:`WEBLATE_GITLAB_USERNAME` for the
+    Docker image).
+
+.. _lab: https://github.com/zaquestion/lab
+
 .. _vcs-gerrit:
 
 Gerrit
@@ -381,65 +443,3 @@ monolingual translations).
 In the background Weblate creates a Git repository for you and all changes are
 tracked in in. In case you later decide to use a VCS to store the translations,
 you already have a repo within Weblate can base your integration on.
-
-.. _vcs-gitlab:
-
-GitLab
-------
-
-.. versionadded:: 3.9
-
-This just adds a thin layer atop :ref:`vcs-git` using the `lab`_ tool to allow
-pushing translation changes as merge requests instead of
-pushing directly to the repository.
-
-There is no need to use this access Git repositories, ordinary :ref:`vcs-git`
-works the same, the only difference is how pushing to a repository is
-handled. With :ref:`vcs-git` changes are pushed directly to the repository,
-while :ref:`vcs-gitlab` creates merge request.
-
-.. _gitlab-push:
-
-Pushing changes to GitLab as merge requests
-+++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a GitLab repository, they can be sent as either
-one or many merge requests instead.
-
-Configure the `lab`_ command line tool and set :setting:`GITLAB_USERNAME` for this to work.
-
-.. seealso::
-
-   :setting:`GITLAB_USERNAME`, :ref:`lab-setup` for configuration instructions
-
-.. _lab-setup:
-
-Setting up Lab
-++++++++++++++
-
-:ref:`gitlab-push` requires a configured `lab`_ installation on your server.
-Follow the installation instructions at `lab`_ and run it without any arguments to
-finish the configuration, for example:
-
-.. code-block:: sh
-
-    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
-    $ HOME=${DATA_DIR}/home lab
-    Enter GitLab host (default: https://gitlab.com):
-    Create a token here: https://gitlab.com/profile/personal_access_tokens
-    Enter default GitLab token (scope: api):
-    (Config is saved to ~/.config/lab.hcl)
-
-
-The `lab`_ will ask you for your GitLab access token, retrieve it and
-store it in :file:`~/.config/lab.hcl`. The file has to be readable by
-the user running Weblate.
-
-
-.. note::
-
-    Use the username you configured :guilabel:`lab` with, as
-    :setting:`GITLAB_USERNAME` (:envvar:`WEBLATE_GITLAB_USERNAME` for the
-    Docker image).
-
-.. _lab: https://github.com/zaquestion/lab
