@@ -14,16 +14,16 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-02 08:57+0000\n"
-"PO-Revision-Date: 2020-03-30 11:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-04-02 21:48+0000\n"
+"Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:104
@@ -152,14 +152,8 @@ msgid "Password"
 msgstr "Пароль"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Будь ласка, введіть правильне ім'я користувача і пароль. Зверніть увагу на "
-"те, що значення в обох полях можуть залежати від регістру."
+msgstr "Введіть правильне ім’я користувача та пароль."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -292,16 +286,14 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Ви більше не можете увійти за домоогою {method} ({name})."
 
 #: weblate/accounts/models.py:86
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Здійснено вхід через {method} ({name})."
+msgstr "Увійшли за допомогою {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Здійснено вхід через  {method} ({name}) з нового пристрою."
+msgstr "Увійдено за допомогою {method} ({name}) з нового пристрою."
 
 #: weblate/accounts/models.py:88
 msgid "Somebody has attempted to register with your e-mail."
@@ -335,16 +327,12 @@ msgid "You can now log in using password."
 msgstr "Ви тепер можете увійти за допомогою пароля."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
-msgstr "Увійшов з використанням пароля."
+msgstr "Вхід за допомогою пароля."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
-msgstr "Здійснено вхід з нового пристрою з використанням пароля."
+msgstr "Вхід за допомогою пароля з нового пристрою."
 
 #: weblate/accounts/models.py:101
 msgid "Could not log in using password."
@@ -581,10 +569,8 @@ msgstr "Новий складник перекладу"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Новий коментар"
+msgstr "Нове оголошення"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -625,26 +611,20 @@ msgid "Your password can't match a password you have used in the past."
 msgstr "Ваш пароль не може збігатися з тим, який ви раніше використовували."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
-msgstr "Ви не можете відновити повністю пароль, поки перебуваєте в устрої!"
+msgstr "Ви не можете виконати скидання пароля під час входу!"
 
 #: weblate/accounts/pipeline.py:296 weblate/accounts/pipeline.py:319
 msgid "The registration link has been invalidated."
 msgstr "Посилання на реєстрацію визнане недійсним."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
-msgstr "Ви не можете завершити реєстрацію, поки перебуваєте в устрої!"
+msgstr "Ви не можете завершити реєстрацію під час входу!"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
-msgstr "Ви можете підтвердити вашу реєстрацію лише, коли увійдете!"
+msgstr "Ви можете підтвердити свою реєстрацію лише під час входу!"
 
 #: weblate/accounts/pipeline.py:442
 #, python-brace-format
@@ -974,10 +954,8 @@ msgid "Keep previous msgids of translated strings"
 msgstr "Зберігати попередні msgid перекладених рядків"
 
 #: weblate/addons/forms.py:127
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Число перекладених рядків"
+msgstr "Видаліть місця перекладених рядків"
 
 #: weblate/addons/forms.py:132
 msgid "Use fuzzy matching"
@@ -1548,10 +1526,8 @@ msgstr "Керування користувачами (на всій платф�
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Керування користувачами (на всій платформі)"
+msgstr "Керування оголошеннями (на всій платформі)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:144
@@ -2033,7 +2009,7 @@ msgstr "Число \\n у перекладі не відповідає перв�
 
 #: weblate/checks/chars.py:332
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Розбіжність розривів рядків"
 
 #: weblate/checks/chars.py:333
 msgid "Number of new lines in translation does not match source"
@@ -2143,10 +2119,8 @@ msgid "Read only"
 msgstr "Лише читання"
 
 #: weblate/checks/flags.py:46
-#, fuzzy
-#| msgid "String changed by"
 msgid "Strict unchanged check"
-msgstr "Рядок змінено користувачем"
+msgstr "Сувора незмінна перевірка"
 
 #: weblate/checks/flags.py:48 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2269,31 +2243,23 @@ msgstr "Рядок формату Java Message не відповідає дже�
 
 #: weblate/checks/format.py:433
 msgid "You need to screen an apostrophe with another one."
-msgstr ""
+msgstr "Потрібно екранувати апостроф з іншим."
 
 #: weblate/checks/format.py:439
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "Машинний переклад"
+msgstr "i18next інтерполяція"
 
 #: weblate/checks/format.py:440
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
-msgstr "BB-код у перекладі не збігається з BB-кодом у первині"
+msgstr "Інтерполяція i18next не відповідає джерелу"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Percent interpolation"
-msgstr "Налаштування устрою контролю версій"
+msgstr "Відсоток інтерполяції"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent interpolation does not match source"
-msgstr "BB-код у перекладі не збігається з BB-кодом у первині"
+msgstr "Відсоточна інтерполяція не відповідає джерелу"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -3092,20 +3058,16 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Немає дійсних записів у вивантаженому файлі!"
 
 #: weblate/memory/models.py:112 weblate/memory/models.py:117
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Не вдалося розібрати файл JSON!"
+msgstr "Не вдалося розібрати файл JSON:  {!s}"
 
 #: weblate/memory/models.py:146
 msgid "Failed to parse TMX file!"
 msgstr "Не вдалося розібрати файл TMX!"
 
 #: weblate/memory/models.py:156
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
-msgstr "Не вдалося знайти відповідну мову!"
+msgstr "Не вдалося знайти мову джерела!"
 
 #: weblate/memory/models.py:233
 msgctxt "Translation memory category"
@@ -3505,14 +3467,11 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:25
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
 msgstr ""
-"Якщо термін дії посилання минув до того, поки ви ним скористалися, то "
-"зареєструйтеся знову."
+"Якщо посилання на підтвердження закінчується до того, як ви користуєтесь "
+"ним, запитайте нове."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -4478,7 +4437,7 @@ msgstr "Використано %(used)s із %(total)s"
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:32
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "Visible to everybody."
-msgstr ""
+msgstr "Видно всім."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:35
 #: weblate/templates/component_info.html:26
@@ -4492,10 +4451,8 @@ msgid "Only chosen users can contribute."
 msgstr "Тільки обрані користувачі можуть брати участь."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "Тільки вибрані користувачі бачать і можуть перекладати"
+msgstr "Доступно лише вибраним користувачам."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -4775,10 +4732,8 @@ msgstr "Знімки екрану"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:351
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "Опублікувати коментар"
+msgstr "Повідомлення оголошення"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -5055,16 +5010,11 @@ msgstr ""
 "проєктами."
 
 #: weblate/templates/dashboard/anonymous.html:10
-#, fuzzy
-#| msgid ""
-#| "You need to be logged in to translate, otherwise you can only make "
-#| "suggestions."
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
 msgstr ""
-"Потрібно увійти для того, щоб перекладати. Інакше, можна лише робити "
-"пропозиції."
+"Вам потрібно увійти для перекладу, інакше ви можете лише робити пропозиції."
 
 #: weblate/templates/dashboard/anonymous.html:17
 #, python-format
@@ -5882,7 +5832,7 @@ msgstr "Вимкнути це сповіщення"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "Створено на %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
