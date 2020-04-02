@@ -1,8 +1,8 @@
 {% load i18n %}
 {% autoescape off %}
 {% if changes|length == 1 %}
-{% blocktrans with component=changes.0.component %}Strings needing action in {{ component }}{% endblocktrans %}
+{% blocktrans with component=changes.0.component %}Sentence(s) needing action in {{ component }}{% endblocktrans %}
 {% else %}
-{% blocktrans %}Strings needing action{% endblocktrans %}
+{% blocktrans %}Sentence(s) needing action{% endblocktrans %}
 {% endif %}
 {% endautoescape %}
