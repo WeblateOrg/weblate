@@ -213,10 +213,29 @@ Quick overview of directory structure of Weblate main repository:
 ``weblate/static``
    Client files (CSS, Javascript and images).
 
+Running Weblate locally
+-----------------------
+
+The most comfortable approach to get started with Weblate development is to
+follow :ref:`quick-source`. It will get you a virtual env with editable Weblate
+sources.
+
+To start a development server run:
+
+.. code-block:: sh
+
+   weblate runserver
+
+Depending on your configuration you might also want to start Celery workers:
+
+.. code-block:: sh
+
+   ./weblate/examples/celery start
+
 .. _dev-docker:
 
 Running Weblate locally in Docker
----------------------------------
++++++++++++++++++++++++++++++++++
 
 If you have Docker and docker-compose installed, you can spin up the development
 environment simply by running:
