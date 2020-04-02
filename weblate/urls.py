@@ -989,6 +989,7 @@ real_patterns = [
     # Weblate management interface
     url(r"^manage/$", weblate.wladmin.views.manage, name="manage"),
     url(r"^manage/tools/$", weblate.wladmin.views.tools, name="manage-tools"),
+    url(r"^manage/users/$", weblate.wladmin.views.users, name="manage-users"),
     url(r"^manage/activate/$", weblate.wladmin.views.activate, name="manage-activate"),
     url(r"^manage/alerts/$", weblate.wladmin.views.alerts, name="manage-alerts"),
     url(r"^manage/repos/$", weblate.wladmin.views.repos, name="manage-repos"),

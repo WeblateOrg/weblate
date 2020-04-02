@@ -22,6 +22,7 @@ import os
 
 import responses
 from django.conf import settings
+from django.core import mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -165,6 +166,23 @@ class AdminTest(ViewTestCase):
             reverse("manage-tools"), {"email": "noreply@example.com"}, follow=True
         )
         self.assertContains(response, expected)
+        if expected == "Test e-mail sent":
+            self.assertEqual(len(mail.outbox), 1)
+
+    def test_invite_user(self):
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "User has been invited")
+        self.assertEqual(len(mail.outbox), 1)
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",
