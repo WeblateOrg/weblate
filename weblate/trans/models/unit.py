@@ -646,7 +646,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.run_checks(same_state, same_content)
+            self.run_checks(same_content)
 
     @cached_property
     def suggestions(self):
@@ -668,7 +668,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of target comments."""
         return Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info)).order()
 
-    def run_checks(self, same_state=True, same_content=True):
+    def run_checks(self, same_content=True):
         """Update checks for this unit."""
         was_change = False
         has_checks = None
