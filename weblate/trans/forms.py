@@ -1032,12 +1032,6 @@ class UserManageForm(forms.Form):
     )
 
 
-class InviteUserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ["email", "username", "full_name"]
-
-
 class ReportsForm(forms.Form):
     style = forms.ChoiceField(
         label=_("Report format"),

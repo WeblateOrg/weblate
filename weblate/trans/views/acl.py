@@ -27,8 +27,9 @@ from social_django.views import complete
 
 from weblate.accounts.strategy import create_session
 from weblate.accounts.views import store_userid
+from weblate.auth.forms import InviteUserForm
 from weblate.auth.models import Group, User, get_anonymous
-from weblate.trans.forms import InviteUserForm, UserManageForm
+from weblate.trans.forms import UserManageForm
 from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils import messages
