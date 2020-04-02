@@ -114,7 +114,7 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "@Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "invalid", "full_name": "name"},
+            {"email": "invalid", "username": "valid", "full_name": "name"},
             follow=True,
         )
         # This error comes from Django validation
@@ -125,7 +125,11 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "@Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": self.user.email, "full_name": "name"},
+            {
+                "email": self.user.email,
+                "username": self.user.username,
+                "full_name": "name",
+            },
             follow=True,
         )
         self.assertContains(response, "User with this E-mail already exists")
@@ -135,7 +139,7 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "@Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "user@example.com", "full_name": "name"},
+            {"email": "user@example.com", "username": "username", "full_name": "name"},
             follow=True,
         )
         # Ensure user is now listed

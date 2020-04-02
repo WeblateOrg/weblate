@@ -21,7 +21,6 @@
 import copy
 import json
 from datetime import date, datetime, timedelta
-from uuid import uuid4
 
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -1036,42 +1035,7 @@ class UserManageForm(forms.Form):
 class InviteUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["email", "full_name"]
-
-    def clean(self):
-        data = super().clean()
-        if "email" in data:
-            data["username"] = data["email"]
-        else:
-            data["username"] = uuid4().hex
-        return data
-
-    def _get_validation_exclusions(self):
-        result = super()._get_validation_exclusions()
-        result.remove("username")
-        return result
-
-    def _post_clean(self):
-        self._meta.fields.append("username")
-        try:
-            super()._post_clean()
-        finally:
-            self._meta.fields.remove("username")
-
-    def add_error(self, field, error):
-        if field == "username":
-            field = "email"
-        if (
-            isinstance(error, ValidationError)
-            and hasattr(error, "error_dict")
-            and "username" in error.error_dict
-        ):
-            if "email" not in error.error_dict:
-                error.error_dict["email"] = error.error_dict["username"]
-            else:
-                error.error_dict["email"].extend(error.error_dict["username"])
-            del error.error_dict["username"]
-        super().add_error(field, error)
+        fields = ["email", "username", "full_name"]
 
 
 class ReportsForm(forms.Form):
