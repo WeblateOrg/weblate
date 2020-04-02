@@ -249,6 +249,12 @@ Also if the translation string has ``approved="yes"`` it will be imported into W
 as approved, anything else will be imported as waiting for review (which matches XLIFF
 specification).
 
+While saving, Weblate doesn't add those attributes unless necessary:
+
+* The ``state`` attribute is only added in case string is marked as needing edit.
+* The ``approved`` attribute is only added in case string has been reviewed.
+* In other cases the attributes are not added, but they are updated in case they are present.
+
 That means that when using XLIFF format, it is strongly recommended to enable Weblate
 review process, in order to see and change the approved state of strings.
 See :ref:`reviews`.
