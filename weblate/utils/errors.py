@@ -63,7 +63,7 @@ def report_error(
                     scope.set_extra(key, value)
             scope.set_extra("error_cause", prefix)
             scope.level = level
-            sentry_sdk.capture_exception()
+            sentry_sdk.capture_exception(error)
 
     log = getattr(logger, level)
 

@@ -38,4 +38,20 @@
 </div>
 </form>
 
+{% if has_sentry %}
+<form  method="POST">
+{% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Test Sentry integration" %}</h4></div>
+  <div class="panel-body">
+  <input type="hidden" name="sentry" value="1" />
+  <p>{% trans "Generate a test event to test Sentry integration." %}</p>
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
+  </div>
+</div>
+</form>
+{% endif %}
+
 {% endblock %}

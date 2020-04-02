@@ -99,6 +99,9 @@ def tools(request):
                     report_error(error, request)
                     messages.error(request, _("Could not send test e-mail: %s") % error)
 
+        if "sentry" in request.POST:
+            report_error(Exception("Test exception"), request)
+
     return render(
         request,
         "manage/tools.html",

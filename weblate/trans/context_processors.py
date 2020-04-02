@@ -153,6 +153,7 @@ def weblate_context(request):
         "login_redirect_url": login_redirect_url,
         "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
+        "has_sentry": bool(settings.SENTRY_DSN),
         "watched_projects": watched_projects,
         "allow_index": False,
         "configuration_errors": ConfigurationError.objects.filter(
