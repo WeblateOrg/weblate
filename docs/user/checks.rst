@@ -522,9 +522,19 @@ Inconsistent
 Weblate checks translations of the same string across all translation within a
 project to help you keep consistent translations.
 
-The check fails on differing translations of one string within a project. This can also lead to
-inconsistencies in displayed checks. You can find other translations of this
-string on the :guilabel:`Other occurences` tab.
+The check fails on differing translations of one string within a project. This
+can also lead to inconsistencies in displayed checks. You can find other
+translations of this string on the :guilabel:`Other occurences` tab.
+
+.. note::
+
+   This check also fires in case the string is translated in one component and
+   not in another. It can be used as a quick way to manually handle strings
+   which are not translated in some components.
+
+   You can use :ref:`addon-weblate.autotranslate.autotranslate` addon to
+   automate translating of newly added strings which are already translated in
+   another component.
 
 .. seealso::
 
