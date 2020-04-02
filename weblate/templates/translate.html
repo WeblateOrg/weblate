@@ -37,7 +37,7 @@
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Simple mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Simple View" %}</a>
 {% endif %}
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
