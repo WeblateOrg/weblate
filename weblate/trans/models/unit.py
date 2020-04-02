@@ -716,11 +716,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Update failing checks flag
         if not self.is_batch_update and (was_change or not same_content):
-            self.update_has_failing_check(was_change, has_checks)
+            self.update_has_failing_check(has_checks)
 
-    def update_has_failing_check(
-        self, recurse=False, has_checks=None, invalidate=False
-    ):
+    def update_has_failing_check(self, has_checks=None, invalidate=False):
         """Update flag counting failing checks."""
         if has_checks is None:
             has_checks = self.active_checks().exists()
@@ -733,10 +731,6 @@ class Unit(models.Model, LoggerMixin):
             )
             if invalidate:
                 self.translation.invalidate_cache()
-
-        if recurse:
-            for unit in Unit.objects.prefetch().same(self):
-                unit.update_has_failing_check(False, has_checks, invalidate)
 
     def update_has_suggestion(self):
         """Update flag counting suggestions."""
