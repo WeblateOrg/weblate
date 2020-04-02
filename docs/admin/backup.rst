@@ -213,6 +213,24 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up user uploaded files (e.g. :ref:`screenshots`).
 
+Command line for manual backup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Using a cron task, you can set up a bash command to be executed on a daily basis, for instance:
+
+.. code-block:: console
+
+     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups vcs ssh home media fonts secret
+
+The string between quotes after XZ_OPT allows you to choose your xz options, for instance the amount of memory used for compression; see https://linux.die.net/man/1/xz
+
+You can adjust the list of folders and files to your needs. For instance, to avoid saving the translation memory (in backups folder), you could use:
+
+.. code-block:: console
+
+     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups/database.sql backups/settings.py vcs ssh home media fonts secret
+
+
 Celery tasks
 ------------
 
