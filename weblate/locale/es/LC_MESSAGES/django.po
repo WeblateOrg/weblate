@@ -10,13 +10,14 @@
 # Michal Čihař <michal@cihar.com>, 2019.
 # Andrés S <andres.segovia.dev@gmail.com>, 2019.
 # Jorge Ruiz Calpe <loquiyoz@gmail.com>, 2020.
+# Mayeul Kauffmann <mayeul.kauffmann@free.fr>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-02 08:57+0000\n"
-"PO-Revision-Date: 2020-03-30 11:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-04-02 21:48+0000\n"
+"Last-Translator: Mayeul Kauffmann <mayeul.kauffmann@free.fr>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
 "Language: es\n"
@@ -153,14 +154,8 @@ msgid "Password"
 msgstr "Contraseña"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Proporcione el nombre de usuario y la contraseña correctamente. Ambos campos "
-"pueden distinguir mayúsculas y minúsculas."
+msgstr "Proporcione el nombre de usuario y la contraseña correctamente."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -300,8 +295,7 @@ msgid "Signed in using {method} ({name})."
 msgstr "Conectado usando {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Conectado usando {method} ({name}) desde un nuevo dispositivo."
 
@@ -337,14 +331,10 @@ msgid "You can now log in using password."
 msgstr "Ahora puede acceder mediante una contraseña."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
 msgstr "Se accedió mediante una contraseña."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
 msgstr "Se accedió mediante una contraseña en un dispositivo nuevo."
 
@@ -579,10 +569,8 @@ msgstr "Componente de traducción nuevo"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Comentario nuevo"
+msgstr "Anuncio nuevo"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -638,14 +626,10 @@ msgid "The registration link has been invalidated."
 msgstr "Se ha invalidado el enlace para registrarse."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
 msgstr "¡No puede completar el registro mientras esté conectado!"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
 msgstr "¡Puede confirmar el registro sólo mientras este conectado!"
 
@@ -2058,7 +2042,7 @@ msgstr ""
 
 #: weblate/checks/chars.py:332
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Roturas de línea no coincidentes"
 
 #: weblate/checks/chars.py:333
 msgid "Number of new lines in translation does not match source"
@@ -2297,7 +2281,7 @@ msgstr ""
 
 #: weblate/checks/format.py:433
 msgid "You need to screen an apostrophe with another one."
-msgstr ""
+msgstr "Es necesario emparejar cada apostrofe con otra."
 
 #: weblate/checks/format.py:439
 #, fuzzy
@@ -3130,20 +3114,16 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "No se encontró ninguna entrada válida en el archivo cargado."
 
 #: weblate/memory/models.py:112 weblate/memory/models.py:117
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "No se pudo procesar el archivo JSON."
+msgstr "No se pudo procesar el archivo JSON: {!s}"
 
 #: weblate/memory/models.py:146
 msgid "Failed to parse TMX file!"
 msgstr "No se pudo procesar el archivo TMX."
 
 #: weblate/memory/models.py:156
-#, fuzzy
-#| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
-msgstr "¡No se pudpo encontrar el idioma correspondiente!"
+msgstr "¡No se pupo encontrar el idioma de origen!"
 
 #: weblate/memory/models.py:233
 msgctxt "Translation memory category"
@@ -4518,7 +4498,7 @@ msgstr "Utilizado %(used)s de %(total)s"
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:32
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "Visible to everybody."
-msgstr ""
+msgstr "Visible para todo el mundo."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:35
 #: weblate/templates/component_info.html:26
@@ -5096,10 +5076,6 @@ msgstr ""
 "enumeran a continuación."
 
 #: weblate/templates/dashboard/anonymous.html:10
-#, fuzzy
-#| msgid ""
-#| "You need to be logged in to translate, otherwise you can only make "
-#| "suggestions."
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
@@ -6242,8 +6218,6 @@ msgid "Last login"
 msgstr "Última sesión"
 
 #: weblate/templates/manage-access.html:39
-#, fuzzy
-#| msgid "Not yet logged in"
 msgid "Not yet signed in"
 msgstr "Aún no ha accedido a su cuenta"
 
@@ -6284,10 +6258,8 @@ msgid "Component alerts"
 msgstr "Alertas de componentes"
 
 #: weblate/templates/manage/alerts.html:30
-#, fuzzy
-#| msgid "Project / Component"
 msgid "Projects without components"
-msgstr "Proyecto / Componente"
+msgstr "Proyectos sin componentes"
 
 #: weblate/templates/manage/alerts.html:42
 #: weblate/templates/manage/performance.html:88
@@ -6933,8 +6905,6 @@ msgstr ""
 "\">configuración del proyecto</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
-#, fuzzy
-#| msgid "Additional labels can be defined by project administrator."
 msgid "Additional labels can be defined by project administrators."
 msgstr "Los administradores del proyecto pueden definir etiquetas adicionales."
 
@@ -7156,10 +7126,8 @@ msgid "Suggested change:"
 msgstr "Cambio sugerido:"
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "Comprobaciones fallidas"
+msgstr "Comprobaciones fallidas:"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:516 weblate/utils/state.py:31
@@ -7239,22 +7207,16 @@ msgid "This component is set up incorrectly."
 msgstr "Este componente está configurado de manera incorrecta."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
-#, fuzzy
-#| msgid "The repository browser URL points to non existing locations:"
 msgid "The repository browser URL points to non-existing locations:"
 msgstr ""
 "El URL del explorador del repositorio apunta a ubicaciones que no existen:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
-#, fuzzy
-#| msgid ""
-#| "This can happen if path in translation files contain references to parent "
-#| "directory or is absolute."
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
 msgstr ""
-"Esto puede suceder si la ruta de los archivos de traducción contiene "
+"Esto puede suceder si la ruta dentro de los archivos de traducción contiene "
 "referencias al directorio contenedor o es absoluta."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
@@ -7262,11 +7224,8 @@ msgid "This project is set up incorrectly."
 msgstr "Este proyecto está configurado de manera incorrecta."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
-#, fuzzy
-#| msgid "The project website URL points to non existing location:"
 msgid "The project website URL points to a non-existing location:"
-msgstr ""
-"El URL del sitio web del proyecto apunta a una ubicación que no existe:"
+msgstr "El URL del sitio web del proyecto apunta a una ubicación que no existe:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -7281,10 +7240,6 @@ msgid "The following filemasks were found multiple times:"
 msgstr "Se encontraron las máscaras de archivo siguientes varias veces:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to single "
-#| "language in Weblate."
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
@@ -7297,10 +7252,8 @@ msgid "Please fix this by removing one of the translation files."
 msgstr "Arregle esto quitando uno de los archivos de traducción."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please consider following steps:"
 msgid "Please consider the following:"
-msgstr "Considere realizar los pasos siguientes:"
+msgstr "Por favor, considere lo siguiente:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
