@@ -3,7 +3,7 @@
 
 . ci/lib
 
-./manage.py makemigrations
+run_coverage ./manage.py makemigrations
 check
 if [ `git status -s | grep -c /migrations/` -gt 0 ] ; then
     echo 'There are untracked migrations:'

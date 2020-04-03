@@ -57,6 +57,8 @@ jobs:
     - name: Check missing migrations
       run: ./ci/run-checkmigrate
     - name: Migrate
+      env:
+        COVERAGE_NO_ERASE: 1
       run: ./ci/run-migrate
     - name: Coverage
       run: |
