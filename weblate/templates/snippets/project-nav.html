@@ -5,12 +5,12 @@
 
 <ul class="nav nav-pills">
     {% if request.path != project_url %}
-        <li><a href="{% url 'project' project=object.slug %}#components">{% trans "Components" %}</a></li>
+        <li><a href="{% url 'project' project=object.slug %}#components">{% trans "COVID19 resources" %}</a></li>
         <li><a href="{% url 'project' project=object.slug %}#languages">{% trans "Languages" %}</a></li>
         <li><a href="{% url 'project' project=object.slug %}#information">{% trans "Info" %}</a></li>
         <li><a href="{% url 'project' project=object.slug %}#search">{% trans "Search" %}</a></li>
     {% else %}
-        <li class="active"><a href="#components" data-toggle="tab">{% trans "Components" %}</a></li>
+        <li class="active"><a href="#components" data-toggle="tab">{% trans "COVID19 resources" %}</a></li>
         <li><a href="#languages" data-toggle="tab">{% trans "Languages" %}</a></li>
         <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
         <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>

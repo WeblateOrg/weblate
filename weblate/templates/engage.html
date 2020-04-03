@@ -16,13 +16,13 @@
 <h2>
 <strong>{% trans "Hello and thank you for your interest" %}</strong>
 &mdash;
-{% blocktrans with project=project_link %}{{ project }} is being translated using {{ weblate_name_link }}, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
+{% blocktrans with project=project_link %}{{ project }} is being translated using {{ site_title }}, a web tool designed to ease translating for both developers and translators.{% endblocktrans %}
 </h2>
 
 <div class="row bignumbers">
 <div class="col-md-4">
 <strong>{{ full_stats.source_strings|intcomma }}</strong>
-<p>{% blocktrans count count=full_stats.source_strings context "Label on enage page" %}String{% plural %}Strings{% endblocktrans %}</p>
+<p>{% blocktrans count count=full_stats.source_strings context "Label on enage page" %}Sentence{% plural %}Sentences{% endblocktrans %}</p>
 </div>
 <div class="col-md-4">
 <strong>{{ full_stats.languages|intcomma }}</strong>

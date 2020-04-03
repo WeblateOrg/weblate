@@ -37,7 +37,7 @@
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Simple mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Simple View" %}</a>
 {% endif %}
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
@@ -212,7 +212,7 @@
 <ul class="nav nav-pills translation-tabs">
 <li class="active"><a href="#nearby" data-toggle="tab" id="toggle-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a></li>
 {% if nearby_keys %}
-<li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
+<li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Sentences with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
 {% endif %}
 {% if shapings %}
 <li><a href="#shapings" data-toggle="tab" id="toggle-shapings" title="{% trans "Shapings of the string" %}">{% trans "Shapings" %} <span class="badge">{{ shapings|length }}</span></a></li>

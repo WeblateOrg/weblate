@@ -1382,7 +1382,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
 
 class ComponentNameForm(forms.Form, ComponentDocsMixin):
     name = forms.CharField(
-        label=_("Component name"),
+        label=_("COVID19 Resource name"),
         max_length=COMPONENT_NAME_LENGTH,
         help_text=_("Display name"),
     )
@@ -1444,7 +1444,7 @@ class ComponentBranchForm(ComponentSelectForm):
 
 class ComponentProjectForm(ComponentNameForm):
     project = forms.ModelChoiceField(
-        queryset=Project.objects.none(), label=_("Project")
+        queryset=Project.objects.none(), label=_("COVID19 topic")
     )
 
     def __init__(self, request, *args, **kwargs):
@@ -1492,7 +1492,7 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     """
 
     project = forms.ModelChoiceField(
-        queryset=Project.objects.none(), label=_("Project")
+        queryset=Project.objects.none(), label=_("COVID19 topic")
     )
     vcs = forms.ChoiceField(
         label=_("Version control system"),

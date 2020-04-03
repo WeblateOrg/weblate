@@ -46,7 +46,7 @@
         {% endif %}
     </td>
   </tr>
-  <tr><th>{% trans "Strings limit" %}</th>
+  <tr><th>{% trans "Sentences limit" %}</th>
   {% with plan.limit_strings as max and plan.display_limit_strings as total and billing.count_strings as used %}
   {% include "billing/used.html" %}
   {% endwith %}
