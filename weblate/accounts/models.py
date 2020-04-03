@@ -88,7 +88,7 @@ ACCOUNT_ACTIVITY = {
     "register": _("Somebody has attempted to register with your e-mail."),
     "connect": _("Somebody has attempted to register using your e-mail address."),
     "failed-auth": _("Could not log in using {method} ({name})."),
-    "locked": _("Account locked due to many failed logins."),
+    "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
     "tos": _("Agreement with Terms of Service {date}."),
 }

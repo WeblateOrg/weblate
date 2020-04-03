@@ -151,7 +151,7 @@ def home(request):
             request,
             _(
                 "You have activated your account, now you should set "
-                "the password to be able to login next time."
+                "the password to be able to sign in next time."
             ),
         )
         return redirect("password")

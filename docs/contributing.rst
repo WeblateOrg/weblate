@@ -245,7 +245,7 @@ environment simply by running:
    ./rundev.sh
 
 It will create development Docker image and start it. Weblate is running on
-<http://127.0.0.1:8080/> and you can login with ``admin`` user and ``admin``
+<http://127.0.0.1:8080/> and you can sign in with ``admin`` user and ``admin``
 password. The new installation is empty, so you might want to continue with
 :ref:`adding-projects`.
 
