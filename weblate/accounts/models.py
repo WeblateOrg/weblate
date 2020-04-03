@@ -91,6 +91,7 @@ ACCOUNT_ACTIVITY = {
     "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
     "tos": _("Agreement with Terms of Service {date}."),
+    "invited": _("Invited to Weblate by {username}."),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {

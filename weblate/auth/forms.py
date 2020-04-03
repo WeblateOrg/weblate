@@ -22,6 +22,7 @@ from django.conf import settings
 from django.http import HttpRequest
 from social_django.views import complete
 
+from weblate.accounts.models import AuditLog
 from weblate.accounts.strategy import create_session
 from weblate.accounts.views import store_userid
 from weblate.auth.models import User, get_anonymous
@@ -59,5 +60,11 @@ class InviteUserForm(forms.ModelForm):
             action=Change.ACTION_INVITE_USER,
             user=request.user,
             details={"username": user.username},
+        )
+        AuditLog.objects.create(
+            user=user,
+            request=request,
+            activity="invited",
+            username=request.user.username,
         )
         send_invitation(request, project.name if project else settings.SITE_TITLE, user)
