@@ -9,7 +9,6 @@ if [ -n "$1" ] ; then
 fi
 
 HEAD_COMMIT=$(git rev-parse HEAD)
-PYTHON_VERSION=$(python -c 'import sys; print(sys.version_info[0])')
 
 # Install fixed version to avoid breakage with 1.0.0
 pip install httpretty==0.9.7
@@ -23,19 +22,15 @@ for tag in $TAGS ; do
     check
     git checkout $tag
     check
-    if [ $PYTHON_VERSION -eq 3 ] ; then
-        case $tag in
-            weblate-3.[12345].* | weblate-3.[12345])
-                # Older versions do not support Django 2.2
-                pip install 'Django>=2.1,<2.2'
-                ;;
-            *)
-                pip install 'Django>=2.2,<3.0'
-                ;;
-        esac
-    else
-        pip install 'Django>1.11'
-    fi
+    case $tag in
+        weblate-3.[12345].* | weblate-3.[12345])
+            # Older versions do not support Django 2.2
+            pip install 'Django>=2.1,<2.2'
+            ;;
+        *)
+            pip install 'Django>=2.2,<3.0'
+            ;;
+    esac
     check
     pip install -r requirements-optional.txt -r docs/requirements.txt
     check
