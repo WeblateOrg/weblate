@@ -703,13 +703,16 @@ def email_login(request):
 @never_cache
 def password(request):
     """Password change / set form."""
-    do_change = False
+    do_change = True
+    change_form = None
 
-    if request.method == "POST":
-        change_form = PasswordConfirmForm(request, request.POST)
-        do_change = change_form.is_valid()
-    else:
-        change_form = PasswordConfirmForm(request)
+    if request.user.has_usable_password():
+        if request.method == "POST":
+            change_form = PasswordConfirmForm(request, request.POST)
+            do_change = change_form.is_valid()
+        else:
+            change_form = PasswordConfirmForm(request)
+            do_change = False
 
     if request.method == "POST":
         form = SetPasswordForm(request.user, request.POST)
