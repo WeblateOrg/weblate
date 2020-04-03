@@ -86,15 +86,3 @@ for tag in $TAGS ; do
     ./manage.py shell -c 'from weblate.trans.models import Vote; Vote.objects.get(value=1)'
     check
 done
-
-./manage.py makemigrations
-check
-if [ `git status -s | grep -c /migrations/` -gt 0 ] ; then
-    echo 'There are untracked migrations:'
-    git status -s --porcelain | grep /migrations/ | sed -n '/^??/ s/^?? \(.*\)/\1/p' | while read migration ; do
-        echo $migration
-        cat $migration
-        echo
-    done
-    exit 1
-fi
