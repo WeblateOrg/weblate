@@ -558,6 +558,20 @@ Components
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
+.. http:get::  /api/components/(string:project)/(string:component)/screenshots/
+
+    Returns a list of component screenshots.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of component screenshots; see :http:get:`/api/screenshots/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
 
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
 
@@ -1118,6 +1132,41 @@ Screenshots
             -F image=@image.png \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/screenshots/1/file/
+
+.. http:post:: /api/screenshots/(int:pk)/units/
+
+    Associate source string with screenshot.
+
+    :param pk: Screenshot ID
+    :type pk: int
+    :form string pk: Unit ID
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+.. http:post:: /api/screenshots/
+
+    Creates a new screenshot.
+
+    :form file image: Uploaded file
+    :form string name: Screenshot name
+    :form string project_slug: Project Slug
+    :form string component_slug: Component Slug
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
 
 
 .. _hooks:
