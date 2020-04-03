@@ -30,6 +30,7 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
+from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
@@ -356,6 +357,10 @@ def notify_connect(
         AuditLog.objects.create(
             user, strategy.request, action, method=backend.name, name=social.uid,
         )
+    # Remove partial pipeline
+    session = strategy.request.session
+    if PARTIAL_TOKEN_SESSION_NAME in session:
+        strategy.really_clean_partial_pipeline(session[PARTIAL_TOKEN_SESSION_NAME])
 
 
 def user_full_name(strategy, details, username, user=None, **kwargs):
