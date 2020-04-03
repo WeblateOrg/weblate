@@ -149,9 +149,9 @@ def check_can_edit(user, permission, obj, is_vote=False):
 @register_perm("unit.review")
 def check_unit_review(user, permission, obj, skip_enabled=False):
     project = obj
-    if hasattr(project, "component"):
+    if isinstance(project, Translation):
         project = project.component
-    if hasattr(project, "project"):
+    if isinstance(project, Component):
         project = project.project
     if not skip_enabled and not project.enable_review:
         return False
