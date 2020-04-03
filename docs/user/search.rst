@@ -82,6 +82,12 @@ You can specify operators, ranges or partial lookups for date or numeric searche
 ``changed:[2019-03-01 to 2019-04-01]``
    Changed between two given dates.
 
+Exact operators
+---------------
+
+You can do an exact match query on different string fields using ``=`` operator. For example, to
+source for all source strings exactly matching ``hello world``, use: ``source:="hello world"``
+
 
 Regular expressions
 -------------------
