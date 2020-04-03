@@ -21,6 +21,7 @@ Not yet released.
 * Fixed occasional problems with registration mails.
 * Improved LINGUAS update addon to handle more syntax variants.
 * Fixed editing monolingual XLIFF source file.
+* Added support for exact matching in :doc:`user/search`.
 
 Weblate 3.11.3
 --------------
