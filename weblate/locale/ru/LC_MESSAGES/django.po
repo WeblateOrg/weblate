@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-02 08:57+0000\n"
 "PO-Revision-Date: 2020-04-03 07:30+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
@@ -293,14 +293,12 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Вы больше не можете войти, используя {method} ({name})."
 
 #: weblate/accounts/models.py:86
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "Вошёл в систему, используя {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Вошёл в систему, используя {method} ({name}) с нового устройства."
 
@@ -336,14 +334,10 @@ msgid "You can now log in using password."
 msgstr "Вы можете теперь войти, используя пароль."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
 msgstr "Вошёл, используя пароль."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
 msgstr "Вошёл, используя пароль с нового устройства."
 
@@ -578,10 +572,8 @@ msgstr "Новый компонент перевода"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Новый комментарий"
+msgstr "Новое объявление"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -622,8 +614,6 @@ msgid "Your password can't match a password you have used in the past."
 msgstr "Ваш пароль не может совпадать с любым из предыдущих."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
 msgstr "Вы не можете завершить сброс пароля пока находитесь в системе!"
 
@@ -632,14 +622,10 @@ msgid "The registration link has been invalidated."
 msgstr "Регистрационная ссылка аннулирована."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
 msgstr "Вы не можете завершить регистрацию пока находитесь в системе!"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
 msgstr "Вы можете подтвердить регистрацию только когда находитесь в системе!"
 
@@ -972,10 +958,8 @@ msgid "Keep previous msgids of translated strings"
 msgstr "Сохранять предыдущие msgid переведённых строк"
 
 #: weblate/addons/forms.py:127
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Количество переведённых строк"
+msgstr "Удалять расположение переведённых строк"
 
 #: weblate/addons/forms.py:132
 msgid "Use fuzzy matching"
@@ -983,7 +967,7 @@ msgstr "Использовать нечеткое соответствие"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
-msgstr "Комбинирование коммита"
+msgstr "Комбинирование (squash) коммитов"
 
 #: weblate/addons/forms.py:141
 msgid "All commits into one"
@@ -1549,10 +1533,8 @@ msgstr "Управление пользователями (на всей пла�
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Управление пользователями (на всей платформе)"
+msgstr "Управление объявлениями (на всей платформе)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:144
@@ -2145,10 +2127,8 @@ msgid "Read only"
 msgstr "Только чтение"
 
 #: weblate/checks/flags.py:46
-#, fuzzy
-#| msgid "String changed by"
 msgid "Strict unchanged check"
-msgstr "Пользователь, изменивший строку"
+msgstr "Строка без изменений"
 
 #: weblate/checks/flags.py:48 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -4778,10 +4758,8 @@ msgstr "Снимки экрана"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:351
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "Опубликовать комментарий"
+msgstr "Опубликовать объявление"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -5978,19 +5956,17 @@ msgstr "Новая тревога в %(component)s"
 #: weblate/templates/mail/new_announcement.html:7
 #: weblate/trans/models/announcement.py:124
 msgid "Announcement"
-msgstr "Анонс"
+msgstr "Объявление"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Новый комментарий в %(component)s"
+msgstr "Новое объявление в %(component)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message at %(site_title)s"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Новое сообщение на совместной доске на %(site_title)s"
+msgstr "Новое объявление на %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -8889,7 +8865,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:125
 msgid "Announcements"
-msgstr ""
+msgstr "Объявления"
 
 #: weblate/trans/models/announcement.py:132
 msgid "Do not specify both component and project!"
