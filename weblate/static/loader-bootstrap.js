@@ -1535,18 +1535,6 @@ $(function () {
             return false;
         }
     });
-    $('#is-exact').on('click', function() {
-        var input = $(this).closest('.input-group').find('input[type=text]');
-        if ($('#is-exact input[type=checkbox]').is(':checked')) {
-            if (input.val().indexOf('"') == -1) {
-                input.val('="' + input.val() + '"');
-            } else {
-                input.val('=' + input.val());
-            }
-        } else {
-            input.val(input.val().substring(1));
-        }
-    })
     $('.search-add').click(function () {
         var group = $(this).closest('.input-group');
         var button = group.find('button');
@@ -1555,7 +1543,11 @@ $(function () {
         if (input.length === 0) {
             $('#id_q').insertAtCaret(' ' + button.data('field') + ' ');
         } else if (input.val() !== '') {
-            $('#id_q').insertAtCaret(' ' + button.data('field') + quoteSearch(input.val()) + ' ');
+            var prefix = '';
+            if ($('#is-exact input[type=checkbox]').is(':checked')) {
+                prefix = '=';
+            }
+            $('#id_q').insertAtCaret(' ' + button.data('field') + prefix + quoteSearch(input.val()) + ' ');
         }
     });
     $('.search-insert').click(function () {
