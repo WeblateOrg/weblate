@@ -327,7 +327,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
             )
             return False
     elif mode in ("delete", "spam"):
-        if not user.has_perm("suggestion.delete", suggestion, translation):
+        if not user.has_perm("suggestion.delete", suggestion):
             messages.error(
                 request, _("You do not have privilege to delete suggestions!")
             )
@@ -591,7 +591,7 @@ def delete_comment(request, pk):
     project = comment_obj.unit.translation.component.project
     request.user.check_access(project)
 
-    if not request.user.has_perm("comment.delete", comment_obj, project):
+    if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
 
     fallback_url = comment_obj.unit.get_absolute_url()
@@ -610,7 +610,7 @@ def resolve_comment(request, pk):
     project = comment_obj.unit.translation.component.project
     request.user.check_access(project)
 
-    if not request.user.has_perm("comment.delete", comment_obj, project):
+    if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
 
     fallback_url = comment_obj.unit.get_absolute_url()

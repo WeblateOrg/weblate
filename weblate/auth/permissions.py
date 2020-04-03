@@ -79,10 +79,10 @@ def check_permission(user, permission, obj):
 
 
 @register_perm("comment.delete", "suggestion.delete")
-def check_delete_own(user, permission, obj, scope):
+def check_delete_own(user, permission, obj):
     if user.is_authenticated and obj.user == user:
         return True
-    return check_permission(user, permission, scope)
+    return check_permission(user, permission, obj.unit.translation)
 
 
 def check_can_edit(user, permission, obj, is_vote=False):
@@ -201,7 +201,7 @@ def check_autotranslate(user, permission, translation):
 def check_suggestion_vote(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
-    return check_can_edit(user, permission, obj, True)
+    return check_can_edit(user, permission, obj, is_vote=True)
 
 
 @register_perm("suggestion.add")

@@ -422,7 +422,7 @@ class User(AbstractBaseUser):
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
     # pylint: disable=keyword-arg-before-vararg
-    def has_perm(self, perm, obj=None, *args):
+    def has_perm(self, perm, obj=None):
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
@@ -447,7 +447,7 @@ class User(AbstractBaseUser):
 
         # Special permission functions
         if perm in SPECIALS:
-            return SPECIALS[perm](self, perm, obj, *args)
+            return SPECIALS[perm](self, perm, obj)
 
         # Generic permission
         return check_permission(self, perm, obj)

@@ -17,22 +17,21 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.test import TestCase
 from django.test.utils import override_settings
 
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.trans.models import Comment, Project
+from weblate.trans.models import Comment
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class PermissionsTest(TestCase):
+class PermissionsTest(FixtureTestCase):
     def setUp(self):
-        self.user = User.objects.create_user("user", "test@example.com", "x")
-        self.admin = User.objects.create_user("admin", "admin@example.com", "x")
+        super().setUp()
+        self.user = User.objects.create_user("user", "test@example.com")
+        self.admin = User.objects.create_user("admin", "admin@example.com")
         self.superuser = User.objects.create_user(
-            "super", "super@example.com", "x", is_superuser=True
+            "super", "super@example.com", is_superuser=True
         )
-
-        self.project = Project.objects.create(slug="test")
         self.project.add_user(self.admin, "@Administration")
 
     def test_admin_perm(self):
@@ -46,28 +45,22 @@ class PermissionsTest(TestCase):
         self.assertTrue(self.user.has_perm("comment.add", self.project))
 
     def test_delete_comment(self):
-        comment = Comment()
-        self.assertTrue(
-            self.superuser.has_perm("comment.delete", comment, self.project)
-        )
-        self.assertTrue(self.admin.has_perm("comment.delete", comment, self.project))
-        self.assertFalse(self.user.has_perm("comment.delete", comment, self.project))
+        comment = Comment(unit=self.get_unit())
+        self.assertTrue(self.superuser.has_perm("comment.delete", comment))
+        self.assertTrue(self.admin.has_perm("comment.delete", comment))
+        self.assertFalse(self.user.has_perm("comment.delete", comment))
 
     def test_delete_owned_comment(self):
-        comment = Comment(user=self.user)
-        self.assertTrue(
-            self.superuser.has_perm("comment.delete", comment, self.project)
-        )
-        self.assertTrue(self.admin.has_perm("comment.delete", comment, self.project))
-        self.assertTrue(self.user.has_perm("comment.delete", comment, self.project))
+        comment = Comment(unit=self.get_unit(), user=self.user)
+        self.assertTrue(self.superuser.has_perm("comment.delete", comment))
+        self.assertTrue(self.admin.has_perm("comment.delete", comment))
+        self.assertTrue(self.user.has_perm("comment.delete", comment))
 
     def test_delete_not_owned_comment(self):
-        comment = Comment(user=self.admin)
-        self.assertTrue(
-            self.superuser.has_perm("comment.delete", comment, self.project)
-        )
-        self.assertTrue(self.admin.has_perm("comment.delete", comment, self.project))
-        self.assertFalse(self.user.has_perm("comment.delete", comment, self.project))
+        comment = Comment(unit=self.get_unit(), user=self.admin)
+        self.assertTrue(self.superuser.has_perm("comment.delete", comment))
+        self.assertTrue(self.admin.has_perm("comment.delete", comment))
+        self.assertFalse(self.user.has_perm("comment.delete", comment))
 
     @override_settings(AUTH_RESTRICT_ADMINS={"super": ("trans.add_project",)})
     def test_restrict_super(self):
