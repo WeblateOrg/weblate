@@ -102,7 +102,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
     plural = models.ForeignKey(Plural, on_delete=models.deletion.CASCADE)
-    revision = models.CharField(max_length=100, default="", blank=True)
+    revision = models.CharField(max_length=200, default="", blank=True)
     filename = models.CharField(max_length=FILENAME_LENGTH)
 
     language_code = models.CharField(max_length=20, default="", blank=True)
@@ -426,14 +426,20 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_git_blob_hash(self):
         """Return current VCS blob hash for file."""
-        ret = self.component.repository.get_object_hash(self.get_filename())
+        get_object_hash = self.component.repository.get_object_hash
 
-        if not self.component.has_template():
-            return ret
+        # Include language file
+        hashes = [get_object_hash(self.get_filename())]
 
-        return ",".join(
-            [ret, self.component.repository.get_object_hash(self.component.template)]
-        )
+        if self.component.has_template():
+            # Include template
+            hashes.append(get_object_hash(self.component.template))
+
+            if self.component.intermediate:
+                # Include intermediate language as it might add new strings
+                hashes.append(get_object_hash(self.component.intermediate))
+
+        return ",".join(hashes)
 
     def store_hash(self):
         """Store current hash in database."""
