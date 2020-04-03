@@ -458,6 +458,17 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
         return self.get_paginated_response(serializer.data)
 
+    @action(detail=True, methods=["get"])
+    def screenshots(self, request, **kwargs):
+        obj = self.get_object()
+
+        queryset = Screenshot.objects.filter(component=obj)
+        page = self.paginate_queryset(queryset)
+
+        serializer = ScreenshotSerializer(page, many=True, context={"request": request})
+
+        return self.get_paginated_response(serializer.data)
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if not request.user.has_perm("component.edit", instance):
@@ -606,7 +617,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
         ).order_by("id")
 
 
-class ScreenshotViewSet(DownloadViewSet):
+class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
     """Screenshots API."""
 
     queryset = Screenshot.objects.none()
@@ -644,6 +655,65 @@ class ScreenshotViewSet(DownloadViewSet):
         )
 
         return Response(data={"result": True})
+
+    @action(
+        detail=True, methods=["post"],
+    )
+    def units(self, request, **kwargs):
+        obj = self.get_object()
+
+        if not request.user.has_perm("screenshot.edit", obj.component):
+            raise PermissionDenied()
+
+        if "unit_pk" not in request.data:
+            raise ParseError("Missing unit_pk parameter")
+
+        try:
+            source_string = obj.component.source_translation.unit_set.get(
+                pk=int(request.data["unit_pk"])
+            )
+        except (Unit.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.units.add(source_string)
+        serializer = ScreenshotSerializer(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK,)
+
+    def create(self, request, *args, **kwargs):
+        required_params = ["name", "image", "project_slug", "component_slug"]
+        for param in required_params:
+            if param not in request.data:
+                raise ParseError("Missing {param} parameter".format(param=param))
+
+        try:
+            project = request.user.allowed_projects.get(
+                slug=request.data["project_slug"]
+            )
+            component = Component.objects.filter(project=project).get(
+                slug=request.data["component_slug"]
+            )
+        except (Project.DoesNotExist, Component.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not request.user.has_perm("screenshot.add", component):
+            self.permission_denied(request, message="Can not add screenshot.")
+
+        with transaction.atomic():
+            serializer = ScreenshotSerializer(
+                data=request.data, context={"request": request}
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save(
+                component=component, user=request.user, image=request.data["image"]
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED,)
 
 
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
