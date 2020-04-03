@@ -3,6 +3,8 @@
 
 . ci/lib
 
+cleanup_database
+run_coverage ./manage.py migrate
 run_coverage ./manage.py makemigrations
 check
 if [ `git status -s | grep -c /migrations/` -gt 0 ] ; then
