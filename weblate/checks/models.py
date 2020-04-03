@@ -156,16 +156,21 @@ class Check(models.Model):
 
 @receiver(post_save, sender=Check)
 @disable_for_loaddata
-def update_failed_check_flag(sender, instance, created, **kwargs):
-    """Update related unit failed check flag."""
+def check_post_save(sender, instance, created, **kwargs):
+    """Handle check creation or updates."""
     if created:
-        return
-    try:
-        instance.unit.update_has_failing_check(
-            has_checks=None if instance.ignore else True, invalidate=True
-        )
-    except IndexError:
-        return
+        # Propagate checks that should do it
+        if instance.check_obj.propagates:
+            for unit in instance.unit.same_source_units():
+                unit.run_checks()
+    else:
+        # Update related unit failed check flag (the check was (un)ignored)
+        try:
+            instance.unit.update_has_failing_check(
+                has_checks=None if instance.ignore else True, invalidate=True
+            )
+        except IndexError:
+            return
 
 
 @receiver(post_delete, sender=Check)
