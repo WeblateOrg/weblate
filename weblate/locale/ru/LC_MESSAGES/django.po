@@ -27,7 +27,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-02 08:57+0000\n"
 "PO-Revision-Date: 2020-04-03 11:43+0000\n"
-"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
@@ -920,7 +920,7 @@ msgstr "Путь к сгенерированному MO-файлу"
 
 #: weblate/addons/forms.py:56
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Если не указано, будет использовано местоположение PO-файла."
+msgstr "Если не указано, будет использовано расположение PO-файла."
 
 #: weblate/addons/forms.py:76
 msgid "Name of generated file"
@@ -3482,8 +3482,8 @@ msgstr ""
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
 msgstr ""
-"Если срок подтверждающей ссылки истечёт прежде чем вы воспользуетесь ею, "
-"запросите новую подтверждающую ссылку."
+"Если время действия ссылки для подтверждения истечёт прежде, чем вы "
+"воспользуетесь ею, запросите новую."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -3505,8 +3505,8 @@ msgstr ""
 msgid ""
 "If the confirmation link expires before you get to use it, register again."
 msgstr ""
-"Если срок подтверждающей ссылки истечёт прежде чем вы воспользуетесь ею, "
-"зарегистрируйтесь снова."
+"Если время действия ссылки для подтверждения истечёт прежде, чем вы "
+"воспользуетесь ею, зарегистрируйтесь снова."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
@@ -4462,7 +4462,7 @@ msgstr "Только избранные пользователи могут уч
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
 msgid "Visible only to chosen users."
-msgstr "Видят только выбранные пользователи."
+msgstr "Видят только избранные пользователи."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -5023,7 +5023,7 @@ msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
 msgstr ""
-"Необходимо войти, чтобы переводить, иначе вы можете только предлагать "
+"Необходимо войти, чтобы переводить, иначе вы сможете только предлагать "
 "перевод."
 
 #: weblate/templates/dashboard/anonymous.html:17
@@ -5845,7 +5845,7 @@ msgstr "Отключить это уведомление"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr "Сгенерировано %(timestamp)s."
+msgstr "Сгенерировано за %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -7152,7 +7152,7 @@ msgstr "Этот компонент установлен или настроен
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non-existing locations:"
 msgstr ""
-"Ссылка на просмотрщик репозитория указывает на несуществующие местоположения:"
+"Ссылка на просмотрщик репозитория указывает на несуществующие расположения:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
 msgid ""
@@ -7169,7 +7169,7 @@ msgstr "Этот проект установлен или настроен не�
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to a non-existing location:"
-msgstr "Ссылка на сайт проекта указывает на несуществующее местоположение:"
+msgstr "Ссылка на сайт проекта указывает на несуществующее расположение:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -7212,8 +7212,7 @@ msgid ""
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
 "Избегать добавления в репозиторий файлов перевода одновременно для основного "
-"кода языка и для кода обозначения эквивалентной ему территории (например, ru "
-"и ru_RU)."
+"кода языка и эквивалентной ему территории (например, ru и ru_RU)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -8214,7 +8213,7 @@ msgstr "Выберите действительный тип фильтра."
 
 #: weblate/trans/forms.py:404
 msgid "The string you wanted to translate is no longer available."
-msgstr "Строка, которую вы хотели переводить, уже недоступна."
+msgstr "Строка, которую вы хотели перевести более недоступна."
 
 #: weblate/trans/forms.py:414
 msgid ""
@@ -8423,7 +8422,7 @@ msgstr "Добавляемый пользователь"
 
 #: weblate/trans/forms.py:1031
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr "Введите название или e-mail существующей учётной записи Weblate."
+msgstr "Введите имя или e-mail существующей учётной записи Weblate."
 
 #: weblate/trans/forms.py:1079
 msgid "Report format"
@@ -8758,7 +8757,7 @@ msgstr "Неподдерживаемая конфигурация компоне
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:265
 msgid "Broken repository browser URL"
-msgstr "Битая ссылка на просмоторщик репозитория"
+msgstr "Битая ссылка на просмотрщик репозитория"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:275
@@ -9138,14 +9137,14 @@ msgstr "URL для отправки в репозиторий, если пуст
 
 #: weblate/trans/models/component.py:216
 msgid "Repository browser"
-msgstr "Просмоторщик репозитория"
+msgstr "Просмотрщик репозитория"
 
 #: weblate/trans/models/component.py:218
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders."
 msgstr ""
-"Ссылка на просмоторщик репозитория, вы можете использовать {{branch}}, "
+"Ссылка на просмотрщик репозитория, вы можете использовать {{branch}}, "
 "{{filename}} и {{line}} для подстановки ветки, имени файла и номера строки "
 "соответственно."
 
@@ -9400,8 +9399,8 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
-"Репозиторий требует аутентификации, пожалуйста, укажите в URL учётные данные "
-"или используйте доступ по SSH."
+"Данный репозиторий требует аутентификации: укажите в URL учётные данные или "
+"используйте доступ по SSH."
 
 #: weblate/trans/models/component.py:795
 #, python-format
@@ -10324,7 +10323,7 @@ msgstr "К переводу были применены следующие ис�
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "Перевод был сохранен, однако, есть новые не прошедшие проверки: {0}"
+msgstr "Перевод был сохранен, однако, есть новые неудачные проверки: {0}"
 
 #: weblate/trans/views/edit.py:277
 msgid "Invalid merge request!"
@@ -10651,7 +10650,7 @@ msgstr "Ошибка компиляции: {0}"
 
 #: weblate/utils/validators.py:69
 msgid "The regular expression can not match an empty string."
-msgstr "Регулярное выражение не может соответствовать пустой строке."
+msgstr "Регулярное выражение не должно сопоставлять пустую строку."
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
@@ -10673,7 +10672,7 @@ msgstr "Неподдерживаемый тип изображения: %s"
 
 #: weblate/utils/validators.py:132
 msgid "The image is too big, please crop or scale it down."
-msgstr "Изображение слишком велико, обрежьте его или уменьшите его масштаб."
+msgstr "Изображение слишком большое, обрежьте его или уменьшите масштаб."
 
 #: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
