@@ -271,11 +271,9 @@ class Unit(models.Model, LoggerMixin):
         if not unit.is_translated():
             return STATE_EMPTY
 
-        if (
-            unit.is_approved(self.approved)
-            and self.translation.component.project.enable_review
-        ):
+        if unit.is_approved(self.approved) and self.translation.enable_review:
             return STATE_APPROVED
+
         return STATE_TRANSLATED
 
     @staticmethod

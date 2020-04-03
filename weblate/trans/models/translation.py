@@ -705,6 +705,11 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return result
 
+    @cached_property
+    def enable_review(self):
+        project = self.component.project
+        return project.source_review if self.is_source else project.translation_review
+
     def get_target_checks(self):
         """Return list of failing checks on current component."""
         result = TranslationChecklist()
@@ -717,7 +722,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         result.add_if(self.stats, "translated", "success")
 
         # To approve
-        if self.component.project.enable_review:
+        if self.enable_review:
             result.add_if(self.stats, "unapproved", "warning")
 
         # Approved with suggestions

@@ -683,7 +683,7 @@ def setup_project_groups(sender, instance, **kwargs):
         groups = set(ACL_GROUPS.keys())
 
     # Remove review group if review is not enabled
-    if not instance.enable_review:
+    if not instance.source_review and not instance.translation_review:
         groups.remove("Review")
 
     # Remove billing if billing is not installed

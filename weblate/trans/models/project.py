@@ -117,10 +117,17 @@ class Project(models.Model, URLMixin, PathMixin):
             "in the documentation."
         ),
     )
-    enable_review = models.BooleanField(
+    translation_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable reviews"),
         default=False,
         help_text=gettext_lazy("Requires dedicated reviewers to approve translations."),
+    )
+    source_review = models.BooleanField(
+        verbose_name=gettext_lazy("Enable source reviews"),
+        default=False,
+        help_text=gettext_lazy(
+            "Requires dedicated reviewers to approve source strings."
+        ),
     )
     enable_hooks = models.BooleanField(
         verbose_name=gettext_lazy("Enable hooks"),

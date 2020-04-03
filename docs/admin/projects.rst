@@ -163,12 +163,19 @@ Access control
 
 Configure per project access control, see :ref:`acl` for more details.
 
-.. _project-enable_review:
+.. _project-translation_review:
 
 Enable reviews
 ++++++++++++++
 
-Enable review workflow, see :ref:`reviews`.
+Enable review workflow for translations, see :ref:`reviews`.
+
+.. _project-source_review:
+
+Enable source reviews
++++++++++++++++++++++
+
+Enable review workflow for source strings, see :ref:`reviews`.
 
 .. _project-enable_hooks:
 

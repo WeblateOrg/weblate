@@ -246,7 +246,7 @@ class ImportFuzzyTest(ImportBaseTest):
 
     def test_import_review(self):
         """Test importing as approved."""
-        self.project.enable_review = True
+        self.project.translation_review = True
         self.project.save()
         response = self.do_import(method="approve", fuzzy="approve")
         self.assertRedirects(response, self.translation_url)

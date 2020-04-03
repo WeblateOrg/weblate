@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("memory", "0005_auto_20200310_0810"),
-        ("trans", "0071_component_intermediate"),
+        ("trans", "0073_auto_20200403_1329"),
     ]
 
     operations = [

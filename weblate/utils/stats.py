@@ -315,7 +315,7 @@ class TranslationStats(BaseStats):
 
     @cached_property
     def has_review(self):
-        return self._object.component.project.enable_review
+        return self._object.enable_review
 
     def prefetch_basic(self):
         stats = self._object.unit_set.aggregate(
@@ -487,7 +487,10 @@ class LanguageStats(BaseStats):
 class ComponentStats(LanguageStats):
     @cached_property
     def has_review(self):
-        return self._object.project.enable_review
+        return (
+            self._object.project.source_review
+            or self._object.project.translation_review
+        )
 
     def calculate_source(self, stats_obj, stats):
         return
@@ -533,7 +536,7 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def has_review(self):
-        return self._object.enable_review
+        return self._object.source_review or self._object.translation_review
 
     @cached_property
     def cache_key(self):
@@ -572,7 +575,7 @@ class ProjectStats(BaseStats):
 
     @cached_property
     def has_review(self):
-        return self._object.enable_review
+        return self._object.source_review or self._object.translation_review
 
     def invalidate(self, language=None):
         super().invalidate()
