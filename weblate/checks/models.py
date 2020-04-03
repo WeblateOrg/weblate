@@ -161,7 +161,7 @@ def check_post_save(sender, instance, created, **kwargs):
     if created:
         # Propagate checks that should do it
         if instance.check_obj and instance.check_obj.propagates:
-            for unit in instance.unit.same_source_units():
+            for unit in instance.unit.same_source_units:
                 unit.run_checks()
     else:
         # Update related unit failed check flag (the check was (un)ignored)
@@ -179,6 +179,6 @@ def remove_complimentary_checks(sender, instance, **kwargs):
     """Remove propagate checks from all units."""
     if not instance.check_obj or not instance.check_obj.propagates:
         return
-    for unit in instance.unit.same_source_units():
+    for unit in instance.unit.same_source_units:
         if unit.check_set.filter(check=instance.check).delete()[0]:
             unit.update_has_failing_check(invalidate=True)
