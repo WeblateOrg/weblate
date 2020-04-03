@@ -1538,9 +1538,13 @@ $(function () {
     $('#is-exact').on('click', function() {
         var input = $(this).closest('.input-group').find('input[type=text]');
         if ($('#is-exact input[type=checkbox]').is(':checked')) {
-            input.val('=' + input.val());
+            if (input.val().indexOf('"') == -1) {
+                input.val('="' + input.val() + '"');
+            } else {
+                input.val('=' + input.val());
+            }
         } else {
-            input.val(input.val().substring(1))
+            input.val(input.val().substring(1));
         }
     })
     $('.search-add').click(function () {

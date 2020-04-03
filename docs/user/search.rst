@@ -86,7 +86,7 @@ Exact operators
 ---------------
 
 You can do an exact match query on different string fields using ``=`` operator. For example, to
-source for all source strings exactly matching ``hello``, use: ``source:=hello``
+source for all source strings exactly matching ``hello world``, use: ``source:="hello world"``
 
 
 Regular expressions

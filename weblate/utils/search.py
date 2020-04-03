@@ -63,6 +63,25 @@ class QuotePlugin(whoosh.qparser.SingleQuotePlugin):
     expr = r"(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
 
 
+class Exact(whoosh.query.Term):
+    """Class for queries with exact operator."""
+
+    pass
+
+
+class ExactPlugin(QuotePlugin):
+    """Exact match plugin with quotes to specify an exact term."""
+
+    class ExactNode(whoosh.qparser.syntax.TextNode):
+        qclass = Exact
+
+        def r(self):
+            return "Exact %r" % self.text
+
+    expr = r"\=(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
+    nodetype = ExactNode
+
+
 class GtLtPlugin(whoosh.qparser.GtLtPlugin):
     """GtLt plugin taggin only after ":"."""
 
@@ -152,6 +171,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             whoosh.qparser.FieldsPlugin(),
             whoosh.qparser.RangePlugin(),
             GtLtPlugin(),
+            ExactPlugin(),
             whoosh.qparser.RegexPlugin(),
             whoosh.qparser.GroupPlugin(),
             whoosh.qparser.OperatorsPlugin(),
@@ -265,7 +285,7 @@ def is_sql(text):
 
 
 def exact_sql(field, text):
-    return Q(**{field_name(field, "iexact"): text[1:]})
+    return Q(**{field_name(field, "iexact"): text})
 
 
 def query_sql(obj):
@@ -281,13 +301,13 @@ def query_sql(obj):
         )
     if isinstance(obj, whoosh.query.Not):
         return ~query_sql(obj.query)
+    if isinstance(obj, Exact):
+        return exact_sql(obj.fieldname, obj.text)
     if isinstance(obj, whoosh.query.Term):
         if obj.fieldname == "has":
             return has_sql(obj.text)
         if obj.fieldname == "is":
             return is_sql(obj.text)
-        if obj.text.startswith("="):
-            return exact_sql(obj.fieldname, obj.text)
         return field_extra(obj.fieldname, Q(**{field_name(obj.fieldname): obj.text}))
     if isinstance(obj, whoosh.query.DateRange):
         return field_extra(
