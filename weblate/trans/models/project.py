@@ -186,10 +186,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     @cached_property
     def locked(self):
-        return (
-            self.component_set.exists()
-            and not self.component_set.filter(locked=False).exists()
-        )
+        return self.component_set.filter(locked=False).count() == 0
 
     def _get_path(self):
         return os.path.join(data_dir("vcs"), self.slug)
