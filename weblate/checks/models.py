@@ -160,7 +160,7 @@ def check_post_save(sender, instance, created, **kwargs):
     """Handle check creation or updates."""
     if created:
         # Propagate checks that should do it
-        if instance.check_obj.propagates:
+        if instance.check_obj and instance.check_obj.propagates:
             for unit in instance.unit.same_source_units():
                 unit.run_checks()
     else:
@@ -177,7 +177,7 @@ def check_post_save(sender, instance, created, **kwargs):
 @disable_for_loaddata
 def remove_complimentary_checks(sender, instance, **kwargs):
     """Remove propagate checks from all units."""
-    if not instance.check_obj.propagates:
+    if not instance.check_obj or not instance.check_obj.propagates:
         return
     for unit in instance.unit.same_source_units():
         if unit.check_set.filter(check=instance.check).delete()[0]:
