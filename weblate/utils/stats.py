@@ -23,7 +23,7 @@ from datetime import timedelta
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count, Sum
+from django.db.models import Count, QuerySet, Sum
 from django.db.models.functions import Length
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -94,15 +94,25 @@ def zero_stats(keys):
 
 
 def prefetch_stats(queryset):
+    """Fetch stats from cache for a queryset."""
+    # Force evaluating queryset/iterator, we need all objects
     objects = list(queryset)
+
+    # This function can either accept queryset, in which case it is
+    # returned with prefetched stats, or iterator, in which case new list
+    # is returned.
+    # This is needed to allow using such querysets futher and to support
+    # processing iterator when it is more effective.
+    result = queryset if isinstance(queryset, QuerySet) else objects
+
+    # Bail out in case the query is empty
     if not objects:
-        return queryset
-    obj = objects[0]
-    if isinstance(obj, BaseStats):
-        obj.prefetch_many(objects)
-    else:
-        obj.stats.prefetch_many([i.stats for i in objects])
-    return queryset
+        return result
+
+    # Use stats prefetch
+    objects[0].stats.prefetch_many([i.stats for i in objects])
+
+    return result
 
 
 class ParentStats:
