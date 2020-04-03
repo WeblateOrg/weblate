@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-02 08:57+0000\n"
-"PO-Revision-Date: 2020-03-30 11:46+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-04-03 11:43+0000\n"
+"Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -153,14 +153,8 @@ msgid "Password"
 msgstr "Hasło"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Wprowadź poprawną nazwę użytkownika i hasło. Należy zauważyć, że w obu "
-"polach rozróżniana jest wielkość liter."
+msgstr "Wprowadź poprawną nazwę użytkownika i hasło."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -293,16 +287,14 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Nie możesz się już zalogować {method} ({name})."
 
 #: weblate/accounts/models.py:86
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Zalogowany przy użyciu {method} ({name})."
+msgstr "Zalogowano przy użyciu {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Zalogowany przy użyciu {method} ({name}) z nowego urządzenia."
+msgstr "Zalogowano przy użyciu {method} ({name}) z nowego urządzenia."
 
 #: weblate/accounts/models.py:88
 msgid "Somebody has attempted to register with your e-mail."
@@ -335,14 +327,10 @@ msgid "You can now log in using password."
 msgstr "Możesz teraz zalogować się przy użyciu hasła."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
 msgstr "Zalogowano przy użyciu hasła."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
 msgstr "Zalogowano przy użyciu hasła z nowego urządzenia."
 
@@ -579,10 +567,8 @@ msgstr "Nowy składnik tłumaczenia"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Nowy komentarz"
+msgstr "Nowe ogłoszenie"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -625,29 +611,20 @@ msgid "Your password can't match a password you have used in the past."
 msgstr "Twoje hasło nie może odpowiadać hasłu, którego używałeś w przeszłości."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
-msgstr ""
-"Nie można dokończyć resetowania hasła, będąc jednocześnie zalogowanym /"
-"zalogowaną!"
+msgstr "Nie można ukończyć resetowania hasła po zalogowaniu!"
 
 #: weblate/accounts/pipeline.py:296 weblate/accounts/pipeline.py:319
 msgid "The registration link has been invalidated."
 msgstr "Odsyłacz rejestracyjny utracił ważność."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
-msgstr ""
-"Nie można dokończyć rejestracji, będąc jednocześnie zalogowanym /zalogowaną!"
+msgstr "Nie można ukończyć rejestracji po zalogowaniu się!"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
-msgstr "Rejestrację można potwierdzić jedynie będąc zalogowanym /zalogowaną!"
+msgstr "Rejestrację możesz potwierdzić tylko po zalogowaniu się!"
 
 #: weblate/accounts/pipeline.py:442
 #, python-brace-format
@@ -977,10 +954,8 @@ msgid "Keep previous msgids of translated strings"
 msgstr "Zachowaj poprzednie msgids przetłumaczonych ciągów"
 
 #: weblate/addons/forms.py:127
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Liczba przetłumaczonych ciągów tekstowych"
+msgstr "Usuwanie lokalizacji przetłumaczonych ciągów"
 
 #: weblate/addons/forms.py:132
 msgid "Use fuzzy matching"
@@ -1556,10 +1531,8 @@ msgstr "Zarządzanie użytkownikami (na całej platformie)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Zarządzanie użytkownikami (na całej platformie)"
+msgstr "Zarządzanie ogłoszeniami (na całej platformie)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:144
@@ -2044,7 +2017,7 @@ msgstr "Liczba \\n w tłumaczeniu nie pasuje do źródła"
 
 #: weblate/checks/chars.py:332
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Niedopasowanie podziałów wierszy"
 
 #: weblate/checks/chars.py:333
 msgid "Number of new lines in translation does not match source"
@@ -5902,7 +5875,7 @@ msgstr "Wyłącz to powiadomienie"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "Wygenerowano na %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
