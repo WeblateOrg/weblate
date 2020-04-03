@@ -50,6 +50,7 @@ class InviteUserForm(forms.ModelForm):
         fields = ["email", "username", "full_name"]
 
     def save(self, request, project=None):
+        self.instance.set_unusable_password()
         user = super().save()
         if project:
             project.add_user(user)

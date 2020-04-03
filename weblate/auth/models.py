@@ -342,6 +342,10 @@ class User(AbstractBaseUser):
     def clear_cache(self):
         self.perm_cache = {}
 
+    def has_usable_password(self):
+        # For some reason Django says that empty string is a valid password
+        return self.password and super().has_usable_password()
+
     @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
