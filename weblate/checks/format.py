@@ -430,7 +430,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
     def format_result(self, result):
         if "'" in result:
-            return _("You need to screen an apostrophe with another one.")
+            return _("You need to pair up an apostrophe with another one.")
         return super().format_result(result)
 
 
