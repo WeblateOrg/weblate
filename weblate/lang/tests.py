@@ -190,10 +190,10 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
         # Check plurals
         plural_obj = lang.plural_set.get(source=Plural.SOURCE_DEFAULT)
         self.assertEqual(
-            plural_obj.equation,
+            plural_obj.formula,
             plural,
             "Invalid plural for {0} (expected {1}, got {2})".format(
-                original, plural, plural_obj.equation
+                original, plural, plural_obj.formula
             ),
         )
         # Check whether html contains both language code and direction
@@ -248,22 +248,22 @@ class VerifyPluralsTest(TestCase):
         return chain(LANGUAGES, EXTRAPLURALS)
 
     def test_valid(self):
-        """Validate that we can name all plural equations."""
-        for code, _unused, _unused, pluraleq in self.all_data():
+        """Validate that we can name all plural formulas."""
+        for code, _unused, _unused, plural_formula in self.all_data():
             self.assertNotEqual(
-                get_plural_type(code.replace("_", "-").split("-")[0], pluraleq),
+                get_plural_type(code.replace("_", "-").split("-")[0], plural_formula),
                 data.PLURAL_UNKNOWN,
-                "Can not guess plural type for {0} ({1})".format(code, pluraleq),
+                "Can not guess plural type for {0} ({1})".format(code, plural_formula),
             )
 
-    def test_equation(self):
-        """Validate that all equations can be parsed by gettext."""
+    def test_formula(self):
+        """Validate that all formulas can be parsed by gettext."""
         # Verify we get an error on invalid syntax
         with self.assertRaises((SyntaxError, ValueError)):
             gettext.c2py("n==0 ? 1 2")
-        for code, _unused, nplurals, pluraleq in self.all_data():
+        for code, _unused, nplurals, plural_formula in self.all_data():
             # Validate plurals can be parsed
-            plural = gettext.c2py(pluraleq)
+            plural = gettext.c2py(plural_formula)
             # Get maximal plural
             calculated = max((plural(x) for x in range(200))) + 1
             # Check it matches ours
@@ -271,7 +271,7 @@ class VerifyPluralsTest(TestCase):
                 calculated,
                 nplurals,
                 "Invalid nplurals for {0}: {1} ({2}, {3})".format(
-                    code, calculated, nplurals, pluraleq
+                    code, calculated, nplurals, plural_formula
                 ),
             )
 
@@ -325,7 +325,7 @@ class LanguagesViewTest(FixtureTestCase):
                 "name": "XX",
                 "direction": "ltr",
                 "number": "2",
-                "equation": "n != 1",
+                "formula": "n != 1",
             },
         )
         self.assertRedirects(response, reverse("show_language", kwargs={"lang": "xx"}))
@@ -356,7 +356,7 @@ class LanguagesViewTest(FixtureTestCase):
         self.user.save()
         response = self.client.post(
             reverse("edit-plural", kwargs={"pk": language.plural.pk}),
-            {"number": "2", "equation": "n != 1"},
+            {"number": "2", "formula": "n != 1"},
         )
         self.assertRedirects(
             response, reverse("show_language", kwargs={"lang": "cs"}) + "#information"
@@ -366,7 +366,7 @@ class LanguagesViewTest(FixtureTestCase):
 class PluralsCompareTest(TestCase):
     def test_match(self):
         plural = Plural.objects.get(language__code="cs", source=Plural.SOURCE_DEFAULT)
-        self.assertTrue(plural.same_plural(plural.number, plural.equation))
+        self.assertTrue(plural.same_plural(plural.number, plural.formula))
 
     def test_formula(self):
         plural = Plural.objects.get(language__code="pt", source=Plural.SOURCE_DEFAULT)
@@ -393,7 +393,7 @@ class PluralsCompareTest(TestCase):
 
 class PluralTest(BaseTestCase):
     def test_examples(self):
-        plural = Plural(number=2, equation="n!=1")
+        plural = Plural(number=2, formula="n!=1")
         self.assertEqual(
             plural.examples,
             {0: ["1"], 1: ["0", "2", "3", "4", "5", "6", "7", "8", "9", "10"]},
@@ -437,7 +437,7 @@ class PluralTest(BaseTestCase):
         plural = Plural.objects.create(
             language=language,
             number=3,
-            equation=(
+            formula=(
                 "(n%10==1 && n%100!=11 ? 0 : "
                 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)"
             ),

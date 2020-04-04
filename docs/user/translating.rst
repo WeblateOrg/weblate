@@ -120,8 +120,8 @@ example Czech or Arabic have more plurals and also their rules for plurals are
 different.
 
 Weblate has full support for each of these forms, in each respective language
-by translating every plural separately.  The number of fields and how it is
-used in the translated application depends on the configured plural equation.
+by translating every plural separately. The number of fields and how it is
+used in the translated application depends on the configured plural formula.
 Weblate shows the basic information, but you can find a more detailed description in
 the `Language Plural Rules`_ by the Unicode Consortium.
 

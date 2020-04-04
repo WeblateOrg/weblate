@@ -320,10 +320,10 @@ class PluralTextarea(forms.Textarea):
                 )
             )
 
-        # Show plural equation for more strings
+        # Show plural formula for more strings
         if len(values) > 1:
             ret.append(
-                render_to_string("snippets/plural-equation.html", {"plural": plural})
+                render_to_string("snippets/plural-formula.html", {"plural": plural})
             )
 
         # Join output

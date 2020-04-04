@@ -184,11 +184,11 @@ def validate_email(value):
         raise ValidationError(_("This e-mail address is disallowed."))
 
 
-def validate_pluraleq(value):
+def validate_plural_formula(value):
     try:
         gettext.c2py(value if value else "0")
     except ValueError as error:
-        raise ValidationError(_("Could not evaluate plural equation: {}").format(error))
+        raise ValidationError(_("Could not evaluate plural formula: {}").format(error))
 
 
 def validate_filename(value):

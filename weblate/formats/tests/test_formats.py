@@ -317,16 +317,16 @@ class PoFormatTest(AutoFormatTest):
 
     def test_plurals(self):
         self.assertEqual(
-            self.load_plural(TEST_HE_CLDR).equation,
+            self.load_plural(TEST_HE_CLDR).formula,
             "(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))",
         )
         self.assertEqual(
-            self.load_plural(TEST_HE_CUSTOM).equation,
+            self.load_plural(TEST_HE_CUSTOM).formula,
             "(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))",
         )
-        self.assertEqual(self.load_plural(TEST_HE_SIMPLE).equation, "(n != 1)")
+        self.assertEqual(self.load_plural(TEST_HE_SIMPLE).formula, "(n != 1)")
         self.assertEqual(
-            self.load_plural(TEST_HE_THREE).equation, "n==1 ? 0 : n==2 ? 2 : 1"
+            self.load_plural(TEST_HE_THREE).formula, "n==1 ? 0 : n==2 ? 2 : 1"
         )
 
 

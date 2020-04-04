@@ -747,13 +747,13 @@ class PoFormat(TTKitFormat):
 
         header = self.store.parseheader()
         try:
-            number, equation = Plural.parse_formula(header["Plural-Forms"])
+            number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
         except (ValueError, KeyError):
             return super().get_plural(language)
 
         # Find matching one
         for plural in language.plural_set.iterator():
-            if plural.same_plural(number, equation):
+            if plural.same_plural(number, formula):
                 return plural
 
         # Create new one
@@ -761,7 +761,7 @@ class PoFormat(TTKitFormat):
             language=language,
             source=Plural.SOURCE_GETTEXT,
             number=number,
-            equation=equation,
+            formula=formula,
         )
 
     @classmethod
