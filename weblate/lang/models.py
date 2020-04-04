@@ -564,7 +564,7 @@ class Plural(models.Model):
         return result
 
     @staticmethod
-    def parse_plural_form(plurals):
+    def parse_plural_forms(plurals):
         matches = PLURAL_RE.match(plurals)
         if matches is None:
             raise ValueError("Failed to parse plural forms")
