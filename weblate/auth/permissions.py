@@ -18,7 +18,6 @@
 #
 
 from django.conf import settings
-from django.db.models import Q
 
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import (
@@ -41,26 +40,6 @@ def register_perm(*perms):
     return wrap_perm
 
 
-def cache_perm(func):
-    """Caching for permissions check."""
-
-    def cache_perm_wrapper(user, permission, obj, *args, **kwargs):
-        cache_key = (
-            func.__name__,
-            obj.__class__.__name__,
-            obj.pk if obj is not None else "",
-            permission,
-        )
-
-        # Calculate if not in cache
-        if cache_key not in user.perm_cache:
-            user.perm_cache[cache_key] = func(user, permission, obj, *args, **kwargs)
-        return user.perm_cache[cache_key]
-
-    return cache_perm_wrapper
-
-
-@cache_perm
 def check_global_permission(user, permission, obj):
     """Generic permission check for base classes."""
     if user.is_superuser:
@@ -68,27 +47,31 @@ def check_global_permission(user, permission, obj):
     return user.groups.filter(roles__permissions__codename=permission).exists()
 
 
-@cache_perm
 def check_permission(user, permission, obj):
     """Generic permission check for base classes."""
     if user.is_superuser:
         return True
-    query = user.groups.filter(roles__permissions__codename=permission)
     if isinstance(obj, Project):
-        return query.filter(projects=obj).exists()
+        return any(
+            permission in permissions
+            for permissions, _langs in user.project_permissions[obj.pk]
+        )
     if isinstance(obj, Component):
-        return query.filter(
-            (Q(projects=obj.project) & Q(componentlist=None))
-            | Q(componentlist__components=obj)
-        ).exists()
+        return any(
+            permission in permissions
+            for permissions, _langs in user.project_permissions[obj.project_id]
+        ) or any(
+            permission in permissions
+            for permissions, _langs in user.component_permissions[obj.pk]
+        )
     if isinstance(obj, Translation):
-        return (
-            query.filter(
-                (Q(projects=obj.component.project) & Q(componentlist=None))
-                | Q(componentlist__components=obj.component)
-            )
-            .filter(languages=obj.language)
-            .exists()
+        lang = obj.language_id
+        return any(
+            permission in permissions and lang in langs
+            for permissions, langs in user.project_permissions[obj.component.project_id]
+        ) or any(
+            permission in permissions and lang in langs
+            for permissions, langs in user.component_permissions[obj.component_id]
         )
     raise ValueError(
         "Not supported type for permission check: {}".format(obj.__class__.__name__)
@@ -96,14 +79,12 @@ def check_permission(user, permission, obj):
 
 
 @register_perm("comment.delete", "suggestion.delete")
-@cache_perm
 def check_delete_own(user, permission, obj, scope):
     if user.is_authenticated and obj.user == user:
         return True
     return check_permission(user, permission, scope)
 
 
-@cache_perm
 def check_can_edit(user, permission, obj, is_vote=False):
     translation = component = None
 
@@ -166,7 +147,6 @@ def check_can_edit(user, permission, obj, is_vote=False):
 
 
 @register_perm("unit.review")
-@cache_perm
 def check_unit_review(user, permission, obj, skip_enabled=False):
     project = obj
     if hasattr(project, "component"):
@@ -179,7 +159,6 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
 
 
 @register_perm("unit.edit", "suggestion.accept")
-@cache_perm
 def check_edit_approved(user, permission, obj):
     if isinstance(obj, Unit):
         unit = obj
@@ -194,7 +173,6 @@ def check_edit_approved(user, permission, obj):
 
 
 @register_perm("unit.add")
-@cache_perm
 def check_unit_add(user, permission, translation):
     if not translation.is_source or translation.is_readonly:
         return False
@@ -204,7 +182,6 @@ def check_unit_add(user, permission, translation):
 
 
 @register_perm("translation.auto")
-@cache_perm
 def check_autotranslate(user, permission, translation):
     if isinstance(translation, Translation) and (
         translation.is_source or translation.is_readonly
@@ -214,7 +191,6 @@ def check_autotranslate(user, permission, translation):
 
 
 @register_perm("suggestion.vote")
-@cache_perm
 def check_suggestion_vote(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
@@ -222,7 +198,6 @@ def check_suggestion_vote(user, permission, obj):
 
 
 @register_perm("suggestion.add")
-@cache_perm
 def check_suggestion_add(user, permission, obj):
     if isinstance(obj, Unit):
         obj = obj.translation
@@ -232,7 +207,6 @@ def check_suggestion_add(user, permission, obj):
 
 
 @register_perm("upload.perform")
-@cache_perm
 def check_contribute(user, permission, translation):
     return (
         translation.filename
@@ -245,7 +219,6 @@ def check_contribute(user, permission, translation):
 
 
 @register_perm("machinery.view", "memory.view")
-@cache_perm
 def check_machinery(user, permission, obj):
     if not MACHINE_TRANSLATION_SERVICES.exists():
         return False
@@ -262,7 +235,6 @@ def check_translation_delete(user, permission, obj):
 
 
 @register_perm("meta:vcs.status")
-@cache_perm
 def check_repository_status(user, permission, obj):
     return (
         check_permission(user, "vcs.push", obj)
@@ -273,7 +245,6 @@ def check_repository_status(user, permission, obj):
 
 
 @register_perm("billing:project.permissions")
-@cache_perm
 def check_billing(user, permission, obj):
     if "weblate.billing" in settings.INSTALLED_APPS:
         billings = obj.billing_set.filter(plan__change_access_control=True)

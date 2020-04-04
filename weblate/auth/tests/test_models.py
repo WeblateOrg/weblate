@@ -63,7 +63,7 @@ class ModelTest(FixtureTestCase):
         self.group.save()
 
         # No permissions as component list is empty
-        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Permissions should exist after adding to a component list
@@ -81,6 +81,7 @@ class ModelTest(FixtureTestCase):
         self.group.languages.set(Language.objects.filter(code="de"), clear=True)
 
         # Permissions should deny access
+        self.user.clear_cache()
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
