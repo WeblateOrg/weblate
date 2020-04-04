@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-02 08:57+0000\n"
-"PO-Revision-Date: 2020-04-02 21:48+0000\n"
-"Last-Translator: Mayeul Kauffmann <mayeul.kauffmann@free.fr>\n"
+"PO-Revision-Date: 2020-04-04 08:05+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
 "Language: es\n"
@@ -289,10 +289,9 @@ msgid "You can no longer log in using {method} ({name})."
 msgstr "Ya no puede acceder a través de {method} ({name})."
 
 #: weblate/accounts/models.py:86
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Conectado usando {method} ({name})."
+msgstr "Se accedió a través de {method} ({name})."
 
 #: weblate/accounts/models.py:87
 #, python-brace-format
@@ -614,12 +613,10 @@ msgstr ""
 "Su contraseña no debe coincidir con una contraseña ya utilizada en el pasado."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
 msgstr ""
-"¡No puede completar el restablecimiento de contraseña mientras esté "
-"conectado!"
+"No puede completar el restablecimiento de contraseña mientras haya accedido "
+"a su cuenta."
 
 #: weblate/accounts/pipeline.py:296 weblate/accounts/pipeline.py:319
 msgid "The registration link has been invalidated."
@@ -967,10 +964,8 @@ msgid "Keep previous msgids of translated strings"
 msgstr "Conservar los msgid anteriores de las cadenas traducidas"
 
 #: weblate/addons/forms.py:127
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Número de cadenas sin traducir"
+msgstr "Quitar ubicaciones de cadenas traducidas"
 
 #: weblate/addons/forms.py:132
 msgid "Use fuzzy matching"
@@ -1551,10 +1546,8 @@ msgstr "Gestionar usuarios (en toda la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Gestionar usuarios (en toda la plataforma)"
+msgstr "Gestionar anuncios (en toda la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:144
@@ -2154,10 +2147,8 @@ msgid "Read only"
 msgstr "Solo lectura"
 
 #: weblate/checks/flags.py:46
-#, fuzzy
-#| msgid "String changed by"
 msgid "Strict unchanged check"
-msgstr "Cadena modificada por"
+msgstr "Comprobación de no modificación estricta"
 
 #: weblate/checks/flags.py:48 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2268,7 +2259,7 @@ msgstr "Formato Java"
 
 #: weblate/checks/format.py:396
 msgid "Java format string does not match source"
-msgstr "La cadena en formato Java, no coincide con la cadena original"
+msgstr "La cadena en formato Java no coincide con la de origen"
 
 #: weblate/checks/format.py:407
 msgid "Java MessageFormat"
@@ -2281,31 +2272,23 @@ msgstr ""
 
 #: weblate/checks/format.py:433
 msgid "You need to screen an apostrophe with another one."
-msgstr "Es necesario emparejar cada apostrofe con otra."
+msgstr "Todas las comillas sencillas rectas deben tener su par."
 
 #: weblate/checks/format.py:439
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "Traducción automática"
+msgstr "Interpolación con i18next"
 
 #: weblate/checks/format.py:440
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
-msgstr "El BBCode en la traducción no coincide con aquél en el original"
+msgstr "La interpolación de i18next no coincide con aquella en el original"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Percent interpolation"
-msgstr "Integración de control de versiones"
+msgstr "Interpolación porcentual"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent interpolation does not match source"
-msgstr "El BBCode en la traducción no coincide con aquél en el original"
+msgstr "La interpolación porcentual no coincide con aquella en el original"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -3517,14 +3500,11 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:25
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
 msgstr ""
-"Si el enlace de confirmación expira antes de que usted pueda utilizarlo, "
-"regístrese de nuevo."
+"Si el enlace de confirmación expira antes de que pueda utilizarlo, solicite "
+"uno nuevo."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -4512,10 +4492,8 @@ msgid "Only chosen users can contribute."
 msgstr "Solo determinados usuarios pueden contribuir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "Visible y traducible sólo por usuarios seleccionados"
+msgstr "Visible solo por usuarios seleccionados."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -4796,10 +4774,8 @@ msgstr "Capturas de pantalla"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:351
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "Enviar comentario"
+msgstr "Publicar anuncio"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -5902,7 +5878,7 @@ msgstr "Desactivar esta notificación"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "Generado el %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -5998,16 +5974,14 @@ msgid "Announcement"
 msgstr "Anuncio"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Nuevo comentario en %(component)s"
+msgstr "Anuncio nuevo en %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message at %(site_title)s"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Mensaje nuevo en la pizarra de %(site_title)s"
+msgstr "Anuncio nuevo en %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -6977,6 +6951,8 @@ msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
 msgstr ""
+"El control de versiones o los archivos por traducir se configuran en "
+"componentes individuales:"
 
 #: weblate/templates/snippets/project-nav.html:137
 msgid "Tweet this translation"
@@ -7253,19 +7229,17 @@ msgstr "Arregle esto quitando uno de los archivos de traducción."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
 msgid "Please consider the following:"
-msgstr "Por favor, considere lo siguiente:"
+msgstr "Pruebe a hacer lo siguiente:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Change the source language in the project settings, or remove its "
 "translation file."
 msgstr ""
+"Cambie el idioma de origen en la configuración del proyecto o elimine su "
+"archivo de traducción."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Avoid having translation files for both plain language code and code with "
-#| "default country (for example de and de_DE)."
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
@@ -8273,10 +8247,8 @@ msgid "Please choose a valid filter type."
 msgstr "Por favor selecciona un tipo de filtro válido."
 
 #: weblate/trans/forms.py:404
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "¡El mensaje que ibas a traducir ya no está disponible!"
+msgstr "El mensaje que iba a traducir ya no está disponible."
 
 #: weblate/trans/forms.py:414
 msgid ""
@@ -8490,6 +8462,7 @@ msgstr "Usuario a añadir"
 #: weblate/trans/forms.py:1031
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
+"Proporcione un nombre de cuenta o dirección de correo existente en Weblate."
 
 #: weblate/trans/forms.py:1079
 msgid "Report format"
@@ -8664,14 +8637,12 @@ msgstr ""
 "público: %s"
 
 #: weblate/trans/forms.py:1708
-#, fuzzy
-#| msgid "API access"
 msgid "Access"
-msgstr "API de acceso"
+msgstr "Acceso"
 
 #: weblate/trans/forms.py:1717
 msgid "Workflow"
-msgstr ""
+msgstr "Flujo de trabajo"
 
 #: weblate/trans/forms.py:1741
 msgid ""
@@ -8892,7 +8863,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:125
 msgid "Announcements"
-msgstr ""
+msgstr "Anuncios"
 
 #: weblate/trans/models/announcement.py:132
 msgid "Do not specify both component and project!"
@@ -9136,7 +9107,7 @@ msgstr "Se recibió una notificación del repositorio"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
 msgid "Replaced file by upload"
-msgstr ""
+msgstr "Se reemplazó un archivo vía carga"
 
 #: weblate/trans/models/change.py:443
 #, python-format
@@ -9480,6 +9451,8 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
+"El repositorio necesita autenticación. Especifique los datos de acceso en el "
+"URL o utilice en su lugar acceso por SSH."
 
 #: weblate/trans/models/component.py:795
 #, python-format
@@ -10483,10 +10456,10 @@ msgstr[1] ""
 "encontradas: {2}, actualizadas: {3})."
 
 #: weblate/trans/views/files.py:164
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "Plural forms in the uploaded file do not match current translation."
-msgstr "El archivo cargado se combinará con la traducción actual."
+msgstr ""
+"Las formas de plural del archivo cargado no coinciden con las de la "
+"traducción actual."
 
 #: weblate/trans/views/git.py:42
 msgid "Failed to lock the repository, another operation is in progress."
@@ -10502,7 +10475,7 @@ msgstr "Se actualizaron todos los repositorios."
 
 #: weblate/trans/views/git.py:76
 msgid "All repositories were pushed."
-msgstr "Los cambios fueron enviados a todos los repositorios."
+msgstr "Se enviaron los cambios a todos los repositorios."
 
 #: weblate/trans/views/git.py:83
 msgid "All repositories have been reset."
@@ -10565,10 +10538,8 @@ msgid "Workflow customization"
 msgstr "Personalización del flujo de trabajo"
 
 #: weblate/trans/views/js.py:63
-#, fuzzy
-#| msgid "SSH key not available."
 msgid "Service is currently not available."
-msgstr "La clave SSH no está disponible."
+msgstr "El servicio no está disponible por ahora."
 
 #: weblate/trans/views/lock.py:40
 msgid "Component is now locked for translation updates!"
@@ -10716,16 +10687,13 @@ msgid "Empty"
 msgstr "Vacía"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Componente: {}"
+msgstr "Falló la compilación: {0}"
 
 #: weblate/utils/validators.py:69
-#, fuzzy
-#| msgid "Regular expression should not match empty string."
 msgid "The regular expression can not match an empty string."
-msgstr "La expresión regular no debería encontrar cadenas vacías."
+msgstr "La expresión regular no encuentra cadenas vacías."
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
@@ -10741,26 +10709,19 @@ msgid "Invalid image!"
 msgstr "¡Imagen inválida!"
 
 #: weblate/utils/validators.py:126
-#, fuzzy, python-format
-#| msgid "Not supported image type: %s"
+#, python-format
 msgid "Unsupported image type: %s"
 msgstr "No se admite el tipo de imagen: %s"
 
 #: weblate/utils/validators.py:132
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
-msgstr ""
-"La imagen es demasiado grande. Reduzca sus dimensiones o recorte la porción "
-"relevante."
+msgstr "La imagen es demasiado grande. Reduzca sus dimensiones o recórtela."
 
 #: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
 msgstr "Evite utilizar caracteres especiales en el nombre completo."
 
 #: weblate/utils/validators.py:165
-#, fuzzy
-#| msgid "Username can not start with a full stop."
 msgid "The username can not start with a full stop."
 msgstr "El nombre de usuario no puede iniciar con punto."
 
@@ -10769,33 +10730,23 @@ msgid "Enter a valid e-mail address."
 msgstr "Introduzca una dirección de correo electrónico válida."
 
 #: weblate/utils/validators.py:184
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "This e-mail address is disallowed."
 msgstr "No se permite esta dirección de correo electrónico."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Failed to evaluate plural equation: {}"
 msgid "Could not evaluate plural equation: {}"
 msgstr "No se pudo validar la ecuación de plurales: {}"
 
 #: weblate/utils/validators.py:197
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid "The filename can not contain reference to a parent directory."
 msgstr ""
 "El nombre de archivo no puede contener referencia a un directorio padre."
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "Filename can not be an absolute path."
 msgid "The filename can not be an absolute path."
 msgstr "El nombre de archivo no puede ser una ruta absoluta."
 
 #: weblate/utils/validators.py:206
-#, fuzzy
-#| msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 "Simplifique el nombre de archivo tanto como pueda. Quizá prefiera utilizar: "
