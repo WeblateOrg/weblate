@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-02 08:57+0000\n"
-"PO-Revision-Date: 2020-04-05 09:36+0000\n"
+"PO-Revision-Date: 2020-04-05 18:38+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/master/th/>"
 "\n"
@@ -63,7 +63,7 @@ msgstr "อีเมล"
 
 #: weblate/accounts/forms.py:247
 msgid "You can add another e-mail address below."
-msgstr ""
+msgstr "คุณสามารถเพิ่มที่อยู่อีเมลอื่นได้ด้านล่าง"
 
 #: weblate/accounts/forms.py:289
 msgid "Subject"
@@ -88,6 +88,8 @@ msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
 msgstr ""
+"โปรดติดต่อเราในภาษาอังกฤษ "
+"มิฉะนั้นเราอาจไม่สามารถดำเนินการตามคำร้องขอของคุณได้"
 
 #: weblate/accounts/forms.py:322
 msgid "Activation e-mail will be sent here."
@@ -95,7 +97,7 @@ msgstr "อีเมลการเปิดใช้งานจะถูกส
 
 #: weblate/accounts/forms.py:359
 msgid "Too many failed registration attempts from this location!"
-msgstr ""
+msgstr "มีความพยายามในการลงทะเบียนที่ล้มเหลวมากเกินไปจากตำแหน่งที่ตั้งนี้!"
 
 #: weblate/accounts/forms.py:366
 msgid "New password"
@@ -103,7 +105,7 @@ msgstr "รหัสผ่านใหม่"
 
 #: weblate/accounts/forms.py:369
 msgid "New password confirmation"
-msgstr ""
+msgstr "การยืนยันรหัสผ่านใหม่"
 
 #: weblate/accounts/forms.py:391
 msgid "Your password has been changed."
@@ -119,7 +121,7 @@ msgstr "%s มีค่าเท่าใด"
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:429
 msgid "That was not correct, please try again."
-msgstr ""
+msgstr "คำตอบนั้นไม่ถูกต้อง โปรดลองอีกครั้ง"
 
 #: weblate/accounts/forms.py:453
 msgid "Current password"
@@ -127,7 +129,7 @@ msgstr "รหัสผ่านปัจจุบัน"
 
 #: weblate/accounts/forms.py:454
 msgid "Leave empty if you have not yet set a password."
-msgstr ""
+msgstr "เว้นไว้หากคุณยังไม่ได้ตั้งค่ารหัสผ่าน"
 
 #: weblate/accounts/forms.py:466
 msgid "You have entered an invalid password."
@@ -147,11 +149,11 @@ msgstr ""
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
-msgstr ""
+msgstr "บัญชีนี้ไม่มีการเปิดใช้งาน"
 
 #: weblate/accounts/forms.py:501
 msgid "Too many authentication attempts from this location!"
-msgstr ""
+msgstr "มีความพยายามในการรับรองความถูกต้องมากเกินไปจากตำแหน่งที่ตั้งนี้!"
 
 #: weblate/accounts/forms.py:547 weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:63
@@ -166,19 +168,17 @@ msgstr "เว็บไซต์โครงการ"
 #: weblate/accounts/forms.py:551 weblate/trans/forms.py:1507
 #: weblate/trans/models/component.py:193
 msgid "Source code repository"
-msgstr ""
+msgstr "ที่เก็บซอร์สโค้ด"
 
 #: weblate/accounts/forms.py:552
 msgid "URL of source code repository, for example Git or Mercurial."
-msgstr ""
+msgstr "URL ของที่เก็บซอร์สโค้ด ตัวอย่างเช่น Git หรือ Mercurial"
 
 #: weblate/accounts/forms.py:557 weblate/templates/component_info.html:65
 #: weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/models/component.py:249
-#, fuzzy
-#| msgid "Vietnamese"
 msgid "Filemask"
-msgstr "เวียดนาม"
+msgstr "ไฟล์มาสก์"
 
 #: weblate/accounts/forms.py:559
 msgid ""
@@ -194,60 +194,56 @@ msgstr "ข้อความเพิ่มเติม"
 
 #: weblate/accounts/forms.py:571
 msgid "Please describe the project and your relation to it."
-msgstr ""
+msgstr "โปรดอธิบายเกี่ยวกับโครงการและความเกี่ยวข้องของคุณ"
 
 #: weblate/accounts/forms.py:625
 msgid "Component wide notifications"
-msgstr ""
+msgstr "การแจ้งเตือนแบบทั้งคอมโพเนนต์"
 
 #: weblate/accounts/forms.py:629
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
+"คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นในโครงการที่เฝ้าดูของค"
+"ุณ"
 
 #: weblate/accounts/forms.py:637
 msgid "Translation notifications"
-msgstr ""
+msgstr "การแจ้งเตือนเกี่ยวกับการแปล"
 
 #: weblate/accounts/forms.py:641
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
+"คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณในโครงการที่เฝ้าดูของคุณ"
+"เท่านั้น"
 
 #: weblate/accounts/forms.py:663
 msgid "Use default setting"
-msgstr ""
+msgstr "ใช้การตั้งค่าเริ่มต้น"
 
 #: weblate/accounts/forms.py:677 weblate/accounts/models.py:391
 #: weblate/templates/accounts/profile.html:67
 msgid "Watched projects"
-msgstr ""
+msgstr "โครงการที่เฝ้าดู"
 
 #: weblate/accounts/forms.py:679
-#, fuzzy
-#| msgid "Administration"
 msgid "Administered projects"
-msgstr "การดูแลระบบ"
+msgstr "โครงการที่ดูแล"
 
 #: weblate/accounts/forms.py:681
-#, fuzzy
-#| msgid "Personal info"
 msgid "Project: {}"
-msgstr "ข้อมูลส่วนบุคคล"
+msgstr "โครงการ: {}"
 
 #: weblate/accounts/forms.py:682
-#, fuzzy
-#| msgid "Delete"
 msgid "Component: {}"
-msgstr "ลบ"
+msgstr "คอมโพเนนต์: {}"
 
 #: weblate/accounts/models.py:78
-#, fuzzy
-#| msgid "Password"
 msgid "Password changed."
-msgstr "รหัสผ่าน"
+msgstr "เปลี่ยนรหัสผ่านแล้ว"
 
 #: weblate/accounts/models.py:79
 #, python-brace-format
@@ -266,7 +262,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:82
 msgid "Password reset requested."
-msgstr ""
+msgstr "ร้องขอการตั้งค่ารหัสผ่านใหม่แล้ว"
 
 #: weblate/accounts/models.py:83
 msgid "Password reset confirmed, password turned off."
@@ -346,7 +342,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:213 weblate/templates/accounts/profile.html:230
 msgid "Account activity"
-msgstr ""
+msgstr "กิจกรรมบัญชี"
 
 #: weblate/accounts/models.py:277
 msgid "Interface Language"
@@ -354,7 +350,7 @@ msgstr "ภาษาของอินเทอร์เฟซ"
 
 #: weblate/accounts/models.py:284
 msgid "Translated languages"
-msgstr ""
+msgstr "ภาษาที่แปล"
 
 #: weblate/accounts/models.py:287
 msgid ""
@@ -371,14 +367,16 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
+"เลือกภาษาที่คุณสามารถเข้าใจได้ "
+"สตริงในภาษาเหล่านั้นจะถูกแสดงพร้อมกับสตริงต้นฉบับ"
 
 #: weblate/accounts/models.py:307
 msgid "Hide completed translations on the dashboard"
-msgstr ""
+msgstr "ซ่อนการแปลที่เสร็จสมบูรณ์บนแดชบอร์ด"
 
 #: weblate/accounts/models.py:310
 msgid "Show secondary translations in the Zen mode"
-msgstr ""
+msgstr "แสดงการแปลภาษารองในโหมด Zen"
 
 #: weblate/accounts/models.py:313
 msgid "Hide source if a secondary translation exists"
@@ -386,7 +384,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:319
 msgid "Editor link"
-msgstr ""
+msgstr "ลิงก์ตัวแก้ไข"
 
 #: weblate/accounts/models.py:321
 msgid ""
@@ -427,7 +425,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:348
 msgid "Special characters"
-msgstr ""
+msgstr "อักขระพิเศษ"
 
 #: weblate/accounts/models.py:350
 msgid ""
@@ -438,36 +436,38 @@ msgstr ""
 
 #: weblate/accounts/models.py:362 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
-msgstr ""
+msgstr "การแปลที่เฝ้าดู"
 
 #: weblate/accounts/models.py:363 weblate/templates/dashboard/user.html:23
 #: weblate/trans/models/componentlist.py:69
 msgid "Component lists"
-msgstr ""
+msgstr "รายชื่อคอมโพเนนต์"
 
 #: weblate/accounts/models.py:364 weblate/auth/models.py:127
 #: weblate/templates/dashboard/user.html:76
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
-msgstr ""
+msgstr "รายชื่อคอมโพเนนต์"
 
 #: weblate/accounts/models.py:365 weblate/templates/dashboard/user.html:25
 msgid "Suggested translations"
-msgstr ""
+msgstr "การแปลที่แนะนำ"
 
 #: weblate/accounts/models.py:377
 msgid "Default dashboard view"
-msgstr ""
+msgstr "มุมมองแดชบอร์ดเริ่มต้น"
 
 #: weblate/accounts/models.py:383
 msgid "Default component list"
-msgstr ""
+msgstr "รายชื่อคอมโพเนนต์เริ่มต้น"
 
 #: weblate/accounts/models.py:393 weblate/templates/watch-dropdown.html:23
 msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
+"คุณสามารถรับการแจ้งเตือนสำหรับโครงการที่เฝ้าดูได้และจะถูกแสดงบนแดชบอร์ดตามค่า"
+"เริ่มต้น"
 
 #: weblate/accounts/models.py:430
 msgid ""
@@ -604,23 +604,23 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
-msgstr ""
+msgstr "รหัสผ่านนี้ประกอบด้วยเพียงช่องว่าง"
 
 #: weblate/accounts/password_validation.py:42
 msgid "This password is only a single character."
-msgstr ""
+msgstr "รหัสผ่านนี้เป็นเพียงอักขระตัวเดียว"
 
 #: weblate/accounts/password_validation.py:48
 msgid "Your password can't consist of a single character or only whitespace."
-msgstr ""
+msgstr "รหัสผ่านของคุณไม่สามารถประกอบด้วยอักขระตัวเดียวหรือเพียงช่องว่างได้"
 
 #: weblate/accounts/password_validation.py:68
 msgid "Can not reuse previously used password!"
-msgstr ""
+msgstr "ไม่สามารถนำรหัสผ่านที่ใช้ก่อนหน้านี้มาใช้ซ้ำได้!"
 
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
-msgstr ""
+msgstr "รหัสผ่านของคุณต้องไม่ตรงกับรหัสผ่านที่คุณใช้ในอดีต"
 
 #: weblate/accounts/pipeline.py:293
 msgid "You can not complete password reset while signed in!"
@@ -628,7 +628,7 @@ msgstr ""
 
 #: weblate/accounts/pipeline.py:296 weblate/accounts/pipeline.py:319
 msgid "The registration link has been invalidated."
-msgstr ""
+msgstr "ลิงก์การลงทะเบียนไม่สามารถใช้ได้แล้ว"
 
 #: weblate/accounts/pipeline.py:311
 msgid "You can not complete registration while signed in!"
@@ -653,7 +653,7 @@ msgstr "ตั้งค่ารหัสผ่านใหม่"
 
 #: weblate/accounts/views.py:172
 msgid "Remove account"
-msgstr ""
+msgstr "เอาบัญชีออก"
 
 #: weblate/accounts/views.py:175 weblate/accounts/views.py:663
 msgid "User registration"
@@ -681,7 +681,7 @@ msgstr "บัญชีของคุณได้ถูกเอาออกแ
 
 #: weblate/accounts/views.py:465
 msgid "Too many messages sent, please try again later!"
-msgstr ""
+msgstr "จำนวนข้อความที่ส่งมากเกินไป โปรดลองอีกครั้งในภายหลัง!"
 
 #: weblate/accounts/views.py:488 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:220
@@ -707,7 +707,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:697 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
-msgstr ""
+msgstr "ลงทะเบียนอีเมล"
 
 #: weblate/accounts/views.py:733 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:132
@@ -716,7 +716,7 @@ msgstr "เปลี่ยนรหัสผ่าน"
 
 #: weblate/accounts/views.py:743
 msgid "Password reset has been already completed!"
-msgstr ""
+msgstr "การตั้งค่ารหัสผ่านใหม่เสร็จสมบูรณ์แล้ว!"
 
 #: weblate/accounts/views.py:772
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -804,10 +804,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/cleanup.py:62
-#, fuzzy
-#| msgid "Administration"
 msgid "Cleanup translation files"
-msgstr "การดูแลระบบ"
+msgstr "เก็บกวาดไฟล์การแปล"
 
 #: weblate/addons/cleanup.py:64
 msgid ""
@@ -840,7 +838,7 @@ msgstr ""
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
-msgstr ""
+msgstr "ส่วนเสริมตัวอย่าง"
 
 #: weblate/addons/example.py:38
 msgid "This addon does nothing it is just an example."
@@ -1061,7 +1059,7 @@ msgstr "การดูแลระบบ"
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:541
 #: weblate/trans/forms.py:1473 weblate/trans/models/component.py:288
 msgid "File format"
-msgstr ""
+msgstr "รูปแบบไฟล์"
 
 #: weblate/addons/forms.py:221
 msgid "Customize the component name"
@@ -1089,7 +1087,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:241 weblate/trans/models/component.py:467
 msgid "Language filter"
-msgstr ""
+msgstr "ตัวกรองภาษา"
 
 #: weblate/addons/forms.py:246
 #, fuzzy
@@ -1120,7 +1118,7 @@ msgstr ""
 
 #: weblate/addons/generate.py:32
 msgid "Statistics generator"
-msgstr ""
+msgstr "ตัวสร้างสถิติ"
 
 #: weblate/addons/generate.py:34
 msgid ""
@@ -1265,10 +1263,8 @@ msgstr "การรับรองความถูกต้อง"
 
 #: weblate/auth/admin.py:112 weblate/auth/models.py:71
 #: weblate/auth/models.py:81
-#, fuzzy
-#| msgid "Versions"
 msgid "Permissions"
-msgstr "รุ่น"
+msgstr "สิทธิอนุญาต"
 
 #: weblate/auth/admin.py:113
 msgid "Important dates"
@@ -1801,7 +1797,7 @@ msgstr ""
 
 #: weblate/auth/models.py:115 weblate/templates/dashboard/user.html:50
 msgid "All projects"
-msgstr ""
+msgstr "โครงการทั้งหมด"
 
 #: weblate/auth/models.py:116
 msgid "All public projects"
@@ -1823,7 +1819,7 @@ msgstr "ภาษา"
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:148 weblate/trans/views/basic.py:77
 msgid "Projects"
-msgstr ""
+msgstr "โครงการ"
 
 #: weblate/auth/models.py:134
 #, fuzzy
@@ -1834,7 +1830,7 @@ msgstr "ภาษา"
 #: weblate/auth/models.py:137 weblate/templates/dashboard/user.html:49
 #: weblate/trans/forms.py:943
 msgid "All languages"
-msgstr ""
+msgstr "ภาษาทั้งหมด"
 
 #: weblate/auth/models.py:142 weblate/billing/models.py:259
 #: weblate/lang/models.py:411 weblate/lang/views.py:51
@@ -1879,10 +1875,8 @@ msgid "User has all possible permissions."
 msgstr "รุ่น"
 
 #: weblate/auth/models.py:308 weblate/billing/models.py:137
-#, fuzzy
-#| msgid "Action"
 msgid "Active"
-msgstr "กระทำการ"
+msgstr "ใช้งานอยู่"
 
 #: weblate/auth/models.py:310
 msgid "Mark user as inactive instead of removing."
@@ -1925,11 +1919,11 @@ msgstr ""
 
 #: weblate/billing/admin.py:78
 msgid "Owners"
-msgstr ""
+msgstr "เจ้าของ"
 
 #: weblate/billing/models.py:129 weblate/templates/billing/detail.html:12
 msgid "Billing plan"
-msgstr ""
+msgstr "แผนการเรียกเก็บเงิน"
 
 #: weblate/billing/models.py:132
 msgid "Billed projects"
@@ -1943,12 +1937,12 @@ msgstr "การดูแลระบบ"
 
 #: weblate/billing/models.py:138
 msgid "Trial"
-msgstr ""
+msgstr "การทดลองใช้"
 
 #: weblate/billing/models.py:139 weblate/templates/billing/detail.html:17
 #: weblate/templates/project_info.html:32
 msgid "Expired"
-msgstr ""
+msgstr "หมดอายุ"
 
 #: weblate/billing/models.py:140
 msgid "Terminated"
@@ -1982,89 +1976,85 @@ msgstr ""
 
 #: weblate/billing/models.py:203
 msgid "Changes in last month"
-msgstr ""
+msgstr "การเปลี่ยนแปลงในเดือนที่ผ่านมา"
 
 #: weblate/billing/models.py:209
 msgid "Changes in last quarter"
-msgstr ""
+msgstr "การเปลี่ยนแปลงในไตรมาสที่ผ่านมา"
 
 #: weblate/billing/models.py:215
 msgid "Changes in last year"
-msgstr ""
+msgstr "การเปลี่ยนแปลงในปีที่ผ่านมา"
 
 #: weblate/billing/models.py:233 weblate/templates/about/stats.html:68
 #: weblate/templates/snippets/query-builder.html:10
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
-msgstr ""
+msgstr "สตริงต้นฉบับ"
 
 #: weblate/billing/models.py:242 weblate/templates/about/stats.html:72
 #: weblate/trans/admin.py:100
 msgid "Source words"
-msgstr ""
+msgstr "คำต้นฉบับ"
 
 #: weblate/billing/models.py:291 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/project_stats.html:5
-#, fuzzy
-#| msgid "Search"
 msgid "Number of strings"
-msgstr "ค้นหา"
+msgstr "จำนวนสตริง"
 
 #: weblate/billing/models.py:298
 msgid "N/A"
-msgstr ""
+msgstr "ไม่มีข้อมูล"
 
 #: weblate/billing/models.py:300 weblate/templates/billing/status.html:59
-#, fuzzy
-#| msgid "Download"
 msgid "Last invoice"
-msgstr "ดาวน์โหลด"
+msgstr "ใบแจ้งหนี้ล่าสุด"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:322
 msgid "In display limits"
-msgstr ""
+msgstr "ในขีดจำกัดการแสดงผล"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
-msgstr ""
+msgstr "สตริงการแทรกของ AngularJS"
 
 #: weblate/checks/angularjs.py:46
 msgid "AngularJS interpolation strings do not match source"
-msgstr ""
+msgstr "สตริงการแทรกของ AngularJS ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/chars.py:45
 msgid "Starting newline"
-msgstr ""
+msgstr "เครื่องหมายขึ้นบรรทัดใหม่ขึ้นต้น"
 
 #: weblate/checks/chars.py:46
 msgid "Source and translation do not both start with a newline"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ขึ้นต้นด้วยเครื่องหมายขึ้นบรรทัดใหม่"
 
 #: weblate/checks/chars.py:57
 msgid "Trailing newline"
-msgstr ""
+msgstr "เครื่องหมายขึ้นบรรทัดใหม่ต่อท้าย"
 
 #: weblate/checks/chars.py:58
 msgid "Source and translation do not both end with a newline"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายขึ้นบรรทัดใหม่"
 
 #: weblate/checks/chars.py:69
 msgid "Starting spaces"
-msgstr ""
+msgstr "ช่องว่างขึ้นต้น"
 
 #: weblate/checks/chars.py:71
 msgid "Source and translation do not both start with same number of spaces"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ขึ้นต้นด้วยช่องว่างจำนวนเดียวกัน"
 
 #: weblate/checks/chars.py:109
 msgid "Trailing space"
-msgstr ""
+msgstr "ช่องว่างต่อท้าย"
 
 #: weblate/checks/chars.py:110
 msgid "Source and translation do not both end with a space"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยช่องว่าง"
 
 #: weblate/checks/chars.py:149
 msgid "Double space"
@@ -2078,53 +2068,55 @@ msgstr "การดูแลระบบ"
 
 #: weblate/checks/chars.py:172
 msgid "Trailing stop"
-msgstr ""
+msgstr "เครื่องหมายมหัพภาคต่อท้าย"
 
 #: weblate/checks/chars.py:173
 msgid "Source and translation do not both end with a full stop"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายมหัพภาค"
 
 #: weblate/checks/chars.py:212
 msgid "Trailing colon"
-msgstr ""
+msgstr "เครื่องหมายทวิภาคต่อท้าย"
 
 #: weblate/checks/chars.py:213
-#, fuzzy
-#| msgid "Administration"
 msgid "Source and translation do not both end with a colon"
-msgstr "การดูแลระบบ"
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายทวิภาค"
 
 #: weblate/checks/chars.py:244
 msgid "Trailing question"
-msgstr ""
+msgstr "เครื่องหมายคำถามต่อท้าย"
 
 #: weblate/checks/chars.py:245
 msgid "Source and translation do not both end with a question mark"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายคำถาม"
 
 #: weblate/checks/chars.py:278
 msgid "Trailing exclamation"
-msgstr ""
+msgstr "เครื่องหมายอัศเจรีย์ต่อท้าย"
 
 #: weblate/checks/chars.py:279
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายอัศเจรีย์"
 
 #: weblate/checks/chars.py:302 weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
-msgstr ""
+msgstr "เครื่องหมายจุดไข่ปลาต่อท้าย"
 
 #: weblate/checks/chars.py:303
 msgid "Source and translation do not both end with an ellipsis"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายจุดไข่ปลา"
 
 #: weblate/checks/chars.py:322
 msgid "Mismatched \\n"
 msgstr ""
+"จำนวน \\n"
+" ไม่ตรงกัน"
 
 #: weblate/checks/chars.py:323
 msgid "Number of \\n in translation does not match source"
 msgstr ""
+"จำนวน \\n"
+" ในการแปลไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/chars.py:332
 msgid "Mismatching line breaks"
@@ -2136,27 +2128,27 @@ msgstr ""
 
 #: weblate/checks/chars.py:341 weblate/trans/autofixes/chars.py:43
 msgid "Zero-width space"
-msgstr ""
+msgstr "ช่องว่างที่มีความกว้างเป็นศูนย์"
 
 #: weblate/checks/chars.py:342
 msgid "Translation contains extra zero-width space character"
-msgstr ""
+msgstr "การแปลมีอักขระช่องว่างที่มีความกว้างเป็นศูนย์พิเศษ"
 
 #: weblate/checks/chars.py:358 weblate/checks/flags.py:58
 msgid "Maximum length of translation"
-msgstr ""
+msgstr "ความยาวสูงสุดของการแปล"
 
 #: weblate/checks/chars.py:359
 msgid "Translation should not exceed given length"
-msgstr ""
+msgstr "การแปลไม่ควรเกินความยาวที่กำหนด"
 
 #: weblate/checks/chars.py:372
 msgid "Trailing semicolon"
-msgstr ""
+msgstr "เครื่องหมายอัฒภาคต่อท้าย"
 
 #: weblate/checks/chars.py:373
 msgid "Source and translation do not both end with a semicolon"
-msgstr ""
+msgstr "ทั้งต้นฉบับและการแปลไม่ได้ต่อท้ายด้วยเครื่องหมายอัฒภาค"
 
 #: weblate/checks/chars.py:385
 msgid "Kashida used"
@@ -2178,23 +2170,23 @@ msgstr ""
 
 #: weblate/checks/consistency.py:31
 msgid "Missing plurals"
-msgstr ""
+msgstr "รูปแบบพหูพจน์ขาดหายไป"
 
 #: weblate/checks/consistency.py:32
 msgid "Some plural forms are not translated"
-msgstr ""
+msgstr "มีรูปแบบพหูพจน์บางส่วนที่ไม่ได้แปล"
 
 #: weblate/checks/consistency.py:54
 msgid "Same plurals"
-msgstr ""
+msgstr "รูปแบบพหูพจน์เป็นแบบเดียวกัน"
 
 #: weblate/checks/consistency.py:55
 msgid "Some plural forms are translated in the same way"
-msgstr ""
+msgstr "รูปแบบพหูพจน์บางส่วนถูกแปลเป็นแบบเดียวกัน"
 
 #: weblate/checks/consistency.py:75
 msgid "Inconsistent"
-msgstr ""
+msgstr "ไม่สม่ำเสมอ"
 
 #: weblate/checks/consistency.py:76
 msgid "This string has more than one translation in this project"
@@ -2202,23 +2194,23 @@ msgstr ""
 
 #: weblate/checks/consistency.py:109
 msgid "Has been translated"
-msgstr ""
+msgstr "ได้ถูกแปลแล้ว"
 
 #: weblate/checks/consistency.py:110
 msgid "This string has been translated in the past"
-msgstr ""
+msgstr "สตริงนี้ได้ถูกแปลแล้วในอดีต"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
-msgstr ""
+msgstr "ข้อความ RST"
 
 #: weblate/checks/flags.py:38
 msgid "Markdown text"
-msgstr ""
+msgstr "ข้อความมาร์กดาวน์"
 
 #: weblate/checks/flags.py:39
 msgid "XML text"
-msgstr ""
+msgstr "ข้อความ XML"
 
 #: weblate/checks/flags.py:40
 msgid "DOS line endings"
@@ -2265,7 +2257,7 @@ msgstr ""
 
 #: weblate/checks/flags.py:56 weblate/trans/models/component.py:489
 msgid "Priority"
-msgstr ""
+msgstr "ลำดับความสำคัญ"
 
 #: weblate/checks/flags.py:153
 #, fuzzy, python-format
@@ -2298,77 +2290,75 @@ msgstr ""
 
 #: weblate/checks/format.py:309
 msgid "Python format"
-msgstr ""
+msgstr "รูปแบบ Python"
 
 #: weblate/checks/format.py:310
 msgid "Python format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ Python ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:321
 msgid "PHP format"
-msgstr ""
+msgstr "รูปแบบ PHP"
 
 #: weblate/checks/format.py:322
 msgid "PHP format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ PHP ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:333
 msgid "C format"
-msgstr ""
+msgstr "รูปแบบ C"
 
 #: weblate/checks/format.py:334
 msgid "C format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ C ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:345
 msgid "Perl format"
-msgstr ""
+msgstr "รูปแบบ Perl"
 
 #: weblate/checks/format.py:346
 msgid "Perl format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ Perl ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:357
 msgid "JavaScript format"
-msgstr ""
+msgstr "รูปแบบ JavaScript"
 
 #: weblate/checks/format.py:358
 msgid "JavaScript format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ JavaScript ไม่ตรงตามต้นฉบับ"
 
 #: weblate/checks/format.py:365
 msgid "Python brace format"
-msgstr ""
+msgstr "รูปแบบวงเล็บปีกกา Python"
 
 #: weblate/checks/format.py:366
 msgid "Python brace format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบวงเล็บปีกกา Python ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:380
-#, fuzzy
-#| msgid "Information"
 msgid "C# format"
-msgstr "ข้อมูล"
+msgstr "รูปแบบ C#"
 
 #: weblate/checks/format.py:381
 msgid "C# format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ C# ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:395
 msgid "Java format"
-msgstr ""
+msgstr "รูปแบบ Java"
 
 #: weblate/checks/format.py:396
 msgid "Java format string does not match source"
-msgstr ""
+msgstr "สตริงรูปแบบ Java ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:407
 msgid "Java MessageFormat"
-msgstr ""
+msgstr "Java MessageFormat"
 
 #: weblate/checks/format.py:408
 msgid "Java MessageFormat string does not match source"
-msgstr ""
+msgstr "สตริง Java MessageFormat ไม่ตรงกับต้นฉบับ"
 
 #: weblate/checks/format.py:433
 msgid "You need to screen an apostrophe with another one."
@@ -2517,11 +2507,11 @@ msgstr ""
 
 #: weblate/checks/same.py:158
 msgid "Unchanged translation"
-msgstr ""
+msgstr "คำแปลไม่มีการเปลี่ยนแปลง"
 
 #: weblate/checks/same.py:159
 msgid "Source and translation are identical"
-msgstr ""
+msgstr "ต้นฉบับกับคำแปลเหมือนกัน"
 
 #: weblate/checks/source.py:36
 msgid "Unpluralised"
@@ -2533,19 +2523,19 @@ msgstr ""
 
 #: weblate/checks/source.py:50
 msgid "Ellipsis"
-msgstr ""
+msgstr "จุดไข่ปลา"
 
 #: weblate/checks/source.py:52
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr ""
+msgstr "สตริงใช้อักขระจุดสามตัว (...) แทนอักขระจุดไข่ปลา (…)"
 
 #: weblate/checks/source.py:64
 msgid "Multiple failing checks"
-msgstr ""
+msgstr "ต้องมีการตรวจสอบความผิดพลาดในหลายภาษา"
 
 #: weblate/checks/source.py:65
 msgid "The translations in several languages have failing checks"
-msgstr ""
+msgstr "คำแปลในหลายภาษาต้องมีการตรวจสอบความผิดพลาด"
 
 #: weblate/checks/views.py:81 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -2553,7 +2543,7 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:68
 #: weblate/templates/snippets/project-nav.html:78
 msgid "Failing checks"
-msgstr ""
+msgstr "การตรวจสอบความผิดพลาด"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -2633,7 +2623,7 @@ msgstr ""
 
 #: weblate/formats/auto.py:75
 msgid "Automatic detection"
-msgstr ""
+msgstr "การตรวจหาอัตโนมัติ"
 
 #: weblate/formats/base.py:194
 msgid "Failed to load strings from the file, try choosing other format."
@@ -2873,118 +2863,112 @@ msgstr ""
 
 #: weblate/lang/models.py:395 weblate/templates/addons/generate_help.html:12
 #: weblate/templates/language.html:53
-#, fuzzy
-#| msgid "Language"
 msgid "Language code"
-msgstr "ภาษา"
+msgstr "รหัสภาษา"
 
 #: weblate/lang/models.py:396 weblate/templates/addons/generate_help.html:10
-#, fuzzy
-#| msgid "Language"
 msgid "Language name"
-msgstr "ภาษา"
+msgstr "ชื่อภาษา"
 
 #: weblate/lang/models.py:398 weblate/templates/language.html:62
 msgid "Text direction"
-msgstr ""
+msgstr "ทิศทางข้อความ"
 
 #: weblate/lang/models.py:402
 msgid "Left to right"
-msgstr ""
+msgstr "จากซ้ายไปขวา"
 
 #: weblate/lang/models.py:403
 msgid "Right to left"
-msgstr ""
+msgstr "จากขวาไปซ้าย"
 
 #: weblate/lang/models.py:465
 msgctxt "Plural type"
 msgid "None"
-msgstr ""
+msgstr "ไม่มี"
 
 #: weblate/lang/models.py:468
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
-msgstr ""
+msgstr "หนึ่ง/อื่นๆ (พหูพจน์แบบดั้งเดิม)"
 
 #: weblate/lang/models.py:472
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
-msgstr ""
+msgstr "หนึ่ง/น้อย/อื่นๆ (ตระกูลภาษาสลาฟ)"
 
 #: weblate/lang/models.py:474
-#, fuzzy
-#| msgid "Language"
 msgctxt "Plural type"
 msgid "Arabic languages"
-msgstr "ภาษา"
+msgstr "ตระกูลภาษาอาหรับ"
 
 #: weblate/lang/models.py:475
 msgctxt "Plural type"
 msgid "Zero/one/other"
-msgstr ""
+msgstr "ศูนย์/หนึ่ง/อื่นๆ"
 
 #: weblate/lang/models.py:476
 msgctxt "Plural type"
 msgid "One/two/other"
-msgstr ""
+msgstr "หนึ่ง/สอง/อื่นๆ"
 
 #: weblate/lang/models.py:477
 msgctxt "Plural type"
 msgid "One/other/two"
-msgstr ""
+msgstr "หนึ่ง/อื่นๆ/สอง"
 
 #: weblate/lang/models.py:480
 msgctxt "Plural type"
 msgid "One/two/few/other"
-msgstr ""
+msgstr "หนึ่ง/สอง/น้อย/อื่นๆ"
 
 #: weblate/lang/models.py:484
 msgctxt "Plural type"
 msgid "Other/one/two/few"
-msgstr ""
+msgstr "อื่นๆ/หนึ่ง/สอง/น้อย"
 
 #: weblate/lang/models.py:488
 msgctxt "Plural type"
 msgid "One/two/three/other"
-msgstr ""
+msgstr "หนึ่ง/สอง/สาม/อื่นๆ"
 
 #: weblate/lang/models.py:490
 msgctxt "Plural type"
 msgid "One/other/zero"
-msgstr ""
+msgstr "หนึ่ง/อื่นๆ/ศูนย์"
 
 #: weblate/lang/models.py:493
 msgctxt "Plural type"
 msgid "One/few/many/other"
-msgstr ""
+msgstr "หนึ่ง/น้อย/มาก/อื่นๆ"
 
 #: weblate/lang/models.py:495
 msgctxt "Plural type"
 msgid "Two/other"
-msgstr ""
+msgstr "สอง/อื่นๆ"
 
 #: weblate/lang/models.py:498
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
-msgstr ""
+msgstr "หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
 
 #: weblate/lang/models.py:500
 msgctxt "Plural type"
 msgid "Unknown"
-msgstr ""
+msgstr "ไม่รู้จัก"
 
 #: weblate/lang/models.py:503
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr ""
+msgstr "ศูนย์/หนึ่ง/สอง/น้อย/มาก/อื่นๆ"
 
 #: weblate/lang/models.py:511
 msgid "Plural definition source"
-msgstr ""
+msgstr "แหล่งข้อกำหนดรูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:513
 msgid "Default plural"
-msgstr ""
+msgstr "รูปแบบพหูพจน์เริ่มต้น"
 
 #: weblate/lang/models.py:514
 msgid "Plural gettext formula"
@@ -2996,43 +2980,43 @@ msgstr ""
 
 #: weblate/lang/models.py:519 weblate/templates/language.html:77
 msgid "Number of plurals"
-msgstr ""
+msgstr "จำนวนรูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:526 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-equation.html:4
 msgid "Plural equation"
-msgstr ""
+msgstr "สมการรูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:531 weblate/templates/language.html:81
 msgid "Plural type"
-msgstr ""
+msgstr "ชนิดรูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:539
 msgid "Plural form"
-msgstr ""
+msgstr "รูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:540
 msgid "Plural forms"
-msgstr ""
+msgstr "รูปแบบพหูพจน์"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:604
 #, python-brace-format
 msgid "For example: {0}"
-msgstr ""
+msgstr "ตัวอย่างเช่น: {0}"
 
 #: weblate/lang/models.py:615
 msgid "Singular"
-msgstr ""
+msgstr "รูปแบบเอกพจน์"
 
 #: weblate/lang/models.py:617
 msgid "Plural"
-msgstr ""
+msgstr "รูปแบบพหูพจน์"
 
 #: weblate/lang/models.py:618
 #, python-format
 msgid "Plural form %d"
-msgstr ""
+msgstr "รูปแบบพหูพจน์ %d"
 
 #: weblate/lang/views.py:69
 #, fuzzy
@@ -3048,13 +3032,15 @@ msgstr "ภาษา"
 
 #: weblate/legal/forms.py:27
 msgid "I agree with the Terms of Service document"
-msgstr ""
+msgstr "ฉันยอมรับเอกสารข้อกำหนดการใช้บริการ"
 
 #: weblate/legal/middleware.py:57
 msgid ""
 "We have new version of the Terms of Service document, please read it and "
 "confirm that you agree with it."
 msgstr ""
+"เรามีเอกสารข้อกำหนดการใช้บริการฉบับใหม่ "
+"โปรดอ่านและยืนยันว่าคุณยอมรับข้อกำหนดดังกล่าว"
 
 #: weblate/legal/templates/legal/confirm.html:6
 #: weblate/legal/templates/legal/cookies.html:5
@@ -3064,15 +3050,15 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:5 weblate/templates/footer.html:8
 #: weblate/templates/footer.html:10
 msgid "Legal"
-msgstr ""
+msgstr "ข้อมูลด้านกฎหมาย"
 
 #: weblate/legal/templates/legal/confirm.html:13
 msgid "You have to agree to the Terms of Service"
-msgstr ""
+msgstr "คุณต้องยอมรับข้อกำหนดการใช้บริการ"
 
 #: weblate/legal/templates/legal/confirm.html:15
 msgid "Please read following Terms of Service document:"
-msgstr ""
+msgstr "โปรดอ่านเอกสารข้อกำหนดการใช้บริการต่อไปนี้:"
 
 #: weblate/legal/templates/legal/confirm.html:23
 #: weblate/templates/contributor-agreement.html:31
@@ -3082,11 +3068,11 @@ msgstr "ส่ง"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
-msgstr ""
+msgstr "คุกกี้"
 
 #: weblate/legal/templates/legal/cookies.html:14
 msgid "Cookies Policy"
-msgstr ""
+msgstr "นโยบายคุกกี้"
 
 #: weblate/legal/templates/legal/cookies.html:18
 #: weblate/legal/templates/legal/index.html:19
@@ -3100,7 +3086,7 @@ msgstr ""
 #: weblate/legal/templates/legal/terms.html:14 weblate/legal/views.py:32
 #: weblate/templates/snippets/login-info.html:12
 msgid "Terms of Service"
-msgstr ""
+msgstr "ข้อกำหนดการใช้บริการ"
 
 #: weblate/legal/templates/legal/cookies.html:23
 #: weblate/legal/templates/legal/index.html:24
@@ -3135,7 +3121,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
-msgstr ""
+msgstr "ภาพรวมข้อกำหนดทางกฎหมาย"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:35
 msgid "Privacy"
@@ -3143,11 +3129,11 @@ msgstr ""
 
 #: weblate/legal/templates/legal/security.html:7 weblate/legal/views.py:34
 msgid "Security"
-msgstr ""
+msgstr "ความปลอดภัย"
 
 #: weblate/legal/templates/legal/security.html:17
 msgid "Security Policy"
-msgstr ""
+msgstr "นโยบายความปลอดภัย"
 
 #: weblate/legal/templates/legal/security.html:21
 msgid ""
@@ -3187,7 +3173,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/terms.html:6
 msgid "Terms"
-msgstr ""
+msgstr "ข้อกำหนด"
 
 #: weblate/legal/views.py:31 weblate/templates/translation.html:34
 msgid "Overview"
@@ -3251,34 +3237,34 @@ msgstr ""
 #: weblate/screenshots/models.py:37
 #: weblate/templates/screenshots/screenshot_list.html:35
 msgid "Screenshot name"
-msgstr ""
+msgstr "ชื่อภาพหน้าจอ"
 
 #: weblate/screenshots/models.py:39
 #: weblate/templates/screenshots/screenshot_detail.html:89
 #: weblate/templates/screenshots/screenshot_list.html:36
 msgid "Image"
-msgstr "รูปภาพ"
+msgstr "ภาพ"
 
 #: weblate/screenshots/models.py:40
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
-msgstr ""
+msgstr "อัปโหลดภาพ JPEG หรือ PNG ได้สูงสุดถึง 2000x2000 พิกเซล"
 
 #: weblate/screenshots/views.py:98
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
+msgstr "ภาพหน้าจอได้ถูกอัปโหลดแล้ว คุณสามารถกำหนดให้กับสตริงต้นฉบับได้"
 
 #: weblate/screenshots/views.py:104
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr ""
+msgstr "ไม่สามารถอัปโหลดภาพหน้าจอได้ โปรดแก้ไขข้อผิดพลาดด้านล่าง"
 
 #: weblate/screenshots/views.py:155
 #, python-format
 msgid "Screenshot %s has been deleted."
-msgstr ""
+msgstr "ภาพหน้าจอ %s ได้ถูกลบแล้ว"
 
 #: weblate/screenshots/views.py:175
 msgid "Source has been removed."
-msgstr ""
+msgstr "ต้นฉบับได้ถูกเอาออกแล้ว"
 
 #: weblate/templates/400.html:5 weblate/templates/400.html:9
 msgid "Bad request"
@@ -3292,11 +3278,11 @@ msgstr ""
 #: weblate/templates/403.html:5 weblate/templates/403_csrf.html:5
 #: weblate/trans/views/error.py:44 weblate/trans/views/error.py:52
 msgid "Permission Denied"
-msgstr ""
+msgstr "สิทธิอนุญาตถูกปฏิเสธ"
 
 #: weblate/templates/403.html:11
 msgid "Insufficient privileges to display this page."
-msgstr ""
+msgstr "มีสิทธิอนุญาตไม่เพียงพอที่จะแสดงหน้านี้"
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
 #: weblate/templates/base.html:121 weblate/templates/base.html:238
