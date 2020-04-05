@@ -484,7 +484,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "You need to screen an apostrophe with another one.",
+            "You need to pair up an apostrophe with another one.",
         )
 
 
