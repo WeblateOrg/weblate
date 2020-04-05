@@ -151,7 +151,7 @@ Installation
 Usage
 +++++
 
-After installation the legal documents are shown in the Weblate UI.
+After installation and editing, the legal documents are shown in the Weblate UI.
 
 .. _avatars:
 
