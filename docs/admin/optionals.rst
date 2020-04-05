@@ -130,7 +130,7 @@ Installation
 
     # Optional:
 
-    # Social auth pipeline to confirm TOS upon registration/login
+    # Social auth pipeline to confirm TOS upon registration/subsequent login
     SOCIAL_AUTH_PIPELINE += (
         'weblate.legal.pipeline.tos_confirm',
     )
