@@ -773,14 +773,14 @@ the following files:
 * Files with two fields—source and translation (in this order), choose
   :guilabel:`Simple CSV file` as file format
 * Files with fields as defined by translate-toolkit: location, source,
-  target, id, fuzzy, context, translator_comments, developer_comments
+  target, ID, fuzzy, context, translator_comments, developer_comments
 
 .. warning::
 
    The CSV format currently automatically detects the dialect of the CSV file.
    In some cases the automatic detection might fail and you will get mixed
    results. This is especially true for CSV files with newlines in the
-   values. As a workaround it is recommended to avoid omitting quoting characters.
+   values. As a workaround it is recommended to omit quoting characters.
 
 Example file:
 
