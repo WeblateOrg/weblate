@@ -1,2 +1,4 @@
 {% load icons %}
-<a class="navbar-brand" href="{% url 'home' %}">{% icon "weblate.svg" %}{{ site_title }}</a>
+{% load static %}
+
+<a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'cdl_logo.png' %}" alt="My image" style="max-width: 100%; height: auto;">{{ site_title }}</a>
