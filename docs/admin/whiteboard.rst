@@ -1,7 +1,7 @@
 Whiteboard messages
 ===================
 
-Provide info to your translators.by posting messages, site-wide, per component, or language.
+Provide info to your translators by posting messages, site-wide, per component, or language.
 
 Announce the purpose, deadlines, status, or specify targets for translation.
 
