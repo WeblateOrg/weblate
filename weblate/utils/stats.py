@@ -20,10 +20,11 @@
 
 from copy import copy
 from datetime import timedelta
+from types import GeneratorType
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count, QuerySet, Sum
+from django.db.models import Count, Sum
 from django.db.models.functions import Length
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -103,7 +104,7 @@ def prefetch_stats(queryset):
     # is returned.
     # This is needed to allow using such querysets futher and to support
     # processing iterator when it is more effective.
-    result = queryset if isinstance(queryset, QuerySet) else objects
+    result = objects if isinstance(queryset, GeneratorType) else queryset
 
     # Bail out in case the query is empty
     if not objects:
