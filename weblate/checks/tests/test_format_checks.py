@@ -26,7 +26,7 @@ from weblate.checks.format import (
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
-    PercentInterpolationCheck,
+    PercentPlaceholdersCheck,
     PerlFormatCheck,
     PHPFormatCheck,
     PythonBraceFormatCheck,
@@ -743,13 +743,13 @@ class I18NextInterpolationCheckTest(CheckTestCase):
         )
 
 
-class PercentInterpolationCheckTest(CheckTestCase):
-    check = PercentInterpolationCheck()
+class PercentPlaceholdersCheckTest(CheckTestCase):
+    check = PercentPlaceholdersCheck()
 
     def setUp(self):
         super().setUp()
         self.test_highlight = (
-            "percent-interpolation",
+            "percent-placeholders",
             "%foo% string %bar%",
             [(0, 5, "%foo%"), (13, 18, "%bar%")],
         )

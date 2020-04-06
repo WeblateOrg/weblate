@@ -9,7 +9,7 @@ Not yet released.
 * Improved sign in and registration pages.
 * Project access control and workflow configuration integrated to project settings.
 * Added check and highlighter for i18next interpolation and nesting.
-* Added check and highlighter for percent interpolation.
+* Added check and highlighter for percent placeholders.
 * Display failing checks for suggestions.
 * Record source string changes in history.
 * Upgraded Microsoft Translator to version 3 API.
