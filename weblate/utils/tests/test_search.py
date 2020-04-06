@@ -94,7 +94,7 @@ class QueryParserTest(TestCase):
         self.assert_query("source:='hello'", Q(source__iexact="hello"))
         self.assert_query('source:="hello world"', Q(source__iexact="hello world"))
         self.assert_query("source:='hello world'", Q(source__iexact="hello world"))
-        self.assert_query("source:=hello", Q(source__substring="=hello"))
+        self.assert_query("source:=hello", Q(source__iexact="hello"))
 
     def test_regex(self):
         self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
