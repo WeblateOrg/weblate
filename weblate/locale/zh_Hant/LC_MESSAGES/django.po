@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 09:03+0000\n"
-"PO-Revision-Date: 2020-04-06 13:33+0000\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2020-04-06 15:47+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -267,12 +267,12 @@ msgstr "已確認密碼重設，密碼已停用。"
 #: weblate/accounts/models.py:84
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "已設定使用 {method} 登入 {name}。"
+msgstr "已設定使用 {method} ({name}) 登入。"
 
 #: weblate/accounts/models.py:85
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "已移除使用 {method} 登入 {name}。"
+msgstr "已移除使用 {method} ({name}) 登入。"
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -293,14 +293,13 @@ msgid "Somebody has attempted to register using your e-mail address."
 msgstr "有人嘗試用您的電子郵件地址註冊。"
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "無法使用 {method} 登入 {name}。"
+msgstr "無法使用 {method} ({name}) 登入。"
 
 #: weblate/accounts/models.py:91
 msgid "Account locked due to many failed sign in attempts."
-msgstr "因登入嘗試失敗過多次導致帳號被鎖定。"
+msgstr "因嘗試登入失敗過多次導致帳號被鎖定。"
 
 #: weblate/accounts/models.py:92
 msgid "Account and all private data removed."
@@ -329,8 +328,6 @@ msgid "Signed in using password from a new device."
 msgstr "已在新裝置使用密碼登入。"
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
 msgstr "無法使用密碼登入。"
 
@@ -698,7 +695,7 @@ msgstr "無法移除使用者身份"
 msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
-msgstr "無法使用確認過的電子信箱移除最後一個使用者身分。請先確認您的電子信箱。"
+msgstr "無法透過確認的電子郵件移除最後一個使用者身分。請先確認您的電子郵件。"
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -4556,7 +4553,7 @@ msgstr "對照表檢視"
 #: weblate/templates/component.html:142 weblate/templates/new-language.html:22
 #: weblate/templates/new-language.html:38
 msgid "Start new translation"
-msgstr "開始新翻譯"
+msgstr "開展新翻譯"
 
 #: weblate/templates/component.html:85 weblate/templates/manage/alerts.html:6
 #: weblate/templates/manage/backups.html:7
@@ -4648,19 +4645,15 @@ msgstr "狀態小元件"
 
 #: weblate/templates/component.html:142
 msgid "You don't have permission to start a new translation"
-msgstr "您沒有開始新翻譯的權利許可"
+msgstr "您沒有開展新翻譯的權利許可"
 
 #: weblate/templates/component.html:142
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to start new translation"
-msgstr "請登入以開始新翻譯"
+msgstr "請登入以開展新翻譯"
 
 #: weblate/templates/component.html:158
-#, fuzzy
-#| msgid "Please log in to see the alerts."
 msgid "Please sign in to see the alerts."
-msgstr "請登入以檢視警告。"
+msgstr "請登入以查看警告。"
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:82
 #: weblate/templates/translation.html:259
@@ -6318,7 +6311,7 @@ msgstr "在上面的列表中找不到您的語言嗎？"
 
 #: weblate/templates/new-language.html:36
 msgid "Request new translation"
-msgstr "請求開始新翻譯"
+msgstr "請求開展新翻譯"
 
 #: weblate/templates/paginator.html:8
 #, python-format
@@ -6596,7 +6589,7 @@ msgstr "在詞彙表中找不到相關字串。"
 msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
-msgstr "額外標籤可以在<a href=\"%(url)s\">專案設定</a>定義。"
+msgstr "額外標籤可以在<a href=\"%(url)s\">專案設定</a>中定義。"
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
@@ -6661,7 +6654,7 @@ msgstr ""
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
-msgstr "此公式用來辨別提供的數目 (n) 要使用哪種複數形式。"
+msgstr "此公式根據給定的數 (n) 來辨別要使用哪種複數形式。"
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -6716,7 +6709,7 @@ msgstr "搜尋…"
 #: weblate/templates/snippets/query-builder.html:24
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "完整"
+msgstr "完全一致"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -6911,7 +6904,7 @@ msgstr "這可能發生在翻譯檔的路徑包含上層目錄的參照，或是
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
-msgstr "此專案設定錯誤。"
+msgstr "此專案設置錯誤。"
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to a non-existing location:"
@@ -9829,7 +9822,7 @@ msgstr "您正在查看的專案已經移除；不過我們仍然歡迎您貢獻
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
-msgstr "您已啟用您的帳戶，現在您應該設定密碼以便下次登入。"
+msgstr "您已啟用您的帳號。現在您應該設定密碼以便下次登入。"
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."
