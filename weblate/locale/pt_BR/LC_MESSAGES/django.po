@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 09:03+0000\n"
-"PO-Revision-Date: 2020-04-03 02:33+0000\n"
-"Last-Translator: Wellington Terumi Uemura <wellingtonuemura@gmail.com>\n"
+"PO-Revision-Date: 2020-04-06 13:33+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -273,16 +273,14 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Redefinição de senha confirmada, senha desabilitada."
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Autenticado usando {method} ({name})."
+msgstr "Configurada autenticação usando {method} ({name})."
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Autenticado usando {method} ({name})."
+msgstr "Removida autenticação usando {method} ({name})."
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -303,16 +301,13 @@ msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Alguém tentou se registrar usando seu endereço de e-mail."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "Não foi possível se autenticar usando {method} ({name})."
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Conta bloqueada devido a muitas falhas de autenticação."
+msgstr "Conta bloqueada devido a muitas falhas de tentativa de autenticação."
 
 #: weblate/accounts/models.py:92
 msgid "Account and all private data removed."
@@ -324,16 +319,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Concordância com os Termos do serviço {date}."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Doe para Weblate em {0}"
+msgstr "Convidado para Weblate por {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "Configure a senha"
+msgstr "Configurou autenticação com senha."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -344,8 +336,6 @@ msgid "Signed in using password from a new device."
 msgstr "Autenticado usando senha de um novo dispositivo."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
 msgstr "Não foi possível se autenticar usando senha."
 
@@ -730,6 +720,8 @@ msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
 msgstr ""
+"Não foi possível remover a última identidade do usuário com e-mail "
+"confirmado. Por favor, confirme seu e-mail primeiro."
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -783,10 +775,6 @@ msgid "Notification settings adjusted."
 msgstr "Configurações de notificação ajustadas."
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "The notification change link is no longer valid, please log in to "
-#| "configure notifications."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -2103,12 +2091,12 @@ msgid "Inconsistent"
 msgstr "Inconsistente"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "Este texto tem mais de uma tradução neste projeto"
+msgstr ""
+"Este texto tem mais de uma tradução neste projeto ou não está traduzido em "
+"alguns componentes."
 
 #: weblate/checks/consistency.py:113
 msgid "Has been translated"
@@ -2273,10 +2261,8 @@ msgid "Java MessageFormat string does not match source"
 msgstr "O formato do texto Java MessageFormat não corresponde com a fonte"
 
 #: weblate/checks/format.py:433
-#, fuzzy
-#| msgid "You need to screen an apostrophe with another one."
 msgid "You need to pair up an apostrophe with another one."
-msgstr "Você precisa acompanhar um apóstrofo com outro."
+msgstr "Você precisa emparelhar um apóstrofo com outro."
 
 #: weblate/checks/format.py:439
 msgid "i18next interpolation"
@@ -2284,19 +2270,15 @@ msgstr "Interpolação de i18next"
 
 #: weblate/checks/format.py:440
 msgid "The i18next interpolation does not match source"
-msgstr "A interpolação de i18next na tradução não corresponde com a fonte"
+msgstr "A interpolação de i18next não corresponde com a fonte"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Placeholders"
 msgid "Percent placeholders"
-msgstr "Espaços reservados"
+msgstr "Espaços reservados de porcentagem"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "The percent interpolation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "A interpolação de percentagem na tradução não corresponde com a fonte"
+msgstr "Os espaços reservados de percentagem não corresponde com a fonte"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2874,10 +2856,8 @@ msgstr "Número de plurais"
 
 #: weblate/lang/models.py:528 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
-msgstr "Forma plural"
+msgstr "Fórmula de plural"
 
 #: weblate/lang/models.py:533 weblate/templates/language.html:81
 msgid "Plural type"
@@ -4821,16 +4801,12 @@ msgid "You don't have permission to start a new translation"
 msgstr "Você não tem permissão para iniciar uma nova tradução"
 
 #: weblate/templates/component.html:142
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to start new translation"
-msgstr "Entre para iniciar uma nova tradução"
+msgstr "Autentique para iniciar uma nova tradução"
 
 #: weblate/templates/component.html:158
-#, fuzzy
-#| msgid "Please log in to see the alerts."
 msgid "Please sign in to see the alerts."
-msgstr "Entre para ver os alertas."
+msgstr "Autentique para ver os alertas."
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:82
 #: weblate/templates/translation.html:259
@@ -6483,14 +6459,12 @@ msgid "Send test e-mail"
 msgstr "Enviar e-mail de teste"
 
 #: weblate/templates/manage/tools.html:45
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "Integração com controle de versão"
+msgstr "Testar integração com Sentry"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
-msgstr ""
+msgstr "Gera um evento de teste para testar a integração com Sentry."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -6710,10 +6684,8 @@ msgstr ""
 "recentemente."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please log in and try again later."
 msgid "You have been logged out, please sign in and try again later."
-msgstr "Você foi desconectado, tente novamente mais tarde."
+msgstr "Você foi desconectado, autentique-se e tente novamente mais tarde."
 
 #: weblate/templates/ratelimit.html:9
 msgid "Please try again later."
@@ -6947,15 +6919,11 @@ msgstr ""
 "cada projeto traduzido."
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Esta equação identifica qual forma de plural será usada, com base na "
+"Esta fórmula identifica qual forma de plural será usada, com base na "
 "contagem (n)."
 
 #: weblate/templates/snippets/project-component-settings.html:5
@@ -7011,11 +6979,9 @@ msgid "Search for…"
 msgstr "Pesquisar por…"
 
 #: weblate/templates/snippets/query-builder.html:24
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "Combinação exata"
+msgstr "Exata"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -7633,10 +7599,8 @@ msgid "Edit source string"
 msgstr "Editar texto fonte"
 
 #: weblate/templates/translate.html:184
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to save translations."
-msgstr "Entre para salvar as traduções."
+msgstr "Autenticação para salvar as traduções."
 
 #: weblate/templates/translate.html:186
 msgid ""
@@ -10304,16 +10268,12 @@ msgstr ""
 "convidado a contribuir em outros."
 
 #: weblate/trans/views/dashboard.py:153
-#, fuzzy
-#| msgid ""
-#| "You have activated your account, now you should set the password to be "
-#| "able to login next time."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr ""
-"Você ativou sua conta, agora você deve definir a senha para poder entrar da "
-"próxima vez."
+"Você ativou sua conta, agora você deve definir a senha para poder se "
+"autenticar da próxima vez."
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."
@@ -10736,10 +10696,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Este endereço de e-mail não é permitido."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Could not evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "Não foi possível avaliar a equação de plural: {}"
+msgstr "Não foi possível avaliar a fórmula de plural: {}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
