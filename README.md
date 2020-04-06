@@ -39,7 +39,7 @@ best to use a virtual environment for developing weblate:
  ```
  python3 -m venv venv; source venv/bin/activate
  ```
- 
+
 Install additional requirements:
  ```
  ./install.sh
