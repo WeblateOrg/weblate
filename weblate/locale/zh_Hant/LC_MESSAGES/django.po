@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 09:03+0000\n"
-"PO-Revision-Date: 2020-04-02 16:29+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2020-04-06 13:33+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -265,16 +265,14 @@ msgid "Password reset confirmed, password turned off."
 msgstr "已確認密碼重設，密碼已停用。"
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "使用 {method} 登入 {name}。"
+msgstr "已設定使用 {method} 登入 {name}。"
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "使用 {method} 登入 {name}。"
+msgstr "已移除使用 {method} 登入 {name}。"
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -301,10 +299,8 @@ msgid "Could not sign in using {method} ({name})."
 msgstr "無法使用 {method} 登入 {name}。"
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
-msgstr "因登入失敗過多次導致帳號被鎖定。"
+msgstr "因登入嘗試失敗過多次導致帳號被鎖定。"
 
 #: weblate/accounts/models.py:92
 msgid "Account and all private data removed."
@@ -316,16 +312,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "服務條款協議書 {date}。"
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "在 {0} 捐款給 Weblate"
+msgstr "由 {username} 邀請至 Weblate。"
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "設定密碼"
+msgstr "已設定密碼登入。"
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -705,7 +698,7 @@ msgstr "無法移除使用者身份"
 msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
-msgstr ""
+msgstr "無法使用確認過的電子信箱移除最後一個使用者身分。請先確認您的電子信箱。"
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -754,14 +747,10 @@ msgid "Notification settings adjusted."
 msgstr "通知設定已調整。"
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "The notification change link is no longer valid, please log in to "
-#| "configure notifications."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
-msgstr "通知更改的連結不再有效，請登入、設定通知。"
+msgstr "通知更動連結已無效，請登入以設定通知。"
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:33 weblate/templates/translation.html:63
@@ -2040,12 +2029,10 @@ msgid "Inconsistent"
 msgstr "不一致"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "此專案中的這個字串有一種以上的翻譯"
+msgstr "此專案中的這個字串有一種以上的翻譯，或是在某些組件未翻譯。"
 
 #: weblate/checks/consistency.py:113
 msgid "Has been translated"
@@ -2210,10 +2197,8 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat 字串與來源不符"
 
 #: weblate/checks/format.py:433
-#, fuzzy
-#| msgid "You need to screen an apostrophe with another one."
 msgid "You need to pair up an apostrophe with another one."
-msgstr "您需要讓撇號 ' 對映另一個撇號。"
+msgstr "您需要將撇號 ' 與另一個撇號配對。"
 
 #: weblate/checks/format.py:439
 msgid "i18next interpolation"
@@ -2224,16 +2209,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "i18next 插補與來源不符"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Placeholders"
 msgid "Percent placeholders"
-msgstr "佔位符"
+msgstr "百分比佔位符"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "The percent interpolation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "百分比插補與來源不符"
+msgstr "百分比佔位符與來源不符"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2807,10 +2788,8 @@ msgstr "複數形數目"
 
 #: weblate/lang/models.py:528 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
-msgstr "複數形"
+msgstr "複數公式"
 
 #: weblate/lang/models.py:533 weblate/templates/language.html:81
 msgid "Plural type"
@@ -6243,14 +6222,12 @@ msgid "Send test e-mail"
 msgstr "傳送測試信件"
 
 #: weblate/templates/manage/tools.html:45
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "版本控制整合"
+msgstr "測試 Sentry 整合"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
-msgstr ""
+msgstr "產生測試事件以測試 Sentry 整合。"
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -6460,10 +6437,8 @@ msgid ""
 msgstr "因您最近執行過多動作，因此拒絕您的請求。"
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please log in and try again later."
 msgid "You have been logged out, please sign in and try again later."
-msgstr "您已登出，請登入並稍候重試。"
+msgstr "您已登出，請登入並稍後重試。"
 
 #: weblate/templates/ratelimit.html:9
 msgid "Please try again later."
@@ -6683,14 +6658,10 @@ msgstr ""
 "依各個您翻譯的專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
-msgstr "此等式用來辨別給訂的數目 (n) 要使用哪種複數形式。"
+msgstr "此公式用來辨別提供的數目 (n) 要使用哪種複數形式。"
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -6743,11 +6714,9 @@ msgid "Search for…"
 msgstr "搜尋…"
 
 #: weblate/templates/snippets/query-builder.html:24
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "完整單字比對"
+msgstr "完整"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -7317,10 +7286,8 @@ msgid "Edit source string"
 msgstr "編輯來源字串"
 
 #: weblate/templates/translate.html:184
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to save translations."
-msgstr "請登入以儲存翻譯內容。"
+msgstr "請登入以儲存翻譯。"
 
 #: weblate/templates/translate.html:186
 msgid ""
@@ -9859,14 +9826,10 @@ msgid ""
 msgstr "您正在查看的專案已經移除；不過我們仍然歡迎您貢獻其他專案。"
 
 #: weblate/trans/views/dashboard.py:153
-#, fuzzy
-#| msgid ""
-#| "You have activated your account, now you should set the password to be "
-#| "able to login next time."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
-msgstr "您已啟動您的帳戶，現在您應該設定密碼以便能夠下次登入。"
+msgstr "您已啟用您的帳戶，現在您應該設定密碼以便下次登入。"
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."
@@ -10271,10 +10234,8 @@ msgid "This e-mail address is disallowed."
 msgstr "不能使用這個電子郵件。"
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Could not evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "無法評估複數形等式：{}"
+msgstr "無法評估複數形公式：{}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
