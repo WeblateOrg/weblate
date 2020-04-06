@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 09:03+0000\n"
-"PO-Revision-Date: 2020-04-06 09:09+0000\n"
+"PO-Revision-Date: 2020-04-06 13:33+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/master/th/>"
 "\n"
@@ -2532,11 +2532,11 @@ msgstr "สตริงใช้อักขระจุดสามตัว (.
 
 #: weblate/checks/source.py:64
 msgid "Multiple failing checks"
-msgstr "ต้องมีการตรวจสอบความผิดพลาดในหลายภาษา"
+msgstr "มีจุดที่ต้องตรวจสอบความผิดพลาดในหลายภาษา"
 
 #: weblate/checks/source.py:65
 msgid "The translations in several languages have failing checks"
-msgstr "คำแปลในหลายภาษาต้องมีการตรวจสอบความผิดพลาด"
+msgstr "คำแปลในหลายภาษามีจุดที่ต้องตรวจสอบความผิดพลาด"
 
 #: weblate/checks/views.py:81 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -2544,7 +2544,7 @@ msgstr "คำแปลในหลายภาษาต้องมีการ
 #: weblate/templates/snippets/project-nav.html:68
 #: weblate/templates/snippets/project-nav.html:78
 msgid "Failing checks"
-msgstr "การตรวจสอบความผิดพลาด"
+msgstr "จุดที่ต้องตรวจสอบความผิดพลาด"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -3347,13 +3347,15 @@ msgstr "ข้อผิดพลาดเซิร์ฟเวอร์ภาย
 
 #: weblate/templates/500.html:11
 msgid "Server Error"
-msgstr ""
+msgstr "ข้อผิดพลาดเซิร์ฟเวอร์"
 
 #: weblate/templates/500.html:14
 msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
 msgstr ""
+"เซิร์ฟเวอร์มีปัญหาร้ายแรงในการดำเนินการตามคำขอของคุณ "
+"เหล่าผู้เชี่ยวชาญกำลังแก้ไขปัญหานี้"
 
 #: weblate/templates/500.html:18
 #, python-format
@@ -3365,42 +3367,45 @@ msgstr ""
 #: weblate/templates/base.html:221 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
-msgstr ""
+msgstr "เกี่ยวกับ Weblate"
 
 #: weblate/templates/about/index.html:18 weblate/templates/footer.html:15
 #: weblate/templates/manage/index.html:40
 msgid "Donate to Weblate"
-msgstr ""
+msgstr "บริจาคให้ Weblate"
 
 #: weblate/templates/about/index.html:25
 msgid "Hosting translations"
-msgstr ""
+msgstr "การโฮสต์การแปล"
 
 #: weblate/templates/about/index.html:28
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
+"อินสแตนซ์ของ Weblate นี้โฮสต์การแปลสำหรับโครงการซอฟต์แวร์เสรีหลายโครงการ"
 
 #: weblate/templates/about/index.html:29
 msgid "Weblate can host your project as well, please get in touch."
-msgstr ""
+msgstr "Weblate ก็สามารถโฮสต์โครงการของคุณได้เช่นกัน โปรดติดต่อเรา"
 
 #: weblate/templates/about/index.html:32
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
+"นอกจากนี้เรายังให้บริการโฮสต์เชิงพาณิชย์อีกด้วย ซึ่งราคาเริ่มที่ 19 EUR "
+"ต่อเดือน โปรดติดต่อเราสำหรับรายละเอียดเพิ่มเติม"
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/accounts/hosting.html:44
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
-msgstr ""
+msgstr "ขอการโฮสต์โครงการ"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:19
 msgid "View hosting plans"
-msgstr ""
+msgstr "ดูแผนการโฮสต์"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:184
@@ -3413,7 +3418,7 @@ msgstr ""
 #: weblate/templates/about/index.html:41
 #: weblate/templates/accounts/hosting.html:36
 msgid "Contact us for commercial hosting"
-msgstr ""
+msgstr "ติดต่อเราสำหรับการโฮสต์เชิงพาณิชย์"
 
 #: weblate/templates/about/index.html:49
 msgid "Weblate is built on libre software"
@@ -3460,51 +3465,47 @@ msgstr ""
 #: weblate/templates/translation.html:45 weblate/templates/translation.html:389
 #: weblate/trans/views/about.py:33
 msgid "Statistics"
-msgstr ""
+msgstr "สถิติ"
 
 #: weblate/templates/about/stats.html:15
 msgid "Most active translators"
-msgstr ""
+msgstr "ผู้แปลที่มีความเคลื่อนไหวมากที่สุด"
 
 #: weblate/templates/about/stats.html:32
 msgid "Most active suggesters"
-msgstr ""
+msgstr "ผู้เสนอแนะที่มีความเคลื่อนไหวมากที่สุด"
 
 #: weblate/templates/about/stats.html:48
 msgid "Most active screenshot uploaders"
 msgstr ""
 
 #: weblate/templates/about/stats.html:76
-#, fuzzy
-#| msgid "Administration"
 msgid "Translatable strings"
-msgstr "การดูแลระบบ"
+msgstr "สตริงที่สามารถแปลได้"
 
 #: weblate/templates/about/stats.html:80
-#, fuzzy
-#| msgid "Administration"
 msgid "Translatable words"
-msgstr "การดูแลระบบ"
+msgstr "คำที่สามารถแปลได้"
 
 #: weblate/templates/about/stats.html:84
 msgid "Used languages"
-msgstr ""
+msgstr "ภาษาที่ใช้"
 
 #: weblate/templates/about/stats.html:88
 msgid "Registered users"
-msgstr ""
+msgstr "ผู้ใช้ที่ลงทะเบียน"
 
 #: weblate/templates/about/stats.html:92 weblate/templates/user-activity.html:7
 msgid "Suggestions made"
-msgstr ""
+msgstr "ข้อเสนอแนะ"
 
 #: weblate/templates/about/stats.html:96 weblate/templates/user-activity.html:3
 msgid "Translations made"
-msgstr ""
+msgstr "คำแปล"
 
 #: weblate/templates/about/stats.html:100
 msgid "Failing checks found"
-msgstr ""
+msgstr "จุดที่ต้องตรวจสอบความผิดพลาดที่พบ"
 
 #: weblate/templates/about/stats.html:104 weblate/templates/component.html:75
 #: weblate/templates/language-project.html:43
@@ -3512,7 +3513,7 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:69
 #: weblate/templates/snippets/project-nav.html:79
 msgid "Ignored checks"
-msgstr ""
+msgstr "จุดที่ต้องตรวจสอบที่ละเว้น"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -3520,12 +3521,12 @@ msgstr ""
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:193
 #: weblate/templates/billing/overview.html:6
 msgid "Your profile"
-msgstr ""
+msgstr "โปรไฟล์ของคุณ"
 
 #: weblate/templates/accounts/confirm.html:14
 #: weblate/templates/accounts/confirm.html:24
 msgid "Confirm new association"
-msgstr ""
+msgstr "ยืนยันการเชื่อมโยงใหม่"
 
 #. Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL
 #: weblate/templates/accounts/confirm.html:18
@@ -3534,10 +3535,12 @@ msgid ""
 "After confirming this, you will be able to authenticate to Weblate using "
 "%(backend_verbose)s (%(uid)s)."
 msgstr ""
+"หลังจากที่ยืนยันแล้ว คุณจะสามารถรับรองความถูกต้องกับ Weblate โดยใช้ "
+"%(backend_verbose)s (%(uid)s) ได้"
 
 #: weblate/templates/accounts/contact.html:14
 msgid "You can contact maintainers of this server here."
-msgstr ""
+msgstr "คุณสามารถติดต่อผู้บำรุงรักษาของเซิร์ฟเวอร์นี้ได้ที่นี่"
 
 #: weblate/templates/accounts/contact.html:15
 #, python-format
@@ -3545,19 +3548,21 @@ msgid ""
 "If you are looking for support for Weblate or want to file bug reports check "
 "its website at %(weblate_link)s."
 msgstr ""
+"หากคุณกำลังมองหาการสนับสนุนสำหรับ Weblate หรือต้องการส่งรายงานบั๊ก "
+"ให้ดูที่เว็บไซต์ %(weblate_link)s"
 
 #: weblate/templates/accounts/contact.html:29
 #: weblate/templates/accounts/hosting.html:49
 #: weblate/templates/manage/tools.html:36
 #: weblate/templates/manage/tools.html:51
 msgid "Send"
-msgstr ""
+msgstr "ส่ง"
 
 #: weblate/templates/accounts/email-sent.html:5
 #: weblate/templates/accounts/register.html:8
 #: weblate/templates/accounts/token.html:7
 msgid "Registration"
-msgstr ""
+msgstr "การลงทะเบียน"
 
 #: weblate/templates/accounts/email-sent.html:14
 msgid "Password reset almost complete"
