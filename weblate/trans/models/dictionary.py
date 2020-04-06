@@ -143,8 +143,8 @@ class DictionaryQuerySet(models.QuerySet):
                 # Some Whoosh analyzers break on unicode
                 try:
                     words.update(token.text for token in analyzer(text))
-                except (UnicodeDecodeError, IndexError) as error:
-                    report_error(error)
+                except (UnicodeDecodeError, IndexError):
+                    report_error(cause="Dictionary words parsing")
                 if len(words) > 1000:
                     break
             if len(words) > 1000:

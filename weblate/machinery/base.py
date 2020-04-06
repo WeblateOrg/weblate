@@ -128,9 +128,9 @@ class MachineTranslation:
         """Convert language to service specific object."""
         return self.map_language_code(language.code)
 
-    def report_error(self, exc, message):
+    def report_error(self, message):
         """Wrapper for handling error situations."""
-        report_error(exc, prefix="Machinery error")
+        report_error(cause="Machinery error")
         LOGGER.error(message, self.name)
 
     def get_supported_languages(self):
@@ -154,7 +154,7 @@ class MachineTranslation:
         except Exception as exc:
             self.supported_languages = self.default_languages
             self.supported_languages_error = exc
-            self.report_error(exc, "Failed to fetch languages from %s, using defaults")
+            self.report_error("Failed to fetch languages from %s, using defaults")
             return
 
         # Update cache
@@ -249,7 +249,7 @@ class MachineTranslation:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
 
-            self.report_error(exc, "Failed to fetch translations from %s")
+            self.report_error("Failed to fetch translations from %s")
             raise MachineTranslationError(self.get_error_message(exc))
 
     def get_error_message(self, exc):

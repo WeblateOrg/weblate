@@ -69,10 +69,10 @@ def handle_machinery(request, service, unit, search=None):
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
-        except Exception as exc:
-            report_error(exc, request)
+        except Exception as error:
+            report_error()
             response["responseDetails"] = "{0}: {1}".format(
-                exc.__class__.__name__, str(exc)
+                error.__class__.__name__, str(error)
             )
 
     return JsonResponse(data=response)

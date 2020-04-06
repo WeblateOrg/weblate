@@ -263,6 +263,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         except FileParseError:
             raise
         except Exception as exc:
+            report_error(cause="Translation parse error")
             self.component.handle_parse_error(exc, self)
 
     def check_sync(self, force=False, request=None, change=None):
@@ -430,7 +431,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         try:
             store = self.store
         except FileParseError as error:
-            report_error(error, prefix="Failed to parse file on commit")
+            report_error(cause="Failed to parse file on commit")
             self.log_error("skipping commit due to error: %s", error)
             return False
 
@@ -558,8 +559,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             try:
                 pounit, add = store.find_unit(unit.context, unit.source)
-            except UnitNotFound as error:
-                report_error(error, prefix="String disappeared")
+            except UnitNotFound:
+                report_error(cause="String disappeared")
                 pounit = None
 
             unit.pending = False

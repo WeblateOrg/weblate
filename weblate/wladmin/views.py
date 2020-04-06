@@ -96,11 +96,14 @@ def tools(request):
                     send_test_mail(**emailform.cleaned_data)
                     messages.success(request, _("Test e-mail sent."))
                 except Exception as error:
-                    report_error(error, request)
+                    report_error()
                     messages.error(request, _("Could not send test e-mail: %s") % error)
 
         if "sentry" in request.POST:
-            report_error(Exception("Test exception"), request)
+            try:
+                raise Exception("Test exception")
+            except Exception:
+                report_error()
 
     return render(
         request,
@@ -118,8 +121,8 @@ def activate(request):
             support.refresh()
             support.save()
             messages.success(request, _("Activation completed."))
-        except Exception as error:
-            report_error(error, request)
+        except Exception:
+            report_error()
             messages.error(
                 request,
                 _(

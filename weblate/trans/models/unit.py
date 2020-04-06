@@ -295,6 +295,7 @@ class Unit(models.Model, LoggerMixin):
             previous_source = unit.previous_source
             content_hash = unit.content_hash
         except Exception as error:
+            report_error(cause="Unit update error")
             self.translation.component.handle_parse_error(error, self.translation)
 
         # Ensure we track source string for bilingual
@@ -918,9 +919,9 @@ class Unit(models.Model, LoggerMixin):
         try:
             change = self.change_set.content().order_by("-timestamp")[0]
             return change.author or get_anonymous(), change.timestamp
-        except IndexError as error:
+        except IndexError:
             if not silent:
-                report_error(error, level="error")
+                report_error(level="error")
             return get_anonymous(), timezone.now()
 
     def get_locations(self):

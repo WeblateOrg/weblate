@@ -160,7 +160,7 @@ def upload_dictionary(request, project, lang):
                 ),
             )
         except Exception as error:
-            report_error(error, request, prefix="Failed to handle upload")
+            report_error(cause="Failed to handle upload")
             messages.error(request, _("File upload has failed: %s") % force_str(error))
     else:
         messages.error(request, _("Failed to process form!"))

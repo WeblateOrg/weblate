@@ -999,7 +999,6 @@ def auth_redirect_state(request):
 
 
 def handle_missing_parameter(request, backend, error):
-    report_error(error, request)
     if backend != "email" and error.parameter == "email":
         return auth_fail(
             request,
@@ -1057,15 +1056,16 @@ def social_complete(request, backend):
     except InvalidEmail:
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
+        report_error()
         result = handle_missing_parameter(request, backend, error)
         if result:
             return result
         raise
-    except (AuthStateMissing, AuthStateForbidden) as error:
-        report_error(error, request)
+    except (AuthStateMissing, AuthStateForbidden):
+        report_error()
         return auth_redirect_state(request)
-    except AuthFailed as error:
-        report_error(error, request)
+    except AuthFailed:
+        report_error()
         return auth_fail(
             request,
             _(
@@ -1073,11 +1073,11 @@ def social_complete(request, backend):
                 "or connection error."
             ),
         )
-    except AuthCanceled as error:
-        report_error(error, request)
+    except AuthCanceled:
+        report_error()
         return auth_fail(request, _("Authentication cancelled."))
-    except AuthForbidden as error:
-        report_error(error, request)
+    except AuthForbidden:
+        report_error()
         return auth_fail(request, _("The server does not allow authentication."))
     except AuthAlreadyAssociated:
         return auth_fail(

@@ -78,11 +78,9 @@ def get_avatar_image(user, size):
         try:
             image = download_avatar_image(user, size)
             cache.set(cache_key, image)
-        except (IOError, CertificateError) as error:
+        except (IOError, CertificateError):
             report_error(
-                error,
-                extra_data={"avatar": user.username},
-                prefix="Failed to fetch avatar",
+                extra_data={"avatar": user.username}, cause="Failed to fetch avatar",
             )
             return get_fallback_avatar(size)
 

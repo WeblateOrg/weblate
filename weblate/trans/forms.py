@@ -170,7 +170,7 @@ class QueryField(forms.CharField):
             parse_query(value)
             return value
         except Exception as error:
-            report_error(error)
+            report_error()
             raise ValidationError(_("Failed to parse query string: {}").format(error))
 
 

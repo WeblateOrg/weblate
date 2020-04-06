@@ -47,8 +47,8 @@ def icon(name):
         try:
             with open(icon_file, "r") as handle:
                 CACHE[name] = mark_safe(handle.read())
-        except OSError as error:
-            report_error(error, prefix="Failed to load icon")
+        except OSError:
+            report_error(cause="Failed to load icon")
             return ""
 
     return CACHE[name]

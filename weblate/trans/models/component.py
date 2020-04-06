@@ -707,8 +707,8 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return latest locally known remote commit."""
         try:
             revision = self.repository.last_remote_revision
-        except RepositoryException as error:
-            report_error(error, prefix="Could not get remote revision")
+        except RepositoryException:
+            report_error(cause="Could not get remote revision")
             return None
         return self.repository.get_revision_info(revision)
 
@@ -823,7 +823,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     self.delete_alert("UpdateFailure")
             return True
         except RepositoryException as error:
-            report_error(error, prefix="Could not update the repository")
+            report_error(cause="Could not update the repository")
             error_text = self.error_text(error)
             if validate:
                 self.handle_update_error(error_text, retry)
@@ -991,7 +991,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 if self.id:
                     self.delete_alert("PushFailure")
         except RepositoryException as error:
-            report_error(error, prefix="Could not to push the repo")
+            report_error(cause="Could not to push the repo")
             error_text = self.error_text(error)
             Change.objects.create(
                 action=Change.ACTION_FAILED_PUSH,
@@ -1041,8 +1041,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_info("resetting to remote repo")
             with self.repository.lock:
                 self.repository.reset()
-        except RepositoryException as error:
-            report_error(error, prefix="Could not reset the repository")
+        except RepositoryException:
+            report_error(cause="Could not reset the repository")
             messages.error(
                 request, _("Could not reset to remote branch on %s.") % force_str(self)
             )
@@ -1070,8 +1070,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_info("cleaning up the repo")
             with self.repository.lock:
                 self.repository.cleanup()
-        except RepositoryException as error:
-            report_error(error, prefix="Could not clean the repository")
+        except RepositoryException:
+            report_error(cause="Could not clean the repository")
             messages.error(
                 request, _("Could not clean the repository on %s.") % force_str(self)
             )
@@ -1124,7 +1124,6 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def handle_parse_error(self, error, translation=None):
         """Handler for parse errors."""
-        report_error(error, prefix="Parse error")
         error_message = getattr(error, "strerror", "")
         if not error_message:
             error_message = force_str(error).replace(self.full_path, "")
@@ -1178,7 +1177,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
             except RepositoryException as error:
                 # Report error
-                report_error(error, prefix="Failed {}".format(method))
+                report_error(cause="Failed {}".format(method))
 
                 # In case merge has failer recover
                 error = self.error_text(error)
@@ -1937,7 +1936,7 @@ class Component(models.Model, URLMixin, PathMixin):
         try:
             return self.repository.needs_push()
         except RepositoryException as error:
-            report_error(error, prefix="Could check push needed")
+            report_error(cause="Could check push needed")
             self.add_alert("PushFailure", error=self.error_text(error))
             return False
 
@@ -1974,8 +1973,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
         try:
             return self.load_template_store()
-        except Exception as exc:
-            self.handle_parse_error(exc)
+        except Exception as error:
+            report_error(cause="Template parse error")
+            self.handle_parse_error(error)
 
     @cached_property
     def all_flags(self):
