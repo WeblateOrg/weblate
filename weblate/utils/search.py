@@ -69,8 +69,8 @@ class Exact(whoosh.query.Term):
     pass
 
 
-class ExactPlugin(QuotePlugin):
-    """Exact match plugin with quotes to specify an exact term."""
+class ExactPlugin(whoosh.qparser.TaggingPlugin):
+    """Exact match plugin to specify an exact term."""
 
     class ExactNode(whoosh.qparser.syntax.TextNode):
         qclass = Exact
@@ -78,7 +78,7 @@ class ExactPlugin(QuotePlugin):
         def r(self):
             return "Exact %r" % self.text
 
-    expr = r"\=(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
+    expr = r"\=(^|(?<=\W))(['\"]?)(?P<text>.*?)\2(?=\s|\]|[)}]|$)"
     nodetype = ExactNode
 
 
