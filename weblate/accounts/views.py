@@ -91,7 +91,7 @@ from weblate.accounts.forms import (
     UserForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, Subscription, set_lang
+from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail, set_lang
 from weblate.accounts.notifications import (
     FREQ_NONE,
     NOTIFICATIONS,
@@ -927,9 +927,25 @@ def social_disconnect(request, backend, association_id=None):
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting last entry
     """
+    # Block removal of last social auth
     if request.user.social_auth.count() <= 1:
         messages.error(request, _("Could not remove user identity"))
         return redirect_profile("#account")
+
+    # Block removal of last verified email
+    verified = VerifiedEmail.objects.filter(social__user=request.user).exclude(
+        social__provider=backend
+    )
+    if not verified.exists():
+        messages.error(
+            request,
+            _(
+                "Could not remove last user identity with confirmed e-mail. "
+                "Please confirm your e-mail first."
+            ),
+        )
+        return redirect_profile("#account")
+
     return disconnect(request, backend, association_id)
 
 
