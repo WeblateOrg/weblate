@@ -181,7 +181,7 @@
     {% if locked or not user_can_translate %}disabled="disabled"{% endif %}
     {% if not user_can_translate %}
     {% if not user.is_authenticated %}
-    title="{% trans "Please log in to save translations." %}"
+    title="{% trans "Please sign in to save translations." %}"
     {% elif unit.approved %}
     title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
     {% elif unit.translation.component.suggestion_voting %}

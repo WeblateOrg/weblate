@@ -19,7 +19,7 @@ You can register by following a few simple steps:
 Dashboard
 ---------
 
-When you log in, you will see an overview of projects and components,
+When you sign in, you will see an overview of projects and components,
 as well as their respective translation progression.
 
 .. versionadded:: 2.5

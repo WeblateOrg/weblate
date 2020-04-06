@@ -1104,7 +1104,7 @@ def unsubscribe(request):
                 request,
                 _(
                     "The notification change link is no longer valid, "
-                    "please log in to configure notifications."
+                    "please sign in to configure notifications."
                 ),
             )
 

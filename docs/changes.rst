@@ -6,7 +6,7 @@ Not yet released.
 * Weblate now requires Python 3.6 or newer.
 * Added management overview of component alerts.
 * Added component alert for broken repository browser URLs.
-* Improved log in and registration pages.
+* Improved sign in and registration pages.
 * Project access control and workflow configuration integrated to project settings.
 * Added check and highlighter for i18next interpolation and nesting.
 * Added check and highlighter for percent interpolation.

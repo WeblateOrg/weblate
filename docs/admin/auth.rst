@@ -413,7 +413,7 @@ Once you have the package installed, you can hook it into the Django authenticat
     their password in Weblate, and authenticate using that. Keeping
     ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
     make permissions and facilitate anonymous users. It will also allow you
-    to log in using a local admin account, if you have created it (e.g. by using
+    to sign in using a local admin account, if you have created it (e.g. by using
     :djadmin:`createadmin`).
 
 Using bind password
@@ -488,7 +488,7 @@ authentication system by modifying the :file:`settings.py` file:
 
 .. code-block:: python
 
-    # Add CAS backed, keep the Django one if you want to be able to log in
+    # Add CAS backed, keep the Django one if you want to be able to sign in
     # even without LDAP for the admin account
     AUTHENTICATION_BACKENDS = (
         'django_cas_ng.backends.CASBackend',

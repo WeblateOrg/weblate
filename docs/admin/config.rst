@@ -1179,7 +1179,7 @@ This optional setting can be be the default``True`` or changed to ``False``.
    This setting affects built-in authentication by e-mail address or through the
    Python Social Auth. If using third-party authentication methods such
    as :ref:`ldap-auth`, it just hides the registration form, but new users might
-   still be able to log in and create accounts.
+   still be able to sign in and create accounts.
 
 .. setting:: SENTRY_DSN
 

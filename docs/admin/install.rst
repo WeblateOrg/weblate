@@ -518,7 +518,7 @@ In case you want to run an installation non interactively, you can use
 :samp:`weblate migrate --noinput`, and then create an admin user using
 :djadmin:`createadmin` command.
 
-You should also log in to the admin interface (on ``/admin/`` URL) and adjust the
+You should also sign in to the admin interface (on ``/admin/`` URL) and adjust the
 default sitename to match your domain by clicking on :guilabel:`Sites` and once there,
 change the :samp:`example.com` record to match your real domain name.
 
