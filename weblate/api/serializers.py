@@ -98,6 +98,10 @@ class LanguageSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Language with this Language code already exists."
             )
+        if not check_query.exists():
+            raise serializers.ValidationError(
+                "Language with this language code was not found."
+            )
         return value
 
 

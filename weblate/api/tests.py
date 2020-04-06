@@ -246,10 +246,31 @@ class ProjectAPITest(APIBaseTest):
                 },
             },
         )
+        error_response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "source_language": {
+                    "code": "invalid",
+                    "name": "Invalid",
+                    "direction": "ltr",
+                },
+            },
+        )
         self.assertEqual(Project.objects.count(), 2)
         self.assertEqual(response.data["source_language"]["code"], "ru")
         self.assertEqual(
             Project.objects.get(slug="api-project").source_language.code, "ru"
+        )
+        self.assertEqual(
+            error_response.data["source_language"]["code"][0],
+            "Language with this language code was not found.",
         )
 
     def test_create_component(self):
