@@ -51,7 +51,7 @@ def get_page_limit(request, default):
     return page, limit
 
 
-def get_paginator(request, object_list, default_page_limit=50):
+def get_paginator(request, object_list, default_page_limit=100):
     """Return paginator and current page."""
     page, limit = get_page_limit(request, default_page_limit)
     paginator = Paginator(object_list, limit)
