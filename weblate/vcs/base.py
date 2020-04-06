@@ -142,7 +142,11 @@ class Repository:
     def _getenv():
         """Generate environment for process execution."""
         return get_clean_env(
-            {"GIT_SSH": SSH_WRAPPER.filename, "GIT_TERMINAL_PROMPT": "0"}
+            {
+                "GIT_SSH": SSH_WRAPPER.filename,
+                "GIT_TERMINAL_PROMPT": "0",
+                "SVN_SSH": SSH_WRAPPER.filename,
+            }
         )
 
     @classmethod
