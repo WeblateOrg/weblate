@@ -253,7 +253,7 @@ That means that when using the XLIFF format, it is strongly recommended to turn 
 Weblate review process, in order to see and change the approved state of strings.
 See :ref:`reviews`.
 
-Similarly upon importing such files, you should choose
+Similarly upon importing such files (in the upload form), you should choose
 :guilabel:`Import as translated` under
 :guilabel:`Processing of strings needing review`.
 
