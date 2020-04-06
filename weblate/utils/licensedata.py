@@ -1949,6 +1949,12 @@ LICENSES = (
         "https://paritylicense.com/versions/6.0.0.html",
         False,
     ),
+    (
+        "Parity-7.0.0",
+        "The Parity Public License 7.0.0",
+        "https://paritylicense.com/versions/7.0.0.html",
+        False,
+    ),
     ("Unlicense", "The Unlicense", "https://unlicense.org/", True),
     ("TMate", "TMate Open Source License", "http://svnkit.com/license.html", False),
     (
