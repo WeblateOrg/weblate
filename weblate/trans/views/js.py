@@ -262,10 +262,11 @@ def mt_services(request):
 @login_required
 def task_progress(request, task_id):
     task = AsyncResult(task_id)
+    result = task.result
     return JsonResponse(
         {
             "completed": is_task_ready(task),
             "progress": get_task_progress(task),
-            "result": task.result,
+            "result": str(result) if isinstance(result, Exception) else result,
         }
     )
