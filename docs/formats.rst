@@ -734,7 +734,7 @@ Example file:
 .. versionadded:: 2.3
 
 A .NET Resource (.resx) file employs a monolingual XML file format used in Microsoft
-.NET applications. It works with .resw files as well as when they use identical
+.NET applications. It is interchangeable with .resw, when using identical
 syntax to .resx.
 
 +-------------------------------------------------------------------+
