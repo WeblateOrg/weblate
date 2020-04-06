@@ -184,6 +184,10 @@ class LanguageQuerySet(models.QuerySet):
             Q(name__iexact=code),
         ]
 
+        # Country codes used without underscore (ptbr insteat of pt_BR)
+        if len(code) == 4:
+            lookups.append(Q(code__iexact="{}_{}".format(code[:2], code[2:])))
+
         for lookup in lookups:
             # First try getting language as is
             ret = self.try_get(lookup)
