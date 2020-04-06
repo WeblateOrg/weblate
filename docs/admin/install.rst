@@ -861,6 +861,18 @@ background. This is now automatically done by :ref:`celery` and covers following
    Since version 3.2, the default way of executing these tasks is using Celery
    and Weblate already comes with proper configuration, see :ref:`celery`.
 
+.. _production-encoding:
+
+System locales and encoding
++++++++++++++++++++++++++++
+
+The system locales should be configured to UTF-8 capable ones. On most Linux
+distributions this is the default setting. In case it is not the case on your
+system, please change locales to UTF-8 variant.
+
+For examble by editing :file:`/etc/default/locale` and setting there
+``LANG="C.UTF-8"``.
+
 .. _server:
 
 Running server
