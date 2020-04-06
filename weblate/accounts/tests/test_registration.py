@@ -480,6 +480,28 @@ class RegistrationTest(BaseRegistrationTest):
         self.assert_notify_mailbox(notification)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_remove_mail_verified(self):
+        """Test rejected removal of association in case no verified e-mail left."""
+        # Register user with two mails
+        self.test_add_mail()
+        mail.outbox = []
+
+        user = User.objects.get(username="username")
+        social = user.social_auth.get(uid="noreply-weblate@example.org")
+
+        # Remove other verified emails
+        VerifiedEmail.objects.exclude(social=social).delete()
+
+        response = self.client.post(
+            reverse(
+                "social:disconnect_individual",
+                kwargs={"backend": social.provider, "association_id": social.pk},
+            ),
+            follow=True,
+        )
+        self.assertContains(response, "Please confirm your e-mail first")
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_pipeline_redirect(self):
         """Test pipeline redirect using next parameter."""
         # Create user
