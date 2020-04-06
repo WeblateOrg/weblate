@@ -31,9 +31,7 @@
 </tr>
 </thead>
 <tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
-{% with object.units.all as sources %}
-{% include "screenshots/screenshot_sources_body.html" %}
-{% endwith %}
+{% include "screenshots/screenshot_sources_body.html" with sources=objects.units.all %}
 </tbody>
 </table>
   <div class="panel-footer">
@@ -89,9 +87,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Image" %}</h4></div>
   <div class="panel-body">
 
-{% with object as screenshot %}
-{% include "screenshots/screenshot_show.html" %}
-{% endwith %}
+{% include "screenshots/screenshot_show.html" with screenshot=object %}
 
 </div>
 </div>

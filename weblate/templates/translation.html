@@ -193,9 +193,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% trans "Translation Information" %}</h4></div>
 
 <table class="table">
-{% with object.component as object %}
-{% include "component_info.html" %}
-{% endwith %}
+{% include "component_info.html" with object=object.component %}
 <tr>
 <th>{% trans "Translation file" %}</th>
 <td>
