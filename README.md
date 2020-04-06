@@ -29,7 +29,7 @@ the base branch for new work.
 ### Local Development
 
 **weblate** runs on Python 3.7 and Django. In order to develop locally,
-install Python 3.7 or 3.8:
+install Python with brew:
  ```
  brew install python
  ```
@@ -40,9 +40,9 @@ best to use a virtual environment for developing weblate:
  python3 -m venv venv; source venv/bin/activate
  ```
 
-Install requirements:
+Install additional requirements:
  ```
- pip install -r requirements.txt --no-binary pygobject
+ ./install.sh
  ```
 
 Build local dockerfile "weblate-dev" and run it on `localhost:8080`:
