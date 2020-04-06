@@ -49,6 +49,7 @@ class WeblateConf(AppConf):
     RATELIMIT_GLOSSARY_WINDOW = 60
 
     SENTRY_DSN = None
+    SENTRY_SECURITY = None
 
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_BROKER_URL = "memory://"
