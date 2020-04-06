@@ -108,7 +108,7 @@ Capabilities of all supported formats:
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The gettext type comments are used as flags.
-.. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` attribute as defined in the XLIFF standard, see :ref:`xliff-flags`.
+.. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` [attribute](http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth) as defined in the XLIFF standard, see :ref:`xliff-flags`.
 
 .. _gettext:
 
