@@ -98,6 +98,8 @@ Testsuite and CI
 Testsuites exist for most of the current code, increase coverage by adding testcases for any new
 functionality, and verify that it works.
 
+.. _ci-tests:
+
 Continuous integration
 ++++++++++++++++++++++
 
@@ -140,6 +142,12 @@ To run a testsuite locally, use:
 .. code-block:: sh
 
     DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test
+
+The :file:`weblate/settings_test.py` is used in CI environment as well (see
+:ref:`ci-tests`) and can be tuned using environment variables:
+
+.. literalinclude:: ../scripts/test-database
+   :language: sh
 
 You can also specify individual tests to run:
 
