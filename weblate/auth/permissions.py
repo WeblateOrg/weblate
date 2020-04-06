@@ -181,6 +181,13 @@ def check_unit_add(user, permission, translation):
     return check_can_edit(user, permission, translation)
 
 
+@register_perm("translation.add")
+def check_component_locked(user, permission, component):
+    if component.locked:
+        return True
+    return check_permission(user, permission, component)
+
+
 @register_perm("translation.auto")
 def check_autotranslate(user, permission, translation):
     if isinstance(translation, Translation) and (
