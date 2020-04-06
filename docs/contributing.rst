@@ -143,6 +143,14 @@ To run a testsuite locally, use:
 
     DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test
 
+.. hint::
+
+   You will need a database (PostgreSQL) server to be used for tests. By
+   default Django creates separate database to run tests with ``test_`` prefix,
+   so in case your settings is configured to use ``weblate``, the tests will
+   use ``test_weblate`` database. See :ref:`database-setup` for setup
+   instructions.
+
 The :file:`weblate/settings_test.py` is used in CI environment as well (see
 :ref:`ci-tests`) and can be tuned using environment variables:
 
