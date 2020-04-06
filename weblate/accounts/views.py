@@ -934,7 +934,7 @@ def social_disconnect(request, backend, association_id=None):
 
     # Block removal of last verified email
     verified = VerifiedEmail.objects.filter(social__user=request.user).exclude(
-        social__provider=backend
+        social__provider=backend, social_id=association_id
     )
     if not verified.exists():
         messages.error(
