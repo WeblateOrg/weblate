@@ -85,13 +85,25 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = Language
         fields = ("code", "name", "direction", "web_url", "url")
         extra_kwargs = {
-            "url": {"view_name": "api:language-detail", "lookup_field": "code"}
+            "url": {"view_name": "api:language-detail", "lookup_field": "code"},
+            "code": {"validators": []},
         }
+
+    def validate_code(self, value):
+        check_query = Language.objects.filter(code=value)
+        if check_query.exists() and not (
+            isinstance(self.parent, ProjectSerializer)
+            and self.field_name == "source_language"
+        ):
+            raise serializers.ValidationError(
+                "Language with this Language code already exists."
+            )
+        return value
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    source_language = LanguageSerializer(read_only=True)
+    source_language = LanguageSerializer(required=False)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
     )
@@ -126,6 +138,17 @@ class ProjectSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
+
+    def create(self, validated_data):
+        source_language_validated = validated_data.get("source_language")
+        if source_language_validated:
+            source_language = Language.objects.get(
+                code=source_language_validated.get("code")
+            )
+            if source_language:
+                validated_data["source_language"] = source_language
+        project = Project.objects.create(**validated_data)
+        return project
 
 
 class RepoField(serializers.CharField):
