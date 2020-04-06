@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 06:36+0000\n"
-"PO-Revision-Date: 2020-04-03 02:33+0000\n"
+"PO-Revision-Date: 2020-04-06 09:03+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/master/"
 "ca/>\n"
@@ -276,16 +276,14 @@ msgstr ""
 "desactivat."
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "S'ha iniciat la sessió utilitzant {method} ({name})."
+msgstr "S'ha configurat l'inici de sessió utilitzant {method} ({name})."
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "S'ha iniciat la sessió utilitzant {method} ({name})."
+msgstr "S'ha suprimit l'inici de sessió utilitzant {method} ({name})."
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -308,14 +306,11 @@ msgstr ""
 "Algú ha provat de registrar-se fent servir la vostra adreça electrònica."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "No s'ha pogut iniciar sessió utilitzant {method} ({name})."
+msgstr "No s'ha pogut iniciar la sessió utilitzant {method} ({name})."
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
 msgstr ""
 "S'ha blocat el compte perquè s'han fet massa intents d'inici de sessió "
@@ -331,16 +326,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Acord amb les condicions del servei {date}."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Feu un donatiu a Weblate a {0}"
+msgstr "Convidat al Weblate per {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "Configura la contrasenya"
+msgstr "S'ha configurat l'inici de sessió amb contrasenya."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -352,8 +344,6 @@ msgstr ""
 "S'ha iniciat la sessió utilitzant una contrasenya en un dispositiu nou."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
 msgstr "No s'ha pogut iniciar la sessió utilitzant una contrasenya."
 
@@ -742,6 +732,8 @@ msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
 msgstr ""
+"No s'ha pogut suprimir l'última identitat de l'usuari amb una adreça "
+"electrònica confirmada. Abans confirmeu la vostra adreça electrònica."
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -796,10 +788,6 @@ msgid "Notification settings adjusted."
 msgstr "S'ha definit la configuració de les notificacions."
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "The notification change link is no longer valid, please log in to "
-#| "configure notifications."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -2121,12 +2109,12 @@ msgid "Inconsistent"
 msgstr "Inconsistent"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "Aquesta cadena té més d'una traducció en aquest projecte"
+msgstr ""
+"Aquesta cadena té més d'una traducció en aquest projecte o no s'ha traduït "
+"en algun component."
 
 #: weblate/checks/consistency.py:113
 msgid "Has been translated"
@@ -2291,10 +2279,8 @@ msgid "Java MessageFormat string does not match source"
 msgstr "La cadena de format Java MessageFormat no coincideix amb la d'origen"
 
 #: weblate/checks/format.py:433
-#, fuzzy
-#| msgid "You need to screen an apostrophe with another one."
 msgid "You need to pair up an apostrophe with another one."
-msgstr "Cal que escapeu l'apòstrof amb un altre apòstrof."
+msgstr "Cal que emparelleu un apòstrof amb un altre apòstrof."
 
 #: weblate/checks/format.py:439
 msgid "i18next interpolation"
@@ -2894,10 +2880,8 @@ msgstr "Nombre de plurals"
 
 #: weblate/lang/models.py:528 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
-msgstr "Forma plural"
+msgstr "Fórmula del plural"
 
 #: weblate/lang/models.py:533 weblate/templates/language.html:81
 msgid "Plural type"
@@ -4856,14 +4840,10 @@ msgid "You don't have permission to start a new translation"
 msgstr "No teniu permisos per a començar una traducció nova"
 
 #: weblate/templates/component.html:142
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to start new translation"
 msgstr "Inicieu la sessió per a començar una traducció nova"
 
 #: weblate/templates/component.html:158
-#, fuzzy
-#| msgid "Please log in to see the alerts."
 msgid "Please sign in to see the alerts."
 msgstr "Inicieu la sessió per a veure les alertes."
 
@@ -6528,14 +6508,13 @@ msgid "Send test e-mail"
 msgstr "Envia un correu electrònic de prova"
 
 #: weblate/templates/manage/tools.html:45
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "Integració del control de versions"
+msgstr "Prova la integració del Sentry"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
 msgstr ""
+"Genera un esdeveniment de prova per a provar la integració amb el Sentry."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -6756,8 +6735,6 @@ msgstr ""
 "recentment."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please log in and try again later."
 msgid "You have been logged out, please sign in and try again later."
 msgstr ""
 "S'ha tancat la vostra sessió, inicieu la sessió i torneu-ho a provar més "
@@ -6997,15 +6974,11 @@ msgstr ""
 "projecte traduït."
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Aquesta equació identifica quina forma del plural s'utilitzarà basant-se en "
+"Aquesta fórmula identifica quina forma del plural s'utilitzarà basant-se en "
 "un recompte concret (n)."
 
 #: weblate/templates/snippets/project-component-settings.html:5
@@ -7061,11 +7034,9 @@ msgid "Search for…"
 msgstr "Cerca…"
 
 #: weblate/templates/snippets/query-builder.html:24
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "Coincidència exacta"
+msgstr "Exacta"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -7678,8 +7649,6 @@ msgid "Edit source string"
 msgstr "Edita la cadena d'origen"
 
 #: weblate/templates/translate.html:184
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to save translations."
 msgstr "Inicieu la sessió per a desar traduccions."
 
@@ -10363,16 +10332,12 @@ msgstr ""
 "contribuir a altres projectes."
 
 #: weblate/trans/views/dashboard.py:153
-#, fuzzy
-#| msgid ""
-#| "You have activated your account, now you should set the password to be "
-#| "able to login next time."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr ""
-"Heu activat el vostre compte, ara hauríeu de definit una contrasenya per a "
-"poder iniciar la sessió el proper cop."
+"Heu activat el vostre compte, ara hauríeu de definir una contrasenya per a "
+"poder iniciar la sessió el pròxim cop."
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."
@@ -10802,10 +10767,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Aquesta adreça electrònica no és permesa."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Could not evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "No s'ha pogut avaluar l'equació de plural: {}"
+msgstr "No s'ha pogut avaluar la fórmula del plural: {}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
