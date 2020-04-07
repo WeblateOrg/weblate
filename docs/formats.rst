@@ -735,16 +735,16 @@ Example file:
 
 .. _dotnet:
 
-.NET Resource files
+.XML resource files
 -------------------
 
 .. index::
     pair: RESX; file format
-    pair: .NET Resource; file format
+    pair: .XML resource files; file format
 
 .. versionadded:: 2.3
 
-A .NET Resource (.resx) file employs a monolingual XML file format used in Microsoft
+A .XML resource files (.resx) file employs a monolingual XML file format used in Microsoft
 .NET applications. It is [interchangeable with .resw, when using identical
 syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-localization).
 
