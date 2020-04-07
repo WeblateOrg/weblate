@@ -146,11 +146,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         source_language_validated = validated_data.get("source_language")
         if source_language_validated:
-            source_language = Language.objects.get(
+            validated_data["source_language"] = Language.objects.get(
                 code=source_language_validated.get("code")
             )
-            if source_language:
-                validated_data["source_language"] = source_language
         project = Project.objects.create(**validated_data)
         return project
 
