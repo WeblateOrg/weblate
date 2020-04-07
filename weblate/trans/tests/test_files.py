@@ -38,6 +38,7 @@ TEST_CSV_QUOTES_ESCAPED = get_test_file("cs-quotes-escaped.csv")
 TEST_PO_BOM = get_test_file("cs-bom.po")
 TEST_FUZZY_PO = get_test_file("cs-fuzzy.po")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
+TEST_POT = get_test_file("hello.pot")
 TEST_MO = get_test_file("cs.mo")
 TEST_XLIFF = get_test_file("cs.poxliff")
 TEST_ANDROID = get_test_file("strings-cs.xml")
@@ -508,7 +509,7 @@ class FormTest(SimpleTestCase):
         form.remove_translation_choice("suggest")
         self.assertEqual(
             [x[0] for x in form.fields["method"].choices],
-            ["translate", "approve", "fuzzy", "replace"],
+            ["translate", "approve", "fuzzy", "replace", "source"],
         )
 
 
@@ -531,6 +532,32 @@ class ImportReplaceTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
+
+
+class ImportSourceTest(ImportBaseTest):
+    """Testing of source strings update imports."""
+
+    test_file = TEST_POT
+
+    def setUp(self):
+        super().setUp()
+        self.kw_translation["lang"] = "en"
+        self.translation_url = reverse("translation", kwargs=self.kw_translation)
+
+    def test_import(self):
+        """Test importing normally."""
+        response = self.do_import(method="source")
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
+
+        # Verify unit
+        unit = self.get_unit()
+        self.assertEqual(unit.target, "")
 
 
 class DownloadMultiTest(ViewTestCase):

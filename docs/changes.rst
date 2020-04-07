@@ -23,6 +23,7 @@ Not yet released.
 * Fixed editing monolingual XLIFF source file.
 * Added support for exact matching in :doc:`user/search`.
 * Extended API to cover screenshots and extended creating projects.
+* Add support for source upload on bilingual translations.
 
 Weblate 3.11.3
 --------------

@@ -561,6 +561,7 @@ class SimpleUploadForm(forms.Form):
             ("suggest", _("Add as suggestion")),
             ("fuzzy", _("Add as translation needing edit")),
             ("replace", _("Replace existing translation file")),
+            ("source", _("Update source strings")),
         ),
         widget=forms.RadioSelect,
     )

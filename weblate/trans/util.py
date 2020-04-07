@@ -350,12 +350,20 @@ def get_state_css(unit):
 
 def check_upload_method_permissions(user, translation, method: str):
     """Check whether user has permission to perform upload method."""
+    if method == "source":
+        return (
+            translation.is_source
+            and not translation.filename
+            and user.has_perm("upload.perform", translation)
+        )
     if method in ("translate", "fuzzy"):
         return user.has_perm("unit.edit", translation)
     if method == "suggest":
-        return user.has_perm("suggestion.add", translation)
+        return not translation.is_readonly and user.has_perm(
+            "suggestion.add", translation
+        )
     if method == "approve":
         return user.has_perm("unit.review", translation)
     if method == "replace":
-        return user.has_perm("component.edit", translation)
+        return translation.filename and user.has_perm("component.edit", translation)
     raise ValueError(f"Invalid method: {method}")

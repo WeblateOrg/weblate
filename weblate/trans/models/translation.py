@@ -20,6 +20,7 @@
 
 import codecs
 import os
+import tempfile
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -465,18 +466,19 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return True
 
-    def get_commit_message(self, author):
+    def get_commit_message(self, author, template=None, **kwargs):
         """Format commit message based on project configuration."""
-        if self.commit_template == "add":
-            template = self.component.add_message
-            self.commit_template = ""
-        elif self.commit_template == "delete":
-            template = self.component.delete_message
-            self.commit_template = ""
-        else:
-            template = self.component.commit_message
+        if template is None:
+            if self.commit_template == "add":
+                template = self.component.add_message
+                self.commit_template = ""
+            elif self.commit_template == "delete":
+                template = self.component.delete_message
+                self.commit_template = ""
+            else:
+                template = self.component.commit_message
 
-        return render_template(template, translation=self, author=author)
+        return render_template(template, translation=self, author=author, **kwargs)
 
     def __git_commit(self, author, timestamp, signals=True):
         """Commit translation to git."""
@@ -821,6 +823,52 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         if "store" in self.__dict__:
             del self.__dict__["store"]
 
+    def handle_source(self, request, fileobj):
+        """Replace source translations with uploaded one."""
+        component = self.component
+        filenames = []
+        with component.repository.lock:
+            # Commit pending changes
+            component.commit_pending("source update", request.user)
+
+            # Create acutal file with the file
+            filename = self.get_filename()
+            temp = tempfile.NamedTemporaryFile(
+                prefix=filename, dir=os.path.dirname(filename), delete=False
+            )
+            temp.write(fileobj.read())
+            temp.close()
+
+            try:
+                # Update translation files
+                for translation in component.translation_set.exclude(
+                    language=component.project.source_language
+                ):
+                    filename = translation.get_filename()
+                    component.file_format_cls.update_bilingual(filename, temp.name)
+                    filenames.append(filename)
+            finally:
+                if os.path.exists(temp.name):
+                    if component.new_base:
+                        filename = component.get_new_base_filename()
+                        os.replace(temp.name, filename)
+                        filenames.append(filename)
+                    else:
+                        os.unlink(temp.name)
+
+            # Commit changes
+            if component.repository.needs_commit(*filenames):
+                component.repository.commit(
+                    self.get_commit_message(
+                        request.user.get_author_name(),
+                        template=component.addon_message,
+                        addon_name="Source update",
+                    ),
+                    files=filenames,
+                )
+                component.create_translations(request=request, force=True)
+                component.push_if_needed(None)
+
     def handle_replace(self, request, fileobj):
         """Replace file content with uploaded one."""
         filecopy = fileobj.read()
@@ -886,6 +934,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         if method == "replace":
             return self.handle_replace(request, fileobj)
+
+        if method == "source":
+            return self.handle_source(request, fileobj)
 
         filecopy = fileobj.read()
         fileobj.close()
