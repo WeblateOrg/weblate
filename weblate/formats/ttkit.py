@@ -731,13 +731,8 @@ class PHPUnit(KeyValueUnit):
         return self.unit.source
 
 
-class PoFormat(TTKitFormat, BilingualUpdateMixin):
-    name = _("gettext PO file")
-    format_id = "po"
+class BasePoFormat(TTKitFormat):
     loader = pofile
-    monolingual = False
-    autoload = ("*.po", "*.pot")
-    unit_class = PoUnit
 
     def is_valid(self):
         result = super().is_valid()
@@ -799,6 +794,14 @@ class PoFormat(TTKitFormat, BilingualUpdateMixin):
 
         self.store.updateheader(**kwargs)
 
+
+class PoFormat(BasePoFormat, BilingualUpdateMixin):
+    name = _("gettext PO file")
+    format_id = "po"
+    monolingual = False
+    autoload = ("*.po", "*.pot")
+    unit_class = PoUnit
+
     @classmethod
     def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
         """Wrapper around msgmerge."""
@@ -831,8 +834,13 @@ class PoFormat(TTKitFormat, BilingualUpdateMixin):
             output = getattr(error, "output", str(error))
             raise UpdateError(" ".join(cmd), output)
 
+    @classmethod
+    def get_new_file_content(cls):
+        """Empty PO file content."""
+        return b""
 
-class PoMonoFormat(PoFormat):
+
+class PoMonoFormat(BasePoFormat):
     name = _("gettext PO file (monolingual)")
     format_id = "po-mono"
     monolingual = True
