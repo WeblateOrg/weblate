@@ -511,7 +511,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             fmt = self.format_kwarg or request.query_params.get("format")
             return download_translation_file(obj, fmt)
 
-        if not user.has_perm("upload.perform", obj) or obj.component.locked:
+        if not user.has_perm("upload.perform", obj):
             raise PermissionDenied()
 
         if "file" not in request.data:
