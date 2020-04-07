@@ -826,7 +826,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         filecopy = fileobj.read()
         fileobj.close()
         fileobj = BytesIOMode(fileobj.name, filecopy)
-        with self.component.repository.lock, transaction.atomic():
+        with self.component.repository.lock:
             self.commit_pending("replace file", request.user)
             # This will throw an exception in case of error
             store2 = self.load_store(fileobj)
