@@ -245,18 +245,23 @@ Projects
 
         Project object attributes are documented at :http:get:`/api/projects/(string:project)/`.
 
+        The `source_language` for a project can be specified by sending a `source_language` object
+        in the POST data similar to see :http:get:`/api/languages/(string:language)/`
+
 .. http:post:: /api/projects/
 
     .. versionadded:: 3.9
 
     Creates a new project.
 
-    :param name: project name
+    :param name: Project name
     :type name: string
-    :param slug: project slug
+    :param slug: Project slug
     :type slug: string
-    :param web: project website
+    :param web: Project website
     :type web: string
+    :param source_language: Project source language (optional)
+    :type source_language: object
 
 .. http:get:: /api/projects/(string:project)/
 

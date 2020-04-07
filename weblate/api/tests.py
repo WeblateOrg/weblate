@@ -84,10 +84,11 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         method="get",
         request=None,
         skip=(),
+        format="multipart",
     ):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
-        response = getattr(self.client, method)(url, request)
+        response = getattr(self.client, method)(url, request, format)
         self.assertEqual(response.status_code, code)
         if data is not None:
             for item in skip:
@@ -210,6 +211,67 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Project.objects.count(), 2)
+
+    def test_create_with_source_language(self):
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=403,
+            format="json",
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "source_language": {
+                    "code": "ru",
+                    "name": "Russian",
+                    "direction": "ltr",
+                },
+            },
+        )
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "source_language": {
+                    "code": "ru",
+                    "name": "Russian",
+                    "direction": "ltr",
+                },
+            },
+        )
+        error_response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "source_language": {
+                    "code": "invalid",
+                    "name": "Invalid",
+                    "direction": "ltr",
+                },
+            },
+        )
+        self.assertEqual(Project.objects.count(), 2)
+        self.assertEqual(response.data["source_language"]["code"], "ru")
+        self.assertEqual(
+            Project.objects.get(slug="api-project").source_language.code, "ru"
+        )
+        self.assertEqual(
+            error_response.data["source_language"]["code"][0],
+            "Language with this language code was not found.",
+        )
 
     def test_create_component(self):
         self.do_request(
