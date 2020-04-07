@@ -22,6 +22,7 @@ import os
 import shutil
 from unittest import SkipTest
 
+from django.db import transaction
 from django.utils import timezone
 
 from weblate.trans.models import Component
@@ -109,9 +110,10 @@ class MultiRepoTest(ViewTestCase):
             handle.write(content)
 
         # Do changes in first repo
-        translation.git_commit(
-            self.request.user, "TEST <test@example.net>", timezone.now()
-        )
+        with transaction.atomic:
+            translation.git_commit(
+                self.request.user, "TEST <test@example.net>", timezone.now()
+            )
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
