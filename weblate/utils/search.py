@@ -265,6 +265,8 @@ def has_sql(text):
         return Q(shaping__isnull=False)
     if text == "label":
         return Q(labels__isnull=False)
+    if text == "context":
+        return ~Q(context="")
 
     raise ValueError("Unsupported has lookup: {}".format(text))
 
