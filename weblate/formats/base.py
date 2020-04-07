@@ -33,6 +33,12 @@ class UnitNotFound(Exception):
     pass
 
 
+class UpdateError(Exception):
+    def __init__(self, cmd, output):
+        self.cmd = cmd
+        self.output = output
+
+
 class TranslationUnit:
     """Wrapper for translate-toolkit unit.
 
@@ -438,3 +444,22 @@ class EmptyFormat(TranslationFormat):
 
     def save(self):
         return
+
+
+class BilingualUpdateMixin:
+    @classmethod
+    def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
+        raise NotImplementedError()
+
+    @classmethod
+    def update_bilingual(cls, filename: str, template: str, **kwargs):
+        temp = tempfile.NamedTemporaryFile(
+            prefix=filename, dir=os.path.dirname(filename), delete=False
+        )
+        temp.close()
+        try:
+            cls.do_bilingual_update(filename, temp.name, template, **kwargs)
+            os.replace(temp.name, filename)
+        finally:
+            if os.path.exists(temp.name):
+                os.unlink(temp.name)

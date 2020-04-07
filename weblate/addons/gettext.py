@@ -27,6 +27,7 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
 from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
+from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
 
 
@@ -242,33 +243,39 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return super().can_install(component, user)
 
     def update_translations(self, component, previous_head):
-        cmd = [
-            "msgmerge",
-            "--backup=none",
-            "--update",
-            "FILE",
-            component.get_new_base_filename(),
-        ]
+        template = component.get_new_base_filename()
+        args = []
         if not self.instance.configuration.get("fuzzy", True):
-            cmd.insert(1, "--no-fuzzy-matching")
+            args.append("--no-fuzzy-matching")
         if self.instance.configuration.get("previous", True):
-            cmd.insert(1, "--previous")
+            args.append("--previous")
         if self.instance.configuration.get("no_location", False):
-            cmd.insert(1, "--no-location")
+            args.append("--no-location")
         try:
             width = component.addon_set.get(
                 name="weblate.gettext.customize"
             ).configuration["width"]
             if width != 77:
-                cmd.insert(1, "--no-wrap")
+                args.append("--no-wrap")
         except ObjectDoesNotExist:
             pass
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
             if not filename or not os.path.exists(filename):
                 continue
-            cmd[-2] = filename
-            self.execute_process(component, cmd)
+            try:
+                component.file_format_cls.update_bilingual(
+                    filename, template, args=args
+                )
+            except UpdateError as error:
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": error.cmd,
+                        "output": error.output,
+                        "error": str(error),
+                    }
+                )
         self.trigger_alerts(component)
 
 

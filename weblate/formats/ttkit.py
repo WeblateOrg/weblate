@@ -21,7 +21,9 @@
 
 import importlib
 import inspect
+import os
 import re
+import subprocess
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -39,8 +41,14 @@ from translate.storage.xliff import ID_SEPARATOR, xlifffile
 
 import weblate
 from weblate.checks.flags import Flags
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    BilingualUpdateMixin,
+    TranslationFormat,
+    TranslationUnit,
+    UpdateError,
+)
 from weblate.trans.util import (
+    get_clean_env,
     get_string,
     join_plural,
     rich_to_xliff_string,
@@ -723,7 +731,7 @@ class PHPUnit(KeyValueUnit):
         return self.unit.source
 
 
-class PoFormat(TTKitFormat):
+class PoFormat(TTKitFormat, BilingualUpdateMixin):
     name = _("gettext PO file")
     format_id = "po"
     loader = pofile
@@ -790,6 +798,34 @@ class PoFormat(TTKitFormat):
             kwargs["Content_Type"] = "text/plain; charset=UTF-8"
 
         self.store.updateheader(**kwargs)
+
+    @classmethod
+    def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
+        """Wrapper around msgmerge."""
+        args = [
+            "--output-file",
+            out_file,
+            in_file,
+            template,
+        ]
+        if "args" in kwargs:
+            args = kwargs["args"] + args
+        else:
+            args = ["--previous"] + args
+
+        cmd = ["msgmerge"] + args
+        try:
+            output = subprocess.check_output(
+                cmd,
+                env=get_clean_env(),
+                cwd=os.path.dirname(out_file),
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            )
+        except (OSError, subprocess.CalledProcessError) as error:
+            report_error(cause="Failed msgmerge")
+            output = getattr(error, "output", str(error))
+            raise UpdateError(" ".join(cmd), output)
 
 
 class PoMonoFormat(PoFormat):
