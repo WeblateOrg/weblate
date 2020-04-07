@@ -30,6 +30,13 @@ Uploading translations
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
+.. image:: /images/export-import.png
+
+.. _upload-file:
+
+Supported file formats
+++++++++++++++++++++++
+
 Any file in a supported file format can be uploaded, but it is still
 recommended to use the same file format as the one used for translation, otherwise some
 features might not be translated properly.
@@ -40,6 +47,8 @@ features might not be translated properly.
 
 The uploaded file is merged to update the translation, overwriting existing
 entries by default (this can be turned off or on in the upload dialog).
+
+.. _upload-method:
 
 Import methods
 ++++++++++++++
@@ -62,7 +71,22 @@ Update source strings
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.
 
-There is also an option for how to handle strings needing edit in the imported
-file. Such strings can be handle in one of the three following ways: "Do not import", "Import as string needing edit", or "Import as translated".
 
-.. image:: /images/export-import.png
+.. _upload-fuzzy:
+
+Strings needing edit
+++++++++++++++++++++
+
+There is also an option for how to handle strings needing edit in the imported
+file. Such strings can be handle in one of the three following ways: "Do not
+import", "Import as string needing edit", or "Import as translated".
+
+.. _upload-author-name:
+.. _upload-author-email:
+
+Overriding authorship
++++++++++++++++++++++
+
+With admin permissions, you can also specify authorship of uploaded file. This
+can be useful in case you've received the file in another way and want to merge
+it into existing translations while properly crediting the actual author.
