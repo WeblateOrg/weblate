@@ -346,3 +346,16 @@ def get_state_css(unit):
     if unit.has_suggestion:
         flags.append("state-suggest")
     return flags
+
+
+def check_upload_method_permissions(user, translation, method: str):
+    """Check whether user has permission to perform upload method."""
+    if method in ("translate", "fuzzy"):
+        return user.has_perm("unit.edit", translation)
+    if method == "suggest":
+        return user.has_perm("suggestion.add", translation)
+    if method == "approve":
+        return user.has_perm("unit.review", translation)
+    if method == "replace":
+        return user.has_perm("component.edit", translation)
+    raise ValueError(f"Invalid method: {method}")

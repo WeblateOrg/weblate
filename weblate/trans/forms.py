@@ -54,7 +54,11 @@ from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_L
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
-from weblate.trans.util import is_repo_link, sort_choices
+from weblate.trans.util import (
+    check_upload_method_permissions,
+    is_repo_link,
+    sort_choices,
+)
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
@@ -610,15 +614,9 @@ def get_upload_form(user, translation, *args, **kwargs):
     else:
         form = SimpleUploadForm
     result = form(*args, **kwargs)
-    if not user.has_perm("unit.edit", translation):
-        result.remove_translation_choice("translate")
-        result.remove_translation_choice("fuzzy")
-    if not user.has_perm("suggestion.add", translation):
-        result.remove_translation_choice("suggest")
-    if not user.has_perm("unit.review", translation):
-        result.remove_translation_choice("approve")
-    if not user.has_perm("component.edit", translation):
-        result.remove_translation_choice("replace")
+    for method in [x[0] for x in result.fields["method"].choices]:
+        if not check_upload_method_permissions(user, translation, method):
+            result.remove_translation_choice(method)
     return result
 
 
