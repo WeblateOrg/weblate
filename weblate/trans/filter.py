@@ -20,6 +20,7 @@
 
 from django.utils.functional import cached_property
 from django.utils.text import format_lazy
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks import CHECKS
@@ -81,7 +82,7 @@ class FilterRegistry:
             return self.id_name[name]
         except KeyError:
             if name.startswith("label:"):
-                return _("Labeled: {}").format(name[6:])
+                return _("Labeled: {}").format(gettext(name[6:]))
             raise
 
     @cached_property

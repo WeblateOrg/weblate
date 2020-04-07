@@ -921,9 +921,10 @@ class CommentForm(forms.Form):
             "translation or generic for all of them?"
         ),
         choices=(
+            ("report", _("Report issue with the source string"),),
             (
                 "global",
-                _("Source string comment, suggestions for " "changes to this string"),
+                _("Source string comment, suggestions for changes to this string"),
             ),
             (
                 "translation",
@@ -937,6 +938,12 @@ class CommentForm(forms.Form):
         help_text=_("You can use Markdown and mention users by @username."),
         max_length=1000,
     )
+
+    def __init__(self, translation, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove bug report in case source review is not enabled
+        if not translation.component.project.source_review:
+            self.fields["scope"].choices = self.fields["scope"].choices[1:]
 
 
 class EngageForm(forms.Form):

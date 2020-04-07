@@ -173,8 +173,10 @@
                 </div>
             {% endif %}
             <label>{{ unit.translation.component.project.source_language }}</label>
-            {% perm 'unit.edit' unit.source_info as user_can_edit_template %}
-            <a title="{% trans "Edit source string" %}"href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
+            <a title="{% trans "Edit source string" %}" href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
+            {% if unit.translation.component.project.source_review %}
+            <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
+            {% endif %}
             {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
             </div>
         {% endif %}
@@ -379,7 +381,7 @@
 {% endif %}
 
 {% if user_can_add_comment %}
-<form method="post" action="{% url 'comment' pk=unit.id %}" class="auto-save-translation">
+<form method="post" action="{% url 'comment' pk=unit.id %}" class="auto-save-translation" id="comment-form">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-default">

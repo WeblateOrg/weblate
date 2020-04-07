@@ -1554,6 +1554,16 @@ $(function () {
         $('#id_q').insertAtCaret(' ' + $(this).closest('tr').find('code').text() + ' ');
     });
 
+    /* Report source bug */
+    $('.bug-comment').click(function () {
+        $('.translation-tabs a[href="#comments"]').tab('show');
+        $("#id_scope").val("report");
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $('#comment-form').offset().top
+        }, 1000);
+        $("#id_comment").focus();
+    });
+
     /* Clickable rows */
     $('tr[data-href]').click(function () {
         window.location = $(this).data('href');
