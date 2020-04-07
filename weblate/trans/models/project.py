@@ -233,7 +233,9 @@ class Project(models.Model, URLMixin, PathMixin):
 
         # Update alerts if needed
         if old is not None and old.web != self.web:
-            component_alerts.delay(self.component_set.values_list("id", flat=True))
+            component_alerts.delay(
+                list(self.component_set.values_list("id", flat=True))
+            )
 
         # Update translation memory on enabled sharing
         if update_tm:
