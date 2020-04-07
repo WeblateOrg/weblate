@@ -27,14 +27,16 @@ the repository. About repository update settings, see :ref:`update-vcs`).
 String shapings
 ---------------
 
-To see variants of one string, it can be defined as belonging to a string shaping
-by using a regular expression to group the respective strings in the :ref:`component`:
+Shapings are useful to group several strings together so that translators can
+see all variants of the string at one place. You can define regular expression
+to group the strings in the :ref:`component`:
 
 .. image:: /images/shapings-settings.png
 
-The expression compared to :guilabel:`Context`.
-All matching strings are added to the same string shaping,
-including any translations exactly matching the expression.
+The expression is matched against :guilabel:`Context` to generate root key of
+the shaping. All matching strings are then part of single shapings
+group, including the translation exactly matching the root key, even if that is
+not matched by the regular expression.
 
 The following table lists some usage examples:
 
@@ -61,5 +63,4 @@ Split component translation strings into categories by text and colour in the pr
 
 .. hint::
 
-    Labels can be assigned to units in :ref:`additional`, from bulk
-    editing, or by using the :ref:`addon-weblate.flags.bulk` addon.
+    Labels can be assigned to units in :ref:`additional` by bulk editing, or using the :ref:`addon-weblate.flags.bulk` addon.
