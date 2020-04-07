@@ -22,6 +22,7 @@ Not yet released.
 * Improved LINGUAS update addon to handle more syntax variants.
 * Fixed editing monolingual XLIFF source file.
 * Added support for exact matching in :doc:`user/search`.
+* Extended API to cover screenshots and extended creating projects.
 
 Weblate 3.11.3
 --------------
