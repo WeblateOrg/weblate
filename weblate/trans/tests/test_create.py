@@ -337,6 +337,25 @@ class CreateTest(ViewTestCase):
         self.assertContains(response, "Test/Create Component")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_scratch_bilingual(self):
+        # Make superuser
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(
+            reverse("create-component"),
+            {
+                "origin": "scratch",
+                "name": "Create Component",
+                "slug": "create-component",
+                "project": self.project.pk,
+                "file_format": "po",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Test/Create Component")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch_strings(self):
         # Make superuser
         self.user.is_superuser = True

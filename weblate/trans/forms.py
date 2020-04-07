@@ -1433,7 +1433,9 @@ class ComponentScratchCreateForm(ComponentProjectForm):
     file_format = forms.ChoiceField(
         label=_("File format"),
         initial="po-mono",
-        choices=FILE_FORMATS.get_choices(cond=lambda x: bool(x.new_translation)),
+        choices=FILE_FORMATS.get_choices(
+            cond=lambda x: bool(x.new_translation) or hasattr(x, "update_bilingual")
+        ),
     )
 
 
