@@ -11,5 +11,6 @@ coverage:
         target: '90'
 codecov:
   notify:
-    # There are currently 9 builds in the Test GitHub Action
-    after_n_builds: 9
+    # Wait for reasonable amount of tests to complete before
+    # reporting coverage
+    after_n_builds: 8
