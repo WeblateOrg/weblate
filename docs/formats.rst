@@ -757,7 +757,7 @@ syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-locali
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `.NET resource file`             |
+| File format                    | `.XML resource files`            |
 +--------------------------------+----------------------------------+
 
 .. seealso::
