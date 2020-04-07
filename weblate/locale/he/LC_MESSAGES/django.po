@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 09:03+0000\n"
-"PO-Revision-Date: 2020-04-02 21:48+0000\n"
+"PO-Revision-Date: 2020-04-08 03:31+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -264,16 +264,14 @@ msgid "Password reset confirmed, password turned off."
 msgstr "איפוס הססמה התקבל והססמה הושבתה."
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "נכנסת בעזרת {method} ({name})."
+msgstr "הוגדרה כניסה בעזרת {method} ({name})."
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "נכנסת בעזרת {method} ({name})."
+msgstr "הוסרה כניסה בעזרת {method} ({name})."
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -294,14 +292,11 @@ msgid "Somebody has attempted to register using your e-mail address."
 msgstr "מישהו ניסה להירשם עם כתובת הדוא״ל שלך."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "לא ניתן להיכנס בעזרת {method} ({name})."
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
 msgstr "החשבון ננעל עקב ריבוי ניסיונות כניסה כושלים."
 
@@ -315,16 +310,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "הסכמה לתנאי השירות {date}."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "ניתן לתרום למיזם Weblate באתר {0}"
+msgstr "התקבלה הזמנה ל־Weblate ע״י {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "הגדרת הססמה"
+msgstr "הוגדרה כניסה בססמה."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -335,8 +327,6 @@ msgid "Signed in using password from a new device."
 msgstr "נכנסת בעזרת ססמה ממכשיר חדש."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
 msgstr "לא ניתן להיכנס בעזרת ססמה."
 
@@ -710,6 +700,8 @@ msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
 msgstr ""
+"לא ניתן להסיר את זהות המשתמש האחרון עם דוא״ל מאומת. נא לאמת את כתובת הדוא״ל "
+"שלך תחילה."
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -759,10 +751,6 @@ msgid "Notification settings adjusted."
 msgstr "הגדרות ההתראות הותאמו."
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "The notification change link is no longer valid, please log in to "
-#| "configure notifications."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -2048,12 +2036,11 @@ msgid "Inconsistent"
 msgstr "לא אחיד"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "למחרוזת זו יש יותר מתרגום אחד בתוך מיזם זה"
+msgstr ""
+"למחרוזת זו יש יותר מתרגום אחד בתוך מיזם זה או שאינה מתורגמת בחלק מהרכיבים."
 
 #: weblate/checks/consistency.py:113
 msgid "Has been translated"
@@ -2218,8 +2205,6 @@ msgid "Java MessageFormat string does not match source"
 msgstr "המחרוזת בתבנית Java MessageFormat אינה תואמת למקור"
 
 #: weblate/checks/format.py:433
-#, fuzzy
-#| msgid "You need to screen an apostrophe with another one."
 msgid "You need to pair up an apostrophe with another one."
 msgstr "יש להעמיד מירכא מול אחד נוסף (מספר זוגי של מירכאות בודדות)."
 
@@ -2232,16 +2217,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "שזירת ה־i18next אינה תואמת למקור"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Placeholders"
 msgid "Percent placeholders"
-msgstr "ממלאי מקום"
+msgstr "ממלאי מקום עם אחוזים"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "The percent interpolation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "שזירת האחוזים אינה תואמת למקור"
+msgstr "ממלאי המקום עם האחוזים אינם תואמים למקור"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2817,10 +2798,8 @@ msgstr "מספר צורות הריבוי"
 
 #: weblate/lang/models.py:528 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
-msgstr "צורת ריבוי"
+msgstr "נוסחת ריבוי"
 
 #: weblate/lang/models.py:533 weblate/templates/language.html:81
 msgid "Plural type"
@@ -4707,14 +4686,10 @@ msgid "You don't have permission to start a new translation"
 msgstr "אין לך הרשאה להתחיל תרגום חדש"
 
 #: weblate/templates/component.html:142
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to start new translation"
 msgstr "נא להיכנס כדי להתחיל תרגום חדש"
 
 #: weblate/templates/component.html:158
-#, fuzzy
-#| msgid "Please log in to see the alerts."
 msgid "Please sign in to see the alerts."
 msgstr "נא להיכנס כדי לצפות בהתראות."
 
@@ -6335,14 +6310,12 @@ msgid "Send test e-mail"
 msgstr "שליחת דוא״ל לבדיקה"
 
 #: weblate/templates/manage/tools.html:45
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "שילוב מערכת בקרת גרסאות"
+msgstr "בדיקת שילוב עם Sentry"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
-msgstr ""
+msgstr "יצירת אירוע בדיקה כדי לבדוק את השילוב עם Sentry."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -6552,8 +6525,6 @@ msgid ""
 msgstr "הבקשה שלך נדחתה כיוון שביצעת יותר מדי פעולות לאחרונה."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please log in and try again later."
 msgid "You have been logged out, please sign in and try again later."
 msgstr "יצאת מהחשבון, נא להיכנס ולנסות שוב."
 
@@ -6778,14 +6749,10 @@ msgstr ""
 "הגשות ולאספקת התרומה שלך תחת הרישיונות שהוגדרו לכל מיזם תרגום באופן עצמאי."
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
-msgstr "משוואה זו מגדירה באיזו צורת רבים להשתמש על בסיס ספירה נתונה (n)."
+msgstr "נוסחה זו מגדירה באיזו צורת רבים להשתמש על בסיס ספירה נתונה (n)."
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -6838,11 +6805,9 @@ msgid "Search for…"
 msgstr "חיפוש אחר…"
 
 #: weblate/templates/snippets/query-builder.html:24
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "התאמה מדויקת"
+msgstr "מדויקת"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -7424,8 +7389,6 @@ msgid "Edit source string"
 msgstr "עריכת מחרוזת מקור"
 
 #: weblate/templates/translate.html:184
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to save translations."
 msgstr "נא להיכנס כדי לשמור תרגומים."
 
@@ -10062,10 +10025,6 @@ msgid ""
 msgstr "המיזם המבוקש הוסר, עם זאת ניתן לתרום למיזמים אחרים."
 
 #: weblate/trans/views/dashboard.py:153
-#, fuzzy
-#| msgid ""
-#| "You have activated your account, now you should set the password to be "
-#| "able to login next time."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -10493,10 +10452,8 @@ msgid "This e-mail address is disallowed."
 msgstr "כתובת דוא״ל זו אינה מורשית."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Could not evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "לא ניתן להעריך את משוואת הריבוי: {}"
+msgstr "לא ניתן להעריך את נוסחת הריבוי: {}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
