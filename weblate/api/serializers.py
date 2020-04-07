@@ -24,7 +24,7 @@ from rest_framework import serializers
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, Project, Translation, Unit
-from weblate.trans.util import cleanup_repo_url
+from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 
@@ -377,16 +377,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
         if data["overwrite"] and not user.has_perm("upload.overwrite", obj):
             raise PermissionDenied()
 
-        if not user.has_perm("unit.edit", obj) and data["method"] in (
-            "translate",
-            "fuzzy",
-        ):
-            raise PermissionDenied()
-        if not user.has_perm("suggestion.add", obj) and data["method"] == "suggest":
-            raise PermissionDenied()
-        if not user.has_perm("unit.review", obj) and data["method"] == "approve":
-            raise PermissionDenied()
-        if not user.has_perm("component.edit", obj) and data["method"] == "replace":
+        if not check_upload_method_permissions(user, obj, data["method"]):
             raise PermissionDenied()
 
 
