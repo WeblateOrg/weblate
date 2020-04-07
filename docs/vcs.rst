@@ -402,6 +402,8 @@ users to maintain a full clone of the internal repository and commit locally.
     supports both direct URLs for branch or repositories with standard layout
     (branches/, tags/ and trunk/). More info about this is to be foud in the
     `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
+    If your repository does not have a standard layout and you encounter erros,
+    try including the branch name in the repository URL and leaving branch empty.
 
 .. versionchanged:: 2.19
 
