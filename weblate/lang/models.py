@@ -443,10 +443,11 @@ class Language(models.Model):
 
     def save(self, *args, **kwargs):
         """Set default direction for language."""
-        if self.base_code in data.RTL_LANGS:
-            self.direction = "rtl"
-        else:
-            self.direction = "ltr"
+        if not self.direction:
+            if self.base_code in data.RTL_LANGS:
+                self.direction = "rtl"
+            else:
+                self.direction = "ltr"
         return super().save(*args, **kwargs)
 
     @cached_property
