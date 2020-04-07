@@ -148,3 +148,29 @@ Reviews can be turned on in the project configuration, from the
     Depending on Weblate configuration, the setting might not be available to
     you. For example on Hosted Weblate this is not available for projects hosted
     for free.
+
+.. _source-reviews:
+
+Source strings reviews
+----------------------
+
+With :ref:`project-source_review` enabled, the review process can be applied on
+the source strings. Once enabled, users can report issues in the source
+strings.  The actual process depends on whether you use bilingual or
+monolingual formats.
+
+For monolingual formats, the source string review behaves similarly as with
+:ref:`reviews` - once issue is reported on the source string, it is marked as
+:guilabel:`Needs editing`.
+
+The bilingual formats do not allow direct editing of the source strings (these
+are typically extracted directly from the source code). In this case
+:guilabel:`Source needs review` label is attached to strings reported by
+translators. You should review such strings and either edit them in the source
+or remove the label.
+
+.. seealso::
+
+    :ref:`bimono`,
+    :ref:`reviews`,
+    :ref:`labels`

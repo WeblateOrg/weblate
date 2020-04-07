@@ -78,10 +78,10 @@ def borg(cmd, env=None):
             env=get_clean_env(env),
         ).decode()
     except EnvironmentError as error:
-        report_error(error)
+        report_error()
         raise BackupError("Could not execute borg program: {}".format(error))
     except subprocess.CalledProcessError as error:
-        report_error(error, extra_data={"stdout": error.stdout.decode()})
+        report_error(extra_data={"stdout": error.stdout.decode()})
         raise BackupError(error.stdout.decode())
 
 

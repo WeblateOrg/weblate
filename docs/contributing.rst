@@ -98,6 +98,8 @@ Testsuite and CI
 Testsuites exist for most of the current code, increase coverage by adding testcases for any new
 functionality, and verify that it works.
 
+.. _ci-tests:
+
 Continuous integration
 ++++++++++++++++++++++
 
@@ -140,6 +142,20 @@ To run a testsuite locally, use:
 .. code-block:: sh
 
     DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py test
+
+.. hint::
+
+   You will need a database (PostgreSQL) server to be used for tests. By
+   default Django creates separate database to run tests with ``test_`` prefix,
+   so in case your settings is configured to use ``weblate``, the tests will
+   use ``test_weblate`` database. See :ref:`database-setup` for setup
+   instructions.
+
+The :file:`weblate/settings_test.py` is used in CI environment as well (see
+:ref:`ci-tests`) and can be tuned using environment variables:
+
+.. literalinclude:: ../scripts/test-database
+   :language: sh
 
 You can also specify individual tests to run:
 
@@ -213,10 +229,29 @@ Quick overview of directory structure of Weblate main repository:
 ``weblate/static``
    Client files (CSS, Javascript and images).
 
+Running Weblate locally
+-----------------------
+
+The most comfortable approach to get started with Weblate development is to
+follow :ref:`quick-source`. It will get you a virtual env with editable Weblate
+sources.
+
+To start a development server run:
+
+.. code-block:: sh
+
+   weblate runserver
+
+Depending on your configuration you might also want to start Celery workers:
+
+.. code-block:: sh
+
+   ./weblate/examples/celery start
+
 .. _dev-docker:
 
 Running Weblate locally in Docker
----------------------------------
++++++++++++++++++++++++++++++++++
 
 If you have Docker and docker-compose installed, you can spin up the development
 environment simply by running:
@@ -226,7 +261,7 @@ environment simply by running:
    ./rundev.sh
 
 It will create development Docker image and start it. Weblate is running on
-<http://127.0.0.1:8080/> and you can login with ``admin`` user and ``admin``
+<http://127.0.0.1:8080/> and you can sign in with ``admin`` user and ``admin``
 password. The new installation is empty, so you might want to continue with
 :ref:`adding-projects`.
 

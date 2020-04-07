@@ -287,101 +287,6 @@ Weblate.
 
 .. _hub: https://hub.github.com/
 
-.. _vcs-gerrit:
-
-Gerrit
-------
-
-.. versionadded:: 2.2
-
-Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
-pushing translation changes as Gerrit review requests, instead of
-pushing a directory to the repository.
-
-The Gerrit documentation has the details on the configuration necessary to set up
-such repositories.
-
-.. _git-review: https://pypi.org/project/git-review/
-
-.. _vcs-mercurial:
-
-Mercurial
----------
-
-.. versionadded:: 2.1
-
-Mercurial is another VCS you can use directly in Weblate.
-
-.. note::
-
-    It should work with any Mercurial version, but there are sometimes
-    incompatible changes to the command-line interface which breaks Weblate
-    integration.
-
-.. seealso::
-
-    See :ref:`vcs-repos` for info on how to access different kinds of
-    repositories.
-
-.. _vcs-git-svn:
-
-Subversion
-----------
-
-.. versionadded:: 2.8
-
-Weblate uses `git-svn`_ to interact with `subversion`_ repositories. It is
-a Perl script that lets subversion be used by a Git client, enabling
-users to maintain a full clone of the internal repository and commit locally.
-
-.. note::
-
-    Weblate tries to detect Subversion repository layout automatically - it
-    supports both direct URLs for branch or repositories with standard layout
-    (branches/, tags/ and trunk/). More info about this is to be foud in the
-    `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
-
-.. versionchanged:: 2.19
-
-    Before this, there was only support for standard layout repositories.
-
-.. _git-svn: https://git-scm.com/docs/git-svn
-
-.. _subversion: https://subversion.apache.org/
-
-Subversion credentials
-++++++++++++++++++++++
-
-Weblate expects you to have accepted the certificate up-front and if needed,
-your credentials. It will look to insert them into the DATA_DIR directory.
-Accept the certificate by using `svn` once with the `$HOME` environment variable set to the DATA_DIR:
-
-.. code-block:: sh
-
-    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
-    HOME=${DATA_DIR}/home svn co https://svn.example.com/example
-
-.. seealso::
-
-    :setting:`DATA_DIR`
-
-
-.. _vcs-local:
-
-Local files
------------
-
-.. versionadded:: 3.8
-
-Weblate can also operate without a remote VCS. The initial translations are
-imported by uploading them. Later you can replace individual files by file upload,
-or add translation strings directly from Weblate (currently available only for
-monolingual translations).
-
-In the background Weblate creates a Git repository for you and all changes are
-tracked in in. In case you later decide to use a VCS to store the translations,
-you already have a repo within Weblate can base your integration on.
-
 .. _vcs-gitlab:
 
 GitLab
@@ -443,3 +348,100 @@ the user running Weblate.
     Docker image).
 
 .. _lab: https://github.com/zaquestion/lab
+
+.. _vcs-gerrit:
+
+Gerrit
+------
+
+.. versionadded:: 2.2
+
+Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
+pushing translation changes as Gerrit review requests, instead of
+pushing a directory to the repository.
+
+The Gerrit documentation has the details on the configuration necessary to set up
+such repositories.
+
+.. _git-review: https://pypi.org/project/git-review/
+
+.. _vcs-mercurial:
+
+Mercurial
+---------
+
+.. versionadded:: 2.1
+
+Mercurial is another VCS you can use directly in Weblate.
+
+.. note::
+
+    It should work with any Mercurial version, but there are sometimes
+    incompatible changes to the command-line interface which breaks Weblate
+    integration.
+
+.. seealso::
+
+    See :ref:`vcs-repos` for info on how to access different kinds of
+    repositories.
+
+.. _vcs-git-svn:
+
+Subversion
+----------
+
+.. versionadded:: 2.8
+
+Weblate uses `git-svn`_ to interact with `subversion`_ repositories. It is
+a Perl script that lets subversion be used by a Git client, enabling
+users to maintain a full clone of the internal repository and commit locally.
+
+.. note::
+
+    Weblate tries to detect Subversion repository layout automatically - it
+    supports both direct URLs for branch or repositories with standard layout
+    (branches/, tags/ and trunk/). More info about this is to be foud in the
+    `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
+    If your repository does not have a standard layout and you encounter erros,
+    try including the branch name in the repository URL and leaving branch empty.
+
+.. versionchanged:: 2.19
+
+    Before this, there was only support for standard layout repositories.
+
+.. _git-svn: https://git-scm.com/docs/git-svn
+
+.. _subversion: https://subversion.apache.org/
+
+Subversion credentials
+++++++++++++++++++++++
+
+Weblate expects you to have accepted the certificate up-front and if needed,
+your credentials. It will look to insert them into the DATA_DIR directory.
+Accept the certificate by using `svn` once with the `$HOME` environment variable set to the DATA_DIR:
+
+.. code-block:: sh
+
+    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
+    HOME=${DATA_DIR}/home svn co https://svn.example.com/example
+
+.. seealso::
+
+    :setting:`DATA_DIR`
+
+
+.. _vcs-local:
+
+Local files
+-----------
+
+.. versionadded:: 3.8
+
+Weblate can also operate without a remote VCS. The initial translations are
+imported by uploading them. Later you can replace individual files by file upload,
+or add translation strings directly from Weblate (currently available only for
+monolingual translations).
+
+In the background Weblate creates a Git repository for you and all changes are
+tracked in in. In case you later decide to use a VCS to store the translations,
+you already have a repo within Weblate can base your integration on.

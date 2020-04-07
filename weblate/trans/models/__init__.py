@@ -159,8 +159,11 @@ def change_labels(sender, instance, **kwargs):
 def update_comment_flag(sender, instance, **kwargs):
     """Update related unit comment flags."""
     # Update unit stats
-    if instance.unit.update_has_comment():
-        instance.unit.translation.invalidate_cache()
+    try:
+        if instance.unit.update_has_comment():
+            instance.unit.translation.invalidate_cache()
+    except Unit.DoesNotExist:
+        pass
 
 
 @receiver(post_delete, sender=Suggestion)
@@ -169,8 +172,11 @@ def update_comment_flag(sender, instance, **kwargs):
 def update_suggestion_flag(sender, instance, **kwargs):
     """Update related unit suggestion flags."""
     # Update unit stats
-    if instance.unit.update_has_suggestion():
-        instance.unit.translation.invalidate_cache()
+    try:
+        if instance.unit.update_has_suggestion():
+            instance.unit.translation.invalidate_cache()
+    except Unit.DoesNotExist:
+        pass
 
 
 @receiver(user_pre_delete)

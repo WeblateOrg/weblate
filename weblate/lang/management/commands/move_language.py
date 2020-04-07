@@ -57,7 +57,7 @@ class Command(BaseCommand):
 
         for plural in source.plural_set.iterator():
             try:
-                new_plural = target.plural_set.get(equation=plural.equation)
+                new_plural = target.plural_set.get(formula=plural.formula)
                 plural.translation_set.update(plural=new_plural)
             except Plural.DoesNotExist:
                 plural.language = target

@@ -28,9 +28,9 @@ class MyMemoryTranslation(MachineTranslation):
 
     name = "MyMemory"
 
-    def convert_language(self, language):
+    def map_language_code(self, code):
         """Convert language to service specific code."""
-        return language.replace("_", "-").lower()
+        return code.replace("_", "-").lower()
 
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
@@ -71,7 +71,7 @@ class MyMemoryTranslation(MachineTranslation):
 
         return result
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from MyMemory."""
         args = {
             "q": text.split(". ")[0][:500],

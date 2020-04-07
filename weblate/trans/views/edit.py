@@ -29,6 +29,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
 from weblate.checks import CHECKS
@@ -327,7 +328,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
             )
             return False
     elif mode in ("delete", "spam"):
-        if not user.has_perm("suggestion.delete", suggestion, translation):
+        if not user.has_perm("suggestion.delete", suggestion):
             messages.error(
                 request, _("You do not have privilege to delete suggestions!")
             )
@@ -509,9 +510,10 @@ def translate(request, project, component, lang):
             "form": form,
             "antispam": antispam,
             "comment_form": CommentForm(
+                translation,
                 initial={
                     "scope": "global" if unit.translation.is_source else "translation"
-                }
+                },
             ),
             "context_form": ContextForm(instance=unit.source_info, user=request.user),
             "search_form": search_result["form"].reset_offset(),
@@ -565,17 +567,35 @@ def auto_translation(request, project, component, lang):
 def comment(request, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)
-    request.user.check_access(unit.translation.component.project)
+    component = unit.translation.component
+    request.user.check_access(component.project)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied()
 
-    form = CommentForm(request.POST)
+    form = CommentForm(unit.translation, request.POST)
 
     if form.is_valid():
-        if form.cleaned_data["scope"] == "global":
+        # Is this source or target comment?
+        if form.cleaned_data["scope"] in ("global", "report"):
             scope = unit.source_info
+        # Create comment object
         Comment.objects.add(scope, request.user, form.cleaned_data["comment"])
+        # Add review label/flag
+        if form.cleaned_data["scope"] == "report":
+            if component.has_template():
+                if scope.translated and not scope.readonly:
+                    scope.translate(
+                        request.user,
+                        scope.target,
+                        STATE_FUZZY,
+                        change_action=Change.ACTION_MARKED_EDIT,
+                    )
+            else:
+                label = component.project.label_set.get_or_create(
+                    name=gettext_noop("Source needs review"), defaults={"color": "red"}
+                )[0]
+                scope.labels.add(label)
         messages.success(request, _("Posted new comment"))
     else:
         messages.error(request, _("Failed to add comment!"))
@@ -591,7 +611,7 @@ def delete_comment(request, pk):
     project = comment_obj.unit.translation.component.project
     request.user.check_access(project)
 
-    if not request.user.has_perm("comment.delete", comment_obj, project):
+    if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
 
     fallback_url = comment_obj.unit.get_absolute_url()
@@ -610,7 +630,7 @@ def resolve_comment(request, pk):
     project = comment_obj.unit.translation.component.project
     request.user.check_access(project)
 
-    if not request.user.has_perm("comment.delete", comment_obj, project):
+    if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
 
     fallback_url = comment_obj.unit.get_absolute_url()

@@ -225,6 +225,6 @@ class AppStoreFormat(TranslationFormat):
         try:
             AppStoreParser(base)
             return True
-        except Exception as error:
-            report_error(error, prefix="File parse error")
+        except Exception:
+            report_error(cause="File parse error")
             return False

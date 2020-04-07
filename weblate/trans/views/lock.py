@@ -22,6 +22,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
+from weblate.trans.tasks import perform_commit
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.views import get_component, get_project
@@ -36,6 +37,7 @@ def lock_component(request, project, component):
         raise PermissionDenied()
 
     obj.do_lock(request.user)
+    perform_commit.delay(obj.pk, "lock", None)
 
     messages.success(request, _("Component is now locked for translation updates!"))
 
@@ -67,6 +69,7 @@ def lock_project(request, project):
 
     for component in obj.component_set.iterator():
         component.do_lock(request.user)
+        perform_commit.delay(component.pk, "lock", None)
 
     messages.success(
         request, _("All components are now locked for translation updates!")

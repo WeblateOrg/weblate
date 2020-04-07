@@ -24,15 +24,15 @@ from django.db import models
 
 class ContributorAgreementManager(models.Manager):
     def has_agreed(self, user, component):
-        cache_key = ("cla", user.pk, component.pk)
-        if cache_key not in user.perm_cache:
-            user.perm_cache[cache_key] = self.filter(
+        cache_key = (user.pk, component.pk)
+        if cache_key not in user.cla_cache:
+            user.cla_cache[cache_key] = self.filter(
                 component=component, user=user
             ).exists()
-        return user.perm_cache[cache_key]
+        return user.cla_cache[cache_key]
 
     def create(self, user, component, **kwargs):
-        user.perm_cache[("cla", user.pk, component.pk)] = True
+        user.cla_cache[(user.pk, component.pk)] = True
         return super().create(user=user, component=component, **kwargs)
 
     def order(self):

@@ -78,7 +78,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
         return result
 
     def update_translations(self, component, previous_head):
-        index = self.build_index(self.template_store)
+        index, intermediate = self.build_indexes()
+
         if previous_head:
             content = component.repository.get_file(component.template, previous_head)
             changes = self.find_changes(index, RESXFile.parsestring(content))
@@ -86,4 +87,9 @@ class ResxUpdateAddon(BaseCleanupAddon):
             # No previous revision, probably first commit
             changes = set()
         for translation in self.iterate_translations(component):
-            self.update_resx(index, translation, translation.store, changes)
+            self.update_resx(
+                self.get_index(index, intermediate, translation),
+                translation,
+                translation.store,
+                changes,
+            )

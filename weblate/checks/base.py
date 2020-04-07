@@ -34,6 +34,7 @@ class Check:
     default_disabled = False
     severity = "info"
     batch_update = False
+    propagates = False
     param_type = None
 
     def get_identifier(self):

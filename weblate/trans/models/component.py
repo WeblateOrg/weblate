@@ -274,6 +274,18 @@ class Component(models.Model, URLMixin, PathMixin):
             "for monolingual translations."
         ),
     )
+    intermediate = models.CharField(
+        verbose_name=gettext_lazy("Intermediate language file"),
+        max_length=FILENAME_LENGTH,
+        blank=True,
+        help_text=gettext_lazy(
+            "Filename of intermediate translation file. In most cases "
+            "this is a translation file provided by developers and is "
+            "used when creating actual source strings."
+        ),
+        validators=[validate_filename],
+    )
+
     new_base = models.CharField(
         verbose_name=gettext_lazy("Template for new translations"),
         max_length=FILENAME_LENGTH,
@@ -707,8 +719,8 @@ class Component(models.Model, URLMixin, PathMixin):
         """Return latest locally known remote commit."""
         try:
             revision = self.repository.last_remote_revision
-        except RepositoryException as error:
-            report_error(error, prefix="Could not get remote revision")
+        except RepositoryException:
+            report_error(cause="Could not get remote revision")
             return None
         return self.repository.get_revision_info(revision)
 
@@ -823,7 +835,7 @@ class Component(models.Model, URLMixin, PathMixin):
                     self.delete_alert("UpdateFailure")
             return True
         except RepositoryException as error:
-            report_error(error, prefix="Could not update the repository")
+            report_error(cause="Could not update the repository")
             error_text = self.error_text(error)
             if validate:
                 self.handle_update_error(error_text, retry)
@@ -855,6 +867,8 @@ class Component(models.Model, URLMixin, PathMixin):
     def uses_changed_files(self, changed):
         """Detect whether list of changed files matches configuration."""
         if self.template and self.template in changed:
+            return True
+        if self.intermediate and self.intermediate in changed:
             return True
         for path in changed:
             if self.filemask_re.match(path):
@@ -991,7 +1005,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 if self.id:
                     self.delete_alert("PushFailure")
         except RepositoryException as error:
-            report_error(error, prefix="Could not to push the repo")
+            report_error(cause="Could not to push the repo")
             error_text = self.error_text(error)
             Change.objects.create(
                 action=Change.ACTION_FAILED_PUSH,
@@ -1041,8 +1055,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_info("resetting to remote repo")
             with self.repository.lock:
                 self.repository.reset()
-        except RepositoryException as error:
-            report_error(error, prefix="Could not reset the repository")
+        except RepositoryException:
+            report_error(cause="Could not reset the repository")
             messages.error(
                 request, _("Could not reset to remote branch on %s.") % force_str(self)
             )
@@ -1070,8 +1084,8 @@ class Component(models.Model, URLMixin, PathMixin):
             self.log_info("cleaning up the repo")
             with self.repository.lock:
                 self.repository.cleanup()
-        except RepositoryException as error:
-            report_error(error, prefix="Could not clean the repository")
+        except RepositoryException:
+            report_error(cause="Could not clean the repository")
             messages.error(
                 request, _("Could not clean the repository on %s.") % force_str(self)
             )
@@ -1124,7 +1138,6 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def handle_parse_error(self, error, translation=None):
         """Handler for parse errors."""
-        report_error(error, prefix="Parse error")
         error_message = getattr(error, "strerror", "")
         if not error_message:
             error_message = force_str(error).replace(self.full_path, "")
@@ -1178,7 +1191,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
             except RepositoryException as error:
                 # Report error
-                report_error(error, prefix="Failed {}".format(method))
+                report_error(cause="Failed {}".format(method))
 
                 # In case merge has failer recover
                 error = self.error_text(error)
@@ -1245,6 +1258,9 @@ class Component(models.Model, URLMixin, PathMixin):
                 matches.discard(filename)
 
         if self.has_template():
+            # We do not want to show intermediate translation standalone
+            if self.intermediate:
+                matches.discard(self.intermediate)
             # We want to list template among translations as well
             matches.discard(self.template)
             return [self.template] + sorted(matches)
@@ -1614,6 +1630,18 @@ class Component(models.Model, URLMixin, PathMixin):
             msg = _("You can not use a base file for bilingual translation.")
             raise ValidationError({"template": msg, "file_format": msg})
 
+        # Prohibit intermediate usage without template
+        if self.intermediate and not self.template:
+            msg = _(
+                "Intermediate language file can not be used without editing template."
+            )
+            raise ValidationError({"template": msg, "intermediate": msg})
+        if self.intermediate and not self.edit_template:
+            msg = _(
+                "Intermediate language file can not be used without editing template."
+            )
+            raise ValidationError({"edit_template": msg, "intermediate": msg})
+
         # Special case for Gettext
         if self.template.endswith(".pot") and self.filemask.endswith(".po"):
             msg = _("Using a .pot file as base file is unsupported.")
@@ -1624,6 +1652,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Validate template loading
         if self.has_template():
+            self.create_template_if_missing()
             full_path = os.path.join(self.full_path, self.template)
             if not os.path.exists(full_path):
                 msg = _("Could not find template file.")
@@ -1727,11 +1756,43 @@ class Component(models.Model, URLMixin, PathMixin):
         """Create absolute filename for template."""
         return os.path.join(self.full_path, self.template)
 
+    def get_intermediate_filename(self):
+        """Create absolute filename for intermediate."""
+        return os.path.join(self.full_path, self.intermediate)
+
     def get_new_base_filename(self):
         """Create absolute filename for base file for new translations."""
         if not self.new_base:
             return None
         return os.path.join(self.full_path, self.new_base)
+
+    def create_template_if_missing(self):
+        """Create blank template in case intermediate language is enabled."""
+        fullname = self.get_template_filename()
+        if (
+            not self.intermediate
+            or not self.is_valid_base_for_new()
+            or os.path.exists(fullname)
+            or not os.path.exists(self.get_intermediate_filename())
+        ):
+            return
+        self.file_format_cls.add_language(
+            fullname, self.project.source_language, self.get_new_base_filename()
+        )
+
+        message = render_template(
+            self.add_message,
+            translation=Translation(
+                filename=self.template,
+                language_code=self.project.source_language.code,
+                language=self.project.source_language,
+                component=self,
+            ),
+        )
+        with self.repository.lock:
+            self.repository.commit(
+                message, "Weblate <noreply@weblate.org>", timezone.now(), [fullname]
+            )
 
     def save(self, *args, **kwargs):
         """Save wrapper.
@@ -1757,12 +1818,14 @@ class Component(models.Model, URLMixin, PathMixin):
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
             )
+            changed_template = (old.intermediate != self.intermediate) or (
+                old.template != self.template
+            )
             changed_setup = (
                 (old.file_format != self.file_format)
                 or (old.edit_template != self.edit_template)
-                or (old.template != self.template)
+                or changed_template
             )
-            changed_template = old.template != self.template
             changed_shaping = old.shaping_regex != self.shaping_regex
             # Detect slug changes and rename git repo
             self.check_rename(old)
@@ -1773,6 +1836,7 @@ class Component(models.Model, URLMixin, PathMixin):
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
         self.template = cleanup_path(self.template)
+        self.intermediate = cleanup_path(self.intermediate)
         self.new_base = cleanup_path(self.new_base)
 
         # Save/Create object
@@ -1805,6 +1869,9 @@ class Component(models.Model, URLMixin, PathMixin):
         # Configure git repo if there were changes
         if changed_git:
             self.sync_git_repo(skip_push=skip_push)
+
+        # Create template in case intermediate file is present
+        self.create_template_if_missing()
 
         # Rescan for possibly new translations if there were changes, needs to
         # be done after actual creating the object above
@@ -1937,7 +2004,7 @@ class Component(models.Model, URLMixin, PathMixin):
         try:
             return self.repository.needs_push()
         except RepositoryException as error:
-            report_error(error, prefix="Could check push needed")
+            report_error(cause="Could check push needed")
             self.add_alert("PushFailure", error=self.error_text(error))
             return False
 
@@ -1957,13 +2024,31 @@ class Component(models.Model, URLMixin, PathMixin):
         monolingual = self.file_format_cls.monolingual
         return (monolingual or monolingual is None) and self.template
 
-    def load_template_store(self):
-        """Load translate-toolkit store for template."""
-        return self.file_format_cls.parse(self.get_template_filename())
-
     def drop_template_store_cache(self):
         if "template_store" in self.__dict__:
             del self.__dict__["template_store"]
+        if "intermediate_store" in self.__dict__:
+            del self.__dict__["intermediate_store"]
+
+    def load_intermediate_store(self):
+        """Load translate-toolkit store for intermediate."""
+        return self.file_format_cls.parse(self.get_intermediate_filename())
+
+    @cached_property
+    def intermediate_store(self):
+        """Get translate-toolkit store for intermediate."""
+        # Do we need template?
+        if not self.has_template() or not self.intermediate:
+            return None
+
+        try:
+            return self.load_intermediate_store()
+        except Exception as exc:
+            self.handle_parse_error(exc)
+
+    def load_template_store(self):
+        """Load translate-toolkit store for template."""
+        return self.file_format_cls.parse(self.get_template_filename())
 
     @cached_property
     def template_store(self):
@@ -1974,8 +2059,9 @@ class Component(models.Model, URLMixin, PathMixin):
 
         try:
             return self.load_template_store()
-        except Exception as exc:
-            self.handle_parse_error(exc)
+        except Exception as error:
+            report_error(cause="Template parse error")
+            self.handle_parse_error(error)
 
     @cached_property
     def all_flags(self):

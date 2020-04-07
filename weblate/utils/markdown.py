@@ -37,8 +37,8 @@ def get_mentions(text):
 
 
 class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
-    def link(self, content, link, title=""):
-        result = super().link(content, link, title)
+    def link(self, content, raw_url, title=""):
+        result = super().link(content, raw_url, title)
         return result.replace(' href="', ' rel="ugc" href="')
 
     def check_url(self, url, is_image_src=False):

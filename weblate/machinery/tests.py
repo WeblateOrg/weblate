@@ -268,10 +268,14 @@ class MachineTranslationTest(TestCase):
     def test_translate(self):
         machine_translation = self.get_machine(DummyTranslation)
         self.assertEqual(
-            machine_translation.translate("cs", "Hello", MockUnit(), None), []
+            machine_translation.translate(MockUnit(code="cs", source="Hello")), []
         )
         self.assertEqual(
-            len(machine_translation.translate("cs", "Hello, world!", MockUnit(), None)),
+            len(
+                machine_translation.translate(
+                    MockUnit(code="cs", source="Hello, world!")
+                )
+            ),
             2,
         )
 
@@ -280,7 +284,7 @@ class MachineTranslationTest(TestCase):
         self.assertEqual(
             len(
                 machine_translation.translate(
-                    "cs_CZ", "Hello, world!", MockUnit(), None
+                    MockUnit(code="cs_CZ", source="Hello, world!")
                 )
             ),
             2,
@@ -289,12 +293,14 @@ class MachineTranslationTest(TestCase):
     def test_translate_fallback_missing(self):
         machine_translation = self.get_machine(DummyTranslation)
         self.assertEqual(
-            machine_translation.translate("de_CZ", "Hello, world!", MockUnit(), None),
+            machine_translation.translate(
+                MockUnit(code="de_CZ", source="Hello, world!"),
+            ),
             [],
         )
 
     def assert_translate(self, machine, lang="cs", word="world", empty=False):
-        translation = machine.translate(lang, word, MockUnit(), None)
+        translation = machine.translate(MockUnit(code=lang, source=word))
         self.assertIsInstance(translation, list)
         if not empty:
             self.assertTrue(translation)
@@ -759,13 +765,7 @@ class MachineTranslationTest(TestCase):
 class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self):
         machine = WeblateTranslation()
-        unit = Unit.objects.filter(translation__language_code="cs")[0]
-        results = machine.translate(
-            unit.translation.language.code,
-            unit.get_source_plurals()[0],
-            unit,
-            self.user,
-        )
+        results = machine.translate(self.get_unit(), self.user)
         self.assertEqual(results, [])
 
     def test_exists(self):
@@ -778,10 +778,5 @@ class WeblateTranslationTest(FixtureTestCase):
         other.save()
         # Perform lookup
         machine = WeblateTranslation()
-        results = machine.translate(
-            unit.translation.language.code,
-            unit.get_source_plurals()[0],
-            unit,
-            self.user,
-        )
+        results = machine.translate(unit, self.user)
         self.assertNotEqual(results, [])

@@ -19,7 +19,7 @@
         </p>
     </div>
     <div class="col-xs-10 history-data">
-        {% perm 'comment.delete' comment object as user_can_delete_comment %}
+        {% perm 'comment.delete' comment as user_can_delete_comment %}
         {% if user_can_delete_comment %}
         <div class="btn-float pull-right flip">
             {% if not comment.resolved %}

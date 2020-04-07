@@ -36,12 +36,12 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
         # With False the call is supposed to show errors on its own
         if result is None or result:
             messages.success(request, message)
-    except Timeout as error:
+    except Timeout:
         messages.error(
             request,
             _("Failed to lock the repository, another operation is in progress."),
         )
-        report_error(error, request)
+        report_error()
 
     return redirect_param(obj, "#repository")
 

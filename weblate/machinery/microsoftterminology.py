@@ -58,7 +58,7 @@ class MicrosoftTerminologyService(MachineTranslation):
             return []
         return [lang["Code"] for lang in languages]
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from the service."""
         args = {
             "text": text,
@@ -82,14 +82,14 @@ class MicrosoftTerminologyService(MachineTranslation):
                 "source": item["OriginalText"],
             }
 
-    def convert_language(self, language):
+    def map_language_code(self, code):
         """Convert language to service specific code.
 
         Add country part of locale if missing.
         """
-        language = language.replace("_", "-").lower()
-        if "-" not in language:
+        code = code.replace("_", "-").lower()
+        if "-" not in code:
             for lang in DEFAULT_LANGS:
-                if lang.split("_")[0] == language:
+                if lang.split("_")[0] == code:
                     return lang.replace("_", "-").lower()
-        return language
+        return code

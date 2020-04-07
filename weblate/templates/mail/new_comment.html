@@ -13,11 +13,7 @@
 </p>
 
 <div class="line buttons">
-{% if comment.language %}
-    <a class="button" href="{{ unit.get_absolute_url }}">{% trans "Edit this string" %}</a>
-{% else %}
-    <a class="button" href="{{ unit.source_info.get_absolute_url }}">{% trans "Edit this string" %}</a>
-{% endif %}
+<a class="button" href="{{ unit.get_absolute_url }}">{% trans "Edit this string" %}</a>
 </div>
 
 {% endblock %}

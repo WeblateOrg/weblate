@@ -138,8 +138,8 @@ def send_mails(mails):
     connection = get_connection()
     try:
         connection.open()
-    except Exception as error:
-        report_error(error, prefix="Failed to send notifications")
+    except Exception:
+        report_error(cause="Failed to send notifications")
         connection.close()
         return
 

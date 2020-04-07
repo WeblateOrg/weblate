@@ -49,7 +49,7 @@
 <ul class="pagination unit-navi">
 <li><a id="button-first" class="green" href="{{ first_unit_url }}" title="{% trans "First" %}">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a></li>
 <li><a id="button-prev" class="green" href="{{ prev_unit_url }}" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a></li>
-<li>
+<li class="dropdown">
 <a class="dropdown-toggle green" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}" id="search-dropdown">
 {% icon "magnify.svg" %}
 {{ filter_name }}
@@ -66,7 +66,7 @@
 
 </div>
 </li>
-<li>
+<li class="dropdown">
 <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Go to position" %}" id="goto-dropdown">
 {% blocktrans %}{{ filter_pos }} / {{ filter_count }}{% endblocktrans %}
 <span class="caret"></span>
@@ -132,46 +132,54 @@
     {% endif %}
 
     {% if unit.translation.is_source %}
-    {% if unit.context %}
-    <!-- editing template -->
-    <div class="form-group">
-    <label>{% trans "Context" %}</label>
-    {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
-    </div>
-    {% endif %}
+        {% if unit.context %}
+            <!-- editing template -->
+            <div class="form-group">
+            <label>{% trans "Context" %}</label>
+            {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
+            </div>
+        {% endif %}
+        {% if unit.translation.component.intermediate %}
+            <!-- editing template -->
+            <div class="form-group">
+            <label>{% trans "Intermediate language" %}</label>
+            {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+            </div>
+        {% endif %}
     {% else %}
+        {% if unit.note %}
+            <!-- note -->
+            <div class="form-group help-block">
+            <label>{% trans "Source string comment" %}</label>
+            {% format_translation unit.note unit.translation.component.project.source_language %}
+            </div>
+        {% endif %}
 
-    {% if unit.note %}
-    <!-- note -->
-    <div class="form-group help-block">
-    <label>{% trans "Source string comment" %}</label>
-    {% format_translation unit.note unit.translation.component.project.source_language %}
-    </div>
-    {% endif %}
+        {% if unit.extra_context %}
+            <!-- source string context  -->
+            <div class="form-group help-block">
+            <label>{% trans "Additional context" %}</label>
+            {% format_translation unit.extra_context unit.translation.component.project.source_language %}
+            </div>
+        {% endif %}
 
-    {% if unit.extra_context %}
-    <!-- source string context  -->
-    <div class="form-group help-block">
-    <label>{% trans "Additional context" %}</label>
-    {% format_translation unit.extra_context unit.translation.component.project.source_language %}
-    </div>
-    {% endif %}
-
-    {% if not user.profile.hide_source_secondary or not secondary %}
-    <!-- source -->
-    <div class="form-group">
-    {% if unit.context %}
-    <div class="pull-right flip">
-    <label>{% trans "Context:" %}</label>
-    {{ unit.context }}
-    </div>
-    {% endif %}
-    <label>{{ unit.translation.component.project.source_language }}</label>
-    {% perm 'unit.edit' unit.source_info as user_can_edit_template %}
-    <a title="{% trans "Edit source string" %}"href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
-    {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
-    </div>
-    {% endif %}
+        {% if not user.profile.hide_source_secondary or not secondary %}
+            <!-- source -->
+            <div class="form-group">
+            {% if unit.context %}
+                <div class="pull-right flip">
+                <label>{% trans "Context:" %}</label>
+                {{ unit.context }}
+                </div>
+            {% endif %}
+            <label>{{ unit.translation.component.project.source_language }}</label>
+            <a title="{% trans "Edit source string" %}" href="{{ unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
+            {% if unit.translation.component.project.source_review %}
+            <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
+            {% endif %}
+            {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+            </div>
+        {% endif %}
     {% endif %}
 
     <!-- edit form -->
@@ -182,7 +190,7 @@
     {% if locked or not user_can_translate %}disabled="disabled"{% endif %}
     {% if not user_can_translate %}
     {% if not user.is_authenticated %}
-    title="{% trans "Please log in to save translations." %}"
+    title="{% trans "Please sign in to save translations." %}"
     {% elif unit.approved %}
     title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
     {% elif unit.translation.component.suggestion_voting %}
@@ -373,7 +381,7 @@
 {% endif %}
 
 {% if user_can_add_comment %}
-<form method="post" action="{% url 'comment' pk=unit.id %}" class="auto-save-translation">
+<form method="post" action="{% url 'comment' pk=unit.id %}" class="auto-save-translation" id="comment-form">
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-default">

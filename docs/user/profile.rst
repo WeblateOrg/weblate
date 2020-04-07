@@ -19,7 +19,7 @@ You can register by following a few simple steps:
 Dashboard
 ---------
 
-When you log in, you will see an overview of projects and components,
+When you sign in, you will see an overview of projects and components,
 as well as their respective translation progression.
 
 .. versionadded:: 2.5
@@ -159,7 +159,7 @@ Account
 -------
 
 The :guilabel:`Account` tab lets you set up basic account details,
-connect various services you can use to login into Weblate, completely
+connect various services you can use to sign in into Weblate, completely
 remove your account, or download your user data.
 
 .. note::

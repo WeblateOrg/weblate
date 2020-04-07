@@ -28,6 +28,7 @@ from django.utils.encoding import force_str
 from translate.storage.po import pofile
 
 from weblate.formats.auto import AutodetectFormat, detect_filename
+from weblate.formats.base import UpdateError
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (
     AndroidFormat,
@@ -317,17 +318,39 @@ class PoFormatTest(AutoFormatTest):
 
     def test_plurals(self):
         self.assertEqual(
-            self.load_plural(TEST_HE_CLDR).equation,
+            self.load_plural(TEST_HE_CLDR).formula,
             "(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3))",
         )
         self.assertEqual(
-            self.load_plural(TEST_HE_CUSTOM).equation,
+            self.load_plural(TEST_HE_CUSTOM).formula,
             "(n == 1) ? 0 : ((n == 2) ? 1 : ((n == 10) ? 2 : 3))",
         )
-        self.assertEqual(self.load_plural(TEST_HE_SIMPLE).equation, "(n != 1)")
+        self.assertEqual(self.load_plural(TEST_HE_SIMPLE).formula, "(n != 1)")
         self.assertEqual(
-            self.load_plural(TEST_HE_THREE).equation, "n==1 ? 0 : n==2 ? 2 : 1"
+            self.load_plural(TEST_HE_THREE).formula, "n==1 ? 0 : n==2 ? 2 : 1"
         )
+
+    def test_msgmerge(self):
+        test_file = os.path.join(self.tempdir, "test.po")
+        with open(test_file, "w") as handle:
+            handle.write("")
+
+        # Test file content is updated
+        self.FORMAT.update_bilingual(test_file, TEST_POT)
+        with open(test_file, "r") as handle:
+            self.assertEqual(len(handle.read()), 340)
+
+        # Backup flag is not compatible with others
+        with self.assertRaises(UpdateError):
+            self.FORMAT.update_bilingual(test_file, TEST_POT, args=["--backup=none"])
+        with open(test_file, "r") as handle:
+            self.assertEqual(len(handle.read()), 340)
+
+        # Test warning in ouput (used Unicode POT file without charset specified)
+        with self.assertRaises(UpdateError):
+            self.FORMAT.update_bilingual(test_file, TEST_POT_UNICODE)
+        with open(test_file, "r") as handle:
+            self.assertEqual(len(handle.read()), 340)
 
 
 class PropertiesFormatTest(AutoFormatTest):

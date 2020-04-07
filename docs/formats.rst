@@ -33,9 +33,13 @@ only the mapping of those to any given language (typically :ref:`aresource`). So
 formats are used in both variants, see the detailed description below.
 
 For correct use of monolingual files, Weblate requires access to a file
-containing a complete list of strings to translate with their source—this file
-is called the :guilabel:`Monolingual base language file` within Weblate, though the
-naming might vary in your paradigm.
+containing complete list of strings to translate with their source—this file
+is called :ref:`component-template` within Weblate, though the naming might
+vary in your paradigm.
+
+Additionally this workflow can be extended by utilizing
+:ref:`component-intermediate` to include strings provided by developers, but
+not to be used as is in the final strings.
 
 Automatic detection
 -------------------
@@ -249,8 +253,15 @@ If the translation string has ``approved="yes"``, it will also be imported into 
 as "Approved", anything else will be imported as "Waiting for review" (which matches the
 XLIFF specification).
 
+While saving, Weblate doesn't add those attributes unless necessary:
+
+* The ``state`` attribute is only added in case string is marked as needing edit.
+* The ``approved`` attribute is only added in case string has been reviewed.
+* In other cases the attributes are not added, but they are updated in case they are present.
+
 That means that when using the XLIFF format, it is strongly recommended to turn on the
 Weblate review process, in order to see and change the approved state of strings.
+
 See :ref:`reviews`.
 
 Similarly upon importing such files (in the upload form), you should choose
@@ -937,6 +948,11 @@ Windows RC files
 .. versionadded:: 3.0
 
     Experimental support has been added in Weblate 3.0, and is not supported in Python 3.
+
+.. warning::
+
+    This format is still not supported on Python 3 due to bugs in underlying library,
+    see <https://github.com/translate/translate/issues/3204>.
 
 .. index::
     pair: RC; file format

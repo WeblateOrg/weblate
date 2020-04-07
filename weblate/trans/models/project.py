@@ -117,10 +117,17 @@ class Project(models.Model, URLMixin, PathMixin):
             "in the documentation."
         ),
     )
-    enable_review = models.BooleanField(
+    translation_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable reviews"),
         default=False,
         help_text=gettext_lazy("Requires dedicated reviewers to approve translations."),
+    )
+    source_review = models.BooleanField(
+        verbose_name=gettext_lazy("Enable source reviews"),
+        default=False,
+        help_text=gettext_lazy(
+            "Requires dedicated reviewers to approve source strings."
+        ),
     )
     enable_hooks = models.BooleanField(
         verbose_name=gettext_lazy("Enable hooks"),
@@ -186,10 +193,7 @@ class Project(models.Model, URLMixin, PathMixin):
 
     @cached_property
     def locked(self):
-        return (
-            self.component_set.exists()
-            and not self.component_set.filter(locked=False).exists()
-        )
+        return self.component_set.filter(locked=False).count() == 0
 
     def _get_path(self):
         return os.path.join(data_dir("vcs"), self.slug)
@@ -198,6 +202,8 @@ class Project(models.Model, URLMixin, PathMixin):
         return self.name
 
     def save(self, *args, **kwargs):
+        from weblate.trans.tasks import perform_load, component_alerts
+
         update_tm = self.contribute_shared_tm
 
         # Renaming detection
@@ -222,10 +228,12 @@ class Project(models.Model, URLMixin, PathMixin):
 
         # Reload components after source language change
         if old is not None and old.source_language != self.source_language:
-            from weblate.trans.tasks import perform_load
-
             for component in self.component_set.iterator():
                 perform_load.delay(component.pk)
+
+        # Update alerts if needed
+        if old is not None and old.web != self.web:
+            component_alerts.delay(self.component_set.values_list("id", flat=True))
 
         # Update translation memory on enabled sharing
         if update_tm:

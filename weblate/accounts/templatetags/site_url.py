@@ -32,7 +32,7 @@ register = template.Library()
 @register.filter
 def add_site_url(content):
     """Automatically add site URL to any relative links or images."""
-    parser = etree.HTMLParser()
+    parser = etree.HTMLParser(collect_ids=False)
     tree = etree.parse(StringIO(content), parser)
     for link in tree.findall("//a"):
         url = link.get("href")

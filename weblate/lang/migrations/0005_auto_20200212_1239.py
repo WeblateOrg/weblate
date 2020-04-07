@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             field=models.CharField(
                 default="n != 1",
                 max_length=600,
-                validators=[weblate.utils.validators.validate_pluraleq],
+                validators=[weblate.utils.validators.validate_plural_formula],
                 verbose_name="Plural equation",
             ),
         )

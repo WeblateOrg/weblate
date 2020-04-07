@@ -108,12 +108,12 @@ class MemoryManager(models.Manager):
         try:
             data = json.loads(force_str(content))
         except ValueError as error:
-            report_error(error, request, prefix="Failed to parse memory")
+            report_error(cause="Failed to parse memory")
             raise MemoryImportError(_("Failed to parse JSON file: {!s}").format(error))
         try:
             validate(data, load_schema("weblate-memory.schema.json"))
         except ValidationError as error:
-            report_error(error, request, prefix="Failed to validate memory")
+            report_error(cause="Failed to validate memory")
             raise MemoryImportError(_("Failed to parse JSON file: {!s}").format(error))
         found = 0
         lang_cache = {}
@@ -141,8 +141,8 @@ class MemoryManager(models.Manager):
             kwargs = {"from_file": True}
         try:
             storage = tmxfile.parsefile(fileobj)
-        except (SyntaxError, AssertionError) as error:
-            report_error(error, request, prefix="Failed to parse")
+        except (SyntaxError, AssertionError):
+            report_error(cause="Failed to parse")
             raise MemoryImportError(_("Failed to parse TMX file!"))
         header = next(
             storage.document.getroot().iterchildren(storage.namespaced("header"))
@@ -153,7 +153,7 @@ class MemoryManager(models.Manager):
                 header.get("srclang"), lang_cache, langmap
             )
         except Language.DoesNotExist:
-            raise MemoryImportError(_("Failed to find source languge!"))
+            raise MemoryImportError(_("Failed to find source language!"))
 
         found = 0
         for unit in storage.units:

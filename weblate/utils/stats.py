@@ -20,6 +20,7 @@
 
 from copy import copy
 from datetime import timedelta
+from types import GeneratorType
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
@@ -94,15 +95,25 @@ def zero_stats(keys):
 
 
 def prefetch_stats(queryset):
+    """Fetch stats from cache for a queryset."""
+    # Force evaluating queryset/iterator, we need all objects
     objects = list(queryset)
+
+    # This function can either accept queryset, in which case it is
+    # returned with prefetched stats, or iterator, in which case new list
+    # is returned.
+    # This is needed to allow using such querysets futher and to support
+    # processing iterator when it is more effective.
+    result = objects if isinstance(queryset, GeneratorType) else queryset
+
+    # Bail out in case the query is empty
     if not objects:
-        return queryset
-    obj = objects[0]
-    if isinstance(obj, BaseStats):
-        obj.prefetch_many(objects)
-    else:
-        obj.stats.prefetch_many([i.stats for i in objects])
-    return queryset
+        return result
+
+    # Use stats prefetch
+    objects[0].stats.prefetch_many([i.stats for i in objects])
+
+    return result
 
 
 class ParentStats:
@@ -304,7 +315,7 @@ class TranslationStats(BaseStats):
 
     @cached_property
     def has_review(self):
-        return self._object.component.project.enable_review
+        return self._object.enable_review
 
     def prefetch_basic(self):
         stats = self._object.unit_set.aggregate(
@@ -438,7 +449,7 @@ class LanguageStats(BaseStats):
 
     @cached_property
     def translation_set(self):
-        return prefetch_stats(self._object.translation_set.all())
+        return prefetch_stats(self._object.translation_set.iterator())
 
     def calculate_source(self, stats_obj, stats):
         stats["source_chars"] += stats_obj.all_chars
@@ -476,7 +487,10 @@ class LanguageStats(BaseStats):
 class ComponentStats(LanguageStats):
     @cached_property
     def has_review(self):
-        return self._object.project.enable_review
+        return (
+            self._object.project.source_review
+            or self._object.project.translation_review
+        )
 
     def calculate_source(self, stats_obj, stats):
         return
@@ -522,7 +536,7 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def has_review(self):
-        return self._object.enable_review
+        return self._object.source_review or self._object.translation_review
 
     @cached_property
     def cache_key(self):
@@ -561,7 +575,7 @@ class ProjectStats(BaseStats):
 
     @cached_property
     def has_review(self):
-        return self._object.enable_review
+        return self._object.source_review or self._object.translation_review
 
     def invalidate(self, language=None):
         super().invalidate()
@@ -574,7 +588,7 @@ class ProjectStats(BaseStats):
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.component_set.all())
+        return prefetch_stats(self._object.component_set.iterator())
 
     def get_single_language_stats(self, language):
         return ProjectLanguageStats(self._object, language)
@@ -614,7 +628,7 @@ class ComponentListStats(BaseStats):
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.components.all())
+        return prefetch_stats(self._object.components.iterator())
 
     def prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
@@ -648,7 +662,7 @@ class GlobalStats(BaseStats):
     def project_set(self):
         from weblate.trans.models import Project
 
-        return prefetch_stats(Project.objects.all())
+        return prefetch_stats(Project.objects.iterator())
 
     def prefetch_basic(self):
         from weblate.lang.models import Language

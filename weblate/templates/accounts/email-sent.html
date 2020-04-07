@@ -21,14 +21,15 @@
   <div class="panel-body">
 
 {% if is_reset %}
-<p>{% trans "If your e-mail address exists in our database, you will receive further password recovery instructions in your inbox." %}</p>
+    <p>{% blocktrans %}If your e-mail address exists in our database, you will receive further password recovery instructions in your inbox.{% endblocktrans %}</p>
+    <p>{% blocktrans %}If the confirmation link expires before you get to use it, request a new one.{% endblocktrans %}</p>
 {% elif is_remove %}
-<p>{% blocktrans %}Shortly you should receive an e-mail containing a confirmation link. Click it to remove your account.{% endblocktrans %}</p>
+    <p>{% blocktrans %}Shortly you should receive an e-mail containing a confirmation link. Click it to remove your account.{% endblocktrans %}</p>
+    <p>{% blocktrans %}If the confirmation link expires before you get to use it, request a new one.{% endblocktrans %}</p>
 {% else %}
-<p>{% blocktrans %}Thank you for registering. Click the confirmation link you receive by e-mail to complete the registration.{% endblocktrans %}</p>
+    <p>{% blocktrans %}Thank you for registering. Click the confirmation link you receive by e-mail to complete the registration.{% endblocktrans %}</p>
+    <p>{% blocktrans %}If the confirmation link expires before you get to use it, register again.{% endblocktrans %}</p>
 {% endif %}
-
-<p>{% blocktrans %}If the confirmation link expires before you get to use it, register again.{% endblocktrans %}</p>
 
 <p>
 {% url 'contact' as contact_url %}

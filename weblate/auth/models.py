@@ -18,6 +18,7 @@
 #
 
 import re
+from collections import defaultdict
 
 from appconf import AppConf
 from django.conf import settings
@@ -329,7 +330,8 @@ class User(AbstractBaseUser):
 
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
-        self.perm_cache = {}
+        self.cla_cache = {}
+        self._permissions = None
         self.current_subscription = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
@@ -340,7 +342,23 @@ class User(AbstractBaseUser):
         return reverse("user_page", kwargs={"user": self.username})
 
     def clear_cache(self):
-        self.perm_cache = {}
+        self.cla_cache = {}
+        self._permissions = None
+        perm_caches = (
+            "project_permissions",
+            "component_permissions",
+            "allowed_projects",
+            "allowed_project_ids",
+            "watched_projects",
+            "owned_projects",
+        )
+        for name in perm_caches:
+            if name in self.__dict__:
+                del self.__dict__[name]
+
+    def has_usable_password(self):
+        # For some reason Django says that empty string is a valid password
+        return self.password and super().has_usable_password()
 
     @cached_property
     def is_anonymous(self):
@@ -379,6 +397,7 @@ class User(AbstractBaseUser):
         if not self.email:
             self.email = None
         super().save(*args, **kwargs)
+        self.clear_cache()
 
     def has_module_perms(self, module):
         """Compatibility API for admin interface."""
@@ -403,7 +422,7 @@ class User(AbstractBaseUser):
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
     # pylint: disable=keyword-arg-before-vararg
-    def has_perm(self, perm, obj=None, *args):
+    def has_perm(self, perm, obj=None):
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
@@ -428,7 +447,7 @@ class User(AbstractBaseUser):
 
         # Special permission functions
         if perm in SPECIALS:
-            return SPECIALS[perm](self, perm, obj, *args)
+            return SPECIALS[perm](self, perm, obj)
 
         # Generic permission
         return check_permission(self, perm, obj)
@@ -437,7 +456,7 @@ class User(AbstractBaseUser):
         """Check access to given project."""
         if self.is_superuser:
             return True
-        return self.groups.filter(projects=project).exists()
+        return project.pk in self.project_permissions
 
     def check_access(self, project):
         """Raise an error if user is not allowed to access this project."""
@@ -449,7 +468,7 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.order()
-        return Project.objects.filter(group__user=self).distinct().order()
+        return Project.objects.filter(pk__in=self.allowed_project_ids)
 
     @cached_property
     def allowed_project_ids(self):
@@ -458,7 +477,9 @@ class User(AbstractBaseUser):
 
         This is more effective to use in queries than doing complex joins.
         """
-        return {project.pk for project in self.allowed_projects}
+        if self.is_superuser:
+            return set(Project.objects.values_list("id", flat=True))
+        return set(self.project_permissions.keys())
 
     @cached_property
     def watched_projects(self):
@@ -473,6 +494,49 @@ class User(AbstractBaseUser):
     @cached_property
     def owned_projects(self):
         return self.projects_with_perm("project.edit")
+
+    def _fetch_permissions(self):
+        """Fetch all user permissions into a dictionary."""
+        projects = defaultdict(list)
+        components = defaultdict(list)
+        for group in self.groups.iterator():
+            languages = set(
+                Group.languages.through.objects.filter(group=group).values_list(
+                    "language_id", flat=True
+                )
+            )
+            permissions = set(
+                group.roles.values_list("permissions__codename", flat=True)
+            )
+            # Component list specific permissions
+            if group.componentlist:
+                for component, project in group.componentlist.components.values_list(
+                    "id", "project_id"
+                ):
+                    components[component].append((permissions, languages))
+                    # Grant access to the project
+                    projects[project].append(((), languages))
+                continue
+            # Project specific permissions
+            for project in Group.projects.through.objects.filter(
+                group=group
+            ).values_list("project_id", flat=True):
+                projects[project].append((permissions, languages))
+        self._permissions = {"projects": projects, "components": components}
+
+    @cached_property
+    def project_permissions(self):
+        """Dictionary with all project permissions."""
+        if self._permissions is None:
+            self._fetch_permissions()
+        return self._permissions["projects"]
+
+    @cached_property
+    def component_permissions(self):
+        """Dictionary with all project permissions."""
+        if self._permissions is None:
+            self._fetch_permissions()
+        return self._permissions["components"]
 
     def projects_with_perm(self, perm):
         if self.is_superuser:
@@ -619,7 +683,7 @@ def setup_project_groups(sender, instance, **kwargs):
         groups = set(ACL_GROUPS.keys())
 
     # Remove review group if review is not enabled
-    if not instance.enable_review:
+    if not instance.source_review and not instance.translation_review:
         groups.remove("Review")
 
     # Remove billing if billing is not installed

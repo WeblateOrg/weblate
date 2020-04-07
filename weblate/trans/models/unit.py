@@ -252,8 +252,14 @@ class Unit(models.Model, LoggerMixin):
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
-        if unit.is_readonly() or (
-            flags is not None and "read-only" in self.get_all_flags(flags)
+        if (
+            unit.is_readonly()
+            or (flags is not None and "read-only" in self.get_all_flags(flags))
+            or (
+                flags is not None
+                and self.source_info != self
+                and self.source_info.state < STATE_TRANSLATED
+            )
         ):
             return STATE_READONLY
 
@@ -265,17 +271,16 @@ class Unit(models.Model, LoggerMixin):
         if not unit.is_translated():
             return STATE_EMPTY
 
-        if (
-            unit.is_approved(self.approved)
-            and self.translation.component.project.enable_review
-        ):
+        if unit.is_approved(self.approved) and self.translation.enable_review:
             return STATE_APPROVED
+
         return STATE_TRANSLATED
 
-    def check_valid(self, texts):
+    @staticmethod
+    def check_valid(texts):
         for text in texts:
             if any(char in text for char in CONTROLCHARS):
-                raise ValueError("String contains control char")
+                raise ValueError("String contains control char: {!r}".format(text))
 
     def update_from_unit(self, unit, pos, created):
         """Update Unit from ttkit unit."""
@@ -295,6 +300,7 @@ class Unit(models.Model, LoggerMixin):
             previous_source = unit.previous_source
             content_hash = unit.content_hash
         except Exception as error:
+            report_error(cause="Unit update error")
             self.translation.component.handle_parse_error(error, self.translation)
 
         # Ensure we track source string for bilingual
@@ -504,7 +510,7 @@ class Unit(models.Model, LoggerMixin):
         if self.old_unit.state == self.state and self.old_unit.target == self.target:
             return False
 
-        if self.translation.is_source:
+        if self.translation.is_source and not self.translation.component.intermediate:
             self.source = self.target
             self.content_hash = calculate_hash(self.source, self.context)
 
@@ -646,7 +652,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.run_checks(same_state, same_content)
+            self.run_checks(same_content)
 
     @cached_property
     def suggestions(self):
@@ -668,7 +674,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of target comments."""
         return Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info)).order()
 
-    def run_checks(self, same_state=True, same_content=True):
+    def run_checks(self, same_content=True):
         """Update checks for this unit."""
         was_change = False
         has_checks = None
@@ -716,11 +722,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Update failing checks flag
         if not self.is_batch_update and (was_change or not same_content):
-            self.update_has_failing_check(was_change, has_checks)
+            self.update_has_failing_check(has_checks)
 
-    def update_has_failing_check(
-        self, recurse=False, has_checks=None, invalidate=False
-    ):
+    def update_has_failing_check(self, has_checks=None, invalidate=False):
         """Update flag counting failing checks."""
         if has_checks is None:
             has_checks = self.active_checks().exists()
@@ -733,10 +737,6 @@ class Unit(models.Model, LoggerMixin):
             )
             if invalidate:
                 self.translation.invalidate_cache()
-
-        if recurse:
-            for unit in Unit.objects.prefetch().same(self):
-                unit.update_has_failing_check(False, has_checks, invalidate)
 
     def update_has_suggestion(self):
         """Update flag counting suggestions."""
@@ -924,9 +924,9 @@ class Unit(models.Model, LoggerMixin):
         try:
             change = self.change_set.content().order_by("-timestamp")[0]
             return change.author or get_anonymous(), change.timestamp
-        except IndexError as error:
+        except IndexError:
             if not silent:
-                report_error(error, level="error")
+                report_error(level="error")
             return get_anonymous(), timezone.now()
 
     def get_locations(self):

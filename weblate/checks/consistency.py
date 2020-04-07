@@ -73,10 +73,14 @@ class ConsistencyCheck(TargetCheck):
 
     check_id = "inconsistent"
     name = _("Inconsistent")
-    description = _("This string has more than one translation in this project")
+    description = _(
+        "This string has more than one translation in this project "
+        "or is not translated in some components."
+    )
     ignore_untranslated = False
     severity = "warning"
     batch_update = True
+    propagates = True
 
     def check_target_project(self, project):
         """Batch check for whole project."""

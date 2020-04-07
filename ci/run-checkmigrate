@@ -1,0 +1,18 @@
+#!/bin/sh
+# Missing migrations detection
+
+. ci/lib
+
+cleanup_database
+run_coverage ./manage.py migrate
+run_coverage ./manage.py makemigrations
+check
+if [ `git status -s | grep -c /migrations/` -gt 0 ] ; then
+    echo 'There are untracked migrations:'
+    git status -s --porcelain | grep /migrations/ | sed -n '/^??/ s/^?? \(.*\)/\1/p' | while read migration ; do
+        echo $migration
+        cat $migration
+        echo
+    done
+    exit 1
+fi

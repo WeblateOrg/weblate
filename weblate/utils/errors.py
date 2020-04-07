@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import sys
+
 import sentry_sdk
 from django.conf import settings
 from django.utils.encoding import force_str
@@ -37,11 +39,9 @@ except ImportError:
 
 
 def report_error(
-    error,
-    request=None,
     extra_data=None,
     level="warning",
-    prefix="Handled exception",
+    cause="Handled exception",
     skip_sentry=False,
     print_tb=False,
     logger=None,
@@ -54,24 +54,26 @@ def report_error(
     if logger is None:
         logger = LOGGER
     if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
-        rollbar.report_exc_info(request=request, extra_data=extra_data, level=level)
+        rollbar.report_exc_info(extra_data=extra_data, level=level)
 
     if not skip_sentry and settings.SENTRY_DSN:
         with sentry_sdk.push_scope() as scope:
             if extra_data:
                 for key, value in extra_data.items():
                     scope.set_extra(key, value)
-            scope.set_extra("error_cause", prefix)
+            scope.set_extra("error_cause", cause)
             scope.level = level
             sentry_sdk.capture_exception()
 
     log = getattr(logger, level)
 
-    log("%s: %s: %s", prefix, error.__class__.__name__, force_str(error))
+    error = sys.exc_info()[1]
+
+    log("%s: %s: %s", cause, error.__class__.__name__, force_str(error))
     if extra_data:
-        log("%s: %s: %s", prefix, error.__class__.__name__, force_str(extra_data))
+        log("%s: %s: %s", cause, error.__class__.__name__, force_str(extra_data))
     if print_tb:
-        logger.exception(prefix)
+        logger.exception(cause)
 
 
 def celery_base_data_hook(request, data):

@@ -305,6 +305,24 @@ class RepoTestMixin:
             "webextension/_locales/en/messages.json",
         )
 
+    def create_json_intermediate(self, **kwargs):
+        return self._create_component(
+            "json",
+            "intermediate/*.json",
+            "intermediate/en.json",
+            intermediate="intermediate/dev.json",
+            **kwargs
+        )
+
+    def create_json_intermediate_empty(self, **kwargs):
+        return self._create_component(
+            "json",
+            "intermediate/lang-*.json",
+            "intermediate/lang-en.json",
+            intermediate="intermediate/dev.json",
+            **kwargs
+        )
+
     def create_joomla(self):
         return self._create_component("joomla", "joomla/*.ini", "joomla/en-GB.ini")
 

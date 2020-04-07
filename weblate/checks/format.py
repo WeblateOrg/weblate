@@ -430,7 +430,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
     def format_result(self, result):
         if "'" in result:
-            return _("You need to screen an apostrophe with another one.")
+            return _("You need to pair up an apostrophe with another one.")
         return super().format_result(result)
 
 
@@ -444,8 +444,8 @@ class I18NextInterpolationCheck(BaseFormatCheck):
         return WHITESPACE.sub("", text)
 
 
-class PercentInterpolationCheck(BaseFormatCheck):
-    check_id = "percent_interpolation"
-    name = _("Percent interpolation")
-    description = _("The percent interpolation does not match source")
+class PercentPlaceholdersCheck(BaseFormatCheck):
+    check_id = "percent_placeholders"
+    name = _("Percent placeholders")
+    description = _("The percent placeholders do not match source")
     regexp = PERCENT_MATCH

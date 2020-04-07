@@ -32,4 +32,4 @@ class LanguageForm(forms.ModelForm):
 class PluralForm(forms.ModelForm):
     class Meta:
         model = Plural
-        fields = ["number", "equation"]
+        fields = ["number", "formula"]

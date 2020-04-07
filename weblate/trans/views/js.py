@@ -38,13 +38,12 @@ from weblate.utils.errors import report_error
 from weblate.utils.views import get_component, get_project, get_translation
 
 
-def handle_machinery(request, service, unit, source):
+def handle_machinery(request, service, unit, search=None):
     request.user.check_access(unit.translation.component.project)
-    if service == "weblate-translation-memory":
-        perm = "memory.view"
-    else:
-        perm = "machinery.view"
-    if not request.user.has_perm(perm, unit.translation):
+    if not request.user.has_perm(
+        "memory.view" if service == "weblate-translation-memory" else "machinery.view",
+        unit.translation,
+    ):
         raise PermissionDenied()
 
     # Error response
@@ -65,15 +64,15 @@ def handle_machinery(request, service, unit, source):
     else:
         try:
             response["translations"] = translation_service.translate(
-                unit.translation.language.code, source, unit, request.user
+                unit, request.user, search=search
             )
             response["responseStatus"] = 200
         except MachineTranslationError as exc:
             response["responseDetails"] = str(exc)
-        except Exception as exc:
-            report_error(exc, request)
+        except Exception as error:
+            report_error()
             response["responseDetails"] = "{0}: {1}".format(
-                exc.__class__.__name__, str(exc)
+                error.__class__.__name__, str(error)
             )
 
     return JsonResponse(data=response)
@@ -86,7 +85,7 @@ def translate(request, unit_id, service):
         raise Http404("Invalid service specified")
 
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    return handle_machinery(request, service, unit, unit.get_source_plurals()[0])
+    return handle_machinery(request, service, unit)
 
 
 @require_POST
@@ -97,7 +96,7 @@ def memory(request, unit_id):
     if not query:
         return HttpResponseBadRequest("Missing search string")
 
-    return handle_machinery(request, "weblate-translation-memory", unit, query)
+    return handle_machinery(request, "weblate-translation-memory", unit, search=query)
 
 
 def get_unit_changes(request, unit_id):
@@ -263,10 +262,11 @@ def mt_services(request):
 @login_required
 def task_progress(request, task_id):
     task = AsyncResult(task_id)
+    result = task.result
     return JsonResponse(
         {
             "completed": is_task_ready(task),
             "progress": get_task_progress(task),
-            "result": task.result,
+            "result": str(result) if isinstance(result, Exception) else result,
         }
     )

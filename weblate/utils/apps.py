@@ -28,6 +28,7 @@ from weblate.utils.checks import (
     check_celery,
     check_data_writable,
     check_database,
+    check_encoding,
     check_errors,
     check_mail_connection,
     check_perms,
@@ -35,7 +36,6 @@ from weblate.utils.checks import (
     check_site,
     check_templates,
 )
-from weblate.utils.django_hacks import monkey_patch_translate
 from weblate.utils.errors import init_error_collection
 from weblate.utils.version import check_version
 
@@ -60,8 +60,7 @@ class UtilsConfig(AppConfig):
         register(check_perms, deploy=True)
         register(check_errors, deploy=True)
         register(check_version)
-
-        monkey_patch_translate()
+        register(check_encoding)
 
         init_error_collection()
 
@@ -77,4 +76,4 @@ class UtilsConfig(AppConfig):
             CharField.register_lookup(MySQLSubstringLookup)
             TextField.register_lookup(MySQLSubstringLookup)
         else:
-            raise Exception("Unsupported database: {}".format(engine))
+            raise Exception(f"Unsupported database: {engine}")

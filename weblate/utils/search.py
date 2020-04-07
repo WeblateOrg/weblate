@@ -63,6 +63,25 @@ class QuotePlugin(whoosh.qparser.SingleQuotePlugin):
     expr = r"(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
 
 
+class Exact(whoosh.query.Term):
+    """Class for queries with exact operator."""
+
+    pass
+
+
+class ExactPlugin(whoosh.qparser.TaggingPlugin):
+    """Exact match plugin to specify an exact term."""
+
+    class ExactNode(whoosh.qparser.syntax.TextNode):
+        qclass = Exact
+
+        def r(self):
+            return "Exact %r" % self.text
+
+    expr = r"\=(^|(?<=\W))(['\"]?)(?P<text>.*?)\2(?=\s|\]|[)}]|$)"
+    nodetype = ExactNode
+
+
 class GtLtPlugin(whoosh.qparser.GtLtPlugin):
     """GtLt plugin taggin only after ":"."""
 
@@ -152,6 +171,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             whoosh.qparser.FieldsPlugin(),
             whoosh.qparser.RangePlugin(),
             GtLtPlugin(),
+            ExactPlugin(),
             whoosh.qparser.RegexPlugin(),
             whoosh.qparser.GroupPlugin(),
             whoosh.qparser.OperatorsPlugin(),
@@ -264,6 +284,10 @@ def is_sql(text):
     raise ValueError("Unsupported is lookup: {}".format(text))
 
 
+def exact_sql(field, text):
+    return Q(**{field_name(field, "iexact"): text})
+
+
 def query_sql(obj):
     if isinstance(obj, whoosh.query.And):
         return reduce(
@@ -277,6 +301,8 @@ def query_sql(obj):
         )
     if isinstance(obj, whoosh.query.Not):
         return ~query_sql(obj.query)
+    if isinstance(obj, Exact):
+        return exact_sql(obj.fieldname, obj.text)
     if isinstance(obj, whoosh.query.Term):
         if obj.fieldname == "has":
             return has_sql(obj.text)

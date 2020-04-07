@@ -9,7 +9,6 @@ if [ -n "$1" ] ; then
 fi
 
 HEAD_COMMIT=$(git rev-parse HEAD)
-PYTHON_VERSION=$(python -c 'import sys; print(sys.version_info[0])')
 
 # Install fixed version to avoid breakage with 1.0.0
 pip install httpretty==0.9.7
@@ -23,19 +22,15 @@ for tag in $TAGS ; do
     check
     git checkout $tag
     check
-    if [ $PYTHON_VERSION -eq 3 ] ; then
-        case $tag in
-            weblate-3.[12345].* | weblate-3.[12345])
-                # Older versions do not support Django 2.2
-                pip install 'Django>=2.1,<2.2'
-                ;;
-            *)
-                pip install 'Django>=2.2,<3.0'
-                ;;
-        esac
-    else
-        pip install 'Django>1.11'
-    fi
+    case $tag in
+        weblate-3.[12345].* | weblate-3.[12345])
+            # Older versions do not support Django 2.2
+            pip install 'Django>=2.1,<2.2'
+            ;;
+        *)
+            pip install 'Django>=2.2,<3.0'
+            ;;
+    esac
     check
     pip install -r requirements-optional.txt -r docs/requirements.txt
     check
@@ -53,7 +48,7 @@ for tag in $TAGS ; do
         echo "DATABASES['default']['PORT'] = '$CI_DB_PORT'" >> weblate/settings_test.py
         check
     fi
-    run_coverage ./manage.py migrate
+    ./manage.py migrate
     check
     ./manage.py shell -c 'from weblate.lang.models import Language; Language.objects.all().delete()'
     check
@@ -86,15 +81,3 @@ for tag in $TAGS ; do
     ./manage.py shell -c 'from weblate.trans.models import Vote; Vote.objects.get(value=1)'
     check
 done
-
-./manage.py makemigrations
-check
-if [ `git status -s | grep -c /migrations/` -gt 0 ] ; then
-    echo 'There are untracked migrations:'
-    git status -s --porcelain | grep /migrations/ | sed -n '/^??/ s/^?? \(.*\)/\1/p' | while read migration ; do
-        echo $migration
-        cat $migration
-        echo
-    done
-    exit 1
-fi

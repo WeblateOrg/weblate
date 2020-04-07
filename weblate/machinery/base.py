@@ -106,7 +106,7 @@ class MachineTranslation:
         """Download list of supported languages from a service."""
         return []
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service.
 
         Should return dict with translation text, translation quality, source of
@@ -118,16 +118,19 @@ class MachineTranslation:
         """
         raise NotImplementedError()
 
+    def map_language_code(self, code):
+        """Map language code to service specific."""
+        if code in self.language_map:
+            return self.language_map[code]
+        return code
+
     def convert_language(self, language):
-        """Convert language to service specific code."""
-        if language in self.language_map:
-            return self.language_map[language]
+        """Convert language to service specific object."""
+        return self.map_language_code(language.code)
 
-        return language
-
-    def report_error(self, exc, message):
+    def report_error(self, message):
         """Wrapper for handling error situations."""
-        report_error(exc, prefix="Machinery error")
+        report_error(cause="Machinery error")
         LOGGER.error(message, self.name)
 
     def get_supported_languages(self):
@@ -151,7 +154,7 @@ class MachineTranslation:
         except Exception as exc:
             self.supported_languages = self.default_languages
             self.supported_languages_error = exc
-            self.report_error(exc, "Failed to fetch languages from %s, using defaults")
+            self.report_error("Failed to fetch languages from %s, using defaults")
             return
 
         # Update cache
@@ -192,15 +195,19 @@ class MachineTranslation:
             self.mtid, calculate_hash(source, language), calculate_hash(None, text)
         )
 
-    def translate(self, language, text, unit, user, source=None):
+    def translate(self, unit, user=None, search=None, language=None, source=None):
         """Return list of machine translations."""
         self.get_supported_languages()
 
+        # source and language are set only for recursive calls when
+        # tweaking the language codes
         if source is None:
-            language = self.convert_language(language)
+            language = self.convert_language(unit.translation.language)
             source = self.convert_language(
-                unit.translation.component.project.source_language.code
+                unit.translation.component.project.source_language
             )
+
+        text = search or unit.get_source_plurals()[0]
 
         if not text or self.is_rate_limited() or source == language:
             return []
@@ -210,11 +217,15 @@ class MachineTranslation:
             source = source.replace("-", "_")
             if "_" in source:
                 source = source.split("_")[0]
-                return self.translate(language, text, unit, user, source)
+                return self.translate(
+                    unit, user=user, search=search, language=language, source=source
+                )
             language = language.replace("-", "_")
             if "_" in language:
                 language = language.split("_")[0]
-                return self.translate(language, text, unit, user, source)
+                return self.translate(
+                    unit, user=user, search=search, language=language, source=source
+                )
             if self.supported_languages_error:
                 raise MachineTranslationError(repr(self.supported_languages_error))
             return []
@@ -227,7 +238,9 @@ class MachineTranslation:
 
         try:
             result = list(
-                self.download_translations(source, language, text, unit, user)
+                self.download_translations(
+                    source, language, text, unit, user, search=bool(search)
+                )
             )
             if cache_key:
                 cache.set(cache_key, result, 7 * 86400)
@@ -236,7 +249,7 @@ class MachineTranslation:
             if self.is_rate_limit_error(exc):
                 self.set_rate_limit()
 
-            self.report_error(exc, "Failed to fetch translations from %s")
+            self.report_error("Failed to fetch translations from %s")
             raise MachineTranslationError(self.get_error_message(exc))
 
     def get_error_message(self, exc):

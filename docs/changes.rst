@@ -3,13 +3,13 @@ Weblate 4.0
 
 Not yet released.
 
-* Weblate now requires Python 3.5 or newer.
+* Weblate now requires Python 3.6 or newer.
 * Added management overview of component alerts.
 * Added component alert for broken repository browser URLs.
-* Improved log in and registration pages.
+* Improved sign in and registration pages.
 * Project access control and workflow configuration integrated to project settings.
 * Added check and highlighter for i18next interpolation and nesting.
-* Added check and highlighter for percent interpolation.
+* Added check and highlighter for percent placeholders.
 * Display failing checks for suggestions.
 * Record source string changes in history.
 * Upgraded Microsoft Translator to version 3 API.
@@ -20,6 +20,12 @@ Not yet released.
 * Renamed whiteboard messages to announcements.
 * Fixed occasional problems with registration mails.
 * Improved LINGUAS update addon to handle more syntax variants.
+* Fixed editing monolingual XLIFF source file.
+* Added support for exact matching in :doc:`user/search`.
+* Extended API to cover screenshots and extended creating projects.
+* Add support for source upload on bilingual translations.
+* Added support for intermediate language from developers.
+* Added support for source strings review.
 
 Weblate 3.11.3
 --------------

@@ -107,13 +107,13 @@ class ApertiumAPYTranslation(MachineTranslation):
         langs = self.supported_languages
         return set([l[0] for l in langs] + [l[1] for l in langs])
 
-    def convert_language(self, language):
+    def map_language_code(self, code):
         """Convert language to service specific code."""
         # Force download of supported languages
-        language = language.replace("-", "_")
-        if language not in self.all_langs and language in LANGUAGE_MAP:
-            return LANGUAGE_MAP[language]
-        return language
+        code = code.replace("-", "_")
+        if code not in self.all_langs and code in LANGUAGE_MAP:
+            return LANGUAGE_MAP[code]
+        return code
 
     def download_languages(self):
         """Download list of supported languages from a service."""
@@ -127,7 +127,7 @@ class ApertiumAPYTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from Apertium."""
         args = {
             "langpair": "{0}|{1}".format(source, language),

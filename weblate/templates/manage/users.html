@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-users' %}">{% trans "Users" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-default">
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% trans "Django admin interface" %}
+  </h4>
+</div>
+<div class="panel-body">
+<p>{% trans "The Django admin interface might be useful to perform certain management operations." %}</p>
+</div>
+  <div class="panel-footer">
+  <a href="{% url "admin:weblate_auth_user_changelist" %}" class="btn btn-primary">{% trans "Django admin interface" %}</a>
+  </div>
+</div>
+
+<form  method="POST">
+{% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Invite new user" %}</h4></div>
+  <div class="panel-body">
+  {{ invite_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}

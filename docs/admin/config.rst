@@ -124,57 +124,6 @@ Libravatar, see https://www.libravatar.org/
    :setting:`ENABLE_AVATARS`,
    :ref:`avatars`
 
-.. setting:: RATELIMIT_ATTEMPTS
-
-RATELIMIT_ATTEMPTS
-------------------
-
-.. versionadded:: 3.2
-
-Maximum number of authentication attempts before rate limiting is applied.
-
-Defaults to 5.
-
-.. seealso::
-
-    :ref:`rate-limit`,
-    :setting:`RATELIMIT_WINDOW`,
-    :setting:`RATELIMIT_LOCKOUT`
-
-.. setting:: RATELIMIT_WINDOW
-
-RATELIMIT_WINDOW
-----------------
-
-.. versionadded:: 3.2
-
-How long authentication is accepted after rate limiting applies.
-
-An amount of seconds defaulting to 300 (5 minutes).
-
-.. seealso::
-
-    :ref:`rate-limit`,
-    :setting:`RATELIMIT_ATTEMPTS`,
-    :setting:`RATELIMIT_LOCKOUT`
-
-.. setting:: RATELIMIT_LOCKOUT
-
-RATELIMIT_LOCKOUT
------------------
-
-.. versionadded:: 3.2
-
-How long authentication is locked after rate limiting applies.
-
-An amount of seconds defaulting to 600 (10 minutes).
-
-.. seealso::
-
-    :ref:`rate-limit`,
-    :setting:`RATELIMIT_ATTEMPTS`,
-    :setting:`RATELIMIT_WINDOW`
-
 .. setting:: AUTH_TOKEN_VALID
 
 AUTH_TOKEN_VALID
@@ -358,6 +307,22 @@ Defaults to ``$BASE_DIR/data``.
 
     :setting:`BASE_DIR`,
     :doc:`backup`
+
+.. setting:: DATABASE_BACKUP
+
+DATABASE_BACKUP
+--------------------
+.. versionadded:: 3.1
+
+Whether the database backups should be stored as plain text, compressed or skipped.
+The authorized values are:
+* ``"plain``"
+* ``"compressed``"
+* ``"none"``
+
+.. seealso::
+
+    :ref:`backup`
 
 .. setting:: DEFAULT_ACCESS_CONTROL
 
@@ -1117,6 +1082,57 @@ NEARBY_MESSAGES
 
 How many messages to show around the currently translated string.
 
+.. setting:: RATELIMIT_ATTEMPTS
+
+RATELIMIT_ATTEMPTS
+------------------
+
+.. versionadded:: 3.2
+
+Maximum number of authentication attempts before rate limiting is applied.
+
+Defaults to 5.
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :setting:`RATELIMIT_WINDOW`,
+    :setting:`RATELIMIT_LOCKOUT`
+
+.. setting:: RATELIMIT_WINDOW
+
+RATELIMIT_WINDOW
+----------------
+
+.. versionadded:: 3.2
+
+How long authentication is accepted after rate limiting applies.
+
+An amount of seconds defaulting to 300 (5 minutes).
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :setting:`RATELIMIT_ATTEMPTS`,
+    :setting:`RATELIMIT_LOCKOUT`
+
+.. setting:: RATELIMIT_LOCKOUT
+
+RATELIMIT_LOCKOUT
+-----------------
+
+.. versionadded:: 3.2
+
+How long authentication is locked after rate limiting applies.
+
+An amount of seconds defaulting to 600 (10 minutes).
+
+.. seealso::
+
+    :ref:`rate-limit`,
+    :setting:`RATELIMIT_ATTEMPTS`,
+    :setting:`RATELIMIT_WINDOW`
+
 .. setting:: REGISTRATION_CAPTCHA
 
 REGISTRATION_CAPTCHA
@@ -1163,7 +1179,7 @@ This optional setting can be be the default``True`` or changed to ``False``.
    This setting affects built-in authentication by e-mail address or through the
    Python Social Auth. If using third-party authentication methods such
    as :ref:`ldap-auth`, it just hides the registration form, but new users might
-   still be able to log in and create accounts.
+   still be able to sign in and create accounts.
 
 .. setting:: SENTRY_DSN
 
@@ -1413,19 +1429,3 @@ Identity used by Weblate to sign Git commits, for example:
 .. seealso::
 
     :ref:`gpg-sign`
-
-.. setting:: DATABASE_BACKUP
-
-DATABASE_BACKUP
---------------------
-.. versionadded:: 3.1
-
-Whether the database backups should be stored as plain text, compressed or skipped.
-The authorized values are:
-* ``"plain``"
-* ``"compressed``"
-* ``"none"``
-
-.. seealso::
-
-    :ref:`backup`

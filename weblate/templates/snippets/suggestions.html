@@ -23,7 +23,7 @@
             <a href="{{ suggestion.unit.get_absolute_url }}#suggestions" class="btn btn-link green" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
         </div>
         {% else %}
-        {% perm 'suggestion.delete' suggestion unit.translation as user_can_delete_suggestion %}
+        {% perm 'suggestion.delete' suggestion as user_can_delete_suggestion %}
         {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
         <div class="btn-float pull-right flip">
             {% if user_can_vote_suggestion %}

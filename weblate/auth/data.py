@@ -30,63 +30,117 @@ SELECTION_ALL_PUBLIC = 3
 SELECTION_ALL_PROTECTED = 4
 
 PERMISSIONS = (
+    # Translators: Permission name
     ("billing.view", _("View billing information")),
+    # Translators: Permission name
     ("change.download", _("Download changes")),
+    # Translators: Permission name
     ("component.edit", _("Edit component settings")),
+    # Translators: Permission name
     ("component.lock", _("Lock component, preventing translations")),
+    # Translators: Permission name
     ("comment.add", _("Post comment")),
+    # Translators: Permission name
     ("comment.delete", _("Delete comment")),
+    # Translators: Permission name
     ("glossary.add", _("Add glossary entry")),
+    # Translators: Permission name
     ("glossary.edit", _("Edit glossary entry")),
+    # Translators: Permission name
     ("glossary.delete", _("Delete glossary entry")),
+    # Translators: Permission name
     ("glossary.upload", _("Upload glossary entries")),
+    # Translators: Permission name
     ("machinery.view", _("Use machine translation services")),
+    # Translators: Permission name
     ("memory.edit", _("Edit translation memory")),
+    # Translators: Permission name
     ("memory.delete", _("Delete translation memory")),
+    # Translators: Permission name
     ("memory.view", _("Use translation memory")),
+    # Translators: Permission name
     ("project.edit", _("Edit project settings")),
+    # Translators: Permission name
     ("project.permissions", _("Manage project access")),
+    # Translators: Permission name
     ("reports.view", _("Download reports")),
+    # Translators: Permission name
     ("screenshot.add", _("Add screenshot")),
+    # Translators: Permission name
     ("screenshot.edit", _("Edit screenshot")),
+    # Translators: Permission name
     ("screenshot.delete", _("Delete screenshot")),
+    # Translators: Permission name
     ("source.edit", _("Edit additional string info")),
+    # Translators: Permission name
     ("suggestion.accept", _("Accept suggestion")),
+    # Translators: Permission name
     ("suggestion.add", _("Add suggestion")),
+    # Translators: Permission name
     ("suggestion.delete", _("Delete suggestion")),
+    # Translators: Permission name
     ("suggestion.vote", _("Vote on suggestion")),
+    # Translators: Permission name
     ("translation.add", _("Add language for translation")),
+    # Translators: Permission name
     ("translation.auto", _("Perform automatic translation")),
+    # Translators: Permission name
     ("translation.delete", _("Delete existing translation")),
+    # Translators: Permission name
     ("translation.add_more", _("Add several languages for translation")),
+    # Translators: Permission name
     ("unit.add", _("Add new string")),
+    # Translators: Permission name
     ("unit.check", _("Ignore failing check")),
+    # Translators: Permission name
     ("unit.edit", _("Edit strings")),
+    # Translators: Permission name
     ("unit.review", _("Review strings")),
+    # Translators: Permission name
     ("unit.override", _("Edit string when suggestions are enforced")),
+    # Translators: Permission name
     ("unit.template", _("Edit source strings")),
+    # Translators: Permission name
     ("upload.authorship", _("Define author of uploaded translation")),
+    # Translators: Permission name
     ("upload.overwrite", _("Overwrite existing strings with upload")),
+    # Translators: Permission name
     ("upload.perform", _("Upload translations")),
+    # Translators: Permission name
     ("vcs.access", _("Access the internal repository")),
+    # Translators: Permission name
     ("vcs.commit", _("Commit changes to the internal repository")),
+    # Translators: Permission name
     ("vcs.push", _("Push change from the internal repository")),
+    # Translators: Permission name
     ("vcs.reset", _("Reset changes in the internal repository")),
+    # Translators: Permission name
     ("vcs.view", _("View upstream repository location")),
+    # Translators: Permission name
     ("vcs.update", _("Update the internal repository")),
 )
 
 # Permissions which are not scoped per project
 GLOBAL_PERMISSIONS = (
+    # Translators: Permission name
     ("management.use", _("Use management interface (on the entire platform)")),
+    # Translators: Permission name
     ("project.add", _("Add new projects (on the entire platform)")),
+    # Translators: Permission name
     ("language.add", _("Add language definitions (on the entire platform)")),
+    # Translators: Permission name
     ("language.edit", _("Manage language definitions (on the entire platform)")),
+    # Translators: Permission name
     ("group.add", _("Add groups (on the entire platform)")),
+    # Translators: Permission name
     ("group.edit", _("Manage groups (on the entire platform)")),
+    # Translators: Permission name
     ("user.add", _("Add users (on the entire platform)")),
+    # Translators: Permission name
     ("user.edit", _("Manage users (on the entire platform)")),
+    # Translators: Permission name
     ("announcement.edit", _("Manage announcements (on the entire platform)")),
+    # Translators: Permission name
     ("memory.edit", _("Manage translation memory (on the entire platform)")),
 )
 

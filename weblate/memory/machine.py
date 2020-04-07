@@ -17,8 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-from weblate.lang.models import Language
 from weblate.machinery.base import MachineTranslation
 from weblate.memory.models import Memory
 from weblate.utils.search import Comparer
@@ -32,13 +30,14 @@ class WeblateMemory(MachineTranslation):
     cache_translations = False
 
     def convert_language(self, language):
-        return Language.objects.get(code=language)
+        """No conversion of language object."""
+        return language
 
     def is_supported(self, source, language):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         comparer = Comparer()
         for result in Memory.objects.lookup(
@@ -50,7 +49,7 @@ class WeblateMemory(MachineTranslation):
             unit.translation.component.project.use_shared_tm,
         ).iterator():
             quality = comparer.similarity(text, result.source)
-            if quality < 75:
+            if quality < 10 or (quality < 75 and not search):
                 continue
             yield {
                 "text": result.target,

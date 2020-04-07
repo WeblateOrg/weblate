@@ -15,7 +15,10 @@ def update_memory(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    dependencies = [("memory", "0005_auto_20200310_0810")]
+    dependencies = [
+        ("memory", "0005_auto_20200310_0810"),
+        ("trans", "0073_auto_20200403_1329"),
+    ]
 
     operations = [
         migrations.RunPython(update_memory, migrations.RunPython.noop, elidable=True)

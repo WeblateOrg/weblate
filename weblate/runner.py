@@ -30,10 +30,10 @@ def main(argv=None):
         argv = sys.argv
     try:
         execute_from_command_line(argv)
-    except Exception as error:
+    except Exception:
         from weblate.utils.errors import report_error
 
-        report_error(error)
+        report_error()
         raise
 
 

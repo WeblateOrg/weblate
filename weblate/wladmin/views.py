@@ -28,6 +28,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
+from weblate.auth.forms import InviteUserForm
 from weblate.trans.models import Alert, Component, Project
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
@@ -54,6 +55,7 @@ MENU = (
     ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
     ("alerts", "manage-alerts", gettext_lazy("Component alerts")),
     ("repos", "manage-repos", gettext_lazy("Status of repositories")),
+    ("users", "manage-users", gettext_lazy("Users")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
 )
 
@@ -94,8 +96,14 @@ def tools(request):
                     send_test_mail(**emailform.cleaned_data)
                     messages.success(request, _("Test e-mail sent."))
                 except Exception as error:
-                    report_error(error, request)
+                    report_error()
                     messages.error(request, _("Could not send test e-mail: %s") % error)
+
+        if "sentry" in request.POST:
+            try:
+                raise Exception("Test exception")
+            except Exception:
+                report_error()
 
     return render(
         request,
@@ -113,8 +121,8 @@ def activate(request):
             support.refresh()
             support.save()
             messages.success(request, _("Activation completed."))
-        except Exception as error:
-            report_error(error, request)
+        except Exception:
+            report_error()
             messages.error(
                 request,
                 _(
@@ -265,3 +273,22 @@ def alerts(request):
     }
 
     return render(request, "manage/alerts.html", context)
+
+
+@management_access
+def users(request):
+    invite_form = InviteUserForm()
+
+    if request.method == "POST":
+        if "email" in request.POST:
+            invite_form = InviteUserForm(request.POST)
+            if invite_form.is_valid():
+                invite_form.save(request)
+                messages.success(request, _("User has been invited to this project."))
+                return redirect("manage-users")
+
+    return render(
+        request,
+        "manage/users.html",
+        {"menu_items": MENU, "menu_page": "users", "invite_form": invite_form},
+    )

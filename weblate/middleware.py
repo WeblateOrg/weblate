@@ -56,8 +56,8 @@ class ProxyMiddleware:
             try:
                 validate_ipv46_address(address)
                 request.META["REMOTE_ADDR"] = address
-            except ValidationError as error:
-                report_error(error, prefix="Invalid IP address")
+            except ValidationError:
+                report_error(cause="Invalid IP address")
 
         return self.get_response(request)
 
@@ -147,4 +147,12 @@ class SecurityMiddleware:
             " ".join(connect),
             " ".join(font),
         )
+        if settings.SENTRY_SECURITY:
+            response["Content-Security-Policy"] += " report-uri {}".format(
+                settings.SENTRY_SECURITY
+            )
+            response["Expect-CT"] = 'max-age=86400, enforce, report-uri="{}"'.format(
+                settings.SENTRY_SECURITY
+            )
+
         return response

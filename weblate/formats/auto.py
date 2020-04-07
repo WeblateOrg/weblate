@@ -76,7 +76,9 @@ class AutodetectFormat(TTKitFormat):
     format_id = None
 
     @classmethod
-    def parse(cls, storefile, template_store=None, language_code=None):
+    def parse(
+        cls, storefile, template_store=None, language_code=None, is_template=False
+    ):
         """Parse store and returns TTKitFormat instance.
 
         First attempt own autodetection, then fallback to ttkit.
@@ -88,8 +90,8 @@ class AutodetectFormat(TTKitFormat):
         if filename is not None:
             storeclass = detect_filename(filename)
             if storeclass is not None:
-                return storeclass(storefile, template_store, language_code)
-        return cls(storefile, template_store, language_code)
+                return storeclass(storefile, template_store, language_code, is_template)
+        return cls(storefile, template_store, language_code, is_template)
 
     @classmethod
     def parse_store(cls, storefile):

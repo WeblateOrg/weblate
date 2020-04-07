@@ -91,7 +91,7 @@ from weblate.accounts.forms import (
     UserForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, Subscription, set_lang
+from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail, set_lang
 from weblate.accounts.notifications import (
     FREQ_NONE,
     NOTIFICATIONS,
@@ -703,13 +703,16 @@ def email_login(request):
 @never_cache
 def password(request):
     """Password change / set form."""
-    do_change = False
+    do_change = True
+    change_form = None
 
-    if request.method == "POST":
-        change_form = PasswordConfirmForm(request, request.POST)
-        do_change = change_form.is_valid()
-    else:
-        change_form = PasswordConfirmForm(request)
+    if request.user.has_usable_password():
+        if request.method == "POST":
+            change_form = PasswordConfirmForm(request, request.POST)
+            do_change = change_form.is_valid()
+        else:
+            change_form = PasswordConfirmForm(request)
+            do_change = False
 
     if request.method == "POST":
         form = SetPasswordForm(request.user, request.POST)
@@ -897,8 +900,8 @@ class SuggestionView(ListView):
             user=user, unit__translation__component__project_id__in=allowed_project_ids
         ).order()
 
-    def get_context_data(self):
-        result = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
         if self.kwargs["user"] == "-":
             user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         else:
@@ -924,9 +927,25 @@ def social_disconnect(request, backend, association_id=None):
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting last entry
     """
+    # Block removal of last social auth
     if request.user.social_auth.count() <= 1:
         messages.error(request, _("Could not remove user identity"))
         return redirect_profile("#account")
+
+    # Block removal of last verified email
+    verified = VerifiedEmail.objects.filter(social__user=request.user).exclude(
+        social__provider=backend, social_id=association_id
+    )
+    if not verified.exists():
+        messages.error(
+            request,
+            _(
+                "Could not remove last user identity with confirmed e-mail. "
+                "Please confirm your e-mail first."
+            ),
+        )
+        return redirect_profile("#account")
+
     return disconnect(request, backend, association_id)
 
 
@@ -980,7 +999,6 @@ def auth_redirect_state(request):
 
 
 def handle_missing_parameter(request, backend, error):
-    report_error(error, request)
     if backend != "email" and error.parameter == "email":
         return auth_fail(
             request,
@@ -1038,15 +1056,16 @@ def social_complete(request, backend):
     except InvalidEmail:
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
+        report_error()
         result = handle_missing_parameter(request, backend, error)
         if result:
             return result
         raise
-    except (AuthStateMissing, AuthStateForbidden) as error:
-        report_error(error, request)
+    except (AuthStateMissing, AuthStateForbidden):
+        report_error()
         return auth_redirect_state(request)
-    except AuthFailed as error:
-        report_error(error, request)
+    except AuthFailed:
+        report_error()
         return auth_fail(
             request,
             _(
@@ -1054,11 +1073,11 @@ def social_complete(request, backend):
                 "or connection error."
             ),
         )
-    except AuthCanceled as error:
-        report_error(error, request)
+    except AuthCanceled:
+        report_error()
         return auth_fail(request, _("Authentication cancelled."))
-    except AuthForbidden as error:
-        report_error(error, request)
+    except AuthForbidden:
+        report_error()
         return auth_fail(request, _("The server does not allow authentication."))
     except AuthAlreadyAssociated:
         return auth_fail(
@@ -1085,7 +1104,7 @@ def unsubscribe(request):
                 request,
                 _(
                     "The notification change link is no longer valid, "
-                    "please log in to configure notifications."
+                    "please sign in to configure notifications."
                 ),
             )
 

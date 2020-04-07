@@ -1543,11 +1543,25 @@ $(function () {
         if (input.length === 0) {
             $('#id_q').insertAtCaret(' ' + button.data('field') + ' ');
         } else if (input.val() !== '') {
-            $('#id_q').insertAtCaret(' ' + button.data('field') + quoteSearch(input.val()) + ' ');
+            var prefix = '';
+            if ($('#is-exact input[type=checkbox]').is(':checked')) {
+                prefix = '=';
+            }
+            $('#id_q').insertAtCaret(' ' + button.data('field') + prefix + quoteSearch(input.val()) + ' ');
         }
     });
     $('.search-insert').click(function () {
         $('#id_q').insertAtCaret(' ' + $(this).closest('tr').find('code').text() + ' ');
+    });
+
+    /* Report source bug */
+    $('.bug-comment').click(function () {
+        $('.translation-tabs a[href="#comments"]').tab('show');
+        $("#id_scope").val("report");
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $('#comment-form').offset().top
+        }, 1000);
+        $("#id_comment").focus();
     });
 
     /* Clickable rows */

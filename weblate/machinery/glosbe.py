@@ -27,15 +27,15 @@ class GlosbeTranslation(MachineTranslation):
     name = "Glosbe"
     max_score = 90
 
-    def convert_language(self, language):
+    def map_code_code(self, code):
         """Convert language to service specific code."""
-        return language.replace("_", "-").split("-")[0].lower()
+        return code.replace("_", "-").split("-")[0].lower()
 
     def is_supported(self, source, language):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         params = {"from": source, "dest": language, "format": "json", "phrase": text}
         response = self.request(

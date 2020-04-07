@@ -28,7 +28,7 @@ NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 # List of RTL languages
 RTL_LANGS = {"ar", "arc", "ckb", "dv", "fa", "ha", "he", "ks", "ps", "ug", "ur", "yi"}
 
-# Following variables are used to map Gettext plural equations
+# Following variables are used to map Gettext plural formulas
 # to one/few/may/other like rules
 
 ONE_OTHER_PLURALS = (
@@ -147,7 +147,7 @@ def nospace_set(source):
     return {item.replace(" ", "") for item in source}
 
 
-# Plural equation - type mappings
+# Plural formula - type mappings
 PLURAL_MAPPINGS = (
     (nospace_set(ONE_OTHER_PLURALS), PLURAL_ONE_OTHER),
     (nospace_set(ONE_FEW_OTHER_PLURALS), PLURAL_ONE_FEW_OTHER),

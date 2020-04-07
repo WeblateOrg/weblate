@@ -21,7 +21,9 @@
 
 import importlib
 import inspect
+import os
 import re
+import subprocess
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -39,8 +41,14 @@ from translate.storage.xliff import ID_SEPARATOR, xlifffile
 
 import weblate
 from weblate.checks.flags import Flags
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    BilingualUpdateMixin,
+    TranslationFormat,
+    TranslationUnit,
+    UpdateError,
+)
 from weblate.trans.util import (
+    get_clean_env,
     get_string,
     join_plural,
     rich_to_xliff_string,
@@ -359,8 +367,8 @@ class TTKitFormat(TranslationFormat):
         try:
             cls.parse_store(base)
             return True
-        except Exception as error:
-            report_error(error, prefix="File parse error")
+        except Exception:
+            report_error(cause="File parse error")
             return False
 
     @property
@@ -491,9 +499,10 @@ class XliffUnit(TTKitUnit):
             if self.parent.is_template:
                 # Use source for monolingual files if editing template
                 self.unit.rich_source = converted
-                return
-            if self.unit.source:
+            elif self.unit.source:
+                # Update source to match current source
                 self.unit.rich_source = self.template.rich_source
+        # Always set target, even in monolingual template
         self.unit.rich_target = converted
 
     @cached_property
@@ -722,13 +731,8 @@ class PHPUnit(KeyValueUnit):
         return self.unit.source
 
 
-class PoFormat(TTKitFormat):
-    name = _("gettext PO file")
-    format_id = "po"
+class BasePoFormat(TTKitFormat):
     loader = pofile
-    monolingual = False
-    autoload = ("*.po", "*.pot")
-    unit_class = PoUnit
 
     def is_valid(self):
         result = super().is_valid()
@@ -746,13 +750,13 @@ class PoFormat(TTKitFormat):
 
         header = self.store.parseheader()
         try:
-            number, equation = Plural.parse_formula(header["Plural-Forms"])
+            number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
         except (ValueError, KeyError):
             return super().get_plural(language)
 
         # Find matching one
         for plural in language.plural_set.iterator():
-            if plural.same_plural(number, equation):
+            if plural.same_plural(number, formula):
                 return plural
 
         # Create new one
@@ -760,7 +764,7 @@ class PoFormat(TTKitFormat):
             language=language,
             source=Plural.SOURCE_GETTEXT,
             number=number,
-            equation=equation,
+            formula=formula,
         )
 
     @classmethod
@@ -791,7 +795,52 @@ class PoFormat(TTKitFormat):
         self.store.updateheader(**kwargs)
 
 
-class PoMonoFormat(PoFormat):
+class PoFormat(BasePoFormat, BilingualUpdateMixin):
+    name = _("gettext PO file")
+    format_id = "po"
+    monolingual = False
+    autoload = ("*.po", "*.pot")
+    unit_class = PoUnit
+
+    @classmethod
+    def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
+        """Wrapper around msgmerge."""
+        args = [
+            "--output-file",
+            out_file,
+            in_file,
+            template,
+        ]
+        if "args" in kwargs:
+            args = kwargs["args"] + args
+        else:
+            args = ["--previous"] + args
+
+        cmd = ["msgmerge"] + args
+        try:
+            output = subprocess.check_output(
+                cmd,
+                env=get_clean_env(),
+                cwd=os.path.dirname(out_file),
+                stderr=subprocess.STDOUT,
+                universal_newlines=True,
+            )
+            # The warnings can cause corruption (for example in case
+            # PO file header is missing ASCII encoding is assumed)
+            if "warning:" in output:
+                raise UpdateError(" ".join(cmd), output)
+        except (OSError, subprocess.CalledProcessError) as error:
+            report_error(cause="Failed msgmerge")
+            output = getattr(error, "output", str(error))
+            raise UpdateError(" ".join(cmd), output)
+
+    @classmethod
+    def get_new_file_content(cls):
+        """Empty PO file content."""
+        return b""
+
+
+class PoMonoFormat(BasePoFormat):
     name = _("gettext PO file (monolingual)")
     format_id = "po-mono"
     monolingual = True

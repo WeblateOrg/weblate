@@ -123,6 +123,11 @@ class MsgmergeForm(BaseAddonForm):
         required=False,
         initial=True,
     )
+    no_location = forms.BooleanField(
+        label=_("Remove locations of translated strings"),
+        required=False,
+        initial=False,
+    )
     fuzzy = forms.BooleanField(
         label=_("Use fuzzy matching"), required=False, initial=True
     )

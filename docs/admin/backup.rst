@@ -9,7 +9,7 @@ Automated backup
 .. versionadded:: 3.9
 
 Weblate has built in support for creating service backups using `BorgBackup`_.
-Borg creates space effective encrypted backups which can be safely stored in
+Borg creates space-effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface on the
 :guilabel:`Backups` tab.
 
@@ -47,7 +47,7 @@ activating can be performed in few steps:
 Using custom backup storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can also use own storage for the backups. SSH can be used to store backups
+You can also use your own storage for the backups. SSH can be used to store backups
 on the remote destination, the target server needs to have `BorgBackup`_
 installed.
 
@@ -82,9 +82,9 @@ Restoring from BorgBackup
 
 4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
 
-5. Copy Weblate configuration and data dir to correct location.
+5. Copy Weblate configuration and data dir to the correct location.
 
-The borg session might look like:
+The Borg session might look like:
 
 .. code-block:: console
 
@@ -183,7 +183,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 * Weblate settings as :file:`settings.py`.
 * PostgreSQL database backup as :file:`database.sql`.
 
-The database backup are by default saved as plain text, but they also can be compressed
+The database backup are by default saved as plain text, but they can also be compressed
 or entirely skipped by using :setting:`DATABASE_BACKUP`.
 
 Version control repositories
@@ -213,11 +213,29 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up user uploaded files (e.g. :ref:`screenshots`).
 
+Command line for manual backup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Using a cron task, you can set up a bash command to be executed on a daily basis, for instance:
+
+.. code-block:: console
+
+     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups vcs ssh home media fonts secret
+
+The string between quotes after XZ_OPT allows you to choose your xz options, for instance the amount of memory used for compression; see https://linux.die.net/man/1/xz
+
+You can adjust the list of folders and files to your needs. For instance, to avoid saving the translation memory (in backups folder), you could use:
+
+.. code-block:: console
+
+     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups/database.sql backups/settings.py vcs ssh home media fonts secret
+
+
 Celery tasks
 ------------
 
 The Celery tasks queue might contain some info, but is usually not needed
-for a backup. At most your will lose updates that have not yet ben processed to translation
+for a backup. At most you will lose updates that have not yet ben processed to translation
 memory. It is recommended to perform the fulltext or repository updates upon
 restoring anyhow, so there is no problem in losing these.
 
@@ -239,7 +257,7 @@ Restoring manual backup
 Moving a Weblate installation
 ------------------------------
 
-Relocatable your installation to a different system
+Relocate your installation to a different system
 by following the backup and restore instructions above.
 
 .. seealso::

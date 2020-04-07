@@ -81,24 +81,25 @@ ACCOUNT_ACTIVITY = {
     "full_name": _("Full name changed from {old} to {new}."),
     "reset-request": _("Password reset requested."),
     "reset": _("Password reset confirmed, password turned off."),
-    "auth-connect": _("You can now log in using {method} ({name})."),
-    "auth-disconnect": _("You can no longer log in using {method} ({name})."),
+    "auth-connect": _("Configured sign in using {method} ({name})."),
+    "auth-disconnect": _("Removed sign in using {method} ({name})."),
     "login": _("Signed in using {method} ({name})."),
     "login-new": _("Signed in using {method} ({name}) from a new device."),
     "register": _("Somebody has attempted to register with your e-mail."),
     "connect": _("Somebody has attempted to register using your e-mail address."),
-    "failed-auth": _("Could not log in using {method} ({name})."),
-    "locked": _("Account locked due to many failed logins."),
+    "failed-auth": _("Could not sign in using {method} ({name})."),
+    "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
     "tos": _("Agreement with Terms of Service {date}."),
+    "invited": _("Invited to Weblate by {username}."),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
-        "auth-connect": _("You can now log in using password."),
+        "auth-connect": _("Configured password sign in."),
         "login": _("Signed in using password."),
         "login-new": _("Signed in using password from a new device."),
-        "failed-auth": _("Could not log in using password."),
+        "failed-auth": _("Could not sign in using password."),
     }
 }
 

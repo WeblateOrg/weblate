@@ -837,7 +837,7 @@ CHECK_LIST = [
     "weblate.checks.format.CSharpFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",
-    "weblate.checks.format.PercentInterpolationCheck",
+    "weblate.checks.format.PercentPlaceholdersCheck",
     "weblate.checks.format.I18NextInterpolationCheck",
     "weblate.checks.angularjs.AngularJSInterpolationCheck",
     "weblate.checks.qt.QtFormatCheck",

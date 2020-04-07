@@ -24,7 +24,7 @@ from rest_framework import serializers
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, Project, Translation, Unit
-from weblate.trans.util import cleanup_repo_url
+from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 
@@ -85,13 +85,29 @@ class LanguageSerializer(serializers.ModelSerializer):
         model = Language
         fields = ("code", "name", "direction", "web_url", "url")
         extra_kwargs = {
-            "url": {"view_name": "api:language-detail", "lookup_field": "code"}
+            "url": {"view_name": "api:language-detail", "lookup_field": "code"},
+            "code": {"validators": []},
         }
+
+    def validate_code(self, value):
+        check_query = Language.objects.filter(code=value)
+        if check_query.exists() and not (
+            isinstance(self.parent, ProjectSerializer)
+            and self.field_name == "source_language"
+        ):
+            raise serializers.ValidationError(
+                "Language with this Language code already exists."
+            )
+        if not check_query.exists():
+            raise serializers.ValidationError(
+                "Language with this language code was not found."
+            )
+        return value
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    source_language = LanguageSerializer(read_only=True)
+    source_language = LanguageSerializer(required=False)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
     )
@@ -126,6 +142,15 @@ class ProjectSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
+
+    def create(self, validated_data):
+        source_language_validated = validated_data.get("source_language")
+        if source_language_validated:
+            validated_data["source_language"] = Language.objects.get(
+                code=source_language_validated.get("code")
+            )
+        project = Project.objects.create(**validated_data)
+        return project
 
 
 class RepoField(serializers.CharField):
@@ -339,7 +364,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
     method = serializers.ChoiceField(
-        choices=("translate", "approve", "suggest", "fuzzy", "replace"),
+        choices=("translate", "approve", "suggest", "fuzzy", "replace", "source"),
         required=False,
         default="translate",
     )
@@ -352,16 +377,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
         if data["overwrite"] and not user.has_perm("upload.overwrite", obj):
             raise PermissionDenied()
 
-        if not user.has_perm("unit.edit", obj) and data["method"] in (
-            "translate",
-            "fuzzy",
-        ):
-            raise PermissionDenied()
-        if not user.has_perm("suggestion.add", obj) and data["method"] == "suggest":
-            raise PermissionDenied()
-        if not user.has_perm("unit.review", obj) and data["method"] == "approve":
-            raise PermissionDenied()
-        if not user.has_perm("component.edit", obj) and data["method"] == "replace":
+        if not check_upload_method_permissions(user, obj, data["method"]):
             raise PermissionDenied()
 
 

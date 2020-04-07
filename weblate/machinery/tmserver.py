@@ -46,9 +46,9 @@ class TMServerTranslation(MachineTranslation):
 
         return settings.MT_TMSERVER.rstrip("/")
 
-    def convert_language(self, language):
+    def map_language_code(self, code):
         """Convert language to service specific code."""
-        return language.replace("-", "_").lower()
+        return code.replace("-", "_").lower()
 
     def download_languages(self):
         """Download list of supported languages from a service."""
@@ -74,7 +74,7 @@ class TMServerTranslation(MachineTranslation):
             return True
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         url = "{0}/{1}/{2}/unit/{3}".format(
             self.url,

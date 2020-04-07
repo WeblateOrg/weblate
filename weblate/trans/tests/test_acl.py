@@ -114,7 +114,7 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "@Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "invalid", "full_name": "name"},
+            {"email": "invalid", "username": "valid", "full_name": "name"},
             follow=True,
         )
         # This error comes from Django validation
@@ -125,7 +125,11 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "@Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": self.user.email, "full_name": "name"},
+            {
+                "email": self.user.email,
+                "username": self.user.username,
+                "full_name": "name",
+            },
             follow=True,
         )
         self.assertContains(response, "User with this E-mail already exists")
@@ -135,7 +139,7 @@ class ACLTest(FixtureTestCase):
         self.project.add_user(self.user, "@Administration")
         response = self.client.post(
             reverse("invite-user", kwargs=self.kw_project),
-            {"email": "user@example.com", "full_name": "name"},
+            {"email": "user@example.com", "username": "username", "full_name": "name"},
             follow=True,
         )
         # Ensure user is now listed
@@ -272,17 +276,17 @@ class ACLTest(FixtureTestCase):
             billing_group = 0
         match = "{}@".format(self.project.name)
         self.project.access_control = Project.ACCESS_PUBLIC
-        self.project.enable_review = False
+        self.project.translation_review = False
         self.project.save()
         self.assertEqual(1, Group.objects.filter(name__startswith=match).count())
         self.project.access_control = Project.ACCESS_PROTECTED
-        self.project.enable_review = True
+        self.project.translation_review = True
         self.project.save()
         self.assertEqual(
             9 + billing_group, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PRIVATE
-        self.project.enable_review = True
+        self.project.translation_review = True
         self.project.save()
         self.assertEqual(
             9 + billing_group, Group.objects.filter(name__startswith=match).count()

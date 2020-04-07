@@ -20,6 +20,7 @@
 
 import errno
 import os
+import sys
 import time
 from itertools import chain
 
@@ -344,5 +345,18 @@ def check_errors(app_configs=None, **kwargs):
             "it is highly recommended for production use",
             hint=get_doc_url("admin/install", "collecting-errors"),
             id="weblate.I021",
+        )
+    ]
+
+
+def check_encoding(app_configs=None, **kwargs):
+    """Check there is encoding is utf-8."""
+    if sys.getfilesystemencoding() == "utf-8" and sys.getdefaultencoding() == "utf-8":
+        return []
+    return [
+        Critical(
+            "System encoding is not utf-8, processing non-ASCII strings will break",
+            hint=get_doc_url("admin/install", "production-encoding"),
+            id="weblate.C023",
         )
     ]

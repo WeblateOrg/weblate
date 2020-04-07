@@ -32,7 +32,7 @@ from django.shortcuts import render as django_render
 from django.shortcuts import resolve_url
 from django.utils import timezone
 from django.utils.encoding import force_str
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from lxml import etree
@@ -281,7 +281,7 @@ def redirect_next(next_url, fallback):
     """Redirect to next URL from request after validating it."""
     if (
         next_url is None
-        or not is_safe_url(next_url, allowed_hosts=None)
+        or not url_has_allowed_host_and_scheme(next_url, allowed_hosts=None)
         or not next_url.startswith("/")
     ):
         return redirect(fallback)
@@ -333,6 +333,8 @@ def get_state_css(unit):
         flags.append("state-empty")
     elif unit.has_failing_check:
         flags.append("state-alert")
+    elif unit.readonly:
+        flags.append("state-readonly")
     elif unit.approved:
         flags.append("state-approved")
     elif unit.translated:
@@ -344,3 +346,24 @@ def get_state_css(unit):
     if unit.has_suggestion:
         flags.append("state-suggest")
     return flags
+
+
+def check_upload_method_permissions(user, translation, method: str):
+    """Check whether user has permission to perform upload method."""
+    if method == "source":
+        return (
+            translation.is_source
+            and not translation.filename
+            and user.has_perm("upload.perform", translation)
+        )
+    if method in ("translate", "fuzzy"):
+        return user.has_perm("unit.edit", translation)
+    if method == "suggest":
+        return not translation.is_readonly and user.has_perm(
+            "suggestion.add", translation
+        )
+    if method == "approve":
+        return user.has_perm("unit.review", translation)
+    if method == "replace":
+        return translation.filename and user.has_perm("component.edit", translation)
+    raise ValueError(f"Invalid method: {method}")

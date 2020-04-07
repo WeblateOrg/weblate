@@ -518,7 +518,7 @@ In case you want to run an installation non interactively, you can use
 :samp:`weblate migrate --noinput`, and then create an admin user using
 :djadmin:`createadmin` command.
 
-You should also log in to the admin interface (on ``/admin/`` URL) and adjust the
+You should also sign in to the admin interface (on ``/admin/`` URL) and adjust the
 default sitename to match your domain by clicking on :guilabel:`Sites` and once there,
 change the :samp:`example.com` record to match your real domain name.
 
@@ -860,6 +860,18 @@ background. This is now automatically done by :ref:`celery` and covers following
 
    Since version 3.2, the default way of executing these tasks is using Celery
    and Weblate already comes with proper configuration, see :ref:`celery`.
+
+.. _production-encoding:
+
+System locales and encoding
++++++++++++++++++++++++++++
+
+The system locales should be configured to UTF-8 capable ones. On most Linux
+distributions this is the default setting. In case it is not the case on your
+system, please change locales to UTF-8 variant.
+
+For examble by editing :file:`/etc/default/locale` and setting there
+``LANG="C.UTF-8"``.
 
 .. _server:
 

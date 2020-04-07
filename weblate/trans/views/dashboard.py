@@ -19,6 +19,7 @@
 
 
 from django.conf import settings
+from django.core.cache import cache
 from django.db.models import Count
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -150,7 +151,7 @@ def home(request):
             request,
             _(
                 "You have activated your account, now you should set "
-                "the password to be able to login next time."
+                "the password to be able to sign in next time."
             ),
         )
         return redirect("password")
@@ -257,11 +258,25 @@ def dashboard_user(request):
 
 def dashboard_anonymous(request):
     """Home page of Weblate showing list of projects for anonymous user."""
-    all_projects = prefetch_stats(request.user.allowed_projects)
-    top_projects = sorted(all_projects, key=lambda prj: -prj.stats.monthly_changes)
+    top_project_ids = cache.get("dashboard-anonymous-projects")
+    if top_project_ids is None:
+        top_projects = sorted(
+            prefetch_stats(request.user.allowed_projects),
+            key=lambda prj: -prj.stats.monthly_changes,
+        )[:20]
+        cache.set("dashboard-anonymous-projects", {p.id for p in top_projects}, 3600)
+    else:
+        # The allowed_projects is already fetched, so filter it in Python
+        # instead of doing additional query
+        top_projects = [
+            p for p in request.user.allowed_projects if p.id in top_project_ids
+        ]
 
     return render(
         request,
         "dashboard/anonymous.html",
-        {"top_projects": top_projects[:20], "all_projects": len(all_projects)},
+        {
+            "top_projects": top_projects,
+            "all_projects": len(request.user.allowed_projects),
+        },
     )

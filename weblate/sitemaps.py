@@ -50,6 +50,7 @@ class PagesSitemap(Sitemap):
 class WeblateSitemap(Sitemap):
     priority = None
     changefreq = None
+    limit = 1000
 
     def items(self):
         raise NotImplementedError()

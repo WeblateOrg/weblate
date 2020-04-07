@@ -96,7 +96,7 @@ class BaiduTranslation(MachineTranslation):
             "vie",
         ]
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             settings.MT_BAIDU_ID, settings.MT_BAIDU_SECRET, text

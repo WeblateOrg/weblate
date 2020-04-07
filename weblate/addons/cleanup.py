@@ -42,12 +42,26 @@ class BaseCleanupAddon(UpdateBaseAddon):
 
         return index
 
+    def build_indexes(self):
+        index = self.build_index(self.template_store)
+        if self.instance.component.intermediate:
+            intermediate = self.build_index(self.instance.component.intermediate_store)
+        else:
+            intermediate = {}
+        return index, intermediate
+
+    @staticmethod
+    def get_index(index, intermediate, translation):
+        if intermediate and translation.is_source:
+            return intermediate
+        return index
+
     @staticmethod
     def iterate_translations(component):
         yield from (
             translation
             for translation in component.translation_set.iterator()
-            if not translation.is_source
+            if not translation.is_source or component.intermediate
         )
 
     @classmethod
@@ -108,14 +122,26 @@ class CleanupAddon(BaseCleanupAddon):
             storage.save()
 
     def update_translations(self, component, previous_head):
-        index = self.build_index(self.template_store)
+        index, intermediate = self.build_indexes()
 
         if isinstance(self.template_store, AppStoreParser):
             for translation in self.iterate_translations(component):
-                self.update_appstore(index, translation, translation.store)
+                self.update_appstore(
+                    self.get_index(index, intermediate, translation),
+                    translation,
+                    translation.store,
+                )
         elif isinstance(self.template_store, LISAfile):
             for translation in self.iterate_translations(component):
-                self.update_lisa(index, translation, translation.store)
+                self.update_lisa(
+                    self.get_index(index, intermediate, translation),
+                    translation,
+                    translation.store,
+                )
         else:
             for translation in self.iterate_translations(component):
-                self.update_units(index, translation, translation.store)
+                self.update_units(
+                    self.get_index(index, intermediate, translation),
+                    translation,
+                    translation.store,
+                )

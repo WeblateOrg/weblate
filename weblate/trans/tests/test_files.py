@@ -38,6 +38,7 @@ TEST_CSV_QUOTES_ESCAPED = get_test_file("cs-quotes-escaped.csv")
 TEST_PO_BOM = get_test_file("cs-bom.po")
 TEST_FUZZY_PO = get_test_file("cs-fuzzy.po")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
+TEST_POT = get_test_file("hello.pot")
 TEST_MO = get_test_file("cs.mo")
 TEST_XLIFF = get_test_file("cs.poxliff")
 TEST_ANDROID = get_test_file("strings-cs.xml")
@@ -245,7 +246,7 @@ class ImportFuzzyTest(ImportBaseTest):
 
     def test_import_review(self):
         """Test importing as approved."""
-        self.project.enable_review = True
+        self.project.translation_review = True
         self.project.save()
         response = self.do_import(method="approve", fuzzy="approve")
         self.assertRedirects(response, self.translation_url)
@@ -396,12 +397,30 @@ class ExportTest(ViewTestCase):
         # Add some content so that .mo files is non empty
         self.edit_unit(self.source, self.target)
 
+    def assert_response_contains(self, response, *matches):
+        """Replacement of assertContains to work on streamed responses."""
+        self.assertEqual(
+            response.status_code,
+            200,
+            "Couldn't retrieve content: Response code was %d" % response.status_code,
+        )
+
+        if response.streaming:
+            content = b"".join(response.streaming_content)
+        else:
+            content = response.content
+        for match in matches:
+            self.assertIn(
+                match.encode() if isinstance(match, str) else match,
+                content,
+                f"Couldn't find {match!r} in response",
+            )
+
     def test_export(self):
         response = self.client.get(
             reverse("download_translation", kwargs=self.kw_translation)
         )
-        self.assertContains(response, self.test_match_1)
-        self.assertContains(response, self.test_match_2)
+        self.assert_response_contains(response, self.test_match_1, self.test_match_2)
         self.assertEqual(response["Content-Disposition"], self.test_header)
 
     def export_format(self, fmt, **extra):
@@ -412,29 +431,37 @@ class ExportTest(ViewTestCase):
 
     def test_export_po(self):
         response = self.export_format("po")
-        self.assertContains(response, self.test_source)
-        self.assertContains(response, self.test_source_plural)
-        self.assertContains(response, "/projects/test/test/cs/")
+        self.assert_response_contains(
+            response,
+            self.test_source,
+            self.test_source_plural,
+            "/projects/test/test/cs/",
+        )
 
     def test_export_po_todo(self):
         response = self.export_format("po", q="state:<translated")
-        self.assertContains(response, self.test_source)
-        self.assertContains(response, self.test_source_plural)
-        self.assertContains(response, "/projects/test/test/cs/")
+        self.assert_response_contains(
+            response,
+            self.test_source,
+            self.test_source_plural,
+            "/projects/test/test/cs/",
+        )
 
     def test_export_tmx(self):
         response = self.export_format("tmx")
-        self.assertContains(response, self.test_source)
+        self.assert_response_contains(response, self.test_source)
 
     def test_export_xliff(self):
         response = self.export_format("xliff")
-        self.assertContains(response, self.test_source)
-        self.assertContains(response, self.test_source_plural)
+        self.assert_response_contains(
+            response, self.test_source, self.test_source_plural
+        )
 
     def test_export_xliff11(self):
         response = self.export_format("xliff11")
-        self.assertContains(response, "urn:oasis:names:tc:xliff:document:1.1")
-        self.assertContains(response, self.test_source)
+        self.assert_response_contains(
+            response, "urn:oasis:names:tc:xliff:document:1.1", self.test_source
+        )
 
     def test_export_xlsx(self):
         response = self.export_format("xlsx")
@@ -482,7 +509,7 @@ class FormTest(SimpleTestCase):
         form.remove_translation_choice("suggest")
         self.assertEqual(
             [x[0] for x in form.fields["method"].choices],
-            ["translate", "approve", "fuzzy", "replace"],
+            ["translate", "approve", "fuzzy", "replace", "source"],
         )
 
 
@@ -505,6 +532,32 @@ class ImportReplaceTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
+
+
+class ImportSourceTest(ImportBaseTest):
+    """Testing of source strings update imports."""
+
+    test_file = TEST_POT
+
+    def setUp(self):
+        super().setUp()
+        self.kw_translation["lang"] = "en"
+        self.translation_url = reverse("translation", kwargs=self.kw_translation)
+
+    def test_import(self):
+        """Test importing normally."""
+        response = self.do_import(method="source")
+        self.assertRedirects(response, self.translation_url)
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
+
+        # Verify unit
+        unit = self.get_unit()
+        self.assertEqual(unit.target, "")
 
 
 class DownloadMultiTest(ViewTestCase):

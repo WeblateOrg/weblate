@@ -18,6 +18,7 @@
 #
 
 import requests
+from django.core.cache import cache
 
 from weblate import USER_AGENT
 
@@ -35,8 +36,12 @@ def request(method, url, headers=None, **kwargs):
 
 def get_uri_error(uri):
     """Return error for fetching the URL or None if it works."""
+    cached = cache.get(f"uri-check-{uri}")
+    if cached:
+        return None
     try:
         with request("get", uri, stream=True):
+            cache.set(f"uri-check-{uri}", True, 3600)
             return None
     except (
         requests.exceptions.HTTPError,

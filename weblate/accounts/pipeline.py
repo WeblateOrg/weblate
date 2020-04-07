@@ -26,10 +26,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.encoding import force_str
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from social_core.exceptions import AuthAlreadyAssociated, AuthMissingParameter
 from social_core.pipeline.partial import partial
+from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
@@ -207,9 +208,9 @@ def cleanup_next(strategy, **kwargs):
     # This is mostly fix for lack of next validation in Python Social Auth
     # see https://github.com/python-social-auth/social-core/issues/62
     url = strategy.session_get("next")
-    if url and not is_safe_url(url, allowed_hosts=None):
+    if url and not url_has_allowed_host_and_scheme(url, allowed_hosts=None):
         strategy.session_set("next", None)
-    if is_safe_url(kwargs.get("next", ""), allowed_hosts=None):
+    if url_has_allowed_host_and_scheme(kwargs.get("next", ""), allowed_hosts=None):
         return None
     return {"next": None}
 
@@ -356,6 +357,10 @@ def notify_connect(
         AuditLog.objects.create(
             user, strategy.request, action, method=backend.name, name=social.uid,
         )
+    # Remove partial pipeline
+    session = strategy.request.session
+    if PARTIAL_TOKEN_SESSION_NAME in session:
+        strategy.really_clean_partial_pipeline(session[PARTIAL_TOKEN_SESSION_NAME])
 
 
 def user_full_name(strategy, details, username, user=None, **kwargs):

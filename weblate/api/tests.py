@@ -20,6 +20,7 @@
 
 from django.core.files import File
 from django.urls import reverse
+from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
 
 from weblate.auth.models import Group, User
@@ -84,10 +85,11 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         method="get",
         request=None,
         skip=(),
+        format="multipart",
     ):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
-        response = getattr(self.client, method)(url, request)
+        response = getattr(self.client, method)(url, request, format)
         self.assertEqual(response.status_code, code)
         if data is not None:
             for item in skip:
@@ -211,6 +213,67 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(Project.objects.count(), 2)
 
+    def test_create_with_source_language(self):
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=403,
+            format="json",
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "source_language": {
+                    "code": "ru",
+                    "name": "Russian",
+                    "direction": "ltr",
+                },
+            },
+        )
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "source_language": {
+                    "code": "ru",
+                    "name": "Russian",
+                    "direction": "ltr",
+                },
+            },
+        )
+        error_response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "web": "https://weblate.org/",
+                "source_language": {
+                    "code": "invalid",
+                    "name": "Invalid",
+                    "direction": "ltr",
+                },
+            },
+        )
+        self.assertEqual(Project.objects.count(), 2)
+        self.assertEqual(response.data["source_language"]["code"], "ru")
+        self.assertEqual(
+            Project.objects.get(slug="api-project").source_language.code, "ru"
+        )
+        self.assertEqual(
+            error_response.data["source_language"]["code"][0],
+            "Language with this language code was not found.",
+        )
+
     def test_create_component(self):
         self.do_request(
             "api:project-components",
@@ -247,6 +310,12 @@ class ProjectAPITest(APIBaseTest):
 
 
 class ComponentAPITest(APIBaseTest):
+    def setUp(self):
+        super().setUp()
+        shot = Screenshot.objects.create(name="Obrazek", component=self.component)
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            shot.image.save("screenshot.png", File(handle))
+
     def test_list_components(self):
         response = self.client.get(reverse("api:component-list"))
         self.assertEqual(response.data["count"], 1)
@@ -342,6 +411,11 @@ class ComponentAPITest(APIBaseTest):
     def test_changes(self):
         request = self.do_request("api:component-changes", self.component_kwargs)
         self.assertEqual(request.data["count"], 14)
+
+    def test_screenshots(self):
+        request = self.do_request("api:component-screenshots", self.component_kwargs)
+        self.assertEqual(request.data["count"], 1)
+        self.assertEqual(request.data["results"][0]["name"], "Obrazek")
 
     def test_delete(self):
         self.do_request(
@@ -667,6 +741,113 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_upload_invalid(self):
         self.test_upload(True, 400, TEST_PO)
+
+    def test_create(self):
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=403,
+                request={
+                    "name": "Test create screenshot",
+                    "project_slug": "test",
+                    "component_slug": "test",
+                    "image": File(handle),
+                },
+            )
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=400,
+                superuser=True,
+                data={
+                    "detail": ErrorDetail(
+                        string="Missing name parameter", code="parse_error"
+                    )
+                },
+                request={
+                    "project_slug": "test",
+                    "component_slug": "test",
+                    "image": File(handle),
+                },
+            )
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=400,
+                superuser=True,
+                data={
+                    "result": "Unsuccessful",
+                    "detail": "Project matching query does not exist.",
+                },
+                request={
+                    "name": "Test create screenshot",
+                    "project_slug": "aaa",
+                    "component_slug": "test",
+                    "image": File(handle),
+                },
+            )
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=400,
+                superuser=True,
+                data={
+                    "result": "Unsuccessful",
+                    "detail": "Component matching query does not exist.",
+                },
+                request={
+                    "name": "Test create screenshot",
+                    "project_slug": "test",
+                    "component_slug": "bbb",
+                    "image": File(handle),
+                },
+            )
+            self.do_request(
+                "api:screenshot-list",
+                method="post",
+                code=201,
+                superuser=True,
+                request={
+                    "name": "Test create screenshot",
+                    "project_slug": "test",
+                    "component_slug": "test",
+                    "image": File(handle),
+                },
+            )
+        self.assertEqual(Screenshot.objects.count(), 2)
+
+    def test_units_denied(self):
+        unit = self.component.source_translation.unit_set.all()[0]
+        response = self.client.post(
+            reverse(
+                "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
+            ),
+            {"unit_pk": unit.pk},
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_units_invalid(self):
+        self.authenticate(True)
+        response = self.client.post(
+            reverse(
+                "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
+            ),
+            {"unit_pk": -1},
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_units(self):
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        response = self.client.post(
+            reverse(
+                "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
+            ),
+            {"unit_pk": unit.pk},
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(str(unit.pk), response.data["units"][0])
 
 
 class ChangeAPITest(APIBaseTest):

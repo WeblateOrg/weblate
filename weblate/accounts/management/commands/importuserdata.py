@@ -102,4 +102,4 @@ class Command(BaseCommand):
 
                 profile.save()
             except User.DoesNotExist:
-                self.stderr.write("User not found: {0}\n".format(username))
+                self.stderr.write(f"User not found: {username}\n")

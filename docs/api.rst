@@ -245,18 +245,23 @@ Projects
 
         Project object attributes are documented at :http:get:`/api/projects/(string:project)/`.
 
+        The `source_language` for a project can be specified by sending a `source_language` object
+        in the POST data similar to see :http:get:`/api/languages/(string:language)/`
+
 .. http:post:: /api/projects/
 
     .. versionadded:: 3.9
 
     Creates a new project.
 
-    :param name: project name
+    :param name: Project name
     :type name: string
-    :param slug: project slug
+    :param slug: Project slug
     :type slug: string
-    :param web: project website
+    :param web: Project website
     :type web: string
+    :param source_language: Project source language (optional)
+    :type source_language: object
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -548,6 +553,20 @@ Components
     :param component: Component URL slug
     :type component: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+.. http:get::  /api/components/(string:project)/(string:component)/screenshots/
+
+    Returns a list of component screenshots.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of component screenshots; see :http:get:`/api/screenshots/(int:pk)/`
 
     .. seealso::
 
@@ -1113,6 +1132,41 @@ Screenshots
             -F image=@image.png \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/screenshots/1/file/
+
+.. http:post:: /api/screenshots/(int:pk)/units/
+
+    Associate source string with screenshot.
+
+    :param pk: Screenshot ID
+    :type pk: int
+    :form string pk: Unit ID
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
+.. http:post:: /api/screenshots/
+
+    Creates a new screenshot.
+
+    :form file image: Uploaded file
+    :form string name: Screenshot name
+    :form string project_slug: Project Slug
+    :form string component_slug: Component Slug
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+
+
+    .. seealso::
+
+        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+
 
 
 .. _hooks:

@@ -1,7 +1,9 @@
 # shell library to help executing tests
 
 set -x
-coverage erase
+if [ -z "${COVERAGE_NO_ERASE:-}" ] ; then
+    coverage erase
+fi
 
 check() {
     RET=$?

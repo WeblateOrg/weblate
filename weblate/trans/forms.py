@@ -21,7 +21,6 @@
 import copy
 import json
 from datetime import date, datetime, timedelta
-from uuid import uuid4
 
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -55,7 +54,11 @@ from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_L
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
-from weblate.trans.util import is_repo_link, sort_choices
+from weblate.trans.util import (
+    check_upload_method_permissions,
+    is_repo_link,
+    sort_choices,
+)
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
@@ -147,7 +150,7 @@ class UserField(forms.CharField):
         if not value:
             return None
         try:
-            return User.objects.get(Q(username=value) | Q(email=value))
+            return User.objects.get(Q(username__iexact=value) | Q(email__iexact=value))
         except User.DoesNotExist:
             raise ValidationError(_("No matching user found."))
         except User.MultipleObjectsReturned:
@@ -171,7 +174,7 @@ class QueryField(forms.CharField):
             parse_query(value)
             return value
         except Exception as error:
-            report_error(error)
+            report_error()
             raise ValidationError(_("Failed to parse query string: {}").format(error))
 
 
@@ -321,10 +324,10 @@ class PluralTextarea(forms.Textarea):
                 )
             )
 
-        # Show plural equation for more strings
+        # Show plural formula for more strings
         if len(values) > 1:
             ret.append(
-                render_to_string("snippets/plural-equation.html", {"plural": plural})
+                render_to_string("snippets/plural-formula.html", {"plural": plural})
             )
 
         # Join output
@@ -558,6 +561,7 @@ class SimpleUploadForm(forms.Form):
             ("suggest", _("Add as suggestion")),
             ("fuzzy", _("Add as translation needing edit")),
             ("replace", _("Replace existing translation file")),
+            ("source", _("Update source strings")),
         ),
         widget=forms.RadioSelect,
     )
@@ -570,6 +574,10 @@ class SimpleUploadForm(forms.Form):
         ),
         required=False,
     )
+
+    @staticmethod
+    def get_field_doc(field):
+        return ("user/files", "upload-{}".format(field.name))
 
     def remove_translation_choice(self, value):
         """Remove add as translation choice."""
@@ -611,15 +619,9 @@ def get_upload_form(user, translation, *args, **kwargs):
     else:
         form = SimpleUploadForm
     result = form(*args, **kwargs)
-    if not user.has_perm("unit.edit", translation):
-        result.remove_translation_choice("translate")
-        result.remove_translation_choice("fuzzy")
-    if not user.has_perm("suggestion.add", translation):
-        result.remove_translation_choice("suggest")
-    if not user.has_perm("unit.review", translation):
-        result.remove_translation_choice("approve")
-    if not user.has_perm("component.edit", translation):
-        result.remove_translation_choice("replace")
+    for method in [x[0] for x in result.fields["method"].choices]:
+        if not check_upload_method_permissions(user, translation, method):
+            result.remove_translation_choice(method)
     return result
 
 
@@ -919,9 +921,10 @@ class CommentForm(forms.Form):
             "translation or generic for all of them?"
         ),
         choices=(
+            ("report", _("Report issue with the source string"),),
             (
                 "global",
-                _("Source string comment, suggestions for " "changes to this string"),
+                _("Source string comment, suggestions for changes to this string"),
             ),
             (
                 "translation",
@@ -935,6 +938,12 @@ class CommentForm(forms.Form):
         help_text=_("You can use Markdown and mention users by @username."),
         max_length=1000,
     )
+
+    def __init__(self, translation, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Remove bug report in case source review is not enabled
+        if not translation.component.project.source_review:
+            self.fields["scope"].choices = self.fields["scope"].choices[1:]
 
 
 class EngageForm(forms.Form):
@@ -1031,47 +1040,6 @@ class UserManageForm(forms.Form):
             "Please type in an existing Weblate account name or e-mail address."
         ),
     )
-
-
-class InviteUserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ["email", "full_name"]
-
-    def clean(self):
-        data = super().clean()
-        if "email" in data:
-            data["username"] = data["email"]
-        else:
-            data["username"] = uuid4().hex
-        return data
-
-    def _get_validation_exclusions(self):
-        result = super()._get_validation_exclusions()
-        result.remove("username")
-        return result
-
-    def _post_clean(self):
-        self._meta.fields.append("username")
-        try:
-            super()._post_clean()
-        finally:
-            self._meta.fields.remove("username")
-
-    def add_error(self, field, error):
-        if field == "username":
-            field = "email"
-        if (
-            isinstance(error, ValidationError)
-            and hasattr(error, "error_dict")
-            and "username" in error.error_dict
-        ):
-            if "email" not in error.error_dict:
-                error.error_dict["email"] = error.error_dict["username"]
-            else:
-                error.error_dict["email"].extend(error.error_dict["username"])
-            del error.error_dict["username"]
-        super().add_error(field, error)
 
 
 class ReportsForm(forms.Form):
@@ -1259,6 +1227,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "new_base",
             "filemask",
             "template",
+            "intermediate",
             "language_regex",
             "shaping_regex",
         )
@@ -1333,7 +1302,10 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "language_regex",
                     ),
                     Fieldset(
-                        _("Monolingual translations"), "template", "edit_template"
+                        _("Monolingual translations"),
+                        "template",
+                        "edit_template",
+                        "intermediate",
                     ),
                     Fieldset(
                         _("Adding new languages"),
@@ -1372,6 +1344,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
             "filemask",
             "template",
             "edit_template",
+            "intermediate",
             "new_base",
             "license",
             "new_lang",
@@ -1472,7 +1445,9 @@ class ComponentScratchCreateForm(ComponentProjectForm):
     file_format = forms.ChoiceField(
         label=_("File format"),
         initial="po-mono",
-        choices=FILE_FORMATS.get_choices(cond=lambda x: bool(x.new_translation)),
+        choices=FILE_FORMATS.get_choices(
+            cond=lambda x: bool(x.new_translation) or hasattr(x, "update_bilingual")
+        ),
     )
 
 
@@ -1633,7 +1608,8 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             "enable_hooks",
             "source_language",
             "access_control",
-            "enable_review",
+            "translation_review",
+            "source_review",
         )
         widgets = {"access_control": forms.RadioSelect()}
 
@@ -1720,7 +1696,8 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     "contribute_shared_tm",
                     "enable_hooks",
                     "source_language",
-                    "enable_review",
+                    "translation_review",
+                    "source_review",
                     css_id="workflow",
                 ),
                 Tab(
@@ -1856,9 +1833,7 @@ class BulkEditForm(forms.Form):
         self.fields["add_labels"].queryset = project.label_set.all()
 
         excluded = {STATE_EMPTY}
-        if (
-            user is not None and not user.has_perm("unit.review", obj)
-        ) or not project.enable_review:
+        if user is not None and not user.has_perm("unit.review", obj):
             excluded.add(STATE_APPROVED)
 
         # Filter offered states

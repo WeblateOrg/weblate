@@ -22,7 +22,7 @@ import json
 
 from appconf import AppConf
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
@@ -57,7 +57,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.CSharpFormatCheck",
         "weblate.checks.format.JavaFormatCheck",
         "weblate.checks.format.JavaMessageFormatCheck",
-        "weblate.checks.format.PercentInterpolationCheck",
+        "weblate.checks.format.PercentPlaceholdersCheck",
         "weblate.checks.format.I18NextInterpolationCheck",
         "weblate.checks.angularjs.AngularJSInterpolationCheck",
         "weblate.checks.qt.QtFormatCheck",
@@ -156,13 +156,29 @@ class Check(models.Model):
 
 @receiver(post_save, sender=Check)
 @disable_for_loaddata
-def update_failed_check_flag(sender, instance, created, **kwargs):
-    """Update related unit failed check flag."""
+def check_post_save(sender, instance, created, **kwargs):
+    """Handle check creation or updates."""
     if created:
+        # Propagate checks that should do it
+        if instance.check_obj and instance.check_obj.propagates:
+            for unit in instance.unit.same_source_units:
+                unit.run_checks()
+    else:
+        # Update related unit failed check flag (the check was (un)ignored)
+        try:
+            instance.unit.update_has_failing_check(
+                has_checks=None if instance.ignore else True, invalidate=True
+            )
+        except IndexError:
+            return
+
+
+@receiver(post_delete, sender=Check)
+@disable_for_loaddata
+def remove_complimentary_checks(sender, instance, **kwargs):
+    """Remove propagate checks from all units."""
+    if not instance.check_obj or not instance.check_obj.propagates:
         return
-    try:
-        instance.unit.update_has_failing_check(
-            has_checks=None if instance.ignore else True, invalidate=True
-        )
-    except IndexError:
-        return
+    for unit in instance.unit.same_source_units:
+        if unit.check_set.filter(check=instance.check).delete()[0]:
+            unit.update_has_failing_check(invalidate=True)

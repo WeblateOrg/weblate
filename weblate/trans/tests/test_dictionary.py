@@ -272,7 +272,7 @@ class DictionaryTest(FixtureTestCase):
         # List all words
         response = self.client.get(dict_url)
         self.assertContains(response, "Czech")
-        self.assertContains(response, "1 / 4")
+        self.assertContains(response, "1 / 2")
         self.assertContains(response, "datový tok")
 
         # Filtering by letter

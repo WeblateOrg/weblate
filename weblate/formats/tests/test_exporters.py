@@ -89,13 +89,11 @@ class PoExporterTest(BaseTestCase):
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
         if nplurals == 3:
-            equation = "n==0 ? 0 : n==1 ? 1 : 2"
+            formula = "n==0 ? 0 : n==1 ? 1 : 2"
         else:
-            equation = "0"
+            formula = "0"
         lang = Language.objects.create(code="zz")
-        plural = Plural.objects.create(
-            language=lang, number=nplurals, equation=equation
-        )
+        plural = Plural.objects.create(language=lang, number=nplurals, formula=formula)
         project = Project(slug="test", source_language=Language.objects.get(code="en"))
         component = Component(
             slug="comp", project=project, file_format="xliff", template=template

@@ -19,24 +19,27 @@
 
 
 from collections import defaultdict
-from html.parser import HTMLParser
+
+from lxml.etree import HTMLParser
+
+IGNORE = {"body", "html"}
 
 
-class MarkupExtractor(HTMLParser):
+class MarkupExtractor:
     def __init__(self):
         self.found_tags = set()
         self.found_attributes = defaultdict(set)
-        super().__init__()
 
-    def handle_starttag(self, tag, attrs):
+    def start(self, tag, attrs):
+        if tag in IGNORE:
+            return
         self.found_tags.add(tag)
-        found_attributes = self.found_attributes[tag]
-        for attr in attrs:
-            found_attributes.add(attr[0])
+        self.found_attributes[tag].update(attrs.keys())
 
 
 def extract_bleach(text):
     """Exctract tags from text in a form suitable for bleach."""
     extractor = MarkupExtractor()
-    extractor.feed(text)
+    parser = HTMLParser(collect_ids=False, target=extractor)
+    parser.feed(text)
     return {"tags": extractor.found_tags, "attributes": extractor.found_attributes}

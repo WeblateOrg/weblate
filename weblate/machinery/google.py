@@ -46,9 +46,9 @@ class GoogleTranslation(MachineTranslation):
         if settings.MT_GOOGLE_KEY is None:
             raise MissingConfiguration("Google Translate requires API key")
 
-    def convert_language(self, language):
+    def map_language_code(self, code):
         """Convert language to service specific code."""
-        return super().convert_language(language.replace("_", "-").split("@")[0])
+        return super().map_language_code(code.replace("_", "-").split("@")[0])
 
     def download_languages(self):
         """List of supported languages."""
@@ -62,7 +62,7 @@ class GoogleTranslation(MachineTranslation):
 
         return [d["language"] for d in payload["data"]["languages"]]
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         response = self.request(
             "get",
