@@ -215,13 +215,17 @@ def check_suggestion_add(user, permission, obj):
 
 @register_perm("upload.perform")
 def check_contribute(user, permission, translation):
-    return (
-        translation.filename
-        and check_can_edit(user, permission, translation)
-        and (
-            check_edit_approved(user, "unit.edit", translation)
-            or check_suggestion_add(user, "suggestion.add", translation)
+    # Bilingual source translations
+    if not translation.filename:
+        return (
+            translation.is_source
+            and not translation.component.template
+            and hasattr(translation.component.file_format_cls, "update_bilingual")
+            and user.has_perm("source.edit", translation)
         )
+    return check_can_edit(user, permission, translation) and (
+        check_edit_approved(user, "unit.edit", translation)
+        or check_suggestion_add(user, "suggestion.add", translation)
     )
 
 

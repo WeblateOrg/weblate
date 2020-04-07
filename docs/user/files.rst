@@ -58,6 +58,9 @@ Add as translation needing edit
 Replace existing translation file
     Existing file is replaced with new content. This can lead to loss of existing
     translations, use with caution.
+Update source strings
+    Updates source strings in bilingual translation file. This is similar to
+    what :ref:`addon-weblate.gettext.msgmerge` does.
 
 There is also an option for how to handle strings needing edit in the imported
 file. Such strings can be handle in one of the three following ways: "Do not import", "Import as string needing edit", or "Import as translated".
