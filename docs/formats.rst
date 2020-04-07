@@ -677,6 +677,7 @@ with (what is most often the) English strings.
 
    Weblate supports the i18next JSON v3 format. The v2 and v1 variants are mostly
    compatible, with exception of how plurals are handled.
+
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/en.i18next.json
