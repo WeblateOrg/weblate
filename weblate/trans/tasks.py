@@ -253,8 +253,12 @@ def repository_alerts(threshold=10):
 
 
 @app.task(trail=False)
-def component_alerts():
-    for component in Component.objects.iterator():
+def component_alerts(component_ids=None):
+    if component_ids:
+        components = Component.objects.filter(pk__in=component_ids).iterator()
+    else:
+        components = Component.objects.iterator()
+    for component in components:
         component.update_alerts()
 
 

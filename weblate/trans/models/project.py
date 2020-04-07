@@ -195,6 +195,8 @@ class Project(models.Model, URLMixin, PathMixin):
         return self.name
 
     def save(self, *args, **kwargs):
+        from weblate.trans.tasks import perform_load, component_alerts
+
         update_tm = self.contribute_shared_tm
 
         # Renaming detection
@@ -219,10 +221,12 @@ class Project(models.Model, URLMixin, PathMixin):
 
         # Reload components after source language change
         if old is not None and old.source_language != self.source_language:
-            from weblate.trans.tasks import perform_load
-
             for component in self.component_set.iterator():
                 perform_load.delay(component.pk)
+
+        # Update alerts if needed
+        if old is not None and old.web != self.web:
+            component_alerts.delay(self.component_set.values_list("id", flat=True))
 
         # Update translation memory on enabled sharing
         if update_tm:
