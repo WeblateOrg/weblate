@@ -25,6 +25,7 @@ Not yet released.
 * Extended API to cover screenshots and extended creating projects.
 * Add support for source upload on bilingual translations.
 * Added support for intermediate language from developers.
+* Added support for source strings review.
 
 Weblate 3.11.3
 --------------

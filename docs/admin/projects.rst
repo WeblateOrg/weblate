@@ -175,7 +175,7 @@ Enable review workflow for translations, see :ref:`reviews`.
 Enable source reviews
 +++++++++++++++++++++
 
-Enable review workflow for source strings, see :ref:`reviews`.
+Enable review workflow for source strings, see :ref:`source-reviews`.
 
 .. _project-enable_hooks:
 
