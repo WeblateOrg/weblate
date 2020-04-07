@@ -744,11 +744,11 @@ Example file:
 
 .. index::
     pair: RESX; file format
-    pair: .XML resource files; file format
+    pair: .XML resource file; file format
 
 .. versionadded:: 2.3
 
-A .XML resource files (.resx) file employs a monolingual XML file format used in Microsoft
+A .XML resource (.resx) file employs a monolingual XML file format used in Microsoft
 .NET applications. It is [interchangeable with .resw, when using identical
 syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-localization).
 
@@ -761,7 +761,7 @@ syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-locali
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `.XML resource files`            |
+| File format                    | `.XML resource file`             |
 +--------------------------------+----------------------------------+
 
 .. seealso::
