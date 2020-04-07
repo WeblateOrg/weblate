@@ -37,6 +37,7 @@ class FilterRegistry:
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
             ("shapings", _("Strings with shapings"), "has:shaping"),
             ("labels", _("Strings with labels"), "has:label"),
+            ("context", _("Strings with context"), "has:context"),
             (
                 "nosuggestions",
                 _("Strings needing action without suggestions"),
