@@ -7,7 +7,7 @@ Addons
 
 Addons provide ways to customize translation workflow. They can be installed in the
 translation component view, and work behind the scenes. Addon management
-is avaialble from the :guilabel:`Manage` ↓ `Addons` menu of each respective translation
+is available from the :guilabel:`Manage` ↓ `Addons` menu of each respective translation
 component for admins.
 
 .. image:: /images/addons.png
@@ -420,13 +420,13 @@ Additionally, the following environment variables are available:
 
    .. versionadded:: 3.9
 
-   Component URL
+   Component URL.
 
 .. envvar:: WL_ENGAGE_URL
 
    .. versionadded:: 3.9
 
-   Project engage URL
+   Project engage URL.
 
 .. seealso::
 
