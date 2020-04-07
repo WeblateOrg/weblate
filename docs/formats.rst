@@ -235,6 +235,10 @@ is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
 [XLIFF](http://docs.oasis-open.org/xliff/xliff-core/xliff-core.html) is usually used as bilingual, but Weblate supports it as monolingual as well.
 
+.. seealso::
+
+    `Specification of XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html>`_,
+
 Translation states
 +++++++++++++++++++
 
