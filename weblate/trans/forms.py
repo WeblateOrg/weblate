@@ -575,6 +575,10 @@ class SimpleUploadForm(forms.Form):
         required=False,
     )
 
+    @staticmethod
+    def get_field_doc(field):
+        return ("user/files", "upload-{}".format(field.name))
+
     def remove_translation_choice(self, value):
         """Remove add as translation choice."""
         choices = self.fields["method"].choices
