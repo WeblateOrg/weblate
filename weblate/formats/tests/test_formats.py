@@ -343,6 +343,14 @@ class PoFormatTest(AutoFormatTest):
         # Backup flag is not compatible with others
         with self.assertRaises(UpdateError):
             self.FORMAT.update_bilingual(test_file, TEST_POT, args=["--backup=none"])
+        with open(test_file, "r") as handle:
+            self.assertEqual(len(handle.read()), 340)
+
+        # Test warning in ouput (used Unicode POT file without charset specified)
+        with self.assertRaises(UpdateError):
+            self.FORMAT.update_bilingual(test_file, TEST_POT_UNICODE)
+        with open(test_file, "r") as handle:
+            self.assertEqual(len(handle.read()), 340)
 
 
 class PropertiesFormatTest(AutoFormatTest):
