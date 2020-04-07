@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 09:03+0000\n"
-"PO-Revision-Date: 2020-04-07 13:56+0000\n"
+"PO-Revision-Date: 2020-04-07 20:37+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
@@ -2034,7 +2034,7 @@ msgstr "O número de \\n na tradução não corresponde ao da fonte"
 
 #: weblate/checks/chars.py:332
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Quebras de linha não coincidentes"
 
 #: weblate/checks/chars.py:333
 msgid "Number of new lines in translation does not match source"
@@ -2272,7 +2272,7 @@ msgstr "O MessageFormat Java da cadeia não coincide com a fonte"
 
 #: weblate/checks/format.py:433
 msgid "You need to pair up an apostrophe with another one."
-msgstr ""
+msgstr "Precisa de emparelhar um apóstrofo com outro."
 
 #: weblate/checks/format.py:439
 msgid "i18next interpolation"
@@ -2283,16 +2283,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "A interpolação de i18next não coincide com a fonte"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Placeholders"
 msgid "Percent placeholders"
-msgstr "Percentagem de símbolos"
+msgstr "Símbolos de percentagem"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "A percentagem de símbolos não coincide com a fonte"
+msgstr "Os símbolos de percentagem não coincide com a fonte"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -3619,7 +3615,7 @@ msgstr ""
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "Iniciar a sessão com:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
@@ -3627,7 +3623,7 @@ msgstr "Esqueceu-se da palavra-passe?"
 
 #: weblate/templates/accounts/login.html:64
 msgid "Register new account"
-msgstr "Registar nova Conta"
+msgstr "Registar nova conta"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -3942,7 +3938,7 @@ msgstr "Registar utilizando o e-mail"
 
 #: weblate/templates/accounts/register.html:53
 msgid "Create an account using:"
-msgstr ""
+msgstr "Criar uma conta, utilizando:"
 
 #: weblate/templates/accounts/register.html:67
 msgid "Sorry, new registrations are turned off on this site."
@@ -4288,7 +4284,7 @@ msgstr "Definições"
 
 #: weblate/templates/base.html:210 weblate/wladmin/sites.py:184
 msgid "Sign out"
-msgstr ""
+msgstr "Terminar sessão"
 
 #: weblate/templates/base.html:217
 msgid "Help"
@@ -4456,7 +4452,7 @@ msgstr "Utilizado %(used)s de %(total)s"
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:32
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "Visible to everybody."
-msgstr ""
+msgstr "Visível para toda a gente."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:35
 #: weblate/templates/component_info.html:26
@@ -5626,7 +5622,7 @@ msgstr ""
 
 #: weblate/templates/i18n.html:50
 msgid "Your password can't contain repeated words or characters."
-msgstr "A sua palavra-passe não pode conter palavras repetidas ou carateres."
+msgstr "A sua palavra-passe não pode conter palavras ou carateres repetidos."
 
 #: weblate/templates/js/git-status.html:17
 #: weblate/templates/mail/repository_error.html:13
@@ -5852,7 +5848,7 @@ msgstr "Desligar esta notificação"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "Gerado em %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -6333,7 +6329,7 @@ msgstr "Verificações de sistema"
 
 #: weblate/templates/manage/performance.html:96
 msgid "Celery queues"
-msgstr ""
+msgstr "Filas de \"celery\""
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -6469,7 +6465,7 @@ msgstr "Integração do Test Sentry"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
-msgstr ""
+msgstr "Gere um evento de teste para testar a integração do Sentry."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -6860,10 +6856,13 @@ msgid ""
 "Additional labels can be defined in the <a href=\"%(url)s\">project "
 "settings</a>."
 msgstr ""
+"As etiquetas adicionais podem ser definidas nas <a href=\"%(url)s\">"
+"definições do projeto</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
 msgid "Additional labels can be defined by project administrators."
 msgstr ""
+"As etiquetas adicionais podem ser definidas pelos administradores do projeto."
 
 #: weblate/templates/snippets/list-objects-percent.html:5
 #, python-format
@@ -6910,6 +6909,7 @@ msgstr "Sistema de tradução <strong>contínua</strong> baseada na Web"
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
 msgstr ""
+"Ao registar-se e ao iniciar a sessão neste serviço, está a aceitar a nossa:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -6934,6 +6934,8 @@ msgid ""
 "Version control or files to translate are configured on individual "
 "components:"
 msgstr ""
+"O controle de versão ou os ficheiros a serem traduzidos são configurados em "
+"componentes individuais:"
 
 #: weblate/templates/snippets/project-nav.html:137
 msgid "Tweet this translation"
@@ -7171,6 +7173,7 @@ msgstr "Este componente está configurado incorretamente."
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non-existing locations:"
 msgstr ""
+"O URL do navegador do repositório aponta para localizações não existentes:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
 msgid ""
@@ -7187,6 +7190,7 @@ msgstr "Este projeto está configurado incorretamente."
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to a non-existing location:"
 msgstr ""
+"O URL do \"site\" da Web do projeto aponta para uma localização inexistente:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
@@ -7221,6 +7225,8 @@ msgid ""
 "Change the source language in the project settings, or remove its "
 "translation file."
 msgstr ""
+"Altere o idioma fonte nas definições do projeto, ou remova o seu ficheiro de "
+"tradução."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
@@ -7675,7 +7681,7 @@ msgstr "Tradução automática"
 
 #: weblate/templates/translate.html:235
 msgid "Translations of this string in the other languages"
-msgstr "Traduções desta entrada nos outros idiomas"
+msgstr "Traduções desta entrada em outros idiomas"
 
 #: weblate/templates/translate.html:235
 msgid "Other languages"
@@ -8443,6 +8449,8 @@ msgstr "Utilizador a adicionar"
 #: weblate/trans/forms.py:1030
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
+"Por favor, digite um nome de conta ou endereço de \"e-mail\" existente da "
+"Weblate."
 
 #: weblate/trans/forms.py:1037
 msgid "Report format"
@@ -8621,7 +8629,7 @@ msgstr "Acesso"
 
 #: weblate/trans/forms.py:1675
 msgid "Workflow"
-msgstr ""
+msgstr "Ritmo de Trabalho"
 
 #: weblate/trans/forms.py:1699
 msgid ""
@@ -8838,7 +8846,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:125
 msgid "Announcements"
-msgstr ""
+msgstr "Anúncios"
 
 #: weblate/trans/models/announcement.py:132
 msgid "Do not specify both component and project!"
@@ -9082,7 +9090,7 @@ msgstr "Notificação de repositório recebido"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
 msgid "Replaced file by upload"
-msgstr ""
+msgstr "Ficheiro substituído por envio"
 
 #: weblate/trans/models/change.py:443
 #, python-format
@@ -9425,6 +9433,8 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
+"O repositório requer autenticação, por favor, especifique as credenciais no "
+"URL ou utilize o acesso SSH."
 
 #: weblate/trans/models/component.py:795
 #, python-format
@@ -10706,6 +10716,8 @@ msgstr "O nome de ficheiro não pode ser um caminho absoluto."
 #: weblate/utils/validators.py:206
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
+"O nome do ficheiro deve ser o mais simples possível. Talvez queira utilizar: "
+"{}"
 
 #: weblate/utils/views.py:232
 #, python-format
