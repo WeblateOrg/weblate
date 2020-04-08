@@ -16,10 +16,10 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
 
-{% if checks %}
+{% if translations %}
 <div class="list-group">
-{% for obj in checks %}
-<a class="list-group-item" href="{% url 'translate' project=component.project.slug component=component.slug lang=obj.translation__language__code %}?q={% if ignored %}ignored_{% endif %}{{ check.url_id }}"><span class="badge">{{ obj.count }}</span>{% language_name obj.translation__language__code %}</a>
+{% for obj in translations %}
+<a class="list-group-item" href="{% url 'translate' project=component.project.slug component=component.slug lang=obj.language.code %}?q={% if ignored %}ignored_{% endif %}{{ check.url_id }}"><span class="badge">{{ obj.check_count }}</span>{{ obj.language }}</a>
 {% endfor %}
 </div>
 {% else %}

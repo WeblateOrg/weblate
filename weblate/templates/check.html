@@ -14,10 +14,10 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
 
-{% if checks %}
+{% if projects %}
 <div class="list-group">
-{% for obj in checks %}
-<a class="list-group-item" href="{% url 'show_check_project' name=check.check_id project=obj.project__slug %}{{ url_params }}"><span class="badge">{{ obj.count }}</span>{% project_name obj.project__slug %}</a>
+{% for obj in projects %}
+<a class="list-group-item" href="{% url 'show_check_project' name=check.check_id project=obj.slug %}{{ url_params }}"><span class="badge">{{ obj.check_count }}</span>{{ obj }}</a>
 {% endfor %}
 </div>
 {% else %}

@@ -36,7 +36,6 @@ from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
 from weblate.auth.models import User
 from weblate.checks import CHECKS, highlight_string
-from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
     Announcement,
@@ -255,24 +254,6 @@ def check_description(check):
         return escape(CHECKS[check].description)
     except KeyError:
         return escape(check)
-
-
-@register.simple_tag
-def project_name(prj):
-    """Get project name based on slug."""
-    return escape(force_str(Project.objects.get(slug=prj)))
-
-
-@register.simple_tag
-def component_name(prj, subprj):
-    """Get component name based on slug."""
-    return escape(force_str(Component.objects.get(project__slug=prj, slug=subprj)))
-
-
-@register.simple_tag
-def language_name(code):
-    """Get language name based on its code."""
-    return escape(force_str(Language.objects.get(code=code)))
 
 
 @register.simple_tag
