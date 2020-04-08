@@ -376,21 +376,6 @@ class Project(models.Model, URLMixin, PathMixin):
         """Run batch executed source checks."""
         self.run_batch_checks("source")
 
-    def update_unit_flags(self):
-        from weblate.trans.models import Unit
-
-        units = Unit.objects.filter(translation__component__project=self)
-
-        self.log_debug("updating unit flags: has_failing_check")
-
-        units.filter(has_failing_check=False).filter(check__ignore=False).update(
-            has_failing_check=True
-        )
-        units.filter(has_failing_check=True).exclude(check__ignore=False).update(
-            has_failing_check=False
-        )
-        self.log_debug("all unit flags updated")
-
     def invalidate_stats_deep(self):
         self.log_info("updating stats caches")
         from weblate.trans.models import Translation

@@ -1438,8 +1438,11 @@ class Component(models.Model, URLMixin, PathMixin):
             for project in projects.values():
                 project.run_target_checks()
                 project.run_source_checks()
-                project.update_unit_flags()
                 project.invalidate_stats_deep()
+
+        # Update flags
+        if was_change:
+            self.update_unit_flags()
 
         # Schedule background cleanup if needed
         if self.needs_cleanup:
@@ -1459,6 +1462,21 @@ class Component(models.Model, URLMixin, PathMixin):
 
         self.log_info("updating completed")
         return was_change
+
+    def update_unit_flags(self):
+        from weblate.trans.models import Unit
+
+        units = Unit.objects.filter(translation__component=self)
+
+        self.log_debug("updating unit flags: has_failing_check")
+
+        units.filter(has_failing_check=False).filter(check__ignore=False).update(
+            has_failing_check=True
+        )
+        units.filter(has_failing_check=True).exclude(check__ignore=False).update(
+            has_failing_check=False
+        )
+        self.log_debug("all unit flags updated")
 
     def get_lang_code(self, path, validate=False):
         """Parse language code from path."""
@@ -2117,7 +2135,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 )
                 self.project.run_target_checks()
                 self.update_source_checks()
-                self.project.update_unit_flags()
+                self.update_unit_flags()
                 translation.invalidate_cache()
                 translation.notify_new(request)
                 messages.error(request, _("Translation file already exists!"))
@@ -2149,7 +2167,7 @@ class Component(models.Model, URLMixin, PathMixin):
             )
             self.project.run_target_checks()
             self.update_source_checks()
-            self.project.update_unit_flags()
+            self.update_unit_flags()
             translation.invalidate_cache()
             translation.notify_new(request)
             return translation
