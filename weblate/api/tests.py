@@ -25,7 +25,14 @@ from rest_framework.test import APITestCase
 
 from weblate.auth.models import Group, User
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.models import (
+    Change,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+    Unit,
+)
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import STATE_TRANSLATED
@@ -865,3 +872,103 @@ class MetricsAPITest(APIBaseTest):
     def test_forbidden(self):
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["detail"].code, "not_authenticated")
+
+
+class ComponentListAPITest(APIBaseTest):
+    def setUp(self):
+        super().setUp()
+        clist = ComponentList.objects.create(name="Name", slug="name")
+        clist.autocomponentlist_set.create()
+
+    def test_list(self):
+        response = self.client.get(reverse("api:componentlist-list"))
+        self.assertEqual(response.data["count"], 1)
+
+    def test_get(self):
+        response = self.client.get(
+            reverse(
+                "api:componentlist-detail",
+                kwargs={"slug": ComponentList.objects.get().slug},
+            )
+        )
+        self.assertIn("components", response.data)
+
+    def test_create(self):
+        self.do_request(
+            "api:componentlist-list", method="post", code=403,
+        )
+        self.do_request(
+            "api:componentlist-list",
+            method="post",
+            superuser=True,
+            code=201,
+            request={"name": "List", "slug": "list"},
+        )
+
+    def test_delete(self):
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+    def test_add_component(self):
+        self.do_request(
+            "api:componentlist-components",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="post",
+            code=403,
+            request={"component_id": self.component.pk},
+        )
+        self.do_request(
+            "api:componentlist-components",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"component_id": -1},
+        )
+        self.do_request(
+            "api:componentlist-components",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"component_id": self.component.pk},
+        )
+
+    def test_put(self):
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="put",
+            code=403,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="put",
+            superuser=True,
+            code=200,
+            request={"name": "List", "slug": "list"},
+        )
+        self.assertEqual(ComponentList.objects.get().name, "List")
+
+    def test_patch(self):
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="patch",
+            code=403,
+        )
+        self.do_request(
+            "api:componentlist-detail",
+            kwargs={"slug": ComponentList.objects.get().slug},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"name": "other"},
+        )
+        self.assertEqual(ComponentList.objects.get().name, "other")

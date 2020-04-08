@@ -1045,6 +1045,65 @@ Screenshots
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
 
+Component lists
++++++++++++++++
+
+.. versionadded:: 4.0
+
+.. http:get:: /api/component-lists/
+
+    Returns a list of component lists.
+
+    .. seealso::
+
+        Component list object attributes are documented at :http:get:`/api/component-lists/(str:slug)/`.
+
+.. http:get:: /api/component-lists/(str:slug)/
+
+    Returns information about component list.
+
+    :param slug: Component list slug
+    :type slug: string
+    :>json string name: name of a component list
+    :>json string slug: slug of a component list
+    :>json boolean show_dashboard: whether to show it on a dashboard
+    :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
+    :>json array auto_assign: automatic assignment rules
+
+.. http:put:: /api/component-lists/(str:slug)/
+
+    Changes the component list parameters.
+
+    :param slug: Component list slug
+    :type slug: string
+    :<json string name: name of a component list
+    :<json string slug: slug of a component list
+    :<json boolean show_dashboard: whether to show it on a dashboard
+
+.. http:patch:: /api/component-lists/(str:slug)/
+
+    Changes the component list parameters.
+
+    :param slug: Component list slug
+    :type slug: string
+    :<json string name: name of a component list
+    :<json string slug: slug of a component list
+    :<json boolean show_dashboard: whether to show it on a dashboard
+
+.. http:delete:: /api/component-lists/(str:slug)/
+
+    Deletes the component list.
+
+    :param slug: Component list slug
+    :type slug: string
+
+.. http:put:: /api/component-lists/(str:slug)/components/
+
+    Associate component with a component list.
+
+    :param slug: Component list slug
+    :type slug: string
+    :form string component_id: Component ID
 
 .. _hooks:
 

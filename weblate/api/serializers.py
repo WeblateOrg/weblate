@@ -23,7 +23,15 @@ from rest_framework import serializers
 
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.models import (
+    AutoComponentList,
+    Change,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+    Unit,
+)
 from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
@@ -500,3 +508,39 @@ class ChangeSerializer(RemovableSerializer):
             "url",
         )
         extra_kwargs = {"url": {"view_name": "api:change-detail"}}
+
+
+class AutoComponentListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AutoComponentList
+        fields = (
+            "project_match",
+            "component_match",
+        )
+
+
+class ComponentListSerializer(serializers.ModelSerializer):
+    components = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("project__slug", "slug"),
+        many=True,
+        read_only=True,
+    )
+    auto_assign = AutoComponentListSerializer(
+        many=True, source="autocomponentlist_set", read_only=True
+    )
+
+    class Meta:
+        model = ComponentList
+        fields = (
+            "name",
+            "slug",
+            "id",
+            "show_dashboard",
+            "components",
+            "auto_assign",
+            "url",
+        )
+        extra_kwargs = {
+            "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
+        }

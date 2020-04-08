@@ -138,6 +138,8 @@ GLOBAL_PERMISSIONS = (
     ("announcement.edit", _("Manage announcements (on the entire platform)")),
     # Translators: Permission name
     ("memory.edit", _("Manage translation memory (on the entire platform)")),
+    # Translators: Permission name
+    ("componentlist.edit", _("Manage component lists (on the entire platform)")),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
