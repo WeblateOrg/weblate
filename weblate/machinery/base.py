@@ -250,6 +250,8 @@ class MachineTranslation:
                 self.set_rate_limit()
 
             self.report_error("Failed to fetch translations from %s")
+            if isinstance(exc, MachineTranslationError):
+                raise
             raise MachineTranslationError(self.get_error_message(exc))
 
     def get_error_message(self, exc):
