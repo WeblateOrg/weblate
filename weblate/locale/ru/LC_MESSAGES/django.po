@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-08 08:56+0000\n"
-"PO-Revision-Date: 2020-04-08 08:48+0000\n"
+"PO-Revision-Date: 2020-04-09 17:09+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -34,8 +34,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:102
@@ -7019,10 +7019,8 @@ msgid "String has plural"
 msgstr "Строка со множественным числом"
 
 #: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "String has comment"
 msgid "String has context"
-msgstr "Строка с комментарием"
+msgstr "Строка с контекстом"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
@@ -7605,10 +7603,8 @@ msgid "Source change"
 msgstr "Изменение источника"
 
 #: weblate/templates/translate.html:145
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Язык интерфейса"
+msgstr "Промежуточный язык"
 
 #: weblate/templates/translate.html:161 weblate/trans/models/unit.py:188
 msgid "Additional context"
@@ -7623,10 +7619,8 @@ msgid "Edit source string"
 msgstr "Править исходную строку"
 
 #: weblate/templates/translate.html:178 weblate/trans/forms.py:924
-#, fuzzy
-#| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
-msgstr "Сообщить о проблеме с регистрацией"
+msgstr "Сообщить о проблеме с исходной строкой"
 
 #: weblate/templates/translate.html:193
 msgid "Please sign in to save translations."
@@ -8199,10 +8193,8 @@ msgid "Strings with labels"
 msgstr "Строки с метками"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with context"
-msgstr "Строки с комментариями"
+msgstr "Строки с контекстом"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8324,17 +8316,15 @@ msgstr "Добавить как предложение"
 
 #: weblate/trans/forms.py:562
 msgid "Add as translation needing edit"
-msgstr "Добавить перевод как \"На правку\""
+msgstr "Добавить перевод как «На правку»"
 
 #: weblate/trans/forms.py:563
 msgid "Replace existing translation file"
 msgstr "Заменить существующий файл перевода"
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Update source strings"
-msgstr "Править исходные строки"
+msgstr "Обновить исходные строки"
 
 #: weblate/trans/forms.py:569
 msgid "Processing of strings needing edit"
@@ -9263,10 +9253,8 @@ msgid ""
 msgstr "Смогут ли пользователи править базовый файл для одноязычных переводов."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Create new language file"
 msgid "Intermediate language file"
-msgstr "Создать новый язык"
+msgstr "Файл промежуточного языка"
 
 #: weblate/trans/models/component.py:282
 msgid ""
@@ -9274,6 +9262,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Имя файла с промежуточным переводом. В большинстве случаев это файл "
+"перевода, предоставляемый разработчиками и используемый при создании "
+"настоящих исходных строк."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9588,6 +9579,8 @@ msgstr "Вы не можете использовать базовый файл 
 #: weblate/trans/models/component.py:1641
 msgid "Intermediate language file can not be used without editing template."
 msgstr ""
+"Файл промежуточного языка не может быть использован без редактирования "
+"шаблона."
 
 #: weblate/trans/models/component.py:1647
 msgid "Using a .pot file as base file is unsupported."
@@ -9847,16 +9840,12 @@ msgid "Requires dedicated reviewers to approve translations."
 msgstr "Требуются выделенные рецензенты для одобрения переводов."
 
 #: weblate/trans/models/project.py:126
-#, fuzzy
-#| msgid "Enable reviews"
 msgid "Enable source reviews"
-msgstr "Включить рецензии"
+msgstr "Включить рецензии исходных строк"
 
 #: weblate/trans/models/project.py:129
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Требуются выделенные рецензенты для одобрения переводов."
+msgstr "Требуются выделенные рецензенты для одобрения исходных строк."
 
 #: weblate/trans/models/project.py:133
 msgid "Enable hooks"
@@ -10460,10 +10449,8 @@ msgid "Automatic translation in progress"
 msgstr "Автоматический перевод в процессе выполнения"
 
 #: weblate/trans/views/edit.py:599
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source needs review"
-msgstr "Рецензирование исходных строк"
+msgstr "Исходная строка требует рецензирования"
 
 #: weblate/trans/views/edit.py:602
 msgid "Posted new comment"
