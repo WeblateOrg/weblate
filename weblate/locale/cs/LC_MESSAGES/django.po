@@ -10,10 +10,10 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-06 09:03+0000\n"
-"PO-Revision-Date: 2020-04-01 00:38+0000\n"
-"Last-Translator: Pavel Borecki <pavel.borecki@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
-">\n"
+"PO-Revision-Date: 2020-04-08 08:48+0000\n"
+"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,14 +145,8 @@ msgid "Password"
 msgstr "Heslo"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Prosím zadejte správné uživatelské jméno a heslo. Oboje rozlišuje velká a "
-"malá písmena."
+msgstr "Prosím zadejte správné uživatelské jméno a heslo."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -276,16 +270,14 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Potvrzeno obnovení zapomenutého hesla a heslo vypnuto."
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
 msgstr "Přihlášení prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Přihlášení prostřednictvím {method} ({name})."
+msgstr "Odebráno přihlašování prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -306,16 +298,13 @@ msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Někdo se pokusil zaregistrovat pomocí vaší e-mailové adresy."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "Nepodařilo se přihlásit prostřednictvím {method} ({name})."
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Účet byl uzamčen kvůli příliš mnoho chybným přihlášením."
+msgstr "Účet byl uzamčen kvůli příliš mnoha chybným přihlášením."
 
 #: weblate/accounts/models.py:92
 msgid "Account and all private data removed."
@@ -327,16 +316,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Souhlas s Všeobecnými smluvními podmínkami {date}."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Přispějte na Weblate na {0}"
+msgstr "Pozvánka do Weblate od {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "Nastavit heslo"
+msgstr "Nastaveno přihlašování heslem."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -347,8 +333,6 @@ msgid "Signed in using password from a new device."
 msgstr "Přihlášení pomocí hesla z nového zařízení."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
 msgstr "Nepodařilo se přihlásit pomocí hesla."
 
@@ -727,6 +711,8 @@ msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
 msgstr ""
+"Nelze odebrat poslední uživatelskou identity s potvrzeným e-mailem. Prosím "
+"nejdříve potvrďte váš e-mail."
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -781,16 +767,12 @@ msgid "Notification settings adjusted."
 msgstr "Nastavení upozornění změněno."
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "The notification change link is no longer valid, please log in to "
-#| "configure notifications."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
-"Odkaz pro změnu oznámení již není platný, prosím přihlaste se pro nastavení "
-"oznámení."
+"Odkaz pro změnu upozorněná již není platný, prosím přihlaste se pro "
+"nastavení upozornění."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:33 weblate/templates/translation.html:63
@@ -969,10 +951,8 @@ msgid "Keep previous msgids of translated strings"
 msgstr "Zachovat předchozí msgid přeložených řetězců"
 
 #: weblate/addons/forms.py:127
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Počet přeložených řetězců"
+msgstr "Odstranit umístění přeložených řetězců"
 
 #: weblate/addons/forms.py:132
 msgid "Use fuzzy matching"
@@ -2096,12 +2076,12 @@ msgid "Inconsistent"
 msgstr "Nejednotné"
 
 #: weblate/checks/consistency.py:77
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "Tento řetězec má v tomto projektu více rozdílných překladů"
+msgstr ""
+"Tento řetězec má v tomto projektu více rozdílných překladů nebo někde není "
+"přeložený."
 
 #: weblate/checks/consistency.py:113
 msgid "Has been translated"
@@ -2266,10 +2246,8 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Formátovací řetězec Java zpráv v překladu neodpovídá zdroji"
 
 #: weblate/checks/format.py:433
-#, fuzzy
-#| msgid "You need to screen an apostrophe with another one."
 msgid "You need to pair up an apostrophe with another one."
-msgstr "Je třeba zobrazit apostrof jiným."
+msgstr "Je třeba spárovat apostrof druhým."
 
 #: weblate/checks/format.py:439
 msgid "i18next interpolation"
@@ -2280,16 +2258,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "i18next interpolace se neshoduje se zdrojem"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Placeholders"
 msgid "Percent placeholders"
-msgstr "Zástupné symboly"
+msgstr "Procentuální zástupné symboly"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "The percent interpolation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "Procento interpolace neodpovídá zdroji"
+msgstr "Procentuální zástupné symboly neodpovídají zdroji"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2866,10 +2840,8 @@ msgstr "Počet množných čísel"
 
 #: weblate/lang/models.py:528 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
-msgstr "Tvar množného čísla"
+msgstr "Vzorec množného čísla"
 
 #: weblate/lang/models.py:533 weblate/templates/language.html:81
 msgid "Plural type"
@@ -4799,14 +4771,10 @@ msgid "You don't have permission to start a new translation"
 msgstr "Nemáte oprávnění zahájit nový překlad"
 
 #: weblate/templates/component.html:142
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to start new translation"
 msgstr "Pro zahájení nového překladu se prosím přihlaste"
 
 #: weblate/templates/component.html:158
-#, fuzzy
-#| msgid "Please log in to see the alerts."
 msgid "Please sign in to see the alerts."
 msgstr "Pro zobrazení upozornění se prosím přihlaste."
 
@@ -5775,7 +5743,7 @@ msgstr "Zobrazit podrobnosti"
 
 #: weblate/templates/last-changes-content.html:33
 msgid "View notification"
-msgstr "Zobrazit oznámení"
+msgstr "Zobrazit upozornění"
 
 #: weblate/templates/last-changes-content.html:36
 msgid "Revert"
@@ -5850,7 +5818,7 @@ msgstr "Weblate, svobodný systém pro průběžnou lokalizaci."
 
 #: weblate/templates/mail/base.html:309
 msgid "Turn off this notification"
-msgstr "Vypnout toto oznámení"
+msgstr "Vypnout toto upozornění"
 
 #: weblate/templates/mail/base.html:316
 #, python-format
@@ -6461,14 +6429,12 @@ msgid "Send test e-mail"
 msgstr "Odeslat zkušební e-mail"
 
 #: weblate/templates/manage/tools.html:45
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "Používání verzovacího systému"
+msgstr "Otestovat integraci Sentry"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
-msgstr ""
+msgstr "Vytvoří testovací událost pro Sentry."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -6685,8 +6651,6 @@ msgstr ""
 "operací."
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "You have been logged out, please log in and try again later."
 msgid "You have been logged out, please sign in and try again later."
 msgstr "Došlo k odhlášení. Prosím přihlaste se a zkuste to znovu později."
 
@@ -6918,15 +6882,11 @@ msgstr ""
 "licencováním vašich příspěvků pod licencí jakou daný projekt používá."
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Podle této rovnice je zvolen použitý tvar množného čísla v závislosti na "
+"Podle tohoto vzroce je zvolen použitý tvar množného čísla v závislosti na "
 "daném počtu (n)."
 
 #: weblate/templates/snippets/project-component-settings.html:5
@@ -6981,11 +6941,9 @@ msgid "Search for…"
 msgstr "Hledat…"
 
 #: weblate/templates/snippets/query-builder.html:24
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "Přesná shoda"
+msgstr "Přesně"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -7586,10 +7544,8 @@ msgid "Edit source string"
 msgstr "Upravit zdrojový řetězec"
 
 #: weblate/templates/translate.html:184
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to save translations."
-msgstr "Pro ukládání překladů se prosím přihlaste."
+msgstr "Pro ukládání překladů se, prosím, přihlaste."
 
 #: weblate/templates/translate.html:186
 msgid ""
@@ -10250,14 +10206,11 @@ msgstr ""
 "jiných."
 
 #: weblate/trans/views/dashboard.py:153
-#, fuzzy
-#| msgid ""
-#| "You have activated your account, now you should set the password to be "
-#| "able to login next time."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
-msgstr "Máte aktivní účet, nyní si nastavte heslo pro příští přihlášení."
+msgstr ""
+"Nyní máte aktivní účet, nyní si prosím nastavte heslo pro příští přihlášení."
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."
@@ -10686,10 +10639,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Tento e-mail není možné použít."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Could not evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "Nedaří se vyhodnotit rovnici množného čísla: {}"
+msgstr "Nedaří se vyhodnotit vzorec množného čísla: {}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
