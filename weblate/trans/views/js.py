@@ -23,7 +23,6 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_str
-from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
@@ -97,21 +96,6 @@ def memory(request, unit_id):
         return HttpResponseBadRequest("Missing search string")
 
     return handle_machinery(request, "weblate-translation-memory", unit, search=query)
-
-
-def get_unit_changes(request, unit_id):
-    """Return unit's recent changes."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    request.user.check_access(unit.translation.component.project)
-
-    return render(
-        request,
-        "js/changes.html",
-        {
-            "last_changes": unit.change_set.order()[:10],
-            "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
-        },
-    )
 
 
 def get_unit_translations(request, unit_id):

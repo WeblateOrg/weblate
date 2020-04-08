@@ -28,6 +28,7 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_str
+from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
@@ -124,6 +125,7 @@ def search(translation, request):
         "checksum": form.cleaned_data.get("checksum"),
     }
     search_url = form.urlencode()
+    print(search_url)
     session_key = "search_{0}_{1}".format(translation.pk, search_url)
 
     if (
@@ -521,6 +523,8 @@ def translate(request, project, component, lang):
             "locked": locked,
             "glossary": Dictionary.objects.get_words(unit),
             "addword_form": InlineWordForm(),
+            "last_changes": unit.change_set.prefetch().order()[:10],
+            "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
         },
     )
 

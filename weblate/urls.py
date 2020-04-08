@@ -944,11 +944,6 @@ real_patterns = [
         name="js-memory",
     ),
     url(
-        r"^js/changes/(?P<unit_id>[0-9]+)/$",
-        weblate.trans.views.js.get_unit_changes,
-        name="js-unit-changes",
-    ),
-    url(
         r"^js/translations/(?P<unit_id>[0-9]+)/$",
         weblate.trans.views.js.get_unit_translations,
         name="js-unit-translations",

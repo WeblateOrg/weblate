@@ -242,7 +242,7 @@
 <li><a href="#memory" data-toggle="tab" id="toggle-machine" data-load="memory">{% trans "Translation memory" %}</a></li>
 {% endif %}
 <li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
-<li><a href="#history" data-toggle="tab" id="toggle-history" data-href="{% url 'js-unit-changes' unit_id=unit.id %}" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
+<li><a href="#history" data-toggle="tab" id="toggle-history" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
 <div class="tab-content">
@@ -320,7 +320,9 @@
 </div>
 
 <div class="tab-pane" id="history">
-<p>{% trans "Loading…" %}</p>
+{% include "last-changes-content.html" %}
+
+<a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all component changes" %}</a>
 </div>
 
 {% if user_can_use_mt %}
