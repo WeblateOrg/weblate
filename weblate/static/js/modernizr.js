@@ -1,5 +1,5 @@
 /*!
- * modernizr v3.9.1
+ * modernizr v3.10.0
  * Build https://modernizr.com/download?-inputtypes-dontmin
  *
  * Copyright (c)
@@ -23,7 +23,7 @@
  * of control over the experience.
 */
 
-;(function(window, document, undefined){
+;(function(scriptGlobalObject, window, document, undefined){
 
   var tests = [];
 
@@ -36,7 +36,7 @@
    */
   var ModernizrProto = {
     // The current version, dummy
-    _version: '3.9.1',
+    _version: '3.10.0',
 
     // Any settings that don't work as separate modules
     // can go in here as configuration.
@@ -341,9 +341,9 @@ Modernizr.inputtypes.week
   }
 
   // Leak Modernizr namespace
-  window.Modernizr = Modernizr;
+  scriptGlobalObject.Modernizr = Modernizr;
 
 
 ;
 
-})(window, document);
+})(window, window, document);
