@@ -20,7 +20,6 @@
 
 import re
 
-from django.db.models import Count, F
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import SourceCheck
@@ -64,7 +63,6 @@ class MultipleFailingCheck(SourceCheck):
     name = _("Multiple failing checks")
     description = _("The translations in several languages have failing checks")
     severity = "warning"
-    batch_update = True
 
     def check_source(self, source, unit):
         from weblate.checks.models import Check
@@ -74,15 +72,3 @@ class MultipleFailingCheck(SourceCheck):
             unit__translation__component=unit.translation.component,
         ).exclude(unit_id=unit.id)
         return related.count() >= 2
-
-    def check_source_project(self, project):
-        """Batch check for whole project."""
-        from weblate.checks.models import Check
-
-        return (
-            Check.objects.filter(unit__translation__component__project=project)
-            .exclude(unit__translation__language=project.source_language)
-            .values(content_hash=F("unit__content_hash"))
-            .annotate(Count("unit"))
-            .filter(unit__count__gt=1)
-        )
