@@ -29,9 +29,8 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 
-from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
-from weblate.checks.models import Check
+from weblate.checks.models import CHECKS, Check
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.memory.tasks import update_memory
 from weblate.trans.mixins import LoggerMixin

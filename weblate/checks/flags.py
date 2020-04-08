@@ -21,7 +21,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
-from weblate.checks import CHECKS
+from weblate.checks.models import CHECKS
 from weblate.fonts.utils import get_font_weight
 
 PLAIN_FLAGS = {

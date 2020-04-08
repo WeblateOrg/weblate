@@ -33,7 +33,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
-from weblate.checks import CHECKS
+from weblate.checks.models import CHECKS
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     AntispamForm,

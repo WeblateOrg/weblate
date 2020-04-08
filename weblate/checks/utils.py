@@ -16,7 +16,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.checks import CHECKS
+from weblate.checks.models import CHECKS
 
 
 def highlight_string(source, unit):

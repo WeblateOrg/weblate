@@ -25,8 +25,7 @@ from django.db import models, transaction
 from django.db.models import Sum
 from django.utils.translation import gettext as _
 
-from weblate.checks import CHECKS
-from weblate.checks.models import Check
+from weblate.checks.models import CHECKS, Check
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils import messages
