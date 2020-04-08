@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-08 08:56+0000\n"
-"PO-Revision-Date: 2020-04-07 01:40+0000\n"
+"PO-Revision-Date: 2020-04-08 13:46+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -1628,7 +1628,7 @@ msgstr "Kullanıcılar"
 #: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Reviewers"
-msgstr "Gözden geçiriciler"
+msgstr "Gözden geçirenler"
 
 #: weblate/auth/data.py:219
 msgctxt "Access control group"
@@ -6659,15 +6659,15 @@ msgstr "Lütfen daha sonra yeniden deneyiniz."
 
 #: weblate/templates/replace.html:19
 msgid "Please review and confirm the search and replace results."
-msgstr "Lütfen arama ve yer değiştirme sonuçlarını gözden geçirip onaylayın."
+msgstr "Lütfen arama ve yer değiştirme sonuçlarını gözden geçirin ve onaylayın."
 
 #: weblate/templates/replace.html:23
 msgid ""
 "Showing and replacing only the first 250 matches. Perform the replacement "
 "again to replace more entries."
 msgstr ""
-"Yalnızca ilk 250 eşleşmenin gösterilmesi ve değiştirilmesi. Daha çok giriş "
-"yapmak için yeniden değiştirme işlemini gerçekleştirin."
+"Yalnızca ilk 250 eşleşmenin gösterilmesi ve değiştirilmesi. Daha fazla "
+"girişi değiştirmek için yeniden değiştirme işlemini gerçekleştirin."
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
@@ -6967,10 +6967,8 @@ msgid "String has plural"
 msgstr "Satırın çoğulu var"
 
 #: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "String has comment"
 msgid "String has context"
-msgstr "Satırın yorumu var"
+msgstr "Satırın bağlamı var"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
@@ -6991,7 +6989,7 @@ msgstr "Sorgu örnekleri"
 
 #: weblate/templates/snippets/query-builder.html:71
 msgid "Review strings changed by other users"
-msgstr "Diğer kullanıcılar tarafından değiştirilen satırları incele"
+msgstr "Diğer kullanıcılar tarafından değiştirilen satırları gözden geçirme"
 
 #: weblate/templates/snippets/query-builder.html:76 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:111
@@ -7544,10 +7542,8 @@ msgid "Source change"
 msgstr "Kaynak farkı"
 
 #: weblate/templates/translate.html:145
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Arayüz Dili"
+msgstr "Orta düzey dil"
 
 #: weblate/templates/translate.html:161 weblate/trans/models/unit.py:188
 msgid "Additional context"
@@ -7562,10 +7558,8 @@ msgid "Edit source string"
 msgstr "Kaynak satırı düzenle"
 
 #: weblate/templates/translate.html:178 weblate/trans/forms.py:924
-#, fuzzy
-#| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
-msgstr "Kayıtla ilgili bir sorunu bildir"
+msgstr "Kaynak satırla ilgili sorun bildir"
 
 #: weblate/templates/translate.html:193
 msgid "Please sign in to save translations."
@@ -7576,7 +7570,7 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Yalnızca gözden geçiriciler onaylanmış satırları değiştirebilirler. Satırın "
+"Yalnızca gözden geçirenler onaylanmış satırları değiştirebilirler, satırın "
 "değişmesi gerektiğini düşünüyorsanız lütfen bir öneri ekleyin."
 
 #: weblate/templates/translate.html:197
@@ -8132,10 +8126,8 @@ msgid "Strings with labels"
 msgstr "Etiketleri olan satırlar"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with context"
-msgstr "Yorumları olan satırlar"
+msgstr "Bağlamı olan satırlar"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8147,7 +8139,7 @@ msgstr "Onaylanmış satırlar"
 
 #: weblate/trans/filter.py:55 weblate/trans/filter.py:119
 msgid "Strings waiting for review"
-msgstr "İnceleme için bekleyen satırlar"
+msgstr "Gözden geçirme için bekleyen satırlar"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:122
 msgid "Failed check: {}"
@@ -8223,7 +8215,7 @@ msgstr "Gözden geçirme durumu"
 
 #: weblate/trans/forms.py:435
 msgid "Waiting for review"
-msgstr "İnceleme için bekliyor"
+msgstr "Gözden geçirme için bekliyor"
 
 #: weblate/trans/forms.py:492
 msgid "Source string has been changed meanwhile. Please check your changes."
@@ -8267,10 +8259,8 @@ msgid "Replace existing translation file"
 msgstr "Mevcut çeviri dosyasını değiştir"
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Update source strings"
-msgstr "Kaynak satırları düzenle"
+msgstr "Kaynak satırları güncelle"
 
 #: weblate/trans/forms.py:569
 msgid "Processing of strings needing edit"
@@ -9203,10 +9193,8 @@ msgstr ""
 "düzenleyemeyeceği."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Create new language file"
 msgid "Intermediate language file"
-msgstr "Yeni dil dosyası oluştur"
+msgstr "Orta düzey dil dosyası"
 
 #: weblate/trans/models/component.py:282
 msgid ""
@@ -9214,6 +9202,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Orta düzey çeviri dosyasının dosya adı. Çoğu durumda bu geliştiriciler "
+"tarafından sağlanan bir çeviri dosyasıdır ve gerçek kaynak satırlar "
+"oluştururken kullanılır."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9522,7 +9513,7 @@ msgstr "İki dilli çeviri için bir temel dosya kullanamazsınız."
 #: weblate/trans/models/component.py:1636
 #: weblate/trans/models/component.py:1641
 msgid "Intermediate language file can not be used without editing template."
-msgstr ""
+msgstr "Orta düzey dil dosyası düzenleme şablonu olmadan kullanılamaz."
 
 #: weblate/trans/models/component.py:1647
 msgid "Using a .pot file as base file is unsupported."
@@ -9769,23 +9760,19 @@ msgstr ""
 
 #: weblate/trans/models/project.py:121
 msgid "Enable reviews"
-msgstr "Gözden geçirmeyi etkinleştir"
+msgstr "Gözden geçirmeleri etkinleştir"
 
 #: weblate/trans/models/project.py:123
 msgid "Requires dedicated reviewers to approve translations."
-msgstr "Çevirilerin onaylaması için belirli gözden geçiriciler gerektirir."
+msgstr "Çevirileri onaylamak için adanmış gözden geçirenler gerekir."
 
 #: weblate/trans/models/project.py:126
-#, fuzzy
-#| msgid "Enable reviews"
 msgid "Enable source reviews"
-msgstr "Gözden geçirmeyi etkinleştir"
+msgstr "Kaynak gözden geçirmelerini etkinleştir"
 
 #: weblate/trans/models/project.py:129
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Çevirilerin onaylaması için belirli gözden geçiriciler gerektirir."
+msgstr "Kaynak satırları onaylamak için adanmış gözden geçirenler gerekir."
 
 #: weblate/trans/models/project.py:133
 msgid "Enable hooks"
@@ -10372,10 +10359,8 @@ msgid "Automatic translation in progress"
 msgstr "Otomatik çeviri yapılıyor"
 
 #: weblate/trans/views/edit.py:599
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source needs review"
-msgstr "Kaynak satırları gözden geçirme"
+msgstr "Kaynağı gözden geçirme gerekli"
 
 #: weblate/trans/views/edit.py:602
 msgid "Posted new comment"
