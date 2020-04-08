@@ -21,6 +21,7 @@
 import json
 
 from appconf import AppConf
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -159,10 +160,17 @@ class Check(models.Model):
 def check_post_save(sender, instance, created, **kwargs):
     """Handle check creation or updates."""
     if created:
+        check_obj = instance.check_obj
+        if not check_obj:
+            return
         # Propagate checks that should do it
-        if instance.check_obj and instance.check_obj.propagates:
+        if check_obj.propagates:
             for unit in instance.unit.same_source_units:
                 unit.run_checks()
+        # Update source checks if needed
+        if check_obj.target:
+            instance.unit.source_info.is_batch_update = instance.unit.is_batch_update
+            instance.unit.source_info.run_checks()
     else:
         # Update related unit failed check flag (the check was (un)ignored)
         try:
@@ -177,8 +185,21 @@ def check_post_save(sender, instance, created, **kwargs):
 @disable_for_loaddata
 def remove_complimentary_checks(sender, instance, **kwargs):
     """Remove propagate checks from all units."""
-    if not instance.check_obj or not instance.check_obj.propagates:
+    check_obj = instance.check_obj
+    if not check_obj:
         return
-    for unit in instance.unit.same_source_units:
-        if unit.check_set.filter(check=instance.check).delete()[0]:
-            unit.update_has_failing_check()
+
+    # Handle propagating checks
+    if check_obj.propagates:
+        for unit in instance.unit.same_source_units:
+            if unit.check_set.filter(check=instance.check).delete()[0]:
+                if not instance.unit.is_batch_update:
+                    unit.update_has_failing_check()
+
+    # Update source checks if needed
+    if check_obj.target:
+        try:
+            instance.unit.source_info.is_batch_update = instance.unit.is_batch_update
+            instance.unit.source_info.run_checks()
+        except ObjectDoesNotExist:
+            pass
