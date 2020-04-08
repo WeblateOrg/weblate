@@ -55,7 +55,6 @@ class RemoveComments(RemovalAddon):
                 unit__translation__component__project=component.project
             )
         )
-        component.project.update_unit_flags()
 
 
 class RemoveSuggestions(RemovalAddon):
@@ -75,4 +74,3 @@ class RemoveSuggestions(RemovalAddon):
                 | Q(vote__value__sum=None)
             )
         )
-        component.project.update_unit_flags()
