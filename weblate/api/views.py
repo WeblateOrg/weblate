@@ -23,6 +23,7 @@ from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_str, smart_str
@@ -40,6 +41,7 @@ from rest_framework.views import APIView
 
 from weblate.api.serializers import (
     ChangeSerializer,
+    ComponentListSerializer,
     ComponentSerializer,
     LanguageSerializer,
     LockRequestSerializer,
@@ -61,6 +63,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
     Change,
     Component,
+    ComponentList,
     Project,
     Suggestion,
     Translation,
@@ -724,6 +727,66 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Change.objects.last_changes(self.request.user).order_by("id")
+
+
+class ComponentListViewSet(viewsets.ModelViewSet):
+    """Component lists API."""
+
+    queryset = ComponentList.objects.none()
+    serializer_class = ComponentListSerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        return (
+            ComponentList.objects.filter(
+                Q(components__project_id__in=self.request.user.allowed_project_ids)
+                | Q(components__isnull=True)
+            )
+            .order_by("id")
+            .distinct()
+        )
+
+    def perm_check(self, request):
+        if not request.user.has_perm("componentlist.edit"):
+            self.permission_denied(request, message="Can not manage component lists")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().destroy(request, *args, **kwargs)
+
+    @action(
+        detail=True, methods=["post"],
+    )
+    def components(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        if "component_id" not in request.data:
+            raise ParseError("Missing component_id parameter")
+
+        try:
+            component = Component.objects.get(
+                project_id__in=self.request.user.allowed_project_ids,
+                pk=int(request.data["component_id"]),
+            )
+        except (Component.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.components.add(component)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class Metrics(APIView):
