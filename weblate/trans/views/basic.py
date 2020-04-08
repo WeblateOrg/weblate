@@ -367,7 +367,7 @@ def healthz(request):
 
 @never_cache
 def show_component_list(request, name):
-    obj = get_object_or_404(ComponentList, slug=name)
+    obj = get_object_or_404(ComponentList, slug__iexact=name)
 
     return render(
         request,

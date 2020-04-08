@@ -1140,7 +1140,9 @@ class CleanRepoMixin:
             return repo
         project, component = repo[10:].split("/", 1)
         try:
-            obj = Component.objects.get(slug=component, project__slug=project)
+            obj = Component.objects.get(
+                slug__iexact=component, project__slug__iexact=project
+            )
         except Component.DoesNotExist:
             return repo
         if not self.request.user.has_perm("component.edit", obj):
@@ -1434,10 +1436,10 @@ class ComponentProjectForm(ComponentNameForm):
             return
         project = self.cleaned_data["project"]
         name = self.cleaned_data.get("name")
-        if name and project.component_set.filter(name=name).exists():
+        if name and project.component_set.filter(name__iexact=name).exists():
             raise ValidationError({"name": _("Entry by the same name already exists.")})
         slug = self.cleaned_data.get("slug")
-        if slug and project.component_set.filter(slug=slug).exists():
+        if slug and project.component_set.filter(slug__iexact=slug).exists():
             raise ValidationError({"slug": _("Entry by the same name already exists.")})
 
 

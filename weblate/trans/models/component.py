@@ -147,7 +147,7 @@ class ComponentQuerySet(models.QuerySet):
         if not is_repo_link(val):
             return None
         project, component = val[10:].split("/", 1)
-        return self.get(slug=component, project__slug=project)
+        return self.get(slug__iexact=component, project__slug__iexact=project)
 
     def order_project(self):
         """Ordering in global scope by project name."""

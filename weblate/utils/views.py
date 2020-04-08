@@ -84,8 +84,8 @@ def get_translation(request, project, component, lang, skip_acl=False):
     translation = get_object_or_404(
         Translation.objects.prefetch(),
         language__code=lang,
-        component__slug=component,
-        component__project__slug=project,
+        component__slug__iexact=component,
+        component__project__slug__iexact=project,
     )
     if not skip_acl:
         request.user.check_access(translation.component.project)
@@ -95,7 +95,9 @@ def get_translation(request, project, component, lang, skip_acl=False):
 def get_component(request, project, component, skip_acl=False):
     """Return component matching parameters."""
     component = get_object_or_404(
-        Component.objects.prefetch(), project__slug=project, slug=component
+        Component.objects.prefetch(),
+        project__slug__iexact=project,
+        slug__iexact=component,
     )
     if not skip_acl:
         request.user.check_access(component.project)
@@ -104,7 +106,7 @@ def get_component(request, project, component, skip_acl=False):
 
 def get_project(request, project, skip_acl=False):
     """Return project matching parameters."""
-    project = get_object_or_404(Project, slug=project)
+    project = get_object_or_404(Project, slug__iexact=project)
     if not skip_acl:
         request.user.check_access(project)
     return project
