@@ -42,6 +42,10 @@ class MissingConfiguration(ImproperlyConfigured):
     """Exception raised when configuraiton is wrong."""
 
 
+class MachineryRateLimit(MachineTranslationError):
+    """Raised when rate limiting is detected."""
+
+
 class MachineTranslation:
     """Generic object for machine translation services."""
 
@@ -177,6 +181,8 @@ class MachineTranslation:
         return cache.set(self.rate_limit_cache, True, 1800)
 
     def is_rate_limit_error(self, exc):
+        if isinstance(exc, MachineryRateLimit):
+            return True
         if not isinstance(exc, HTTPError):
             return False
         # Apply rate limiting for following status codes:

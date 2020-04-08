@@ -27,7 +27,7 @@ from weblate.checks.tests.test_checks import MockUnit
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
-from weblate.machinery.base import MachineTranslationError
+from weblate.machinery.base import MachineryRateLimit, MachineTranslationError
 from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
@@ -663,6 +663,26 @@ class MachineTranslationTest(TestCase):
             responses.GET, BAIDU_API, json={"error_code": 1, "error_msg": "Error"}
         )
         with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, lang="ja", empty=True)
+
+    @override_settings(MT_BAIDU_ID="id", MT_BAIDU_SECRET="secret")
+    @responses.activate
+    def test_baidu_error_bug(self):
+        machine = self.get_machine(BaiduTranslation)
+        responses.add(
+            responses.GET, BAIDU_API, json={"error_code": "bug", "error_msg": "Error"}
+        )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(machine, lang="ja", empty=True)
+
+    @override_settings(MT_BAIDU_ID="id", MT_BAIDU_SECRET="secret")
+    @responses.activate
+    def test_baidu_error_rate(self):
+        machine = self.get_machine(BaiduTranslation)
+        responses.add(
+            responses.GET, BAIDU_API, json={"error_code": "54003", "error_msg": "Error"}
+        )
+        with self.assertRaises(MachineryRateLimit):
             self.assert_translate(machine, lang="ja", empty=True)
 
     @override_settings(MT_SAP_BASE_URL="http://sth.example.com/")

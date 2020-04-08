@@ -21,6 +21,7 @@
 from django.conf import settings
 
 from weblate.machinery.base import (
+    MachineryRateLimit,
     MachineTranslation,
     MachineTranslationError,
     MissingConfiguration,
@@ -114,6 +115,11 @@ class BaiduTranslation(MachineTranslation):
         payload = response.json()
 
         if "error_code" in payload:
+            try:
+                if int(payload["error_code"]) == 54003:
+                    raise MachineryRateLimit(payload["error_msg"])
+            except ValueError:
+                pass
             raise MachineTranslationError(
                 "Error {error_code}: {error_msg}".format(**payload)
             )
