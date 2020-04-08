@@ -1016,6 +1016,9 @@ EMAIL_HOST_PASSWORD = os.environ.get(
     "WEBLATE_EMAIL_HOST_PASSWORD", os.environ.get("WEBLATE_EMAIL_PASSWORD", "")
 )
 EMAIL_PORT = int(os.environ.get("WEBLATE_EMAIL_PORT", "25"))
+EMAIL_BACKEND = os.environ.get(
+    "WEBLATE_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+)
 
 # Silence some of the Django system checks
 SILENCED_SYSTEM_CHECKS = [

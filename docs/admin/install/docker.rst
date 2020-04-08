@@ -810,6 +810,16 @@ To make outgoing e-mail work, you need to provide a mail server.
 
     .. seealso:: :setting:`django:EMAIL_USE_TLS`
 
+.. envvar:: WEBLATE_EMAIL_BACKEND
+
+    Configures Django backend to use for sending e-mails.
+
+
+    .. seealso::
+
+        :ref:`production-email`,
+        :setting:`django:EMAIL_BACKEND`
+
 Error reporting
 ~~~~~~~~~~~~~~~
 

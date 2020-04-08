@@ -732,6 +732,15 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
     SERVER_EMAIL = 'admin@example.org'
     DEFAULT_FROM_EMAIL = 'weblate@example.org'
 
+
+.. note::
+
+   To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND`
+   to ``django.core.mail.backends.dummy.EmailBackend``.
+
+   This will disable *all* e-mail delivery including registration or pasword
+   reset e-mails.
+
 .. seealso::
 
     :ref:`configuration`,
