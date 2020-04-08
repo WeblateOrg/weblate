@@ -85,13 +85,6 @@ class JSViewsTest(FixtureTestCase):
         data = json.loads(response.content.decode())
         self.assertEqual(data["service"], "Weblate Translation Memory")
 
-    def test_get_unit_changes(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse("js-unit-changes", kwargs={"unit_id": unit.id})
-        )
-        self.assertContains(response, 'href="/changes/?')
-
     def test_get_unit_translations(self):
         unit = self.get_unit()
         response = self.client.get(
