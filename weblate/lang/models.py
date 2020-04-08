@@ -403,8 +403,9 @@ class Language(models.Model):
     direction = models.CharField(
         verbose_name=gettext_lazy("Text direction"),
         max_length=3,
-        default="ltr",
+        default="",
         choices=(
+            ("", ""),
             ("ltr", gettext_lazy("Left to right")),
             ("rtl", gettext_lazy("Right to left")),
         ),
