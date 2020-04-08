@@ -1438,11 +1438,11 @@ class Component(models.Model, URLMixin, PathMixin):
             for project in projects.values():
                 project.run_target_checks()
                 project.run_source_checks()
-                project.invalidate_stats_deep()
 
         # Update flags
         if was_change:
             self.update_unit_flags()
+            self.invalidate_stats_deep()
 
         # Schedule background cleanup if needed
         if self.needs_cleanup:
@@ -1477,6 +1477,11 @@ class Component(models.Model, URLMixin, PathMixin):
             has_failing_check=False
         )
         self.log_debug("all unit flags updated")
+
+    def invalidate_stats_deep(self):
+        self.log_info("updating stats caches")
+        for translation in self.translation_set.iterator():
+            translation.invalidate_cache()
 
     def get_lang_code(self, path, validate=False):
         """Parse language code from path."""
@@ -1911,7 +1916,7 @@ class Component(models.Model, URLMixin, PathMixin):
 
         # Invalidate stats on template change
         if changed_template:
-            self.project.invalidate_stats_deep()
+            self.invalidate_stats_deep()
 
     def update_shapings(self):
         from weblate.trans.models import Unit

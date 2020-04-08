@@ -376,14 +376,6 @@ class Project(models.Model, URLMixin, PathMixin):
         """Run batch executed source checks."""
         self.run_batch_checks("source")
 
-    def invalidate_stats_deep(self):
-        self.log_info("updating stats caches")
-        from weblate.trans.models import Translation
-
-        translations = Translation.objects.filter(component__project=self)
-        for translation in translations.iterator():
-            translation.invalidate_cache()
-
     def get_stats(self):
         """Return stats dictionary."""
         return {
