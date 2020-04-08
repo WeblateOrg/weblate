@@ -696,11 +696,6 @@ class Unit(models.Model, LoggerMixin):
 
         # Run all checks
         for check, check_obj in checks:
-            # Do not remove batch checks in batch processing
-            if self.is_batch_update and check_obj.batch_update:
-                old_checks.discard(check)
-                continue
-
             # Does the check fire?
             if getattr(check_obj, meth)(*args):
                 if check in old_checks:
