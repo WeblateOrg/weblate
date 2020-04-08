@@ -1415,7 +1415,6 @@ class Component(models.Model, URLMixin, PathMixin):
         self.update_import_alerts()
 
         # Process linked repos
-        projects = {project.id: project}
         for pos, component in enumerate(self.linked_childs):
             self.log_info(
                 "updating linked project %s [%d/%d]",
@@ -1427,17 +1426,10 @@ class Component(models.Model, URLMixin, PathMixin):
             was_change |= component.create_translations(
                 force, langs, request=request, from_link=True
             )
-            projects[component.project_id] = component.project
 
         # Run source checks on updated source strings
         if self.updated_sources:
             self.update_source_checks()
-
-        # Run batch checks, update flags and stats
-        if not from_link and was_change:
-            for project in projects.values():
-                project.run_target_checks()
-                project.run_source_checks()
 
         # Update flags
         if was_change:
@@ -2138,7 +2130,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 translation = Translation.objects.check_sync(
                     self, language, format_code, filename, request=request
                 )
-                self.project.run_target_checks()
                 self.update_source_checks()
                 self.update_unit_flags()
                 translation.invalidate_cache()
@@ -2170,7 +2161,6 @@ class Component(models.Model, URLMixin, PathMixin):
                 else "Weblate <noreply@weblate.org>",
                 timezone.now(),
             )
-            self.project.run_target_checks()
             self.update_source_checks()
             self.update_unit_flags()
             translation.invalidate_cache()

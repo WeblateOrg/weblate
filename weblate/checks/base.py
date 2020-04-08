@@ -33,7 +33,6 @@ class Check:
     ignore_untranslated = True
     default_disabled = False
     severity = "info"
-    batch_update = False
     propagates = False
     param_type = None
 
