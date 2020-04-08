@@ -129,6 +129,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = (
             "name",
             "slug",
+            "id",
             "web",
             "source_language",
             "web_url",
@@ -194,6 +195,7 @@ class ComponentSerializer(RemovableSerializer):
         fields = (
             "name",
             "slug",
+            "id",
             "project",
             "vcs",
             "repo",
@@ -299,6 +301,7 @@ class TranslationSerializer(RemovableSerializer):
             "language",
             "component",
             "language_code",
+            "id",
             "filename",
             "revision",
             "web_url",
