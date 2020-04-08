@@ -312,11 +312,11 @@ class BasicCommandTest(FixtureTestCase):
             call_command("check", "--deploy")
 
 
-class CheckGitTest(ViewTestCase):
+class WeblateComponentCommandTestCase(ViewTestCase):
     """Base class for handling tests of WeblateComponentCommand based commands."""
 
-    command_name = "checkgit"
-    expected_string = "On branch master"
+    command_name = ""
+    expected_string = ""
 
     def do_test(self, *args, **kwargs):
         output = StringIO()
@@ -325,6 +325,13 @@ class CheckGitTest(ViewTestCase):
             self.assertIn(self.expected_string, output.getvalue())
         else:
             self.assertEqual("", output.getvalue())
+
+
+class CheckGitTest(WeblateComponentCommandTestCase):
+    """Base class for handling tests of WeblateComponentCommand based commands."""
+
+    command_name = "checkgit"
+    expected_string = "On branch master"
 
     def test_all(self):
         self.do_test(all=True)
@@ -344,7 +351,7 @@ class CheckGitTest(ViewTestCase):
             self.do_test("test/notest")
 
 
-class CommitPendingTest(CheckGitTest):
+class CommitPendingTest(WeblateComponentCommandTestCase):
     command_name = "commit_pending"
     expected_string = ""
 
@@ -358,42 +365,42 @@ class CommitPendingChangesTest(CommitPendingTest):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
 
-class CommitGitTest(CheckGitTest):
+class CommitGitTest(WeblateComponentCommandTestCase):
     command_name = "commitgit"
     expected_string = ""
 
 
-class PushGitTest(CheckGitTest):
+class PushGitTest(WeblateComponentCommandTestCase):
     command_name = "pushgit"
     expected_string = ""
 
 
-class LoadTest(CheckGitTest):
+class LoadTest(WeblateComponentCommandTestCase):
     command_name = "loadpo"
     expected_string = ""
 
 
-class UpdateChecksTest(CheckGitTest):
+class UpdateChecksTest(WeblateComponentCommandTestCase):
     command_name = "updatechecks"
     expected_string = "Processing"
 
 
-class UpdateGitTest(CheckGitTest):
+class UpdateGitTest(WeblateComponentCommandTestCase):
     command_name = "updategit"
     expected_string = ""
 
 
-class LockTranslationTest(CheckGitTest):
+class LockTranslationTest(WeblateComponentCommandTestCase):
     command_name = "lock_translation"
     expected_string = ""
 
 
-class UnLockTranslationTest(CheckGitTest):
+class UnLockTranslationTest(WeblateComponentCommandTestCase):
     command_name = "unlock_translation"
     expected_string = ""
 
 
-class FixupFlagsTest(CheckGitTest):
+class FixupFlagsTest(WeblateComponentCommandTestCase):
     command_name = "fixup_flags"
     expected_string = "Processing"
 
