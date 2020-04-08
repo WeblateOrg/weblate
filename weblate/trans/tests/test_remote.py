@@ -110,7 +110,7 @@ class MultiRepoTest(ViewTestCase):
             handle.write(content)
 
         # Do changes in first repo
-        with transaction.atomic:
+        with transaction.atomic():
             translation.git_commit(
                 self.request.user, "TEST <test@example.net>", timezone.now()
             )
