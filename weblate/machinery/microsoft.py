@@ -133,7 +133,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             "post", self.get_url("translate"), params=args, json=[{"Text": text[:5000]}]
         )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
-        response.encoding = response.apparent_encoding
+        response.encoding = "utf-8-sig"
         payload = response.json()
         yield {
             "text": payload[0]["translations"][0]["text"],
