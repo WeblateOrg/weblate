@@ -2,24 +2,11 @@
 
 from django.db import migrations
 
-from weblate.memory.tasks import import_memory
-
-
-def update_memory(apps, schema_editor):
-    db_alias = schema_editor.connection.alias
-
-    Project = apps.get_model("trans", "Project")
-    for project in Project.objects.using(db_alias).all().iterator():
-        import_memory.delay(project.pk)
-
 
 class Migration(migrations.Migration):
 
     dependencies = [
         ("memory", "0005_auto_20200310_0810"),
-        ("trans", "0073_auto_20200403_1329"),
     ]
 
-    operations = [
-        migrations.RunPython(update_memory, migrations.RunPython.noop, elidable=True)
-    ]
+    operations = []
