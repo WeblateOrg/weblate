@@ -31,8 +31,8 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 
-from weblate.checks import CHECKS
 from weblate.checks.flags import Flags
+from weblate.checks.models import CHECKS
 from weblate.formats.auto import try_load
 from weblate.formats.base import UnitNotFound
 from weblate.formats.helpers import BytesIOMode

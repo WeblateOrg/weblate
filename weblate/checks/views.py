@@ -24,8 +24,7 @@ from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 
-from weblate.checks import CHECKS
-from weblate.checks.models import Check
+from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Translation
 from weblate.trans.util import redirect_param
 from weblate.utils.views import get_component, get_project

@@ -27,8 +27,22 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from weblate.checks import CHECKS
+from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
+
+
+class ChecksLoader(ClassLoader):
+    @cached_property
+    def source(self):
+        return {k: v for k, v in self.items() if v.source}
+
+    @cached_property
+    def target(self):
+        return {k: v for k, v in self.items() if v.target}
+
+
+# Initialize checks list
+CHECKS = ChecksLoader("CHECK_LIST")
 
 
 class WeblateChecksConf(AppConf):

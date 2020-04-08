@@ -3,7 +3,7 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-from weblate.checks import CHECKS
+from weblate.checks.models import CHECKS
 
 
 class Migration(migrations.Migration):

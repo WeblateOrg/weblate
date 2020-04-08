@@ -45,7 +45,7 @@ from django.utils.translation import pgettext_lazy
 from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
-from weblate.checks import CHECKS
+from weblate.checks.models import CHECKS
 from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
