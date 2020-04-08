@@ -125,7 +125,6 @@ def search(translation, request):
         "checksum": form.cleaned_data.get("checksum"),
     }
     search_url = form.urlencode()
-    print(search_url)
     session_key = "search_{0}_{1}".format(translation.pk, search_url)
 
     if (
