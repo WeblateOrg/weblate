@@ -31,7 +31,6 @@ jobs:
         python-version: 3.8
     - name: Install apt dependencies
       run: |
-        sudo sed -i 's/azure\.//' /etc/apt/sources.list
         sudo apt update
         sudo apt install -y graphviz
     - name: Install pip dependencies
