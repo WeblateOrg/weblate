@@ -23,7 +23,7 @@ from io import StringIO
 
 from django.core.management import call_command
 
-from weblate.trans.tests.test_commands import CheckGitTest
+from weblate.trans.tests.test_commands import WeblateComponentCommandTestCase
 from weblate.trans.tests.test_models import RepoTestCase
 
 
@@ -53,6 +53,6 @@ class PeriodicCommandTest(RepoTestCase):
         self.assertEqual(1, len(output.getvalue().splitlines()))
 
 
-class UpdateChecksTest(CheckGitTest):
+class UpdateChecksTest(WeblateComponentCommandTestCase):
     command_name = "updatechecks"
     expected_string = "Processing"
