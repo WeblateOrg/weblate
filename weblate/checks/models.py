@@ -167,7 +167,7 @@ def check_post_save(sender, instance, created, **kwargs):
         # Update related unit failed check flag (the check was (un)ignored)
         try:
             instance.unit.update_has_failing_check(
-                has_checks=None if instance.ignore else True, invalidate=True
+                has_checks=None if instance.ignore else True
             )
         except IndexError:
             return
@@ -181,4 +181,4 @@ def remove_complimentary_checks(sender, instance, **kwargs):
         return
     for unit in instance.unit.same_source_units:
         if unit.check_set.filter(check=instance.check).delete()[0]:
-            unit.update_has_failing_check(invalidate=True)
+            unit.update_has_failing_check()

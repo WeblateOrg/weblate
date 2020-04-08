@@ -724,7 +724,7 @@ class Unit(models.Model, LoggerMixin):
         if not self.is_batch_update and (was_change or not same_content):
             self.update_has_failing_check(has_checks)
 
-    def update_has_failing_check(self, has_checks=None, invalidate=False):
+    def update_has_failing_check(self, has_checks=None):
         """Update flag counting failing checks."""
         if has_checks is None:
             has_checks = self.active_checks().exists()
@@ -735,7 +735,7 @@ class Unit(models.Model, LoggerMixin):
             self.save(
                 same_content=True, same_state=True, update_fields=["has_failing_check"]
             )
-            if invalidate:
+            if not self.is_batch_update:
                 self.translation.invalidate_cache()
 
     def update_has_suggestion(self):
