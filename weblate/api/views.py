@@ -43,6 +43,7 @@ from weblate.api.serializers import (
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
+    GroupSerializer,
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
@@ -54,8 +55,9 @@ from weblate.api.serializers import (
     TranslationSerializer,
     UnitSerializer,
     UploadRequestSerializer,
+    UserSerializer,
 )
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.checks.models import Check
 from weblate.formats.exporters import EXPORTERS
 from weblate.lang.models import Language
@@ -251,6 +253,52 @@ class WeblateViewSet(DownloadViewSet):
                 data["merge_failure"] = None
 
         return Response(data)
+
+
+class UserViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
+    """Users API."""
+
+    queryset = User.objects.none()
+    serializer_class = UserSerializer
+    lookup_field = "username"
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer_context = {
+            "request": request,
+        }
+        instance = User.objects.get(username=kwargs.get("username"))
+        serializer = self.serializer_class(
+            instance, data=request.data, partial=True, context=serializer_context
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+class GroupViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
+    """Groups API."""
+
+    queryset = Group.objects.none()
+    serializer_class = GroupSerializer
+    lookup_field = "name"
+
+    def get_queryset(self):
+        return Group.objects.all()
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer_context = {
+            "request": request,
+        }
+        instance = Group.objects.get(name=kwargs.get("name"))
+        serializer = self.serializer_class(
+            instance, data=request.data, partial=True, context=serializer_context
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):

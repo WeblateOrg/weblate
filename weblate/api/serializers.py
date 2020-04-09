@@ -21,6 +21,7 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
@@ -111,6 +112,59 @@ class LanguageSerializer(serializers.ModelSerializer):
                 "Language with this language code was not found."
             )
         return value
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "full_name",
+            "username",
+            "is_superuser",
+            "is_active",
+            "date_joined",
+            "url",
+        )
+        extra_kwargs = {
+            "url": {"view_name": "api:user-detail", "lookup_field": "username"}
+        }
+
+
+class PermissionSerializer(serializers.RelatedField):
+    class Meta:
+        model = Permission
+
+    def to_representation(self, value):
+        return value.name
+
+
+class RoleSerializer(serializers.ModelSerializer):
+    permissions = PermissionSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Role
+        fields = (
+            "name",
+            "permissions",
+        )
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    roles = RoleSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Group
+        fields = (
+            "name",
+            "roles",
+            "project_selection",
+            "language_selection",
+            "url",
+        )
+        extra_kwargs = {
+            "url": {"view_name": "api:group-detail", "lookup_field": "name"}
+        }
 
 
 class ProjectSerializer(serializers.ModelSerializer):
