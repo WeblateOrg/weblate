@@ -320,8 +320,16 @@ Release checklist:
 1. Check newly translated languages by ``./scripts/list-translated-languages``.
 2. Set final version by ``./scripts/prepare-release``.
 3. Make sure screenshots are up to date ``make -C docs update-screenshots``
-4. Create a release ``./scripts/create-release --tag``
+4. Create a release ``./scripts/create-release --tag`` (see bellow for requirements)
 5. Update Docker image.
 6. Close GitHub milestone.
 7. Once the Docker image is tested, add a tag and push it.
 8. Include new version in ``./ci/run-migrate`` to cover it in migration testing.
+
+To create tags using the :file:`create-release` script you will need following:
+
+* GnuPG with private key used to sign the release
+* Push access to Weblate git repositories (it pushes tags)
+* Configured `hub` tool and access to create releases on the Weblate repo
+* SSH access to Weblate download server (the Website downloads are copied there)
+* Token for the Read The Docs service in :file:`~/.config/readthedocs.token`
