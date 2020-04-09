@@ -40,14 +40,12 @@
       {% endif %}
   </ul>
 </li>
+<li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 <li class="dropdown">
   <a class="dropdown-toggle" data-toggle="dropdown" href="#">
     {% trans "Tools" %} <span class="caret"></span>
   </a>
   <ul class="dropdown-menu">
-    <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-    <li><a href="{% url 'languages' %}">{% trans "All languages" %}</a></li>
-    <li><a href="{% url 'projects' %}">{% trans "All projects" %}</a></li>
     <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
   </ul>
 </li>
