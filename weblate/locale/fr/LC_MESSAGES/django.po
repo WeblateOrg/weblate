@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-09 17:53+0000\n"
-"PO-Revision-Date: 2020-04-08 15:37+0000\n"
+"PO-Revision-Date: 2020-04-10 04:46+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -416,8 +416,8 @@ msgid ""
 "placeholders."
 msgstr ""
 "Saisissez une URL personnalisée qui permettra d’accéder au code source. Vous "
-"pouvez utiliser {{branch}} pour une branche, {{filename}} et {{line}} pour "
-"un fichier et une ligne."
+"pouvez utiliser {{branch}} pour une branche, {{filename}} pour un fichier et "
+"{{line}} pour une ligne."
 
 #: weblate/accounts/models.py:331
 msgid "Translation editor mode"
@@ -1579,10 +1579,8 @@ msgstr "Gérer le mémoire de traduction (pour toute la plateforme)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
-msgstr "Gérer les annonces (de toute la plateforme)"
+msgstr "Gérer la liste des composants (de toute la plateforme)"
 
 #: weblate/auth/data.py:169
 msgctxt "Access control role"
@@ -2329,12 +2327,13 @@ msgstr "L’interpolation i18next ne correspond pas à la source"
 
 #: weblate/checks/format.py:449
 msgid "Percent placeholders"
-msgstr "Emplacements réservés de pourcentage"
+msgstr "Balises de remplacement par caractères pourcent"
 
 #: weblate/checks/format.py:450
 msgid "The percent placeholders do not match source"
 msgstr ""
-"Les emplacements réservés de pourcentage ne correspondent pas à la source"
+"Les balises de remplacement par caractères pourcent ne correspondent pas à "
+"la source"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2398,11 +2397,11 @@ msgstr "La traduction utilise du code HTML non sûr"
 
 #: weblate/checks/placeholders.py:43
 msgid "Placeholders"
-msgstr "Emplacements réservés"
+msgstr "Balises de remplacement"
 
 #: weblate/checks/placeholders.py:44
 msgid "Translation is missing some placeholders"
-msgstr "Emplacements réservés absents de la traduction"
+msgstr "Balises de remplacement manquantes dans la traduction"
 
 #: weblate/checks/placeholders.py:66
 #: weblate/templates/addons/discovery_help.html:8
@@ -4311,10 +4310,9 @@ msgid "Checks"
 msgstr "Vérifications"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Échec de recherche de projet correspondant !"
+msgstr "Vérifications en échec dans %(project)s"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
