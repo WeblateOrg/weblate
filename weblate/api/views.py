@@ -665,12 +665,12 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
         if not request.user.has_perm("screenshot.edit", obj.component):
             raise PermissionDenied()
 
-        if "unit_pk" not in request.data:
-            raise ParseError("Missing unit_pk parameter")
+        if "unit_id" not in request.data:
+            raise ParseError("Missing unit_id parameter")
 
         try:
             source_string = obj.component.source_translation.unit_set.get(
-                pk=int(request.data["unit_pk"])
+                pk=int(request.data["unit_id"])
             )
         except (Unit.DoesNotExist, ValueError) as error:
             return Response(

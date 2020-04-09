@@ -823,7 +823,7 @@ class ScreenshotAPITest(APIBaseTest):
             reverse(
                 "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
             ),
-            {"unit_pk": unit.pk},
+            {"unit_id": unit.pk},
         )
         self.assertEqual(response.status_code, 401)
 
@@ -833,7 +833,7 @@ class ScreenshotAPITest(APIBaseTest):
             reverse(
                 "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
             ),
-            {"unit_pk": -1},
+            {"unit_id": -1},
         )
         self.assertEqual(response.status_code, 400)
 
@@ -844,7 +844,7 @@ class ScreenshotAPITest(APIBaseTest):
             reverse(
                 "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
             ),
-            {"unit_pk": unit.pk},
+            {"unit_id": unit.pk},
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(str(unit.pk), response.data["units"][0])

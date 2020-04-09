@@ -1139,7 +1139,7 @@ Screenshots
 
     :param pk: Screenshot ID
     :type pk: int
-    :form string pk: Unit ID
+    :form string unit_id: Unit ID
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
