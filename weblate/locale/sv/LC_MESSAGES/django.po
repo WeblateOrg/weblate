@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-09 17:53+0000\n"
-"PO-Revision-Date: 2020-04-07 20:37+0000\n"
+"PO-Revision-Date: 2020-04-10 12:06+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -1533,10 +1533,8 @@ msgstr "Hantera översättningsminne (på hela plattformen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
-msgstr "Hantera meddelanden (på hela plattformen)"
+msgstr "Hantera komponentlistor (på hela plattformen)"
 
 #: weblate/auth/data.py:169
 msgctxt "Access control role"
@@ -4206,10 +4204,9 @@ msgid "Checks"
 msgstr "Kontroller"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Kunde inte hitta matchande projekt!"
+msgstr "Misslyckade kontroller i %(project)s"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -6979,10 +6976,8 @@ msgid "String has plural"
 msgstr "Sträng har plural"
 
 #: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "String has comment"
 msgid "String has context"
-msgstr "Strängen har kommentar"
+msgstr "Strängen har kontext"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
@@ -7563,10 +7558,8 @@ msgid "Source change"
 msgstr "Ändring i källa"
 
 #: weblate/templates/translate.html:145
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Gränssnittsspråk"
+msgstr "Mellanliggande språk"
 
 #: weblate/templates/translate.html:161 weblate/trans/models/unit.py:187
 msgid "Additional context"
@@ -7581,10 +7574,8 @@ msgid "Edit source string"
 msgstr "Redigera källsträng"
 
 #: weblate/templates/translate.html:178 weblate/trans/forms.py:924
-#, fuzzy
-#| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
-msgstr "Rapportera ett problem med registreringen"
+msgstr "Rapportera ett problem med källsträngen"
 
 #: weblate/templates/translate.html:193
 msgid "Please sign in to save translations."
@@ -8148,10 +8139,8 @@ msgid "Strings with labels"
 msgstr "Strängar med etiketter"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with context"
-msgstr "Strängar med kommentarer"
+msgstr "Strängar med kontext"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8281,10 +8270,8 @@ msgid "Replace existing translation file"
 msgstr "Ersätt befintlig översättningsfil"
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Update source strings"
-msgstr "Ändra källsträng"
+msgstr "Uppdatera källsträngar"
 
 #: weblate/trans/forms.py:569
 msgid "Processing of strings needing edit"
@@ -9216,10 +9203,8 @@ msgstr ""
 "översättningar."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Create new language file"
 msgid "Intermediate language file"
-msgstr "Skapa ny språkfil"
+msgstr "Mellanliggande språkfil"
 
 #: weblate/trans/models/component.py:282
 msgid ""
@@ -9227,6 +9212,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Filnamn för mellanliggande översättningsfil. I de flesta fall är detta en "
+"översättningsfil som tillhandahålls av utvecklare och som används vid "
+"skapandet av faktiska källsträngar."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9536,7 +9524,7 @@ msgstr "Du kan inte använda en basfil för tvåspråkig översättning."
 #: weblate/trans/models/component.py:1651
 #: weblate/trans/models/component.py:1656
 msgid "Intermediate language file can not be used without editing template."
-msgstr ""
+msgstr "Mellanliggande språkfil kan inte användas utan redigeringsmall."
 
 #: weblate/trans/models/component.py:1662
 msgid "Using a .pot file as base file is unsupported."
@@ -9789,16 +9777,12 @@ msgid "Requires dedicated reviewers to approve translations."
 msgstr "Kräver att speciella granskare godkänner översättningar."
 
 #: weblate/trans/models/project.py:122
-#, fuzzy
-#| msgid "Enable reviews"
 msgid "Enable source reviews"
-msgstr "Aktivera granskare"
+msgstr "Aktivera källgranskningar"
 
 #: weblate/trans/models/project.py:125
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Kräver att speciella granskare godkänner översättningar."
+msgstr "Kräver att särskilda granskare godkänner källsträngar."
 
 #: weblate/trans/models/project.py:129
 msgid "Enable hooks"
@@ -10387,10 +10371,8 @@ msgid "Automatic translation in progress"
 msgstr "Automatisk översättning pågår"
 
 #: weblate/trans/views/edit.py:599
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source needs review"
-msgstr "Granskning av källsträngar"
+msgstr "Källan behöver granskas"
 
 #: weblate/trans/views/edit.py:602
 msgid "Posted new comment"
