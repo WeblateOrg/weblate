@@ -42,8 +42,10 @@ def highlight_string(source, unit):
                 break
             eltest = highlights[hl_idx_next]
             if eltest[0] >= elref[0] and eltest[0] < elref[1]:
+                # Elements overlap, remove inner one
                 highlights.pop(hl_idx_next)
             elif eltest[0] > elref[1]:
+                # This is not an overlapping element
                 break
 
     return highlights
