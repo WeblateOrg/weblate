@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-08 08:56+0000\n"
-"PO-Revision-Date: 2020-04-07 01:40+0000\n"
+"PO-Revision-Date: 2020-04-09 17:09+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
@@ -18,8 +18,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:102
@@ -4448,7 +4448,7 @@ msgstr ""
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:67
 #: weblate/trans/forms.py:1634 weblate/trans/forms.py:1676
 msgid "You do not have permission to change project access control."
-msgstr "Nemaš prava za upravljanje pristupima projektu."
+msgstr "Nemaš dozvolu za upravljanje pristupima projektu."
 
 #: weblate/templates/check.html:6 weblate/templates/check_component.html:6
 #: weblate/templates/check_project.html:6 weblate/templates/checks.html:6
@@ -4766,7 +4766,7 @@ msgstr "Programčići za prikaz stanja"
 
 #: weblate/templates/component.html:142
 msgid "You don't have permission to start a new translation"
-msgstr "Nemaš prava za započinjanje novog prijevoda"
+msgstr "Nemaš dozvolu za započinjanje novog prijevoda"
 
 #: weblate/templates/component.html:142
 msgid "Please sign in to start new translation"
@@ -6958,10 +6958,8 @@ msgid "String has plural"
 msgstr "Izraz ima množinu"
 
 #: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "String has comment"
 msgid "String has context"
-msgstr "Izraz ima komentar"
+msgstr "Izraz ima kontekst"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
@@ -7548,10 +7546,8 @@ msgid "Source change"
 msgstr "Promjena izvora"
 
 #: weblate/templates/translate.html:145
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Jezik korisničkog sučelja"
+msgstr "Intermedijalni jezik"
 
 #: weblate/templates/translate.html:161 weblate/trans/models/unit.py:188
 msgid "Additional context"
@@ -7566,10 +7562,8 @@ msgid "Edit source string"
 msgstr "Uredi izvorni izraz"
 
 #: weblate/templates/translate.html:178 weblate/trans/forms.py:924
-#, fuzzy
-#| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
-msgstr "Prijavi problem s registracijom"
+msgstr "Prijavi problem s izvornim izrazom"
 
 #: weblate/templates/translate.html:193
 msgid "Please sign in to save translations."
@@ -8140,10 +8134,8 @@ msgid "Strings with labels"
 msgstr "Izrazi s etiketama"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with context"
-msgstr "Izrazi s komentarima"
+msgstr "Izrazi s kontekstom"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8272,10 +8264,8 @@ msgid "Replace existing translation file"
 msgstr "Zamijeni postojeću prevodilačku datoteku"
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Update source strings"
-msgstr "Uredi izvorne izraze"
+msgstr "Aktualiziraj izvorne izraze"
 
 #: weblate/trans/forms.py:569
 msgid "Processing of strings needing edit"
@@ -9203,10 +9193,8 @@ msgstr ""
 "Hoće li korisnici moći uređivati osnovnu datoteku za jednojezične prijevode."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Create new language file"
 msgid "Intermediate language file"
-msgstr "Stvori novu jezičnu datoteku"
+msgstr "Datoteka intermedijalnog jezika"
 
 #: weblate/trans/models/component.py:282
 msgid ""
@@ -9214,6 +9202,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Ime intermedijalne prevodilačke datoteke. U većini slučajeva ovo je "
+"prevodilačka datoteka koju pružaju programeri i koja se koristi za stvaranje "
+"izvornih izraza."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9526,6 +9517,8 @@ msgstr "Ne možeš koristiti osnovnu datoteku za dvojezični prijevod."
 #: weblate/trans/models/component.py:1641
 msgid "Intermediate language file can not be used without editing template."
 msgstr ""
+"Datoteka intermedijalnog jezika ne može se koristiti bez uređivanja "
+"predloška."
 
 #: weblate/trans/models/component.py:1647
 msgid "Using a .pot file as base file is unsupported."
@@ -9778,19 +9771,15 @@ msgstr "Aktiviraj recenzije"
 
 #: weblate/trans/models/project.py:123
 msgid "Requires dedicated reviewers to approve translations."
-msgstr "Zahtijeva recenzente za odobravanje prijevoda."
+msgstr "Zahtijeva imenovane recenzente za odobravanje prijevoda."
 
 #: weblate/trans/models/project.py:126
-#, fuzzy
-#| msgid "Enable reviews"
 msgid "Enable source reviews"
-msgstr "Aktiviraj recenzije"
+msgstr "Aktiviraj recenzije izvora"
 
 #: weblate/trans/models/project.py:129
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Zahtijeva recenzente za odobravanje prijevoda."
+msgstr "Zahtijeva imenovane recenzente za odobravanje izvornih izraza."
 
 #: weblate/trans/models/project.py:133
 msgid "Enable hooks"
@@ -10374,11 +10363,11 @@ msgstr "Nemaš prava za prihvaćanje prijedloga!"
 
 #: weblate/trans/views/edit.py:334
 msgid "You do not have privilege to delete suggestions!"
-msgstr "Nemaš prava za birsanje prijedloga!"
+msgstr "Nemaš prava za brisanje prijedloga!"
 
 #: weblate/trans/views/edit.py:340
 msgid "You do not have privilege to vote for suggestions!"
-msgstr "Nemaš prava za glasanje za prijedlog!"
+msgstr "Nemaš pravo glasanja za prijedloge!"
 
 #: weblate/trans/views/edit.py:366
 msgid "Invalid suggestion!"
@@ -10393,10 +10382,8 @@ msgid "Automatic translation in progress"
 msgstr "Automatsko prevođenje u tijeku"
 
 #: weblate/trans/views/edit.py:599
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "Source needs review"
-msgstr "Izvofr je uklonjen."
+msgstr "Izvor treba pregledati"
 
 #: weblate/trans/views/edit.py:602
 msgid "Posted new comment"
@@ -10404,7 +10391,7 @@ msgstr "Objavljen novi komentar"
 
 #: weblate/trans/views/edit.py:604
 msgid "Failed to add comment!"
-msgstr "Neuspjelo dadavanje komentara!"
+msgstr "Neuspjelo dodavanje komentara!"
 
 #: weblate/trans/views/edit.py:623
 msgid "Translation comment has been deleted."
