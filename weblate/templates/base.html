@@ -153,6 +153,18 @@ var _rollbarConfig = {
             <li><a href="{% url 'languages' %}">{% trans "Browse all languages" %}</a></li>
           </ul>
         </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="checks-menu">{% trans "Checks" %} <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            {% if watched_projects %}
+            {% for project in watched_projects %}
+            <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failed checks in {{ project }}{% endblocktrans %}</a></li>
+            {% endfor %}
+            <li role="separator" class="divider"></li>
+            {% endif %}
+            <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
+          </ul>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right flip">
 
