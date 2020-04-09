@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-08 08:56+0000\n"
-"PO-Revision-Date: 2020-04-04 08:05+0000\n"
+"PO-Revision-Date: 2020-04-09 17:09+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -279,16 +279,14 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Se confirmó el restablecimiento y se desactivó la contraseña."
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Se accedió a través de {method} ({name})."
+msgstr "Se configuró el acceso a través de {method} ({name})."
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Se accedió a través de {method} ({name})."
+msgstr "Se quitó el acceso a través de {method} ({name})."
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -742,6 +740,8 @@ msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
 msgstr ""
+"No se pudo quitar la última identidad de usuario con correo confirmado. "
+"Confirme su dirección de correo primero."
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -6542,7 +6542,7 @@ msgstr "Integración de control de versiones"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
-msgstr ""
+msgstr "Generar un suceso para poner a prueba la integración con Sentry."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -7087,10 +7087,8 @@ msgid "String has plural"
 msgstr "La cadena tiene plural"
 
 #: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "String has comment"
 msgid "String has context"
-msgstr "La cadena tiene comentarios"
+msgstr "La cadena tiene contexto"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
@@ -9354,10 +9352,8 @@ msgstr ""
 "monolingües."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Create new language file"
 msgid "Intermediate language file"
-msgstr "Crear archivo de idioma nuevo"
+msgstr "Archivo de idioma intermediario"
 
 #: weblate/trans/models/component.py:282
 msgid ""
@@ -9365,6 +9361,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Nombre del archivo de traducción intermediario. En la mayoría de los casos "
+"es un archivo provisto por los desarrolladores y se utiliza al crear las "
+"cadenas de origen finales."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9678,6 +9677,8 @@ msgstr "No puede utilizar un archivo de base para una traducción bilingüe."
 #: weblate/trans/models/component.py:1641
 msgid "Intermediate language file can not be used without editing template."
 msgstr ""
+"El archivo de idioma intermediario no puede utilizarse sin una plantilla de "
+"edición."
 
 #: weblate/trans/models/component.py:1647
 msgid "Using a .pot file as base file is unsupported."
