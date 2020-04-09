@@ -308,6 +308,25 @@ class AndroidAddonTest(ViewTestCase):
         self.assertIn("android-not-synced/values-cs/strings.xml", commit)
 
 
+class IntermediateAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_json_intermediate(new_lang="add")
+
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = CleanupAddon.create(self.component)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        rev = self.component.repository.last_revision
+        addon.post_update(self.component, "")
+        self.assertEqual(rev, self.component.repository.last_revision)
+        addon.post_update(self.component, "")
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        # It should remove string not present in the English file
+        self.assertIn("intermediate/cs.json", commit)
+        self.assertIn('-    "orangutan"', commit)
+
+
 class ResxAddonTest(ViewTestCase):
     def create_component(self):
         return self.create_resx()

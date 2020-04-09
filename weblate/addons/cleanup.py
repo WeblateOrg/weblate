@@ -45,7 +45,9 @@ class BaseCleanupAddon(UpdateBaseAddon):
     def build_indexes(self):
         index = self.build_index(self.template_store)
         if self.instance.component.intermediate:
-            intermediate = self.build_index(self.instance.component.intermediate_store)
+            intermediate = self.build_index(
+                self.instance.component.intermediate_store.store
+            )
         else:
             intermediate = {}
         return index, intermediate
