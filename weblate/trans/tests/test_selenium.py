@@ -201,8 +201,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.scroll_top()
 
-    def click(self, element):
+    def click(self, element="", htmlid=None):
         """Wrapper to scroll into element for click."""
+        if htmlid:
+            element = self.driver.find_element_by_id(htmlid)
         if isinstance(element, str):
             element = self.driver.find_element_by_link_text(element)
 
@@ -220,7 +222,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def do_login(self, create=True, superuser=False):
         # login page
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("login-button"))
+            self.click(htmlid="login-button")
 
         # Create user
         if create:
@@ -255,7 +257,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Open admin page
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("admin-button"))
+            self.click(htmlid="admin-button")
         return user
 
     def open_admin(self, login=True):
@@ -277,24 +279,24 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.do_login()
 
         # Load profile
-        self.click(self.driver.find_element_by_id("user-dropdown"))
+        self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("settings-button"))
+            self.click(htmlid="settings-button")
 
         # Wait for profile to load
         self.driver.find_element_by_id("notifications")
 
         # Load translation memory
-        self.click(self.driver.find_element_by_id("user-dropdown"))
+        self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("memory-button"))
+            self.click(htmlid="memory-button")
 
         self.screenshot("memory.png")
 
         # Finally logout
-        self.click(self.driver.find_element_by_id("user-dropdown"))
+        self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("logout-button"))
+            self.click(htmlid="logout-button")
 
         # We should be back on home page
         self.driver.find_element_by_id("browse-projects")
@@ -302,7 +304,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def register_user(self):
         # registration page
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("register-button"))
+            self.click(htmlid="register-button")
 
         # Fill in registration form
         self.driver.find_element_by_id("id_email").send_keys("weblate@example.org")
@@ -344,7 +346,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
         # Check we're signed in
-        self.click(self.driver.find_element_by_id("user-dropdown"))
+        self.click(htmlid="user-dropdown")
         self.assertTrue(
             "Test Example" in self.driver.find_element_by_id("profile-name").text
         )
@@ -374,12 +376,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Generate SSH key
         if get_key_data() is None:
             with self.wait_for_page_load():
-                self.click(self.driver.find_element_by_id("generate-ssh-button"))
+                self.click(htmlid="generate-ssh-button")
 
         # Add SSH host key
         self.driver.find_element_by_id("id_host").send_keys("github.com")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("ssh-add-button"))
+            self.click(htmlid="ssh-add-button")
 
         self.screenshot("ssh-keys-added.png")
 
@@ -448,9 +450,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             user.social_auth.create(provider="google-oauth2", uid=user.email)
             user.social_auth.create(provider="github", uid="123456")
             user.social_auth.create(provider="bitbucket", uid="weblate")
-            self.click(self.driver.find_element_by_id("user-dropdown"))
+            self.click(htmlid="user-dropdown")
             with self.wait_for_page_load():
-                self.click(self.driver.find_element_by_id("settings-button"))
+                self.click(htmlid="settings-button")
             self.click("Account")
             self.screenshot("authentication.png")
         finally:
@@ -493,7 +495,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 self.driver.get(
                     "{0}{1}".format(self.live_server_url, unit.get_absolute_url())
                 )
-            self.click(self.driver.find_element_by_id(tab))
+            self.click(htmlid=tab)
             self.screenshot(name)
             with self.wait_for_page_load():
                 self.click("Dashboard")
@@ -529,14 +531,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Perform OCR
         if weblate.screenshots.views.HAS_OCR:
-            self.click(self.driver.find_element_by_id("screenshots-auto"))
+            self.click(htmlid="screenshots-auto")
             wait_search()
 
             self.screenshot("screenshot-ocr.png")
 
         # Add string manually
         self.driver.find_element_by_id("search-input").send_keys("'{}'".format(text))
-        self.click(self.driver.find_element_by_id("screenshots-search"))
+        self.click(htmlid="screenshots-search")
         wait_search()
         self.click(self.driver.find_element_by_class_name("add-string"))
 
@@ -749,10 +751,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Status widgets")
         self.screenshot("promote.png")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("engage-link"))
+            self.click(htmlid="engage-link")
         self.screenshot("engage.png")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("engage-project"))
+            self.click(htmlid="engage-project")
 
         # Glossary
         with self.wait_for_page_load():
@@ -851,7 +853,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("export-import.png")
         self.click("Tools")
         self.click("Automatic translation")
-        self.click(self.driver.find_element_by_id("id_select_auto_source_2"))
+        self.click(htmlid="id_select_auto_source_2")
         self.click("Tools")
         self.screenshot("automatic-translation.png")
         self.click("Search")
@@ -892,9 +894,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("visual-keyboard.png")
 
         # Profile
-        self.click(self.driver.find_element_by_id("user-dropdown"))
+        self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("settings-button"))
+            self.click(htmlid="settings-button")
         self.click("Preferences")
         self.screenshot("dashboard-dropdown.png")
         self.click("Notifications")
@@ -914,9 +916,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         create_billing(user)
 
         # Open billing page
-        self.click(self.driver.find_element_by_id("user-dropdown"))
+        self.click(htmlid="user-dropdown")
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("billing-button"))
+            self.click(htmlid="billing-button")
         self.screenshot("user-billing.png")
 
         # Click on add project
@@ -1011,13 +1013,13 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Fonts")
 
-        self.click(self.driver.find_element_by_id("tab_fonts"))
+        self.click(htmlid="tab_fonts")
 
         # Upload font
         element = self.driver.find_element_by_id("id_font")
         element.send_keys(element._upload(FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("upload_font_submit"))
+            self.click(htmlid="upload_font_submit")
 
         self.screenshot("font-edit.png")
 
@@ -1028,14 +1030,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         element = self.driver.find_element_by_id("id_font")
         element.send_keys(element._upload(SOURCE_FONT))  # noqa: SF01,SLF001
         with self.wait_for_page_load():
-            self.click(self.driver.find_element_by_id("upload_font_submit"))
+            self.click(htmlid="upload_font_submit")
 
         with self.wait_for_page_load():
             self.click("Fonts")
 
         self.screenshot("font-list.png")
 
-        self.click(self.driver.find_element_by_id("tab_groups"))
+        self.click(htmlid="tab_groups")
 
         # Create group
         Select(self.driver.find_element_by_id("id_group_font")).select_by_visible_text(
@@ -1152,11 +1154,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-detail.png")
 
         # Display shapings
-        self.click(self.driver.find_element_by_id("toggle-shapings"))
+        self.click(htmlid="toggle-shapings")
         self.screenshot("shapings-translate.png")
 
         # Edit context
-        self.click(self.driver.find_element_by_id("edit-context"))
+        self.click(htmlid="edit-context")
         time.sleep(0.5)
         self.screenshot("source-review-edit.png", scroll=False)
 
