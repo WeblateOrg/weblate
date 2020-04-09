@@ -315,7 +315,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
     .. seealso::
 
@@ -552,7 +552,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
     .. seealso::
 
@@ -566,7 +566,7 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of component screenshots; see :http:get:`/api/screenshots/(int:pk)/`
+    :>json array results: array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`
 
     .. seealso::
 
@@ -859,7 +859,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
     .. seealso::
 
@@ -876,7 +876,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects; see :http:get:`/api/units/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
 
     .. seealso::
 
@@ -1016,14 +1016,14 @@ Units
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Unit object attributes are documented at :http:get:`/api/units/(int:pk)/`.
+        Unit object attributes are documented at :http:get:`/api/units/(int:id)/`.
 
-.. http:get:: /api/units/(int:pk)/
+.. http:get:: /api/units/(int:id)/
 
     Returns information about translation unit.
 
-    :param pk: Unit ID
-    :type pk: int
+    :param id: Unit ID
+    :type id: int
     :>json string translation: URL of a related translation object
     :>json string source: source string
     :>json string previous_source: previous source string used for fuzzy matching
@@ -1044,7 +1044,7 @@ Units
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
     :>json string web_url: URL where unit can be edited
-    :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:pk)/`
+    :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:id)/`
 
 Changes
 +++++++
@@ -1059,14 +1059,14 @@ Changes
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Change object attributes are documented at :http:get:`/api/changes/(int:pk)/`.
+        Change object attributes are documented at :http:get:`/api/changes/(int:id)/`.
 
-.. http:get:: /api/changes/(int:pk)/
+.. http:get:: /api/changes/(int:id)/
 
     Returns information about translation change.
 
-    :param pk: Change ID
-    :type pk: int
+    :param id: Change ID
+    :type id: int
     :>json string unit: URL of a related unit object
     :>json string translation: URL of a related translation object
     :>json string component: URL of a related component object
@@ -1092,32 +1092,32 @@ Screenshots
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Sources object attributes are documented at :http:get:`/api/screenshots/(int:pk)/`.
+        Sources object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
 
-.. http:get:: /api/screenshots/(int:pk)/
+.. http:get:: /api/screenshots/(int:id)/
 
     Returns information about screenshot information.
 
-    :param pk: Screenshot ID
-    :type pk: int
+    :param id: Screenshot ID
+    :type id: int
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
-    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
-    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
-.. http:get:: /api/screenshots/(int:pk)/file/
+.. http:get:: /api/screenshots/(int:id)/file/
 
     Download the screenshot image.
 
-    :param pk: Screenshot ID
-    :type pk: int
+    :param id: Screenshot ID
+    :type id: int
 
-.. http:post:: /api/screenshots/(int:pk)/file/
+.. http:post:: /api/screenshots/(int:id)/file/
 
     Replace screenshot image.
 
-    :param pk: Screenshot ID
-    :type pk: int
+    :param id: Screenshot ID
+    :type id: int
     :form file image: Uploaded file
 
     .. seealso::
@@ -1133,17 +1133,17 @@ Screenshots
             -H "Authorization: Token TOKEN" \
             http://example.com/api/screenshots/1/file/
 
-.. http:post:: /api/screenshots/(int:pk)/units/
+.. http:post:: /api/screenshots/(int:id)/units/
 
     Associate source string with screenshot.
 
-    :param pk: Screenshot ID
-    :type pk: int
+    :param id: Screenshot ID
+    :type id: int
     :form string unit_id: Unit ID
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
-    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
-    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
     .. seealso::
 
@@ -1159,8 +1159,8 @@ Screenshots
     :form string component_slug: Component Slug
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
-    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
-    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
 
     .. seealso::
