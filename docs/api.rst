@@ -1092,7 +1092,7 @@ Screenshots
 
         Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
-        Sources object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
+        Screenshot object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
 
 .. http:get:: /api/screenshots/(int:id)/
 
