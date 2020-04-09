@@ -128,18 +128,12 @@ class Check(models.Model):
 
     def get_description(self):
         if self.check_obj:
-            try:
-                return self.check_obj.get_description(self)
-            except IndexError:
-                return self.check_obj.description
+            return self.check_obj.get_description(self)
         return self.check
 
     def get_fixup(self):
         if self.check_obj:
-            try:
-                return self.check_obj.get_fixup(self.unit)
-            except IndexError:
-                return None
+            return self.check_obj.get_fixup(self.unit)
         return None
 
     def get_fixup_json(self):
@@ -187,12 +181,9 @@ def check_post_save(sender, instance, created, **kwargs):
             instance.unit.source_info.run_checks()
     else:
         # Update related unit failed check flag (the check was (un)ignored)
-        try:
-            instance.unit.update_has_failing_check(
-                has_checks=None if instance.ignore else True
-            )
-        except IndexError:
-            return
+        instance.unit.update_has_failing_check(
+            has_checks=None if instance.ignore else True
+        )
 
 
 @receiver(post_delete, sender=Check)
