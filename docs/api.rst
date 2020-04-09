@@ -202,8 +202,6 @@ Languages
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Language object attributes are documented at :http:get:`/api/languages/(string:language)/`.
 
 .. http:get:: /api/languages/(string:language)/
@@ -214,10 +212,6 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -241,12 +235,7 @@ Projects
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Project object attributes are documented at :http:get:`/api/projects/(string:project)/`.
-
-        The `source_language` for a project can be specified by sending a `source_language` object
-        in the POST data similar to see :http:get:`/api/languages/(string:language)/`
 
 .. http:post:: /api/projects/
 
@@ -260,8 +249,8 @@ Projects
     :type slug: string
     :param web: Project website
     :type web: string
-    :param source_language: Project source language (optional)
-    :type source_language: object
+    :param source_language: Project source language code (optional)
+    :type source_language: string
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -276,10 +265,6 @@ Projects
     :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -317,10 +302,6 @@ Projects
     :type project: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:get:: /api/projects/(string:project)/repository/
 
     Returns information about VCS repository status. This endpoint contains
@@ -332,10 +313,6 @@ Projects
     :>json boolean needs_commit: whether there are any pending changes to commit
     :>json boolean needs_merge: whether there are any upstream changes to merge
     :>json boolean needs_push: whether there are any local changes to push
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -357,10 +334,6 @@ Projects
     :type project: string
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **CURL example:**
 
@@ -407,10 +380,6 @@ Projects
     :param project: Project URL slug
     :type project: string
     :>json array results: array of component objects; see :http:get:`/api/components/(string:project)/(string:component)/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:post:: /api/projects/(string:project)/components/
 
@@ -463,8 +432,6 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Component object attributes are documented at :http:get:`/api/components/(string:project)/(string:component)/`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/
@@ -493,10 +460,6 @@ Components
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
     :>json string push: URL of a push repository
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -554,10 +517,6 @@ Components
     :type component: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 
     Returns a list of component screenshots.
@@ -567,10 +526,6 @@ Components
     :param component: Component URL slug
     :type component: string
     :>json array results: array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
@@ -582,10 +537,6 @@ Components
     :param component: Component URL slug
     :type component: string
     :>json boolean locked: whether component is locked for updates
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -608,10 +559,6 @@ Components
     :type component: string
     :<json lock: Boolean whether to lock or not.
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
     Returns information about VCS repository status.
@@ -629,10 +576,6 @@ Components
     :>json string status: VCS repository status as reported by VCS
     :>json merge_failure: Text describing merge failure or null if there is none
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/components/(string:project)/(string:component)/repository/
 
     Performs the given operation on a VCS repository.
@@ -646,10 +589,6 @@ Components
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
 
     Downloads base file for monolingual translations.
@@ -658,10 +597,6 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/new_template/
 
@@ -672,10 +607,6 @@ Components
     :param component: Component URL slug
     :type component: string
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:get:: /api/components/(string:project)/(string:component)/translations/
 
     Returns a list of translation objects in the given component.
@@ -685,10 +616,6 @@ Components
     :param component: Component URL slug
     :type component: string
     :>json array results: array of translation objects; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:post:: /api/components/(string:project)/(string:component)/translations/
 
@@ -720,8 +647,6 @@ Translations
     Returns a list of translations.
 
     .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
         Translation object attributes are documented at :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`.
 
@@ -762,11 +687,6 @@ Translations
     :>json string file_url: URL to file object; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
     :>json string units_list_url: URL to strings list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 
     **Example JSON data:**
 
@@ -861,10 +781,6 @@ Translations
     :type language: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/units/
 
@@ -877,10 +793,6 @@ Translations
     :param language: Translation language code
     :type language: string
     :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
@@ -905,10 +817,6 @@ Translations
     :param language: Translation language code
     :type language: string
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Upload new file with translations.
@@ -925,10 +833,6 @@ Translations
     :form string author: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``)
     :form string fuzzy: Fuzzy strings processing (*empty*, ``process``, ``approve``)
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **CURL example:**
 
@@ -952,10 +856,6 @@ Translations
     :param language: Translation language code
     :type language: string
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
     Performs given operation on the VCS repository.
@@ -970,10 +870,6 @@ Translations
     :type language: string
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/statistics/
 
@@ -1013,8 +909,6 @@ Units
     Returns list of translation units.
 
     .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
         Unit object attributes are documented at :http:get:`/api/units/(int:id)/`.
 
@@ -1057,8 +951,6 @@ Changes
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Change object attributes are documented at :http:get:`/api/changes/(int:id)/`.
 
 .. http:get:: /api/changes/(int:id)/
@@ -1090,8 +982,6 @@ Screenshots
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Screenshot object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
 
 .. http:get:: /api/screenshots/(int:id)/
@@ -1120,10 +1010,6 @@ Screenshots
     :type id: int
     :form file image: Uploaded file
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
     **CURL example:**
 
     .. code-block:: sh
@@ -1145,10 +1031,6 @@ Screenshots
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/screenshots/
 
     Creates a new screenshot.
@@ -1161,11 +1043,6 @@ Screenshots
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
-
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 
 
