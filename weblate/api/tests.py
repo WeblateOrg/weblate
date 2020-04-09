@@ -90,7 +90,11 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
         response = getattr(self.client, method)(url, request, format)
-        self.assertEqual(response.status_code, code)
+        self.assertEqual(
+            response.status_code,
+            code,
+            f"Unexpected status code {response.status_code}: {response.content}",
+        )
         if data is not None:
             for item in skip:
                 del response.data[item]
