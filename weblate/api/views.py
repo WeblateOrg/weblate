@@ -31,7 +31,7 @@ from django.utils.safestring import mark_safe
 from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
-from rest_framework.mixins import CreateModelMixin, DestroyModelMixin
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -39,6 +39,7 @@ from rest_framework.settings import api_settings
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
+from weblate.accounts.utils import remove_user
 from weblate.api.serializers import (
     ChangeSerializer,
     ComponentListSerializer,
@@ -255,7 +256,7 @@ class WeblateViewSet(DownloadViewSet):
         return Response(data)
 
 
-class UserViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
+class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
 
     queryset = User.objects.none()
@@ -263,22 +264,65 @@ class UserViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
     lookup_field = "username"
 
     def get_queryset(self):
-        return User.objects.all()
+        if self.request.user.has_perm("user.edit"):
+            return User.objects.all()
+        return User.objects.filter(pk=self.request.user.pk).all()
+
+    def perm_check(self, request):
+        if not request.user.has_perm("user.edit"):
+            self.permission_denied(request, message="Can not manage Users")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        instance = self.get_object()
+        remove_user(instance, request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def partial_update(self, request, *args, **kwargs):
-        serializer_context = {
-            "request": request,
-        }
         instance = User.objects.get(username=kwargs.get("username"))
         serializer = self.serializer_class(
-            instance, data=request.data, partial=True, context=serializer_context
+            instance,
+            data=request.data,
+            partial=True,
+            context=self.get_serializer_context(),
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
+    @action(
+        detail=True, methods=["post"],
+    )
+    def groups(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
 
-class GroupViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
+        if "group_name" not in request.data:
+            raise ParseError("Missing group_name parameter")
+
+        try:
+            group = Group.objects.get(name=request.data["group_name"],)
+        except (Group.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.groups.add(group)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GroupViewSet(viewsets.ModelViewSet):
     """Groups API."""
 
     queryset = Group.objects.none()
@@ -286,15 +330,33 @@ class GroupViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
     lookup_field = "name"
 
     def get_queryset(self):
-        return Group.objects.all()
+        if self.request.user.has_perm("group.edit"):
+            return Group.objects.all()
+        return self.request.user.groups.all()
+
+    def perm_check(self, request):
+        if not request.user.has_perm("group.edit"):
+            self.permission_denied(request, message="Can not manage groups")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().destroy(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):
-        serializer_context = {
-            "request": request,
-        }
         instance = Group.objects.get(name=kwargs.get("name"))
         serializer = self.serializer_class(
-            instance, data=request.data, partial=True, context=serializer_context
+            instance,
+            data=request.data,
+            partial=True,
+            context=self.get_serializer_context(),
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()

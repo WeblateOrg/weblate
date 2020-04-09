@@ -115,12 +115,17 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    groups = serializers.HyperlinkedIdentityField(
+        view_name="api:group-detail", lookup_field="name", many=True, read_only=True,
+    )
+
     class Meta:
         model = User
         fields = (
             "email",
             "full_name",
             "username",
+            "groups",
             "is_superuser",
             "is_active",
             "date_joined",
@@ -149,9 +154,15 @@ class RoleSerializer(serializers.ModelSerializer):
             "permissions",
         )
 
+    def validate_name(self, value):
+        check_query = Role.objects.filter(name=value)
+        if not check_query.exists():
+            raise serializers.ValidationError("Role with this role name was not found.")
+        return value
+
 
 class GroupSerializer(serializers.ModelSerializer):
-    roles = RoleSerializer(read_only=True, many=True)
+    roles = RoleSerializer(many=True)
 
     class Meta:
         model = Group
@@ -165,6 +176,25 @@ class GroupSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:group-detail", "lookup_field": "name"}
         }
+
+    def create(self, validated_data):
+        role_validated = validated_data.pop("roles")
+        group = Group.objects.create(**validated_data)
+        if role_validated:
+            role_names = [role.get("name") for role in role_validated]
+            roles = Role.objects.filter(name__in=role_names).all()
+            for role in roles:
+                group.roles.add(role)
+        return group
+
+    def update(self, instance, validated_data):
+        role_validated = validated_data.pop("roles")
+        if role_validated:
+            role_names = [role.get("name") for role in role_validated]
+            roles = Role.objects.filter(name__in=role_names).all()
+            for role in roles:
+                instance.roles.add(role)
+        return super().update(instance, validated_data)
 
 
 class ProjectSerializer(serializers.ModelSerializer):
