@@ -462,7 +462,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def screenshots(self, request, **kwargs):
         obj = self.get_object()
 
-        queryset = Screenshot.objects.filter(component=obj)
+        queryset = Screenshot.objects.filter(component=obj).order_by("id")
         page = self.paginate_queryset(queryset)
 
         serializer = ScreenshotSerializer(page, many=True, context={"request": request})
