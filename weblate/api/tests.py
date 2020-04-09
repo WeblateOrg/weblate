@@ -708,29 +708,25 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_get_screenshot(self):
         response = self.client.get(
-            reverse(
-                "api:screenshot-detail", kwargs={"pk": Screenshot.objects.all()[0].pk}
-            )
+            reverse("api:screenshot-detail", kwargs={"pk": Screenshot.objects.get().pk})
         )
         self.assertIn("file_url", response.data)
 
     def test_download(self):
         response = self.client.get(
-            reverse(
-                "api:screenshot-file", kwargs={"pk": Screenshot.objects.all()[0].pk}
-            )
+            reverse("api:screenshot-file", kwargs={"pk": Screenshot.objects.get().pk})
         )
         self.assertContains(response, b"PNG")
 
     def test_upload(self, superuser=True, code=200, filename=TEST_SCREENSHOT):
         self.authenticate(superuser)
-        Screenshot.objects.all()[0].image.delete()
+        Screenshot.objects.get().image.delete()
 
-        self.assertEqual(Screenshot.objects.all()[0].image, "")
+        self.assertEqual(Screenshot.objects.get().image, "")
         with open(filename, "rb") as handle:
             response = self.client.post(
                 reverse(
-                    "api:screenshot-file", kwargs={"pk": Screenshot.objects.all()[0].pk}
+                    "api:screenshot-file", kwargs={"pk": Screenshot.objects.get().pk}
                 ),
                 {"image": handle},
             )
@@ -738,7 +734,7 @@ class ScreenshotAPITest(APIBaseTest):
         if code == 200:
             self.assertTrue(response.data["result"])
 
-            self.assertIn(".png", Screenshot.objects.all()[0].image.path)
+            self.assertIn(".png", Screenshot.objects.get().image.path)
 
     def test_upload_denied(self):
         self.test_upload(False, 403)
@@ -824,9 +820,7 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units_denied(self):
         unit = self.component.source_translation.unit_set.all()[0]
         response = self.client.post(
-            reverse(
-                "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
-            ),
+            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
             {"unit_id": unit.pk},
         )
         self.assertEqual(response.status_code, 401)
@@ -834,9 +828,7 @@ class ScreenshotAPITest(APIBaseTest):
     def test_units_invalid(self):
         self.authenticate(True)
         response = self.client.post(
-            reverse(
-                "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
-            ),
+            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
             {"unit_id": -1},
         )
         self.assertEqual(response.status_code, 400)
@@ -845,9 +837,7 @@ class ScreenshotAPITest(APIBaseTest):
         self.authenticate(True)
         unit = self.component.source_translation.unit_set.all()[0]
         response = self.client.post(
-            reverse(
-                "api:screenshot-units", kwargs={"pk": Screenshot.objects.all()[0].pk}
-            ),
+            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
             {"unit_id": unit.pk},
         )
         self.assertEqual(response.status_code, 200)
