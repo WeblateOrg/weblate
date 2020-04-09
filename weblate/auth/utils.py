@@ -40,14 +40,18 @@ def migrate_permissions_list(model, permissions):
         if not created and instance.name != name:
             instance.name = name
             instance.save(update_fields=["name"])
-    # Delete stale permissions
-    model.objects.exclude(id__in=ids).delete()
+    return ids
 
 
 def migrate_permissions(model):
     """Create permissions as defined in the data."""
-    migrate_permissions_list(model, PERMISSIONS)
-    migrate_permissions_list(model, GLOBAL_PERMISSIONS)
+    ids = set()
+    # Per object permissions
+    ids.update(migrate_permissions_list(model, PERMISSIONS))
+    # Global permissions
+    ids.update(migrate_permissions_list(model, GLOBAL_PERMISSIONS))
+    # Delete stale permissions
+    model.objects.exclude(id__in=ids).delete()
 
 
 def migrate_roles(model, perm_model):
