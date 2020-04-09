@@ -30,13 +30,18 @@ from weblate.auth.data import (
 
 
 def migrate_permissions_list(model, permissions):
+    ids = set()
+    # Update/create permissions
     for code, name in permissions:
         instance, created = model.objects.get_or_create(
             codename=code, defaults={"name": name}
         )
+        ids.add(instance.pk)
         if not created and instance.name != name:
             instance.name = name
             instance.save(update_fields=["name"])
+    # Delete stale permissions
+    model.objects.exclude(id__in=ids).delete()
 
 
 def migrate_permissions(model):

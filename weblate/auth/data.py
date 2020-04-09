@@ -131,11 +131,7 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("language.edit", _("Manage language definitions (on the entire platform)")),
     # Translators: Permission name
-    ("group.add", _("Add groups (on the entire platform)")),
-    # Translators: Permission name
     ("group.edit", _("Manage groups (on the entire platform)")),
-    # Translators: Permission name
-    ("user.add", _("Add users (on the entire platform)")),
     # Translators: Permission name
     ("user.edit", _("Manage users (on the entire platform)")),
     # Translators: Permission name
