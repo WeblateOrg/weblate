@@ -35,8 +35,7 @@ cross-referenced with your preferred languages.
 
 The menu has these options:
 
-- :guilabel:`Projects` > :guilabel:`Browse all projects` in the main menu (or in the menu
-  :guilabel:`Tools` → :guilabel:`All projects` in the Dashboard) showing translation status
+- :guilabel:`Projects` > :guilabel:`Browse all projects` in the main menu showing translation status
   for each project on the Weblate instance.
 - Selecting a language in the main menu :guilabel:`Languages` will show translation status of all projects,
   filtered by one of your primary languages.

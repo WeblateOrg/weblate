@@ -436,7 +436,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("activity.png")
 
         # Screenshot search
-        self.click("Tools")
         self.click("Search")
         self.screenshot("search.png")
 
@@ -509,9 +508,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         self.do_login(superuser=True)
         capture_unit("source-information.png", "toggle-nearby")
-        self.click("Tools")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
-            self.click("All projects")
+            self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         with self.wait_for_page_load():
@@ -602,9 +601,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Announcement display
         self.view_site()
-        self.click("Tools")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
-            self.click("All projects")
+            self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         self.click("Manage")
@@ -613,9 +612,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         with self.wait_for_page_load():
             self.click("Dashboard")
-        self.click("Tools")
+        self.click(htmlid="languages-menu")
         with self.wait_for_page_load():
-            self.click("All languages")
+            self.click("Browse all languages")
         with self.wait_for_page_load():
             self.click("Czech")
         self.screenshot("announcement-language.png")
@@ -710,9 +709,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Load Weblate project page
         self.view_site()
-        self.click("Tools")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
-            self.click("All projects")
+            self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
 
@@ -730,7 +729,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("Manage users")
         self.screenshot("manage-users.png")
         # Access control setings
-        self.click("Projects")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         self.click("Manage")
@@ -741,7 +740,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Workflow")
         self.screenshot("project-workflow.png")
         # The project is now watched
-        self.click("Projects")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
 
@@ -768,7 +767,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             element.submit()
         self.screenshot("glossary-edit.png")
-        self.click("Projects")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         with self.wait_for_page_load():
@@ -986,9 +985,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             file_format="po",
         )
         self.do_login()
-        self.click("Tools")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
-            self.click("All projects")
+            self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         with self.wait_for_page_load():
@@ -1004,9 +1003,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_fonts(self):
         self.create_component()
         self.do_login(superuser=True)
-        self.click("Tools")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
-            self.click("All projects")
+            self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         self.click("Manage")
@@ -1101,9 +1100,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
 
         self.do_login(superuser=True)
-        self.click("Tools")
+        self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
-            self.click("All projects")
+            self.click("Browse all projects")
         with self.wait_for_page_load():
             self.click("WeblateOrg")
         self.click("Manage")
