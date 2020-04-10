@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-09 17:53+0000\n"
+"POT-Creation-Date: 2020-04-10 12:07+0000\n"
 "PO-Revision-Date: 2020-04-07 20:37+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -39,7 +39,7 @@ msgstr ""
 "Este e-mail já está a ser utilizado. Por favor, indique um endereço de e-"
 "mail diferente."
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:283
+#: weblate/accounts/forms.py:121 weblate/auth/models.py:286
 #: weblate/utils/validators.py:169
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -58,14 +58,14 @@ msgid "This username is already taken. Please choose another."
 msgstr ""
 "Este nome de utilizador já está a ser utilizado. Por favor, escolha outro."
 
-#: weblate/accounts/forms.py:149 weblate/auth/models.py:290
+#: weblate/accounts/forms.py:149 weblate/auth/models.py:293
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "Nome completo"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
-#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:296
+#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:299
 #: weblate/templates/manage-access.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "E-mail"
@@ -209,18 +209,59 @@ msgstr "Por favor, descreva o projeto e a sua relação com o mesmo."
 msgid "Component wide notifications"
 msgstr "Notificações alargadas de componente"
 
-#: weblate/accounts/forms.py:629
+#: weblate/accounts/forms.py:630
+msgid "Translation notifications"
+msgstr "Notificações de tradução"
+
+#: weblate/accounts/forms.py:649
+msgid "Use default setting"
+msgstr "Utilizar definições por defeito"
+
+#: weblate/accounts/forms.py:675 weblate/accounts/models.py:392
+#: weblate/templates/accounts/profile.html:67
+msgid "Watched projects"
+msgstr "Projetos vigiados"
+
+#: weblate/accounts/forms.py:677
+msgid "Managed projects"
+msgstr "Projectos sob gestão"
+
+#: weblate/accounts/forms.py:679
+msgid "Project: {}"
+msgstr "Projeto: {}"
+
+#: weblate/accounts/forms.py:680
+msgid "Component: {}"
+msgstr "Componente: {}"
+
+#: weblate/accounts/forms.py:686
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
 "Irá receber uma notificação para cada evento nos seus projetos vigiados."
 
-#: weblate/accounts/forms.py:637
-msgid "Translation notifications"
-msgstr "Notificações de tradução"
+#: weblate/accounts/forms.py:691
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid ""
+"You will receive a notification for every such event in projects where you "
+"have admin permissions."
+msgstr ""
+"Irá receber uma notificação para cada evento nos seus projetos vigiados."
 
-#: weblate/accounts/forms.py:641
+#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid "You will receive a notification for every such event in {}."
+msgstr ""
+"Irá receber uma notificação para cada evento nos seus projetos vigiados."
+
+#: weblate/accounts/forms.py:706
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -228,26 +269,29 @@ msgstr ""
 "Só irá receber estas notificações para os idiomas traduzidos nos seus "
 "projetos vigiados."
 
-#: weblate/accounts/forms.py:663
-msgid "Use default setting"
-msgstr "Utilizar definições por defeito"
+#: weblate/accounts/forms.py:711
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"projects where you have admin permissions."
+msgstr ""
+"Só irá receber estas notificações para os idiomas traduzidos nos seus "
+"projetos vigiados."
 
-#: weblate/accounts/forms.py:677 weblate/accounts/models.py:392
-#: weblate/templates/accounts/profile.html:67
-msgid "Watched projects"
-msgstr "Projetos vigiados"
-
-#: weblate/accounts/forms.py:679
-msgid "Administered projects"
-msgstr "Projetos administrados"
-
-#: weblate/accounts/forms.py:681
-msgid "Project: {}"
-msgstr "Projeto: {}"
-
-#: weblate/accounts/forms.py:682
-msgid "Component: {}"
-msgstr "Componente: {}"
+#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"{}."
+msgstr ""
+"Só irá receber estas notificações para os idiomas traduzidos nos seus "
+"projetos vigiados."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -455,7 +499,7 @@ msgstr "Traduções vigiadas"
 msgid "Component lists"
 msgstr "Listas de componentes"
 
-#: weblate/accounts/models.py:365 weblate/auth/models.py:128
+#: weblate/accounts/models.py:365 weblate/auth/models.py:131
 #: weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
@@ -1724,7 +1768,7 @@ msgstr "Escolher as funções concedidas a este grupo."
 msgid "Project selection"
 msgstr "Seleção de projeto"
 
-#: weblate/auth/models.py:115 weblate/auth/models.py:137
+#: weblate/auth/models.py:115 weblate/auth/models.py:140
 msgid "As defined"
 msgstr "Como definido"
 
@@ -1752,15 +1796,24 @@ msgstr "Da lista de componentes"
 msgid "Projects"
 msgstr "Projetos"
 
-#: weblate/auth/models.py:135
+#: weblate/auth/models.py:127 weblate/templates/component-list.html:13
+#: weblate/templates/language-project.html:16
+#: weblate/templates/mail/base.html:286
+#: weblate/templates/snippets/project-nav.html:8
+#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
+#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
+msgid "Components"
+msgstr "Componentes"
+
+#: weblate/auth/models.py:138
 msgid "Language selection"
 msgstr "Seleção de idioma"
 
-#: weblate/auth/models.py:138 weblate/trans/forms.py:952
+#: weblate/auth/models.py:141 weblate/trans/forms.py:952
 msgid "All languages"
 msgstr "Todos os idiomas"
 
-#: weblate/auth/models.py:143 weblate/billing/models.py:259
+#: weblate/auth/models.py:146 weblate/billing/models.py:259
 #: weblate/lang/models.py:418 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
@@ -1776,65 +1829,65 @@ msgstr "Todos os idiomas"
 msgid "Languages"
 msgstr "Idiomas"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:150
 msgid "Weblate internal group"
 msgstr "Grupo interno do Weblate"
 
-#: weblate/auth/models.py:279
+#: weblate/auth/models.py:282
 msgid "username"
 msgstr "nome de utilizador"
 
-#: weblate/auth/models.py:287
+#: weblate/auth/models.py:290
 msgid "A user with that username already exists."
 msgstr "Já existe um utilizador com esse nome de utilizador."
 
-#: weblate/auth/models.py:304
+#: weblate/auth/models.py:307
 msgid "Superuser status"
 msgstr "Estado de super utilizador"
 
-#: weblate/auth/models.py:306
+#: weblate/auth/models.py:309
 msgid "User has all possible permissions."
 msgstr "O utilizador tem todas as permissões possíveis."
 
-#: weblate/auth/models.py:309 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:137
 msgid "Active"
 msgstr "Ativo"
 
-#: weblate/auth/models.py:311
+#: weblate/auth/models.py:314
 msgid "Mark user as inactive instead of removing."
 msgstr "Marcar utilizador como inativo, em vez de o remover."
 
-#: weblate/auth/models.py:313
+#: weblate/auth/models.py:316
 msgid "Date joined"
 msgstr "Data de adesão"
 
-#: weblate/auth/models.py:316
+#: weblate/auth/models.py:319
 msgid "Groups"
 msgstr "Grupos"
 
-#: weblate/auth/models.py:319
+#: weblate/auth/models.py:322
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 "O utilizador recebeu todas as permissões incluídas nos grupos a que pertence."
 
-#: weblate/auth/models.py:567
+#: weblate/auth/models.py:578
 msgid "E-mail regular expression"
 msgstr "Expressão regular do e-mail"
 
-#: weblate/auth/models.py:570
+#: weblate/auth/models.py:581
 msgid "Regular expression used to match user e-mail."
 msgstr "Expressão regular utilizada para corresponder o e-mail do utilizador."
 
-#: weblate/auth/models.py:573
+#: weblate/auth/models.py:584
 msgid "Group to assign"
 msgstr "Grupo a atribuir"
 
-#: weblate/auth/models.py:577
+#: weblate/auth/models.py:588
 msgid "Automatic group assignment"
 msgstr "Atribuir grupo automaticamente"
 
-#: weblate/auth/models.py:578
+#: weblate/auth/models.py:589
 msgid "Automatic group assignments"
 msgstr "Atribuições automáticas de grupos"
 
@@ -2429,7 +2482,7 @@ msgstr "Várias verificações falhadas"
 msgid "The translations in several languages have failing checks"
 msgstr "As traduções em várias línguas têm verificações falhadas"
 
-#: weblate/checks/views.py:77 weblate/templates/component.html:74
+#: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/snippets/project-nav.html:68
@@ -3075,42 +3128,42 @@ msgstr "Ficheiro"
 msgid "You can upload a TMX or JSON file."
 msgstr "Pode enviar ficheiros TMX ou JSON."
 
-#: weblate/memory/models.py:101
+#: weblate/memory/models.py:104
 msgid "Unsupported file!"
 msgstr "Ficheiro não suportado!"
 
-#: weblate/memory/models.py:103
+#: weblate/memory/models.py:106
 msgid "No valid entries found in the uploaded file!"
 msgstr "Não foram encontradas entradas válidas no ficheiro enviado!"
 
-#: weblate/memory/models.py:112 weblate/memory/models.py:117
+#: weblate/memory/models.py:115 weblate/memory/models.py:120
 msgid "Failed to parse JSON file: {!s}"
 msgstr "Não foi possível analisar o ficheiro JSON: {!s}"
 
-#: weblate/memory/models.py:146
+#: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
 msgstr "A análise do ficheiro TMX falhou!"
 
-#: weblate/memory/models.py:156
+#: weblate/memory/models.py:159
 msgid "Failed to find source language!"
 msgstr "Não foi possível encontrar o idioma fonte!"
 
-#: weblate/memory/models.py:233
+#: weblate/memory/models.py:236
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Projeto: {}"
 
-#: weblate/memory/models.py:235
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Pessoal: {}"
 
-#: weblate/memory/models.py:237
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Partilhado: {}"
 
-#: weblate/memory/models.py:239
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Ficheiro: {}"
@@ -3298,14 +3351,14 @@ msgid "Ask for project hosting"
 msgstr "Pedir alojamento para um projeto"
 
 #: weblate/templates/about/index.html:37
-#: weblate/templates/billing/overview.html:19
+#: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
 msgstr "Ver planos de alojamento"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
 #: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
+#: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "Comprar novo plano de alojamento"
@@ -3418,7 +3471,7 @@ msgstr "Verificações ignoradas"
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:6
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "O seu perfil"
 
@@ -4400,7 +4453,7 @@ msgstr "Não disponível"
 msgid "No invoices found."
 msgstr "Não foram encontradas facturas."
 
-#: weblate/templates/billing/overview.html:7
+#: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1739
 msgid "Billing"
 msgstr "Faturação"
@@ -4408,6 +4461,12 @@ msgstr "Faturação"
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
 msgstr "Sem subscrições ou pagamentos devidos."
+
+#: weblate/templates/billing/overview.html:16
+msgid ""
+"In case you miss access to billing of your project, please contact project "
+"maintainers to give you permission to access its billing."
+msgstr ""
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4536,15 +4595,6 @@ msgstr ""
 "As verificações podem ajudar a identificar as traduções problemáticas ou as "
 "entradas fonte difíceis de traduzir."
 
-#: weblate/templates/component-list.html:13
-#: weblate/templates/language-project.html:16
-#: weblate/templates/mail/base.html:286
-#: weblate/templates/snippets/project-nav.html:8
-#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
-#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
-msgid "Components"
-msgstr "Componentes"
-
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:49
@@ -4561,9 +4611,8 @@ msgstr "Ficheiros"
 msgid "Download for offline translation."
 msgstr "Transfira para traduzir off-line."
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#: weblate/templates/snippets/project-nav.html:52
 msgid "Download original translation files as ZIP file"
 msgstr "Transferir os ficheiros de tradução originais como ficheiro ZIP"
 
@@ -4685,6 +4734,13 @@ msgstr "Relatórios de tradução"
 #: weblate/templates/guide.html:26
 msgid "Localization guide"
 msgstr "Guia de localização"
+
+#: weblate/templates/component.html:59
+#: weblate/templates/snippets/project-nav.html:52
+#, fuzzy
+#| msgid "Download original translation files as ZIP file"
+msgid "Download translation files as ZIP file"
+msgstr "Transferir os ficheiros de tradução originais como ficheiro ZIP"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -10953,6 +11009,9 @@ msgstr "Processo de backup foi ativado"
 msgid "Could not dismiss the configuration error!"
 msgstr "Impossível descartar erro de configuração!"
 
+#~ msgid "Administered projects"
+#~ msgstr "Projetos administrados"
+
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Adicionar grupos (em toda a plataforma)"
 
@@ -11964,9 +12023,6 @@ msgstr "Impossível descartar erro de configuração!"
 
 #~ msgid "Subscriptions"
 #~ msgstr "Subscrições"
-
-#~ msgid "Managed projects"
-#~ msgstr "Projectos sob gestão"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-09 17:53+0000\n"
+"POT-Creation-Date: 2020-04-10 12:07+0000\n"
 "PO-Revision-Date: 2019-11-28 09:58+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -34,7 +34,7 @@ msgid ""
 "address."
 msgstr "Ова е-адреса се већ користи. Дајте другу адресу е-поште."
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:283
+#: weblate/accounts/forms.py:121 weblate/auth/models.py:286
 #: weblate/utils/validators.py:169
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -52,14 +52,14 @@ msgstr "Корисничко име"
 msgid "This username is already taken. Please choose another."
 msgstr "Корисничко име је заузето. Изаберите друго."
 
-#: weblate/accounts/forms.py:149 weblate/auth/models.py:290
+#: weblate/accounts/forms.py:149 weblate/auth/models.py:293
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "Пуно име"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
-#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:296
+#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:299
 #: weblate/templates/manage-access.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "Е-пошта"
@@ -225,7 +225,36 @@ msgstr ""
 msgid "Component wide notifications"
 msgstr "Општа обавештења"
 
-#: weblate/accounts/forms.py:629
+#: weblate/accounts/forms.py:630
+msgid "Translation notifications"
+msgstr "Обавештења о преводима"
+
+#: weblate/accounts/forms.py:649
+msgid "Use default setting"
+msgstr ""
+
+#: weblate/accounts/forms.py:675 weblate/accounts/models.py:392
+#: weblate/templates/accounts/profile.html:67
+msgid "Watched projects"
+msgstr "Надгледани пројекти"
+
+#: weblate/accounts/forms.py:677
+msgid "Managed projects"
+msgstr "Пројекти којима управљате"
+
+#: weblate/accounts/forms.py:679
+#, fuzzy
+#| msgid "Project"
+msgid "Project: {}"
+msgstr "Пројекат"
+
+#: weblate/accounts/forms.py:680
+#, fuzzy
+#| msgid "Components"
+msgid "Component: {}"
+msgstr "Компоненте"
+
+#: weblate/accounts/forms.py:686
 #, fuzzy
 #| msgid ""
 #| "You will receive notification on every such event in your watched "
@@ -236,11 +265,27 @@ msgid ""
 msgstr ""
 "Примаћете обавештења за сваки означени догађај у надгледаним пројектима."
 
-#: weblate/accounts/forms.py:637
-msgid "Translation notifications"
-msgstr "Обавештења о преводима"
+#: weblate/accounts/forms.py:691
+#, fuzzy
+#| msgid ""
+#| "You will receive notification on every such event in your watched "
+#| "projects."
+msgid ""
+"You will receive a notification for every such event in projects where you "
+"have admin permissions."
+msgstr ""
+"Примаћете обавештења за сваки означени догађај у надгледаним пројектима."
 
-#: weblate/accounts/forms.py:641
+#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
+#, fuzzy
+#| msgid ""
+#| "You will receive notification on every such event in your watched "
+#| "projects."
+msgid "You will receive a notification for every such event in {}."
+msgstr ""
+"Примаћете обавештења за сваки означени догађај у надгледаним пројектима."
+
+#: weblate/accounts/forms.py:706
 #, fuzzy
 #| msgid ""
 #| "You will receive these notifications only for your translated languages "
@@ -252,32 +297,29 @@ msgstr ""
 "Примаћете ова обавештења само за језике на које преводите у надгледаним "
 "пројектима."
 
-#: weblate/accounts/forms.py:663
-msgid "Use default setting"
+#: weblate/accounts/forms.py:711
+#, fuzzy
+#| msgid ""
+#| "You will receive these notifications only for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"projects where you have admin permissions."
 msgstr ""
+"Примаћете ова обавештења само за језике на које преводите у надгледаним "
+"пројектима."
 
-#: weblate/accounts/forms.py:677 weblate/accounts/models.py:392
-#: weblate/templates/accounts/profile.html:67
-msgid "Watched projects"
-msgstr "Надгледани пројекти"
-
-#: weblate/accounts/forms.py:679
+#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
 #, fuzzy
-#| msgid "All projects"
-msgid "Administered projects"
-msgstr "Сви пројекти"
-
-#: weblate/accounts/forms.py:681
-#, fuzzy
-#| msgid "Project"
-msgid "Project: {}"
-msgstr "Пројекат"
-
-#: weblate/accounts/forms.py:682
-#, fuzzy
-#| msgid "Components"
-msgid "Component: {}"
-msgstr "Компоненте"
+#| msgid ""
+#| "You will receive these notifications only for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"{}."
+msgstr ""
+"Примаћете ова обавештења само за језике на које преводите у надгледаним "
+"пројектима."
 
 #: weblate/accounts/models.py:78
 #, fuzzy
@@ -539,7 +581,7 @@ msgstr "Надгледани преводи"
 msgid "Component lists"
 msgstr ""
 
-#: weblate/accounts/models.py:365 weblate/auth/models.py:128
+#: weblate/accounts/models.py:365 weblate/auth/models.py:131
 #: weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
@@ -2008,7 +2050,7 @@ msgstr ""
 msgid "Project selection"
 msgstr "Информације о пројекту"
 
-#: weblate/auth/models.py:115 weblate/auth/models.py:137
+#: weblate/auth/models.py:115 weblate/auth/models.py:140
 #, fuzzy
 #| msgid "Access denied."
 msgid "As defined"
@@ -2044,17 +2086,26 @@ msgstr "Списак компоненти"
 msgid "Projects"
 msgstr "Пројекти"
 
-#: weblate/auth/models.py:135
+#: weblate/auth/models.py:127 weblate/templates/component-list.html:13
+#: weblate/templates/language-project.html:16
+#: weblate/templates/mail/base.html:286
+#: weblate/templates/snippets/project-nav.html:8
+#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
+#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
+msgid "Components"
+msgstr "Компоненте"
+
+#: weblate/auth/models.py:138
 #, fuzzy
 #| msgid "Language code"
 msgid "Language selection"
 msgstr "Код језика"
 
-#: weblate/auth/models.py:138 weblate/trans/forms.py:952
+#: weblate/auth/models.py:141 weblate/trans/forms.py:952
 msgid "All languages"
 msgstr "Сви језици"
 
-#: weblate/auth/models.py:143 weblate/billing/models.py:259
+#: weblate/auth/models.py:146 weblate/billing/models.py:259
 #: weblate/lang/models.py:418 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
@@ -2070,78 +2121,78 @@ msgstr "Сви језици"
 msgid "Languages"
 msgstr "Језици"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:150
 #, fuzzy
 #| msgid "Weblate administration"
 msgid "Weblate internal group"
 msgstr "Веблејт администрација"
 
-#: weblate/auth/models.py:279
+#: weblate/auth/models.py:282
 #, fuzzy
 #| msgid "Username"
 msgid "username"
 msgstr "Корисничко име"
 
-#: weblate/auth/models.py:287
+#: weblate/auth/models.py:290
 #, fuzzy
 #| msgid "Translation file already exists!"
 msgid "A user with that username already exists."
 msgstr "Фајл превода већ постоји!"
 
-#: weblate/auth/models.py:304
+#: weblate/auth/models.py:307
 #, fuzzy
 #| msgid "Service"
 msgid "Superuser status"
 msgstr "Сервис"
 
-#: weblate/auth/models.py:306
+#: weblate/auth/models.py:309
 #, fuzzy
 #| msgid "Filtered permissions"
 msgid "User has all possible permissions."
 msgstr "Филтриране дозволе"
 
-#: weblate/auth/models.py:309 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:137
 msgid "Active"
 msgstr "Активно"
 
-#: weblate/auth/models.py:311
+#: weblate/auth/models.py:314
 msgid "Mark user as inactive instead of removing."
 msgstr ""
 
-#: weblate/auth/models.py:313
+#: weblate/auth/models.py:316
 msgid "Date joined"
 msgstr ""
 
-#: weblate/auth/models.py:316
+#: weblate/auth/models.py:319
 #, fuzzy
 #| msgid "Group ACLs"
 msgid "Groups"
 msgstr "Групни АЦЛ-ови"
 
-#: weblate/auth/models.py:319
+#: weblate/auth/models.py:322
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 
-#: weblate/auth/models.py:567
+#: weblate/auth/models.py:578
 msgid "E-mail regular expression"
 msgstr "Регуларни израз е-поште"
 
-#: weblate/auth/models.py:570
+#: weblate/auth/models.py:581
 #, fuzzy
 #| msgid "Regular expression which is used to match user email."
 msgid "Regular expression used to match user e-mail."
 msgstr "Регуларни израз који се користи за поклапање корисникове е-адресе."
 
-#: weblate/auth/models.py:573
+#: weblate/auth/models.py:584
 msgid "Group to assign"
 msgstr "Група за доделу"
 
-#: weblate/auth/models.py:577
+#: weblate/auth/models.py:588
 msgid "Automatic group assignment"
 msgstr "Аутоматско додељивање групи"
 
-#: weblate/auth/models.py:578
+#: weblate/auth/models.py:589
 msgid "Automatic group assignments"
 msgstr "Аутоматске доделе групи"
 
@@ -2838,7 +2889,7 @@ msgstr ""
 msgid "The translations in several languages have failing checks"
 msgstr ""
 
-#: weblate/checks/views.py:77 weblate/templates/component.html:74
+#: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/snippets/project-nav.html:68
@@ -3534,56 +3585,56 @@ msgstr "Фајл"
 msgid "You can upload a TMX or JSON file."
 msgstr ""
 
-#: weblate/memory/models.py:101
+#: weblate/memory/models.py:104
 msgid "Unsupported file!"
 msgstr ""
 
-#: weblate/memory/models.py:103
+#: weblate/memory/models.py:106
 #, fuzzy
 #| msgid "No related strings were found in the glossary."
 msgid "No valid entries found in the uploaded file!"
 msgstr "Нема пронађених сродних низова у речнику."
 
-#: weblate/memory/models.py:112 weblate/memory/models.py:117
+#: weblate/memory/models.py:115 weblate/memory/models.py:120
 #, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to parse JSON file: {!s}"
 msgstr "Неуспела обрада обрасца!"
 
-#: weblate/memory/models.py:146
+#: weblate/memory/models.py:149
 #, fuzzy
 #| msgid "Failed to process form!"
 msgid "Failed to parse TMX file!"
 msgstr "Неуспела обрада обрасца!"
 
-#: weblate/memory/models.py:156
+#: weblate/memory/models.py:159
 #, fuzzy
 #| msgid "Failed to change check flags!"
 msgid "Failed to find source language!"
 msgstr "Не могу да променим заставицу „проверено“!"
 
-#: weblate/memory/models.py:233
+#: weblate/memory/models.py:236
 #, fuzzy
 #| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Пројекат"
 
-#: weblate/memory/models.py:235
+#: weblate/memory/models.py:238
 #, fuzzy
 #| msgid "Persian"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "персијски"
 
-#: weblate/memory/models.py:237
+#: weblate/memory/models.py:240
 #, fuzzy
 #| msgid "Share"
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Подели"
 
-#: weblate/memory/models.py:239
+#: weblate/memory/models.py:242
 #, fuzzy
 #| msgid "Files"
 msgctxt "Translation memory category"
@@ -3814,14 +3865,14 @@ msgid "Ask for project hosting"
 msgstr "Питајте за хостинг пројекта"
 
 #: weblate/templates/about/index.html:37
-#: weblate/templates/billing/overview.html:19
+#: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
 msgstr "Прикажи хостинг планове"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
 #: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
+#: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 #, fuzzy
 #| msgid "View hosting plans"
@@ -3944,7 +3995,7 @@ msgstr "Игнорисано"
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:6
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Ваш профил"
 
@@ -5016,13 +5067,19 @@ msgstr "Није доступно"
 msgid "No invoices found."
 msgstr "Нема пронађених рачуна!"
 
-#: weblate/templates/billing/overview.html:7
+#: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1739
 msgid "Billing"
 msgstr "Наплата"
 
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
+msgstr ""
+
+#: weblate/templates/billing/overview.html:16
+msgid ""
+"In case you miss access to billing of your project, please contact project "
+"maintainers to give you permission to access its billing."
 msgstr ""
 
 #: weblate/templates/billing/status.html:7
@@ -5162,15 +5219,6 @@ msgstr ""
 "Провере вам могу помоћи да нађете проблематичне преводе или изворне поруке "
 "које су тешко преводиве."
 
-#: weblate/templates/component-list.html:13
-#: weblate/templates/language-project.html:16
-#: weblate/templates/mail/base.html:286
-#: weblate/templates/snippets/project-nav.html:8
-#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
-#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
-msgid "Components"
-msgstr "Компоненте"
-
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:49
@@ -5187,9 +5235,8 @@ msgstr "Фајлови"
 msgid "Download for offline translation."
 msgstr ""
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#: weblate/templates/snippets/project-nav.html:52
 #, fuzzy
 #| msgid "Download original translation file (%(format)s)"
 msgid "Download original translation files as ZIP file"
@@ -5323,6 +5370,13 @@ msgstr "Извештаји превода"
 #| msgid "Actions"
 msgid "Localization guide"
 msgstr "Радње"
+
+#: weblate/templates/component.html:59
+#: weblate/templates/snippets/project-nav.html:52
+#, fuzzy
+#| msgid "Download original translation file (%(format)s)"
+msgid "Download translation files as ZIP file"
+msgstr "Преузми оригинални фајл превода (%(format)s)"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -12234,6 +12288,11 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Грешке поставе"
 
 #, fuzzy
+#~| msgid "All projects"
+#~ msgid "Administered projects"
+#~ msgstr "Сви пројекти"
+
+#, fuzzy
 #~| msgid "Translation settings"
 #~ msgid "Percent interpolation"
 #~ msgstr "Подешавање превода"
@@ -13105,9 +13164,6 @@ msgstr "Грешке поставе"
 
 #~ msgid "Subscriptions"
 #~ msgstr "Претплате"
-
-#~ msgid "Managed projects"
-#~ msgstr "Пројекти којима управљате"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "

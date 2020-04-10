@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-09 17:53+0000\n"
+"POT-Creation-Date: 2020-04-10 12:07+0000\n"
 "PO-Revision-Date: 2020-04-09 17:52+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Tämä sähköpostiosoite on jo käytössä. Ole hyvä ja anna eri sähköpostiosoite."
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:283
+#: weblate/accounts/forms.py:121 weblate/auth/models.py:286
 #: weblate/utils/validators.py:169
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -58,14 +58,14 @@ msgid "This username is already taken. Please choose another."
 msgstr ""
 "Tämä käyttäjänimi on jo käytössä. Ole hyvä ja valitse toinen käyttäjänimi."
 
-#: weblate/accounts/forms.py:149 weblate/auth/models.py:290
+#: weblate/accounts/forms.py:149 weblate/auth/models.py:293
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "Koko nimi"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
-#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:296
+#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:299
 #: weblate/templates/manage-access.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "Sähköposti"
@@ -209,7 +209,32 @@ msgstr "Kuvaile projektia sekä suhdettasi siihen."
 msgid "Component wide notifications"
 msgstr "Komponenttikohtaiset ilmoitukset"
 
-#: weblate/accounts/forms.py:629
+#: weblate/accounts/forms.py:630
+msgid "Translation notifications"
+msgstr "Käännöskohtaiset ilmoitukset"
+
+#: weblate/accounts/forms.py:649
+msgid "Use default setting"
+msgstr "Käytä oletusasetusta"
+
+#: weblate/accounts/forms.py:675 weblate/accounts/models.py:392
+#: weblate/templates/accounts/profile.html:67
+msgid "Watched projects"
+msgstr "Seuraamani projektit"
+
+#: weblate/accounts/forms.py:677
+msgid "Managed projects"
+msgstr "Hallinnoimasi projektit"
+
+#: weblate/accounts/forms.py:679
+msgid "Project: {}"
+msgstr "Projekti: {}"
+
+#: weblate/accounts/forms.py:680
+msgid "Component: {}"
+msgstr "Komponentti: {}"
+
+#: weblate/accounts/forms.py:686
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
@@ -217,37 +242,56 @@ msgstr ""
 "Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat seuraamiani "
 "projekteja."
 
-#: weblate/accounts/forms.py:637
-msgid "Translation notifications"
-msgstr "Käännöskohtaiset ilmoitukset"
+#: weblate/accounts/forms.py:691
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid ""
+"You will receive a notification for every such event in projects where you "
+"have admin permissions."
+msgstr ""
+"Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat seuraamiani "
+"projekteja."
 
-#: weblate/accounts/forms.py:641
+#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid "You will receive a notification for every such event in {}."
+msgstr ""
+"Ilmoitustyypit joista haluan ilmoituksen jos ne koskevat seuraamiani "
+"projekteja."
+
+#: weblate/accounts/forms.py:706
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
 "Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
 
-#: weblate/accounts/forms.py:663
-msgid "Use default setting"
-msgstr "Käytä oletusasetusta"
+#: weblate/accounts/forms.py:711
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"projects where you have admin permissions."
+msgstr ""
+"Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
 
-#: weblate/accounts/forms.py:677 weblate/accounts/models.py:392
-#: weblate/templates/accounts/profile.html:67
-msgid "Watched projects"
-msgstr "Seuraamani projektit"
-
-#: weblate/accounts/forms.py:679
-msgid "Administered projects"
-msgstr "Hallinnoimani projektit"
-
-#: weblate/accounts/forms.py:681
-msgid "Project: {}"
-msgstr "Projekti: {}"
-
-#: weblate/accounts/forms.py:682
-msgid "Component: {}"
-msgstr "Komponentti: {}"
+#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"{}."
+msgstr ""
+"Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -466,7 +510,7 @@ msgstr "Seuratut käännökset"
 msgid "Component lists"
 msgstr "Komponenttilistat"
 
-#: weblate/accounts/models.py:365 weblate/auth/models.py:128
+#: weblate/accounts/models.py:365 weblate/auth/models.py:131
 #: weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
@@ -1747,7 +1791,7 @@ msgstr "Valitse roolit joilla on pääsy tähän ryhmään."
 msgid "Project selection"
 msgstr "Projektin valinta"
 
-#: weblate/auth/models.py:115 weblate/auth/models.py:137
+#: weblate/auth/models.py:115 weblate/auth/models.py:140
 msgid "As defined"
 msgstr "Kuten määritelty"
 
@@ -1775,15 +1819,24 @@ msgstr "Komponenttilistasta"
 msgid "Projects"
 msgstr "Projektit"
 
-#: weblate/auth/models.py:135
+#: weblate/auth/models.py:127 weblate/templates/component-list.html:13
+#: weblate/templates/language-project.html:16
+#: weblate/templates/mail/base.html:286
+#: weblate/templates/snippets/project-nav.html:8
+#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
+#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
+msgid "Components"
+msgstr "Komponentit"
+
+#: weblate/auth/models.py:138
 msgid "Language selection"
 msgstr "Kielivalinta"
 
-#: weblate/auth/models.py:138 weblate/trans/forms.py:952
+#: weblate/auth/models.py:141 weblate/trans/forms.py:952
 msgid "All languages"
 msgstr "Kaikki kielet"
 
-#: weblate/auth/models.py:143 weblate/billing/models.py:259
+#: weblate/auth/models.py:146 weblate/billing/models.py:259
 #: weblate/lang/models.py:418 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
@@ -1799,64 +1852,64 @@ msgstr "Kaikki kielet"
 msgid "Languages"
 msgstr "Kielet"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:150
 msgid "Weblate internal group"
 msgstr "Weblaten sisäinen ryhmä"
 
-#: weblate/auth/models.py:279
+#: weblate/auth/models.py:282
 msgid "username"
 msgstr "käyttäjänimi"
 
-#: weblate/auth/models.py:287
+#: weblate/auth/models.py:290
 msgid "A user with that username already exists."
 msgstr "Käyttäjänimi on jo toisen käyttäjän käytössä."
 
-#: weblate/auth/models.py:304
+#: weblate/auth/models.py:307
 msgid "Superuser status"
 msgstr "Pääkäyttäjän status"
 
-#: weblate/auth/models.py:306
+#: weblate/auth/models.py:309
 msgid "User has all possible permissions."
 msgstr "Käyttäjällä on kaikki mahdolliset oikeudet."
 
-#: weblate/auth/models.py:309 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:137
 msgid "Active"
 msgstr "Aktiivinen"
 
-#: weblate/auth/models.py:311
+#: weblate/auth/models.py:314
 msgid "Mark user as inactive instead of removing."
 msgstr "Merkitse käyttäjä epäaktiiviseksi poistamisen sijaan."
 
-#: weblate/auth/models.py:313
+#: weblate/auth/models.py:316
 msgid "Date joined"
 msgstr "Liittymispäivämäärä"
 
-#: weblate/auth/models.py:316
+#: weblate/auth/models.py:319
 msgid "Groups"
 msgstr "Ryhmät"
 
-#: weblate/auth/models.py:319
+#: weblate/auth/models.py:322
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr "Käyttäjälle on myönnetty kaikki näihin ryhmiin sisältyvät oikeudet."
 
-#: weblate/auth/models.py:567
+#: weblate/auth/models.py:578
 msgid "E-mail regular expression"
 msgstr "Sähköpostiosoitteen säännöllinen lauseke (regex)"
 
-#: weblate/auth/models.py:570
+#: weblate/auth/models.py:581
 msgid "Regular expression used to match user e-mail."
 msgstr "Säännöllinen lauseke käyttäjän sähköpostiosoiteen tarkistamiseen."
 
-#: weblate/auth/models.py:573
+#: weblate/auth/models.py:584
 msgid "Group to assign"
 msgstr "Liitettävä ryhmä"
 
-#: weblate/auth/models.py:577
+#: weblate/auth/models.py:588
 msgid "Automatic group assignment"
 msgstr "Automaattinen liittäminen ryhmään"
 
-#: weblate/auth/models.py:578
+#: weblate/auth/models.py:589
 msgid "Automatic group assignments"
 msgstr "Automaattinen liittäminen ryhmään"
 
@@ -2464,7 +2517,7 @@ msgstr "Useita epäonnistuneita tarkistuksia"
 msgid "The translations in several languages have failing checks"
 msgstr "Monilla eri kielisillä käännöksillä on epäonnistuneita tarkistuksia"
 
-#: weblate/checks/views.py:77 weblate/templates/component.html:74
+#: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/snippets/project-nav.html:68
@@ -3113,42 +3166,42 @@ msgstr "Tiedosto"
 msgid "You can upload a TMX or JSON file."
 msgstr "Voit ladata palveluun TMX- tai JSON-tiedoston."
 
-#: weblate/memory/models.py:101
+#: weblate/memory/models.py:104
 msgid "Unsupported file!"
 msgstr "Tiedostoa ei tueta!"
 
-#: weblate/memory/models.py:103
+#: weblate/memory/models.py:106
 msgid "No valid entries found in the uploaded file!"
 msgstr "Ladatusta tiedostosta ei löytynyt kelvollisia merkintöjä!"
 
-#: weblate/memory/models.py:112 weblate/memory/models.py:117
+#: weblate/memory/models.py:115 weblate/memory/models.py:120
 msgid "Failed to parse JSON file: {!s}"
 msgstr "JSON-tiedoston jäsentäminen epäonnistui: {!s}"
 
-#: weblate/memory/models.py:146
+#: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
 msgstr "TMX-tiedoston jäsentäminen epäonnistui!"
 
-#: weblate/memory/models.py:156
+#: weblate/memory/models.py:159
 msgid "Failed to find source language!"
 msgstr "Lähdekieltä ei löytynyt!"
 
-#: weblate/memory/models.py:233
+#: weblate/memory/models.py:236
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Projekti: {}"
 
-#: weblate/memory/models.py:235
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Henkilökohtainen: {}"
 
-#: weblate/memory/models.py:237
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Jaettu: {}"
 
-#: weblate/memory/models.py:239
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Tiedosto: {}"
@@ -3340,14 +3393,14 @@ msgid "Ask for project hosting"
 msgstr "Pyydä projektillesi hosting-palvelua"
 
 #: weblate/templates/about/index.html:37
-#: weblate/templates/billing/overview.html:19
+#: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
 msgstr "Katso hosting-palvelupaketit"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
 #: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
+#: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "Osta uusi isännöintipalvelu (hosting)"
@@ -3458,7 +3511,7 @@ msgstr "Huomioimatta jätetyt tarkistukset"
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:6
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Profiilisi"
 
@@ -4448,7 +4501,7 @@ msgstr "Ei saatavilla"
 msgid "No invoices found."
 msgstr "Yhtään laskua ei löytynyt."
 
-#: weblate/templates/billing/overview.html:7
+#: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1739
 msgid "Billing"
 msgstr "Laskutus"
@@ -4456,6 +4509,12 @@ msgstr "Laskutus"
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
 msgstr "Ei tilauksia tai erääntyviä maksuja."
+
+#: weblate/templates/billing/overview.html:16
+msgid ""
+"In case you miss access to billing of your project, please contact project "
+"maintainers to give you permission to access its billing."
+msgstr ""
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4583,15 +4642,6 @@ msgstr ""
 "Automaattiset tarkistukset auttavat sinua tunnistamaan virheitä käännöksissä "
 "tai lähdeteksteissä."
 
-#: weblate/templates/component-list.html:13
-#: weblate/templates/language-project.html:16
-#: weblate/templates/mail/base.html:286
-#: weblate/templates/snippets/project-nav.html:8
-#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
-#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
-msgid "Components"
-msgstr "Komponentit"
-
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:49
@@ -4608,9 +4658,8 @@ msgstr "Tiedostot"
 msgid "Download for offline translation."
 msgstr "Lataa offline-kääntämistä varten."
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#: weblate/templates/snippets/project-nav.html:52
 msgid "Download original translation files as ZIP file"
 msgstr "Lataa alkuperäiset käännöstiedostot ZIP-tiedostona"
 
@@ -4732,6 +4781,13 @@ msgstr "Käännösraportit"
 #: weblate/templates/guide.html:26
 msgid "Localization guide"
 msgstr "Lokalisointiopas"
+
+#: weblate/templates/component.html:59
+#: weblate/templates/snippets/project-nav.html:52
+#, fuzzy
+#| msgid "Download original translation files as ZIP file"
+msgid "Download translation files as ZIP file"
+msgstr "Lataa alkuperäiset käännöstiedostot ZIP-tiedostona"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -11001,6 +11057,9 @@ msgstr "Varmuuskopiointi käynnistetty"
 msgid "Could not dismiss the configuration error!"
 msgstr "Asetusvirheen hylkääminen epäonnistui!"
 
+#~ msgid "Administered projects"
+#~ msgstr "Hallinnoimani projektit"
+
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Lisää ryhmiä (koko alustalle)"
 
@@ -12040,9 +12099,6 @@ msgstr "Asetusvirheen hylkääminen epäonnistui!"
 
 #~ msgid "Subscriptions"
 #~ msgstr "Tilaukset"
-
-#~ msgid "Managed projects"
-#~ msgstr "Hallinnoimasi projektit"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "

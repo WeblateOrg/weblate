@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-09 17:53+0000\n"
+"POT-Creation-Date: 2020-04-10 12:07+0000\n"
 "PO-Revision-Date: 2020-04-09 17:09+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "このメールアドレスはすでに使用中です。別のメールアドレスを入力してください。"
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:283
+#: weblate/accounts/forms.py:121 weblate/auth/models.py:286
 #: weblate/utils/validators.py:169
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -59,14 +59,14 @@ msgstr "ユーザ名"
 msgid "This username is already taken. Please choose another."
 msgstr "このユーザ名はすでに使用されています。別の名前にしてください。"
 
-#: weblate/accounts/forms.py:149 weblate/auth/models.py:290
+#: weblate/accounts/forms.py:149 weblate/auth/models.py:293
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "フルネーム"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
-#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:296
+#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:299
 #: weblate/templates/manage-access.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "メールアドレス"
@@ -211,43 +211,83 @@ msgstr "プロジェクトやそれに対するご自身の関わりについて
 msgid "Component wide notifications"
 msgstr "コンポーネント全体の通知"
 
-#: weblate/accounts/forms.py:629
+#: weblate/accounts/forms.py:630
+msgid "Translation notifications"
+msgstr "翻訳の通知"
+
+#: weblate/accounts/forms.py:649
+msgid "Use default setting"
+msgstr "デフォルト設定の使用"
+
+#: weblate/accounts/forms.py:675 weblate/accounts/models.py:392
+#: weblate/templates/accounts/profile.html:67
+msgid "Watched projects"
+msgstr "監視中のプロジェクト"
+
+#: weblate/accounts/forms.py:677
+msgid "Managed projects"
+msgstr "管理しているプロジェクト"
+
+#: weblate/accounts/forms.py:679
+msgid "Project: {}"
+msgstr "プロジェクト: {}"
+
+#: weblate/accounts/forms.py:680
+msgid "Component: {}"
+msgstr "コンポーネント: {}"
+
+#: weblate/accounts/forms.py:686
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
 "監視中のプロジェクトで、このようなイベントが発生するたびに通知が届きます。"
 
-#: weblate/accounts/forms.py:637
-msgid "Translation notifications"
-msgstr "翻訳の通知"
+#: weblate/accounts/forms.py:691
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid ""
+"You will receive a notification for every such event in projects where you "
+"have admin permissions."
+msgstr ""
+"監視中のプロジェクトで、このようなイベントが発生するたびに通知が届きます。"
 
-#: weblate/accounts/forms.py:641
+#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid "You will receive a notification for every such event in {}."
+msgstr ""
+"監視中のプロジェクトで、このようなイベントが発生するたびに通知が届きます。"
+
+#: weblate/accounts/forms.py:706
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
 
-#: weblate/accounts/forms.py:663
-msgid "Use default setting"
-msgstr "デフォルト設定の使用"
+#: weblate/accounts/forms.py:711
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"projects where you have admin permissions."
+msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
 
-#: weblate/accounts/forms.py:677 weblate/accounts/models.py:392
-#: weblate/templates/accounts/profile.html:67
-msgid "Watched projects"
-msgstr "監視中のプロジェクト"
-
-#: weblate/accounts/forms.py:679
-msgid "Administered projects"
-msgstr "管理中のプロジェクト"
-
-#: weblate/accounts/forms.py:681
-msgid "Project: {}"
-msgstr "プロジェクト: {}"
-
-#: weblate/accounts/forms.py:682
-msgid "Component: {}"
-msgstr "コンポーネント: {}"
+#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"{}."
+msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -451,7 +491,7 @@ msgstr "監視中の翻訳"
 msgid "Component lists"
 msgstr "すべてのコンポーネント リスト"
 
-#: weblate/accounts/models.py:365 weblate/auth/models.py:128
+#: weblate/accounts/models.py:365 weblate/auth/models.py:131
 #: weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
@@ -1693,7 +1733,7 @@ msgstr "このグループに対する役割を選択してください。"
 msgid "Project selection"
 msgstr "プロジェクトの選択"
 
-#: weblate/auth/models.py:115 weblate/auth/models.py:137
+#: weblate/auth/models.py:115 weblate/auth/models.py:140
 msgid "As defined"
 msgstr "個別に選択"
 
@@ -1721,15 +1761,24 @@ msgstr "コンポーネントリストから"
 msgid "Projects"
 msgstr "プロジェクト"
 
-#: weblate/auth/models.py:135
+#: weblate/auth/models.py:127 weblate/templates/component-list.html:13
+#: weblate/templates/language-project.html:16
+#: weblate/templates/mail/base.html:286
+#: weblate/templates/snippets/project-nav.html:8
+#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
+#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
+msgid "Components"
+msgstr "コンポーネント"
+
+#: weblate/auth/models.py:138
 msgid "Language selection"
 msgstr "言語の選択"
 
-#: weblate/auth/models.py:138 weblate/trans/forms.py:952
+#: weblate/auth/models.py:141 weblate/trans/forms.py:952
 msgid "All languages"
 msgstr "すべての言語"
 
-#: weblate/auth/models.py:143 weblate/billing/models.py:259
+#: weblate/auth/models.py:146 weblate/billing/models.py:259
 #: weblate/lang/models.py:418 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
@@ -1745,66 +1794,66 @@ msgstr "すべての言語"
 msgid "Languages"
 msgstr "言語"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:150
 msgid "Weblate internal group"
 msgstr "Weblate 内部グループ"
 
-#: weblate/auth/models.py:279
+#: weblate/auth/models.py:282
 msgid "username"
 msgstr "ユーザ名"
 
-#: weblate/auth/models.py:287
+#: weblate/auth/models.py:290
 msgid "A user with that username already exists."
 msgstr "指定したユーザ名はすでに存在しています。"
 
-#: weblate/auth/models.py:304
+#: weblate/auth/models.py:307
 msgid "Superuser status"
 msgstr "スーパーユーザの状態"
 
-#: weblate/auth/models.py:306
+#: weblate/auth/models.py:309
 msgid "User has all possible permissions."
 msgstr "ユーザはすべての権限を持っています。"
 
-#: weblate/auth/models.py:309 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:137
 msgid "Active"
 msgstr "有効"
 
-#: weblate/auth/models.py:311
+#: weblate/auth/models.py:314
 msgid "Mark user as inactive instead of removing."
 msgstr "ユーザを削除せず無効化できます。"
 
-#: weblate/auth/models.py:313
+#: weblate/auth/models.py:316
 msgid "Date joined"
 msgstr "参加日"
 
-#: weblate/auth/models.py:316
+#: weblate/auth/models.py:319
 msgid "Groups"
 msgstr "グループ"
 
-#: weblate/auth/models.py:319
+#: weblate/auth/models.py:322
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 "ユーザは、所属するグループに設定されたすべての権限を持つものとして扱われま"
 "す。"
 
-#: weblate/auth/models.py:567
+#: weblate/auth/models.py:578
 msgid "E-mail regular expression"
 msgstr "メールアドレスの正規表現"
 
-#: weblate/auth/models.py:570
+#: weblate/auth/models.py:581
 msgid "Regular expression used to match user e-mail."
 msgstr "ユーザのメールアドレスとの照合に使用する正規表現。"
 
-#: weblate/auth/models.py:573
+#: weblate/auth/models.py:584
 msgid "Group to assign"
 msgstr "割り当てるグループ"
 
-#: weblate/auth/models.py:577
+#: weblate/auth/models.py:588
 msgid "Automatic group assignment"
 msgstr "自動的なグループの割り当て"
 
-#: weblate/auth/models.py:578
+#: weblate/auth/models.py:589
 msgid "Automatic group assignments"
 msgstr "自動的なグループの割り当て"
 
@@ -2398,7 +2447,7 @@ msgstr "複数の整合性に問題"
 msgid "The translations in several languages have failing checks"
 msgstr "いくつかの言語の翻訳で整合性に問題があります"
 
-#: weblate/checks/views.py:77 weblate/templates/component.html:74
+#: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/snippets/project-nav.html:68
@@ -3041,42 +3090,42 @@ msgstr "ファイル"
 msgid "You can upload a TMX or JSON file."
 msgstr "TMX ファイルもしくは JSON ファイルをアップロードできます。"
 
-#: weblate/memory/models.py:101
+#: weblate/memory/models.py:104
 msgid "Unsupported file!"
 msgstr "未対応のファイルです！"
 
-#: weblate/memory/models.py:103
+#: weblate/memory/models.py:106
 msgid "No valid entries found in the uploaded file!"
 msgstr "アップロードしたファイル内に正しい項目が見つかりませんでした！"
 
-#: weblate/memory/models.py:112 weblate/memory/models.py:117
+#: weblate/memory/models.py:115 weblate/memory/models.py:120
 msgid "Failed to parse JSON file: {!s}"
 msgstr "解析に失敗した JSON ファイル: {!s}"
 
-#: weblate/memory/models.py:146
+#: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
 msgstr "TMX ファイルの解析に失敗しました！"
 
-#: weblate/memory/models.py:156
+#: weblate/memory/models.py:159
 msgid "Failed to find source language!"
 msgstr "原文の言語がありません！"
 
-#: weblate/memory/models.py:233
+#: weblate/memory/models.py:236
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "プロジェクト: {}"
 
-#: weblate/memory/models.py:235
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "個人: {}"
 
-#: weblate/memory/models.py:237
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "共有: {}"
 
-#: weblate/memory/models.py:239
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "ファイル: {}"
@@ -3268,14 +3317,14 @@ msgid "Ask for project hosting"
 msgstr "プロジェクトのホスティングを求める"
 
 #: weblate/templates/about/index.html:37
-#: weblate/templates/billing/overview.html:19
+#: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
 msgstr "ホスティング プランの表示"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
 #: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
+#: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "新しいホスティング プランの購入"
@@ -3387,7 +3436,7 @@ msgstr "検査除外数"
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:6
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "プロフィール"
 
@@ -4366,7 +4415,7 @@ msgstr "ご利用いただけません"
 msgid "No invoices found."
 msgstr "インボイスが見つかりません。"
 
-#: weblate/templates/billing/overview.html:7
+#: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1739
 msgid "Billing"
 msgstr "課金"
@@ -4374,6 +4423,12 @@ msgstr "課金"
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
 msgstr "サブスクリプションまたは支払予定はありません。"
+
+#: weblate/templates/billing/overview.html:16
+msgid ""
+"In case you miss access to billing of your project, please contact project "
+"maintainers to give you permission to access its billing."
+msgstr ""
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4501,15 +4556,6 @@ msgstr ""
 "チェックは問題のある翻訳を見つけるのに便利であるほか、翻訳しにくい原文を見つ"
 "けるのにも役立ちます。"
 
-#: weblate/templates/component-list.html:13
-#: weblate/templates/language-project.html:16
-#: weblate/templates/mail/base.html:286
-#: weblate/templates/snippets/project-nav.html:8
-#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
-#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
-msgid "Components"
-msgstr "コンポーネント"
-
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:49
@@ -4526,9 +4572,8 @@ msgstr "ファイル"
 msgid "Download for offline translation."
 msgstr "オフライン翻訳用にダウンロードします。"
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#: weblate/templates/snippets/project-nav.html:52
 msgid "Download original translation files as ZIP file"
 msgstr "オリジナルの翻訳ファイルを ZIP 形式でダウンロード"
 
@@ -4650,6 +4695,13 @@ msgstr "翻訳のレポート"
 #: weblate/templates/guide.html:26
 msgid "Localization guide"
 msgstr "翻訳ガイド"
+
+#: weblate/templates/component.html:59
+#: weblate/templates/snippets/project-nav.html:52
+#, fuzzy
+#| msgid "Download original translation files as ZIP file"
+msgid "Download translation files as ZIP file"
+msgstr "オリジナルの翻訳ファイルを ZIP 形式でダウンロード"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -10797,6 +10849,9 @@ msgstr "バックアップ処理をトリガーしました"
 msgid "Could not dismiss the configuration error!"
 msgstr "設定エラーは無視できません！"
 
+#~ msgid "Administered projects"
+#~ msgstr "管理中のプロジェクト"
+
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "グループの追加（プラットフォーム全体）"
 
@@ -11786,9 +11841,6 @@ msgstr "設定エラーは無視できません！"
 
 #~ msgid "Subscriptions"
 #~ msgstr "通知"
-
-#~ msgid "Managed projects"
-#~ msgstr "管理しているプロジェクト"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "

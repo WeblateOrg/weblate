@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-09 17:53+0000\n"
+"POT-Creation-Date: 2020-04-10 12:07+0000\n"
 "PO-Revision-Date: 2020-04-07 09:36+0000\n"
 "Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -35,7 +35,7 @@ msgid ""
 "address."
 msgstr "此電子郵件位址已被使用。請提供其他電子郵件位址。"
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:283
+#: weblate/accounts/forms.py:121 weblate/auth/models.py:286
 #: weblate/utils/validators.py:169
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -51,14 +51,14 @@ msgstr "使用者名稱"
 msgid "This username is already taken. Please choose another."
 msgstr "此使用者名稱已被使用。請改換別的試試。"
 
-#: weblate/accounts/forms.py:149 weblate/auth/models.py:290
+#: weblate/accounts/forms.py:149 weblate/auth/models.py:293
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "全名"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
-#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:296
+#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:299
 #: weblate/templates/manage-access.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "電子郵件"
@@ -200,42 +200,80 @@ msgstr "請描述說明專案，以及您與它之間的關係。"
 msgid "Component wide notifications"
 msgstr "組件相關通知"
 
-#: weblate/accounts/forms.py:629
+#: weblate/accounts/forms.py:630
+msgid "Translation notifications"
+msgstr "翻譯通知"
+
+#: weblate/accounts/forms.py:649
+msgid "Use default setting"
+msgstr "使用預設設定"
+
+#: weblate/accounts/forms.py:675 weblate/accounts/models.py:392
+#: weblate/templates/accounts/profile.html:67
+msgid "Watched projects"
+msgstr "關注專案"
+
+#: weblate/accounts/forms.py:677
+msgid "Managed projects"
+msgstr "管理專案"
+
+#: weblate/accounts/forms.py:679
+msgid "Project: {}"
+msgstr "專案：{}"
+
+#: weblate/accounts/forms.py:680
+msgid "Component: {}"
+msgstr "組件：{}"
+
+#: weblate/accounts/forms.py:686
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr "您將會收到您所關注專案的每則相關事件通知。"
 
-#: weblate/accounts/forms.py:637
-msgid "Translation notifications"
-msgstr "翻譯通知"
+#: weblate/accounts/forms.py:691
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid ""
+"You will receive a notification for every such event in projects where you "
+"have admin permissions."
+msgstr "您將會收到您所關注專案的每則相關事件通知。"
 
-#: weblate/accounts/forms.py:641
+#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid "You will receive a notification for every such event in {}."
+msgstr "您將會收到您所關注專案的每則相關事件通知。"
+
+#: weblate/accounts/forms.py:706
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
 
-#: weblate/accounts/forms.py:663
-msgid "Use default setting"
-msgstr "使用預設設定"
+#: weblate/accounts/forms.py:711
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"projects where you have admin permissions."
+msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
 
-#: weblate/accounts/forms.py:677 weblate/accounts/models.py:392
-#: weblate/templates/accounts/profile.html:67
-msgid "Watched projects"
-msgstr "關注專案"
-
-#: weblate/accounts/forms.py:679
-msgid "Administered projects"
-msgstr "管理的專案"
-
-#: weblate/accounts/forms.py:681
-msgid "Project: {}"
-msgstr "專案：{}"
-
-#: weblate/accounts/forms.py:682
-msgid "Component: {}"
-msgstr "組件：{}"
+#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"{}."
+msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -434,7 +472,7 @@ msgstr "關注的翻譯"
 msgid "Component lists"
 msgstr "組件列表"
 
-#: weblate/accounts/models.py:365 weblate/auth/models.py:128
+#: weblate/accounts/models.py:365 weblate/auth/models.py:131
 #: weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
@@ -1649,7 +1687,7 @@ msgstr "選擇要賦予此群組的角色。"
 msgid "Project selection"
 msgstr "專案選取"
 
-#: weblate/auth/models.py:115 weblate/auth/models.py:137
+#: weblate/auth/models.py:115 weblate/auth/models.py:140
 msgid "As defined"
 msgstr "如所定義"
 
@@ -1677,15 +1715,24 @@ msgstr "取自組件列表"
 msgid "Projects"
 msgstr "專案"
 
-#: weblate/auth/models.py:135
+#: weblate/auth/models.py:127 weblate/templates/component-list.html:13
+#: weblate/templates/language-project.html:16
+#: weblate/templates/mail/base.html:286
+#: weblate/templates/snippets/project-nav.html:8
+#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
+#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
+msgid "Components"
+msgstr "組件"
+
+#: weblate/auth/models.py:138
 msgid "Language selection"
 msgstr "語言選取"
 
-#: weblate/auth/models.py:138 weblate/trans/forms.py:952
+#: weblate/auth/models.py:141 weblate/trans/forms.py:952
 msgid "All languages"
 msgstr "所有語言"
 
-#: weblate/auth/models.py:143 weblate/billing/models.py:259
+#: weblate/auth/models.py:146 weblate/billing/models.py:259
 #: weblate/lang/models.py:418 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
@@ -1701,64 +1748,64 @@ msgstr "所有語言"
 msgid "Languages"
 msgstr "語言"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:150
 msgid "Weblate internal group"
 msgstr "Weblate 內部群組"
 
-#: weblate/auth/models.py:279
+#: weblate/auth/models.py:282
 msgid "username"
 msgstr "使用者名稱"
 
-#: weblate/auth/models.py:287
+#: weblate/auth/models.py:290
 msgid "A user with that username already exists."
 msgstr "已經有使用者採用此使用者名稱。"
 
-#: weblate/auth/models.py:304
+#: weblate/auth/models.py:307
 msgid "Superuser status"
 msgstr "超級使用者狀態"
 
-#: weblate/auth/models.py:306
+#: weblate/auth/models.py:309
 msgid "User has all possible permissions."
 msgstr "使用者擁有全部可用的權限許可。"
 
-#: weblate/auth/models.py:309 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:137
 msgid "Active"
 msgstr "啟用"
 
-#: weblate/auth/models.py:311
+#: weblate/auth/models.py:314
 msgid "Mark user as inactive instead of removing."
 msgstr "將使用者標記為不活躍，而不是刪除。"
 
-#: weblate/auth/models.py:313
+#: weblate/auth/models.py:316
 msgid "Date joined"
 msgstr "加入日期"
 
-#: weblate/auth/models.py:316
+#: weblate/auth/models.py:319
 msgid "Groups"
 msgstr "群組"
 
-#: weblate/auth/models.py:319
+#: weblate/auth/models.py:322
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr "使用者將取得所有其加入群組賦予的權利許可。"
 
-#: weblate/auth/models.py:567
+#: weblate/auth/models.py:578
 msgid "E-mail regular expression"
 msgstr "電子郵件常規表述式"
 
-#: weblate/auth/models.py:570
+#: weblate/auth/models.py:581
 msgid "Regular expression used to match user e-mail."
 msgstr "用來比對使用者電子郵件的常規表述式。"
 
-#: weblate/auth/models.py:573
+#: weblate/auth/models.py:584
 msgid "Group to assign"
 msgstr "要分派的群組"
 
-#: weblate/auth/models.py:577
+#: weblate/auth/models.py:588
 msgid "Automatic group assignment"
 msgstr "自動群組分派"
 
-#: weblate/auth/models.py:578
+#: weblate/auth/models.py:589
 msgid "Automatic group assignments"
 msgstr "自動群組分派"
 
@@ -2350,7 +2397,7 @@ msgstr "多項未通過查核"
 msgid "The translations in several languages have failing checks"
 msgstr "多個語言的翻譯有未通過查核的項目"
 
-#: weblate/checks/views.py:77 weblate/templates/component.html:74
+#: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/snippets/project-nav.html:68
@@ -2984,42 +3031,42 @@ msgstr "檔案"
 msgid "You can upload a TMX or JSON file."
 msgstr "您可以上傳 TMX 或 JSON 檔。"
 
-#: weblate/memory/models.py:101
+#: weblate/memory/models.py:104
 msgid "Unsupported file!"
 msgstr "不支援的檔案！"
 
-#: weblate/memory/models.py:103
+#: weblate/memory/models.py:106
 msgid "No valid entries found in the uploaded file!"
 msgstr "在上傳的檔案中找不到有效的條目！"
 
-#: weblate/memory/models.py:112 weblate/memory/models.py:117
+#: weblate/memory/models.py:115 weblate/memory/models.py:120
 msgid "Failed to parse JSON file: {!s}"
 msgstr "JSON 檔解析失敗：{!s}"
 
-#: weblate/memory/models.py:146
+#: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
 msgstr "解析 TMX 檔失敗！"
 
-#: weblate/memory/models.py:156
+#: weblate/memory/models.py:159
 msgid "Failed to find source language!"
 msgstr "找不到來源語言！"
 
-#: weblate/memory/models.py:233
+#: weblate/memory/models.py:236
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "專案：{}"
 
-#: weblate/memory/models.py:235
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "個人：{}"
 
-#: weblate/memory/models.py:237
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "共享：{}"
 
-#: weblate/memory/models.py:239
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "檔案：{}"
@@ -3199,14 +3246,14 @@ msgid "Ask for project hosting"
 msgstr "申請專案託管"
 
 #: weblate/templates/about/index.html:37
-#: weblate/templates/billing/overview.html:19
+#: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
 msgstr "檢視託管方案"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
 #: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
+#: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "購買新的託管方案"
@@ -3317,7 +3364,7 @@ msgstr "忽略的查核"
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:6
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "您的個人檔案"
 
@@ -4245,7 +4292,7 @@ msgstr "不可用"
 msgid "No invoices found."
 msgstr "查無收據。"
 
-#: weblate/templates/billing/overview.html:7
+#: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1739
 msgid "Billing"
 msgstr "帳單"
@@ -4253,6 +4300,12 @@ msgstr "帳單"
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
 msgstr "沒有訂購或到期付款。"
+
+#: weblate/templates/billing/overview.html:16
+msgid ""
+"In case you miss access to billing of your project, please contact project "
+"maintainers to give you permission to access its billing."
+msgstr ""
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4377,15 +4430,6 @@ msgid ""
 "which are hard to translate."
 msgstr "查核可以幫助您辨認出有問題的翻譯，或很難翻譯的來源字串。"
 
-#: weblate/templates/component-list.html:13
-#: weblate/templates/language-project.html:16
-#: weblate/templates/mail/base.html:286
-#: weblate/templates/snippets/project-nav.html:8
-#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
-#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
-msgid "Components"
-msgstr "組件"
-
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:49
@@ -4402,9 +4446,8 @@ msgstr "檔案"
 msgid "Download for offline translation."
 msgstr "下載以離線翻譯。"
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#: weblate/templates/snippets/project-nav.html:52
 msgid "Download original translation files as ZIP file"
 msgstr "下載原始翻譯檔為 ZIP 檔"
 
@@ -4526,6 +4569,13 @@ msgstr "翻譯報告"
 #: weblate/templates/guide.html:26
 msgid "Localization guide"
 msgstr "在地化指南"
+
+#: weblate/templates/component.html:59
+#: weblate/templates/snippets/project-nav.html:52
+#, fuzzy
+#| msgid "Download original translation files as ZIP file"
+msgid "Download translation files as ZIP file"
+msgstr "下載原始翻譯檔為 ZIP 檔"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -10472,6 +10522,9 @@ msgstr "已觸發備份程序"
 msgid "Could not dismiss the configuration error!"
 msgstr "無法略過組態設定錯誤！"
 
+#~ msgid "Administered projects"
+#~ msgstr "管理的專案"
+
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "新增群組（整個平臺）"
 
@@ -11441,9 +11494,6 @@ msgstr "無法略過組態設定錯誤！"
 
 #~ msgid "Subscriptions"
 #~ msgstr "訂閱項目"
-
-#~ msgid "Managed projects"
-#~ msgstr "管理專案"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "

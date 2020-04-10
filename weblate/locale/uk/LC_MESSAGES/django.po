@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-09 17:53+0000\n"
+"POT-Creation-Date: 2020-04-10 12:07+0000\n"
 "PO-Revision-Date: 2020-04-09 17:52+0000\n"
 "Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
@@ -41,7 +41,7 @@ msgstr ""
 "Ця адреса електронної пошти вже використовується. Будь ласка, надайте іншу "
 "адресу електронної пошти."
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:283
+#: weblate/accounts/forms.py:121 weblate/auth/models.py:286
 #: weblate/utils/validators.py:169
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -59,14 +59,14 @@ msgstr "Ім'я користувача"
 msgid "This username is already taken. Please choose another."
 msgstr "Таке ім'я користувача вже використовується. Виберіть собі інше."
 
-#: weblate/accounts/forms.py:149 weblate/auth/models.py:290
+#: weblate/accounts/forms.py:149 weblate/auth/models.py:293
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "Повне ім’я"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
-#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:296
+#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:299
 #: weblate/templates/manage-access.html:26 weblate/wladmin/forms.py:57
 msgid "E-mail"
 msgstr "Електронна пошта"
@@ -210,18 +210,59 @@ msgstr "Будь ласка, опишіть проєкт та вашу роль 
 msgid "Component wide notifications"
 msgstr "Сповіщення про перекладацькі складники"
 
-#: weblate/accounts/forms.py:629
+#: weblate/accounts/forms.py:630
+msgid "Translation notifications"
+msgstr "Сповіщення з перекладу"
+
+#: weblate/accounts/forms.py:649
+msgid "Use default setting"
+msgstr "Використовувати усталене значення"
+
+#: weblate/accounts/forms.py:675 weblate/accounts/models.py:392
+#: weblate/templates/accounts/profile.html:67
+msgid "Watched projects"
+msgstr "Відстежувані проєкти"
+
+#: weblate/accounts/forms.py:677
+msgid "Managed projects"
+msgstr "Керування проектами"
+
+#: weblate/accounts/forms.py:679
+msgid "Project: {}"
+msgstr "Проєкт: {}"
+
+#: weblate/accounts/forms.py:680
+msgid "Component: {}"
+msgstr "Складник: {}"
+
+#: weblate/accounts/forms.py:686
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
 "Ви будете отримувати повідомлення про кожну подію у відстежуваних проєктах."
 
-#: weblate/accounts/forms.py:637
-msgid "Translation notifications"
-msgstr "Сповіщення з перекладу"
+#: weblate/accounts/forms.py:691
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid ""
+"You will receive a notification for every such event in projects where you "
+"have admin permissions."
+msgstr ""
+"Ви будете отримувати повідомлення про кожну подію у відстежуваних проєктах."
 
-#: weblate/accounts/forms.py:641
+#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
+#, fuzzy
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid "You will receive a notification for every such event in {}."
+msgstr ""
+"Ви будете отримувати повідомлення про кожну подію у відстежуваних проєктах."
+
+#: weblate/accounts/forms.py:706
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -229,26 +270,29 @@ msgstr ""
 "Ви будете отримувати ці сповіщення лише для мов, на які ви перекладаєте у "
 "відстежуваних вами проєктах."
 
-#: weblate/accounts/forms.py:663
-msgid "Use default setting"
-msgstr "Використовувати усталене значення"
+#: weblate/accounts/forms.py:711
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"projects where you have admin permissions."
+msgstr ""
+"Ви будете отримувати ці сповіщення лише для мов, на які ви перекладаєте у "
+"відстежуваних вами проєктах."
 
-#: weblate/accounts/forms.py:677 weblate/accounts/models.py:392
-#: weblate/templates/accounts/profile.html:67
-msgid "Watched projects"
-msgstr "Відстежувані проєкти"
-
-#: weblate/accounts/forms.py:679
-msgid "Administered projects"
-msgstr "Проєкти що управляються"
-
-#: weblate/accounts/forms.py:681
-msgid "Project: {}"
-msgstr "Проєкт: {}"
-
-#: weblate/accounts/forms.py:682
-msgid "Component: {}"
-msgstr "Складник: {}"
+#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#, fuzzy
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"{}."
+msgstr ""
+"Ви будете отримувати ці сповіщення лише для мов, на які ви перекладаєте у "
+"відстежуваних вами проєктах."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -455,7 +499,7 @@ msgstr "Відстежувані переклади"
 msgid "Component lists"
 msgstr "Списки складників"
 
-#: weblate/accounts/models.py:365 weblate/auth/models.py:128
+#: weblate/accounts/models.py:365 weblate/auth/models.py:131
 #: weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
@@ -1712,7 +1756,7 @@ msgstr "Вибрати ролі, доступні для цієї групи."
 msgid "Project selection"
 msgstr "Вибір проєкту"
 
-#: weblate/auth/models.py:115 weblate/auth/models.py:137
+#: weblate/auth/models.py:115 weblate/auth/models.py:140
 msgid "As defined"
 msgstr "Як задано"
 
@@ -1740,15 +1784,24 @@ msgstr "Зі списку складників"
 msgid "Projects"
 msgstr "Проєкти"
 
-#: weblate/auth/models.py:135
+#: weblate/auth/models.py:127 weblate/templates/component-list.html:13
+#: weblate/templates/language-project.html:16
+#: weblate/templates/mail/base.html:286
+#: weblate/templates/snippets/project-nav.html:8
+#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
+#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
+msgid "Components"
+msgstr "Складники"
+
+#: weblate/auth/models.py:138
 msgid "Language selection"
 msgstr "Вибір мови"
 
-#: weblate/auth/models.py:138 weblate/trans/forms.py:952
+#: weblate/auth/models.py:141 weblate/trans/forms.py:952
 msgid "All languages"
 msgstr "Всі мови"
 
-#: weblate/auth/models.py:143 weblate/billing/models.py:259
+#: weblate/auth/models.py:146 weblate/billing/models.py:259
 #: weblate/lang/models.py:418 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
@@ -1764,65 +1817,65 @@ msgstr "Всі мови"
 msgid "Languages"
 msgstr "Мови"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:150
 msgid "Weblate internal group"
 msgstr "Внутрішня група Weblate"
 
-#: weblate/auth/models.py:279
+#: weblate/auth/models.py:282
 msgid "username"
 msgstr "ім'я користувача"
 
-#: weblate/auth/models.py:287
+#: weblate/auth/models.py:290
 msgid "A user with that username already exists."
 msgstr "Користувач з таким ім'я вже існує."
 
-#: weblate/auth/models.py:304
+#: weblate/auth/models.py:307
 msgid "Superuser status"
 msgstr "Стан надкористувача"
 
-#: weblate/auth/models.py:306
+#: weblate/auth/models.py:309
 msgid "User has all possible permissions."
 msgstr "Користувач має всі можливі дозволи."
 
-#: weblate/auth/models.py:309 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:137
 msgid "Active"
 msgstr "Активний"
 
-#: weblate/auth/models.py:311
+#: weblate/auth/models.py:314
 msgid "Mark user as inactive instead of removing."
 msgstr "Позначає, що користувач неактивний замість вилучення."
 
-#: weblate/auth/models.py:313
+#: weblate/auth/models.py:316
 msgid "Date joined"
 msgstr "Дата приєднання"
 
-#: weblate/auth/models.py:316
+#: weblate/auth/models.py:319
 msgid "Groups"
 msgstr "Групи"
 
-#: weblate/auth/models.py:319
+#: weblate/auth/models.py:322
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr "Користувач отримає всі дозволи, надані кожній з цих груп."
 
-#: weblate/auth/models.py:567
+#: weblate/auth/models.py:578
 msgid "E-mail regular expression"
 msgstr "Регулярний вираз Ел. пошти"
 
-#: weblate/auth/models.py:570
+#: weblate/auth/models.py:581
 msgid "Regular expression used to match user e-mail."
 msgstr ""
 "Регулярний вираз, який використовується для зіставлення пошти користувача."
 
-#: weblate/auth/models.py:573
+#: weblate/auth/models.py:584
 msgid "Group to assign"
 msgstr "Група для призначення"
 
-#: weblate/auth/models.py:577
+#: weblate/auth/models.py:588
 msgid "Automatic group assignment"
 msgstr "Самочинне призначення групи"
 
-#: weblate/auth/models.py:578
+#: weblate/auth/models.py:589
 msgid "Automatic group assignments"
 msgstr "Самочинні призначення групи"
 
@@ -2416,7 +2469,7 @@ msgstr "Кратні невдалі перевірки"
 msgid "The translations in several languages have failing checks"
 msgstr "Переклади на декількох мовах мають непройдені перевірки"
 
-#: weblate/checks/views.py:77 weblate/templates/component.html:74
+#: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/snippets/project-nav.html:68
@@ -3063,42 +3116,42 @@ msgstr "Файл"
 msgid "You can upload a TMX or JSON file."
 msgstr "Ви можете вивантажити файл TMX або JSON."
 
-#: weblate/memory/models.py:101
+#: weblate/memory/models.py:104
 msgid "Unsupported file!"
 msgstr "Непідтримуваний файл!"
 
-#: weblate/memory/models.py:103
+#: weblate/memory/models.py:106
 msgid "No valid entries found in the uploaded file!"
 msgstr "Немає дійсних записів у вивантаженому файлі!"
 
-#: weblate/memory/models.py:112 weblate/memory/models.py:117
+#: weblate/memory/models.py:115 weblate/memory/models.py:120
 msgid "Failed to parse JSON file: {!s}"
 msgstr "Не вдалося розібрати файл JSON: {!s}"
 
-#: weblate/memory/models.py:146
+#: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
 msgstr "Не вдалося розібрати файл TMX!"
 
-#: weblate/memory/models.py:156
+#: weblate/memory/models.py:159
 msgid "Failed to find source language!"
 msgstr "Не вдалося знайти мову джерела!"
 
-#: weblate/memory/models.py:233
+#: weblate/memory/models.py:236
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Проєкт: {}"
 
-#: weblate/memory/models.py:235
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Особисте: {}"
 
-#: weblate/memory/models.py:237
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Поширено: {}"
 
-#: weblate/memory/models.py:239
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Файл: {}"
@@ -3296,14 +3349,14 @@ msgid "Ask for project hosting"
 msgstr "Запитатися про хостинг проєкту"
 
 #: weblate/templates/about/index.html:37
-#: weblate/templates/billing/overview.html:19
+#: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
 msgstr "Переглянути тарифні плани хостингу"
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
 #: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
+#: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "Купити новий план хостингу"
@@ -3415,7 +3468,7 @@ msgstr "Знехтувані перевірки"
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:6
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Ваш профіль"
 
@@ -4403,7 +4456,7 @@ msgstr "Не доступно"
 msgid "No invoices found."
 msgstr "Жодного рахунку не знайдено."
 
-#: weblate/templates/billing/overview.html:7
+#: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1739
 msgid "Billing"
 msgstr "Оплата"
@@ -4411,6 +4464,12 @@ msgstr "Оплата"
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
 msgstr "Немає підписок або платежів."
+
+#: weblate/templates/billing/overview.html:16
+msgid ""
+"In case you miss access to billing of your project, please contact project "
+"maintainers to give you permission to access its billing."
+msgstr ""
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4538,15 +4597,6 @@ msgstr ""
 "Перевірки можуть допомогти визначити проблемні переклади або джерельні "
 "рядки, які важко перекласти."
 
-#: weblate/templates/component-list.html:13
-#: weblate/templates/language-project.html:16
-#: weblate/templates/mail/base.html:286
-#: weblate/templates/snippets/project-nav.html:8
-#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
-#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
-msgid "Components"
-msgstr "Складники"
-
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:49
@@ -4563,9 +4613,8 @@ msgstr "Файли"
 msgid "Download for offline translation."
 msgstr "Завантажити для редагування поза мережею."
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#: weblate/templates/snippets/project-nav.html:52
 msgid "Download original translation files as ZIP file"
 msgstr "Завантажити первинні файли перекладу як ZIP-файл"
 
@@ -4687,6 +4736,13 @@ msgstr "Звіти про переклад"
 #: weblate/templates/guide.html:26
 msgid "Localization guide"
 msgstr "Посібник із локалізації"
+
+#: weblate/templates/component.html:59
+#: weblate/templates/snippets/project-nav.html:52
+#, fuzzy
+#| msgid "Download original translation files as ZIP file"
+msgid "Download translation files as ZIP file"
+msgstr "Завантажити первинні файли перекладу як ZIP-файл"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -11003,6 +11059,9 @@ msgstr "Процес резервного копіювання запустив�
 msgid "Could not dismiss the configuration error!"
 msgstr "Не вдалося відхилити помилку конфігурації!"
 
+#~ msgid "Administered projects"
+#~ msgstr "Проєкти що управляються"
+
 #~ msgid "Add groups (on the entire platform)"
 #~ msgstr "Додавання груп (на всій платформі)"
 
@@ -12047,9 +12106,6 @@ msgstr "Не вдалося відхилити помилку конфігура
 
 #~ msgid "Subscriptions"
 #~ msgstr "Підписки"
-
-#~ msgid "Managed projects"
-#~ msgstr "Керування проектами"
 
 #~ msgid ""
 #~ "You will automatically receive important notifications on managed "

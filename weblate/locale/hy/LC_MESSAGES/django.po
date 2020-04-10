@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-09 17:53+0000\n"
+"POT-Creation-Date: 2020-04-10 12:07+0000\n"
 "PO-Revision-Date: 2019-11-07 11:55+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Armenian <https://hosted.weblate.org/projects/weblate/master/"
@@ -31,7 +31,7 @@ msgid ""
 "address."
 msgstr ""
 
-#: weblate/accounts/forms.py:121 weblate/auth/models.py:283
+#: weblate/accounts/forms.py:121 weblate/auth/models.py:286
 #: weblate/utils/validators.py:169
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -49,14 +49,14 @@ msgstr "Օգտանուն"
 msgid "This username is already taken. Please choose another."
 msgstr "Այս օգտանունը զբաղված է: Խնդրում ենք ընտրել նորը:"
 
-#: weblate/accounts/forms.py:149 weblate/auth/models.py:290
+#: weblate/accounts/forms.py:149 weblate/auth/models.py:293
 #: weblate/templates/accounts/user.html:26
 #: weblate/templates/manage-access.html:25
 msgid "Full name"
 msgstr "Ամբողջական անուն"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
-#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:296
+#: weblate/accounts/templatetags/authnames.py:38 weblate/auth/models.py:299
 #: weblate/templates/manage-access.html:26 weblate/wladmin/forms.py:57
 #, fuzzy
 #| msgid "E-mail"
@@ -206,52 +206,72 @@ msgstr ""
 msgid "Component wide notifications"
 msgstr ""
 
-#: weblate/accounts/forms.py:629
-msgid ""
-"You will receive a notification for every such event in your watched "
-"projects."
-msgstr ""
-
-#: weblate/accounts/forms.py:637
+#: weblate/accounts/forms.py:630
 #, fuzzy
 #| msgid "Your account has been removed."
 msgid "Translation notifications"
 msgstr "Ձեր հաշիվը ջնջվել է։"
 
-#: weblate/accounts/forms.py:641
-msgid ""
-"You will only receive these notifications for your translated languages in "
-"your watched projects."
-msgstr ""
-
-#: weblate/accounts/forms.py:663
+#: weblate/accounts/forms.py:649
 msgid "Use default setting"
 msgstr ""
 
-#: weblate/accounts/forms.py:677 weblate/accounts/models.py:392
+#: weblate/accounts/forms.py:675 weblate/accounts/models.py:392
 #: weblate/templates/accounts/profile.html:67
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Watched projects"
 msgstr "Կառավարվող նախագծեր"
 
-#: weblate/accounts/forms.py:679
-#, fuzzy
-#| msgid "Managed projects"
-msgid "Administered projects"
+#: weblate/accounts/forms.py:677
+msgid "Managed projects"
 msgstr "Կառավարվող նախագծեր"
 
-#: weblate/accounts/forms.py:681
+#: weblate/accounts/forms.py:679
 #, fuzzy
 #| msgid "Project name"
 msgid "Project: {}"
 msgstr "Նախագծի անվանում"
 
-#: weblate/accounts/forms.py:682
+#: weblate/accounts/forms.py:680
 #, fuzzy
 #| msgid "Comment:"
 msgid "Component: {}"
 msgstr "Մեկնաբանություն՝"
+
+#: weblate/accounts/forms.py:686
+msgid ""
+"You will receive a notification for every such event in your watched "
+"projects."
+msgstr ""
+
+#: weblate/accounts/forms.py:691
+msgid ""
+"You will receive a notification for every such event in projects where you "
+"have admin permissions."
+msgstr ""
+
+#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
+msgid "You will receive a notification for every such event in {}."
+msgstr ""
+
+#: weblate/accounts/forms.py:706
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"your watched projects."
+msgstr ""
+
+#: weblate/accounts/forms.py:711
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"projects where you have admin permissions."
+msgstr ""
+
+#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"{}."
+msgstr ""
 
 #: weblate/accounts/models.py:78
 #, fuzzy
@@ -470,7 +490,7 @@ msgstr "Կառավարվող նախագծեր"
 msgid "Component lists"
 msgstr ""
 
-#: weblate/accounts/models.py:365 weblate/auth/models.py:128
+#: weblate/accounts/models.py:365 weblate/auth/models.py:131
 #: weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:68
 msgid "Component list"
@@ -1857,7 +1877,7 @@ msgstr ""
 msgid "Project selection"
 msgstr "Նախագծի անվանում"
 
-#: weblate/auth/models.py:115 weblate/auth/models.py:137
+#: weblate/auth/models.py:115 weblate/auth/models.py:140
 msgid "As defined"
 msgstr ""
 
@@ -1893,19 +1913,28 @@ msgstr "Միջերեսի լեզու"
 msgid "Projects"
 msgstr ""
 
-#: weblate/auth/models.py:135
+#: weblate/auth/models.py:127 weblate/templates/component-list.html:13
+#: weblate/templates/language-project.html:16
+#: weblate/templates/mail/base.html:286
+#: weblate/templates/snippets/project-nav.html:8
+#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
+#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
+msgid "Components"
+msgstr ""
+
+#: weblate/auth/models.py:138
 #, fuzzy
 #| msgid "Language"
 msgid "Language selection"
 msgstr "Լեզու"
 
-#: weblate/auth/models.py:138 weblate/trans/forms.py:952
+#: weblate/auth/models.py:141 weblate/trans/forms.py:952
 #, fuzzy
 #| msgid "Weblate languages"
 msgid "All languages"
 msgstr "Weblate-ի լեզուներ"
 
-#: weblate/auth/models.py:143 weblate/billing/models.py:259
+#: weblate/auth/models.py:146 weblate/billing/models.py:259
 #: weblate/lang/models.py:418 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:139
@@ -1921,76 +1950,76 @@ msgstr "Weblate-ի լեզուներ"
 msgid "Languages"
 msgstr "Լեզուներ"
 
-#: weblate/auth/models.py:147
+#: weblate/auth/models.py:150
 #, fuzzy
 #| msgid "Administration"
 msgid "Weblate internal group"
 msgstr "Կառավարում"
 
-#: weblate/auth/models.py:279
+#: weblate/auth/models.py:282
 #, fuzzy
 #| msgid "Username"
 msgid "username"
 msgstr "Օգտանուն"
 
-#: weblate/auth/models.py:287
+#: weblate/auth/models.py:290
 msgid "A user with that username already exists."
 msgstr ""
 
-#: weblate/auth/models.py:304
+#: weblate/auth/models.py:307
 #, fuzzy
 #| msgid "Status"
 msgid "Superuser status"
 msgstr "Կարգավիճակ"
 
-#: weblate/auth/models.py:306
+#: weblate/auth/models.py:309
 #, fuzzy
 #| msgid "Versions"
 msgid "User has all possible permissions."
 msgstr "Տարբերակներ"
 
-#: weblate/auth/models.py:309 weblate/billing/models.py:137
+#: weblate/auth/models.py:312 weblate/billing/models.py:137
 #, fuzzy
 #| msgid "Action"
 msgid "Active"
 msgstr "Գործողություն"
 
-#: weblate/auth/models.py:311
+#: weblate/auth/models.py:314
 msgid "Mark user as inactive instead of removing."
 msgstr ""
 
-#: weblate/auth/models.py:313
+#: weblate/auth/models.py:316
 msgid "Date joined"
 msgstr ""
 
-#: weblate/auth/models.py:316
+#: weblate/auth/models.py:319
 msgid "Groups"
 msgstr ""
 
-#: weblate/auth/models.py:319
+#: weblate/auth/models.py:322
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
 
-#: weblate/auth/models.py:567
+#: weblate/auth/models.py:578
 msgid "E-mail regular expression"
 msgstr ""
 
-#: weblate/auth/models.py:570
+#: weblate/auth/models.py:581
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Regular expression used to match user e-mail."
 msgstr "Կառավարվող նախագծեր"
 
-#: weblate/auth/models.py:573
+#: weblate/auth/models.py:584
 msgid "Group to assign"
 msgstr ""
 
-#: weblate/auth/models.py:577
+#: weblate/auth/models.py:588
 msgid "Automatic group assignment"
 msgstr ""
 
-#: weblate/auth/models.py:578
+#: weblate/auth/models.py:589
 msgid "Automatic group assignments"
 msgstr ""
 
@@ -2624,7 +2653,7 @@ msgstr ""
 msgid "The translations in several languages have failing checks"
 msgstr ""
 
-#: weblate/checks/views.py:77 weblate/templates/component.html:74
+#: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
 #: weblate/templates/language.html:28 weblate/templates/progress.html:11
 #: weblate/templates/snippets/project-nav.html:68
@@ -3283,48 +3312,48 @@ msgstr "Ֆայլ"
 msgid "You can upload a TMX or JSON file."
 msgstr ""
 
-#: weblate/memory/models.py:101
+#: weblate/memory/models.py:104
 msgid "Unsupported file!"
 msgstr ""
 
-#: weblate/memory/models.py:103
+#: weblate/memory/models.py:106
 msgid "No valid entries found in the uploaded file!"
 msgstr ""
 
-#: weblate/memory/models.py:112 weblate/memory/models.py:117
+#: weblate/memory/models.py:115 weblate/memory/models.py:120
 msgid "Failed to parse JSON file: {!s}"
 msgstr ""
 
-#: weblate/memory/models.py:146
+#: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
 msgstr ""
 
-#: weblate/memory/models.py:156
+#: weblate/memory/models.py:159
 #, fuzzy
 #| msgid "Interface Language"
 msgid "Failed to find source language!"
 msgstr "Միջերեսի լեզու"
 
-#: weblate/memory/models.py:233
+#: weblate/memory/models.py:236
 #, fuzzy
 #| msgid "Project name"
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Նախագծի անվանում"
 
-#: weblate/memory/models.py:235
+#: weblate/memory/models.py:238
 #, fuzzy
 #| msgid "Persian"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Պարսկերեն"
 
-#: weblate/memory/models.py:237
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr ""
 
-#: weblate/memory/models.py:239
+#: weblate/memory/models.py:242
 #, fuzzy
 #| msgid "Files"
 msgctxt "Translation memory category"
@@ -3533,14 +3562,14 @@ msgid "Ask for project hosting"
 msgstr ""
 
 #: weblate/templates/about/index.html:37
-#: weblate/templates/billing/overview.html:19
+#: weblate/templates/billing/overview.html:20
 msgid "View hosting plans"
 msgstr ""
 
 #: weblate/templates/about/index.html:39
 #: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
 #: weblate/templates/billing-failure.html:8
-#: weblate/templates/billing/overview.html:23
+#: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr ""
@@ -3657,7 +3686,7 @@ msgstr ""
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
 #: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:6
+#: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr ""
 
@@ -4640,13 +4669,19 @@ msgstr ""
 msgid "No invoices found."
 msgstr "Կառավարվող նախագծեր"
 
-#: weblate/templates/billing/overview.html:7
+#: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1739
 msgid "Billing"
 msgstr ""
 
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
+msgstr ""
+
+#: weblate/templates/billing/overview.html:16
+msgid ""
+"In case you miss access to billing of your project, please contact project "
+"maintainers to give you permission to access its billing."
 msgstr ""
 
 #: weblate/templates/billing/status.html:7
@@ -4778,15 +4813,6 @@ msgid ""
 "which are hard to translate."
 msgstr ""
 
-#: weblate/templates/component-list.html:13
-#: weblate/templates/language-project.html:16
-#: weblate/templates/mail/base.html:286
-#: weblate/templates/snippets/project-nav.html:8
-#: weblate/templates/snippets/project-nav.html:13 weblate/trans/forms.py:780
-#: weblate/trans/forms.py:1706 weblate/trans/models/component.py:516
-msgid "Components"
-msgstr ""
-
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:56
 #: weblate/templates/language-project.html:31
 #: weblate/templates/snippets/project-nav.html:49
@@ -4803,9 +4829,8 @@ msgstr "Ֆայլեր"
 msgid "Download for offline translation."
 msgstr ""
 
-#: weblate/templates/component-list.html:20 weblate/templates/component.html:59
+#: weblate/templates/component-list.html:20
 #: weblate/templates/language-project.html:34
-#: weblate/templates/snippets/project-nav.html:52
 #, fuzzy
 #| msgid "Managed projects"
 msgid "Download original translation files as ZIP file"
@@ -4939,6 +4964,13 @@ msgstr ""
 #| msgid "Action"
 msgid "Localization guide"
 msgstr "Գործողություն"
+
+#: weblate/templates/component.html:59
+#: weblate/templates/snippets/project-nav.html:52
+#, fuzzy
+#| msgid "Managed projects"
+msgid "Download translation files as ZIP file"
+msgstr "Կառավարվող նախագծեր"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -11444,6 +11476,11 @@ msgid "Could not dismiss the configuration error!"
 msgstr ""
 
 #, fuzzy
+#~| msgid "Managed projects"
+#~ msgid "Administered projects"
+#~ msgstr "Կառավարվող նախագծեր"
+
+#, fuzzy
 #~| msgid "Your account has been removed."
 #~ msgid "Percent interpolation"
 #~ msgstr "Ձեր հաշիվը ջնջվել է։"
@@ -11780,9 +11817,6 @@ msgstr ""
 #~| msgid "Versions"
 #~ msgid "Remove old suggestions"
 #~ msgstr "Տարբերակներ"
-
-#~ msgid "Managed projects"
-#~ msgstr "Կառավարվող նախագծեր"
 
 #, fuzzy
 #~| msgid "Managed projects"
