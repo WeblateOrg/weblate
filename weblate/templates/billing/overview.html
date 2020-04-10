@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load translations %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'profile' %}">{% trans "Your profile" %}</a></li>
@@ -12,8 +11,10 @@
 {% for billing in billings %}
 {% include "billing/detail.html" %}
 {% empty %}
-{% trans "No subscriptions or due payments." as msg %}
-{% show_message "info" msg %}
+<p>
+    {% trans "No subscriptions or due payments." %}
+    {% trans "In case you miss access to billing of your project, please contact project maintainers to give you permission to access its billing." %}
+</p>
 
 {% if offer_hosting %}
 <a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
