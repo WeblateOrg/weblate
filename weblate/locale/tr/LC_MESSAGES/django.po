@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 18:04+0000\n"
-"PO-Revision-Date: 2020-04-10 18:03+0000\n"
+"PO-Revision-Date: 2020-04-12 00:48+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -249,23 +249,21 @@ msgstr ""
 "bildirim alacaksınız."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "{} içindeki her tür olay için bir bildirim alacaksınız."
+msgstr "%(project)s projesinde her tür olay için bir bildirim alacaksınız."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "{} içindeki her tür olay için bir bildirim alacaksınız."
+msgstr "%(component)s bileşeninde her tür olay için bir bildirim alacaksınız."
 
 #: weblate/accounts/forms.py:706
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Bu bildirimleri yalnızca izlenen projelerinizde çevrilmiş dilleriniz için "
+"Yalnızca izlenen projelerinizde çevrilmiş dilleriniz için bu bildirimleri "
 "alacaksınız."
 
 #: weblate/accounts/forms.py:711
@@ -277,26 +275,22 @@ msgstr ""
 "için bu bildirimleri alacaksınız."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Yalnızca {} içindeki çevrilmiş dilleriniz için bu bildirimleri alacaksınız."
+"Yalnızca %(project)s projesinde çevrilmiş dilleriniz için bu bildirimleri "
+"alacaksınız."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Yalnızca {} içindeki çevrilmiş dilleriniz için bu bildirimleri alacaksınız."
+"Yalnızca %(component)s bileşeninde çevrilmiş dilleriniz için bu bildirimleri "
+"alacaksınız."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -1477,7 +1471,7 @@ msgstr "Yeni satır ekle"
 #. Translators: Permission name
 #: weblate/auth/data.py:94
 msgid "Ignore failing check"
-msgstr "Denetimde kusurlu olanları yok say"
+msgstr "Kusur denetimini yoksay"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:96
@@ -2462,11 +2456,11 @@ msgstr "Dizgi, üç nokta karakteri (…) yerine üç tane nokta (...) kullanır
 
 #: weblate/checks/source.py:63
 msgid "Multiple failing checks"
-msgstr "Denetimde kusuru çok olanlar"
+msgstr "Birden çok kusur denetimi"
 
 #: weblate/checks/source.py:64
 msgid "The translations in several languages have failing checks"
-msgstr "Birkaç dildeki çevirilerin denetimde kusurları var"
+msgstr "Birkaç dildeki çevirilerin kusur denetimleri var"
 
 #: weblate/checks/views.py:74 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -2474,7 +2468,7 @@ msgstr "Birkaç dildeki çevirilerin denetimde kusurları var"
 #: weblate/templates/snippets/project-nav.html:68
 #: weblate/templates/snippets/project-nav.html:78
 msgid "Failing checks"
-msgstr "Kusurlu"
+msgstr "Kusur denetimleri"
 
 #: weblate/fonts/models.py:40 weblate/templates/fonts/font_detail.html:19
 #: weblate/templates/fonts/font_list.html:74
@@ -3126,15 +3120,15 @@ msgstr "Yüklenen dosyada geçerli girdi bulunamadı!"
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
 msgid "Failed to parse JSON file: {!s}"
-msgstr "JSON dosyası ayrıştırma başarısız: {!s}"
+msgstr "JSON dosyası ayrıştırma başarısız oldu: {!s}"
 
 #: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
-msgstr "TMX dosyası ayrıştırılamadı!"
+msgstr "TMX dosyası ayrıştırma başarısız oldu!"
 
 #: weblate/memory/models.py:159
 msgid "Failed to find source language!"
-msgstr "Kaynak dili bulma başarısız!"
+msgstr "Kaynak dili bulma başarısız oldu!"
 
 #: weblate/memory/models.py:236
 msgctxt "Translation memory category"
@@ -3181,7 +3175,8 @@ msgstr "Ekran görüntüsü yüklendi, artık bunu kaynak dizgilere atayabilirsi
 
 #: weblate/screenshots/views.py:104
 msgid "Failed to upload screenshot, please fix errors below."
-msgstr "Ekran görüntüsü yüklenemedi, lütfen aşağıdaki hataları düzeltin."
+msgstr ""
+"Ekran görüntüsü yükleme başarısız oldu, lütfen aşağıdaki hataları düzeltin."
 
 #: weblate/screenshots/views.py:155
 #, python-format
@@ -3445,7 +3440,7 @@ msgstr "Yapılmış çeviri"
 
 #: weblate/templates/about/stats.html:100
 msgid "Failing checks found"
-msgstr "Denetimde kusurlar bulundu"
+msgstr "Kusur denetimleri bulundu"
 
 #: weblate/templates/about/stats.html:104 weblate/templates/component.html:75
 #: weblate/templates/language-project.html:43
@@ -3453,7 +3448,7 @@ msgstr "Denetimde kusurlar bulundu"
 #: weblate/templates/snippets/project-nav.html:69
 #: weblate/templates/snippets/project-nav.html:79
 msgid "Ignored checks"
-msgstr "Yok sayılan denetimler"
+msgstr "Yoksayılan denetimler"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -3557,9 +3552,9 @@ msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. Should the problem persist, please contact us."
 msgstr ""
-"Eğer kısa sürede almazsanız, lütfen gereksiz/istenmeyen iletiler klasörüne "
-"bakın ya da yeniden kaydolmayı deneyin. Eğer sorun sürerse, lütfen bizimle "
-"iletişime geçin."
+"Eğer kısa sürede almazsanız, lütfen gereksiz/istenmeyen iletiler klasörünü "
+"gözden geçirin ya da yeniden kaydolmayı deneyin. Eğer sorun sürerse, lütfen "
+"bizimle iletişime geçin."
 
 #: weblate/templates/accounts/email-sent.html:41
 #: weblate/templates/mail/shared-registration.html:23
@@ -3592,7 +3587,7 @@ msgid ""
 "on this site."
 msgstr ""
 "Lütfen projenizin bu sitede barındırılması için uygun olup olmadığını "
-"önceden kontrol ediniz."
+"önceden gözden geçirin."
 
 #: weblate/templates/accounts/hosting.html:18
 msgid "Conditions for gratis hosting"
@@ -3923,7 +3918,7 @@ msgstr "CLI kullanım örneği:"
 
 #: weblate/templates/accounts/profile.html:306
 msgid "Accessing Git repositories"
-msgstr "Git depolarına erişiliyor"
+msgstr "Git depolarına erişim"
 
 #: weblate/templates/accounts/profile.html:308
 msgid ""
@@ -4258,7 +4253,7 @@ msgstr "Denetimler"
 #: weblate/templates/base.html:161
 #, python-format
 msgid "Failed checks in %(project)s"
-msgstr "%(project)s projesinde başarısız denetimleri"
+msgstr "%(project)s projesinde denetimler başarısız oldu"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -5206,7 +5201,7 @@ msgstr ""
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
 msgstr ""
-"Weblate birçok kod barındırma sitesinden doğrudan bildirimi de destekler:"
+"Weblate birçok kod barındırma sitesinden doğrudan bildirimleri de destekler:"
 
 #: weblate/templates/data.html:137
 msgid "Hosting site"
@@ -5670,7 +5665,7 @@ msgstr "Bazı işlenmemiş değişiklikler var!"
 
 #: weblate/templates/js/git-status.html:24
 msgid "There has been a merge failure in the repository"
-msgstr "Depoda bir birleştirme başarısızlığı oldu"
+msgstr "Depoda bir birleştirme hatası oldu"
 
 #: weblate/templates/js/git-status.html:26
 #: weblate/templates/trans/merge_instructions.html:33
@@ -6082,7 +6077,7 @@ msgstr "Hata iletisi"
 
 #: weblate/templates/mail/parse_error.html:13
 msgid "Failing file"
-msgstr "Başarısız olan dosya"
+msgstr "Kusur dosyası"
 
 #: weblate/templates/mail/parse_error_subject.txt:3
 #, python-format
@@ -7022,7 +7017,7 @@ msgstr "Dizginin yorumu var"
 
 #: weblate/templates/snippets/query-builder.html:38
 msgid "String has failing check"
-msgstr "Dizginin başarısız olan denetimi var"
+msgstr "Dizginin kusur denetimi var"
 
 #: weblate/templates/snippets/query-builder.html:39
 msgid "String has plural"
@@ -7066,7 +7061,7 @@ msgstr "Yorumları olan dizgiler"
 #: weblate/templates/snippets/query-builder.html:86 weblate/trans/filter.py:48
 #: weblate/trans/filter.py:116
 msgid "Strings with any failing checks"
-msgstr "Başarısız denetimi olan dizgiler"
+msgstr "Kusur denetimleri olan dizgiler"
 
 #: weblate/templates/snippets/query-builder.html:91
 msgid "Strings with suggestions from others"
@@ -7120,7 +7115,7 @@ msgstr "Önerilen değişiklik:"
 
 #: weblate/templates/snippets/suggestions.html:53
 msgid "Failing checks:"
-msgstr "Kusurlu denetimler:"
+msgstr "Kusur denetimleri:"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:498 weblate/utils/state.py:31
@@ -7136,7 +7131,7 @@ msgstr "Çevrilmeyen"
 #: weblate/templates/snippets/unit-state.html:7
 msgctxt "String state"
 msgid "Fails checks"
-msgstr "Başarısız denetimleri"
+msgstr "Denetimleri başarısız"
 
 #: weblate/templates/snippets/unit-state.html:8 weblate/utils/state.py:34
 msgctxt "String state"
@@ -7966,7 +7961,7 @@ msgstr "Toplam"
 
 #: weblate/templates/translation.html:422
 msgid "Failing check"
-msgstr "Denetimde kusur"
+msgstr "Kusur denetimi"
 
 #: weblate/templates/translation.html:439
 msgid "Last activity"
@@ -8205,7 +8200,7 @@ msgstr "Gözden geçirme için bekleyen satırlar"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:122
 msgid "Failed check: {}"
-msgstr "Denetimde kusurlu: {}"
+msgstr "Başarısız olan denetim: {}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
 msgid "Labeled: {}"
@@ -8981,17 +8976,17 @@ msgstr "Depo yeniden konumlandı"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:252
 msgid "Failed merge on repository"
-msgstr "Depoda birleştirme başarısız"
+msgstr "Depoda birleştirme başarısız oldu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:254
 msgid "Failed rebase on repository"
-msgstr "Depoda yeniden konumlama başarısız"
+msgstr "Depoda yeniden konumlama başarısız oldu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:256
 msgid "Failed push on repository"
-msgstr "Depoya yollama başarısız"
+msgstr "Depoya yollama başarısız oldu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:260
@@ -9338,7 +9333,7 @@ msgstr "Zorunlu denetimler"
 
 #: weblate/trans/models/component.py:353
 msgid "List of checks which can not be ignored."
-msgstr "Göz ardı edilemeyecek denetimler listesi."
+msgstr "Yoksayılamayan denetimler listesi."
 
 #: weblate/trans/models/component.py:371
 msgid ""
@@ -9533,12 +9528,12 @@ msgstr "Dosya maskesi hiçbir dosyayla eşleşmedi."
 #: weblate/trans/models/component.py:1568
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
-msgstr "%s dil kodu boştu, lütfen dosya maskesini kontrol ediniz."
+msgstr "%s dil kodu boştu, lütfen dosya maskesini gözden geçirin."
 
 #: weblate/trans/models/component.py:1575
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
-msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini kontrol ediniz."
+msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini gözden geçirin."
 
 #: weblate/trans/models/component.py:1582
 #, python-format
@@ -9877,7 +9872,7 @@ msgstr ""
 #: weblate/trans/models/translation.py:187
 #, python-format
 msgid "Failed to parse file %(file)s: %(error)s"
-msgstr "%(file)s dosyası ayrıştırılamadı: %(error)s"
+msgstr "%(file)s dosyası ayrıştırma başarısız oldu: %(error)s"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
@@ -10227,7 +10222,7 @@ msgstr "Kullanıcı bu projeye eklendi."
 
 #: weblate/trans/views/acl.py:130 weblate/trans/views/acl.py:146
 msgid "Failed to find group to add a user!"
-msgstr "Bir kullanıcı eklemek için grup bulunmadı!"
+msgstr "Bir kullanıcı eklemek için grup bulma başarısız oldu!"
 
 #: weblate/trans/views/acl.py:144 weblate/trans/views/acl.py:159
 #: weblate/wladmin/views.py:287
@@ -10280,15 +10275,15 @@ msgstr "%s tarafından yapılan değişiklikler"
 
 #: weblate/trans/views/changes.py:135
 msgid "Failed to find matching project!"
-msgstr "Eşleşen proje bulunmadı!"
+msgstr "Eşleşen proje bulma başarısız oldu!"
 
 #: weblate/trans/views/changes.py:143
 msgid "Failed to find matching language!"
-msgstr "Eşleşen dil bulunmadı!"
+msgstr "Eşleşen dil bulma başarısız oldu!"
 
 #: weblate/trans/views/changes.py:151
 msgid "Failed to find matching user!"
-msgstr "Eşleşen kullanıcı bulunmadı!"
+msgstr "Eşleşen kullanıcı bulma başarısız oldu!"
 
 #: weblate/trans/views/charts.py:97
 #, python-brace-format
@@ -10304,7 +10299,7 @@ msgstr "{day}/{month}"
 
 #: weblate/trans/views/create.py:297
 msgid "Failed to parse uploaded ZIP file."
-msgstr "Yüklenen ZIP dosyası ayrıştırılamadı."
+msgstr "Yüklenen ZIP dosyası ayrıştırma başarısız oldu."
 
 #: weblate/trans/views/dashboard.py:144
 msgid ""
@@ -10350,7 +10345,7 @@ msgstr "Dosya yükleme başarısız oldu: %s"
 #: weblate/trans/views/dictionary.py:166 weblate/trans/views/edit.py:542
 #: weblate/trans/views/search.py:85 weblate/trans/views/search.py:221
 msgid "Failed to process form!"
-msgstr "Form işlenemedi!"
+msgstr "Form işleme başarısız oldu!"
 
 #: weblate/trans/views/edit.py:148 weblate/trans/views/edit.py:415
 msgid "No string matched your search!"
@@ -10382,7 +10377,7 @@ msgstr "Şu düzeltmeler çeviriye uygulandı: %s"
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "Çeviri kaydedildi, ancak bazı yeni denetimde kusurlar var: {0}"
+msgstr "Çeviri kaydedildi, ancak bazı yeni kusur denetimleri var: {0}"
 
 #: weblate/trans/views/edit.py:279
 msgid "Invalid merge request!"
@@ -10430,7 +10425,7 @@ msgstr "Gönderilen yeni yorum"
 
 #: weblate/trans/views/edit.py:604
 msgid "Failed to add comment!"
-msgstr "Yorum eklenemedi!"
+msgstr "Yorum ekleme başarısız oldu!"
 
 #: weblate/trans/views/edit.py:623
 msgid "Translation comment has been deleted."
@@ -10481,7 +10476,7 @@ msgstr "Yüklenen dosyadaki çoğul biçimler şu anki çeviriyle eşleşmiyor."
 
 #: weblate/trans/views/git.py:42
 msgid "Failed to lock the repository, another operation is in progress."
-msgstr "Depoyu kilitleme başarısız, başka bir işlem devam ediyor."
+msgstr "Depoyu kilitleme başarısız oldu, başka bir işlem devam ediyor."
 
 #: weblate/trans/views/git.py:54
 msgid "All pending translations were committed."
@@ -10625,11 +10620,11 @@ msgstr "Ayarlar kaydedildi"
 
 #: weblate/trans/views/settings.py:49 weblate/trans/views/settings.py:77
 msgid "Invalid settings, please check the form for errors!"
-msgstr "Geçersiz ayarlar, lütfen formu hatalara karşı denetleyin!"
+msgstr "Geçersiz ayarlar, lütfen formu hatalara karşı gözden geçirin!"
 
 #: weblate/trans/views/source.py:51
 msgid "Failed to change a context!"
-msgstr "Bir bağlam değiştirilemedi!"
+msgstr "Bir bağlamı değiştirme başarısız oldu!"
 
 #: weblate/trans/widgets.py:244
 msgid "Big status badge"
@@ -10666,7 +10661,7 @@ msgstr "Tanımsız değişken: \"%s\""
 
 #: weblate/utils/render.py:100
 msgid "Failed to render template: {}"
-msgstr "Şablon oluşturulamadı: {}"
+msgstr "Şablon işleme başarısız oldu: {}"
 
 #: weblate/utils/render.py:143
 msgid ""
@@ -10786,7 +10781,7 @@ msgstr "Yeni SSH anahtarı oluşturuldu."
 #: weblate/vcs/ssh.py:126
 #, python-format
 msgid "Failed to generate key: %s"
-msgstr "Anahtar üretilemedi: %s"
+msgstr "Anahtar üretme başarısız oldu: %s"
 
 #: weblate/vcs/ssh.py:133
 msgid "Invalid host name given!"
@@ -10803,12 +10798,12 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:160
 msgid "Failed to fetch public key for a host!"
-msgstr "Bir anamakine için ortak anahtar alma başarısız!"
+msgstr "Bir anamakine için ortak anahtar alma başarısız oldu!"
 
 #: weblate/vcs/ssh.py:165 weblate/vcs/ssh.py:167
 #, python-format
 msgid "Failed to get host key: %s"
-msgstr "Anamakine anahtarı alma başarısız: %s"
+msgstr "Anamakine anahtarı alma başarısız oldu: %s"
 
 #: weblate/wladmin/forms.py:31
 msgid "Activation token"
