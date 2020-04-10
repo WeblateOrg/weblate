@@ -157,6 +157,12 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
 .. literalinclude:: ../scripts/test-database
    :language: sh
 
+Prior to runinng tests you should collect static files as some tests rely on them being present:
+
+.. code-block:: sh
+
+    DJANGO_SETTINGS_MODULE=weblate.settings_test ./manage.py collectstatic
+
 You can also specify individual tests to run:
 
 .. code-block:: sh
