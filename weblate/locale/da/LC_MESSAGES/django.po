@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 12:07+0000\n"
-"PO-Revision-Date: 2020-04-02 07:30+0000\n"
-"Last-Translator: Henrik Dankvardt <dankvardt@gmail.com>\n"
+"PO-Revision-Date: 2020-04-10 18:03+0000\n"
+"Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
 "Language: da\n"
@@ -147,14 +147,8 @@ msgid "Password"
 msgstr "Adgangskode"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Angiv korrekt brugernavn og adgangskode. Bemærk at begge felter kan være "
-"følsomme over for store og små bogstaver."
+msgstr "Indtast venligst det korrekte brugernavn og adgangskode."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -255,14 +249,8 @@ msgstr ""
 "projekter."
 
 #: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid "You will receive a notification for every such event in {}."
-msgstr ""
-"Du vil modtage en underretning om alle sådanne hændelser i dine overvågede "
-"projekter."
+msgstr "Du vil modtage en underretning om alle sådanne hændelser i {}."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -285,16 +273,10 @@ msgstr ""
 "overvågede projekter."
 
 #: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "{}."
-msgstr ""
-"Du vil kun modtage disse underretninger for dine oversatte sprog i dine "
-"overvågede projekter."
+msgstr "Du vil kun modtage disse underretninger for dine oversatte sprog i {}."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -324,10 +306,9 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Nulstilling af adgangskoden bekræftet — adgangskoden er slået fra."
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Logget ind med {method} ({name})."
+msgstr "Konfigureret login med {method} ({name})."
 
 #: weblate/accounts/models.py:85
 #, fuzzy, python-brace-format
@@ -375,16 +356,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Aftale med vilkår for tjeneste {date}."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Donér til Weblate på {0}"
+msgstr "Inviteret til Weblate af {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "Konfigurer adgangskoden"
+msgstr "Konfigureret login for adgangskode."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -448,7 +426,7 @@ msgstr "Vis sekundære oversættelser i Zen-tilstanden"
 
 #: weblate/accounts/models.py:314
 msgid "Hide source if a secondary translation exists"
-msgstr "Skjule kilden, hvis en sekundær oversættelse findes"
+msgstr "Skjule kilden, hvis der findes en sekundær oversættelse"
 
 #: weblate/accounts/models.py:320
 msgid "Editor link"
@@ -466,7 +444,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:331
 msgid "Translation editor mode"
-msgstr "Oversættelseseditor-tilstand"
+msgstr "Tilstand for oversættelseseditor"
 
 #: weblate/accounts/models.py:332
 msgid "Full editor"
@@ -478,7 +456,7 @@ msgstr "Zen-tilstand"
 
 #: weblate/accounts/models.py:338
 msgid "Zen editor mode"
-msgstr "Zen tilstand"
+msgstr "Tilstand for Zen-editor"
 
 #: weblate/accounts/models.py:340
 msgid "Top to bottom"
@@ -773,8 +751,7 @@ msgstr "Nulstilling af adgangskoden er allerede afsluttet!"
 
 #: weblate/accounts/views.py:775
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr ""
-"Kan ikke nulstille adgangskoden, godkendelse med e-mail er deaktiveret!"
+msgstr "Kan ikke nulstille adgangskoden, godkendelse med e-mail er slået fra."
 
 #: weblate/accounts/views.py:932
 msgid "Could not remove user identity"
@@ -800,7 +777,7 @@ msgstr "Godkendelse mislykkedes på grund af ugyldigt sessionstilstand."
 
 #: weblate/accounts/views.py:1005
 msgid "Got no e-mail address from third party authentication service."
-msgstr "Fik ingen e-mailadresse fra tredjeparts godkendelsestjeneste!"
+msgstr "Modtog ikke nogen e-mailadresse fra tredjeparts godkendelsestjeneste."
 
 #: weblate/accounts/views.py:1007
 msgid "Please register using e-mail instead."
@@ -808,7 +785,7 @@ msgstr "Registrer venligst med e-mail i stedet."
 
 #: weblate/accounts/views.py:1014
 msgid "New registrations are turned off."
-msgstr "Nye registreringer er deaktiveret!"
+msgstr "Nye registreringer er slået fra."
 
 #: weblate/accounts/views.py:1072
 msgid ""
@@ -2253,15 +2230,15 @@ msgstr "Nogle flertalsformer er oversat identisk"
 
 #: weblate/checks/consistency.py:74
 msgid "Inconsistent"
-msgstr "Inkonsistent"
+msgstr "Uoverensstemmende"
 
 #: weblate/checks/consistency.py:76
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "Strengen har mere end én oversættelse i projektet"
+msgstr ""
+"Strengen har mere end én oversættelse i projektet eller er ikke oversat i "
+"nogle komponenter."
 
 #: weblate/checks/consistency.py:100
 msgid "Has been translated"
@@ -2782,16 +2759,12 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:799
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "gettext PO file"
-msgstr "Gettext PO-fil"
+msgstr "gettext PO-fil"
 
 #: weblate/formats/ttkit.py:844
-#, fuzzy
-#| msgid "Gettext PO file (monolingual)"
 msgid "gettext PO file (monolingual)"
-msgstr "Gettext PO-fil (enkeltsproget)"
+msgstr "gettext PO-fil (enkeltsproget)"
 
 #: weblate/formats/ttkit.py:859
 #, fuzzy
@@ -3260,7 +3233,7 @@ msgstr ""
 
 #: weblate/legal/templates/legal/index.html:13
 msgid "Legal Terms Overview"
-msgstr "Oversigt over juridiske vilkår"
+msgstr "Oversigt med juridiske vilkår"
 
 #: weblate/legal/templates/legal/privacy.html:7 weblate/legal/views.py:35
 msgid "Privacy"
@@ -3356,10 +3329,8 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Fandt ingen gyldige indtastninger i den uploadede fil!"
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Kunne ikke fortolke JSON-fil!"
+msgstr "Kunne ikke fortolke JSON-fil: {!s}"
 
 #: weblate/memory/models.py:149
 msgid "Failed to parse TMX file!"
@@ -4184,15 +4155,15 @@ msgstr "API'ens rod-URL:"
 
 #: weblate/templates/accounts/profile.html:277
 msgid "API usage example:"
-msgstr "API anvendelseseksempel:"
+msgstr "Eksempel på API-anvendelse:"
 
 #: weblate/templates/accounts/profile.html:289
 msgid "CLI usage example:"
-msgstr "CLI anvendelseseksempel:"
+msgstr "Eksempel på CLI-anvendelse:"
 
 #: weblate/templates/accounts/profile.html:306
 msgid "Accessing Git repositories"
-msgstr "Tilgår Git-arkiver"
+msgstr "Tilgåelse af Git-arkiver"
 
 #: weblate/templates/accounts/profile.html:308
 msgid ""
@@ -4551,14 +4522,13 @@ msgid "Checks"
 msgstr "Tjek"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Kunne ikke finde et projekt som matcher!"
+msgstr "Fejlslagne tjek i %(project)s"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
-msgstr "Oversigt over tjek"
+msgstr "Tjekoversigt"
 
 #: weblate/templates/base.html:173
 msgid "Administration"
@@ -4601,7 +4571,7 @@ msgstr "Tilføj ny oversættelseskomponent"
 #: weblate/templates/base.html:217
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
-msgstr "Oversigt over fakturering"
+msgstr "Faktureringsoversigt"
 
 #: weblate/templates/base.html:219 weblate/templates/component.html:96
 #: weblate/templates/memory/index.html:12
@@ -4753,10 +4723,8 @@ msgid ", expires %(expires)s"
 msgstr ", udløber %(expires)s"
 
 #: weblate/templates/billing/status.html:12
-#, fuzzy
-#| msgid "Change payment plan"
 msgid "Change plan"
-msgstr "Skift betalingsplan"
+msgstr "Skift plan"
 
 #: weblate/templates/billing/status.html:18
 msgid "Monthly price"
@@ -4818,10 +4786,8 @@ msgid "Only chosen users can contribute."
 msgstr "Kun udvalgte brugere kan bidrage."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "Synlig og som kun kan oversættes af udvalgte brugere"
+msgstr "Kun synlig for udvalgte brugere."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -5144,7 +5110,7 @@ msgstr "Oversæt %(object)s med brug af %%23Weblate på %(share_url)s!"
 
 #: weblate/templates/component.html:123 weblate/templates/translation.html:107
 msgid "Tweet this translation!"
-msgstr "Tweet denne oversættelse!"
+msgstr "Tweet oversættelsen!"
 
 #: weblate/templates/component.html:124
 #: weblate/templates/snippets/project-nav.html:138
@@ -5437,10 +5403,8 @@ msgid "Configure dashboard"
 msgstr "Konfigurer tilføjelse"
 
 #: weblate/templates/dashboard/user.html:35
-#, fuzzy
-#| msgid "Recent edits"
 msgid "Recent additions"
-msgstr "Seneste redigeringer"
+msgstr "Nylige tilføjelser"
 
 #: weblate/templates/dashboard/user.html:58
 msgid ""
@@ -6273,10 +6237,8 @@ msgid "Project Information"
 msgstr "Information om projektet"
 
 #: weblate/templates/mail/base.html:302
-#, fuzzy
-#| msgid "Weblate, the copylefted libre continuous localization system"
 msgid "Weblate, the libre continuous localization system."
-msgstr "Weblate, det copyleftede frie softwaresystem til løbende lokalisering"
+msgstr "Weblate, det frie system til løbende lokalisering."
 
 #: weblate/templates/mail/base.html:309
 msgid "Turn off this notification"
@@ -6374,19 +6336,17 @@ msgstr "Nyt varsel i %(component)s"
 #: weblate/templates/mail/new_announcement.html:7
 #: weblate/trans/models/announcement.py:124
 msgid "Announcement"
-msgstr "bekendtgørelse"
+msgstr "Bekendtgørelse"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Ny kommentar i %(component)s"
+msgstr "Ny bekendtgørelse i %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Whiteboard message"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Tavlebesked"
+msgstr "Ny bekendtgørelse på %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -7180,10 +7140,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please sign in and try again later."
-msgstr "For mange beskeder sendt, prøv igen senere!"
+msgstr "Du er blevet logget ud, log venligst ind senere og prøv igen."
 
 #: weblate/templates/ratelimit.html:9
 #, fuzzy
@@ -7444,7 +7402,7 @@ msgstr "Tweet denne oversættelse"
 
 #: weblate/templates/snippets/query-builder.html:3
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Avanceret forespørgselsbygger"
 
 #: weblate/templates/snippets/query-builder.html:13
 msgid "Target strings"
@@ -7488,71 +7446,51 @@ msgid "String changed by"
 msgstr "Kildestreng ændret"
 
 #: weblate/templates/snippets/query-builder.html:23
-#, fuzzy
-#| msgid "Search for %s"
 msgid "Search for…"
-msgstr "Søg efter %s"
+msgstr "Søg efter …"
 
 #: weblate/templates/snippets/query-builder.html:24
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "Nøjagtigt ens"
+msgstr "Nøjagtigt"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
-#, fuzzy
-#| msgid "Strings with suggestions"
 msgid "String has suggestion"
-msgstr "Strenge med forslag"
+msgstr "Streng har forslag"
 
 #: weblate/templates/snippets/query-builder.html:37
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has comment"
-msgstr "Strenge med kommentarer"
+msgstr "Streng har kommentar"
 
 #: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "String has failing check"
-msgstr "Strenge med fejlslagne tjek"
+msgstr "Streng har fejlslagne tjek"
 
 #: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Optional plural"
 msgid "String has plural"
-msgstr "Valgfri flertalsform"
+msgstr "Streng har flertalsform"
 
 #: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "String has context"
-msgstr "Strenge med kommentarer"
+msgstr "Streng har kontekst"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
-#, fuzzy
-#| msgid "Source string changed"
 msgid "String changed after"
-msgstr "Kildestreng ændret"
+msgstr "Streng ændret efter"
 
 #: weblate/templates/snippets/query-builder.html:55
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "Strenge der er markeret til redigering"
+msgstr "Streng ændret før"
 
 #: weblate/templates/snippets/query-builder.html:58
 msgid "Date"
 msgstr "Dato"
 
 #: weblate/templates/snippets/query-builder.html:68
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "API anvendelseseksempel:"
+msgstr "Eksempler på forespørgsel"
 
 #: weblate/templates/snippets/query-builder.html:71
 #, fuzzy
@@ -7628,10 +7566,8 @@ msgid "Suggested change:"
 msgstr "Foreslået ændring:"
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "Fejlslagne tjek"
+msgstr "Fejlslagne tjek:"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:498 weblate/utils/state.py:31
@@ -7791,10 +7727,8 @@ msgstr ""
 "oversættelsesfilerne."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please confirm your logout."
 msgid "Please consider the following:"
-msgstr "Bekræft log ud."
+msgstr "Overvej venligst følgende:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
@@ -8103,7 +8037,7 @@ msgstr "oversæt"
 
 #: weblate/templates/translate.html:40
 msgid "Edit in Zen mode"
-msgstr "Rediger i zen-tilstand"
+msgstr "Rediger i Zen-tilstand"
 
 #: weblate/templates/translate.html:40
 msgid "Zen"
@@ -8165,10 +8099,8 @@ msgid "Source change"
 msgstr "Ændring af kilde"
 
 #: weblate/templates/translate.html:145
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Brugerfladens sprog"
+msgstr "Mellemliggende sprog"
 
 #: weblate/templates/translate.html:161 weblate/trans/models/unit.py:187
 msgid "Additional context"
@@ -8460,10 +8392,8 @@ msgid "This translation is being used as source strings within this component."
 msgstr "Oversættelsen bliver brugt som kildestrenge inden for komponenten."
 
 #: weblate/templates/translation.html:161
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "Status for tjeneste"
+msgstr "Status for strenge"
 
 #: weblate/templates/translation.html:175
 #, python-format
@@ -8500,7 +8430,7 @@ msgid ""
 msgstr ""
 "Automatisk oversættelse tager eksisterende oversættelser i projektet, og "
 "anvender dem i den nuværende komponent. Det kan bruges til at skubbe "
-"oversættelser til en anden forgrening, rette inkonsistente oversættelser "
+"oversættelser til en anden forgrening, rette uoverensstemmende oversættelser "
 "eller oversætte en ny komponent med brug af oversættelseshukommelse."
 
 #: weblate/templates/translation.html:239
@@ -8582,7 +8512,7 @@ msgstr "Gennemse afventende"
 
 #: weblate/templates/user-activity.html:20
 msgid "Screenshots uploaded"
-msgstr "Skærmbillede blev uploadet"
+msgstr "Skærmbilleder uploadet"
 
 #: weblate/templates/user-activity.html:30
 msgid "Registration date"
@@ -8590,7 +8520,7 @@ msgstr "Tilmeldingsdato"
 
 #: weblate/templates/watch-dropdown.html:9
 msgid "Watching"
-msgstr "Overvåger"
+msgstr "Overvågning"
 
 #: weblate/templates/watch-dropdown.html:13
 #, python-format
@@ -8607,7 +8537,7 @@ msgstr "Tilpas underretninger for %(object)s"
 #: weblate/templates/watch-dropdown.html:19
 #, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "Mute underretninger for %(object)s"
+msgstr "Stop underretninger for %(object)s"
 
 #: weblate/templates/watch-dropdown.html:23
 msgid "Watch"
@@ -8640,7 +8570,7 @@ msgstr ""
 
 #: weblate/templates/widgets.html:24
 msgid "Image widgets"
-msgstr "Billed-widgets"
+msgstr "Billedwidgets"
 
 #: weblate/templates/widgets.html:27
 msgid ""
@@ -8798,7 +8728,7 @@ msgstr "Strenge med kommentarer"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
-msgstr "Strenge der behøver handling uden forslag"
+msgstr "Strenge der behøver handling, uden forslag"
 
 #: weblate/trans/filter.py:49 weblate/trans/filter.py:117
 msgid "Approved strings"
@@ -8809,10 +8739,8 @@ msgid "Strings waiting for review"
 msgstr "Strenge der venter på gennemgang"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failed check: {}"
-msgstr "Fejlslagne tjek"
+msgstr "Fejlslagne tjek: {}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
 #, fuzzy
@@ -8874,10 +8802,8 @@ msgid "Please choose a valid filter type."
 msgstr "Vælg en gyldig filtertype."
 
 #: weblate/trans/forms.py:407
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "Strengen du ville oversætte er ikke længere tilgængelig!"
+msgstr "Strengen du ville oversætte er ikke længere tilgængelig."
 
 #: weblate/trans/forms.py:417
 msgid ""
@@ -8913,16 +8839,12 @@ msgid "Translation text too long!"
 msgstr "Oversat tekst er for lang!"
 
 #: weblate/trans/forms.py:557
-#, fuzzy
-#| msgid "File upload has failed: %s"
 msgid "File upload mode"
-msgstr "Upload af fil mislykkedes: %s"
+msgstr "Tilstand for filupload"
 
 #: weblate/trans/forms.py:559 weblate/trans/forms.py:765
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add as translation"
-msgstr "Tilføj som anden oversættelse"
+msgstr "Tilføj som oversættelse"
 
 #: weblate/trans/forms.py:560
 msgid "Add as approved translation"
@@ -9977,10 +9899,8 @@ msgstr ""
 "Om brugerne vil kunne redigere grundfil til enkeltsprogede oversættelser."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Intermediate language file"
-msgstr "Ønskede sprog:"
+msgstr "Mellemliggende sprogfil"
 
 #: weblate/trans/models/component.py:282
 msgid ""
@@ -11587,10 +11507,9 @@ msgid "Empty"
 msgstr "Tom"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Komponent: {}"
+msgstr "Kompilering mislykkedes: {0}"
 
 #: weblate/utils/validators.py:69
 #, fuzzy
@@ -11618,10 +11537,8 @@ msgid "Unsupported image type: %s"
 msgstr "Ikke understøttet billedtype: %s"
 
 #: weblate/utils/validators.py:132
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
-msgstr "Billedet er for stort, skaler ned eller beskær den relevante del!"
+msgstr "Billedet er for stort, beskær eller nedskalér det venligst."
 
 #: weblate/utils/validators.py:150
 #, fuzzy
