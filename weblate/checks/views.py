@@ -40,34 +40,31 @@ def show_checks(request):
     """List of failing checks."""
     ignore = "ignored" in request.GET
     url_params = {}
+    user = request.user
 
     if ignore:
         url_params["ignored"] = "true"
 
-    allchecks = Check.objects.filter(
-        unit__translation__component__project_id__in=request.user.allowed_project_ids,
-        ignore=ignore,
-    )
+    kwargs = {
+        "unit__translation__component__project_id__in": user.allowed_project_ids,
+        "ignore": ignore,
+    }
 
     if request.GET.get("project"):
-        allchecks = allchecks.filter(
-            unit__translation__component__project__slug=request.GET["project"]
-        )
+        kwargs["unit__translation__component__project__slug"] = request.GET["project"]
         url_params["project"] = request.GET["project"]
 
     if request.GET.get("language"):
-        allchecks = allchecks.filter(
-            unit__translation__language__code=request.GET["language"]
-        )
+        kwargs["unit__translation__language__code"] = request.GET["language"]
         url_params["language"] = request.GET["language"]
 
     if request.GET.get("component"):
-        allchecks = allchecks.filter(
-            unit__translation__component__slug=request.GET["component"]
-        )
+        kwargs["unit__translation__component__slug"] = request.GET["component"]
         url_params["component"] = request.GET["component"]
 
-    allchecks = allchecks.values("check").annotate(count=Count("id"))
+    allchecks = (
+        Check.objects.filter(**kwargs).values("check").annotate(count=Count("id"))
+    )
 
     return render(
         request,
@@ -94,15 +91,13 @@ def show_check(request, name):
     if ignore:
         url_params["ignored"] = "true"
 
-    projects = request.user.allowed_projects.filter(
-        component__translation__unit__check__check=name,
-        component__translation__unit__check__ignore=ignore,
-    )
+    kwargs = {
+        "component__translation__unit__check__check": name,
+        "component__translation__unit__check__ignore": ignore,
+    }
 
     if request.GET.get("language"):
-        projects = projects.filter(
-            component__translation__language__code=request.GET["language"]
-        )
+        kwargs["component__translation__language__code"] = request.GET["language"]
         url_params["language"] = request.GET["language"]
 
     # This has to be done after updating url_params
@@ -114,9 +109,11 @@ def show_check(request, name):
             name=name,
         )
 
-    projects = projects.annotate(
-        check_count=Count("component__translation__unit__check")
-    ).order()
+    projects = (
+        request.user.allowed_projects.filter(**kwargs)
+        .annotate(check_count=Count("component__translation__unit__check"))
+        .order()
+    )
 
     return render(
         request,
@@ -142,24 +139,24 @@ def show_check_project(request, name, project):
 
     url_params = {}
 
-    components = Component.objects.filter(
-        project=prj,
-        translation__unit__check__check=name,
-        translation__unit__check__ignore=ignore,
-    )
+    kwargs = {
+        "project": prj,
+        "translation__unit__check__check": name,
+        "translation__unit__check__ignore": ignore,
+    }
 
     if ignore:
         url_params["ignored"] = "true"
 
     if request.GET.get("language"):
-        components = components.filter(
-            translation__language__code=request.GET["language"]
-        )
+        kwargs["translation__language__code"] = request.GET["language"]
         url_params["language"] = request.GET["language"]
 
-    components = components.annotate(
-        check_count=Count("translation__unit__check")
-    ).order()
+    components = (
+        Component.objects.filter(**kwargs)
+        .annotate(check_count=Count("translation__unit__check"))
+        .order()
+    )
 
     return render(
         request,
@@ -184,10 +181,6 @@ def show_check_component(request, name, project, component):
 
     ignore = "ignored" in request.GET
     url_params = {}
-
-    translations = Translation.objects.filter(
-        component=component, unit__check__check=name, unit__check__ignore=ignore,
-    )
 
     if ignore:
         url_params["ignored"] = "true"
@@ -217,7 +210,10 @@ def show_check_component(request, name, project, component):
         )
 
     translations = (
-        translations.annotate(check_count=Count("unit__check"))
+        Translation.objects.filter(
+            component=component, unit__check__check=name, unit__check__ignore=ignore,
+        )
+        .annotate(check_count=Count("unit__check"))
         .order_by("language__code")
         .select_related("language")
     )
