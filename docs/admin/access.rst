@@ -177,6 +177,8 @@ A user has to be a member of a group linked to the project. Only membership is
 enough, no specific permissions are needed to access a project (this is used
 in the default `Viewers` group, see :ref:`default-groups`).
 
+.. _manage-users:
+
 Managing users and groups
 -------------------------
 
