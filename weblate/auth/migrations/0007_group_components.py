@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             model_name="group",
             name="components",
             field=models.ManyToManyField(
-                blank=True, to="trans.Component", verbose_name="Component"
+                blank=True, to="trans.Component", verbose_name="Components"
             ),
         ),
     ]

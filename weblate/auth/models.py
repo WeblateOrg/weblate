@@ -124,7 +124,7 @@ class Group(models.Model):
         "trans.Project", verbose_name=_("Projects"), blank=True
     )
     components = models.ManyToManyField(
-        "trans.Component", verbose_name=_("Component"), blank=True
+        "trans.Component", verbose_name=_("Components"), blank=True
     )
     componentlist = models.ForeignKey(
         "trans.ComponentList",
