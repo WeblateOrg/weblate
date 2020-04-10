@@ -693,11 +693,11 @@ class NotificationForm(forms.Form):
             )
         if scope == SCOPE_PROJECT:
             return _(
-                "You will receive a notification for every such event in {}."
-            ).format(self.form_project)
-        return _("You will receive a notification for every such event in {}.").format(
-            self.form_component
-        )
+                "You will receive a notification for every such event in %(project)s."
+            ) % {"project": self.form_project}
+        return _(
+            "You will receive a notification for every such event in %(component)s."
+        ) % {"component": self.form_component}
 
     def get_help_translation(self):
         scope = self.form_scope
@@ -714,12 +714,12 @@ class NotificationForm(forms.Form):
         if scope == SCOPE_PROJECT:
             return _(
                 "You will only receive these notifications for your"
-                " translated languages in {}."
-            ).format(self.form_project)
+                " translated languages in %(project)s."
+            ) % {"project": self.form_project}
         return _(
             "You will only receive these notifications for your"
-            " translated languages in {}."
-        ).format(self.form_component)
+            " translated languages in %(component)s."
+        ) % {"component": self.form_component}
 
     def save(self):
         # Lookup for this form
