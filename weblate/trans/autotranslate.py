@@ -66,23 +66,27 @@ class AutoTranslate:
     @transaction.atomic
     def process_others(self, source):
         """Perform automatic translation based on other components."""
-        sources = Unit.objects.filter(
-            translation__language=self.translation.language, state__gte=STATE_TRANSLATED
-        )
+        kwargs = {
+            "translation__language": self.translation.language,
+            "state__gte": STATE_TRANSLATED,
+        }
+        exclude = {}
         if source:
-            subprj = Component.objects.get(id=source)
+            component = Component.objects.get(id=source)
 
             if (
-                not subprj.project.contribute_shared_tm
-                and not subprj.project != self.translation.component.project
+                not component.project.contribute_shared_tm
+                and not component.project != self.translation.component.project
             ):
                 raise PermissionDenied()
-            sources = sources.filter(translation__component=subprj)
+            kwargs["translation__component"] = component
         else:
             project = self.translation.component.project
-            sources = sources.filter(translation__component__project=project).exclude(
-                translation=self.translation
-            )
+            kwargs["translation__component__project"] = project
+            exclude["translation"] = self.translation
+        sources = Unit.objects.filter(**kwargs)
+        if exclude:
+            sources = sources.exclude(**exclude)
 
         # Filter by strings
         units = self.get_units().filter(source__in=sources.values("source"))
