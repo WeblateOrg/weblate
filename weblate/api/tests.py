@@ -109,6 +109,274 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         return response
 
 
+class UserAPITest(APIBaseTest):
+    def test_list(self):
+        response = self.client.get(reverse("api:user-list"))
+        self.assertEqual(response.data["count"], 1)
+        self.authenticate(True)
+        response = self.client.get(reverse("api:user-list"))
+        self.assertEqual(response.data["count"], 2)
+
+    def test_get(self):
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.assertEqual(response.data["username"], "apitest")
+
+    def test_create(self):
+        self.do_request(
+            "api:user-list", method="post", code=403,
+        )
+        self.do_request(
+            "api:user-list",
+            method="post",
+            superuser=True,
+            code=201,
+            request={
+                "full_name": "Name",
+                "username": "name",
+                "email": "email@test.com",
+                "is_active": True,
+            },
+        )
+        self.assertEqual(User.objects.count(), 3)
+
+    def test_delete(self):
+        self.do_request(
+            "api:user-list",
+            method="post",
+            superuser=True,
+            code=201,
+            request={
+                "full_name": "Name",
+                "username": "name",
+                "email": "email@test.com",
+                "is_active": True,
+            },
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": "name"},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(User.objects.count(), 3)
+        self.assertEqual(User.objects.filter(is_active=True).count(), 1)
+
+    def test_add_group(self):
+        group = Group.objects.get(name="Viewers")
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="post",
+            code=403,
+            request={"group_name": group.name},
+        )
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"group_name": "invalid"},
+        )
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"group_name": group.name},
+        )
+
+    def test_put(self):
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="put",
+            code=403,
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="put",
+            superuser=True,
+            code=200,
+            request={
+                "full_name": "Name",
+                "username": "apitest",
+                "email": "apitest@example.org",
+                "is_active": True,
+            },
+        )
+        self.assertEqual(User.objects.filter(is_active=True).first().full_name, "Name")
+
+    def test_patch(self):
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="patch",
+            code=403,
+        )
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"full_name": "Other"},
+        )
+        self.assertEqual(User.objects.filter(is_active=True).first().full_name, "Other")
+
+
+class GroupAPITest(APIBaseTest):
+    def test_list(self):
+        response = self.client.get(reverse("api:group-list"))
+        self.assertEqual(response.data["count"], 2)
+        self.authenticate(True)
+        response = self.client.get(reverse("api:group-list"))
+        self.assertEqual(response.data["count"], 6)
+
+    def test_get(self):
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Users").name},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.assertEqual(response.data["name"], "Users")
+
+    def test_create(self):
+        self.do_request(
+            "api:group-list", method="post", code=403,
+        )
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 0,
+                "roles": [{"name": "invalid"}],
+            },
+        )
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 0,
+                "roles": [{"name": "Administration"}],
+            },
+        )
+        self.assertEqual(Group.objects.count(), 7)
+
+    def test_delete(self):
+        self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Users").name},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Group.objects.count(), 5)
+
+    def test_put(self):
+        self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 0,
+                "roles": [{"name": "Administration"}],
+            },
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Group").name},
+            method="put",
+            code=403,
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Group").name},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 1,
+                "roles": [{"name": "Administration"}],
+            },
+        )
+        self.assertEqual(Group.objects.get(name="Group").language_selection, 1)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Group").name},
+            method="put",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 1,
+                "roles": [{"name": "Administration"}, {"name": "invalid"}],
+            },
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Group").name},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "name": "Group",
+                "project_selection": 0,
+                "language_selection": 1,
+                "roles": [{"name": "Administration"}, {"name": "Billing"}],
+            },
+        )
+        self.assertEqual(Group.objects.get(name="Group").roles.count(), 2)
+
+    def test_patch(self):
+        self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Users").name},
+            method="patch",
+            code=403,
+        )
+        self.do_request(
+            "api:group-detail",
+            kwargs={"name": Group.objects.get(name="Users").name},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"language_selection": 1},
+        )
+        self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
+
+
 class ProjectAPITest(APIBaseTest):
     def test_list_projects(self):
         response = self.client.get(reverse("api:project-list"))

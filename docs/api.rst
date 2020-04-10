@@ -193,6 +193,132 @@ API Entry Point
             "languages":"http://example.com/api/languages/"
         }
 
+
+Users
++++++++++++++++
+
+.. versionadded:: 4.0
+
+.. http:get:: /api/users/
+
+    Returns a list of users if you have permissions to see manage users. If not, then you get to see
+    only your own details.
+
+    .. seealso::
+
+        Users object attributes are documented at :http:get:`/api/users/(str:username)/`.
+
+.. http:get:: /api/users/(str:username)/
+
+    Returns information about users.
+
+    :param username: User's username
+    :type username: string
+    :>json string username: username of a user
+    :>json string full_name: full name of a user
+    :>json string email: email of a user
+    :>json boolean is_superuser: whether the user is a super user
+    :>json boolean is_active: whether the user is active
+    :>json string date_joined: date the user is created
+    :>json array groups: link to associated groups; see :http:get:`/api/groups/(str:name)/`
+
+.. http:put:: /api/users/(str:username)/
+
+    Changes the user parameters.
+
+    :param username: User's username
+    :type username: string
+    :>json string username: username of a user
+    :>json string full_name: full name of a user
+    :>json string email: email of a user
+    :>json boolean is_superuser: whether the user is a super user
+    :>json boolean is_active: whether the user is active
+    :>json string date_joined: date the user is created
+
+.. http:patch:: /api/users/(str:username)/
+
+    Changes the user parameters.
+
+    :param username: User's username
+    :type username: string
+    :>json string username: username of a user
+    :>json string full_name: full name of a user
+    :>json string email: email of a user
+    :>json boolean is_superuser: whether the user is a super user
+    :>json boolean is_active: whether the user is active
+    :>json string date_joined: date the user is created
+
+.. http:delete:: /api/users/(str:username)/
+
+    Deletes all user information and mark the user inactive.
+
+    :param username: User's username
+    :type username: string
+
+.. http:post:: /api/users/(str:username)/groups/
+
+    Associate groups with a user.
+
+    :param username: User's username
+    :type username: string
+    :form string group_name: The unique group name
+
+
+Groups
++++++++++++++++
+
+.. versionadded:: 4.0
+
+.. http:get:: /api/groups/
+
+    Returns a list of groups if you have permissions to see manage groups. If not, then you get to see
+    only the groups the user is a part of.
+
+    .. seealso::
+
+        Users object attributes are documented at :http:get:`/api/groups/(str:name)/`.
+
+.. http:get:: /api/groups/(str:name)/
+
+    Returns information about group.
+
+    :param name: Group's name
+    :type name: string
+    :>json string name: name of a group
+    :>json int project_selection: integer corresponding to group of projects
+    :>json int language_selection: integer corresponding to group of languages
+    :>json array roles: array of associated roles
+
+.. http:put:: /api/groups/(str:name)/
+
+    Changes the group parameters.
+
+    :param name: Group's name
+    :type name: string
+    :>json string name: name of a group
+    :>json int project_selection: integer corresponding to group of projects
+    :>json int language_selection: integer corresponding to group of languages
+    :>json array roles: array of associated roles
+
+.. http:patch:: /api/groups/(str:name)/
+
+    Changes the group parameters.
+
+    :param name: Group's name
+    :type name: string
+    :>json string name: name of a group
+    :>json int project_selection: integer corresponding to group of projects
+    :>json int language_selection: integer corresponding to group of languages
+    :>json array roles: array of associated roles
+
+.. http:delete:: /api/groups/(str:name)/
+
+    Deletes the group.
+
+    :param name: Group's name
+    :type name: string
+
+
 Languages
 +++++++++
 

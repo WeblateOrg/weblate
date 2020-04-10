@@ -31,7 +31,7 @@ from django.utils.safestring import mark_safe
 from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
-from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -265,8 +265,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("user.edit"):
-            return User.objects.all()
-        return User.objects.filter(pk=self.request.user.pk).all()
+            return User.objects.order_by("id").all()
+        return User.objects.filter(pk=self.request.user.pk).order_by("id").all()
 
     def perm_check(self, request):
         if not request.user.has_perm("user.edit"):
@@ -287,6 +287,7 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def partial_update(self, request, *args, **kwargs):
+        self.perm_check(request)
         instance = User.objects.get(username=kwargs.get("username"))
         serializer = self.serializer_class(
             instance,
@@ -331,8 +332,8 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
-            return Group.objects.all()
-        return self.request.user.groups.all()
+            return Group.objects.order_by("id").all()
+        return self.request.user.groups.order_by("id").all()
 
     def perm_check(self, request):
         if not request.user.has_perm("group.edit"):
@@ -351,6 +352,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):
+        self.perm_check(request)
         instance = Group.objects.get(name=kwargs.get("name"))
         serializer = self.serializer_class(
             instance,

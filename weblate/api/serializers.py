@@ -188,7 +188,7 @@ class GroupSerializer(serializers.ModelSerializer):
         return group
 
     def update(self, instance, validated_data):
-        role_validated = validated_data.pop("roles")
+        role_validated = validated_data.pop("roles", None)
         if role_validated:
             role_names = [role.get("name") for role in role_validated]
             roles = Role.objects.filter(name__in=role_names).all()
