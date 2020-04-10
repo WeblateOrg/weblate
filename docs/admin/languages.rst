@@ -27,9 +27,8 @@ and report it to the issue tracker (see :ref:`contributing`).
 Changing language definitions
 -----------------------------
 
-You can change language definitions in the administrator interface (see
-:ref:`admin-interface`). The :guilabel:`Weblate languages` section
-allows changing or adding language definitions.
+You can change language definitions in the languages interface
+(:file:`/languages/` URL).
 
 While editing, make sure all fields are correct (especially plurals and
 text direction), otherwise translators will be unable to properly edit
