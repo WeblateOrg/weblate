@@ -16,13 +16,14 @@
 # ccc1924 <bhy1924@live.com>, 2019.
 # Changpeng Sun <zzjbcn@gmail.com>, 2020.
 # Benjamin Zhao <benjaminzhao11@gmail.com>, 2020.
+# YFdyh000 <yfdyh000@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 12:07+0000\n"
-"PO-Revision-Date: 2020-04-10 12:06+0000\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"PO-Revision-Date: 2020-04-10 18:03+0000\n"
+"Last-Translator: YFdyh000 <yfdyh000@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -240,22 +241,14 @@ msgid ""
 msgstr "您将收到您关注的各项目的此类通知。"
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr "您将收到您关注的各项目的此类通知。"
+msgstr "您将收到您有管理权限的各项目的此类通知。"
 
 #: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid "You will receive a notification for every such event in {}."
-msgstr "您将收到您关注的各项目的此类通知。"
+msgstr "您将收到 {} 的各项目的此类通知。"
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -264,24 +257,16 @@ msgid ""
 msgstr "您将只收到在您关注项目中您参与翻译的语言的这些通知。"
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
-msgstr "您将只收到在您关注项目中您参与翻译的语言的这些通知。"
+msgstr "您将只收到在您有管理权限的项目中您参与翻译的语言的这些通知。"
 
 #: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "{}."
-msgstr "您将只收到在您关注项目中您参与翻译的语言的这些通知。"
+msgstr "您将只收到在 {} 中您参与翻译的语言的这些通知。"
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -311,16 +296,14 @@ msgid "Password reset confirmed, password turned off."
 msgstr "密码重置请求已确认，密码已禁用。"
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "已使用 {method}（{name}）登录。"
+msgstr "已配置使用 {method}（{name}）登录。"
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "已使用 {method}（{name}）登录。"
+msgstr "已移除使用 {method}（{name}）登录。"
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -341,16 +324,13 @@ msgid "Somebody has attempted to register using your e-mail address."
 msgstr "有人曾经试图使用您的电子邮箱地址进行注册。"
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "无法使用 {method} ({name}) 登录。"
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
-msgstr "账户因登录失败次数过多而被锁定。"
+msgstr "账户因登录失败次数过多已被锁定。"
 
 #: weblate/accounts/models.py:92
 msgid "Account and all private data removed."
@@ -362,16 +342,13 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "同意服务条款 {date}。"
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "在 {0} 捐助 Weblate"
+msgstr "{username} 邀请至 Weblate。"
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "配置密码"
+msgstr "已配置密码登录。"
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -382,8 +359,6 @@ msgid "Signed in using password from a new device."
 msgstr "已使用密码从一台新设备登录。"
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
 msgstr "无法使用密码登录。"
 
@@ -801,10 +776,6 @@ msgid "Notification settings adjusted."
 msgstr "已调整通知设置。"
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "The notification change link is no longer valid, please log in to "
-#| "configure notifications."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -1537,10 +1508,8 @@ msgstr "管理翻译记忆库（在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
-msgstr "管理公告 （在整个平台上）"
+msgstr "管理组件列表（整个平台上）"
 
 #: weblate/auth/data.py:169
 msgctxt "Access control role"
@@ -2091,12 +2060,10 @@ msgid "Inconsistent"
 msgstr "不一致的"
 
 #: weblate/checks/consistency.py:76
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "此字符串在项目中有不止一种翻译方式"
+msgstr "此字符串在项目中有不止一种翻译方式，或者在某些组件中不翻译。"
 
 #: weblate/checks/consistency.py:100
 msgid "Has been translated"
@@ -2261,8 +2228,6 @@ msgid "Java MessageFormat string does not match source"
 msgstr "Java MessageFormat 格式的字符串与源文不匹配"
 
 #: weblate/checks/format.py:433
-#, fuzzy
-#| msgid "You need to screen an apostrophe with another one."
 msgid "You need to pair up an apostrophe with another one."
 msgstr "您需要将一个撇号 ' 对应另一个撇号。"
 
@@ -2275,16 +2240,12 @@ msgid "The i18next interpolation does not match source"
 msgstr "提供的 i18next 插补和原文不一致"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Placeholders"
 msgid "Percent placeholders"
-msgstr "占位符"
+msgstr "百分比占位符"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "The percent interpolation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "提供的百分号插补和原文不一致"
+msgstr "提供的百分比占位符与原文不一致"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2858,10 +2819,8 @@ msgstr "复数数量"
 
 #: weblate/lang/models.py:534 weblate/templates/language.html:100
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
-msgstr "复数形式"
+msgstr "复数式"
 
 #: weblate/lang/models.py:539 weblate/templates/language.html:81
 msgid "Plural type"
@@ -4140,10 +4099,9 @@ msgid "Checks"
 msgstr "检查"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "无法选择匹配的项目！"
+msgstr "检查 %(project)s 失败"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
