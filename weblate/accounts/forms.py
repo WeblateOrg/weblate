@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Fieldset, Layout
 from django import forms
@@ -30,6 +29,7 @@ from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db.models import Q
 from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
+from django.utils.functional import cached_property
 from django.utils.html import escape
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext
@@ -623,26 +623,12 @@ class NotificationForm(forms.Form):
             "component",
             Fieldset(
                 _("Component wide notifications"),
-                HTML(
-                    escape(
-                        _(
-                            "You will receive a notification for every such event"
-                            " in your watched projects."
-                        )
-                    )
-                ),
+                HTML(escape(self.get_help_component())),
                 *component_fields
             ),
             Fieldset(
                 _("Translation notifications"),
-                HTML(
-                    escape(
-                        _(
-                            "You will only receive these notifications for your"
-                            " translated languages in your watched projects."
-                        )
-                    )
-                ),
+                HTML(escape(self.get_help_translation())),
                 *language_fields
             ),
         )
@@ -664,22 +650,76 @@ class NotificationForm(forms.Form):
         result.extend(notification_cls.get_freq_choices())
         return result
 
-    def get_name(self):
+    @cached_property
+    def form_params(self):
         if self.is_bound:
             self.is_valid()
-            params = self.cleaned_data
-        else:
-            params = self.initial
-        scope = params.get("scope", SCOPE_DEFAULT)
-        project = params.get("project", None)
-        component = params.get("component", None)
+            return self.cleaned_data
+        return self.initial
+
+    @cached_property
+    def form_scope(self):
+        return self.form_params.get("scope", SCOPE_DEFAULT)
+
+    @cached_property
+    def form_project(self):
+        return self.form_params.get("project", None)
+
+    @cached_property
+    def form_component(self):
+        return self.form_params.get("component", None)
+
+    def get_name(self):
+        scope = self.form_scope
         if scope == SCOPE_DEFAULT:
             return _("Watched projects")
         if scope == SCOPE_ADMIN:
-            return _("Administered projects")
+            return _("Managed projects")
         if scope == SCOPE_PROJECT:
-            return _("Project: {}").format(project)
-        return _("Component: {}").format(component)
+            return _("Project: {}").format(self.form_project)
+        return _("Component: {}").format(self.form_component)
+
+    def get_help_component(self):
+        scope = self.form_scope
+        if scope == SCOPE_DEFAULT:
+            return _(
+                "You will receive a notification for every such event"
+                " in your watched projects."
+            )
+        if scope == SCOPE_ADMIN:
+            return _(
+                "You will receive a notification for every such event"
+                " in projects where you have admin permissions."
+            )
+        if scope == SCOPE_PROJECT:
+            return _(
+                "You will receive a notification for every such event in {}."
+            ).format(self.form_project)
+        return _("You will receive a notification for every such event in {}.").format(
+            self.form_component
+        )
+
+    def get_help_translation(self):
+        scope = self.form_scope
+        if scope == SCOPE_DEFAULT:
+            return _(
+                "You will only receive these notifications for your translated "
+                "languages in your watched projects."
+            )
+        if scope == SCOPE_ADMIN:
+            return _(
+                "You will only receive these notifications for your translated "
+                "languages in projects where you have admin permissions."
+            )
+        if scope == SCOPE_PROJECT:
+            return _(
+                "You will only receive these notifications for your"
+                " translated languages in {}."
+            ).format(self.form_project)
+        return _(
+            "You will only receive these notifications for your"
+            " translated languages in {}."
+        ).format(self.form_component)
 
     def save(self):
         # Lookup for this form
