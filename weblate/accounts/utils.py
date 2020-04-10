@@ -66,10 +66,10 @@ def remove_user(user, request):
 
 def get_all_user_mails(user, entries=None):
     """Return all verified mails for user."""
-    verified = VerifiedEmail.objects.filter(social__user=user)
+    kwargs = {"social__user": user}
     if entries:
-        verified = verified.filter(social__in=entries)
-    emails = set(verified.values_list("email", flat=True))
+        kwargs["social__in"] = entries
+    emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
     emails.add(user.email)
     return emails
 
