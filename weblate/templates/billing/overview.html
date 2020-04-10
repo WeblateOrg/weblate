@@ -19,7 +19,7 @@
 <a class="btn btn-primary" href="https://weblate.org/hosting/">{% trans "View hosting plans" %}</a>
 {% endif %}
 {% endfor %}
-{% if payment_enabled %}
+{% if payment_enabled and not active_billing_count %}
 <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% trans "Purchase new hosting plan" %}</a>
 {% endif %}
 

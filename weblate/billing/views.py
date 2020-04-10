@@ -87,4 +87,13 @@ def overview(request):
     if request.method == "POST":
         handle_post(request, billings)
         return redirect("billing")
-    return render(request, "billing/overview.html", {"billings": billings})
+    return render(
+        request,
+        "billing/overview.html",
+        {
+            "billings": billings,
+            "active_billing_count": billings.filter(
+                state__in=(Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
+            ).count(),
+        },
+    )
