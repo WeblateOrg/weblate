@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-09 17:53+0000\n"
-"PO-Revision-Date: 2020-04-08 15:37+0000\n"
+"PO-Revision-Date: 2020-04-10 12:06+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -150,14 +150,8 @@ msgid "Password"
 msgstr "Passord"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Skriv inn korrekt brukernavn og passord. Merk at begge feltene kan skille "
-"mellom store og små bokstaver."
+msgstr "Skriv inn korrekt brukernavn og passord."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -333,10 +327,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Samtykke med tjenestevilkår {date}."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Doner til Weblate på {0}"
+msgstr "Invitert til Weblate av ."
 
 #: weblate/accounts/models.py:99
 #, fuzzy
@@ -590,10 +583,8 @@ msgstr "Ny oversettelseskomponent"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Ny kommentar"
+msgstr "Ny kunngjøring"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -993,7 +984,7 @@ msgstr "Beholder tidligere msgid-er for oversatte strenger"
 #, fuzzy
 #| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Antall oversatte strenger"
+msgstr "Fjern plasseringer av oversatte strenger"
 
 #: weblate/addons/forms.py:132
 msgid "Use fuzzy matching"
@@ -1559,10 +1550,8 @@ msgstr "Håndter brukere (på hele plattformen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Håndter brukere (på hele plattformen)"
+msgstr "Håndter kunngjøringer (på hele plattformen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
@@ -1571,10 +1560,8 @@ msgstr "Behandle oversettelsesminne (på hele plattformen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
-msgstr "Håndter brukere (på hele plattformen)"
+msgstr "Håndter komponentlister (på hele plattformen)"
 
 #: weblate/auth/data.py:169
 msgctxt "Access control role"
@@ -2117,12 +2104,12 @@ msgid "Inconsistent"
 msgstr "Inkonsekvent"
 
 #: weblate/checks/consistency.py:76
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "Denne strengen har mer enn én oversettelse i dette prosjektet"
+msgstr ""
+"Denne strengen har mer enn én oversettelse i dette prosjektet eller er ikke "
+"oversatt i noen komponenter."
 
 #: weblate/checks/consistency.py:100
 msgid "Has been translated"
@@ -2307,10 +2294,8 @@ msgid "The i18next interpolation does not match source"
 msgstr "BBcode i oversettelsen stemmer ikke med kilden"
 
 #: weblate/checks/format.py:449
-#, fuzzy
-#| msgid "Placeholders"
 msgid "Percent placeholders"
-msgstr "Plassholdere"
+msgstr "Prosentplassholdere"
 
 #: weblate/checks/format.py:450
 #, fuzzy
@@ -2895,7 +2880,7 @@ msgstr "Antall flertallsformer"
 #, fuzzy
 #| msgid "Plural form"
 msgid "Plural formula"
-msgstr "Flertallsform"
+msgstr "Flertallsformel"
 
 #: weblate/lang/models.py:539 weblate/templates/language.html:81
 msgid "Plural type"
@@ -3117,7 +3102,7 @@ msgstr "Fant ingen gyldige oppføringer i opplastet fil!"
 #, fuzzy
 #| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Klarte ikke å tolke JSON-fil!"
+msgstr "Klarte ikke å tolke JSON-fil: {!s}"
 
 #: weblate/memory/models.py:146
 msgid "Failed to parse TMX file!"
@@ -4512,10 +4497,8 @@ msgid "Only chosen users can contribute."
 msgstr "Kun utvalgte brukere kan bidra."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "Synlig og oversettbart kun for utvalgte brukere"
+msgstr "Synlig kun for utvalgte brukere"
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -4791,10 +4774,8 @@ msgstr "Skjermavbildninger"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:349
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "Send inn kommentar"
+msgstr "Post kunngjøring"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -5994,10 +5975,9 @@ msgid "New announcement on %(project)s"
 msgstr "Ny kunngjøring i %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message at %(site_title)s"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Ny tavlemelding i %(site_title)s"
+msgstr "Ny kunngjøring i %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -6252,10 +6232,8 @@ msgid "Component alerts"
 msgstr "Komponentvarsler"
 
 #: weblate/templates/manage/alerts.html:30
-#, fuzzy
-#| msgid "Project / Component"
 msgid "Projects without components"
-msgstr "Prosjekt / Komponent"
+msgstr "Prosjekter uten komponenter"
 
 #: weblate/templates/manage/alerts.html:42
 #: weblate/templates/manage/performance.html:88
@@ -6914,8 +6892,6 @@ msgstr ""
 "\">prosjektinnstillingene</a>."
 
 #: weblate/templates/snippets/labels_description.html:9
-#, fuzzy
-#| msgid "Additional labels can be defined by project administrator."
 msgid "Additional labels can be defined by project administrators."
 msgstr "Ytterligere etiketter kan defineres av prosjektadministratorer."
 
@@ -6976,16 +6952,12 @@ msgstr ""
 "lisens som er definert for hvert oversatte prosjekt."
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
 msgstr ""
-"Denne faktoren/ligningen identifiserer hvilken flertallsform skal brukes "
-"basert på gitt telling (n)."
+"Denne formelen identifiserer hvilken flertallsform skal brukes basert på "
+"gitt telling (n)."
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -7043,7 +7015,7 @@ msgstr "Søk etter…"
 #| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "Nøyaktig samsvar"
+msgstr "Nøyaktig"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -7271,10 +7243,8 @@ msgid "This project is set up incorrectly."
 msgstr "Dette prosjektet er satt opp feil."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
-#, fuzzy
-#| msgid "The project website URL points to non existing location:"
 msgid "The project website URL points to a non-existing location:"
-msgstr "Prosjektnettsidenettadressen peker til ikke-eksisterende plassering:"
+msgstr "Prosjektnettsidenettadressen peker til en ikke-eksisterende plassering:"
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 #, fuzzy
@@ -7694,10 +7664,8 @@ msgid "Edit source string"
 msgstr "Rediger kildestreng"
 
 #: weblate/templates/translate.html:178 weblate/trans/forms.py:924
-#, fuzzy
-#| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
-msgstr "Innrapporter feil med registreringen"
+msgstr "Innrapporter feil med kildestrengen"
 
 #: weblate/templates/translate.html:193
 #, fuzzy
@@ -8274,10 +8242,8 @@ msgid "Strings with labels"
 msgstr "Strenger med etiketter"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with context"
-msgstr "Strenger med kommentarer"
+msgstr "Strenger med bindeleddsinformasjon"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8348,10 +8314,8 @@ msgid "Please choose a valid filter type."
 msgstr "Velg en gyldig filter-type."
 
 #: weblate/trans/forms.py:407
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "Strengen du ønsket å oversette er ikke lenger tilgjengelig!"
+msgstr "Strengen du ønsket å oversette er ikke lenger tilgjengelig."
 
 #: weblate/trans/forms.py:417
 msgid ""
@@ -8410,10 +8374,8 @@ msgid "Replace existing translation file"
 msgstr "Erstatt eksisterende oversettelsesfil"
 
 #: weblate/trans/forms.py:564
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Update source strings"
-msgstr "Rediger kildestrenger"
+msgstr "Oppdater kildestrenger"
 
 #: weblate/trans/forms.py:569
 msgid "Processing of strings needing edit"
@@ -8481,7 +8443,7 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Skru på prosjetbidrag til delt oversettelsesminne for å få tilgang til "
+"Skru på prosjektbidrag til delt oversettelsesminne for å få tilgang til "
 "ytterligere komponenter."
 
 #: weblate/trans/forms.py:789
@@ -8569,7 +8531,7 @@ msgstr "Bruker å legge til"
 
 #: weblate/trans/forms.py:1040
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr ""
+msgstr "Skriv inn eksisterende Weblate-kontonavn eller e-postadresse."
 
 #: weblate/trans/forms.py:1047
 msgid "Report format"
@@ -8742,10 +8704,8 @@ msgstr ""
 "Du må angi en lisens for disse komponentene for å gjøre dem tilgjengelige: %s"
 
 #: weblate/trans/forms.py:1686
-#, fuzzy
-#| msgid "API access"
 msgid "Access"
-msgstr "API-tilgang"
+msgstr "Tilgang"
 
 #: weblate/trans/forms.py:1695
 msgid "Workflow"
@@ -8912,10 +8872,8 @@ msgstr "Kodelagerleser"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:275
-#, fuzzy
-#| msgid "Project website"
 msgid "Broken project website URL"
-msgstr "Prosjektnettsted"
+msgstr "Feilaktig nettadresse for prosjektnettside"
 
 #: weblate/trans/models/announcement.py:66
 msgid "Render as HTML"
@@ -9212,7 +9170,7 @@ msgstr "Mottok kodelagermerknad"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
 msgid "Replaced file by upload"
-msgstr ""
+msgstr "Erstattet fil ved opplasting"
 
 #: weblate/trans/models/change.py:443
 #, python-format
@@ -9568,6 +9526,8 @@ msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
+"Dette kodelageret krever identitetsbekreftelse, angi identitetsdetaljer i "
+"nettadressen, eller bruk SSH-tilgang istedenfor."
 
 #: weblate/trans/models/component.py:807
 #, python-format
@@ -9926,16 +9886,12 @@ msgid "Requires dedicated reviewers to approve translations."
 msgstr "Krever at utvalgte korrekturlesere godkjenner oversettelser."
 
 #: weblate/trans/models/project.py:122
-#, fuzzy
-#| msgid "Enable reviews"
 msgid "Enable source reviews"
-msgstr "Aktiver korrekturlesing"
+msgstr "Aktiver kilde-korrekturlesing"
 
 #: weblate/trans/models/project.py:125
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "Krever at utvalgte korrekturlesere godkjenner oversettelser."
+msgstr "Krever at utvalgte korrekturlesere godkjenner kildestrenger."
 
 #: weblate/trans/models/project.py:129
 msgid "Enable hooks"
@@ -10673,10 +10629,8 @@ msgid "Workflow customization"
 msgstr "Tilpasning av arbeidsflyt"
 
 #: weblate/trans/views/js.py:62
-#, fuzzy
-#| msgid "SSH key not available."
 msgid "Service is currently not available."
-msgstr "SSH-nøkkel ikke tilgjengelig."
+msgstr "Tjenesten er for øyeblikket ikke tilgjengelig."
 
 #: weblate/trans/views/lock.py:42
 msgid "Component is now locked for translation updates!"
@@ -10844,10 +10798,9 @@ msgid "Invalid image!"
 msgstr "Ugyldig bilde!"
 
 #: weblate/utils/validators.py:126
-#, fuzzy, python-format
-#| msgid "Not supported image type: %s"
+#, python-format
 msgid "Unsupported image type: %s"
-msgstr "Ikke-støttet bildetype: %s"
+msgstr "Ustøttet bildetype: %s"
 
 #: weblate/utils/validators.py:132
 msgid "The image is too big, please crop or scale it down."
@@ -10858,42 +10811,32 @@ msgid "Please avoid using special characters in the full name."
 msgstr "Unngå spesialtegn i det fulle navnet."
 
 #: weblate/utils/validators.py:165
-#, fuzzy
-#| msgid "Username can not start with a full stop."
 msgid "The username can not start with a full stop."
-msgstr "Brukernavn kan ikke starte med punktum."
+msgstr "Brukernavnet kan ikke starte med punktum."
 
 #: weblate/utils/validators.py:179 weblate/utils/validators.py:182
 msgid "Enter a valid e-mail address."
 msgstr "Skriv inn en gyldig e-postadresse."
 
 #: weblate/utils/validators.py:184
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "This e-mail address is disallowed."
-msgstr "Denne e-postadressen er ikke tillatt."
+msgstr "Denne e-postadressen tillates ikke."
 
 #: weblate/utils/validators.py:191
 #, fuzzy
 #| msgid "Failed to evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "Klarte ikke å evaluere flertallsligning: {}"
+msgstr "Klarte ikke å evaluere flertallsformel: {}"
 
 #: weblate/utils/validators.py:197
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid "The filename can not contain reference to a parent directory."
 msgstr "Filnavnet kan ikke inneholde en referanse til en ovennevnt mappe."
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "Filename can not be an absolute path."
 msgid "The filename can not be an absolute path."
 msgstr "Filnavnet kan ikke være en absolutt sti."
 
 #: weblate/utils/validators.py:206
-#, fuzzy
-#| msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "Filnavnet bør være så enkelt som mulig. Kanskje du ønsker å bruke: {}"
 
