@@ -71,16 +71,19 @@ class MemoryQuerySet(models.QuerySet):
         return self.filter(reduce(lambda x, y: x | y, query))
 
     def lookup(self, source_language, target_language, text, user, project, use_shared):
-        # Type filtering
-        result = self.filter_type(
-            user=user, project=project, use_shared=use_shared, from_file=True
+        return self.filter_type(
+            # Type filtering
+            user=user,
+            project=project,
+            use_shared=use_shared,
+            from_file=True,
+        ).filter(
+            # Language filtering
+            source_language=source_language,
+            target_language=target_language,
+            # Full-text search on source
+            source__search=text,
         )
-        # Language filtering
-        result = result.filter(
-            source_language=source_language, target_language=target_language
-        )
-        # Full-text search on source
-        return result.filter(source__search=text)
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")
