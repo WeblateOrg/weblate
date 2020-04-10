@@ -127,6 +127,10 @@ the `Language Plural Rules`_ by the Unicode Consortium.
 
 .. _Language Plural Rules: https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
 
+.. seealso::
+
+   :ref:`plural-formula`
+
 .. image:: /images/plurals.png
 
 Keyboard shortcuts
