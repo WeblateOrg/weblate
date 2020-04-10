@@ -203,8 +203,11 @@ def remove_complimentary_checks(sender, instance, **kwargs):
 
     # Update source checks if needed
     if check_obj.target:
-        try:
-            instance.unit.source_info.is_batch_update = instance.unit.is_batch_update
-            instance.unit.source_info.run_checks()
-        except ObjectDoesNotExist:
-            pass
+        unit = instance.unit
+        if unit.is_batch_update:
+            unit.translation.component.updated_sources[unit.id_hash] = unit.source_info
+        else:
+            try:
+                unit.source_info.run_checks()
+            except ObjectDoesNotExist:
+                pass
