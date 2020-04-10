@@ -1,18 +1,24 @@
+.. _management-interface:
+
+Management interface
+====================
+
+The management interface offer administration settings under the
+:file:`/management/` URL. It is available for users signed in with admin
+privileges, accessable by using the wrench icon top right:
+
+.. image:: /images/support.png
+
+
 .. _admin-interface:
 
 The Django admin interface
-==========================
+++++++++++++++++++++++++++
 
 .. warning::
 
    Will be removed in the future,
    as its use is discouraged—most features can be managed directly in Weblate.
-
-The Django admin interface offer administration settings
-under the :file:`/admin/` URL. It is available for users signed in with admin
-privileges, accessable by using the wrench icon top right:
-
-.. image:: /images/admin-wrench.png
 
 Here you can manage objects stored in the database, such as users, translations
 and other settings:

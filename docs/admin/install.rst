@@ -536,7 +536,7 @@ Production setup
 ----------------
 
 For a production setup you should carry out adjustments described in the following sections.
-The most critical settings will trigger a warning, which is indicated by a red
+The most critical settings will trigger a warning, which is indicated by an
 exclamation mark in the top bar if signed in as a superuser:
 
 .. image:: /images/admin-wrench.png
