@@ -116,7 +116,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
-        view_name="api:group-detail", lookup_field="name", many=True, read_only=True,
+        view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
     )
 
     class Meta:
@@ -173,9 +173,7 @@ class GroupSerializer(serializers.ModelSerializer):
             "language_selection",
             "url",
         )
-        extra_kwargs = {
-            "url": {"view_name": "api:group-detail", "lookup_field": "name"}
-        }
+        extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
     def create(self, validated_data):
         role_validated = validated_data.pop("roles")

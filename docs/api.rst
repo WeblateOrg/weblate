@@ -220,7 +220,7 @@ Users
     :>json boolean is_superuser: whether the user is a super user
     :>json boolean is_active: whether the user is active
     :>json string date_joined: date the user is created
-    :>json array groups: link to associated groups; see :http:get:`/api/groups/(str:name)/`
+    :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
 
 .. http:put:: /api/users/(str:username)/
 
@@ -261,7 +261,7 @@ Users
 
     :param username: User's username
     :type username: string
-    :form string group_name: The unique group name
+    :form string group_id: The unique group ID
 
 
 Groups
@@ -276,47 +276,47 @@ Groups
 
     .. seealso::
 
-        Users object attributes are documented at :http:get:`/api/groups/(str:name)/`.
+        Group object attributes are documented at :http:get:`/api/groups/(int:id)/`.
 
-.. http:get:: /api/groups/(str:name)/
+.. http:get:: /api/groups/(int:id)/
 
     Returns information about group.
 
-    :param name: Group's name
-    :type name: string
+    :param id: Group's ID
+    :type id: int
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
     :>json int language_selection: integer corresponding to group of languages
     :>json array roles: array of associated roles
 
-.. http:put:: /api/groups/(str:name)/
+.. http:put:: /api/groups/(int:id)/
 
     Changes the group parameters.
 
-    :param name: Group's name
-    :type name: string
+    :param id: Group's ID
+    :type id: int
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
     :>json int language_selection: integer corresponding to group of languages
     :>json array roles: array of associated roles
 
-.. http:patch:: /api/groups/(str:name)/
+.. http:patch:: /api/groups/(int:id)/
 
     Changes the group parameters.
 
-    :param name: Group's name
-    :type name: string
+    :param id: Group's ID
+    :type id: int
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
     :>json int language_selection: integer corresponding to group of languages
     :>json array roles: array of associated roles
 
-.. http:delete:: /api/groups/(str:name)/
+.. http:delete:: /api/groups/(int:id)/
 
     Deletes the group.
 
-    :param name: Group's name
-    :type name: string
+    :param id: Group's ID
+    :type id: int
 
 
 Languages

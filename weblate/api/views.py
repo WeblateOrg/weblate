@@ -286,19 +286,6 @@ class UserViewSet(viewsets.ModelViewSet):
         remove_user(instance, request)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def partial_update(self, request, *args, **kwargs):
-        self.perm_check(request)
-        instance = User.objects.get(username=kwargs.get("username"))
-        serializer = self.serializer_class(
-            instance,
-            data=request.data,
-            partial=True,
-            context=self.get_serializer_context(),
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
-
     @action(
         detail=True, methods=["post"],
     )
@@ -306,11 +293,11 @@ class UserViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         self.perm_check(request)
 
-        if "group_name" not in request.data:
-            raise ParseError("Missing group_name parameter")
+        if "group_id" not in request.data:
+            raise ParseError("Missing group_id parameter")
 
         try:
-            group = Group.objects.get(name=request.data["group_name"],)
+            group = Group.objects.get(pk=int(request.data["group_id"]),)
         except (Group.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -328,7 +315,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.none()
     serializer_class = GroupSerializer
-    lookup_field = "name"
+    lookup_field = "id"
 
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
@@ -350,19 +337,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
-
-    def partial_update(self, request, *args, **kwargs):
-        self.perm_check(request)
-        instance = Group.objects.get(name=kwargs.get("name"))
-        serializer = self.serializer_class(
-            instance,
-            data=request.data,
-            partial=True,
-            context=self.get_serializer_context(),
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
 
 
 class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):

@@ -175,7 +175,7 @@ class UserAPITest(APIBaseTest):
             kwargs={"username": User.objects.filter(is_active=True).first().username},
             method="post",
             code=403,
-            request={"group_name": group.name},
+            request={"group_id": group.id},
         )
         self.do_request(
             "api:user-groups",
@@ -183,7 +183,7 @@ class UserAPITest(APIBaseTest):
             method="post",
             superuser=True,
             code=400,
-            request={"group_name": "invalid"},
+            request={"group_id": -1},
         )
         self.do_request(
             "api:user-groups",
@@ -191,7 +191,7 @@ class UserAPITest(APIBaseTest):
             method="post",
             superuser=True,
             code=200,
-            request={"group_name": group.name},
+            request={"group_id": group.id},
         )
 
     def test_put(self):
@@ -245,7 +245,7 @@ class GroupAPITest(APIBaseTest):
     def test_get(self):
         response = self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Users").name},
+            kwargs={"id": Group.objects.get(name="Users").id},
             method="get",
             superuser=True,
             code=200,
@@ -287,7 +287,7 @@ class GroupAPITest(APIBaseTest):
     def test_delete(self):
         self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Users").name},
+            kwargs={"id": Group.objects.get(name="Users").id},
             method="delete",
             superuser=True,
             code=204,
@@ -310,13 +310,13 @@ class GroupAPITest(APIBaseTest):
         )
         self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Group").name},
+            kwargs={"id": Group.objects.get(name="Group").id},
             method="put",
             code=403,
         )
         self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Group").name},
+            kwargs={"id": Group.objects.get(name="Group").id},
             method="put",
             superuser=True,
             code=200,
@@ -331,7 +331,7 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(Group.objects.get(name="Group").language_selection, 1)
         self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Group").name},
+            kwargs={"id": Group.objects.get(name="Group").id},
             method="put",
             superuser=True,
             code=400,
@@ -345,7 +345,7 @@ class GroupAPITest(APIBaseTest):
         )
         self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Group").name},
+            kwargs={"id": Group.objects.get(name="Group").id},
             method="put",
             superuser=True,
             code=200,
@@ -362,13 +362,13 @@ class GroupAPITest(APIBaseTest):
     def test_patch(self):
         self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Users").name},
+            kwargs={"id": Group.objects.get(name="Users").id},
             method="patch",
             code=403,
         )
         self.do_request(
             "api:group-detail",
-            kwargs={"name": Group.objects.get(name="Users").name},
+            kwargs={"id": Group.objects.get(name="Users").id},
             method="patch",
             superuser=True,
             code=200,
