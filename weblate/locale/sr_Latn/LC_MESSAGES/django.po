@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 12:07+0000\n"
+"POT-Creation-Date: 2020-04-10 18:04+0000\n"
 "PO-Revision-Date: 2019-09-18 19:18+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian (latin) <https://hosted.weblate.org/projects/weblate/"
@@ -234,8 +234,14 @@ msgid ""
 "have admin permissions."
 msgstr ""
 
-#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
-msgid "You will receive a notification for every such event in {}."
+#: weblate/accounts/forms.py:696
+#, python-format
+msgid "You will receive a notification for every such event in %(project)s."
+msgstr ""
+
+#: weblate/accounts/forms.py:699
+#, python-format
+msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
 
 #: weblate/accounts/forms.py:706
@@ -250,10 +256,18 @@ msgid ""
 "projects where you have admin permissions."
 msgstr ""
 
-#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#: weblate/accounts/forms.py:716
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
-"{}."
+"%(project)s."
+msgstr ""
+
+#: weblate/accounts/forms.py:720
+#, python-format
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"%(component)s."
 msgstr ""
 
 #: weblate/accounts/models.py:78

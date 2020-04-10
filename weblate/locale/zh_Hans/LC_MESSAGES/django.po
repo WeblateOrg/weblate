@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 12:07+0000\n"
+"POT-Creation-Date: 2020-04-10 18:04+0000\n"
 "PO-Revision-Date: 2020-04-10 18:03+0000\n"
 "Last-Translator: YFdyh000 <yfdyh000@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -246,8 +246,16 @@ msgid ""
 "have admin permissions."
 msgstr "您将收到您有管理权限的各项目的此类通知。"
 
-#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
-msgid "You will receive a notification for every such event in {}."
+#: weblate/accounts/forms.py:696
+#, fuzzy, python-format
+#| msgid "You will receive a notification for every such event in {}."
+msgid "You will receive a notification for every such event in %(project)s."
+msgstr "您将收到 {} 的各项目的此类通知。"
+
+#: weblate/accounts/forms.py:699
+#, fuzzy, python-format
+#| msgid "You will receive a notification for every such event in {}."
+msgid "You will receive a notification for every such event in %(component)s."
 msgstr "您将收到 {} 的各项目的此类通知。"
 
 #: weblate/accounts/forms.py:706
@@ -262,10 +270,24 @@ msgid ""
 "projects where you have admin permissions."
 msgstr "您将只收到在您有管理权限的项目中您参与翻译的语言的这些通知。"
 
-#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#: weblate/accounts/forms.py:716
+#, fuzzy, python-format
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in {}."
 msgid ""
 "You will only receive these notifications for your translated languages in "
-"{}."
+"%(project)s."
+msgstr "您将只收到在 {} 中您参与翻译的语言的这些通知。"
+
+#: weblate/accounts/forms.py:720
+#, fuzzy, python-format
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in {}."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"%(component)s."
 msgstr "您将只收到在 {} 中您参与翻译的语言的这些通知。"
 
 #: weblate/accounts/models.py:78

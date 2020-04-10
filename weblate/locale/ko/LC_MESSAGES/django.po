@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 12:07+0000\n"
+"POT-Creation-Date: 2020-04-10 18:04+0000\n"
 "PO-Revision-Date: 2020-04-10 18:03+0000\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
@@ -242,8 +242,16 @@ msgid ""
 "have admin permissions."
 msgstr "관리자 권한이 있는 프로젝트의 모든 사건에 대한 통지를 받습니다."
 
-#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
-msgid "You will receive a notification for every such event in {}."
+#: weblate/accounts/forms.py:696
+#, fuzzy, python-format
+#| msgid "You will receive a notification for every such event in {}."
+msgid "You will receive a notification for every such event in %(project)s."
+msgstr "{} 내부의 모든 사건에 대한 통지를 받습니다."
+
+#: weblate/accounts/forms.py:699
+#, fuzzy, python-format
+#| msgid "You will receive a notification for every such event in {}."
+msgid "You will receive a notification for every such event in %(component)s."
 msgstr "{} 내부의 모든 사건에 대한 통지를 받습니다."
 
 #: weblate/accounts/forms.py:706
@@ -258,12 +266,28 @@ msgstr ""
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
-msgstr "관리자 권한이 있는 프로젝트에서 번역된 언어에 대해서만 이러한 알림을 받게 됩니다."
+msgstr ""
+"관리자 권한이 있는 프로젝트에서 번역된 언어에 대해서만 이러한 알림을 받게 됩"
+"니다."
 
-#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#: weblate/accounts/forms.py:716
+#, fuzzy, python-format
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in {}."
 msgid ""
 "You will only receive these notifications for your translated languages in "
-"{}."
+"%(project)s."
+msgstr "{} 내부의 번역된 언어에 대해서만 이러한 알림을 받게 됩니다."
+
+#: weblate/accounts/forms.py:720
+#, fuzzy, python-format
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in {}."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"%(component)s."
 msgstr "{} 내부의 번역된 언어에 대해서만 이러한 알림을 받게 됩니다."
 
 #: weblate/accounts/models.py:78
@@ -733,7 +757,9 @@ msgstr "사용자 ID를 제거할 수 없습니다"
 msgid ""
 "Could not remove last user identity with confirmed e-mail. Please confirm "
 "your e-mail first."
-msgstr "이메일 확인된 최근의 사용자 신원을 제거할 수 없었습니다. 먼저 이메일을 확인하십시오."
+msgstr ""
+"이메일 확인된 최근의 사용자 신원을 제거할 수 없었습니다. 먼저 이메일을 확인하"
+"십시오."
 
 #: weblate/accounts/views.py:990
 msgid ""
@@ -788,7 +814,8 @@ msgstr "알림 설정이 조정되었습니다."
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
-msgstr "알림 변경 고리가 비활성화 되었습니다. 알림을 구성하려면 로그인하십시오."
+msgstr ""
+"알림 변경 고리가 비활성화 되었습니다. 알림을 구성하려면 로그인하십시오."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:33 weblate/templates/translation.html:63
@@ -2085,7 +2112,9 @@ msgstr "일관성 없음"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "이 문자열은 이 프로젝트에서 하나 이상의 번역을 가지고 있거나 일부 컴포넌트에서 번역되지 않았습니다."
+msgstr ""
+"이 문자열은 이 프로젝트에서 하나 이상의 번역을 가지고 있거나 일부 컴포넌트에"
+"서 번역되지 않았습니다."
 
 #: weblate/checks/consistency.py:100
 msgid "Has been translated"
@@ -3458,7 +3487,8 @@ msgstr ""
 #: weblate/templates/accounts/email-sent.html:28
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
-msgstr "가입 확인 링크가 사용하기 전에 만료되었다면, 새 확인 링크를 요청하십시오."
+msgstr ""
+"가입 확인 링크가 사용하기 전에 만료되었다면, 새 확인 링크를 요청하십시오."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -4351,7 +4381,9 @@ msgstr "구독 또는 지불금이 없습니다."
 msgid ""
 "In case you miss access to billing of your project, please contact project "
 "maintainers to give you permission to access its billing."
-msgstr "프로젝트의 결제 기능이 없는 경우, 프로젝트 관리자에게 연락해서 이 결제 기능의 권한을 요청하십시오."
+msgstr ""
+"프로젝트의 결제 기능이 없는 경우, 프로젝트 관리자에게 연락해서 이 결제 기능"
+"의 권한을 요청하십시오."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4966,7 +4998,8 @@ msgstr ""
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
-msgstr "번역을 하기 위해 로그인을 해야 합니다, 그렇지 않으면 제안만 가능합니다."
+msgstr ""
+"번역을 하기 위해 로그인을 해야 합니다, 그렇지 않으면 제안만 가능합니다."
 
 #: weblate/templates/dashboard/anonymous.html:17
 #, python-format
@@ -7062,7 +7095,9 @@ msgstr "저장소 탐색기 URL이 없는 위치를 가리킵니다:"
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
-msgstr "변환 파일의 경로에 상위 디렉터리에 대한 참조가 포함되어 있거나 절대 경로인 경우에 발생할 수 있습니다."
+msgstr ""
+"변환 파일의 경로에 상위 디렉터리에 대한 참조가 포함되어 있거나 절대 경로인 경"
+"우에 발생할 수 있습니다."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
@@ -7088,7 +7123,8 @@ msgstr "다음 파일 마스크가 여럿 발견됐습니다:"
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
-msgstr "구성 요소가 웨블레이트에 단일 언어로 매핑된 여러 번역 파일을 갖고 있습니다."
+msgstr ""
+"구성 요소가 웨블레이트에 단일 언어로 매핑된 여러 번역 파일을 갖고 있습니다."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 msgid "Please fix this by removing one of the translation files."
@@ -7108,7 +7144,9 @@ msgstr "프로젝트 설정에서 원본 언어를 바꾸거나 번역 파일을
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
-msgstr "기본 언어 코드 및 그 코드에 대한 해당 지역 코드가 붙은 코드의 언어 파일 사용을 (예 : de 및 de_DE) 피하십시오."
+msgstr ""
+"기본 언어 코드 및 그 코드에 대한 해당 지역 코드가 붙은 코드의 언어 파일 사용"
+"을 (예 : de 및 de_DE) 피하십시오."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 msgid "Language codes"
@@ -9081,7 +9119,9 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings."
-msgstr "중간 번역 파일의 파일 이름. 대부분의 경우 개발자가 제공하는 번역 파일이며, 실제 원본 문자열을 만들 때 사용됩니다."
+msgstr ""
+"중간 번역 파일의 파일 이름. 대부분의 경우 개발자가 제공하는 번역 파일이며, 실"
+"제 원본 문자열을 만들 때 사용됩니다."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9273,7 +9313,9 @@ msgstr ""
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
-msgstr "저장소에 인증이 필요합니다. URL에 인증 정보를 지정하거나 SSH 접근을 사용하십시오."
+msgstr ""
+"저장소에 인증이 필요합니다. URL에 인증 정보를 지정하거나 SSH 접근을 사용하십"
+"시오."
 
 #: weblate/trans/models/component.py:807
 #, python-format
@@ -10100,7 +10142,9 @@ msgstr ""
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
-msgstr "귀하의 계정이 활성화되었습니다, 다음 번에 로그인을 할 수 있도록 지금 비밀번호를 설정하십시오."
+msgstr ""
+"귀하의 계정이 활성화되었습니다, 다음 번에 로그인을 할 수 있도록 지금 비밀번호"
+"를 설정하십시오."
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."

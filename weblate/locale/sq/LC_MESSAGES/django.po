@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 12:07+0000\n"
+"POT-Creation-Date: 2020-04-10 18:04+0000\n"
 "PO-Revision-Date: 2020-04-09 17:09+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/master/"
@@ -259,12 +259,22 @@ msgstr ""
 "Do të merrni një njoftim për çdo akt të tillë te projektet e vëzhguar prej "
 "jush."
 
-#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
-#, fuzzy
+#: weblate/accounts/forms.py:696
+#, fuzzy, python-format
 #| msgid ""
 #| "You will receive a notification for every such event in your watched "
 #| "projects."
-msgid "You will receive a notification for every such event in {}."
+msgid "You will receive a notification for every such event in %(project)s."
+msgstr ""
+"Do të merrni një njoftim për çdo akt të tillë te projektet e vëzhguar prej "
+"jush."
+
+#: weblate/accounts/forms.py:699
+#, fuzzy, python-format
+#| msgid ""
+#| "You will receive a notification for every such event in your watched "
+#| "projects."
+msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
 "Do të merrni një njoftim për çdo akt të tillë te projektet e vëzhguar prej "
 "jush."
@@ -289,14 +299,26 @@ msgstr ""
 "Këto njoftime do t’i merrni vetëm për gjuhët në të cilat përktheni te "
 "projektet e vëzhguar prej jush."
 
-#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
-#, fuzzy
+#: weblate/accounts/forms.py:716
+#, fuzzy, python-format
 #| msgid ""
 #| "You will only receive these notifications for your translated languages "
 #| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
-"{}."
+"%(project)s."
+msgstr ""
+"Këto njoftime do t’i merrni vetëm për gjuhët në të cilat përktheni te "
+"projektet e vëzhguar prej jush."
+
+#: weblate/accounts/forms.py:720
+#, fuzzy, python-format
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in your watched projects."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"%(component)s."
 msgstr ""
 "Këto njoftime do t’i merrni vetëm për gjuhët në të cilat përktheni te "
 "projektet e vëzhguar prej jush."

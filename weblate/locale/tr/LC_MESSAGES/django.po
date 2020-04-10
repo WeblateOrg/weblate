@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 12:07+0000\n"
+"POT-Creation-Date: 2020-04-10 18:04+0000\n"
 "PO-Revision-Date: 2020-04-10 18:03+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
@@ -248,8 +248,16 @@ msgstr ""
 "Yönetici izinlerine sahip olduğunuz projelerde her tür olay için bir "
 "bildirim alacaksınız."
 
-#: weblate/accounts/forms.py:696 weblate/accounts/forms.py:698
-msgid "You will receive a notification for every such event in {}."
+#: weblate/accounts/forms.py:696
+#, fuzzy, python-format
+#| msgid "You will receive a notification for every such event in {}."
+msgid "You will receive a notification for every such event in %(project)s."
+msgstr "{} içindeki her tür olay için bir bildirim alacaksınız."
+
+#: weblate/accounts/forms.py:699
+#, fuzzy, python-format
+#| msgid "You will receive a notification for every such event in {}."
+msgid "You will receive a notification for every such event in %(component)s."
 msgstr "{} içindeki her tür olay için bir bildirim alacaksınız."
 
 #: weblate/accounts/forms.py:706
@@ -268,10 +276,25 @@ msgstr ""
 "Yalnızca yönetici izinlerine sahip olduğunuz projelerde çevrilmiş dilleriniz "
 "için bu bildirimleri alacaksınız."
 
-#: weblate/accounts/forms.py:716 weblate/accounts/forms.py:720
+#: weblate/accounts/forms.py:716
+#, fuzzy, python-format
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in {}."
 msgid ""
 "You will only receive these notifications for your translated languages in "
-"{}."
+"%(project)s."
+msgstr ""
+"Yalnızca {} içindeki çevrilmiş dilleriniz için bu bildirimleri alacaksınız."
+
+#: weblate/accounts/forms.py:720
+#, fuzzy, python-format
+#| msgid ""
+#| "You will only receive these notifications for your translated languages "
+#| "in {}."
+msgid ""
+"You will only receive these notifications for your translated languages in "
+"%(component)s."
 msgstr ""
 "Yalnızca {} içindeki çevrilmiş dilleriniz için bu bildirimleri alacaksınız."
 
