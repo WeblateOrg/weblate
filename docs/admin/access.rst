@@ -44,10 +44,10 @@ Per project permissions
 Set your projects to `Protected` or `Private`, and manage users per
 project in the Weblate interface.
 
-Adding permissions to languages or projects
-+++++++++++++++++++++++++++++++++++++++++++
+Adding permissions to languages, components or projects
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-You can additionally grant permissions to any user based on project or language
+You can additionally grant permissions to any user based on project, component or language
 set. To achieve this, create a new group (e.g. `Czech translators`) and
 configure it for a given resource. Any assigned permissions will be granted to
 members of that group for selected resources.
@@ -56,6 +56,10 @@ This will work just fine without additional setup, if using per project
 permissions. For permissions on the whole instance, you will probably also want to remove
 these permissions from the `Users` group, or change automatic assignment of all
 users to that group (see :ref:`autogroup`).
+
+.. seealso::
+
+   :ref:`perm-check`
 
 .. _acl:
 
@@ -140,42 +144,52 @@ The authentication models consist of several objects:
         "Role" -- "Permission";
         "Group" -- "Project";
         "Group" -- "Language";
+        "Group" -- "Components";
         "Group" -- "Component list";
     }
+
+.. _perm-check:
 
 Permission checking
 +++++++++++++++++++
 
-Whenever a permission is checked to decide whether one is able to perform a given action,
-the check is carried out according to scope, and the following checks are performed:
+Whenever a permission is checked to decide whether one is able to perform a
+given action, the check is carried out according to scope, and the following
+checks are performed in the order:
 
-`Project`
-    Compared against the scope of the project, if not set, this matches no project.
+1. :guilabel:`Component list` are matched against component or project.
 
-    You can use :guilabel:`Project selection` to automate inclusion of all
-    projects.
+2. :guilabel:`Components` are matched against component or project.
 
-`Component list`
-    The scope component is matched against this list, if not set, this is ignored.
+3. :guilabel:`Projects` are matched against project.
 
-    Obviously this has no effect when checking access of the project scope,
-    so you will have to grant access to view all projects in a component list
-    by other means. By default this is achieved through the use of the `Viewers` group,
-    see :ref:`default-groups`).
+As you can see, grating access to a component automatically grants user access
+to a containing project as well.
 
-`Language`
-    Compared against scope of translations, if not set, this matches no
-    language.
+.. note::
 
-    You can use :guilabel:`Language selection` to automate inclusion of all
-    languages.
+   Only first rule which is set is being used. So if you set all
+   :guilabel:`Component list`, :guilabel:`Components` and :guilabel:`Project`,
+   only :guilabel:`Component list` is being applied.
+
+Additionally step is performed if checking permission for the translation:
+
+
+4. :guilabel:`Languages` are matches against scope of translations, if not set, this matches no
+   language.
+
+.. hint::
+
+   You can use :guilabel:`Language selection` or :guilabel:`Project selection`
+   to automate inclusion of all languages or projects.
 
 Checking access to a project
 ++++++++++++++++++++++++++++
 
-A user has to be a member of a group linked to the project. Only membership is
-enough, no specific permissions are needed to access a project (this is used
-in the default `Viewers` group, see :ref:`default-groups`).
+A user has to be a member of a group linked to the project or any component
+inside it. Only membership is enough, no specific permissions are needed to
+access a project (this is used in the default `Viewers` group, see
+:ref:`default-groups`).
 
 .. _manage-users:
 

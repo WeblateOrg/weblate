@@ -123,6 +123,9 @@ class Group(models.Model):
     projects = models.ManyToManyField(
         "trans.Project", verbose_name=_("Projects"), blank=True
     )
+    components = models.ManyToManyField(
+        "trans.Component", verbose_name=_("Component"), blank=True
+    )
     componentlist = models.ForeignKey(
         "trans.ComponentList",
         verbose_name=_("Component list"),
@@ -513,6 +516,14 @@ class User(AbstractBaseUser):
                 for component, project in group.componentlist.components.values_list(
                     "id", "project_id"
                 ):
+                    components[component].append((permissions, languages))
+                    # Grant access to the project
+                    projects[project].append(((), languages))
+                continue
+            # Component specific permissions
+            component_values = group.components.values_list("id", "project_id")
+            if component_values:
+                for component, project in component_values:
                     components[component].append((permissions, languages))
                     # Grant access to the project
                     projects[project].append(((), languages))
