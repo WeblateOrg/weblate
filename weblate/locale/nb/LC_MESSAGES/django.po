@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2015.
 # Allan Nordhøy <epost@anotheragency.no>, 2018, 2019, 2020.
-# Petter Reinholdtsen <pere-weblate@hungry.com>, 2018, 2019.
+# Petter Reinholdtsen <pere-weblate@hungry.com>, 2018, 2019, 2020.
 # Jon Harald Søby <jhsoby@gmail.com>, 2018.
 # Kurt Eilertsen <kurt@kheds.com>, 2018.
 # WWWesten <wwwesten@gmail.com>, 2019.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 18:04+0000\n"
-"PO-Revision-Date: 2020-04-10 18:03+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2020-04-11 02:21+0000\n"
+"Last-Translator: Petter Reinholdtsen <pere-weblate@hungry.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
 "Language: nb\n"
@@ -239,33 +239,22 @@ msgstr ""
 "Du vil motta en varsel for hver slik hendelse i prosjektene du følger med på."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Du vil motta en varsel for hver slik hendelse i prosjektene du følger med på."
+"Du vil motta en varsel for hver slik hendelse i prosjektene der du har admin-"
+"rettigheter."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"Du vil motta en varsel for hver slik hendelse i prosjektene du følger med på."
+msgstr "Du vil motta en varsel for hver slik hendelse i %(project)s."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"Du vil motta en varsel for hver slik hendelse i prosjektene du følger med på."
+msgstr "Du vil motta en varsel for hver slik hendelse i %(component)s."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -276,40 +265,29 @@ msgstr ""
 "prosjektene du følger med på."
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
 "Du vil kun motta disse varslene for språkene du oversetter til, i "
-"prosjektene du følger med på."
+"prosjektene der du har admin-rettigheter."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Du vil kun motta disse varslene for språkene du oversetter til, i "
-"prosjektene du følger med på."
+"Du vil kun motta disse varslene for språkene du oversetter til i %(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Du vil kun motta disse varslene for språkene du oversetter til, i "
-"prosjektene du følger med på."
+"Du vil kun motta disse varslene for språkene du oversetter til i "
+"%(component)s."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -394,7 +372,7 @@ msgstr "Samtykke med tjenestevilkår {date}."
 #: weblate/accounts/models.py:94
 #, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Invitert til Weblate av ."
+msgstr "Invitert til Weblate av {username}."
 
 #: weblate/accounts/models.py:99
 #, fuzzy
@@ -4318,10 +4296,9 @@ msgid "Checks"
 msgstr "Kontroller"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Kunne ikke finne samsvarende prosjekt!"
+msgstr "Kontroller feilet i %(project)s"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
