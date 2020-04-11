@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 18:04+0000\n"
-"PO-Revision-Date: 2020-04-09 17:09+0000\n"
+"PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -247,36 +247,22 @@ msgstr ""
 "si verificherà nei tuoi progetti monitorati."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Riceverai una notifica per ogni evento, tra quelli di seguito elencati, che "
-"si verificherà nei tuoi progetti monitorati."
+"Riceverai una notifica per ogni evento di questo tipo nei progetti in cui "
+"hai le autorizzazioni di amministratore."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"Riceverai una notifica per ogni evento, tra quelli di seguito elencati, che "
-"si verificherà nei tuoi progetti monitorati."
+msgstr "Riceverai una notifica per ogni evento del genere in %(project)s."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"Riceverai una notifica per ogni evento, tra quelli di seguito elencati, che "
-"si verificherà nei tuoi progetti monitorati."
+msgstr "Riceverai una notifica per ogni evento del genere in %(component)s."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -287,40 +273,28 @@ msgstr ""
 "monitori."
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Riceverai queste notifiche solo per i linguaggi tradotti nei progetti che "
-"monitori."
+"Riceverai queste notifiche solo per le tue lingue tradotte nei progetti in "
+"cui hai le autorizzazioni di amministratore."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Riceverai queste notifiche solo per i linguaggi tradotti nei progetti che "
-"monitori."
+"Riceverai solo queste notifiche per le tue lingue tradotte in %(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Riceverai queste notifiche solo per i linguaggi tradotti nei progetti che "
-"monitori."
+"Riceverai solo queste notifiche per le tue lingue tradotte in %(component)s."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -1628,10 +1602,8 @@ msgstr "Gestisci memoria traduzione (nell'intera piattaforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
-msgstr "Gestisci annunci (nell'intera piattaforma)"
+msgstr "Gestisci elenchi componenti (nell'intera piattaforma)"
 
 #: weblate/auth/data.py:169
 msgctxt "Access control role"
@@ -4328,10 +4300,9 @@ msgid "Checks"
 msgstr "Da verificare"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Impossibile trovare il progetto corrispondente!"
+msgstr "Controlli falliti in %(project)s"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -4515,6 +4486,9 @@ msgid ""
 "In case you miss access to billing of your project, please contact project "
 "maintainers to give you permission to access its billing."
 msgstr ""
+"Nel caso in cui manchi l'accesso alla fatturazione del tuo progetto, "
+"contatta i responsabili del progetto per darti l'autorizzazione ad accedere "
+"alla sua fatturazione."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4786,10 +4760,8 @@ msgstr "Guida localizzazione"
 
 #: weblate/templates/component.html:59
 #: weblate/templates/snippets/project-nav.html:52
-#, fuzzy
-#| msgid "Download original translation files as ZIP file"
 msgid "Download translation files as ZIP file"
-msgstr "Scarica file di traduzione originali come ZIP"
+msgstr "Download file traduzione come file ZIP"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
