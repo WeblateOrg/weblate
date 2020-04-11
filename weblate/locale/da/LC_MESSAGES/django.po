@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 18:04+0000\n"
-"PO-Revision-Date: 2020-04-10 18:03+0000\n"
+"PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/master/da/"
 ">\n"
@@ -237,28 +237,23 @@ msgstr ""
 "projekter."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Du vil modtage en underretning om alle sådanne hændelser i dine overvågede "
-"projekter."
+"Du vil modtage en underretning om alle sådanne hændelser i projekter hvor du "
+"har administratortilladelser."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "Du vil modtage en underretning om alle sådanne hændelser i {}."
+msgstr "Du vil modtage en underretning om alle sådanne hændelser i %(project)s."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "Du vil modtage en underretning om alle sådanne hændelser i {}."
+msgstr ""
+"Du vil modtage en underretning om alle sådanne hændelser i %(component)s."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -269,36 +264,30 @@ msgstr ""
 "overvågede projekter."
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Du vil kun modtage disse underretninger for dine oversatte sprog i dine "
-"overvågede projekter."
+"Du vil kun modtage disse underretninger for dine oversatte sprog i projekter "
+"hvor du har administratortilladelser."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "Du vil kun modtage disse underretninger for dine oversatte sprog i {}."
+msgstr ""
+"Du vil kun modtage disse underretninger for dine oversatte sprog i "
+"%(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr "Du vil kun modtage disse underretninger for dine oversatte sprog i {}."
+msgstr ""
+"Du vil kun modtage disse underretninger for dine oversatte sprog i "
+"%(component)s."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -333,10 +322,9 @@ msgid "Configured sign in using {method} ({name})."
 msgstr "Konfigureret login med {method} ({name})."
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Signed in using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Logget ind med {method} ({name})."
+msgstr "Fjernede login med {method} ({name})."
 
 #: weblate/accounts/models.py:86
 #, python-brace-format
@@ -357,16 +345,13 @@ msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Nogen har prøvet at tilmelde sig med din e-mailadresse."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "Kunne ikke logge ind med {method} ({name})."
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Konto låst på grund af mange mislykkede godkendelsesforsøg."
+msgstr "Konto låst på grund af mange mislykkede loginforsøg."
 
 #: weblate/accounts/models.py:92
 msgid "Account and all private data removed."
@@ -395,10 +380,8 @@ msgid "Signed in using password from a new device."
 msgstr "Logget ind med adgangskode fra en ny enhed."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
-msgstr "Kunne ikke logge ind via adgangskode."
+msgstr "Kunne ikke logge ind med adgangskode."
 
 #: weblate/accounts/models.py:107
 msgid "To restore access to your account, please reset your password."
@@ -440,7 +423,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:308
 msgid "Hide completed translations on the dashboard"
-msgstr "Skjul afsluttede oversættelser på betjeningspanelet"
+msgstr "Skjul fuldførte oversættelser i betjeningspanelet"
 
 #: weblate/accounts/models.py:311
 msgid "Show secondary translations in the Zen mode"
@@ -684,8 +667,6 @@ msgid "You can not complete registration while signed in!"
 msgstr "Du kan ikke fuldføre registreringen , så længe du er logget ind!"
 
 #: weblate/accounts/pipeline.py:317
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
 msgstr "Tilmelding kan kun bekræftes, mens du er logget ind!"
 
@@ -769,7 +750,7 @@ msgstr "Skift adgangskode"
 
 #: weblate/accounts/views.py:746
 msgid "Password reset has been already completed!"
-msgstr "Nulstilling af adgangskoden er allerede afsluttet!"
+msgstr "Nulstilling af adgangskoden er allerede fuldført!"
 
 #: weblate/accounts/views.py:775
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -879,16 +860,12 @@ msgid "Language consistency"
 msgstr "Sproglig konsistens"
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid ""
-#| "This addon ensures that all components within one project have "
-#| "translation to same languages."
 msgid ""
 "Ensure that all components within one project have translation to same "
 "languages."
 msgstr ""
-"Denne udvidelse sikrer, at alle komponenter inden for et projekt har "
-"oversættelse til de samme sprog."
+"Sørg for at alle komponenter inden for et projekt har oversættelse til de "
+"samme sprog."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -968,20 +945,16 @@ msgstr ""
 #: weblate/templates/snippets/project-nav.html:65
 #: weblate/templates/snippets/project-nav.html:75
 #: weblate/templates/translation.html:69 weblate/templates/translation.html:273
-#, fuzzy
-#| msgid "Full editor"
 msgid "Bulk edit"
-msgstr "Fuld editor"
+msgstr "Masseredigering"
 
 #: weblate/addons/flags.py:98
 msgid "This addon allow to bulk edit flags, labels or state."
 msgstr ""
 
 #: weblate/addons/forms.py:53
-#, fuzzy
-#| msgid "Name of generated file"
 msgid "Path of generated MO file"
-msgstr "Navn på genereret fil"
+msgstr "Sti til genereret MO-fil"
 
 #: weblate/addons/forms.py:56
 msgid "If not specified, the location of the PO file will be used."
@@ -1012,10 +985,6 @@ msgid "No line wrapping"
 msgstr "Ingen linjeombrydning"
 
 #: weblate/addons/forms.py:114
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines, with --no-wrap "
-#| "parameter it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
@@ -1024,16 +993,12 @@ msgstr ""
 "parameteren --no-wrap ombryder den kun ved linjeskift."
 
 #: weblate/addons/forms.py:122
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Keep previous msgids of translated strings"
-msgstr "Antal oversatte strenge"
+msgstr "Behold tidligere msgid'er af oversatte strenge"
 
 #: weblate/addons/forms.py:127
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Remove locations of translated strings"
-msgstr "Antal oversatte strenge"
+msgstr "Fjern placeringer af oversatte strenge"
 
 #: weblate/addons/forms.py:132
 msgid "Use fuzzy matching"
@@ -1068,50 +1033,44 @@ msgid "JSON indentation"
 msgstr "JSON-indrykning"
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "YAML indentation"
-msgstr "JSON-indrykning"
+msgstr "YAML-indrykning"
 
 #: weblate/addons/forms.py:172
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
-msgstr "Ombryd linjer ved 77 tegn og ved linjeskift"
+msgstr "Ombryd linjer ved 80 tegn"
 
 #: weblate/addons/forms.py:173
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
-msgstr "Ombryd linjer ved 77 tegn og ved linjeskift"
+msgstr "Ombryd linjer ved 100 tegn"
 
 #: weblate/addons/forms.py:174
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
-msgstr "Ombryd linjer ved 77 tegn og ved linjeskift"
+msgstr "Ombryd linjer ved 120 tegn"
 
 #: weblate/addons/forms.py:175
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
-msgstr "Ombryd linjer ved 77 tegn og ved linjeskift"
+msgstr "Ombryd linjer ved 180 tegn"
 
 #: weblate/addons/forms.py:182
 msgid "Line breaks"
-msgstr ""
+msgstr "Linjeskift"
 
 #: weblate/addons/forms.py:184
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:185
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:186
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:195
 msgid "Days to keep"
@@ -1128,10 +1087,8 @@ msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 
 #: weblate/addons/forms.py:212
-#, fuzzy
-#| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
-msgstr "Regulært udtryk, til at matche oversættelsesfiler"
+msgstr "Regulært udtryk, til at matche oversættelsesfiler mod"
 
 #: weblate/addons/forms.py:215
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
@@ -1169,15 +1126,10 @@ msgid "Language filter"
 msgstr "Sprogfilter"
 
 #: weblate/addons/forms.py:246
-#, fuzzy
-#| msgid ""
-#| "Regular expression which is used to filter translation when scanning for "
-#| "file mask."
 msgid ""
 "Regular expression to filter translation against when scanning for filemask."
 msgstr ""
-"Regulært udtryk, som bruges til at filtrere oversættelse ved scanning til "
-"filmaske."
+"Regulært udtryk, til at filtrere oversættelse mod ved scanning til filmaske."
 
 #: weblate/addons/forms.py:251
 msgid "Clone addons from the main component to the newly created ones"
@@ -1190,16 +1142,12 @@ msgid "Remove components for inexistant files"
 msgstr "Fjern komponenter fra ikkeeksisterende filer"
 
 #: weblate/addons/forms.py:259
-#, fuzzy
-#| msgid "I confirm that the above matches look correct"
 msgid "I confirm the above matches look correct"
 msgstr "Jeg bekræfter at matchene ovenfor ser ud til at være korrekte"
 
 #: weblate/addons/forms.py:317
-#, fuzzy
-#| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
-msgstr "Gennemgå og bekræft matchede komponenter."
+msgstr "Gennemgå og bekræft de matchede komponenter."
 
 #: weblate/addons/forms.py:333
 msgid "Please include component markup in the template."
@@ -1233,22 +1181,16 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Opdaterer LINGUAS-filen, når der tilføjes en ny oversættelse."
 
 #: weblate/addons/gettext.py:157
-#, fuzzy
-#| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Opdater ALL_LINGUAS-variabel i konfigurationsfilen"
+msgstr "Opdater ALL_LINGUAS-variabel i \"configure\"-filen"
 
 #: weblate/addons/gettext.py:159
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
-"Opdaterer ALL_LINGUAS-variablen i filerne configure, configure.in og "
-"configure.ac, når der tilføjes en ny oversættelse."
+"Opdaterer ALL_LINGUAS-variablen i filerne \"configure\", \"configure.in\" "
+"eller \"configure.ac\", når der tilføjes en ny oversættelse."
 
 #: weblate/addons/gettext.py:230
 msgid "Update PO files to match POT (msgmerge)"
@@ -1360,10 +1302,8 @@ msgid "Invalid addon name specified!"
 msgstr "Ugyldigt tilføjelsesnavn angivet!"
 
 #: weblate/addons/yaml.py:31
-#, fuzzy
-#| msgid "Customize JSON output"
 msgid "Customize YAML output"
-msgstr "Tilpas JSON-output"
+msgstr "Tilpas YAML-output"
 
 #: weblate/addons/yaml.py:33
 #, fuzzy
@@ -1463,10 +1403,8 @@ msgstr "Slet oversættelseshukommelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:60
-#, fuzzy
-#| msgid "Wipe translation memory"
 msgid "Use translation memory"
-msgstr "Ryd oversættelseshistorik"
+msgstr "Brug oversættelseshukommelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:62
@@ -7348,10 +7286,8 @@ msgid "%(value)s of %(all)s"
 msgstr "Brugt %(used)s af %(total)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy
-#| msgid "Duplicated translation."
 msgid "Completed translation"
-msgstr "Duplikeret oversættelse."
+msgstr "Fuldført oversættelse"
 
 #: weblate/templates/snippets/list-objects.html:15
 msgid "Strings of total"
@@ -8478,17 +8414,12 @@ msgstr ""
 "oversættelser."
 
 #: weblate/templates/translation.html:327
-#, fuzzy
-#| msgid ""
-#| "The uploaded file will be merged with the current translation. In case "
-#| "you want to overwrite already translated strings, don't forget to enable "
-#| "it."
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to turn it on."
 msgstr ""
 "Den uploadede fil vil blive flettet med den nuværende oversættelse. Hvis du "
-"vil overskrive strenge som allerede er oversatte, så husk at aktivere det."
+"vil overskrive strenge som allerede er oversatte, så husk at slå det til."
 
 #: weblate/templates/translation.html:329
 msgid "The uploaded file will be merged with the current translation."
