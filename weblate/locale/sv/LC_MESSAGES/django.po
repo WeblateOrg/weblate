@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 18:04+0000\n"
-"PO-Revision-Date: 2020-04-10 18:03+0000\n"
+"PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -169,11 +169,11 @@ msgstr "Projektwebbplats"
 #: weblate/accounts/forms.py:551 weblate/trans/forms.py:1484
 #: weblate/trans/models/component.py:193
 msgid "Source code repository"
-msgstr "Källkodsförråd"
+msgstr "Källkodsarkiv"
 
 #: weblate/accounts/forms.py:552
 msgid "URL of source code repository, for example Git or Mercurial."
-msgstr "Webbadress till källkodsförråd som t.ex. Git eller Mercurial."
+msgstr "Webbadress till källkodsarkiv som t.ex. Git eller Mercurial."
 
 #: weblate/accounts/forms.py:557 weblate/templates/component_info.html:63
 #: weblate/templates/trans/discover-choice.html:5
@@ -243,16 +243,14 @@ msgstr ""
 "administratörsbehörighet."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "Du kommer att få en avisering för varje sådan händelse i {}."
+msgstr "Du kommer att få en avisering för varje sådan händelse i %(project)s."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "Du kommer att få en avisering för varje sådan händelse i {}."
+msgstr "Du kommer att få en avisering för varje sådan händelse i %(component)s."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -271,24 +269,18 @@ msgstr ""
 "administratörsbehörighet."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "Du får bara dessa aviseringar för dina översatta språk i {}."
+msgstr "Du får bara dessa aviseringar för dina översatta språk i %(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr "Du får bara dessa aviseringar för dina översatta språk i {}."
+msgstr "Du får bara dessa aviseringar för dina översatta språk i %(component)s."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -844,7 +836,7 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
-"Förrådet är föråldrat, du kanske inte får förväntade resultat förrän du "
+"Arkivet är föråldrat, du kanske inte får förväntade resultat förrän du "
 "uppdaterar det."
 
 #: weblate/addons/cleanup.py:78
@@ -1512,22 +1504,22 @@ msgstr "Ladda upp översättningar"
 #. Translators: Permission name
 #: weblate/auth/data.py:110
 msgid "Access the internal repository"
-msgstr "Öppna det interna förrådet"
+msgstr "Öppna det interna arkivet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:112
 msgid "Commit changes to the internal repository"
-msgstr "Arkivera ändringar i det interna förrådet"
+msgstr "Arkivera ändringar i det interna arkivet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:114
 msgid "Push change from the internal repository"
-msgstr "Pusha ändringar från interna förrådet"
+msgstr "Pusha ändringar från interna arkivet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:116
 msgid "Reset changes in the internal repository"
-msgstr "Återställ ändringar i det interna förrådet"
+msgstr "Återställ ändringar i det interna arkivet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:118
@@ -1537,7 +1529,7 @@ msgstr "Visa placering av uppströmsarkivet"
 #. Translators: Permission name
 #: weblate/auth/data.py:120
 msgid "Update the internal repository"
-msgstr "Uppdatera det interna förrådet"
+msgstr "Uppdatera det interna arkivet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
@@ -1592,7 +1584,7 @@ msgstr "Lägg till förslag"
 #: weblate/auth/data.py:170
 msgctxt "Access control role"
 msgid "Access repository"
-msgstr "Öppna förrådet"
+msgstr "Öppna arkivet"
 
 #: weblate/auth/data.py:172
 msgctxt "Access control role"
@@ -2138,7 +2130,7 @@ msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
 msgstr ""
-"Strängen har mer än en översättning i det här projektet eller inte är "
+"Strängen har mer än en översättning i det här projektet eller är inte "
 "översatt i vissa komponenter."
 
 #: weblate/checks/consistency.py:100
@@ -4062,11 +4054,11 @@ msgstr "hela projektet"
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "This addon is used for all components sharing this repository."
-msgstr "Detta tillägg gäller för alla komponenter som delar detta förråd."
+msgstr "Detta tillägg gäller för alla komponenter som delar detta arkiv."
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "repository wide"
-msgstr "hela förrådet"
+msgstr "hela arkivet"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed addons"
@@ -5190,8 +5182,8 @@ msgid ""
 "With notification hooks, Weblate will automatically import changes made by "
 "your developers, and allows continuous localization."
 msgstr ""
-"Med notifieringskopplingar kan Weblate automatiskt importera ändringar "
-"gjorda av utvecklarna, och erbjuda fortlöpande översättning."
+"Med aviseringskopplingar kan Weblate automatiskt importera ändringar gjorda "
+"av utvecklarna, och erbjuda fortlöpande översättning."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -5207,8 +5199,7 @@ msgstr ""
 #: weblate/templates/data.html:132
 msgid ""
 "Weblate also supports direct notifications from several code hosting sites:"
-msgstr ""
-"Weblate stöder också direktnotifieringar från flera kodlagringsplatser:"
+msgstr "Weblate stöder också direktaviseringar från flera kodlagringsplatser:"
 
 #: weblate/templates/data.html:137
 msgid "Hosting site"
@@ -5672,7 +5663,7 @@ msgstr "Det finns ändringar som inte har arkiverats!"
 
 #: weblate/templates/js/git-status.html:24
 msgid "There has been a merge failure in the repository"
-msgstr "Det har inträffat ett sammanslagningsfel i förrådet"
+msgstr "Det har inträffat ett sammanslagningsfel i arkivet"
 
 #: weblate/templates/js/git-status.html:26
 #: weblate/templates/trans/merge_instructions.html:33
@@ -5685,11 +5676,11 @@ msgstr "Fjärrarkivet behöver slås samman!"
 
 #: weblate/templates/js/git-status.html:33
 msgid "There are some new commits in the local repository."
-msgstr "Det finns nya arkiveringar i det lokala förrådet."
+msgstr "Det finns nya arkiveringar i det lokala arkivet."
 
 #: weblate/templates/js/git-status.html:36
 msgid "The local repository is up to date."
-msgstr "Det lokala förrådet är uppdaterad."
+msgstr "Det lokala arkivet är uppdaterat."
 
 #: weblate/templates/js/git-status.html:49
 msgid "Repository details"
@@ -5705,7 +5696,7 @@ msgstr "Arkivverktyg"
 
 #: weblate/templates/js/git-status.html:84
 msgid "Commit pending changes to the local repository"
-msgstr "Verkställ väntande ändringar i det lokala förrådet"
+msgstr "Verkställ väntande ändringar i det lokala arkivet"
 
 #: weblate/templates/js/git-status.html:94
 msgid "Pull"
@@ -5739,7 +5730,7 @@ msgstr "Återställ"
 
 #: weblate/templates/js/git-status.html:140
 msgid "Reset all changes in the local repository"
-msgstr "Återställ alla ändringar i det lokala förrådet"
+msgstr "Återställ alla ändringar i det lokala arkivet"
 
 #: weblate/templates/js/git-status.html:148
 msgid "Cleanup"
@@ -5747,7 +5738,7 @@ msgstr "Rensa upp"
 
 #: weblate/templates/js/git-status.html:152
 msgid "Cleanup all untracked files in the local repository"
-msgstr "Rensa bort alla ospårade filer i det lokala förrådet"
+msgstr "Rensa bort alla ospårade filer i det lokala arkivet"
 
 #: weblate/templates/js/git-status.html:164
 msgid "Unlock"
@@ -5755,7 +5746,7 @@ msgstr "Lås upp"
 
 #: weblate/templates/js/git-status.html:168
 msgid "Allow changes to the local repository"
-msgstr "Tillåt ändringar i det lokala förrådet"
+msgstr "Tillåt ändringar i det lokala arkivet"
 
 #: weblate/templates/js/git-status.html:176
 msgid "Lock"
@@ -5763,7 +5754,7 @@ msgstr "Lås"
 
 #: weblate/templates/js/git-status.html:180
 msgid "Prevent any changes in the local repository"
-msgstr "Förhindra ändringar i det lokala förrådet"
+msgstr "Förhindra ändringar i det lokala arkivet"
 
 #: weblate/templates/js/translations.html:8
 msgid "Status"
@@ -5805,7 +5796,7 @@ msgstr "Visa detaljer"
 
 #: weblate/templates/last-changes-content.html:33
 msgid "View notification"
-msgstr "Visa meddelande"
+msgstr "Visa avisering"
 
 #: weblate/templates/last-changes-content.html:36
 msgid "Revert"
@@ -5882,7 +5873,7 @@ msgstr "Weblate, libre kontinuerlig lokaliseringssystemet."
 
 #: weblate/templates/mail/base.html:309
 msgid "Turn off this notification"
-msgstr "Stäng av det här meddelandet"
+msgstr "Stäng av den här aviseringen"
 
 #: weblate/templates/mail/base.html:316
 #, python-format
@@ -5950,7 +5941,7 @@ msgstr "Ny översättning i %(translation)s"
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
 msgid "Digest: %(notification_name)s"
-msgstr "Sammanställning: %(notification_name)s"
+msgstr "Sammanfattning: %(notification_name)s"
 
 #: weblate/templates/mail/invite.html:7
 #, python-format
@@ -6370,7 +6361,7 @@ msgstr "Celery-köer"
 #: weblate/wladmin/templates/admin/weblate-index.html:20
 #: weblate/wladmin/views.py:57
 msgid "Status of repositories"
-msgstr "Status för förråd"
+msgstr "Status för arkiv"
 
 #: weblate/templates/manage/repos.html:14
 msgid "This repository is linked to:"
@@ -6395,7 +6386,7 @@ msgstr "Aktivera"
 #: weblate/templates/manage/snippets/backup-credentials.html:5
 #: weblate/wladmin/models.py:147
 msgid "Backup repository"
-msgstr "Säkerhetskopieringsförråd"
+msgstr "Säkerhetskopieringsarkiv"
 
 #: weblate/templates/manage/snippets/backup-credentials.html:9
 msgid "Passphrase"
@@ -6874,7 +6865,7 @@ msgstr "%(author)s författade %(date)s"
 
 #: weblate/templates/snippets/git-info.html:43
 msgid "Repository containing Weblate translations"
-msgstr "Förråd som innehåller Weblate-översättningar"
+msgstr "Arkiv som innehåller Weblate-översättningar"
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -7208,7 +7199,7 @@ msgstr "Den här komponenten är felaktig inställd."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:4
 msgid "The repository browser URL points to non-existing locations:"
-msgstr "Url:en för databasbläddring pekar på platser som inte finns:"
+msgstr "Arkivutforskar-URL:en pekar på en plats som inte finns:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:12
 msgid ""
@@ -7290,7 +7281,7 @@ msgstr ""
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
-"Weblate kunde inte sammanfoga uppströmsändringarna när förrådet uppdaterades."
+"Weblate kunde inte sammanfoga uppströmsändringarna när arkivet uppdaterades."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -7325,14 +7316,14 @@ msgstr "Filnamn"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate kunde inte pusha ändringar till uppströmsförrådet."
+msgstr "Weblate kunde inte pusha ändringar till uppströmsarkivet."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"VCS-förrådet har många lokala ändringar jämfört med uppströms. Slå samman "
+"VCS-arkivet har många lokala ändringar jämfört med uppströms. Slå samman "
 "ändringarna manuellt eller konfigurera så att en automatisk push görs."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
@@ -7340,7 +7331,7 @@ msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"VCS-förrådet är inte uppdaterat med ändringar från uppströmen. Slå samman "
+"VCS-arkivet är inte uppdaterat med ändringar från uppströmen. Slå samman "
 "ändringarna manuellt eller konfigurera hooks så att det görs automatiskt."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
@@ -7358,8 +7349,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr ""
-"Weblate kunde inte hämta uppströmsändringar vid uppdatering av förrådet."
+msgstr "Weblate kunde inte hämta uppströmsändringar vid uppdatering av arkivet."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -7408,8 +7398,7 @@ msgid ""
 "Create a new translation component from remote version control system "
 "repository."
 msgstr ""
-"Skapa en ny översättningskomponent från förrådet för "
-"fjärrversionskontrollsystem."
+"Skapa en ny översättningskomponent från fjärrversionskontrollsystemets arkiv."
 
 #: weblate/templates/trans/component_create.html:50
 #: weblate/templates/trans/component_create.html:63
@@ -7497,7 +7486,7 @@ msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
-msgstr "Lägg till Weblate exporterat förråd som en fjärr."
+msgstr "Lägg till Weblate's exporterade arkiv som ett fjärrarkiv."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
@@ -7505,12 +7494,12 @@ msgstr "Slå samman Weblate-ändringar för att lösa konflikter."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
-msgstr "Skicka ändringar till fjärrförrådet."
+msgstr "Skicka ändringar till fjärrarkivet."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
-msgstr "Weblate bör nu kunna se uppdaterat förråd som du ska kunna låsa upp."
+msgstr "Weblate bör nu kunna se uppdaterat arkiv som du kan låsa upp."
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
@@ -7547,10 +7536,10 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
-"När du ändrar förrådswebbadressen så kommer det befintliga innehållet att "
-"slås samman med nya arkivet. Detta fungerar bra om förrådet har flyttats "
-"till en annan plats. Om förrådetsinnehållet är olika kan det vara bättre att "
-"i stället skapa en ny översättningskomponent."
+"När du ändrar arkiv-URL så kommer det befintliga innehållet att slås samman "
+"med nya arkivet. Detta fungerar bra om arkivet har flyttats till en annan "
+"plats. Om arkivinnehållet är olika kan det vara bättre att i stället skapa "
+"en ny översättningskomponent."
 
 #: weblate/templates/translate.html:16
 msgid "translate"
@@ -8141,7 +8130,7 @@ msgstr "Administratörer"
 
 #: weblate/trans/admin.py:111
 msgid "VCS repositories"
-msgstr "VCS förråd"
+msgstr "VCS-arkiv"
 
 #: weblate/trans/apps.py:27
 msgid "Weblate translations"
@@ -8769,17 +8758,17 @@ msgstr "Duplicerad filmask."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:182
 msgid "Could not merge the repository."
-msgstr "Kunde inte slå samman förrådet."
+msgstr "Kunde inte slå samman arkivet."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:189
 msgid "Could not update the repository."
-msgstr "Kunde inte uppdatera förrådet."
+msgstr "Kunde inte uppdatera arkivet."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:196
 msgid "Could not push the repository."
-msgstr "Kunde inte pusha förrådet."
+msgstr "Kunde inte pusha arkivet."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:203
@@ -8794,12 +8783,12 @@ msgstr "Din faktureringsplan har överskridit sina gränser."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:216
 msgid "Repository outdated."
-msgstr "Förrådet är föråldrat."
+msgstr "Arkivet är föråldrat."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:223
 msgid "Repository has changes."
-msgstr "Förrådet har ändringar."
+msgstr "Arkivet har ändringar."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:230
@@ -8824,7 +8813,7 @@ msgstr "Komponentkonfigurationen stöds inte"
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:265
 msgid "Broken repository browser URL"
-msgstr "Felaktig URL för arkivutforskning"
+msgstr "Felaktig URL för arkivutforskare"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:275
@@ -8980,7 +8969,7 @@ msgstr "Återställ arkiv"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:248
 msgid "Merged repository"
-msgstr "Slå samman förråd"
+msgstr "Slå samman arkiv"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:250
@@ -8990,17 +8979,17 @@ msgstr "Uppdaterade arkivets förgreningspunkt (rebase)"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:252
 msgid "Failed merge on repository"
-msgstr "Misslyckades med att slå samman förråd"
+msgstr "Misslyckades med att slå samman arkiv"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:254
 msgid "Failed rebase on repository"
-msgstr "Kunde inte rebase:a på förrådet"
+msgstr "Misslyckades med att uppdatera förgreningspunkten (rebase) för arkivet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:256
 msgid "Failed push on repository"
-msgstr "Kunde inte pusha förrådet"
+msgstr "Misslyckades med att pusha arkivet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:260
@@ -9120,7 +9109,7 @@ msgstr "Inbjuden användare"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:314
 msgid "Received repository notification"
-msgstr "Mottaget arkivmeddelande"
+msgstr "Mottog arkivavisering"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:316
@@ -9182,7 +9171,7 @@ msgid ""
 "translations. You can also choose additional integration with third party "
 "providers to submit merge requests."
 msgstr ""
-"Versionshanteringssystem som ska användas för att komma åt ditt förråd med "
+"Versionshanteringssystem som ska användas för att komma åt ditt arkiv med "
 "översättningar. Du kan också välja ytterligare integration med "
 "tredjepartsleverantörer för att skicka sammanslagningsförfrågningar."
 
@@ -9191,7 +9180,7 @@ msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"Webbadress till förråd, använd weblate://projekt/komponent för att dela det "
+"Webbadress till arkiv, använd weblate://projekt/komponent för att dela det "
 "med andra komponenter."
 
 #: weblate/trans/models/component.py:208
@@ -9200,12 +9189,11 @@ msgstr "Push-URL för arkiv"
 
 #: weblate/trans/models/component.py:211
 msgid "URL of a push repository, pushing is turned off if empty."
-msgstr ""
-"Webbadress för ett push-förråd, push är avstängt om fältet lämnas tomt."
+msgstr "Webbadress för ett push-arkiv, push är avstängt om fältet lämnas tomt."
 
 #: weblate/trans/models/component.py:216
 msgid "Repository browser"
-msgstr "Förrådsutforskare"
+msgstr "Arkivutforskare"
 
 #: weblate/trans/models/component.py:218
 msgid ""
@@ -9221,7 +9209,7 @@ msgstr "Exporterat arkiv-URL"
 
 #: weblate/trans/models/component.py:228
 msgid "URL of repository where users can fetch changes from Weblate"
-msgstr "Webbadress till förråd där användare kan hämta ändringar från Weblate"
+msgstr "Webbadress till arkiv där användare kan hämta ändringar från Weblate"
 
 #: weblate/trans/models/component.py:233
 msgid "Source string bug reporting address"
@@ -9385,7 +9373,7 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Ange huruvida Weblate ska slå samman uppströmsförrådet eller rebase:a "
+"Ange om Weblate ska slå samman (merge) uppströmsarkivet eller rebase:a "
 "ändringar på det."
 
 #: weblate/trans/models/component.py:408
@@ -9432,7 +9420,7 @@ msgstr "Skicka vid incheckning"
 
 #: weblate/trans/models/component.py:466
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Huruvida förrådet ska skickas uppströms vid varje commit."
+msgstr "Om arkivet ska skickas uppströms vid varje arkivering."
 
 #: weblate/trans/models/component.py:470
 msgid "Age of changes to commit"
@@ -9483,7 +9471,7 @@ msgstr ""
 #: weblate/trans/models/component.py:807
 #, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Det gick inte att fetch:a förrådet: %s"
+msgstr "Det gick inte att hämta (fetch) arkivet: %s"
 
 #: weblate/trans/models/component.py:974
 #, python-format
@@ -9503,7 +9491,7 @@ msgstr "Kunde inte återställa till fjärr-branch på %s."
 #: weblate/trans/models/component.py:1090
 #, python-format
 msgid "Could not clean the repository on %s."
-msgstr "Kunde inte rensa förrådet på %s."
+msgstr "Kunde inte rensa arkivet på %s."
 
 #: weblate/trans/models/component.py:1170
 #, python-format
@@ -9519,7 +9507,7 @@ msgstr "Kunde inte slå samman fjärr-branch in i %s."
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Ogiltig länk till ett Weblate-projekt. Kan inte länka till det länkade "
-"förrådet!"
+"arkivet!"
 
 #: weblate/trans/models/component.py:1535
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
@@ -9533,7 +9521,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:1552
 msgid "Option is not available for linked repositories."
-msgstr "Alternativet är inte tillgängligt för länkade förråd."
+msgstr "Alternativet är inte tillgängligt för länkade arkiv."
 
 #: weblate/trans/models/component.py:1560
 msgid "The filemask did not match any files."
@@ -9611,7 +9599,7 @@ msgstr "Du kan inte använda enspråkig översättning utan en basfil."
 #: weblate/trans/models/component.py:1707
 #, python-format
 msgid "Could not update repository: %s"
-msgstr "Det gick inte att uppdatera förrådet: %s"
+msgstr "Det gick inte att uppdatera arkivet: %s"
 
 #: weblate/trans/models/component.py:1721
 msgid ""
@@ -9850,7 +9838,7 @@ msgstr "Aktivera hooks"
 
 #: weblate/trans/models/project.py:132
 msgid "Whether to allow updating this repository by remote hooks."
-msgstr "Om du vill tillåta uppdatering av förrådet genom fjärr-hooks."
+msgstr "Om du vill tillåta uppdatering av detta arkiv genom fjärr-hooks."
 
 #: weblate/trans/models/project.py:137
 msgid "Source language"
@@ -9879,8 +9867,8 @@ msgid ""
 "Filename %s not found in repository! To add new translation, add language "
 "file into repository."
 msgstr ""
-"Filenamn %s ej hittat i förrådet! För att lägga till ny översättning, lägg "
-"till en språkfil i förrådet."
+"Filnamnet %s hittades inte i arkivet! För att lägga till ny översättning, "
+"lägg till en språkfil i arkivet."
 
 #: weblate/trans/models/translation.py:187
 #, python-format
@@ -10488,12 +10476,11 @@ msgstr[1] ""
 #: weblate/trans/views/files.py:164
 msgid "Plural forms in the uploaded file do not match current translation."
 msgstr ""
-"Flertalsformer i den uppladdade filen matchar inte den aktuella "
-"översättningen."
+"Pluralformer i den uppladdade filen matchar inte den aktuella översättningen."
 
 #: weblate/trans/views/git.py:42
 msgid "Failed to lock the repository, another operation is in progress."
-msgstr "Kunde inte låsa förrådet. En annan operation pågår."
+msgstr "Kunde inte låsa arkivet. En annan operation pågår."
 
 #: weblate/trans/views/git.py:54
 msgid "All pending translations were committed."
@@ -10501,7 +10488,7 @@ msgstr "Alla väntande översättningar checkades in."
 
 #: weblate/trans/views/git.py:66
 msgid "All repositories were updated."
-msgstr "Alla förråd uppdaterades."
+msgstr "Alla arkiv uppdaterades."
 
 #: weblate/trans/views/git.py:76
 msgid "All repositories were pushed."
@@ -10509,7 +10496,7 @@ msgstr "Alla arkiv blev push:ade."
 
 #: weblate/trans/views/git.py:83
 msgid "All repositories have been reset."
-msgstr "Alla förråd har återställts."
+msgstr "Alla arkiv har återställts."
 
 #: weblate/trans/views/git.py:92
 msgid "All repositories have been cleaned up."
@@ -10522,7 +10509,7 @@ msgstr "Integration av versionskontroll"
 #: weblate/trans/views/guide.py:88
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
-"Konfigurera förrådskrokar för automatiserat flöde av uppdateringar till "
+"Konfigurera arkiv-hooks för automatiserat flöde av uppdateringar till "
 "Weblate."
 
 #: weblate/trans/views/guide.py:106
