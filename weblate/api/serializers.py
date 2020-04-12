@@ -152,47 +152,26 @@ class RoleSerializer(serializers.ModelSerializer):
         fields = (
             "name",
             "permissions",
+            "url",
         )
-
-    def validate_name(self, value):
-        check_query = Role.objects.filter(name=value)
-        if not check_query.exists():
-            raise serializers.ValidationError("Role with this role name was not found.")
-        return value
+        extra_kwargs = {"url": {"view_name": "api:role-detail", "lookup_field": "id"}}
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    roles = RoleSerializer(many=True)
+    roles = serializers.HyperlinkedIdentityField(
+        view_name="api:role-detail", lookup_field="id", many=True, read_only=True,
+    )
 
     class Meta:
         model = Group
         fields = (
             "name",
-            "roles",
             "project_selection",
             "language_selection",
             "url",
+            "roles",
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
-
-    def create(self, validated_data):
-        role_validated = validated_data.pop("roles")
-        group = Group.objects.create(**validated_data)
-        if role_validated:
-            role_names = [role.get("name") for role in role_validated]
-            roles = Role.objects.filter(name__in=role_names).all()
-            for role in roles:
-                group.roles.add(role)
-        return group
-
-    def update(self, instance, validated_data):
-        role_validated = validated_data.pop("roles", None)
-        if role_validated:
-            role_names = [role.get("name") for role in role_validated]
-            roles = Role.objects.filter(name__in=role_names).all()
-            for role in roles:
-                instance.roles.add(role)
-        return super().update(instance, validated_data)
 
 
 class ProjectSerializer(serializers.ModelSerializer):

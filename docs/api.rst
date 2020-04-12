@@ -287,7 +287,7 @@ Groups
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
     :>json int language_selection: integer corresponding to group of languages
-    :>json array roles: array of associated roles
+    :>json array roles: link to associated groups; see :http:get:`/api/roles/(int:id)/`
 
 .. http:put:: /api/groups/(int:id)/
 
@@ -297,8 +297,7 @@ Groups
     :type id: int
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
-    :>json int language_selection: integer corresponding to group of languages
-    :>json array roles: array of associated roles
+    :>json int language_selection: integer corresponding to group of Languages
 
 .. http:patch:: /api/groups/(int:id)/
 
@@ -309,7 +308,6 @@ Groups
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
     :>json int language_selection: integer corresponding to group of languages
-    :>json array roles: array of associated roles
 
 .. http:delete:: /api/groups/(int:id)/
 
@@ -317,6 +315,41 @@ Groups
 
     :param id: Group's ID
     :type id: int
+
+
+Roles
++++++++++
+
+.. http:get:: /api/roles/
+
+    Returns a list of all roles associated with user. If user is superuser, then list of all
+    existing roles is returned.
+
+    .. seealso::
+
+        Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`.
+
+.. http:get:: /api/roles/(int:id)/
+
+    Returns information about a role.
+
+    :param id: Role ID
+    :type id: int
+    :>json string name: Role code
+    :>json array permissions: list of name of permissions
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "name": "Access repository",
+            "permissions": [
+                "Access the internal repository",
+                "View upstream repository location"
+            ],
+            "url": "http://example.com/api/roles/1/",
+        }
 
 
 Languages

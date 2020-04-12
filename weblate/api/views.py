@@ -50,6 +50,7 @@ from weblate.api.serializers import (
     LockSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
+    RoleSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
     StatisticsSerializer,
@@ -58,7 +59,7 @@ from weblate.api.serializers import (
     UploadRequestSerializer,
     UserSerializer,
 )
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
 from weblate.formats.exporters import EXPORTERS
 from weblate.lang.models import Language
@@ -265,8 +266,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("user.edit"):
-            return User.objects.order_by("id").all()
-        return User.objects.filter(pk=self.request.user.pk).order_by("id").all()
+            return User.objects.order_by("id")
+        return User.objects.filter(pk=self.request.user.pk).order_by("id")
 
     def perm_check(self, request):
         if not request.user.has_perm("user.edit"):
@@ -319,8 +320,8 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.has_perm("group.edit"):
-            return Group.objects.order_by("id").all()
-        return self.request.user.groups.order_by("id").all()
+            return Group.objects.order_by("id")
+        return self.request.user.groups.order_by("id")
 
     def perm_check(self, request):
         if not request.user.has_perm("group.edit"):
@@ -337,6 +338,23 @@ class GroupViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
+
+
+class RoleViewSet(viewsets.ReadOnlyModelViewSet):
+    """Languages API."""
+
+    queryset = Role.objects.none()
+    serializer_class = RoleSerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        if self.request.user.has_perm("role.edit"):
+            return Role.objects.order_by("id").all()
+        return (
+            Role.objects.filter(group__in=self.request.user.groups.all())
+            .order_by("id")
+            .all()
+        )
 
 
 class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):

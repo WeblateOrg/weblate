@@ -260,27 +260,9 @@ class GroupAPITest(APIBaseTest):
             "api:group-list",
             method="post",
             superuser=True,
-            code=400,
-            format="json",
-            request={
-                "name": "Group",
-                "project_selection": 0,
-                "language_selection": 0,
-                "roles": [{"name": "invalid"}],
-            },
-        )
-        self.do_request(
-            "api:group-list",
-            method="post",
-            superuser=True,
             code=201,
             format="json",
-            request={
-                "name": "Group",
-                "project_selection": 0,
-                "language_selection": 0,
-                "roles": [{"name": "Administration"}],
-            },
+            request={"name": "Group", "project_selection": 0, "language_selection": 0},
         )
         self.assertEqual(Group.objects.count(), 7)
 
@@ -301,12 +283,7 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=201,
             format="json",
-            request={
-                "name": "Group",
-                "project_selection": 0,
-                "language_selection": 0,
-                "roles": [{"name": "Administration"}],
-            },
+            request={"name": "Group", "project_selection": 0, "language_selection": 0},
         )
         self.do_request(
             "api:group-detail",
@@ -321,43 +298,9 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=200,
             format="json",
-            request={
-                "name": "Group",
-                "project_selection": 0,
-                "language_selection": 1,
-                "roles": [{"name": "Administration"}],
-            },
+            request={"name": "Group", "project_selection": 0, "language_selection": 1},
         )
         self.assertEqual(Group.objects.get(name="Group").language_selection, 1)
-        self.do_request(
-            "api:group-detail",
-            kwargs={"id": Group.objects.get(name="Group").id},
-            method="put",
-            superuser=True,
-            code=400,
-            format="json",
-            request={
-                "name": "Group",
-                "project_selection": 0,
-                "language_selection": 1,
-                "roles": [{"name": "Administration"}, {"name": "invalid"}],
-            },
-        )
-        self.do_request(
-            "api:group-detail",
-            kwargs={"id": Group.objects.get(name="Group").id},
-            method="put",
-            superuser=True,
-            code=200,
-            format="json",
-            request={
-                "name": "Group",
-                "project_selection": 0,
-                "language_selection": 1,
-                "roles": [{"name": "Administration"}, {"name": "Billing"}],
-            },
-        )
-        self.assertEqual(Group.objects.get(name="Group").roles.count(), 2)
 
     def test_patch(self):
         self.do_request(
@@ -375,6 +318,19 @@ class GroupAPITest(APIBaseTest):
             request={"language_selection": 1},
         )
         self.assertEqual(Group.objects.get(name="Users").language_selection, 1)
+
+
+class RoleAPITest(APIBaseTest):
+    def test_list_roles(self):
+        response = self.client.get(reverse("api:role-list"))
+        self.assertEqual(response.data["count"], 2)
+        self.authenticate(True)
+        response = self.client.get(reverse("api:role-list"))
+        self.assertEqual(response.data["count"], 13)
+
+    def test_getroleanguage(self):
+        response = self.client.get(reverse("api:role-detail", kwargs={"id": 1}))
+        self.assertEqual(response.data["name"], "Add suggestion")
 
 
 class ProjectAPITest(APIBaseTest):
