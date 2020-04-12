@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-10 18:04+0000\n"
-"PO-Revision-Date: 2020-04-08 15:37+0000\n"
-"Last-Translator: WaldiS <admin@sto.ugu.pl>\n"
+"PO-Revision-Date: 2020-04-12 20:11+0000\n"
+"Last-Translator: Katarzyna Twardowska <katarina.twardowska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
 "Language: pl\n"
@@ -242,33 +242,25 @@ msgstr ""
 "Otrzymasz powiadomienie o każdym takim wydarzeniu w oglądanych projektach."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Otrzymasz powiadomienie o każdym takim wydarzeniu w oglądanych projektach."
+"Otrzymasz powiadomienie o każdej podjętej akcji w projektach, w których "
+"posiadasz uprawnienia administratora."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr ""
-"Otrzymasz powiadomienie o każdym takim wydarzeniu w oglądanych projektach."
+"Otrzymasz powiadomienie o każdym takim wydarzeniu w %(project)s projektach."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
-"Otrzymasz powiadomienie o każdym takim wydarzeniu w oglądanych projektach."
+"Otrzymasz powiadomienie o każdym takim wydarzeniu w %(component)s "
+"komponentach."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -279,40 +271,30 @@ msgstr ""
 "oglądanych projektach."
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
 "Otrzymasz te powiadomienia tylko w przypadku tłumaczonych języków w "
-"oglądanych projektach."
+"projektach, w których posiadasz uprawnienia administratora."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
 "Otrzymasz te powiadomienia tylko w przypadku tłumaczonych języków w "
-"oglądanych projektach."
+"%(project)s projektach."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
 "Otrzymasz te powiadomienia tylko w przypadku tłumaczonych języków w "
-"oglądanych projektach."
+"oglądanych %(component)s komponentach."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -393,10 +375,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Zaproszony do Weblate przez {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configured password sign in."
-msgstr "Skonfigurowane logowanie hasłem."
+msgstr "Skonfigurowane hasło logowania."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -1611,10 +1591,8 @@ msgstr "Zarządzaj pamięcią tłumaczeń (na całej platformie)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
-msgstr "Zarządzanie ogłoszeniami (na całej platformie)"
+msgstr "Zarządzanie listą komponentów (na całej platformie)"
 
 #: weblate/auth/data.py:169
 msgctxt "Access control role"
@@ -2355,10 +2333,8 @@ msgid "Percent placeholders"
 msgstr "Procent symboli zastępczych"
 
 #: weblate/checks/format.py:450
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "Interpolacja procentowa nie jest zgodna ze źródłem"
+msgstr "Procent zapychaczy nie jest zgodny ze źródłem"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -4310,10 +4286,9 @@ msgid "Checks"
 msgstr "Testy"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Nie udało się odnaleźć pasującego projektu!"
+msgstr "Testy nie powiodły się w %(project)s projektach"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -4497,6 +4472,8 @@ msgid ""
 "In case you miss access to billing of your project, please contact project "
 "maintainers to give you permission to access its billing."
 msgstr ""
+"W przypadku utracenia dostępu do rozliczeń w swoich projektach, skontaktuj "
+"się z opiekunem projektu w celu uzyskania go."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4765,10 +4742,8 @@ msgstr "Przewodnik po lokalizacji"
 
 #: weblate/templates/component.html:59
 #: weblate/templates/snippets/project-nav.html:52
-#, fuzzy
-#| msgid "Download original translation files as ZIP file"
 msgid "Download translation files as ZIP file"
-msgstr "Pobierz oryginalne pliki tłumaczeń w formacie ZIP"
+msgstr "Pobierz pliki tłumaczeń w formacie ZIP"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -6562,15 +6537,12 @@ msgid "Send test e-mail"
 msgstr "Wyślij testową wiadomość e-mail"
 
 #: weblate/templates/manage/tools.html:45
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "Integracja kontroli wersji"
+msgstr "Testuj integrację Sentry"
 
 #: weblate/templates/manage/tools.html:48
-#, fuzzy
 msgid "Generate a test event to test Sentry integration."
-msgstr "Utworzyć testową zdarzenie, aby sprawdzić strefę integracji."
+msgstr "Utworzyć testową zdarzenie, aby sprawdzić integrację z Sentry."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -7026,10 +6998,6 @@ msgstr ""
 "tłumaczonych projektów."
 
 #: weblate/templates/snippets/plural-formula.html:4
-#, fuzzy
-#| msgid ""
-#| "This equation identifies which plural form will be used based on given "
-#| "count (n)."
 msgid ""
 "This formula identifies which plural form will be used based on given count "
 "(n)."
@@ -7205,7 +7173,7 @@ msgstr "Sugerowana zmiana:"
 
 #: weblate/templates/snippets/suggestions.html:53
 msgid "Failing checks:"
-msgstr "Nieudane testy"
+msgstr "Nieudane testy:"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:498 weblate/utils/state.py:31
@@ -7694,10 +7662,8 @@ msgid "Source change"
 msgstr "Zmiana żródła"
 
 #: weblate/templates/translate.html:145
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Język średniozaawansowany"
+msgstr "Język pośredni"
 
 #: weblate/templates/translate.html:161 weblate/trans/models/unit.py:187
 msgid "Additional context"
@@ -7880,8 +7846,8 @@ msgstr[2] "Istnieje %(count)s komentarzy dla tego ciągu."
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
 msgstr[0] "Występuje %(count) sugestia dla tego ciągu."
-msgstr[1] "Jest %(count)s sugestii dla tego ciągu."
-msgstr[2] "Istnieje %(count)s sugestii dla tego ciągu znaków."
+msgstr[1] "Są %(count)s sugestie dla tego ciągu."
+msgstr[2] "Istnieje %(count)s sugestii dla tego ciągu."
 
 #: weblate/templates/translate.html:498
 msgid "Manage glossary"
@@ -9354,13 +9320,10 @@ msgstr ""
 "jednojęzycznych."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Create new language file"
 msgid "Intermediate language file"
 msgstr "Plik języka pośredniego"
 
 #: weblate/trans/models/component.py:282
-#, fuzzy
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -9368,7 +9331,7 @@ msgid ""
 msgstr ""
 "Nazwa pliku tłumaczenia pośredniego. W większości przypadków jest to plik "
 "tłumaczenia dostarczony przez deweloperów i jest używany podczas tworzenia "
-"rzeczywistych ciągów źródłowych."
+"faktycznych ciągów źródłowych."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9679,7 +9642,6 @@ msgstr "Nie można użyć pliku bazowego do tłumaczenia dwujęzycznego."
 
 #: weblate/trans/models/component.py:1651
 #: weblate/trans/models/component.py:1656
-#, fuzzy
 msgid "Intermediate language file can not be used without editing template."
 msgstr "Pośredni plik języka nie może być używany bez szablonu edycji."
 
@@ -9937,10 +9899,8 @@ msgid "Requires dedicated reviewers to approve translations."
 msgstr "Wymaga dedykowanych recenzentów do zatwierdzania tłumaczeń."
 
 #: weblate/trans/models/project.py:122
-#, fuzzy
-#| msgid "Enable reviews"
 msgid "Enable source reviews"
-msgstr "Włącz recenzje źródeł"
+msgstr "Włącz recenzje źródła"
 
 #: weblate/trans/models/project.py:125
 msgid "Requires dedicated reviewers to approve source strings."
@@ -10841,8 +10801,6 @@ msgid "Compilation failed: {0}"
 msgstr "Błąd kompilacji: {0}"
 
 #: weblate/utils/validators.py:69
-#, fuzzy
-#| msgid "Regular expression should not match empty string."
 msgid "The regular expression can not match an empty string."
 msgstr "Wyrażenie regularne nie może pasować do pustego ciągu."
 
