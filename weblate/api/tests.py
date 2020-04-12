@@ -328,7 +328,7 @@ class RoleAPITest(APIBaseTest):
         response = self.client.get(reverse("api:role-list"))
         self.assertEqual(response.data["count"], 13)
 
-    def test_getroleanguage(self):
+    def test_get_role(self):
         response = self.client.get(reverse("api:role-detail", kwargs={"id": 1}))
         self.assertEqual(response.data["name"], "Add suggestion")
 

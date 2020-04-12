@@ -336,7 +336,7 @@ Roles
     :param id: Role ID
     :type id: int
     :>json string name: Role code
-    :>json array permissions: list of name of permissions
+    :>json array permissions: list of codenames of permissions
 
     **Example JSON data:**
 

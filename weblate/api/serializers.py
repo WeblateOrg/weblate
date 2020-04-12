@@ -141,7 +141,7 @@ class PermissionSerializer(serializers.RelatedField):
         model = Permission
 
     def to_representation(self, value):
-        return value.name
+        return value.codename
 
 
 class RoleSerializer(serializers.ModelSerializer):
@@ -550,6 +550,12 @@ class ChangeSerializer(RemovableSerializer):
     )
     unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
+    )
+    user = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
+    )
+    author = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
     )
 
     class Meta:
