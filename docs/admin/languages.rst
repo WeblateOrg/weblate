@@ -90,4 +90,4 @@ Gettext compatible plural formula used to determine which plural form is used fo
 
    :ref:`plurals`,
    `GNU gettext utilities: Plural forms <https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_,
-   `Language Plural Rules by the Unicode Consortium <https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html>`_
+   `Language Plural Rules by the Unicode Consortium <http://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html>`_
