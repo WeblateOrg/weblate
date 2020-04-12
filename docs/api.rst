@@ -287,7 +287,7 @@ Groups
     :>json string name: name of a group
     :>json int project_selection: integer corresponding to group of projects
     :>json int language_selection: integer corresponding to group of languages
-    :>json array roles: link to associated groups; see :http:get:`/api/roles/(int:id)/`
+    :>json array roles: link to associated roles; see :http:get:`/api/roles/(int:id)/`
 
 .. http:put:: /api/groups/(int:id)/
 
