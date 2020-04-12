@@ -22,7 +22,7 @@ Not yet released.
 * Improved LINGUAS update addon to handle more syntax variants.
 * Fixed editing monolingual XLIFF source file.
 * Added support for exact matching in :doc:`user/search`.
-* Extended API to cover screenshots, componentlists and extended creating projects.
+* Extended API to cover screenshots, users, groups, componentlists and extended creating projects.
 * Add support for source upload on bilingual translations.
 * Added support for intermediate language from developers.
 * Added support for source strings review.
