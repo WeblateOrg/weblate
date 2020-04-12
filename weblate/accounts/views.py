@@ -154,7 +154,7 @@ NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
 
 class EmailSentView(TemplateView):
-    """Class for rendering e-mail sent page."""
+    """Class for rendering \"E-mail sent\" page."""
 
     template_name = "accounts/email-sent.html"
 
@@ -200,8 +200,8 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
-        messages.error(request, _("Message could not be sent to administrator!"))
-        LOGGER.error("ADMINS not configured, can not send message!")
+        messages.error(request, _("Could not send message to administrator!"))
+        LOGGER.error("ADMINS not configured, cannot send message!")
         return
 
     mail = EmailMultiAlternatives(
@@ -940,8 +940,7 @@ def social_disconnect(request, backend, association_id=None):
         messages.error(
             request,
             _(
-                "Could not remove last user identity with confirmed e-mail. "
-                "Please confirm your e-mail first."
+                "Add another identity by confirming your e-mail address first."
             ),
         )
         return redirect_profile("#account")
@@ -966,7 +965,7 @@ def social_auth(request, backend):
         request.backend = load_backend(request.social_strategy, backend, uri)
     except MissingBackend:
         raise Http404("Backend not found")
-    # Store session ID for OpenId based auth. The session cookies will not be sent
+    # Store session ID for OpenID based auth. The session cookies will not be sent
     # on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):
         request.backend.redirect_uri += "?authid={}".format(
@@ -987,9 +986,8 @@ def auth_redirect_token(request):
     return auth_fail(
         request,
         _(
-            "Could not verify your registration! "
-            "The verification token has probably expired. "
-            "Please try to register again."
+            "Try registering again to verify your identity,"
+            "the verification token probably expired."
         ),
     )
 
@@ -1021,7 +1019,7 @@ def social_complete(request, backend):
     """Wrapper around social_django.views.complete.
 
     - Handles backend errors gracefully
-    - Intermediate page (autosubmitted by javascript) to avoid
+    - Intermediate page (autosubmitted by JavaScript) to avoid
       confirmations by bots
     - Restores session from authid for some backends (see social_auth)
     """
@@ -1084,7 +1082,7 @@ def social_complete(request, backend):
             request,
             _(
                 "Could not complete registration. The supplied authentication, "
-                "e-mail or username is already in use for another account."
+                "e-mail address or username is already in use for another account."
             ),
         )
 
