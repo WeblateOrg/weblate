@@ -21,6 +21,7 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
@@ -111,6 +112,66 @@ class LanguageSerializer(serializers.ModelSerializer):
                 "Language with this language code was not found."
             )
         return value
+
+
+class UserSerializer(serializers.ModelSerializer):
+    groups = serializers.HyperlinkedIdentityField(
+        view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "full_name",
+            "username",
+            "groups",
+            "is_superuser",
+            "is_active",
+            "date_joined",
+            "url",
+        )
+        extra_kwargs = {
+            "url": {"view_name": "api:user-detail", "lookup_field": "username"}
+        }
+
+
+class PermissionSerializer(serializers.RelatedField):
+    class Meta:
+        model = Permission
+
+    def to_representation(self, value):
+        return value.codename
+
+
+class RoleSerializer(serializers.ModelSerializer):
+    permissions = PermissionSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Role
+        fields = (
+            "name",
+            "permissions",
+            "url",
+        )
+        extra_kwargs = {"url": {"view_name": "api:role-detail", "lookup_field": "id"}}
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    roles = serializers.HyperlinkedIdentityField(
+        view_name="api:role-detail", lookup_field="id", many=True, read_only=True,
+    )
+
+    class Meta:
+        model = Group
+        fields = (
+            "name",
+            "project_selection",
+            "language_selection",
+            "url",
+            "roles",
+        )
+        extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -489,6 +550,12 @@ class ChangeSerializer(RemovableSerializer):
     )
     unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
+    )
+    user = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
+    )
+    author = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
     )
 
     class Meta:

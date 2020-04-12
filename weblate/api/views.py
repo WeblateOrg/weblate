@@ -39,23 +39,27 @@ from rest_framework.settings import api_settings
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
+from weblate.accounts.utils import remove_user
 from weblate.api.serializers import (
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
+    GroupSerializer,
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
+    RoleSerializer,
     ScreenshotFileSerializer,
     ScreenshotSerializer,
     StatisticsSerializer,
     TranslationSerializer,
     UnitSerializer,
     UploadRequestSerializer,
+    UserSerializer,
 )
-from weblate.auth.models import User
+from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
 from weblate.formats.exporters import EXPORTERS
 from weblate.lang.models import Language
@@ -251,6 +255,106 @@ class WeblateViewSet(DownloadViewSet):
                 data["merge_failure"] = None
 
         return Response(data)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """Users API."""
+
+    queryset = User.objects.none()
+    serializer_class = UserSerializer
+    lookup_field = "username"
+
+    def get_queryset(self):
+        if self.request.user.has_perm("user.edit"):
+            return User.objects.order_by("id")
+        return User.objects.filter(pk=self.request.user.pk).order_by("id")
+
+    def perm_check(self, request):
+        if not request.user.has_perm("user.edit"):
+            self.permission_denied(request, message="Can not manage Users")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        instance = self.get_object()
+        remove_user(instance, request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(
+        detail=True, methods=["post"],
+    )
+    def groups(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        if "group_id" not in request.data:
+            raise ParseError("Missing group_id parameter")
+
+        try:
+            group = Group.objects.get(pk=int(request.data["group_id"]),)
+        except (Group.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.groups.add(group)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """Groups API."""
+
+    queryset = Group.objects.none()
+    serializer_class = GroupSerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        if self.request.user.has_perm("group.edit"):
+            return Group.objects.order_by("id")
+        return self.request.user.groups.order_by("id")
+
+    def perm_check(self, request):
+        if not request.user.has_perm("group.edit"):
+            self.permission_denied(request, message="Can not manage groups")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().destroy(request, *args, **kwargs)
+
+
+class RoleViewSet(viewsets.ReadOnlyModelViewSet):
+    """Languages API."""
+
+    queryset = Role.objects.none()
+    serializer_class = RoleSerializer
+    lookup_field = "id"
+
+    def get_queryset(self):
+        if self.request.user.has_perm("role.edit"):
+            return Role.objects.order_by("id").all()
+        return (
+            Role.objects.filter(group__in=self.request.user.groups.all())
+            .order_by("id")
+            .all()
+        )
 
 
 class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):

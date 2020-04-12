@@ -135,6 +135,8 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("user.edit", _("Manage users (on the entire platform)")),
     # Translators: Permission name
+    ("role.edit", _("Manage roles (on the entire platform)")),
+    # Translators: Permission name
     ("announcement.edit", _("Manage announcements (on the entire platform)")),
     # Translators: Permission name
     ("memory.edit", _("Manage translation memory (on the entire platform)")),

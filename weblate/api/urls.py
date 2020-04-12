@@ -25,16 +25,22 @@ from weblate.api.views import (
     ChangeViewSet,
     ComponentListViewSet,
     ComponentViewSet,
+    GroupViewSet,
     LanguageViewSet,
     Metrics,
     ProjectViewSet,
+    RoleViewSet,
     ScreenshotViewSet,
     TranslationViewSet,
     UnitViewSet,
+    UserViewSet,
 )
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = WeblateRouter()
+router.register(r"users", UserViewSet)
+router.register(r"groups", GroupViewSet)
+router.register(r"roles", RoleViewSet)
 router.register(r"projects", ProjectViewSet)
 router.register(r"components", ComponentViewSet, "component")
 router.register(r"translations", TranslationViewSet)
