@@ -288,6 +288,9 @@ Groups
     :>json int project_selection: integer corresponding to group of projects
     :>json int language_selection: integer corresponding to group of languages
     :>json array roles: link to associated roles; see :http:get:`/api/roles/(int:id)/`
+    :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
+    :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
+    :>json array componentlist: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
 
 .. http:put:: /api/groups/(int:id)/
 

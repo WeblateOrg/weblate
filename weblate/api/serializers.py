@@ -161,6 +161,21 @@ class GroupSerializer(serializers.ModelSerializer):
     roles = serializers.HyperlinkedIdentityField(
         view_name="api:role-detail", lookup_field="id", many=True, read_only=True,
     )
+    projects = serializers.HyperlinkedIdentityField(
+        view_name="api:project-detail", lookup_field="slug", many=True, read_only=True,
+    )
+    componentlist = serializers.HyperlinkedRelatedField(
+        view_name="api:componentlist-detail",
+        lookup_field="_slug",
+        many=False,
+        read_only=True,
+    )
+    components = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("project__slug", "slug"),
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = Group
@@ -170,6 +185,9 @@ class GroupSerializer(serializers.ModelSerializer):
             "language_selection",
             "url",
             "roles",
+            "projects",
+            "componentlist",
+            "components",
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
