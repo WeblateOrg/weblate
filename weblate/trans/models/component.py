@@ -1979,17 +1979,16 @@ class Component(models.Model, URLMixin, PathMixin):
         else:
             self.delete_alert("DuplicateFilemask")
 
-        locations = allunits.exclude(location="")
         location_error = []
-        if self.repoweb and locations.exists():
-            for unit in locations[:10]:
+        if self.repoweb:
+            unit = allunits.exclude(location="").first()
+            if unit:
                 for _location, filename, line in unit.get_locations():
                     link = self.get_repoweb_link(filename, line)
                     if link is None:
                         continue
                     if get_uri_error(link) is not None:
                         location_error.append(link)
-                if location_error:
                     break
         if location_error:
             self.add_alert("BrokenBrowserURL", links=location_error)
