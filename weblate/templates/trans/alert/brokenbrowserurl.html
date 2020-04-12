@@ -4,9 +4,7 @@
 <p>{% trans "The repository browser URL points to non-existing locations:" %}</p>
 
 <ul>
-{% for link in links %}
-<li><a href="{{ link }}">{{ link }}</a></li>
-{% endfor %}
+<li><a href="{{ link }}">{{ link }}</a>{% if error %} ({{ error }}){% endif %}</li>
 </ul>
 
 <p>{% trans "This can happen if the path within the translation files contains references to a parent directory, or is absolute." %}</p>

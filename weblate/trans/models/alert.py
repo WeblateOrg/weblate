@@ -264,9 +264,10 @@ class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Broken repository browser URL")
 
-    def __init__(self, instance, links):
+    def __init__(self, instance, link, error):
         super().__init__(instance)
-        self.links = links
+        self.link = link
+        self.error = error
 
 
 @register
