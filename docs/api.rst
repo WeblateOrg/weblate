@@ -195,7 +195,7 @@ API Entry Point
 
 
 Users
-+++++++++++++++
++++++
 
 .. versionadded:: 4.0
 
@@ -265,7 +265,7 @@ Users
 
 
 Groups
-+++++++++++++++
+++++++
 
 .. versionadded:: 4.0
 
@@ -318,7 +318,7 @@ Groups
 
 
 Roles
-+++++++++
++++++
 
 .. http:get:: /api/roles/
 
