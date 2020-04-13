@@ -362,6 +362,55 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(
+        detail=True, methods=["post"],
+    )
+    def projects(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        if "project_id" not in request.data:
+            raise ParseError("Missing project_id parameter")
+
+        try:
+            project = Project.objects.get(pk=int(request.data["project_id"]),)
+        except (Project.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.projects.add(project)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True, methods=["post"],
+    )
+    def components(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        if "component_id" not in request.data:
+            raise ParseError("Missing component_id parameter")
+
+        try:
+            component = Component.objects.get(
+                project_id__in=self.request.user.allowed_project_ids,
+                pk=int(request.data["component_id"]),
+            )
+        except (Component.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.components.add(component)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class RoleViewSet(viewsets.ModelViewSet):
     """Roles API."""
