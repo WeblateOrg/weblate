@@ -1728,11 +1728,21 @@ class Component(models.Model, URLMixin, PathMixin):
             return
 
         # Check if we should rename
+        changed_git = True
         if self.id:
             old = Component.objects.get(pk=self.id)
             self.check_rename(old, validate=True)
+            changed_git = (
+                (old.vcs != self.vcs)
+                or (old.repo != self.repo)
+                or (old.branch != self.branch)
+                or (old.filemask != self.filemask)
+                or (old.language_regex != self.language_regex)
+            )
 
-        self.clean_repo()
+        # Check repo if config was changes
+        if changed_git:
+            self.clean_repo()
 
         # Template validation
         self.clean_template()
