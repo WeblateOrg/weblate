@@ -339,9 +339,32 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         return super().destroy(request, *args, **kwargs)
 
+    @action(
+        detail=True, methods=["post"],
+    )
+    def roles(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
 
-class RoleViewSet(viewsets.ReadOnlyModelViewSet):
-    """Languages API."""
+        if "role_id" not in request.data:
+            raise ParseError("Missing role_id parameter")
+
+        try:
+            role = Role.objects.get(pk=int(request.data["role_id"]),)
+        except (Role.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.roles.add(role)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class RoleViewSet(viewsets.ModelViewSet):
+    """Roles API."""
 
     queryset = Role.objects.none()
     serializer_class = RoleSerializer
@@ -355,6 +378,22 @@ class RoleViewSet(viewsets.ReadOnlyModelViewSet):
             .order_by("id")
             .all()
         )
+
+    def perm_check(self, request):
+        if not request.user.has_perm("role.edit"):
+            self.permission_denied(request, message="Can not manage roles")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().destroy(request, *args, **kwargs)
 
 
 class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
