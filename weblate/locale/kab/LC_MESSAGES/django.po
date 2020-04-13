@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 18:04+0000\n"
+"POT-Creation-Date: 2020-04-13 05:25+0000\n"
 "PO-Revision-Date: 2020-04-13 05:24+0000\n"
 "Last-Translator: Muḥend Belqasem <belkacem77@gmail.com>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/master/"
@@ -745,7 +745,9 @@ msgid "User registration"
 msgstr "Ajerred n useqdac"
 
 #: weblate/accounts/views.py:203
-msgid "Message could not be sent to administrator!"
+#, fuzzy
+#| msgid "Message could not be sent to administrator!"
+msgid "Could not send message to administrator!"
 msgstr "Izen ur yezmir ara ad yettwazen i unedbal!!"
 
 #: weblate/accounts/views.py:223
@@ -815,68 +817,70 @@ msgstr "Ur tezmireḍ ara ad twennzeḍ awal uffir, asesteb s yimayl yensa."
 msgid "Could not remove user identity"
 msgstr "Akufi n tengalt aɣbalu"
 
-#: weblate/accounts/views.py:943
-msgid ""
-"Could not remove last user identity with confirmed e-mail. Please confirm "
-"your e-mail first."
+#: weblate/accounts/views.py:941
+msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 
-#: weblate/accounts/views.py:990
+#: weblate/accounts/views.py:986
 msgid ""
-"Could not verify your registration! The verification token has probably "
-"expired. Please try to register again."
+"Try registering again to verify your identity,the verification token "
+"probably expired."
 msgstr ""
 
-#: weblate/accounts/views.py:998
+#: weblate/accounts/views.py:993
 msgid "Could not authenticate due to invalid session state."
 msgstr ""
 
-#: weblate/accounts/views.py:1005
+#: weblate/accounts/views.py:1000
 #, fuzzy
 #| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Tzemreḍ ad ternud tansa-nniden imayl deg iccer Asesteb."
 
-#: weblate/accounts/views.py:1007
+#: weblate/accounts/views.py:1002
 #, fuzzy
 #| msgid "Download for an offline translation."
 msgid "Please register using e-mail instead."
 msgstr "Sider i tsuqilt s war tuqqna."
 
-#: weblate/accounts/views.py:1014
+#: weblate/accounts/views.py:1009
 #, fuzzy
 #| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
 msgstr "Ijarriden imaynuten ttwasensen!"
 
-#: weblate/accounts/views.py:1072
+#: weblate/accounts/views.py:1067
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 
-#: weblate/accounts/views.py:1078
+#: weblate/accounts/views.py:1073
 msgid "Authentication cancelled."
 msgstr "Asesteb yefsex."
 
-#: weblate/accounts/views.py:1081
+#: weblate/accounts/views.py:1076
 msgid "The server does not allow authentication."
 msgstr ""
 
-#: weblate/accounts/views.py:1086
+#: weblate/accounts/views.py:1081
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
-"username is already in use for another account."
+"Could not complete registration. The supplied authentication, e-mail address "
+"or username is already in use for another account."
 msgstr ""
 "Ur izmir ara ad ifak ajerred. Asesteb-a, s yimayl neɣ s yisem n useqdac "
 "yettwaseqdec yakan i umiḍan-nniḍen."
 
-#: weblate/accounts/views.py:1101
+#: weblate/accounts/views.py:1096
 #, fuzzy
 #| msgid "Actions"
 msgid "Notification settings adjusted."
 msgstr "Tigawin"
 
-#: weblate/accounts/views.py:1106
+#: weblate/accounts/views.py:1101
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -1125,15 +1129,11 @@ msgstr "Angaz n yizirig"
 
 #: weblate/addons/forms.py:184
 msgid "DOS (\\r\\n)"
-msgstr ""
-"DOS (\\r\\n"
-")"
+msgstr "DOS (\\r\\n)"
 
 #: weblate/addons/forms.py:185
 msgid "UNIX (\\n)"
-msgstr ""
-"UNIX (\\n"
-")"
+msgstr "UNIX (\\n)"
 
 #: weblate/addons/forms.py:186
 msgid "MAC (\\r)"
@@ -1692,171 +1692,178 @@ msgstr ""
 #: weblate/auth/data.py:138
 #, fuzzy
 #| msgid "Translated languages"
-msgid "Manage announcements (on the entire platform)"
+msgid "Manage roles (on the entire platform)"
 msgstr "Tutlayin yettwasuqlen"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
+#, fuzzy
+#| msgid "Translated languages"
+msgid "Manage announcements (on the entire platform)"
+msgstr "Tutlayin yettwasuqlen"
+
+#. Translators: Permission name
+#: weblate/auth/data.py:142
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Manage translation memory (on the entire platform)"
 msgstr "Tasuqilt tawurmant"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:142
+#: weblate/auth/data.py:144
 msgid "Manage component lists (on the entire platform)"
 msgstr "Sefrek tabdert n yisuddisen (deg tɣerɣet n unekcum)"
 
-#: weblate/auth/data.py:169
+#: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Add suggestion"
 msgstr "Rnu asumer"
 
-#: weblate/auth/data.py:170
+#: weblate/auth/data.py:172
 msgctxt "Access control role"
 msgid "Access repository"
 msgstr "Kcem s akufi"
 
-#: weblate/auth/data.py:172
+#: weblate/auth/data.py:174
 msgctxt "Access control role"
 msgid "Power user"
 msgstr ""
 
-#: weblate/auth/data.py:183
+#: weblate/auth/data.py:185
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Suqel"
 
-#: weblate/auth/data.py:185
+#: weblate/auth/data.py:187
 msgctxt "Access control role"
 msgid "Edit source"
 msgstr ""
 
-#: weblate/auth/data.py:188
+#: weblate/auth/data.py:190
 #, fuzzy
 #| msgid "Translated languages"
 msgctxt "Access control role"
 msgid "Manage languages"
 msgstr "Tutlayin yettwasuqlen"
 
-#: weblate/auth/data.py:189
+#: weblate/auth/data.py:191
 #, fuzzy
 #| msgid "Glossary"
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Amawal n yilɣiten"
 
-#: weblate/auth/data.py:191
+#: weblate/auth/data.py:193
 #, fuzzy
 #| msgid "Machine translation"
 msgctxt "Access control role"
 msgid "Manage translation memory"
 msgstr "Tasuqilt tawurmant"
 
-#: weblate/auth/data.py:195
+#: weblate/auth/data.py:197
 #, fuzzy
 #| msgid "Screenshots"
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Tuṭṭfiwin n ugdil"
 
-#: weblate/auth/data.py:199
+#: weblate/auth/data.py:201
 #, fuzzy
 #| msgid "Service"
 msgctxt "Access control role"
 msgid "Review strings"
 msgstr "Ameẓlu"
 
-#: weblate/auth/data.py:202
+#: weblate/auth/data.py:204
 msgctxt "Access control role"
 msgid "Manage repository"
 msgstr "Sefrek akufi"
 
-#: weblate/auth/data.py:203
+#: weblate/auth/data.py:205
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Tadbelt"
 
-#: weblate/auth/data.py:204
+#: weblate/auth/data.py:206
 msgctxt "Access control role"
 msgid "Billing"
 msgstr ""
 
-#: weblate/auth/data.py:210
+#: weblate/auth/data.py:212
 msgctxt "Access control group"
 msgid "Guests"
 msgstr ""
 
-#: weblate/auth/data.py:214
+#: weblate/auth/data.py:216
 #, fuzzy
 #| msgid "View"
 msgctxt "Access control group"
 msgid "Viewers"
 msgstr "Timeẓri"
 
-#: weblate/auth/data.py:215
+#: weblate/auth/data.py:217
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Iseqdacen"
 
-#: weblate/auth/data.py:216
+#: weblate/auth/data.py:218
 #, fuzzy
 #| msgid "Review"
 msgctxt "Access control group"
 msgid "Reviewers"
 msgstr "Cegger"
 
-#: weblate/auth/data.py:217
+#: weblate/auth/data.py:219
 msgctxt "Access control group"
 msgid "Managers"
 msgstr ""
 
-#: weblate/auth/data.py:222
+#: weblate/auth/data.py:224
 msgctxt "Per project access control group"
 msgid "Translate"
 msgstr "Suqel"
 
-#: weblate/auth/data.py:223
+#: weblate/auth/data.py:225
 msgctxt "Per project access control group"
 msgid "Template"
 msgstr "Taneɣruft"
 
-#: weblate/auth/data.py:224
+#: weblate/auth/data.py:226
 msgctxt "Per project access control group"
 msgid "Languages"
 msgstr "Tutlayin"
 
-#: weblate/auth/data.py:225
+#: weblate/auth/data.py:227
 msgctxt "Per project access control group"
 msgid "Glossary"
 msgstr "Amawal"
 
-#: weblate/auth/data.py:226
+#: weblate/auth/data.py:228
 msgctxt "Per project access control group"
 msgid "Memory"
 msgstr ""
 
-#: weblate/auth/data.py:227
+#: weblate/auth/data.py:229
 msgctxt "Per project access control group"
 msgid "Screenshots"
 msgstr "Tuṭṭfiwin n ugdil"
 
-#: weblate/auth/data.py:228
+#: weblate/auth/data.py:230
 msgctxt "Per project access control group"
 msgid "Review"
 msgstr "Cegger"
 
-#: weblate/auth/data.py:229
+#: weblate/auth/data.py:231
 msgctxt "Per project access control group"
 msgid "VCS"
 msgstr "VCS"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:232
 msgctxt "Per project access control group"
 msgid "Administration"
 msgstr "Tadbelt"
 
-#: weblate/auth/data.py:231
+#: weblate/auth/data.py:233
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr ""
@@ -2153,7 +2160,8 @@ msgstr ""
 
 #: weblate/checks/chars.py:71
 msgid "Source and translation do not both start with same number of spaces"
-msgstr "Aɣbalu d tsuqilt ur fukkent ara i yiwen n umḍan n yisekkilen imellalen."
+msgstr ""
+"Aɣbalu d tsuqilt ur fukkent ara i yiwen n umḍan n yisekkilen imellalen."
 
 #: weblate/checks/chars.py:109
 msgid "Trailing space"
@@ -2785,7 +2793,7 @@ msgstr "VCS"
 msgid "Excel Open XML"
 msgstr ""
 
-#: weblate/formats/ttkit.py:799
+#: weblate/formats/ttkit.py:831
 #, fuzzy
 #| msgid "Gettext (PO)"
 msgid "gettext PO file"
@@ -6444,20 +6452,20 @@ msgstr "Sentem tukksa n umiḍan"
 msgid "Confirm registration"
 msgstr "Ajerred n useqdac"
 
-#: weblate/templates/mail/snippets/source-string.html:3
-#: weblate/templates/screenshots/screenshot_detail.html:27
-#: weblate/templates/screenshots/screenshot_detail.html:54
-#: weblate/templates/translate.html:107
-msgid "Source string"
-msgstr "Azrir aɣbalu"
-
-#: weblate/templates/mail/snippets/source-string.html:8
+#: weblate/templates/mail/snippets/source-string.html:4
 #: weblate/templates/screenshots/screenshot_detail.html:28
 #: weblate/templates/screenshots/screenshot_detail.html:55
 #: weblate/templates/snippets/embed-units.html:7
 #: weblate/templates/translate.html:138 weblate/templates/translate.html:567
 msgid "Context"
 msgstr "Asatal"
+
+#: weblate/templates/mail/snippets/source-string.html:9
+#: weblate/templates/screenshots/screenshot_detail.html:27
+#: weblate/templates/screenshots/screenshot_detail.html:54
+#: weblate/templates/translate.html:107
+msgid "Source string"
+msgstr "Azrir aɣbalu"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
@@ -7083,7 +7091,8 @@ msgstr "Tuṭṭfiwin n ugdil"
 
 #: weblate/templates/screenshots/screenshot_detail.html:125
 msgid "Deleting screenshot will remove it from all associated source strings."
-msgstr "Tukksa n tuṭṭfa n ugdil ad tekkes meṛṛa izriren n uɣbalu icudden ɣur-s."
+msgstr ""
+"Tukksa n tuṭṭfa n ugdil ad tekkes meṛṛa izriren n uɣbalu icudden ɣur-s."
 
 #: weblate/templates/screenshots/screenshot_list.html:21
 msgid "Add new screenshot"
@@ -7544,7 +7553,7 @@ msgstr ""
 msgid "The repository browser URL points to non-existing locations:"
 msgstr ""
 
-#: weblate/templates/trans/alert/brokenbrowserurl.html:12
+#: weblate/templates/trans/alert/brokenbrowserurl.html:10
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
@@ -9247,7 +9256,7 @@ msgid "Broken repository browser URL"
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:275
+#: weblate/trans/models/alert.py:276
 #, fuzzy
 #| msgid "Project website"
 msgid "Broken project website URL"

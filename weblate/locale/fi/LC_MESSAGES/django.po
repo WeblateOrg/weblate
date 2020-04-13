@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 18:04+0000\n"
+"POT-Creation-Date: 2020-04-13 05:25+0000\n"
 "PO-Revision-Date: 2020-04-09 17:52+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -741,7 +741,9 @@ msgid "User registration"
 msgstr "Käyttäjän rekisteröinti"
 
 #: weblate/accounts/views.py:203
-msgid "Message could not be sent to administrator!"
+#, fuzzy
+#| msgid "Message could not be sent to administrator!"
+msgid "Could not send message to administrator!"
 msgstr "Viestiäsi ei voitu lähettää ylläpitäjälle!"
 
 #: weblate/accounts/views.py:223
@@ -808,65 +810,71 @@ msgstr ""
 msgid "Could not remove user identity"
 msgstr "Käyttäjän henkilöllisyyttä ei voitu poistaa"
 
-#: weblate/accounts/views.py:943
-msgid ""
-"Could not remove last user identity with confirmed e-mail. Please confirm "
-"your e-mail first."
+#: weblate/accounts/views.py:941
+msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 
-#: weblate/accounts/views.py:990
+#: weblate/accounts/views.py:986
+#, fuzzy
+#| msgid ""
+#| "Could not verify your registration! The verification token has probably "
+#| "expired. Please try to register again."
 msgid ""
-"Could not verify your registration! The verification token has probably "
-"expired. Please try to register again."
+"Try registering again to verify your identity,the verification token "
+"probably expired."
 msgstr ""
 "Rekisteröitymistäsi ei voitu vahvistaa! Todennäköisesti vahvistusvarmiste on "
 "vanhentunut. Ole hyvä ja yritä rekisteröitymistä uudelleen."
 
-#: weblate/accounts/views.py:998
+#: weblate/accounts/views.py:993
 msgid "Could not authenticate due to invalid session state."
 msgstr "Tunnistautuminen ei onnistunut koska istunnon tila on virheellinen."
 
-#: weblate/accounts/views.py:1005
+#: weblate/accounts/views.py:1000
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Kolmannen osapuolen tunnistautumispalvelusta ei saatu sähköpostiosoitetta."
 
-#: weblate/accounts/views.py:1007
+#: weblate/accounts/views.py:1002
 msgid "Please register using e-mail instead."
 msgstr "Rekisteröidy sen sijaan sähköpostilla."
 
-#: weblate/accounts/views.py:1014
+#: weblate/accounts/views.py:1009
 msgid "New registrations are turned off."
 msgstr "Uudet rekisteröitymiset ovat poissa käytöstä."
 
-#: weblate/accounts/views.py:1072
+#: weblate/accounts/views.py:1067
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "Tunnistautuminen ei onnistu. Mahdollinen syy voi olla joko vanhentunut "
 "istunto tai yhteysvirhe."
 
-#: weblate/accounts/views.py:1078
+#: weblate/accounts/views.py:1073
 msgid "Authentication cancelled."
 msgstr "Tunnistautuminen peruttu."
 
-#: weblate/accounts/views.py:1081
+#: weblate/accounts/views.py:1076
 msgid "The server does not allow authentication."
 msgstr "Palvelin ei salli tunnistautumista."
 
-#: weblate/accounts/views.py:1086
+#: weblate/accounts/views.py:1081
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
-"username is already in use for another account."
+"Could not complete registration. The supplied authentication, e-mail address "
+"or username is already in use for another account."
 msgstr ""
 "Rekisteröityminen epäonnistui. Antamasi tunnistautuminen, sähköposti tai "
 "käyttäjänimi on jo käytössä toisella käyttäjätilillä."
 
-#: weblate/accounts/views.py:1101
+#: weblate/accounts/views.py:1096
 msgid "Notification settings adjusted."
 msgstr "Ilmoitusasetuksia muutettu."
 
-#: weblate/accounts/views.py:1106
+#: weblate/accounts/views.py:1101
 #, fuzzy
 #| msgid ""
 #| "The notification change link is no longer valid, please log in to "
@@ -1629,158 +1637,165 @@ msgstr "Hallinnoi käyttäjiä (koko alustalla)"
 #. Translators: Permission name
 #: weblate/auth/data.py:138
 #, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage roles (on the entire platform)"
+msgstr "Hallinnoi ryhmiä (koko alustalla)"
+
+#. Translators: Permission name
+#: weblate/auth/data.py:140
+#, fuzzy
 #| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
 msgstr "Hallinnoi käyttäjiä (koko alustalla)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:140
+#: weblate/auth/data.py:142
 msgid "Manage translation memory (on the entire platform)"
 msgstr "Hallinnoi käännösmuistia (koko alustalla)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:142
+#: weblate/auth/data.py:144
 #, fuzzy
 #| msgid "Manage users (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
 msgstr "Hallinnoi käyttäjiä (koko alustalla)"
 
-#: weblate/auth/data.py:169
+#: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Add suggestion"
 msgstr "Lisää ehdotus"
 
-#: weblate/auth/data.py:170
+#: weblate/auth/data.py:172
 msgctxt "Access control role"
 msgid "Access repository"
 msgstr "Käytä arkistoa"
 
-#: weblate/auth/data.py:172
+#: weblate/auth/data.py:174
 msgctxt "Access control role"
 msgid "Power user"
 msgstr "Tehokäyttäjä"
 
-#: weblate/auth/data.py:183
+#: weblate/auth/data.py:185
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Käännä"
 
-#: weblate/auth/data.py:185
+#: weblate/auth/data.py:187
 msgctxt "Access control role"
 msgid "Edit source"
 msgstr "Muokkaa lähdetekstiä"
 
-#: weblate/auth/data.py:188
+#: weblate/auth/data.py:190
 msgctxt "Access control role"
 msgid "Manage languages"
 msgstr "Hallinnoi kieliä"
 
-#: weblate/auth/data.py:189
+#: weblate/auth/data.py:191
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Hallinnoi sanastoa"
 
-#: weblate/auth/data.py:191
+#: weblate/auth/data.py:193
 msgctxt "Access control role"
 msgid "Manage translation memory"
 msgstr "Hallinnoi käännösmuistia"
 
-#: weblate/auth/data.py:195
+#: weblate/auth/data.py:197
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Hallinnoi ruudunkaappauskuvia"
 
-#: weblate/auth/data.py:199
+#: weblate/auth/data.py:201
 msgctxt "Access control role"
 msgid "Review strings"
 msgstr "Tekstien tarkistaminen"
 
-#: weblate/auth/data.py:202
+#: weblate/auth/data.py:204
 msgctxt "Access control role"
 msgid "Manage repository"
 msgstr "Hallinnoi arkistoa"
 
-#: weblate/auth/data.py:203
+#: weblate/auth/data.py:205
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Hallinta"
 
-#: weblate/auth/data.py:204
+#: weblate/auth/data.py:206
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "Laskutus"
 
-#: weblate/auth/data.py:210
+#: weblate/auth/data.py:212
 msgctxt "Access control group"
 msgid "Guests"
 msgstr "Vierailijat"
 
-#: weblate/auth/data.py:214
+#: weblate/auth/data.py:216
 msgctxt "Access control group"
 msgid "Viewers"
 msgstr "Katselijat"
 
-#: weblate/auth/data.py:215
+#: weblate/auth/data.py:217
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: weblate/auth/data.py:216
+#: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Reviewers"
 msgstr "Tarkistajat"
 
-#: weblate/auth/data.py:217
+#: weblate/auth/data.py:219
 msgctxt "Access control group"
 msgid "Managers"
 msgstr "Hallinnoijat"
 
-#: weblate/auth/data.py:222
+#: weblate/auth/data.py:224
 msgctxt "Per project access control group"
 msgid "Translate"
 msgstr "Käännä"
 
-#: weblate/auth/data.py:223
+#: weblate/auth/data.py:225
 msgctxt "Per project access control group"
 msgid "Template"
 msgstr "Malli"
 
-#: weblate/auth/data.py:224
+#: weblate/auth/data.py:226
 msgctxt "Per project access control group"
 msgid "Languages"
 msgstr "Kielet"
 
-#: weblate/auth/data.py:225
+#: weblate/auth/data.py:227
 msgctxt "Per project access control group"
 msgid "Glossary"
 msgstr "Sanasto"
 
-#: weblate/auth/data.py:226
+#: weblate/auth/data.py:228
 msgctxt "Per project access control group"
 msgid "Memory"
 msgstr "Muisti"
 
-#: weblate/auth/data.py:227
+#: weblate/auth/data.py:229
 msgctxt "Per project access control group"
 msgid "Screenshots"
 msgstr "Ruudunkaappauskuvat"
 
-#: weblate/auth/data.py:228
+#: weblate/auth/data.py:230
 msgctxt "Per project access control group"
 msgid "Review"
 msgstr "Tarkista"
 
-#: weblate/auth/data.py:229
+#: weblate/auth/data.py:231
 msgctxt "Per project access control group"
 msgid "VCS"
 msgstr "Versionhallintajärjestelmä"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:232
 msgctxt "Per project access control group"
 msgid "Administration"
 msgstr "Hallinta"
 
-#: weblate/auth/data.py:231
+#: weblate/auth/data.py:233
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "Laskutus"
@@ -2664,7 +2679,7 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:799
+#: weblate/formats/ttkit.py:831
 msgid "gettext PO file"
 msgstr "gettext PO -tiedosto"
 
@@ -6264,20 +6279,20 @@ msgstr "Vahvista käyttäjätilin poistaminen"
 msgid "Confirm registration"
 msgstr "Vahvista rekisteröityminen"
 
-#: weblate/templates/mail/snippets/source-string.html:3
-#: weblate/templates/screenshots/screenshot_detail.html:27
-#: weblate/templates/screenshots/screenshot_detail.html:54
-#: weblate/templates/translate.html:107
-msgid "Source string"
-msgstr "Lähdeteksti"
-
-#: weblate/templates/mail/snippets/source-string.html:8
+#: weblate/templates/mail/snippets/source-string.html:4
 #: weblate/templates/screenshots/screenshot_detail.html:28
 #: weblate/templates/screenshots/screenshot_detail.html:55
 #: weblate/templates/snippets/embed-units.html:7
 #: weblate/templates/translate.html:138 weblate/templates/translate.html:567
 msgid "Context"
 msgstr "Asiayhteys"
+
+#: weblate/templates/mail/snippets/source-string.html:9
+#: weblate/templates/screenshots/screenshot_detail.html:27
+#: weblate/templates/screenshots/screenshot_detail.html:54
+#: weblate/templates/translate.html:107
+msgid "Source string"
+msgstr "Lähdeteksti"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, python-format
@@ -7314,7 +7329,7 @@ msgstr "Tämän komponentin määritykset ovat virheelliset."
 msgid "The repository browser URL points to non-existing locations:"
 msgstr "Arkistoselaimen URL-osoite viittaa olemattomiin sijainteihin:"
 
-#: weblate/templates/trans/alert/brokenbrowserurl.html:12
+#: weblate/templates/trans/alert/brokenbrowserurl.html:10
 #, fuzzy
 #| msgid ""
 #| "This can happen if path in translation files contain references to parent "
@@ -8941,7 +8956,7 @@ msgid "Broken repository browser URL"
 msgstr "Rikkinäinen arkistoselaimen URL-osoite"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:275
+#: weblate/trans/models/alert.py:276
 msgid "Broken project website URL"
 msgstr "Virheellinen projektin verkkosivuston URL-osoite"
 

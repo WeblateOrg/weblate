@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 18:04+0000\n"
+"POT-Creation-Date: 2020-04-13 05:25+0000\n"
 "PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -702,7 +702,9 @@ msgid "User registration"
 msgstr "Felhasználó-regisztráció"
 
 #: weblate/accounts/views.py:203
-msgid "Message could not be sent to administrator!"
+#, fuzzy
+#| msgid "Message could not be sent to administrator!"
+msgid "Could not send message to administrator!"
 msgstr "Az üzenetet nem sikerült elküldeni az adminisztrátornak!"
 
 #: weblate/accounts/views.py:223
@@ -769,66 +771,76 @@ msgstr ""
 msgid "Could not remove user identity"
 msgstr "Nem sikerült eltávolítani a felhasználói azonosítót"
 
-#: weblate/accounts/views.py:943
-msgid ""
-"Could not remove last user identity with confirmed e-mail. Please confirm "
-"your e-mail first."
+#: weblate/accounts/views.py:941
+#, fuzzy
+#| msgid ""
+#| "Could not remove last user identity with confirmed e-mail. Please confirm "
+#| "your e-mail first."
+msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Nem sikerült eltávolítani a megerősített e-mail címmel rendelkező utolsó "
 "felhasználói személyazonosságot. Először erősítse meg az Ön e-mail címét."
 
-#: weblate/accounts/views.py:990
+#: weblate/accounts/views.py:986
+#, fuzzy
+#| msgid ""
+#| "Could not verify your registration! The verification token has probably "
+#| "expired. Please try to register again."
 msgid ""
-"Could not verify your registration! The verification token has probably "
-"expired. Please try to register again."
+"Try registering again to verify your identity,the verification token "
+"probably expired."
 msgstr ""
 "Nem sikerült ellenőrizni a regisztrációját! Az ellenőrző token valószínűleg "
 "lejárt. Próbáljon meg újra regisztrálni."
 
-#: weblate/accounts/views.py:998
+#: weblate/accounts/views.py:993
 msgid "Could not authenticate due to invalid session state."
 msgstr "Nem sikerült hitelesíteni érvénytelen munkamenet-állapot miatt."
 
-#: weblate/accounts/views.py:1005
+#: weblate/accounts/views.py:1000
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Nem érkezett e-mail cím a harmadik fél hitelesítési szolgáltatásától."
 
-#: weblate/accounts/views.py:1007
+#: weblate/accounts/views.py:1002
 msgid "Please register using e-mail instead."
 msgstr "Regisztráljon inkább e-mail cím használatával."
 
-#: weblate/accounts/views.py:1014
+#: weblate/accounts/views.py:1009
 msgid "New registrations are turned off."
 msgstr "Az új regisztrációk ki vannak kapcsolva."
 
-#: weblate/accounts/views.py:1072
+#: weblate/accounts/views.py:1067
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "Nem sikerült hitelesíteni, valószínűleg lejárt token vagy kapcsolódási hiba "
 "miatt."
 
-#: weblate/accounts/views.py:1078
+#: weblate/accounts/views.py:1073
 msgid "Authentication cancelled."
 msgstr "Hitelesítés megszakítva."
 
-#: weblate/accounts/views.py:1081
+#: weblate/accounts/views.py:1076
 msgid "The server does not allow authentication."
 msgstr "A kiszolgáló nem engedélyezi a hitelesítést."
 
-#: weblate/accounts/views.py:1086
+#: weblate/accounts/views.py:1081
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
-"username is already in use for another account."
+"Could not complete registration. The supplied authentication, e-mail address "
+"or username is already in use for another account."
 msgstr ""
 "Nem sikerült befejezni a regisztrációt. A megadott hitelesítés, e-mail vagy "
 "felhasználónév már használatban van egy másik fióknál."
 
-#: weblate/accounts/views.py:1101
+#: weblate/accounts/views.py:1096
 msgid "Notification settings adjusted."
 msgstr "Értesítési beállítások módosítva."
 
-#: weblate/accounts/views.py:1106
+#: weblate/accounts/views.py:1101
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -1586,155 +1598,162 @@ msgstr "Felhasználók kezelése (a teljes platformon)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
+#, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage roles (on the entire platform)"
+msgstr "Csoportok kezelése (a teljes platformon)"
+
+#. Translators: Permission name
+#: weblate/auth/data.py:140
 msgid "Manage announcements (on the entire platform)"
 msgstr "Közlemények kezelése (a teljes platformon)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:140
+#: weblate/auth/data.py:142
 msgid "Manage translation memory (on the entire platform)"
 msgstr "Fordítási memória kezelése (a teljes platformon)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:142
+#: weblate/auth/data.py:144
 msgid "Manage component lists (on the entire platform)"
 msgstr "Összetevőlisták kezelése (a teljes platformon)"
 
-#: weblate/auth/data.py:169
+#: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Add suggestion"
 msgstr "Javaslat hozzáadása"
 
-#: weblate/auth/data.py:170
+#: weblate/auth/data.py:172
 msgctxt "Access control role"
 msgid "Access repository"
 msgstr "Hozzáférés a tárolóhoz"
 
-#: weblate/auth/data.py:172
+#: weblate/auth/data.py:174
 msgctxt "Access control role"
 msgid "Power user"
 msgstr "Képzett felhasználó"
 
-#: weblate/auth/data.py:183
+#: weblate/auth/data.py:185
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Fordítás"
 
-#: weblate/auth/data.py:185
+#: weblate/auth/data.py:187
 msgctxt "Access control role"
 msgid "Edit source"
 msgstr "Forrás szerkesztése"
 
-#: weblate/auth/data.py:188
+#: weblate/auth/data.py:190
 msgctxt "Access control role"
 msgid "Manage languages"
 msgstr "Nyelvek kezelése"
 
-#: weblate/auth/data.py:189
+#: weblate/auth/data.py:191
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Szójegyzék kezelése"
 
-#: weblate/auth/data.py:191
+#: weblate/auth/data.py:193
 msgctxt "Access control role"
 msgid "Manage translation memory"
 msgstr "Fordítási memória kezelése"
 
-#: weblate/auth/data.py:195
+#: weblate/auth/data.py:197
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Képernyőképek kezelése"
 
-#: weblate/auth/data.py:199
+#: weblate/auth/data.py:201
 msgctxt "Access control role"
 msgid "Review strings"
 msgstr "Szövegek felülvizsgálata"
 
-#: weblate/auth/data.py:202
+#: weblate/auth/data.py:204
 msgctxt "Access control role"
 msgid "Manage repository"
 msgstr "Tároló kezelése"
 
-#: weblate/auth/data.py:203
+#: weblate/auth/data.py:205
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Adminisztráció"
 
-#: weblate/auth/data.py:204
+#: weblate/auth/data.py:206
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "Számlázás"
 
-#: weblate/auth/data.py:210
+#: weblate/auth/data.py:212
 msgctxt "Access control group"
 msgid "Guests"
 msgstr "Vendégek"
 
-#: weblate/auth/data.py:214
+#: weblate/auth/data.py:216
 msgctxt "Access control group"
 msgid "Viewers"
 msgstr "Megtekintők"
 
-#: weblate/auth/data.py:215
+#: weblate/auth/data.py:217
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Felhasználók"
 
-#: weblate/auth/data.py:216
+#: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Reviewers"
 msgstr "Felülvizsgálók"
 
-#: weblate/auth/data.py:217
+#: weblate/auth/data.py:219
 msgctxt "Access control group"
 msgid "Managers"
 msgstr "Kezelők"
 
-#: weblate/auth/data.py:222
+#: weblate/auth/data.py:224
 msgctxt "Per project access control group"
 msgid "Translate"
 msgstr "Fordítás"
 
-#: weblate/auth/data.py:223
+#: weblate/auth/data.py:225
 msgctxt "Per project access control group"
 msgid "Template"
 msgstr "Sablon"
 
-#: weblate/auth/data.py:224
+#: weblate/auth/data.py:226
 msgctxt "Per project access control group"
 msgid "Languages"
 msgstr "Nyelvek"
 
-#: weblate/auth/data.py:225
+#: weblate/auth/data.py:227
 msgctxt "Per project access control group"
 msgid "Glossary"
 msgstr "Szójegyzék"
 
-#: weblate/auth/data.py:226
+#: weblate/auth/data.py:228
 msgctxt "Per project access control group"
 msgid "Memory"
 msgstr "Memória"
 
-#: weblate/auth/data.py:227
+#: weblate/auth/data.py:229
 msgctxt "Per project access control group"
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
-#: weblate/auth/data.py:228
+#: weblate/auth/data.py:230
 msgctxt "Per project access control group"
 msgid "Review"
 msgstr "Felülvizsgálat"
 
-#: weblate/auth/data.py:229
+#: weblate/auth/data.py:231
 msgctxt "Per project access control group"
 msgid "VCS"
 msgstr "VCS"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:232
 msgctxt "Per project access control group"
 msgid "Administration"
 msgstr "Adminisztráció"
 
-#: weblate/auth/data.py:231
+#: weblate/auth/data.py:233
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "Számlázás"
@@ -2611,7 +2630,7 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:799
+#: weblate/formats/ttkit.py:831
 msgid "gettext PO file"
 msgstr "gettext PO-fájl"
 
@@ -6229,20 +6248,20 @@ msgstr "Fiókeltávolítás megerősítése"
 msgid "Confirm registration"
 msgstr "Regisztráció megerősítése"
 
-#: weblate/templates/mail/snippets/source-string.html:3
-#: weblate/templates/screenshots/screenshot_detail.html:27
-#: weblate/templates/screenshots/screenshot_detail.html:54
-#: weblate/templates/translate.html:107
-msgid "Source string"
-msgstr "Forrásszöveg"
-
-#: weblate/templates/mail/snippets/source-string.html:8
+#: weblate/templates/mail/snippets/source-string.html:4
 #: weblate/templates/screenshots/screenshot_detail.html:28
 #: weblate/templates/screenshots/screenshot_detail.html:55
 #: weblate/templates/snippets/embed-units.html:7
 #: weblate/templates/translate.html:138 weblate/templates/translate.html:567
 msgid "Context"
 msgstr "Környezet"
+
+#: weblate/templates/mail/snippets/source-string.html:9
+#: weblate/templates/screenshots/screenshot_detail.html:27
+#: weblate/templates/screenshots/screenshot_detail.html:54
+#: weblate/templates/translate.html:107
+msgid "Source string"
+msgstr "Forrásszöveg"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, python-format
@@ -7279,7 +7298,7 @@ msgstr "Ez az összetevő helytelenül van beállítva."
 msgid "The repository browser URL points to non-existing locations:"
 msgstr "A tárolóböngésző URL-je nemlétező helyekre mutat:"
 
-#: weblate/templates/trans/alert/brokenbrowserurl.html:12
+#: weblate/templates/trans/alert/brokenbrowserurl.html:10
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
@@ -8917,7 +8936,7 @@ msgid "Broken repository browser URL"
 msgstr "Törött tárolóböngésző URL"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:275
+#: weblate/trans/models/alert.py:276
 msgid "Broken project website URL"
 msgstr "Törött projektweboldal URL"
 

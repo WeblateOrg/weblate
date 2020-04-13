@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 18:04+0000\n"
+"POT-Creation-Date: 2020-04-13 05:25+0000\n"
 "PO-Revision-Date: 2020-03-30 11:50+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/master/sk/"
@@ -777,7 +777,9 @@ msgid "User registration"
 msgstr "Registrácia používateľa"
 
 #: weblate/accounts/views.py:203
-msgid "Message could not be sent to administrator!"
+#, fuzzy
+#| msgid "Message could not be sent to administrator!"
+msgid "Could not send message to administrator!"
 msgstr "Správa nemohla byť odoslaná administrátorovi!"
 
 #: weblate/accounts/views.py:223
@@ -848,49 +850,47 @@ msgstr ""
 msgid "Could not remove user identity"
 msgstr "Identity používateľa"
 
-#: weblate/accounts/views.py:943
-msgid ""
-"Could not remove last user identity with confirmed e-mail. Please confirm "
-"your e-mail first."
+#: weblate/accounts/views.py:941
+msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 
-#: weblate/accounts/views.py:990
+#: weblate/accounts/views.py:986
 #, fuzzy
 #| msgid ""
 #| "Failed to verify your registration! Probably the verification token has "
 #| "expired. Please try the registration again."
 msgid ""
-"Could not verify your registration! The verification token has probably "
-"expired. Please try to register again."
+"Try registering again to verify your identity,the verification token "
+"probably expired."
 msgstr ""
 "Nepodarilo sa overiť vašu registráciu! Pravdepodobne vypršala platnosť "
 "overovacieho tokenu. Skúste sa prosím zaregistrovať znovu."
 
-#: weblate/accounts/views.py:998
+#: weblate/accounts/views.py:993
 #, fuzzy
 #| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
 msgstr "Autentifikácia zlyhala z dôvodu neplatného stavu relácie."
 
-#: weblate/accounts/views.py:1005
+#: weblate/accounts/views.py:1000
 #, fuzzy
 #| msgid "Got no e-mail address from third party authentication service!"
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Autentifikačná služba tretej strany neposkytla žiadnu emailovú adresu!"
 
-#: weblate/accounts/views.py:1007
+#: weblate/accounts/views.py:1002
 #, fuzzy
 #| msgid "Register using email"
 msgid "Please register using e-mail instead."
 msgstr "Registrovať sa pomocou e-mailu"
 
-#: weblate/accounts/views.py:1014
+#: weblate/accounts/views.py:1009
 #, fuzzy
 #| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
 msgstr "Nové registrácie nie sú povolené!"
 
-#: weblate/accounts/views.py:1072
+#: weblate/accounts/views.py:1067
 #, fuzzy
 #| msgid ""
 #| "Authentication has failed, probably due to expired token or connection "
@@ -901,35 +901,35 @@ msgstr ""
 "Autentifikácia zlyhala, pravdepodobne z dôvodu uplynutia platnosti tokenu "
 "alebo chyby pripojenia."
 
-#: weblate/accounts/views.py:1078
+#: weblate/accounts/views.py:1073
 #, fuzzy
 #| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
 msgstr "Autentifikácia bola zrušená."
 
-#: weblate/accounts/views.py:1081
+#: weblate/accounts/views.py:1076
 msgid "The server does not allow authentication."
 msgstr "Server neumožňuje overenie."
 
-#: weblate/accounts/views.py:1086
+#: weblate/accounts/views.py:1081
 #, fuzzy
 #| msgid ""
 #| "Could not complete registration. The supplied authentication, e-mail or "
 #| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
-"username is already in use for another account."
+"Could not complete registration. The supplied authentication, e-mail address "
+"or username is already in use for another account."
 msgstr ""
 "Nepodarilo sa dokončiť registráciu. Poskytnutá autentifikácia, emailová "
 "adresa alebo používateľské meno sú už používané iným účtom."
 
-#: weblate/accounts/views.py:1101
+#: weblate/accounts/views.py:1096
 #, fuzzy
 #| msgid "Action"
 msgid "Notification settings adjusted."
 msgstr "Akcia"
 
-#: weblate/accounts/views.py:1106
+#: weblate/accounts/views.py:1101
 #, fuzzy
 #| msgid ""
 #| "The notification change link is no longer valid, please log in to "
@@ -1764,160 +1764,167 @@ msgstr "Spravovať používateľov (na celej platforme)"
 #. Translators: Permission name
 #: weblate/auth/data.py:138
 #, fuzzy
+#| msgid "Manage groups (global)"
+msgid "Manage roles (on the entire platform)"
+msgstr "Spravovať skupiny (globálne)"
+
+#. Translators: Permission name
+#: weblate/auth/data.py:140
+#, fuzzy
 #| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
 msgstr "Spravovať používateľov (na celej platforme)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:140
+#: weblate/auth/data.py:142
 #, fuzzy
 #| msgid "Manage translation memory (global)"
 msgid "Manage translation memory (on the entire platform)"
 msgstr "Spravovať prekladovú pamäť (globálne)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:142
+#: weblate/auth/data.py:144
 #, fuzzy
 #| msgid "Manage users (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
 msgstr "Spravovať používateľov (na celej platforme)"
 
-#: weblate/auth/data.py:169
+#: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Add suggestion"
 msgstr "Pridať návrh"
 
-#: weblate/auth/data.py:170
+#: weblate/auth/data.py:172
 msgctxt "Access control role"
 msgid "Access repository"
 msgstr "Pristúpiť k repozitáru"
 
-#: weblate/auth/data.py:172
+#: weblate/auth/data.py:174
 msgctxt "Access control role"
 msgid "Power user"
 msgstr "Pokročilý používateľ"
 
-#: weblate/auth/data.py:183
+#: weblate/auth/data.py:185
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Preložiť"
 
-#: weblate/auth/data.py:185
+#: weblate/auth/data.py:187
 msgctxt "Access control role"
 msgid "Edit source"
 msgstr "Upraviť zdroj"
 
-#: weblate/auth/data.py:188
+#: weblate/auth/data.py:190
 msgctxt "Access control role"
 msgid "Manage languages"
 msgstr "Spravovať jazyky"
 
-#: weblate/auth/data.py:189
+#: weblate/auth/data.py:191
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Spravovať slovník"
 
-#: weblate/auth/data.py:191
+#: weblate/auth/data.py:193
 msgctxt "Access control role"
 msgid "Manage translation memory"
 msgstr "Spravovať prekladovú pamäť"
 
-#: weblate/auth/data.py:195
+#: weblate/auth/data.py:197
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Spravovať snímky obrazoviek"
 
-#: weblate/auth/data.py:199
+#: weblate/auth/data.py:201
 msgctxt "Access control role"
 msgid "Review strings"
 msgstr "Posúdiť reťazce"
 
-#: weblate/auth/data.py:202
+#: weblate/auth/data.py:204
 msgctxt "Access control role"
 msgid "Manage repository"
 msgstr "Spravovať repozitár"
 
-#: weblate/auth/data.py:203
+#: weblate/auth/data.py:205
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Administrácia"
 
-#: weblate/auth/data.py:204
+#: weblate/auth/data.py:206
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "Fakturácia"
 
-#: weblate/auth/data.py:210
+#: weblate/auth/data.py:212
 msgctxt "Access control group"
 msgid "Guests"
 msgstr "Hostia"
 
-#: weblate/auth/data.py:214
+#: weblate/auth/data.py:216
 msgctxt "Access control group"
 msgid "Viewers"
 msgstr "Prezerači"
 
-#: weblate/auth/data.py:215
+#: weblate/auth/data.py:217
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Používatelia"
 
-#: weblate/auth/data.py:216
+#: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Reviewers"
 msgstr "Recenzenti"
 
-#: weblate/auth/data.py:217
+#: weblate/auth/data.py:219
 msgctxt "Access control group"
 msgid "Managers"
 msgstr "Správcovia"
 
-#: weblate/auth/data.py:222
+#: weblate/auth/data.py:224
 msgctxt "Per project access control group"
 msgid "Translate"
 msgstr "Prekladať"
 
-#: weblate/auth/data.py:223
+#: weblate/auth/data.py:225
 msgctxt "Per project access control group"
 msgid "Template"
 msgstr "Šablóna"
 
-#: weblate/auth/data.py:224
+#: weblate/auth/data.py:226
 msgctxt "Per project access control group"
 msgid "Languages"
 msgstr "Jazyky"
 
-#: weblate/auth/data.py:225
+#: weblate/auth/data.py:227
 msgctxt "Per project access control group"
 msgid "Glossary"
 msgstr "Slovník"
 
-#: weblate/auth/data.py:226
+#: weblate/auth/data.py:228
 msgctxt "Per project access control group"
 msgid "Memory"
 msgstr "Pamäť"
 
-#: weblate/auth/data.py:227
+#: weblate/auth/data.py:229
 msgctxt "Per project access control group"
 msgid "Screenshots"
 msgstr "Snímky obrazoviek"
 
-#: weblate/auth/data.py:228
+#: weblate/auth/data.py:230
 msgctxt "Per project access control group"
 msgid "Review"
 msgstr "Recenzia"
 
-#: weblate/auth/data.py:229
+#: weblate/auth/data.py:231
 msgctxt "Per project access control group"
 msgid "VCS"
 msgstr "VCS"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:232
 msgctxt "Per project access control group"
 msgid "Administration"
 msgstr "Administrácia"
 
-#: weblate/auth/data.py:231
+#: weblate/auth/data.py:233
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "Fakturácia"
@@ -2872,7 +2879,7 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:799
+#: weblate/formats/ttkit.py:831
 #, fuzzy
 #| msgid "Gettext PO file"
 msgid "gettext PO file"
@@ -6887,7 +6894,15 @@ msgstr "Odstránenie účtu"
 msgid "Confirm registration"
 msgstr "Registrácia používateľa"
 
-#: weblate/templates/mail/snippets/source-string.html:3
+#: weblate/templates/mail/snippets/source-string.html:4
+#: weblate/templates/screenshots/screenshot_detail.html:28
+#: weblate/templates/screenshots/screenshot_detail.html:55
+#: weblate/templates/snippets/embed-units.html:7
+#: weblate/templates/translate.html:138 weblate/templates/translate.html:567
+msgid "Context"
+msgstr "Kontext"
+
+#: weblate/templates/mail/snippets/source-string.html:9
 #: weblate/templates/screenshots/screenshot_detail.html:27
 #: weblate/templates/screenshots/screenshot_detail.html:54
 #: weblate/templates/translate.html:107
@@ -6895,14 +6910,6 @@ msgstr "Registrácia používateľa"
 #| msgid "Source strings"
 msgid "Source string"
 msgstr "Zdrojové reťazce"
-
-#: weblate/templates/mail/snippets/source-string.html:8
-#: weblate/templates/screenshots/screenshot_detail.html:28
-#: weblate/templates/screenshots/screenshot_detail.html:55
-#: weblate/templates/snippets/embed-units.html:7
-#: weblate/templates/translate.html:138 weblate/templates/translate.html:567
-msgid "Context"
-msgstr "Kontext"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
@@ -8106,7 +8113,7 @@ msgstr "Odoslať zmeny do vzdialeného repozitára"
 msgid "The repository browser URL points to non-existing locations:"
 msgstr ""
 
-#: weblate/templates/trans/alert/brokenbrowserurl.html:12
+#: weblate/templates/trans/alert/brokenbrowserurl.html:10
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
@@ -9993,7 +10000,7 @@ msgid "Broken repository browser URL"
 msgstr "Prehliadanie repozitára"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:275
+#: weblate/trans/models/alert.py:276
 #, fuzzy
 #| msgid "Project website"
 msgid "Broken project website URL"

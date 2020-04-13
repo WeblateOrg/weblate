@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-10 18:04+0000\n"
+"POT-Creation-Date: 2020-04-13 05:25+0000\n"
 "PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
@@ -35,8 +35,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:102
@@ -706,7 +706,9 @@ msgid "User registration"
 msgstr "Регистрация пользователя"
 
 #: weblate/accounts/views.py:203
-msgid "Message could not be sent to administrator!"
+#, fuzzy
+#| msgid "Message could not be sent to administrator!"
+msgid "Could not send message to administrator!"
 msgstr "Сообщение не было отправлено администратору!"
 
 #: weblate/accounts/views.py:223
@@ -773,69 +775,79 @@ msgstr ""
 msgid "Could not remove user identity"
 msgstr "Не удалось удалить идентификатор пользователя"
 
-#: weblate/accounts/views.py:943
-msgid ""
-"Could not remove last user identity with confirmed e-mail. Please confirm "
-"your e-mail first."
+#: weblate/accounts/views.py:941
+#, fuzzy
+#| msgid ""
+#| "Could not remove last user identity with confirmed e-mail. Please confirm "
+#| "your e-mail first."
+msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Невозможно удалить последнее пользовательское удостоверение с подтверждённым "
 "e-mail. Сначала подтвердите свою электронную почту."
 
-#: weblate/accounts/views.py:990
+#: weblate/accounts/views.py:986
+#, fuzzy
+#| msgid ""
+#| "Could not verify your registration! The verification token has probably "
+#| "expired. Please try to register again."
 msgid ""
-"Could not verify your registration! The verification token has probably "
-"expired. Please try to register again."
+"Try registering again to verify your identity,the verification token "
+"probably expired."
 msgstr ""
 "Не удалось проверить вашу регистрацию! Вероятно устарел токен проверки. "
 "Пожалуйста, попробуйте зарегистрироваться еще раз."
 
-#: weblate/accounts/views.py:998
+#: weblate/accounts/views.py:993
 msgid "Could not authenticate due to invalid session state."
 msgstr ""
 "Не удалось проверить подлинность из-за недействительного состояния сеанса."
 
-#: weblate/accounts/views.py:1005
+#: weblate/accounts/views.py:1000
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Не удалось получить адрес электронной почты у стороннего сервиса "
 "аутентификации."
 
-#: weblate/accounts/views.py:1007
+#: weblate/accounts/views.py:1002
 msgid "Please register using e-mail instead."
 msgstr "Вместо этого зарегистрируйтесь, используя e-mail."
 
-#: weblate/accounts/views.py:1014
+#: weblate/accounts/views.py:1009
 msgid "New registrations are turned off."
 msgstr "Регистрация новых пользователей отключена."
 
-#: weblate/accounts/views.py:1072
+#: weblate/accounts/views.py:1067
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "Не удалось аутентифицироваться, вероятно, из-за истёкшего токена или ошибки "
 "соединения."
 
-#: weblate/accounts/views.py:1078
+#: weblate/accounts/views.py:1073
 msgid "Authentication cancelled."
 msgstr "Аутентификация отменена."
 
-#: weblate/accounts/views.py:1081
+#: weblate/accounts/views.py:1076
 msgid "The server does not allow authentication."
 msgstr "Сервер не разрешает аутентификацию."
 
-#: weblate/accounts/views.py:1086
+#: weblate/accounts/views.py:1081
+#, fuzzy
+#| msgid ""
+#| "Could not complete registration. The supplied authentication, e-mail or "
+#| "username is already in use for another account."
 msgid ""
-"Could not complete registration. The supplied authentication, e-mail or "
-"username is already in use for another account."
+"Could not complete registration. The supplied authentication, e-mail address "
+"or username is already in use for another account."
 msgstr ""
 "Завершить регистрацию не удалось! Предоставленные аутентификация, e-mail или "
 "имя пользователя уже используются другой учётной записью."
 
-#: weblate/accounts/views.py:1101
+#: weblate/accounts/views.py:1096
 msgid "Notification settings adjusted."
 msgstr "Параметры уведомлений установлены."
 
-#: weblate/accounts/views.py:1106
+#: weblate/accounts/views.py:1101
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -1584,155 +1596,162 @@ msgstr "Управление пользователями (на всей пла�
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
+#, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage roles (on the entire platform)"
+msgstr "Управление группами (на всей платформе)"
+
+#. Translators: Permission name
+#: weblate/auth/data.py:140
 msgid "Manage announcements (on the entire platform)"
 msgstr "Управление объявлениями (на всей платформе)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:140
+#: weblate/auth/data.py:142
 msgid "Manage translation memory (on the entire platform)"
 msgstr "Управление памятью переводов (на всей платформе)"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:142
+#: weblate/auth/data.py:144
 msgid "Manage component lists (on the entire platform)"
 msgstr "Управление списками компонентов (на всей платформе)"
 
-#: weblate/auth/data.py:169
+#: weblate/auth/data.py:171
 msgctxt "Access control role"
 msgid "Add suggestion"
 msgstr "Добавлять предложение"
 
-#: weblate/auth/data.py:170
+#: weblate/auth/data.py:172
 msgctxt "Access control role"
 msgid "Access repository"
 msgstr "Иметь доступ к репозиторию"
 
-#: weblate/auth/data.py:172
+#: weblate/auth/data.py:174
 msgctxt "Access control role"
 msgid "Power user"
 msgstr "Опытный пользователь"
 
-#: weblate/auth/data.py:183
+#: weblate/auth/data.py:185
 msgctxt "Access control role"
 msgid "Translate"
 msgstr "Переводить"
 
-#: weblate/auth/data.py:185
+#: weblate/auth/data.py:187
 msgctxt "Access control role"
 msgid "Edit source"
 msgstr "Править источник"
 
-#: weblate/auth/data.py:188
+#: weblate/auth/data.py:190
 msgctxt "Access control role"
 msgid "Manage languages"
 msgstr "Управлять языками"
 
-#: weblate/auth/data.py:189
+#: weblate/auth/data.py:191
 msgctxt "Access control role"
 msgid "Manage glossary"
 msgstr "Управлять глоссарием"
 
-#: weblate/auth/data.py:191
+#: weblate/auth/data.py:193
 msgctxt "Access control role"
 msgid "Manage translation memory"
 msgstr "Управлять памятью переводов"
 
-#: weblate/auth/data.py:195
+#: weblate/auth/data.py:197
 msgctxt "Access control role"
 msgid "Manage screenshots"
 msgstr "Управлять снимками экрана"
 
-#: weblate/auth/data.py:199
+#: weblate/auth/data.py:201
 msgctxt "Access control role"
 msgid "Review strings"
 msgstr "Рецензировать строки"
 
-#: weblate/auth/data.py:202
+#: weblate/auth/data.py:204
 msgctxt "Access control role"
 msgid "Manage repository"
 msgstr "Управлять репозиторием"
 
-#: weblate/auth/data.py:203
+#: weblate/auth/data.py:205
 msgctxt "Access control role"
 msgid "Administration"
 msgstr "Администрировать"
 
-#: weblate/auth/data.py:204
+#: weblate/auth/data.py:206
 msgctxt "Access control role"
 msgid "Billing"
 msgstr "Биллинг"
 
-#: weblate/auth/data.py:210
+#: weblate/auth/data.py:212
 msgctxt "Access control group"
 msgid "Guests"
 msgstr "Гости"
 
-#: weblate/auth/data.py:214
+#: weblate/auth/data.py:216
 msgctxt "Access control group"
 msgid "Viewers"
 msgstr "Просматривающие"
 
-#: weblate/auth/data.py:215
+#: weblate/auth/data.py:217
 msgctxt "Access control group"
 msgid "Users"
 msgstr "Пользователи"
 
-#: weblate/auth/data.py:216
+#: weblate/auth/data.py:218
 msgctxt "Access control group"
 msgid "Reviewers"
 msgstr "Рецензенты"
 
-#: weblate/auth/data.py:217
+#: weblate/auth/data.py:219
 msgctxt "Access control group"
 msgid "Managers"
 msgstr "Управляющие"
 
-#: weblate/auth/data.py:222
+#: weblate/auth/data.py:224
 msgctxt "Per project access control group"
 msgid "Translate"
 msgstr "Переводить"
 
-#: weblate/auth/data.py:223
+#: weblate/auth/data.py:225
 msgctxt "Per project access control group"
 msgid "Template"
 msgstr "Шаблон"
 
-#: weblate/auth/data.py:224
+#: weblate/auth/data.py:226
 msgctxt "Per project access control group"
 msgid "Languages"
 msgstr "Языки"
 
-#: weblate/auth/data.py:225
+#: weblate/auth/data.py:227
 msgctxt "Per project access control group"
 msgid "Glossary"
 msgstr "Глоссарий"
 
-#: weblate/auth/data.py:226
+#: weblate/auth/data.py:228
 msgctxt "Per project access control group"
 msgid "Memory"
 msgstr "Накопитель"
 
-#: weblate/auth/data.py:227
+#: weblate/auth/data.py:229
 msgctxt "Per project access control group"
 msgid "Screenshots"
 msgstr "Снимки экрана"
 
-#: weblate/auth/data.py:228
+#: weblate/auth/data.py:230
 msgctxt "Per project access control group"
 msgid "Review"
 msgstr "Рецензировать"
 
-#: weblate/auth/data.py:229
+#: weblate/auth/data.py:231
 msgctxt "Per project access control group"
 msgid "VCS"
 msgstr "Система контроля версий (VCS)"
 
-#: weblate/auth/data.py:230
+#: weblate/auth/data.py:232
 msgctxt "Per project access control group"
 msgid "Administration"
 msgstr "Администрировать"
 
-#: weblate/auth/data.py:231
+#: weblate/auth/data.py:233
 msgctxt "Per project access control group"
 msgid "Billing"
 msgstr "Биллинг"
@@ -2608,7 +2627,7 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:799
+#: weblate/formats/ttkit.py:831
 msgid "gettext PO file"
 msgstr "gettext PO-файл"
 
@@ -6211,20 +6230,20 @@ msgstr "Подтверждение удаления учётной записи"
 msgid "Confirm registration"
 msgstr "Подтверждение регистрации"
 
-#: weblate/templates/mail/snippets/source-string.html:3
-#: weblate/templates/screenshots/screenshot_detail.html:27
-#: weblate/templates/screenshots/screenshot_detail.html:54
-#: weblate/templates/translate.html:107
-msgid "Source string"
-msgstr "Исходная строка"
-
-#: weblate/templates/mail/snippets/source-string.html:8
+#: weblate/templates/mail/snippets/source-string.html:4
 #: weblate/templates/screenshots/screenshot_detail.html:28
 #: weblate/templates/screenshots/screenshot_detail.html:55
 #: weblate/templates/snippets/embed-units.html:7
 #: weblate/templates/translate.html:138 weblate/templates/translate.html:567
 msgid "Context"
 msgstr "Контекст"
+
+#: weblate/templates/mail/snippets/source-string.html:9
+#: weblate/templates/screenshots/screenshot_detail.html:27
+#: weblate/templates/screenshots/screenshot_detail.html:54
+#: weblate/templates/translate.html:107
+msgid "Source string"
+msgstr "Исходная строка"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, python-format
@@ -7255,7 +7274,7 @@ msgid "The repository browser URL points to non-existing locations:"
 msgstr ""
 "Ссылка на просмотрщик репозитория указывает на несуществующие расположения:"
 
-#: weblate/templates/trans/alert/brokenbrowserurl.html:12
+#: weblate/templates/trans/alert/brokenbrowserurl.html:10
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
@@ -8877,7 +8896,7 @@ msgid "Broken repository browser URL"
 msgstr "Битая ссылка на просмотрщик репозитория"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:275
+#: weblate/trans/models/alert.py:276
 msgid "Broken project website URL"
 msgstr "Битая ссылка на веб-сайт проекта"
 
