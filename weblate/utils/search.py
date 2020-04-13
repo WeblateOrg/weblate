@@ -339,4 +339,6 @@ def query_sql(obj):
 
 @lru_cache(maxsize=512)
 def parse_query(text):
+    if "\x00" in text:
+        raise ValueError("Invalid query string.")
     return query_sql(PARSER.parse(text))
