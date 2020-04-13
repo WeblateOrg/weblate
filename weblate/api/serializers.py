@@ -143,9 +143,20 @@ class PermissionSerializer(serializers.RelatedField):
     def to_representation(self, value):
         return value.codename
 
+    def get_queryset(self):
+        return Permission.objects.all()
+
+    def to_internal_value(self, data):
+        check_query = Permission.objects.filter(codename=data)
+        if not check_query.exists():
+            raise serializers.ValidationError(
+                "Permission with this codename was not found."
+            )
+        return data
+
 
 class RoleSerializer(serializers.ModelSerializer):
-    permissions = PermissionSerializer(read_only=True, many=True)
+    permissions = PermissionSerializer(many=True)
 
     class Meta:
         model = Role
@@ -155,6 +166,26 @@ class RoleSerializer(serializers.ModelSerializer):
             "url",
         )
         extra_kwargs = {"url": {"view_name": "api:role-detail", "lookup_field": "id"}}
+
+    def create(self, validated_data):
+        permissions_validated = validated_data.pop("permissions", [])
+        role = Role.objects.create(**validated_data)
+        for codename in permissions_validated:
+            permission = Permission.objects.get(
+                codename=codename
+            )
+            role.permissions.add(permission)
+        return role
+
+    def update(self, instance, validated_data):
+        permissions_validated = validated_data.pop("permissions", [])
+        instance.name = validated_data.get('name', instance.name)
+        for codename in permissions_validated:
+            permission = Permission.objects.get(
+                codename=codename
+            )
+            instance.permissions.add(permission)
+        return instance
 
 
 class GroupSerializer(serializers.ModelSerializer):
