@@ -568,9 +568,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if not self.repo_needs_commit():
                 return False
 
-            # Check file is synced with Weblate
-            self.check_sync()
-
             # Do actual commit with git lock
             self.log_info("committing %s as %s", self.filenames, author)
             Change.objects.create(
