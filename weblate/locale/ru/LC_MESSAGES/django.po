@@ -27,16 +27,16 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-13 05:25+0000\n"
-"PO-Revision-Date: 2020-04-12 20:11+0000\n"
-"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"PO-Revision-Date: 2020-04-13 22:09+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.0-dev\n"
 
 #: weblate/accounts/avatar.py:102
@@ -706,10 +706,8 @@ msgid "User registration"
 msgstr "Регистрация пользователя"
 
 #: weblate/accounts/views.py:203
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
-msgstr "Сообщение не было отправлено администратору!"
+msgstr "Не удалось отправить сообщение администратору!"
 
 #: weblate/accounts/views.py:223
 msgid "Message has been sent to administrator."
@@ -776,26 +774,17 @@ msgid "Could not remove user identity"
 msgstr "Не удалось удалить идентификатор пользователя"
 
 #: weblate/accounts/views.py:941
-#, fuzzy
-#| msgid ""
-#| "Could not remove last user identity with confirmed e-mail. Please confirm "
-#| "your e-mail first."
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
-"Невозможно удалить последнее пользовательское удостоверение с подтверждённым "
-"e-mail. Сначала подтвердите свою электронную почту."
+"Добавьте другое удостоверение, сперва подтвердив свою электронную почту."
 
 #: weblate/accounts/views.py:986
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity,the verification token "
 "probably expired."
 msgstr ""
-"Не удалось проверить вашу регистрацию! Вероятно устарел токен проверки. "
-"Пожалуйста, попробуйте зарегистрироваться еще раз."
+"Чтобы подтвердить своё удостоверение, попробуйте зарегистрироваться ещё раз, "
+"токен проверки, вероятно, устарел."
 
 #: weblate/accounts/views.py:993
 msgid "Could not authenticate due to invalid session state."
@@ -810,7 +799,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:1002
 msgid "Please register using e-mail instead."
-msgstr "Вместо этого зарегистрируйтесь, используя e-mail."
+msgstr "Вместо этого зарегистрируйтесь, используя адрес электронной почты."
 
 #: weblate/accounts/views.py:1009
 msgid "New registrations are turned off."
@@ -832,16 +821,13 @@ msgid "The server does not allow authentication."
 msgstr "Сервер не разрешает аутентификацию."
 
 #: weblate/accounts/views.py:1081
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
 msgstr ""
-"Завершить регистрацию не удалось! Предоставленные аутентификация, e-mail или "
-"имя пользователя уже используются другой учётной записью."
+"Не удалось завершить регистрацию. Предоставленные аутентификация, адрес "
+"электронной почты или имя пользователя уже используются другой учётной "
+"записью."
 
 #: weblate/accounts/views.py:1096
 msgid "Notification settings adjusted."
@@ -1596,10 +1582,8 @@ msgstr "Управление пользователями (на всей пла�
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage roles (on the entire platform)"
-msgstr "Управление группами (на всей платформе)"
+msgstr "Управление ролями (на всей платформе)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
