@@ -171,19 +171,15 @@ class RoleSerializer(serializers.ModelSerializer):
         permissions_validated = validated_data.pop("permissions", [])
         role = Role.objects.create(**validated_data)
         for codename in permissions_validated:
-            permission = Permission.objects.get(
-                codename=codename
-            )
+            permission = Permission.objects.get(codename=codename)
             role.permissions.add(permission)
         return role
 
     def update(self, instance, validated_data):
         permissions_validated = validated_data.pop("permissions", [])
-        instance.name = validated_data.get('name', instance.name)
+        instance.name = validated_data.get("name", instance.name)
         for codename in permissions_validated:
-            permission = Permission.objects.get(
-                codename=codename
-            )
+            permission = Permission.objects.get(codename=codename)
             instance.permissions.add(permission)
         return instance
 
