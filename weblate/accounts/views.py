@@ -154,7 +154,7 @@ NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
 
 class EmailSentView(TemplateView):
-    """Class for rendering \"E-mail sent\" page."""
+    r"""Class for rendering "E-mail sent" page."""
 
     template_name = "accounts/email-sent.html"
 
