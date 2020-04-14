@@ -178,6 +178,7 @@ class RoleSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         permissions_validated = validated_data.pop("permissions", [])
         instance.name = validated_data.get("name", instance.name)
+        instance.permissions.clear()
         for codename in permissions_validated:
             permission = Permission.objects.get(codename=codename)
             instance.permissions.add(permission)
@@ -193,7 +194,7 @@ class GroupSerializer(serializers.ModelSerializer):
     )
     componentlist = serializers.HyperlinkedRelatedField(
         view_name="api:componentlist-detail",
-        lookup_field="_slug",
+        lookup_field="slug",
         many=False,
         read_only=True,
     )

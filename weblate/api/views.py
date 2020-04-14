@@ -388,6 +388,34 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["post"],
     )
+    def componentlist(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        if "component_list_id" not in request.data:
+            raise ParseError("Missing component_list_id parameter")
+
+        try:
+            component_list = ComponentList.objects.get(
+                pk=int(request.data["component_list_id"]),
+            )
+            print(component_list)
+        except (ComponentList.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.componentlist = component_list
+        obj.save()
+        print(obj.__dict__)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True, methods=["post"],
+    )
     def components(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
