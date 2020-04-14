@@ -186,6 +186,36 @@ class MarkdownLinkCheckTest(CheckTestCase):
         )
 
 
+class MarkdownLinkCheckMultipleOrderIndependentLinksTest(CheckTestCase):
+    check = MarkdownLinkCheck()
+
+    def setUp(self):
+        super(MarkdownLinkCheckMultipleOrderIndependentLinksTest, self).setUp()
+
+        self.test_good_matching = (
+            "[Weblate](#weblate) has an [example]({{example}}) "
+            "for illustrating the useage of [Weblate](#weblate)",
+            "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+            "illustriert die Verwendung von [Webspät](#weblate)",
+            "md-text",
+        )
+
+        self.test_failure_1 = (
+            "[Weblate](#weblate) has an [example]({{example}}) "
+            "for illustrating the useage of [Weblate](#weblate)",
+            "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+            "illustriert die Verwendung von [Webspät](#Webspät)",
+            "md-text",
+        )
+        self.test_failure_2 = (
+            "[Weblate](#weblate) has an [example]({{example}}) "
+            "for illustrating the useage of [Weblate](#weblate)",
+            "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+            "illustriert die Verwendung von Webspät",
+            "md-text",
+        )
+
+
 class MarkdownSyntaxCheckTest(CheckTestCase):
     check = MarkdownSyntaxCheck()
 
