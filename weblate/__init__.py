@@ -36,7 +36,10 @@ VERSION = "4.0-dev"
 VERSION_BASE = VERSION.replace("-dev", "")
 
 # User-Agent string to use
-USER_AGENT = "Weblate/{0}".format(VERSION)
+USER_AGENT = f"Weblate/{VERSION}"
+
+# Git tag name for this release
+TAG_NAME = f"weblate-{VERSION_BASE}"
 
 # Grab some information from git
 try:
