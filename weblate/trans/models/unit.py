@@ -209,6 +209,7 @@ class Unit(models.Model, LoggerMixin):
         super().__init__(*args, **kwargs)
         self.old_unit = copy(self)
         self.is_batch_update = False
+        self.position_updated = False
 
     def __str__(self):
         if self.translation.is_template:
@@ -310,10 +311,20 @@ class Unit(models.Model, LoggerMixin):
                 target=source,
                 context=context,
                 content_hash=calculate_hash(source, context),
-                position=0,
+                position=pos,
                 location=location,
                 flags=flags,
             )
+            if (
+                not component.has_template()
+                and not source_info.position_updated
+                and pos != source_info.position
+            ):
+                source_info.position = pos
+                source_info.position_updated = True
+                source_info.save(
+                    update_fields=["position"], same_content=True, same_state=True
+                )
             self.extra_context = source_info.extra_context
             self.extra_flags = source_info.extra_flags
             self.__dict__["source_info"] = source_info
