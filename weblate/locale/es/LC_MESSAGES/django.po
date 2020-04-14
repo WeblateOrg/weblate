@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-13 05:25+0000\n"
-"PO-Revision-Date: 2020-04-10 12:06+0000\n"
+"PO-Revision-Date: 2020-04-15 20:53+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -244,36 +244,23 @@ msgstr ""
 "suscritos."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Recibirá una notificación por cada uno de estos sucesos en sus proyectos "
-"suscritos."
+"Recibirá una notificación por cada uno de estos sucesos en los proyectos que "
+"gestiona."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"Recibirá una notificación por cada uno de estos sucesos en sus proyectos "
-"suscritos."
+msgstr "Recibirá una notificación por cada uno de estos sucesos en %(project)s."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
-"Recibirá una notificación por cada uno de estos sucesos en sus proyectos "
-"suscritos."
+"Recibirá una notificación por cada uno de estos sucesos en %(component)s."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -284,40 +271,30 @@ msgstr ""
 "proyectos que sigue."
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Solo recibirá estas notificaciones para las lenguas de traducción de los "
-"proyectos que sigue."
+"Solo recibirá estas notificaciones para las lenguas que traduce de los "
+"proyectos que gestiona."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Solo recibirá estas notificaciones para las lenguas de traducción de los "
-"proyectos que sigue."
+"Solo recibirá estas notificaciones para las lenguas que traduce de "
+"%(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Solo recibirá estas notificaciones para las lenguas de traducción de los "
-"proyectos que sigue."
+"Solo recibirá estas notificaciones para las lenguas que traduce de "
+"%(component)s."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -727,8 +704,6 @@ msgid "User registration"
 msgstr "Registro de usuarios"
 
 #: weblate/accounts/views.py:203
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
 msgstr "No se pudo enviar el mensaje al administrador."
 
@@ -798,26 +773,16 @@ msgid "Could not remove user identity"
 msgstr "No se pudo quitar la identidad del usuario/a"
 
 #: weblate/accounts/views.py:941
-#, fuzzy
-#| msgid ""
-#| "Could not remove last user identity with confirmed e-mail. Please confirm "
-#| "your e-mail first."
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
-"No se pudo quitar la última identidad de usuario con correo confirmado. "
-"Confirme su dirección de correo primero."
+msgstr "Debe confirmar su dirección de correo antes de añadir otra identidad."
 
 #: weblate/accounts/views.py:986
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity,the verification token "
 "probably expired."
 msgstr ""
-"No se pudo verificar su registro. Probablemente se ha vencido la ficha de "
-"verificación. Intente registrarse de nuevo."
+"Pruebe a registrarse de nuevo para verificar su identidad; probablemente ha "
+"vencido la ficha de verificación."
 
 #: weblate/accounts/views.py:993
 msgid "Could not authenticate due to invalid session state."
@@ -853,15 +818,11 @@ msgid "The server does not allow authentication."
 msgstr "El servidor no permite la autenticación."
 
 #: weblate/accounts/views.py:1081
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
 msgstr ""
-"No se completó el registro. La autenticación, el correo electrónico o el "
+"No se completó el registro. La autenticación, la dirección de correo o el "
 "nombre de usuario ya se utiliza en otra cuenta."
 
 #: weblate/accounts/views.py:1096
@@ -1629,10 +1590,8 @@ msgstr "Gestionar usuarios (en toda la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage roles (on the entire platform)"
-msgstr "Gestionar grupos (en toda la plataforma)"
+msgstr "Gestionar puestos (en toda la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
@@ -4552,6 +4511,8 @@ msgid ""
 "In case you miss access to billing of your project, please contact project "
 "maintainers to give you permission to access its billing."
 msgstr ""
+"Si no puede consultar la facturación de su proyecto, póngase en contacto con "
+"los responsables de este para que le den acceso."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4822,10 +4783,8 @@ msgstr "Guía de regionalización"
 
 #: weblate/templates/component.html:59
 #: weblate/templates/snippets/project-nav.html:52
-#, fuzzy
-#| msgid "Download original translation files as ZIP file"
 msgid "Download translation files as ZIP file"
-msgstr "Descargar archivos de traducción originales en ZIP"
+msgstr "Descargar archivos de traducción en archivador ZIP"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -10594,10 +10553,8 @@ msgid "Automatic translation in progress"
 msgstr "Traducción automática en curso"
 
 #: weblate/trans/views/edit.py:599
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source needs review"
-msgstr "Revision de cadenas originales"
+msgstr "La cadena de origen necesita revisión"
 
 #: weblate/trans/views/edit.py:602
 msgid "Posted new comment"
@@ -10929,10 +10886,8 @@ msgid "This e-mail address is disallowed."
 msgstr "No se permite esta dirección de correo electrónico."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Could not evaluate plural equation: {}"
 msgid "Could not evaluate plural formula: {}"
-msgstr "No se pudo validar la ecuación de plurales: {}"
+msgstr "No se pudo procesar la fórmula de plurales: {}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
