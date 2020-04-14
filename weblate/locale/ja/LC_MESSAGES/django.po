@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-13 05:25+0000\n"
-"PO-Revision-Date: 2020-04-09 17:09+0000\n"
+"PO-Revision-Date: 2020-04-15 20:53+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -244,33 +244,20 @@ msgstr ""
 "監視中のプロジェクトで、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr ""
-"監視中のプロジェクトで、このようなイベントが発生するたびに通知が届きます。"
+msgstr "管理者権限を持っているプロジェクトでは、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
-"監視中のプロジェクトで、このようなイベントが発生するたびに通知が届きます。"
+msgstr "%(project)s プロジェクトで、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"監視中のプロジェクトで、このようなイベントが発生するたびに通知が届きます。"
+msgstr "%(component)s コンポーネントで、このようなイベントが発生するたびに通知が届きます。"
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -279,34 +266,24 @@ msgid ""
 msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
-msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
+msgstr "この通知は、あなたが管理者権限を持っているプロジェクトの翻訳された言語に対してのみ届きます。"
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
+msgstr "この通知は、%(project)s プロジェクトで翻訳された言語に対してのみ届きます。"
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr "監視中のプロジェクトで、翻訳の登録をした言語のみ通知が届きます。"
+msgstr "この通知は、%(component)s コンポーネントで翻訳された言語に対してのみ届きます。"
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -707,8 +684,6 @@ msgid "User registration"
 msgstr "ユーザ登録"
 
 #: weblate/accounts/views.py:203
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
 msgstr "管理者にメッセージを送信できませんでした！"
 
@@ -776,26 +751,14 @@ msgid "Could not remove user identity"
 msgstr "ユーザ ID を削除できません"
 
 #: weblate/accounts/views.py:941
-#, fuzzy
-#| msgid ""
-#| "Could not remove last user identity with confirmed e-mail. Please confirm "
-#| "your e-mail first."
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
-"最後のユーザー IDを確認済みのメールで削除できません。メールを確認してくださ"
-"い。"
+msgstr "メールアドレスを確認してから、別の ID を追加します。"
 
 #: weblate/accounts/views.py:986
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity,the verification token "
 "probably expired."
-msgstr ""
-"登録を確認できませんでした！検証トークンの有効期限が切れている可能性がありま"
-"す。もう一度登録してください。"
+msgstr "身元を確認するために、もう一度登録してください。検証トークンの有効期限が切れている可能性があります。"
 
 #: weblate/accounts/views.py:993
 msgid "Could not authenticate due to invalid session state."
@@ -827,16 +790,10 @@ msgid "The server does not allow authentication."
 msgstr "サーバーは認証を許可していません。"
 
 #: weblate/accounts/views.py:1081
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
-msgstr ""
-"登録できません。入力された認証情報（メールアドレスまたはユーザ名）は、すでに"
-"他のアカウントで使用済みです。"
+msgstr "登録できません。入力した認証情報（メールアドレスまたはユーザー名）は、すでに別のアカウントで使用されています。"
 
 #: weblate/accounts/views.py:1096
 msgid "Notification settings adjusted."
@@ -1582,10 +1539,8 @@ msgstr "利用者の管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage roles (on the entire platform)"
-msgstr "グループの管理（プラットフォーム全体）"
+msgstr "権限の管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
@@ -4279,10 +4234,9 @@ msgid "Checks"
 msgstr "チェック"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "該当するプロジェクトは見つかりません！"
+msgstr "%(project)s プロジェクトの検査に失敗しました。"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -4466,7 +4420,7 @@ msgstr "サブスクリプションまたは支払予定はありません。"
 msgid ""
 "In case you miss access to billing of your project, please contact project "
 "maintainers to give you permission to access its billing."
-msgstr ""
+msgstr "プロジェクトの請求書を閲覧できない場合は、プロジェクトの管理者に連絡して、請求書を閲覧できる権限をもらってください。"
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4736,10 +4690,8 @@ msgstr "翻訳ガイド"
 
 #: weblate/templates/component.html:59
 #: weblate/templates/snippets/project-nav.html:52
-#, fuzzy
-#| msgid "Download original translation files as ZIP file"
 msgid "Download translation files as ZIP file"
-msgstr "オリジナルの翻訳ファイルを ZIP 形式でダウンロード"
+msgstr "翻訳ファイルを ZIP 形式でダウンロード"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
