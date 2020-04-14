@@ -983,7 +983,7 @@ def auth_redirect_token(request):
     return auth_fail(
         request,
         _(
-            "Try registering again to verify your identity,"
+            "Try registering again to verify your identity, "
             "the verification token probably expired."
         ),
     )
