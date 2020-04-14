@@ -178,6 +178,7 @@ class RoleSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         permissions_validated = validated_data.pop("permissions", [])
         instance.name = validated_data.get("name", instance.name)
+        instance.save()
         instance.permissions.clear()
         for codename in permissions_validated:
             permission = Permission.objects.get(codename=codename)

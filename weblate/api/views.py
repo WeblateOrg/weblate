@@ -399,7 +399,6 @@ class GroupViewSet(viewsets.ModelViewSet):
             component_list = ComponentList.objects.get(
                 pk=int(request.data["component_list_id"]),
             )
-            print(component_list)
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
@@ -408,7 +407,6 @@ class GroupViewSet(viewsets.ModelViewSet):
 
         obj.componentlist = component_list
         obj.save()
-        print(obj.__dict__)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)

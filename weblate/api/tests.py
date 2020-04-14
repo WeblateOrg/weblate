@@ -23,7 +23,7 @@ from django.urls import reverse
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
 
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, Role, User
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
     Change,
@@ -266,6 +266,109 @@ class GroupAPITest(APIBaseTest):
         )
         self.assertEqual(Group.objects.count(), 7)
 
+    def test_add_role(self):
+        role = Role.objects.get(pk=1)
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            code=403,
+            request={"role_id": role.id},
+        )
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"role_id": -1},
+        )
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"role_id": role.id},
+        )
+
+    def test_add_component(self):
+        self.do_request(
+            "api:group-components",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            code=403,
+            request={"component_id": self.component.pk},
+        )
+        self.do_request(
+            "api:group-components",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"component_id": -1},
+        )
+        self.do_request(
+            "api:group-components",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"component_id": self.component.pk},
+        )
+
+    def test_add_project(self):
+        self.do_request(
+            "api:group-projects",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            code=403,
+            request={"project_id": Project.objects.get(slug="test").pk},
+        )
+        self.do_request(
+            "api:group-projects",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"project_id": -1},
+        )
+        self.do_request(
+            "api:group-projects",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"project_id": Project.objects.get(slug="test").pk},
+        )
+
+    def test_add_componentlist(self):
+        clist = ComponentList.objects.create(name="Name", slug="name")
+        clist.autocomponentlist_set.create()
+        self.do_request(
+            "api:group-componentlist",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            code=403,
+            request={"component_list_id": ComponentList.objects.get().pk},
+        )
+        self.do_request(
+            "api:group-componentlist",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"component_list_id": -1},
+        )
+        self.do_request(
+            "api:group-componentlist",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"component_list_id": ComponentList.objects.get().pk},
+        )
+
     def test_delete(self):
         self.do_request(
             "api:group-detail",
@@ -331,6 +434,104 @@ class RoleAPITest(APIBaseTest):
     def test_get_role(self):
         response = self.client.get(reverse("api:role-detail", kwargs={"id": 1}))
         self.assertEqual(response.data["name"], "Add suggestion")
+
+    def test_create(self):
+        self.do_request(
+            "api:role-list", method="post", code=403,
+        )
+        self.do_request(
+            "api:role-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"name": "Role", "permissions": ["invalid.codename"]},
+        )
+        self.do_request(
+            "api:role-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={"name": "Role", "permissions": ["suggestion.add"]},
+        )
+        self.assertEqual(Role.objects.count(), 14)
+
+    def test_delete(self):
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.all()[0].pk},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Role.objects.count(), 12)
+
+    def test_put(self):
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            method="put",
+            code=403,
+        )
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": "Role", "permissions": ["suggestion.add"]},
+        )
+        self.assertEqual(Role.objects.order_by("id").all()[0].name, "Role")
+        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 1)
+        self.assertEqual(
+            Role.objects.order_by("id").all()[0].permissions.get().codename,
+            "suggestion.add",
+        )
+        # Add permission
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": "Role", "permissions": ["suggestion.add", "comment.add"]},
+        )
+        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 2)
+        # Remove permission
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": "Role", "permissions": ["comment.add"]},
+        )
+        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 1)
+        self.assertEqual(
+            Role.objects.order_by("id").all()[0].permissions.get().codename,
+            "comment.add",
+        )
+
+    def test_patch(self):
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            method="patch",
+            code=403,
+        )
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"name": "New Role"},
+        )
+        self.assertEqual(Role.objects.order_by("id").all()[0].name, "New Role")
 
 
 class ProjectAPITest(APIBaseTest):

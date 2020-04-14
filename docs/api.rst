@@ -319,6 +319,38 @@ Groups
     :param id: Group's ID
     :type id: int
 
+.. http:post:: /api/groups/(int:id)/roles/
+
+    Associate roles with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string role_id: The unique role ID
+
+.. http:post:: /api/groups/(int:id)/components/
+
+    Associate components with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string component_id: The unique component ID
+
+.. http:post:: /api/groups/(int:id)/projects/
+
+    Associate projects with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string project_id: The unique project ID
+
+.. http:post:: /api/groups/(int:id)/componentlist/
+
+    Associate componentlist with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string component_list_id: The unique componentlist ID
+
 
 Roles
 +++++
@@ -338,7 +370,7 @@ Roles
 
     :param id: Role ID
     :type id: int
-    :>json string name: Role code
+    :>json string name: Role name
     :>json array permissions: list of codenames of permissions
 
     **Example JSON data:**
@@ -348,11 +380,36 @@ Roles
         {
             "name": "Access repository",
             "permissions": [
-                "Access the internal repository",
-                "View upstream repository location"
+                "vcs.access",
+                "vcs.view"
             ],
             "url": "http://example.com/api/roles/1/",
         }
+
+.. http:put:: /api/roles/(int:id)/
+
+    Changes the role parameters.
+
+    :param id: Role's ID
+    :type id: int
+    :>json string name: Role name
+    :>json array permissions: list of codenames of permissions
+
+.. http:patch:: /api/roles/(int:id)/
+
+    Changes the role parameters.
+
+    :param id: Role's ID
+    :type id: int
+    :>json string name: Role name
+    :>json array permissions: list of codenames of permissions
+
+.. http:delete:: /api/roles/(int:id)/
+
+    Deletes the role.
+
+    :param id: Role's ID
+    :type id: int
 
 
 Languages
