@@ -170,25 +170,32 @@ class RoleSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         permissions_validated = validated_data.pop("permissions", [])
         role = Role.objects.create(**validated_data)
-        for codename in permissions_validated:
-            permission = Permission.objects.get(codename=codename)
-            role.permissions.add(permission)
+        role.permissions.add(
+            *Permission.objects.filter(codename__in=permissions_validated)
+        )
         return role
 
     def update(self, instance, validated_data):
         permissions_validated = validated_data.pop("permissions", [])
         instance.name = validated_data.get("name", instance.name)
         instance.save()
-        instance.permissions.clear()
-        for codename in permissions_validated:
-            permission = Permission.objects.get(codename=codename)
-            instance.permissions.add(permission)
+        if self.partial:
+            instance.permissions.add(
+                *Permission.objects.filter(codename__in=permissions_validated)
+            )
+        else:
+            instance.permissions.set(
+                Permission.objects.filter(codename__in=permissions_validated)
+            )
         return instance
 
 
 class GroupSerializer(serializers.ModelSerializer):
     roles = serializers.HyperlinkedIdentityField(
         view_name="api:role-detail", lookup_field="id", many=True, read_only=True,
+    )
+    languages = serializers.HyperlinkedIdentityField(
+        view_name="api:language-detail", lookup_field="code", many=True, read_only=True,
     )
     projects = serializers.HyperlinkedIdentityField(
         view_name="api:project-detail", lookup_field="slug", many=True, read_only=True,
@@ -214,6 +221,7 @@ class GroupSerializer(serializers.ModelSerializer):
             "language_selection",
             "url",
             "roles",
+            "languages",
             "projects",
             "componentlist",
             "components",

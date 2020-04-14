@@ -335,6 +335,15 @@ Groups
     :type id: int
     :form string component_id: The unique component ID
 
+.. http:delete:: /api/groups/(int:id)/components/(int:component_id)
+
+    Delete component from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param component_id: The unique component ID
+    :type component_id: int
+
 .. http:post:: /api/groups/(int:id)/projects/
 
     Associate projects with a group.
@@ -343,6 +352,32 @@ Groups
     :type id: int
     :form string project_id: The unique project ID
 
+.. http:delete:: /api/groups/(int:id)/projects/(int:project_id)
+
+    Delete project from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param project_id: The unique project ID
+    :type project_id: int
+
+.. http:post:: /api/groups/(int:id)/languages/
+
+    Associate languages with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string language_code: The unique language code
+
+.. http:delete:: /api/groups/(int:id)/languages/(string:language_code)
+
+    Delete language from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param language_code: The unique language code
+    :type language_code: string
+
 .. http:post:: /api/groups/(int:id)/componentlist/
 
     Associate componentlist with a group.
@@ -350,6 +385,15 @@ Groups
     :param id: Group's ID
     :type id: int
     :form string component_list_id: The unique componentlist ID
+
+.. http:delete:: /api/groups/(int:id)/componentlist/(int:component_list_id)
+
+    Delete componentlist from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param component_list_id: The unique componentlist ID
+    :type component_list_id: int
 
 
 Roles
