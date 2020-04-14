@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-13 05:25+0000\n"
-"PO-Revision-Date: 2020-04-12 20:11+0000\n"
+"PO-Revision-Date: 2020-04-15 20:53+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/master/"
 "sq/>\n"
@@ -1028,7 +1028,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:141
 msgid "All commits into one"
-msgstr "Krejt depozitimet në një"
+msgstr "Krejt depozitimet në një të tilli"
 
 #: weblate/addons/forms.py:142
 msgid "Per language"
@@ -1118,7 +1118,7 @@ msgstr "Përshtatni emrin e përbërësit"
 
 #: weblate/addons/forms.py:226
 msgid "Define the monolingual base filename"
-msgstr "Përcaktoni emër kartele bazë njëgjuhëse"
+msgstr "Përcaktoni emër kartele bazë njëgjuhëshe"
 
 #: weblate/addons/forms.py:229
 msgid "Leave empty for bilingual translation files."
@@ -1245,11 +1245,13 @@ msgstr ""
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits"
-msgstr ""
+msgstr "Kryej \"squash\" për depozitime Git"
 
 #: weblate/addons/git.py:36
 msgid "Squash Git commits prior to pushing changes."
 msgstr ""
+"Kryej \"squash\" për depozitime Git, përpara kryerjes së push-it për "
+"ndryshimet."
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -1538,12 +1540,12 @@ msgstr "Të depozitojë ndryshime te depoja e brendshme"
 #. Translators: Permission name
 #: weblate/auth/data.py:114
 msgid "Push change from the internal repository"
-msgstr ""
+msgstr "Kryej \"push\" për ndryshimin që nga depoja e brendshme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:116
 msgid "Reset changes in the internal repository"
-msgstr "Të prapakthejë ndryshime në depon e brendshme"
+msgstr "Kryej \"reset\" për ndryshimet te depoja e brendshme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:118
@@ -1946,11 +1948,11 @@ msgstr "Me pagesë"
 
 #: weblate/billing/models.py:162
 msgid "In limits"
-msgstr ""
+msgstr "Në kufij"
 
 #: weblate/billing/models.py:165
 msgid "Grace period for payments"
-msgstr ""
+msgstr "Periudhë faljeje për pagesat"
 
 #: weblate/billing/models.py:203
 msgid "Changes in last month"
@@ -1969,7 +1971,7 @@ msgstr "Ndryshime vitin e shkuar"
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
-msgstr "Vargje burim"
+msgstr "Vargjet e burimit"
 
 #: weblate/billing/models.py:242 weblate/templates/about/stats.html:72
 #: weblate/trans/admin.py:100
@@ -4269,6 +4271,8 @@ msgstr "Identifikues URL-je projekti"
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
+"Depozitimet Weblate prej përbërësish brenda kësaj drejtorie do të ngjeshen "
+"në një."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -7234,7 +7238,7 @@ msgstr "E sugjeruar"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
-msgstr ""
+msgstr "Weblate s’ekzekutoi dot shtesën e programthit."
 
 #: weblate/templates/trans/alert/addonscripterror.html:6
 #: weblate/templates/trans/alert/duplicatelanguage.html:22
@@ -7288,7 +7292,7 @@ msgstr "URL-ja e sajtit të projektit shpie te një vendndodhje që s’ekziston
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:3
 msgid "Some linked components have the same filemask."
-msgstr ""
+msgstr "Disa përbërës të lidhur kanë të njëjtën \"filemask\"."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:4
 msgid "Please fix this by removing one of them."
@@ -7296,7 +7300,7 @@ msgstr "Ju lutemi, ndreqeni duke hequr një prej tyre."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
 msgid "The following filemasks were found multiple times:"
-msgstr ""
+msgstr "Filemask-at vijuese u gjetën shumë herë:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
 msgid ""
@@ -7350,6 +7354,7 @@ msgstr ""
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
+"Weblate-i s’përzjeu dot ndryshime \"upstream\" teksa përditësohej depoja."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -7385,19 +7390,23 @@ msgstr "Emër kartele"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr ""
+msgstr "Weblate-i s’kreu dot \"push\" te depoja \"upstream."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
+"Krahasuar me upstream-in, depoja VCS ka plot ndryshime. Ju lutemi, "
+"përziejini ndryshimet dorazi ose ujdisni push-in që kjo të automatizohet."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
+"Depoja VCS s’është e përditësuar sipas asaj \"upstream\". Ju lutemi, "
+"përziejini ndryshimet dorazi ose ujdisni hook-e që kjo të automatizohet."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1475 weblate/trans/models/component.py:181
@@ -7415,6 +7424,7 @@ msgstr ""
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
+"Weblate-i s’pruri dot ndryshimet prej upstream-i teksa përditësohej depoja."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -7561,7 +7571,7 @@ msgstr "Përziej ndryshimet Weblate dhe zgjidh çfarëdo përplasje."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
-msgstr ""
+msgstr "Kryej për ndryshimet \"push\" te depoja upstream."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
@@ -7744,19 +7754,19 @@ msgstr "Vargje atypari"
 
 #: weblate/templates/translate.html:224
 msgid "Strings with similar keys"
-msgstr ""
+msgstr "Vargje me identifikues të ngjashëm"
 
 #: weblate/templates/translate.html:224
 msgid "Nearby keys"
-msgstr ""
+msgstr "Identifikues atypari"
 
 #: weblate/templates/translate.html:227
 msgid "Shapings of the string"
-msgstr ""
+msgstr "Forma të vargut"
 
 #: weblate/templates/translate.html:227 weblate/templates/translate.html:481
 msgid "Shapings"
-msgstr ""
+msgstr "Forma"
 
 #: weblate/templates/translate.html:233
 msgid "Other occurrences"
@@ -7850,8 +7860,8 @@ msgstr[1] "Ka %(count)s komente për këtë varg."
 #, python-format
 msgid "There is %(count)s shaping for this string."
 msgid_plural "There are %(count)s shapings for this string."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Për këtë varg ka %(count)s formë."
+msgstr[1] "Për këtë varg ka %(count)s forma."
 
 #: weblate/templates/translate.html:498
 msgid "Manage glossary"
@@ -8250,7 +8260,7 @@ msgstr "Vargje të shënuar për përpunim"
 
 #: weblate/trans/filter.py:39
 msgid "Strings with shapings"
-msgstr ""
+msgstr "Vargje me forma"
 
 #: weblate/trans/filter.py:40
 msgid "Strings with labels"
@@ -8278,7 +8288,7 @@ msgstr "Kontroll i dështuar: {}"
 
 #: weblate/trans/filter.py:86 weblate/trans/filter.py:127
 msgid "Labeled: {}"
-msgstr ""
+msgstr "Etiketuar me: {}"
 
 #: weblate/trans/forms.py:145
 msgid "Invalid checksum specified!"
@@ -8476,7 +8486,7 @@ msgstr "Krejt përbërësit në projektin e tanishëm"
 
 #: weblate/trans/forms.py:844
 msgid "Invalid integer list!"
-msgstr ""
+msgstr "Listë e pavlefshme numrash!"
 
 #: weblate/trans/forms.py:880
 msgid ""
@@ -8631,7 +8641,7 @@ msgstr "Licencë"
 
 #: weblate/trans/forms.py:1246
 msgid "Upstream links"
-msgstr ""
+msgstr "Lidhje upstream"
 
 #: weblate/trans/forms.py:1258
 msgid "Translation settings"
@@ -8748,13 +8758,15 @@ msgstr "Varg zëvendësimi"
 
 #: weblate/trans/forms.py:1789
 msgid "Translation key"
-msgstr ""
+msgstr "Identifikues përkthimi"
 
 #: weblate/trans/forms.py:1791
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
 msgstr ""
+"Identifikues i përdorur për të identifikuar vargun në kartelë përkthimi. "
+"Mund të jetë objekt rregullash specifike për formate kartelash."
 
 #: weblate/trans/forms.py:1797
 msgid "Source language text"
@@ -8826,7 +8838,7 @@ msgstr "Përkthim i përsëdytur."
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:171
 msgid "Duplicated filemask."
-msgstr ""
+msgstr "Filemask e përsëdytur."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:182
@@ -9037,7 +9049,7 @@ msgstr ""
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:246
 msgid "Reset repository"
-msgstr "Rikthe depon te parazgjedhjet"
+msgstr "Për depon u krye reset"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:248
@@ -9047,22 +9059,22 @@ msgstr "U përzie depo"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:250
 msgid "Rebased repository"
-msgstr "Depozita të ribazuara"
+msgstr "Për depon u krye rebase"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:252
 msgid "Failed merge on repository"
-msgstr "Dështoi përzierje në depo"
+msgstr "Dështoi përzierja në depo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:254
 msgid "Failed rebase on repository"
-msgstr "Dështoi ribazimi në depozitë"
+msgstr "Dështoi rebase-i në depo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:256
 msgid "Failed push on repository"
-msgstr "Push i dështuar në depo"
+msgstr "Dështoi push-i në depo"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:260
@@ -9258,11 +9270,13 @@ msgstr ""
 
 #: weblate/trans/models/component.py:208
 msgid "Repository push URL"
-msgstr "URL e shtryrjes (push) së depozitës"
+msgstr "URL push-i për depon"
 
 #: weblate/trans/models/component.py:211
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr ""
+"URL-ja e një depoje për akte push, nëse lihet e zbrazët, aktet push janë të "
+"çaktivizuar."
 
 #: weblate/trans/models/component.py:216
 msgid "Repository browser"
@@ -9321,6 +9335,8 @@ msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr ""
+"Nëse do të jenë apo jo në gjendje përdoruesit të përpunojë kartelën bazë për "
+"përkthime njëgjuhëshe."
 
 #: weblate/trans/models/component.py:278
 msgid "Intermediate language file"
@@ -9332,6 +9348,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Emër kartele për kartelë ndërmjetëse përkthimi. Në më të shumtën e rasteve "
+"kjo është kartela përkthim e furnizuar nga zhvilluesit dhe përdoret gjatë "
+"krijimit të vargjeve faktike burim."
 
 #: weblate/trans/models/component.py:290
 msgid "Template for new translations"
@@ -9363,7 +9382,7 @@ msgstr "Aktivizo sugjerime"
 
 #: weblate/trans/models/component.py:325
 msgid "Whether to allow translation suggestions at all."
-msgstr ""
+msgstr "Nëse duhen lejuar apo jo sugjerime përkthimi."
 
 #: weblate/trans/models/component.py:328
 msgid "Suggestion voting"
@@ -9442,6 +9461,8 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
+"Përcaktoni nëse Weblate-i duhet të kryejë përzierje me depon upstream apo të "
+"bëjë rebase të ndryshimeve në të."
 
 #: weblate/trans/models/component.py:408
 msgid "Commit message when translating"
@@ -9487,7 +9508,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:466
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr ""
+msgstr "Nëse për depon duhet kryer push te upstream për çdo parashtrim."
 
 #: weblate/trans/models/component.py:470
 msgid "Age of changes to commit"
@@ -9509,11 +9530,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:488
 msgid "Shapings regular expression"
-msgstr ""
+msgstr "Shprehje e rregullt formash"
 
 #: weblate/trans/models/component.py:494
 msgid "Regular expression used to determine shapings of a string."
-msgstr ""
+msgstr "Shprehje e rregullt e përdorur për të përcaktuar forma të një vargu."
 
 #: weblate/trans/models/component.py:503
 msgid "Components with higher priority are offered first to translators."
@@ -9543,17 +9564,17 @@ msgstr "S’u soll dot depoja: %s"
 #: weblate/trans/models/component.py:974
 #, python-format
 msgid "Push is turned off for %s."
-msgstr ""
+msgstr "Aktet push janë të çaktivizuara për %s."
 
 #: weblate/trans/models/component.py:1028
 #, python-format
 msgid "Could not push to remote branch on %s."
-msgstr ""
+msgstr "S’u krye dot push te dega e largët në %s."
 
 #: weblate/trans/models/component.py:1061
 #, python-format
 msgid "Could not reset to remote branch on %s."
-msgstr ""
+msgstr "S’u krye dot reset te dega e largët në %s."
 
 #: weblate/trans/models/component.py:1090
 #, python-format
@@ -9563,12 +9584,12 @@ msgstr "S’u pastrua dot depoja te %s."
 #: weblate/trans/models/component.py:1170
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
-msgstr ""
+msgstr "S’u krye dot rebase i degës vendore te dega e largët %s."
 
 #: weblate/trans/models/component.py:1176
 #, python-format
 msgid "Could not merge remote branch into %s."
-msgstr ""
+msgstr "S’u krye dot përzierja e degës së largët me %s."
 
 #: weblate/trans/models/component.py:1526
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
@@ -9592,17 +9613,18 @@ msgstr "Mundësia s’është e passhme për depo të lidhura."
 
 #: weblate/trans/models/component.py:1560
 msgid "The filemask did not match any files."
-msgstr ""
+msgstr "Filemask-a s’pat përputhje me ndonjë kartelë."
 
 #: weblate/trans/models/component.py:1568
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
-msgstr ""
+msgstr "Kodi i gjuhës për %s qe i zbrazët, ju lutemi, kontrolloni filemask-ën."
 
 #: weblate/trans/models/component.py:1575
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
+"Kodi i gjuhës \"%s\" është shumë i gjatë, ju lutemi, kontrolloni filemask-ën."
 
 #: weblate/trans/models/component.py:1582
 #, python-format
@@ -9610,6 +9632,8 @@ msgid ""
 "There are more files for the single language (%s), please adjust the "
 "filemask and use components for translating different resources."
 msgstr ""
+"Ka më tepër kartela për gjuhën njëshe (%s), ju lutemi, përshtatni filemask-"
+"ën dhe përdorni përbërës për përkthimin e burimeve të ndryshme."
 
 #: weblate/trans/models/component.py:1607
 #, python-format
@@ -9637,7 +9661,7 @@ msgstr "S’mund të përdorni një kartelë bazë për përkthim dygjuhësh."
 #: weblate/trans/models/component.py:1651
 #: weblate/trans/models/component.py:1656
 msgid "Intermediate language file can not be used without editing template."
-msgstr ""
+msgstr "Kartela e gjuhës ndërmjetëse s’mund të përdoret pa përpunuar gjedhen."
 
 #: weblate/trans/models/component.py:1662
 msgid "Using a .pot file as base file is unsupported."
@@ -9895,7 +9919,7 @@ msgstr "Lyp shqyrtues enkas për miratim përkthimesh."
 
 #: weblate/trans/models/project.py:122
 msgid "Enable source reviews"
-msgstr ""
+msgstr "Aktivizo shqyrtime burimi"
 
 #: weblate/trans/models/project.py:125
 msgid "Requires dedicated reviewers to approve source strings."
@@ -9908,6 +9932,7 @@ msgstr "Aktivizoni hook-e"
 #: weblate/trans/models/project.py:132
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
+"Nëse duhet lejuar apo jo përditësimi i kësaj depoje nga hook-ë të largët."
 
 #: weblate/trans/models/project.py:137
 msgid "Source language"
@@ -9988,11 +10013,11 @@ msgstr "Vijë ndarëse"
 
 #: weblate/trans/specialchars.py:648
 msgid "En dash"
-msgstr ""
+msgstr "Vijë ndarëse \"en dash\""
 
 #: weblate/trans/specialchars.py:651
 msgid "Em dash"
-msgstr ""
+msgstr "Vijë ndarëse \"em dash\""
 
 #: weblate/trans/specialchars.py:654
 msgid "User configured character: {}"
@@ -10260,7 +10285,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:29
 msgid "Filemask does not contain * as a language placeholder!"
-msgstr ""
+msgstr "Filemask-a s’përmban * si vendmbajtëse gjuhe!"
 
 #: weblate/trans/validators.py:38
 msgid ""
@@ -10508,7 +10533,7 @@ msgstr "Komenti i përkthimit u zgjidh."
 
 #: weblate/trans/views/edit.py:790
 msgid "Translation with this key seem to already exist!"
-msgstr ""
+msgstr "Duket se ekziston tashmë përkthim me këtë identifikues!"
 
 #: weblate/trans/views/edit.py:794
 msgid "New string has been added."
@@ -10561,11 +10586,11 @@ msgstr "Krejt depot u përditësuan."
 
 #: weblate/trans/views/git.py:76
 msgid "All repositories were pushed."
-msgstr ""
+msgstr "U krye push për krejt depot."
 
 #: weblate/trans/views/git.py:83
 msgid "All repositories have been reset."
-msgstr ""
+msgstr "U krye reset për krejt depot."
 
 #: weblate/trans/views/git.py:92
 msgid "All repositories have been cleaned up."
@@ -10578,6 +10603,8 @@ msgstr "Integrim kontrolli versioni"
 #: weblate/trans/views/guide.py:88
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
+"Formësoni hook-e deposh, për rrjedhë të automatizuar përditësimesh te "
+"Weblate."
 
 #: weblate/trans/views/guide.py:106
 msgid "Configure push URL for automated flow of translations from Weblate."
@@ -10612,6 +10639,7 @@ msgstr "Për të treguar vargje speciale te përkthimi juaj, përdorni flamurka.
 #: weblate/trans/views/guide.py:208
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
 msgstr ""
+"Shtoni flamurkë safe-html për të shmangur HTML të rrezikshme nga përkthyesit."
 
 #: weblate/trans/views/guide.py:231
 msgid "Workflow customization"
@@ -10739,6 +10767,8 @@ msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
+"Vargjet e formatit s’mbulohen më, ju lutemi, në vend të tyre përdorni gjuhë "
+"gjedhesh."
 
 #: weblate/utils/render.py:161
 msgid "The editor link lacks URL scheme!"
@@ -10944,7 +10974,7 @@ msgstr "E ripohoj daljen"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:9
 msgid "Import speed documentation"
-msgstr ""
+msgstr "Dokumentim shpejtësie importimi"
 
 #: weblate/wladmin/templates/admin/trans/change_form.html:37
 msgid "Required fields are marked in bold."
@@ -10972,7 +11002,7 @@ msgstr "Email-i provë u dërgua."
 #: weblate/wladmin/views.py:100
 #, python-format
 msgid "Could not send test e-mail: %s"
-msgstr "S;u dërgua dot email provë: %s"
+msgstr "S’u dërgua dot email provë: %s"
 
 #: weblate/wladmin/views.py:123
 msgid "Activation completed."
@@ -10988,11 +11018,11 @@ msgstr ""
 
 #: weblate/wladmin/views.py:169
 msgid "Backup process triggered"
-msgstr ""
+msgstr "U shkaktua proces kopjeruajtjeje"
 
 #: weblate/wladmin/views.py:191
 msgid "Could not dismiss the configuration error!"
-msgstr ""
+msgstr "S’u hodh dot tej gabimi i formësimit!"
 
 #~ msgid "Administered projects"
 #~ msgstr "Projekte të administruar"
