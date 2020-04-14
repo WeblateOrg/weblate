@@ -120,6 +120,11 @@ class DownloadView(MemoryView):
     def get(self, request, *args, **kwargs):
         fmt = request.GET.get("format", "json")
         data = Memory.objects.filter_type(**self.objects).prefetch_lang()
+        if "from_file" in self.objects and "kind" in request.GET:
+            if request.GET["kind"] == "shared":
+                data = Memory.objects.filter_type(use_shared=True).prefetch_lang()
+            elif request.GET["kind"] == "all":
+                data = Memory.objects.prefetch_lang()
         if fmt == "tmx":
             response = render(
                 request,

@@ -26,6 +26,7 @@ Not yet released.
 * Add support for source upload on bilingual translations.
 * Added support for intermediate language from developers.
 * Added support for source strings review.
+* Extended download options for platform wide translation memory.
 
 Weblate 3.11.3
 --------------

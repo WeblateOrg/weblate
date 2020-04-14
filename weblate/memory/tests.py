@@ -138,7 +138,7 @@ class MemoryViewTest(FixtureTestCase):
 
         # Test download
         response = self.client.get(reverse("memory-download", **kwargs))
-        self.assertContains(response, "[")
+        validate(response.json(), load_schema("weblate-memory.schema.json"))
 
         # Test download
         response = self.client.get(
@@ -187,3 +187,15 @@ class MemoryViewTest(FixtureTestCase):
             False,
             kwargs={"manage": "manage"},
         )
+        # Download all entries
+        response = self.client.get(
+            reverse("memory-download", kwargs={"manage": "manage"}),
+            {"format": "json", "kind": "all"},
+        )
+        validate(response.json(), load_schema("weblate-memory.schema.json"))
+        # Download shared entries
+        response = self.client.get(
+            reverse("memory-download", kwargs={"manage": "manage"}),
+            {"format": "json", "kind": "shared"},
+        )
+        validate(response.json(), load_schema("weblate-memory.schema.json"))

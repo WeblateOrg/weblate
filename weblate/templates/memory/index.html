@@ -40,8 +40,13 @@
     {% comment %}Translators: Shared translation memory is disabled{% endcomment %}
     {% trans "off" %}
   {% endif %}
-  {% perm 'project.edit' project as user_can_edit_project %}
-  {% if user_can_edit_project %}<a href="{% url 'settings' project=project.slug %}#workflow" class="btn btn-link btn-xs" title="{% trans "Edit" %}">{% icon "pencil.svg" %}</a>{% endif %}
+  </td>
+  <td>
+    {% perm 'project.edit' project as user_can_edit_project %}
+    {% if user_can_edit_project %}
+    <a href="{% url 'settings' project=project.slug %}#workflow" class="btn btn-primary">{% trans "Configure" %}</a>
+    {% endif %}
+
   </td>
   </tr>
   {% endif %}
@@ -56,22 +61,34 @@
     {% endif %}
   </th>
   <td class="number">{{ num_entries|intcomma }}</td>
+  <td>
+      <a href="{{ download_url }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+      <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+  </td>
   </tr>
   {% if shared_entries %}
   <tr>
   <th>{% trans "Number of shared entries" %}</th>
   <td class="number">{{ shared_entries|intcomma }}</td>
+  <td>
+    {% if from_file %}
+      <a href="{{ download_url }}?kind=shared" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+      <a href="{{ download_url }}?kind=shared&amp;format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+    {% endif %}
+  </td>
   </tr>
   {% endif %}
   <tr>
   <th>{% trans "Total number of entries" %}</th>
   <td class="number">{{ total_entries|intcomma }}</td>
+  <td>
+    {% if from_file %}
+      <a href="{{ download_url }}?kind=all" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+      <a href="{{ download_url }}?kind=all&amp;format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+    {% endif %}
+  </td>
   </tr>
   </table>
-  <div class="panel-footer">
-  <a href="{{ download_url }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
-  <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
-  </div>
 </div>
 
 {% if upload_form %}
