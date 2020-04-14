@@ -317,6 +317,43 @@ class GroupAPITest(APIBaseTest):
             request={"component_id": self.component.pk},
         )
 
+    def test_remove_component(self):
+        self.do_request(
+            "api:group-components",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"component_id": self.component.pk},
+        )
+        self.do_request(
+            "api:group-delete-components",
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "component_id": self.component.pk,
+            },
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:group-delete-components",
+            kwargs={"id": Group.objects.get(name="Users").id, "component_id": -1},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.do_request(
+            "api:group-delete-components",
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "component_id": self.component.pk,
+            },
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Group.objects.get(name="Users").components.count(), 0)
+
     def test_add_project(self):
         self.do_request(
             "api:group-projects",
@@ -340,6 +377,101 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=200,
             request={"project_id": Project.objects.get(slug="test").pk},
+        )
+
+    def test_remove_project(self):
+        self.do_request(
+            "api:group-projects",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"project_id": Project.objects.get(slug="test").pk},
+        )
+        self.do_request(
+            "api:group-delete-projects",
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "project_id": Project.objects.get(slug="test").pk,
+            },
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:group-delete-projects",
+            kwargs={"id": Group.objects.get(name="Users").id, "project_id": -1},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.do_request(
+            "api:group-delete-projects",
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "project_id": Project.objects.get(slug="test").pk,
+            },
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Group.objects.get(name="Users").projects.count(), 0)
+
+    def test_add_language(self):
+        self.do_request(
+            "api:group-languages",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            code=403,
+            request={"language_code": "cs"},
+        )
+        self.do_request(
+            "api:group-languages",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"language_code": "invalid"},
+        )
+        self.do_request(
+            "api:group-languages",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"language_code": "cs"},
+        )
+
+    def test_remove_language(self):
+        self.do_request(
+            "api:group-languages",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"language_code": "cs"},
+        )
+        self.do_request(
+            "api:group-delete-languages",
+            kwargs={"id": Group.objects.get(name="Users").id, "language_code": "cs"},
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:group-delete-languages",
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "language_code": "invalid",
+            },
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.do_request(
+            "api:group-delete-languages",
+            kwargs={"id": Group.objects.get(name="Users").id, "language_code": "cs"},
+            method="delete",
+            superuser=True,
+            code=204,
         )
 
     def test_add_componentlist(self):
@@ -368,6 +500,45 @@ class GroupAPITest(APIBaseTest):
             code=200,
             request={"component_list_id": ComponentList.objects.get().pk},
         )
+
+    def test_remove_componentlist(self):
+        clist = ComponentList.objects.create(name="Name", slug="name")
+        clist.autocomponentlist_set.create()
+        self.do_request(
+            "api:group-componentlist",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=200,
+            request={"component_list_id": ComponentList.objects.get().pk},
+        )
+        self.do_request(
+            "api:group-delete-componentlist",
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "component_list_id": ComponentList.objects.get().pk,
+            },
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:group-delete-componentlist",
+            kwargs={"id": Group.objects.get(name="Users").id, "component_list_id": -1},
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.do_request(
+            "api:group-delete-componentlist",
+            kwargs={
+                "id": Group.objects.get(name="Users").id,
+                "component_list_id": ComponentList.objects.get().pk,
+            },
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertIsNone(Group.objects.get(name="Users").componentlist)
 
     def test_delete(self):
         self.do_request(
@@ -453,9 +624,10 @@ class RoleAPITest(APIBaseTest):
             superuser=True,
             code=201,
             format="json",
-            request={"name": "Role", "permissions": ["suggestion.add"]},
+            request={"name": "Role", "permissions": ["suggestion.add", "comment.add"]},
         )
         self.assertEqual(Role.objects.count(), 14)
+        self.assertEqual(Role.objects.get(name="Role").permissions.count(), 2)
 
     def test_delete(self):
         self.do_request(
@@ -532,6 +704,16 @@ class RoleAPITest(APIBaseTest):
             request={"name": "New Role"},
         )
         self.assertEqual(Role.objects.order_by("id").all()[0].name, "New Role")
+        self.do_request(
+            "api:role-detail",
+            kwargs={"id": Role.objects.order_by("id").all()[0].pk},
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"permissions": ["comment.add"]},
+        )
+        self.assertEqual(Role.objects.order_by("id").all()[0].permissions.count(), 2)
 
 
 class ProjectAPITest(APIBaseTest):

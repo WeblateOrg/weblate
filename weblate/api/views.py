@@ -365,6 +365,46 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["post"],
     )
+    def languages(self, request, **kwargs):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        if "language_code" not in request.data:
+            raise ParseError("Missing language_code parameter")
+
+        try:
+            language = Language.objects.get(code=request.data["language_code"])
+        except (Language.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        obj.languages.add(language)
+        serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
+    )
+    def delete_languages(self, request, id, language_code):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        try:
+            language = Language.objects.get(code=language_code)
+        except (Language.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        obj.languages.remove(language)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(
+        detail=True, methods=["post"],
+    )
     def projects(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
@@ -379,11 +419,25 @@ class GroupViewSet(viewsets.ModelViewSet):
                 data={"result": "Unsuccessful", "detail": force_str(error)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[^/.]+)")
+    def delete_projects(self, request, id, project_id):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        try:
+            project = Project.objects.get(pk=int(project_id))
+        except (Project.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        obj.projects.remove(project)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
         detail=True, methods=["post"],
@@ -404,7 +458,6 @@ class GroupViewSet(viewsets.ModelViewSet):
                 data={"result": "Unsuccessful", "detail": force_str(error)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         obj.componentlist = component_list
         obj.save()
         serializer = self.serializer_class(obj, context={"request": request})
@@ -412,12 +465,30 @@ class GroupViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(
+        detail=True,
+        methods=["delete"],
+        url_path="componentlist/(?P<component_list_id>[^/.]+)",
+    )
+    def delete_componentlist(self, request, id, component_list_id):
+        obj = self.get_object()
+        self.perm_check(request)
+        try:
+            ComponentList.objects.get(pk=int(component_list_id),)
+        except (ComponentList.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        obj.componentlist = None
+        obj.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(
         detail=True, methods=["post"],
     )
     def components(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
-
         if "component_id" not in request.data:
             raise ParseError("Missing component_id parameter")
 
@@ -431,11 +502,27 @@ class GroupViewSet(viewsets.ModelViewSet):
                 data={"result": "Unsuccessful", "detail": force_str(error)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True, methods=["delete"], url_path="components/(?P<component_id>[^/.]+)"
+    )
+    def delete_components(self, request, id, component_id):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        try:
+            component = Component.objects.get(pk=int(component_id),)
+        except (Component.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        obj.components.remove(component)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RoleViewSet(viewsets.ModelViewSet):
