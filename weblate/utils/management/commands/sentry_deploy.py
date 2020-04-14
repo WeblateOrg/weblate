@@ -52,8 +52,9 @@ class Command(BaseCommand):
                 "version": version,
                 "projects": settings.SENTRY_PROJECTS,
                 "ref": ref,
+                "refs": [{"repository": "WeblateOrg/weblate", "commit": ref}],
             }
-            response = requests.post(sentry_base, data=data, headers=sentry_auth)
+            response = requests.post(sentry_base, json=data, headers=sentry_auth)
             self.stdout.write("Created new release {}".format(version))
         response.raise_for_status()
 
