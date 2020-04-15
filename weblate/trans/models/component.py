@@ -645,7 +645,7 @@ class Component(models.Model, URLMixin, PathMixin):
                 raise
 
         if not source:
-            if not kwargs:
+            if not kwargs or self.template:
                 # Can not create without kwargs
                 raise
 
