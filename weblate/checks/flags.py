@@ -60,6 +60,8 @@ TYPED_FLAGS_ARGS["max-length"] = int
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
+FLAG_ALIASES = {"markdown-text": "md-text"}
+
 
 class Flags:
     def __init__(self, *args):
@@ -99,6 +101,9 @@ class Flags:
         for flag in flags.split(","):
             value = flag.strip()
             if not value or value in ("fuzzy", "#"):
+                continue
+            if value in FLAG_ALIASES.keys():
+                yield FLAG_ALIASES[value]
                 continue
             yield value
 

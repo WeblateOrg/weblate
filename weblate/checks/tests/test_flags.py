@@ -30,6 +30,11 @@ class FlagTest(SimpleTestCase):
     def test_parse_blank(self):
         self.assertEqual(Flags("foo, bar, ").items(), {"foo", "bar"})
 
+    def test_parse_alias(self):
+        self.assertEqual(
+            Flags("foo, md-text, bar, markdown-text").items(), {"foo", "bar", "md-text"}
+        )
+
     def test_iter(self):
         self.assertEqual(sorted(Flags("foo, bar")), ["bar", "foo"])
 
