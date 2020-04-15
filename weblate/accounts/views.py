@@ -376,7 +376,6 @@ def user_profile(request):
             "auditlog": request.user.auditlog_set.order()[:20],
         },
     )
-    result.set_cookie(settings.LANGUAGE_COOKIE_NAME, profile.language)
     return result
 
 
