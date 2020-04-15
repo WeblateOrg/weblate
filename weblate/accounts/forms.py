@@ -20,11 +20,7 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Fieldset, Layout
 from django import forms
-from django.contrib.auth import (
-    authenticate,
-    password_validation,
-    update_session_auth_hash,
-)
+from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db.models import Q
 from django.forms.widgets import EmailInput
@@ -44,7 +40,11 @@ from weblate.accounts.notifications import (
     SCOPE_DEFAULT,
     SCOPE_PROJECT,
 )
-from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
+from weblate.accounts.utils import (
+    cycle_session_keys,
+    get_all_user_mails,
+    invalidate_reset_codes,
+)
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -380,7 +380,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
 
         # Updating the password logs out all other sessions for the user
         # except the current one and change key for current session
-        update_session_auth_hash(request, self.user)
+        cycle_session_keys(request, self.user)
 
         # Invalidate password reset codes
         invalidate_reset_codes(self.user)

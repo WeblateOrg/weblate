@@ -22,7 +22,6 @@ import time
 import unicodedata
 
 from django.conf import settings
-from django.contrib.auth import update_session_auth_hash
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.encoding import force_str
@@ -35,7 +34,7 @@ from social_core.utils import PARTIAL_TOKEN_SESSION_NAME
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.accounts.notifications import send_notification_email
 from weblate.accounts.templatetags.authnames import get_auth_name
-from weblate.accounts.utils import invalidate_reset_codes
+from weblate.accounts.utils import cycle_session_keys, invalidate_reset_codes
 from weblate.auth.models import User
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
@@ -420,11 +419,8 @@ def slugify_username(value):
 
 
 def cycle_session(strategy, user, *args, **kwargs):
-    # Change unusable password hash to be able to invalidate other sessions
-    if not user.has_usable_password():
-        user.set_unusable_password()
     # Change key for current session and invalidate others
-    update_session_auth_hash(strategy.request, user)
+    cycle_session_keys(strategy.request, user)
 
 
 def adjust_primary_mail(strategy, entries, user, *args, **kwargs):

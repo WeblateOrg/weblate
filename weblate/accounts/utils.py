@@ -20,11 +20,12 @@
 
 import os
 
+from django.contrib.auth import update_session_auth_hash
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
-from weblate.trans.signals import user_pre_delete
+from weblate.trans.signals import user_pre_delete, user_session_cycle
 
 
 def remove_user(user, request):
@@ -79,3 +80,19 @@ def invalidate_reset_codes(user=None, entries=None, emails=None):
     if emails is None:
         emails = get_all_user_mails(user, entries)
     Code.objects.filter(email__in=emails).delete()
+
+
+def cycle_session_keys(request, user):
+    """
+    Cycle session keys.
+
+    Updating the password logs out all other sessions for the user
+    except the current one and change key for current session.
+    """
+    # Change unusable password hash to be able to invalidate other sessions
+    if not user.has_usable_password():
+        user.set_unusable_password()
+    # Cycle session key
+    update_session_auth_hash(request, user)
+    # Send signal to avoid further integration
+    user_session_cycle.send(instance=user, sender=user.__class__)
