@@ -1321,6 +1321,7 @@ class Component(models.Model, URLMixin, PathMixin):
         self.store_background_task()
         # Ensure we start from fresh template
         self.drop_template_store_cache()
+        self._sources_prefetched = False
         self.needs_cleanup = False
         self.updated_sources = {}
         self.alerts_trigger = {}
