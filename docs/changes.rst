@@ -1,7 +1,7 @@
 Weblate 4.0
 -----------
 
-Not yet released.
+Released on April 16th 2020.
 
 * Weblate now requires Python 3.6 or newer.
 * Added management overview of component alerts.
