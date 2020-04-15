@@ -337,7 +337,7 @@ def user_profile(request):
             response = redirect_profile(request.POST.get("activetab"))
 
             # Change language
-            set_lang(request, request.user.profile)
+            set_lang(response, request.user.profile)
 
             # Set language cookie and activate new language (for message below)
             lang_code = profile.language
