@@ -299,7 +299,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Store current unit ID
         updated[id_hash] = newunit
 
-    def check_sync(self, force=False, request=None, change=None):
+    def check_sync(self, force=False, request=None, change=None):  # noqa: C901
         """Check whether database is in sync with git and possibly updates."""
         if change is None:
             change = Change.ACTION_UPDATE
@@ -329,6 +329,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         try:
             store = self.store
+            translation_store = None
 
             # Store plural
             plural = store.get_plural(self.language)
@@ -342,7 +343,23 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             # Select all current units for update
             dbunits = {unit.id_hash: unit for unit in self.unit_set.select_for_update()}
 
+            # Process based on intermediate store if available
+            if self.component.intermediate:
+                translation_store = store
+                store = self.load_store(force_intermediate=True)
+
             for unit in store.content_units:
+                # Use translation store if exists and if it contains the string
+                if translation_store is not None:
+                    try:
+                        translated_unit, created = translation_store.find_unit(
+                            unit.context
+                        )
+                        if translated_unit and not created:
+                            unit = translated_unit
+                    except UnitNotFound:
+                        pass
+
                 id_hash = unit.id_hash
 
                 # Check for possible duplicate units
@@ -371,22 +388,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 pos += 1
 
                 self.sync_unit(dbunits, updated, id_hash, unit, pos)
-
-            # Add missing units which are not yet present in source translation, but
-            # are present in intermediate
-            if self.component.intermediate:
-                store = self.load_store(force_intermediate=True)
-                for unit in store.content_units:
-                    id_hash = unit.id_hash
-
-                    # Check for already processed units
-                    if id_hash in updated:
-                        continue
-
-                    # Update position
-                    pos += 1
-
-                    self.sync_unit(dbunits, updated, id_hash, unit, pos)
 
         except FileParseError as error:
             self.log_warning("skipping update due to parse error: %s", error)
