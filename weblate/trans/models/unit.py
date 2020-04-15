@@ -307,13 +307,15 @@ class Unit(models.Model, LoggerMixin):
         if not self.translation.is_source:
             source_info = component.get_source(
                 self.id_hash,
-                source=source,
-                target=source,
-                context=context,
-                content_hash=calculate_hash(source, context),
-                position=pos,
-                location=location,
-                flags=flags,
+                create={
+                    "source": source,
+                    "target": source,
+                    "context": context,
+                    "content_hash": calculate_hash(source, context),
+                    "position": pos,
+                    "location": location,
+                    "flags": flags,
+                },
             )
             if (
                 not component.has_template()

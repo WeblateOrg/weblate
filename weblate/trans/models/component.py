@@ -628,7 +628,7 @@ class Component(models.Model, URLMixin, PathMixin):
         }
         self._sources_prefetched = True
 
-    def get_source(self, id_hash, **kwargs):
+    def get_source(self, id_hash, create=None):
         """Cached access to source info."""
         try:
             return self._sources[id_hash]
@@ -641,22 +641,22 @@ class Component(models.Model, URLMixin, PathMixin):
                 # exception in case of error
                 source = self.source_translation.unit_set.get(id_hash=id_hash)
         except ObjectDoesNotExist:
-            if not kwargs:
+            if not create:
                 raise
 
         if not source:
-            if not kwargs or self.template:
+            if not create or self.template:
                 # Can not create without kwargs
                 raise
 
             # Set correct state depending on template editing
             if self.template and self.edit_template:
-                kwargs["state"] = STATE_TRANSLATED
+                create["state"] = STATE_TRANSLATED
             else:
-                kwargs["state"] = STATE_READONLY
+                create["state"] = STATE_READONLY
 
             # Create source unit
-            source = self.source_translation.unit_set.create(id_hash=id_hash, **kwargs)
+            source = self.source_translation.unit_set.create(id_hash=id_hash, **create)
             Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
             self.updated_sources[id_hash] = source
         self._sources[id_hash] = source
