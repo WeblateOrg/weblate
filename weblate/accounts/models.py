@@ -28,7 +28,7 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -500,6 +500,7 @@ def set_lang(response, profile):
             httponly=settings.LANGUAGE_COOKIE_HTTPONLY,
             samesite=settings.LANGUAGE_COOKIE_SAMESITE,
         )
+        translation.activate(profile.language)
 
 
 @receiver(user_logged_in)

@@ -43,7 +43,6 @@ from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
@@ -337,12 +336,7 @@ def user_profile(request):
             response = redirect_profile(request.POST.get("activetab"))
 
             # Change language
-            set_lang(response, request.user.profile)
-
-            # Set language cookie and activate new language (for message below)
-            lang_code = profile.language
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
-            translation.activate(lang_code)
+            set_lang(response, profile)
 
             messages.success(request, _("Your profile has been updated."))
 
