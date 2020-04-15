@@ -25,7 +25,7 @@ from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
 from weblate.auth.models import User
-from weblate.trans.signals import user_pre_delete, user_session_cycle
+from weblate.trans.signals import user_pre_delete
 
 
 def remove_user(user, request):
@@ -94,5 +94,3 @@ def cycle_session_keys(request, user):
         user.set_unusable_password()
     # Cycle session key
     update_session_auth_hash(request, user)
-    # Send signal to avoid further integration
-    user_session_cycle.send(instance=user, sender=user.__class__)
