@@ -53,8 +53,8 @@ MENU = (
     ("memory", "manage-memory", gettext_lazy("Translation memory")),
     ("performance", "manage-performance", gettext_lazy("Performance report")),
     ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
-    ("alerts", "manage-alerts", gettext_lazy("Component alerts")),
-    ("repos", "manage-repos", gettext_lazy("Status of repositories")),
+    ("alerts", "manage-alerts", gettext_lazy("Alerts")),
+    ("repos", "manage-repos", gettext_lazy("Repositories")),
     ("users", "manage-users", gettext_lazy("Users")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
 )
