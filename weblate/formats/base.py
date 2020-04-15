@@ -260,7 +260,7 @@ class TranslationFormat:
         except KeyError:
             raise UnitNotFound("Unit not found: {}, {}".format(context, source))
 
-    def find_unit(self, context, source):
+    def find_unit(self, context, source=None):
         """Find unit by context and source.
 
         Returns tuple (ttkit_unit, created) indicating whether returned unit is new one.
