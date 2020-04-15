@@ -333,11 +333,11 @@ def user_profile(request):
                     form.audit(request)
                 form.save()
 
-            # Change language
-            set_lang(request, request.user.profile)
-
             # Redirect after saving (and possibly changing language)
             response = redirect_profile(request.POST.get("activetab"))
+
+            # Change language
+            set_lang(request, request.user.profile)
 
             # Set language cookie and activate new language (for message below)
             lang_code = profile.language
@@ -597,6 +597,12 @@ class WeblateLoginView(LoginView):
             return redirect_single(request, auth_backends[0])
 
         return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # Set language for session based on preferences
+        set_lang(response, self.request.user.profile)
+        return response
 
 
 class WeblateLogoutView(LogoutView):
@@ -971,7 +977,9 @@ def social_auth(request, backend):
                 salt="weblate.authid",
             )
         )
-    return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
+    response = do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
+    set_lang(response, request.user.profile)
+    return response
 
 
 def auth_fail(request, message):

@@ -30,7 +30,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.translation import LANGUAGE_SESSION_KEY, gettext
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
@@ -487,10 +487,19 @@ class Profile(models.Model):
         return result
 
 
-def set_lang(request, profile):
+def set_lang(response, profile):
     """Set session language based on user preferences."""
     if profile.language:
-        request.session[LANGUAGE_SESSION_KEY] = profile.language
+        response.set_cookie(
+            settings.LANGUAGE_COOKIE_NAME,
+            profile.language,
+            max_age=settings.LANGUAGE_COOKIE_AGE,
+            path=settings.LANGUAGE_COOKIE_PATH,
+            domain=settings.LANGUAGE_COOKIE_DOMAIN,
+            secure=settings.LANGUAGE_COOKIE_SECURE,
+            httponly=settings.LANGUAGE_COOKIE_HTTPONLY,
+            samesite=settings.LANGUAGE_COOKIE_SAMESITE,
+        )
 
 
 @receiver(user_logged_in)
@@ -518,9 +527,6 @@ def post_login_handler(sender, request, user, **kwargs):
     ):
         social = user.social_auth.create(provider="email", uid=user.email)
         VerifiedEmail.objects.create(social=social, email=user.email)
-
-    # Set language for session based on preferences
-    set_lang(request, user.profile)
 
     # Fixup accounts with empty name
     if not user.full_name:
