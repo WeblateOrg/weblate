@@ -1,0 +1,8 @@
+{% load i18n %}
+{% if unit.readonly %}
+    {% if not unit.source_info.translated %}
+        <span class="badge">{% trans "Source in review" %}</span>
+    {% else %}
+        <span class="badge">{% trans "Read only" %}</span>
+    {% endif %}
+{% endif %}

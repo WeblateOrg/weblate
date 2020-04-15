@@ -11,7 +11,7 @@
 <tr id="row-status-{{ item.unit.checksum }}">
 <td>
 {{ item.unit.position }}
-{% if item.unit.readonly %}<span class="badge">{% trans "Read only" %}</span>{% endif %}
+{% include "snippets/unit-readonly-badge.html" with unit=item.unit %}
 </td>
 <td colspan="2">
 <a href="{% url 'translate' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip" title="{% trans "Open in full editor" %}">{% icon "pencil.svg" %}</a>
