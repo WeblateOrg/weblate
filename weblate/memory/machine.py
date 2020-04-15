@@ -28,6 +28,7 @@ class WeblateMemory(MachineTranslation):
     name = "Weblate Translation Memory"
     rank_boost = 2
     cache_translations = False
+    same_languages = True
 
     def convert_language(self, language):
         """No conversion of language object."""

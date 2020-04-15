@@ -36,14 +36,12 @@ def import_memory(project_id, component_id=None):
 
     for component in components.iterator():
         with transaction.atomic():
-            units = (
-                Unit.objects.filter(
-                    translation__component=component, state__gte=STATE_TRANSLATED
-                )
-                .exclude(translation__language=project.source_language)
-                .prefetch_related("translation", "translation__language")
+            units = Unit.objects.filter(
+                translation__component=component, state__gte=STATE_TRANSLATED
             )
-            for unit in units:
+            if not component.intermediate:
+                units = units.exclude(translation__language=project.source_language)
+            for unit in units.prefetch_related("translation", "translation__language"):
                 update_memory(None, unit, component, project)
 
 

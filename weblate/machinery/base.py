@@ -55,6 +55,7 @@ class MachineTranslation:
     default_languages = []
     cache_translations = True
     language_map = {}
+    same_languages = False
 
     @classmethod
     def get_rank(cls):
@@ -215,7 +216,11 @@ class MachineTranslation:
 
         text = search or unit.get_source_plurals()[0]
 
-        if not text or self.is_rate_limited() or source == language:
+        if (
+            not text
+            or self.is_rate_limited()
+            or (source == language and not self.same_languages)
+        ):
             return []
 
         if not self.is_supported(source, language):
