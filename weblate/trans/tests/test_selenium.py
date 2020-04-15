@@ -433,6 +433,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Render activity
         self.click("Insights")
         self.click("Activity")
+        time.sleep(0.5)
         self.screenshot("activity.png")
 
         # Screenshot search
