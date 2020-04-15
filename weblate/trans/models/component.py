@@ -630,37 +630,35 @@ class Component(models.Model, URLMixin, PathMixin):
 
     def get_source(self, id_hash, create=None):
         """Cached access to source info."""
+        from weblate.trans.models import Unit
+
         try:
             return self._sources[id_hash]
         except KeyError:
-            source = None
-
-        try:
-            if not self._sources_prefetched or self.template:
-                # Get existing if not prefetch was done, this will raise an
-                # exception in case of error
-                source = self.source_translation.unit_set.get(id_hash=id_hash)
-        except ObjectDoesNotExist:
-            if not create:
-                raise
-
-        if not source:
-            if not create or self.template:
-                # Can not create without kwargs
-                raise
-
-            # Set correct state depending on template editing
-            if self.template and self.edit_template:
-                create["state"] = STATE_TRANSLATED
+            source_units = self.source_translation.unit_set
+            if not self._sources_prefetched:
+                # Fetch one by one for case getting for single unit, if not prefetch
+                # was done, this will raise an exception in case of error
+                source = source_units.get(id_hash=id_hash)
+            elif not create or self.template:
+                # Avoid creating for template based translations and if args
+                # are missing
+                raise Unit.DoesNotExist("Could not find source unit")
             else:
-                create["state"] = STATE_READONLY
+                # Create in case of parsing tranlations
+                # Set correct state depending on template editing
+                if self.template and self.edit_template:
+                    create["state"] = STATE_TRANSLATED
+                else:
+                    create["state"] = STATE_READONLY
 
-            # Create source unit
-            source = self.source_translation.unit_set.create(id_hash=id_hash, **create)
-            Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
-            self.updated_sources[id_hash] = source
-        self._sources[id_hash] = source
-        return source
+                # Create source unit
+                source = source_units.create(id_hash=id_hash, **create)
+                Change.objects.create(action=Change.ACTION_NEW_SOURCE, unit=source)
+                self.updated_sources[id_hash] = source
+
+            self._sources[id_hash] = source
+            return source
 
     @property
     def filemask_re(self):
