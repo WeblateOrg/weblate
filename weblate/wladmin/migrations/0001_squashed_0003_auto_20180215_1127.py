@@ -6,12 +6,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("wladmin", "0001_initial"),
-        ("wladmin", "0002_auto_20180118_1020"),
-        ("wladmin", "0003_auto_20180215_1127"),
-    ]
-
     initial = True
 
     dependencies = []

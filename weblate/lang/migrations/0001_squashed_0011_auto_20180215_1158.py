@@ -8,20 +8,6 @@ import weblate.utils.validators
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("lang", "0001_initial"),
-        ("lang", "0002_auto_20150630_1208"),
-        ("lang", "0003_auto_20160721_0849"),
-        ("lang", "0004_auto_20161222_1459"),
-        ("lang", "0005_auto_20180110_1204"),
-        ("lang", "0006_plural"),
-        ("lang", "0007_migrate_plurals"),
-        ("lang", "0008_auto_20180129_1350"),
-        ("lang", "0009_auto_20180129_1434"),
-        ("lang", "0010_auto_20180129_1443"),
-        ("lang", "0011_auto_20180215_1158"),
-    ]
-
     initial = True
 
     dependencies = []

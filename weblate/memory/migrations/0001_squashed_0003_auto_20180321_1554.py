@@ -5,12 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("memory", "0001_initial"),
-        ("memory", "0002_init_whoosh"),
-        ("memory", "0003_auto_20180321_1554"),
-    ]
-
     initial = True
 
     dependencies = []

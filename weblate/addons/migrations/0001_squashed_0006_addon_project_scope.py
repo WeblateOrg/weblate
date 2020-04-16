@@ -8,18 +8,9 @@ import weblate.utils.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("addons", "0001_initial"),
-        ("addons", "0002_auto_20180203_2258"),
-        ("addons", "0003_install_addons"),
-        ("addons", "0004_auto_20180309_1300"),
-        ("addons", "0005_unwrapped_po"),
-        ("addons", "0006_addon_project_scope"),
-    ]
-
     initial = True
 
-    dependencies = [("trans", "0122_auto_20180129_1507")]
+    dependencies = [("trans", "0001_squashed_0143_auto_20180609_1655")]
 
     operations = [
         migrations.CreateModel(

@@ -12,23 +12,12 @@ from weblate.utils.data import data_dir
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("fonts", "0001_initial"),
-        ("fonts", "0002_fontgroup_fontoverride"),
-        ("fonts", "0003_auto_20190517_1249"),
-        ("fonts", "0004_auto_20190517_1421"),
-        ("fonts", "0005_auto_20190517_1450"),
-        ("fonts", "0006_auto_20190517_1900"),
-        ("fonts", "0007_auto_20190517_1907"),
-    ]
-
     initial = True
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("trans", "0026_alert_change"),
-        ("trans", "0027_auto_20190517_1125"),
-        ("lang", "0002_auto_20190516_1245"),
+        ("trans", "0001_squashed_0143_auto_20180609_1655"),
+        ("lang", "0001_squashed_0011_auto_20180215_1158"),
     ]
 
     operations = [

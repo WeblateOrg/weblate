@@ -9,23 +9,10 @@ import weblate.utils.validators
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("weblate_auth", "0002_auto_20180507_1540"),
-        ("weblate_auth", "0003_permissions"),
-        ("weblate_auth", "0004_auto_20180508_1032"),
-        ("weblate_auth", "0005_groups"),
-        ("weblate_auth", "0006_autogroup"),
-        ("weblate_auth", "0007_auto_20180509_0739"),
-        ("weblate_auth", "0008_email_fixup"),
-        ("weblate_auth", "0009_auto_20180509_1552"),
-        ("weblate_auth", "0010_auto_20180509_1630"),
-        ("weblate_auth", "0011_auto_20180509_0739"),
-    ]
-
     dependencies = [
         ("weblate_auth", "0001_initial"),
-        ("trans", "0131_auto_20180416_1610"),
-        ("lang", "0011_auto_20180215_1158"),
+        ("trans", "0001_squashed_0143_auto_20180609_1655"),
+        ("lang", "0001_squashed_0011_auto_20180215_1158"),
     ]
 
     operations = [

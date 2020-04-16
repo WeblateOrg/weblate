@@ -9,13 +9,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("legal", "0001_initial"),
-        ("legal", "0002_auto_20170821_1704"),
-        ("legal", "0003_auto_20180416_1405"),
-        ("legal", "0004_copy_auditlog"),
-    ]
-
     initial = True
 
     dependencies = [migrations.swappable_dependency(settings.AUTH_USER_MODEL)]

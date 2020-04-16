@@ -6,28 +6,9 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("billing", "0001_initial"),
-        ("billing", "0002_auto_20150917_1445"),
-        ("billing", "0003_auto_20150917_1457"),
-        ("billing", "0004_auto_20150917_1521"),
-        ("billing", "0005_billing_trial"),
-        ("billing", "0006_auto_20160106_1834"),
-        ("billing", "0007_invoice"),
-        ("billing", "0008_billing_state"),
-        ("billing", "0009_remove_billing_trial"),
-        ("billing", "0010_auto_20160210_1407"),
-        ("billing", "0011_auto_20160210_1522"),
-        ("billing", "0012_auto_20160816_1031"),
-        ("billing", "0013_auto_20170601_1116"),
-        ("billing", "0014_plan_change_access_control"),
-        ("billing", "0015_auto_20180509_1626"),
-        ("billing", "0016_remove_billing_user"),
-    ]
-
     initial = True
 
-    dependencies = [("trans", "0045_auto_20150916_1007")]
+    dependencies = [("trans", "0001_squashed_0143_auto_20180609_1655")]
 
     operations = [
         migrations.CreateModel(

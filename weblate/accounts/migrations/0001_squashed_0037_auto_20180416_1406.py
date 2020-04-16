@@ -10,51 +10,11 @@ import weblate.utils.render
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("accounts", "0001_initial"),
-        ("accounts", "0002_auto_20140923_1543"),
-        ("accounts", "0003_auto_20141104_1159"),
-        ("accounts", "0004_auto_20150108_1424"),
-        ("accounts", "0005_auto_20150330_1358"),
-        ("accounts", "0006_profile_hide_completed"),
-        ("accounts", "0007_auto_20150427_1505"),
-        ("accounts", "0008_profile_hide_source_secondary"),
-        ("accounts", "0009_auto_20150630_1213"),
-        ("accounts", "0010_auto_20150819_1457"),
-        ("accounts", "0011_auto_20150916_0952"),
-        ("accounts", "0012_auto_20151112_0738"),
-        ("accounts", "0013_auto_20151222_1006"),
-        ("accounts", "0014_auto_20160302_1025"),
-        ("accounts", "0015_auto_20160304_1418"),
-        ("accounts", "0016_add-api-keys"),
-        ("accounts", "0017_anonymous_profile"),
-        ("accounts", "0018_autogroup_users"),
-        ("accounts", "0019_auto_20160520_1358"),
-        ("accounts", "0020_remove_projects_dashboard"),
-        ("accounts", "0021_auto_20160520_1401"),
-        ("accounts", "0022_auto_20160520_1434"),
-        ("accounts", "0023_auto_20161021_1502"),
-        ("accounts", "0024_auto_20161024_0902"),
-        ("accounts", "0025_auto_20170211_1609"),
-        ("accounts", "0026_profile_special_chars"),
-        ("accounts", "0027_auto_20170317_1441"),
-        ("accounts", "0028_auto_20170323_0838"),
-        ("accounts", "0029_auto_20170503_1257"),
-        ("accounts", "0030_auditlog"),
-        ("accounts", "0031_auto_20170503_1414"),
-        ("accounts", "0032_auto_20170605_2025"),
-        ("accounts", "0033_auto_20171025_1453"),
-        ("accounts", "0034_auto_20171129_1438"),
-        ("accounts", "0035_user_agent"),
-        ("accounts", "0036_auto_20180201_1059"),
-        ("accounts", "0037_auto_20180416_1406"),
-    ]
-
     initial = True
 
     dependencies = [
-        ("trans", "0058_componentlist"),
-        ("lang", "0001_initial"),
+        ("trans", "0001_squashed_0143_auto_20180609_1655"),
+        ("lang", "0001_squashed_0011_auto_20180215_1158"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("social_django", "0001_initial"),
     ]

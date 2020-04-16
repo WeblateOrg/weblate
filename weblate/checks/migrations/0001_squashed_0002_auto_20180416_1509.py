@@ -8,13 +8,11 @@ from weblate.checks.models import CHECKS
 
 class Migration(migrations.Migration):
 
-    replaces = [("checks", "0001_initial"), ("checks", "0002_auto_20180416_1509")]
-
     initial = True
 
     dependencies = [
-        ("lang", "0011_auto_20180215_1158"),
-        ("trans", "0130_auto_20180416_1503"),
+        ("lang", "0001_squashed_0011_auto_20180215_1158"),
+        ("trans", "0001_squashed_0143_auto_20180609_1655"),
     ]
 
     operations = [

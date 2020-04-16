@@ -22,11 +22,9 @@ def set_export_url(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    replaces = [("gitexport", "0001_initial"), ("gitexport", "0002_fill_in_url")]
-
     initial = True
 
-    dependencies = [("trans", "0131_auto_20180416_1610")]
+    dependencies = [("trans", "0001_squashed_0143_auto_20180609_1655")]
 
     operations = [
         migrations.RunPython(code=set_export_url, reverse_code=set_export_url)

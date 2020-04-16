@@ -5,6 +5,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [("addons", "0006_addon_project_scope")]
+    dependencies = [("addons", "0001_squashed_0006_addon_project_scope")]
 
     operations = [migrations.AlterUniqueTogether(name="addon", unique_together=set())]

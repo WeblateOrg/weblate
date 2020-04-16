@@ -8,15 +8,9 @@ import weblate.screenshots.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("screenshots", "0001_initial"),
-        ("screenshots", "0002_auto_20170215_0849"),
-        ("screenshots", "0003_auto_20170215_1633"),
-    ]
-
     initial = True
 
-    dependencies = [("trans", "0074_auto_20170209_1412")]
+    dependencies = [("trans", "0001_squashed_0143_auto_20180609_1655")]
 
     operations = [
         migrations.CreateModel(
