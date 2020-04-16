@@ -48,7 +48,7 @@ with open("requirements-optional.txt") as requirements:
 
 setup(
     name="Weblate",
-    version="4.0",
+    version="4.0.1",
     python_requires=">=3.6",
     packages=["weblate"],
     include_package_data=True,
