@@ -360,3 +360,11 @@ def check_encoding(app_configs=None, **kwargs):
             id="weblate.C023",
         )
     ]
+
+
+def check_diskspace(app_configs=None, **kwargs):
+    """Check free disk space."""
+    stat = os.statvfs(settings.DATA_DIR)
+    if stat.f_bavail * stat.f_bsize < 10000000:
+        return [Critical("The disk is nearly full", id="weblate.C032")]
+    return []

@@ -28,6 +28,7 @@ from weblate.utils.checks import (
     check_celery,
     check_data_writable,
     check_database,
+    check_diskspace,
     check_encoding,
     check_errors,
     check_mail_connection,
@@ -61,6 +62,7 @@ class UtilsConfig(AppConfig):
         register(check_errors, deploy=True)
         register(check_version)
         register(check_encoding)
+        register(check_diskspace, deploy=True)
 
         init_error_collection()
 
