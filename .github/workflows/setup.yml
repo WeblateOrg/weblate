@@ -70,6 +70,8 @@ jobs:
   dist:
 
     runs-on: ubuntu-latest
+    env:
+      DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
     steps:
       - uses: actions/checkout@v2
