@@ -97,13 +97,13 @@ jobs:
       - name: Install sdist
         run: |
           pip install ./dist/*.tar.gz
-          pip uninstall Weblate
+          pip uninstall --yes Weblate
       - name: Build wheel
         run: coverage run ./setup.py bdist_wheel
       - name: Install wheel
         run: |
           pip install ./dist/*.whl
-          pip uninstall Weblate
+          pip uninstall --yes Weblate
       - name: Twine check
         run: twine check dist/*
       - name: Coverage
