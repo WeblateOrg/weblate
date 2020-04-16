@@ -1,7 +1,7 @@
 Weblate 4.0.1
 -------------
 
-Not yet released.
+Released on April 16th 2020.
 
 * Fixed package installation from PyPI.
 
