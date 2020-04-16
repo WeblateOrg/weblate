@@ -72,6 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DJANGO_SETTINGS_MODULE: "weblate.settings_test"
+      CI_DATABASE: "postgresql"
 
     steps:
       - uses: actions/checkout@v2
