@@ -76,13 +76,17 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-twine-${{ hashFiles('**/requirements*.txt') }}
+          key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.8
-      - name: Install dependencies
-        run: pip install --upgrade -r requirements-dist.txt
+      - name: Install pip dependencies
+        run: |
+          ./ci/pip-install
+          pip install --upgrade -r requirements-dist.txt
       - name: Compile messages
         run: coverage run ./manage.py compilemessages
       - name: Build sdist
