@@ -35,6 +35,7 @@ fi
 ./scripts/generate-locales
 
 # Create tarballs
+rm -rf ./build/
 fakeroot ./setup.py sdist
 fakeroot ./setup.py bdist_wheel
 
