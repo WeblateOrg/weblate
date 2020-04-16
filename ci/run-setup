@@ -11,23 +11,6 @@ trap "rm -rf $INSTALL_DIR" EXIT
 run_coverage ./manage.py compilemessages
 check
 
-run_coverage ./setup.py build
-check
-
-# Tarball build+install
-run_coverage ./setup.py sdist
-check
-
-pip install ./dist/*.tar.gz
-check
-
-# Wheel build+install
-run_coverage ./setup.py bdist_wheel
-check
-
-pip install ./dist/*.whl
-check
-
 # Do setup.py install
 run_coverage ./setup.py install --root="$INSTALL_DIR"
 check
