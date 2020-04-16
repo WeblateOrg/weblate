@@ -26,6 +26,13 @@ jobs:
     strategy:
       matrix:
         database: ["postgresql"]
+    env:
+      CI_DATABASE: ${{ matrix.database }}
+      CI_DB_PASSWORD: "weblate"
+      CI_DB_HOST: "127.0.0.1"
+      CI_DB_PORT: "60000"
+      CI_SELENIUM: "1"
+      DJANGO_SETTINGS_MODULE: "weblate.settings_test"
 
     steps:
     - uses: actions/checkout@v2
@@ -47,14 +54,6 @@ jobs:
         ./ci/pip-install
         pip install --upgrade -r requirements-dist.txt
     - name: Setup
-      env:
-        CI_DATABASE: ${{ matrix.database }}
-        CI_DB_PASSWORD: "weblate"
-        CI_DB_HOST: "127.0.0.1"
-        CI_DB_PORT: "60000"
-        CI_SELENIUM: "1"
-        DJANGO_SETTINGS_MODULE: "weblate.settings_test"
-
       run: ./ci/run-setup
     - name: Coverage
       run: |
