@@ -94,16 +94,8 @@ jobs:
       - name: Install dependencies
         run: pip install --upgrade -r requirements-dist.txt
       - name: Build sdist
-        run: coverage python ./setup.py sdist
+        run: python ./setup.py sdist
       - name: Build wheel
-        run: coverage python ./setup.py bdist_wheel
+        run: python ./setup.py bdist_wheel
       - name: Twine check
         run: twine check dist/*
-      - name: Coverage
-        run: |
-          coverage combine
-          coverage xml
-      - uses: codecov/codecov-action@v1
-        with:
-          flags: setup
-          name: Twine
