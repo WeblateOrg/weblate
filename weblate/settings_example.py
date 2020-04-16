@@ -102,6 +102,7 @@ LANGUAGES = (
     ("id", "Indonesia"),
     ("it", "Italiano"),
     ("ja", "日本語"),
+    ("kab", "Taqbaylit"),
     ("kk", "Қазақ тілі"),
     ("ko", "한국어"),
     ("nb", "Norsk bokmål"),
