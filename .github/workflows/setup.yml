@@ -95,11 +95,15 @@ jobs:
       - name: Build sdist
         run: coverage run ./setup.py sdist
       - name: Install sdist
-        run: pip install ./dist/*.tar.gz
+        run: |
+          pip install ./dist/*.tar.gz
+          pip uninstall Weblate
       - name: Build wheel
         run: coverage run ./setup.py bdist_wheel
       - name: Install wheel
-        run: pip install ./dist/*.whl
+        run: |
+          pip install ./dist/*.whl
+          pip uninstall Weblate
       - name: Twine check
         run: twine check dist/*
       - name: Coverage
