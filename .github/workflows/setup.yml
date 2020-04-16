@@ -45,7 +45,7 @@ jobs:
     - name: Install pip dependencies
       run: |
         ./ci/pip-install
-        pip install twine
+        pip install --upgrade -r requirements-dist.txt
     - name: Setup
       env:
         CI_DATABASE: ${{ matrix.database }}
@@ -84,7 +84,7 @@ jobs:
         with:
           python-version: 3.8
       - name: Install dependencies
-        run: pip install twine
+        run: pip install --upgrade -r requirements-dist.txt
       - name: Twine check
         run: |
           python ./setup.py sdist
