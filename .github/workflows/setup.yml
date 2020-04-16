@@ -53,16 +53,6 @@ jobs:
       run: |
         ./ci/pip-install
         pip install --upgrade -r requirements-dist.txt
-    - name: Compile messages
-      run: coverage ./manage.py compilemessages
-    - name: Build sdist
-      run: coverage ./setup.py sdist
-    - name: Install sdist
-      run: pip install ./dist/*.tar.gz
-    - name: Build wheel
-      run: coverage ./setup.py bdist_wheel
-    - name: Install wheel
-      run: pip install ./dist/*.whl
     - name: Setup install and test
       run: ./ci/run-setup
     - name: Coverage
@@ -77,7 +67,7 @@ jobs:
       if: always()
       run: ./ci/services-down ${{ matrix.database }}
 
-  twine:
+  dist:
 
     runs-on: ubuntu-latest
 
@@ -93,9 +83,23 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: pip install --upgrade -r requirements-dist.txt
+      - name: Compile messages
+        run: coverage run ./manage.py compilemessages
       - name: Build sdist
-        run: python ./setup.py sdist
+        run: coverage run ./setup.py sdist
+      - name: Install sdist
+        run: pip install ./dist/*.tar.gz
       - name: Build wheel
-        run: python ./setup.py bdist_wheel
+        run: coverage run ./setup.py bdist_wheel
+      - name: Install wheel
+        run: pip install ./dist/*.whl
       - name: Twine check
         run: twine check dist/*
+      - name: Coverage
+        run: |
+          coverage combine
+          coverage xml
+      - uses: codecov/codecov-action@v1
+        with:
+          flags: setup
+          name: dist
