@@ -98,6 +98,7 @@ class SecurityMiddleware:
         if settings.SENTRY_DSN and response.status_code == 500:
             domain = urlparse(settings.SENTRY_DSN).hostname
             script.add(domain)
+            script.add("sentry.io")
             connect.add(domain)
             script.add("'unsafe-inline'")
             image.add("data:")
