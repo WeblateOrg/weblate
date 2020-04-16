@@ -110,6 +110,8 @@ jobs:
     - name: Test with Django
       env:
         CI_DATABASE: ${{ matrix.database }}
+        CI_REDIS_HOST: "127.0.0.1"
+        CI_REDIS_PORT: "60001"
         CI_DB_PASSWORD: "weblate"
         CI_DB_HOST: "127.0.0.1"
         CI_DB_PORT: "60000"

@@ -12,3 +12,6 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
+  cache:
+    image: redis:5-alpine
+    restart: always
