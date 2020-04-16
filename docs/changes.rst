@@ -3,6 +3,8 @@ Weblate 4.0.1
 
 Not yet released.
 
+* Fixed package installation from PyPI.
+
 Weblate 4.0
 -----------
 
