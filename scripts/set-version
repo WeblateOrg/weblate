@@ -6,8 +6,8 @@ if [ -z "$1" ] ; then
     exit 1
 fi
 
-sed -i "s/^VERSION =.*/VERSION = '$1-dev'/" weblate/__init__.py
-sed -i "s/version =.*/version = '$1'/" docs/conf.py
+sed -i "s/^VERSION =.*/VERSION = \"$1-dev\"/" weblate/__init__.py
+sed -i "s/version =.*/version = \"$1\"/" docs/conf.py
 sed -i "s/version=.*,/version=\"$1\",/" setup.py
 
 # Update docs/changes.rst
