@@ -85,8 +85,9 @@ jobs:
           python-version: 3.8
       - name: Install dependencies
         run: pip install --upgrade -r requirements-dist.txt
+      - name: Build sdist
+        run: python ./setup.py sdist
+      - name: Build wheel
+        run: python ./setup.py bdist_wheel
       - name: Twine check
-        run: |
-          python ./setup.py sdist
-          python ./setup.py bdist_wheel
-          twine check dist/*
+        run: twine check dist/*
