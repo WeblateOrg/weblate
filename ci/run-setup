@@ -14,13 +14,22 @@ check
 run_coverage ./setup.py build
 check
 
-run_coverage ./setup.py install --root="$INSTALL_DIR"
-check
-
+# Tarball build+install
 run_coverage ./setup.py sdist
 check
 
-twine check dist/*
+pip install ./dist/*.tar.gz
+check
+
+# Wheel build+install
+run_coverage ./setup.py bdist_wheel
+check
+
+pip install ./dist/*.whl
+check
+
+# Do setup.py install
+run_coverage ./setup.py install --root="$INSTALL_DIR"
 check
 
 INSTALLED_DIR=`find $INSTALL_DIR -name '*-packages' -type d`
@@ -34,4 +43,8 @@ PYTHONPATH=$INSTALLED_DIR $BIN_DIR/weblate collectstatic --noinput
 check
 
 PYTHONPATH=$INSTALLED_DIR $BIN_DIR/weblate test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
+check
+
+# Tarball install
+pip install ./dist/*.tar.gz
 check
