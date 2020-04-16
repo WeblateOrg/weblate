@@ -21,6 +21,7 @@
 import os
 
 from setuptools import find_packages, setup
+from setuptools.command.build_py import build_py
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -45,6 +46,14 @@ with open("requirements-optional.txt") as requirements:
             section = line[2:]
         else:
             EXTRAS[section] = line.split(";")[0].strip()
+
+
+class WeblateBuildPy(build_py):
+    def find_package_modules(self, package, package_dir):
+        """Filter settings.py from built module."""
+        result = super().find_package_modules(package, package_dir)
+        return [item for item in result if item[2] != "weblate/settings.py"]
+
 
 setup(
     name="Weblate",
@@ -94,4 +103,5 @@ setup(
     entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
     tests_require=TEST_REQUIRES,
     test_suite="runtests.runtests",
+    cmdclass={"build_py": WeblateBuildPy},
 )
