@@ -7,6 +7,10 @@ spec:
   ports:
   - port: 80
     targetPort: 8080
+    name: http
+  - port: 443
+    targetPort: 4443
+    name: https
   selector:
     app: weblate
     environment: prod

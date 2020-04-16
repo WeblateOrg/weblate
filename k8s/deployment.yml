@@ -24,7 +24,7 @@ spec:
   strategy:
     rollingUpdate:
       maxSurge: 50%
-      maxUnavailable: 0
+      maxUnavailable: 1
     type: RollingUpdate
   template:
     metadata:
@@ -148,15 +148,17 @@ spec:
           value: America/Regina
         - name: WEBLATE_DEBUG
           value: "0"
+        - name: WEBLATE_ENABLE_HTTPS
+          value: "1"
         image: gcr.io/repcore-prod/weblate:b1445f20-c12b-437b-a4a2-87d321f2e1cf
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
           httpGet:
             path: /healthz/
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 30
+            port: 4443
+            scheme: HTTPS
+          initialDelaySeconds: 60
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
@@ -169,9 +171,9 @@ spec:
           failureThreshold: 3
           httpGet:
             path: /healthz/
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 30
+            port: 4443
+            scheme: HTTPS
+          initialDelaySeconds: 60
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
@@ -191,6 +193,12 @@ spec:
           name: weblate-iam-key
         - mountPath: /app/data
           name: weblate-data
+        - mountPath: /app/data/ssl/fullchain.pem
+          subPath: tls.crt
+          name: vendasta-internal
+        - mountPath: /app/data/ssl/privkey.pem
+          subPath: tls.key
+          name: vendasta-internal
         - mountPath: /postgres
           name: weblate-sql-key
       dnsPolicy: ClusterFirst
