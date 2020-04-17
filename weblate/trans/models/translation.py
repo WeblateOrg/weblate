@@ -159,7 +159,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         This means that translations should be propagated as sources to others.
         """
-        return self.language == self.component.project.source_language
+        return self.language_id == self.component.project.source_language_id
 
     @cached_property
     def all_flags(self):
