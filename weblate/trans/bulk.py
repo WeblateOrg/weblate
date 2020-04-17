@@ -41,10 +41,14 @@ def bulk_perform(
     remove_flags = Flags(remove_flags)
 
     cleanups = {}
+    preloaded_sources = False
 
     updated = 0
     with transaction.atomic():
         for unit in matching.select_for_update():
+            if not preloaded_sources:
+                unit.translation.component.preload_sources()
+                preloaded_sources = True
             if user is not None and not user.has_perm("unit.edit", unit):
                 continue
             if target_state != -1 and unit.state:
