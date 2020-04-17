@@ -379,7 +379,8 @@ class TranslationStats(BaseStats):
     def get_last_change_obj(self):
         from weblate.trans.models import Change
 
-        change_pk = cache.get("last-content-change-{}".format(self._object.pk))
+        cache_key = "last-content-change-{}".format(self._object.pk)
+        change_pk = cache.get(cache_key)
         if change_pk:
             try:
                 return Change.objects.get(pk=change_pk)
@@ -390,11 +391,7 @@ class TranslationStats(BaseStats):
         except IndexError:
             return None
 
-        cache.set(
-            "last-content-change-{}".format(last_change.translation.pk),
-            last_change.pk,
-            180 * 86400,
-        )
+        cache.set(cache_key, last_change.pk, 180 * 86400)
         return last_change
 
     def fetch_last_change(self):
