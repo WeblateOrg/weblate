@@ -207,7 +207,7 @@ class BaseStats:
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
 
-    def invalidate(self, language=None):
+    def invalidate(self, language=None, recurse=True):
         """Invalidate local and cache data."""
         self.clear()
         cache.delete(self.cache_key)
@@ -309,9 +309,10 @@ class DummyTranslationStats(BaseStats):
 class TranslationStats(BaseStats):
     """Per translation stats."""
 
-    def invalidate(self, language=None):
+    def invalidate(self, language=None, recurse=True):
         super().invalidate()
-        self._object.component.stats.invalidate(language=self._object.language)
+        if recurse:
+            self._object.component.stats.invalidate(language=self._object.language)
         self._object.language.stats.invalidate()
 
     @property
@@ -563,7 +564,7 @@ class ComponentStats(LanguageStats):
             self.store("source_words", stats_obj.all_words)
             self.store("source_strings", stats_obj.all)
 
-    def invalidate(self, language=None):
+    def invalidate(self, language=None, recurse=True):
         super().invalidate()
         self._object.project.stats.invalidate(language=language)
         for clist in self._object.componentlist_set.iterator():
@@ -633,7 +634,7 @@ class ProjectStats(BaseStats):
     def has_review(self):
         return self._object.source_review or self._object.translation_review
 
-    def invalidate(self, language=None):
+    def invalidate(self, language=None, recurse=True):
         super().invalidate()
         if language:
             self.get_single_language_stats(language).invalidate()
