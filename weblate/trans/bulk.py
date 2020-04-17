@@ -70,6 +70,7 @@ def bulk_perform(
                 cleanups[unit.translation.component.pk] = unit.translation.component
                 updated += 1
             if remove_labels:
+                unit.source_info.is_bulk_edit = True
                 unit.source_info.labels.remove(*remove_labels)
                 cleanups[unit.translation.component.pk] = unit.translation.component
                 updated += 1
