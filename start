@@ -194,6 +194,7 @@ if [ "$WEBLATE_GITHUB_USERNAME" && "$WEBLATE_GITHUB_PASSWORD"] ; then
     GITHUB_USER=$WEBLATE_GITHUB_USERNAME
     GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
     HOME=${DATA_DIR}/home
+    git config --global hub.protocol https
     hub clone https://github.com/vendasta/NS
     echo "Done initializing github token"
 fi
