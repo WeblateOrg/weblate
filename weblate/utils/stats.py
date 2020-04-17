@@ -29,6 +29,7 @@ from django.db.models.functions import Length
 from django.utils import timezone
 from django.utils.functional import cached_property
 
+from weblate.checks.models import CHECKS
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.util import translation_percent
 from weblate.utils.query import conditional_sum
@@ -419,6 +420,12 @@ class TranslationStats(BaseStats):
         if item.endswith("_changes"):
             self.count_changes()
             return
+        if item.startswith("check:"):
+            self.prefetch_checks()
+            return
+        if item.startswith("label:"):
+            self.prefetch_labels()
+            return
         if item.endswith("_words"):
             item = item[:-6]
         if item.endswith("_chars"):
@@ -430,6 +437,51 @@ class TranslationStats(BaseStats):
         self.store(item, stats["strings"])
         self.store("{}_words".format(item), stats["words"])
         self.store("{}_chars".format(item), stats["chars"])
+
+    def prefetch_checks(self):
+        """Prefetch check stats."""
+        allchecks = {check.url_id for check in CHECKS.values()}
+        stats = self._object.unit_set.values("check__check").annotate(
+            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+        )
+        for stat in stats:
+            check = stat["check__check"]
+            # Filtering here is way more effective than in SQL
+            if check is None:
+                continue
+            check = "check:{}".format(check)
+            self.store(check, stat["strings"])
+            self.store(check + "_words", stat["words"])
+            self.store(check + "_chars", stat["chars"])
+            allchecks.discard(check)
+        for check in allchecks:
+            self.store(check, 0)
+            self.store(check + "_words", 0)
+            self.store(check + "_chars", 0)
+
+    def prefetch_labels(self):
+        """Prefetch check stats."""
+        alllabels = set(
+            self._object.component.project.label_set.values_list("name", flat=True)
+        )
+        stats = self._object.unit_set.values("labels__name").annotate(
+            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+        )
+        for stat in stats:
+            label_name = stat["labels__name"]
+            # Filtering here is way more effective than in SQL
+            if label_name is None:
+                continue
+            label = "label:{}".format(label_name)
+            self.store(label, stat["strings"])
+            self.store(label + "_words", stat["words"])
+            self.store(label + "_chars", stat["chars"])
+            alllabels.discard(label_name)
+        for label_name in alllabels:
+            label = "label:{}".format(label_name)
+            self.store(label, 0)
+            self.store(label + "_words", 0)
+            self.store(label + "_chars", 0)
 
     def ensure_all(self):
         """Ensure we have complete set."""
