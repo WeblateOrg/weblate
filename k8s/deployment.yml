@@ -150,6 +150,15 @@ spec:
           value: "0"
         - name: WEBLATE_ENABLE_HTTPS
           value: "1"
+        - name: WEBLATE_DATA_DIR
+          value: /app/data
+        - name: WEBLATE_GITHUB_USERNAME
+          value: hal9000@vendasta.com
+        - name: WEBLATE_GITHUB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: weblate-github-password
+              key: weblate-github-password
         image: gcr.io/repcore-prod/weblate:b1445f20-c12b-437b-a4a2-87d321f2e1cf
         imagePullPolicy: IfNotPresent
         livenessProbe:
@@ -235,4 +244,7 @@ spec:
       - name: weblate-email-host-password
         secret:
           secretName: weblate-email-host-password
+      - name: weblate-github-password
+        secret:
+          secretName: weblate-github-password
 status: {}
