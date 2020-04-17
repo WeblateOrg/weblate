@@ -39,6 +39,8 @@ class Command(BaseCommand):
             version = weblate.TAG_NAME
             response = requests.get(TAGS_API.format(version))
             response.raise_for_status()
+            response = requests.get(response["object"]["url"])
+            response.raise_for_status()
             ref = response.json()["object"]["sha"]
 
         sentry_auth = {"Authorization": "Bearer {}".format(settings.SENTRY_TOKEN)}
