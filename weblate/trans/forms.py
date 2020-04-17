@@ -69,6 +69,7 @@ from weblate.utils.state import (
     STATE_CHOICES,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 from weblate.utils.templatetags.icons import icon
@@ -1834,7 +1835,7 @@ class BulkEditForm(forms.Form):
         self.fields["remove_labels"].queryset = project.label_set.all()
         self.fields["add_labels"].queryset = project.label_set.all()
 
-        excluded = {STATE_EMPTY}
+        excluded = {STATE_EMPTY, STATE_READONLY}
         if user is not None and not user.has_perm("unit.review", obj):
             excluded.add(STATE_APPROVED)
 
