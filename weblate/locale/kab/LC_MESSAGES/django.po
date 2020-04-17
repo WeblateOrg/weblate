@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-15 20:54+0000\n"
-"PO-Revision-Date: 2020-04-17 20:58+0000\n"
+"PO-Revision-Date: 2020-04-17 21:24+0000\n"
 "Last-Translator: Muḥend Belqasem <belkacem77@gmail.com>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/master/"
 "kab/>\n"
@@ -3214,6 +3214,9 @@ msgid ""
 "but none was sent. This header is required for security reasons, to ensure "
 "that your browser is not being hijacked by third-parties."
 msgstr ""
+"Ɣef sebba n tɣellist, asmel-a HTTPS yessutur iminig-ik ad yazen aqeṛṛu "
+"'Referer', ayen ur neḍri ara. Aqeṛṛu-a ad yeḍmen d akken iminig-ik ur "
+"yettwaker ara."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -3221,6 +3224,8 @@ msgid ""
 "that on, at-least for this site, for HTTPS connections, or for 'same-origin' "
 "requests."
 msgstr ""
+"Ma tsenseḍ tuzna n yiqeṛṛa 'Referer' deg yiminig-ik, ttxil-k rmed-iten, "
+"xarsum i usmel-a neɣ i tuqqniwin HTTPS neɣ daɣen i tuttriwin 'same-origin' ."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3228,12 +3233,16 @@ msgid ""
 "required for security reasons, to ensure that your browser is not being "
 "hijacked by third-parties."
 msgstr ""
+"Asmel-a yessutur anagi n tuqqna CSRF deg tuzna n tferkiyin. Anagi-a n tuqqna "
+"ilaq i tɣellist akken iminig-ik ur yettwakar ara sɣur wis kraḍ."
 
 #: weblate/templates/403_csrf.html:17
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again, at-least for this site, or for 'same-origin' requests."
 msgstr ""
+"Ma tsenseḍ asekles n yinagan n tuqqna deg yimini-ik, ttxil-k rmed-iten "
+"xarsum i usmel-a neɣ i tuttriwin same-origin'."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:40
 msgid "Page Not Found"
@@ -3257,21 +3266,17 @@ msgid "Server Error"
 msgstr "Tuccḍa n uqeddac"
 
 #: weblate/templates/500.html:14
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems while serving your request. We've just "
-#| "sent our trained monkeys to fix the issue."
 msgid ""
 "The server had serious problems serving your request. Trained monkeys are en-"
 "route fixing the issue."
 msgstr ""
-"Aqeddac ɣur-s ddeqs n wuguren akken ad d-yerr i tuttra-ik. Hatan akken kan i "
-"n uzen iddawen-nneɣ akken ad frun ugur."
+"Aqeddac yemmuger-d ddeqs n wuguren deg usesfer n tuttra-ik. Iddawen-nneɣ "
+"imussnawen ad ttwaceyyɛeni ferru n wugur-a."
 
 #: weblate/templates/500.html:18
 #, python-format
 msgid "If you need assistance, you may reference this error as %(error_id)s."
-msgstr ""
+msgstr "Ma tsutreḍ-d tallelt, azen-d tangalt n tuccḍa %(error_id)s."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
@@ -3293,16 +3298,22 @@ msgstr "Tanezduɣt i yimsuqal"
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
+"Asbeddi-a n Weblate tmudd tanezduɣt i tsuqilt n ddeqs n yisenfaṛen n useɣzan "
+"ilelli."
 
 #: weblate/templates/about/index.html:29
 msgid "Weblate can host your project as well, please get in touch."
 msgstr ""
+"Weblate izmer daɣen ad imudd tanezduqt i usenfaṛ-ik, ma tebɣiḍ, ttxil-k "
+"nermes-aɣ-d."
 
 #: weblate/templates/about/index.html:32
 msgid ""
 "Commercial hosting is also available, pricing starts at 19 EUR per month, "
 "please get in touch for more details."
 msgstr ""
+"Ameẓlu n tnezduɣt s uznuzu yettwasumer daɣen seg 19 EUR i waggur. Ttxil-k "
+"mermes-aɣ-d ɣef wugar n yisallen."
 
 #: weblate/templates/about/index.html:36
 #: weblate/templates/accounts/hosting.html:44
@@ -3321,7 +3332,7 @@ msgstr "Wali iɣawsen n tnezduɣt"
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
-msgstr ""
+msgstr "Aɣ aɣawas n tnezduɣt tamaynut"
 
 #: weblate/templates/about/index.html:41
 #: weblate/templates/accounts/hosting.html:36
@@ -3330,13 +3341,11 @@ msgstr "Nermes-aɣ-d ɣef tnezduɣt i tiɣin"
 
 #: weblate/templates/about/index.html:49
 msgid "Weblate is built on libre software"
-msgstr ""
+msgstr "Weblate yettwabna s yizeɣzanen i lelliyen"
 
 #: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:102
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "Weblate keys"
-msgstr "Tutlayin n Weblate"
+msgstr "Tisura n Weblate"
 
 #: weblate/templates/about/keys.html:16
 #: weblate/templates/manage/snippets/backup-credentials.html:14
@@ -3348,18 +3357,17 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
+"Weblate iseqdac tasarut SSH akken ad yekcem ɣer yikufan inmeggagen. Tasarut "
+"tazayazt icudden, a-tt-a ddaw-a, tzemreḍ ad tt-tesqedceḍ akken ad tmuddeḍ i "
+"Weblate anekcum ɣer ukufi."
 
 #: weblate/templates/about/keys.html:27
-#, fuzzy
-#| msgid "Not available"
 msgid "SSH key not available."
-msgstr "Ulac"
+msgstr "Tasarut SSH ulac-itt."
 
 #: weblate/templates/about/keys.html:36
-#, fuzzy
-#| msgid "Comments"
 msgid "Commit signing"
-msgstr "Iwenniten"
+msgstr "Izmulen n teṛcivin"
 
 #: weblate/templates/about/keys.html:42
 #, python-format
@@ -3372,7 +3380,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
-msgstr ""
+msgstr "Azmul n teṛcivt ur yettusbadu ara."
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:64
 #: weblate/templates/dashboard/user.html:37 weblate/templates/data.html:51
@@ -3391,17 +3399,15 @@ msgstr "Imsumar iqeddcen ugar"
 
 #: weblate/templates/about/stats.html:48
 msgid "Most active screenshot uploaders"
-msgstr ""
+msgstr "Iwiziwen urmiden ugar i tuṭṭfiwin n ugdil"
 
 #: weblate/templates/about/stats.html:76
 msgid "Translatable strings"
 msgstr "Asuffeɣ n izriren ara yettwasuqlen…"
 
 #: weblate/templates/about/stats.html:80
-#, fuzzy
-#| msgid "Translate"
 msgid "Translatable words"
-msgstr "Suqel"
+msgstr "Awalen yettwasuqalen"
 
 #: weblate/templates/about/stats.html:84
 msgid "Used languages"
