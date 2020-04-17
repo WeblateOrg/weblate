@@ -209,8 +209,12 @@ class BaseStats:
 
     def invalidate(self, language=None):
         """Invalidate local and cache data."""
-        self._data = {}
+        self.clear()
         cache.delete(self.cache_key)
+
+    def clear(self):
+        """Clear local cache."""
+        self._data = {}
 
     def store(self, key, value):
         if self._data is None:

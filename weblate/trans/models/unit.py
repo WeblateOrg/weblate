@@ -210,6 +210,7 @@ class Unit(models.Model, LoggerMixin):
         super().__init__(*args, **kwargs)
         self.old_unit = copy(self)
         self.is_batch_update = False
+        self.is_bulk_edit = False
         self.position_updated = False
 
     def __str__(self):

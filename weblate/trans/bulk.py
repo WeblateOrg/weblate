@@ -40,6 +40,8 @@ def bulk_perform(
     add_flags = Flags(add_flags)
     remove_flags = Flags(remove_flags)
 
+    cleanups = {}
+
     updated = 0
     with transaction.atomic():
         for unit in matching.select_for_update():
@@ -57,13 +59,20 @@ def bulk_perform(
                 flags = Flags(unit.source_info.extra_flags)
                 flags.merge(add_flags)
                 flags.remove(remove_flags)
+                unit.source_info.is_bulk_edit = True
                 unit.source_info.extra_flags = flags.format()
                 unit.source_info.save(update_fields=["extra_flags"])
+                cleanups[unit.translation.component.pk] = unit.translation.component
                 updated += 1
             if add_labels:
+                unit.source_info.is_bulk_edit = True
                 unit.source_info.labels.add(*add_labels)
+                cleanups[unit.translation.component.pk] = unit.translation.component
                 updated += 1
             if remove_labels:
                 unit.source_info.labels.remove(*remove_labels)
+                cleanups[unit.translation.component.pk] = unit.translation.component
                 updated += 1
+    for component in cleanups.values():
+        component.invalidate_stats_deep()
     return updated

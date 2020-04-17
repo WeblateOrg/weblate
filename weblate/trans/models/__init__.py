@@ -117,7 +117,8 @@ def update_source(sender, instance, **kwargs):
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
-            unit.translation.invalidate_cache()
+            if not instance.is_bulk_edit:
+                unit.translation.invalidate_cache()
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
@@ -137,14 +138,19 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         translation__component=instance.translation.component, id_hash=instance.id_hash
     ).exclude(pk=instance.pk)
 
-    for unit in units.prefetch():
+    component = None
+
+    for unit in units.prefetch_related("translation__component"):
         if operation == 1:
             unit.labels.add(*pk_set)
         elif operation == 2:
             unit.labels.remove(*pk_set)
         elif operation == 3:
             unit.labels.clear()
-        unit.translation.invalidate_cache()
+        component = unit.translation.component
+
+    if component and not instance.is_bulk_edit:
+        component.invalidate_stats_deep()
 
 
 @receiver(post_delete, sender=Comment)

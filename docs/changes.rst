@@ -5,6 +5,7 @@ Not yet released.
 
 * Improved performance of translation stats.
 * Improved performance of changing labels.
+* Improved bulk edit perfomance.
 
 Weblate 4.0.1
 -------------

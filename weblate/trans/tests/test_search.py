@@ -304,7 +304,8 @@ class BulkStateTest(ViewTestCase):
         self.assertEqual(
             getattr(unit.translation.stats, "label:{}".format(label.name)), 1
         )
-        unit.source_info.translation.stats.invalidate()
+        # Clear local outdated cache
+        unit.source_info.translation.stats.clear()
         self.assertEqual(
             getattr(unit.source_info.translation.stats, "label:{}".format(label.name)),
             1,
@@ -320,7 +321,8 @@ class BulkStateTest(ViewTestCase):
         self.assertEqual(
             getattr(unit.translation.stats, "label:{}".format(label.name)), 0
         )
-        unit.source_info.translation.stats.invalidate()
+        # Clear local outdated cache
+        unit.source_info.translation.stats.clear()
         self.assertEqual(
             getattr(unit.source_info.translation.stats, "label:{}".format(label.name)),
             0,
