@@ -20,9 +20,11 @@
         <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
     {% endif %}
 
-    <div class="line buttons">
-        <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="button">{% trans "New payment" %}</a>
-    </div>
+    {% if payment_enabled and billing.can_be_paid %}
+        <div class="line buttons">
+            <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1" class="button">{% trans "New payment" %}</a>
+        </div>
+    {% endif %}
 
 {% endif %}
 

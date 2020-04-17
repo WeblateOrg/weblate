@@ -80,6 +80,7 @@ def notify_expired():
                 "billing_expired",
                 context={
                     "billing": bill,
+                    "payment_enabled": getattr(settings, "PAYMENT_ENABLED", False),
                     "unsubscribe_note": _(
                         "You will stop receiving this notification once "
                         "you pay the bills or the project is removed."
