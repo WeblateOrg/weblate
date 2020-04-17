@@ -22,6 +22,7 @@ from django.db import transaction
 
 from weblate.checks.flags import Flags
 from weblate.trans.models import Change
+from weblate.utils.state import STATE_EMPTY, STATE_READONLY
 
 
 def bulk_perform(
@@ -52,7 +53,11 @@ def bulk_perform(
             if user is not None and not user.has_perm("unit.edit", unit):
                 continue
             updated += 1
-            if target_state != -1 and unit.state:
+            if (
+                target_state != -1
+                and unit.state > STATE_EMPTY
+                and unit.state < STATE_READONLY
+            ):
                 unit.translate(
                     user,
                     unit.target,
