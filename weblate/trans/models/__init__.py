@@ -150,15 +150,15 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         else:
             related.delete()
     else:
+        related = []
         units = Unit.objects.filter(
             translation__component=instance.translation.component,
             id_hash=instance.id_hash,
         ).exclude(pk=instance.pk)
-
-        for unit in units.prefetch_related("translation"):
-            # Optimize for recursive signal invocation
-            unit.translation.__dict__["is_source"] = False
-            unit.labels.add(*pk_set)
+        for unit_id in units.values_list("id", flat=True):
+            for label_id in pk_set:
+                related.append(Unit.labels.through(label_id=label_id, unit_id=unit_id))
+        Unit.labels.through.objects.bulk_create(related, ignore_conflicts=True)
 
     if not instance.is_bulk_edit:
         instance.translation.component.invalidate_stats_deep()
