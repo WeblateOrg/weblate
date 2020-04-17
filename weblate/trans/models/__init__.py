@@ -114,6 +114,8 @@ def update_source(sender, instance, **kwargs):
         or instance.state != instance.old_unit.state
     ):
         for unit in units:
+            # Optimize for recursive signal invocation
+            unit.translation.__dict__["is_source"] = False
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
@@ -143,10 +145,10 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
     ).exclude(pk=instance.pk)
 
     component = None
-    if not instance.is_bulk_edit:
-        units = units.prefetch_related("translation__component")
 
-    for unit in units:
+    for unit in units.prefetch_related("translation__component"):
+        # Optimize for recursive signal invocation
+        unit.translation.__dict__["is_source"] = False
         if operation == 1:
             unit.labels.add(*pk_set)
         elif operation == 2:
