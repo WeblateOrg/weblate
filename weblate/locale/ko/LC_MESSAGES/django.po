@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 송태섭 <xotjq237@gmail.com>, 2018, 2019.
 # Kyeong Su Shin <cdac1234@gmail.com>, 2018.
-# k ks <kmshts@naver.com>, 2019.
+# k ks <kmshts@naver.com>, 2019, 2020.
 # Jun Hyung Shin <shmishmi79@gmail.com>, 2019, 2020.
 # 아킨토스 <akintos47@gmail.com>, 2019.
 # bluepencil <bluepencil@yahoo.com>, 2019.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-15 20:54+0000\n"
-"PO-Revision-Date: 2020-04-10 18:03+0000\n"
-"Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
+"PO-Revision-Date: 2020-04-17 20:56+0000\n"
+"Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
 "Language: ko\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -243,16 +243,14 @@ msgid ""
 msgstr "관리자 권한이 있는 프로젝트의 모든 사건에 대한 통지를 받습니다."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "{} 내부의 모든 사건에 대한 통지를 받습니다."
+msgstr "%(project)s 의 모든 해당 이벤트에 대한 알림을 받게 됩니다."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid "You will receive a notification for every such event in {}."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "{} 내부의 모든 사건에 대한 통지를 받습니다."
+msgstr "%(component)s 의 모든 해당 이벤트에 대한 알림을 받게 됩니다."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -271,24 +269,18 @@ msgstr ""
 "니다."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "{} 내부의 번역된 언어에 대해서만 이러한 알림을 받게 됩니다."
+msgstr "%(project)s 의 번역된 언어에 대해서만 이 알림을 받게 됩니다."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in {}."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr "{} 내부의 번역된 언어에 대해서만 이러한 알림을 받게 됩니다."
+msgstr "번역된 언어에 대해서만 %(component)s 의 알림을 받게 됩니다."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -687,10 +679,8 @@ msgid "User registration"
 msgstr "사용자 회원 가입"
 
 #: weblate/accounts/views.py:203
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
-msgstr "관리자에게 메시지를 보내지 못했습니다!"
+msgstr "관리자에게 메시지를 보낼 수 없습니다!"
 
 #: weblate/accounts/views.py:223
 msgid "Message has been sent to administrator."
@@ -756,26 +746,14 @@ msgid "Could not remove user identity"
 msgstr "사용자 ID를 제거할 수 없습니다"
 
 #: weblate/accounts/views.py:947
-#, fuzzy
-#| msgid ""
-#| "Could not remove last user identity with confirmed e-mail. Please confirm "
-#| "your e-mail first."
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
-"이메일 확인된 최근의 사용자 신원을 제거할 수 없었습니다. 먼저 이메일을 확인하"
-"십시오."
+msgstr "먼저 전자 우편 주소를 확인하여 다른 ID를 추가합니다."
 
 #: weblate/accounts/views.py:994
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
-msgstr ""
-"등록을 확인할 수 없습니다! 확인 토큰이 만료되었을 수 있습니다. 다시 등록하십"
-"시오."
+msgstr "다시 등록하여 신원을 확인해 보십시오. 확인 토큰이 만료되었을 수 있습니다."
 
 #: weblate/accounts/views.py:1001
 msgid "Could not authenticate due to invalid session state."
@@ -807,16 +785,10 @@ msgid "The server does not allow authentication."
 msgstr "서버가 인증을 허용하지 않습니다."
 
 #: weblate/accounts/views.py:1089
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
-msgstr ""
-"등록을 완료하지 못했습니다. 제공된 인증, 전자우편 또는 사용자 이름이 이미 다"
-"른 계정에 연결되어 있습니다."
+msgstr "등록을 완료하지 못했습니다. 제공된 인증, 전자우편 주소 또는 사용자 이름이 이미 다른 계정에 연결되어 있습니다."
 
 #: weblate/accounts/views.py:1104
 msgid "Notification settings adjusted."
@@ -1559,10 +1531,8 @@ msgstr "사용자 관리 (전체 플랫폼에)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage roles (on the entire platform)"
-msgstr "그룹 관리 (전체 플랫폼에)"
+msgstr "역할 관리 (전체 플랫폼에서)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
@@ -5815,7 +5785,7 @@ msgstr "이 알림 끄기"
 #: weblate/templates/mail/base.html:316
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr "%(timestamp)s에 생성됨."
+msgstr "%(timestamp)s 에 만들어졌습니다."
 
 #: weblate/templates/mail/billing_expired.html:6
 msgid ""
@@ -7033,10 +7003,8 @@ msgid "Failing checks:"
 msgstr "검사 실패:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
-#, fuzzy
-#| msgid "Source needs review"
 msgid "Source in review"
-msgstr "원본에 검토가 필요합니다"
+msgstr "검토 원본"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:498 weblate/utils/state.py:31
@@ -10737,8 +10705,6 @@ msgid "Weblate status"
 msgstr "웨블레이트 상태"
 
 #: weblate/wladmin/views.py:57
-#, fuzzy
-#| msgid "Repository"
 msgid "Repositories"
 msgstr "저장소"
 
