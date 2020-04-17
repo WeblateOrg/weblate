@@ -189,7 +189,7 @@ if [ "x$1" = "xrunserver" ] ; then
         --configuration=/etc/supervisor/supervisord.conf
 fi
 
-if [ ! -z "$WEBLATE_GITHUB_USERNAME" && ! -z "$WEBLATE_GITHUB_PASSWORD"] ; then
+if [ "$WEBLATE_GITHUB_USERNAME" && "$WEBLATE_GITHUB_PASSWORD"] ; then
     echo "Initializing github token"
     GITHUB_USER=$WEBLATE_GITHUB_USERNAME
     GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
