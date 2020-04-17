@@ -111,6 +111,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     )
 
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
+    weblate_unsafe_delete = True
 
     class Meta:
         app_label = "trans"

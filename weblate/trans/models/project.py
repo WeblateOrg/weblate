@@ -33,6 +33,7 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
+from weblate.utils.db import FastDeleteMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
 
@@ -42,7 +43,7 @@ class ProjectQuerySet(models.QuerySet):
         return self.order_by("name")
 
 
-class Project(models.Model, URLMixin, PathMixin):
+class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100

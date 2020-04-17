@@ -18,7 +18,8 @@
 #
 """Database specific code to extend Django."""
 
-from django.db import models
+from django.db import models, router
+from django.db.models.deletion import Collector
 from django.db.models.lookups import PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
@@ -79,3 +80,32 @@ def re_escape(pattern):
         elif char in ESCAPED:
             string[i] = "\\" + char
     return "".join(string)
+
+
+class FastCollector(Collector):
+    """
+    Fast delete collector skipping some signals.
+
+    It allows fast deletion for models flagged with weblate_unsafe_delete.
+
+    This is needed as check removal triggers check run and that can
+    create new checks for just removed units.
+    """
+
+    def can_fast_delete(self, objs, from_field=None):
+        if hasattr(objs, "model") and getattr(
+            objs.model, "weblate_unsafe_delete", False
+        ):
+            return True
+        return super().can_fast_delete(objs, from_field)
+
+
+class FastDeleteMixin:
+    """Model mixin to use FastCollector."""
+
+    def delete(self, using=None, keep_parents=False):
+        """Copy of Django delete with changed collector."""
+        using = using or router.db_for_write(self.__class__, instance=self)
+        collector = FastCollector(using=using)
+        collector.collect([self], keep_parents=keep_parents)
+        return collector.delete()

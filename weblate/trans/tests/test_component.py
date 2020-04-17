@@ -407,6 +407,17 @@ class ComponentDeleteTest(RepoTestCase):
         Component.objects.all().delete()
         self.assertFalse(os.path.exists(component.full_path))
 
+    def test_delete_with_checks(self):
+        """Test deleting of component with checks works."""
+        component = self.create_component()
+        # Introduce missing source string check. This can happen when adding new check
+        # on upgrade or similar situation.
+        unit = Unit.objects.filter(check__isnull=False).first().source_info
+        unit.source = "Test..."
+        unit.save(update_fields=["source"])
+        unit.check_set.filter(check="ellipisis").delete()
+        component.delete()
+
 
 class ComponentChangeTest(RepoTestCase):
     """Component object change testing."""
