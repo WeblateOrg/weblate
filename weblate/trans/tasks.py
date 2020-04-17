@@ -285,7 +285,7 @@ def component_removal(pk, uid):
             author=user,
         )
         obj.delete()
-    except Project.DoesNotExist:
+    except Component.DoesNotExist:
         return
 
 
