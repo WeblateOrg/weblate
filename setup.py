@@ -32,9 +32,6 @@ with open("README.rst") as readme:
 with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
-with open("requirements-test.txt") as requirements:
-    TEST_REQUIRES = requirements.read().splitlines()[1:]
-
 EXTRAS = {}
 with open("requirements-optional.txt") as requirements:
     section = None
@@ -101,7 +98,5 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
     entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
-    tests_require=TEST_REQUIRES,
-    test_suite="runtests.runtests",
     cmdclass={"build_py": WeblateBuildPy},
 )
