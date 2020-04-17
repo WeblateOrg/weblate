@@ -124,7 +124,7 @@ def get_filter_choice(project=None):
     )
     if project is not None:
         result.extend(
-            ("label:{}".format(label.name), format_lazy(_("Labeled: {}"), label.name))
-            for label in project.label_set.all()
+            ("label:{}".format(label), format_lazy(_("Labeled: {}"), label))
+            for label in project.label_set.values_list("name", flat=True)
         )
     return result
