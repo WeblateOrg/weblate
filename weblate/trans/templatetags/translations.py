@@ -767,13 +767,13 @@ def choiceval(boundfield):
     Empty value is returned if value is not selected or invalid.
     """
     value = boundfield.value()
-    if not hasattr(boundfield.field, "choices"):
-        return value
     if value is None:
         return ""
-    choices = dict(boundfield.field.choices)
     if value is True:
         return gettext("enabled")
+    if not hasattr(boundfield.field, "choices"):
+        return value
+    choices = dict(boundfield.field.choices)
     if isinstance(value, list):
         return ", ".join(choices.get(val, val) for val in value)
     return choices.get(value, value)
