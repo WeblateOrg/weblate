@@ -91,6 +91,7 @@ class UnitQuerySet(models.QuerySet):
 
     def prefetch(self):
         return self.prefetch_related(
+            "labels",
             "translation",
             "translation__language",
             "translation__plural",

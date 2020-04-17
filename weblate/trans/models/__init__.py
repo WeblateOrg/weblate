@@ -122,35 +122,29 @@ def update_source(sender, instance, **kwargs):
 
 @receiver(m2m_changed, sender=Unit.labels.through)
 @disable_for_loaddata
-def change_labels(sender, instance, **kwargs):
+def change_labels(sender, instance, action, pk_set, **kwargs):
     """Update unit labels."""
-    if not instance.translation.is_source:
+    operation = 0
+    if action == "post_add":
+        operation = 1
+    elif action == "post_remove":
+        operation = 2
+    elif action == "post_clear":
+        operation = 3
+    if operation == 0 or not instance.translation.is_source:
         return
     units = Unit.objects.filter(
         translation__component=instance.translation.component, id_hash=instance.id_hash
     ).exclude(pk=instance.pk)
 
-    # Force fetching labels
-    labels = instance.labels.all()
-    list(labels)
-
     for unit in units.prefetch():
-        # This emulates set in ManyRelatedManager, we just need to know if there was
-        # any change to effectively invalidate caches
-        old_labels = set(unit.labels.all())
-        new_labels = []
-        for label in labels:
-            if label in old_labels:
-                old_labels.remove(label)
-            else:
-                new_labels.append(label)
-
-        if old_labels:
-            unit.labels.remove(*old_labels)
-        if new_labels:
-            unit.labels.add(*new_labels)
-        if old_labels or new_labels:
-            unit.translation.invalidate_cache()
+        if operation == 1:
+            unit.labels.add(*pk_set)
+        elif operation == 2:
+            unit.labels.remove(*pk_set)
+        elif operation == 3:
+            unit.labels.clear()
+        unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Comment)

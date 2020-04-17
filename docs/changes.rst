@@ -3,7 +3,8 @@ Weblate 4.0.2
 
 Not yet released.
 
-* Improved performace of translation stats.
+* Improved performance of translation stats.
+* Improved performance of changing labels.
 
 Weblate 4.0.1
 -------------
