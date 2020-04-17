@@ -140,26 +140,28 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         or not instance.translation.is_source
     ):
         return
-    units = Unit.objects.filter(
-        translation__component=instance.translation.component, id_hash=instance.id_hash
-    ).exclude(pk=instance.pk)
+    if operation in (2, 3):
+        related = Unit.labels.through.objects.filter(
+            unit__translation__component=instance.translation.component,
+            unit__id_hash=instance.id_hash,
+        )
+        if operation == 2:
+            related.filter(label_id__in=pk_set).delete()
+        else:
+            related.delete()
+    else:
+        units = Unit.objects.filter(
+            translation__component=instance.translation.component,
+            id_hash=instance.id_hash,
+        ).exclude(pk=instance.pk)
 
-    component = None
-
-    for unit in units.prefetch_related("translation__component"):
-        # Optimize for recursive signal invocation
-        unit.translation.__dict__["is_source"] = False
-        if operation == 1:
+        for unit in units.prefetch_related("translation"):
+            # Optimize for recursive signal invocation
+            unit.translation.__dict__["is_source"] = False
             unit.labels.add(*pk_set)
-        elif operation == 2:
-            unit.labels.remove(*pk_set)
-        elif operation == 3:
-            unit.labels.clear()
-        if not instance.is_bulk_edit:
-            component = unit.translation.component
 
-    if component:
-        component.invalidate_stats_deep()
+    if not instance.is_bulk_edit:
+        instance.translation.component.invalidate_stats_deep()
 
 
 @receiver(post_delete, sender=Comment)
