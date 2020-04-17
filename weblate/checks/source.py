@@ -68,7 +68,7 @@ class MultipleFailingCheck(SourceCheck):
         from weblate.checks.models import Check
 
         related = Check.objects.filter(
-            unit__content_hash=unit.content_hash,
+            unit__id_hash=unit.id_hash,
             unit__translation__component=unit.translation.component,
         ).exclude(unit_id=unit.id)
         return related.count() >= 2
