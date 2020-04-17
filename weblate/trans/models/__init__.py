@@ -132,24 +132,31 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         operation = 2
     elif action == "post_clear":
         operation = 3
-    if operation == 0 or not instance.translation.is_source:
+    if (
+        operation == 0
+        or (operation != 3 and not pk_set)
+        or not instance.translation.is_source
+    ):
         return
     units = Unit.objects.filter(
         translation__component=instance.translation.component, id_hash=instance.id_hash
     ).exclude(pk=instance.pk)
 
     component = None
+    if not instance.is_bulk_edit:
+        units = units.prefetch_related("translation__component")
 
-    for unit in units.prefetch_related("translation__component"):
+    for unit in units:
         if operation == 1:
             unit.labels.add(*pk_set)
         elif operation == 2:
             unit.labels.remove(*pk_set)
         elif operation == 3:
             unit.labels.clear()
-        component = unit.translation.component
+        if not instance.is_bulk_edit:
+            component = unit.translation.component
 
-    if component and not instance.is_bulk_edit:
+    if component:
         component.invalidate_stats_deep()
 
 
