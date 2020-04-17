@@ -468,5 +468,7 @@ def update_invoice_bill(sender, instance, **kwargs):
 
 @receiver(m2m_changed, sender=Billing.projects.through)
 @disable_for_loaddata
-def change_billing_projects(sender, instance, **kwargs):
+def change_billing_projects(sender, instance, action, **kwargs):
+    if not action.startswith("post_"):
+        return
     instance.check_limits()

@@ -633,7 +633,9 @@ def auto_assign_group(user):
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
 @disable_for_loaddata
-def change_componentlist(sender, instance, **kwargs):
+def change_componentlist(sender, instance, action, **kwargs):
+    if not action.startswith("post_"):
+        return
     groups = Group.objects.filter(
         componentlist=instance, project_selection=Group.SELECTION_COMPONENT_LIST
     )
