@@ -23,13 +23,12 @@ from datetime import timedelta
 from celery.schedules import crontab
 from django.conf import settings
 from django.db.models import Q
-from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing
 from weblate.utils.celery import app
-from weblate.utils.site import get_site_url
 
 
 @app.task(trail=False)
@@ -81,7 +80,10 @@ def notify_expired():
                 "billing_expired",
                 context={
                     "billing": bill,
-                    "billing_url": get_site_url(reverse("billing")),
+                    "unsubscribe_note": _(
+                        "You will stop receiving this notification once "
+                        "you pay the bills or the project is removed."
+                    ),
                 },
                 info=bill,
             )
@@ -105,11 +107,7 @@ def perform_removal():
                 user.profile.language,
                 [user.email],
                 "billing_expired",
-                context={
-                    "billing": bill,
-                    "billing_url": get_site_url(reverse("billing")),
-                    "final_removal": True,
-                },
+                context={"billing": bill, "final_removal": True},
                 info=bill,
             )
         for prj in bill.projects.iterator():
