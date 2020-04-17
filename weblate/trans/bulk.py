@@ -51,6 +51,7 @@ def bulk_perform(
                 preloaded_sources = True
             if user is not None and not user.has_perm("unit.edit", unit):
                 continue
+            updated += 1
             if target_state != -1 and unit.state:
                 unit.translate(
                     user,
@@ -58,7 +59,6 @@ def bulk_perform(
                     target_state,
                     change_action=Change.ACTION_MASS_STATE,
                 )
-                updated += 1
             if add_flags or remove_flags:
                 flags = Flags(unit.source_info.extra_flags)
                 flags.merge(add_flags)
@@ -67,17 +67,14 @@ def bulk_perform(
                 unit.source_info.extra_flags = flags.format()
                 unit.source_info.save(update_fields=["extra_flags"])
                 cleanups[unit.translation.component.pk] = unit.translation.component
-                updated += 1
             if add_labels:
                 unit.source_info.is_bulk_edit = True
                 unit.source_info.labels.add(*add_labels)
                 cleanups[unit.translation.component.pk] = unit.translation.component
-                updated += 1
             if remove_labels:
                 unit.source_info.is_bulk_edit = True
                 unit.source_info.labels.remove(*remove_labels)
                 cleanups[unit.translation.component.pk] = unit.translation.component
-                updated += 1
     for component in cleanups.values():
         component.invalidate_stats_deep()
     return updated
