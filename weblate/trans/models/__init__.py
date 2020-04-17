@@ -119,8 +119,8 @@ def update_source(sender, instance, **kwargs):
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
-            if not instance.is_bulk_edit:
-                unit.translation.invalidate_cache()
+        if not instance.is_bulk_edit:
+            instance.translation.component.invalidate_stats_deep()
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
