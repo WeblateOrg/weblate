@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Arif Budiman <arifpedia@gmail.com>, 2016-2018, 2019.
-# Andika Triwidada <andika@gmail.com>, 2018.
+# Andika Triwidada <andika@gmail.com>, 2018, 2020.
 # WWWesten <wwwesten@gmail.com>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-15 20:54+0000\n"
-"PO-Revision-Date: 2020-04-10 12:06+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-04-18 07:00+0000\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "master/id/>\n"
 "Language: id\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -153,14 +153,8 @@ msgid "Password"
 msgstr "Kata sandi"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
-msgstr ""
-"Silakan masukkan nama pengguna dan kata sandi dengan benar. Perlu diingaat "
-"bahwa keduanya mungkin sensitif terhadap huruf besar dan kecil."
+msgstr "Silakan masukkan nama pengguna dan kata sandi yang benar."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -249,36 +243,26 @@ msgstr ""
 "pantau."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Anda akan menerima pemberitahuan setiap ada pembaruan pada proyek yang Anda "
-"pantau."
+"Anda akan menerima pemberitahuan setiap ada kejadian seperti itu pada proyek "
+"yang Anda memiliki hak admin."
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr ""
-"Anda akan menerima pemberitahuan setiap ada pembaruan pada proyek yang Anda "
-"pantau."
+"Anda akan menerima pemberitahuan setiap ada kejadian seperti itu pada "
+"%(project)s."
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
-"Anda akan menerima pemberitahuan setiap ada pembaruan pada proyek yang Anda "
-"pantau."
+"Anda akan menerima pemberitahuan untuk setiap kejadian seperti itu dalam "
+"%(component)s."
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -301,28 +285,22 @@ msgstr ""
 "terjemahkan pada proyek yang Anda pantau."
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
 "Anda hanya akan menerima pemberitahuan berikut untuk bahasa yang Anda "
-"terjemahkan pada proyek yang Anda pantau."
+"terjemahkan dalam %(project)s."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
 "Anda hanya akan menerima pemberitahuan berikut untuk bahasa yang Anda "
-"terjemahkan pada proyek yang Anda pantau."
+"terjemahkan dalam %(component)s."
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -336,7 +314,7 @@ msgstr "Username berubah dari {old} to {new}."
 #: weblate/accounts/models.py:80
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "Alamat surel dirubah dari {old} menjadi {new}."
+msgstr "Surel diubah dari {old} menjadi {new}."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
@@ -378,14 +356,10 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Terautentikasi menggunakan ({method}:{name}) dari perangkat baru."
 
 #: weblate/accounts/models.py:88
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody has attempted to register with your e-mail."
 msgstr "Seseorang mencoba mendaftarkan diri dengan surel Anda."
 
 #: weblate/accounts/models.py:89
-#, fuzzy
-#| msgid "Somebody has attempted to register with your email."
 msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Seseorang mencoba mendaftarkan diri dengan surel Anda."
 
@@ -402,10 +376,8 @@ msgid "Account locked due to many failed sign in attempts."
 msgstr "Akun dikunci karena percobaan autentikasi gagal yang terlalu sering."
 
 #: weblate/accounts/models.py:92
-#, fuzzy
-#| msgid "Account and all private data have been removed."
 msgid "Account and all private data removed."
-msgstr "Akun dan semua data pribadi telah dihapus."
+msgstr "Akun dan semua data pribadi dihapus."
 
 #: weblate/accounts/models.py:93
 #, python-brace-format
@@ -413,10 +385,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Perjanjian dengan Persyaratan Layanan {date}."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Donate to Weblate at {0}"
+#, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr "Donasi ke Weblate di {0}"
+msgstr "Diundang ke Weblate oleh {username}."
 
 #: weblate/accounts/models.py:99
 #, fuzzy
@@ -425,10 +396,8 @@ msgid "Configured password sign in."
 msgstr "Sesuaikan kata sandi"
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Forgot your password?"
 msgid "Signed in using password."
-msgstr "Lupa kata sandi Anda?"
+msgstr "Masuk menggunakan kata sandi."
 
 #: weblate/accounts/models.py:101
 #, fuzzy
@@ -1182,7 +1151,7 @@ msgstr "Gunakan pencocokan fuzzy"
 
 #: weblate/addons/forms.py:138
 msgid "Commit squashing"
-msgstr "Commit squashing"
+msgstr "Penggabungan commit"
 
 #: weblate/addons/forms.py:141
 msgid "All commits into one"
@@ -1429,7 +1398,7 @@ msgstr ""
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits"
-msgstr ""
+msgstr "Squash komit Git"
 
 #: weblate/addons/git.py:36
 msgid "Squash Git commits prior to pushing changes."
@@ -1889,7 +1858,7 @@ msgstr "Atur ulang repositori"
 #: weblate/auth/data.py:174
 msgctxt "Access control role"
 msgid "Power user"
-msgstr ""
+msgstr "Pengguna mahir"
 
 #: weblate/auth/data.py:185
 msgctxt "Access control role"
@@ -2430,10 +2399,8 @@ msgid "Mismatching line breaks"
 msgstr ""
 
 #: weblate/checks/chars.py:333
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
-msgstr "Nomor dari \\n didalam terjemahan tidak cocok dengan sumber"
+msgstr "Banyaknya baris baru di dalam terjemahan tidak cocok dengan sumber"
 
 #: weblate/checks/chars.py:341 weblate/trans/autofixes/chars.py:43
 msgid "Zero-width space"
@@ -2498,12 +2465,12 @@ msgid "Inconsistent"
 msgstr "Tidak konsisten"
 
 #: weblate/checks/consistency.py:76
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "String ini memiliki lebih dari satu terjemahan dalam proyek ini"
+msgstr ""
+"String ini memiliki lebih dari satu terjemahan dalam proyek ini atau tidak "
+"diterjemahkan di beberapa komponen."
 
 #: weblate/checks/consistency.py:100
 msgid "Has been translated"
@@ -3640,10 +3607,8 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Tidak ada string terkait yang ditemukan dalam daftar istilah."
 
 #: weblate/memory/models.py:115 weblate/memory/models.py:120
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Gagal untuk mengurai berkas %d ini!"
+msgstr "Gagal mengurai berkas JSON: {!s}"
 
 #: weblate/memory/models.py:149
 #, fuzzy
@@ -4889,10 +4854,9 @@ msgid "Checks"
 msgstr "Periksa"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Gagal menemukan proyek yang cocok!"
+msgstr "Gagal lolos pemeriksaan dalam %(project)s"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -5168,10 +5132,8 @@ msgid "Only chosen users can contribute."
 msgstr "Hanya pengguna terpilih yang bisa berkontribusi."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible only to chosen users."
-msgstr "Hanya terlihat dan dapat diterjemahkan oleh pengguna terpilih"
+msgstr "Terlihat hanya untuk pengguna terpilih."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -5519,10 +5481,8 @@ msgid "You don't have permission to start a new translation"
 msgstr "Anda tidak memiliki hak untuk menyimpan penerjemahan!"
 
 #: weblate/templates/component.html:142
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to start new translation"
-msgstr "Silakan login untuk menyimpan terjemahan."
+msgstr "Silakan masuk untuk memulai terjemahan baru"
 
 #: weblate/templates/component.html:158
 #, fuzzy
@@ -6774,16 +6734,14 @@ msgid "Announcement"
 msgstr "Pengumuman"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Komentar baru di %(component)s"
+msgstr "Pengumuman baru di %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Whiteboard message"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Papan pesan"
+msgstr "Pengumuman baru di %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -7297,9 +7255,8 @@ msgstr ""
 "Weblate akan membuatkannya untuk Anda."
 
 #: weblate/templates/manage/ssh.html:60
-#, fuzzy
 msgid "Known host keys"
-msgstr "Kunci-kunci host yang dikenali"
+msgstr "Kunci host yang dikenal"
 
 #: weblate/templates/manage/ssh.html:67 weblate/wladmin/forms.py:41
 msgid "Hostname"
@@ -7615,10 +7572,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please sign in and try again later."
-msgstr "Terlalu banyak pesan yang dikirim, silakan coba lagi nanti!"
+msgstr "Anda telah keluar, harap masuk dan coba lagi nanti."
 
 #: weblate/templates/ratelimit.html:9
 #, fuzzy
@@ -8085,10 +8040,8 @@ msgid "Suggested change:"
 msgstr "Saran diubah:"
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "Pemeriksaan gagal"
+msgstr "Pemeriksaan gagal:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 #, fuzzy
@@ -8205,10 +8158,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
-#, fuzzy
-#| msgid "Push changes to the remote repository"
 msgid "This project is set up incorrectly."
-msgstr "Push perubahan ke repositori jarak jauh"
+msgstr "Proyek ini salah diatur."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:4
 msgid "The project website URL points to a non-existing location:"
@@ -8245,10 +8196,8 @@ msgid "Please fix this by removing one of the translation files."
 msgstr "Silakan login untuk menyimpan terjemahan."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please confirm your logout."
 msgid "Please consider the following:"
-msgstr "Silakan konfirmasi untuk keluar."
+msgstr "Harap pertimbangkan hal berikut:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
@@ -8736,7 +8685,7 @@ msgstr "Saran dari mesin penerjemahan"
 
 #: weblate/templates/translate.html:246 weblate/trans/forms.py:775
 msgid "Machine translation"
-msgstr "Mesin penerjemah"
+msgstr "Terjemahan mesin"
 
 #: weblate/templates/translate.html:251
 msgid "Translations of this string in the other languages"
@@ -8976,8 +8925,8 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
-"Terjemahan otomatis via mesin memakai mesin terjemahan yang aktif untuk "
-"memperoleh terjemahan terbaik dan mengaplikasikannya pada proyek ini."
+"Terjemahan otomatis melalui terjemahan mesin memakai mesin penerjemahan yang "
+"aktif untuk memperoleh terjemahan terbaik dan menerapkannya pada proyek ini."
 
 #: weblate/templates/translation.html:293
 #, fuzzy
@@ -9356,10 +9305,8 @@ msgid "Please choose a valid filter type."
 msgstr "Mohon pilih tipe filter yang valid."
 
 #: weblate/trans/forms.py:407
-#, fuzzy
-#| msgid "The string you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "String yang Anda ingin terjemahkan tidak tersedia lagi!"
+msgstr "String yang Anda ingin terjemahkan tidak tersedia lagi."
 
 #: weblate/trans/forms.py:417
 msgid ""
@@ -10512,10 +10459,8 @@ msgstr ""
 "ekabahasa."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Intermediate language file"
-msgstr "Bahasa yang diminta:"
+msgstr "Berkas bahasa antara"
 
 #: weblate/trans/models/component.py:282
 msgid ""
@@ -11969,10 +11914,8 @@ msgid "Workflow customization"
 msgstr ""
 
 #: weblate/trans/views/js.py:62
-#, fuzzy
-#| msgid "Not available"
 msgid "Service is currently not available."
-msgstr "Tidak tersedia"
+msgstr "Layanan saat ini tidak tersedia."
 
 #: weblate/trans/views/lock.py:42
 msgid "Component is now locked for translation updates!"
@@ -12143,10 +12086,9 @@ msgid "Empty"
 msgstr "Kosong"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Komponen: {}"
+msgstr "Kompilasi gagal: {0}"
 
 #: weblate/utils/validators.py:69
 #, fuzzy
@@ -12174,12 +12116,8 @@ msgid "Unsupported image type: %s"
 msgstr "Tipe gambar tidak didukung: %s"
 
 #: weblate/utils/validators.py:132
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
-msgstr ""
-"Gambar terlalu besar, silakan memperkecil ukurannya atau mengkrop bagian "
-"yang relevan!"
+msgstr "Gambar terlalu besar, silakan pangkas atau perkecil."
 
 #: weblate/utils/validators.py:150
 #, fuzzy
@@ -12204,10 +12142,8 @@ msgid "This e-mail address is disallowed."
 msgstr "Alamat surel ini tidak diizinkan."
 
 #: weblate/utils/validators.py:191
-#, fuzzy
-#| msgid "Failed to save translation!"
 msgid "Could not evaluate plural formula: {}"
-msgstr "Gagal menyimpan penerjemahan!"
+msgstr "Tidak bisa mengevaluasi rumus jamak: {}"
 
 #: weblate/utils/validators.py:197
 msgid "The filename can not contain reference to a parent directory."
