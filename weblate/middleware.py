@@ -100,6 +100,7 @@ class SecurityMiddleware:
             script.add(domain)
             script.add("sentry.io")
             connect.add(domain)
+            connect.add("sentry.io")
             script.add("'unsafe-inline'")
             image.add("data:")
 
