@@ -844,6 +844,7 @@ class Unit(models.Model, LoggerMixin):
         # Enforced checks can revert the state to needs editing (fuzzy)
         if (
             self.state >= STATE_TRANSLATED
+            and self.translation.component.enforced_checks
             and self.check_set.filter(
                 check__in=self.translation.component.enforced_checks
             ).exists()
