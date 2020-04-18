@@ -1495,7 +1495,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         # Remove possible encoding part
         if "." in code and (".utf" in code.lower() or ".iso" in code.lower()):
             return code.split(".")[0]
-        if code in ("source", "src"):
+        if code in ("source", "src", "default"):
             return self.project.source_language.code
         return code
 
