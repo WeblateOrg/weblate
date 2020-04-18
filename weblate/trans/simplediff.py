@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.utils.html import escape
+
 from diff_match_patch import diff_match_patch
 
 
@@ -29,9 +31,9 @@ def html_diff(old, new):
     result = []
     for op, data in diff:
         if op == dmp.DIFF_DELETE:
-            result.append("<del>{0}</del>".format(data))
+            result.append("<del>{0}</del>".format(escape(data)))
         elif op == dmp.DIFF_INSERT:
-            result.append("<ins>{0}</ins>".format(data))
+            result.append("<ins>{0}</ins>".format(escape(data)))
         elif op == dmp.DIFF_EQUAL:
-            result.append(data)
+            result.append(escape(data))
     return "".join(result)

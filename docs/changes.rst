@@ -7,6 +7,7 @@ Not yet released.
 * Improved performance of changing labels.
 * Improved bulk edit perfomance.
 * Fixed possible crash on component deletion.
+* Fixed dispaying of translation changes in some corner cases.
 
 Weblate 4.0.1
 -------------

@@ -64,6 +64,17 @@ class DiffTest(TestCase):
             "Hello wor<del>l</del>d!",
         )
 
+    def test_format_entities(self):
+        unit = MockUnit(source="'word'")
+        self.assertEqual(
+            format_translation(
+                unit.source,
+                unit.translation.component.project.source_language,
+                diff='"word"',
+            )["items"][0]["content"],
+            "<del>&quot;</del><ins>&#x27;</ins>word<del>&quot;</del><ins>&#x27;</ins>",
+        )
+
     def test_fmtsearchmatch(self):
         self.assertEqual(
             format_translation(

@@ -114,9 +114,8 @@ def fmt_whitespace(value):
 def fmt_diff(value, diff, idx):
     """Format diff if there is any."""
     if diff is None:
-        return value
-    diffvalue = escape(force_str(diff[idx]))
-    return html_diff(diffvalue, value)
+        return escape(value)
+    return html_diff(force_str(diff[idx]), value)
 
 
 def fmt_highlights(raw_value, value, unit):
@@ -194,10 +193,10 @@ def format_translation(
 
     for idx, raw_value in enumerate(plurals):
         # HTML escape
-        value = escape(force_str(raw_value))
+        value = force_str(raw_value)
 
         # Content of the Copy to clipboard button
-        copy = value
+        copy = escape(value)
 
         # Format diff if there is any
         value = fmt_diff(value, diff, idx)
