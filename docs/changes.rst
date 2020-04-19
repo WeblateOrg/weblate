@@ -6,6 +6,7 @@ Not yet released.
 * Improved performance of translation stats.
 * Improved performance of changing labels.
 * Improved bulk edit perfomance.
+* Improved translation memory performance.
 * Fixed possible crash on component deletion.
 * Fixed dispaying of translation changes in some corner cases.
 

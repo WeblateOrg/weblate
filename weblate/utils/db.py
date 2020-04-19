@@ -18,11 +18,36 @@
 #
 """Database specific code to extend Django."""
 
+from django.contrib.postgres.search import (
+    SearchVector,
+    SearchVectorExact,
+    SearchVectorField,
+)
 from django.db import models, router
 from django.db.models.deletion import Collector
 from django.db.models.lookups import PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
+
+
+class PostgreSQLSearchVector(SearchVector):
+    def as_sql(self, compiler, connection, function=None, template=None):
+        return super(SearchVector, self).as_sql(
+            compiler,
+            connection,
+            function=function,
+            template="%(function)s('english'::regconfig, %(expressions)s)",
+        )
+
+
+class PostgreSQLSearchLookup(SearchVectorExact):
+    lookup_name = "search"
+
+    def process_lhs(self, qn, connection):
+        if not isinstance(self.lhs.output_field, SearchVectorField):
+            self.lhs = PostgreSQLSearchVector(self.lhs)
+        lhs, lhs_params = super().process_lhs(qn, connection)
+        return lhs, lhs_params
 
 
 class MySQLSearchLookup(models.Lookup):

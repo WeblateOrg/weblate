@@ -19,7 +19,6 @@
 
 from django.apps import AppConfig
 from django.conf import settings
-from django.contrib.postgres.lookups import SearchLookup
 from django.core.checks import register
 from django.db.models import CharField, TextField
 
@@ -40,7 +39,12 @@ from weblate.utils.checks import (
 from weblate.utils.errors import init_error_collection
 from weblate.utils.version import check_version
 
-from .db import MySQLSearchLookup, MySQLSubstringLookup, PostgreSQLSubstringLookup
+from .db import (
+    MySQLSearchLookup,
+    MySQLSubstringLookup,
+    PostgreSQLSearchLookup,
+    PostgreSQLSubstringLookup,
+)
 
 
 class UtilsConfig(AppConfig):
@@ -68,8 +72,8 @@ class UtilsConfig(AppConfig):
 
         engine = settings.DATABASES["default"]["ENGINE"]
         if engine == "django.db.backends.postgresql":
-            CharField.register_lookup(SearchLookup)
-            TextField.register_lookup(SearchLookup)
+            CharField.register_lookup(PostgreSQLSearchLookup)
+            TextField.register_lookup(PostgreSQLSearchLookup)
             CharField.register_lookup(PostgreSQLSubstringLookup)
             TextField.register_lookup(PostgreSQLSubstringLookup)
         elif engine == "django.db.backends.mysql":
