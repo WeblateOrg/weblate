@@ -321,6 +321,11 @@ class Repository:
         return result
 
     @classmethod
+    def add_configuration_error(cls, msg):
+        add_configuration_error(cls.name.lower(), msg)
+        LOGGER.warning(msg)
+
+    @classmethod
     def is_supported(cls):
         """Check whether this VCS backend is supported."""
         if cls._is_supported is not None:
@@ -329,8 +334,7 @@ class Repository:
             version = cls.get_version()
         except (OSError, RepositoryException) as error:
             cls._is_supported = False
-            add_configuration_error(
-                cls.name.lower(),
+            cls.add_configuration_error(
                 "{0} version check failed: {1}".format(cls.name, error),
             )
             return False
@@ -342,15 +346,13 @@ class Repository:
                 delete_configuration_error(cls.name.lower())
                 return True
         except Exception as error:
-            add_configuration_error(
-                cls.name.lower(),
+            cls.add_configuration_error(
                 "{0} version check failed (version {1}, required {2}): {3}".format(
                     cls.name, version, cls.req_version, error
                 ),
             )
         else:
-            add_configuration_error(
-                cls.name.lower(),
+            cls.add_configuration_error(
                 "{0} version is too old, please upgrade to {1}.".format(
                     cls.name, cls.req_version
                 ),
