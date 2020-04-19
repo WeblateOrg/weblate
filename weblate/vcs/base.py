@@ -327,8 +327,12 @@ class Repository:
             return cls._is_supported
         try:
             version = cls.get_version()
-        except (OSError, RepositoryException):
+        except (OSError, RepositoryException) as error:
             cls._is_supported = False
+            add_configuration_error(
+                cls.name.lower(),
+                "{0} version check failed: {1}".format(cls.name, error),
+            )
             return False
         try:
             if cls.req_version is None or LooseVersion(version) >= LooseVersion(
