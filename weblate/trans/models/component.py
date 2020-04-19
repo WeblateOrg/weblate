@@ -1046,51 +1046,53 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     @perform_on_link
     def do_reset(self, request=None):
         """Wrapper for reseting repo to same sources as remote."""
-        # First check we're up to date
-        self.update_remote_branch()
+        with self.repository.lock:
+            # First check we're up to date
+            self.update_remote_branch()
 
-        # Do actual reset
-        try:
-            self.log_info("resetting to remote repo")
-            with self.repository.lock:
+            # Do actual reset
+            try:
+                self.log_info("resetting to remote repo")
                 self.repository.reset()
-        except RepositoryException:
-            report_error(cause="Could not reset the repository")
-            messages.error(
-                request, _("Could not reset to remote branch on %s.") % force_str(self)
+            except RepositoryException:
+                report_error(cause="Could not reset the repository")
+                messages.error(
+                    request,
+                    _("Could not reset to remote branch on %s.") % force_str(self),
+                )
+                return False
+
+            Change.objects.create(
+                action=Change.ACTION_RESET,
+                component=self,
+                user=request.user if request else None,
             )
-            return False
+            self.delete_alert("MergeFailure")
+            self.delete_alert("RepositoryOutdated")
 
-        Change.objects.create(
-            action=Change.ACTION_RESET,
-            component=self,
-            user=request.user if request else None,
-        )
-        self.delete_alert("MergeFailure")
-        self.delete_alert("RepositoryOutdated")
-
-        # create translation objects for all files
-        try:
-            self.create_translations(request=request)
-            return True
-        except FileParseError:
-            return False
+            # create translation objects for all files
+            try:
+                self.create_translations(request=request)
+                return True
+            except FileParseError:
+                return False
 
     @perform_on_link
     def do_cleanup(self, request=None):
         """Wrapper for cleaning up repo."""
-        try:
-            self.log_info("cleaning up the repo")
-            with self.repository.lock:
+        with self.repository.lock:
+            try:
+                self.log_info("cleaning up the repo")
                 self.repository.cleanup()
-        except RepositoryException:
-            report_error(cause="Could not clean the repository")
-            messages.error(
-                request, _("Could not clean the repository on %s.") % force_str(self)
-            )
-            return False
+            except RepositoryException:
+                report_error(cause="Could not clean the repository")
+                messages.error(
+                    request,
+                    _("Could not clean the repository on %s.") % force_str(self),
+                )
+                return False
 
-        return True
+            return True
 
     def get_repo_link_url(self):
         return "weblate://{0}/{1}".format(self.project.slug, self.slug)
