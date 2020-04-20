@@ -692,6 +692,7 @@ class Unit(models.Model, LoggerMixin):
         """Update checks for this unit."""
         was_change = False
         has_checks = None
+        run_propagate = False
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
@@ -720,9 +721,18 @@ class Unit(models.Model, LoggerMixin):
                     create.append(Check(unit=self, ignore=False, check=check))
                     was_change = True
                     has_checks = True
+                    run_propagate |= check_obj.propagates
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
+            # Propagate checks which need it (for example consistency)
+            if run_propagate:
+                for unit in self.same_source_units:
+                    unit.run_checks()
+            # Trigger source checks on target check update (multiple failing checks)
+            if not self.translation.is_source:
+                self.source_info.is_batch_update = self.is_batch_update
+                self.source_info.run_checks()
 
         # Delete no longer failing checks
         if old_checks:

@@ -10,6 +10,7 @@ Not yet released.
 * Fixed possible crash on component deletion.
 * Fixed dispaying of translation changes in some corner cases.
 * Improved warning about too long celery queue.
+* Fixed possible false positives in the consistency check.
 
 Weblate 4.0.1
 -------------

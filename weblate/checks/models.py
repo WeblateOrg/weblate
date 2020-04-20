@@ -169,19 +169,7 @@ class Check(models.Model):
 @disable_for_loaddata
 def check_post_save(sender, instance, created, **kwargs):
     """Handle check creation or updates."""
-    if created:
-        check_obj = instance.check_obj
-        if not check_obj:
-            return
-        # Propagate checks that should do it
-        if check_obj.propagates:
-            for unit in instance.unit.same_source_units:
-                unit.run_checks()
-        # Update source checks if needed
-        if check_obj.target:
-            instance.unit.source_info.is_batch_update = instance.unit.is_batch_update
-            instance.unit.source_info.run_checks()
-    else:
+    if not created:
         # Update related unit failed check flag (the check was (un)ignored)
         instance.unit.update_has_failing_check(
             has_checks=None if instance.ignore else True
