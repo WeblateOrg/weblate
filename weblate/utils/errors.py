@@ -89,7 +89,8 @@ def init_error_collection(celery=False):
             release=weblate.GIT_REVISION or weblate.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
         )
-        ignore_logger("weblate.celery")
+        # Ignore Weblate logging, those should be reported as proper errors
+        ignore_logger("weblate")
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)
