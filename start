@@ -132,6 +132,14 @@ unset PGPASSWORD
 
 >&2 echo "Postgres is up"
 
+echo "Initializing github token"
+GITHUB_USER=$WEBLATE_GITHUB_USERNAME
+GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
+HOME=${DATA_DIR}/home
+git config --global hub.protocol https
+hub clone https://github.com/vendasta/NS
+echo "Done initializing github token"
+
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
     # https://github.com/django/django/blob/1.10.2/django/utils/crypto.py#L54-L56
@@ -188,14 +196,6 @@ if [ "x$1" = "xrunserver" ] ; then
         --logfile=${SUPERVISOR_LOGFILE:-/dev/null} \
         --configuration=/etc/supervisor/supervisord.conf
 fi
-
-echo "Initializing github token"
-GITHUB_USER=$WEBLATE_GITHUB_USERNAME
-GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
-HOME=${DATA_DIR}/home
-git config --global hub.protocol https
-hub clone https://github.com/vendasta/NS
-echo "Done initializing github token"
 
 # Start the management command
 run_weblate "$@"

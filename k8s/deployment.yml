@@ -72,7 +72,7 @@ spec:
         - name: ENVIRONMENT
           value: prod
         - name: DOCKER_IMAGE
-          value: gcr.io/repcore-prod/weblate:dbc563f9-090b-4617-8ef0-958b158bd0db
+          value: gcr.io/repcore-prod/weblate:210f01f4-a559-4e05-976f-cb46f81744c6
         - name: DOCKER_TAG
           value: e421071d-076e-4529-bb81-dab30627b0d3
         - name: GOOGLE_APPLICATION_CREDENTIALS
@@ -163,7 +163,7 @@ spec:
             secretKeyRef:
               name: weblate-github-password
               key: weblate-github-password
-        image: gcr.io/repcore-prod/weblate:dbc563f9-090b-4617-8ef0-958b158bd0db
+        image: gcr.io/repcore-prod/weblate:210f01f4-a559-4e05-976f-cb46f81744c6
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
