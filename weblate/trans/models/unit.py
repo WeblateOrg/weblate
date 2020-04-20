@@ -547,7 +547,7 @@ class Unit(models.Model, LoggerMixin):
         if change_action not in (
             Change.ACTION_UPLOAD,
             Change.ACTION_AUTO,
-            Change.ACTION_BULK,
+            Change.ACTION_BULK_EDIT,
         ):
             # Update translation stats
             self.translation.invalidate_cache()

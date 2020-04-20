@@ -179,7 +179,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SUGGESTION_CLEANUP = 29
     ACTION_SOURCE_CHANGE = 30
     ACTION_NEW_UNIT = 31
-    ACTION_MASS_STATE = 32
+    ACTION_BULK_EDIT = 32
     ACTION_ACCESS_EDIT = 33
     ACTION_ADD_USER = 34
     ACTION_REMOVE_USER = 35
@@ -269,7 +269,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_NEW_UNIT, gettext_lazy("New string added")),
         # Translators: Name of event in the history
-        (ACTION_MASS_STATE, gettext_lazy("Bulk status change")),
+        (ACTION_BULK_EDIT, gettext_lazy("Bulk status change")),
         # Translators: Name of event in the history
         (ACTION_ACCESS_EDIT, gettext_lazy("Changed visibility")),
         # Translators: Name of event in the history
@@ -337,7 +337,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_REVERT,
         ACTION_UPLOAD,
         ACTION_REPLACE,
-        ACTION_MASS_STATE,
+        ACTION_BULK_EDIT,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
     }
