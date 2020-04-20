@@ -225,7 +225,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_UPLOAD, gettext_lazy("Translation uploaded")),
         # Translators: Name of event in the history
-        (ACTION_DICTIONARY_NEW, gettext_lazy("Glossary added")),
+        (ACTION_DICTIONARY_NEW, gettext_lazy("Added to glossary")),
         # Translators: Name of event in the history
         (ACTION_DICTIONARY_EDIT, gettext_lazy("Glossary updated")),
         # Translators: Name of event in the history
