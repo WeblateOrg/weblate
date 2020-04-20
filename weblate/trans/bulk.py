@@ -63,6 +63,7 @@ def bulk_perform(
                     unit.target,
                     target_state,
                     change_action=Change.ACTION_MASS_STATE,
+                    propagate=False,
                 )
             if add_flags or remove_flags:
                 flags = Flags(unit.source_info.extra_flags)
