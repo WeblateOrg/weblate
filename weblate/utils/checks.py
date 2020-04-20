@@ -22,6 +22,7 @@ import errno
 import os
 import sys
 import time
+from collections import defaultdict
 from itertools import chain
 
 from celery.exceptions import TimeoutError
@@ -65,10 +66,46 @@ def check_mail_connection(app_configs, **kwargs):
 
 
 def is_celery_queue_long():
+    """
+    Checks whether celery queue is too long.
+
+    It does trigger if it is too long for at least one hour. This way we filter out
+    peaks and avoid flipping warning on big operations (eg. site-wide autotranslate).
+    """
+    cache_key = "celery_queue_stats"
+    queues_data = cache.get(cache_key, {})
+
+    # Hours since epoch
+    current_hour = int(time.time() / 3600)
+    test_hour = current_hour - 1
+
+    # Fetch current stats
     stats = get_queue_stats()
-    if stats.pop("translate", 0) > 1000:
-        return True
-    return any(stat > 50 for stat in stats.values())
+
+    # Update counters
+    if current_hour not in queues_data:
+        # Delete stale items
+        for key in queues_data.keys():
+            if key < test_hour:
+                del queues_data[key]
+        # Add current one
+        queues_data[current_hour] = stats
+
+        # Store to cache
+        cache.set(cache_key, queues_data, 7200)
+
+    # Do not fire if we do not have counts for two hours ago
+    if test_hour not in queues_data:
+        return False
+
+    # Check if any queue got bigger
+    base = queues_data[test_hour]
+    thresholds = defaultdict(lambda: 50)
+    thresholds["translate"] = 1000
+    return any(
+        stat > thresholds[key] and base.get(key, 0) > thresholds[key]
+        for key, stat in stats.items()
+    )
 
 
 def check_celery(app_configs, **kwargs):
