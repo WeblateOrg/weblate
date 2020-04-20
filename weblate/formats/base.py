@@ -30,7 +30,11 @@ from weblate.utils.hash import calculate_hash
 
 
 class UnitNotFound(Exception):
-    pass
+    def __str__(self):
+        args = list(self.args)
+        if "" in args:
+            args.remove("")
+        return "Unit not found: {}".format(", ".join(args))
 
 
 class UpdateError(Exception):
@@ -236,7 +240,7 @@ class TranslationFormat:
         # Need to create new unit based on template
         template_ttkit_unit = self.template_store.find_unit_mono(context)
         if template_ttkit_unit is None:
-            raise UnitNotFound("Unit not found: {}".format(context))
+            raise UnitNotFound(context)
 
         # We search by ID when using template
         ttkit_unit = self.find_unit_mono(context)
@@ -259,7 +263,7 @@ class TranslationFormat:
         try:
             return (self._source_index[context, source], False)
         except KeyError:
-            raise UnitNotFound("Unit not found: {}, {}".format(context, source))
+            raise UnitNotFound(context, source)
 
     def find_unit(self, context, source=None):
         """Find unit by context and source.
