@@ -132,10 +132,10 @@ unset PGPASSWORD
 
 >&2 echo "Postgres is up"
 
-echo "Initializing github token with for user ${WEBLATE_GITHUB_USERNAME}:${WEBLATE_GITHUB_PASSWORD}"
+echo "Initializing github token for user ${WEBLATE_GITHUB_USERNAME}"
+echo "HOME: ${HOME}"
 GITHUB_USER=$WEBLATE_GITHUB_USERNAME
 GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
-HOME=${DATA_DIR}/home
 git config --global hub.protocol https
 hub clone https://github.com/vendasta/NS
 echo "Done initializing github token"
