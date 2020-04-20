@@ -23,9 +23,9 @@ from io import StringIO
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.urls import reverse
+from jsonschema import validate
 from weblate_schemas import load_schema
 
-from jsonschema import validate
 from weblate.lang.models import Language
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory

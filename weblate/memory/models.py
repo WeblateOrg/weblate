@@ -27,12 +27,12 @@ from django.db import models
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
+from jsonschema import validate
+from jsonschema.exceptions import ValidationError
 from translate.misc.xml_helpers import getXMLlang, getXMLspace
 from translate.storage.tmx import tmxfile
 from weblate_schemas import load_schema
 
-from jsonschema import validate
-from jsonschema.exceptions import ValidationError
 from weblate.lang.models import Language
 from weblate.memory.utils import (
     CATEGORY_FILE,

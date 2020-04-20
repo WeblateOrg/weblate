@@ -17,9 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.utils.html import escape
-
 from diff_match_patch import diff_match_patch
+from django.utils.html import escape
 
 
 def html_diff(old, new):
