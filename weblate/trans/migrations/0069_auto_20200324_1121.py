@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                     (7, "Suggestion accepted"),
                     (8, "Translation reverted"),
                     (9, "Translation uploaded"),
-                    (10, "Glossary added"),
+                    (10, "Added to glossary"),
                     (11, "Glossary updated"),
                     (12, "Glossary uploaded"),
                     (13, "New source string"),
