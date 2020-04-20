@@ -544,7 +544,11 @@ class Unit(models.Model, LoggerMixin):
         # Generate Change object for this change
         self.generate_change(user or author, author, change_action)
 
-        if change_action not in (Change.ACTION_UPLOAD, Change.ACTION_AUTO):
+        if change_action not in (
+            Change.ACTION_UPLOAD,
+            Change.ACTION_AUTO,
+            Change.ACTION_BULK,
+        ):
             # Update translation stats
             self.translation.invalidate_cache()
 
