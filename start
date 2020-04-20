@@ -136,7 +136,7 @@ echo "Initializing github token for user ${WEBLATE_GITHUB_USERNAME}"
 GITHUB_USER=$WEBLATE_GITHUB_USERNAME
 GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
 git config --global hub.protocol https
-hub clone -v https://github.com/vendasta/NS $HOME
+hub clone -v https://github.com/vendasta/NS ${HOME}/NS
 echo "Done initializing github token"
 
 # Generate secret
