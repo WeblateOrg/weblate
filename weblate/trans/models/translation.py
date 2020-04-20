@@ -592,16 +592,14 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if change_author.id != author_id:
                 continue
 
+            # Remove pending flag
+            unit.pending = False
+
             try:
                 pounit, add = store.find_unit(unit.context, unit.source)
             except UnitNotFound:
+                # Bail out if we have not found anything
                 report_error(cause="String disappeared")
-                pounit = None
-
-            unit.pending = False
-
-            # Bail out if we have not found anything
-            if pounit is None:
                 self.log_error("disappeared string: %s", unit)
                 unit.save(update_fields=["pending"], same_content=True, same_state=True)
                 continue
