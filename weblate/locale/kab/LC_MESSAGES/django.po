@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-20 19:17+0000\n"
-"PO-Revision-Date: 2020-04-20 19:17+0000\n"
+"PO-Revision-Date: 2020-04-21 05:25+0000\n"
 "Last-Translator: Muḥend Belqasem <belkacem77@gmail.com>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/master/"
 "kab/>\n"
@@ -1952,15 +1952,12 @@ msgid "In display limits"
 msgstr "Deg talast n uskan"
 
 #: weblate/billing/tasks.py:85
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Ad d-tremseḍ ilɣa-a kan ɣef tutlayin i tsuqquleḍ deg yisenfaṛen i tettɛassaḍ."
+"Ur tettezziḍ ara ad d-tremseḍ alqu-a ticki txelseḍ tifaturin neɣ ma "
+"yettwakkes usenfaṛ-ik."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -5867,26 +5864,20 @@ msgid "Generated on %(timestamp)s."
 msgstr "Yettwarna deg %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
 msgstr ""
 "Aɣawas-ik n ufter ifuk. Ma tebɣiḍ ad tkemmleḍ deg useqdec n umeẓlu-a, ales "
-"ajerred n uɣawas-ik s utekki ɣef useɣwe-a:"
+"ajerred n uɣawas-ik."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
 msgstr "Aɣawas-a n ufter iɣumm isenfaṛen-a:"
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "Asenfaṛ yettwakkes"
+msgstr "Kkes asenfaṛ"
 
 #: weblate/templates/mail/billing_expired.html:17
 msgid "All projects covered by this billing plan have been removed."
@@ -7406,18 +7397,20 @@ msgid ""
 "Create a new translation component for an additional branch of the existing "
 "translation component."
 msgstr ""
+"Rnu asuddis amaynut n tsuqilt i tseṭṭa-nniḍen n usuddis n tsuqilt yellan."
 
 #: weblate/templates/trans/component_create.html:76
 msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
 msgstr ""
+"Asuddis amaynut ad yettwarnu i tseṭṭa yettwafernen s twilla-nni yellan yakan."
 
 #: weblate/templates/trans/component_create.html:87
 msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
-msgstr ""
+msgstr "Rnu asuddis amaynut n tsuqilt seg ufaylu zip i i gebren tisuqilin."
 
 #: weblate/templates/trans/component_create.html:101
 msgid "Create a new empty translation component to start from scratch."
@@ -7431,12 +7424,14 @@ msgid ""
 "Create a ZIP file containing any existing translation files you have, and "
 "%(link_start)supload it%(link_end)s."
 msgstr ""
+"Rnu afaylu ZIP i igebren meṛṛa ifuyla n tsuqilt yellan sakin %(link_start"
+")ssader-it-od%(link_end)s."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
 "You will be able to edit more options in the component settings after "
 "creating it."
-msgstr ""
+msgstr "Tzemreḍ ad tbeddleḍ ugar n yiɣawwaren n usuddis senld timerna-is."
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "The following translation components will be also removed:"
@@ -7444,20 +7439,21 @@ msgstr "Isuddisen n tsuqilt-a ad ttwakksen daɣen:"
 
 #: weblate/templates/trans/delete-form.html:24
 msgid "I understand the consequences, delete this translation"
-msgstr ""
+msgstr "Gziɣ ayen ara yeḍrun, kkes tasuqilt-a"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
-msgstr ""
+msgstr "Amasal n ufaylu yettwafen ur yettwasefrak ara."
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
-msgstr ""
+msgstr "Anaw n ukala n uxeddim i useɣti n tilla n usmezdi"
 
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
 msgstr ""
+"Rnu ɣer teṛcivt meṛṛa ibeddilen yettraǧun deg Weblate daɣen sewḥel asuddis."
 
 #: weblate/templates/trans/merge_instructions.html:14
 msgid "Add Weblate exported repository as a remote."
@@ -7465,7 +7461,7 @@ msgstr "Rnu akufi n usifeḍ Weblate d anmeggag."
 
 #: weblate/templates/trans/merge_instructions.html:18
 msgid "Merge Weblate changes and resolve any conflicts."
-msgstr ""
+msgstr "Smezdi ibeddilen Weblate daɣen fru tilla."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
@@ -7481,6 +7477,7 @@ msgstr ""
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
 msgstr ""
+"Tzemreḍ ad tesqedceḍ tiṛekkizin n tneɣrufin Django deg yiznan n teṛcivin."
 
 #: weblate/templates/trans/other-row.html:7
 msgid "This translation"
@@ -7488,7 +7485,7 @@ msgstr "Tasuqilt-agi"
 
 #: weblate/templates/trans/other-row.html:17
 msgid "Use this translation for all components"
-msgstr ""
+msgstr "Seqdec tasuqilt-a deg yisuddisen meṛṛa"
 
 #: weblate/templates/trans/other-row.html:17
 msgid "Use this translation"
@@ -7496,7 +7493,7 @@ msgstr "Seqdec tasuqqilt-a"
 
 #: weblate/templates/trans/other-row.html:24
 msgid "Change compared to this translation:"
-msgstr ""
+msgstr "Abeddil mgal tasuqlit-a:"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -7513,6 +7510,9 @@ msgid ""
 "a different location. If the repository content is different, it might be "
 "better to create new translation component."
 msgstr ""
+"Ma tbeddleḍ tansa URL n ukufi, agbur-is ad imezdi d ukufi amaynut. Tamhelt-a "
+"telha ma yella akufi yettumselsi ɣer wadig-nniḍen.Maca ma yella gbur n ukufi "
+"yemgarad, izmerad telhu tmerna n usuddis amaynut n tsuqilt."
 
 #: weblate/templates/translate.html:16
 msgid "translate"
@@ -7540,11 +7540,11 @@ msgstr "Uzwir"
 
 #: weblate/templates/translate.html:53 weblate/templates/zen.html:35
 msgid "Edit search parameters"
-msgstr ""
+msgstr "Beddel iɣewwaren n unadi"
 
 #: weblate/templates/translate.html:70
 msgid "Go to position"
-msgstr ""
+msgstr "Ddu ɣer wadig"
 
 #: weblate/templates/translate.html:71
 #, python-format
@@ -7553,7 +7553,7 @@ msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:83
 msgid "Jump to position"
-msgstr ""
+msgstr "Ddu ɣer wadig"
 
 #: weblate/templates/translate.html:88
 msgid "Jump"
@@ -7608,11 +7608,13 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
+"Ala imceggiren i izemren ad qeblen izriren, ttxil-k rnu asumer ma tɣileḍ "
+"azrir ilaq ad ibeddel."
 
 #: weblate/templates/translate.html:204
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
-msgstr ""
+msgstr "Tasuqilt-a ad teqbel kan isumar, wigi daɣen ad ttwaqeblen s tefrant."
 
 #: weblate/templates/translate.html:206 weblate/trans/views/edit.py:265
 #: weblate/trans/views/edit.py:286 weblate/trans/views/edit.py:305
@@ -7626,7 +7628,7 @@ msgstr "Tasuqilt-a temdel yakan."
 
 #: weblate/templates/translate.html:217
 msgid "Insufficient privileges for adding suggestions."
-msgstr ""
+msgstr "Drus n yizerfan i tmerna n yisumar."
 
 #: weblate/templates/translate.html:221
 msgid "Suggest"
@@ -7638,7 +7640,7 @@ msgstr "Zgel"
 
 #: weblate/templates/translate.html:229
 msgid "Messages placed around this one"
-msgstr ""
+msgstr "Iznan yersen rrif n waya"
 
 #: weblate/templates/translate.html:229
 msgid "Nearby strings"
@@ -7674,7 +7676,7 @@ msgstr "Tasuqilt tawurmant"
 
 #: weblate/templates/translate.html:251
 msgid "Translations of this string in the other languages"
-msgstr ""
+msgstr "Tisuqilin n uzrir-a deg tutlayin-nniḍen"
 
 #: weblate/templates/translate.html:251
 msgid "Other languages"
@@ -7682,7 +7684,7 @@ msgstr "Tutlayin-nniḍen"
 
 #: weblate/templates/translate.html:252
 msgid "List of recent changes done in Weblate"
-msgstr ""
+msgstr "Tabdert n yibeddilen ineggura ttwaxedmen deg Weblate"
 
 #: weblate/templates/translate.html:298
 msgid "Following string has same context and same source."
