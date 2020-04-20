@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-15 20:54+0000\n"
-"PO-Revision-Date: 2020-04-09 17:52+0000\n"
+"PO-Revision-Date: 2020-04-20 19:17+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -648,10 +648,8 @@ msgstr "Uusi käännöskomponentti"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:580 weblate/trans/models/change.py:300
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Uusi kommentti"
+msgstr "Uusi tiedotus"
 
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:588 weblate/trans/models/change.py:302
@@ -741,10 +739,8 @@ msgid "User registration"
 msgstr "Käyttäjän rekisteröinti"
 
 #: weblate/accounts/views.py:203
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
-msgstr "Viestiäsi ei voitu lähettää ylläpitäjälle!"
+msgstr "Viestiä ei voitu lähettää ylläpitäjälle!"
 
 #: weblate/accounts/views.py:223
 msgid "Message has been sent to administrator."
@@ -1643,10 +1639,8 @@ msgstr "Hallinnoi ryhmiä (koko alustalla)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage announcements (on the entire platform)"
-msgstr "Hallinnoi käyttäjiä (koko alustalla)"
+msgstr "Hallinnoi tiedotuksia (koko alustalla)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
@@ -2211,12 +2205,12 @@ msgid "Inconsistent"
 msgstr "Epäjohdonmukainen"
 
 #: weblate/checks/consistency.py:76
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "Tällä tekstillä on useampi kuin yksi käännös tässä projektissa"
+msgstr ""
+"Tällä tekstillä on useampi kuin yksi käännös tässä projektissa tai sitä ei "
+"ole käännetty joissakin komponenteissa."
 
 #: weblate/checks/consistency.py:100
 msgid "Has been translated"
@@ -3614,14 +3608,10 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:25
 #: weblate/templates/accounts/email-sent.html:28
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid ""
 "If the confirmation link expires before you get to use it, request a new one."
 msgstr ""
-"Jos vahvistuslinkki ehtii vanhentua ennen kuin ehdit käyttää sitä, "
-"rekisteröidy uudelleen."
+"Jos vahvistuslinkki ehtii raueta ennen kuin ehdit käyttää sitä, pyydä uutta."
 
 #: weblate/templates/accounts/email-sent.html:27
 msgid ""
@@ -4821,10 +4811,8 @@ msgstr "Lokalisointiopas"
 
 #: weblate/templates/component.html:59
 #: weblate/templates/snippets/project-nav.html:52
-#, fuzzy
-#| msgid "Download original translation files as ZIP file"
 msgid "Download translation files as ZIP file"
-msgstr "Lataa alkuperäiset käännöstiedostot ZIP-tiedostona"
+msgstr "Lataa käännöstiedostot ZIP-tiedostona"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -4897,10 +4885,8 @@ msgstr "Ruudunkaappauskuvat"
 #: weblate/templates/snippets/project-nav.html:103
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:349
-#, fuzzy
-#| msgid "Post comment"
 msgid "Post announcement"
-msgstr "Lähetä kommentti"
+msgstr "Julkaise tiedotus"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -6089,19 +6075,17 @@ msgstr "Uusi hälytys käännöskomponentissa %(component)s"
 #: weblate/templates/mail/new_announcement.html:7
 #: weblate/trans/models/announcement.py:124
 msgid "Announcement"
-msgstr "Ilmoitus"
+msgstr "Tiedotus"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Uusi kommentti komponentissa %(component)s"
+msgstr "Uusi tiedotus projektissa %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "New whiteboard message at %(site_title)s"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Sivustolla %(site_title)s on uusi valkotauluviesti"
+msgstr "Uusi tiedotus sivustolla %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 #: weblate/templates/zen-units.html:33
@@ -6309,8 +6293,6 @@ msgid "Last login"
 msgstr "Viimeisin kirjautuminen"
 
 #: weblate/templates/manage-access.html:39
-#, fuzzy
-#| msgid "Not yet logged in"
 msgid "Not yet signed in"
 msgstr "Ei vielä sisäänkirjautunut"
 
@@ -6608,14 +6590,12 @@ msgid "Send test e-mail"
 msgstr "Lähetä testisähköposti"
 
 #: weblate/templates/manage/tools.html:45
-#, fuzzy
-#| msgid "Version control integration"
 msgid "Test Sentry integration"
-msgstr "Integrointi versionhallintaan"
+msgstr "Testaa Sentry-integraatiota"
 
 #: weblate/templates/manage/tools.html:48
 msgid "Generate a test event to test Sentry integration."
-msgstr ""
+msgstr "Luo testitapahtuma testataksesi Sentry-integraatiota."
 
 #: weblate/templates/matrix.html:9
 msgid "matrix"
@@ -7130,11 +7110,9 @@ msgid "Search for…"
 msgstr "Hae…"
 
 #: weblate/templates/snippets/query-builder.html:24
-#, fuzzy
-#| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
-msgstr "Tarkka osuma"
+msgstr "Tarkka"
 
 #: weblate/templates/snippets/query-builder.html:34
 #: weblate/templates/snippets/query-builder.html:36
@@ -7244,10 +7222,8 @@ msgid "Suggested change:"
 msgstr "Ehdotettu muutos:"
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "Virheitä löytynyt tarkistuksessa"
+msgstr "Virheitä löytynyt tarkistuksessa:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 #, fuzzy
@@ -7387,16 +7363,14 @@ msgid "Please fix this by removing one of the translation files."
 msgstr "Korjaa tämä poistamalla jokin käännöstiedostoista."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:9
-#, fuzzy
-#| msgid "Please consider following steps:"
 msgid "Please consider the following:"
-msgstr "Harkitse seuraavia toimenpiteitä:"
+msgstr "Harkitse seuraavia:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:13
 msgid ""
 "Change the source language in the project settings, or remove its "
 "translation file."
-msgstr ""
+msgstr "Vaihda lähdekieli projektin asetuksissa tai poista sen käännöstiedosto."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
@@ -7770,8 +7744,6 @@ msgid "Report issue with the source string"
 msgstr "Ilmoita lähdetekstin ongelmasta"
 
 #: weblate/templates/translate.html:200
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to save translations."
 msgstr "Kirjaudu sisään tallentaaksesi käännöksiä."
 
@@ -9014,13 +8986,13 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"Viestiä ei näytetä tämän päivämäärän jälkeen. Käytä sitä ilmoittaaksesi "
+"Viestiä ei näytetä tämän päivämäärän jälkeen. Käytä sitä tiedottaaksesi "
 "lähdetekstien jäädyttämisen ajankohdasta ja seuraavaan julkaisuun tulevien "
 "käännösten takarajasta."
 
 #: weblate/trans/models/announcement.py:125
 msgid "Announcements"
-msgstr ""
+msgstr "Tiedotukset"
 
 #: weblate/trans/models/announcement.py:132
 msgid "Do not specify both component and project!"
@@ -10886,20 +10858,14 @@ msgid "Unsupported image type: %s"
 msgstr "Kuvatyyppiä ei tueta: %s"
 
 #: weblate/utils/validators.py:132
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
-msgstr ""
-"Kuva on liian iso, skaalaa kuvaa pienemmäksi tai rajaa siitä ylimääräiset "
-"pois!"
+msgstr "Kuva on liian iso, rajaa tai skaalaa sitä pienemmäksi."
 
 #: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
 msgstr "Älä käytä nimessä erikoismerkkejä."
 
 #: weblate/utils/validators.py:165
-#, fuzzy
-#| msgid "Username can not start with a full stop."
 msgid "The username can not start with a full stop."
 msgstr "Käyttäjätunnus ei voi alkaa pisteellä."
 
@@ -10926,14 +10892,10 @@ msgid "The filename can not contain reference to a parent directory."
 msgstr "Tiedostonimi ei saa sisältää viittausta ylätason hakemistoon."
 
 #: weblate/utils/validators.py:200
-#, fuzzy
-#| msgid "Filename can not be an absolute path."
 msgid "The filename can not be an absolute path."
 msgstr "Tiedostonimi ei voi olla absoluuttinen polku."
 
 #: weblate/utils/validators.py:206
-#, fuzzy
-#| msgid "Filename should be as simple as possible. Maybe you want to use: {}"
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "Tiedoston nimen tulisi olla mahdollisimman yksinkertainen. Ehdotus: {}"
 
