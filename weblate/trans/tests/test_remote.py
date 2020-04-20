@@ -126,6 +126,24 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 1)
 
+        new_text = "Other text\n"
+
+        # Propagate edit
+        unit = self.get_unit()
+        self.assertEqual(len(unit.same_source_units), 1)
+        unit.translate(self.user, [new_text], STATE_TRANSLATED)
+
+        # Verify new content
+        unit = self.get_unit()
+        self.assertEqual(unit.target, new_text)
+        self.assertEqual(len(unit.same_source_units), 1)
+        other_unit = unit.same_source_units[0]
+        self.assertEqual(other_unit.target, new_text)
+
+        # There should be no checks on both
+        self.assertEqual(list(unit.check_set.values_list("check", flat=True)), [])
+        self.assertEqual(list(other_unit.check_set.values_list("check", flat=True)), [])
+
     def test_failed_update(self):
         """Test failed remote update."""
         if os.path.exists(self.git_repo_path):
