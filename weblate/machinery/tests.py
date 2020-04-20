@@ -20,6 +20,7 @@
 
 import responses
 from botocore.stub import ANY, Stubber
+from django.conf import settings
 from django.test import TestCase
 from django.test.utils import override_settings
 
@@ -783,6 +784,16 @@ class MachineTranslationTest(TestCase):
 
 
 class WeblateTranslationTest(FixtureTestCase):
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
+
     def test_empty(self):
         machine = WeblateTranslation()
         results = machine.translate(self.get_unit(), self.user)
