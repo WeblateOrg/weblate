@@ -22,7 +22,6 @@ repos:
     -   id: check-json
     -   id: fix-encoding-pragma
         args: [--remove]
-    -   id: sort-simple-yaml
     -   id: mixed-line-ending
         args: [--fix=lf]
 -   repo: https://gitlab.com/pycqa/flake8
@@ -48,4 +47,8 @@ repos:
         - flake8-self
         - flake8-string-format
         - pep8-naming
+-   repo: meta
+    hooks:
+    -   id: check-hooks-apply
+    -   id: check-useless-excludes
 exclude: '^.*\.(svg|wsdl(\.[^.]*)?|csv)|weblate/trans/tests/data/memory-broken.json|weblate/templates/browserconfig.xml$'
