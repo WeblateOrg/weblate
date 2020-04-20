@@ -72,7 +72,7 @@ spec:
         - name: ENVIRONMENT
           value: prod
         - name: DOCKER_IMAGE
-          value: gcr.io/repcore-prod/weblate:210f01f4-a559-4e05-976f-cb46f81744c6
+          value: gcr.io/repcore-prod/weblate:47283ec0-3f85-446e-9ee8-15c1865fd0cf
         - name: DOCKER_TAG
           value: e421071d-076e-4529-bb81-dab30627b0d3
         - name: GOOGLE_APPLICATION_CREDENTIALS
@@ -143,6 +143,14 @@ spec:
             secretKeyRef:
               name: weblate-email-host-password
               key: email-password
+        # GITHUB
+        - name: WEBLATE_GITHUB_USERNAME
+          value: hal9000@vendasta.com
+        - name: WEBLATE_GITHUB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: weblate-github-password
+              key: weblate-github-password
         # OTHER
         - name: WEBLATE_SITE_TITLE
           value: "Vendasta Weblate | Web Translate"
@@ -156,14 +164,7 @@ spec:
           value: "1"
         - name: WEBLATE_DATA_DIR
           value: /app/data
-        - name: WEBLATE_GITHUB_USERNAME
-          value: hal9000@vendasta.com
-        - name: WEBLATE_GITHUB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: weblate-github-password
-              key: weblate-github-password
-        image: gcr.io/repcore-prod/weblate:210f01f4-a559-4e05-976f-cb46f81744c6
+        image: gcr.io/repcore-prod/weblate:47283ec0-3f85-446e-9ee8-15c1865fd0cf
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
