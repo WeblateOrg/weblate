@@ -85,6 +85,10 @@ spec:
           value: /etc/weblate/iam-keys/public-key-id
         - name: VENDASTA_SERVICE_ACCOUNT
           value: weblate-prod@iam.vendasta.com
+        - name: CLOUDSDK_COMPUTE_ZONE
+          value: us-central1-c
+        - name: CLOUDSDK_CONTAINER_CLUSTER
+          value: gke_repcore-prod_us-central1_vendasta-central-regional
         # POSTGRES
         - name: POSTGRES_USER
           value: postgres
