@@ -22,6 +22,7 @@
 
 import json
 
+from django.conf import settings
 from django.urls import reverse
 
 from weblate.trans.models import Dictionary
@@ -88,6 +89,16 @@ more options)</p>
 
 class DictionaryTest(FixtureTestCase):
     """Testing of dictionary manipulations."""
+
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
 
     def get_url(self, url, **kwargs):
         kwargs.update({"lang": "cs", "project": self.component.project.slug})

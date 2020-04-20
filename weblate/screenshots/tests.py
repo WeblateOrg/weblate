@@ -18,6 +18,7 @@
 #
 from unittest import SkipTest
 
+from django.conf import settings
 from django.urls import reverse
 
 import weblate.screenshots.views
@@ -29,6 +30,16 @@ TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
 class ViewTest(FixtureTestCase):
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
+
     def test_list_empty(self):
         response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
         self.assertContains(response, "Screenshots")
