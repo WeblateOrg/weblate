@@ -137,22 +137,18 @@ def generate_counts(user, start_date, end_date, **kwargs):
     if user:
         base = base.filter(author=user)
 
-    authors = base.filter(
+    changes = base.filter(
         timestamp__range=(start_date, end_date), **kwargs
-    ).values_list(
-        "author__email",
-        "author__full_name",
-        "unit__num_words",
-        "action",
-        "target",
-        "unit__source",
-    )
-    for email, name, src_words, action, target, source in authors:
-        if src_words is None:
+    ).prefetch_related("author", "unit")
+    for change in changes:
+        if change.unit is None:
             continue
+
+        email = change.author.email
+
         if email not in result:
             result[email] = {
-                "name": name,
+                "name": change.author.full_name,
                 "email": email,
                 "t_chars": 0,
                 "t_words": 0,
@@ -175,9 +171,10 @@ def generate_counts(user, start_date, end_date, **kwargs):
                 "words_edit": 0,
                 "count_edit": 0,
             }
-        src_chars = len(source)
-        tgt_chars = len(target)
-        tgt_words = len(target.split())
+        src_chars = len(change.unit.source)
+        src_words = change.unit.num_words
+        tgt_chars = len(change.target)
+        tgt_words = len(change.target.split())
 
         result[email]["chars"] += src_chars
         result[email]["words"] += src_words
@@ -185,7 +182,7 @@ def generate_counts(user, start_date, end_date, **kwargs):
         result[email]["t_words"] += tgt_words
         result[email]["count"] += 1
 
-        suffix = action_map.get(action, "edit")
+        suffix = action_map.get(change.action, "edit")
 
         result[email]["t_chars_" + suffix] += tgt_chars
         result[email]["t_words_" + suffix] += tgt_words
