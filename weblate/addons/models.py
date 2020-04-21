@@ -91,17 +91,12 @@ class Addon(models.Model):
 
     objects = AddonQuerySet.as_manager()
 
+    class Meta:
+        verbose_name = "add-on"
+        verbose_name_plural = "add-ons"
+
     def __str__(self):
         return "{}: {}".format(self.addon.verbose, self.component)
-
-    def configure_events(self, events):
-        for event in events:
-            Event.objects.get_or_create(addon=self, event=event)
-        self.event_set.exclude(event__in=events).delete()
-
-    @cached_property
-    def addon(self):
-        return ADDONS[self.name](self)
 
     def get_absolute_url(self):
         return reverse(
@@ -112,6 +107,15 @@ class Addon(models.Model):
                 "pk": self.pk,
             },
         )
+
+    def configure_events(self, events):
+        for event in events:
+            Event.objects.get_or_create(addon=self, event=event)
+        self.event_set.exclude(event__in=events).delete()
+
+    @cached_property
+    def addon(self):
+        return ADDONS[self.name](self)
 
     def delete(self, *args, **kwargs):
         # Delete any addon alerts
@@ -126,6 +130,8 @@ class Event(models.Model):
 
     class Meta:
         unique_together = ("addon", "event")
+        verbose_name = "addon event"
+        verbose_name_plural = "addon events"
 
     def __str__(self):
         return "{}: {}".format(self.addon, self.get_event_display())
