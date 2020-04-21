@@ -217,7 +217,9 @@ class ChangesCSVView(ChangesView):
         writer = csv.writer(response)
 
         # Add header
-        writer.writerow(("timestamp", "action", "user", "url", "target"))
+        writer.writerow(
+            ("timestamp", "action", "user", "url", "target", "edit_distance")
+        )
 
         for change in object_list:
             writer.writerow(
@@ -227,6 +229,7 @@ class ChangesCSVView(ChangesView):
                     change.user.username if change.user else "",
                     get_site_url(change.get_absolute_url()),
                     change.target,
+                    change.get_distance(),
                 )
             )
 

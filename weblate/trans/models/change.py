@@ -23,6 +23,7 @@ from django.db.models import Count
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
+from jellyfish import damerau_levenshtein_distance
 
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
@@ -540,3 +541,6 @@ class Change(models.Model, UserDisplayMixin):
             self.language = self.dictionary.language
         super().save(*args, **kwargs)
         transaction.on_commit(lambda: notify_change.delay(self.pk))
+
+    def get_distance(self):
+        return damerau_levenshtein_distance(self.old, self.target)

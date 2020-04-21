@@ -44,7 +44,11 @@
             {% elif change.can_revert %}
                 <label>{{ change.unit.translation.component.project.source_language }}</label>
                 {% format_translation change.unit.source change.unit.translation.component.project.source_language %}
-                <label>{{ change.unit.translation.language }}</label>
+                <label>
+                    {{ change.unit.translation.language }}
+                    {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
+                    <span class="badge">{% blocktrans count count=change.get_distance %}{{ count }} edit{% plural %}{{ count }} edits{% endblocktrans %}</span>
+                </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
             {% elif change.show_content and change.unit %}
                 <label>{{ change.unit.translation.component.project.source_language }}</label>
