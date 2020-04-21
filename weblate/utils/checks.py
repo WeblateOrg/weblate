@@ -85,7 +85,7 @@ def is_celery_queue_long():
     # Update counters
     if current_hour not in queues_data:
         # Delete stale items
-        for key in queues_data.keys():
+        for key in list(queues_data.keys()):
             if key < test_hour:
                 del queues_data[key]
         # Add current one

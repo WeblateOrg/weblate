@@ -46,6 +46,11 @@ class CeleryQueueTest(SimpleTestCase):
         self.set_cache({int(time.time() / 3600) - 1: {}})
         self.assertFalse(is_celery_queue_long())
 
+    def test_cleanup(self):
+        hour = int(time.time() / 3600)
+        self.set_cache({i: {} for i in range(hour - 2, hour)})
+        self.assertFalse(is_celery_queue_long())
+
     def test_trigger(self):
         with patch(
             "weblate.utils.checks.get_queue_stats", return_value={"celery": 1000}
