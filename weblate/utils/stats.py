@@ -443,8 +443,12 @@ class TranslationStats(BaseStats):
     def prefetch_checks(self):
         """Prefetch check stats."""
         allchecks = {check.url_id for check in CHECKS.values()}
-        stats = self._object.unit_set.values("check__check").annotate(
-            strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+        stats = (
+            self._object.unit_set.filter(check__ignore=False)
+            .values("check__check")
+            .annotate(
+                strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+            )
         )
         for stat in stats:
             check = stat["check__check"]
