@@ -400,7 +400,10 @@ class PuctuationSpacingCheck(TargetCheck):
     severity = "warning"
 
     def check_single(self, source, target, unit):
-        if not self.is_language(unit, ("fr", "br")):
+        if (
+            not self.is_language(unit, ("fr", "br"))
+            or unit.translation.language.code == "fr_CA"
+        ):
             return False
 
         # Remove XML/HTML entities to simplify parsing

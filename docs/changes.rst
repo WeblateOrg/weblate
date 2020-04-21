@@ -13,6 +13,7 @@ Not yet released.
 * Fixed possible false positives in the consistency check.
 * Fixed deadlock when changing linked component repository.
 * Included edit distance in changes listing and CSV and reports.
+* Avoid false positives of punctuation spacing check for Canadian French.
 
 Weblate 4.0.1
 -------------
