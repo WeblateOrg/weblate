@@ -133,10 +133,10 @@ unset PGPASSWORD
 >&2 echo "Postgres is up"
 
 # Blocked until new github user is created
-echo "Initializing github token for user ${WEBLATE_GITHUB_USERNAME}:${WEBLATE_GITHUB_TOKEN}"
+echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
 mkdir -p ~/.config
 echo -n "${WEBLATE_GITHUB_TOKEN}" > ~/.config/hub
-echo "Done initializing github config"
+git config --global hub.protocol https
 
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
