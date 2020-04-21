@@ -130,8 +130,8 @@ class Event(models.Model):
 
     class Meta:
         unique_together = ("addon", "event")
-        verbose_name = "addon event"
-        verbose_name_plural = "addon events"
+        verbose_name = "add-on event"
+        verbose_name_plural = "add-on events"
 
     def __str__(self):
         return "{}: {}".format(self.addon, self.get_event_display())

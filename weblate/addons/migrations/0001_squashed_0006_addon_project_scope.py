@@ -36,6 +36,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
+            options={"verbose_name": "add-on", "verbose_name_plural": "add-ons"},
         ),
         migrations.CreateModel(
             name="Event",
@@ -70,6 +71,10 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
+            options={
+                "verbose_name": "add-on event",
+                "verbose_name_plural": "add-on events",
+            },
         ),
         migrations.AlterUniqueTogether(
             name="event", unique_together={("addon", "event")}
