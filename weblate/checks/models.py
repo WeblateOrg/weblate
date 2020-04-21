@@ -188,8 +188,7 @@ def remove_complimentary_checks(sender, instance, **kwargs):
     if check_obj.propagates:
         for unit in instance.unit.same_source_units:
             if unit.check_set.filter(check=instance.check).delete()[0]:
-                if not instance.unit.is_batch_update:
-                    unit.update_has_failing_check()
+                unit.update_has_failing_check()
 
     # Update source checks if needed
     if check_obj.target:
