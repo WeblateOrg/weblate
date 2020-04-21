@@ -134,9 +134,9 @@ unset PGPASSWORD
 
 # Blocked until new github user is created
 echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
-mkdir -p ~/.config
-echo -n "${WEBLATE_GITHUB_TOKEN}" > ~/.config/hub
 git config --global hub.protocol https
+GITHUB_USER=$(WEBLATE_GITHUB_USERNAME | sed 's/@/%40')
+hub clone https://${GITHUB_USER}:${WEBLATE_GITHUB_TOKEN}@github.com/vendasta/NS.git
 
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
