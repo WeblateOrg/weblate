@@ -1324,6 +1324,12 @@ LICENSES = (
         "https://license.coscl.org.cn/MulanPSL/",
         False,
     ),
+    (
+        "MulanPSL-2.0",
+        "Mulan Permissive Software License, Version 2",
+        "https://license.coscl.org.cn/MulanPSL2/",
+        True,
+    ),
     ("Multics", "Multics License", "https://opensource.org/licenses/Multics", True),
     ("Mup", "Mup License", "https://fedoraproject.org/wiki/Licensing/Mup", False),
     (
