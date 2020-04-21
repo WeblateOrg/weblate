@@ -136,7 +136,8 @@ unset PGPASSWORD
 echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
 git config --global hub.protocol https
 GITHUB_USER=$(echo $WEBLATE_GITHUB_USERNAME | sed 's/@/%40/')
-hub clone https://${GITHUB_USER}:${WEBLATE_GITHUB_TOKEN}@github.com/vendasta/vschema.git ~/vschema
+GITHUB_PASSWORD=$WEBLATE_GITHUB_TOKEN
+hub clone vendasta/vschema.git ~/vschema
 ls ~/vschema
 cat ~/.config/hub
 
