@@ -91,6 +91,7 @@ def init_error_collection(celery=False):
         )
         # Ignore Weblate logging, those should be reported as proper errors
         ignore_logger("weblate")
+        ignore_logger("weblate.celery")
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)
