@@ -50,6 +50,10 @@ COUNTS_DATA = [
         "chars_approve": 0,
         "t_chars_approve": 0,
         "t_words_approve": 0,
+        "edits": 14,
+        "edits_approve": 0,
+        "edits_edit": 0,
+        "edits_new": 14,
     }
 ]
 
@@ -200,21 +204,25 @@ class ReportsComponentTest(BaseReportsTest):
         <th>Name</th>
         <th>Email</th>
         <th>Count total</th>
+        <th>Edits total</th>
         <th>Source words total</th>
         <th>Source chars total</th>
         <th>Target words total</th>
         <th>Target chars total</th>
         <th>Count new</th>
+        <th>Edits new</th>
         <th>Source words new</th>
         <th>Source chars new</th>
         <th>Target words new</th>
         <th>Target chars new</th>
         <th>Count approved</th>
+        <th>Edits approved</th>
         <th>Source words approved</th>
         <th>Source chars approved</th>
         <th>Target words approved</th>
         <th>Target chars approved</th>
         <th>Count edited</th>
+        <th>Edits edited</th>
         <th>Source words edited</th>
         <th>Source chars edited</th>
         <th>Target words edited</th>
@@ -224,15 +232,19 @@ class ReportsComponentTest(BaseReportsTest):
         <td>Weblate Test</td>
         <td>weblate@example.org</td>
         <td>1</td>
+        <td>14</td>
         <td>2</td>
         <td>14</td>
         <td>2</td>
         <td>14</td>
         <td>1</td>
-        <td>2</td>
         <td>14</td>
         <td>2</td>
         <td>14</td>
+        <td>2</td>
+        <td>14</td>
+        <td>0</td>
+        <td>0</td>
         <td>0</td>
         <td>0</td>
         <td>0</td>

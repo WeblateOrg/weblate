@@ -12,7 +12,7 @@ Not yet released.
 * Improved warning about too long celery queue.
 * Fixed possible false positives in the consistency check.
 * Fixed deadlock when changing linked component repository.
-* Included edit distance in changes listing and CSV.
+* Included edit distance in changes listing and CSV and reports.
 
 Weblate 4.0.1
 -------------

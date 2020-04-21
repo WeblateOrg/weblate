@@ -135,21 +135,25 @@ COUNT_DEFAULTS = {
         "t_words",
         "chars",
         "words",
+        "edits",
         "count",
         "t_chars_new",
         "t_words_new",
         "chars_new",
         "words_new",
+        "edits_new",
         "count_new",
         "t_chars_approve",
         "t_words_approve",
         "chars_approve",
         "words_approve",
+        "edits_approve",
         "count_approve",
         "t_chars_edit",
         "t_words_edit",
         "chars_edit",
         "words_edit",
+        "edits_edit",
         "count_edit",
     )
 }
@@ -183,11 +187,13 @@ def generate_counts(user, start_date, end_date, **kwargs):
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
         tgt_words = len(change.target.split())
+        edits = change.get_distance()
 
         current["chars"] += src_chars
         current["words"] += src_words
         current["t_chars"] += tgt_chars
         current["t_words"] += tgt_words
+        current["edits"] += edits
         current["count"] += 1
 
         suffix = action_map.get(change.action, "edit")
@@ -196,6 +202,7 @@ def generate_counts(user, start_date, end_date, **kwargs):
         current["t_words_" + suffix] += tgt_words
         current["chars_" + suffix] += src_chars
         current["words_" + suffix] += src_words
+        current["edits_" + suffix] += edits
         current["count_" + suffix] += 1
 
     return list(result.values())
@@ -235,21 +242,25 @@ def get_counts(request, project=None, component=None):
         "Name",
         "Email",
         "Count total",
+        "Edits total",
         "Source words total",
         "Source chars total",
         "Target words total",
         "Target chars total",
         "Count new",
+        "Edits new",
         "Source words new",
         "Source chars new",
         "Target words new",
         "Target chars new",
         "Count approved",
+        "Edits approved",
         "Source words approved",
         "Source chars approved",
         "Target words approved",
         "Target chars approved",
         "Count edited",
+        "Edits edited",
         "Source words edited",
         "Source chars edited",
         "Target words edited",
@@ -287,21 +298,25 @@ def get_counts(request, project=None, component=None):
             cell_name.format(item["name"] or "Anonymous")
             + cell_name.format(item["email"] or "")
             + cell_count.format(item["count"])
+            + cell_count.format(item["edits"])
             + cell_count.format(item["words"])
             + cell_count.format(item["chars"])
             + cell_count.format(item["t_words"])
             + cell_count.format(item["t_chars"])
             + cell_count.format(item["count_new"])
+            + cell_count.format(item["edits_new"])
             + cell_count.format(item["words_new"])
             + cell_count.format(item["chars_new"])
             + cell_count.format(item["t_words_new"])
             + cell_count.format(item["t_chars_new"])
             + cell_count.format(item["count_approve"])
+            + cell_count.format(item["edits_approve"])
             + cell_count.format(item["words_approve"])
             + cell_count.format(item["chars_approve"])
             + cell_count.format(item["t_words_approve"])
             + cell_count.format(item["t_chars_approve"])
             + cell_count.format(item["count_edit"])
+            + cell_count.format(item["edits_edit"])
             + cell_count.format(item["words_edit"])
             + cell_count.format(item["chars_edit"])
             + cell_count.format(item["t_words_edit"])
