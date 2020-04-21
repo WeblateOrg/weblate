@@ -295,32 +295,36 @@ def get_counts(request, project=None, component=None):
         if row_start:
             result.append(row_start)
         result.append(
-            cell_name.format(item["name"] or "Anonymous")
-            + cell_name.format(item["email"] or "")
-            + cell_count.format(item["count"])
-            + cell_count.format(item["edits"])
-            + cell_count.format(item["words"])
-            + cell_count.format(item["chars"])
-            + cell_count.format(item["t_words"])
-            + cell_count.format(item["t_chars"])
-            + cell_count.format(item["count_new"])
-            + cell_count.format(item["edits_new"])
-            + cell_count.format(item["words_new"])
-            + cell_count.format(item["chars_new"])
-            + cell_count.format(item["t_words_new"])
-            + cell_count.format(item["t_chars_new"])
-            + cell_count.format(item["count_approve"])
-            + cell_count.format(item["edits_approve"])
-            + cell_count.format(item["words_approve"])
-            + cell_count.format(item["chars_approve"])
-            + cell_count.format(item["t_words_approve"])
-            + cell_count.format(item["t_chars_approve"])
-            + cell_count.format(item["count_edit"])
-            + cell_count.format(item["edits_edit"])
-            + cell_count.format(item["words_edit"])
-            + cell_count.format(item["chars_edit"])
-            + cell_count.format(item["t_words_edit"])
-            + cell_count.format(item["t_chars_edit"])
+            "".join(
+                (
+                    cell_name.format(item["name"] or "Anonymous"),
+                    cell_name.format(item["email"] or ""),
+                    cell_count.format(item["count"]),
+                    cell_count.format(item["edits"]),
+                    cell_count.format(item["words"]),
+                    cell_count.format(item["chars"]),
+                    cell_count.format(item["t_words"]),
+                    cell_count.format(item["t_chars"]),
+                    cell_count.format(item["count_new"]),
+                    cell_count.format(item["edits_new"]),
+                    cell_count.format(item["words_new"]),
+                    cell_count.format(item["chars_new"]),
+                    cell_count.format(item["t_words_new"]),
+                    cell_count.format(item["t_chars_new"]),
+                    cell_count.format(item["count_approve"]),
+                    cell_count.format(item["edits_approve"]),
+                    cell_count.format(item["words_approve"]),
+                    cell_count.format(item["chars_approve"]),
+                    cell_count.format(item["t_words_approve"]),
+                    cell_count.format(item["t_chars_approve"]),
+                    cell_count.format(item["count_edit"]),
+                    cell_count.format(item["edits_edit"]),
+                    cell_count.format(item["words_edit"]),
+                    cell_count.format(item["chars_edit"]),
+                    cell_count.format(item["t_words_edit"]),
+                    cell_count.format(item["t_chars_edit"]),
+                )
+            )
         )
         if row_end:
             result.append(row_end)
