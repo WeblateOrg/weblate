@@ -433,21 +433,21 @@ LANGUAGES = (
     (
         "ckb",
         # Translators: Language name, ISO code: ckb
-        _("Sorani"),
+        _("Central Kurdish"),
         2,
         "n != 1",
     ),
     (
         "ckb_IQ",
         # Translators: Language name, ISO code: ckb_IQ
-        _("Sorani (Iraq)"),
+        _("Central Kurdish (Iraq)"),
         2,
         "n != 1",
     ),
     (
         "ckb_IR",
         # Translators: Language name, ISO code: ckb_IR
-        _("Sorani (Iran)"),
+        _("Central Kurdish (Iran)"),
         2,
         "n != 1",
     ),
@@ -1273,7 +1273,7 @@ LANGUAGES = (
     (
         "kmr",
         # Translators: Language name, ISO code: kmr
-        _("Kurmanji"),
+        _("Northern Kurdish"),
         2,
         "n != 1",
     ),
@@ -1386,6 +1386,13 @@ LANGUAGES = (
         "li",
         # Translators: Language name, ISO code: li
         _("Limburgish"),
+        2,
+        "n != 1",
+    ),
+    (
+        "lki",
+        # Translators: Language name, ISO code: lki
+        _("Laki"),
         2,
         "n != 1",
     ),
