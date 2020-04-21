@@ -128,6 +128,33 @@ def get_credits(request, project=None, component=None):
     )
 
 
+COUNT_DEFAULTS = {
+    field: 0
+    for field in (
+        "t_chars",
+        "t_words",
+        "chars",
+        "words",
+        "count",
+        "t_chars_new",
+        "t_words_new",
+        "chars_new",
+        "words_new",
+        "count_new",
+        "t_chars_approve",
+        "t_words_approve",
+        "chars_approve",
+        "words_approve",
+        "count_approve",
+        "t_chars_edit",
+        "t_words_edit",
+        "chars_edit",
+        "words_edit",
+        "count_edit",
+    )
+}
+
+
 def generate_counts(user, start_date, end_date, **kwargs):
     """Generate credits data for given component."""
     result = {}
@@ -147,48 +174,29 @@ def generate_counts(user, start_date, end_date, **kwargs):
         email = change.author.email
 
         if email not in result:
-            result[email] = {
-                "name": change.author.full_name,
-                "email": email,
-                "t_chars": 0,
-                "t_words": 0,
-                "chars": 0,
-                "words": 0,
-                "count": 0,
-                "t_chars_new": 0,
-                "t_words_new": 0,
-                "chars_new": 0,
-                "words_new": 0,
-                "count_new": 0,
-                "t_chars_approve": 0,
-                "t_words_approve": 0,
-                "chars_approve": 0,
-                "words_approve": 0,
-                "count_approve": 0,
-                "t_chars_edit": 0,
-                "t_words_edit": 0,
-                "chars_edit": 0,
-                "words_edit": 0,
-                "count_edit": 0,
-            }
+            result[email] = current = {"name": change.author.full_name, "email": email}
+            current.update(COUNT_DEFAULTS)
+        else:
+            current = result[email]
+
         src_chars = len(change.unit.source)
         src_words = change.unit.num_words
         tgt_chars = len(change.target)
         tgt_words = len(change.target.split())
 
-        result[email]["chars"] += src_chars
-        result[email]["words"] += src_words
-        result[email]["t_chars"] += tgt_chars
-        result[email]["t_words"] += tgt_words
-        result[email]["count"] += 1
+        current["chars"] += src_chars
+        current["words"] += src_words
+        current["t_chars"] += tgt_chars
+        current["t_words"] += tgt_words
+        current["count"] += 1
 
         suffix = action_map.get(change.action, "edit")
 
-        result[email]["t_chars_" + suffix] += tgt_chars
-        result[email]["t_words_" + suffix] += tgt_words
-        result[email]["chars_" + suffix] += src_chars
-        result[email]["words_" + suffix] += src_words
-        result[email]["count_" + suffix] += 1
+        current["t_chars_" + suffix] += tgt_chars
+        current["t_words_" + suffix] += tgt_words
+        current["chars_" + suffix] += src_chars
+        current["words_" + suffix] += src_words
+        current["count_" + suffix] += 1
 
     return list(result.values())
 
