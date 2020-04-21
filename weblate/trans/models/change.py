@@ -325,6 +325,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW,
         ACTION_REPLACE,
         ACTION_AUTO,
+        ACTION_APPROVE,
         ACTION_MARKED_EDIT,
     }
 
