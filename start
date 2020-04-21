@@ -134,9 +134,7 @@ unset PGPASSWORD
 
 # Blocked until new github user is created
 echo "Initializing github token for user ${WEBLATE_GITHUB_USERNAME}:${WEBLATE_GITHUB_TOKEN}"
-GITHUB_USER=$WEBLATE_GITHUB_USERNAME
-GITHUB_TOKEN=$WEBLATE_GITHUB_TOKEN
-hub clone -v vendasta/NS ${HOME}/NS
+echo -n "${WEBLATE_GITHUB_TOKEN}" > ~/.config/hub
 echo "Done initializing github config"
 
 # Generate secret
