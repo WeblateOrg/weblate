@@ -134,6 +134,7 @@ unset PGPASSWORD
 
 # Blocked until new github user is created
 echo "Initializing github token for user ${WEBLATE_GITHUB_USERNAME}:${WEBLATE_GITHUB_TOKEN}"
+mkdir -p ~/.config
 echo -n "${WEBLATE_GITHUB_TOKEN}" > ~/.config/hub
 echo "Done initializing github config"
 
