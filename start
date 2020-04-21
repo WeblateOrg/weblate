@@ -132,12 +132,12 @@ unset PGPASSWORD
 
 >&2 echo "Postgres is up"
 
-echo "Initializing github token for user ${WEBLATE_GITHUB_USERNAME}"
-GITHUB_USER=$WEBLATE_GITHUB_USERNAME
-GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
-git config --global hub.protocol https
-hub clone -v https://github.com/vendasta/NS ${HOME}/NS
-echo "Done initializing github token"
+# Blocked until new github user is created
+# echo "Initializing github token for user ${WEBLATE_GITHUB_USERNAME}"
+# GITHUB_USER=$WEBLATE_GITHUB_USERNAME
+# GITHUB_PASSWORD=$WEBLATE_GITHUB_PASSWORD
+# hub clone -v vendasta/NS ${HOME}/NS
+# echo "Done initializing github token"
 
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
