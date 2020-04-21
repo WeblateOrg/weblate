@@ -5,13 +5,13 @@ Not yet released.
 
 * Improved performance of translation stats.
 * Improved performance of changing labels.
-* Improved bulk edit perfomance.
+* Improved bulk edit performance.
 * Improved translation memory performance.
 * Fixed possible crash on component deletion.
-* Fixed dispaying of translation changes in some corner cases.
+* Fixed displaying of translation changes in some corner cases.
 * Improved warning about too long celery queue.
 * Fixed possible false positives in the consistency check.
-* Fixed deadlong when changing linked component repository.
+* Fixed deadlock when changing linked component repository.
 
 Weblate 4.0.1
 -------------
