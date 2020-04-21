@@ -21,6 +21,7 @@
 from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.csvl10n import csvfile
 from translate.storage.mo import mofile
@@ -33,7 +34,7 @@ from translate.storage.xliff import xlifffile
 import weblate
 from weblate.formats.external import XlsxFormat
 from weblate.formats.ttkit import TTKitFormat
-from weblate.trans.util import split_plural
+from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.site import get_site_url
 
 # Map to remove control characters except newlines and tabs
@@ -118,9 +119,13 @@ class BaseExporter:
         for unit in units.iterator():
             self.add_unit(unit)
 
-    def add_unit(self, unit):
+    def build_unit(self, unit):
         output = self.storage.UnitClass(self.handle_plurals(unit.get_source_plurals()))
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
+        return output
+
+    def add_unit(self, unit):
+        output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
         for location in unit.location.split():
@@ -246,6 +251,22 @@ class PoXliffExporter(XMLExporter):
             output.xmlelement.set("maxwidth", str(flags.get_value("max-length")))
 
         output.xmlelement.set("weblate-flags", flags.format())
+
+    def handle_plurals(self, plurals):
+        if len(plurals) == 1:
+            return self.string_filter(plurals[0])
+        return multistring([self.string_filter(plural) for plural in plurals])
+
+    def build_unit(self, unit):
+        try:
+            converted_source = xliff_string_to_rich(unit.source)
+            converted_target = xliff_string_to_rich(unit.target)
+        except XMLSyntaxError:
+            return super().build_unit(unit)
+        output = self.storage.UnitClass("")
+        output.rich_source = converted_source
+        output.set_rich_target(converted_target, self.language.code)
+        return output
 
 
 @register_exporter

@@ -195,10 +195,19 @@ class PoXliffExporterTest(PoExporterTest):
     def check_plurals(self, result):
         self.assertIn(b"[2]", result)
 
+    def test_xml_nodes(self):
+        xml = """<xliff:g
+            xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+            example="Launcher3"
+            id="app_name">
+            %1$s
+        </xliff:g>"""
+        result = self.check_unit(source="x " + xml, target="y " + xml).decode()
+        self.assertIn("<g", result)
 
-class XliffExporterTest(PoExporterTest):
+
+class XliffExporterTest(PoXliffExporterTest):
     _class = XliffExporter
-    _has_context = True
 
     def check_plurals(self, result):
         # Doesn't support plurals
