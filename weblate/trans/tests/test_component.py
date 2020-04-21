@@ -449,6 +449,19 @@ class ComponentChangeTest(RepoTestCase):
         )
         self.assertFalse(Component.objects.filter(repo="weblate://test/test").exists())
 
+    def test_unlink_clean(self):
+        """Test changing linked component to real repo based one."""
+        component = self.create_link()
+        component.repo = component.linked_component.repo
+        component.clean()
+        component.save()
+
+    def test_unlink(self):
+        """Test changing linked component to real repo based one."""
+        component = self.create_link()
+        component.repo = component.linked_component.repo
+        component.save()
+
     def test_change_project(self):
         component = self.create_component()
 

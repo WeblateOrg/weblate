@@ -1520,40 +1520,43 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
     def clean_repo_link(self):
         """Validate repository link."""
-        try:
-            repo = Component.objects.get_linked(self.repo)
-            if repo is not None and repo.is_repo_link:
-                raise ValidationError(
-                    {
-                        "repo": _(
-                            "Invalid link to a Weblate project, "
-                            "cannot link to linked repository!"
-                        )
-                    }
-                )
-            if repo.pk == self.pk:
-                raise ValidationError(
-                    {
-                        "repo": _(
-                            "Invalid link to a Weblate project, "
-                            "cannot link it to itself!"
-                        )
-                    }
-                )
-        except (Component.DoesNotExist, ValueError):
-            raise ValidationError(
-                {
-                    "repo": _(
-                        "Invalid link to a Weblate project, "
-                        "use weblate://project/component."
+        if self.is_repo_link:
+            try:
+                repo = Component.objects.get_linked(self.repo)
+                if repo is not None and repo.is_repo_link:
+                    raise ValidationError(
+                        {
+                            "repo": _(
+                                "Invalid link to a Weblate project, "
+                                "cannot link to linked repository!"
+                            )
+                        }
                     )
-                }
-            )
-        for setting in ("push", "branch"):
-            if getattr(self, setting):
+                if repo.pk == self.pk:
+                    raise ValidationError(
+                        {
+                            "repo": _(
+                                "Invalid link to a Weblate project, "
+                                "cannot link it to itself!"
+                            )
+                        }
+                    )
+            except (Component.DoesNotExist, ValueError):
                 raise ValidationError(
-                    {setting: _("Option is not available for linked repositories.")}
+                    {
+                        "repo": _(
+                            "Invalid link to a Weblate project, "
+                            "use weblate://project/component."
+                        )
+                    }
                 )
+            # Push repo is not used with link
+            for setting in ("push", "branch"):
+                if getattr(self, setting):
+                    raise ValidationError(
+                        {setting: _("Option is not available for linked repositories.")}
+                    )
+        # Make sure we are not using stale link even if link is not present
         self.linked_component = Component.objects.get_linked(self.repo)
 
     def clean_lang_codes(self, matches):
@@ -1697,6 +1700,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             raise ValidationError({"template": msg})
 
     def clean_repo(self):
+        self.clean_repo_link()
+
         self.set_default_branch()
 
         # Baild out on failed repo validation
@@ -1709,10 +1714,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         except RepositoryException as exc:
             msg = _("Could not update repository: %s") % self.error_text(exc)
             raise ValidationError({"repo": msg})
-
-        # Push repo is not used with link
-        if self.is_repo_link:
-            self.clean_repo_link()
 
     def clean(self):
         """Validator fetches repository.
@@ -1745,6 +1746,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         # Check repo if config was changes
         if changed_git:
+            self.drop_repository_cache()
             self.clean_repo()
 
         # Template validation
@@ -1860,6 +1862,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             # Rename linked repos
             if old.slug != self.slug:
                 old.component_set.update(repo=self.get_repo_link_url())
+            if changed_git:
+                self.drop_repository_cache()
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
@@ -2057,6 +2061,10 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             del self.__dict__["template_store"]
         if "intermediate_store" in self.__dict__:
             del self.__dict__["intermediate_store"]
+
+    def drop_repository_cache(self):
+        if "repository" in self.__dict__:
+            del self.__dict__["repository"]
 
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
