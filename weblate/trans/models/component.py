@@ -1970,7 +1970,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         if translation:
             allunits = translation.unit_set
         else:
-            allunits = self.source_translation.unit_set()
+            allunits = self.source_translation.unit_set
 
         source_space = allunits.filter(source__contains=" ")
         target_space = allunits.filter(
