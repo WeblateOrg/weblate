@@ -1952,8 +1952,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             ).update(shaping=shaping)
 
     def update_alerts(self):
-        from weblate.trans.models import Unit
-
         if (
             self.project.access_control == self.project.ACCESS_PUBLIC
             and not self.license
@@ -1963,7 +1961,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         else:
             self.delete_alert("MissingLicense")
 
-        allunits = Unit.objects.filter(translation__component=self)
+        allunits = self.source_translation.unit_set
         source_space = allunits.filter(source__contains=" ")
         target_space = allunits.filter(target__contains=" ")
         if (
