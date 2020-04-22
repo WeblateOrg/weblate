@@ -3,18 +3,18 @@ name: Migrations
 on:
   push:
     paths:
-    - weblate/**
-    - '*.py'
-    - requirements*.txt
-    - ci/*
-    - .github/workflows/migrations.yml
+      - weblate/**
+      - '*.py'
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/migrations.yml
   pull_request:
     paths:
-    - weblate/**
-    - '*.py'
-    - requirements*.txt
-    - ci/*
-    - .github/workflows/migrations.yml
+      - weblate/**
+      - '*.py'
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/migrations.yml
 
 jobs:
   migrations:
@@ -34,41 +34,41 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Start services
-      run: ./ci/services-up ${{ matrix.database }}
-    - name: Cache pip
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Install apt dependencies
-      run: sudo ./ci/apt-install
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install pip dependencies
-      run: |
-        ./ci/pip-install
-        pip install psycopg2-binary==2.7.7
-    - name: Check missing migrations
-      run: ./ci/run-checkmigrate
-    - name: Migrate
-      env:
-        COVERAGE_NO_ERASE: 1
-      run: ./ci/run-migrate
-    - name: Coverage
-      run: |
-        coverage combine
-        coverage xml
-    - uses: codecov/codecov-action@v1
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        flags: migrations
-        name: Migrations ${{ matrix.database }}
-    - name: Stop services
-      if: always()
-      run: ./ci/services-down ${{ matrix.database }}
+      - uses: actions/checkout@v2
+      - name: Start services
+        run: ./ci/services-up ${{ matrix.database }}
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install pip dependencies
+        run: |
+          ./ci/pip-install
+          pip install psycopg2-binary==2.7.7
+      - name: Check missing migrations
+        run: ./ci/run-checkmigrate
+      - name: Migrate
+        env:
+          COVERAGE_NO_ERASE: 1
+        run: ./ci/run-migrate
+      - name: Coverage
+        run: |
+          coverage combine
+          coverage xml
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          flags: migrations
+          name: Migrations ${{ matrix.database }}
+      - name: Stop services
+        if: always()
+        run: ./ci/services-down ${{ matrix.database }}

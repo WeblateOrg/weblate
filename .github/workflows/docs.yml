@@ -3,14 +3,14 @@ name: Docs
 on:
   push:
     paths:
-    - docs/**
-    - .github/workflows/docs.yml
-    - scripts/weblate_schemas
+      - docs/**
+      - .github/workflows/docs.yml
+      - scripts/weblate_schemas
   pull_request:
     paths:
-    - docs/**
-    - .github/workflows/docs.yml
-    - scripts/weblate_schemas
+      - docs/**
+      - .github/workflows/docs.yml
+      - scripts/weblate_schemas
 
 jobs:
   build:
@@ -19,31 +19,31 @@ jobs:
     name: Sphinx
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Cache pip
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
-    - name: Install apt dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y graphviz
-    - name: Install pip dependencies
-      run: pip install -r docs/requirements.txt
-    - name: Sphinx build
-      run: |
-        echo "::add-matcher::.github/matchers/sphinx.json"
-        ./ci/run-docs
-        echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@v1
-      with:
-        name: Documentation
-        path: docs/_build/html
+      - uses: actions/checkout@v2
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install apt dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y graphviz
+      - name: Install pip dependencies
+        run: pip install -r docs/requirements.txt
+      - name: Sphinx build
+        run: |
+          echo "::add-matcher::.github/matchers/sphinx.json"
+          ./ci/run-docs
+          echo "::remove-matcher owner=sphinx::"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Documentation
+          path: docs/_build/html
 
   linkcheck:
 
@@ -51,29 +51,29 @@ jobs:
     name: Linkcheck
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Cache pip
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
-    - name: Install pip dependencies
-      run: pip install -r docs/requirements.txt
-    - name: Sphinx linkcheck
-      run: |
-        ./ci/run-docs linkcheck
-    - name: Sphinx linkcheck collect
-      if: always()
-      run: |
-        echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
-        sed 's@^@docs/@' docs/_build/linkcheck/output.txt
-        echo "::remove-matcher owner=sphinx::"
-    - uses: actions/upload-artifact@v1
-      if: always()
-      with:
-        name: Linkcheck report
-        path: docs/_build/linkcheck/output.txt
+      - uses: actions/checkout@v2
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install pip dependencies
+        run: pip install -r docs/requirements.txt
+      - name: Sphinx linkcheck
+        run: |
+          ./ci/run-docs linkcheck
+      - name: Sphinx linkcheck collect
+        if: always()
+        run: |
+          echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
+          sed 's@^@docs/@' docs/_build/linkcheck/output.txt
+          echo "::remove-matcher owner=sphinx::"
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: Linkcheck report
+          path: docs/_build/linkcheck/output.txt

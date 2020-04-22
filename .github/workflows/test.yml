@@ -3,18 +3,18 @@ name: Test
 on:
   push:
     paths:
-    - weblate/**
-    - '*.py'
-    - requirements*.txt
-    - ci/*
-    - .github/workflows/test.yml
+      - weblate/**
+      - '*.py'
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/test.yml
   pull_request:
     paths:
-    - weblate/**
-    - '*.py'
-    - requirements*.txt
-    - ci/*
-    - .github/workflows/test.yml
+      - weblate/**
+      - '*.py'
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/test.yml
 
 jobs:
   test:
@@ -27,121 +27,121 @@ jobs:
         database: [postgresql, mysql, mariadb]
         exclude:
           # Reduce testing for mysql
-        - python-version: 3.6
-          requirements: minimal
-          database: mysql
-        - python-version: 3.8
-          requirements: minimal
-          database: mysql
-        - python-version: 3.6
-          requirements: latest
-          database: mysql
-        - python-version: 3.8
-          requirements: latest
-          database: mysql
+          - python-version: 3.6
+            requirements: minimal
+            database: mysql
+          - python-version: 3.8
+            requirements: minimal
+            database: mysql
+          - python-version: 3.6
+            requirements: latest
+            database: mysql
+          - python-version: 3.8
+            requirements: latest
+            database: mysql
           # Reduce testing for mariadb
-        - python-version: 3.6
-          requirements: minimal
-          database: mariadb
-        - python-version: 3.8
-          requirements: minimal
-          database: mariadb
-        - python-version: 3.6
-          requirements: latest
-          database: mariadb
-        - python-version: 3.8
-          requirements: latest
-          database: mariadb
+          - python-version: 3.6
+            requirements: minimal
+            database: mariadb
+          - python-version: 3.8
+            requirements: minimal
+            database: mariadb
+          - python-version: 3.6
+            requirements: latest
+            database: mariadb
+          - python-version: 3.8
+            requirements: latest
+            database: mariadb
           # Reduce testing for postgresql
-        - python-version: 3.6
-          requirements: minimal
-          database: postgresql
+          - python-version: 3.6
+            requirements: minimal
+            database: postgresql
           # No working combination of psycopg2 and Django 2.2 on Python 3.8
           # otherwise we should test 3.8 and skip 3.7
-        - python-version: 3.8
-          requirements: minimal
-          database: postgresql
+          - python-version: 3.8
+            requirements: minimal
+            database: postgresql
           # Reduce amount of testing for edge
-        - python-version: 3.6
-          requirements: edge
-          database: mariadb
-        - python-version: 3.7
-          requirements: edge
-          database: mariadb
-        - python-version: 3.8
-          requirements: edge
-          database: mariadb
-        - python-version: 3.6
-          requirements: edge
-          database: mysql
-        - python-version: 3.7
-          requirements: edge
-          database: mysql
-        - python-version: 3.8
-          requirements: edge
-          database: mysql
-        - python-version: 3.6
-          requirements: edge
-          database: postgresql
-        - python-version: 3.7
-          requirements: edge
-          database: postgresql
+          - python-version: 3.6
+            requirements: edge
+            database: mariadb
+          - python-version: 3.7
+            requirements: edge
+            database: mariadb
+          - python-version: 3.8
+            requirements: edge
+            database: mariadb
+          - python-version: 3.6
+            requirements: edge
+            database: mysql
+          - python-version: 3.7
+            requirements: edge
+            database: mysql
+          - python-version: 3.8
+            requirements: edge
+            database: mysql
+          - python-version: 3.6
+            requirements: edge
+            database: postgresql
+          - python-version: 3.7
+            requirements: edge
+            database: postgresql
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Start services
-      run: ./ci/services-up ${{ matrix.database }}
-    - name: Cache pip
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Install apt dependencies
-      run: sudo ./ci/apt-install
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install pip dependencies
-      run: ./ci/pip-install ${{ matrix.requirements }}
-    - name: Test with Django
-      env:
-        CI_DATABASE: ${{ matrix.database }}
-        CI_REDIS_HOST: 127.0.0.1
-        CI_REDIS_PORT: '60001'
-        CI_DB_PASSWORD: weblate
-        CI_DB_HOST: 127.0.0.1
-        CI_DB_PORT: '60000'
-        CI_SELENIUM: '1'
-        DJANGO_SETTINGS_MODULE: weblate.settings_test
+      - uses: actions/checkout@v2
+      - name: Start services
+        run: ./ci/services-up ${{ matrix.database }}
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install pip dependencies
+        run: ./ci/pip-install ${{ matrix.requirements }}
+      - name: Test with Django
+        env:
+          CI_DATABASE: ${{ matrix.database }}
+          CI_REDIS_HOST: 127.0.0.1
+          CI_REDIS_PORT: '60001'
+          CI_DB_PASSWORD: weblate
+          CI_DB_HOST: 127.0.0.1
+          CI_DB_PORT: '60000'
+          CI_SELENIUM: '1'
+          DJANGO_SETTINGS_MODULE: weblate.settings_test
 
-      run: |
-        ./ci/prepare-database
-        ./ci/run-test
-    - name: Coverage
-      run: |
-        coverage combine
-        coverage xml
-    - uses: codecov/codecov-action@v1
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        flags: unittests
-        name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
-    - name: DeepSource
-      continue-on-error: true
-      env:
-        DEEPSOURCE_DSN: https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io
-      run: |
-        curl https://deepsource.io/cli | sh
-        ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
-    - uses: actions/upload-artifact@v1
-      if: always()
-      with:
-        name: Screenshots
-        path: test-images
-    - name: Stop services
-      if: always()
-      run: ./ci/services-down ${{ matrix.database }}
+        run: |
+          ./ci/prepare-database
+          ./ci/run-test
+      - name: Coverage
+        run: |
+          coverage combine
+          coverage xml
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          flags: unittests
+          name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
+      - name: DeepSource
+        continue-on-error: true
+        env:
+          DEEPSOURCE_DSN: https://c2c2d54f2be9498e94048d17dc8e3965@deepsource.io
+        run: |
+          curl https://deepsource.io/cli | sh
+          ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: Screenshots
+          path: test-images
+      - name: Stop services
+        if: always()
+        run: ./ci/services-down ${{ matrix.database }}
