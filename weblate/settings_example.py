@@ -181,7 +181,6 @@ if not DEBUG:
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "weblate", "templates")],
         "OPTIONS": {
             "context_processors": [
                 "django.contrib.auth.context_processors.auth",
@@ -340,21 +339,7 @@ ROOT_URLCONF = "weblate.urls"
 
 # Django and Weblate apps
 INSTALLED_APPS = [
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.sites",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django.contrib.admin.apps.SimpleAdminConfig",
-    "django.contrib.admindocs",
-    "django.contrib.sitemaps",
-    "django.contrib.humanize",
-    "social_django",
-    "crispy_forms",
-    "compressor",
-    "rest_framework",
-    "rest_framework.authtoken",
+    # Weblate apps on top to override Django locales and templates
     "weblate.addons",
     "weblate.auth",
     "weblate.checks",
@@ -373,6 +358,23 @@ INSTALLED_APPS = [
     "weblate",
     # Optional: Git exporter
     "weblate.gitexport",
+    # Standard Django modules
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.admin.apps.SimpleAdminConfig",
+    "django.contrib.admindocs",
+    "django.contrib.sitemaps",
+    "django.contrib.humanize",
+    # Third party Django modules
+    "social_django",
+    "crispy_forms",
+    "compressor",
+    "rest_framework",
+    "rest_framework.authtoken",
 ]
 
 # Custom exception reporter to include some details
