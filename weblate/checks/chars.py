@@ -345,7 +345,9 @@ class ZeroWidthSpaceCheck(TargetCheck):
     def check_single(self, source, target, unit):
         if self.is_language(unit, ("km",)):
             return False
-        return ("\u200b" in target) != ("\u200b" in source)
+        if "\u200b" in source:
+            return False
+        return "\u200b" in target
 
     def get_fixup(self, unit):
         return [("\u200b", "", "gu")]

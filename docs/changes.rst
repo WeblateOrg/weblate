@@ -15,6 +15,7 @@ Not yet released.
 * Included edit distance in changes listing and CSV and reports.
 * Avoid false positives of punctuation spacing check for Canadian French.
 * Fixed XLIFF export with placeholders.
+* Fixed false positive with zero width check.
 
 Weblate 4.0.1
 -------------

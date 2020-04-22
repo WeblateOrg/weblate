@@ -226,8 +226,8 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = ("str\u200bing", "str\u200bing", "")
-        self.test_failure_1 = ("str\u200bing", "string", "")
-        self.test_failure_2 = ("string", "str\u200bing", "")
+        self.test_good_none = ("str\u200bing", "string", "")
+        self.test_failure_1 = ("string", "str\u200bing", "")
 
 
 class MaxLengthCheckTest(TestCase):
