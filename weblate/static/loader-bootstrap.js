@@ -1525,8 +1525,11 @@ $(function () {
     $('.search-group li a').click(function () {
         var $this = $(this);
         var $button = $this.closest('.input-group-btn').find('button');
-        $button.data('field', $this.data('field'));
+        $button.attr('data-field', $this.data('field'));
         $button.find('span.search-label').text($this.text());
+        if ($this.closest('.query-field').length) {
+            $('#id_q').insertAtCaret(' ' + $this.data('field') + ' ');
+        }
     });
     $('.search-group input').on('keydown', function (event) {
         if (event.key === "Enter") {

@@ -35,6 +35,7 @@ from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS
 from weblate.trans.autofixes import fix_target
+from weblate.trans.filter import get_search_query_choices
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
@@ -516,6 +517,7 @@ def translate(request, project, component, lang):
                     "scope": "global" if unit.translation.is_source else "translation"
                 },
             ),
+            "custom_filter_list": get_search_query_choices(),
             "context_form": ContextForm(instance=unit.source_info, user=request.user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,

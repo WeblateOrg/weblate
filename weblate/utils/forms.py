@@ -18,7 +18,7 @@
 #
 
 
-from crispy_forms.layout import Div
+from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.template.loader import render_to_string
@@ -51,3 +51,7 @@ class ContextDiv(Div):
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
         template = self.get_template_name(template_pack)
         return render_to_string(template, self.context)
+
+
+class SearchField(Field):
+    template = "snippets/query-field.html"

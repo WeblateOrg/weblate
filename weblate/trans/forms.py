@@ -61,7 +61,12 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
-from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
+from weblate.utils.forms import (
+    ContextDiv,
+    SearchField,
+    SortedSelect,
+    SortedSelectMultiple,
+)
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.search import parse_query
 from weblate.utils.state import (
@@ -643,7 +648,7 @@ class SearchForm(forms.Form):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("q"),
+            SearchField("q"),
             ContextDiv(
                 template="snippets/query-builder.html",
                 context={
@@ -657,7 +662,7 @@ class SearchForm(forms.Form):
 
     def get_name(self):
         """Return verbose name for a search."""
-        return FILTERS.get_search_name(self.cleaned_data["q"])
+        return FILTERS.get_search_name(self.cleaned_data["q"].strip())
 
     def get_search_query(self):
         return self.cleaned_data["q"]

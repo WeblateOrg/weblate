@@ -128,3 +128,32 @@ def get_filter_choice(project=None):
             for label in project.label_set.values_list("name", flat=True)
         )
     return result
+
+
+def get_search_query_choices():
+    """Return all filtering choices for query field."""
+    result = [
+        ("nottranslated", _("Not translated strings"), "state:empty"),
+        ("todo", _("Strings needing action"), "state:<translated"),
+        ("translated", _("Translated strings"), "state:>=translated"),
+        ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
+        ("suggestions", _("Strings with suggestions"), "has:suggestion"),
+        ("shapings", _("Strings with shapings"), "has:shaping"),
+        ("labels", _("Strings with labels"), "has:label"),
+        ("context", _("Strings with context"), "has:context"),
+        (
+            "nosuggestions",
+            _("Strings needing action without suggestions"),
+            "state:<translated AND NOT has:suggestion",
+        ),
+        ("comments", _("Strings with comments"), "has:comment"),
+        ("allchecks", _("Strings with any failing checks"), "has:check"),
+        ("approved", _("Approved strings"), "state:approved"),
+        (
+            "approved_suggestions",
+            _("Approved strings with suggestions"),
+            "state:approved AND has:suggestion",
+        ),
+        ("unapproved", _("Strings waiting for review"), "state:translated"),
+    ]
+    return result

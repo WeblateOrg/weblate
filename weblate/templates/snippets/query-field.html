@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load translations %}
+{% load icons %}
+{% load crispy_forms_field %}
+<div class="row">
+  <div class="col-sm-12">
+    <div class="form-group">
+      <div class="search-group query-field" role="group" >
+        <div class="input-group">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {% if filter_name and filter_name != search_query %}
+              <span class="search-label">{{ filter_name }}</span>
+              {% else %}
+              <span class="search-label">{% trans "Custom Search" %}</span>
+              {% endif %}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              {% for _, name, query in custom_filter_list %}
+              <li><a href="#" data-field="{{ query }}">{{ name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div><!-- /btn-group -->
+          {% crispy_field field 'class' 'form-control' %}
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="search-label">{% icon "sort-alphabetical.svg" %}{% trans "Sort By" %}</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#" data-field="source:">{% trans "Recent queries" %}</a></li>
+              <li><a href="#" data-field="target:">{% trans "Bookmarked queries" %}</a></li>
+              <li><a href="#" data-field="context:">{% trans "Frequent queries" %}</a></li>
+            </ul>
+            <button class="btn btn-primary" type="submit">{% trans "Search" %}</button>
+          </div>
+        </div><!-- /input-group -->
+      </div>
+    </div>
+  </div>
+</div>
