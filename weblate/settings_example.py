@@ -29,7 +29,7 @@ from logging.handlers import SysLogHandler
 DEBUG = True
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    # ("Your Name", "your_email@example.com"),
 )
 
 MANAGERS = ADMINS
@@ -143,7 +143,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
-MEDIA_URL = "{0}/media/".format(URL_PREFIX)
+MEDIA_URL = f"{URL_PREFIX}/media/"
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -151,7 +151,7 @@ MEDIA_URL = "{0}/media/".format(URL_PREFIX)
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
 
 # URL prefix for static files.
-STATIC_URL = "{0}/static/".format(URL_PREFIX)
+STATIC_URL = f"{URL_PREFIX}/static/"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -209,13 +209,13 @@ GITLAB_USERNAME = None
 # Authentication configuration
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.email.EmailAuth",
-    # 'social_core.backends.google.GoogleOAuth2',
-    # 'social_core.backends.github.GithubOAuth2',
-    # 'social_core.backends.bitbucket.BitbucketOAuth',
-    # 'social_core.backends.suse.OpenSUSEOpenId',
-    # 'social_core.backends.ubuntu.UbuntuOpenId',
-    # 'social_core.backends.fedora.FedoraOpenId',
-    # 'social_core.backends.facebook.FacebookOAuth2',
+    # "social_core.backends.google.GoogleOAuth2",
+    # "social_core.backends.github.GithubOAuth2",
+    # "social_core.backends.bitbucket.BitbucketOAuth",
+    # "social_core.backends.suse.OpenSUSEOpenId",
+    # "social_core.backends.ubuntu.UbuntuOpenId",
+    # "social_core.backends.fedora.FedoraOpenId",
+    # "social_core.backends.facebook.FacebookOAuth2",
     "weblate.accounts.auth.WeblateUserBackend",
 )
 
@@ -309,10 +309,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "weblate.accounts.password_validation.PastPasswordsValidator"},
     # Optional password strength validation by django-zxcvbn-password
     # {
-    #     'NAME': 'zxcvbn_password.ZXCVBNValidator',
-    #     'OPTIONS': {
-    #         'min_score': 3,
-    #         'user_attributes': ('username', 'email', 'full_name')
+    #     "NAME": "zxcvbn_password.ZXCVBNValidator",
+    #     "OPTIONS": {
+    #         "min_score": 3,
+    #         "user_attributes": ("username", "email", "full_name")
     #     }
     # },
 ]
@@ -381,7 +381,7 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporte
 # Default logging of Weblate messages
 # - to syslog in production (if available)
 # - otherwise to console
-# - you can also choose 'logfile' to log into separate file
+# - you can also choose "logfile" to log into separate file
 #   after configuring it below
 
 # Detect if we can connect to syslog
@@ -463,9 +463,9 @@ LOGGING = {
             "propagate": False,
         },
         # Logging database queries
-        # 'django.db.backends': {
-        #     'handlers': [DEFAULT_LOG],
-        #     'level': 'DEBUG',
+        # "django.db.backends": {
+        #     "handlers": [DEFAULT_LOG],
+        #     "level": "DEBUG",
         # },
         "weblate": {"handlers": [DEFAULT_LOG], "level": "DEBUG"},
         # Logging search operations
@@ -488,22 +488,21 @@ if not HAVE_SYSLOG:
 
 # List of machine translations
 # MT_SERVICES = (
-#     'weblate.machinery.apertium.ApertiumAPYTranslation',
-#     'weblate.machinery.baidu.BaiduTranslation',
-#     'weblate.machinery.deepl.DeepLTranslation',
-#     'weblate.machinery.glosbe.GlosbeTranslation',
-#     'weblate.machinery.google.GoogleTranslation',
-#     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
-#     'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
-#     'weblate.machinery.mymemory.MyMemoryTranslation',
-#     'weblate.machinery.netease.NeteaseSightTranslation',
-#     'weblate.machinery.tmserver.AmagamaTranslation',
-#     'weblate.machinery.tmserver.TMServerTranslation',
-#     'weblate.machinery.yandex.YandexTranslation',
-#     'weblate.machinery.weblatetm.WeblateTranslation',
-#     'weblate.machinery.saptranslationhub.SAPTranslationHub',
-#     'weblate.machinery.youdao.YoudaoTranslation',
-#     'weblate.memory.machine.WeblateMemory',
+#     "weblate.machinery.apertium.ApertiumAPYTranslation",
+#     "weblate.machinery.baidu.BaiduTranslation",
+#     "weblate.machinery.deepl.DeepLTranslation",
+#     "weblate.machinery.glosbe.GlosbeTranslation",
+#     "weblate.machinery.google.GoogleTranslation",
+#     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+#     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+#     "weblate.machinery.mymemory.MyMemoryTranslation",
+#     "weblate.machinery.netease.NeteaseSightTranslation",
+#     "weblate.machinery.tmserver.AmagamaTranslation",
+#     "weblate.machinery.tmserver.TMServerTranslation",
+#     "weblate.machinery.yandex.YandexTranslation",
+#     "weblate.machinery.saptranslationhub.SAPTranslationHub",
+#     "weblate.machinery.youdao.YoudaoTranslation",
+#     "weblate.memory.machine.WeblateMemory",
 # )
 
 # Machine translation API keys
@@ -638,91 +637,91 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 # List of quality checks
 # CHECK_LIST = (
-#     'weblate.checks.same.SameCheck',
-#     'weblate.checks.chars.BeginNewlineCheck',
-#     'weblate.checks.chars.EndNewlineCheck',
-#     'weblate.checks.chars.BeginSpaceCheck',
-#     'weblate.checks.chars.EndSpaceCheck',
-#     'weblate.checks.chars.DoubleSpaceCheck',
-#     'weblate.checks.chars.EndStopCheck',
-#     'weblate.checks.chars.EndColonCheck',
-#     'weblate.checks.chars.EndQuestionCheck',
-#     'weblate.checks.chars.EndExclamationCheck',
-#     'weblate.checks.chars.EndEllipsisCheck',
-#     'weblate.checks.chars.EndSemicolonCheck',
-#     'weblate.checks.chars.MaxLengthCheck',
-#     'weblate.checks.chars.KashidaCheck',
-#     'weblate.checks.chars.PuctuationSpacingCheck',
-#     'weblate.checks.format.PythonFormatCheck',
-#     'weblate.checks.format.PythonBraceFormatCheck',
-#     'weblate.checks.format.PHPFormatCheck',
-#     'weblate.checks.format.CFormatCheck',
-#     'weblate.checks.format.PerlFormatCheck',
-#     'weblate.checks.format.JavaScriptFormatCheck',
-#     'weblate.checks.format.CSharpFormatCheck',
-#     'weblate.checks.format.JavaFormatCheck',
-#     'weblate.checks.format.JavaMessageFormatCheck',
+#     "weblate.checks.same.SameCheck",
+#     "weblate.checks.chars.BeginNewlineCheck",
+#     "weblate.checks.chars.EndNewlineCheck",
+#     "weblate.checks.chars.BeginSpaceCheck",
+#     "weblate.checks.chars.EndSpaceCheck",
+#     "weblate.checks.chars.DoubleSpaceCheck",
+#     "weblate.checks.chars.EndStopCheck",
+#     "weblate.checks.chars.EndColonCheck",
+#     "weblate.checks.chars.EndQuestionCheck",
+#     "weblate.checks.chars.EndExclamationCheck",
+#     "weblate.checks.chars.EndEllipsisCheck",
+#     "weblate.checks.chars.EndSemicolonCheck",
+#     "weblate.checks.chars.MaxLengthCheck",
+#     "weblate.checks.chars.KashidaCheck",
+#     "weblate.checks.chars.PuctuationSpacingCheck",
+#     "weblate.checks.format.PythonFormatCheck",
+#     "weblate.checks.format.PythonBraceFormatCheck",
+#     "weblate.checks.format.PHPFormatCheck",
+#     "weblate.checks.format.CFormatCheck",
+#     "weblate.checks.format.PerlFormatCheck",
+#     "weblate.checks.format.JavaScriptFormatCheck",
+#     "weblate.checks.format.CSharpFormatCheck",
+#     "weblate.checks.format.JavaFormatCheck",
+#     "weblate.checks.format.JavaMessageFormatCheck",
 #     "weblate.checks.format.PercentPlaceholdersCheck",
 #     "weblate.checks.format.I18NextInterpolationCheck",
-#     'weblate.checks.angularjs.AngularJSInterpolationCheck',
-#     'weblate.checks.qt.QtFormatCheck',
-#     'weblate.checks.qt.QtPluralCheck',
-#     'weblate.checks.ruby.RubyFormatCheck',
-#     'weblate.checks.consistency.PluralsCheck',
-#     'weblate.checks.consistency.SamePluralsCheck',
-#     'weblate.checks.consistency.ConsistencyCheck',
-#     'weblate.checks.consistency.TranslatedCheck',
-#     'weblate.checks.chars.EscapedNewlineCountingCheck',
-#     'weblate.checks.chars.NewLineCountCheck',
-#     'weblate.checks.markup.BBCodeCheck',
-#     'weblate.checks.chars.ZeroWidthSpaceCheck',
-#     'weblate.checks.render.MaxSizeCheck',
-#     'weblate.checks.markup.XMLValidityCheck',
-#     'weblate.checks.markup.XMLTagsCheck',
-#     'weblate.checks.markup.MarkdownRefLinkCheck',
-#     'weblate.checks.markup.MarkdownLinkCheck',
-#     'weblate.checks.markup.MarkdownSyntaxCheck',
-#     'weblate.checks.markup.URLCheck',
-#     'weblate.checks.markup.SafeHTMLCheck',
-#     'weblate.checks.placeholders.PlaceholderCheck',
-#     'weblate.checks.placeholders.RegexCheck',
-#     'weblate.checks.source.OptionalPluralCheck',
-#     'weblate.checks.source.EllipsisCheck',
-#     'weblate.checks.source.MultipleFailingCheck',
+#     "weblate.checks.angularjs.AngularJSInterpolationCheck",
+#     "weblate.checks.qt.QtFormatCheck",
+#     "weblate.checks.qt.QtPluralCheck",
+#     "weblate.checks.ruby.RubyFormatCheck",
+#     "weblate.checks.consistency.PluralsCheck",
+#     "weblate.checks.consistency.SamePluralsCheck",
+#     "weblate.checks.consistency.ConsistencyCheck",
+#     "weblate.checks.consistency.TranslatedCheck",
+#     "weblate.checks.chars.EscapedNewlineCountingCheck",
+#     "weblate.checks.chars.NewLineCountCheck",
+#     "weblate.checks.markup.BBCodeCheck",
+#     "weblate.checks.chars.ZeroWidthSpaceCheck",
+#     "weblate.checks.render.MaxSizeCheck",
+#     "weblate.checks.markup.XMLValidityCheck",
+#     "weblate.checks.markup.XMLTagsCheck",
+#     "weblate.checks.markup.MarkdownRefLinkCheck",
+#     "weblate.checks.markup.MarkdownLinkCheck",
+#     "weblate.checks.markup.MarkdownSyntaxCheck",
+#     "weblate.checks.markup.URLCheck",
+#     "weblate.checks.markup.SafeHTMLCheck",
+#     "weblate.checks.placeholders.PlaceholderCheck",
+#     "weblate.checks.placeholders.RegexCheck",
+#     "weblate.checks.source.OptionalPluralCheck",
+#     "weblate.checks.source.EllipsisCheck",
+#     "weblate.checks.source.MultipleFailingCheck",
 # )
 
 # List of automatic fixups
 # AUTOFIX_LIST = (
-#     'weblate.trans.autofixes.whitespace.SameBookendingWhitespace',
-#     'weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis',
-#     'weblate.trans.autofixes.chars.RemoveZeroSpace',
-#     'weblate.trans.autofixes.chars.RemoveControlChars',
+#     "weblate.trans.autofixes.whitespace.SameBookendingWhitespace",
+#     "weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis",
+#     "weblate.trans.autofixes.chars.RemoveZeroSpace",
+#     "weblate.trans.autofixes.chars.RemoveControlChars",
 # )
 
 # List of enabled addons
 # WEBLATE_ADDONS = (
-#     'weblate.addons.gettext.GenerateMoAddon',
-#     'weblate.addons.gettext.UpdateLinguasAddon',
-#     'weblate.addons.gettext.UpdateConfigureAddon',
-#     'weblate.addons.gettext.MsgmergeAddon',
-#     'weblate.addons.gettext.GettextCustomizeAddon',
-#     'weblate.addons.gettext.GettextAuthorComments',
-#     'weblate.addons.cleanup.CleanupAddon',
-#     'weblate.addons.consistency.LangaugeConsistencyAddon',
-#     'weblate.addons.discovery.DiscoveryAddon',
-#     'weblate.addons.flags.SourceEditAddon',
-#     'weblate.addons.flags.TargetEditAddon',
-#     'weblate.addons.flags.SameEditAddon',
+#     "weblate.addons.gettext.GenerateMoAddon",
+#     "weblate.addons.gettext.UpdateLinguasAddon",
+#     "weblate.addons.gettext.UpdateConfigureAddon",
+#     "weblate.addons.gettext.MsgmergeAddon",
+#     "weblate.addons.gettext.GettextCustomizeAddon",
+#     "weblate.addons.gettext.GettextAuthorComments",
+#     "weblate.addons.cleanup.CleanupAddon",
+#     "weblate.addons.consistency.LangaugeConsistencyAddon",
+#     "weblate.addons.discovery.DiscoveryAddon",
+#     "weblate.addons.flags.SourceEditAddon",
+#     "weblate.addons.flags.TargetEditAddon",
+#     "weblate.addons.flags.SameEditAddon",
 #     "weblate.addons.flags.BulkEditAddon",
-#     'weblate.addons.generate.GenerateFileAddon',
-#     'weblate.addons.json.JSONCustomizeAddon',
-#     'weblate.addons.properties.PropertiesSortAddon',
-#     'weblate.addons.git.GitSquashAddon',
-#     'weblate.addons.removal.RemoveComments',
-#     'weblate.addons.removal.RemoveSuggestions',
-#     'weblate.addons.resx.ResxUpdateAddon',
-#     'weblate.addons.yaml.YAMLCustomizeAddon',
-#     'weblate.addons.autotranslate.AutoTranslateAddon',
+#     "weblate.addons.generate.GenerateFileAddon",
+#     "weblate.addons.json.JSONCustomizeAddon",
+#     "weblate.addons.properties.PropertiesSortAddon",
+#     "weblate.addons.git.GitSquashAddon",
+#     "weblate.addons.removal.RemoveComments",
+#     "weblate.addons.removal.RemoveSuggestions",
+#     "weblate.addons.resx.ResxUpdateAddon",
+#     "weblate.addons.yaml.YAMLCustomizeAddon",
+#     "weblate.addons.autotranslate.AutoTranslateAddon",
 # )
 
 # E-mail address that error messages come from.
@@ -742,7 +741,7 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379/1",
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:
-        # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=1',
+        # "LOCATION": "unix:///var/run/redis/redis.sock?db=1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PARSER_CLASS": "redis.connection.HiredisParser",
@@ -791,22 +790,22 @@ REST_FRAMEWORK = {
 
 # Example for restricting access to logged in users
 # LOGIN_REQUIRED_URLS = (
-#     r'/(.*)$',
+#     r"/(.*)$",
 # )
 
 # In such case you will want to include some of the exceptions
 # LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-#    r'/accounts/(.*)$',        # Required for login
-#    r'/admin/login/(.*)$',     # Required for admin login
-#    r'/static/(.*)$',          # Required for development mode
-#    r'/widgets/(.*)$',         # Allowing public access to widgets
-#    r'/data/(.*)$',            # Allowing public access to data exports
-#    r'/hooks/(.*)$',           # Allowing public access to notification hooks
-#    r'/healthz/$',             # Allowing public access to health check
-#    r'/api/(.*)$',             # Allowing access to API
-#    r'/js/i18n/$',             # JavaScript localization
-#    r'/contact/$',             # Optional for contact form
-#    r'/legal/(.*)$',           # Optional for legal app
+#    rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
+#    rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
+#    rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
+#    rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
+#    rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
+#    rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notification hooks
+#    rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
+#    rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
+#    rf"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
+#    rf"{URL_PREFIX}/contact/$",  # Optional for contact form
+#    rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
 # )
 
 # Silence some of the Django system checks
@@ -818,7 +817,7 @@ SILENCED_SYSTEM_CHECKS = [
 
 # Celery worker configuration for testing
 # CELERY_TASK_ALWAYS_EAGER = True
-# CELERY_BROKER_URL = 'memory://'
+# CELERY_BROKER_URL = "memory://"
 # CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = False

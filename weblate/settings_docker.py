@@ -99,6 +99,7 @@ LANGUAGES = (
     ("id", "Indonesia"),
     ("it", "Italiano"),
     ("ja", "日本語"),
+    ("kab", "Taqbaylit"),
     ("kk", "Қазақ тілі"),
     ("ko", "한국어"),
     ("nb", "Norsk bokmål"),
@@ -204,7 +205,7 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME", None)
 
-# GitLab username for sending pull requests.
+# GitLab username for sending merge requests.
 # Please see the documentation for more details.
 GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME", None)
 
@@ -633,21 +634,21 @@ if not HAVE_SYSLOG:
 
 # List of machine translations
 MT_SERVICES = (
-    #     'weblate.machinery.apertium.ApertiumAPYTranslation',
-    #     'weblate.machinery.baidu.BaiduTranslation',
-    #     'weblate.machinery.deepl.DeepLTranslation',
-    #     'weblate.machinery.glosbe.GlosbeTranslation',
-    #     'weblate.machinery.google.GoogleTranslation',
-    #     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
-    #     'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
-    #     'weblate.machinery.mymemory.MyMemoryTranslation',
-    #     'weblate.machinery.netease.NeteaseSightTranslation',
-    #     'weblate.machinery.tmserver.AmagamaTranslation',
-    #     'weblate.machinery.tmserver.TMServerTranslation',
-    #     'weblate.machinery.yandex.YandexTranslation',
-    "weblate.machinery.weblatetm.WeblateTranslation",
-    #     'weblate.machinery.saptranslationhub.SAPTranslationHub',
-    #     'weblate.machinery.youdao.YoudaoTranslation',
+    #     "weblate.machinery.apertium.ApertiumAPYTranslation",
+    #     "weblate.machinery.baidu.BaiduTranslation",
+    #     "weblate.machinery.deepl.DeepLTranslation",
+    #     "weblate.machinery.glosbe.GlosbeTranslation",
+    #     "weblate.machinery.google.GoogleTranslation",
+    #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+    #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+    #     "weblate.machinery.mymemory.MyMemoryTranslation",
+    #     "weblate.machinery.netease.NeteaseSightTranslation",
+    #     "weblate.machinery.tmserver.AmagamaTranslation",
+    #     "weblate.machinery.tmserver.TMServerTranslation",
+    #     "weblate.machinery.yandex.YandexTranslation",
+    #      "weblate.machinery.weblatetm.WeblateTranslation",
+    #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
+    #     "weblate.machinery.youdao.YoudaoTranslation",
     "weblate.memory.machine.WeblateMemory",
 )
 
