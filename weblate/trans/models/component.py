@@ -1961,16 +1961,27 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         else:
             self.delete_alert("MissingLicense")
 
-        allunits = self.source_translation.unit_set
-        source_space = allunits.filter(source__contains=" ")
-        target_space = allunits.filter(target__contains=" ")
-        if (
-            not self.template
-            and allunits.count() > 10
-            and not source_space.exists()
-            and target_space.exists()
-        ):
-            self.add_alert("MonolingualTranslation")
+        # Pick random translation with translated strings except source one
+        translation = (
+            self.translation_set.filter(unit__state__gte=STATE_TRANSLATED)
+            .exclude(language=self.project.source_language)
+            .first()
+        )
+        if translation:
+            allunits = translation.unit_set
+            source_space = allunits.filter(source__contains=" ")
+            target_space = allunits.filter(
+                state__gte=STATE_TRANSLATED, target__contains=" "
+            )
+            if (
+                not self.template
+                and allunits.count() > 3
+                and not source_space.exists()
+                and target_space.exists()
+            ):
+                self.add_alert("MonolingualTranslation")
+            else:
+                self.delete_alert("MonolingualTranslation")
         else:
             self.delete_alert("MonolingualTranslation")
         if not self.can_push():
