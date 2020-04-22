@@ -1969,19 +1969,20 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         )
         if translation:
             allunits = translation.unit_set
-            source_space = allunits.filter(source__contains=" ")
-            target_space = allunits.filter(
-                state__gte=STATE_TRANSLATED, target__contains=" "
-            )
-            if (
-                not self.template
-                and allunits.count() > 3
-                and not source_space.exists()
-                and target_space.exists()
-            ):
-                self.add_alert("MonolingualTranslation")
-            else:
-                self.delete_alert("MonolingualTranslation")
+        else:
+            allunits = self.source_translation.unit_set()
+
+        source_space = allunits.filter(source__contains=" ")
+        target_space = allunits.filter(
+            state__gte=STATE_TRANSLATED, target__contains=" "
+        )
+        if (
+            not self.template
+            and allunits.count() > 3
+            and not source_space.exists()
+            and target_space.exists()
+        ):
+            self.add_alert("MonolingualTranslation")
         else:
             self.delete_alert("MonolingualTranslation")
         if not self.can_push():
