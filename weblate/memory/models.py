@@ -83,7 +83,9 @@ class MemoryQuerySet(models.QuerySet):
             target_language=target_language,
             # Full-text search on source
             source__search=text,
-        )
+        )[
+            :50
+        ]
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")
