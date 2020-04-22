@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-22 07:11+0000\n"
-"PO-Revision-Date: 2020-04-07 09:36+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2020-04-23 04:34+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.0.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -232,30 +232,20 @@ msgid ""
 msgstr "您將會收到您所關注專案的每則相關事件通知。"
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr "您將會收到您所關注專案的每則相關事件通知。"
+msgstr "您將會收到您有管理權之專案的每則相關事件通知。"
 
 #: weblate/accounts/forms.py:696
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "您將會收到您所關注專案的每則相關事件通知。"
+msgstr "您將會收到 %(project)s 的每則相關事件通知。"
 
 #: weblate/accounts/forms.py:699
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "您將會收到您所關注專案的每則相關事件通知。"
+msgstr "您將會收到 %(component)s 的每則相關事件通知。"
 
 #: weblate/accounts/forms.py:706
 msgid ""
@@ -264,34 +254,24 @@ msgid ""
 msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
-msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
+msgstr "您只會收到您有管理權之專案的翻譯語言相關通知。"
 
 #: weblate/accounts/forms.py:716
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
+msgstr "您只會收到 %(project)s 的翻譯語言相關通知。"
 
 #: weblate/accounts/forms.py:720
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
+msgstr "您只會收到 %(component)s 的翻譯語言相關通知。"
 
 #: weblate/accounts/models.py:78
 msgid "Password changed."
@@ -681,10 +661,8 @@ msgid "User registration"
 msgstr "使用者註冊"
 
 #: weblate/accounts/views.py:202
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
-msgstr "訊息無法傳送給管理員！"
+msgstr "無法向管理員傳送訊息！"
 
 #: weblate/accounts/views.py:222
 msgid "Message has been sent to administrator."
@@ -750,22 +728,14 @@ msgid "Could not remove user identity"
 msgstr "無法移除使用者身份"
 
 #: weblate/accounts/views.py:940
-#, fuzzy
-#| msgid ""
-#| "Could not remove last user identity with confirmed e-mail. Please confirm "
-#| "your e-mail first."
 msgid "Add another identity by confirming your e-mail address first."
-msgstr "無法透過確認的電子郵件移除最後一個使用者身分。請先確認您的電子郵件。"
+msgstr "需要先確認您的電子信箱位址，才能加入其他身分。"
 
 #: weblate/accounts/views.py:987
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
-msgstr "無法驗證您的註冊！驗證用的網址很可能已過期。請再重新註冊一次。"
+msgstr "請重新註冊一次以驗證您的身分，驗證代符可能已經過期。"
 
 #: weblate/accounts/views.py:994
 msgid "Could not authenticate due to invalid session state."
@@ -797,15 +767,10 @@ msgid "The server does not allow authentication."
 msgstr "伺服器不允許核對身份。"
 
 #: weblate/accounts/views.py:1082
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
-msgstr ""
-"無法完成註冊。您所提供的身份核對資訊、電子郵件或使用者名稱，有其他帳號使用。"
+msgstr "無法完成註冊。您所提供的身份核對資訊、電子郵件位址或使用者名稱，有其他帳號使用。"
 
 #: weblate/accounts/views.py:1097
 msgid "Notification settings adjusted."
@@ -1535,10 +1500,8 @@ msgstr "管理使用者（整個平臺）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage roles (on the entire platform)"
-msgstr "管理群組（整個平臺）"
+msgstr "管理角色（整個平臺）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
@@ -1552,10 +1515,8 @@ msgstr "管理翻譯記憶（整個平臺）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:144
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage component lists (on the entire platform)"
-msgstr "管理公告（整個平臺）"
+msgstr "管理組件列表（整個平臺）"
 
 #: weblate/auth/data.py:171
 msgctxt "Access control role"
@@ -1942,14 +1903,10 @@ msgid "In display limits"
 msgstr "顯示畫面限制"
 
 #: weblate/billing/tasks.py:85
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
-msgstr "您只會收到您所關注專案的翻譯語言相關通知。"
+msgstr "待您付清帳單或是移除專案後，就會停止接收此通知。"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -4169,10 +4126,9 @@ msgid "Checks"
 msgstr "查核"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "找不到符合的專案！"
+msgstr "%(project)s 中的失敗查核"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -4353,7 +4309,7 @@ msgstr "沒有訂購或到期付款。"
 msgid ""
 "In case you miss access to billing of your project, please contact project "
 "maintainers to give you permission to access its billing."
-msgstr ""
+msgstr "如果您沒有存取您專案帳單的權限，請聯絡專案維護者以授予您該帳單的存取權。"
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4621,10 +4577,8 @@ msgstr "在地化指南"
 
 #: weblate/templates/component.html:59
 #: weblate/templates/snippets/project-nav.html:52
-#, fuzzy
-#| msgid "Download original translation files as ZIP file"
 msgid "Download translation files as ZIP file"
-msgstr "下載原始翻譯檔為 ZIP 檔"
+msgstr "下載翻譯檔為 ZIP 檔"
 
 #: weblate/templates/component.html:64
 #: weblate/templates/language-project.html:39
@@ -5669,12 +5623,10 @@ msgstr "還原"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:50
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s edit"
 msgid_plural "%(count)s edits"
-msgstr[0] "%(count)s 票"
+msgstr[0] "%(count)s 次編輯"
 
 #: weblate/templates/last-changes-content.html:75
 msgid "No matching activity found."
@@ -5751,24 +5703,18 @@ msgid "Generated on %(timestamp)s."
 msgstr "生成時間 %(timestamp)s。"
 
 #: weblate/templates/mail/billing_expired.html:6
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
-msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請利用下方連結續約："
+msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請續費。"
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
 msgstr "本付費方案包含下列專案："
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "移除了專案"
+msgstr "移除專案"
 
 #: weblate/templates/mail/billing_expired.html:17
 msgid "All projects covered by this billing plan have been removed."
@@ -6851,10 +6797,8 @@ msgid "String has plural"
 msgstr "有複數形的字串"
 
 #: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "String has comment"
 msgid "String has context"
-msgstr "有評註內容的字串"
+msgstr "字串有上下文"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
@@ -6946,10 +6890,8 @@ msgid "Failing checks:"
 msgstr "未通過查核："
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source in review"
-msgstr "來源字串檢閱"
+msgstr "檢閱中來源"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:497 weblate/utils/state.py:31
@@ -7401,10 +7343,8 @@ msgid "Source change"
 msgstr "來源更動"
 
 #: weblate/templates/translate.html:152
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "介面語言"
+msgstr "中間語言"
 
 #: weblate/templates/translate.html:168 weblate/trans/models/unit.py:188
 msgid "Additional context"
@@ -7419,10 +7359,8 @@ msgid "Edit source string"
 msgstr "編輯來源字串"
 
 #: weblate/templates/translate.html:185 weblate/trans/forms.py:925
-#, fuzzy
-#| msgid "Report an issue with registration"
 msgid "Report issue with the source string"
-msgstr "回報註冊問題"
+msgstr "回報來源字串的問題"
 
 #: weblate/templates/translate.html:200
 msgid "Please sign in to save translations."
@@ -7964,10 +7902,8 @@ msgid "Strings with labels"
 msgstr "有標籤的字串"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with context"
-msgstr "有評註內容的字串"
+msgstr "有上下文的字串"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8096,10 +8032,8 @@ msgid "Replace existing translation file"
 msgstr "取代既有翻譯檔"
 
 #: weblate/trans/forms.py:565
-#, fuzzy
-#| msgid "Edit source strings"
 msgid "Update source strings"
-msgstr "編輯來源字串"
+msgstr "更新來源字串"
 
 #: weblate/trans/forms.py:570
 msgid "Processing of strings needing edit"
@@ -8678,10 +8612,8 @@ msgstr "上傳了翻譯"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:229
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Added to glossary"
-msgstr "新增單字到詞彙表"
+msgstr "已新增至詞彙表"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:231
@@ -9005,17 +8937,15 @@ msgid ""
 msgstr "使用者是否可編輯單語的翻譯基底檔。"
 
 #: weblate/trans/models/component.py:279
-#, fuzzy
-#| msgid "Create new language file"
 msgid "Intermediate language file"
-msgstr "建立新語言檔"
+msgstr "中間語言檔案"
 
 #: weblate/trans/models/component.py:283
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings."
-msgstr ""
+msgstr "中間翻譯檔的檔名。大部分情況下，這即是開發者提供的翻譯檔，會在建立實體來源字串時使用。"
 
 #: weblate/trans/models/component.py:291
 msgid "Template for new translations"
@@ -9294,7 +9224,7 @@ msgstr "您無法使用基底檔進行雙語翻譯。"
 #: weblate/trans/models/component.py:1657
 #: weblate/trans/models/component.py:1662
 msgid "Intermediate language file can not be used without editing template."
-msgstr ""
+msgstr "中間語言檔案需要與編輯模板一起使用。"
 
 #: weblate/trans/models/component.py:1668
 msgid "Using a .pot file as base file is unsupported."
@@ -9540,16 +9470,12 @@ msgid "Requires dedicated reviewers to approve translations."
 msgstr "須要有專門的檢閱者核可翻譯。"
 
 #: weblate/trans/models/project.py:123
-#, fuzzy
-#| msgid "Enable reviews"
 msgid "Enable source reviews"
-msgstr "啟用檢閱"
+msgstr "啟用來源檢閱"
 
 #: weblate/trans/models/project.py:126
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "Requires dedicated reviewers to approve source strings."
-msgstr "須要有專門的檢閱者核可翻譯。"
+msgstr "須要有專門的檢閱者核可來源字串。"
 
 #: weblate/trans/models/project.py:130
 msgid "Enable hooks"
@@ -10112,10 +10038,8 @@ msgid "Automatic translation in progress"
 msgstr "正在自動翻譯"
 
 #: weblate/trans/views/edit.py:599
-#, fuzzy
-#| msgid "Source strings review"
 msgid "Source needs review"
-msgstr "來源字串檢閱"
+msgstr "來源需要檢閱"
 
 #: weblate/trans/views/edit.py:602
 msgid "Posted new comment"
@@ -10574,8 +10498,6 @@ msgid "Weblate status"
 msgstr "Weblate 狀態"
 
 #: weblate/wladmin/views.py:57
-#, fuzzy
-#| msgid "Repository"
 msgid "Repositories"
 msgstr "儲存庫"
 
