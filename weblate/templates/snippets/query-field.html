@@ -9,7 +9,7 @@
         <div class="input-group">
           <div class="input-group-btn">
             <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {% if filter_name and filter_name != search_query %}
+              {% if filter_name and filter_name != search_query.strip %}
               <span class="search-label">{{ filter_name }}</span>
               {% else %}
               <span class="search-label">{% trans "Custom Search" %}</span>
@@ -24,14 +24,14 @@
           </div><!-- /btn-group -->
           {% crispy_field field 'class' 'form-control' %}
           <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-default dropdown-toggle search-field" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="search-label">{% icon "sort-alphabetical.svg" %}{% trans "Sort By" %}</span>
               <span class="caret"></span>
             </button>
+            <input type="hidden" id="id_sort_by" name="sort_by" value="position"/>
             <ul class="dropdown-menu">
-              <li><a href="#" data-field="source:">{% trans "Recent queries" %}</a></li>
-              <li><a href="#" data-field="target:">{% trans "Bookmarked queries" %}</a></li>
-              <li><a href="#" data-field="context:">{% trans "Frequent queries" %}</a></li>
+              <li><a href="#" data-sort="position">{% trans "Position" %}</a></li>
+              <li><a href="#" data-sort="-priority">{% trans "Descending Priority" %}</a></li>
             </ul>
             <button class="btn btn-primary" type="submit">{% trans "Search" %}</button>
           </div>

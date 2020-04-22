@@ -1528,7 +1528,11 @@ $(function () {
         $button.attr('data-field', $this.data('field'));
         $button.find('span.search-label').text($this.text());
         if ($this.closest('.query-field').length) {
-            $('#id_q').insertAtCaret(' ' + $this.data('field') + ' ');
+            if ($this.data('sort')) {
+                $('#id_sort_by').val($this.data('sort'));
+            } else {
+                $('#id_q').insertAtCaret(' ' + $this.data('field') + ' ');
+            }
         }
     });
     $('.search-group input').on('keydown', function (event) {

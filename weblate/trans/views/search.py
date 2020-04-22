@@ -190,7 +190,9 @@ def search(request, project=None, component=None, lang=None):
         if lang:
             units = units.filter(translation__language=context["language"])
 
-        units = get_paginator(request, units.order())
+        units = get_paginator(
+            request, units.order_by(request.GET.get("sort_by", "position"))
+        )
 
         context["show_results"] = True
         context["page_obj"] = units
