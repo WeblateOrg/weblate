@@ -3,18 +3,18 @@ name: Migrations
 on:
   push:
     paths:
-      - 'weblate/**'
-      - '*.py'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/migrations.yml'
+    - weblate/**
+    - '*.py'
+    - requirements*.txt
+    - ci/*
+    - .github/workflows/migrations.yml
   pull_request:
     paths:
-      - 'weblate/**'
-      - '*.py'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/migrations.yml'
+    - weblate/**
+    - '*.py'
+    - requirements*.txt
+    - ci/*
+    - .github/workflows/migrations.yml
 
 jobs:
   migrations:
@@ -22,16 +22,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: ["postgresql", "mysql"]
+        database: [postgresql, mysql]
       fail-fast: false
     name: ${{ matrix.database }}
     env:
       CI_DATABASE: ${{ matrix.database }}
-      CI_DB_PASSWORD: "weblate"
-      CI_DB_HOST: "127.0.0.1"
-      CI_DB_PORT: "60000"
-      CI_SELENIUM: "1"
-      DJANGO_SETTINGS_MODULE: "weblate.settings_test"
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
     - uses: actions/checkout@v2

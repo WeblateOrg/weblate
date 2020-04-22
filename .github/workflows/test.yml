@@ -3,18 +3,18 @@ name: Test
 on:
   push:
     paths:
-      - 'weblate/**'
-      - '*.py'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/test.yml'
+    - weblate/**
+    - '*.py'
+    - requirements*.txt
+    - ci/*
+    - .github/workflows/test.yml
   pull_request:
     paths:
-      - 'weblate/**'
-      - '*.py'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/test.yml'
+    - weblate/**
+    - '*.py'
+    - requirements*.txt
+    - ci/*
+    - .github/workflows/test.yml
 
 jobs:
   test:
@@ -23,69 +23,69 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
-        requirements: ["latest", "minimal", "edge"]
-        database: ["postgresql", "mysql", "mariadb"]
+        requirements: [latest, minimal, edge]
+        database: [postgresql, mysql, mariadb]
         exclude:
           # Reduce testing for mysql
-          - python-version: 3.6
-            requirements: "minimal"
-            database: "mysql"
-          - python-version: 3.8
-            requirements: "minimal"
-            database: "mysql"
-          - python-version: 3.6
-            requirements: "latest"
-            database: "mysql"
-          - python-version: 3.8
-            requirements: "latest"
-            database: "mysql"
+        - python-version: 3.6
+          requirements: minimal
+          database: mysql
+        - python-version: 3.8
+          requirements: minimal
+          database: mysql
+        - python-version: 3.6
+          requirements: latest
+          database: mysql
+        - python-version: 3.8
+          requirements: latest
+          database: mysql
           # Reduce testing for mariadb
-          - python-version: 3.6
-            requirements: "minimal"
-            database: "mariadb"
-          - python-version: 3.8
-            requirements: "minimal"
-            database: "mariadb"
-          - python-version: 3.6
-            requirements: "latest"
-            database: "mariadb"
-          - python-version: 3.8
-            requirements: "latest"
-            database: "mariadb"
+        - python-version: 3.6
+          requirements: minimal
+          database: mariadb
+        - python-version: 3.8
+          requirements: minimal
+          database: mariadb
+        - python-version: 3.6
+          requirements: latest
+          database: mariadb
+        - python-version: 3.8
+          requirements: latest
+          database: mariadb
           # Reduce testing for postgresql
-          - python-version: 3.6
-            requirements: "minimal"
-            database: "postgresql"
+        - python-version: 3.6
+          requirements: minimal
+          database: postgresql
           # No working combination of psycopg2 and Django 2.2 on Python 3.8
           # otherwise we should test 3.8 and skip 3.7
-          - python-version: 3.8
-            requirements: "minimal"
-            database: "postgresql"
+        - python-version: 3.8
+          requirements: minimal
+          database: postgresql
           # Reduce amount of testing for edge
-          - python-version: 3.6
-            requirements: "edge"
-            database: "mariadb"
-          - python-version: 3.7
-            requirements: "edge"
-            database: "mariadb"
-          - python-version: 3.8
-            requirements: "edge"
-            database: "mariadb"
-          - python-version: 3.6
-            requirements: "edge"
-            database: "mysql"
-          - python-version: 3.7
-            requirements: "edge"
-            database: "mysql"
-          - python-version: 3.8
-            requirements: "edge"
-            database: "mysql"
-          - python-version: 3.6
-            requirements: "edge"
-            database: "postgresql"
-          - python-version: 3.7
-            requirements: "edge"
-            database: "postgresql"
+        - python-version: 3.6
+          requirements: edge
+          database: mariadb
+        - python-version: 3.7
+          requirements: edge
+          database: mariadb
+        - python-version: 3.8
+          requirements: edge
+          database: mariadb
+        - python-version: 3.6
+          requirements: edge
+          database: mysql
+        - python-version: 3.7
+          requirements: edge
+          database: mysql
+        - python-version: 3.8
+          requirements: edge
+          database: mysql
+        - python-version: 3.6
+          requirements: edge
+          database: postgresql
+        - python-version: 3.7
+          requirements: edge
+          database: postgresql
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
 
     steps:
@@ -110,13 +110,13 @@ jobs:
     - name: Test with Django
       env:
         CI_DATABASE: ${{ matrix.database }}
-        CI_REDIS_HOST: "127.0.0.1"
-        CI_REDIS_PORT: "60001"
-        CI_DB_PASSWORD: "weblate"
-        CI_DB_HOST: "127.0.0.1"
-        CI_DB_PORT: "60000"
-        CI_SELENIUM: "1"
-        DJANGO_SETTINGS_MODULE: "weblate.settings_test"
+        CI_REDIS_HOST: 127.0.0.1
+        CI_REDIS_PORT: '60001'
+        CI_DB_PASSWORD: weblate
+        CI_DB_HOST: 127.0.0.1
+        CI_DB_PORT: '60000'
+        CI_SELENIUM: '1'
+        DJANGO_SETTINGS_MODULE: weblate.settings_test
 
       run: |
         ./ci/prepare-database

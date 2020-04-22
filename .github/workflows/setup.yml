@@ -3,20 +3,20 @@ name: Distribution
 on:
   push:
     paths:
-      - 'weblate/**'
-      - '*.py'
-      - 'MANIFEST.in'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/setup.yml'
+    - weblate/**
+    - '*.py'
+    - MANIFEST.in
+    - requirements*.txt
+    - ci/*
+    - .github/workflows/setup.yml
   pull_request:
     paths:
-      - 'weblate/**'
-      - '*.py'
-      - 'MANIFEST.in'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/setup.yml'
+    - weblate/**
+    - '*.py'
+    - MANIFEST.in
+    - requirements*.txt
+    - ci/*
+    - .github/workflows/setup.yml
 
 jobs:
   setup:
@@ -25,14 +25,14 @@ jobs:
 
     strategy:
       matrix:
-        database: ["postgresql"]
+        database: [postgresql]
     env:
       CI_DATABASE: ${{ matrix.database }}
-      CI_DB_PASSWORD: "weblate"
-      CI_DB_HOST: "127.0.0.1"
-      CI_DB_PORT: "60000"
-      CI_SELENIUM: "1"
-      DJANGO_SETTINGS_MODULE: "weblate.settings_test"
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
     - uses: actions/checkout@v2
@@ -71,46 +71,46 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      DJANGO_SETTINGS_MODULE: "weblate.settings_test"
-      CI_DATABASE: "postgresql"
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      CI_DATABASE: postgresql
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v1
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
-      - name: Install apt dependencies
-        run: sudo ./ci/apt-install
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-      - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-          pip install --upgrade -r requirements-dist.txt
-      - name: Compile messages
-        run: coverage run ./manage.py compilemessages
-      - name: Build sdist
-        run: coverage run ./setup.py sdist
-      - name: Install sdist
-        run: |
-          pip install ./dist/*.tar.gz
-          pip uninstall --yes Weblate
-      - name: Build wheel
-        run: coverage run ./setup.py bdist_wheel
-      - name: Install wheel
-        run: |
-          pip install ./dist/*.whl
-          pip uninstall --yes Weblate
-      - name: Twine check
-        run: twine check dist/*
-      - name: Coverage
-        run: |
-          coverage combine
-          coverage xml
-      - uses: codecov/codecov-action@v1
-        with:
-          flags: setup
-          name: dist
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Setup Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install pip dependencies
+      run: |
+        ./ci/pip-install
+        pip install --upgrade -r requirements-dist.txt
+    - name: Compile messages
+      run: coverage run ./manage.py compilemessages
+    - name: Build sdist
+      run: coverage run ./setup.py sdist
+    - name: Install sdist
+      run: |
+        pip install ./dist/*.tar.gz
+        pip uninstall --yes Weblate
+    - name: Build wheel
+      run: coverage run ./setup.py bdist_wheel
+    - name: Install wheel
+      run: |
+        pip install ./dist/*.whl
+        pip uninstall --yes Weblate
+    - name: Twine check
+      run: twine check dist/*
+    - name: Coverage
+      run: |
+        coverage combine
+        coverage xml
+    - uses: codecov/codecov-action@v1
+      with:
+        flags: setup
+        name: dist
