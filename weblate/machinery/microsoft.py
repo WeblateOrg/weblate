@@ -34,6 +34,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
     """Microsoft Cognitive Services Translator API support."""
 
     name = "Microsoft Translator"
+    max_score = 90
 
     language_map = {
         "zh-hant": "zh-CHT",
