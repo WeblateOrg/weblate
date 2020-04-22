@@ -524,9 +524,6 @@ INSTALLED_APPS = [
 
 modify_env_list(INSTALLED_APPS, "APPS")
 
-# Path to locales
-LOCALE_PATHS = (os.path.join(BASE_DIR, "weblate", "locale"),)
-
 # Custom exception reporter to include some details
 DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporterFilter"
 
