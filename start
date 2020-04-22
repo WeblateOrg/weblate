@@ -138,8 +138,6 @@ git config --global hub.protocol https
 GITHUB_USER=$(echo $WEBLATE_GITHUB_USERNAME | sed 's/@/%40/')
 GITHUB_PASSWORD=$WEBLATE_GITHUB_TOKEN
 hub clone vendasta/vschema.git ~/vschema
-ls ~/vschema
-cat ~/.config/hub
 
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
