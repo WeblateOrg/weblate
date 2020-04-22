@@ -286,8 +286,8 @@ function processMachineTranslation(data, scope) {
             var done = false;
             var $machineTranslations = $('#' + scope + '-translations');
 
-            newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
-            newRow.append($('<td/>').text(el.source));
+            newRow.append($('<td/>').attr('class', 'target mt-text').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
+            newRow.append($('<td/>').attr('class', 'mt-text').text(el.source));
             if (scope === "mt") {
                 var service = $('<td/>').text(el.service);
                 if (typeof el.origin !== 'undefined') {
