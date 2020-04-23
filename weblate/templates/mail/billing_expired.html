@@ -15,7 +15,7 @@
 
 {% if final_removal %}
     <p><strong>{% trans "All projects covered by this billing plan have been removed." %}</strong></p>
-{% else }%
+{% else %}
     {% if billing.removal %}
         <p><strong>{% blocktrans with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't perform the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktrans %}</strong></p>
     {% endif %}
