@@ -40,6 +40,7 @@ def configuration_health_check(include_deployment_checks=True):
                 error["message"],
                 error["timestamp"] if "timestamp" in error else now(),
             )
+    cache.delete("configuration-errors")
 
     # Run deployment checks
     if not include_deployment_checks:
