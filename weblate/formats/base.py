@@ -23,8 +23,10 @@ import os
 import tempfile
 from copy import deepcopy
 
+from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
+from sentry_sdk import add_breadcrumb
 
 from weblate.utils.hash import calculate_hash
 
@@ -196,6 +198,13 @@ class TranslationFormat:
         # Remember template
         self.template_store = template_store
         self.is_template = is_template
+        self.add_breadcrumb(
+            "Loaded translation file {}".format(
+                getattr(storefile, "filename", storefile)
+            ),
+            template_store=str(template_store),
+            is_template=is_template,
+        )
 
     def check_valid(self):
         """Check store validity."""
@@ -438,6 +447,11 @@ class TranslationFormat:
     @classmethod
     def get_class(cls):
         raise NotImplementedError()
+
+    @classmethod
+    def add_breadcrumb(cls, message, **data):
+        if getattr(settings, "SENTRY_DSN", None):
+            add_breadcrumb(category="storage", message=message, data=data, level="info")
 
 
 class EmptyFormat(TranslationFormat):
