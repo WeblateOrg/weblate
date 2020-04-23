@@ -239,7 +239,7 @@ def cleanup_old_comments():
 
 
 @app.task(trail=False)
-def repository_alerts(threshold=10):
+def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         if component.repository.count_missing() > threshold:

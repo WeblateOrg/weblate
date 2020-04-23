@@ -1181,6 +1181,20 @@ This optional setting can be be the default``True`` or changed to ``False``.
    as :ref:`ldap-auth`, it just hides the registration form, but new users might
    still be able to sign in and create accounts.
 
+.. setting:: REPOSITORY_ALERT_THRESHOLD
+
+REPOSITORY_ALERT_THRESHOLD
+--------------------------
+
+.. versionadded:: 4.0.2
+
+Threshold for triggering alert on repositories that they are outdated or
+containing too many changes. Defaults to 25.
+
+.. seealso::
+
+   :ref:`alerts`
+
 .. setting:: SENTRY_DSN
 
 SENTRY_DSN

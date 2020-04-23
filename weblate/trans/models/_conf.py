@@ -162,6 +162,7 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
 
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
+    REPOSITORY_ALERT_THRESHOLD = 25
 
     SINGLE_PROJECT = False
     LICENSE_EXTRA = []
