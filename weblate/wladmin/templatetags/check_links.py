@@ -21,19 +21,24 @@ from django import template
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
-from weblate.utils.checks import DOC_LINKS
-from weblate.utils.docs import get_doc_url
+from weblate.utils.checks import check_doc_link
 
 register = template.Library()
 
 
 @register.simple_tag
 def check_link(check):
-    url = None
+    fallback = None
     if check.hint and check.hint.startswith("https:"):
-        url = check.hint
-    elif check.id in DOC_LINKS:
-        url = get_doc_url(*DOC_LINKS[check.id])
+        fallback = check.hint
+    return configuration_error_link(check.id, fallback=fallback)
+
+
+@register.simple_tag
+def configuration_error_link(check, fallback=None):
+    url = check_doc_link(check) or fallback
     if url:
-        return mark_safe('<a href="{}">{}</a>'.format(url, _("Documentation")))
+        return mark_safe(
+            '<a class="btn btn-info" href="{}">{}</a>'.format(url, _("Documentation"))
+        )
     return ""

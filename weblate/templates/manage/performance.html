@@ -26,6 +26,7 @@
     <th>{% trans "Name" %}</th>
     <th>{% trans "Message" %}</th>
     <th></th>
+    <th></th>
   </tr>
   </thead>
   <tbody>
@@ -41,6 +42,9 @@
       <input type="submit" name="dismiss" value="{% trans "Dismiss" %}" class="btn btn-primary" />
       <input type="submit" name="ignore" value="{% trans "Ignore permanently" %}" class="btn btn-primary" />
       </form>
+      </td>
+      <td>
+        {% configuration_error_link error.name %}
       </td>
   </tr>
   {% endfor %}
@@ -67,7 +71,7 @@
   <tr>
     <th>{% trans "Name" %}</th>
     <th>{% trans "Message" %}</th>
-    <th>{% trans "Documentation" %}</th>
+    <th></th>
   </tr>
   </thead>
   <tbody>

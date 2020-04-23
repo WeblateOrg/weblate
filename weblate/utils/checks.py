@@ -94,12 +94,20 @@ DOC_LINKS = {
 }
 
 
-def weblate_check(id, message, cls=Critical):
-    """Returns Django check instance."""
-    docid = id
+def check_doc_link(docid, strict=False):
     while docid.count(".") > 1:
         docid = docid.rsplit(".", 1)[0]
-    return cls(message, hint=get_doc_url(*DOC_LINKS[docid]), id=id)
+    try:
+        return get_doc_url(*DOC_LINKS[docid])
+    except KeyError:
+        if strict:
+            raise
+        return None
+
+
+def weblate_check(id, message, cls=Critical):
+    """Returns Django check instance."""
+    return cls(message, hint=check_doc_link(id), id=id)
 
 
 def check_mail_connection(app_configs, **kwargs):
