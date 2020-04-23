@@ -28,33 +28,25 @@ work, but is not as well tested as single version upgrades.
     It is recommended to perform a full database backup prior to upgrade so that you
     can roll back the database in case upgrade fails, see :doc:`backup`.
 
-1. Upgrade configuration file, refer to :file:`settings_example.py` or
+1. Stop wsgi and Celery processes. The upgrade can perform incompatible changes in the
+   database, so it is always safer to avoid old processes running while upgrading.
+
+2. Upgrade Weblate code. For pip installs it can be achieved by ``pip install -U Weblate`` for Git checkout ``git pull`` should do it.
+
+3. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
 
-2. Upgrade database structure:
+4. Upgrade database structure:
 
    .. code-block:: sh
 
         weblate migrate --noinput
 
-3. Collect updated static files (mostly javascript and CSS):
+5. Collect updated static files (mostly javascript and CSS):
 
    .. code-block:: sh
 
         weblate collectstatic --noinput
-
-4. Update language definitions (this is not necessary, but heavily recommended):
-
-   .. code-block:: sh
-
-        weblate setuplang
-
-5. Optionally upgrade default set of privileges definitions (you might want to
-   add new permissions manually if you have heavily tweaked access control):
-
-   .. code-block:: sh
-
-        weblate setupgroups
 
 6. If you are running version from Git, you should also regenerate locale files
    every time you are upgrading. You can do this by invoking:
