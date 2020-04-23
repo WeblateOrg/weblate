@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-20 19:17+0000\n"
+"PO-Revision-Date: 2020-04-24 08:48+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -1632,10 +1632,8 @@ msgstr "Hallinnoi käyttäjiä (koko alustalla)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage roles (on the entire platform)"
-msgstr "Hallinnoi ryhmiä (koko alustalla)"
+msgstr "Hallinnoi rooleja (koko alustalla)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
@@ -2039,15 +2037,10 @@ msgid "In display limits"
 msgstr "Rajojen sisällä"
 
 #: weblate/billing/tasks.py:85
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
-msgstr ""
-"Saat ilmoituksia vain kääntämistäsi kielistä seuraamissasi projekteissa."
+msgstr "Tämä ilmoitus lakkaa kun maksat laskut tai projekti poistetaan."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -4365,10 +4358,9 @@ msgid "Checks"
 msgstr "Tarkistukset"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Täsmäävän projektin löytäminen epäonnistui!"
+msgstr "Virheitä löytynyt projektin  %(project)s tarkistuksissa"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -5923,13 +5915,11 @@ msgstr "Palauta"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:50
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s annettu ääni"
-msgstr[1] "%(count)s annettua ääntä"
+msgstr[0] "%(count)s merkki muokattu"
+msgstr[1] "%(count)s merkkiä muokattu"
 
 #: weblate/templates/last-changes-content.html:75
 msgid "No matching activity found."
@@ -6024,10 +6014,8 @@ msgid "This billing plan covers following projects:"
 msgstr "Tämä laskutussuunnitelma kattaa seuraavat projektit:"
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "Poistettu projekti"
+msgstr "Poista projekti"
 
 #: weblate/templates/mail/billing_expired.html:17
 msgid "All projects covered by this billing plan have been removed."
@@ -7351,16 +7339,12 @@ msgid "The repository browser URL points to non-existing locations:"
 msgstr "Arkistoselaimen URL-osoite viittaa olemattomiin sijainteihin:"
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:10
-#, fuzzy
-#| msgid ""
-#| "This can happen if path in translation files contain references to parent "
-#| "directory or is absolute."
 msgid ""
 "This can happen if the path within the translation files contains references "
 "to a parent directory, or is absolute."
 msgstr ""
-"Näin voi käydä, jos käännöstiedostojen polku sisältää viittauksia vanhempaan "
-"hakemistoon."
+"Näin voi käydä, jos polku käännöstiedostojen sisällä sisältää viitteitä "
+"ylähakemistoon tai on absoluuttinen."
 
 #: weblate/templates/trans/alert/brokenprojecturl.html:2
 msgid "This project is set up incorrectly."
@@ -9077,10 +9061,8 @@ msgstr "Käännös lähetetty"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:229
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Added to glossary"
-msgstr "Lisää sana sanastoon"
+msgstr "Lisäys sanastoon"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:231
@@ -10478,16 +10460,12 @@ msgstr ""
 "muita projektejamme."
 
 #: weblate/trans/views/dashboard.py:153
-#, fuzzy
-#| msgid ""
-#| "You have activated your account, now you should set the password to be "
-#| "able to login next time."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr ""
-"Olet aktivoinut käyttäjätilisi ja sinun tulee asettaa salasana, jotta "
-"pystyisit kirjautumaan seuraavalla kerralla."
+"Olet aktivoinut käyttäjätilisi. Seuraavaksi sinun tulee asettaa salasana, "
+"jotta pystyisit kirjautumaan seuraavalla kerralla."
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."
@@ -10617,7 +10595,7 @@ msgstr "Käännös tällä tunnisteella näyttää olevan jo olemassa!"
 
 #: weblate/trans/views/edit.py:794
 msgid "New string has been added."
-msgstr "Uusi käännösteksti on lisätty."
+msgstr "Uusi teksti on lisätty."
 
 #: weblate/trans/views/error.py:35
 msgid "Bad Request"
@@ -10913,8 +10891,6 @@ msgid "Enter a valid e-mail address."
 msgstr "Anna voimassa oleva sähköpostiosoite."
 
 #: weblate/utils/validators.py:184
-#, fuzzy
-#| msgid "This e-mail address is not allowed."
 msgid "This e-mail address is disallowed."
 msgstr "Tämä sähköpostiosoite ei ole sallittu."
 
