@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.15.4 (f6c76cf0) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.15.5 (2accf045) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -633,6 +633,9 @@ var Sentry = (function (exports) {
      * @param pattern Either a regex or a string that must be contained in value
      */
     function isMatchingPattern(value, pattern) {
+        if (!isString(value)) {
+            return false;
+        }
         if (isRegExp(pattern)) {
             return pattern.test(value);
         }
@@ -4555,7 +4558,7 @@ var Sentry = (function (exports) {
     }(BaseBackend));
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.15.4';
+    var SDK_VERSION = '5.15.5';
 
     /**
      * The Sentry Browser SDK Client.
