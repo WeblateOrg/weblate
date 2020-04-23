@@ -19,10 +19,16 @@
 """Database specific code to extend Django."""
 
 from django.db import models, router
+from django.db.models import Case, IntegerField, Sum, When
 from django.db.models.deletion import Collector
 from django.db.models.lookups import PatternLookup
 
 ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
+
+
+def conditional_sum(value=1, **cond):
+    """Wrapper to generate SUM on boolean/enum values."""
+    return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
 
 
 class PostgreSQLSearchLookup(PatternLookup):
