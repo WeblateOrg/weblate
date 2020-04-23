@@ -315,6 +315,7 @@ class Unit(models.Model, LoggerMixin):
                     "context": context,
                     "content_hash": calculate_hash(source, context),
                     "position": pos,
+                    "note": note,
                     "location": location,
                     "flags": flags,
                 },
@@ -326,14 +327,16 @@ class Unit(models.Model, LoggerMixin):
                     pos != source_info.position
                     or location != source_info.location
                     or flags != source_info.flags
+                    or note != source_info.note
                 )
             ):
                 source_info.position = pos
                 source_info.source_updated = True
                 source_info.location = location
                 source_info.flags = flags
+                source_info.note = note
                 source_info.save(
-                    update_fields=["position", "location", "flags"],
+                    update_fields=["position", "location", "flags", "note"],
                     same_content=True,
                     same_state=True,
                 )
