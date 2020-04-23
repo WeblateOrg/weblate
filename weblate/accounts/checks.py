@@ -21,9 +21,8 @@
 from ssl import CertificateError
 
 from django.conf import settings
-from django.core.checks import Critical
 
-from weblate.utils.docs import get_doc_url
+from weblate.utils.checks import weblate_check
 
 
 def check_avatars(app_configs, **kwargs):
@@ -36,10 +35,4 @@ def check_avatars(app_configs, **kwargs):
         download_avatar_image(get_anonymous(), 32)
         return []
     except (IOError, CertificateError) as error:
-        return [
-            Critical(
-                f"Failed to download avatar: {error}",
-                hint=get_doc_url("admin/optionals", "avatars"),
-                id="weblate.E018",
-            )
-        ]
+        return [weblate_check("weblate.E018", f"Failed to download avatar: {error}")]

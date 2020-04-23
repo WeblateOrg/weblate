@@ -27,12 +27,11 @@ import cairo
 import gi
 from django.conf import settings
 from django.core.cache import cache
-from django.core.checks import Critical
 from django.utils.html import escape
 from PIL import ImageFont
 
+from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
-from weblate.utils.docs import get_doc_url
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
@@ -199,10 +198,4 @@ def check_fonts(app_configs=None, **kwargs):
         render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, "test")
         return []
     except Exception as error:
-        return [
-            Critical(
-                "Failed to use Pango: {}".format(error),
-                hint=get_doc_url("admin/install", "pangocairo"),
-                id="weblate.C024",
-            )
-        ]
+        return [weblate_check("weblate.C024", "Failed to use Pango: {}".format(error))]

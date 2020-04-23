@@ -21,28 +21,10 @@ from django import template
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
+from weblate.utils.checks import DOC_LINKS
 from weblate.utils.docs import get_doc_url
 
 register = template.Library()
-
-DOC_LINKS = {
-    "security.W001": ("admin/upgdade", "up-3-1"),
-    "security.W002": ("admin/upgdade", "up-3-1"),
-    "security.W003": ("admin/upgdade", "up-3-1"),
-    "security.W004": ("admin/install", "production-ssl"),
-    "security.W005": ("admin/install", "production-ssl"),
-    "security.W006": ("admin/upgdade", "up-3-1"),
-    "security.W007": ("admin/upgdade", "up-3-1"),
-    "security.W008": ("admin/install", "production-ssl"),
-    "security.W009": ("admin/install", "production-secret"),
-    "security.W010": ("admin/install", "production-ssl"),
-    "security.W011": ("admin/install", "production-ssl"),
-    "security.W012": ("admin/install", "production-ssl"),
-    "security.W018": ("admin/install", "production-debug"),
-    "security.W019": ("admin/upgdade", "up-3-1"),
-    "security.W020": ("admin/install", "production-hosts"),
-    "security.W021": ("admin/install", "production-ssl"),
-}
 
 
 @register.simple_tag

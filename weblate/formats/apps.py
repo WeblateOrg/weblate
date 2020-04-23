@@ -21,7 +21,7 @@
 from django.apps import AppConfig
 from django.core.checks import Warning, register
 
-from weblate.utils.docs import get_doc_url
+from weblate.utils.checks import weblate_check
 
 
 def check_formats(app_configs, **kwargs):
@@ -29,10 +29,8 @@ def check_formats(app_configs, **kwargs):
 
     message = "Failure in loading handler for {} file format: {}"
     return [
-        Warning(
-            message.format(key, value.strip()),
-            hint=get_doc_url("admin/install", "optional-deps"),
-            id="weblate.W025.{}".format(key),
+        weblate_check(
+            "weblate.W025.{}".format(key), message.format(key, value.strip()), Warning
         )
         for key, value in FILE_FORMATS.errors.items()
     ]

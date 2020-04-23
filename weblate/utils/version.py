@@ -24,10 +24,10 @@ from distutils.version import LooseVersion
 
 from dateutil.parser import parse
 from django.core.cache import cache
-from django.core.checks import Critical, Info
+from django.core.checks import Info
 
 from weblate import VERSION_BASE
-from weblate.utils.docs import get_doc_url
+from weblate.utils.checks import weblate_check
 from weblate.utils.requests import request
 
 PYPI = "https://pypi.org/pypi/Weblate/json"
@@ -72,21 +72,20 @@ def check_version(app_configs=None, **kwargs):
         # With release every two months, this get's triggered after three releases
         if latest.timestamp + timedelta(days=180) < datetime.now():
             return [
-                Critical(
+                weblate_check(
+                    "weblate.C031",
                     "You Weblate version is outdated, please upgrade to {}.".format(
                         latest.version
                     ),
-                    hint=get_doc_url("admin/upgrade"),
-                    id="weblate.C031",
                 )
             ]
         return [
-            Info(
+            weblate_check(
+                "weblate.I031",
                 "New Weblate version is available, please upgrade to {}.".format(
                     latest.version
                 ),
-                hint=get_doc_url("admin/upgrade"),
-                id="weblate.I031",
+                Info,
             )
         ]
     return []
