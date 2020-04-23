@@ -45,7 +45,7 @@ from weblate.vcs.ssh import (
 )
 from weblate.wladmin.forms import ActivateForm, BackupForm, SSHAddForm, TestMailForm
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-from weblate.wladmin.tasks import backup_service
+from weblate.wladmin.tasks import backup_service, configuration_health_check
 
 MENU = (
     ("index", "manage", gettext_lazy("Weblate status")),
@@ -197,6 +197,8 @@ def performance(request):
     """Show performance tuning tips."""
     if request.method == "POST":
         return handle_dismiss(request)
+
+    configuration_health_check()
 
     context = {
         "checks": [
