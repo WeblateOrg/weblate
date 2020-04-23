@@ -48,6 +48,7 @@ BASICS = {
     "translated",
     "approved",
     "allchecks",
+    "translated_checks",
     "suggestions",
     "comments",
     "approved_suggestions",
@@ -61,10 +62,12 @@ BASIC_KEYS = frozenset(
         "approved_percent",
         "fuzzy_percent",
         "allchecks_percent",
+        "translated_checks_percent",
         "translated_words_percent",
         "approved_words_percent",
         "fuzzy_words_percent",
         "allchecks_words_percent",
+        "translated_checks_words_percent",
     ]
     + list(BASICS)
     + ["last_changed", "last_author"]
@@ -269,11 +272,13 @@ class BaseStats:
         self.store_percents("approved_percent")
         self.store_percents("fuzzy_percent")
         self.store_percents("allchecks_percent")
+        self.store_percents("translated_checks_percent")
 
         self.store_percents("translated_words_percent")
         self.store_percents("approved_words_percent")
         self.store_percents("fuzzy_words_percent")
         self.store_percents("allchecks_words_percent")
+        self.store_percents("translated_checks_words_percent")
 
 
 class DummyTranslationStats(BaseStats):
@@ -348,6 +353,15 @@ class TranslationStats(BaseStats):
             allchecks=conditional_sum(1, has_failing_check=True),
             allchecks_words=conditional_sum("num_words", has_failing_check=True),
             allchecks_chars=conditional_sum(Length("source"), has_failing_check=True),
+            translated_checks=conditional_sum(
+                1, has_failing_check=True, state=STATE_TRANSLATED
+            ),
+            translated_checks_words=conditional_sum(
+                "num_words", has_failing_check=True, state=STATE_TRANSLATED
+            ),
+            translated_checks_chars=conditional_sum(
+                Length("source"), has_failing_check=True, state=STATE_TRANSLATED
+            ),
             suggestions=conditional_sum(1, has_suggestion=True),
             suggestions_words=conditional_sum("num_words", has_suggestion=True),
             suggestions_chars=conditional_sum(Length("source"), has_suggestion=True),

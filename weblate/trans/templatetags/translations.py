@@ -473,7 +473,7 @@ def translation_progress(obj, parent=None):
         stats.approved_percent,
         stats.translated_percent,
         stats.fuzzy_percent,
-        stats.allchecks_percent,
+        stats.translated_checks_percent,
     )
 
 
@@ -484,7 +484,7 @@ def words_progress(obj, parent=None):
         stats.approved_words_percent,
         stats.translated_words_percent,
         stats.fuzzy_words_percent,
-        stats.allchecks_words_percent,
+        stats.translated_checks_words_percent,
     )
 
 

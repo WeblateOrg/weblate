@@ -19,6 +19,7 @@ Not yet released.
 * Improved reproting of configuration errors.
 * Fixed bilingual source upload.
 * Automatically detect supported languages for DeepL machine translation.
+* Fixed progress bar display in some corner cases.
 
 Weblate 4.0.1
 -------------
