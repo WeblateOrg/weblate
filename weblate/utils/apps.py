@@ -26,7 +26,6 @@ from weblate.utils.checks import (
     check_cache,
     check_celery,
     check_data_writable,
-    check_database,
     check_diskspace,
     check_encoding,
     check_errors,
@@ -57,7 +56,6 @@ class UtilsConfig(AppConfig):
         register(check_data_writable)
         register(check_mail_connection, deploy=True)
         register(check_celery, deploy=True)
-        register(check_database, deploy=True)
         register(check_cache, deploy=True)
         register(check_settings, deploy=True)
         register(check_templates, deploy=True)

@@ -222,10 +222,8 @@ def check_database(app_configs, **kwargs):
     return [
         weblate_check(
             "weblate.E006",
-            "Please migrate your database to use PostgreSQL. "
-            "Support for other database backends will be dropped in Weblate 4.0 "
-            "currently sheduled on April 2020.",
-            Error,
+            "Weblate is best performing with PostgreSQL, please consider migration.",
+            Info,
         )
     ]
 
