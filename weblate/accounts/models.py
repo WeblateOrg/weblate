@@ -96,7 +96,7 @@ ACCOUNT_ACTIVITY = {
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
-        "auth-connect": _("Configured password sign in."),
+        "auth-connect": _("Configured password to sign in."),
         "login": _("Signed in using password."),
         "login-new": _("Signed in using password from a new device."),
         "failed-auth": _("Could not sign in using password."),
