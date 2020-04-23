@@ -18,6 +18,7 @@ Not yet released.
 * Fixed false positive with zero width check.
 * Improved reproting of configuration errors.
 * Fixed bilingual source upload.
+* Automatically detect supported languages for DeepL machine translation.
 
 Weblate 4.0.1
 -------------

@@ -29,7 +29,7 @@ from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
 from weblate.machinery.base import MachineryRateLimit, MachineTranslationError
-from weblate.machinery.deepl import DeepLTranslation
+from weblate.machinery.deepl import DEEPL_LANGUAGES, DEEPL_TRANSLATE, DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
@@ -245,7 +245,10 @@ TERMINOLOGY_TRANSLATE = """
 TERMINOLOGY_WDSL = get_test_file("microsoftterminology.wsdl")
 
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
-
+DEEPL_LANG_RESPONSE = [
+    {"language": "EN", "name": "English"},
+    {"language": "DE", "name": "Deutsch"},
+]
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
 MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "data"}}
@@ -729,25 +732,26 @@ class MachineTranslationTest(TestCase):
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
 
+    @staticmethod
+    def register_deepl():
+        responses.add(responses.POST, DEEPL_LANGUAGES, json=DEEPL_LANG_RESPONSE)
+        responses.add(responses.POST, DEEPL_TRANSLATE, json=DEEPL_RESPONSE)
+
     @override_settings(MT_DEEPL_KEY="KEY")
     @responses.activate
     def test_deepl(self):
         machine = self.get_machine(DeepLTranslation)
-        responses.add(
-            responses.POST, "https://api.deepl.com/v1/translate", json=DEEPL_RESPONSE
-        )
+        self.register_deepl()
         self.assert_translate(machine, lang="de", word="Hello")
 
     @override_settings(MT_DEEPL_KEY="KEY")
     @responses.activate
     def test_cache(self):
         machine = self.get_machine(DeepLTranslation, True)
-        responses.add(
-            responses.POST, "https://api.deepl.com/v1/translate", json=DEEPL_RESPONSE
-        )
+        self.register_deepl()
         # Fetch from service
         self.assert_translate(machine, lang="de", word="Hello")
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(responses.calls), 2)
         responses.reset()
         # Fetch from cache
         self.assert_translate(machine, lang="de", word="Hello")
