@@ -164,7 +164,11 @@ def upload_translation(request, project, component, lang):
             _("Plural forms in the uploaded file do not match current translation."),
         )
     except Exception as error:
-        messages.error(request, _("File upload has failed: %s") % force_str(error))
+        messages.error(
+            request,
+            _("File upload has failed: %s")
+            % force_str(error).replace(obj.component.full_path, ""),
+        )
         report_error(cause="Upload error")
 
     return redirect(obj)
