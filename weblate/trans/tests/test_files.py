@@ -39,6 +39,7 @@ TEST_PO_BOM = get_test_file("cs-bom.po")
 TEST_FUZZY_PO = get_test_file("cs-fuzzy.po")
 TEST_BADPLURALS = get_test_file("cs-badplurals.po")
 TEST_POT = get_test_file("hello.pot")
+TEST_POT_CHARSET = get_test_file("hello-charset.pot")
 TEST_MO = get_test_file("cs.mo")
 TEST_XLIFF = get_test_file("cs.poxliff")
 TEST_ANDROID = get_test_file("strings-cs.xml")
@@ -537,7 +538,9 @@ class ImportReplaceTest(ImportBaseTest):
 class ImportSourceTest(ImportBaseTest):
     """Testing of source strings update imports."""
 
-    test_file = TEST_POT
+    test_file = TEST_POT_CHARSET
+    expected = "Processed 3 strings from the uploaded files"
+    expected_count = 3
 
     def setUp(self):
         super().setUp()
@@ -546,18 +549,26 @@ class ImportSourceTest(ImportBaseTest):
 
     def test_import(self):
         """Test importing normally."""
-        response = self.do_import(method="source")
+        response = self.do_import(method="source", follow=True)
         self.assertRedirects(response, self.translation_url)
+        messages = list(response.context["messages"])
+        self.assertIn(self.expected, messages[0].message)
 
         # Verify stats
         translation = self.get_translation()
         self.assertEqual(translation.stats.translated, 0)
         self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all, 4)
+        self.assertEqual(translation.stats.all, self.expected_count)
 
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, "")
+
+
+class ImportSourceBrokenTest(ImportSourceTest):
+    test_file = TEST_POT
+    expected = 'Charset "CHARSET" is not a portable encoding name.'
+    expected_count = 4
 
 
 class DownloadMultiTest(ViewTestCase):

@@ -17,6 +17,7 @@ Not yet released.
 * Fixed XLIFF export with placeholders.
 * Fixed false positive with zero width check.
 * Improved reproting of configuration errors.
+* Fixed bilingual source upload.
 
 Weblate 4.0.1
 -------------

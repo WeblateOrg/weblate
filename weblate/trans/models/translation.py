@@ -865,9 +865,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             component.commit_pending("source update", request.user)
 
             # Create acutal file with the file
-            filename = self.get_filename()
             temp = tempfile.NamedTemporaryFile(
-                prefix=filename, dir=os.path.dirname(filename), delete=False
+                prefix="weblate-upload", dir=self.component.full_path, delete=False
             )
             temp.write(fileobj.read())
             temp.close()
@@ -901,6 +900,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 )
                 component.create_translations(request=request, force=True)
                 component.push_if_needed(None)
+        return (0, 0, self.unit_set.count(), self.unit_set.count())
 
     def handle_replace(self, request, fileobj):
         """Replace file content with uploaded one."""
