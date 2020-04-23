@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-22 07:11+0000\n"
+"POT-Creation-Date: 2020-04-23 13:08+0000\n"
 "PO-Revision-Date: 2020-03-30 11:51+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/master/kk/"
@@ -79,7 +79,7 @@ msgid "Your e-mail"
 msgstr "E-poshtańyz"
 
 #: weblate/accounts/forms.py:295 weblate/templates/manage/performance.html:27
-#: weblate/templates/manage/performance.html:69
+#: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:64
 msgid "Message"
 msgstr "Habar"
@@ -400,7 +400,7 @@ msgstr ""
 #: weblate/accounts/models.py:99
 #, fuzzy
 #| msgid "Configure the password"
-msgid "Configured password sign in."
+msgid "Configured password to sign in."
 msgstr "Paróldi retteý"
 
 #: weblate/accounts/models.py:100
@@ -1917,7 +1917,7 @@ msgstr "Ruqsat"
 #: weblate/auth/models.py:79 weblate/auth/models.py:104
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
-#: weblate/templates/manage/performance.html:68 weblate/trans/forms.py:1245
+#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1245
 msgid "Name"
 msgstr "Aty"
 
@@ -2831,7 +2831,7 @@ msgstr "Qarip toby joıýlǵan."
 msgid "Automatic detection"
 msgstr "Automatty anyqtaý"
 
-#: weblate/formats/base.py:204
+#: weblate/formats/base.py:213
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
 "Faıldan joldardy júkteý sátsiz aıaqtaldy, basqa pishimdi tańdap kórińiz."
@@ -3428,46 +3428,46 @@ msgstr "Faıl"
 msgid "You can upload a TMX or JSON file."
 msgstr "TMX nemese JSON faılyn júktep sala alasyz."
 
-#: weblate/memory/models.py:104
+#: weblate/memory/models.py:106
 msgid "Unsupported file!"
 msgstr "Qoldaý kórsetilmeıtin faıl!"
 
-#: weblate/memory/models.py:106
+#: weblate/memory/models.py:108
 msgid "No valid entries found in the uploaded file!"
 msgstr "Júktep salynǵan faılda jaramdy jazbalar tabylmady!"
 
-#: weblate/memory/models.py:115 weblate/memory/models.py:120
+#: weblate/memory/models.py:117 weblate/memory/models.py:122
 #, fuzzy
 #| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
 msgstr "JSON faılyn taldaý sátsiz aıaqtaldy!"
 
-#: weblate/memory/models.py:149
+#: weblate/memory/models.py:151
 msgid "Failed to parse TMX file!"
 msgstr "TMX faılyn taldaý sátsiz aıaqtaldy!"
 
-#: weblate/memory/models.py:159
+#: weblate/memory/models.py:161
 #, fuzzy
 #| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
 msgstr "Sáıkes tildi tabý sátsiz aıaqtaldy!"
 
-#: weblate/memory/models.py:236
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Jobalyq: {}"
 
-#: weblate/memory/models.py:238
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Derbestik: {}"
 
-#: weblate/memory/models.py:240
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Bolistik: {}"
 
-#: weblate/memory/models.py:242
+#: weblate/memory/models.py:244
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Faıldyq: {}"
@@ -4725,14 +4725,13 @@ msgstr "Weblate qoldaý"
 #: weblate/templates/check_component.html:44
 #: weblate/templates/check_project.html:43 weblate/templates/checks.html:33
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
-#: weblate/templates/manage/performance.html:70
 #: weblate/templates/trans/alert/repositorychanges.html:6
 #: weblate/templates/trans/alert/repositoryoutdated.html:6
 #: weblate/wladmin/templates/admin/permissions/change_form.html:8
 #: weblate/wladmin/templates/admin/trans/change_form.html:19
 #: weblate/wladmin/templates/admin/trans/change_form.html:24
 #: weblate/wladmin/templates/admin/trans/change_form.html:28
-#: weblate/wladmin/templatetags/check_links.py:56
+#: weblate/wladmin/templatetags/check_links.py:42
 msgid "Documentation"
 msgstr "Qujattama"
 
@@ -6235,8 +6234,8 @@ msgstr "Qaıtarý"
 #, fuzzy, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
-msgid "%(count)s edit"
-msgid_plural "%(count)s edits"
+msgid "%(count)s character edited"
+msgid_plural "%(count)s characters edited"
 msgstr[0] "%(count)s daýys"
 msgstr[1] "sany %(count)s daýys"
 
@@ -6740,7 +6739,7 @@ msgid "Projects without components"
 msgstr "Quramdasqa oralý"
 
 #: weblate/templates/manage/alerts.html:42
-#: weblate/templates/manage/performance.html:88
+#: weblate/templates/manage/performance.html:92
 msgid "Congratulations, your setup seems to work."
 msgstr "Quttyqtaımyz, sizdiń ornatýyńyz jumys istep turǵan sıaqty."
 
@@ -6846,29 +6845,34 @@ msgstr "Ónimdilik esebi"
 msgid "Last occurrence"
 msgstr "Sońǵy kezdesim"
 
-#: weblate/templates/manage/performance.html:41
+#: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:458
 msgid "Dismiss"
 msgstr "Bas tartý"
 
-#: weblate/templates/manage/performance.html:42
+#: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
 msgstr "Birjolata elemeý"
 
-#: weblate/templates/manage/performance.html:51
+#: weblate/templates/manage/performance.html:55
+#, fuzzy
+#| msgid ""
+#| "You can safely permanently ignore errors for file formats you do not "
+#| "intend to use. These are usually caused by missing or outdated "
+#| "dependencies."
 msgid ""
-"You can safely permanently ignore errors for file formats you do not intend "
-"to use. These are usually caused by missing or outdated dependencies."
+"You can safely permanently ignore errors for features you do not intend to "
+"use. These are usually caused by missing or outdated dependencies."
 msgstr ""
 "Paıdalanǵyńyz kelmeıtin faıl pishimderi úshin qatelerdi qaýipsiz birjolata "
 "elemeýge bolady. Ádette olar jetispeıtin nemese eskirgen táýeldilikterden "
 "týyndaıdy."
 
-#: weblate/templates/manage/performance.html:62
+#: weblate/templates/manage/performance.html:66
 msgid "System checks"
 msgstr "Júıelik tekserýler"
 
-#: weblate/templates/manage/performance.html:96
+#: weblate/templates/manage/performance.html:100
 msgid "Celery queues"
 msgstr ""
 
@@ -10385,15 +10389,15 @@ msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Usynystardy avtomatty qabyldaý tek saılaý qosylǵanda ǵana jumys isteıdi."
 
-#: weblate/trans/models/component.py:2126
+#: weblate/trans/models/component.py:2136
 msgid "Could not add new translation file."
 msgstr "Jańa tárjimelik faılyn ústeý múmkin emes."
 
-#: weblate/trans/models/component.py:2137
+#: weblate/trans/models/component.py:2147
 msgid "The given language is filtered by the language filter."
 msgstr "Berilgen til osy til súzgisi arqyly súzilgen."
 
-#: weblate/trans/models/component.py:2158
+#: weblate/trans/models/component.py:2168
 msgid "Translation file already exists!"
 msgstr "Tárjimelik faıl áldeqashan bar!"
 
@@ -11019,7 +11023,7 @@ msgid "Failed to find group to add a user!"
 msgstr "Paıdalanýshy qosýlatyn topty tabýy sátsiz aıaqtaldy!"
 
 #: weblate/trans/views/acl.py:144 weblate/trans/views/acl.py:159
-#: weblate/wladmin/views.py:287
+#: weblate/wladmin/views.py:289
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
@@ -11139,7 +11143,7 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Júktep salynǵan faıldan %d sóz ımporttaldy."
 msgstr[1] "Júktep salynǵan faıldan sany %d sóz ımporttaldy."
 
-#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:167
+#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Faıl júktep salynbady: %s"

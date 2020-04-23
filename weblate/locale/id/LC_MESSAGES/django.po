@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-22 07:11+0000\n"
+"POT-Creation-Date: 2020-04-23 13:08+0000\n"
 "PO-Revision-Date: 2020-04-23 13:08+0000\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -88,7 +88,7 @@ msgid "Your e-mail"
 msgstr "Surel Anda"
 
 #: weblate/accounts/forms.py:295 weblate/templates/manage/performance.html:27
-#: weblate/templates/manage/performance.html:69
+#: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:64
 msgid "Message"
 msgstr "Pesan"
@@ -393,7 +393,7 @@ msgstr "Diundang ke Weblate oleh {username}."
 #: weblate/accounts/models.py:99
 #, fuzzy
 #| msgid "Configure the password"
-msgid "Configured password sign in."
+msgid "Configured password to sign in."
 msgstr "Sesuaikan kata sandi."
 
 #: weblate/accounts/models.py:100
@@ -1188,15 +1188,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:184
 msgid "DOS (\\r\\n)"
-msgstr ""
-"DOS (\\r\\n"
-")"
+msgstr "DOS (\\r\\n)"
 
 #: weblate/addons/forms.py:185
 msgid "UNIX (\\n)"
-msgstr ""
-"UNIX (\\n"
-")"
+msgstr "UNIX (\\n)"
 
 #: weblate/addons/forms.py:186
 msgid "MAC (\\r)"
@@ -1927,7 +1923,7 @@ msgstr "Izin"
 #: weblate/auth/models.py:79 weblate/auth/models.py:104
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
-#: weblate/templates/manage/performance.html:68 weblate/trans/forms.py:1245
+#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1245
 msgid "Name"
 msgstr "Nama"
 
@@ -2842,7 +2838,7 @@ msgstr "Grup fonta dihapus."
 msgid "Automatic detection"
 msgstr "Deteksi otomatis"
 
-#: weblate/formats/base.py:204
+#: weblate/formats/base.py:213
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
 
@@ -3432,44 +3428,44 @@ msgstr "Berkas"
 msgid "You can upload a TMX or JSON file."
 msgstr "Anda dapat mengunggah berkas TMX atau JSON."
 
-#: weblate/memory/models.py:104
+#: weblate/memory/models.py:106
 msgid "Unsupported file!"
 msgstr "Berkas tidak didukung!"
 
-#: weblate/memory/models.py:106
+#: weblate/memory/models.py:108
 msgid "No valid entries found in the uploaded file!"
 msgstr "Tidak ada entri yang valid ditemukan dalam berkas yang diunggah!"
 
-#: weblate/memory/models.py:115 weblate/memory/models.py:120
+#: weblate/memory/models.py:117 weblate/memory/models.py:122
 msgid "Failed to parse JSON file: {!s}"
 msgstr "Gagal mengurai berkas JSON: {!s}"
 
-#: weblate/memory/models.py:149
+#: weblate/memory/models.py:151
 msgid "Failed to parse TMX file!"
 msgstr "Gagal mengurai berkas TMX!"
 
-#: weblate/memory/models.py:159
+#: weblate/memory/models.py:161
 #, fuzzy
 #| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
 msgstr "Gagal menemukan bahasa yang cocok!"
 
-#: weblate/memory/models.py:236
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Proyek: {}"
 
-#: weblate/memory/models.py:238
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Pribadi: {}"
 
-#: weblate/memory/models.py:240
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Bersama: {}"
 
-#: weblate/memory/models.py:242
+#: weblate/memory/models.py:244
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Berkas: {}"
@@ -4730,14 +4726,13 @@ msgstr "Dukung Weblate di {0}"
 #: weblate/templates/check_component.html:44
 #: weblate/templates/check_project.html:43 weblate/templates/checks.html:33
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
-#: weblate/templates/manage/performance.html:70
 #: weblate/templates/trans/alert/repositorychanges.html:6
 #: weblate/templates/trans/alert/repositoryoutdated.html:6
 #: weblate/wladmin/templates/admin/permissions/change_form.html:8
 #: weblate/wladmin/templates/admin/trans/change_form.html:19
 #: weblate/wladmin/templates/admin/trans/change_form.html:24
 #: weblate/wladmin/templates/admin/trans/change_form.html:28
-#: weblate/wladmin/templatetags/check_links.py:56
+#: weblate/wladmin/templatetags/check_links.py:42
 msgid "Documentation"
 msgstr "Dokumentasi"
 
@@ -6250,8 +6245,8 @@ msgstr "Kembalikan"
 #, fuzzy, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
-msgid "%(count)s edit"
-msgid_plural "%(count)s edits"
+msgid "%(count)s character edited"
+msgid_plural "%(count)s characters edited"
 msgstr[0] "%(count)s suara"
 
 #: weblate/templates/last-changes-content.html:75
@@ -6735,7 +6730,7 @@ msgid "Projects without components"
 msgstr "Proyek / Komponen"
 
 #: weblate/templates/manage/alerts.html:42
-#: weblate/templates/manage/performance.html:88
+#: weblate/templates/manage/performance.html:92
 msgid "Congratulations, your setup seems to work."
 msgstr "Selamat, penyiapan Anda tampaknya bekerja."
 
@@ -6839,29 +6834,34 @@ msgstr "Laporan kinerja"
 msgid "Last occurrence"
 msgstr "Perihal terakhir"
 
-#: weblate/templates/manage/performance.html:41
+#: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:458
 msgid "Dismiss"
 msgstr "Buang"
 
-#: weblate/templates/manage/performance.html:42
+#: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
 msgstr "Abaikan permanen"
 
-#: weblate/templates/manage/performance.html:51
+#: weblate/templates/manage/performance.html:55
+#, fuzzy
+#| msgid ""
+#| "You can safely permanently ignore errors for file formats you do not "
+#| "intend to use. These are usually caused by missing or outdated "
+#| "dependencies."
 msgid ""
-"You can safely permanently ignore errors for file formats you do not intend "
-"to use. These are usually caused by missing or outdated dependencies."
+"You can safely permanently ignore errors for features you do not intend to "
+"use. These are usually caused by missing or outdated dependencies."
 msgstr ""
 "Anda dapat secara aman mengabaikan kesalahan untuk format berkas yang tidak "
 "ingin Anda gunakan secara permanen.  Ini biasanya disebabkan oleh dependensi "
 "yang hilang atau usang."
 
-#: weblate/templates/manage/performance.html:62
+#: weblate/templates/manage/performance.html:66
 msgid "System checks"
 msgstr "Pemeriksaan sistem"
 
-#: weblate/templates/manage/performance.html:96
+#: weblate/templates/manage/performance.html:100
 msgid "Celery queues"
 msgstr ""
 
@@ -10342,7 +10342,8 @@ msgstr "Templat bahasa ({0}) tidak cocok dengan bahasa sumber proyek ({1})!"
 
 #: weblate/trans/models/component.py:1699
 msgid "You can not use a monolingual translation without a base file."
-msgstr "Anda tidak dapat menggunakan penerjemahan ekabahasa tanpa berkas dasar."
+msgstr ""
+"Anda tidak dapat menggunakan penerjemahan ekabahasa tanpa berkas dasar."
 
 #: weblate/trans/models/component.py:1715
 #, python-format
@@ -10371,15 +10372,15 @@ msgstr ""
 "Secara otomatis menerima yang disarankan dapat bekerja hanya berdasarkan "
 "pemungutan suara diaktifkan!"
 
-#: weblate/trans/models/component.py:2126
+#: weblate/trans/models/component.py:2136
 msgid "Could not add new translation file."
 msgstr "Tidak bisa menambah berkas terjemahan baru."
 
-#: weblate/trans/models/component.py:2137
+#: weblate/trans/models/component.py:2147
 msgid "The given language is filtered by the language filter."
 msgstr "Bahasa yang diberikan disaring oleh penyaring bahasa."
 
-#: weblate/trans/models/component.py:2158
+#: weblate/trans/models/component.py:2168
 msgid "Translation file already exists!"
 msgstr "Berkas terjemahan sudah ada!"
 
@@ -10989,7 +10990,7 @@ msgid "Failed to find group to add a user!"
 msgstr "Gagal menemukan grup untuk menambahkan pengguna!"
 
 #: weblate/trans/views/acl.py:144 weblate/trans/views/acl.py:159
-#: weblate/wladmin/views.py:287
+#: weblate/wladmin/views.py:289
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
@@ -11111,7 +11112,7 @@ msgid "Imported %d word from the uploaded file."
 msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Diimpor %d kata dari berkas yang diunggah."
 
-#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:167
+#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Unggahan berkas telah gagal: %s"

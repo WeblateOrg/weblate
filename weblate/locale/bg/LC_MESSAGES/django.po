@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-22 07:11+0000\n"
+"POT-Creation-Date: 2020-04-23 13:08+0000\n"
 "PO-Revision-Date: 2020-02-03 09:33+0000\n"
 "Last-Translator: Alexander Danilov <git@modos189.ru>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -81,7 +81,7 @@ msgid "Your e-mail"
 msgstr "Вашата е-поща"
 
 #: weblate/accounts/forms.py:295 weblate/templates/manage/performance.html:27
-#: weblate/templates/manage/performance.html:69
+#: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:64
 msgid "Message"
 msgstr "Съобщение"
@@ -441,7 +441,7 @@ msgstr "Дарете на Weblate на {0}"
 #: weblate/accounts/models.py:99
 #, fuzzy
 #| msgid "Configure the password"
-msgid "Configured password sign in."
+msgid "Configured password to sign in."
 msgstr "Настройка на паролата"
 
 #: weblate/accounts/models.py:100
@@ -2150,7 +2150,7 @@ msgstr "Разрешения"
 #: weblate/auth/models.py:79 weblate/auth/models.py:104
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
-#: weblate/templates/manage/performance.html:68 weblate/trans/forms.py:1245
+#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1245
 msgid "Name"
 msgstr "Име"
 
@@ -3142,7 +3142,7 @@ msgstr ""
 msgid "Automatic detection"
 msgstr "Автоматично разпознаване"
 
-#: weblate/formats/base.py:204
+#: weblate/formats/base.py:213
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
 
@@ -3768,58 +3768,58 @@ msgstr "Файл"
 msgid "You can upload a TMX or JSON file."
 msgstr ""
 
-#: weblate/memory/models.py:104
+#: weblate/memory/models.py:106
 #, fuzzy
 #| msgid "Unsupported file format."
 msgid "Unsupported file!"
 msgstr "Неподдържан файлов формат."
 
-#: weblate/memory/models.py:106
+#: weblate/memory/models.py:108
 #, fuzzy
 #| msgid "No related strings found in the glossary."
 msgid "No valid entries found in the uploaded file!"
 msgstr "В речника няма подходящи текстове."
 
-#: weblate/memory/models.py:115 weblate/memory/models.py:120
+#: weblate/memory/models.py:117 weblate/memory/models.py:122
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file: {!s}"
 msgstr "Неуспешен анализ на %d отговарящи файла!"
 
-#: weblate/memory/models.py:149
+#: weblate/memory/models.py:151
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse TMX file!"
 msgstr "Неуспешен анализ на %d отговарящи файла!"
 
-#: weblate/memory/models.py:159
+#: weblate/memory/models.py:161
 #, fuzzy
 #| msgid "Failed to find matching language!"
 msgid "Failed to find source language!"
 msgstr "Не беше намерен отговарящ език!"
 
-#: weblate/memory/models.py:236
+#: weblate/memory/models.py:238
 #, fuzzy
 #| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Проект"
 
-#: weblate/memory/models.py:238
+#: weblate/memory/models.py:240
 #, fuzzy
 #| msgid "Personal info"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Лична информация"
 
-#: weblate/memory/models.py:240
+#: weblate/memory/models.py:242
 #, fuzzy
 #| msgid "Share"
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Споделяне"
 
-#: weblate/memory/models.py:242
+#: weblate/memory/models.py:244
 #, fuzzy
 #| msgid "File"
 msgctxt "Translation memory category"
@@ -5133,14 +5133,13 @@ msgstr "Подкрепете Weblate на {0}"
 #: weblate/templates/check_component.html:44
 #: weblate/templates/check_project.html:43 weblate/templates/checks.html:33
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
-#: weblate/templates/manage/performance.html:70
 #: weblate/templates/trans/alert/repositorychanges.html:6
 #: weblate/templates/trans/alert/repositoryoutdated.html:6
 #: weblate/wladmin/templates/admin/permissions/change_form.html:8
 #: weblate/wladmin/templates/admin/trans/change_form.html:19
 #: weblate/wladmin/templates/admin/trans/change_form.html:24
 #: weblate/wladmin/templates/admin/trans/change_form.html:28
-#: weblate/wladmin/templatetags/check_links.py:56
+#: weblate/wladmin/templatetags/check_links.py:42
 msgid "Documentation"
 msgstr "Документация"
 
@@ -6755,8 +6754,8 @@ msgstr "Връщане"
 #, fuzzy, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
-msgid "%(count)s edit"
-msgid_plural "%(count)s edits"
+msgid "%(count)s character edited"
+msgid_plural "%(count)s characters edited"
 msgstr[0] "%(count)s глас"
 msgstr[1] "%(count)s гласа"
 
@@ -7258,7 +7257,7 @@ msgid "Projects without components"
 msgstr "Проект / компонент"
 
 #: weblate/templates/manage/alerts.html:42
-#: weblate/templates/manage/performance.html:88
+#: weblate/templates/manage/performance.html:92
 msgid "Congratulations, your setup seems to work."
 msgstr ""
 
@@ -7364,31 +7363,36 @@ msgstr "Отчет за производителността"
 msgid "Last occurrence"
 msgstr "Последно срещане"
 
-#: weblate/templates/manage/performance.html:41
+#: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:458
 msgid "Dismiss"
 msgstr "Пренебрегване"
 
-#: weblate/templates/manage/performance.html:42
+#: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
 msgstr "Пренебрегване за постоянно"
 
-#: weblate/templates/manage/performance.html:51
+#: weblate/templates/manage/performance.html:55
+#, fuzzy
+#| msgid ""
+#| "You can safely permanently ignore errors for file formats you do not "
+#| "intend to use. These are usually caused by missing or outdated "
+#| "dependencies."
 msgid ""
-"You can safely permanently ignore errors for file formats you do not intend "
-"to use. These are usually caused by missing or outdated dependencies."
+"You can safely permanently ignore errors for features you do not intend to "
+"use. These are usually caused by missing or outdated dependencies."
 msgstr ""
 "Можете спокойно да пренебрегнете завинаги грешките за файловите формати, "
 "които не смятате да използвате. Обикновени този грешки са предизвикани от "
 "липсващи или остарели зависимости."
 
-#: weblate/templates/manage/performance.html:62
+#: weblate/templates/manage/performance.html:66
 #, fuzzy
 #| msgid "Strings to check"
 msgid "System checks"
 msgstr "Текстове за проверка"
 
-#: weblate/templates/manage/performance.html:96
+#: weblate/templates/manage/performance.html:100
 msgid "Celery queues"
 msgstr ""
 
@@ -11185,19 +11189,19 @@ msgstr ""
 "Автоматичното приемане на предложенията може да работи, само ако е разрешено "
 "гласуването!"
 
-#: weblate/trans/models/component.py:2126
+#: weblate/trans/models/component.py:2136
 #, fuzzy
 #| msgid "Failed to parse translation base file: %s"
 msgid "Could not add new translation file."
 msgstr "Неуспешен анализ на базовия файл за преводи: %s"
 
-#: weblate/trans/models/component.py:2137
+#: weblate/trans/models/component.py:2147
 #, fuzzy
 #| msgid "Given language is filtered by the language filter!"
 msgid "The given language is filtered by the language filter."
 msgstr "Езикът е филтриран от езиковия филтър!"
 
-#: weblate/trans/models/component.py:2158
+#: weblate/trans/models/component.py:2168
 msgid "Translation file already exists!"
 msgstr "Вече съществува такъв файл за превод!"
 
@@ -11853,7 +11857,7 @@ msgid "Failed to find group to add a user!"
 msgstr "Не беше намерена група, в която да бъде добавен потребител!"
 
 #: weblate/trans/views/acl.py:144 weblate/trans/views/acl.py:159
-#: weblate/wladmin/views.py:287
+#: weblate/wladmin/views.py:289
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
@@ -11976,7 +11980,7 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "От качения файл беше внесена %d дума."
 msgstr[1] "От качения файл бяха внесени %d думи."
 
-#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:167
+#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Качването на файла беше неуспешно: %s"

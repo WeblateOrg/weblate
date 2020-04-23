@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-22 07:11+0000\n"
+"POT-Creation-Date: 2020-04-23 13:08+0000\n"
 "PO-Revision-Date: 2020-03-30 11:50+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
@@ -85,7 +85,7 @@ msgid "Your e-mail"
 msgstr "O teu correo electrónico"
 
 #: weblate/accounts/forms.py:295 weblate/templates/manage/performance.html:27
-#: weblate/templates/manage/performance.html:69
+#: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:64
 msgid "Message"
 msgstr "Mensaxe"
@@ -417,7 +417,7 @@ msgstr "Doazón a Weblate!"
 #: weblate/accounts/models.py:99
 #, fuzzy
 #| msgid "Current password"
-msgid "Configured password sign in."
+msgid "Configured password to sign in."
 msgstr "Contrasinal actual"
 
 #: weblate/accounts/models.py:100
@@ -1963,7 +1963,7 @@ msgstr "Permiso"
 #: weblate/auth/models.py:79 weblate/auth/models.py:104
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
-#: weblate/templates/manage/performance.html:68 weblate/trans/forms.py:1245
+#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1245
 msgid "Name"
 msgstr "Nome"
 
@@ -2912,7 +2912,7 @@ msgstr ""
 msgid "Automatic detection"
 msgstr "Tradución automática"
 
-#: weblate/formats/base.py:204
+#: weblate/formats/base.py:213
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
 
@@ -3510,54 +3510,54 @@ msgstr "Ficheiro"
 msgid "You can upload a TMX or JSON file."
 msgstr ""
 
-#: weblate/memory/models.py:104
+#: weblate/memory/models.py:106
 msgid "Unsupported file!"
 msgstr "Ficheiro incompatíbel!"
 
-#: weblate/memory/models.py:106
+#: weblate/memory/models.py:108
 #, fuzzy
 #| msgid "No related strings found in dictionary."
 msgid "No valid entries found in the uploaded file!"
 msgstr "Non se atoparon cadeas relacionadas no corrector."
 
-#: weblate/memory/models.py:115 weblate/memory/models.py:120
+#: weblate/memory/models.py:117 weblate/memory/models.py:122
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file: {!s}"
 msgstr "Fallou ao procesar os %d ficheiros atopados!"
 
-#: weblate/memory/models.py:149
+#: weblate/memory/models.py:151
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse TMX file!"
 msgstr "Fallou ao procesar os %d ficheiros atopados!"
 
-#: weblate/memory/models.py:159
+#: weblate/memory/models.py:161
 #, fuzzy
 #| msgid "Failed to parse %d matched files!"
 msgid "Failed to find source language!"
 msgstr "Fallou ao procesar os %d ficheiros atopados!"
 
-#: weblate/memory/models.py:236
+#: weblate/memory/models.py:238
 #, fuzzy
 #| msgid "Project"
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Proxecto"
 
-#: weblate/memory/models.py:238
+#: weblate/memory/models.py:240
 #, fuzzy
 #| msgid "Persian"
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Persa"
 
-#: weblate/memory/models.py:240
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr ""
 
-#: weblate/memory/models.py:242
+#: weblate/memory/models.py:244
 #, fuzzy
 #| msgid "File"
 msgctxt "Translation memory category"
@@ -4797,14 +4797,13 @@ msgstr "Soporte"
 #: weblate/templates/check_component.html:44
 #: weblate/templates/check_project.html:43 weblate/templates/checks.html:33
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
-#: weblate/templates/manage/performance.html:70
 #: weblate/templates/trans/alert/repositorychanges.html:6
 #: weblate/templates/trans/alert/repositoryoutdated.html:6
 #: weblate/wladmin/templates/admin/permissions/change_form.html:8
 #: weblate/wladmin/templates/admin/trans/change_form.html:19
 #: weblate/wladmin/templates/admin/trans/change_form.html:24
 #: weblate/wladmin/templates/admin/trans/change_form.html:28
-#: weblate/wladmin/templatetags/check_links.py:56
+#: weblate/wladmin/templatetags/check_links.py:42
 msgid "Documentation"
 msgstr "Documentación"
 
@@ -6362,8 +6361,8 @@ msgstr "Reverter"
 #, fuzzy, python-format
 #| msgid "a minute ago"
 #| msgid_plural "%(count)s minutes ago"
-msgid "%(count)s edit"
-msgid_plural "%(count)s edits"
+msgid "%(count)s character edited"
+msgid_plural "%(count)s characters edited"
 msgstr[0] "hai un minuto"
 msgstr[1] "hai %(count)s minutos"
 
@@ -6878,7 +6877,7 @@ msgid "Projects without components"
 msgstr "Subproxecto"
 
 #: weblate/templates/manage/alerts.html:42
-#: weblate/templates/manage/performance.html:88
+#: weblate/templates/manage/performance.html:92
 msgid "Congratulations, your setup seems to work."
 msgstr ""
 
@@ -6978,31 +6977,36 @@ msgstr ""
 msgid "Last occurrence"
 msgstr "Segundo apelido"
 
-#: weblate/templates/manage/performance.html:41
+#: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:458
 msgid "Dismiss"
 msgstr ""
 
-#: weblate/templates/manage/performance.html:42
+#: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
 msgstr ""
 
-#: weblate/templates/manage/performance.html:51
+#: weblate/templates/manage/performance.html:55
+#, fuzzy
+#| msgid ""
+#| "You can safely permanently ignore errors for file formats you do not "
+#| "intend to use. These are usually caused by missing or outdated "
+#| "dependencies."
 msgid ""
-"You can safely permanently ignore errors for file formats you do not intend "
-"to use. These are usually caused by missing or outdated dependencies."
+"You can safely permanently ignore errors for features you do not intend to "
+"use. These are usually caused by missing or outdated dependencies."
 msgstr ""
 "Podes ignorar de xeito segura e permanente os erros dos formatos de ficheiro "
 "que non desexas empregar. Estes adoitan ser causados por dependencias que "
 "fallan ou antigas."
 
-#: weblate/templates/manage/performance.html:62
+#: weblate/templates/manage/performance.html:66
 #, fuzzy
 #| msgid "checks"
 msgid "System checks"
 msgstr "Probas"
 
-#: weblate/templates/manage/performance.html:96
+#: weblate/templates/manage/performance.html:100
 msgid "Celery queues"
 msgstr ""
 
@@ -10643,17 +10647,17 @@ msgstr ""
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 
-#: weblate/trans/models/component.py:2126
+#: weblate/trans/models/component.py:2136
 #, fuzzy
 #| msgid "Failed to parse translation template."
 msgid "Could not add new translation file."
 msgstr "Fallou ao procesar o modelo da tradución."
 
-#: weblate/trans/models/component.py:2137
+#: weblate/trans/models/component.py:2147
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:2158
+#: weblate/trans/models/component.py:2168
 msgid "Translation file already exists!"
 msgstr "Xa existe un ficheiro da tradución!"
 
@@ -11314,7 +11318,7 @@ msgid "Failed to find group to add a user!"
 msgstr "Fallou ao procesar os %d ficheiros atopados!"
 
 #: weblate/trans/views/acl.py:144 weblate/trans/views/acl.py:159
-#: weblate/wladmin/views.py:287
+#: weblate/wladmin/views.py:289
 #, fuzzy
 #| msgid "Billed projects"
 msgid "User has been invited to this project."
@@ -11440,7 +11444,7 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Importáronse %d palabras do ficheiro."
 msgstr[1] "Importáronse %d palabras do ficheiro."
 
-#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:167
+#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:169
 #, fuzzy, python-format
 #| msgid "File content merge failed: %s"
 msgid "File upload has failed: %s"

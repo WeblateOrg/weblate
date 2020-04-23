@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-04-22 07:11+0000\n"
+"POT-Creation-Date: 2020-04-23 13:08+0000\n"
 "PO-Revision-Date: 2020-04-20 19:17+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
@@ -87,7 +87,7 @@ msgid "Your e-mail"
 msgstr "Sähköpostiosoitteesi"
 
 #: weblate/accounts/forms.py:295 weblate/templates/manage/performance.html:27
-#: weblate/templates/manage/performance.html:69
+#: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:64
 msgid "Message"
 msgstr "Viesti"
@@ -402,7 +402,7 @@ msgstr "Weblateen kutsunut {username}."
 #: weblate/accounts/models.py:99
 #, fuzzy
 #| msgid "Configure the password"
-msgid "Configured password sign in."
+msgid "Configured password to sign in."
 msgstr "Aseta salasana"
 
 #: weblate/accounts/models.py:100
@@ -1801,7 +1801,7 @@ msgstr "Käyttöoikeus"
 #: weblate/auth/models.py:79 weblate/auth/models.py:104
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
-#: weblate/templates/manage/performance.html:68 weblate/trans/forms.py:1245
+#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1245
 msgid "Name"
 msgstr "Nimi"
 
@@ -2647,7 +2647,7 @@ msgstr "Fonttiryhmä poistettu."
 msgid "Automatic detection"
 msgstr "Automaattinen tunnistus"
 
-#: weblate/formats/base.py:204
+#: weblate/formats/base.py:213
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
 "Tekstien lataaminen tiedostosta epäonnistui. Kokeile valita toinen muoto."
@@ -3207,42 +3207,42 @@ msgstr "Tiedosto"
 msgid "You can upload a TMX or JSON file."
 msgstr "Voit ladata palveluun TMX- tai JSON-tiedoston."
 
-#: weblate/memory/models.py:104
+#: weblate/memory/models.py:106
 msgid "Unsupported file!"
 msgstr "Tiedostoa ei tueta!"
 
-#: weblate/memory/models.py:106
+#: weblate/memory/models.py:108
 msgid "No valid entries found in the uploaded file!"
 msgstr "Ladatusta tiedostosta ei löytynyt kelvollisia merkintöjä!"
 
-#: weblate/memory/models.py:115 weblate/memory/models.py:120
+#: weblate/memory/models.py:117 weblate/memory/models.py:122
 msgid "Failed to parse JSON file: {!s}"
 msgstr "JSON-tiedoston jäsentäminen epäonnistui: {!s}"
 
-#: weblate/memory/models.py:149
+#: weblate/memory/models.py:151
 msgid "Failed to parse TMX file!"
 msgstr "TMX-tiedoston jäsentäminen epäonnistui!"
 
-#: weblate/memory/models.py:159
+#: weblate/memory/models.py:161
 msgid "Failed to find source language!"
 msgstr "Lähdekieltä ei löytynyt!"
 
-#: weblate/memory/models.py:236
+#: weblate/memory/models.py:238
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Projekti: {}"
 
-#: weblate/memory/models.py:238
+#: weblate/memory/models.py:240
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Henkilökohtainen: {}"
 
-#: weblate/memory/models.py:240
+#: weblate/memory/models.py:242
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Jaettu: {}"
 
-#: weblate/memory/models.py:242
+#: weblate/memory/models.py:244
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Tiedosto: {}"
@@ -4450,14 +4450,13 @@ msgstr "Tuki"
 #: weblate/templates/check_component.html:44
 #: weblate/templates/check_project.html:43 weblate/templates/checks.html:33
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
-#: weblate/templates/manage/performance.html:70
 #: weblate/templates/trans/alert/repositorychanges.html:6
 #: weblate/templates/trans/alert/repositoryoutdated.html:6
 #: weblate/wladmin/templates/admin/permissions/change_form.html:8
 #: weblate/wladmin/templates/admin/trans/change_form.html:19
 #: weblate/wladmin/templates/admin/trans/change_form.html:24
 #: weblate/wladmin/templates/admin/trans/change_form.html:28
-#: weblate/wladmin/templatetags/check_links.py:56
+#: weblate/wladmin/templatetags/check_links.py:42
 msgid "Documentation"
 msgstr "Dokumentaatio"
 
@@ -5927,8 +5926,8 @@ msgstr "Palauta"
 #, fuzzy, python-format
 #| msgid "%(count)s vote"
 #| msgid_plural "%(count)s votes"
-msgid "%(count)s edit"
-msgid_plural "%(count)s edits"
+msgid "%(count)s character edited"
+msgid_plural "%(count)s characters edited"
 msgstr[0] "%(count)s annettu ääni"
 msgstr[1] "%(count)s annettua ääntä"
 
@@ -6371,7 +6370,7 @@ msgid "Projects without components"
 msgstr "Projektit vailla komponentteja"
 
 #: weblate/templates/manage/alerts.html:42
-#: weblate/templates/manage/performance.html:88
+#: weblate/templates/manage/performance.html:92
 msgid "Congratulations, your setup seems to work."
 msgstr "Onnittelut, kokoonpanosi näyttää toimivan."
 
@@ -6469,29 +6468,34 @@ msgstr "Suorituskykyraportti"
 msgid "Last occurrence"
 msgstr "Viimeinen esiintymä"
 
-#: weblate/templates/manage/performance.html:41
+#: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:458
 msgid "Dismiss"
 msgstr "Hylkää"
 
-#: weblate/templates/manage/performance.html:42
+#: weblate/templates/manage/performance.html:43
 msgid "Ignore permanently"
 msgstr "Sivuuta pysyvästi"
 
-#: weblate/templates/manage/performance.html:51
+#: weblate/templates/manage/performance.html:55
+#, fuzzy
+#| msgid ""
+#| "You can safely permanently ignore errors for file formats you do not "
+#| "intend to use. These are usually caused by missing or outdated "
+#| "dependencies."
 msgid ""
-"You can safely permanently ignore errors for file formats you do not intend "
-"to use. These are usually caused by missing or outdated dependencies."
+"You can safely permanently ignore errors for features you do not intend to "
+"use. These are usually caused by missing or outdated dependencies."
 msgstr ""
 "Voit turvallisesti ja pysyvästi ohittaa sellaiset virheet jotka koskevat "
 "niitä tiedostomuotoja joita et aio käyttää. Ne johtuvat yleensä puuttuvista "
 "tai vanhentuneista riippuvuuksista."
 
-#: weblate/templates/manage/performance.html:62
+#: weblate/templates/manage/performance.html:66
 msgid "System checks"
 msgstr "Järjestelmätarkistukset"
 
-#: weblate/templates/manage/performance.html:96
+#: weblate/templates/manage/performance.html:100
 msgid "Celery queues"
 msgstr "Selleri jonot"
 
@@ -9781,15 +9785,15 @@ msgstr ""
 "Käännösehdotuksia voidaan hyväksyä automaattisesti vain jos äänestys on "
 "käytössä."
 
-#: weblate/trans/models/component.py:2126
+#: weblate/trans/models/component.py:2136
 msgid "Could not add new translation file."
 msgstr "Käännöstiedoston lisääminen epäonnistui."
 
-#: weblate/trans/models/component.py:2137
+#: weblate/trans/models/component.py:2147
 msgid "The given language is filtered by the language filter."
 msgstr "Annettu kieli on suodatettu kielisuodattimella."
 
-#: weblate/trans/models/component.py:2158
+#: weblate/trans/models/component.py:2168
 msgid "Translation file already exists!"
 msgstr "Käännöstiedosto on jo olemassa!"
 
@@ -10389,7 +10393,7 @@ msgid "Failed to find group to add a user!"
 msgstr "Etsimääsi ryhmää käyttäjän lisäämiseksi ei löytynyt!"
 
 #: weblate/trans/views/acl.py:144 weblate/trans/views/acl.py:159
-#: weblate/wladmin/views.py:287
+#: weblate/wladmin/views.py:289
 msgid "User has been invited to this project."
 msgstr "Käyttäjä on kutsuttu tähän projektiin."
 
@@ -10505,7 +10509,7 @@ msgid_plural "Imported %d words from the uploaded file."
 msgstr[0] "Tuotu %d sana lähetetystä tiedostosta."
 msgstr[1] "Tuotu %d sanaa lähetetystä tiedostosta."
 
-#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:167
+#: weblate/trans/views/dictionary.py:164 weblate/trans/views/files.py:169
 #, python-format
 msgid "File upload has failed: %s"
 msgstr "Tiedoston lähetys epäonnistui: %s"
