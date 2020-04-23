@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-23 13:08+0000\n"
+"PO-Revision-Date: 2020-04-24 08:48+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -371,10 +371,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "{username} tarafından Weblate'e davet edildi."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configured password sign in."
 msgid "Configured password to sign in."
-msgstr "Yapılandırılan parolayla giriş yapma."
+msgstr "Giriş yapmak için yapılandırılan parola."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -1026,7 +1024,7 @@ msgstr "Dosya başına"
 
 #: weblate/addons/forms.py:144
 msgid "Per author"
-msgstr "Yazar başına"
+msgstr "Hazırlayan başına"
 
 #: weblate/addons/forms.py:159
 msgid "Sort JSON keys"
@@ -1494,7 +1492,7 @@ msgstr "Kaynak satırları düzenle"
 #. Translators: Permission name
 #: weblate/auth/data.py:104
 msgid "Define author of uploaded translation"
-msgstr "Yüklenmiş çevirinin yazarını tanımlayın"
+msgstr "Yüklenmiş çevirinin hazırlayanını tanımlayın"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:106
@@ -3778,7 +3776,7 @@ msgstr "Bildirim ayarları"
 
 #: weblate/templates/accounts/profile.html:111
 msgid "Your name and e-mail will appear as commit authorship."
-msgstr "Adınız ve e-posta adresiniz işleyen yazar olarak görünecektir."
+msgstr "Adınız ve e-posta adresiniz işleyen hazırlayanı olarak görünecektir."
 
 #: weblate/templates/accounts/profile.html:119
 msgid "Current user identities"
@@ -3814,7 +3812,7 @@ msgstr "Yeni ilişkilendirme ekle"
 #: weblate/templates/snippets/project-nav.html:123
 #: weblate/templates/translation.html:94
 msgid "Removal"
-msgstr "Kaldırma"
+msgstr "Kaldır"
 
 #: weblate/templates/accounts/profile.html:166
 #: weblate/templates/accounts/removal.html:17
@@ -3984,7 +3982,7 @@ msgstr "Üzgünüz bu sitede yeni kayıtlar kapatıldı."
 
 #: weblate/templates/accounts/register.html:68
 msgid "You can contact us for more details."
-msgstr "Daha çok bilgi için bizimle temasa geçebilirsiniz."
+msgstr "Daha çok bilgi için bizimle iletişime geçebilirsiniz."
 
 #: weblate/templates/accounts/removal.html:14
 msgid "Account removal"
@@ -4236,12 +4234,13 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
 msgstr ""
-"Orijinal işleme iletileri tutulur, ancak \"Yazar başına\" seçilmediği veya "
-"işleme iletisi eklemek üzere özelleştirilmediği sürece yazarlık kaybedilir."
+"Orijinal işleme iletileri tutulur, ancak \"Hazırlayan başına\" seçilmediği "
+"veya işleme iletisi eklemek üzere özelleştirilmediği sürece yazarlık "
+"kaybedilir."
 
 #: weblate/templates/base.html:110
 msgid "Toggle navigation"
-msgstr "Gezinmeyi değiştirin"
+msgstr "Gezinmeyi değiştir"
 
 #: weblate/templates/base.html:132
 msgid "Manage watched projects"
@@ -4395,7 +4394,7 @@ msgstr "Sınırları aşıyor"
 
 #: weblate/templates/billing/detail.html:32
 msgid "Change plan or payment method"
-msgstr "Planı veya ödeme yöntemini değiştirin"
+msgstr "Planı veya ödeme yöntemini değiştir"
 
 #: weblate/templates/billing/detail.html:36
 msgid "Terminate recurring payment"
@@ -4480,11 +4479,11 @@ msgstr "Yıllık fiyat"
 
 #: weblate/templates/billing/status.html:49
 msgid "Strings limit"
-msgstr "Dizgilerin sınırı"
+msgstr "Dizgi sınırı"
 
 #: weblate/templates/billing/status.html:54
 msgid "Languages limit"
-msgstr "Dillerin sınırı"
+msgstr "Dil sınırı"
 
 #: weblate/templates/billing/status.html:61
 msgid "Projects limit"
@@ -4796,7 +4795,7 @@ msgstr "Ekran görüntüleri"
 #: weblate/templates/snippets/project-nav.html:105
 #: weblate/templates/translation.html:90 weblate/templates/translation.html:349
 msgid "Post announcement"
-msgstr "Duyuruyu gönder"
+msgstr "Duyuru gönder"
 
 #: weblate/templates/component.html:101 weblate/templates/manage-access.html:19
 #: weblate/templates/manage-access.html:110
@@ -5227,7 +5226,7 @@ msgstr "Not"
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
 msgid "Browse the documentation for detailed instructions"
-msgstr "Ayrıntılı yönergeler için belgelere göz atın"
+msgstr "Ayrıntılı talimatlar için belgelere gözatın"
 
 #: weblate/templates/dictionaries.html:8
 #: weblate/templates/edit_dictionary.html:8
@@ -5341,7 +5340,7 @@ msgstr "Sözcük değiştir"
 #: weblate/templates/engage.html:14
 #, python-format
 msgid "Get involved in <strong>%(project)s</strong>"
-msgstr "<strong>%(project)s</strong> içinde yer alın"
+msgstr "<strong>%(project)s</strong> projesi içinde yer alın"
 
 #: weblate/templates/engage.html:17
 msgid "Hello and thank you for your interest"
@@ -5433,7 +5432,7 @@ msgid ""
 "to contribute please get in touch with the project maintainers."
 msgstr ""
 "Bu çeviri yalnızca sınırlı bir çevirmen grubuna açıktır, eğer katkıda "
-"bulunmak istiyorsanız, lütfen proje geliştiricileri ile temasa geçin."
+"bulunmak istiyorsanız, lütfen proje geliştiricileri ile iletişime geçin."
 
 #: weblate/templates/engage.html:52
 msgid ""
@@ -5571,7 +5570,7 @@ msgstr "Kısa harf dizilerinin tahmini kolaydır."
 
 #: weblate/templates/i18n.html:28
 msgid "Use a longer keyboard pattern with more turns."
-msgstr "Daha fazla döngüyle uzun harf dizileri kullanın."
+msgstr "Daha fazla dönüşle daha uzun bir klavye deseni kullanın."
 
 #: weblate/templates/i18n.html:29
 msgid "Repeats like \"aaa\" are easy to guess."
@@ -5730,7 +5729,7 @@ msgstr "Uzak depoya değişiklikleri yolla"
 #: weblate/templates/js/git-status.html:122
 #: weblate/trans/models/component.py:122
 msgid "Rebase"
-msgstr "Yeniden Konumla"
+msgstr "Yeniden konumla"
 
 #: weblate/templates/js/git-status.html:126
 msgid "Rebase local changes onto the remote repository"
@@ -5755,7 +5754,7 @@ msgstr "Yerel depodaki tüm izlenemeyen dosyaları temizle"
 
 #: weblate/templates/js/git-status.html:164
 msgid "Unlock"
-msgstr "Kilidi Aç"
+msgstr "Kilidi aç"
 
 #: weblate/templates/js/git-status.html:168
 msgid "Allow changes to the local repository"
@@ -5817,13 +5816,11 @@ msgstr "Geri al"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:50
-#, fuzzy, python-format
-#| msgid "%(count)s edit"
-#| msgid_plural "%(count)s edits"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s düzenleme"
-msgstr[1] "%(count)s düzenleme"
+msgstr[0] "%(count)s karakter düzenlendi"
+msgstr[1] "%(count)s karakter düzenlendi"
 
 #: weblate/templates/last-changes-content.html:75
 msgid "No matching activity found."
@@ -5936,7 +5933,7 @@ msgstr "Çeviri projeniz kaldırıldı"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
-msgstr "Çeviri projenizin kaldırılması planlanıyor"
+msgstr "Çeviri projeniz, kaldırılma için zamanlandı"
 
 #: weblate/templates/mail/billing_expired_subject.txt:7
 msgid "Your billing plan has expired"
@@ -6292,7 +6289,7 @@ msgstr "Yedekleme yapmak"
 #: weblate/templates/manage/backups.html:78
 #: weblate/templates/trans/delete-form.html:7
 msgid "Are you absolutely sure?"
-msgstr "Kesinlikle emin misin?"
+msgstr "Kesinlikle emin misiniz?"
 
 #: weblate/templates/manage/backups.html:81
 msgid ""
@@ -6364,18 +6361,13 @@ msgid "Ignore permanently"
 msgstr "Kalıcı olarak yoksay"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"Kullanmayı düşünmediğiniz dosya biçimleri için hataları güvenli ve kalıcı "
-"bir şekilde yok sayabilisiniz. Bunlara genelde eksik veya eski bağımlılıklar "
-"neden olur."
+"Kullanmak istemediğiniz özellikler için hataları güvenli bir şekilde kalıcı "
+"olarak yoksayabilisiniz. Bunlar genellikle eksik veya eski bağımlılıklardan "
+"kaynaklanır."
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -8281,7 +8273,7 @@ msgstr "Kaynaktan kopyala"
 
 #: weblate/trans/forms.py:365
 msgid "Missing translated string!"
-msgstr "Çevrilmiş satır eksik!"
+msgstr "Eksik çevrilmiş dizgi!"
 
 #: weblate/trans/forms.py:371
 msgid "Search filter"
@@ -8657,7 +8649,7 @@ msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
 msgstr ""
-"Deponun URL'si, diğer bileşen ile paylaşma için weblate://project/component "
+"Deponun URL'si, diğer bileşen ile paylaşmak için weblate://project/component "
 "şeklinde kullanın."
 
 #: weblate/trans/forms.py:1495 weblate/trans/models/component.py:245
@@ -8739,7 +8731,7 @@ msgstr "Eklemek için çeviri işaretleri"
 
 #: weblate/trans/forms.py:1818
 msgid "Translation flags to remove"
-msgstr "Kaldırmak için çeviri işaretleri"
+msgstr "Kaldırılacak çeviri işaretleri"
 
 #: weblate/trans/forms.py:1821
 msgid "Labels to add"
@@ -8747,7 +8739,7 @@ msgstr "Eklemek için etiketler"
 
 #: weblate/trans/forms.py:1827
 msgid "Labels to remove"
-msgstr "Kaldırmak için etiketler"
+msgstr "Kaldırılacak etiketler"
 
 #: weblate/trans/forms.py:1850
 msgid "I accept the contributor agreement"
@@ -8898,7 +8890,7 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"İleti, bu tarihten sonra gösterilmeyecektir. Sonraki yayın için satır "
+"İleti, bu tarihten sonra gösterilmeyecektir. Sonraki yayım için satır "
 "dondurma ve çeviri sona erme tarihini bildirmede bunu kullanın."
 
 #: weblate/trans/models/announcement.py:125
@@ -9163,7 +9155,7 @@ msgstr "İletişim sorumlusu"
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:108
 msgid "Point to translation instructions URL"
-msgstr "Çeviri yönergeleri URL'sini göster"
+msgstr "Çeviri talimatları URL'sini göster"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:110
@@ -9215,7 +9207,7 @@ msgid ""
 "component."
 msgstr ""
 "Deponun URL'si, diğer bileşen ile paylaşmak için weblate://project/component "
-"kullanın."
+"şeklinde kullanın."
 
 #: weblate/trans/models/component.py:209
 msgid "Repository push URL"
@@ -9550,7 +9542,7 @@ msgstr "Weblate projesi için geçersiz bağlantı, kendine bağlantı olmaz!"
 #: weblate/trans/models/component.py:1548
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
-"Weblate projesi için geçersiz bağlantı, weblate://project/component adresini "
+"Weblate projesi için geçersiz bağlantı, weblate://project/component şeklinde "
 "kullanın."
 
 #: weblate/trans/models/component.py:1557
@@ -9640,8 +9632,8 @@ msgid ""
 "Please either fill in instruction URL or use different option for adding a "
 "new language."
 msgstr ""
-"Lütfen talimat URL'sini doldurun veya yeni bir dil eklemek için farklı bir "
-"seçenek kullanın."
+"Lütfen ya talimat URL'sini doldurun ya da yeni bir dil eklemek için farklı "
+"bir seçenek kullanın."
 
 #: weblate/trans/models/component.py:1768
 msgid "Can not validate file matches due to invalid regular expression."
@@ -9812,7 +9804,7 @@ msgstr "Çevirmenler için posta listesi."
 
 #: weblate/trans/models/project.py:82
 msgid "Translation instructions"
-msgstr "Çeviri yönergeleri"
+msgstr "Çeviri talimatları"
 
 #: weblate/trans/models/project.py:88
 msgid "Set \"Language-Team\" header"
@@ -10609,11 +10601,11 @@ msgstr "Çeviri kaldırıldı."
 
 #: weblate/trans/views/manage.py:79
 msgid "Translation component was scheduled for removal."
-msgstr "Çeviri bileşeni kaldırılması planlandı."
+msgstr "Çeviri bileşeni, kaldırılma için zamanlandı."
 
 #: weblate/trans/views/manage.py:98
 msgid "Project was scheduled for removal."
-msgstr "Projenin kaldırılması planlandı."
+msgstr "Proje, kaldırılma için zamanlandı."
 
 #: weblate/trans/views/search.py:135
 msgid "Search and replace completed, no strings were updated."
