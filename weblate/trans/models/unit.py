@@ -565,8 +565,8 @@ class Unit(models.Model, LoggerMixin):
             author.profile.save()
 
         # Update related source strings if working on a template
-        if self.translation.is_template and self.old_unit.source != self.source:
-            self.update_source_units(self.old_unit.source, user or author, author)
+        if self.translation.is_template and self.old_unit.target != self.target:
+            self.update_source_units(self.old_unit.target, user or author, author)
 
         return True
 
@@ -581,17 +581,17 @@ class Unit(models.Model, LoggerMixin):
         ).exclude(id=self.id)
         for unit in same_source.prefetch():
             # Update source, number of words and content_hash
-            unit.source = self.source
+            unit.source = self.target
             unit.num_words = self.num_words
             unit.content_hash = self.content_hash
             # Find reverted units
-            if unit.state == STATE_FUZZY and unit.previous_source == self.source:
+            if unit.state == STATE_FUZZY and unit.previous_source == self.target:
                 # Unset fuzzy on reverted
                 unit.original_state = unit.state = STATE_TRANSLATED
                 unit.previous_source = ""
             elif (
                 unit.original_state == STATE_FUZZY
-                and unit.previous_source == self.source
+                and unit.previous_source == self.target
             ):
                 # Unset fuzzy on reverted
                 unit.original_state = STATE_TRANSLATED
@@ -613,7 +613,7 @@ class Unit(models.Model, LoggerMixin):
                 user=user,
                 author=author,
                 old=previous_source,
-                target=self.source,
+                target=self.target,
             )
             unit.translation.invalidate_cache()
 
