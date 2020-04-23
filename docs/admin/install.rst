@@ -590,11 +590,11 @@ e-mails in case something goes wrong on the server, for example:
 
 .. _production-site:
 
-Set correct sitename
-++++++++++++++++++++
+Set correct site domain
++++++++++++++++++++++++
 
-Adjust sitename in the admin interface, otherwise links in RSS or registration
-e-mails will not work.
+Adjust site name and domain in the admin interface, otherwise links in RSS or
+registration e-mails will not work.
 
 Please open the admin interface and edit the default sitename and domain under the
 :guilabel:`Sites › Sites` (or do it directly at the

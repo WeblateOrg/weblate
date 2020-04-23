@@ -16,6 +16,7 @@ Not yet released.
 * Avoid false positives of punctuation spacing check for Canadian French.
 * Fixed XLIFF export with placeholders.
 * Fixed false positive with zero width check.
+* Improved reproting of configuration errors.
 
 Weblate 4.0.1
 -------------
