@@ -331,8 +331,6 @@ def get_state_css(unit):
         flags.append("state-need-edit")
     elif not unit.translated:
         flags.append("state-empty")
-    elif unit.has_failing_check:
-        flags.append("state-alert")
     elif unit.readonly:
         flags.append("state-readonly")
     elif unit.approved:
@@ -340,11 +338,13 @@ def get_state_css(unit):
     elif unit.translated:
         flags.append("state-translated")
 
+    if unit.has_failing_check:
+        flags.append("state-alert")
     if unit.has_comment:
         flags.append("state-comment")
-
     if unit.has_suggestion:
         flags.append("state-suggest")
+
     return flags
 
 
