@@ -23,7 +23,7 @@ from django.conf import settings
 from django.core import mail
 from django.urls import reverse
 
-from weblate.auth.models import Group, User
+from weblate.auth.models import Group, User, get_anonymous
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -48,6 +48,7 @@ class ACLTest(FixtureTestCase):
         """No access to the project without ACL."""
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 404)
+        self.assertFalse(get_anonymous().can_access_project(self.project))
 
     def test_acl_disable(self):
         """Test disabling ACL."""
@@ -55,6 +56,7 @@ class ACLTest(FixtureTestCase):
         self.assertEqual(response.status_code, 404)
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.save()
+        self.assertTrue(get_anonymous().can_access_project(self.project))
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
@@ -66,6 +68,7 @@ class ACLTest(FixtureTestCase):
         self.assertEqual(response.status_code, 404)
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save()
+        self.assertTrue(get_anonymous().can_access_project(self.project))
         response = self.client.get(self.access_url)
         self.assertEqual(response.status_code, 403)
         response = self.client.get(self.translate_url)
