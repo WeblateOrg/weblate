@@ -175,7 +175,7 @@ class TargetCheckParametrized(Check):
     def get_value(self, unit):
         return unit.all_flags.get_value(self.enable_string)
 
-    def check_target(self, sources, targets, unit):
+    def check_target_unit(self, sources, targets, unit):
         """Check flag value."""
         if unit.all_flags.has_value(self.enable_string):
             return self.check_target_params(

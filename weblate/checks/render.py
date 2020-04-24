@@ -118,7 +118,7 @@ class MaxSizeCheck(TargetCheckParametrized):
         key = "check:render:{}:{}".format(unit.pk, pos)
         result = cache.get(key)
         if result is None:
-            self.check_target(
+            self.check_target_unit(
                 unit.get_source_plurals(), unit.get_target_plurals(), unit
             )
             result = cache.get(key)
