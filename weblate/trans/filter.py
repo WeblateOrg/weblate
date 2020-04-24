@@ -128,27 +128,3 @@ def get_filter_choice(project=None):
             for label in project.label_set.values_list("name", flat=True)
         )
     return result
-
-
-def get_search_query_choices():
-    """Return all filtering choices for query field."""
-    filter_keys = [
-        "nottranslated",
-        "todo",
-        "translated",
-        "fuzzy",
-        "suggestions",
-        "shapings",
-        "labels",
-        "context",
-        "nosuggestions",
-        "comments",
-        "allchecks",
-        "approved",
-        "unapproved",
-    ]
-    result = [
-        (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
-        for key in filter_keys
-    ]
-    return result

@@ -51,7 +51,7 @@
   <div class="col-sm-9">
     <div class="panel-group">
       <form action="{{ unit.translation.get_translate_url }}" method="GET">
-        {% include "snippets/query-field.html" with field=search_form.q  %}
+        {% crispy search_form  %}
       </form>
     </div>
   </div>

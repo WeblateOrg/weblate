@@ -1,4 +1,6 @@
 {% load i18n %}
+
+{% if show_builder %}
 <div class="form-group">
     <label class="control-label">{% trans "Advanced query builder" %}</label>
 
@@ -104,3 +106,4 @@
     </tr>
     </table>
 </div>
+{% endif %}

@@ -35,7 +35,6 @@ from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS
 from weblate.trans.autofixes import fix_target
-from weblate.trans.filter import get_search_query_choices
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
@@ -113,7 +112,7 @@ def cleanup_session(session):
 def search(translation, request):
     """Perform search or returns cached search results."""
     # Possible new search
-    form = SearchForm(request.user, request.GET)
+    form = SearchForm(request.user, request.GET, show_builder=False)
 
     # Process form
     form_valid = form.is_valid()
@@ -142,12 +141,11 @@ def search(translation, request):
     name = form.get_name() if form_valid else ""
 
     # Grab unit IDs
-    sort_by_list = (
-        request.GET.get("sort_by").split(",")
-        if request.GET.get("sort_by")
-        else ["-priority", "position"]
+    unit_ids = list(
+        allunits.order_by_request(
+            request.GET.get("sort_by", "").split(",")
+        ).values_list("id", flat=True)
     )
-    unit_ids = list(allunits.order_by(*sort_by_list).values_list("id", flat=True))
 
     # Check empty search results
     if not unit_ids:
@@ -522,7 +520,6 @@ def translate(request, project, component, lang):
                     "scope": "global" if unit.translation.is_source else "translation"
                 },
             ),
-            "custom_filter_list": get_search_query_choices(),
             "context_form": ContextForm(instance=unit.source_info, user=request.user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,

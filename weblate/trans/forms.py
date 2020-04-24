@@ -642,18 +642,20 @@ class SearchForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
         """Generate choices for other component in same project."""
         self.user = user
+        show_builder = kwargs.pop("show_builder", True)
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q"),
+            SearchField("q", template="snippets/query-field.html"),
             ContextDiv(
                 template="snippets/query-builder.html",
                 context={
                     "user": self.user,
                     "month_ago": timezone.now() - timedelta(days=31),
+                    "show_builder": show_builder,
                 },
             ),
             Field("checksum"),

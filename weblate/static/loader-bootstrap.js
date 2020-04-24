@@ -1530,8 +1530,10 @@ $(function () {
         if ($this.closest('.query-field').length) {
             if ($this.data('sort')) {
                 $('#id_sort_by').val($this.data('sort'));
+                $this.closest('form').submit();
             } else {
-                $('#id_q').insertAtCaret(' ' + $this.data('field') + ' ');
+                $('#id_q').val($this.data('field'));
+                $this.closest('form').submit();
             }
         }
     });
