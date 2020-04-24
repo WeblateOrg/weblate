@@ -136,7 +136,7 @@ unset PGPASSWORD
 echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
 git config --global hub.protocol https
 mkdir -p ~/.config
-cat $WEBLATE_GITHUB_OAUTH_TOKEN > ~/.config/hub
+echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
 
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
