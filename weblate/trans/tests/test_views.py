@@ -515,6 +515,16 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("translation", kwargs=self.kw_translation))
         self.assertContains(response, "Test/Test")
 
+    def test_view_translation_alias(self):
+        self.kw_translation["lang"] = "cs-CZ"
+        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        self.assertContains(response, "Test/Test")
+
+    def test_view_translation_invalid(self):
+        self.kw_translation["lang"] = "cs-DE"
+        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        self.assertEqual(response.status_code, 404)
+
     def test_view_unit(self):
         unit = self.get_unit()
         response = self.client.get(unit.get_absolute_url())

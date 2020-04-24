@@ -31,6 +31,7 @@ from django.utils.translation import gettext as _
 from django.views.generic.edit import FormView
 
 from weblate.formats.exporters import get_exporter
+from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 
@@ -81,12 +82,24 @@ class ProjectViewMixin:
 
 def get_translation(request, project, component, lang, skip_acl=False):
     """Return translation matching parameters."""
-    translation = get_object_or_404(
-        Translation.objects.prefetch(),
-        language__code=lang,
-        component__slug__iexact=component,
-        component__project__slug__iexact=project,
-    )
+    try:
+        translation = get_object_or_404(
+            Translation.objects.prefetch(),
+            language__code=lang,
+            component__slug__iexact=component,
+            component__project__slug__iexact=project,
+        )
+    except Http404:
+        language = Language.objects.fuzzy_get(code=lang, strict=True)
+        if language is None:
+            raise
+        translation = get_object_or_404(
+            Translation.objects.prefetch(),
+            language=language,
+            component__slug__iexact=component,
+            component__project__slug__iexact=project,
+        )
+
     if not skip_acl:
         request.user.check_access(translation.component.project)
     return translation
