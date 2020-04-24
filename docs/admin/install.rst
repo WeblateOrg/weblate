@@ -947,8 +947,6 @@ use that for the following paths:
     Used for user media uploads (e.g. screenshots).
 :file:`/favicon.ico`
     Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`
-:file:`/robots.txt`
-    Should be rewritten to rewrite a rule to serve :file:`/static/robots.txt`
 
 .. seealso::
 
