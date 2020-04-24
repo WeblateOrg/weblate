@@ -195,7 +195,8 @@ def check_component_locked(user, permission, component):
 @register_perm("translation.auto")
 def check_autotranslate(user, permission, translation):
     if isinstance(translation, Translation) and (
-        translation.is_source or translation.is_readonly
+        (translation.is_source and not translation.component.intermediate)
+        or translation.is_readonly
     ):
         return False
     return check_can_edit(user, permission, translation)
