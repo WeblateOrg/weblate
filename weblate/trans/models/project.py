@@ -25,7 +25,6 @@ from django.conf import settings
 from django.db import models, transaction
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.lang.models import Language, get_english_lang
@@ -81,7 +80,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
         blank=True,
-        help_text=_("You can use Markdown and mention users by @username."),
+        help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
 
     set_language_team = models.BooleanField(
