@@ -33,6 +33,7 @@ from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import (
     STATE_APPROVED,
+    STATE_FUZZY,
     STATE_NAMES,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -276,6 +277,8 @@ def is_sql(text):
         return Q(state=STATE_READONLY)
     if text == "approved":
         return Q(state=STATE_APPROVED)
+    if text in ("fuzzy", "needs-editing"):
+        return Q(state=STATE_FUZZY)
     if text == "translated":
         return Q(state__gte=STATE_TRANSLATED)
     if text == "untranslated":

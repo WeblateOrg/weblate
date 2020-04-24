@@ -217,6 +217,7 @@ class QueryParserTest(TestCase):
         self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("is:approved", Q(state=STATE_APPROVED))
         self.assert_query("is:read-only", Q(state=STATE_READONLY))
+        self.assert_query("is:fuzzy", Q(state=STATE_FUZZY))
 
     def test_suggestions(self):
         self.assert_query(
