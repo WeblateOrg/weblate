@@ -922,6 +922,13 @@ For testing purposes, you can use the built-in web server in Django:
 
     Do not use this in production, as this has severe performance limitations.
 
+.. hint::
+
+   The built in server serves static files only with :setting:`DEBUG` enabled
+   as it is intended for development only. For production use, please see wsgi
+   setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and
+   :ref:`static-files`
+
 .. _static-files:
 
 Serving static files
@@ -965,6 +972,8 @@ configuration, but this might clash with your customization. If that is the
 case, it is recommended to disable this middleware and set these headers
 manually.
 
+.. _apache:
+
 Sample configuration for Apache
 +++++++++++++++++++++++++++++++
 
@@ -980,6 +989,8 @@ replace `Require all granted` with `Allow from all`.
 .. seealso::
 
     :doc:`django:howto/deployment/wsgi/modwsgi`
+
+.. _apache-gunicorn:
 
 Sample configuration for Apache and Gunicorn
 ++++++++++++++++++++++++++++++++++++++++++++
