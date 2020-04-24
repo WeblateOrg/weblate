@@ -24,6 +24,12 @@ to right text direction, one plural) and naming of the language as :guilabel:``x
 You might want to change this in the admin interface later, (see :ref:`changing-languages`)
 and report it to the issue tracker (see :ref:`contributing`).
 
+.. hint::
+
+   In case you see something unwanted as a language, you might want to adjust
+   :ref:`component-language_regex` to ignore such file when parsing
+   translations.
+
 .. _changing-languages:
 
 Changing language definitions
