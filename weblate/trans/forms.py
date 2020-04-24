@@ -1016,6 +1016,15 @@ class ContextForm(forms.ModelForm):
         fields = ("extra_context", "labels", "extra_flags")
         widgets = {"labels": forms.CheckboxSelectMultiple()}
 
+    doc_links = {
+        "extra_context": ("admin/translating", "additional"),
+        "labels": ("devel/translations", "labels"),
+        "extra_flags": ("admin/translating", "additional"),
+    }
+
+    def get_field_doc(self, field):
+        return self.doc_links[field.name]
+
     def __init__(self, data=None, instance=None, user=None, **kwargs):
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
