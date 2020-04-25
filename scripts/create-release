@@ -2,10 +2,6 @@
 
 set -e
 
-readthedocs() {
-    curl --fail --silent --header "Authorization: Token $(cat ~/.config/readthedocs.token)" "$@"
-}
-
 if [ "x$1" = "x--help" -o "x$1" = "x-h" ] ; then
     echo "Usage: ./scripts/create-release [--tag]"
     exit 1
@@ -69,15 +65,4 @@ if [ "x$1" = "x--tag" ] ; then
     hub release edit -m '' --attach=dist/$tarver.tar.gz.asc $namever
     hub release edit -m '' --attach=dist/$tarver.tar.xz $namever
     hub release edit -m '' --attach=dist/$tarver.tar.xz.asc $namever
-
-    # Enable Read rhe Docs build
-    rtd_url=https://readthedocs.org/api/v3/projects/weblate/versions/$namever/
-    while ! readthedocs $rtd_url > /dev/null ; do
-        echo "Waiting for Read the Docs version to appear..."
-        sleep 1
-    done
-    echo "Enabling version on Read the Docs..."
-    readthedocs -X PATCH -H "Content-Type: application/json" -d '{"active": true}' $rtd_url > /dev/null
-    echo "Triggering build on Read the Docs..."
-    readthedocs -X POST -H "Content-Type: application/json" -d '{}' ${rtd_url}builds/ > /dev/null
 fi
