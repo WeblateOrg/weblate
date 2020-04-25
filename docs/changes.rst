@@ -16,7 +16,7 @@ Not yet released.
 * Avoid false positives of punctuation spacing check for Canadian French.
 * Fixed XLIFF export with placeholders.
 * Fixed false positive with zero width check.
-* Improved reproting of configuration errors.
+* Improved reporting of configuration errors.
 * Fixed bilingual source upload.
 * Automatically detect supported languages for DeepL machine translation.
 * Fixed progress bar display in some corner cases.
