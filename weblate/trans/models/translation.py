@@ -123,6 +123,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         app_label = "trans"
         unique_together = ("component", "language")
 
+    def __str__(self):
+        return "{0} — {1}".format(self.component, self.language)
+
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
@@ -233,9 +236,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_translate_url(self):
         return reverse("translate", kwargs=self.get_reverse_url_kwargs())
-
-    def __str__(self):
-        return "{0} — {1}".format(self.component, self.language)
 
     def get_filename(self):
         """Return absolute filename."""
@@ -965,39 +965,39 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 },
             )[0]
 
-        if method == "replace":
-            return self.handle_replace(request, fileobj)
-
-        if method == "source":
-            return self.handle_source(request, fileobj)
-
-        filecopy = fileobj.read()
-        fileobj.close()
-
-        # Strip possible UTF-8 BOM
-        if filecopy[:3] == codecs.BOM_UTF8:
-            filecopy = filecopy[3:]
-
-        # Load backend file
-        store = try_load(
-            fileobj.name,
-            filecopy,
-            self.component.file_format_cls,
-            self.component.template_store,
-        )
-
-        # Check valid plural forms
-        if hasattr(store.store, "parseheader"):
-            header = store.store.parseheader()
-            try:
-                number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
-                if not self.plural.same_plural(number, formula):
-                    raise PluralFormsMismatch()
-            except (ValueError, KeyError):
-                # Formula wrong or missing
-                pass
-
         try:
+            if method == "replace":
+                return self.handle_replace(request, fileobj)
+
+            if method == "source":
+                return self.handle_source(request, fileobj)
+
+            filecopy = fileobj.read()
+            fileobj.close()
+
+            # Strip possible UTF-8 BOM
+            if filecopy[:3] == codecs.BOM_UTF8:
+                filecopy = filecopy[3:]
+
+            # Load backend file
+            store = try_load(
+                fileobj.name,
+                filecopy,
+                self.component.file_format_cls,
+                self.component.template_store,
+            )
+
+            # Check valid plural forms
+            if hasattr(store.store, "parseheader"):
+                header = store.store.parseheader()
+                try:
+                    number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
+                    if not self.plural.same_plural(number, formula):
+                        raise PluralFormsMismatch()
+                except (ValueError, KeyError):
+                    # Formula wrong or missing
+                    pass
+
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
                 with self.component.repository.lock:
