@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-23 13:08+0000\n"
+"PO-Revision-Date: 2020-04-27 17:39+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/master/"
 "sq/>\n"
@@ -370,10 +370,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Ftuar në Weblate nga {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configured password sign in."
 msgid "Configured password to sign in."
-msgstr "U formësua fjalëkalim hyrjesh."
+msgstr "U formësua fjalëkalim për hyrje."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -699,10 +697,8 @@ msgid "User registration"
 msgstr "Regjistrim përdoruesi"
 
 #: weblate/accounts/views.py:202
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
-msgstr "Mesazhi s’u dërgua dot te përgjegjësi!"
+msgstr "S’u dërgua dot mesazh te përgjegjësi!"
 
 #: weblate/accounts/views.py:222
 msgid "Message has been sent to administrator."
@@ -770,19 +766,15 @@ msgstr "S’u hoq dot identitet përdoruesi"
 
 #: weblate/accounts/views.py:940
 msgid "Add another identity by confirming your e-mail address first."
-msgstr ""
+msgstr "Shtoni një identitet tjetër, duke ripohuar së pari adresën tuaj email."
 
 #: weblate/accounts/views.py:987
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
-"S’u verifikua dot regjistrimi juaj! Token-i i verifikimit ka gjasa të ketë "
-"skaduar. Ju lutemi, riprovoni të regjistroheni."
+"Që të verifikoni identitetin tuaj, riprovoni të regjistroheni, token-i i "
+"verifikimit ka gjasa të ketë skaduar."
 
 #: weblate/accounts/views.py:994
 msgid "Could not authenticate due to invalid session state."
@@ -816,16 +808,12 @@ msgid "The server does not allow authentication."
 msgstr "Shërbyesi nuk lejon mirëfilltësim."
 
 #: weblate/accounts/views.py:1082
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
 msgstr ""
-"S’u plotësua dot regjistrim. Kredencialet e mirëfilltësimit, email-i ose "
-"emri i përdoruesit i dhënë është tashmë në përdorim nga një tjetër llogari."
+"S’u plotësua dot regjistrim. Kredencialet e dhëna të mirëfilltësimit, adresa "
+"email ose emri i përdoruesit është tashmë në përdorim për një tjetër llogari."
 
 #: weblate/accounts/views.py:1097
 msgid "Notification settings adjusted."
@@ -1591,10 +1579,8 @@ msgstr "Të administrojë përdorues (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage roles (on the entire platform)"
-msgstr "Të administrojë grupe (në krejt platformën)"
+msgstr "Të administrojë role (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
@@ -1973,7 +1959,7 @@ msgstr "Ndryshime vitin e shkuar"
 #: weblate/templates/snippets/query-builder.html:12
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
-msgstr "Vargjet e burimit"
+msgstr "Vargje burim"
 
 #: weblate/billing/models.py:242 weblate/templates/about/stats.html:72
 #: weblate/trans/admin.py:100
@@ -1999,16 +1985,12 @@ msgid "In display limits"
 msgstr "Brenda kufijve të shfaqur"
 
 #: weblate/billing/tasks.py:85
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Këto njoftime do t’i merrni vetëm për gjuhët në të cilat përktheni te "
-"projektet e vëzhguar prej jush."
+"Do të reshtni së marri këtë njoftim, sapo të paguani faturat, ose projekti "
+"të jetë hequr."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -5444,7 +5426,7 @@ msgstr "%(percent)s%%"
 #: weblate/templates/translation.html:407 weblate/trans/widgets.py:270
 #: weblate/trans/widgets.py:286
 msgid "Translated"
-msgstr ""
+msgstr "Të përkthyer"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -5886,13 +5868,11 @@ msgstr "Riktheje"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:50
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s votë"
-msgstr[1] "%(count)s vota"
+msgstr[0] "%(count)s shenjë e përpunuar"
+msgstr[1] "%(count)s shenja të përpunuara"
 
 #: weblate/templates/last-changes-content.html:75
 msgid "No matching activity found."
@@ -5973,26 +5953,20 @@ msgid "Generated on %(timestamp)s."
 msgstr "Prodhuar më %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
 msgstr ""
 "Plani juaj për faturime ka skaduar, nëse doni të vazhdoni ta përdorni "
-"shërbimin, ju lutemi, rinovojeni duke ndjekur lidhjen vijuese:"
+"shërbimin, ju lutemi, rinovojeni."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
 msgstr "Ky plan faturimesh mbulon projektet vijuese:"
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "U hoq projekt"
+msgstr "Hiqeni projektin"
 
 #: weblate/templates/mail/billing_expired.html:17
 msgid "All projects covered by this billing plan have been removed."
@@ -6446,18 +6420,13 @@ msgid "Ignore permanently"
 msgstr "Shpërfille përfundimisht"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"Mundeni të shpërfillni përgjithnjë, në mënyrë të sigurt, gabime për formate "
-"kartelash që nuk keni ndërmend t’i përdorni. Këto zakonisht shkaktohen nga "
-"varësi të paplotësuara ose të vjetruara."
+"Mundeni të shpërfillni përgjithnjë, pa rrezik, gabime për veçori që nuk keni "
+"ndërmend t’i përdorni. Këto zakonisht shkaktohen nga varësi të paplotësuara "
+"ose të vjetruara."
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -7236,10 +7205,8 @@ msgid "Failing checks:"
 msgstr "Kontrolle të dështuar:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
-#, fuzzy
-#| msgid "Source needs review"
 msgid "Source in review"
-msgstr "Burimi lyp shqyrtim"
+msgstr "Burim nën shqyrtim"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:497 weblate/utils/state.py:31
@@ -9051,10 +9018,8 @@ msgstr "U përditësua përkthim"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:229
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Added to glossary"
-msgstr "Të shtojë fjalë në fjalorth"
+msgstr "U shtua në fjalorth"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:231
@@ -9094,7 +9059,7 @@ msgstr "U depozituan ndryshimet"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:245
 msgid "Pushed changes"
-msgstr ""
+msgstr "U depozituan ndryshimet"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:247
@@ -10793,7 +10758,7 @@ msgstr "Stemë gjendjeje"
 
 #: weblate/trans/widgets.py:362
 msgid "translated"
-msgstr ""
+msgstr "të përkthyer"
 
 #: weblate/trans/widgets.py:409
 msgid "Vertical multi language status widget"
@@ -10923,8 +10888,9 @@ msgstr ""
 
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:68
+#, fuzzy
 msgid "[hostname hashed]"
-msgstr ""
+msgstr "[hostname hashed]"
 
 #: weblate/vcs/ssh.py:123
 msgid "Created new SSH key."
@@ -11046,8 +11012,6 @@ msgid "Weblate status"
 msgstr "Gjendje Weblate-i"
 
 #: weblate/wladmin/views.py:57
-#, fuzzy
-#| msgid "Repository"
 msgid "Repositories"
 msgstr "Depo"
 
