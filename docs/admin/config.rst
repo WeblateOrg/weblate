@@ -1214,8 +1214,8 @@ SIMPLIFY_LANGUAGES
 ------------------
 
 Use simple language codes for default language/country combinations. For
-example a ``fr_FR`` translation will use the ``fr`` language code. This is usually
-the desired behavior as it simplifies listing languages for these default
+example an ``fr_FR`` translation will use the ``fr`` language code. This is usually
+the desired behavior, as it simplifies listing languages for these default
 combinations.
 
 Turn this off if you want to different translations for each variant.
