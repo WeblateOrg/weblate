@@ -1188,8 +1188,8 @@ REPOSITORY_ALERT_THRESHOLD
 
 .. versionadded:: 4.0.2
 
-Threshold for triggering alert on repositories that they are outdated or
-containing too many changes. Defaults to 25.
+Threshold for triggering an alert for outdated repositories, or ones that
+contain too many changes. Defaults to 25.
 
 .. seealso::
 
@@ -1214,7 +1214,7 @@ SIMPLIFY_LANGUAGES
 ------------------
 
 Use simple language codes for default language/country combinations. For
-example ``fr_FR`` translation will use the ``fr`` language code. This is usually
+example a ``fr_FR`` translation will use the ``fr`` language code. This is usually
 the desired behavior as it simplifies listing languages for these default
 combinations.
 
@@ -1277,7 +1277,7 @@ SUGGESTION_CLEANUP_DAYS
 
 .. versionadded:: 3.2.1
 
-Automatically deletes suggestions after given number of days.
+Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
 
 .. setting:: URL_PREFIX
