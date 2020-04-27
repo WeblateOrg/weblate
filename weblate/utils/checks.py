@@ -118,7 +118,7 @@ def check_mail_connection(app_configs, **kwargs):
         connection.close()
     except Exception as error:
         message = "Cannot send e-mail ({}), please check EMAIL_* settings."
-        errors.append("weblate.E003", weblate_check(message.format(error)))
+        errors.append(weblate_check("weblate.E003", message.format(error)))
 
     return errors
 
