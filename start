@@ -138,7 +138,7 @@ git config --global hub.protocol https
 mkdir -p ~/.config
 echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
 
->$2 ssh -vT ${WEBLATE_GITHUB_USERNAME}@github.com
+ssh -vT ${WEBLATE_GITHUB_USERNAME} || true
 echo "Done initializing github"
 
 # Generate secret
