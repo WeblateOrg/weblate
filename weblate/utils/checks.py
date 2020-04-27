@@ -280,7 +280,7 @@ def check_settings(app_configs, **kwargs):
         )
     if settings.DEFAULT_FROM_EMAIL in DEFAULT_MAILS:
         errors.append(
-            weblate_check("weblate.E013", "The default from e-mail should be changed from its default value")
+            weblate_check("weblate.E013", "The default \"From\" e-mail address should be changed from its default value")
         )
 
     if settings.SECRET_KEY == settings_example.SECRET_KEY:
