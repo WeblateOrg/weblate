@@ -138,6 +138,8 @@ git config --global hub.protocol https
 mkdir -p ~/.config
 echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
 
+>$2 ssh -vT ${WEBLATE_GITHUB_USERNAME}@github.com
+
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
     # https://github.com/django/django/blob/1.10.2/django/utils/crypto.py#L54-L56
