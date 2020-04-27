@@ -132,12 +132,6 @@ unset PGPASSWORD
 
 >&2 echo "Postgres is up"
 
-# Blocked until new github user is created
-echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
-git config --global hub.protocol https
-mkdir -p ~/.config
-echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
-
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
     # https://github.com/django/django/blob/1.10.2/django/utils/crypto.py#L54-L56
