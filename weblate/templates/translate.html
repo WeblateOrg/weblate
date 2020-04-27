@@ -73,7 +73,7 @@
             <div class="panel-group">
               <form action="{{ unit.translation.get_translate_url }}" method="GET">
                 {% for key, value in search_items %}
-                  <input type="hidden" name="{{ key }}" value="{{ value }}" />
+                  <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
                 {% endfor %}
                 <div class="form-group">
                   <label class="control-label" for="id-goto-number">{% trans "Jump to position" %}</label>
@@ -81,7 +81,7 @@
                     <input type="number" min="1" max="{{ filter_count }}" value="{{ filter_pos }}" name="offset" id="id-goto-number">
                   </div>
                 </div>
-                <input type="submit" value="{% trans "Jump" %}" class="btn btn-primary" />
+                <input type="submit" value="{% trans "Jump" %}" class="btn btn-primary" aria-label="{% trans "Jump" %}" />
               </form>
             </div>
           </div>

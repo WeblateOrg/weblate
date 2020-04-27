@@ -22,13 +22,13 @@
               {% endfor %}
             </ul>
           </div><!-- /btn-group -->
-          {% crispy_field field 'class' 'form-control' %}
+          {% crispy_field field 'class' 'form-control' 'aria-label' _('Query') %}
           <div class="input-group-btn">
             <button type="button" id="query-sort-dropdown" class="btn btn-default dropdown-toggle search-field" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="search-label">{% icon "sort-alphabetical.svg" %}{% trans "Sort By" %}</span>
               <span class="caret"></span>
             </button>
-            <input type="hidden" id="id_sort_by" name="sort_by" value="position,-priority"/>
+            <input type="hidden" id="id_sort_by" name="sort_by" value="position,-priority" aria-label="{% trans "Sort By" %}" />
             <ul class="dropdown-menu">
               <li><a href="#" data-sort="position">{% trans "Position" %}</a></li>
               <li><a href="#" data-sort="-priority">{% trans "Descending priority" %}</a></li>
