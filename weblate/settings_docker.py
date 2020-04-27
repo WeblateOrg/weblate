@@ -370,6 +370,11 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
             os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
         )
 
+if "WEBLATE_SOCIAL_AUTH_VENDASTA_KEY" in os.environ:
+    AUTHENTICATION_BACKENDS += ("weblate.vendasta.auth.VendastaOpenIdConnect",)
+    SOCIAL_AUTH_VENDASTA_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_VENDASTA_KEY", "")
+    SOCIAL_AUTH_VENDASTA_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_VENDASTA_SECRET", "")
+
 # Always include Weblate backend
 AUTHENTICATION_BACKENDS += ("weblate.accounts.auth.WeblateUserBackend",)
 
@@ -398,6 +403,7 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
     "weblate.accounts.pipeline.password_reset",
+    "weblate.vendasta.access.set_permissions",
 )
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
     "social_core.pipeline.disconnect.allowed_to_disconnect",
