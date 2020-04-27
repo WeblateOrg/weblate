@@ -546,6 +546,7 @@ class UnitSerializer(RemovableSerializer):
             "flags",
             "fuzzy",
             "translated",
+            "approved",
             "position",
             "has_suggestion",
             "has_comment",
