@@ -1537,7 +1537,7 @@ $(function () {
             }
         }
     });
-    $('.search-group input').on('keydown', function (event) {
+    $('.search-group input').not('#id_q').on('keydown', function (event) {
         if (event.key === "Enter") {
             $(this).closest('.input-group').find('.search-add').click();
             event.preventDefault();

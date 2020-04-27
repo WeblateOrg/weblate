@@ -856,6 +856,16 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("format-highlight.png")
         self.click("Comments")
         self.screenshot("plurals.png")
+        # Test search dropdown
+        dropdown = self.driver.find_element_by_id("query-dropdown")
+        dropdown.click()
+        self.screenshot("query-dropdown.png")
+        self.click("Not translated strings")
+        # Test sort dropdown
+        sort = self.driver.find_element_by_id("query-sort-dropdown")
+        sort.click()
+        self.screenshot("query-sort.png")
+        self.click("Position")
 
         # Trigger check
         self.clear_field(self.driver.find_element_by_id("id_a2a808c8ccbece08_0"))

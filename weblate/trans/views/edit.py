@@ -130,6 +130,7 @@ def search(translation, request):
     if (
         session_key in request.session
         and "offset" in request.GET
+        and "sort_by" not in request.GET
         and "items" in request.session[session_key]
     ):
         search_result.update(request.session[session_key])
@@ -139,8 +140,8 @@ def search(translation, request):
 
     search_query = form.get_search_query() if form_valid else ""
     name = form.get_name() if form_valid else ""
-
-    # Grab unit IDs
+    print(allunits)
+    # Grab unit IDs)
     unit_ids = list(
         allunits.order_by_request(
             request.GET.get("sort_by", "").split(",")
