@@ -128,7 +128,7 @@ def is_celery_queue_long():
     Checks whether celery queue is too long.
 
     It does trigger if it is too long for at least one hour. This way peaks are
-    filtered out, and no warning need be issued for big operations (e.g. site-wide autotranslate).
+    filtered out, and no warning need be issued for big operations (e.g. site-wide autotranslation).
     """
     cache_key = "celery_queue_stats"
     queues_data = cache.get(cache_key, {})
