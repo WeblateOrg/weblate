@@ -920,14 +920,16 @@ For testing purposes, you can use the built-in web server in Django:
 
 .. warning::
 
-    Do not use this in production, as this has severe performance limitations.
+    DO NOT USE THIS SERVER IN A PRODUCTION SETTING. It has not gone through
+    security audits or performance tests. See also Django documentation on
+    :djadmin:`django:runserver`.
 
 .. hint::
 
    The Django built in server serves static files only with :setting:`DEBUG`
    enabled as it is intended for development only. For production use, please
    see wsgi setups in :ref:`uwsgi`, :ref:`apache`, :ref:`apache-gunicorn`, and
-   :ref:`static-files`
+   :ref:`static-files`.
 
 .. _static-files:
 
