@@ -128,7 +128,8 @@ def is_celery_queue_long():
     Checks whether celery queue is too long.
 
     It does trigger if it is too long for at least one hour. This way peaks are
-    filtered out, and no warning need be issued for big operations (e.g. site-wide autotranslation).
+    filtered out, and no warning need be issued for big operations (for example
+    site-wide autotranslation).
     """
     cache_key = "celery_queue_stats"
     queues_data = cache.get(cache_key, {})
@@ -270,28 +271,37 @@ def check_settings(app_configs, **kwargs):
     if not settings.ADMINS or "noreply@weblate.org" in (x[1] for x in settings.ADMINS):
         errors.append(
             weblate_check(
-                "weblate.E011", "E-mail addresses for site admins is misconfigured", Error
+                "weblate.E011",
+                "E-mail addresses for site admins is misconfigured",
+                Error,
             )
         )
 
     if settings.SERVER_EMAIL in DEFAULT_MAILS:
         errors.append(
-            weblate_check("weblate.E012", "The server e-mail address should be changed from its default value")
+            weblate_check(
+                "weblate.E012",
+                "The server e-mail address should be changed from its default value",
+            )
         )
     if settings.DEFAULT_FROM_EMAIL in DEFAULT_MAILS:
         errors.append(
-            weblate_check("weblate.E013", "The default \"From\" e-mail address should be changed from its default value")
+            weblate_check(
+                "weblate.E013",
+                'The "From" e-mail address should be changed from its default value',
+            )
         )
 
     if settings.SECRET_KEY == settings_example.SECRET_KEY:
         errors.append(
-            weblate_check("weblate.E014", "The cookie secret key should be changed from its default value")
+            weblate_check(
+                "weblate.E014",
+                "The cookie secret key should be changed from its default value",
+            )
         )
 
     if not settings.ALLOWED_HOSTS:
-        errors.append(
-            weblate_check("weblate.E015", "No allowed hosts are set up")
-        )
+        errors.append(weblate_check("weblate.E015", "No allowed hosts are set up"))
     return errors
 
 
