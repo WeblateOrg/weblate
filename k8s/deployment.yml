@@ -145,7 +145,12 @@ spec:
               key: email-password
         # GITHUB
         - name: WEBLATE_GITHUB_USERNAME
-          value: weblate@vendasta.com
+          value: weblate-worker@github.com
+        - name: WEBLATE_GITHUB_OAUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: weblate-github-oauth-token
+              key: hub
         # OTHER
         - name: WEBLATE_SITE_TITLE
           value: "Vendasta Weblate | Web Translate"
@@ -246,4 +251,7 @@ spec:
       - name: weblate-email-host-password
         secret:
           secretName: weblate-email-host-password
+      - name: weblate-github-oauth-token
+        secret:
+          secretName: weblate-github-oauth-token
 status: {}
