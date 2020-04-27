@@ -1,7 +1,7 @@
 Weblate 4.0.2
 -------------
 
-Not yet released.
+Released on April 27th 2020.
 
 * Improved performance of translation stats.
 * Improved performance of changing labels.
