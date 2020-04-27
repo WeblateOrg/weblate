@@ -1193,6 +1193,7 @@ Units
     :>json string flags: translation unit flags
     :>json boolean fuzzy: whether unit is fuzzy or marked for review
     :>json boolean translated: whether unit is translated
+    :>json boolean approved: whether translation is approved
     :>json int position: unit position in translation file
     :>json boolean has_suggestion: whether unit has suggestions
     :>json boolean has_comment: whether unit has comments
