@@ -27,18 +27,15 @@ from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
-SUPPORT_FUZZY = {"ts", "po", "po-mono"}
-
 
 class FlagBase(BaseAddon):
     events = (EVENT_UNIT_PRE_CREATE,)
     icon = "flag.svg"
+    compat = {"file_format": {"ts", "po", "po-mono"}}
 
     @classmethod
     def can_install(cls, component, user):
         if not component.has_template():
-            return False
-        if component.template_store.format_id in SUPPORT_FUZZY:
             return False
         return super().can_install(component, user)
 
