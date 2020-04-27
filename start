@@ -139,6 +139,7 @@ mkdir -p ~/.config
 echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
 
 >$2 ssh -vT ${WEBLATE_GITHUB_USERNAME}@github.com
+echo "Done initializing github"
 
 # Generate secret
 if [ ! -f /app/data/secret ] ; then
