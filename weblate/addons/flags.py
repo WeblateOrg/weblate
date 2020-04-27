@@ -31,11 +31,13 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 class FlagBase(BaseAddon):
     events = (EVENT_UNIT_PRE_CREATE,)
     icon = "flag.svg"
-    compat = {"file_format": {"ts", "po", "po-mono"}}
 
     @classmethod
     def can_install(cls, component, user):
         if not component.has_template():
+            return False
+        # Following formats support fuzzy flag, so avoid messing up with them
+        if component.file_format in {"ts", "po", "po-mono"}:
             return False
         return super().can_install(component, user)
 
