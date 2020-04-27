@@ -117,7 +117,7 @@ def check_mail_connection(app_configs, **kwargs):
         connection.open()
         connection.close()
     except Exception as error:
-        message = "Can not send email ({}), please check EMAIL_* settings."
+        message = "Cannot send e-mail ({}), please check EMAIL_* settings."
         errors.append(weblate_check(message.format(error), "weblate.E003"))
 
     return errors
@@ -127,8 +127,8 @@ def is_celery_queue_long():
     """
     Checks whether celery queue is too long.
 
-    It does trigger if it is too long for at least one hour. This way we filter out
-    peaks and avoid flipping warning on big operations (eg. site-wide autotranslate).
+    It does trigger if it is too long for at least one hour. This way peaks are
+    filtered out, and no warning need be issued for big operations (e.g. site-wide autotranslation).
     """
     cache_key = "celery_queue_stats"
     queues_data = cache.get(cache_key, {})
@@ -186,7 +186,7 @@ def check_celery(app_configs, **kwargs):
                 weblate_check(
                     "weblate.E009",
                     "The Celery tasks queue is too long, either the worker "
-                    "is not running or is too slow.",
+                    "is not running, or is too slow.",
                 )
             )
 
@@ -197,7 +197,7 @@ def check_celery(app_configs, **kwargs):
             errors.append(
                 weblate_check(
                     "weblate.E019",
-                    "The Celery does not process tasks or is too slow "
+                    "The Celery does not process tasks, or is too slow "
                     "in processing them.",
                 )
             )
@@ -216,7 +216,7 @@ def check_celery(app_configs, **kwargs):
         errors.append(
             weblate_check(
                 "weblate.C030",
-                "The Celery beats scheduler is not executing periodic tasks "
+                "The Celery beat scheduler is not executing periodic tasks "
                 "in a timely manner.",
             )
         )
@@ -230,7 +230,7 @@ def check_database(app_configs, **kwargs):
     return [
         weblate_check(
             "weblate.E006",
-            "Weblate is best performing with PostgreSQL, please consider migration.",
+            "Weblate performs best with PostgreSQL, consider migrating to it.",
             Info,
         )
     ]
@@ -245,7 +245,7 @@ def check_cache(app_configs, **kwargs):
         errors.append(
             weblate_check(
                 "weblate.E007",
-                "The configured cache backend will lead to serious "
+                "The configured cache back-end will lead to serious "
                 "performance or consistency issues.",
             )
         )
@@ -254,8 +254,8 @@ def check_cache(app_configs, **kwargs):
         errors.append(
             weblate_check(
                 "weblate.E008",
-                "Please configure separate avatar caching to reduce pressure "
-                "on the default cache",
+                "Please set up separate avatar caching to reduce pressure "
+                "on the default cache.",
                 Error,
             )
         )
@@ -270,27 +270,27 @@ def check_settings(app_configs, **kwargs):
     if not settings.ADMINS or "noreply@weblate.org" in (x[1] for x in settings.ADMINS):
         errors.append(
             weblate_check(
-                "weblate.E011", "The site admins seem to be wrongly configured", Error
+                "weblate.E011", "E-mail addresses for site admins is misconfigured", Error
             )
         )
 
     if settings.SERVER_EMAIL in DEFAULT_MAILS:
         errors.append(
-            weblate_check("weblate.E012", "The server email has default value")
+            weblate_check("weblate.E012", "The server e-mail address should be changed from its default value")
         )
     if settings.DEFAULT_FROM_EMAIL in DEFAULT_MAILS:
         errors.append(
-            weblate_check("weblate.E013", "The default from email has default value")
+            weblate_check("weblate.E013", "The default \"From\" e-mail address should be changed from its default value")
         )
 
     if settings.SECRET_KEY == settings_example.SECRET_KEY:
         errors.append(
-            weblate_check("weblate.E014", "The cookie secret key has default value")
+            weblate_check("weblate.E014", "The cookie secret key should be changed from its default value")
         )
 
     if not settings.ALLOWED_HOSTS:
         errors.append(
-            weblate_check("weblate.E015", "The allowed hosts are not configured")
+            weblate_check("weblate.E015", "No allowed hosts are set up")
         )
     return errors
 
@@ -320,7 +320,7 @@ def check_templates(app_configs, **kwargs):
     return [
         weblate_check(
             "weblate.E016",
-            "Configure cached template loader for better performance",
+            "Set up a cached template loader for better performance",
             Error,
         )
     ]
@@ -354,15 +354,15 @@ def check_site(app_configs, **kwargs):
 
     errors = []
     if not check_domain(get_site_domain()):
-        errors.append(weblate_check("weblate.E017", "Configure correct site domain"))
+        errors.append(weblate_check("weblate.E017", "Correct the site domain"))
     return errors
 
 
 def check_perms(app_configs=None, **kwargs):
-    """Check we can write to data dir."""
+    """Check that the data dir can be written to."""
     errors = []
     uid = os.getuid()
-    message = "Path {} is owned by different user, check your DATA_DIR settings."
+    message = "The path {} is owned by different user, check your DATA_DIR settings."
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
             path = os.path.join(dirpath, name)
@@ -380,7 +380,7 @@ def check_perms(app_configs=None, **kwargs):
 
 
 def check_errors(app_configs=None, **kwargs):
-    """Check there is error collection configured."""
+    """Check that error collection is configured."""
     if (
         hasattr(settings, "ROLLBAR")
         or hasattr(settings, "RAVEN_CONFIG")
@@ -390,7 +390,7 @@ def check_errors(app_configs=None, **kwargs):
     return [
         weblate_check(
             "weblate.I021",
-            "Error collection is not configured, "
+            "Error collection is not set up, "
             "it is highly recommended for production use",
             Info,
         )
@@ -398,13 +398,13 @@ def check_errors(app_configs=None, **kwargs):
 
 
 def check_encoding(app_configs=None, **kwargs):
-    """Check there is encoding is utf-8."""
+    """Check that the encoding is UTF-8."""
     if sys.getfilesystemencoding() == "utf-8" and sys.getdefaultencoding() == "utf-8":
         return []
     return [
         weblate_check(
             "weblate.C023",
-            "System encoding is not utf-8, processing non-ASCII strings will break",
+            "System encoding is not UTF-8, processing non-ASCII strings will break",
         )
     ]
 
