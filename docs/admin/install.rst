@@ -604,8 +604,8 @@ the :guilabel:`Domain name` to match your setup.
 .. note::
 
     This setting should only contain the domain name. For configuring protocol,
-    (enabling HTTPS) use :setting:`ENABLE_HTTPS` and for changing URL, use
-    :setting:`URL_PREFIX`.
+    (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing
+    URL, use :setting:`URL_PREFIX`.
 
 Alternatively, you can set the site name from the commandline using
 :djadmin:`changesite`. For example, when using the built-in server:
@@ -622,7 +622,10 @@ For a production site, you want something like:
 
 .. seealso::
 
-   :ref:`faq-site`, :djadmin:`changesite`,
+   :ref:`faq-site`,
+   :ref:`production-ssl`
+   :setting:`ENABLE_HTTPS`,
+   :djadmin:`changesite`,
    :doc:`django:ref/contrib/sites`
 
 .. _production-ssl:
@@ -631,11 +634,21 @@ Correctly configure HTTPS
 +++++++++++++++++++++++++
 
 It is strongly recommended to run Weblate using the encrypted HTTPS protocol.
-After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings, which also adjusts
-several other related Django settings in the example configuration.
+After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings:
 
-You might want to set up HSTS as well, see
-:ref:`django:security-recommendation-ssl` for more details.
+.. code-block:: python
+
+   ENABLE_HTTPS = True
+
+.. hint::
+
+    You might want to set up HSTS as well, see
+    :ref:`django:security-recommendation-ssl` for more details.
+
+.. seealso::
+
+   :setting:`ENABLE_HTTPS`,
+   :ref:`production-site`
 
 .. _production-database:
 

@@ -461,11 +461,19 @@ Whether to enable anonymous remote hooks.
 ENABLE_HTTPS
 ------------
 
-Whether to send links to Weblate as HTTPS or HTTP.
-This setting affects sent e-mails and generated absolute URLs.
+Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent
+e-mails and generated absolute URLs.
+
+.. hint::
+
+   In the default configuration this is also used for several Django settings
+   related to HTTPS.
 
 .. seealso::
 
+    :setting:`django:SESSION_COOKIE_SECURE`,
+    :setting:`django:CSRF_COOKIE_SECURE`,
+    :setting:`django:SECURE_SSL_REDIRECT`,
     :ref:`production-site`
 
 .. setting:: ENABLE_SHARING
