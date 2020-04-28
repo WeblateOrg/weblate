@@ -3,7 +3,7 @@
 {% load translations %}
 {% block userlinks %}
     {% if site_url %}
-        <a href="{{ site_url }}">{% trans 'Return to Weblate' %}</a> /
+        <a href="{{ site_url }}" id="return-to-weblate">{% trans 'Return to Weblate' %}</a> /
     {% endif %}
     {% if user.is_active and user.is_staff %}
         <a href="{% documentation "index" %}">{% trans 'Documentation' %}</a> /

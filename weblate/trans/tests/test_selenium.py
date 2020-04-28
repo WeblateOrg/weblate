@@ -34,11 +34,7 @@ from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from PIL import Image
 from selenium import webdriver
-from selenium.common.exceptions import (
-    ElementNotVisibleException,
-    NoSuchElementException,
-    WebDriverException,
-)
+from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -413,13 +409,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         return project
 
     def view_site(self):
-        try:
-            # Some browsers to apply CSS transformations when looking
-            element = self.driver.find_element_by_link_text("View site")
-        except NoSuchElementException:
-            element = self.driver.find_element_by_link_text("VIEW SITE")
         with self.wait_for_page_load():
-            self.click(element)
+            self.click(htmlid="return-to-weblate")
 
     def test_dashboard(self):
         self.do_login()
