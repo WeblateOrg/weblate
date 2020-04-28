@@ -9,7 +9,6 @@ Starting with our codebase
 If looking for some bugs to familiarize yourself with the Weblate
 codebase, look for ones labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_.
 
-
 Coding Weblate with PyCharm
 ---------------------------
 
@@ -59,6 +58,12 @@ Running Weblate locally
 The most comfortable approach to get started with Weblate development is to
 follow :ref:`quick-source`. It will get you a virtual env with editable Weblate
 sources.
+
+To install all dependencies useful for development, do:
+
+.. code-block:: sh
+
+   pip install -r requirements-dev.txt
 
 To start a development server run:
 
