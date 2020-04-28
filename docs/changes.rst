@@ -5,6 +5,7 @@ Not yet released.
 
 * Fixed possible crash in reports.
 * User mentions in comments are now case insensitive.
+* Fixed PostgreSQL migration for non superusers.
 
 Weblate 4.0.2
 -------------
