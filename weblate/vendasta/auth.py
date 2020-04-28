@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 
 

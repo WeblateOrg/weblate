@@ -4,7 +4,8 @@ from weblate.auth.models import Group
 
 def set_permissions(strategy, backend, user, details, **kwargs):
     """
-    Add all users to Viewers, add developers to 'Vendasta Internal', and add namespaced users to namespace group.
+    Add all users to Viewers, add developers to 'Vendasta Internal',
+    and add namespaced users to namespace group.
     """
     groups_to_add = [Group.objects.get("Viewers")]
 
