@@ -56,7 +56,6 @@ MARKDOWN = misaka.Markdown(
     RENDERER,
     extensions=(
         "fenced-code",
-        "no-intra-emphasis",
         "tables",
         "autolink",
         "space-headers",

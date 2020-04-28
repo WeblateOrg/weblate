@@ -36,6 +36,11 @@ class MarkdownTestCase(TestCase):
             "<p>link</p>\n", render_markdown('<a href="javascript:alert()">link</a>')
         )
 
+    def test_intra_emphasis(self):
+        self.assertEqual(
+            "<p>foo<strong>bar</strong>baz</p>\n", render_markdown("foo**bar**baz")
+        )
+
 
 class MarkdownMentionTestCase(TestCase):
     def test_mention(self):
