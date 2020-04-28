@@ -1511,7 +1511,15 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         if self.id:
             self.commit_pending("sync", None, skip_push=skip_push)
         self.configure_branch()
-        self.update_branch()
+        if self.id:
+            # Update existing repo
+            self.update_branch()
+        else:
+            # Reset to upstream in case not yet saved model (this is called
+            # from the clean method only)
+            with self.repository.lock:
+                self.update_remote_branch()
+                self.repository.reset()
 
     def set_default_branch(self):
         """Set default VCS branch if empty."""
