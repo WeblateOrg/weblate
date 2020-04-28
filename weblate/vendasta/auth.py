@@ -8,6 +8,6 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
     """Vendasta OpenID authentication Backend."""
 
     name = "vendasta"
-    OIDC_ENDPOINT = os.environ.get("WEBLATE_SOCIAL_AUTH_VENDASTA_OIDC_URL", "")
+    OIDC_ENDPOINT = "http://iam-demo.vendasta-internal.com"
     ACCESS_TOKEN_METHOD = "POST"
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]

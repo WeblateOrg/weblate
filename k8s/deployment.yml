@@ -72,7 +72,7 @@ spec:
         - name: ENVIRONMENT
           value: prod
         - name: DOCKER_IMAGE
-          value: gcr.io/repcore-prod/weblate:d15b033b-020b-48e1-aa58-ef82db0bb599
+          value: gcr.io/repcore-prod/weblate:1018f8a4-7d29-412b-8a03-1571d20cba1b
         - name: DOCKER_TAG
           value: e421071d-076e-4529-bb81-dab30627b0d3
         - name: GOOGLE_APPLICATION_CREDENTIALS
@@ -152,8 +152,6 @@ spec:
               name: weblate-github-oauth-token
               key: hub
         # OPENID CONNECT AUTH
-        - name: WEBLATE_SOCIAL_AUTH_VENDASTA_IODC_URL
-          value: "http://iam-prod.vendasta-internal.com"
         - name: WEBLATE_SOCIAL_AUTH_VENDASTA_KEY
           valueFrom:
             secretKeyRef:
@@ -179,7 +177,7 @@ spec:
           value: /app/data
         - name: WEBLATE_REQUIRE_LOGIN
           value: "1"
-        image: gcr.io/repcore-prod/weblate:d15b033b-020b-48e1-aa58-ef82db0bb599
+        image: gcr.io/repcore-prod/weblate:1018f8a4-7d29-412b-8a03-1571d20cba1b
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
