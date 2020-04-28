@@ -860,12 +860,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         dropdown = self.driver.find_element_by_id("query-dropdown")
         dropdown.click()
         self.screenshot("query-dropdown.png")
-        self.click("Not translated strings")
+        with self.wait_for_page_load():
+            self.click("Not translated strings")
+        self.screenshot("query-drop-clicked.png")
         # Test sort dropdown
         sort = self.driver.find_element_by_id("query-sort-dropdown")
         sort.click()
         self.screenshot("query-sort.png")
-        self.click("Position")
+        with self.wait_for_page_load():
+            self.click("Position")
 
         # Trigger check
         self.clear_field(self.driver.find_element_by_id("id_a2a808c8ccbece08_0"))

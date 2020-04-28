@@ -141,11 +141,7 @@ def search(translation, request):
     name = form.get_name() if form_valid else ""
 
     # Grab unit IDs
-    unit_ids = list(
-        allunits.order_by_request(
-            request.GET.get("sort_by", "").split(",")
-        ).values_list("id", flat=True)
-    )
+    unit_ids = list(allunits.order_by_request(request).values_list("id", flat=True))
 
     # Check empty search results
     if not unit_ids:
