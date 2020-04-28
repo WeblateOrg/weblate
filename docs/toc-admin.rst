@@ -26,3 +26,4 @@
     admin/customize
     admin/admin
     admin/support
+    legal

@@ -1,21 +1,33 @@
 .. _internals:
 
-Internals
-=========
+Weblate internals
+=================
 
 .. note::
 
     This chapter will give you basic overview of Weblate internals.
 
 Weblate derives most of its code structure from, and is based on `Django`_.
-Familiarize yourself with
-:doc:`django:intro/overview` to get a basic understanding of its file structure.
+
+Directory structure
+-------------------
+
+Quick overview of directory structure of Weblate main repository:
+
+``doc``
+   Source code for this documentation, built using `Sphinx <https://www.sphinx-doc.org/>`_.
+``dev-docker``
+   Docker code to run development server, see :ref:`dev-docker`.
+``weblate``
+   Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ application, see :ref:`internals`.
+``weblate/static``
+   Client files (CSS, Javascript and images).
 
 Modules
 -------
 
 Weblate consists of several Django applications (some optional, see
-:doc:`admin/optionals`):
+:doc:`/admin/optionals`):
 
 ``accounts``
 
