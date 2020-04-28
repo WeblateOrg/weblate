@@ -55,7 +55,6 @@ import weblate.trans.views.hooks
 import weblate.trans.views.js
 import weblate.trans.views.labels
 import weblate.trans.views.lock
-import weblate.trans.views.manage
 import weblate.trans.views.reports
 import weblate.trans.views.search
 import weblate.trans.views.settings
@@ -563,70 +562,70 @@ real_patterns = [
     ),
     url(
         r"^progress/" + COMPONENT + "$",
-        weblate.trans.views.manage.component_progress,
+        weblate.trans.views.settings.component_progress,
         name="component_progress",
     ),
     url(
         r"^progress/" + COMPONENT + "terminate/$",
-        weblate.trans.views.manage.component_progress_terminate,
+        weblate.trans.views.settings.component_progress_terminate,
         name="component_progress_terminate",
     ),
     url(
         r"^js/progress/" + COMPONENT + "$",
-        weblate.trans.views.manage.component_progress_js,
+        weblate.trans.views.settings.component_progress_js,
         name="component_progress_js",
     ),
     # Announcements
     url(
         r"^announcement/" + PROJECT + "$",
-        weblate.trans.views.manage.announcement_project,
+        weblate.trans.views.settings.announcement_project,
         name="announcement_project",
     ),
     url(
         r"^announcement/" + COMPONENT + "$",
-        weblate.trans.views.manage.announcement_component,
+        weblate.trans.views.settings.announcement_component,
         name="announcement_component",
     ),
     url(
         r"^announcement/" + TRANSLATION + "$",
-        weblate.trans.views.manage.announcement_translation,
+        weblate.trans.views.settings.announcement_translation,
         name="announcement_translation",
     ),
     url(
         r"^js/announcement/(?P<pk>[0-9]+)/delete/$",
-        weblate.trans.views.manage.announcement_delete,
+        weblate.trans.views.settings.announcement_delete,
         name="announcement-delete",
     ),
     # VCS manipulation - remove
     url(
         r"^remove/" + PROJECT + "$",
-        weblate.trans.views.manage.remove_project,
+        weblate.trans.views.settings.remove_project,
         name="remove_project",
     ),
     url(
         r"^remove/" + COMPONENT + "$",
-        weblate.trans.views.manage.remove_component,
+        weblate.trans.views.settings.remove_component,
         name="remove_component",
     ),
     url(
         r"^remove/" + TRANSLATION + "$",
-        weblate.trans.views.manage.remove_translation,
+        weblate.trans.views.settings.remove_translation,
         name="remove_translation",
     ),
     # Rename/move
     url(
         r"^rename/" + PROJECT + "$",
-        weblate.trans.views.manage.rename_project,
+        weblate.trans.views.settings.rename_project,
         name="rename",
     ),
     url(
         r"^rename/" + COMPONENT + "$",
-        weblate.trans.views.manage.rename_component,
+        weblate.trans.views.settings.rename_component,
         name="rename",
     ),
     url(
         r"^move/" + COMPONENT + "$",
-        weblate.trans.views.manage.move_component,
+        weblate.trans.views.settings.move_component,
         name="move",
     ),
     # Locking
