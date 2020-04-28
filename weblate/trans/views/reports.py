@@ -164,17 +164,16 @@ def generate_counts(user, start_date, end_date, **kwargs):
     result = {}
     action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}
 
-    base = Change.objects.content()
+    base = Change.objects.content().filter(unit__isnull=False)
     if user:
         base = base.filter(author=user)
+    else:
+        base = base.filter(author__isnull=False)
 
     changes = base.filter(
         timestamp__range=(start_date, end_date), **kwargs
     ).prefetch_related("author", "unit")
     for change in changes:
-        if change.unit is None:
-            continue
-
         email = change.author.email
 
         if email not in result:
