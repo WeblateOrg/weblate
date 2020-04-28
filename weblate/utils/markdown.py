@@ -19,21 +19,25 @@
 
 
 import re
+from functools import reduce
 
 import misaka
+from django.db.models import Q
 from django.utils.safestring import mark_safe
 
 from weblate.auth.models import User
 
-MENTION_RE = re.compile(r"@([\w.@+-]+)\b", re.UNICODE)
+MENTION_RE = re.compile(r"(@[\w.@+-]+)\b", re.UNICODE)
 
 
-def get_mentions(text):
-    for match in MENTION_RE.findall(text):
-        try:
-            yield User.objects.get(username=match, is_active=True)
-        except User.DoesNotExist:
-            continue
+def get_mention_users(text):
+    """Returns IDs of users mentioned in the text."""
+    matches = MENTION_RE.findall(text)
+    if not matches:
+        return User.objects.none()
+    return User.objects.filter(
+        reduce(lambda acc, x: acc | Q(username__iexact=x[1:]), matches, Q())
+    )
 
 
 class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
@@ -52,7 +56,6 @@ MARKDOWN = misaka.Markdown(
     RENDERER,
     extensions=(
         "fenced-code",
-        "no-intra-emphasis",
         "tables",
         "autolink",
         "space-headers",
@@ -63,12 +66,16 @@ MARKDOWN = misaka.Markdown(
 
 
 def render_markdown(text):
-    for user in get_mentions(text):
-        mention = "@{}".format(user.username)
-        text = text.replace(
-            mention,
-            '**[{}]({} "{}")**'.format(
-                mention, user.get_absolute_url(), user.get_visible_name()
-            ),
-        )
+    users = {u.username.lower(): u for u in get_mention_users(text)}
+    parts = MENTION_RE.split(text)
+    for pos, part in enumerate(parts):
+        if not part.startswith("@"):
+            continue
+        username = part[1:].lower()
+        if username in users:
+            user = users[username]
+            parts[pos] = '**[{}]({} "{}")**'.format(
+                part, user.get_absolute_url(), user.get_visible_name()
+            )
+    text = "".join(parts)
     return mark_safe(MARKDOWN(text))
