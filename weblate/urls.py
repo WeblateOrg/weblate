@@ -974,7 +974,6 @@ real_patterns = [
         name="save_zen",
     ),
     # Admin interface
-    url(r"^admin/doc/", include("django.contrib.admindocs.urls")),
     url(
         r"^admin/",
         include(
