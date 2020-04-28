@@ -373,7 +373,9 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
 if "WEBLATE_SOCIAL_AUTH_VENDASTA_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("weblate.vendasta.auth.VendastaOpenIdConnect",)
     SOCIAL_AUTH_VENDASTA_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_VENDASTA_KEY", "")
-    SOCIAL_AUTH_VENDASTA_SECRET = os.environ.get("WEBLATE_SOCIAL_AUTH_VENDASTA_SECRET", "")
+    SOCIAL_AUTH_VENDASTA_SECRET = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_VENDASTA_SECRET", ""
+    )
 
 # Always include Weblate backend
 AUTHENTICATION_BACKENDS += ("weblate.accounts.auth.WeblateUserBackend",)
