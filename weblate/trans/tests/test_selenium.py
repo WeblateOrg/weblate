@@ -856,19 +856,32 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("format-highlight.png")
         self.click("Comments")
         self.screenshot("plurals.png")
+
         # Test search dropdown
         dropdown = self.driver.find_element_by_id("query-dropdown")
         dropdown.click()
+        time.sleep(0.5)
         self.screenshot("query-dropdown.png")
         with self.wait_for_page_load():
             self.click("Not translated strings")
-        self.screenshot("query-drop-clicked.png")
+        self.driver.find_element_by_id("id_34a4642999e44a2b_0")
+
         # Test sort dropdown
         sort = self.driver.find_element_by_id("query-sort-dropdown")
         sort.click()
+        time.sleep(0.5)
         self.screenshot("query-sort.png")
         with self.wait_for_page_load():
             self.click("Position")
+
+        # Return to original unit
+        element = self.driver.find_element_by_id("id_q")
+        self.clear_field(element)
+        element.send_keys("'%(count)s word'")
+        self.screenshot("query-done-1.png")
+        with self.wait_for_page_load():
+            element.submit()
+        self.screenshot("query-done.png")
 
         # Trigger check
         self.clear_field(self.driver.find_element_by_id("id_a2a808c8ccbece08_0"))
