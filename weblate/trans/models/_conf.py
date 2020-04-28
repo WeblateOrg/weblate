@@ -45,7 +45,7 @@ class WeblateConf(AppConf):
     ENABLE_HOOKS = True
 
     # Enable sharing
-    ENABLE_SHARING = True
+    ENABLE_SHARING = False
 
     # Number of nearby messages to show in each direction
     NEARBY_MESSAGES = 5
