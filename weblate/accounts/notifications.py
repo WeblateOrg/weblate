@@ -39,7 +39,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.models import Alert, Change, Translation
-from weblate.utils.markdown import get_mentions
+from weblate.utils.markdown import get_mention_users
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
 
@@ -515,9 +515,15 @@ class MentionCommentNotificaton(Notification):
     ):
         if self.has_required_attrs(change):
             return []
-        users = [user.pk for user in get_mentions(change.comment.comment)]
         return super().get_users(
-            frequency, change, project, component, translation, users
+            frequency,
+            change,
+            project,
+            component,
+            translation,
+            list(
+                get_mention_users(change.comment.comment).values_list("id", flat=True)
+            ),
         )
 
 
