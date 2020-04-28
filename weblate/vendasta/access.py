@@ -2,17 +2,21 @@
 from weblate.auth.models import Group
 
 
-def set_permissions(strategy, backend, user, details, **kwargs):
-    """
+def set_permissions(strategy, backend, user, details, is_new=False, **kwargs):
+    """Set permissions for new Vendasta users.
+
     Add all users to Viewers, add developers to 'Vendasta Internal',
     and add namespaced users to namespace group.
     """
+    if not is_new:
+        return
+
     groups_to_add = [Group.objects.get("Viewers")]
 
     roles = details.get("roles", [])
     if "developer" in roles:
-        groups_to_add.append(Group.objects.get(name="Vendasta Internal"))
-    if "partner" in roles:
+        groups_to_add.append(Group.objects.get(name="Vendasta Developers"))
+    elif "partner" in roles:
         groups_to_add.append(Group.objects.get(name="Partner Users"))
 
     namespace = details.get("namespace")
