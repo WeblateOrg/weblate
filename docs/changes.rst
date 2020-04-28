@@ -1,3 +1,10 @@
+Weblate 4.0.3
+--------------
+
+Not yet released.
+
+* Fixed possible crash in reports.
+
 Weblate 4.0.2
 -------------
 
