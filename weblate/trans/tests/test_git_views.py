@@ -126,3 +126,25 @@ class GitCommittedChangeTranslationTest(GitCommittedChangeProjectTest):
     """Testing of translation git manipulations with committed change."""
 
     TEST_TYPE = "translation"
+
+
+class GitBrokenProjectTest(GitNoChangeProjectTest):
+    """Testing of project git manipulations with disappeared remote."""
+
+    def setUp(self):
+        super().setUp()
+        repo = self.component.repository
+        with repo.lock:
+            repo.execute(["branch", "--delete", "--remotes", "origin/master"])
+
+
+class GitBrokenComponentTest(GitBrokenProjectTest):
+    """Testing of component git manipulations with disappeared remote."""
+
+    TEST_TYPE = "component"
+
+
+class GitBrokenTranslationTest(GitBrokenProjectTest):
+    """Testing of translation git manipulations with disappeared remote."""
+
+    TEST_TYPE = "translation"
