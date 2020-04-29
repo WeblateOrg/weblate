@@ -11,3 +11,4 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
     OIDC_ENDPOINT = "http://iam-prod.vendasta-internal.com"
     ACCESS_TOKEN_METHOD = "POST"
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]
+    USERNAME_KEY = "sub"
