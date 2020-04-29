@@ -114,7 +114,7 @@ def get_user_display(user, icon=True, link=False, prefix=""):
 
     # Escape HTML
     full_name = escape(full_name)
-    username = escape(username)
+    username = escape(full_name)
 
     # Icon requested?
     if icon and settings.ENABLE_AVATARS:

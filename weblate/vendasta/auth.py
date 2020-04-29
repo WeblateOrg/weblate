@@ -13,7 +13,7 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]
     USERNAME_KEY = "sub"
 
-    def get_user_details(self, response):
+    def get_user_details(self, response)    :
         details = super(VendastaOpenIdConnect, self).get_user_details(response)
         details.update({
             'roles': response.get('roles', []),
