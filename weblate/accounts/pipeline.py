@@ -40,6 +40,7 @@ from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.requests import request
 from weblate.utils.validators import USERNAME_MATCHER, clean_fullname
+from weblate.vendasta.auth import VendastaOpenIdConnect
 
 STRIP_MATCHER = re.compile(r"[^\w\s.@+-]")
 CLEANUP_MATCHER = re.compile(r"[-\s]+")
@@ -190,6 +191,7 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
     if (
         not user
         and not settings.REGISTRATION_OPEN
+        and not isinstance(backend, VendastaOpenIdConnect)
         and weblate_action not in ("reset", "remove", "invite")
     ):
         raise AuthMissingParameter(backend, "disabled")
