@@ -6,13 +6,14 @@
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Alexander Danilov <git@modos189.ru>, 2020.
 # george k <norhorn@gmail.com>, 2020.
+# Despoina Theodoropoulou <despina.t@protonmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-27 17:39+0000\n"
-"Last-Translator: george k <norhorn@gmail.com>\n"
+"PO-Revision-Date: 2020-05-03 08:11+0000\n"
+"Last-Translator: Despoina Theodoropoulou <despina.t@protonmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/>"
 "\n"
 "Language: el\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0.2-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -147,14 +148,10 @@ msgid "Password"
 msgstr "Κωδικός"
 
 #: weblate/accounts/forms.py:483
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
 msgstr ""
-"Εισάγετε το σωστό όνομα χρήστη και συνθηματικό. Σημειώστε ότι και τα δύο "
-"πεδία ίσως απαιτούν συμφωνία πεζών-κεφαλαίων."
+"Εισάγετε το σωστό όνομα χρήστη και τον κωδικό. Συμπληρώστε με τους ίδιους "
+"χαρακτήρες κατά την εγγραφή ."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -162,26 +159,26 @@ msgstr "Αυτός ο λογαριασμός είναι απενεργοποιη
 
 #: weblate/accounts/forms.py:501
 msgid "Too many authentication attempts from this location!"
-msgstr "Πάρα πολλές προσπάθειες πιστοποίησης από αυτήν την τοποθεσία!"
+msgstr "Πάρα πολλές προσπάθειες επιβεβαίωσης από αυτήν την τοποθεσία!"
 
 #: weblate/accounts/forms.py:547 weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:60
 msgid "Project name"
-msgstr "Όνομα έργου"
+msgstr "Τίτλος εργασίας"
 
 #: weblate/accounts/forms.py:549 weblate/templates/project_info.html:5
 #: weblate/trans/models/project.py:72
 msgid "Project website"
-msgstr "Ιστοσελίδα έργου"
+msgstr "Ιστοσελίδα εργασίας"
 
 #: weblate/accounts/forms.py:551 weblate/trans/forms.py:1485
 #: weblate/trans/models/component.py:194
 msgid "Source code repository"
-msgstr "Αποθετήριο πηγαίου κώδικα"
+msgstr "Αποθήκη κώδικα πηγής"
 
 #: weblate/accounts/forms.py:552
 msgid "URL of source code repository, for example Git or Mercurial."
-msgstr "Το URL του αποθετηρίου πηγαίου κώδικα, για παράδειγμα Git ή Mercurial."
+msgstr "Το URL της αποθήκης του κώδικα πηγής, για παράδειγμα Git ή Mercurial."
 
 #: weblate/accounts/forms.py:557 weblate/templates/component_info.html:63
 #: weblate/templates/trans/discover-choice.html:5
@@ -243,16 +240,12 @@ msgstr ""
 "σας."
 
 #: weblate/accounts/forms.py:691
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Θα λάβετε μία ειδοποίηση για κάθε τέτοιο συμβάν από τα παρακολουθούμενα έργα "
-"σας."
+"Θα λάβετε μία ειδοποίηση για κάθε τέτοιο γεγονός από τα έργα σας που έχουν "
+"προβληθεί."
 
 #: weblate/accounts/forms.py:696
 #, python-format
@@ -273,16 +266,12 @@ msgstr ""
 "σας στα παρακολουθούμενα έργα σας."
 
 #: weblate/accounts/forms.py:711
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
 "Μόνο εσείς θα λάβετε αυτές τις ειδοποιήσεις για τις μεταφραζόμενες γλώσσες "
-"σας στα παρακολουθούμενα έργα σας."
+"σας στα έργα σας που έχουν προβληθεί."
 
 #: weblate/accounts/forms.py:716
 #, python-format
@@ -307,25 +296,23 @@ msgstr "Ο κωδικός πρόσβασης άλλαξε."
 #: weblate/accounts/models.py:79
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr ""
+msgstr "Το όνομα χρήστη άλλαξε από {παλιό} to {νέο}."
 
 #: weblate/accounts/models.py:80
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr ""
+msgstr "Το e-mail άλλαξε από «παλιό» σε «νέο»."
 
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr ""
+msgstr "Το ονοματεπώνυμο άλλαξε από {old} σε {new}."
 
 #: weblate/accounts/models.py:82
 msgid "Password reset requested."
 msgstr "Ζητήθηκε επαναφορά κωδικού πρόσβασης."
 
 #: weblate/accounts/models.py:83
-#, fuzzy
-#| msgid "Password reset has been confirmed and password has been disabled."
 msgid "Password reset confirmed, password turned off."
 msgstr ""
 "Η επαναφορά συνθηματικού έχει επιβεβαιωθεί και το προηγούμενο συνθηματικό "
