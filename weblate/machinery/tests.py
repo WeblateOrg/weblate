@@ -17,6 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import io
+from unittest.mock import Mock, patch
+
 import responses
 from botocore.stub import ANY, Stubber
 from django.conf import settings
@@ -542,9 +545,30 @@ class MachineTranslationTest(TestCase):
             # flake8: noqa: F841
             machine = self.get_machine(GoogleTranslationV3)
 
-    @override_settings(MT_GOOGLE_CREDENTIALS="SECRET", MT_GOOGLE_PROJECT="project-1245")
+    @override_settings(
+        MT_GOOGLE_CREDENTIALS="SECRET", MT_GOOGLE_PROJECT="translating-7586"
+    )
+    @patch.object(
+        GoogleTranslationV3, "download_languages", Mock(return_value=["cs", "en", "es"])
+    )
+    @patch.object(
+        GoogleTranslationV3,
+        "download_translations",
+        Mock(
+            return_value=[
+                {
+                    "text": "Ahoj",
+                    "quality": 90,
+                    "service": "Google Translate API v3",
+                    "source": "Hello",
+                }
+            ]
+        ),
+    )
     def test_google_apiv3(self):
-        pass
+        with patch("google.oauth2.service_account.Credentials"):
+            machine = self.get_machine(GoogleTranslationV3)
+            self.assert_translate(machine)
 
     @responses.activate
     def test_amagama_nolang(self):
