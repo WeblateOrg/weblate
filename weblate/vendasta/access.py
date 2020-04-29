@@ -21,6 +21,17 @@ def set_permissions(strategy, backend, user, details, **kwargs):
 
     namespace = details.get("namespace")
     if namespace:
-        groups_to_add.append(Group.objects.get_or_create(name=namespace.upper()))
+        groups_to_add.append(get_or_create_namespace_group(namespace.upper()))
 
     user.groups.add(*[group for group in groups_to_add if group])
+
+
+def get_or_create_namespace_group(namespace):
+    """Ensure the existence of a group for a namespace, and return it.
+
+    get_or_create returns a Group if successful, or a tuple of type (Group, bool) if it must create a new Group.
+    """
+    namespace_group = Group.objects.get_or_create(name=namespace.upper())
+    if isinstance(namespace_group, tuple):
+        namespace_group = namespace_group[0]
+    return namespace_group
