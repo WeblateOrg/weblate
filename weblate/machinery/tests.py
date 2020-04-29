@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import io
 from unittest.mock import Mock, patch
 
 import responses
