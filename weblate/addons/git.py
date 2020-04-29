@@ -44,7 +44,7 @@ class GitSquashAddon(BaseAddon):
 
     def squash_all(self, component, repository, base=None, author=None):
         remote = base if base else repository.get_remote_branch_name()
-        message = repository.execute(["log", "--format=%B", "{}..HEAD".format(remote)])
+        message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote])
         # Can happen for added and removed translation
         if repository.needs_commit():
@@ -60,6 +60,34 @@ class GitSquashAddon(BaseAddon):
                 languages[code].extend(translation.filenames)
         return languages
 
+    def get_squash_commit_message(self, repository, log_format, remote, filenames=None):
+        commit_message = self.instance.configuration.get("commit_message")
+
+        if not commit_message:
+            command = [
+                "log",
+                "--format={}".format(log_format),
+                "{}..HEAD".format(remote),
+            ]
+            if filenames:
+                command += ["--"] + filenames
+
+            commit_message = repository.execute(command)
+
+        if self.instance.configuration.get("append_trailers"):
+            command = [
+                "log",
+                "--format={}".format("%(trailers:separator)"),
+                "{}..HEAD".format(remote),
+            ]
+            if filenames:
+                command += ["--"] + filenames
+
+            trailers = repository.execute(command)
+            commit_message = "\n\n".join([commit_message, trailers])
+
+        return commit_message
+
     def commit_existing(self, repository, message, files):
         files = [name for name in files if os.path.exists(name)]
         if files:
@@ -73,8 +101,8 @@ class GitSquashAddon(BaseAddon):
         for code, filenames in languages.items():
             if not filenames:
                 continue
-            messages[code] = repository.execute(
-                ["log", "--format=%B", "{}..HEAD".format(remote), "--"] + filenames
+            messages[code] = self.get_squash_commit_message(
+                repository, "%B", remote, filenames
             )
 
         repository.execute(["reset", "--mixed", remote])
@@ -91,8 +119,8 @@ class GitSquashAddon(BaseAddon):
         messages = {}
         for filenames in languages.values():
             for filename in filenames:
-                messages[filename] = repository.execute(
-                    ["log", "--format=%B", "{}..HEAD".format(remote), "--", filename]
+                messages[filename] = self.get_squash_commit_message(
+                    repository, "%B", remote, [filename]
                 )
 
         repository.execute(["reset", "--mixed", remote])
