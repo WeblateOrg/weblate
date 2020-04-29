@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 from weblate.auth.models import Group
+from weblate.logger import LOGGER
 
 
-def set_permissions(strategy, backend, user, details, is_new=False, **kwargs):
+def set_permissions(strategy, backend, user, details, **kwargs):
     """Set permissions for new Vendasta users.
 
     Add all users to Viewers, add developers to 'Vendasta Internal',
     and add namespaced users to namespace group.
     """
+    LOGGER.info("details from api: %s", details)
+
     groups_to_add = [Group.objects.get(name="Viewers")]
 
     roles = details.get("roles", [])
