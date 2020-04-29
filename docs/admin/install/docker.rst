@@ -728,6 +728,17 @@ both Weblate and PostgreSQL containers.
    `SSL Mode Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_
 
 
+Database backup settings
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. seealso::
+    :ref:`backup-dumps`
+
+.. envvar:: WEBLATE_DATABASE_BACKUP
+
+    Configures the daily database dump using :setting:`DATABASE_BACKUP`. Defaults to ``plain``.
+
+
 Caching server setup
 ~~~~~~~~~~~~~~~~~~~~
 
