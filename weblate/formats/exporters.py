@@ -24,7 +24,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from translate.misc.multistring import multistring
 from translate.storage.csvl10n import csvfile
-from translate.storage.jsonl10n import JsonFile
+from translate.storage.jsonl10n import JsonFile, JsonNestedFile
 from translate.storage.mo import mofile
 from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
@@ -378,3 +378,10 @@ class JsonExporter(BaseExporter):
     verbose = _("JSON")
     storage_class = JsonFile
     set_id = True
+
+
+@register_exporter
+class NestedJSONExporter(JsonExporter):
+    name = "nested_json"
+    verbose = _("JSON nested structure file")
+    storage_class = JsonNestedFile
