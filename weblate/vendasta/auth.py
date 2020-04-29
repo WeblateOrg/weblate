@@ -15,5 +15,8 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
 
     def get_user_details(self, response):
         details = super(VendastaOpenIdConnect, self).get_user_details(response)
-        details['roles'] = response.get('roles', [])
+        details.update({
+            'roles': response.get('roles', []),
+            'namespace': response.get('namespace')
+        })
         return details
