@@ -490,6 +490,42 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<target state="translated">Source string</target>',
     )
 
+    def test_mark_fuzzy(self):
+        # Read test content
+        with open(self.FILE, "rb") as handle:
+            testdata = handle.read()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, "test.{0}".format(self.EXT))
+
+        # Write test data to file
+        with open(testfile, "wb") as handle:
+            handle.write(testdata)
+
+        # Update first unit as translated
+        storage = self.parse_file(testfile)
+        unit = storage.all_units[0]
+        unit.set_target("test")
+        unit.mark_fuzzy(False)
+        storage.save()
+
+        # Verify the state is set
+        with open(testfile, "r") as handle:
+            self.assertIn("<target>test</target>", handle.read())
+
+        # Update first unit as fuzzy
+        storage = self.parse_file(testfile)
+        unit = storage.all_units[0]
+        unit.set_target("test")
+        unit.mark_fuzzy(True)
+        storage.save()
+
+        # Verify the state is set
+        with open(testfile, "r") as handle:
+            self.assertIn(
+                '<target state="needs-translation">test</target>', handle.read()
+            )
+
 
 class XliffIdFormatTest(XliffFormatTest):
     FILE = TEST_XLIFF_ID
