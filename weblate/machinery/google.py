@@ -106,22 +106,28 @@ class GoogleTranslation(MachineTranslation):
 class GoogleTranslationV3(MachineTranslation):
     """Google Translate API v3 machine translation support."""
 
+    setup = None
     name = "Google Translate API v3"
     max_score = 90
 
     def __init__(self):
         """Check configuration."""
         super().__init__()
+        config_error = []
         if settings.MT_GOOGLE_CREDENTIALS is None:
-            raise MissingConfiguration("Google Translate requires API key")
+            config_error.append("Google Translate requires API key")
         if settings.MT_GOOGLE_PROJECT is None:
-            raise MissingConfiguration(
+            config_error.append(
                 "You have to specify Google Cloud project "
                 "affiliated with provided credentials"
             )
+        if len(config_error) > 0:
+            raise MachineTranslationError(", ".join(config_error))
+
         credentials = service_account.Credentials.from_service_account_file(
             settings.MT_GOOGLE_CREDENTIALS
         )
+
         self.client = TranslationServiceClient(credentials=credentials)
         self.parent = self.client.location_path(
             settings.MT_GOOGLE_PROJECT, settings.MT_GOOGLE_LOCATION

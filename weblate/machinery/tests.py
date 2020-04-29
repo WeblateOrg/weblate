@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import responses
 from botocore.stub import ANY, Stubber
 from django.conf import settings
@@ -32,7 +31,11 @@ from weblate.machinery.base import MachineryRateLimit, MachineTranslationError
 from weblate.machinery.deepl import DEEPL_LANGUAGES, DEEPL_TRANSLATE, DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
-from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
+from weblate.machinery.google import (
+    GOOGLE_API_ROOT,
+    GoogleTranslation,
+    GoogleTranslationV3,
+)
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
     MST_API_URL,
@@ -531,6 +534,17 @@ class MachineTranslationTest(TestCase):
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
+
+    def test_google_apiv3_bad_config(self):
+        with self.assertRaisesRegex(
+            MachineTranslationError, r"API\sskey|Cloud\sproject"
+        ):
+            # flake8: noqa: F841
+            machine = self.get_machine(GoogleTranslationV3)
+
+    @override_settings(MT_GOOGLE_CREDENTIALS="SECRET", MT_GOOGLE_PROJECT="project-1245")
+    def test_google_apiv3(self):
+        pass
 
     @responses.activate
     def test_amagama_nolang(self):
