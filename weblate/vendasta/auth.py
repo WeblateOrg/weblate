@@ -12,3 +12,8 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
     ACCESS_TOKEN_METHOD = "POST"
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]
     USERNAME_KEY = "sub"
+
+    def get_user_details(self, response):
+        details = super(VendastaOpenIdConnect, self).get_user_details(response)
+        details['roles'] = response.get('roles', [])
+        return details
