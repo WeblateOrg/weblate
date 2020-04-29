@@ -324,7 +324,8 @@ def ensure_valid(
         raise AuthMissingParameter(backend, "user")
 
     # Verify if this mail is not used on other accounts
-    if new_association:
+    # Vendasta auth allows for multiple email objects to exist
+    if new_association and not isinstance(backend, VendastaOpenIdConnect):
         same = VerifiedEmail.objects.filter(email=details["email"])
         if user:
             same = same.exclude(social__user=user)
