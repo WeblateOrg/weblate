@@ -8,7 +8,7 @@ def set_permissions(strategy, backend, user, details, is_new=False, **kwargs):
     Add all users to Viewers, add developers to 'Vendasta Internal',
     and add namespaced users to namespace group.
     """
-    groups_to_add = [Group.objects.get("Viewers")]
+    groups_to_add = [Group.objects.get(name="Viewers")]
 
     roles = details.get("roles", [])
     if "developer" in roles:
