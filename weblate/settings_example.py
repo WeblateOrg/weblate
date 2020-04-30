@@ -319,6 +319,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Allow new user registrations
 REGISTRATION_OPEN = True
 
+# Shortcut for login required setting
+LOGIN_REQUIRED = False
+
 # Middleware
 MIDDLEWARE = [
     "weblate.middleware.ProxyMiddleware",
@@ -770,9 +773,10 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
-        # Use following with LOGIN_REQUIRED_URLS
-        # "rest_framework.permissions.IsAuthenticated"
+        # Require authentication for login required sites
+        "rest_framework.permissions.IsAuthenticated"
+        if LOGIN_REQUIRED
+        else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
@@ -791,9 +795,8 @@ REST_FRAMEWORK = {
 }
 
 # Example for restricting access to logged in users
-# LOGIN_REQUIRED_URLS = (
-#     r"/(.*)$",
-# )
+if LOGIN_REQUIRED:
+    LOGIN_REQUIRED_URLS = (r"/(.*)$",)
 
 # In such case you will want to include some of the exceptions
 # LOGIN_REQUIRED_URLS_EXCEPTIONS = (

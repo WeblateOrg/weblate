@@ -209,7 +209,11 @@ def cleanup_repo_url(url, text=None):
     """Remove credentials from repository URL."""
     if text is None:
         text = url
-    parsed = urlparse(url)
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        # The URL can not be parsed, so avoid stripping
+        return text
     if parsed.username and parsed.password:
         return text.replace("{0}:{1}@".format(parsed.username, parsed.password), "")
     if parsed.username:
