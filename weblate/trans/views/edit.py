@@ -109,6 +109,22 @@ def cleanup_session(session):
             del session[key]
 
 
+def get_sort_name(request):
+    """Gets sort name."""
+    sort_dict = {
+        "position": "Position",
+        "priority": "Priority",
+        "num_words": "Word count",
+        "context": "Context",
+    }
+    result = {
+        "query": request.GET.get("sort_by", ""),
+        "name": sort_dict.get(request.GET.get("sort_by", ""), ""),
+        "direction": request.GET.get("sort_by_direction", ""),
+    }
+    return result
+
+
 def search(translation, request):
     """Perform search or returns cached search results."""
     # Possible new search
@@ -130,6 +146,7 @@ def search(translation, request):
     if (
         session_key in request.session
         and "offset" in request.GET
+        and "sort_by" not in request.GET
         and "items" in request.session[session_key]
     ):
         search_result.update(request.session[session_key])
@@ -486,6 +503,7 @@ def translate(request, project, component, lang):
 
     # Prepare form
     form = TranslationForm(request.user, translation, unit)
+    sort = get_sort_name(request)
 
     return render(
         request,
@@ -505,6 +523,9 @@ def translate(request, project, component, lang):
             "search_items": search_result["items"],
             "search_query": search_result["query"],
             "offset": offset,
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
+            "sort_direction": sort["direction"],
             "filter_name": search_result["name"],
             "filter_count": num_results,
             "filter_pos": offset,

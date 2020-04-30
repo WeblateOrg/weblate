@@ -118,12 +118,15 @@ class UnitQuerySet(models.QuerySet):
 
     def order_by_request(self, request):
         sort_list_request = request.GET.get("sort_by", "").split(",")
-        available_sort_choices = ["-priority", "position", "context", "num_words"]
+        sort_direction = request.GET.get("sort_by_direction", "")
+        available_sort_choices = ["priority", "position", "context", "num_words"]
         sort_list = [
-            choice for choice in sort_list_request if choice in available_sort_choices
+            "{}{}".format(sort_direction, choice)
+            for choice in sort_list_request
+            if choice in available_sort_choices
         ]
         if not sort_list:
-            sort_list = ["-priority", "position"]
+            return self.order()
         return self.order_by(*sort_list)
 
     def get_unit(self, ttunit):

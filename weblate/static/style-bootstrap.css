@@ -431,6 +431,7 @@ kbd {
 }
 .unit-navi.pagination {
     margin-top: 0;
+    padding-left: 15px;
 }
 .fullmodal .modal-dialog {
     width: auto;
@@ -450,14 +451,39 @@ legend {
 .search-group {
     margin: 0 15px 15px 0;
 }
+.query-field {
+    margin-right: 0;
+}
 .search-group input{
     height: auto;
+}
+.search-group li a {
+    cursor: pointer;
 }
 .search-label svg {
     height: 16px;
 }
 .query-field .btn.btn-primary{
     font-size: initial;
+}
+.sort-field {
+    margin-right: 0;
+}
+@media (min-width: 768px) {
+    .sort-field {
+        margin-left: -15px;
+    }
+}
+#query-sort-toggle {
+    width: 35px;
+    padding-left: 0;
+    padding-right: 0;
+}
+#query-sort-toggle span:not(.active) {
+    display: none;
+}
+#query-sort-dropdown {
+    width: 115px;
 }
 #is-exact span {
     margin: 4px 4px 0 4px;
