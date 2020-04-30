@@ -81,13 +81,22 @@ Installation
 Usage
 +++++
 
-Installation lets you control billing and create/import new components and projects from your admin interface
-if the billing is within its configured limits (any overusage prevents project/component creation)
-and paid (if its price is non zero).
+After installation you can control billing in the admin interface. Users with
+billing enabled will get new :guilabel:`Billing` tab in their
+:ref:`user-profile`.
 
-Admins can create new components for their projects without escalating to superuser status (see :ref:`adding-projects`).
+The billing module additionally allows project admins to create new projects
+and components without being superusers (see :ref:`adding-projects`). This is
+possible when following conditions are met:
 
-:ref:`integrating-support` lets users in charge of billing create new projects from the :guilabel:`Billing` tab in their :ref:`user-profile`. A choice for which billing account to charged will be presented if more than one is available.
+* The billing is in it's configured limits (any overusage results in blocking
+  of project/component creation) and paid (if it's price is non zero)
+* The user is admin of existing project with billing or user is owner of
+  billing (the latter is necessary when creating new billing for users to be
+  able to import new projects).
+
+Upon project creation user is able to choose which billing should be charged
+for the project in case he has access to more of them.
 
 
 .. _legal:
