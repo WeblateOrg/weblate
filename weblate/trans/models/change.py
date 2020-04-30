@@ -523,6 +523,8 @@ class Change(models.Model, UserDisplayMixin):
             return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
         if self.action == self.ACTION_COMMENT and "comment" in self.details:
             return render_markdown(self.details["comment"])
+        if self.action == self.ACTION_MESSAGE:
+            return render_markdown(self.target)
 
         return ""
 
