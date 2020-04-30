@@ -6,8 +6,7 @@
         "set",
         "image",
         "deployment/weblate",
-        "--imagename",
-        "gcr.io/repcore-prod/weblate:$COMMIT_SHA",
+        "weblate=gcr.io/repcore-prod/weblate:$COMMIT_SHA",
         "--namespace",
         "weblate-demo"
       ],
