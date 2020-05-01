@@ -476,7 +476,8 @@ class NewLangTest(ViewTestCase):
             self.component.save()
 
             self.assertFalse(
-                self.component.translation_set.filter(language__code=code).exists()
+                self.component.translation_set.filter(language__code=code).exists(),
+                f"Translation with code {code} already exists",
             )
             self.client.post(
                 reverse("new-language", kwargs=self.kw_component), {"lang": code}
@@ -487,7 +488,9 @@ class NewLangTest(ViewTestCase):
 
         perform("", "pt_BR", self.expected_lang_code)
         perform("posix", "pt_BR", "pt_BR")
+        perform("posix_long", "ms", "ms_MY")
         perform("bcp", "pt_BR", "pt-BR")
+        perform("bcp_long", "ms", "ms-MY")
         perform("android", "pt_BR", "pt-rBR")
 
 

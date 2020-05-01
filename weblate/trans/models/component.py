@@ -115,6 +115,16 @@ LANGUAGE_CODE_STYLE_CHOICES = (
     ("", gettext_lazy("Default based on the file format")),
     ("posix", gettext_lazy("POSIX style using underscore as a separator")),
     ("bcp", gettext_lazy("BCP style using hyphen as a separator")),
+    (
+        "posix_long",
+        gettext_lazy(
+            "POSIX style using underscore as a separator, including country code"
+        ),
+    ),
+    (
+        "bcp_long",
+        gettext_lazy("BCP style using hyphen as a separator, including country code"),
+    ),
     ("android", gettext_lazy("Android style")),
     ("java", gettext_lazy("Java style")),
 )

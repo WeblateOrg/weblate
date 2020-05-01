@@ -3,6 +3,8 @@ Weblate 4.1
 
 Not yet released.
 
+* Added support for creating new translations with included country code.
+
 Weblate 4.0.3
 --------------
 

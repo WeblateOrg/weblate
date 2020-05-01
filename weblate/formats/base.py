@@ -28,7 +28,12 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from sentry_sdk import add_breadcrumb
 
+from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.utils.hash import calculate_hash
+
+EXPAND_LANGS = {
+    code[:2]: "{}_{}".format(code[:2], code[3:].upper()) for code in DEFAULT_LANGS
+}
 
 
 class UnitNotFound(Exception):
@@ -364,6 +369,16 @@ class TranslationFormat:
     @staticmethod
     def get_language_bcp(code):
         return code.replace("_", "-")
+
+    @staticmethod
+    def get_language_posix_long(code):
+        if code in EXPAND_LANGS:
+            return EXPAND_LANGS[code]
+        return code
+
+    @classmethod
+    def get_language_bcp_long(cls, code):
+        return cls.get_language_posix_long(code).replace("_", "-")
 
     @staticmethod
     def get_language_android(code):
