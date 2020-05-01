@@ -651,6 +651,7 @@ MT_SERVICES = (
     #      "weblate.machinery.weblatetm.WeblateTranslation",
     #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
     #     "weblate.machinery.youdao.YoudaoTranslation",
+    "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
 )
 

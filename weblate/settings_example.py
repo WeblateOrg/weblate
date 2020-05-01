@@ -507,6 +507,7 @@ if not HAVE_SYSLOG:
 #     "weblate.machinery.yandex.YandexTranslation",
 #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
 #     "weblate.machinery.youdao.YoudaoTranslation",
+#     "weblate.machinery.weblatetm.WeblateTranslation",
 #     "weblate.memory.machine.WeblateMemory",
 # )
 
