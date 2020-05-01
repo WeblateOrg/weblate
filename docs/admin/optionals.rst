@@ -169,7 +169,7 @@ Avatars
 
 Avatars are downloaded and cached server-side to reduce information leaks to the sites serving them
 by default. The built-in support for fetching avatars from e-mails addresses configured for it can be
-turned off using :setting:`ENABLE_AVATARS`. 
+turned off using :setting:`ENABLE_AVATARS`.
 
 Weblate currently supports:
 
