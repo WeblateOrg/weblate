@@ -244,7 +244,7 @@ class ComponentDiscovery:
         # Can't pass objects, pass only IDs
         kwargs["project"] = kwargs["project"].pk
         if background:
-            create_component.delay(**kwargs)
+            create_component.delay(**kwargs, in_task=True)
             return None
         return create_component(**kwargs)
 
