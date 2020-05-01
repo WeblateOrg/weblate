@@ -138,7 +138,7 @@ def search(translation, request):
     allunits = translation.unit_set.search(form.cleaned_data.get("q", "")).distinct()
 
     search_query = form.get_search_query() if form_valid else ""
-    name = form.get_name() if form_valid else ""
+    name = form.get_name()
 
     # Grab unit IDs
     unit_ids = list(allunits.order().values_list("id", flat=True))

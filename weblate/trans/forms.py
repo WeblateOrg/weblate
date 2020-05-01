@@ -657,7 +657,7 @@ class SearchForm(forms.Form):
 
     def get_name(self):
         """Return verbose name for a search."""
-        return FILTERS.get_search_name(self.cleaned_data["q"])
+        return FILTERS.get_search_name(self.cleaned_data["q"] or "")
 
     def get_search_query(self):
         return self.cleaned_data["q"]
