@@ -1,7 +1,7 @@
 steps:
   - name: 'gcr.io/kaniko-project/executor:latest'
     args:
-      - --destination=gcr.io/$PROJECT_ID/weblate:$BUILD_ID
+      - --destination=gcr.io/$PROJECT_ID/weblate:$COMMIT_SHA
       - --cache=true
       - --dockerfile=./mscli-Dockerfile
 tags:
