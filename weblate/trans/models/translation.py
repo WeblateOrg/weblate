@@ -122,6 +122,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     class Meta:
         app_label = "trans"
         unique_together = ("component", "language")
+        verbose_name = "translation"
+        verbose_name_plural = "translations"
 
     def __str__(self):
         return "{0} — {1}".format(self.component, self.language)

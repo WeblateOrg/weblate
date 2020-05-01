@@ -115,6 +115,8 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     class Meta:
         app_label = "trans"
+        verbose_name = "string suggestion"
+        verbose_name_plural = "string suggestions"
 
     def __str__(self):
         return "suggestion for {0} by {1}".format(
@@ -200,6 +202,8 @@ class Vote(models.Model):
     class Meta:
         unique_together = ("suggestion", "user")
         app_label = "trans"
+        verbose_name = "suggestion vote"
+        verbose_name_plural = "suggestion votes"
 
     def __str__(self):
         return "{0:+d} for {1} by {2}".format(

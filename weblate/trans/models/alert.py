@@ -48,16 +48,11 @@ class Alert(models.Model):
 
     class Meta:
         unique_together = ("component", "name")
-
-    @cached_property
-    def obj(self):
-        return ALERTS[self.name](self, **self.details)
+        verbose_name = "component alert"
+        verbose_name_plural = "component alerts"
 
     def __str__(self):
         return force_str(self.obj.verbose)
-
-    def render(self):
-        return self.obj.render()
 
     def save(self, *args, **kwargs):
         is_new = not self.id
@@ -71,6 +66,13 @@ class Alert(models.Model):
                 alert=self,
                 details={"alert": self.name},
             )
+
+    @cached_property
+    def obj(self):
+        return ALERTS[self.name](self, **self.details)
+
+    def render(self):
+        return self.obj.render()
 
 
 class BaseAlert:

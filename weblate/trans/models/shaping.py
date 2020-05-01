@@ -30,6 +30,8 @@ class Shaping(models.Model):
 
     class Meta:
         unique_together = (("key", "component", "shaping_regex"),)
+        verbose_name = "shaping definition"
+        verbose_name_plural = "shaping definitions"
 
     def __str__(self):
         return "{}: {}".format(self.component, self.key)

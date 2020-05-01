@@ -436,6 +436,8 @@ class Change(models.Model, UserDisplayMixin):
         index_together = [
             ("timestamp", "translation"),
         ]
+        verbose_name = "history event"
+        verbose_name_plural = "history events"
 
     def __str__(self):
         return _("%(action)s at %(time)s on %(translation)s by %(user)s") % {

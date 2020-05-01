@@ -63,6 +63,8 @@ class Comment(models.Model, UserDisplayMixin):
 
     class Meta:
         app_label = "trans"
+        verbose_name = "string comment"
+        verbose_name_plural = "string comments"
 
     def __str__(self):
         return "comment for {0} by {1}".format(

@@ -204,6 +204,48 @@ class Unit(models.Model, LoggerMixin):
         app_label = "trans"
         unique_together = ("translation", "id_hash")
         index_together = [("translation", "pending"), ("priority", "position")]
+        verbose_name = "string"
+        verbose_name_plural = "strings"
+
+    def __str__(self):
+        if self.translation.is_template:
+            return self.context
+        if self.context:
+            return "[{}] {}".format(self.context, self.source)
+        return self.source
+
+    def save(
+        self,
+        same_content=False,
+        same_state=False,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+        """Wrapper around save to run checks or update fulltext."""
+        # Store number of words
+        if not same_content or not self.num_words:
+            self.num_words = len(self.get_source_plurals()[0].split())
+            if update_fields and "num_words" not in update_fields:
+                update_fields.append("num_words")
+
+        # Actually save the unit
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
+
+        # Update checks if content or fuzzy flag has changed
+        if not same_content or not same_state:
+            self.run_checks(same_content)
+
+    def get_absolute_url(self):
+        return "{0}?checksum={1}".format(
+            self.translation.get_translate_url(), self.checksum
+        )
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -212,13 +254,6 @@ class Unit(models.Model, LoggerMixin):
         self.is_batch_update = False
         self.is_bulk_edit = False
         self.source_updated = False
-
-    def __str__(self):
-        if self.translation.is_template:
-            return self.context
-        if self.context:
-            return "[{}] {}".format(self.context, self.source)
-        return self.source
 
     @property
     def approved(self):
@@ -245,11 +280,6 @@ class Unit(models.Model, LoggerMixin):
                 self.translation.language.code,
                 str(self.pk),
             )
-        )
-
-    def get_absolute_url(self):
-        return "{0}?checksum={1}".format(
-            self.translation.get_translate_url(), self.checksum
         )
 
     def get_unit_state(self, unit, flags):
@@ -654,34 +684,6 @@ class Unit(models.Model, LoggerMixin):
             target=self.target,
             old=self.old_unit.target,
         )
-
-    def save(
-        self,
-        same_content=False,
-        same_state=False,
-        force_insert=False,
-        force_update=False,
-        using=None,
-        update_fields=None,
-    ):
-        """Wrapper around save to run checks or update fulltext."""
-        # Store number of words
-        if not same_content or not self.num_words:
-            self.num_words = len(self.get_source_plurals()[0].split())
-            if update_fields and "num_words" not in update_fields:
-                update_fields.append("num_words")
-
-        # Actually save the unit
-        super().save(
-            force_insert=force_insert,
-            force_update=force_update,
-            using=using,
-            update_fields=update_fields,
-        )
-
-        # Update checks if content or fuzzy flag has changed
-        if not same_content or not same_state:
-            self.run_checks(same_content)
 
     @cached_property
     def suggestions(self):
