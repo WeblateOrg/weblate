@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-27 17:39+0000\n"
-"Last-Translator: WCK <wck317@pchome.com.tw>\n"
+"PO-Revision-Date: 2020-05-03 08:11+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.0.2-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -354,8 +354,6 @@ msgid "Invited to Weblate by {username}."
 msgstr "由 {username} 邀請至 Weblate。"
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configured password sign in."
 msgid "Configured password to sign in."
 msgstr "已設定登入密碼。"
 
@@ -4133,7 +4131,7 @@ msgstr "查核"
 #: weblate/templates/base.html:161
 #, python-format
 msgid "Failed checks in %(project)s"
-msgstr "%(project)s 中的失敗查核"
+msgstr "%(project)s 中的未通過查核"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -5628,12 +5626,10 @@ msgstr "還原"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:50
-#, fuzzy, python-format
-#| msgid "%(count)s edit"
-#| msgid_plural "%(count)s edits"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "編輯 %(count)s 個字元"
+msgstr[0] "編輯了 %(count)s 個字元"
 
 #: weblate/templates/last-changes-content.html:75
 msgid "No matching activity found."
@@ -5713,7 +5709,7 @@ msgstr "生成時間 %(timestamp)s。"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
-msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請續費。"
+msgstr "您的付費方案已過期，如果您希望繼續使用本服務，請續約。"
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
@@ -6803,7 +6799,7 @@ msgstr "有複數形的字串"
 
 #: weblate/templates/snippets/query-builder.html:40
 msgid "String has context"
-msgstr "字串有上下文"
+msgstr "字串有情境"
 
 #: weblate/templates/snippets/query-builder.html:52
 #: weblate/templates/snippets/query-builder.html:54
@@ -6896,7 +6892,7 @@ msgstr "未通過查核："
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 msgid "Source in review"
-msgstr "檢閱中來源"
+msgstr "來源需檢閱"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:497 weblate/utils/state.py:31
@@ -7908,7 +7904,7 @@ msgstr "有標籤的字串"
 
 #: weblate/trans/filter.py:41
 msgid "Strings with context"
-msgstr "有上下文的字串"
+msgstr "有情境的字串"
 
 #: weblate/trans/filter.py:44 weblate/trans/filter.py:114
 msgid "Strings needing action without suggestions"
@@ -8618,7 +8614,7 @@ msgstr "上傳了翻譯"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:229
 msgid "Added to glossary"
-msgstr "已新增至詞彙表"
+msgstr "加入到了詞彙表"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:231
@@ -9231,7 +9227,7 @@ msgstr "您無法使用基底檔進行雙語翻譯。"
 #: weblate/trans/models/component.py:1657
 #: weblate/trans/models/component.py:1662
 msgid "Intermediate language file can not be used without editing template."
-msgstr "中間語言檔案需要與編輯模板一起使用。"
+msgstr "中間語言檔案須要與編輯模板一起使用。"
 
 #: weblate/trans/models/component.py:1668
 msgid "Using a .pot file as base file is unsupported."
@@ -10149,7 +10145,7 @@ msgstr "讓您的翻譯能依自由授權條款使用。"
 
 #: weblate/trans/views/guide.py:170
 msgid "Provide context to the translators"
-msgstr "給翻譯者上下文"
+msgstr "給翻譯者提供情境"
 
 #: weblate/trans/views/guide.py:178
 msgid "Add screenshots to show where strings are being used."
