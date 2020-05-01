@@ -15,9 +15,9 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
 
     @cache(ttl=86400)
     def oidc_config(self):
-        oidc_url = self.setting("OIDC_URL", "http://iam-prod.vendasta-internal.com")
-        LOGGER.info("OIDC_URL: %s", oidc_url)
-        return self.get_json(oidc_url + '/.well-known/openid-configuration')
+        oidc_endpoint = self.setting("OIDC_ENDPOINT", "http://iam-prod.vendasta-internal.com")
+        LOGGER.info("OIDC_ENDPOINT: %s", oidc_endpoint)
+        return self.get_json(oidc_endpoint + '/.well-known/openid-configuration')
 
     def get_user_details(self, response):
         details = super(VendastaOpenIdConnect, self).get_user_details(response)
