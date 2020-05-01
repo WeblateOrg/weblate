@@ -65,7 +65,7 @@ of them in :file:`requirements-optional.txt`.
 ``ruamel.yaml`` (optional for :ref:`yaml`)
     https://pypi.org/project/ruamel.yaml/
 ``Zeep`` (optional for :ref:`ms-terminology`)
-    https://python-zeep.readthedocs.io/
+    https://docs.python-zeep.org/
 ``aeidon`` (optional for :ref:`subtitles`)
     https://pypi.org/project/aeidon/
 
