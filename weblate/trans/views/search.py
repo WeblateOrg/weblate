@@ -44,6 +44,7 @@ from weblate.utils.views import (
     get_component,
     get_paginator,
     get_project,
+    get_sort_name,
     get_translation,
     import_message,
     show_form_errors,
@@ -148,6 +149,7 @@ def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
     search_form = SearchForm(request.user, request.GET)
+    sort = get_sort_name(request)
     context = {"search_form": search_form}
     if component:
         obj = get_component(request, project, component)
@@ -197,6 +199,10 @@ def search(request, project=None, component=None, lang=None):
         context["title"] = _("Search for %s") % (search_form.cleaned_data["q"])
         context["query_string"] = search_form.urlencode()
         context["search_query"] = search_form.cleaned_data["q"]
+        context["filter_name"] = search_form.get_name()
+        context["sort_name"] = sort["name"]
+        context["sort_query"] = sort["query"]
+        context["sort_direction"] = sort["direction"]
     elif is_ratelimited:
         messages.error(request, _("Too many search queries, please try again later."))
     elif request.GET:

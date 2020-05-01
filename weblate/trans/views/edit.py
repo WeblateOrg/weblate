@@ -56,7 +56,7 @@ from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_FUZZY
-from weblate.utils.views import get_translation, show_form_errors
+from weblate.utils.views import get_sort_name, get_translation, show_form_errors
 
 
 def get_other_units(unit):
@@ -107,22 +107,6 @@ def cleanup_session(session):
         value = session[key]
         if not isinstance(value, dict) or value["ttl"] < now or "items" not in value:
             del session[key]
-
-
-def get_sort_name(request):
-    """Gets sort name."""
-    sort_dict = {
-        "position": "Position",
-        "priority": "Priority",
-        "num_words": "Word count",
-        "context": "Context",
-    }
-    result = {
-        "query": request.GET.get("sort_by", ""),
-        "name": sort_dict.get(request.GET.get("sort_by", ""), ""),
-        "direction": request.GET.get("sort_by_direction", ""),
-    }
-    return result
 
 
 def search(translation, request):
