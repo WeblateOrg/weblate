@@ -1,19 +1,25 @@
 # -*- coding: utf-8 -*-
-import os
-
 from social_core.backends.open_id_connect import OpenIdConnectAuth
+from social_core.utils import cache
+
+from weblate.logger import LOGGER
 
 
 class VendastaOpenIdConnect(OpenIdConnectAuth):
     """Vendasta OpenID authentication Backend."""
 
     name = "vendasta"
-    OIDC_ENDPOINT = os.environ.get("WEBLATE_SOCIAL_AUTH_VENDASTA_OIDC_URL", "http://iam-prod.vendasta-internal.com")
     ACCESS_TOKEN_METHOD = "POST"
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]
     USERNAME_KEY = "sub"
 
-    def get_user_details(self, response)    :
+    @cache(ttl=86400)
+    def oidc_config(self):
+        oidc_url = self.setting("OIDC_URL", "http://iam-prod.vendasta-internal.com")
+        LOGGER.info("OIDC_URL: %s", oidc_url)
+        return self.get_json(oidc_url + '/.well-known/openid-configuration')
+
+    def get_user_details(self, response):
         details = super(VendastaOpenIdConnect, self).get_user_details(response)
         details.update({
             'roles': response.get('roles', []),
