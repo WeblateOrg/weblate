@@ -83,15 +83,17 @@ class ProjectViewMixin:
 def get_sort_name(request):
     """Gets sort name."""
     sort_dict = {
-        "position": "Position",
-        "priority": "Priority",
-        "num_words": "Word count",
-        "context": "Context",
-        "position,-priority": "Position & Priority",
+        "position": _("Position"),
+        "priority": _("Priority"),
+        "num_words": _("Word count"),
+        "context": _("Context"),
+        "position,-priority": _("Position and Priority"),
     }
     result = {
         "query": request.GET.get("sort_by", "position,-priority"),
-        "name": sort_dict.get(request.GET.get("sort_by", ""), "Position & Priority"),
+        "name": sort_dict.get(
+            request.GET.get("sort_by", ""), _("Position and Priority")
+        ),
         "direction": request.GET.get("sort_by_direction", ""),
     }
     return result

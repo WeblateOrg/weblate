@@ -1561,7 +1561,6 @@ $(function () {
         }
     });
     $('#id_q').on('keydown', function (event) {
-        console.log("hello")
         if (event.key === "Enter") {
             $(this).closest('form').submit();
         }
