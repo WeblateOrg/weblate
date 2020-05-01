@@ -340,7 +340,7 @@ def auto_translate(
 
 
 @app.task(trail=False)
-def create_component(addons_from=None, **kwargs):
+def create_component(addons_from=None, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     component = Component.objects.create(**kwargs)
     Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
@@ -352,6 +352,8 @@ def create_component(addons_from=None, **kwargs):
             if not addon.addon.can_install(component, None):
                 continue
             addon.addon.create(component, configuration=addon.configuration)
+    if in_task:
+        return None
     return component
 
 
