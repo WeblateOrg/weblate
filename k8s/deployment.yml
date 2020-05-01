@@ -152,6 +152,11 @@ spec:
               name: weblate-github-oauth-token
               key: hub
         # OPENID CONNECT AUTH
+        - name: WEBLATE_SOCIAL_AUTH_VENDASTA_OIDC_URL
+          valueFrom:
+            secretKeyRef:
+              name: weblate-social-auth-oidc-url
+              key: weblate-social-auth-oidc-url
         - name: WEBLATE_SOCIAL_AUTH_VENDASTA_KEY
           valueFrom:
             secretKeyRef:
@@ -265,6 +270,9 @@ spec:
       - name: weblate-github-oauth-token
         secret:
           secretName: weblate-github-oauth-token
+      - name: weblate-social-auth-oidc-url
+        secret:
+          secretName: weblate-social-auth-oidc-url
       - name: weblate-social-auth-key
         secret:
           secretName: weblate-social-auth-key
