@@ -17,13 +17,14 @@
 # Changpeng Sun <zzjbcn@gmail.com>, 2020.
 # Benjamin Zhao <benjaminzhao11@gmail.com>, 2020.
 # YFdyh000 <yfdyh000@gmail.com>, 2020.
+# EldersJavas <eldersjavas@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-15 20:53+0000\n"
-"Last-Translator: Changpeng Sun <zzjbcn@gmail.com>\n"
+"PO-Revision-Date: 2020-05-03 08:11+0000\n"
+"Last-Translator: EldersJavas <eldersjavas@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -31,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -361,10 +362,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "{username} 邀请至 Weblate。"
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configured password sign in."
 msgid "Configured password to sign in."
-msgstr "已配置密码登录。"
+msgstr "已设置登录密码。"
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -745,10 +744,6 @@ msgid "Add another identity by confirming your e-mail address first."
 msgstr "通过首先确认您的电子邮件地址来添加其他身份。"
 
 #: weblate/accounts/views.py:987
-#, fuzzy
-#| msgid ""
-#| "Try registering again to verify your identity,the verification token "
-#| "probably expired."
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
@@ -1919,14 +1914,10 @@ msgid "In display limits"
 msgstr "显示限制"
 
 #: weblate/billing/tasks.py:85
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
-msgstr "您将只收到在您关注项目中您参与翻译的语言的这些通知。"
+msgstr "待您支付账单或是移除账单后，就会停止接收此通知。"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -5628,12 +5619,10 @@ msgstr "恢复"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:50
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s 票"
+msgstr[0] "编辑了 %(count)s 个单词"
 
 #: weblate/templates/last-changes-content.html:75
 msgid "No matching activity found."
@@ -5710,24 +5699,18 @@ msgid "Generated on %(timestamp)s."
 msgstr "生成于 %(timestamp)s。"
 
 #: weblate/templates/mail/billing_expired.html:6
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
-msgstr "您的付费套餐已过期，如果您想要继续使用该服务，请使用以下链接更新它："
+msgstr "您的付费套餐已过期，如果您想要继续使用该服务，请续费."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
 msgstr "这个付费套餐涵盖下列项目："
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "项目已删除"
+msgstr "删除项目"
 
 #: weblate/templates/mail/billing_expired.html:17
 msgid "All projects covered by this billing plan have been removed."
@@ -6159,17 +6142,10 @@ msgid "Ignore permanently"
 msgstr "永久忽略"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
-msgstr ""
-"您可以安全地永久忽略不打算使用的文件格式的错误。这些通常是由于缺少依赖或依赖"
-"过时而导致的。"
+msgstr "您可以安全地永久忽略不打算使用的功能的错误。这些通常是由于缺少依赖或依赖过时而导致的。"
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -8629,10 +8605,8 @@ msgstr "已上传翻译"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:229
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Added to glossary"
-msgstr "添加单词到词汇表"
+msgstr "已新增至词汇表"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:231
@@ -10523,8 +10497,6 @@ msgid "Weblate status"
 msgstr "Weblate 状态"
 
 #: weblate/wladmin/views.py:57
-#, fuzzy
-#| msgid "Repository"
 msgid "Repositories"
 msgstr "代码库"
 
