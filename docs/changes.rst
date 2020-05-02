@@ -8,7 +8,7 @@ Not yet released.
 Weblate 4.0.3
 --------------
 
-Not yet released.
+Released on May 02nd 2020.
 
 * Fixed possible crash in reports.
 * User mentions in comments are now case insensitive.
