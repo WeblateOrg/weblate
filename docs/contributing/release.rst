@@ -25,4 +25,3 @@ To create tags using the :command:`./scripts/create-release` script you will nee
 * Push access to Weblate git repositories (it pushes tags)
 * Configured :command:`hub` tool and access to create releases on the Weblate repo
 * SSH access to Weblate download server (the Website downloads are copied there)
-* Token for the Read the Docs service in :file:`~/.config/readthedocs.token`
