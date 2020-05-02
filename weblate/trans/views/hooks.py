@@ -183,12 +183,13 @@ def vcs_service_hook(request, service):
 
     LOGGER.info(
         "received %s notification on repository %s, branch %s, "
-        "%d matching components, %d to process",
+        "%d matching components, %d to process, %d linked",
         service_long_name,
         repo_url,
         branch,
         all_components.count(),
         components.count(),
+        Component.objects.filter(linked_component__in=components).count(),
     )
 
     # Trigger updates
