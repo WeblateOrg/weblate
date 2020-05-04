@@ -15,7 +15,7 @@ pip install httpretty==0.9.7
 
 for tag in $TAGS ; do
     echo
-    echo "Testing migration from $tag on $CI_DATABASE..."
+    print_step "Testing migration from $tag on $CI_DATABASE..."
     cleanup_database
     check
     git fetch --depth 1 origin tag $tag
