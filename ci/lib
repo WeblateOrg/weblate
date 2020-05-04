@@ -1,6 +1,8 @@
 # shell library to help executing tests
 
-set -x
+if [ "${CI_VERBOSE:-1}" -eq 1 ] ; then
+    set -x
+fi
 if [ -z "${COVERAGE_NO_ERASE:-}" ] ; then
     coverage erase
 fi
@@ -47,4 +49,20 @@ cleanup_database() {
         psql --host=$CI_DB_HOST -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
         psql --host=$CI_DB_HOST -c 'CREATE DATABASE weblate;' -U postgres
     fi
+}
+
+print_step() {
+    tput setaf 2
+    echo "$@"
+    tput sgr0
+}
+
+print_version() {
+    for cmd in "$@" ; do
+        if command -v $cmd ; then
+            $cmd --version
+            return
+        fi
+    done
+    echo "not found..."
 }
