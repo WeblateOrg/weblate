@@ -2,7 +2,10 @@
 
 set -e -x
 
+# Update package lists
 apt-get update
+
+# Install dependencies
 apt-get install -y \
     gir1.2-pango-1.0 \
     gettext \
@@ -28,5 +31,4 @@ apt-get install -y \
     liblz4-dev \
     gir1.2-pango-1.0 \
     cython \
-    tesseract-ocr \
-    chromium-chromedriver
+    tesseract-ocr
