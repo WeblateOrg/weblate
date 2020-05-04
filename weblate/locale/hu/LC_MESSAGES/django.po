@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-20 19:17+0000\n"
+"PO-Revision-Date: 2020-05-05 02:07+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
 "hu/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0.2-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -373,10 +373,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "{username} meghívta a Weblate-re."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configured password sign in."
 msgid "Configured password to sign in."
-msgstr "Jelszavas bejelentkezés beállítva."
+msgstr "Jelszó beállítva a bejelentkezéshez."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -1993,16 +1991,12 @@ msgid "In display limits"
 msgstr "Megjelenítési korlátokban"
 
 #: weblate/billing/tasks.py:85
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Ezeket az értesítéseket csak a megfigyelt projektjeiben lefordított "
-"nyelvekre fogja megkapni."
+"Akkor nem fogja tovább kapni ezeket az értesítéseket, ha kifizeti a "
+"számlákat, vagy ha a projekt eltávolításra kerül."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -5888,13 +5882,11 @@ msgstr "Visszaállítás"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:50
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "%(count)s szavazat"
-msgstr[1] "%(count)s szavazat"
+msgstr[0] "%(count)s karakter szerkesztve"
+msgstr[1] "%(count)s karakter szerkesztve"
 
 #: weblate/templates/last-changes-content.html:75
 msgid "No matching activity found."
@@ -5975,27 +5967,20 @@ msgid "Generated on %(timestamp)s."
 msgstr "Előállítva ekkor: %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
 msgstr ""
 "A számlázási csomagja lejárt. Ha továbbra is használni szeretné a "
-"szolgáltatást, akkor újítsa meg a csomagot a következő hivatkozás "
-"használatával:"
+"szolgáltatást, akkor újítsa meg a csomagot."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
 msgstr "Ez a számlázási csomag a következő projekteket tartalmazza:"
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "Projekt eltávolítva"
+msgstr "A projekt eltávolítása"
 
 #: weblate/templates/mail/billing_expired.html:17
 msgid "All projects covered by this billing plan have been removed."
@@ -6451,18 +6436,13 @@ msgid "Ignore permanently"
 msgstr "Mellőzés véglegesen"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"Biztonsággal véglegesen figyelmen kívül hagyhatja a hibákat azon "
-"fájlformátumoknál, amelyeket nem kíván használni. Ezeket általában hiányzó "
-"vagy elavult függőségek okozzák."
+"Biztonsággal véglegesen figyelmen kívül hagyhatja a hibákat azoknál a "
+"funkcióknál, amelyeket nem kíván használni. Ezeket általában hiányzó vagy "
+"elavult függőségek okozzák."
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -9068,10 +9048,8 @@ msgstr "Fordítás feltöltve"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:229
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Added to glossary"
-msgstr "Szó hozzáadása a szójegyzékhez"
+msgstr "Hozzáadva a szójegyzékhez"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:231
