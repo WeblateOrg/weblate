@@ -214,6 +214,15 @@ This only checks for the length of translation characters.
 Unlike the other checks, the flag should be set as a ``key:value`` pair like
 ``max-length:100``.
 
+.. _check-duplicate:
+
+Consecutive duplicated tokens
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Checks that no duplicate tokens occur in translation.
+
+Check is false if any token occurs more than once consecutively.
+
 .. _check-python-format:
 .. _check-python-brace-format:
 .. _check-php-format:
