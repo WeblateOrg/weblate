@@ -59,6 +59,10 @@ class ClassLoader:
         result = {}
         value = getattr(settings, self.name)
         if value:
+            if not isinstance(value, (list, tuple)):
+                raise ImproperlyConfigured(
+                    f"Setting {self.name} must be list or tuple!"
+                )
             for path in value:
                 obj = load_class(path, self.name)
                 if self.construct:
