@@ -152,7 +152,7 @@ If you need to access HTTP/HTTPS VCS repositories using a proxy server,
 configure the VCS to use it.
 
 This can be done using the ``http_proxy``, ``https_proxy``, and ``all_proxy``
-environment variables, (as described in the [cURL documentation](https://curl.haxx.se/docs/))
+environment variables, (as described in the `cURL documentation <https://curl.haxx.se/docs/>`_)
 or by enforcing it in the VCS configuration, for example:
 
 .. code-block:: sh
