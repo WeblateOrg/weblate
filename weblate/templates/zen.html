@@ -29,26 +29,12 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-<div class="btn-group">
-<ul class="pagination unit-navi">
-<li>
-<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}" id="search-dropdown">
-{% icon "magnify.svg" %}
-{% blocktrans %}{{ filter_name }} ({{ filter_count }}){% endblocktrans %}
-<span class="caret"></span>
-</a>
-  <div class="dropdown-menu">
-
-<div class="panel-group">
-<form action="" method="GET">
-{{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
-</form>
-</div>
-
-</div>
-</li>
-</ul>
+<div class="row">
+  <div class="col-sm-9">
+    <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
+      {% crispy search_form  %}
+    </form>
+  </div>
 </div>
 
 <table class="zen table table-condensed {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">

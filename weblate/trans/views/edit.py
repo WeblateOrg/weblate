@@ -691,6 +691,7 @@ def zen(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, component, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
+    sort = get_sort_name(request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -706,6 +707,8 @@ def zen(request, project, component, lang):
             "search_query": search_result["query"],
             "filter_name": search_result["name"],
             "filter_count": len(search_result["ids"]),
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
             "last_section": search_result["last_section"],
             "search_url": search_result["url"],
             "offset": search_result["offset"],

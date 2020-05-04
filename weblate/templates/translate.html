@@ -35,7 +35,6 @@
 {% perm 'comment.add' project as user_can_add_comment %}
 {% perm 'glossary.add' project as user_can_add_dictionary %}
 
-<div class="row">
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
 <a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
@@ -43,17 +42,14 @@
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
-</div>
 
 {% with comments=unit.get_comments nearby=unit.nearby nearby_keys=unit.nearby_keys shapings=unit.shapings%}
 
-<div class="row">
+<div class="row query-container">
   <div class="col-sm-9">
-    <div class="panel-group">
       <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
         {% crispy search_form  %}
       </form>
-    </div>
   </div>
   <div class="col">
     <div class="btn-group">

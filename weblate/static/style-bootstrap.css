@@ -452,7 +452,7 @@ legend {
     margin: 0 15px 15px 0;
 }
 .query-field {
-    margin-right: 0;
+    margin: 0;
 }
 .search-group input{
     height: auto;
@@ -467,12 +467,7 @@ legend {
     font-size: initial;
 }
 .sort-field {
-    margin-right: 0;
-}
-@media (min-width: 768px) {
-    .sort-field {
-        margin-left: -15px;
-    }
+    margin: 0;
 }
 #query-sort-toggle {
     padding-left: 1rem;
@@ -497,6 +492,9 @@ legend {
     }
     .dir-rtl .sort-field {
         margin-right: -15px;
+    }
+    .query-container {
+        max-width: calc(100% - 100px);
     }
 }
 .search-toolbar {
@@ -1018,6 +1016,10 @@ a.format-item:hover {
     .zero-width-768 {
         display: none;
         width: 0;
+    }
+
+    .query-field .input-group {
+        width: 100%;
     }
 }
 @media (max-width: 900px) {
