@@ -112,7 +112,7 @@ Capabilities of all supported formats:
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The gettext type comments are used as flags.
-.. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` [attribute](http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth) as defined in the XLIFF standard, see :ref:`xliff-flags`.
+.. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
 
 .. _gettext:
 
@@ -233,11 +233,14 @@ XLIFF
 XML-based format created to standardize translation files, but in the end it
 is one of `many standards <https://xkcd.com/927/>`_, in this area.
 
-[XLIFF](http://docs.oasis-open.org/xliff/xliff-core/xliff-core.html) is usually used as bilingual, but Weblate supports it as monolingual as well.
+`XML Localization Interchange File Format (XLIFF)` is usually used as bilingual, but Weblate supports it as monolingual as well.
 
 .. seealso::
 
-    `Specification of XLIFF 1.2 <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html>`_,
+    `XML Localization Interchange File Format (XLIFF)` specification
+
+.. _XML Localization Interchange File Format (XLIFF): http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html
+
 
 Translation states
 +++++++++++++++++++
