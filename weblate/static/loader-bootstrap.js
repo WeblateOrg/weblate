@@ -1529,13 +1529,13 @@ $(function () {
         $button.find('span.search-label').not('#query-sort-toggle span').text($this.text());
         if ($this.data('sort')) {
             $('#id_sort_by').val($this.data('sort'));
-            if ($('.pagination').length) {
+            if ($this.closest('.result-page-form').length) {
                 $this.closest('form').submit();
             }
         }
         if ($this.closest('.query-field').length) {
             $('#id_q').val($this.data('field'));
-            if ($('.pagination').length) {
+            if ($this.closest('.result-page-form').length) {
                 $this.closest('form').submit();
             }
         }
@@ -1553,7 +1553,7 @@ $(function () {
             }
         });
         $('#id_sort_by').val(sort_params.join(","));
-        if ($('.pagination').length) {
+        if ($this.closest('.result-page-form').length) {
             $this.closest('form').submit();
         }
     });
