@@ -16,7 +16,7 @@ Post release manual steps:
 5. Update Docker image.
 6. Close GitHub milestone.
 7. Once the Docker image is tested, add a tag and push it.
-8. Include new version in :command:`./ci/run-migrate` to cover it in migration testing.
+8. Include new version in :file:`.github/workflows/migrations.yml` to cover it in migration testing.
 9. Increase version in the repository by :command:`./scripts/set-version`.
 
 To create tags using the :command:`./scripts/create-release` script you will need following:
