@@ -74,7 +74,7 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`apple`        | bilingual        | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
-| :ref:`php`          | mono             | no            | yes            | no            | no             | no             |                         |
+| :ref:`php`          | mono             | no [#lp]_     | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`json`         | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
@@ -113,6 +113,7 @@ Capabilities of all supported formats:
 .. [#f] See :ref:`custom-checks`
 .. [#po] The gettext type comments are used as flags.
 .. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` [attribute](http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth) as defined in the XLIFF standard, see :ref:`xliff-flags`.
+.. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
 
 .. _gettext:
 
@@ -579,21 +580,26 @@ Example file:
 | File format                    | `PHP strings`                    |
 +--------------------------------+----------------------------------+
 
-.. note::
+Laravel PHP strings
++++++++++++++++++++
 
-    Translate-toolkit currently has some limitations in processing PHP files,
-    so please double check that your files will not get corrupted before using
-    Weblate in a production setup.
+.. versionchanged:: 4.1
 
-    Following things are known to be broken:
+The Laravel PHP locazation files are supported as well with plurals:
 
-    * Addition of new strings to a translation, every translation has to contain all strings (even if empty).
-    * Handling of special characters like newlines.
+.. code-block:: php
 
+    <?php
+    return [
+        'apples' => 'There is one apple|There are many apples',
+    ];
 
 .. seealso::
 
-    :doc:`tt:formats/php`
+    :doc:`tt:formats/php`,
+    `Localization in Laravel`_
+
+.. _Localization in Laravel: https://laravel.com/docs/7.x/localization
 
 .. _json:
 

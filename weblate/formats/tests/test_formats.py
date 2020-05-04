@@ -39,6 +39,7 @@ from weblate.formats.ttkit import (
     JoomlaFormat,
     JSONFormat,
     JSONNestedFormat,
+    LaravelPhpFormat,
     PhpFormat,
     PoFormat,
     PoXliffFormat,
@@ -449,6 +450,10 @@ class PhpFormatTest(AutoFormatTest):
     BASE = ""
     NEW_UNIT_MATCH = b"\nkey = 'Source string';\n"
     EXPECTED_FLAGS = ""
+
+
+class LaravelPhpFormatTest(PhpFormatTest):
+    FORMAT = LaravelPhpFormat
 
 
 class AndroidFormatTest(XMLMixin, AutoFormatTest):

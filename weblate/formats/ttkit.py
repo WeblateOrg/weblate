@@ -997,6 +997,12 @@ class PhpFormat(TTKitFormat):
         return "php"
 
 
+class LaravelPhpFormat(PhpFormat):
+    name = _("Laravel PHP strings")
+    format_id = "laravel"
+    loader = ("php", "LaravelPHPFile")
+
+
 class RESXFormat(TTKitFormat):
     name = _(".NET resource file")
     format_id = "resx"

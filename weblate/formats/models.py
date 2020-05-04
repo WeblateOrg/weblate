@@ -71,6 +71,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PropertiesFormat",
         "weblate.formats.ttkit.JoomlaFormat",
         "weblate.formats.ttkit.PhpFormat",
+        "weblate.formats.ttkit.LaravelPhpFormat",
         "weblate.formats.ttkit.RESXFormat",
         "weblate.formats.ttkit.AndroidFormat",
         "weblate.formats.ttkit.JSONFormat",

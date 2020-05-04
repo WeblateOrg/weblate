@@ -4,6 +4,7 @@ Weblate 4.1
 Not yet released.
 
 * Added support for creating new translations with included country code.
+* Added support for Laravel PHP files.
 
 Weblate 4.0.3
 --------------
