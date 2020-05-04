@@ -6,6 +6,9 @@ fi
 if [ -z "${COVERAGE_NO_ERASE:-}" ] ; then
     coverage erase
 fi
+if [ -z "$TERM" ] ; then
+    export TERM=xterm256
+fi
 
 check() {
     RET=$?
