@@ -1544,11 +1544,15 @@ $(function () {
         var $this = $(this);
         var $label = $this.find('span.search-label');
         $label.toggle();
-        if (!$('#id_sort_direction').val()) {
-            $('#id_sort_direction').val("-");
-        } else {
-            $('#id_sort_direction').val("");
-        }
+        var sort_params = $('#id_sort_by').val().split(",")
+        sort_params.forEach(function(param, index) {
+            if (param.indexOf("-") !== -1) {
+                sort_params[index] = param.replace("-", "");
+            } else {
+                sort_params[index] = `-${param}`;
+            }
+        });
+        $('#id_sort_by').val(sort_params.join(","));
         if ($('.pagination').length) {
             $this.closest('form').submit();
         }

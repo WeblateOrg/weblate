@@ -87,14 +87,13 @@ def get_sort_name(request):
         "priority": _("Priority"),
         "num_words": _("Word count"),
         "context": _("Context"),
-        "position,-priority": _("Position and priority"),
+        "priority,position": _("Position and priority"),
     }
+    sort_params = request.GET.get("sort_by", "-priority,position").replace("-", "")
+    sort_name = sort_dict.get(sort_params, _("Position and priority"))
     result = {
-        "query": request.GET.get("sort_by", "position,-priority"),
-        "name": sort_dict.get(
-            request.GET.get("sort_by", ""), _("Position and priority")
-        ),
-        "direction": request.GET.get("sort_by_direction", ""),
+        "query": request.GET.get("sort_by", "-priority,position"),
+        "name": sort_name,
     }
     return result
 

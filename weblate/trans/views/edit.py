@@ -142,7 +142,9 @@ def search(translation, request):
     name = form.get_name() if form_valid else ""
 
     # Grab unit IDs
-    unit_ids = list(allunits.order_by_request(request).values_list("id", flat=True))
+    unit_ids = list(
+        allunits.order_by_request(form.cleaned_data).values_list("id", flat=True)
+    )
 
     # Check empty search results
     if not unit_ids:
@@ -509,7 +511,6 @@ def translate(request, project, component, lang):
             "offset": offset,
             "sort_name": sort["name"],
             "sort_query": sort["query"],
-            "sort_direction": sort["direction"],
             "filter_name": search_result["name"],
             "filter_count": num_results,
             "filter_pos": offset,

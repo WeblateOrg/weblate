@@ -116,14 +116,13 @@ class UnitQuerySet(models.QuerySet):
             result = result.exclude(pk=unit.id)
         return result
 
-    def order_by_request(self, request):
-        sort_list_request = request.GET.get("sort_by", "").split(",")
-        sort_direction = request.GET.get("sort_by_direction", "")
+    def order_by_request(self, form_data):
+        sort_list_request = form_data.get("sort_by", "").split(",")
         available_sort_choices = ["priority", "position", "context", "num_words"]
         sort_list = [
-            "{}{}".format(sort_direction, choice)
+            choice
             for choice in sort_list_request
-            if choice in available_sort_choices
+            if choice.replace("-", "") in available_sort_choices
         ]
         if not sort_list:
             return self.order()

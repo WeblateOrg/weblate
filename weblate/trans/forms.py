@@ -636,6 +636,7 @@ class SearchForm(forms.Form):
 
     # pylint: disable=invalid-name
     q = QueryField()
+    sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
     checksum = ChecksumField(required=False)
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
 

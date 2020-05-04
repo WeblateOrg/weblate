@@ -192,7 +192,7 @@ def search(request, project=None, component=None, lang=None):
         if lang:
             units = units.filter(translation__language=context["language"])
 
-        units = get_paginator(request, units.order_by_request(request))
+        units = get_paginator(request, units.order_by_request(search_form.cleaned_data))
 
         context["show_results"] = True
         context["page_obj"] = units
@@ -202,7 +202,6 @@ def search(request, project=None, component=None, lang=None):
         context["filter_name"] = search_form.get_name()
         context["sort_name"] = sort["name"]
         context["sort_query"] = sort["query"]
-        context["sort_direction"] = sort["direction"]
     elif is_ratelimited:
         messages.error(request, _("Too many search queries, please try again later."))
     elif request.GET:
