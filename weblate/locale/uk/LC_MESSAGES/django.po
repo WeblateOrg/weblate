@@ -13,13 +13,14 @@
 # Oleksa Stasevych <oleksiy.stasevych@gmail.com>, 2020.
 # Yuri Chornoivan <yurchor@ukr.net>, 2020.
 # strixaluco <maddox@i.ua>, 2020.
+# ihor_ck <igor_ck@outlook.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-04-24 08:48+0000\n"
-"Last-Translator: strixaluco <maddox@i.ua>\n"
+"PO-Revision-Date: 2020-05-05 02:07+0000\n"
+"Last-Translator: ihor_ck <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/master/"
 "uk/>\n"
 "Language: uk\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.0.2-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -376,10 +377,8 @@ msgid "Invited to Weblate by {username}."
 msgstr "Запрошений у Weblate користувачем {username}."
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Configured password sign in."
 msgid "Configured password to sign in."
-msgstr "Вхід із налаштованим паролем."
+msgstr "Налаштований пароль для входу."
 
 #: weblate/accounts/models.py:100
 msgid "Signed in using password."
@@ -705,10 +704,8 @@ msgid "User registration"
 msgstr "Реєстрацiя користувача"
 
 #: weblate/accounts/views.py:202
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator!"
-msgstr "Повідомлення не надіслано управителю!"
+msgstr "Не вдалося надіслати повідомлення управителю!"
 
 #: weblate/accounts/views.py:222
 msgid "Message has been sent to administrator."
@@ -828,16 +825,12 @@ msgid "The server does not allow authentication."
 msgstr "Сервер не дозволяє автентифікацію."
 
 #: weblate/accounts/views.py:1082
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
 msgstr ""
-"Не вдалося завершити реєстрацію. Автентифікація, електронна пошта або ім'я "
-"користувача вже використовується для іншого облікового запису."
+"Не вдалося завершити реєстрацію. Автентифікація, адреса електронної пошти "
+"або ім'я користувача вже використане для іншого облікового запису."
 
 #: weblate/accounts/views.py:1097
 msgid "Notification settings adjusted."
@@ -1997,16 +1990,12 @@ msgid "In display limits"
 msgstr "У межах екрану"
 
 #: weblate/billing/tasks.py:85
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Ви будете отримувати ці сповіщення лише для мов, на які ви перекладаєте у "
-"відстежуваних вами проєктах."
+"Це сповіщення припинить надходити вам одразу, після сплати ваших рахунків "
+"або якщо проєкт буде вилучено."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -5958,26 +5947,20 @@ msgid "Generated on %(timestamp)s."
 msgstr "Створено за %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
 msgstr ""
-"Термін дії тарифного плану минав, якщо ви хочете продовжити використання "
-"цієї послуги, оновіть план, використовуючи це посилання:"
+"Термін дії тарифного плану закінчився, якщо ви хочете продовжити "
+"користуватися цією послугою, оновіть тарифний план."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
 msgstr "Цей тарифний план охоплює такі проєкти:"
 
 #: weblate/templates/mail/billing_expired.html:12
-#, fuzzy
-#| msgid "Removed project"
 msgid "Remove the project"
-msgstr "Вилучений проєкт"
+msgstr "Вилучти проєкт"
 
 #: weblate/templates/mail/billing_expired.html:17
 msgid "All projects covered by this billing plan have been removed."
@@ -6427,18 +6410,13 @@ msgid "Ignore permanently"
 msgstr "Нехтувати постійно"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"Ви можете безпечно нехтувати помилками у форматах файлів, які не плануєте "
-"використовувати. Вони, як правило, зумовлені відсутністю  залежності або "
-"застарілою залежністю."
+"Ви можете безпечно нехтувати помилками у функціях, якими не плануєте "
+"користуватися. Вони, зазвичай, зумовлені відсутністю або застарілістю "
+"залежностей."
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -7217,10 +7195,8 @@ msgid "Failing checks:"
 msgstr "Непройдені перевірки:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
-#, fuzzy
-#| msgid "Source needs review"
 msgid "Source in review"
-msgstr "Початкові рядки потребують рецензування"
+msgstr "Початкові рядки рецензуються"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:497 weblate/utils/state.py:31
@@ -9026,10 +9002,8 @@ msgstr "Пропозицію завантажено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:229
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Added to glossary"
-msgstr "Додати слово до словника понять"
+msgstr "Додно до словника понять"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:231
@@ -11033,10 +11007,8 @@ msgid "Weblate status"
 msgstr "Стан Weblate"
 
 #: weblate/wladmin/views.py:57
-#, fuzzy
-#| msgid "Repository"
 msgid "Repositories"
-msgstr "Сховище"
+msgstr "Сховища"
 
 #: weblate/wladmin/views.py:97
 msgid "Test e-mail sent."
