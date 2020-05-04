@@ -31,31 +31,25 @@ class LoadClassTest(TestCase):
         self.assertEqual(cls, TestCase)
 
     def test_invalid_name(self):
-        self.assertRaisesRegex(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             'Error importing class unittest in TEST: .*"' "(not enough|need more than)",
-            load_class,
-            "unittest",
-            "TEST",
-        )
+        ):
+            load_class("unittest", "TEST")
 
     def test_invalid_module(self):
-        self.assertRaisesRegex(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             'weblate.trans.tests.missing in TEST: "' "No module named .*missing[\"']",
-            load_class,
-            "weblate.trans.tests.missing.Foo",
-            "TEST",
-        )
+        ):
+            load_class("weblate.trans.tests.missing.Foo", "TEST")
 
     def test_invalid_class(self):
-        self.assertRaisesRegex(
+        with self.assertRaisesRegex(
             ImproperlyConfigured,
             '"weblate.utils.tests.test_classloader"' ' does not define a "Foo" class',
-            load_class,
-            "weblate.utils.tests.test_classloader.Foo",
-            "TEST",
-        )
+        ):
+            load_class("weblate.utils.tests.test_classloader.Foo", "TEST")
 
 
 class ClassLoaderTestCase(TestCase):
