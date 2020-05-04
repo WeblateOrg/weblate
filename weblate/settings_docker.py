@@ -862,6 +862,7 @@ CHECK_LIST = [
     "weblate.checks.markup.SafeHTMLCheck",
     "weblate.checks.placeholders.PlaceholderCheck",
     "weblate.checks.placeholders.RegexCheck",
+    "weblate.checks.duplicate.DuplicateCheck",
     "weblate.checks.source.OptionalPluralCheck",
     "weblate.checks.source.EllipsisCheck",
     "weblate.checks.source.MultipleFailingCheck",
