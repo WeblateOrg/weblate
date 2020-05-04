@@ -52,9 +52,9 @@ cleanup_database() {
 }
 
 print_step() {
-    tput setaf 2
+    echo -en "\033[32;1;4m"
     echo "$@"
-    tput sgr0
+    echo -en "\033[0m"
 }
 
 print_version() {
