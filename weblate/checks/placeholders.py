@@ -84,6 +84,8 @@ class RegexCheck(TargetCheckParametrized):
 
     def get_description(self, check_obj):
         unit = check_obj.unit
+        if not self.has_value(unit):
+            return super().get_description(check_obj)
         regex = self.get_value(unit)
         return mark_safe(
             "{} <code>{}</code>".format(escape(self.description), escape(regex.pattern))
