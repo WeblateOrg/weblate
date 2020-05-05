@@ -24,6 +24,7 @@ from rest_framework import serializers
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.trans.defines import REPO_LENGTH
 from weblate.trans.models import (
     AutoComponentList,
     Change,
@@ -308,9 +309,9 @@ class ComponentSerializer(RemovableSerializer):
     )
     license_url = serializers.CharField(read_only=True)
 
-    repo = RepoField()
+    repo = RepoField(max_length=REPO_LENGTH)
 
-    push = RepoField()
+    push = RepoField(required=False, max_length=REPO_LENGTH)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
