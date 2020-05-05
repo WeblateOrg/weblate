@@ -268,6 +268,8 @@ def has_sql(text):
         return Q(labels__isnull=False)
     if text == "context":
         return ~Q(context="")
+    if text == "screenshot":
+        return Q(screenshots__isnull=False)
 
     raise ValueError("Unsupported has lookup: {}".format(text))
 

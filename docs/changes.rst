@@ -5,6 +5,7 @@ Not yet released.
 
 * Added support for creating new translations with included country code.
 * Added support for Laravel PHP files.
+* Added support for seaching source strings with screenshot.
 
 Weblate 4.0.3
 --------------

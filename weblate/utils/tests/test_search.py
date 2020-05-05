@@ -210,6 +210,7 @@ class QueryParserTest(TestCase):
         self.assert_query("has:shaping", Q(shaping__isnull=False))
         self.assert_query("has:label", Q(labels__isnull=False))
         self.assert_query("has:context", ~Q(context=""))
+        self.assert_query("has:screenshot", Q(screenshots__isnull=False))
 
     def test_is(self):
         self.assert_query("is:pending", Q(pending=True))
