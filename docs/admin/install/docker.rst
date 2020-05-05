@@ -463,6 +463,11 @@ Generic settings
 
    Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`.
 
+.. envvar:: WEBLATE_SILENCED_SYSTEM_CHECKS
+
+   Configures checks which you do not want to be displayed, see
+   :setting:`django:SILENCED_SYSTEM_CHECKS`.
+
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
