@@ -112,7 +112,8 @@ Depending on what you want to save, back up the type data Weblate stores in each
 
    In case you are doing manual backups, you might want to silent Weblate
    warning about lack of backups by adding ``weblate.I028`` to
-   :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py`:
+   :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or
+   :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker.
 
    .. code-block:: python
 
