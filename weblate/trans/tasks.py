@@ -48,7 +48,9 @@ from weblate.trans.models import (
 )
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
+from weblate.utils.errors import report_error
 from weblate.utils.files import remove_readonly
+from weblate.vcs.base import RepositoryException
 
 SEARCH_LOGGER = logging.getLogger("weblate.search")
 
@@ -242,14 +244,18 @@ def cleanup_old_comments():
 def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
-        if component.repository.count_missing() > threshold:
-            component.add_alert("RepositoryOutdated")
-        else:
-            component.delete_alert("RepositoryOutdated")
-        if component.repository.count_outgoing() > threshold:
-            component.add_alert("RepositoryChanges")
-        else:
-            component.delete_alert("RepositoryChanges")
+        try:
+            if component.repository.count_missing() > threshold:
+                component.add_alert("RepositoryOutdated")
+            else:
+                component.delete_alert("RepositoryOutdated")
+            if component.repository.count_outgoing() > threshold:
+                component.add_alert("RepositoryChanges")
+            else:
+                component.delete_alert("RepositoryChanges")
+        except RepositoryException as error:
+            report_error(cause="Could not check repository status")
+            component.add_alert("MergeFailure", error=component.error_text(error))
 
 
 @app.task(trail=False)
