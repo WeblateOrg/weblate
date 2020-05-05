@@ -1510,22 +1510,24 @@ $(function () {
     });
 
     // Show the correct toggle button
-    var sort_name = $('#query-sort-dropdown span.search-label').text();
-    var sort_dropdown_value = $(".sort-field li a").filter(function() {
-        return $(this).text() == sort_name;
-    }).data('sort');
-    var sort_value = $('#id_sort_by').val();
-    console.log(sort_dropdown_value);
-    console.log(sort_value);
-    if (
-        sort_value.replace("-", "") === sort_dropdown_value.replace("-", "")
-        && sort_value !== sort_dropdown_value
-    ) {
-        $('#query-sort-toggle .asc').hide();
-        $('#query-sort-toggle .desc').show();
-    } else {
-        $('#query-sort-toggle .desc').hide();
-        $('#query-sort-toggle .asc').show();
+    if ($('.sort-field').length) {
+        var sort_name = $('#query-sort-dropdown span.search-label').text();
+        var sort_dropdown_value = $(".sort-field li a").filter(function() {
+            return $(this).text() == sort_name;
+        }).data('sort');
+        var sort_value = $('#id_sort_by').val();
+        if (sort_dropdown_value) {
+            if (
+                sort_value.replace("-", "") === sort_dropdown_value.replace("-", "")
+                && sort_value !== sort_dropdown_value
+            ) {
+                $('#query-sort-toggle .asc').hide();
+                $('#query-sort-toggle .desc').show();
+            } else {
+                $('#query-sort-toggle .desc').hide();
+                $('#query-sort-toggle .asc').show();
+            }
+        }
     }
 
     /* Branch loading */
