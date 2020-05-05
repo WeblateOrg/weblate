@@ -41,7 +41,7 @@ class PlaceholderCheck(TargetCheckParametrized):
     check_id = "placeholders"
     default_disabled = True
     name = _("Placeholders")
-    description = _("Translation is missing some placeholders")
+    description = _("Translation is missing some placeholders:")
     severity = "danger"
     param_type = parse_placeholders
 
@@ -58,6 +58,18 @@ class PlaceholderCheck(TargetCheckParametrized):
         for match in re.finditer(regexp, source):
             ret.append((match.start(), match.end(), match.group()))
         return ret
+
+    def get_description(self, check_obj):
+        unit = check_obj.unit
+        targets = unit.get_target_plurals()
+        missing = [
+            param
+            for param in self.get_value(unit)
+            if any(param not in target for target in targets)
+        ]
+        return mark_safe(
+            "{} {}".format(escape(self.description), escape(", ".join(missing)))
+        )
 
 
 class RegexCheck(TargetCheckParametrized):
