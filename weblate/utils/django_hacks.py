@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from sys import exc_info
 from unittest import mock
 
 
@@ -40,4 +41,4 @@ def immediate_on_commit(cls):
 
 
 def immediate_on_commit_leave(cls):
-    cls.on_commit_mgr.__exit__()
+    cls.on_commit_mgr.__exit__(*exc_info())
