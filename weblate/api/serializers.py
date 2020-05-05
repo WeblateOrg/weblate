@@ -328,6 +328,7 @@ class ComponentSerializer(RemovableSerializer):
             "branch",
             "filemask",
             "template",
+            "edit_template",
             "new_base",
             "file_format",
             "license",
