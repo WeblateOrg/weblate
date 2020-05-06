@@ -156,6 +156,15 @@ class WeblateAdminSite(AdminSite):
 
             self.register(Agreement, AgreementAdmin)
 
+        # SAML identity provider
+        if "djangosaml2idp" in settings.INSTALLED_APPS:
+            # pylint: disable=wrong-import-position
+            from djangosaml2idp.models import PersistentId, ServiceProvider
+            from djangosaml2idp.admin import PersistentIdAdmin, ServiceProviderAdmin
+
+            self.register(PersistentId, PersistentIdAdmin)
+            self.register(ServiceProvider, ServiceProviderAdmin)
+
         # Python Social Auth
         self.register(UserSocialAuth, UserSocialAuthOption)
         self.register(Nonce, NonceOption)

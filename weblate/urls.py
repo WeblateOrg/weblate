@@ -1273,6 +1273,11 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
         url(r"^create/billing/$", CreateBillingView.as_view(), name="create-billing")
     ]
 
+if "djangosaml2idp" in settings.INSTALLED_APPS:
+    real_patterns += [
+        url(r"^idp/", include("djangosaml2idp.urls")),
+    ]
+
 
 def get_url_prefix():
     if not settings.URL_PREFIX:
