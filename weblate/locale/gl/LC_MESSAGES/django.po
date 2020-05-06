@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-03-30 11:50+0000\n"
-"Last-Translator: anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-05-06 11:54+0000\n"
+"Last-Translator: Iváns <ivanrsm1997@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/master/"
 "gl/>\n"
 "Language: gl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.0-dev\n"
+"X-Generator: Weblate 4.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -354,29 +354,25 @@ msgstr ""
 "Restabelecemento do contrasinal confirmado. Desactivouse o contrasinal."
 
 #: weblate/accounts/models.py:84
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Iniciouse a sesión empregando {method} ({name})."
+msgstr "Sesión iniciada configurada, empregando {method} ({name})."
 
 #: weblate/accounts/models.py:85
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Removed sign in using {method} ({name})."
-msgstr "Iniciouse a sesión empregando {method} ({name})."
+msgstr "Sesión iniciada eliminada, empregando {method} ({name})."
 
 #: weblate/accounts/models.py:86
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Iniciouse a sesión empregando {method} ({name})."
+msgstr "Sesión iniciada, empregando {method} ({name})."
 
 #: weblate/accounts/models.py:87
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr ""
-"Iniciouse a sesión empregando {method} ({name}) dende un novo dispositivo."
+"Sesión iniciada, empregando {method} ({name}) dende un novo dispositivo."
 
 #: weblate/accounts/models.py:88
 msgid "Somebody has attempted to register with your e-mail."
@@ -388,16 +384,13 @@ msgstr ""
 "Alguén tentou rexistrarse empregando o teu enderezo do correo electrónico."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "Non foi posíbel iniciar a sesión con {method}. ({name})."
 
 #: weblate/accounts/models.py:91
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Conta bloqueada por mor das moitas autenticacións falladas."
+msgstr "Conta bloqueada por mor das moitos intentos de acceso fallados."
 
 #: weblate/accounts/models.py:92
 msgid "Account and all private data removed."
@@ -415,26 +408,18 @@ msgid "Invited to Weblate by {username}."
 msgstr "Doazón a Weblate!"
 
 #: weblate/accounts/models.py:99
-#, fuzzy
-#| msgid "Current password"
 msgid "Configured password to sign in."
-msgstr "Contrasinal actual"
+msgstr "Configurouse o contrasinal para acceder."
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
-msgstr "Iniciar a sesión cun contrasinal."
+msgstr "Sesión iniciada empregando un contrasinal."
 
 #: weblate/accounts/models.py:101
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
-msgstr "Conectado empregando o contrasinal dun dispositivo novo."
+msgstr "Sesión iniciada empregando un contrasinal nun dispositivo novo."
 
 #: weblate/accounts/models.py:102
-#, fuzzy
-#| msgid "Could not log in using password."
 msgid "Could not sign in using password."
 msgstr "Non foi posíbel iniciar a sesión empregando un contrasinal."
 
@@ -720,28 +705,21 @@ msgstr ""
 "O teu contrasinal non debe coincidir cun contrasinal xa empregado no pasado."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
 msgstr ""
-"Non pode remata-lo restabelecemento do contrasinal mentres vostede esté "
-"conectado!"
+"Non pode rematar o restabelecemento do contrasinal mentres esteas conectado!"
 
 #: weblate/accounts/pipeline.py:296 weblate/accounts/pipeline.py:319
 msgid "The registration link has been invalidated."
 msgstr "Invalidouse a ligazón para rexistrarse."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
-msgstr "Non pode remata-lo rexistro mentres vostede esté conectado!"
+msgstr "Non podes rematar o rexistro mentres esteas conectado!"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
-msgstr "Pode confirma-lo rexistro só mentres vostede esté conectado!"
+msgstr "Podes confirmar o rexistro só mentres esteas conectado!"
 
 #: weblate/accounts/pipeline.py:443
 #, python-brace-format
@@ -808,7 +786,7 @@ msgstr "Aloxamento"
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:184
 msgid "Sign in"
-msgstr ""
+msgstr "Iniciar a sesión"
 
 #: weblate/accounts/views.py:611 weblate/wladmin/sites.py:180
 msgid "Thank you for using Weblate."
@@ -923,6 +901,8 @@ msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
+"A ligazón para mudar as notificacións xa non é válido. Accede á túa conta "
+"para configuralas."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:33 weblate/templates/translation.html:63
@@ -1439,20 +1419,14 @@ msgid "Update RESX files"
 msgstr "Todos os subproxectos"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones are added as copies of the source "
 "string."
 msgstr ""
-"Actualice tódolos ficheiros da tradución para que coincidan co ficheiro base "
-"monolingüe. Para a maioría dos formatos de ficheiro, isto significa elimina-"
-"las chaves ou claves da tradución obsoletas que xa non están presentes no "
-"ficheiro base."
+"Actualiza todos os ficheiros de tradución para que coincidan co ficheiro de "
+"base monolingüe orixinal. As cadeas non empregadas son eliminadas e as novas "
+"son engadidas coma copias das cadeas de orixe."
 
 #: weblate/addons/views.py:84
 #, fuzzy
@@ -2379,7 +2353,7 @@ msgstr "Cadeas de localización"
 
 #: weblate/checks/chars.py:401
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Falla un espazo indivisíbel antes do signo de puntuación duplo"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
@@ -4067,7 +4041,7 @@ msgstr ""
 
 #: weblate/templates/accounts/login.html:44
 msgid "Sign in with:"
-msgstr ""
+msgstr "Iniciar a sesión con:"
 
 #: weblate/templates/accounts/login.html:59
 msgid "Forgot your password?"
@@ -5346,16 +5320,12 @@ msgid "You don't have permission to start a new translation"
 msgstr "Non ten permisos para gardar as traducións!"
 
 #: weblate/templates/component.html:142
-#, fuzzy
-#| msgid "Please log in to start new translation"
 msgid "Please sign in to start new translation"
 msgstr "Accede a túa conta para comezar novas traducións"
 
 #: weblate/templates/component.html:158
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please sign in to see the alerts."
-msgstr "Fallou a tradución"
+msgstr "Accede a túa conta para ollar as alertas."
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:82
 #: weblate/templates/translation.html:257
@@ -5577,15 +5547,11 @@ msgstr ""
 "deseguido."
 
 #: weblate/templates/dashboard/anonymous.html:10
-#, fuzzy
-#| msgid ""
-#| "You need to be logged in to translate, otherwise you can only make "
-#| "suggestions."
 msgid ""
 "You need to be signed in to translate, otherwise you can only make "
 "suggestions."
 msgstr ""
-"Cómpre inicia-la sesión para traducir, do contrario só poderá facer "
+"Cómpre iniciar a sesión para traducir, do contrario só poderás facer "
 "suxestións."
 
 #: weblate/templates/dashboard/anonymous.html:17
@@ -6820,7 +6786,7 @@ msgstr "Último acceso á sesión"
 
 #: weblate/templates/manage-access.html:39
 msgid "Not yet signed in"
-msgstr ""
+msgstr "Aínda non se iniciou a sesión"
 
 #: weblate/templates/manage-access.html:53
 #, fuzzy
@@ -7379,10 +7345,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/ratelimit.html:7
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "You have been logged out, please sign in and try again later."
-msgstr "Moitas mensaxes enviadas, ténteo de novo máis tarde!"
+msgstr "Rematou a túa sesión. Accede de novo e téntao novamente máis tarde."
 
 #: weblate/templates/ratelimit.html:9
 #, fuzzy
@@ -7614,14 +7578,12 @@ msgid "Nothing to list here."
 msgstr ""
 
 #: weblate/templates/snippets/login-info.html:4
-#, fuzzy
-#| msgid "Sent by Weblate translation system"
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr "Enviada desde o sistema de tradución Weblate"
+msgstr "Sistema de tradución <strong>continua</strong> baseada na web"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
+msgstr "Ó rexistrarte e acceder a este servizo, acepta os:"
 
 #: weblate/templates/snippets/login-info.html:20
 msgid ""
@@ -7986,6 +7948,8 @@ msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
+"Evita ter á vez ficheiros de tradución para o código de lingua xenérico e "
+"para un código con país (por exemplo, \"de\" e \"de_DE\")."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:26
 #, fuzzy
@@ -8379,10 +8343,8 @@ msgid "Report issue with the source string"
 msgstr "Informar dun problema co rexistro"
 
 #: weblate/templates/translate.html:200
-#, fuzzy
-#| msgid "Failed translation"
 msgid "Please sign in to save translations."
-msgstr "Fallou a tradución"
+msgstr "Inicia a sesión para gardar as traducións."
 
 #: weblate/templates/translate.html:202
 msgid ""
@@ -11414,13 +11376,12 @@ msgstr ""
 "noutros."
 
 #: weblate/trans/views/dashboard.py:153
-#, fuzzy
-#| msgid ""
-#| "Once you have activated your account, proceed to the translation section."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
-msgstr "Após activar a túa conta, vai á lapela de tradución."
+msgstr ""
+"Activouse a túa conta; agora, configura o teu contrasinal para poder acceder "
+"a seguinte vez."
 
 #: weblate/trans/views/dashboard.py:167
 msgid "Please set your full name and e-mail in your profile."
