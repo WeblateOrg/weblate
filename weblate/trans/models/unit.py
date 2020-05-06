@@ -116,6 +116,18 @@ class UnitQuerySet(models.QuerySet):
             result = result.exclude(pk=unit.id)
         return result
 
+    def order_by_request(self, form_data):
+        sort_list_request = form_data.get("sort_by", "").split(",")
+        available_sort_choices = ["priority", "position", "context", "num_words"]
+        sort_list = [
+            choice
+            for choice in sort_list_request
+            if choice.replace("-", "") in available_sort_choices
+        ]
+        if not sort_list:
+            return self.order()
+        return self.order_by(*sort_list)
+
     def get_unit(self, ttunit):
         """Find unit matching translate-toolkit unit.
 

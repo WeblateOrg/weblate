@@ -70,7 +70,7 @@ class FilterRegistry:
 
     def get_search_name(self, query):
         try:
-            return self.search_name[query]
+            return self.search_name[query.strip()]
         except KeyError:
             return query
 

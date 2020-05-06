@@ -18,12 +18,13 @@
 #
 
 
-from crispy_forms.layout import Div
+from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
 from django import forms
 from django.template.loader import render_to_string
 from django.utils.encoding import force_str
 
+from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
 
 
@@ -51,3 +52,34 @@ class ContextDiv(Div):
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
         template = self.get_template_name(template_pack)
         return render_to_string(template, self.context)
+
+
+class SearchField(Field):
+    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK, **kwargs):
+        extra_context = {"custom_filter_list": self.get_search_query_choices()}
+        return super(SearchField, self).render(
+            form, form_style, context, template_pack, extra_context, **kwargs
+        )
+
+    def get_search_query_choices(self):
+        """Return all filtering choices for query field."""
+        filter_keys = [
+            "nottranslated",
+            "todo",
+            "translated",
+            "fuzzy",
+            "suggestions",
+            "shapings",
+            "labels",
+            "context",
+            "nosuggestions",
+            "comments",
+            "allchecks",
+            "approved",
+            "unapproved",
+        ]
+        result = [
+            (key, FILTERS.get_filter_name(key), FILTERS.get_filter_query(key))
+            for key in filter_keys
+        ]
+        return result

@@ -61,7 +61,12 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
-from weblate.utils.forms import ContextDiv, SortedSelect, SortedSelectMultiple
+from weblate.utils.forms import (
+    ContextDiv,
+    SearchField,
+    SortedSelect,
+    SortedSelectMultiple,
+)
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.search import parse_query
 from weblate.utils.state import (
@@ -631,24 +636,27 @@ class SearchForm(forms.Form):
 
     # pylint: disable=invalid-name
     q = QueryField()
+    sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
     checksum = ChecksumField(required=False)
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
 
     def __init__(self, user, *args, **kwargs):
         """Generate choices for other component in same project."""
         self.user = user
+        show_builder = kwargs.pop("show_builder", True)
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("q"),
+            SearchField("q", template="snippets/query-field.html"),
             ContextDiv(
                 template="snippets/query-builder.html",
                 context={
                     "user": self.user,
                     "month_ago": timezone.now() - timedelta(days=31),
+                    "show_builder": show_builder,
                 },
             ),
             Field("checksum"),

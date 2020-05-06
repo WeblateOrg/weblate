@@ -56,7 +56,7 @@ from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_FUZZY
-from weblate.utils.views import get_translation, show_form_errors
+from weblate.utils.views import get_sort_name, get_translation, show_form_errors
 
 
 def get_other_units(unit):
@@ -112,7 +112,7 @@ def cleanup_session(session):
 def search(translation, request):
     """Perform search or returns cached search results."""
     # Possible new search
-    form = SearchForm(request.user, request.GET)
+    form = SearchForm(request.user, request.GET, show_builder=False)
 
     # Process form
     form_valid = form.is_valid()
@@ -130,6 +130,7 @@ def search(translation, request):
     if (
         session_key in request.session
         and "offset" in request.GET
+        and "sort_by" not in request.GET
         and "items" in request.session[session_key]
     ):
         search_result.update(request.session[session_key])
@@ -141,7 +142,9 @@ def search(translation, request):
     name = form.get_name()
 
     # Grab unit IDs
-    unit_ids = list(allunits.order().values_list("id", flat=True))
+    unit_ids = list(
+        allunits.order_by_request(form.cleaned_data).values_list("id", flat=True)
+    )
 
     # Check empty search results
     if not unit_ids:
@@ -486,6 +489,7 @@ def translate(request, project, component, lang):
 
     # Prepare form
     form = TranslationForm(request.user, translation, unit)
+    sort = get_sort_name(request)
 
     return render(
         request,
@@ -505,6 +509,8 @@ def translate(request, project, component, lang):
             "search_items": search_result["items"],
             "search_query": search_result["query"],
             "offset": offset,
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
             "filter_name": search_result["name"],
             "filter_count": num_results,
             "filter_pos": offset,
@@ -685,6 +691,7 @@ def zen(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, component, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
+    sort = get_sort_name(request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -700,6 +707,8 @@ def zen(request, project, component, lang):
             "search_query": search_result["query"],
             "filter_name": search_result["name"],
             "filter_count": len(search_result["ids"]),
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
             "last_section": search_result["last_section"],
             "search_url": search_result["url"],
             "offset": search_result["offset"],
