@@ -858,6 +858,10 @@ To enable support for Sentry, set following:
 
     Your Sentry DSN.
 
+.. envvar:: SENTRY_ENVIRONMENT
+
+    Your Sentry Environment (optional).
+
 Changing enabled apps, checks, addons or autofixes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
