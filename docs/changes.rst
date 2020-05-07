@@ -10,6 +10,7 @@ Not yet released.
 * Fixed crash on displaying some checks.
 * Fixed screenshots listing.
 * Fixed monthly digest notifications.
+* Fixed intermediate translation behavior with units non existing in translation.
 
 Weblate 4.0.3
 --------------
