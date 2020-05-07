@@ -1,7 +1,7 @@
 Weblate 4.0.4
 -------------
 
-Not yet released.
+Released on May 07th 2020.
 
 * Fixed testsuite execution on some Python 3.8 environments.
 * Typo fixes in the documentation.
