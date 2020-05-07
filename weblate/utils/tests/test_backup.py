@@ -33,7 +33,7 @@ class BackupTest(SimpleTestCase):
     @tempdir_setting("DATA_DIR")
     def test_settings_backup(self):
         settings_backup()
-        filename = data_dir("backups", "settings.py")
+        filename = data_dir("backups", "settings-expanded.py")
         with open(filename) as handle:
             self.assertIn(settings.DATA_DIR, handle.read())
 
