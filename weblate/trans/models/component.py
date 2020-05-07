@@ -1824,6 +1824,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
+                or (old.push != self.push)
                 or (old.branch != self.branch)
                 or (old.filemask != self.filemask)
                 or (old.language_regex != self.language_regex)
@@ -1919,6 +1920,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         # Configure git repo if there were changes
         if changed_git:
             self.sync_git_repo(skip_push=skip_push)
+            # Push in case the push URL was changed
+            self.push_if_needed()
 
         # Create template in case intermediate file is present
         self.create_template_if_missing()
