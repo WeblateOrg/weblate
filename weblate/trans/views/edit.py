@@ -589,7 +589,7 @@ def comment(request, pk):
         if form.cleaned_data["scope"] in ("global", "report"):
             scope = unit.source_info
         # Create comment object
-        Comment.objects.add(scope, request.user, form.cleaned_data["comment"])
+        Comment.objects.add(scope, request, form.cleaned_data["comment"])
         # Add review label/flag
         if form.cleaned_data["scope"] == "report":
             if component.has_template():
@@ -625,6 +625,8 @@ def delete_comment(request, pk):
 
     fallback_url = comment_obj.unit.get_absolute_url()
 
+    if "spam" in request.POST:
+        comment_obj.report_spam()
     comment_obj.delete()
     messages.info(request, _("Translation comment has been deleted."))
 

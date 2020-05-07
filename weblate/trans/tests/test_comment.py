@@ -109,7 +109,7 @@ class CommentViewTest(FixtureTestCase):
         self.assertFalse(unit.has_comment)
         self.assertEqual(translation.stats.comments, 0)
 
-    def test_delete_comment(self):
+    def test_delete_comment(self, **kwargs):
         unit = self.get_unit()
         self.make_manager()
 
@@ -121,9 +121,12 @@ class CommentViewTest(FixtureTestCase):
 
         comment = Comment.objects.all()[0]
         response = self.client.post(
-            reverse("delete-comment", kwargs={"pk": comment.pk})
+            reverse("delete-comment", kwargs={"pk": comment.pk}), kwargs
         )
         self.assertRedirects(response, unit.get_absolute_url())
+
+    def test_spam_comment(self):
+        self.test_delete_comment(spam=1)
 
     def test_resolve_comment(self):
         unit = self.get_unit()
