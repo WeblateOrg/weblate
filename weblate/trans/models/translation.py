@@ -1031,21 +1031,26 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_stats(self):
         """Return stats dictionary."""
+        stats = self.stats
         return {
             "code": self.language.code,
             "name": self.language.name,
-            "total": self.stats.all,
-            "total_words": self.stats.all_words,
-            "last_change": self.stats.last_changed,
+            "total": stats.all,
+            "total_words": stats.all_words,
+            "last_change": stats.last_changed,
             "last_author": self.get_last_author(),
-            "recent_changes": self.stats.recent_changes,
-            "translated": self.stats.translated,
-            "translated_words": self.stats.translated_words,
-            "translated_percent": self.stats.translated_percent,
-            "fuzzy": self.stats.fuzzy,
-            "fuzzy_percent": self.stats.fuzzy_percent,
-            "failing": self.stats.allchecks,
-            "failing_percent": self.stats.allchecks_percent,
+            "recent_changes": stats.recent_changes,
+            "translated": stats.translated,
+            "translated_words": stats.translated_words,
+            "translated_percent": stats.translated_percent,
+            "translated_words_percent": stats.translated_words_percent,
+            "translated_chars": stats.translated_chars,
+            "translated_chars_percent": stats.translated_chars_percent,
+            "total_chars": stats.all_chars,
+            "fuzzy": stats.fuzzy,
+            "fuzzy_percent": stats.fuzzy_percent,
+            "failing": stats.allchecks,
+            "failing_percent": stats.allchecks_percent,
             "url": self.get_share_url(),
             "url_translate": get_site_url(self.get_absolute_url()),
         }

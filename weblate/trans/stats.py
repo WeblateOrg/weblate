@@ -32,7 +32,10 @@ def get_project_stats(project):
             "translated_percent": tup.translated_percent,
             "total_words": tup.all_words,
             "translated_words": tup.translated_words,
-            "words_percent": tup.translated_words_percent,
+            "translated_words_percent": tup.translated_words_percent,
+            "total_chars": tup.all_chars,
+            "translated_chars": tup.translated_chars,
+            "translated_chars_percent": tup.translated_chars_percent,
         }
         for tup in project.stats.get_language_stats()
     ]
