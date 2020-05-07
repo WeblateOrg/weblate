@@ -21,6 +21,8 @@
 import os
 import subprocess
 import time
+from importlib import import_module
+from shutil import copyfile
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -53,11 +55,16 @@ def ensure_backup_dir():
 @app.task(trail=False)
 def settings_backup():
     ensure_backup_dir()
-    filename = data_dir("backups", "settings.py")
+
+    # Expand settings in case it contains non-trivial code
     command = diffsettings.Command()
     kwargs = {"default": None, "all": False, "output": "hash"}
-    with open(filename, "w") as handle:
+    with open(data_dir("backups", "settings-expanded.py"), "w") as handle:
         handle.write(command.handle(**kwargs))
+
+    # Backup original settings
+    settings_mod = import_module(settings.SETTINGS_MODULE)
+    copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
 
 
 @app.task(trail=False)
