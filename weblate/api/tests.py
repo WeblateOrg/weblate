@@ -1274,7 +1274,6 @@ class TranslationAPITest(APIBaseTest):
         )
 
     def test_statistics(self):
-        self.maxDiff = None
         self.do_request(
             "api:translation-statistics",
             self.translation_kwargs,
@@ -1290,6 +1289,10 @@ class TranslationAPITest(APIBaseTest):
                 "url_translate": "http://example.com/projects/test/test/cs/",
                 "fuzzy_percent": 0.0,
                 "translated": 0,
+                "translated_words_percent": 0.0,
+                "translated_chars": 0,
+                "translated_chars_percent": 0.0,
+                "total_chars": 139,
                 "fuzzy": 0,
                 "total": 4,
                 "name": "Czech",
