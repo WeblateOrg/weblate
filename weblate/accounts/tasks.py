@@ -179,5 +179,7 @@ def setup_periodic_tasks(sender, **kwargs):
         name="notify-weekly",
     )
     sender.add_periodic_task(
-        crontab(hour=3, minute=0, day=1), notify_monthly.s(), name="notify-monthly"
+        crontab(hour=3, minute=0, day_of_month=1),
+        notify_monthly.s(),
+        name="notify-monthly",
     )
