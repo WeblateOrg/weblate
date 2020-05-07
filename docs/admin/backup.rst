@@ -181,7 +181,7 @@ Weblate dumps various data here, and you can include these files for more comple
 backups. The files are updated daily (requires a running Celery beats server, see
 :ref:`celery`). Currently, this includes:
 
-* Weblate settings as :file:`settings.py`.
+* Weblate settings as :file:`settings.py` (there is also expanded version in :file:`settings-expanded.py`).
 * PostgreSQL database backup as :file:`database.sql`.
 
 The database backup are by default saved as plain text, but they can also be compressed
