@@ -24,6 +24,31 @@ You need to install :mod:`wlc`:, wlc to use these.
 
     pip3 install wlc
 
+Getting started
++++++++++++++++
+
+Configuration is stored in ``~/.config/weblate``:
+
+.. code-block:: ini
+
+    [weblate]
+    url = https://hosted.weblate.org/api/
+
+    [keys]
+    https://hosted.weblate.org/api/ = APIKEY
+
+
+You can then invoke commands on the default server:
+
+.. code-block:: console
+
+    wlc ls
+    wlc commit sandbox/hello-world
+
+.. seealso::
+
+    :ref:`wlc-config`
+
 Synopsis
 ++++++++
 
@@ -51,21 +76,21 @@ The program accepts the following options for a whole instance, which must be en
 
 .. option:: --url URL
 
-    Specify the API URL. Overrides any value found in the configuration file, see :ref:`files`.
+    Specify the API URL. Overrides any value found in the configuration file, see :ref:`wlc-config`.
     The URL should end with ``/api/``, for example ``https://hosted.weblate.org/api/``.
 
 .. option:: --key KEY
 
-    Specify the API user key to use. Overrides any value found in the configuration file, see :ref:`files`.
+    Specify the API user key to use. Overrides any value found in the configuration file, see :ref:`wlc-config`.
     You can find your key in your profile on Weblate.
 
 .. option:: --config PATH
 
-    Overrides the configuration file path, see :ref:`files`.
+    Overrides the configuration file path, see :ref:`wlc-config`.
 
 .. option:: --config-section SECTION
 
-    Overrides configuration file section in use, see :ref:`files`.
+    Overrides configuration file section in use, see :ref:`wlc-config`.
 
 Subcommands
 -----------
@@ -201,10 +226,10 @@ The following subcommands are available:
 
         File from which content is read, if left unspecified it is read from stdin.
 
-.. _files:
+.. _wlc-config:
 
-Files
-+++++
+Configuration files
++++++++++++++++++++
 
 :file:`.weblate`
     Per project configuration file
