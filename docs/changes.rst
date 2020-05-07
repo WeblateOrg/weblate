@@ -7,6 +7,7 @@ Not yet released.
 * Added support for Laravel PHP files.
 * Added support for seaching source strings with screenshot.
 * Extended information available in the stats insights.
+* Improved search editing on translate pages.
 
 Weblate 4.0.3
 --------------
