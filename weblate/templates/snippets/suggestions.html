@@ -36,7 +36,7 @@
             {% endif %}
             {% if user_can_delete_suggestion %}
             {% if has_antispam and suggestion.user != user %}
-            <button type="submit" class="btn btn-link red" name="spam" value="{{ suggestion.id }}" title="{% trans "Mark as spam" %}">{% icon "delete.svg" %}</button>
+            <button type="submit" class="btn btn-link red" name="spam" value="{{ suggestion.id }}" title="{% trans "Mark as spam" %}">{% icon "spam.svg" %}</button>
             {% endif %}
             <button type="submit" class="btn btn-link red" name="delete" value="{{ suggestion.id }}" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
             {% endif %}
