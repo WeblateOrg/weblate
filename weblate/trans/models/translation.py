@@ -359,6 +359,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                         )
                         if translated_unit and not created:
                             unit = translated_unit
+                        else:
+                            # Patch unit to have matching source
+                            unit.source = translated_unit.source
                     except UnitNotFound:
                         pass
 

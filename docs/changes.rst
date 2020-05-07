@@ -1,5 +1,5 @@
 Weblate 4.1
-------------
+-----------
 
 Not yet released.
 
@@ -9,6 +9,20 @@ Not yet released.
 * Extended information available in the stats insights.
 * Improved search editing on translate pages.
 * Improve handling of concurrent repository updates.
+
+Weblate 4.0.4
+-------------
+
+Released on May 07th 2020.
+
+* Fixed testsuite execution on some Python 3.8 environments.
+* Typo fixes in the documentation.
+* Fixed creating components using API in some cases.
+* Fixed JavaScript errors breaking mobile navigation.
+* Fixed crash on displaying some checks.
+* Fixed screenshots listing.
+* Fixed monthly digest notifications.
+* Fixed intermediate translation behavior with units non existing in translation.
 
 Weblate 4.0.3
 --------------

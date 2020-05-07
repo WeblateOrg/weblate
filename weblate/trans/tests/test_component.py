@@ -207,6 +207,42 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "en", 4, "Hello world!\n", source_units=3)
         # For Czech the English source string should be used
         self.verify_component(component, 2, "cs", 4, source_units=3)
+        # Verify source strings are loaded from correct file
+        translation = component.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+        )
+        self.assertEqual(
+            translation.unit_set.get(context=".thanks").source,
+            "Thank you for using Weblate.",
+        )
+
+    def test_switch_json_intermediate(self):
+        component = self._create_component(
+            "json",
+            "intermediate/*.json",
+            "intermediate/dev.json",
+            language_regex="^cs$",
+        )
+        translation = component.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.get(context=".hello").source, "Hello world!\n"
+        )
+        self.assertEqual(
+            translation.unit_set.get(context=".thanks").source,
+            "Thanks for using Weblate.",
+        )
+        component.intermediate = "intermediate/dev.json"
+        component.template = "intermediate/en.json"
+        component.save()
+        translation = component.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+        )
+        self.assertEqual(
+            translation.unit_set.get(context=".thanks").source,
+            "Thank you for using Weblate.",
+        )
 
     def test_create_json_intermediate_empty(self):
         # This should automatically create empty English file
