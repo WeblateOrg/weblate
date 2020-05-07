@@ -8,6 +8,7 @@ Not yet released.
 * Added support for seaching source strings with screenshot.
 * Extended information available in the stats insights.
 * Improved search editing on translate pages.
+* Improve handling of concurrent repository updates.
 
 Weblate 4.0.3
 --------------

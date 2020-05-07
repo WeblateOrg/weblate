@@ -23,14 +23,16 @@ import os
 import re
 import time
 from collections import Counter
+from contextlib import contextmanager
 from copy import copy
 from glob import glob
+from typing import List, Optional
 from urllib.parse import urlparse
 
 from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Q
@@ -40,6 +42,9 @@ from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext
+from django_redis.cache import RedisCache
+from filelock import FileLock, Timeout
+from redis_lock import Lock
 
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
@@ -130,6 +135,10 @@ LANGUAGE_CODE_STYLE_CHOICES = (
 )
 
 MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
+
+
+class ComponentLockTimeout(Exception):
+    """Component lock timeout."""
 
 
 def perform_on_link(func):
@@ -611,6 +620,37 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         self.logs = []
         self.translations_count = None
         self.translations_progress = 0
+
+    @contextmanager
+    def lock(self):
+        default_cache = caches["default"]
+        if isinstance(default_cache, RedisCache):
+            # Prefer Redis locking as it works distributed
+            lock = Lock(
+                default_cache.client.get_client(),
+                name=f"component-update-lock-{self.pk}",
+                expire=60,
+                auto_renewal=True,
+            )
+            if not lock.acquire(timeout=1):
+                raise ComponentLockTimeout()
+        else:
+            # Fall back to file based locking
+            lock = FileLock(
+                os.path.join(self.project.full_path, f"{self.slug}-update.lock"),
+                timeout=1,
+            )
+            try:
+                lock.acquire()
+            except Timeout:
+                raise ComponentLockTimeout()
+
+        try:
+            # Execute context
+            yield
+        finally:
+            # Release lock (the API is same in both cases)
+            lock.release()
 
     @cached_property
     def update_key(self):
@@ -1389,13 +1429,41 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 self.delete_alert(alert)
         self.alerts_trigger = {}
 
-    def create_translations(  # noqa: C901
+    def create_translations(
         self,
-        force=False,
-        langs=None,
+        force: bool = False,
+        langs: Optional[List[str]] = None,
         request=None,
-        changed_template=False,
-        from_link=False,
+        changed_template: bool = False,
+        from_link: bool = False,
+    ):
+        """Load translations from VCS."""
+        try:
+            with self.lock():
+                return self._create_translations(
+                    force, langs, request, changed_template, from_link
+                )
+        except ComponentLockTimeout:
+            if settings.CELERY_TASK_ALWAYS_EAGER:
+                # Retry will not address anything
+                raise
+            from weblate.trans.tasks import perform_load
+
+            self.log_info("scheduling update in background, another update in progress")
+            # We skip request here as it is not serializable
+            perform_load.apply_async(
+                args=(self.pk, force, langs, None, changed_template, from_link),
+                countdown=60,
+            )
+            return False
+
+    def _create_translations(  # noqa: C901
+        self,
+        force: bool = False,
+        langs: Optional[List[str]] = None,
+        request=None,
+        changed_template: bool = False,
+        from_link: bool = False,
     ):
         """Load translations from VCS."""
         self.store_background_task()
