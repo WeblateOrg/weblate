@@ -63,8 +63,9 @@ def settings_backup():
         handle.write(command.handle(**kwargs))
 
     # Backup original settings
-    settings_mod = import_module(settings.SETTINGS_MODULE)
-    copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
+    if settings.SETTINGS_MODULE:
+        settings_mod = import_module(settings.SETTINGS_MODULE)
+        copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
 
 
 @app.task(trail=False)
