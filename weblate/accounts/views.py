@@ -90,7 +90,7 @@ from weblate.accounts.forms import (
     UserForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail, set_lang
+from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     FREQ_NONE,
     NOTIFICATIONS,
@@ -332,15 +332,10 @@ def user_profile(request):
                     form.audit(request)
                 form.save()
 
-            # Redirect after saving (and possibly changing language)
-            response = redirect_profile(request.POST.get("activetab"))
-
-            # Change language
-            set_lang(response, profile)
-
             messages.success(request, _("Your profile has been updated."))
 
-            return response
+            # Redirect after saving (and possibly changing language)
+            return redirect_profile(request.POST.get("activetab"))
     else:
         if not request.user.has_usable_password() and "email" in all_backends:
             messages.warning(
@@ -590,12 +585,6 @@ class WeblateLoginView(LoginView):
             return redirect_single(request, auth_backends[0])
 
         return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        # Set language for session based on preferences
-        set_lang(response, self.request.user.profile)
-        return response
 
 
 class WeblateLogoutView(LogoutView):
@@ -970,9 +959,7 @@ def social_auth(request, backend):
                 salt="weblate.authid",
             )
         )
-    response = do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
-    set_lang(response, request.user.profile)
-    return response
+    return do_auth(request.backend, redirect_name=REDIRECT_FIELD_NAME)
 
 
 def auth_fail(request, message):

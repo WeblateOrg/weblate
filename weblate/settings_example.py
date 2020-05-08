@@ -328,7 +328,6 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -595,7 +594,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Apply session coookie settings to language cookie as ewll
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
-LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE
+LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE * 10
 
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True

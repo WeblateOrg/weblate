@@ -11,6 +11,7 @@ Not yet released.
 * Improve handling of concurrent repository updates.
 * Include source language in project creation form.
 * Include changes count in credits.
+* Fixed UI language selection in some cases.
 
 Weblate 4.0.4
 -------------

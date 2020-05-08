@@ -23,8 +23,9 @@ from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
-from django.utils.functional import SimpleLazyObject
+from django.utils.translation import activate, get_language, get_language_from_request
 
+from weblate.accounts.models import set_lang
 from weblate.auth.models import get_anonymous
 
 
@@ -54,8 +55,30 @@ class AuthenticationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        request.user = SimpleLazyObject(lambda: get_user(request))
-        return self.get_response(request)
+        # Django uses lazy object here, but we need the user in pretty
+        # much every request, so there is no reason to delay this
+        request.user = user = get_user(request)
+
+        # Get language to use in this request
+        if user.is_authenticated and user.profile.language:
+            language = user.profile.language
+        else:
+            language = get_language_from_request(request)
+
+        # Based on django.middleware.locale.LocaleMiddleware
+        activate(language)
+        request.LANGUAGE_CODE = get_language()
+
+        # Invoke the request
+        response = self.get_response(request)
+
+        # Update the language cookie if needed
+        if user.is_authenticated and user.profile.language != request.COOKIES.get(
+            settings.LANGUAGE_COOKIE_NAME
+        ):
+            set_lang(response, user.profile)
+
+        return response
 
 
 class RequireLoginMiddleware:
