@@ -1542,6 +1542,12 @@ $(function () {
         });
     });
 
+    /* Click to edit position inline */
+    $('#position-input').on('click', function() {
+        $('#position-input').hide();
+        $('#position-input-editable').show();
+    });
+
     /* Advanced search */
     $('.search-group li a').click(function () {
         var $this = $(this);

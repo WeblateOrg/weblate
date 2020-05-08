@@ -414,6 +414,30 @@ kbd {
 .pagination .dropdown-toggle {
     text-align: center;
 }
+.pagination #position-input-editable {
+    padding: 2px 5px;
+    max-width: 7em;
+    display: none;
+}
+#position-input-editable input {
+    height: 31px;
+    padding-left: 2px;
+    padding-right: 2px;
+    text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+#position-input-editable input::-webkit-outer-spin-button,
+#position-input-editable input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+#position-input-editable input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .billing-buttons {
     text-align: center;
 }
