@@ -1,11 +1,6 @@
 Installing on macOS
 ===================
 
-.. warning::
-
-   This guide is currently untested, please provide feedback or corrections to it.
-
-
 .. include:: steps/hw.rst
 
 .. include:: steps/install-system-devel.rst
