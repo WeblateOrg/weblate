@@ -51,6 +51,7 @@ class CreateTest(ViewTestCase):
             "name": "Create Project",
             "slug": "create-project",
             "web": "https://weblate.org/",
+            "source_language": "1",
         }
         params.update(kwargs)
         response = self.client.post(reverse("create-project"), params)
