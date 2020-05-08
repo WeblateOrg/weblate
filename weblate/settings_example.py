@@ -580,6 +580,7 @@ CSRF_USE_SESSIONS = True
 # Customize CSRF failure view
 CSRF_FAILURE_VIEW = "weblate.trans.views.error.csrf_failure"
 SESSION_COOKIE_SECURE = ENABLE_HTTPS
+SESSION_COOKIE_HTTPONLY = True
 # SSL redirect
 SECURE_SSL_REDIRECT = ENABLE_HTTPS
 # Sent referrrer only for same origin links
@@ -590,6 +591,11 @@ SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 SESSION_COOKIE_AGE = 1209600
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
+
+# Apply session coookie settings to language cookie as ewll
+LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
+LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
+LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE
 
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
