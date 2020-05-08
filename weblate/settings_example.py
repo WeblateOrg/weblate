@@ -36,7 +36,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     "default": {
-        # Use 'postgresql' or 'mysql'.
+        # Use "postgresql" or "mysql".
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
         "NAME": "weblate",
@@ -52,13 +52,13 @@ DATABASES = {
         "OPTIONS": {
             # In case of using an older MySQL server,
             # which has MyISAM as a default storage
-            # 'init_command': 'SET storage_engine=INNODB',
+            # "init_command": "SET storage_engine=INNODB",
             # Uncomment for MySQL older than 5.7:
-            # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            # "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
             # Set emoji capable charset for MySQL:
-            # 'charset': 'utf8mb4',
+            # "charset": "utf8mb4",
             # Change connection timeout in case you get MySQL gone away error:
-            # 'connect_timeout': 28800,
+            # "connect_timeout": 28800,
         },
     }
 }
@@ -447,13 +447,13 @@ LOGGING = {
             "facility": SysLogHandler.LOG_LOCAL2,
         },
         # Logging to a file
-        # 'logfile': {
-        #     'level':'DEBUG',
-        #     'class':'logging.handlers.RotatingFileHandler',
-        #     'filename': "/var/log/weblate/weblate.log",
-        #     'maxBytes': 100000,
-        #     'backupCount': 3,
-        #     'formatter': 'logfile',
+        # "logfile": {
+        #     "level":"DEBUG",
+        #     "class":"logging.handlers.RotatingFileHandler",
+        #     "filename": "/var/log/weblate/weblate.log",
+        #     "maxBytes": 100000,
+        #     "backupCount": 3,
+        #     "formatter": "logfile",
         # },
     },
     "loggers": {
