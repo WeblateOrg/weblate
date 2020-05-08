@@ -1631,7 +1631,10 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             "translation_review",
             "source_review",
         )
-        widgets = {"access_control": forms.RadioSelect()}
+        widgets = {
+            "access_control": forms.RadioSelect(),
+            "source_language": SortedSelect,
+        }
 
     def clean(self):
         data = self.cleaned_data
@@ -1763,6 +1766,7 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
     class Meta:
         model = Project
         fields = ("name", "slug", "web", "mail", "instructions", "source_language")
+        widgets = {"source_language": SortedSelect}
 
 
 class ReplaceForm(forms.Form):
