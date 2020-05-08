@@ -7,7 +7,9 @@ All settings are stored in :file:`settings.py` (as is usual for Django).
 
 .. note::
 
-    After changing any of these settings, you need to restart Weblate.
+    After changing any of these settings, you need to restart Weblate - both
+    WSGI and Celery processes.
+
     In case it is run as mod_wsgi, you need to restart Apache to reload the
     configuration.
 
