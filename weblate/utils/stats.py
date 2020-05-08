@@ -615,20 +615,25 @@ class ProjectLanguageStats(LanguageStats):
         return "{}-{}".format(super().cache_key, self.language.pk)
 
     @cached_property
+    def component_set(self):
+        return prefetch_stats(self._object.component_set.all())
+
+    @cached_property
     def translation_set(self):
-        result = []
-        for component in self._object.component_set.iterator():
-            result.extend(
-                component.translation_set.filter(language_id=self.language.pk)
+        from weblate.trans.models import Translation
+
+        return prefetch_stats(
+            Translation.objects.filter(
+                component__in=self.component_set, language_id=self.language.pk
             )
-        return prefetch_stats(result)
+        )
 
     def calculate_source(self, stats_obj, stats):
         return
 
     def prefetch_source(self):
-        chars, words, strings = 0, 0, 0
-        for component in prefetch_stats(self._object.component_set.iterator()):
+        chars = words = strings = 0
+        for component in self.component_set:
             stats_obj = component.source_translation.stats
             chars += stats_obj.all_chars
             words += stats_obj.all_words
