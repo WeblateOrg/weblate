@@ -9,6 +9,7 @@ Not yet released.
 * Extended information available in the stats insights.
 * Improved search editing on translate pages.
 * Improve handling of concurrent repository updates.
+* Include source language in project creation form.
 
 Weblate 4.0.4
 -------------

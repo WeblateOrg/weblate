@@ -1762,7 +1762,7 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
 
     class Meta:
         model = Project
-        fields = ("name", "slug", "web", "mail", "instructions")
+        fields = ("name", "slug", "web", "mail", "instructions", "source_language")
 
 
 class ReplaceForm(forms.Form):
