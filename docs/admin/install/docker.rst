@@ -320,7 +320,8 @@ Generic settings
 
 .. envvar:: WEBLATE_REGISTRATION_ALLOW_BACKENDS
 
-   Configure which authentication methods can be used to create new account via :setting:`REGISTRATION_ALLOW_BACKENDS.
+   Configure which authentication methods can be used to create new account via
+   :setting:`REGISTRATION_ALLOW_BACKENDS`.
 
     **Example:**
 
