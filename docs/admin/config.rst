@@ -1141,6 +1141,30 @@ An amount of seconds defaulting to 600 (10 minutes).
     :setting:`RATELIMIT_ATTEMPTS`,
     :setting:`RATELIMIT_WINDOW`
 
+.. setting:: REGISTRATION_ALLOW_BACKENDS
+
+REGISTRATION_ALLOW_BACKENDS
+---------------------------
+
+.. versionadded:: 4.1
+
+List of authentication backends to allow registration from in case it is otherwise disabled by
+:setting:`REGISTRATION_OPEN`.
+
+Example:
+
+.. code-block:: python
+
+    REGISTRATION_ALLOW_BACKENDS = ["azuread-oauth2", "azuread-tenant-oauth2"]
+
+.. hint::
+
+   The backend names match names used in URL for authentication.
+
+.. seealso::
+
+    :setting:`REGISTRATION_OPEN`
+
 .. setting:: REGISTRATION_CAPTCHA
 
 REGISTRATION_CAPTCHA
@@ -1182,12 +1206,20 @@ REGISTRATION_OPEN
 Whether registration of new accounts is currently permitted.
 This optional setting can be be the default``True`` or changed to ``False``.
 
+This setting affects built-in authentication by e-mail address or through the
+Python Social Auth (you can white list certain backends using
+:setting:`REGISTRATION_ALLOW_BACKENDS`).
+
 .. note::
 
-   This setting affects built-in authentication by e-mail address or through the
-   Python Social Auth. If using third-party authentication methods such
-   as :ref:`ldap-auth`, it just hides the registration form, but new users might
-   still be able to sign in and create accounts.
+   If using third-party authentication methods such as :ref:`ldap-auth`, it
+   just hides the registration form, but new users might still be able to sign
+   in and create accounts.
+
+.. seealso::
+
+    :setting:`REGISTRATION_ALLOW_BACKENDS`,
+    :setting:`REGISTRATION_EMAIL_MATCH`
 
 .. setting:: REPOSITORY_ALERT_THRESHOLD
 

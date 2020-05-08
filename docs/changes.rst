@@ -12,6 +12,7 @@ Not yet released.
 * Include source language in project creation form.
 * Include changes count in credits.
 * Fixed UI language selection in some cases.
+* Allow to whitelist registration methods with registrations closed.
 
 Weblate 4.0.4
 -------------

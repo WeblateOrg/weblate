@@ -575,6 +575,9 @@ class WeblateAccountsConf(AppConf):
     # Enable registrations
     REGISTRATION_OPEN = True
 
+    # Allow registration from certain backends
+    REGISTRATION_ALLOW_BACKENDS = []
+
     # Registration email filter
     REGISTRATION_EMAIL_MATCH = ".*"
 

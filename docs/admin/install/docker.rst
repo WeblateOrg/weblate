@@ -318,6 +318,18 @@ Generic settings
         environment:
           WEBLATE_REGISTRATION_OPEN: 0
 
+.. envvar:: WEBLATE_REGISTRATION_ALLOW_BACKENDS
+
+   Configure which authentication methods can be used to create new account via :setting:`REGISTRATION_ALLOW_BACKENDS.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_REGISTRATION_OPEN: 0
+          WEBLATE_REGISTRATION_ALLOW_BACKENDS: azuread-oauth2,azuread-tenant-oauth2
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.

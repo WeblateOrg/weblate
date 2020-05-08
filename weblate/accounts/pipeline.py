@@ -190,6 +190,7 @@ def verify_open(strategy, backend, user, weblate_action, **kwargs):
     if (
         not user
         and not settings.REGISTRATION_OPEN
+        and backend.name not in settings.REGISTRATION_ALLOW_BACKENDS
         and weblate_action not in ("reset", "remove", "invite")
     ):
         raise AuthMissingParameter(backend, "disabled")
