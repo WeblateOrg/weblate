@@ -48,9 +48,7 @@ def generate_credits(user, start_date, end_date, **kwargs):
         )
         if not authors:
             continue
-        result.append(
-            {language.name: sorted(author for author in set(authors) if author[0])}
-        )
+        result.append({language.name: sorted(authors, key=lambda item: item[2])})
 
     return result
 
@@ -90,7 +88,7 @@ def get_credits(request, project=None, component=None):
         row_start = "<tr>"
         language_format = "<th>{0}</th>"
         translator_start = "<td><ul>"
-        translator_format = '<li><a href="mailto:{0}">{1}</a></li>'
+        translator_format = '<li><a href="mailto:{0}">{1}</a> ({2})</li>'
         translator_end = "</ul></td>"
         row_end = "</tr>"
         mime = "text/html"
@@ -100,7 +98,7 @@ def get_credits(request, project=None, component=None):
         row_start = ""
         language_format = "* {0}\n"
         translator_start = ""
-        translator_format = "    * {1} <{0}>"
+        translator_format = "    * {1} <{0}> ({2})"
         translator_end = ""
         row_end = ""
         mime = "text/plain"

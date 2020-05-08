@@ -78,7 +78,7 @@ class ReportsTest(BaseReportsTest):
         )
         self.assertEqual(data, [])
 
-    def test_credits_one(self):
+    def test_credits_one(self, expected_count=1):
         self.add_change()
         data = generate_credits(
             None,
@@ -86,11 +86,13 @@ class ReportsTest(BaseReportsTest):
             timezone.now() + timedelta(days=1),
             translation__component=self.component,
         )
-        self.assertEqual(data, [{"Czech": [("weblate@example.org", "Weblate Test")]}])
+        self.assertEqual(
+            data, [{"Czech": [("weblate@example.org", "Weblate Test", expected_count)]}]
+        )
 
     def test_credits_more(self):
         self.edit_unit("Hello, world!\n", "Nazdar svete2!\n")
-        self.test_credits_one()
+        self.test_credits_one(expected_count=2)
 
     def test_counts_one(self):
         self.add_change()
@@ -124,7 +126,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             response.content.decode(),
-            [{"Czech": [["weblate@example.org", "Weblate Test"]]}],
+            [{"Czech": [["weblate@example.org", "Weblate Test", 1]]}],
         )
 
     def test_credits_view_rst(self):
@@ -132,7 +134,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.content.decode(),
-            "\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n",
+            "\n\n* Czech\n\n    * Weblate Test <weblate@example.org> (1)\n\n",
         )
 
     def test_credits_view_html(self):
@@ -143,7 +145,7 @@ class ReportsComponentTest(BaseReportsTest):
             "<table>\n"
             "<tr>\n<th>Czech</th>\n"
             '<td><ul><li><a href="mailto:weblate@example.org">'
-            "Weblate Test</a></li></ul></td>\n</tr>\n"
+            "Weblate Test</a> (1)</li></ul></td>\n</tr>\n"
             "</table>",
         )
 

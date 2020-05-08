@@ -10,6 +10,7 @@ Not yet released.
 * Improved search editing on translate pages.
 * Improve handling of concurrent repository updates.
 * Include source language in project creation form.
+* Include changes count in credits.
 
 Weblate 4.0.4
 -------------
