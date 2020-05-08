@@ -686,61 +686,45 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # save translation changes
         store.save()
 
-    def get_source_checks(self):
-        """Return list of failing source checks on current component."""
-        result = TranslationChecklist()
-        result.add(self.stats, "all", "success")
-
-        # All checks
-        result.add_if(self.stats, "allchecks", "danger")
-
-        # Process specific checks
-        for check in CHECKS:
-            check_obj = CHECKS[check]
-            if not check_obj.source:
-                continue
-            result.add_if(self.stats, check_obj.url_id, check_obj.severity)
-
-        # Grab comments
-        result.add_if(self.stats, "comments", "info")
-
-        return result
-
     @cached_property
     def enable_review(self):
         project = self.component.project
         return project.source_review if self.is_source else project.translation_review
 
-    def get_target_checks(self):
-        """Return list of failing checks on current component."""
+    @cached_property
+    def list_translation_checks(self):
+        """Return list of failing checks on current translation."""
         result = TranslationChecklist()
 
         # All strings
         result.add(self.stats, "all", "success")
-        result.add_if(self.stats, "approved", "success")
 
-        # Count of translated strings
-        result.add_if(self.stats, "translated", "success")
+        if not self.is_readonly:
+            if self.enable_review:
+                result.add_if(self.stats, "approved", "success")
 
-        # To approve
-        if self.enable_review:
-            result.add_if(self.stats, "unapproved", "warning")
+            # Count of translated strings
+            result.add_if(self.stats, "translated", "success")
 
-        # Approved with suggestions
-        result.add_if(self.stats, "approved_suggestions", "danger")
+            # To approve
+            if self.enable_review:
+                result.add_if(self.stats, "unapproved", "warning")
 
-        # Untranslated strings
-        result.add_if(self.stats, "todo", "danger")
+                # Approved with suggestions
+                result.add_if(self.stats, "approved_suggestions", "danger")
 
-        # Not translated strings
-        result.add_if(self.stats, "nottranslated", "danger")
+            # Untranslated strings
+            result.add_if(self.stats, "todo", "danger")
 
-        # Fuzzy strings
-        result.add_if(self.stats, "fuzzy", "danger")
+            # Not translated strings
+            result.add_if(self.stats, "nottranslated", "danger")
 
-        # Translations with suggestions
-        result.add_if(self.stats, "suggestions", "info")
-        result.add_if(self.stats, "nosuggestions", "info")
+            # Fuzzy strings
+            result.add_if(self.stats, "fuzzy", "danger")
+
+            # Translations with suggestions
+            result.add_if(self.stats, "suggestions", "info")
+            result.add_if(self.stats, "nosuggestions", "info")
 
         # All checks
         result.add_if(self.stats, "allchecks", "danger")
@@ -748,22 +732,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]
-            if not check_obj.target:
-                continue
             result.add_if(self.stats, check_obj.url_id, "warning")
 
         # Grab comments
         result.add_if(self.stats, "comments", "info")
-
-        return result
-
-    @cached_property
-    def list_translation_checks(self):
-        """Return list of failing checks on current translation."""
-        if self.is_source:
-            result = self.get_source_checks()
-        else:
-            result = self.get_target_checks()
 
         # Include labels
         for label in self.component.project.label_set.all():
