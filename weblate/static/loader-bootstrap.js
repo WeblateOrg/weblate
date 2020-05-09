@@ -1542,11 +1542,32 @@ $(function () {
         });
     });
 
-    /* Click to edit position inline */
+    /* Click to edit position inline. Disable when clicked outside or pressed ESC */
     $('#position-input').on('click', function() {
         $('#position-input').hide();
         $('#position-input-editable').show();
+        $('#position-input-editable input').focus();
+        document.addEventListener('click', clickedOutsideEditableInput);
+        document.addEventListener('keyup', pressedEscape);
     });
+    var clickedOutsideEditableInput = function(event) {
+        if (!$.contains($('#position-input-editable')[0], event.target) &&
+            event.target != $('#position-input')[0]
+        ) {
+            $('#position-input').show();
+            $('#position-input-editable').hide();
+            document.removeEventListener('click', clickedOutsideEditableInput);
+            document.removeEventListener('keyup', pressedEscape);
+        }
+    }
+    var pressedEscape = function(event) {
+        if (event.key == 'Escape' && event.target != $('#position-input')[0]) {
+            $('#position-input').show();
+            $('#position-input-editable').hide();
+            document.removeEventListener('click', clickedOutsideEditableInput);
+            document.removeEventListener('keyup', pressedEscape);
+        }
+    }
 
     /* Advanced search */
     $('.search-group li a').click(function () {
