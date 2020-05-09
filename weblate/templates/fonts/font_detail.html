@@ -18,7 +18,7 @@
 <tr><th>{% trans "Font family" %}</th><td>{{ object.family }}</td></tr>
 <tr><th>{% trans "Font style" %}</th><td>{{ object.style }}</td></tr>
 <tr><th>{% trans "File size" %}</th><td>{{ object.font.size }}</td></tr>
-<tr><th>{% trans "Created on" %}</th><td>{{ object.timestamp|naturaltime }}</td></tr>
+<tr><th>{% trans "Created" %}</th><td>{{ object.timestamp|naturaltime }}</td></tr>
 <tr><th>{% trans "Uploaded by" %}</th><td>{{ object.get_user_display }}</td></tr>
 <tr><th>{% trans "Used in groups" %}</th><td>
 {% for group in object.get_usage %}
