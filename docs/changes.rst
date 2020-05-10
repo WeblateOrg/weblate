@@ -13,6 +13,7 @@ Not yet released.
 * Include changes count in credits.
 * Fixed UI language selection in some cases.
 * Allow to whitelist registration methods with registrations closed.
+* Improved lookup of related terms in glossary.
 
 Weblate 4.0.4
 -------------

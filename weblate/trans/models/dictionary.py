@@ -124,9 +124,11 @@ class DictionaryQuerySet(models.QuerySet):
             stopfilter = StopFilter()
 
         # Prepare analyzers
-        # - simple analyzer just splits words based on regexp
+        # - basic simple analyzer to split on non-word chars
+        # - simple analyzer just splits words based on regexp to catch in word dashes
         # - language analyzer if available (it is for English)
         analyzers = [
+            SimpleAnalyzer() | stopfilter,
             SimpleAnalyzer(expression=SPLIT_RE, gaps=True) | stopfilter,
             LanguageAnalyzer(source_language.base_code),
         ]
