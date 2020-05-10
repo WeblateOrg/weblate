@@ -60,27 +60,21 @@
         <li>
           <a id="button-prev" class="green" href="{{ prev_unit_url }}" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
         </li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Go to position" %}" id="goto-dropdown">
+        <li>
+          <a id="position-input" title="{% trans "Click to edit position" %}" >
             {% blocktrans %}{{ filter_pos }} / {{ filter_count }}{% endblocktrans %}
-            <span class="caret"></span>
           </a>
-          <div class="dropdown-menu">
-            <div class="panel-group">
-              <form action="{{ unit.translation.get_translate_url }}" method="GET">
-                {% for key, value in search_items %}
-                  <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
-                {% endfor %}
-                <div class="form-group">
-                  <label class="control-label" for="id-goto-number">{% trans "Jump to position" %}</label>
-                  <div class="controls">
-                    <input type="number" min="1" max="{{ filter_count }}" value="{{ filter_pos }}" name="offset" id="id-goto-number">
-                  </div>
-                </div>
-                <input type="submit" value="{% trans "Jump" %}" class="btn btn-primary" aria-label="{% trans "Jump" %}" />
-              </form>
-            </div>
-          </div>
+          <a id="position-input-editable" title="{% trans "Go to position" %}" >
+            <form action="{{ unit.translation.get_translate_url }}" method="GET">
+              {% for key, value in search_items %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
+              {% endfor %}
+              <div class="input-group">
+                <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Enter position to jump" %}">
+                <span class="input-group-addon">{% blocktrans %}/ {{ filter_count }}{% endblocktrans %}</span>
+              </div>
+            </form>
+          </a>
         </li>
         <li>
           <a id="button-next" class="green" href="{{ next_unit_url }}" title="{% trans "Next" %}">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>

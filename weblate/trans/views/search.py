@@ -199,6 +199,7 @@ def search(request, project=None, component=None, lang=None):
         context["title"] = _("Search for %s") % (search_form.cleaned_data["q"])
         context["query_string"] = search_form.urlencode()
         context["search_query"] = search_form.cleaned_data["q"]
+        context["search_items"] = search_form.items()
         context["filter_name"] = search_form.get_name()
         context["sort_name"] = sort["name"]
         context["sort_query"] = sort["query"]
