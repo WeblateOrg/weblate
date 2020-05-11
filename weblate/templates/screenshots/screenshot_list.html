@@ -27,6 +27,13 @@
   </div>
 </div>
 </form>
+<script>
+    let the_input = document.querySelectorAll("input#id_image");
+    the_input.addEventListener("input", onInput);
+    function onInput(e) {
+        console.log(e.target.value);
+    }
+</script>
 {% endif %}
 
 <table class="sort table">
