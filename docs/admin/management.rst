@@ -298,6 +298,18 @@ Dumps userdata to a file for later use by :djadmin:`importuserdata`
 
    This comes in handy when migrating or merging Weblate instances.
 
+import_demo
+-----------
+
+.. django-admin:: import_demo
+
+.. versionadded:: 4.1
+
+Creates a demo project with components based on <https://github.com/WeblateOrg/demo>.
+
+This can be useful when developing Weblate.
+
+
 import_json
 -----------
 

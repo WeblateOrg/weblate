@@ -25,7 +25,7 @@ from unittest import SkipTest
 
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 
 from weblate.accounts.models import Profile
 from weblate.runner import main
@@ -403,6 +403,14 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
 class FixupFlagsTest(WeblateComponentCommandTestCase):
     command_name = "fixup_flags"
     expected_string = "Processing"
+
+
+class CreateDemoTestCase(TestCase):
+    def test_create(self):
+        output = StringIO()
+        call_command("import_demo", stdout=output)
+        self.assertEqual(output.getvalue(), "")
+        self.assertEqual(Component.objects.count(), 4)
 
 
 class ListTranslatorsTest(RepoTestCase):

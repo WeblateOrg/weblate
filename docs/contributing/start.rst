@@ -119,3 +119,10 @@ Running the script without args will recreate Docker container and restart it.
 
    This is not suitable setup for production, it includes several hacks which
    are insecure, but make development easier.
+
+
+Bootstraping your devel instance
+--------------------------------
+
+You might want to use :djadmin:`import_demo` to create demo translations and
+:djadmin:`createadmin` to create admin user.
