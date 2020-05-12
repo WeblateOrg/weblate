@@ -17,6 +17,7 @@ Not yet released.
 * Improved translation memory matches.
 * Group same machinery results.
 * Add direct link to edit screenshot from translate page.
+* Improved removal confirmation dialog.
 
 Weblate 4.0.4
 -------------

@@ -24,7 +24,7 @@ from datetime import date, datetime, timedelta
 
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
+from crispy_forms.layout import Div, Field, Fieldset, Layout
 from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
@@ -1864,31 +1864,56 @@ class ContributorAgreementForm(forms.Form):
     next = forms.CharField(required=False, widget=forms.HiddenInput)
 
 
-class DeleteForm(forms.Form):
-    confirm = forms.CharField(
-        label=_("Name of the translation"),
-        help_text=_("Please type in the full name of the translation to confirm."),
-        required=True,
-    )
+class BaseDeleteForm(forms.Form):
+    confirm = forms.CharField(required=True)
+    warning_template = ""
 
     def __init__(self, obj, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.obj = obj
         self.helper = FormHelper(self)
-        message = _(
-            "This action cannot be undone. This will permanently delete "
-            "the {} translation and all related content."
-        ).format("<strong>{}</strong>".format(escape(obj.full_slug)))
         self.helper.layout = Layout(
-            Div(HTML(message), css_class="form-group"), Field("confirm")
+            ContextDiv(
+                template=self.warning_template,
+                css_class="form-group",
+                context={"object": obj},
+            ),
+            Field("confirm"),
         )
         self.helper.form_tag = False
 
     def clean(self):
         if self.cleaned_data.get("confirm") != self.obj.full_slug:
             raise ValidationError(
-                _("The translation name does not match the one marked for deletion!")
+                _("The slug does not match the one marked for deletion!")
             )
+
+
+class TranslationDeleteForm(BaseDeleteForm):
+    confirm = forms.CharField(
+        label=_("Removal confirmation"),
+        help_text=_("Please type in the full slug of the translation to confirm."),
+        required=True,
+    )
+    warning_template = "trans/delete-translation.html"
+
+
+class ComponentDeleteForm(BaseDeleteForm):
+    confirm = forms.CharField(
+        label=_("Removal confirmation"),
+        help_text=_("Please type in the full slug of the component to confirm."),
+        required=True,
+    )
+    warning_template = "trans/delete-component.html"
+
+
+class ProjectDeleteForm(BaseDeleteForm):
+    confirm = forms.CharField(
+        label=_("Removal confirmation"),
+        help_text=_("Please type in the slug of the project to confirm."),
+        required=True,
+    )
+    warning_template = "trans/delete-project.html"
 
 
 class AnnouncementForm(forms.ModelForm):

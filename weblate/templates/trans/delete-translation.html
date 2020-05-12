@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load icons %}
+
+<p>
+{% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} translation and all related content.{% endblocktrans %}
+</p>
+
+<div class="form-group">
+    <label class="control-label">{% trans "Translation to remove" %}</label>
+    <div class="list-group">
+        <div class="list-group-item">
+        <div class="list-group-item-text">
+            <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ object.full_slug }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+
+            {{ object.full_slug }}
+        </div>
+        </div>
+    </div>
+</div>

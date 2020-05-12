@@ -28,12 +28,14 @@ from django.views.decorators.http import require_POST
 
 from weblate.trans.forms import (
     AnnouncementForm,
+    ComponentDeleteForm,
     ComponentMoveForm,
     ComponentRenameForm,
     ComponentSettingsForm,
-    DeleteForm,
+    ProjectDeleteForm,
     ProjectRenameForm,
     ProjectSettingsForm,
+    TranslationDeleteForm,
 )
 from weblate.trans.models import Announcement, Change
 from weblate.trans.tasks import component_removal, project_removal
@@ -111,7 +113,7 @@ def remove_translation(request, project, component, lang):
     if not request.user.has_perm("translation.delete", obj):
         raise PermissionDenied()
 
-    form = DeleteForm(obj, request.POST)
+    form = TranslationDeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#delete")
@@ -130,7 +132,7 @@ def remove_component(request, project, component):
     if not request.user.has_perm("component.edit", obj):
         raise PermissionDenied()
 
-    form = DeleteForm(obj, request.POST)
+    form = ComponentDeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#delete")
@@ -149,7 +151,7 @@ def remove_project(request, project):
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied()
 
-    form = DeleteForm(obj, request.POST)
+    form = ProjectDeleteForm(obj, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
         return redirect_param(obj, "#delete")

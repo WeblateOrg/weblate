@@ -6,18 +6,6 @@
 <div class="panel panel-danger">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Are you absolutely sure?" %}</h4></div>
 <div class="panel-body">
-{% with components=object.component_set.order %}
-{% if components %}
-<div class="form-group">
-<p>{% trans "The following translation components will be also removed:" %}</p>
-<ul>
-{% for component in components %}
-<li><a href="{{ component.get_absolute_url }}">{{ component }}</a></li>
-{% endfor %}
-</ul>
-</div>
-{% endif %}
-{% endwith %}
 {% crispy delete_form %}
 </div>
 <div class="panel-footer">
