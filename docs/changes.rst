@@ -16,6 +16,7 @@ Not yet released.
 * Improved lookup of related terms in glossary.
 * Improved translation memory matches.
 * Group same machinery results.
+* Add direct link to edit screenshot from translate page.
 
 Weblate 4.0.4
 -------------

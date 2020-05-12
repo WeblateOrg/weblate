@@ -278,17 +278,18 @@ var _rollbarConfig = {
 {% csrf_token %}
 </form>
 <!-- Creates the bootstrap modal where the image will appear -->
-<div class="modal fade fullmodal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade fullmodal" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{% trans "Close" %}</span></button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
+        <h4 class="modal-title" id="screenshotModal"></h4>
       </div>
       <div class="modal-body">
         <img src="" id="imagepreview" class="img-responsive">
       </div>
       <div class="modal-footer">
+        <a class="btn btn-warning" id="modalEditLink">{% trans "Edit" %}</a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">{% trans "Close" %}</button>
       </div>
     </div>

@@ -1266,8 +1266,10 @@ $(function () {
     });
     $('.link-auto').click();
     $document.on('click', '.thumbnail', function() {
-        $('#imagepreview').attr('src', $(this).attr('href'));
-        $('#myModalLabel').text($(this).attr('title'));
+        var $this = $(this);
+        $('#imagepreview').attr('src', $this.attr('href'));
+        $('#screenshotModal').text($this.attr('title'));
+        $('#modalEditLink').attr('href', $this.data('edit'));
         $('#imagemodal').modal('show');
         return false;
     });
