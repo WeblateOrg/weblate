@@ -1385,7 +1385,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         return sorted(matches)
 
     def update_source_checks(self):
-        self.log_info("running source checks")
+        self.log_info("running source checks for %d strings", len(self.updated_sources))
         for unit in self.updated_sources.values():
             unit.is_batch_update = True
             unit.run_checks()
