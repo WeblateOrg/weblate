@@ -959,13 +959,12 @@ class EngageForm(forms.Form):
 
     def __init__(self, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
-        choices = [(l.code, force_str(l)) for l in project.languages]
-        components = [(c.slug, c.name) for c in project.component_set.order()]
-
         super().__init__(*args, **kwargs)
 
-        self.fields["lang"].choices += choices
-        self.fields["component"].choices += components
+        self.fields["lang"].choices += project.languages.as_choices()
+        self.fields["component"].choices += project.component_set.order().values_list(
+            "slug", "name"
+        )
 
 
 class NewLanguageOwnerForm(forms.Form):
