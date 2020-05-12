@@ -18,6 +18,7 @@ Not yet released.
 * Group same machinery results.
 * Add direct link to edit screenshot from translate page.
 * Improved removal confirmation dialog.
+* Include templates in ZIP download.
 
 Weblate 4.0.4
 -------------

@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
+
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_str
@@ -42,10 +44,26 @@ from weblate.utils.views import (
 
 
 def download_multi(translations, fmt=None):
-    filenames = [t.get_filename() for t in translations]
-    return zip_download(
-        data_dir("vcs"), [filename for filename in filenames if filename]
-    )
+    filenames = set()
+    components = set()
+
+    for translation in translations:
+        # Add translation files
+        if translation.filename:
+            filenames.add(translation.get_filename())
+        # Add templates for all components
+        if translation.component_id in components:
+            continue
+        components.add(translation.component_id)
+        for name in (
+            translation.component.template,
+            translation.component.new_base,
+            translation.component.intermediate,
+        ):
+            if name:
+                filenames.add(os.path.join(translation.component.full_path, name))
+
+    return zip_download(data_dir("vcs"), sorted(filenames))
 
 
 def download_component_list(request, name):
