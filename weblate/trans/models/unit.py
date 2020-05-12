@@ -24,7 +24,7 @@ from copy import copy
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -118,15 +118,41 @@ class UnitQuerySet(models.QuerySet):
 
     def order_by_request(self, form_data):
         sort_list_request = form_data.get("sort_by", "").split(",")
-        available_sort_choices = ["priority", "position", "context", "num_words"]
-        sort_list = [
-            choice
-            for choice in sort_list_request
-            if choice.replace("-", "") in available_sort_choices
+        available_sort_choices = [
+            "priority",
+            "position",
+            "context",
+            "num_words",
+            "labels",
+            "timestamp",
         ]
+        countable_sort_choices = {
+            "num_comments": {"order_by": "comment__count", "filter": Q()},
+            "num_failing_checks": {
+                "order_by": "check__count",
+                "filter": Q(check__ignore=False),
+            },
+        }
+        sort_list = []
+        for choice in sort_list_request:
+            unsigned_choice = choice.replace("-", "")
+            if unsigned_choice in countable_sort_choices:
+                return self.order_by_count(
+                    choice.replace(
+                        unsigned_choice,
+                        countable_sort_choices[unsigned_choice]["order_by"],
+                    ),
+                    countable_sort_choices[unsigned_choice]["filter"],
+                )
+            elif unsigned_choice in available_sort_choices:
+                sort_list.append(choice)
         if not sort_list:
             return self.order()
         return self.order_by(*sort_list)
+
+    def order_by_count(self, choice, filter):
+        model = choice.split("__")[0].replace("-", "")
+        return self.annotate(Count(model), filter=filter).order_by(choice)
 
     def get_unit(self, ttunit):
         """Find unit matching translate-toolkit unit.
