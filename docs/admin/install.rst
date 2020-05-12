@@ -650,6 +650,23 @@ After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings:
    :setting:`ENABLE_HTTPS`,
    :ref:`production-site`
 
+
+Set properly SECURE_HSTS_SECONDS
+++++++++++++++++++++++++++++++++
+
+Set this value to 0 so as to make sure that everything works as expected,
+otherwise you could prevent the client from visiting the site.
+
+.. code-block:: python
+
+   SECURE_HSTS_SECONDS = 0
+
+.. warning::
+
+    Setting this incorrectly can irreversibly (for some time) break your site. Read the
+    :ref:`django:http-strict-transport-security` documentation first.
+
+
 .. _production-database:
 
 Use a powerful database engine
@@ -1260,3 +1277,4 @@ Other notes
 
 Don't forget to move other services Weblate might have been using like
 Redis, Cron jobs or custom authentication backends.
+
