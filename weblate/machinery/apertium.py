@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from functools import reduce
 
 from django.conf import settings
 
@@ -104,8 +105,7 @@ class ApertiumAPYTranslation(MachineTranslation):
     @property
     def all_langs(self):
         """Return all language codes known to service."""
-        langs = self.supported_languages
-        return set([l[0] for l in langs] + [l[1] for l in langs])
+        return reduce(lambda acc, x: acc.union(x), self.supported_languages, set())
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
