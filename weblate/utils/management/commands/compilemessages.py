@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
     def compile_messages(self, locations):
         # Avoid compiling po files in DATA_DIR
-        locations = [l for l in locations if not should_skip(l[0])]
+        locations = [location for location in locations if not should_skip(location[0])]
         if not locations:
             return
         super().compile_messages(locations)
