@@ -41,7 +41,7 @@ from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.langdata.languages import LANGUAGES
 from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
-from weblate.trans.util import sort_objects
+from weblate.trans.util import sort_choices, sort_objects
 from weblate.utils.stats import LanguageStats
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_plural_formula
@@ -385,6 +385,12 @@ class LanguageQuerySet(models.QuerySet):
             raise Language.DoesNotExist(code)
         cache[code] = language
         return language
+
+    def as_choices(self):
+        return sort_choices(
+            (code, "{0} ({1})".format(_(name), code))
+            for name, code in self.values_list("name", "code")
+        )
 
 
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):

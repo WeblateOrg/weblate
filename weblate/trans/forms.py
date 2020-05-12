@@ -54,11 +54,7 @@ from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_L
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
-from weblate.trans.util import (
-    check_upload_method_permissions,
-    is_repo_link,
-    sort_choices,
-)
+from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.forms import (
@@ -988,9 +984,7 @@ class NewLanguageOwnerForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.component = component
         languages = Language.objects.exclude(self.get_lang_filter())
-        self.fields["lang"].choices = sort_choices(
-            [(l.code, "{0} ({1})".format(gettext(l.name), l.code)) for l in languages]
-        )
+        self.fields["lang"].choices = languages.as_choices()
 
 
 class NewLanguageForm(NewLanguageOwnerForm):
@@ -1801,9 +1795,7 @@ class MatrixLanguageForm(forms.Form):
     def __init__(self, component, *args, **kwargs):
         super().__init__(*args, **kwargs)
         languages = Language.objects.filter(translation__component=component)
-        self.fields["lang"].choices = sort_choices(
-            [(l.code, "{0} ({1})".format(force_str(l), l.code)) for l in languages]
-        )
+        self.fields["lang"].choices = languages.as_choices()
 
 
 class NewUnitForm(forms.Form):
@@ -1921,11 +1913,9 @@ class ChangesForm(forms.Form):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["lang"].choices += [
-            (l.code, force_str(l)) for l in Language.objects.have_translation()
-        ]
+        self.fields["lang"].choices += Language.objects.have_translation().as_choices()
         self.fields["project"].choices += [
-            (p.slug, p.name) for p in request.user.allowed_projects
+            (project.slug, project.name) for project in request.user.allowed_projects
         ]
 
 
