@@ -296,14 +296,15 @@ function processMachineTranslation(data, scope) {
     decreaseLoading(scope);
     if (data.responseStatus === 200) {
         data.translations.forEach(function (el, idx) {
-            var newRow = $('<tr/>').data('quality', el.quality);
+            var newRow = $('<tr/>').data('raw', el);
             var done = false;
             var $machineTranslations = $('#' + scope + '-translations');
+            var service;
 
             newRow.append($('<td/>').attr('class', 'target mt-text').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
             newRow.append($('<td/>').attr('class', 'mt-text').text(el.source));
             if (scope === "mt") {
-                var service = $('<td/>').text(el.service);
+                service = $('<td/>').text(el.service);
                 if (typeof el.origin !== 'undefined') {
                     service.append(' (');
                     var origin;
@@ -318,10 +319,10 @@ function processMachineTranslation(data, scope) {
                     service.append(')');
                     // newRow.append($('<td/>').text(interpolate('%s (%s)', [el.service, ])));
                 }
-                newRow.append(service);
             } else {
-                newRow.append($('<td/>').text(el.origin));
+                service = $('<td/>').text(el.origin);
             }
+            newRow.append(service);
             /* Quality score as bar with the text */
             newRow.append($(
                 '<td>' +
@@ -348,9 +349,20 @@ function processMachineTranslation(data, scope) {
                 '</td>'
             ));
             $machineTranslations.children('tr').each(function (idx) {
-                if ($(this).data('quality') < el.quality && !done) {
-                    $(this).before(newRow);
+                var $this = $(this);
+                var base = $this.data('raw');
+                if (base.text == el.text && base.source == el.source) {
+                    // Add origin to current ones
+                    var current = $this.children('td:nth-child(3)');
+                    current.append($("<br/>"));
+                    current.append(service.html());
                     done = true;
+                    return false;
+                } else if (base.quality <= el.quality) {
+                    // Insert match before lower quality one
+                    $this.before(newRow);
+                    done = true;
+                    return false;
                 }
             });
             if (! done) {

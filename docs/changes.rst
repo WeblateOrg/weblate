@@ -15,6 +15,7 @@ Not yet released.
 * Allow to whitelist registration methods with registrations closed.
 * Improved lookup of related terms in glossary.
 * Improved translation memory matches.
+* Group same machinery results.
 
 Weblate 4.0.4
 -------------
