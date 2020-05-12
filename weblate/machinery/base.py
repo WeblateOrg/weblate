@@ -24,6 +24,7 @@ from hashlib import md5
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.functional import cached_property
 from requests.exceptions import HTTPError
 
 from weblate.logger import LOGGER
@@ -52,7 +53,6 @@ class MachineTranslation:
     name = "MT"
     max_score = 100
     rank_boost = 0
-    default_languages = []
     cache_translations = True
     language_map = {}
     same_languages = False
@@ -67,7 +67,6 @@ class MachineTranslation:
         self.rate_limit_cache = "{}-rate-limit".format(self.mtid)
         self.languages_cache = "{}-languages".format(self.mtid)
         self.comparer = Comparer()
-        self.supported_languages = None
         self.supported_languages_error = None
 
     def delete_cache(self):
@@ -138,34 +137,28 @@ class MachineTranslation:
         report_error(cause="Machinery error")
         LOGGER.error(message, self.name)
 
-    def get_supported_languages(self):
+    @cached_property
+    def supported_languages(self):
         """Return list of supported languages."""
-        if self.supported_languages is not None:
-            return
-
         # Try using list from cache
         languages = cache.get(self.languages_cache)
         if languages is not None:
-            self.supported_languages = languages
-            return
+            return languages
 
         if self.is_rate_limited():
-            self.supported_languages = []
-            return
+            return set()
 
         # Download
         try:
             languages = set(self.download_languages())
         except Exception as exc:
-            self.supported_languages = self.default_languages
             self.supported_languages_error = exc
             self.report_error("Failed to fetch languages from %s, using defaults")
-            return
+            return set()
 
         # Update cache
         cache.set(self.languages_cache, languages, 3600 * 48)
-
-        self.supported_languages = languages
+        return languages
 
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
@@ -204,8 +197,6 @@ class MachineTranslation:
 
     def translate(self, unit, user=None, search=None, language=None, source=None):
         """Return list of machine translations."""
-        self.get_supported_languages()
-
         # source and language are set only for recursive calls when
         # tweaking the language codes
         if source is None:

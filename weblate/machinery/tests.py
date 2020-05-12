@@ -265,7 +265,6 @@ class MachineTranslationTest(TestCase):
 
     def test_support(self):
         machine_translation = self.get_machine(DummyTranslation)
-        machine_translation.get_supported_languages()
         self.assertTrue(machine_translation.is_supported("en", "cs"))
         self.assertFalse(machine_translation.is_supported("en", "de"))
 
@@ -489,7 +488,6 @@ class MachineTranslationTest(TestCase):
     def test_microsoft_terminology_error(self):
         self.register_microsoft_terminology(True)
         machine = self.get_machine(MicrosoftTerminologyService)
-        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -527,7 +525,6 @@ class MachineTranslationTest(TestCase):
         machine = self.get_machine(GoogleTranslation)
         responses.add(responses.GET, GOOGLE_API_ROOT + "languages", body="", status=500)
         responses.add(responses.GET, GOOGLE_API_ROOT, body="", status=500)
-        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -597,7 +594,6 @@ class MachineTranslationTest(TestCase):
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
             json={"code": 401, "message": "Invalid request"},
         )
-        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -727,7 +723,6 @@ class MachineTranslationTest(TestCase):
         responses.add(
             responses.POST, "http://sth.example.com/translate", body="", status=500
         )
-        machine.get_supported_languages()
         self.assertEqual(machine.supported_languages, [])
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
