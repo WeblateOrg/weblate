@@ -14,6 +14,7 @@ Not yet released.
 * Fixed UI language selection in some cases.
 * Allow to whitelist registration methods with registrations closed.
 * Improved lookup of related terms in glossary.
+* Improved translation memory matches.
 
 Weblate 4.0.4
 -------------
