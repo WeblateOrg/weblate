@@ -558,7 +558,7 @@ def announcements(context, project=None, component=None, language=None):
                 "message.html",
                 {
                     "tags": " ".join((announcement.category, "announcement")),
-                    "message": announcement.render(),
+                    "message": render_markdown(announcement.message),
                     "announcement": announcement,
                     "can_delete": can_delete,
                 },

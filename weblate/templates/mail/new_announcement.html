@@ -6,6 +6,6 @@
 
 <h2>{% trans "Announcement" %}</h2>
 
-<p>{{ announcement.render }}</p>
+<p>{{ announcement.message|markdown }}</p>
 
 {% endblock %}

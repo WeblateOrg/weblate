@@ -23,8 +23,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.html import urlize
-from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
@@ -61,17 +59,10 @@ class AnnouncementManager(models.Manager):
 
 
 class Announcement(models.Model):
-    message = models.TextField(verbose_name=gettext_lazy("Message"))
-    message_html = models.BooleanField(  # noqa: DJ02
-        verbose_name=gettext_lazy("Render as HTML"),
-        help_text=gettext_lazy(
-            "When turned off, URLs will be converted to links and "
-            "any markup will be escaped."
-        ),
-        blank=True,
-        default=False,
+    message = models.TextField(
+        verbose_name=gettext_lazy("Message"),
+        help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
-
     project = models.ForeignKey(
         "Project",
         verbose_name=gettext_lazy("Project"),
@@ -146,8 +137,3 @@ class Announcement(models.Model):
             raise ValidationError(_("Do not specify both component and project!"))
         if not self.project and self.component:
             self.project = self.component.project
-
-    def render(self):
-        if self.message_html:
-            return mark_safe(self.message)
-        return mark_safe(urlize(self.message, autoescape=True))

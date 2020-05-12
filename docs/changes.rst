@@ -19,6 +19,7 @@ Not yet released.
 * Add direct link to edit screenshot from translate page.
 * Improved removal confirmation dialog.
 * Include templates in ZIP download.
+* Add support for Markdown in announcements.
 
 Weblate 4.0.4
 -------------
