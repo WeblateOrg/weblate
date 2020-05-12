@@ -8,6 +8,12 @@ Weblate can be easily installed in your cloud. Please find detailed guide for yo
 * :ref:`quick-docker`
 * :ref:`quick-openshift`
 
+Helm Chart
+----------
+
+You can install Weblate on Kubernetes using Helm.
+See <https://github.com/WeblateOrg/weblate-helm/tree/master/charts/weblate> for the detailed instructions.
+
 Bitnami Weblate stack
 ---------------------
 
