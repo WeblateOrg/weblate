@@ -48,6 +48,20 @@ function getNumericKey(idx) {
     return ret;
 }
 
+function mark_fuzzy(elm) {
+    /* Standard worflow */
+    elm.find('input[name="fuzzy"]').prop('checked', true);
+    /* Review workflow */
+    elm.find('input[name="review"][value="10"]').prop('checked', true);
+}
+
+function mark_translated(elm) {
+    /* Standard worflow */
+    elm.find('input[name="fuzzy"]').prop('checked', false);
+    /* Review workflow */
+    elm.find('input[name="review"][value="20"]').prop('checked', true);
+}
+
 jQuery.fn.extend({
     insertAtCaret: function (myValue) {
         return this.each(function () {
@@ -244,7 +258,7 @@ function initEditor() {
             $.parseJSON($this.data('content'))
         ).change();
         autosize.update($('.translation-editor'));
-        $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
+        mark_fuzzy($this.closest('form'));
         $this.button('reset');
         e.preventDefault();
     });
@@ -275,7 +289,7 @@ function testChangeHandler(e) {
     if (e.key && e.key === 'Tab') {
         return;
     }
-    $(this).closest('form').find('[name=fuzzy]').prop('checked', false);
+    mark_translated($(this).closest('form'));
 }
 
 function processMachineTranslation(data, scope) {
@@ -348,20 +362,14 @@ function processMachineTranslation(data, scope) {
 
             $('.translation-editor').val(text).change();
             autosize.update($('.translation-editor'));
-            /* Standard worflow */
-            $('.translation-form input[name="fuzzy"]').prop('checked', true);
-            /* Review workflow */
-            $('.translation-form input[name="review"][value="10"]').prop('checked', true);
+            mark_fuzzy($('.translation-form'));
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
 
             $('.translation-editor').val(text).change();
             autosize.update($('.translation-editor'));
-            /* Standard worflow */
-            $('.translation-form input[name="fuzzy"]').prop('checked', false);
-            /* Review workflow */
-            $('.translation-form input[name="review"][value="20"]').prop('checked', true);
+            mark_translated($('.translation-form'));
             submitForm({target:$('.translation-editor')});
         });
 
