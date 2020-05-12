@@ -413,6 +413,13 @@ class CreateDemoTestCase(TestCase):
         self.assertEqual(Component.objects.count(), 4)
 
 
+class CleanupTestCase(TestCase):
+    def test_cleanup(self):
+        output = StringIO()
+        call_command("cleanuptrans", stdout=output)
+        self.assertEqual(output.getvalue(), "")
+
+
 class ListTranslatorsTest(RepoTestCase):
     """Test translators list."""
 
