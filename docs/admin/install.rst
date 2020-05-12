@@ -1277,4 +1277,3 @@ Other notes
 
 Don't forget to move other services Weblate might have been using like
 Redis, Cron jobs or custom authentication backends.
-
