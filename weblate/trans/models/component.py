@@ -1385,7 +1385,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         return sorted(matches)
 
     def update_source_checks(self):
-        self.log_debug("running source checks")
+        self.log_info("running source checks")
         for unit in self.updated_sources.values():
             unit.is_batch_update = True
             unit.run_checks()
@@ -1607,7 +1607,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         units = Unit.objects.filter(translation__component=self)
 
-        self.log_debug("updating unit flags: has_failing_check")
+        self.log_info("updating unit flags: has_failing_check")
 
         units.filter(has_failing_check=False).filter(check__ignore=False).update(
             has_failing_check=True
@@ -1615,7 +1615,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         units.filter(has_failing_check=True).exclude(check__ignore=False).update(
             has_failing_check=False
         )
-        self.log_debug("all unit flags updated")
+        self.log_info("all unit flags updated")
 
     def invalidate_stats_deep(self):
         self.log_info("updating stats caches")
