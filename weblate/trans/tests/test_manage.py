@@ -37,7 +37,7 @@ class RemovalTest(ViewTestCase):
         url = reverse("remove_translation", kwargs=kwargs)
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
-            response, "The translation name does not match the one marked for deletion!"
+            response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/test/cs"}, follow=True)
         self.assertContains(response, "Translation has been removed.")
@@ -47,7 +47,7 @@ class RemovalTest(ViewTestCase):
         url = reverse("remove_component", kwargs=self.kw_component)
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
-            response, "The translation name does not match the one marked for deletion!"
+            response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test/test"}, follow=True)
         self.assertContains(
@@ -59,7 +59,7 @@ class RemovalTest(ViewTestCase):
         url = reverse("remove_project", kwargs=self.kw_project)
         response = self.client.post(url, {"confirm": ""}, follow=True)
         self.assertContains(
-            response, "The translation name does not match the one marked for deletion!"
+            response, "The slug does not match the one marked for deletion!"
         )
         response = self.client.post(url, {"confirm": "test"}, follow=True)
         self.assertContains(response, "Project was scheduled for removal.")
