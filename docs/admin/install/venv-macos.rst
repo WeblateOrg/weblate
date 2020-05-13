@@ -7,7 +7,7 @@ Installing on macOS
 
 .. code-block:: sh
 
-    brew install pango cairo libjpeg python git libyaml gobject-introspection
+    brew install pango cairo libjpeg python git libyaml gobject-introspection libffi
     pip3 install virtualenv
 
 .. include:: steps/install-system-optional.rst
