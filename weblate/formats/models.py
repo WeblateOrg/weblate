@@ -92,6 +92,9 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.FlatXMLFormat",
         "weblate.formats.external.XlsxFormat",
         "weblate.formats.txt.AppStoreFormat",
+        "weblate.formats.convert.HTMLFormat",
+        "weblate.formats.convert.IDMLFormat",
+        "weblate.formats.convert.OpenDocumentFormat",
     )
 
     class Meta:
