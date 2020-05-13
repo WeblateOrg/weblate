@@ -43,6 +43,8 @@ class HgRepository(Repository):
         ".",
     ]
     _cmd_list_changed_files = ["status", "--rev"]
+    _is_supported = None
+    _version = None
 
     name = "Mercurial"
     req_version = "2.8"

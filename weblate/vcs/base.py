@@ -335,7 +335,9 @@ class Repository:
         except (OSError, RepositoryException) as error:
             cls._is_supported = False
             cls.add_configuration_error(
-                "{0} version check failed: {1}".format(cls.name, error),
+                "{0} version check failed: {1}".format(
+                    cls.name, str(error).splitlines()[0]
+                ),
             )
             return False
         try:

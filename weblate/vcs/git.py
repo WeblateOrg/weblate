@@ -525,10 +525,6 @@ class SubversionRepository(GitRepository):
 
 
 class GitMergeRequestBase(GitRepository):
-
-    _is_supported = None
-    _version = None
-
     @staticmethod
     def get_username():
         raise NotImplementedError()
@@ -595,6 +591,8 @@ class GithubRepository(GitMergeRequestBase):
 
     name = "GitHub"
     _cmd = "hub"
+    _is_supported = None
+    _version = None
 
     @classmethod
     def _get_version(cls):
@@ -724,6 +722,9 @@ class GitLabRepository(GitMergeRequestBase):
 
     name = "GitLab"
     req_version = "0.16"
+
+    _is_supported = None
+    _version = None
 
     # docs: https://zaquestion.github.io/lab/
     _cmd = "lab"
