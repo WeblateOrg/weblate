@@ -22,6 +22,7 @@
 import os
 import tempfile
 from copy import deepcopy
+from typing import Optional, Tuple
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -162,16 +163,16 @@ class TranslationUnit:
 class TranslationFormat:
     """Generic object defining file format loader."""
 
-    name = ""
-    format_id = ""
-    monolingual = None
-    check_flags = ()
+    name: str = ""
+    format_id: str = ""
+    monolingual: Optional[bool] = None
+    check_flags: Tuple[str, ...] = ()
     unit_class = TranslationUnit
-    autoload = ()
-    can_add_unit = True
-    language_format = "posix"
-    simple_filename = True
-    new_translation = None
+    autoload: Tuple[str, ...] = ()
+    can_add_unit: bool = True
+    language_format: str = "posix"
+    simple_filename: bool = True
+    new_translation: Optional[str] = None
 
     @classmethod
     def get_identifier(cls):
