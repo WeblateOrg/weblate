@@ -367,6 +367,15 @@ class RepoTestMixin:
     def create_appstore(self):
         return self._create_component("appstore", "metadata/*", "metadata/en-US")
 
+    def create_html(self):
+        return self._create_component("html", "html/*.html", "html/en.html")
+
+    def create_idml(self):
+        return self._create_component("idml", "idml/*.idml", "idml/en.idml")
+
+    def create_odt(self):
+        return self._create_component("odt", "odt/*.odt", "odt/en.odt")
+
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
         return Component.objects.create(

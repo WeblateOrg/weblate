@@ -102,6 +102,12 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`subtitles`    | mono             | no            | no             | no            | yes            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`html`         | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`odf`          | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`idml`         | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -1066,6 +1072,53 @@ contains the translation). Additionally there should be the column called ``cont
 (which contains the context path of the translation string). If you use the XLSX
 download for exporting the translations into an Excel workbook, you already get
 a file with the correct file format.
+
+.. _html:
+
+HTML files
+----------
+
+.. versionadded:: 4.1
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+The translatable content is extacted from the HTML files and offered for the translation.
+
+.. seealso::
+
+   :doc:`tt:formats/html`
+
+.. _odf:
+
+OpenDocument Format
+-------------------
+
+.. versionadded:: 4.1
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+The translatable content is extacted from the OpenDocument files and offered for the translation.
+
+.. seealso::
+
+   :doc:`tt:formats/odf`
+
+.. _idml:
+
+IDML Format
+-----------
+
+.. versionadded:: 4.1
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+The translatable content is extacted from the Adobe InDesign Markup Language files and offered for the translation.
 
 
 Others

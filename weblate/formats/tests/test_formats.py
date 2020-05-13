@@ -162,6 +162,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
     SUPPORTS_FLAG = True
     EXPECTED_FLAGS = "c-format, max-length:100"
+    EDIT_OFFSET = 0
 
     def setUp(self):
         super().setUp()
@@ -199,7 +200,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
         if edit:
             units = storage.all_units
-            units[0].set_target("Nazdar, svete!\n")
+            units[self.EDIT_OFFSET].set_target("Nazdar, svete!\n")
 
         # Save test file
         storage.save()
@@ -302,6 +303,7 @@ class XMLMixin:
 
 class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
+    EDIT_OFFSET = 1
 
     def test_add_encoding(self):
         out = os.path.join(self.tempdir, "test.po")

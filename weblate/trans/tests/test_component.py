@@ -341,6 +341,24 @@ class ComponentTest(RepoTestCase):
         component = self.create_dtd()
         self.verify_component(component, 2, "cs", 4)
 
+    def test_create_html(self):
+        component = self.create_html()
+        self.verify_component(component, 2, "cs", 4, unit="Hello, world!")
+
+    def test_create_idml(self):
+        component = self.create_idml()
+        self.verify_component(
+            component,
+            1,
+            "en",
+            5,
+            unit="""<g id="0"><g id="1">THE HEADLINE HERE</g></g>""",
+        )
+
+    def test_create_odt(self):
+        component = self.create_odt()
+        self.verify_component(component, 2, "cs", 4, unit="Hello, world!")
+
     def test_link(self):
         component = self.create_link()
         self.verify_component(component, 4, "cs", 4)

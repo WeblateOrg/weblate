@@ -21,6 +21,7 @@ Not yet released.
 * Include templates in ZIP download.
 * Add support for Markdown in announcements.
 * Extended details in check listings.
+* Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`.
 
 Weblate 4.0.4
 -------------
