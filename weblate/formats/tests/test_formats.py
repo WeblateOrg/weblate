@@ -167,9 +167,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         super().setUp()
         self.create_temp()
         if self.FORMAT.format_id not in FILE_FORMATS:
-            raise SkipTest(
-                "File format {0} is not supported!".format(self.FORMAT.format_id)
-            )
+            raise SkipTest("File format {0!r} is not supported!".format(self.FORMAT))
 
     def tearDown(self):
         super().tearDown()
