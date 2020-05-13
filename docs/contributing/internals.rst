@@ -49,6 +49,14 @@ Weblate consists of several Django applications (some optional, see
 
     The optional :ref:`billing` module.
 
+``checks``
+
+    Translation string :ref:`checks` module.
+
+``fonts``
+
+    Font rendering checks module.
+
 ``formats``
 
     File format abstraction layer based on translate-toolkit.
@@ -76,10 +84,6 @@ Weblate consists of several Django applications (some optional, see
 ``memory``
 
     Built in translation memory, see :ref:`translation-memory`.
-
-``permissions``
-
-    Obsolete.
 
 ``screenshots``
 
