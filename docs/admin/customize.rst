@@ -68,7 +68,7 @@ Your module structure should look like this:
         ├── addons.py
         └── checks.py
 
-You can find an example of custimizing Weblate at
+You can find an example of customizing Weblate at
 <https://github.com/WeblateOrg/customize-example>, it covers all the topics
 described below.
 

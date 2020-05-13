@@ -14,7 +14,7 @@ Directory structure
 
 Quick overview of directory structure of Weblate main repository:
 
-``doc``
+``docs``
    Source code for this documentation, built using `Sphinx <https://www.sphinx-doc.org/>`_.
 ``dev-docker``
    Docker code to run development server, see :ref:`dev-docker`.
