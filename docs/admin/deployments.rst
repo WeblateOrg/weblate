@@ -12,7 +12,7 @@ Helm Chart
 ----------
 
 You can install Weblate on Kubernetes using Helm.
-See <https://github.com/WeblateOrg/weblate-helm/tree/master/charts/weblate> for the detailed instructions.
+See <https://github.com/WeblateOrg/helm/tree/master/charts/weblate> for the detailed instructions.
 
 Bitnami Weblate stack
 ---------------------
