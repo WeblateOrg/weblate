@@ -41,8 +41,6 @@ translation-finder
     https://github.com/WeblateOrg/translation-finder
 Python Social Auth
     https://python-social-auth.readthedocs.io/
-Whoosh
-    https://bitbucket.org/mchaput/whoosh/wiki/Home
 Django REST Framework
     https://www.django-rest-framework.org/
 
