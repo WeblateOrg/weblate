@@ -14,7 +14,7 @@ else
     pip install Cython pycairo
     pip install --upgrade-strategy eager -U -r requirements-optional.txt
     if [ ${1:-latest} = edge ] ; then
-        pip install https://github.com/translate/translate/archive/master.zip
+        pip install --upgrade https://github.com/translate/translate/archive/master.zip
     fi
 fi
 pip install -r requirements-test.txt
