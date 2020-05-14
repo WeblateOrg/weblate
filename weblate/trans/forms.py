@@ -21,6 +21,7 @@
 import copy
 import json
 from datetime import date, datetime, timedelta
+from typing import Dict, List
 
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -1395,7 +1396,7 @@ class ComponentSelectForm(ComponentNameForm):
 class ComponentBranchForm(ComponentSelectForm):
     branch = forms.ChoiceField(label=_("Repository branch"))
 
-    branch_data = {}
+    branch_data: Dict[int, List[str]] = {}
     instance = None
 
     def clean_component(self):

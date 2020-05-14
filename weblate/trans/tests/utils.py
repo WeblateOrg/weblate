@@ -23,6 +23,7 @@ import sys
 from datetime import timedelta
 from tarfile import TarFile
 from tempfile import mkdtemp
+from typing import Set
 from unittest import SkipTest
 
 from celery.contrib.testing.tasks import ping
@@ -77,7 +78,7 @@ def create_another_user():
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos = set()
+    updated_base_repos: Set[str] = set()
 
     local_repo_path = "local:"
 

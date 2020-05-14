@@ -22,7 +22,7 @@
 import os
 import tempfile
 from copy import deepcopy
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Type
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -167,7 +167,7 @@ class TranslationFormat:
     format_id: str = ""
     monolingual: Optional[bool] = None
     check_flags: Tuple[str, ...] = ()
-    unit_class = TranslationUnit
+    unit_class: Type[TranslationUnit] = TranslationUnit
     autoload: Tuple[str, ...] = ()
     can_add_unit: bool = True
     language_format: str = "posix"

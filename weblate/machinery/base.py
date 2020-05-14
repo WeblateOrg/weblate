@@ -21,6 +21,7 @@
 
 import random
 from hashlib import md5
+from typing import Dict
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
@@ -54,7 +55,7 @@ class MachineTranslation:
     max_score = 100
     rank_boost = 0
     cache_translations = True
-    language_map = {}
+    language_map: Dict[str, str] = {}
     same_languages = False
 
     @classmethod
