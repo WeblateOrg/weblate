@@ -1483,7 +1483,7 @@ $(function () {
         var $slug = $(this);
         var $form = $slug.closest('form');
         $form.find('input[name="name"]').on('change keypress keydown paste', function () {
-            $slug.val(slugify($(this).val()).toLowerCase());
+            $slug.val(slugify($(this).val(), {remove: /[^\w\s-]+/g}).toLowerCase());
         });
 
     });
