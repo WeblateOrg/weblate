@@ -1082,7 +1082,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
             perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
 
-    @perform_on_link
+    @perform_on_link  # noqa: C901
     def do_push(self, request, force_commit=True, do_update=True, retry=True):
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
@@ -1121,7 +1121,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 if self.id:
                     self.delete_alert("PushFailure")
         except RepositoryException as error:
-            report_error(cause="Could not to push the repo")
+            report_error(cause="Could not push the repo")
             error_text = self.error_text(error)
             Change.objects.create(
                 action=Change.ACTION_FAILED_PUSH,
@@ -1138,8 +1138,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                     or "expected old/new/ref, got 'shallow" in error_text
                 ):
                     with self.repository.lock:
-                        self.repository.unshallow()
-                    return self.do_push(request, force_commit, do_update, retry=False)
+                        try:
+                            self.repository.unshallow()
+                            return self.do_push(
+                                request, force_commit, do_update, retry=False
+                            )
+                        except RepositoryException:
+                            report_error(cause="Could not unshallow the repo")
+                            pass
             messages.error(
                 request, _("Could not push to remote branch on %s.") % force_str(self)
             )
