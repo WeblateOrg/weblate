@@ -679,7 +679,7 @@ class Unit(models.Model, LoggerMixin):
             action = change_action
         elif self.state == STATE_FUZZY:
             action = Change.ACTION_MARKED_EDIT
-        elif self.old_unit.state >= STATE_TRANSLATED:
+        elif self.old_unit.state >= STATE_FUZZY:
             if self.state == STATE_APPROVED:
                 action = Change.ACTION_APPROVE
             else:
