@@ -24,7 +24,7 @@ from copy import copy
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, Max, Q
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -145,6 +145,9 @@ class UnitQuerySet(models.QuerySet):
                     countable_sort_choices[unsigned_choice]["filter"],
                 )
             elif unsigned_choice in available_sort_choices:
+                if unsigned_choice == "labels":
+                    self = self.annotate(max_labels_name=Max("labels__name"))
+                    choice = choice.replace("labels", "max_labels_name")
                 sort_list.append(choice)
         if not sort_list:
             return self.order()
