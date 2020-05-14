@@ -127,7 +127,7 @@ class UnitQuerySet(models.QuerySet):
             "timestamp",
         ]
         countable_sort_choices = {
-            "num_comments": {"order_by": "comment__count", "filter": Q()},
+            "num_comments": {"order_by": "comment__count", "filter": None},
             "num_failing_checks": {
                 "order_by": "check__count",
                 "filter": Q(check__ignore=False),
@@ -152,7 +152,7 @@ class UnitQuerySet(models.QuerySet):
 
     def order_by_count(self, choice, filter):
         model = choice.split("__")[0].replace("-", "")
-        return self.annotate(Count(model), filter=filter).order_by(choice)
+        return self.annotate(Count(model, filter=filter)).order_by(choice)
 
     def get_unit(self, ttunit):
         """Find unit matching translate-toolkit unit.
