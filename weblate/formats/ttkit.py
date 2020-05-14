@@ -1221,31 +1221,6 @@ class DTDFormat(TTKitFormat):
         return (unit for unit in self.store.units if not unit.isnull())
 
 
-class WindowsRCFormat(TTKitFormat):
-    name = _("RC file")
-    format_id = "rc"
-    loader = ("rc", "rcfile")
-    autoload = ("*.rc",)
-    unit_class = MonolingualSimpleUnit
-    can_add_unit = False
-    language_format = "bcp"
-
-    @staticmethod
-    def mimetype():
-        """Return most common media type for format."""
-        return "text/plain"
-
-    @staticmethod
-    def extension():
-        """Return most common file extension for format."""
-        return "rc"
-
-    @classmethod
-    def get_class(cls):
-        """Return class for handling this module."""
-        raise ImportError("Windows RC file format unsupported on Python 3")
-
-
 class SubtitleUnit(MonolingualIDUnit):
     @cached_property
     def source(self):

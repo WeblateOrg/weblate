@@ -965,9 +965,13 @@ Example of a flat XML file:
 Windows RC files
 ----------------
 
-.. versionadded:: 3.0
+.. versionchanged:: 4.1
 
-    Experimental support has been added in Weblate 3.0, and is not supported in Python 3.
+    Support for Windows RC files has been rewritten.
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
 
 .. warning::
 

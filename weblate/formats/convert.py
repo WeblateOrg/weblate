@@ -18,6 +18,7 @@
 #
 """Translate Toolkit convertor based file format wrappers."""
 
+import codecs
 import os
 import shutil
 from io import BytesIO
@@ -64,16 +65,16 @@ class ConvertUnit(TTKitUnit):
     @cached_property
     def context(self):
         """Return context of message."""
-        return "".join(
-            location.rsplit("/", 1)[1] for location in self.mainunit.getlocations()
-        )
+        return "".join(self.mainunit.getlocations())
 
 
-class IDMLUnit(ConvertUnit):
+class FileNameUnit(ConvertUnit):
     @cached_property
     def context(self):
         """Return context of message."""
-        return "".join(self.mainunit.getlocations())
+        return "".join(
+            location.rsplit("/", 1)[1] for location in self.mainunit.getlocations()
+        )
 
 
 class ConvertFormat(TranslationFormat):
@@ -152,6 +153,7 @@ class HTMLFormat(ConvertFormat):
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
+    unit_class = FileNameUnit
 
     @staticmethod
     def convertfile(storefile):
@@ -240,7 +242,6 @@ class IDMLFormat(ConvertFormat):
     autoload = ("*.idml", "*.idms")
     format_id = "idml"
     check_flags = ("strict-same",)
-    unit_class = IDMLUnit
 
     @staticmethod
     def convertfile(storefile):
@@ -288,3 +289,65 @@ class IDMLFormat(ConvertFormat):
     def extension():
         """Return most common file extension for format."""
         return "idml"
+
+
+class WindowsRCFormat(ConvertFormat):
+    name = _("RC file")
+    format_id = "rc"
+    autoload = ("*.rc",)
+    language_format = "bcp"
+
+    @staticmethod
+    def mimetype():
+        """Return most common media type for format."""
+        return "text/plain"
+
+    @staticmethod
+    def extension():
+        """Return most common file extension for format."""
+        return "rc"
+
+    @classmethod
+    def get_class(cls):
+        # This needs translate-toolkit 3.0.0 and pyparsing optional dep
+        from translate.storage.rc import rc_statement
+
+        return rc_statement
+
+    @staticmethod
+    def convertfile(storefile):
+        from translate.storage.rc import rcfile
+        from translate.convert.rc2po import rc2po
+
+        input_store = rcfile(storefile)
+        convertor = rc2po()
+        store = convertor.convert_store(input_store)
+        store.rcfile = input_store
+        return store
+
+    def save_content(self, handle):
+        """Store content to file."""
+        from translate.convert.po2rc import rerc
+
+        # Fallback language
+        lang = "LANG_ENGLISH"
+        sublang = "SUBLANG_DEFAULT"
+
+        # Keep existing language tags
+        rcfile = self.store.rcfile
+        if rcfile.lang:
+            lang = rcfile.lang
+            if rcfile.sublang:
+                sublang = rcfile.sublang
+
+        templatename = self.template_store.storefile
+        if hasattr(templatename, "name"):
+            templatename = templatename.name
+        with open(templatename, "rb") as templatefile:
+            convertor = rerc(templatefile, lang=lang, sublang=sublang)
+            outputrclines = convertor.convertstore(self.store)
+            try:
+                handle.write(outputrclines.encode("cp1252"))
+            except UnicodeEncodeError:
+                handle.write(codecs.BOM_UTF16_LE)
+                handle.write(outputrclines.encode("utf-16-le"))

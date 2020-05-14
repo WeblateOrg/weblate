@@ -18,7 +18,12 @@
 #
 """File format specific behavior."""
 
-from weblate.formats.convert import HTMLFormat, IDMLFormat, OpenDocumentFormat
+from weblate.formats.convert import (
+    HTMLFormat,
+    IDMLFormat,
+    OpenDocumentFormat,
+    WindowsRCFormat,
+)
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.tests.test_formats import AutoFormatTest
 from weblate.trans.tests.utils import get_test_file
@@ -26,6 +31,7 @@ from weblate.trans.tests.utils import get_test_file
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
+TEST_RC = get_test_file("cs-CZ.rc")
 
 
 class ConvertFormatTest(AutoFormatTest):
@@ -110,3 +116,18 @@ class IDMLFormatTest(ConvertFormatTest):
         self.assertEqual(
             self.extract_document(newdata), self.extract_document(testdata),
         )
+
+
+class WindowsRCFormatTest(ConvertFormatTest):
+    FORMAT = WindowsRCFormat
+    FILE = TEST_RC
+    BASE = TEST_RC
+    MIME = "text/plain"
+    EXT = "rc"
+    COUNT = 5
+    MASK = "rc/*.rc"
+    EXPECTED_PATH = "rc/cs-CZ.rc"
+    MATCH = "STRINGTABLE"
+    FIND_CONTEXT = "STRINGTABLE.IDS_MSG1"
+    FIND_MATCH = "Hello, world!\n"
+    EDIT_OFFSET = 1
