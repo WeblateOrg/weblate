@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from time import sleep
 
 from weblate.addons.discovery import DiscoveryAddon
 from weblate.trans.models import Component, Project
@@ -50,6 +51,11 @@ class Command(BaseCommand):
             file_format="po",
             license="GPL-3.0-or-later",
         )
+        while component.in_progress():
+            self.stdout.write(
+                "Importing base component: {}%".format(component.get_progress()[0])
+            )
+            sleep(1)
 
         # Install discovery
         DiscoveryAddon.create(
