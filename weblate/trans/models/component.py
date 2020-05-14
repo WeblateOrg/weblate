@@ -1132,14 +1132,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             if retry:
                 if "Host key verification failed" in error_text:
                     self.add_ssh_host_key()
-                    self.do_push(request, force_commit, do_update, retry=False)
+                    return self.do_push(request, force_commit, do_update, retry=False)
                 if (
                     "shallow update not allowed" in error_text
                     or "expected old/new/ref, got 'shallow" in error_text
                 ):
                     with self.repository.lock:
                         self.repository.unshallow()
-                    self.do_push(request, force_commit, do_update, retry=False)
+                    return self.do_push(request, force_commit, do_update, retry=False)
             messages.error(
                 request, _("Could not push to remote branch on %s.") % force_str(self)
             )
