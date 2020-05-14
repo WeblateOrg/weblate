@@ -13,7 +13,7 @@ Software requirements
 Other services
 ++++++++++++++
 
-Weblate is using other services for it's operation. You will need at least
+Weblate is using other services for its operation. You will need at least
 following services running:
 
 * PostgreSQL database server, see :ref:`database-setup`.
@@ -27,7 +27,7 @@ Python dependencies
 
 Weblate is written in `Python <https://www.python.org/>`_ and supports Python
 3.6 or newer. You can install dependencies using pip or from your
-distribution packages, full list of them is available in :file:`requirements.txt`.
+distribution packages, full list is available in :file:`requirements.txt`.
 
 Most notable dependencies:
 
@@ -49,7 +49,7 @@ Django REST Framework
 Optional dependecies
 ++++++++++++++++++++
 
-Following modules are necessary for some of Weblate features. You can find all
+Following modules are necessary for some Weblate features. You can find all
 of them in :file:`requirements-optional.txt`.
 
 ``Mercurial`` (optional for Mercurial repositories support)
@@ -88,7 +88,7 @@ Pango, Cairo and related header files and gir introspection data
     https://pypi.org/project/git-review/
 ``git-svn`` (optional for Subversion support)
     https://git-scm.com/docs/git-svn
-``tesseract`` and it's data (optional for screenshots OCR)
+``tesseract`` and its data (optional for screenshots OCR)
     https://github.com/tesseract-ocr/tesseract
 
 Compile time dependencies
@@ -235,7 +235,7 @@ Filesystem permissions
 
 The Weblate process needs to be able to read and write to the directory where
 it keeps data - :setting:`DATA_DIR`. All files within this directory should be
-owned and writable by user running Weblate.
+owned and writable by the user running Weblate.
 
 The default configuration places them in the same tree as the Weblate sources, however
 you might prefer to move these to a better location such as:
@@ -349,7 +349,7 @@ Configuring outgoing e-mail
 +++++++++++++++++++++++++++
 
 Weblate sends out e-mails on various occasions - for account activation and on
-various notifications configured by users. For this it needs access to a SMTP
+various notifications configured by users. For this it needs access to an SMTP
 server.
 
 The mail server setup is configured using these settings:
@@ -362,7 +362,7 @@ Django documentation.
 
    You can verify whether outgoing e-mail is working correctly by using the
    :djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage`
-   for instructions how to invoke it in different environments).
+   for instructions on how to invoke it in different environments).
 
 HTTP proxy
 ++++++++++
@@ -980,7 +980,7 @@ Content security policy
 
 The default Weblate configuration enables ``weblate.middleware.SecurityMiddleware``
 middleware which sets security related HTTP headers like ``Content-Security-Policy``
-or ``X-XSS-Protection``. These are by default set up to work with Weblate and it's
+or ``X-XSS-Protection``. These are by default set up to work with Weblate and its
 configuration, but this might clash with your customization. If that is the
 case, it is recommended to disable this middleware and set these headers
 manually.
@@ -1133,8 +1133,8 @@ Periodic tasks using Celery beat
 Weblate comes with built-in setup for scheduled tasks. You can however define
 additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
 
-The tasks are supposed to be executed by Celery beats deamon. In case it it not
-working properly, it might be not running or it's database was corrupted. Check
+The tasks are supposed to be executed by Celery beats deamon. In case it is not
+working properly, it might not be running or its database was corrupted. Check
 the Celery startup logs in such case to figure out root cause.
 
 Monitoring Celery status
