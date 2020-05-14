@@ -48,7 +48,6 @@ from weblate.formats.ttkit import (
     RubyYAMLFormat,
     TSFormat,
     WebExtensionJSONFormat,
-    WindowsRCFormat,
     XliffFormat,
     YAMLFormat,
 )
@@ -77,7 +76,6 @@ TEST_TS = get_test_file("cs.ts")
 TEST_YAML = get_test_file("cs.pyml")
 TEST_RUBY_YAML = get_test_file("cs.ryml")
 TEST_DTD = get_test_file("cs.dtd")
-TEST_RC = get_test_file("cs-CZ.rc")
 TEST_HE_CLDR = get_test_file("he-cldr.po")
 TEST_HE_CUSTOM = get_test_file("he-custom.po")
 TEST_HE_SIMPLE = get_test_file("he-simple.po")
@@ -714,25 +712,6 @@ class DTDFormatTest(AutoFormatTest):
     FIND_MATCH = ""
     NEW_UNIT_MATCH = b'<!ENTITY key "Source string">'
     EXPECTED_FLAGS = ""
-
-
-class WindowsRCFormatTest(AutoFormatTest):
-    FORMAT = WindowsRCFormat
-    FILE = TEST_RC
-    BASE = TEST_RC
-    MIME = "text/plain"
-    EXT = "rc"
-    COUNT = 4
-    MASK = "rc/*.rc"
-    EXPECTED_PATH = "rc/cs-CZ.rc"
-    MATCH = "STRINGTABLE"
-    FIND = "Hello, world!\n"
-    FIND_MATCH = "Hello, world!\n"
-    NEW_UNIT_MATCH = None
-    EXPECTED_FLAGS = ""
-
-    def test_edit(self):
-        raise SkipTest("Known to be broken")
 
 
 class CSVFormatTest(AutoFormatTest):
