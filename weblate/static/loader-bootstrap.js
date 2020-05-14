@@ -387,7 +387,7 @@ function processMachineTranslation(data, scope) {
 
         for (var i = 1; i < 10; i++) {
             Mousetrap.bindGlobal(
-                ['ctrl+m ' + i, 'command+m ' + i],
+                'mod+m ' + i,
                 function() {
                     return false;
                 }
@@ -408,7 +408,7 @@ function processMachineTranslation(data, scope) {
                     '</kbd>'
                 );
                 Mousetrap.bindGlobal(
-                    ['ctrl+m ' + key, 'command+m ' + key],
+                    'mod+m ' + key,
                     function() {
                         $($('#' + scope + '-translations').children('tr')[idx]).find('a.copymt').click();
                         return false;
@@ -848,7 +848,7 @@ $(function () {
 
     /* Translation editor */
     Mousetrap.bindGlobal(
-        ['alt+enter', 'ctrl+enter', 'command+enter'],
+        ['alt+enter', 'mod+enter'],
         submitForm
     );
     var translationEditor = $('.translation-editor');
@@ -865,21 +865,21 @@ $(function () {
             Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
             Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
-            Mousetrap.bindGlobal(['ctrl+o', 'command+o'], function(e) {$('.translation-item .copy-text').click(); return false;});
-            Mousetrap.bindGlobal(['ctrl+y', 'command+y'], function(e) {$('input[name="fuzzy"]').click(); return false;});
+            Mousetrap.bindGlobal('mod+o', function(e) {$('.translation-item .copy-text').click(); return false;});
+            Mousetrap.bindGlobal('mod+y', function(e) {$('input[name="fuzzy"]').click(); return false;});
             Mousetrap.bindGlobal(
-                ['ctrl+shift+enter', 'command+shift+enter'],
+                'mod+shift+enter',
                 function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
             );
             Mousetrap.bindGlobal(
-                ['ctrl+e', 'command+e'],
+                'mod+e',
                 function(e) {
                     $('.translation-editor').get(0).focus();
                     return false;
                 }
             );
             Mousetrap.bindGlobal(
-                ['ctrl+s', 'command+s'],
+                'mod+s',
                 function(e) {
                     $('#search-dropdown').click();
                     $('input[name="q"]').focus();
@@ -887,7 +887,7 @@ $(function () {
                 }
             );
             Mousetrap.bindGlobal(
-                ['ctrl+u', 'command+u'],
+                'mod+u',
                 function(e) {
                     $('.nav [href="#comments"]').click();
                     $('textarea[name="comment"]').focus();
@@ -895,14 +895,14 @@ $(function () {
                 }
             );
             Mousetrap.bindGlobal(
-                ['ctrl+j', 'command+j'],
+                'mod+j',
                 function(e) {
                     $('.nav [href="#nearby"]').click();
                     return false;
                 }
             );
             Mousetrap.bindGlobal(
-                ['ctrl+m', 'command+m'],
+                'mod+m',
                 function(e) {
                     $('.nav [href="#machine"]').click();
                     return false;
@@ -997,7 +997,7 @@ $(function () {
     /* and shortcuts */
     for (var i = 1; i < 10; i++) {
         Mousetrap.bindGlobal(
-            ['ctrl+' + i, 'command+' + i],
+            'mod+' + i,
             function(e) {
                 return false;
             }
@@ -1014,7 +1014,7 @@ $(function () {
                 $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
 
                 Mousetrap.bindGlobal(
-                    ['ctrl+' + key, 'command+' + key],
+                    'mod+' + key,
                     function(e) {
                         $this.click();
                         return false;
@@ -1026,10 +1026,10 @@ $(function () {
         });
         $('.highlight-number').hide();
     }
-    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
+    Mousetrap.bindGlobal('mod', function (e) {
         $('.highlight-number').show();
     }, 'keydown');
-    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
+    Mousetrap.bindGlobal('mod', function (e) {
         $('.highlight-number').hide();
     }, 'keyup');
 
@@ -1104,15 +1104,15 @@ $(function () {
         $document.on('change', '.fuzzy_checkbox', zenEditor);
         $document.on('change', '.review_radio', zenEditor);
 
-        Mousetrap.bindGlobal(['ctrl+end', 'command+end'], function(e) {
+        Mousetrap.bindGlobal('mod+end', function(e) {
             $('.zen-unit:last').find('.translation-editor:first').focus();
             return false;
         });
-        Mousetrap.bindGlobal(['ctrl+home', 'command+home'], function(e) {
+        Mousetrap.bindGlobal('mod+home', function(e) {
             $('.zen-unit:first').find('.translation-editor:first').focus();
             return false;
         });
-        Mousetrap.bindGlobal(['ctrl+pagedown', 'command+pagedown'], function(e) {
+        Mousetrap.bindGlobal('mod+pagedown', function(e) {
             var focus = $(':focus');
 
             if (focus.length === 0) {
@@ -1122,7 +1122,7 @@ $(function () {
             }
             return false;
         });
-        Mousetrap.bindGlobal(['ctrl+pageup', 'command+pageup'], function(e) {
+        Mousetrap.bindGlobal('mod+pageup', function(e) {
             var focus = $(':focus');
 
             if (focus.length === 0) {
@@ -1212,10 +1212,10 @@ $(function () {
     };
 
     /* Check dismiss shortcuts */
-    Mousetrap.bindGlobal(['ctrl+i', 'command+i'], function(e) {});
+    Mousetrap.bindGlobal('mod+i', function(e) {});
     for (var i = 1; i < 10; i++) {
         Mousetrap.bindGlobal(
-            ['ctrl+i ' + i, 'command+i ' + i],
+            'mod+i ' + i,
             function(e) {
                 return false;
             }
@@ -1237,7 +1237,7 @@ $(function () {
             );
 
             Mousetrap.bindGlobal(
-                ['ctrl+i ' + key, 'command+i ' + key],
+                'mod+i ' + key,
                 function(e) {
                     $this.find('.dismiss-single').click();
                     return false;
