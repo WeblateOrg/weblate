@@ -1082,8 +1082,10 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
             perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
 
-    @perform_on_link  # noqa: C901
-    def do_push(self, request, force_commit=True, do_update=True, retry=True):
+    @perform_on_link
+    def do_push(  # noqa: C901
+        self, request, force_commit=True, do_update=True, retry=True
+    ):
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
         if not self.can_push():
