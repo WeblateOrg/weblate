@@ -43,7 +43,7 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-{% with comments=unit.get_comments nearby=unit.nearby nearby_keys=unit.nearby_keys shapings=unit.shapings%}
+{% with nearby=unit.nearby nearby_keys=unit.nearby_keys shapings=unit.shapings %}
 
 <div class="row query-container">
   <div class="col-sm-9">
@@ -230,8 +230,8 @@
 {% if others.total %}
 <li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurrences" %} <span class="badge">{{ others.total }}</span></a></li>
 {% endif %}
-{% if comments or user_can_add_comment %}
-<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments|length }}</span>{% endif %}</a></li>
+{% if unit.all_comments or user_can_add_comment %}
+<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if unit.all_comments %} <span class="badge">{{ unit.all_comments|length }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_mt %}
 <li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
@@ -371,12 +371,12 @@
 </div>
 {% endif %}
 
-{% if comments or user_can_add_comment %}
+{% if unit.all_comments or user_can_add_comment %}
 <div class="tab-pane" id="comments">
 
-{% if comments %}
+{% if unit.all_comments %}
   {% with this_unit_url as next_url %}
-    {% include "list-comments.html" with object=unit.translation %}
+    {% include "list-comments.html" with object=unit.translation comments=unit.all_comments %}
   {% endwith %}
 {% endif %}
 
@@ -456,14 +456,14 @@
     </div>
     {% endfor %}
 
-  {% if comments %}
+  {% if unit.all_comments %}
     <div class="list-group-item check">
         <h5 class="list-group-item-heading">
             {% documentation_icon 'user/translating' 'comments' right=True %}
             {% icon "comment.svg" %}
             {% trans "Comments" %}
         </h5>
-        <p class="list-group-item-text">{% blocktrans count count=comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text">{% blocktrans count count=unit.all_comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
             <a href="#comments" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
         </p>
