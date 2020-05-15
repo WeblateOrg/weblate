@@ -380,7 +380,7 @@ class UnitTest(ModelTestCase):
             ordered_unit = Unit.objects.filter(
                 translation__language_code="cs"
             ).order_by_request({"sort_by": order_option})
-            self.assertEqual(ordered_unit.count(), 4)
+            self.assertEqual(len(ordered_unit), 4)
 
         # check sorting with multiple options work
         multiple_ordered_unit = Unit.objects.filter(
