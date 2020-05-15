@@ -284,10 +284,6 @@ class Unit(models.Model, LoggerMixin):
         return self.active_checks().exists()
 
     @cached_property
-    def has_ignored_check(self):
-        return self.check_set.filter(ignore=True).exists()
-
-    @cached_property
     def has_comment(self):
         return self.comment_set.filter(resolved=False).exists()
 
@@ -719,6 +715,10 @@ class Unit(models.Model, LoggerMixin):
         if values:
             return result.values_list("check", flat=True)
         return result
+
+    @cached_property
+    def ignored_checks(self):
+        return [check for check in self.checks() if check.ignore]
 
     def active_checks(self):
         """Return all active (not ignored) checks for this unit."""
