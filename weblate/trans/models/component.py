@@ -1083,9 +1083,45 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
 
     @perform_on_link
-    def do_push(  # noqa: C901
-        self, request, force_commit=True, do_update=True, retry=True
-    ):
+    def push_repo(self, request, retry=True):
+        """Push repository changes upstream."""
+        try:
+            self.log_info("pushing to remote repo")
+            with self.repository.lock:
+                self.repository.push()
+            self.delete_alert("RepositoryChanges")
+            self.delete_alert("PushFailure")
+            return True
+        except RepositoryException as error:
+            report_error(cause="Could not push the repo")
+            error_text = self.error_text(error)
+            Change.objects.create(
+                action=Change.ACTION_FAILED_PUSH,
+                component=self,
+                target=error_text,
+                user=request.user if request else None,
+            )
+            if retry:
+                if "Host key verification failed" in error_text:
+                    self.add_ssh_host_key()
+                    return self.push_repo(request, retry=False)
+                if (
+                    "shallow update not allowed" in error_text
+                    or "expected old/new/ref, got 'shallow" in error_text
+                ):
+                    with self.repository.lock:
+                        try:
+                            self.repository.unshallow()
+                            return self.push_repo(request, retry=False)
+                        except RepositoryException:
+                            report_error(cause="Could not unshallow the repo")
+                            pass
+            messages.error(request, _("Could not push to remote branch on %s.") % self)
+            self.add_alert("PushFailure", error=error_text)
+            return False
+
+    @perform_on_link
+    def do_push(self, request, force_commit=True, do_update=True, retry=True):
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
         if not self.can_push():
@@ -1116,43 +1152,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
-        try:
-            self.log_info("pushing to remote repo")
-            with self.repository.lock:
-                self.repository.push()
-                if self.id:
-                    self.delete_alert("PushFailure")
-        except RepositoryException as error:
-            report_error(cause="Could not push the repo")
-            error_text = self.error_text(error)
-            Change.objects.create(
-                action=Change.ACTION_FAILED_PUSH,
-                component=self,
-                target=error_text,
-                user=request.user if request else None,
-            )
-            if retry:
-                if "Host key verification failed" in error_text:
-                    self.add_ssh_host_key()
-                    return self.do_push(request, force_commit, do_update, retry=False)
-                if (
-                    "shallow update not allowed" in error_text
-                    or "expected old/new/ref, got 'shallow" in error_text
-                ):
-                    with self.repository.lock:
-                        try:
-                            self.repository.unshallow()
-                            return self.do_push(
-                                request, force_commit, do_update, retry=False
-                            )
-                        except RepositoryException:
-                            report_error(cause="Could not unshallow the repo")
-                            pass
-            messages.error(
-                request, _("Could not push to remote branch on %s.") % force_str(self)
-            )
-            if self.id:
-                self.add_alert("PushFailure", error=error_text)
+        result = self.push_repo(request)
+        if not result:
             return False
 
         Change.objects.create(
@@ -1164,7 +1165,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         vcs_post_push.send(sender=self.__class__, component=self)
         for component in self.linked_childs:
             vcs_post_push.send(sender=component.__class__, component=component)
-        self.delete_alert("RepositoryChanges")
 
         return True
 
