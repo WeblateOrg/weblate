@@ -46,6 +46,11 @@ class FilterRegistry:
             ),
             ("comments", _("Strings with comments"), "has:comment"),
             ("allchecks", _("Strings with any failing checks"), "has:check"),
+            (
+                "translated_checks",
+                _("Translated strings with any failing checks"),
+                "has:check AND state:>=translated",
+            ),
             ("approved", _("Approved strings"), "state:approved"),
             (
                 "approved_suggestions",

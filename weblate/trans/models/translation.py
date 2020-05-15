@@ -729,6 +729,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # All checks
         result.add_if(self.stats, "allchecks", "danger")
 
+        # Translated strings with checks
+        if not self.is_source:
+            result.add_if(self.stats, "translated_checks", "danger")
+
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]
