@@ -42,14 +42,6 @@ from weblate.trans.tests.test_models import BaseTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 
-def fake_get_comments():
-    return [Comment(comment="Weblate translator comment")]
-
-
-def empty_get_comments():
-    return []
-
-
 class PoExporterTest(BaseTestCase):
     _class = PoExporter
     _has_context = True
@@ -105,12 +97,14 @@ class PoExporterTest(BaseTestCase):
         if source_info:
             for key, value in source_info.items():
                 setattr(unit, key, value)
-            unit.get_comments = fake_get_comments
+            unit.__dict__["all_comments"] = [
+                Comment(comment="Weblate translator comment")
+            ]
             unit.__dict__["suggestions"] = [
                 Suggestion(target="Weblate translator suggestion")
             ]
         else:
-            unit.get_comments = empty_get_comments
+            unit.__dict__["all_comments"] = []
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)

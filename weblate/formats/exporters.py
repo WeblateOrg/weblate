@@ -151,7 +151,7 @@ class BaseExporter:
         if context:
             output.addnote(note, origin="developer")
         # Comments
-        for comment in unit.get_comments():
+        for comment in unit.all_comments:
             output.addnote(comment.comment, origin="translator")
         # Suggestions
         for suggestion in unit.suggestions:

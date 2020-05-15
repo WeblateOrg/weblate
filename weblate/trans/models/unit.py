@@ -283,9 +283,12 @@ class Unit(models.Model, LoggerMixin):
     def has_failing_check(self):
         return bool(self.active_checks)
 
-    @cached_property
+    @property
     def has_comment(self):
-        return self.comment_set.filter(resolved=False).exists()
+        return any(
+            not comment.resolved and comment.unit_id == self.id
+            for comment in self.all_comments
+        )
 
     @property
     def has_suggestion(self):
@@ -729,7 +732,8 @@ class Unit(models.Model, LoggerMixin):
         """Return all active (not ignored) checks for this unit."""
         return [check for check in self.all_checks if not check.ignore]
 
-    def get_comments(self):
+    @cached_property
+    def all_comments(self):
         """Return list of target comments."""
         return Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info)).order()
 
