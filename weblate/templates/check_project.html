@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
@@ -12,23 +13,30 @@
 
 <div class="row">
 <div class="col-lg-6">
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
 
-{% if components %}
-<div class="list-group">
-{% for obj in components %}
-<a class="list-group-item" href="{% url 'show_check_component' name=check.check_id project=obj.project.slug component=obj.slug %}{{ url_params }}"><span class="badge">{{ obj.check_count }}</span>{{ obj.name }}</a>
-{% endfor %}
-</div>
-{% else %}
-<div class="panel-body">
-{% trans "No matching checks found!" as msg %}
-{% show_message "warning" msg %}
-</div>
-{% endif %}
+<table class="sort table progress-table table-border">
+    <thead>
+        <tr>
+            <th>{% trans "Component" %}</th>
+            <th class="number">{% trans "Total" %}</th>
+            <th class="number">{% trans "Dismissed" %}</th>
+            <th class="number">{% trans "Active" %}</th>
+            <th class="number">{% trans "Translated" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for obj in components %}
+        <tr data-href="{% url 'show_check_component' name=check.check_id project=obj.project.slug component=obj.slug %}{{ url_params }}" class="clickable-row">
+            <th>{{ obj.name }}</th>
+            <td class="number" data-value="{{ obj.check_count }}">{{ obj.check_count |intcomma}}</td>
+            <td class="number" data-value="{{ obj.ignored_check_count }}">{{ obj.ignored_check_count |intcomma}}</td>
+            <td class="number" data-value="{{ obj.active_check_count }}">{{ obj.active_check_count |intcomma}}</td>
+            <td class="number" data-value="{{ obj.translated_check_count }}">{{ obj.translated_check_count |intcomma}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
-</div>
 </div>
 
 <div class="col-lg-6">

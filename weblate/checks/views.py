@@ -27,6 +27,8 @@ from django.utils.translation import gettext as _
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Translation
 from weblate.trans.util import redirect_param
+from weblate.utils.db import conditional_sum
+from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.views import get_component, get_project
 
 
@@ -38,16 +40,11 @@ def encode_optional(params):
 
 def show_checks(request):
     """List of failing checks."""
-    ignore = "ignored" in request.GET
     url_params = {}
     user = request.user
 
-    if ignore:
-        url_params["ignored"] = "true"
-
     kwargs = {
         "unit__translation__component__project_id__in": user.allowed_project_ids,
-        "ignore": ignore,
     }
 
     if request.GET.get("project"):
@@ -63,7 +60,16 @@ def show_checks(request):
         url_params["component"] = request.GET["component"]
 
     allchecks = (
-        Check.objects.filter(**kwargs).values("check").annotate(count=Count("id"))
+        Check.objects.filter(**kwargs)
+        .values("check")
+        .annotate(
+            check_count=Count("id"),
+            ignored_check_count=conditional_sum(1, ignore=True),
+            active_check_count=conditional_sum(1, ignore=False),
+            translated_check_count=conditional_sum(
+                1, ignore=False, unit__state__gte=STATE_TRANSLATED
+            ),
+        )
     )
 
     return render(
@@ -84,16 +90,10 @@ def show_check(request, name):
     except KeyError:
         raise Http404("No check matches the given query.")
 
-    ignore = "ignored" in request.GET
-
     url_params = {}
-
-    if ignore:
-        url_params["ignored"] = "true"
 
     kwargs = {
         "component__translation__unit__check__check": name,
-        "component__translation__unit__check__ignore": ignore,
     }
 
     if request.GET.get("language"):
@@ -111,7 +111,20 @@ def show_check(request, name):
 
     projects = (
         request.user.allowed_projects.filter(**kwargs)
-        .annotate(check_count=Count("component__translation__unit__check"))
+        .annotate(
+            check_count=Count("component__translation__unit__check"),
+            ignored_check_count=conditional_sum(
+                1, component__translation__unit__check__ignore=True
+            ),
+            active_check_count=conditional_sum(
+                1, component__translation__unit__check__ignore=False
+            ),
+            translated_check_count=conditional_sum(
+                1,
+                component__translation__unit__check__ignore=False,
+                component__translation__unit__state__gte=STATE_TRANSLATED,
+            ),
+        )
         .order()
     )
 
@@ -135,18 +148,12 @@ def show_check_project(request, name, project):
     except KeyError:
         raise Http404("No check matches the given query.")
 
-    ignore = "ignored" in request.GET
-
     url_params = {}
 
     kwargs = {
         "project": prj,
         "translation__unit__check__check": name,
-        "translation__unit__check__ignore": ignore,
     }
-
-    if ignore:
-        url_params["ignored"] = "true"
 
     if request.GET.get("language"):
         kwargs["translation__language__code"] = request.GET["language"]
@@ -154,7 +161,20 @@ def show_check_project(request, name, project):
 
     components = (
         Component.objects.filter(**kwargs)
-        .annotate(check_count=Count("translation__unit__check"))
+        .annotate(
+            check_count=Count("translation__unit__check"),
+            ignored_check_count=conditional_sum(
+                1, translation__unit__check__ignore=True
+            ),
+            active_check_count=conditional_sum(
+                1, translation__unit__check__ignore=False
+            ),
+            translated_check_count=conditional_sum(
+                1,
+                translation__unit__check__ignore=False,
+                translation__unit__state__gte=STATE_TRANSLATED,
+            ),
+        )
         .order()
     )
 
@@ -179,41 +199,23 @@ def show_check_component(request, name, project, component):
     except KeyError:
         raise Http404("No check matches the given query.")
 
-    ignore = "ignored" in request.GET
-    url_params = {}
+    kwargs = {}
 
-    if ignore:
-        url_params["ignored"] = "true"
-
-    # Source checks are for single language only, redirect directly there
-    if check.source:
-        return redirect_param(
-            "translate",
-            encode_optional(
-                {"q": "{}{}".format("ignored_" if ignore else "", check.url_id)}
-            ),
-            project=component.project.slug,
-            component=component.slug,
-            lang=component.project.source_language.code,
-        )
-
-    # When filtering language, redirect directly to it
-    if request.GET.get("language") and "/" not in request.GET["language"]:
-        return redirect_param(
-            "translate",
-            encode_optional(
-                {"q": "{}{}".format("ignored_" if ignore else "", check.url_id)}
-            ),
-            project=component.project.slug,
-            component=component.slug,
-            lang=request.GET["language"],
-        )
+    if request.GET.get("language"):
+        kwargs["language__code"] = request.GET["language"]
 
     translations = (
         Translation.objects.filter(
-            component=component, unit__check__check=name, unit__check__ignore=ignore,
+            component=component, unit__check__check=name, **kwargs
         )
-        .annotate(check_count=Count("unit__check"))
+        .annotate(
+            check_count=Count("unit__check"),
+            ignored_check_count=conditional_sum(1, unit__check__ignore=True),
+            active_check_count=conditional_sum(1, unit__check__ignore=False),
+            translated_check_count=conditional_sum(
+                1, unit__check__ignore=False, unit__state__gte=STATE_TRANSLATED
+            ),
+        )
         .order_by("language__code")
         .select_related("language")
     )
@@ -223,11 +225,9 @@ def show_check_component(request, name, project, component):
         "check_component.html",
         {
             "translations": translations,
-            "ignored": ignore,
             "title": "{0}/{1}".format(force_str(component), check.name),
             "check": check,
             "component": component,
-            "url_params": encode_optional(url_params),
         },
     )
 

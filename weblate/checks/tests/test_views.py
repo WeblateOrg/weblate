@@ -129,19 +129,7 @@ class ChecksViewTest(ViewTestCase):
                 },
             )
         )
-        self.assertRedirects(
-            response,
-            "{0}?q=check%3Amultiple_failures".format(
-                reverse(
-                    "translate",
-                    kwargs={
-                        "project": self.project.slug,
-                        "component": self.component.slug,
-                        "lang": self.project.source_language.code,
-                    },
-                )
-            ),
-        )
+        self.assertContains(response, "/multiple_failures/")
 
         response = self.client.get(
             reverse(
