@@ -4,7 +4,8 @@
 <span class="state-icon {{ state }}">
 <span title="{% trans "Needs editing" context "String state" %}" class="state-need-edit">{% icon "need-edit.svg" %}</span>
 <span title="{% trans "Untranslated" context "String state" %}" class="state-empty">{% icon "empty.svg" %}</span>
-<span title="{% trans "Fails checks" context "String state" %}" class="red state-alert">{% icon "alert.svg" %}</span>
+<span title="{% trans "Failed checks" context "String state" %}" class="red state-check">{% icon "alert.svg" %}</span>
+<span title="{% trans "Ignored checks" context "String state" %}" class="gray state-ignored-check">{% icon "alert.svg" %}</span>
 <span title="{% trans "Read only" context "String state" %}" class="state-readonly">{% icon "read-only.svg" %}</span>
 <span title="{% trans "Approved" context "String state" %}" class="green state-approved">{% icon "approved.svg" %}</span>
 <span title="{% trans "Translated" context "String state" %}" class="green state-translated">{% icon "translated.svg" %}</span>

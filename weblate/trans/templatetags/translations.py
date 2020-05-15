@@ -500,9 +500,13 @@ def get_state_badge(unit):
 
 
 @register.inclusion_tag("snippets/unit-state.html")
-def get_state_flags(unit):
+def get_state_flags(unit, detail=False):
     """Return state flags."""
-    return {"state": " ".join(get_state_css(unit))}
+    return {
+        "state": " ".join(get_state_css(unit)),
+        "unit": unit,
+        "detail": detail,
+    }
 
 
 @register.simple_tag

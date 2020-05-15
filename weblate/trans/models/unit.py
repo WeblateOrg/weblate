@@ -284,6 +284,10 @@ class Unit(models.Model, LoggerMixin):
         return self.active_checks().exists()
 
     @cached_property
+    def has_ignored_check(self):
+        return self.check_set.filter(ignore=True).exists()
+
+    @cached_property
     def has_comment(self):
         return self.comment_set.filter(resolved=False).exists()
 

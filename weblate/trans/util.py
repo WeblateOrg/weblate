@@ -343,7 +343,9 @@ def get_state_css(unit):
         flags.append("state-translated")
 
     if unit.has_failing_check:
-        flags.append("state-alert")
+        flags.append("state-check")
+    if unit.has_ignored_check:
+        flags.append("state-ignored-check")
     if unit.has_comment:
         flags.append("state-comment")
     if unit.has_suggestion:
