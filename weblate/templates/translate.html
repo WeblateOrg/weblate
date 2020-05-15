@@ -221,7 +221,7 @@
 {% if nearby_keys %}
 <li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
 {% endif %}
-{% if shapings %}
+{% if shapings|length > 1 %}
 <li><a href="#shapings" data-toggle="tab" id="toggle-shapings" title="{% trans "Shapings of the string" %}">{% trans "Shapings" %} <span class="badge">{{ shapings|length }}</span></a></li>
 {% endif %}
 {% if unit.suggestions %}
@@ -255,7 +255,7 @@
 </div>
 {% endif %}
 
-{% if shapings %}
+{% if shapings|length > 1 %}
 <div class="tab-pane" id="shapings">
 {% include "snippets/embed-units.html" with current_unit=unit units=shapings %}
 </div>
@@ -471,7 +471,7 @@
     </div>
   {% endif %}
 
-  {% if shapings %}
+  {% if shapings|length > 1 %}
     <div class="list-group-item check">
         <h5 class="list-group-item-heading">
             {% documentation_icon 'user/translating' 'shapings' right=True %}
