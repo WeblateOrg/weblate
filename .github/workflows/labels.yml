@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue has been added to backlog. It is not scheduled on our road map, but it might be eventually implemented. In case you desperately need this feature, please consider helping or [funding the development](https://weblate.org/support/).
+            This issue has been added to the backlog. It is not scheduled on our roadmap, but it eventually might be implemented. In case you desperately need this feature, please consider helping or [funding the development](https://weblate.org/support/).
       - name: Add undecided comment
         uses: peter-evans/create-or-update-comment@v1
         if: github.event.label.name == 'undecided'
@@ -24,4 +24,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
-            This issue has been put aside. Currently, it is unclear whether it will be ever implemented as it seems to cover too narrow use case or doesn't seem to fit into Weblate. Please try to clarify the use case or consider proposing something more generic to make it useful to more users.
+            This issue has been put aside. Currently, it is unclear whether it will ever be implemented as it seems to cover too narrow of a use case or doesn't seem to fit into Weblate. Please try to clarify the use case or consider proposing something more generic to make it useful to more users.
