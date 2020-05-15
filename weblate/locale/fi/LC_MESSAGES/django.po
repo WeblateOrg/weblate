@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.0.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-04-23 13:08+0000\n"
-"PO-Revision-Date: 2020-05-12 10:46+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"PO-Revision-Date: 2020-05-15 23:48+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
 "Language: fi\n"
@@ -407,16 +407,12 @@ msgid "Configured password to sign in."
 msgstr "Aseta salasana"
 
 #: weblate/accounts/models.py:100
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
-msgstr "Kirjauduttu sisään salasanalla."
+msgstr "Kirjauduttu salasanalla."
 
 #: weblate/accounts/models.py:101
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
-msgstr "Kirjauduttu sisään uudella laitteella käyttäen salasanaa."
+msgstr "Kirjauduttu salasanalla uudelta laitteelta."
 
 #: weblate/accounts/models.py:102
 msgid "Could not sign in using password."
@@ -694,27 +690,20 @@ msgid "Your password can't match a password you have used in the past."
 msgstr "Salasanasi ei saa sellainen salasana jota olet käyttänyt aiemmin."
 
 #: weblate/accounts/pipeline.py:293
-#, fuzzy
-#| msgid "You can not complete password reset while logged in!"
 msgid "You can not complete password reset while signed in!"
-msgstr ""
-"Et voi viedä loppuun salasanan palautusta koska olet kirjautunut sisään!"
+msgstr "Et voi viedä salasanan palautusta loppuun kirjautuneena!"
 
 #: weblate/accounts/pipeline.py:296 weblate/accounts/pipeline.py:319
 msgid "The registration link has been invalidated."
 msgstr "Rekisteröitymislinkki ei ole enää kelvollinen."
 
 #: weblate/accounts/pipeline.py:311
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "You can not complete registration while signed in!"
-msgstr "Et voi tehdä rekisteröintiä loppuun koska olet kirjautunut sisään!"
+msgstr "Et voi tehdä rekisteröitymistä loppuun kirjautuneena!"
 
 #: weblate/accounts/pipeline.py:316
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in!"
-msgstr "Voit vahvistaa rekisteröitymisesi vain jos olet kirjautunut sisään!"
+msgstr "Voit vahvistaa rekisteröitymisesi vain kirjautuneena!"
 
 #: weblate/accounts/pipeline.py:443
 #, python-brace-format
@@ -856,16 +845,12 @@ msgid "The server does not allow authentication."
 msgstr "Palvelin ei salli tunnistautumista."
 
 #: weblate/accounts/views.py:1082
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail or "
-#| "username is already in use for another account."
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
 msgstr ""
-"Rekisteröityminen epäonnistui. Antamasi tunnistautuminen, sähköposti tai "
-"käyttäjänimi on jo käytössä toisella käyttäjätilillä."
+"Rekisteröityminen epäonnistui. Antamasi tunnistautuminen, sähköpostiosoite "
+"tai käyttäjänimi on jo käytössä toisella käyttäjätilillä."
 
 #: weblate/accounts/views.py:1097
 msgid "Notification settings adjusted."
@@ -6467,18 +6452,13 @@ msgid "Ignore permanently"
 msgstr "Sivuuta pysyvästi"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"Voit turvallisesti ja pysyvästi ohittaa sellaiset virheet jotka koskevat "
-"niitä tiedostomuotoja joita et aio käyttää. Ne johtuvat yleensä puuttuvista "
-"tai vanhentuneista riippuvuuksista."
+"Voit kaikessa rauhassa sivuuttaa pysyvästi virheet, jotka koskevat "
+"ominaisuuksia, joita et aio käyttää. Ne johtuvat yleensä puuttuvista tai "
+"vanhentuneista riippuvuuksista."
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -7368,16 +7348,12 @@ msgid "The following filemasks were found multiple times:"
 msgstr "Seuraavat tiedostomaskit löytyivät useita kertoja:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:3
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to single "
-#| "language in Weblate."
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
 msgstr ""
-"Komponentti sisältää useita käännöstiedostoja jotka on Weblatessa linkitetty "
-"yhteen kieleen."
+"Komponentti sisältää useita käännöstiedostoja, jotka on Weblatessa "
+"linkitetty yhteen kieleen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:4
 msgid "Please fix this by removing one of the translation files."
@@ -8619,7 +8595,7 @@ msgstr "Lisättävä käyttäjä"
 
 #: weblate/trans/forms.py:1041
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr ""
+msgstr "Kirjoita olemassa olevan Weblate-tilin nimi tai sähköpostiosoite."
 
 #: weblate/trans/forms.py:1048
 msgid "Report format"
@@ -10902,8 +10878,6 @@ msgid "Could not evaluate plural formula: {}"
 msgstr "Monikkoyhtälön laskeminen epäonnistui: {}"
 
 #: weblate/utils/validators.py:197
-#, fuzzy
-#| msgid "Filename can not contain reference to a parent directory."
 msgid "The filename can not contain reference to a parent directory."
 msgstr "Tiedostonimi ei saa sisältää viittausta ylätason hakemistoon."
 
