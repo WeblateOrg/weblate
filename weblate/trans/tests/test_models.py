@@ -366,6 +366,28 @@ class UnitTest(ModelTestCase):
         unit5 = unit5.order_by_request({"sort_by": "num_comments"})
         self.assertEqual(unit5[0].comment_set.count(), 0)
 
+        # check all order options produce valid queryset
+        order_options = [
+            "priority",
+            "position",
+            "context",
+            "num_words",
+            "labels",
+            "timestamp",
+            "num_failing_checks",
+        ]
+        for order_option in order_options:
+            ordered_unit = Unit.objects.filter(
+                translation__language_code="cs"
+            ).order_by_request({"sort_by": order_option})
+            self.assertEqual(ordered_unit.count(), 4)
+
+        # check sorting with multiple options work
+        multiple_ordered_unit = Unit.objects.filter(
+            translation__language_code="cs"
+        ).order_by_request({"sort_by": "position,timestamp"})
+        self.assertEqual(multiple_ordered_unit.count(), 4)
+
     def test_get_max_length_no_pk(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.pk = False

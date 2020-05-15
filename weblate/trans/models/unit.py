@@ -144,18 +144,24 @@ class UnitQuerySet(models.QuerySet):
                     ),
                     countable_sort_choices[unsigned_choice]["filter"],
                 )
-            elif unsigned_choice in available_sort_choices:
+            if unsigned_choice in available_sort_choices:
                 if unsigned_choice == "labels":
-                    self = self.annotate(max_labels_name=Max("labels__name"))
                     choice = choice.replace("labels", "max_labels_name")
                 sort_list.append(choice)
         if not sort_list:
             return self.order()
+        if "max_labels_name" in sort_list:
+            return self.annotate(max_labels_name=Max("labels__name")).order_by(
+                *sort_list
+            )
         return self.order_by(*sort_list)
 
     def order_by_count(self, choice, filter):
         model = choice.split("__")[0].replace("-", "")
-        return self.annotate(Count(model, filter=filter)).order_by(choice)
+        annotation_name = choice.replace("-", "")
+        return self.annotate(**{annotation_name: Count(model, filter=filter)}).order_by(
+            choice
+        )
 
     def get_unit(self, ttunit):
         """Find unit matching translate-toolkit unit.
