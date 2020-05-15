@@ -85,7 +85,11 @@ def get_sort_name(request):
     sort_dict = {
         "position": _("Position"),
         "priority": _("Priority"),
+        "labels": _("Labels"),
+        "timestamp": _("Age of string"),
         "num_words": _("Word count"),
+        "num_comments": _("Number of comments"),
+        "num_failing_checks": _("Number of failing checks"),
         "context": _("Context"),
         "priority,position": _("Position and priority"),
     }

@@ -3,7 +3,7 @@
 {% load icons %}
 {% load crispy_forms_field %}
 <div class="row">
-  <div class="col-sm-9">
+  <div class="col-sm-8">
     <div class="form-group">
       <div class="search-group query-field" role="group" >
         <div class="input-group">
@@ -27,7 +27,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-4">
     <div class="form-group">
       <div class="btn-group search-group sort-field" role="group">
         <div class="input-group">
@@ -45,7 +45,11 @@
               <li><a data-sort="-priority,position">{% trans "Position and priority" %}</a></li>
               <li><a data-sort="position">{% trans "Position" %}</a></li>
               <li><a data-sort="priority">{% trans "Priority" %}</a></li>
-              <li><a data-sort="num_words">{% trans "Word count" %}</a></li>
+              <li><a data-sort="labels">{% trans "Labels" %}</a></li>
+              <li><a data-sort="timestamp">{% trans "Age of string" %}</a></li>
+              <li><a data-sort="num_words">{% trans "Number of words" %}</a></li>
+              <li><a data-sort="num_failing_checks">{% trans "Number of failing checks" %}</a></li>
+              <li><a data-sort="num_comments">{% trans "Number of comments" %}</a></li>
               <li><a data-sort="context">{% trans "Context" %}</a></li>
             </ul>
           </div>
