@@ -32,7 +32,6 @@ class Check:
     source = False
     ignore_untranslated = True
     default_disabled = False
-    severity = "info"
     propagates = False
     param_type = None
 

@@ -230,15 +230,6 @@ def format_translation(
 
 
 @register.simple_tag
-def check_severity(check):
-    """Return check severity, or its id if check is not known."""
-    try:
-        return escape(CHECKS[check].severity)
-    except KeyError:
-        return "info"
-
-
-@register.simple_tag
 def check_name(check):
     """Return check name, or its id if check is not known."""
     try:

@@ -29,7 +29,6 @@ class PluralsCheck(TargetCheck):
     check_id = "plurals"
     name = _("Missing plurals")
     description = _("Some plural forms are not translated")
-    severity = "danger"
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
@@ -52,7 +51,6 @@ class SamePluralsCheck(TargetCheck):
     check_id = "same-plurals"
     name = _("Same plurals")
     description = _("Some plural forms are translated in the same way")
-    severity = "warning"
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
@@ -77,7 +75,6 @@ class ConsistencyCheck(TargetCheck):
         "or is not translated in some components."
     )
     ignore_untranslated = False
-    severity = "warning"
     propagates = True
 
     def check_target_unit(self, sources, targets, unit):
@@ -100,7 +97,6 @@ class TranslatedCheck(TargetCheck):
     name = _("Has been translated")
     description = _("This string has been translated in the past")
     ignore_untranslated = False
-    severity = "warning"
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:

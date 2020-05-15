@@ -2,8 +2,7 @@ Checks and fixups
 =================
 
 The quality checks help catch common translator errors, ensuring the
-translation is in good shape. The checks are divided into three levels of severity,
-and can be ignored in case of false positives.
+translation is in good shape. The checks can be ignored in case of false positives.
 
 Once submitting a translation with a failing check, this is immediately shown to
 the user:
