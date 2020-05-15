@@ -34,12 +34,7 @@ from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 from sentry_sdk import add_breadcrumb
 
-from weblate.trans.util import (
-    add_configuration_error,
-    delete_configuration_error,
-    get_clean_env,
-    path_separator,
-)
+from weblate.trans.util import get_clean_env, path_separator
 from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger("weblate.vcs")
@@ -74,7 +69,6 @@ class Repository:
     req_version = None
     default_branch = ""
 
-    _is_supported = None
     _version = None
 
     @classmethod
@@ -321,46 +315,12 @@ class Repository:
         return result
 
     @classmethod
-    def add_configuration_error(cls, msg):
-        add_configuration_error(cls.name.lower(), msg)
-        LOGGER.warning(msg)
-
-    @classmethod
     def is_supported(cls):
         """Check whether this VCS backend is supported."""
-        if cls._is_supported is not None:
-            return cls._is_supported
-        try:
-            version = cls.get_version()
-        except (OSError, RepositoryException) as error:
-            cls._is_supported = False
-            cls.add_configuration_error(
-                "{0} version check failed: {1}".format(
-                    cls.name, str(error).splitlines()[0]
-                ),
-            )
-            return False
-        try:
-            if cls.req_version is None or LooseVersion(version) >= LooseVersion(
-                cls.req_version
-            ):
-                cls._is_supported = True
-                delete_configuration_error(cls.name.lower())
-                return True
-        except Exception as error:
-            cls.add_configuration_error(
-                "{0} version check failed (version {1}, required {2}): {3}".format(
-                    cls.name, version, cls.req_version, error
-                ),
-            )
-        else:
-            cls.add_configuration_error(
-                "{0} version is too old, please upgrade to {1}.".format(
-                    cls.name, cls.req_version
-                ),
-            )
-        cls._is_supported = False
-        return False
+        version = cls.get_version()
+        return cls.req_version is None or LooseVersion(version) >= LooseVersion(
+            cls.req_version
+        )
 
     @classmethod
     def get_version(cls):

@@ -380,7 +380,6 @@ class GitWithGerritRepository(GitRepository):
 
     name = "Gerrit"
 
-    _is_supported = None
     _version = None
 
     @classmethod
@@ -398,7 +397,6 @@ class SubversionRepository(GitRepository):
     name = "Subversion"
     req_version = "1.6"
 
-    _is_supported = None
     _version = None
 
     _fetch_revision = None
@@ -591,7 +589,6 @@ class GithubRepository(GitMergeRequestBase):
 
     name = "GitHub"
     _cmd = "hub"
-    _is_supported = None
     _version = None
 
     @classmethod
@@ -723,7 +720,6 @@ class GitLabRepository(GitMergeRequestBase):
     name = "GitLab"
     req_version = "0.16"
 
-    _is_supported = None
     _version = None
 
     # docs: https://zaquestion.github.io/lab/
