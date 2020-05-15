@@ -157,7 +157,6 @@ class SameCheck(TargetCheck):
     check_id = "same"
     name = _("Unchanged translation")
     description = _("Source and translation are identical")
-    severity = "warning"
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""

@@ -52,7 +52,6 @@ class MaxSizeCheck(TargetCheckParametrized):
     check_id = "max-size"
     name = _("Maximum size of translation")
     description = _("Translation rendered text should not exceed given size")
-    severity = "danger"
     default_disabled = True
     param_type = parse_size
     last_font = None

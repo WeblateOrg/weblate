@@ -31,7 +31,6 @@ class DuplicateCheck(TargetCheck):
     check_id = "duplicate"
     name = _("Consecutive duplicated tokens")
     description = _("Text contains the same token twice in a row")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         if re.search(r"\b(\w+)(?:\s+\1)+\b", target):

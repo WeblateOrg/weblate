@@ -176,7 +176,6 @@ class BaseFormatCheck(TargetCheck):
 
     regexp = None
     default_disabled = True
-    severity = "danger"
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""

@@ -150,11 +150,6 @@ class Check(models.Model):
             return self.check_obj.name
         return self.check
 
-    def get_severity(self):
-        if self.check_obj:
-            return self.check_obj.severity
-        return "info"
-
     def get_doc_url(self):
         if self.check_obj:
             return self.check_obj.get_doc_url()
