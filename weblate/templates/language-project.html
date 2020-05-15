@@ -40,7 +40,6 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
-      <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
     </ul>
    </li>
 {% include "watch-dropdown.html" %}

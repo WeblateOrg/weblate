@@ -26,7 +26,6 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="{% url 'checks' %}?language={{ object.code }}">{% trans "Failing checks" %}</a></li>
-      <li><a href="{% url 'checks' %}?language={{ object.code }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
       {% if user_can_edit_language %}
       <li role="separator" class="divider"></li>
       {% if not object.translation_set.exists %}

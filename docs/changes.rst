@@ -20,6 +20,7 @@ Not yet released.
 * Improved removal confirmation dialog.
 * Include templates in ZIP download.
 * Add support for Markdown in announcements.
+* Extended details in check listings.
 
 Weblate 4.0.4
 -------------
