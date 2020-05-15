@@ -239,5 +239,4 @@ def post_delete_linked(sender, instance, **kwargs):
 @disable_for_loaddata
 def stats_invalidate(sender, instance, created, **kwargs):
     """Invalidate stats on new comment or suggestion."""
-    if not created:
-        instance.unit.translation.invalidate_cache()
+    instance.unit.translation.invalidate_cache()
