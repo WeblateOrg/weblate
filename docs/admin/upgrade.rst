@@ -263,6 +263,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
+* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
