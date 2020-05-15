@@ -80,7 +80,8 @@ class GitNoVersionRepository(GitRepository):
 
 class RepositoryTest(TestCase):
     def test_not_supported(self):
-        self.assertFalse(NonExistingRepository.is_supported())
+        with self.assertRaises(Exception):
+            NonExistingRepository.is_supported()
 
     def test_not_supported_version(self):
         self.assertFalse(GitVersionRepository.is_supported())
