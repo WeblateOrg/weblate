@@ -201,7 +201,7 @@ def perform_suggestion(unit, form, request):
 def perform_translation(unit, form, request):
     """Handle translation and stores it to a backend."""
     # Remember old checks
-    oldchecks = set(unit.active_checks().values_list("check", flat=True))
+    oldchecks = unit.all_checks_names
 
     # Run AutoFixes on user input
     if not unit.translation.is_template:
@@ -227,7 +227,7 @@ def perform_translation(unit, form, request):
         )
 
     # Get new set of checks
-    newchecks = set(unit.active_checks().values_list("check", flat=True))
+    newchecks = unit.all_checks_names
 
     # Did we introduce any new failures?
     if saved and newchecks > oldchecks:

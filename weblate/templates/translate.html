@@ -407,8 +407,7 @@
 
 <div class="col-sm-3 source-info">
 
-{% with unit.check_set.all as checks %}
-{% if checks or unit.suggestions or shapings %}
+{% if unit.all_checks or unit.suggestions or shapings %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
 
@@ -427,7 +426,7 @@
     </div>
   {% endif %}
 
-    {% for check in checks %}
+    {% for check in unit.all_checks %}
     <div class="list-group-item check check-item {% if check.ignore %}check-disabled{% endif %}">
         <h5>
             {% documentation_icon 'user/checks' check.check_obj.doc_id right=True %}
@@ -488,7 +487,6 @@
   </div>
 </div>
 {% endif %}
-{% endwith %}
 
 <div class="panel panel-default">
   <div class="panel-heading">

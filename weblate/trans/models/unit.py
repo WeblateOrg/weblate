@@ -279,17 +279,17 @@ class Unit(models.Model, LoggerMixin):
     def fuzzy(self):
         return self.state == STATE_FUZZY
 
-    @cached_property
+    @property
     def has_failing_check(self):
-        return self.active_checks().exists()
+        return bool(self.active_checks)
 
     @cached_property
     def has_comment(self):
         return self.comment_set.filter(resolved=False).exists()
 
-    @cached_property
+    @property
     def has_suggestion(self):
-        return self.suggestions.exists()
+        return bool(self.suggestions)
 
     @cached_property
     def full_slug(self):
@@ -709,20 +709,25 @@ class Unit(models.Model, LoggerMixin):
         """Return all suggestions for this unit."""
         return self.suggestion_set.order()
 
-    def checks(self, values=False):
-        """Return all checks names for this unit (even ignored)."""
+    @cached_property
+    def all_checks(self):
         result = self.check_set.all()
-        if values:
-            return result.values_list("check", flat=True)
+        # Force fetching
+        list(result)
         return result
 
-    @cached_property
-    def ignored_checks(self):
-        return [check for check in self.checks() if check.ignore]
+    @property
+    def all_checks_names(self):
+        return {check.check for check in self.all_checks}
 
+    @property
+    def ignored_checks(self):
+        return [check for check in self.all_checks if check.ignore]
+
+    @property
     def active_checks(self):
         """Return all active (not ignored) checks for this unit."""
-        return self.check_set.filter(ignore=False)
+        return [check for check in self.all_checks if not check.ignore]
 
     def get_comments(self):
         """Return list of target comments."""
@@ -735,7 +740,7 @@ class Unit(models.Model, LoggerMixin):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
 
-        old_checks = set(self.check_set.values_list("check", flat=True))
+        old_checks = self.all_checks_names
         create = []
 
         if self.translation.is_source:
@@ -773,6 +778,9 @@ class Unit(models.Model, LoggerMixin):
         # Delete no longer failing checks
         if old_checks:
             Check.objects.filter(unit=self, check__in=old_checks).delete()
+
+        # This is always preset as it is used in top of this method
+        del self.__dict__["all_checks"]
 
     def nearby(self):
         """Return list of nearby messages based on location."""
@@ -852,9 +860,7 @@ class Unit(models.Model, LoggerMixin):
         if (
             self.state >= STATE_TRANSLATED
             and self.translation.component.enforced_checks
-            and self.check_set.filter(
-                check__in=self.translation.component.enforced_checks
-            ).exists()
+            and self.all_checks_names & set(self.translation.component.enforced_checks)
         ):
             self.state = self.original_state = STATE_FUZZY
             self.save(same_state=True, same_content=True, update_fields=["state"])

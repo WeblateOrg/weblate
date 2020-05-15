@@ -50,7 +50,7 @@ class EditTest(ViewTestCase):
         self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.target, self.target)
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(self.already_translated + 1)
 
@@ -60,7 +60,7 @@ class EditTest(ViewTestCase):
         self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.target, self.target)
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(self.already_translated + 1)
 
@@ -70,7 +70,7 @@ class EditTest(ViewTestCase):
         self.assert_redirects_offset(response, self.translate_url, 2)
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.target, self.second_target)
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(self.already_translated + 1)
 
@@ -204,7 +204,7 @@ class EditResourceSourceTest(ViewTestCase):
         self.assert_redirects_offset(response, translate_url, 2)
         unit = self.get_unit("Nazdar svete!\n", "en")
         self.assertEqual(unit.target, "Nazdar svete!\n")
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(4, "en")
 
@@ -536,8 +536,8 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertFalse(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertEqual(len(unit.active_checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
+        self.assertEqual(len(unit.active_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         self.assert_backend(1)
 
@@ -550,12 +550,12 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.target, "Hello, world!\n")
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(unit.state, STATE_TRANSLATED)
-        self.assertEqual(len(unit.checks()), 1)
-        self.assertEqual(len(unit.active_checks()), 1)
+        self.assertEqual(len(unit.all_checks), 1)
+        self.assertEqual(len(unit.active_checks), 1)
         self.assertEqual(unit.translation.stats.allchecks, 1)
 
         # Ignore check
-        check_id = unit.active_checks()[0].id
+        check_id = unit.active_checks[0].id
         response = self.client.post(
             reverse("js-ignore-check", kwargs={"check_id": check_id})
         )
@@ -563,8 +563,8 @@ class EditComplexTest(ViewTestCase):
         # Should have one less failing check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 1)
-        self.assertEqual(len(unit.active_checks()), 0)
+        self.assertEqual(len(unit.all_checks), 1)
+        self.assertEqual(len(unit.active_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         # Ignore check for all languages
         ignore_url = reverse("js-ignore-check-source", kwargs={"check_id": check_id})
@@ -577,8 +577,8 @@ class EditComplexTest(ViewTestCase):
         # Should have one less check
         unit = self.get_unit()
         self.assertFalse(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 0)
-        self.assertEqual(len(unit.active_checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
+        self.assertEqual(len(unit.active_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
 
         # Save with no failing checks
@@ -588,7 +588,7 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertFalse(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         self.assert_backend(1)
 
@@ -604,8 +604,8 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(unit.target, "Hello, world!\n")
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertTrue(unit.has_failing_check)
-        self.assertEqual(len(unit.checks()), 1)
-        self.assertEqual(len(unit.active_checks()), 1)
+        self.assertEqual(len(unit.all_checks), 1)
+        self.assertEqual(len(unit.active_checks), 1)
         self.assertEqual(unit.translation.stats.allchecks, 1)
 
     def test_commit_push(self):
