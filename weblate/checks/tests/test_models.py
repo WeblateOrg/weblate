@@ -37,7 +37,7 @@ class UnitdataTestCase(FixtureTestCase):
             force_str(check.get_description()), "Source and translation are identical"
         )
         self.assertTrue(check.get_doc_url().endswith("user/checks.html#check-same"))
-        self.assertEqual(force_str(check), "Hello, world!\n: same")
+        self.assertEqual(force_str(check), "Unchanged translation")
 
     def test_check_nonexisting(self):
         check = self.create_check("-invalid-")
