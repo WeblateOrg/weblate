@@ -1588,7 +1588,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         # Update flags
         if was_change:
-            self.update_unit_flags()
             self.invalidate_stats_deep()
 
         # Schedule background cleanup if needed
@@ -1609,21 +1608,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         self.log_info("updating completed")
         return was_change
-
-    def update_unit_flags(self):
-        from weblate.trans.models import Unit
-
-        units = Unit.objects.filter(translation__component=self)
-
-        self.log_info("updating unit flags: has_failing_check")
-
-        units.filter(has_failing_check=False).filter(check__ignore=False).update(
-            has_failing_check=True
-        )
-        units.filter(has_failing_check=True).exclude(check__ignore=False).update(
-            has_failing_check=False
-        )
-        self.log_info("all unit flags updated")
 
     def invalidate_stats_deep(self):
         self.log_info("updating stats caches")
@@ -2264,7 +2248,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                     self, language, format_code, filename, request=request
                 )
                 self.update_source_checks()
-                self.update_unit_flags()
                 translation.invalidate_cache()
                 translation.notify_new(request)
                 messages.error(request, _("Translation file already exists!"))
@@ -2295,7 +2278,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 timezone.now(),
             )
             self.update_source_checks()
-            self.update_unit_flags()
             translation.invalidate_cache()
             translation.notify_new(request)
             return translation

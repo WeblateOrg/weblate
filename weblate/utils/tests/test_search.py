@@ -202,9 +202,10 @@ class QueryParserTest(TestCase):
 
     def test_has(self):
         self.assert_query("has:plural", Q(source__contains=PLURAL_SEPARATOR))
-        self.assert_query("has:suggestion", Q(has_suggestion=True))
-        self.assert_query("has:check", Q(has_failing_check=True))
-        self.assert_query("has:comment", Q(has_comment=True))
+        self.assert_query("has:suggestion", Q(suggestion__isnull=False))
+        self.assert_query("has:check", Q(check__ignore=False))
+        self.assert_query("has:comment", Q(comment__resolved=False))
+        self.assert_query("has:resolved-comment", Q(comment__resolved=True))
         self.assert_query("has:ignored-check", Q(check__ignore=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:shaping", Q(shaping__isnull=False))

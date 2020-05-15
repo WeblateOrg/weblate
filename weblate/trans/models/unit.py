@@ -59,15 +59,15 @@ from weblate.utils.state import (
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},
     "approved": {"state": STATE_APPROVED},
-    "approved_suggestions": {"state": STATE_APPROVED, "has_suggestion": True},
+    "approved_suggestions": {"state": STATE_APPROVED, "suggestion__isnull": False},
     "unapproved": {"state": STATE_TRANSLATED},
     "todo": {"state__lt": STATE_TRANSLATED},
     "nottranslated": {"state": STATE_EMPTY},
     "translated": {"state__gte": STATE_TRANSLATED},
-    "suggestions": {"has_suggestion": True},
-    "nosuggestions": {"has_suggestion": False, "state__lt": STATE_TRANSLATED},
-    "comments": {"has_comment": True},
-    "allchecks": {"has_failing_check": True},
+    "suggestions": {"suggestion__isnull": False},
+    "nosuggestions": {"suggestion__isnull": True, "state__lt": STATE_TRANSLATED},
+    "comments": {"comment__resolved": False},
+    "allchecks": {"check__ignore": False},
 }
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
@@ -175,10 +175,6 @@ class Unit(models.Model, LoggerMixin):
 
     position = models.IntegerField()
 
-    has_suggestion = models.BooleanField(default=False, db_index=True)
-    has_comment = models.BooleanField(default=False, db_index=True)
-    has_failing_check = models.BooleanField(default=False, db_index=True)
-
     num_words = models.IntegerField(default=0)
 
     priority = models.IntegerField(default=100)
@@ -282,6 +278,18 @@ class Unit(models.Model, LoggerMixin):
     @property
     def fuzzy(self):
         return self.state == STATE_FUZZY
+
+    @cached_property
+    def has_failing_check(self):
+        return self.active_checks().exists()
+
+    @cached_property
+    def has_comment(self):
+        return self.comment_set.filter(resolved=False).exists()
+
+    @cached_property
+    def has_suggestion(self):
+        return self.suggestions.exists()
 
     @cached_property
     def full_slug(self):
@@ -648,9 +656,7 @@ class Unit(models.Model, LoggerMixin):
                     unit.state = STATE_FUZZY
                 unit.previous_source = previous_source
 
-            # Update source index and stats
-            unit.update_has_comment()
-            unit.update_has_suggestion()
+            # Save unit and change
             unit.save()
             Change.objects.create(
                 unit=unit,
@@ -660,6 +666,7 @@ class Unit(models.Model, LoggerMixin):
                 old=previous_source,
                 target=self.target,
             )
+            # Invalidate stats
             unit.translation.invalidate_cache()
 
     def generate_change(self, user, author, change_action):
@@ -719,8 +726,6 @@ class Unit(models.Model, LoggerMixin):
 
     def run_checks(self, same_content=True):
         """Update checks for this unit."""
-        was_change = False
-        has_checks = None
         run_propagate = False
 
         src = self.get_source_plurals()
@@ -748,8 +753,6 @@ class Unit(models.Model, LoggerMixin):
                 else:
                     # Create new check
                     create.append(Check(unit=self, ignore=False, check=check))
-                    was_change = True
-                    has_checks = True
                     run_propagate |= check_obj.propagates
 
         if create:
@@ -765,46 +768,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Delete no longer failing checks
         if old_checks:
-            was_change = True
             Check.objects.filter(unit=self, check__in=old_checks).delete()
-
-        # Update failing checks flag
-        if not self.is_batch_update and (was_change or not same_content):
-            self.update_has_failing_check(has_checks)
-
-    def update_has_failing_check(self, has_checks=None):
-        """Update flag counting failing checks."""
-        if has_checks is None:
-            has_checks = self.active_checks().exists()
-
-        # Change attribute if it has changed
-        if has_checks != self.has_failing_check:
-            self.has_failing_check = has_checks
-            self.save(
-                same_content=True, same_state=True, update_fields=["has_failing_check"]
-            )
-            if not self.is_batch_update:
-                self.translation.invalidate_cache()
-
-    def update_has_suggestion(self):
-        """Update flag counting suggestions."""
-        has_suggestion = len(self.suggestions) > 0
-        if has_suggestion != self.has_suggestion:
-            self.has_suggestion = has_suggestion
-            self.save(
-                same_content=True, same_state=True, update_fields=["has_suggestion"]
-            )
-            return True
-        return False
-
-    def update_has_comment(self):
-        """Update flag counting comments."""
-        has_comment = len(self.get_comments().filter(resolved=False)) > 0
-        if has_comment != self.has_comment:
-            self.has_comment = has_comment
-            self.save(same_content=True, same_state=True, update_fields=["has_comment"])
-            return True
-        return False
 
     def nearby(self):
         """Return list of nearby messages based on location."""

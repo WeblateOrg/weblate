@@ -39,7 +39,7 @@ class AutoTranslate:
     def get_units(self):
         units = self.translation.unit_set.all()
         if self.mode == "suggest":
-            units = units.exclude(has_suggestion=True)
+            units = units.filter(suggestion__isnull=True)
         return units.filter_type(self.filter_type).prefetch()
 
     def set_progress(self, current):

@@ -166,25 +166,25 @@ class Check(models.Model):
 def check_post_save(sender, instance, created, **kwargs):
     """Handle check creation or updates."""
     if not created:
-        # Update related unit failed check flag (the check was (un)ignored)
-        instance.unit.update_has_failing_check(
-            has_checks=None if instance.ignore else True
-        )
+        instance.unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Check)
 @disable_for_loaddata
 def remove_complimentary_checks(sender, instance, **kwargs):
     """Remove propagate checks from all units."""
+    instance.unit.translation.invalidate_cache()
     check_obj = instance.check_obj
     if not check_obj:
         return
 
-    # Handle propagating checks
+    # Handle propagating checks - remove on other units
     if check_obj.propagates:
+        Check.objects.filter(
+            unit__in=instance.unit.same_source_units, check=instance.check
+        ).delete()
         for unit in instance.unit.same_source_units:
-            if unit.check_set.filter(check=instance.check).delete()[0]:
-                unit.update_has_failing_check()
+            unit.translation.invalidate_cache()
 
     # Update source checks if needed
     if check_obj.target:

@@ -164,32 +164,6 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         instance.translation.component.invalidate_stats_deep()
 
 
-@receiver(post_delete, sender=Comment)
-@receiver(post_save, sender=Comment)
-@disable_for_loaddata
-def update_comment_flag(sender, instance, **kwargs):
-    """Update related unit comment flags."""
-    # Update unit stats
-    try:
-        if instance.unit.update_has_comment():
-            instance.unit.translation.invalidate_cache()
-    except Unit.DoesNotExist:
-        pass
-
-
-@receiver(post_delete, sender=Suggestion)
-@receiver(post_save, sender=Suggestion)
-@disable_for_loaddata
-def update_suggestion_flag(sender, instance, **kwargs):
-    """Update related unit suggestion flags."""
-    # Update unit stats
-    try:
-        if instance.unit.update_has_suggestion():
-            instance.unit.translation.invalidate_cache()
-    except Unit.DoesNotExist:
-        pass
-
-
 @receiver(user_pre_delete)
 def user_commit_pending(sender, instance, **kwargs):
     """Commit pending changes for user on account removal."""
@@ -258,3 +232,12 @@ def post_delete_linked(sender, instance, **kwargs):
             instance.linked_component.update_alerts()
     except Component.DoesNotExist:
         pass
+
+
+@receiver(post_save, sender=Comment)
+@receiver(post_save, sender=Suggestion)
+@disable_for_loaddata
+def stats_invalidate(sender, instance, created, **kwargs):
+    """Invalidate stats on new comment or suggestion."""
+    if not created:
+        instance.unit.translation.invalidate_cache()
