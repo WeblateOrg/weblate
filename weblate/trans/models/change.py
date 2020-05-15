@@ -380,6 +380,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION,
         ACTION_SUGGESTION_DELETE,
         ACTION_SUGGESTION_CLEANUP,
+        ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
         ACTION_DICTIONARY_NEW,
         ACTION_DICTIONARY_EDIT,
