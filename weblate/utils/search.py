@@ -253,11 +253,13 @@ def has_sql(text):
     if text == "plural":
         return Q(source__contains=PLURAL_SEPARATOR)
     if text == "suggestion":
-        return Q(has_suggestion=True)
+        return Q(suggestion__isnull=False)
     if text == "comment":
-        return Q(has_comment=True)
+        return Q(comment__resolved=False)
+    if text in ("resolved-comment", "resolved_comment"):
+        return Q(comment__resolved=True)
     if text in ("check", "failing-check", "failing_check"):
-        return Q(has_failing_check=True)
+        return Q(check__ignore=False)
     if text in ("ignored-check", "ignored_check"):
         return Q(check__ignore=True)
     if text == "translation":

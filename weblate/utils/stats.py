@@ -20,6 +20,7 @@
 
 from copy import copy
 from datetime import timedelta
+from itertools import chain
 from types import GeneratorType
 
 from django.core.cache import cache
@@ -329,7 +330,10 @@ class TranslationStats(BaseStats):
         return self._object.enable_review
 
     def prefetch_basic(self):
-        stats = self._object.unit_set.aggregate(
+        from weblate.trans.models import Unit
+
+        base = self._object.unit_set
+        stats = base.aggregate(
             all=Count("id"),
             all_words=Sum("num_words"),
             all_chars=Sum(Length("source")),
@@ -350,35 +354,52 @@ class TranslationStats(BaseStats):
             approved=conditional_sum(1, state__gte=STATE_APPROVED),
             approved_words=conditional_sum("num_words", state__gte=STATE_APPROVED),
             approved_chars=conditional_sum(Length("source"), state__gte=STATE_APPROVED),
-            allchecks=conditional_sum(1, has_failing_check=True),
-            allchecks_words=conditional_sum("num_words", has_failing_check=True),
-            allchecks_chars=conditional_sum(Length("source"), has_failing_check=True),
-            translated_checks=conditional_sum(
-                1, has_failing_check=True, state=STATE_TRANSLATED
-            ),
+        )
+        check_stats = Unit.objects.filter(
+            id__in=set(base.filter(check__ignore=False).values_list("id", flat=True))
+        ).aggregate(
+            allchecks=Count("id"),
+            allchecks_words=Sum("num_words"),
+            allchecks_chars=Sum(Length("source")),
+            translated_checks=conditional_sum(1, state=STATE_TRANSLATED),
             translated_checks_words=conditional_sum(
-                "num_words", has_failing_check=True, state=STATE_TRANSLATED
+                "num_words", state=STATE_TRANSLATED
             ),
             translated_checks_chars=conditional_sum(
-                Length("source"), has_failing_check=True, state=STATE_TRANSLATED
-            ),
-            suggestions=conditional_sum(1, has_suggestion=True),
-            suggestions_words=conditional_sum("num_words", has_suggestion=True),
-            suggestions_chars=conditional_sum(Length("source"), has_suggestion=True),
-            comments=conditional_sum(1, has_comment=True),
-            comments_words=conditional_sum("num_words", has_comment=True),
-            comments_chars=conditional_sum(Length("source"), has_comment=True),
-            approved_suggestions=conditional_sum(
-                1, state__gte=STATE_APPROVED, has_suggestion=True
-            ),
-            approved_suggestions_words=conditional_sum(
-                "num_words", state__gte=STATE_APPROVED, has_suggestion=True
-            ),
-            approved_suggestions_chars=conditional_sum(
-                Length("source"), state__gte=STATE_APPROVED, has_suggestion=True
+                Length("source"), state=STATE_TRANSLATED
             ),
         )
-        for key, value in stats.items():
+        suggestion_stats = Unit.objects.filter(
+            id__in=set(
+                base.filter(suggestion__isnull=False).values_list("id", flat=True)
+            )
+        ).aggregate(
+            suggestions=Count("id"),
+            suggestions_words=Sum("num_words"),
+            suggestions_chars=Sum(Length("source")),
+            approved_suggestions=conditional_sum(1, state__gte=STATE_APPROVED),
+            approved_suggestions_words=conditional_sum(
+                "num_words", state__gte=STATE_APPROVED
+            ),
+            approved_suggestions_chars=conditional_sum(
+                Length("source"), state__gte=STATE_APPROVED
+            ),
+        )
+        comment_stats = Unit.objects.filter(
+            id__in=set(
+                base.filter(comment__resolved=False).values_list("id", flat=True)
+            )
+        ).aggregate(
+            comments=Count("id"),
+            comments_words=Sum("num_words"),
+            comments_chars=Sum(Length("source")),
+        )
+        for key, value in chain(
+            stats.items(),
+            check_stats.items(),
+            suggestion_stats.items(),
+            comment_stats.items(),
+        ):
             self.store(key, value)
 
         # Calculate some values

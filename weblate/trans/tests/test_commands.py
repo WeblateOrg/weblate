@@ -400,11 +400,6 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
     expected_string = ""
 
 
-class FixupFlagsTest(WeblateComponentCommandTestCase):
-    command_name = "fixup_flags"
-    expected_string = "Processing"
-
-
 class CreateDemoTestCase(TestCase):
     def test_create(self):
         output = StringIO()
