@@ -662,8 +662,7 @@ By default its set to 0 as shown below.
 
    SECURE_HSTS_SECONDS = 0
 
-If set to a non-zero integer value, the `SecurityMiddleware
-<https://docs.djangoproject.com/en/3.0/ref/middleware/#django.middleware.security.SecurityMiddleware>`_
+If set to a non-zero integer value, the :class:`django:django.middleware.security.SecurityMiddleware`
 sets the :ref:`django:http-strict-transport-security` header on all responses that do not already have it.
 
 .. warning::
