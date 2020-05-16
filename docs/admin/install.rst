@@ -648,6 +648,27 @@ After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings:
    :setting:`ENABLE_HTTPS`,
    :ref:`production-site`
 
+
+Set properly SECURE_HSTS_SECONDS
+++++++++++++++++++++++++++++++++
+
+If your site is served over SSL, you have to consider setting a value for :setting:`SECURE_HSTS_SECONDS`
+in the settings.py to enable HTTP Strict Transport Security.
+By default its set to 0 as shown below.
+
+.. code-block:: python
+
+   SECURE_HSTS_SECONDS = 0
+
+If set to a non-zero integer value, the :class:`django:django.middleware.security.SecurityMiddleware`
+sets the :ref:`django:http-strict-transport-security` header on all responses that do not already have it.
+
+.. warning::
+
+    Setting this incorrectly can irreversibly (for some time) break your site. Read the
+    :ref:`django:http-strict-transport-security` documentation first.
+
+
 .. _production-database:
 
 Use a powerful database engine
