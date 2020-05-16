@@ -40,7 +40,7 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``ignored-check``, ``translation``, ``shaping``, ``screenshot`` (works only on source strings).
+   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``shaping``, ``screenshot`` (works only on source strings).
 ``is:TEXT``
    Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
@@ -51,8 +51,8 @@ Fields
    String was changed on date, supports :ref:`search-operators`.
 ``check:TEXT``
    String has failing check.
-``ignored_check:TEXT``
-   String has ignored check.
+``dismissed_check:TEXT``
+   String has dismissed check.
 ``comment:TEXT``
    Search in user comments.
 ``comment_author:TEXT``

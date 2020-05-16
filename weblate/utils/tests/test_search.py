@@ -203,10 +203,10 @@ class QueryParserTest(TestCase):
     def test_has(self):
         self.assert_query("has:plural", Q(source__contains=PLURAL_SEPARATOR))
         self.assert_query("has:suggestion", Q(suggestion__isnull=False))
-        self.assert_query("has:check", Q(check__ignore=False))
+        self.assert_query("has:check", Q(check__dismissed=False))
         self.assert_query("has:comment", Q(comment__resolved=False))
         self.assert_query("has:resolved-comment", Q(comment__resolved=True))
-        self.assert_query("has:ignored-check", Q(check__ignore=True))
+        self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
         self.assert_query("has:shaping", Q(shaping__isnull=False))
         self.assert_query("has:label", Q(labels__isnull=False))
@@ -229,11 +229,11 @@ class QueryParserTest(TestCase):
     def test_checks(self):
         self.assert_query(
             "check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__ignore=False),
+            Q(check__check__iexact="ellipsis") & Q(check__dismissed=False),
         )
         self.assert_query(
-            "ignored_check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__ignore=True),
+            "dismissed_check:ellipsis",
+            Q(check__check__iexact="ellipsis") & Q(check__dismissed=True),
         )
 
     def test_labels(self):

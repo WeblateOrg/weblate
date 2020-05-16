@@ -183,7 +183,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         result = []
         for check, check_obj in CHECKS.target.items():
             if check_obj.check_target(source, target, fake_unit):
-                result.append(Check(unit=fake_unit, ignore=False, check=check))
+                result.append(Check(unit=fake_unit, dismissed=False, check=check))
         return result
 
 

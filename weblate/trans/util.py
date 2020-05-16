@@ -344,8 +344,8 @@ def get_state_css(unit):
 
     if unit.has_failing_check:
         flags.append("state-check")
-    if unit.ignored_checks:
-        flags.append("state-ignored-check")
+    if unit.dismissed_checks:
+        flags.append("state-dismissed-check")
     if unit.has_comment:
         flags.append("state-comment")
     if unit.has_suggestion:

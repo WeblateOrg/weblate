@@ -22,6 +22,7 @@ Not yet released.
 * Add support for Markdown in announcements.
 * Extended details in check listings.
 * Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`.
+* Consistently use dismissed as state of dismissed checks.
 
 Weblate 4.0.4
 -------------

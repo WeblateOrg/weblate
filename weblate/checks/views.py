@@ -64,10 +64,10 @@ def show_checks(request):
         .values("check")
         .annotate(
             check_count=Count("id"),
-            ignored_check_count=conditional_sum(1, ignore=True),
-            active_check_count=conditional_sum(1, ignore=False),
+            dismissed_check_count=conditional_sum(1, dismissed=True),
+            active_check_count=conditional_sum(1, dismissed=False),
             translated_check_count=conditional_sum(
-                1, ignore=False, unit__state__gte=STATE_TRANSLATED
+                1, dismissed=False, unit__state__gte=STATE_TRANSLATED
             ),
         )
     )
@@ -113,15 +113,15 @@ def show_check(request, name):
         request.user.allowed_projects.filter(**kwargs)
         .annotate(
             check_count=Count("component__translation__unit__check"),
-            ignored_check_count=conditional_sum(
-                1, component__translation__unit__check__ignore=True
+            dismissed_check_count=conditional_sum(
+                1, component__translation__unit__check__dismissed=True
             ),
             active_check_count=conditional_sum(
-                1, component__translation__unit__check__ignore=False
+                1, component__translation__unit__check__dismissed=False
             ),
             translated_check_count=conditional_sum(
                 1,
-                component__translation__unit__check__ignore=False,
+                component__translation__unit__check__dismissed=False,
                 component__translation__unit__state__gte=STATE_TRANSLATED,
             ),
         )
@@ -163,15 +163,15 @@ def show_check_project(request, name, project):
         Component.objects.filter(**kwargs)
         .annotate(
             check_count=Count("translation__unit__check"),
-            ignored_check_count=conditional_sum(
-                1, translation__unit__check__ignore=True
+            dismissed_check_count=conditional_sum(
+                1, translation__unit__check__dismissed=True
             ),
             active_check_count=conditional_sum(
-                1, translation__unit__check__ignore=False
+                1, translation__unit__check__dismissed=False
             ),
             translated_check_count=conditional_sum(
                 1,
-                translation__unit__check__ignore=False,
+                translation__unit__check__dismissed=False,
                 translation__unit__state__gte=STATE_TRANSLATED,
             ),
         )
@@ -210,10 +210,10 @@ def show_check_component(request, name, project, component):
         )
         .annotate(
             check_count=Count("unit__check"),
-            ignored_check_count=conditional_sum(1, unit__check__ignore=True),
-            active_check_count=conditional_sum(1, unit__check__ignore=False),
+            dismissed_check_count=conditional_sum(1, unit__check__dismissed=True),
+            active_check_count=conditional_sum(1, unit__check__dismissed=False),
             translated_check_count=conditional_sum(
-                1, unit__check__ignore=False, unit__state__gte=STATE_TRANSLATED
+                1, unit__check__dismissed=False, unit__state__gte=STATE_TRANSLATED
             ),
         )
         .order_by("language__code")

@@ -356,7 +356,7 @@ class TranslationStats(BaseStats):
             approved_chars=conditional_sum(Length("source"), state__gte=STATE_APPROVED),
         )
         check_stats = Unit.objects.filter(
-            id__in=set(base.filter(check__ignore=False).values_list("id", flat=True))
+            id__in=set(base.filter(check__dismissed=False).values_list("id", flat=True))
         ).aggregate(
             allchecks=Count("id"),
             allchecks_words=Sum("num_words"),
@@ -479,7 +479,7 @@ class TranslationStats(BaseStats):
         """Prefetch check stats."""
         allchecks = {check.url_id for check in CHECKS.values()}
         stats = (
-            self._object.unit_set.filter(check__ignore=False)
+            self._object.unit_set.filter(check__dismissed=False)
             .values("check__check")
             .annotate(
                 strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))

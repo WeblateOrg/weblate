@@ -82,7 +82,7 @@ class UnitQuerySet(models.QuerySet):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
                 raise ValueError("Unknown check: {}".format(check_id))
-            return self.filter(check__check=check_id, check__ignore=False)
+            return self.filter(check__check=check_id, check__dismissed=False)
         if rqtype.startswith("label:"):
             return self.filter(labels__name=rqtype[6:])
         if rqtype == "all":
@@ -130,7 +130,7 @@ class UnitQuerySet(models.QuerySet):
             "num_comments": {"order_by": "comment__count", "filter": None},
             "num_failing_checks": {
                 "order_by": "check__count",
-                "filter": Q(check__ignore=False),
+                "filter": Q(check__dismissed=False),
             },
         }
         sort_list = []
@@ -759,13 +759,13 @@ class Unit(models.Model, LoggerMixin):
         return {check.check for check in self.all_checks}
 
     @property
-    def ignored_checks(self):
-        return [check for check in self.all_checks if check.ignore]
+    def dismissed_checks(self):
+        return [check for check in self.all_checks if check.dismissed]
 
     @property
     def active_checks(self):
         """Return all active (not ignored) checks for this unit."""
-        return [check for check in self.all_checks if not check.ignore]
+        return [check for check in self.all_checks if not check.dismissed]
 
     @cached_property
     def all_comments(self):
@@ -800,7 +800,7 @@ class Unit(models.Model, LoggerMixin):
                     old_checks.remove(check)
                 else:
                     # Create new check
-                    create.append(Check(unit=self, ignore=False, check=check))
+                    create.append(Check(unit=self, dismissed=False, check=check))
                     run_propagate |= check_obj.propagates
 
         if create:

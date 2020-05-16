@@ -427,7 +427,7 @@
   {% endif %}
 
     {% for check in unit.all_checks %}
-    <div class="list-group-item check check-item {% if check.ignore %}check-disabled{% endif %}">
+    <div class="list-group-item check check-item {% if check.dismissed %}check-dismissed{% endif %}">
         <h5>
             {% documentation_icon 'user/checks' check.check_obj.doc_id right=True %}
             <span class="red">{% icon "alert.svg" %}</span>

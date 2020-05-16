@@ -949,7 +949,7 @@ $(function () {
         if ($this.hasClass("check-dismiss-all")) {
             $this.closest('.check').remove();
         } else {
-            $this.closest('.check').toggleClass("check-disabled");
+            $this.closest('.check').toggleClass("check-dismissed");
         }
         return false;
     });

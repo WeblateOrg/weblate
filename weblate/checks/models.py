@@ -109,7 +109,7 @@ class WeblateChecksConf(AppConf):
 class Check(models.Model):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
-    ignore = models.BooleanField(db_index=True, default=False)
+    dismissed = models.BooleanField(db_index=True, default=False)
 
     weblate_unsafe_delete = True
 
@@ -155,9 +155,9 @@ class Check(models.Model):
             return self.check_obj.get_doc_url()
         return ""
 
-    def set_ignore(self, state=True):
+    def set_dismiss(self, state=True):
         """Set ignore flag."""
-        self.ignore = state
+        self.dismissed = state
         self.save()
 
 

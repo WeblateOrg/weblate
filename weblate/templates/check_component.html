@@ -35,13 +35,13 @@
                 </a>
             </th>
             <td class="number" data-value="{{ obj.check_count }}">
-                <a href="{{ translate_url }}?q={{ check.url_id }} OR ignored_{{ check.url_id }}">
+                <a href="{{ translate_url }}?q={{ check.url_id }} OR dismissed_{{ check.url_id }}">
                     {{ obj.check_count |intcomma}}
                 </a>
             </td>
-            <td class="number" data-value="{{ obj.ignored_check_count }}">
-                <a href="{{ translate_url }}?q=ignored_{{ check.url_id }}">
-                    {{ obj.ignored_check_count |intcomma}}
+            <td class="number" data-value="{{ obj.dismissed_check_count }}">
+                <a href="{{ translate_url }}?q=dismissed_{{ check.url_id }}">
+                    {{ obj.dismissed_check_count |intcomma}}
                 </a>
             </td>
             <td class="number" data-value="{{ obj.active_check_count }}">

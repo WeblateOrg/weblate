@@ -16,11 +16,11 @@
     class="red state-check">{% icon "alert.svg" %}</span>
 <span
   {% if detail %}
-    title="{% trans "Ignored checks" context "String state" %} {{ unit.ignored_checks|join:", "}}"
+    title="{% trans "Dismissed checks" context "String state" %} {{ unit.dismissed_checks|join:", "}}"
   {% else %}
     title="{% trans "Failed checks" context "String state" %}"
   {% endif %}
-    class="gray state-ignored-check">{% icon "alert.svg" %}</span>
+    class="gray state-dismissed-check">{% icon "alert.svg" %}</span>
 <span title="{% trans "Commented" context "String state" %}" class="state-comment">{% icon "comment.svg" %}</span>
 <span title="{% trans "Suggested" context "String state" %}" class="state-suggest">{% icon "suggest.svg" %}</span>
 </span>

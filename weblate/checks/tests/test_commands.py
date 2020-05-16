@@ -32,21 +32,6 @@ class PeriodicCommandTest(RepoTestCase):
         super().setUp()
         self.component = self.create_component()
 
-    def test_list_checks(self):
-        output = StringIO()
-        call_command("list_ignored_checks", stdout=output)
-        self.assertEqual("", output.getvalue())
-
-    def test_list_all_checks(self):
-        output = StringIO()
-        call_command("list_ignored_checks", list_all=True, stdout=output)
-        self.assertEqual(2, len(output.getvalue().splitlines()))
-
-    def test_list_count_checks(self):
-        output = StringIO()
-        call_command("list_ignored_checks", count=10, stdout=output)
-        self.assertEqual("", output.getvalue())
-
     def test_list_same_checks(self):
         output = StringIO()
         call_command("list_same_checks", stdout=output)
