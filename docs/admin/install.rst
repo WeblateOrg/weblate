@@ -655,14 +655,15 @@ Set properly SECURE_HSTS_SECONDS
 ++++++++++++++++++++++++++++++++
 
 If your site is served over SSL, you have to consider setting a value for :setting:`SECURE_HSTS_SECONDS`
-in the settings.py and enabling HTTP Strict Transport Security.
+in the settings.py to enable HTTP Strict Transport Security.
 By default its set to 0 as shown below.
 
 .. code-block:: python
 
    SECURE_HSTS_SECONDS = 0
 
-If set to a non-zero integer value, the `weblate.middleware.SecurityMiddleware`
+If set to a non-zero integer value, the `SecurityMiddleware
+<https://docs.djangoproject.com/en/3.0/ref/middleware/#django.middleware.security.SecurityMiddleware>`_
 sets the :ref:`django:http-strict-transport-security` header on all responses that do not already have it.
 
 .. warning::
