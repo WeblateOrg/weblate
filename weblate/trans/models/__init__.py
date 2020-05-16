@@ -244,4 +244,4 @@ def stats_invalidate(sender, instance, created, **kwargs):
     # Invalidate unit cached properties
     for key in ["all_comments", "suggestions"]:
         if key in instance.__dict__:
-            del instance.__init__[key]
+            del instance.__dict__[key]
