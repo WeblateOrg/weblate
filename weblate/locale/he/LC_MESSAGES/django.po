@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-17 18:47+0000\n"
-"PO-Revision-Date: 2020-05-17 18:46+0000\n"
+"PO-Revision-Date: 2020-05-18 00:03+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -4386,16 +4386,12 @@ msgid "No subscriptions or due payments."
 msgstr "אין תשלומי מינוי או תפוגת תוקף."
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "In case you miss access to billing of your project, please contact "
-#| "project maintainers to give you permission to access its billing."
 msgid ""
 "If you miss access to billing of your project, please contact its project "
 "maintainers to grant you access."
 msgstr ""
-"במקרה שאבדה הגישה לחיובים של המיזם שלך, נא ליצור קשר עם מתחזקי המיזם כדי "
-"להעניק לך הרשאות לגשת לחיובים שלו."
+"אם אין לך גישה לחיובים של המיזם שלך, נא ליצור קשר עם מתחזקי המיזם כדי "
+"שיעניקו לך גישה."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -6534,16 +6530,9 @@ msgid "Click to edit position"
 msgstr "ללחוץ לעריכת מיקום"
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "    %(position)s / %(total)s\n"
-#| "    "
+#, python-format
 msgid "%(position)s / %(total)s"
-msgstr ""
-"\n"
-"    %(position)s / %(total)s\n"
-"    "
+msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 msgid "Go to position"
@@ -6551,14 +6540,13 @@ msgstr "מעבר למיקום"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
-msgstr ""
+msgstr "נא להקליד מיקום לקפיצה"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
-#, fuzzy, python-format
-#| msgid "%(filter_pos)s / %(filter_count)s"
+#, python-format
 msgid "/ %(total)s"
-msgstr "%(filter_pos)s / %(filter_count)s"
+msgstr "/ %(total)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -7434,16 +7422,13 @@ msgid ""
 msgstr "יתאפשר לך לערוך אפשרויות נוספות בהגדרות הרכיב לאחר יצירתו."
 
 #: weblate/templates/trans/delete-component.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את התרגום ל{} ואת כל התוכן "
-"שקשור אליו."
+"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את התרגום לרכיב %(object)s "
+"ואת כל התוכן שקשור אליו."
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
@@ -7459,46 +7444,36 @@ msgid "I understand the consequences, delete this translation"
 msgstr "ההשלכות ברורות לי, נא למחוק את התרגום הזה"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את התרגום ל{} ואת כל התוכן "
-"שקשור אליו."
+"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את התרגום למיזם %(object)s "
+"ואת כל התוכן שקשור אליו."
 
 #: weblate/templates/trans/delete-project.html:6
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
-msgstr ""
+msgstr "כולל, אך לא רק, זיכרון תרגום, מונחונים או הרשאות משתמשים."
 
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "Project has been removed."
 msgid "Project to remove"
-msgstr "המיזם הוסר."
+msgstr "מיזם להסרה"
 
 #: weblate/templates/trans/delete-translation.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
-"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את התרגום ל{} ואת כל התוכן "
-"שקשור אליו."
+"לא ניתן לבטל את הפעולה הזאת. הפעולה תמחק לצמיתות את התרגום ל%(object)s ואת "
+"כל התוכן שקשור אליו."
 
 #: weblate/templates/trans/delete-translation.html:9
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation to remove"
-msgstr "דגלוני שפה להסרה"
+msgstr "תרגום להסרה"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
@@ -7599,10 +7574,9 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:74
-#, fuzzy, python-format
-#| msgid "%(filter_pos)s / %(filter_count)s"
+#, python-format
 msgid "/ %(filter_count)s"
-msgstr "%(filter_pos)s / %(filter_count)s"
+msgstr "/ %(filter_count)s"
 
 #: weblate/templates/translate.html:80
 msgid "Next"
@@ -8208,10 +8182,8 @@ msgid "Strings needing action without suggestions"
 msgstr "מחרוזות טעונות שיפור ללא הצעות"
 
 #: weblate/trans/filter.py:51
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings with any failing checks"
-msgstr "מחרוזות עם בדיקות כלשהן שנכשלו"
+msgstr "מחרוזות מתורגמות עם בדיקות כלשהן שנכשלו"
 
 #: weblate/trans/filter.py:54 weblate/trans/filter.py:122
 msgid "Approved strings"
@@ -8722,35 +8694,25 @@ msgid "I accept the contributor agreement"
 msgstr "הסכם התרומה מקובל עלי"
 
 #: weblate/trans/forms.py:1889
-#, fuzzy
-#| msgid "The translation name does not match the one marked for deletion!"
 msgid "The slug does not match the one marked for deletion!"
-msgstr "שם התרגום אינו תואם את זה שסומן למחיקה!"
+msgstr "השם המופשט אינו תואם את זה שסומן למחיקה!"
 
 #: weblate/trans/forms.py:1895 weblate/trans/forms.py:1904
 #: weblate/trans/forms.py:1913
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Removal confirmation"
-msgstr "הגדרות שגויות"
+msgstr "אישור הסרה"
 
 #: weblate/trans/forms.py:1896
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "נא להקליד את שם התרגום המלא כדי לאשר."
+msgstr "נא להקליד את השם המופשט המלא כדי לאשר."
 
 #: weblate/trans/forms.py:1905
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the component to confirm."
-msgstr "נא להקליד את שם התרגום המלא כדי לאשר."
+msgstr "נא להקליד את השם המופשט המלא של הרכיב כדי לאשר."
 
 #: weblate/trans/forms.py:1914
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the slug of the project to confirm."
-msgstr "נא להקליד את שם התרגום המלא כדי לאשר."
+msgstr "נא להקליד את השם המופשט המלא של המיזם כדי לאשר."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
@@ -9154,16 +9116,12 @@ msgid "BCP style using hyphen as a separator"
 msgstr "סגנון BCP שמשתמש במינוס כמפריד"
 
 #: weblate/trans/models/component.py:126
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "סגנון POSIX שמשתמש בקו תחתי כמפריד"
+msgstr "סגנון POSIX שמשתמש בקו תחתי כמפריד, כולל קוד מדינה"
 
 #: weblate/trans/models/component.py:131
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr "סגנון BCP שמשתמש במינוס כמפריד"
+msgstr "סגנון BCP שמשתמש במינוס כמפריד, כולל קוד מדינה"
 
 #: weblate/trans/models/component.py:133
 msgid "Android style"
@@ -10767,10 +10725,8 @@ msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "שמות הקבצים אמורים להיות פשוטים ככל הניתן. אולי עדיף להשתמש ב־: {}"
 
 #: weblate/utils/views.py:90
-#, fuzzy
-#| msgid "Source (%(count)s)"
 msgid "Word count"
-msgstr "מקור (%(count)s)"
+msgstr "ספירת מילים"
 
 #: weblate/utils/views.py:269
 #, python-format
@@ -10879,10 +10835,8 @@ msgid "Object listing turned off"
 msgstr "הצגת הפריטים כבתה"
 
 #: weblate/wladmin/templates/admin/base.html:6
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Return to Weblate"
-msgstr "תרומה למיזם Weblate"
+msgstr "חזרה ל־Weblate"
 
 #: weblate/wladmin/templates/admin/base.html:14
 msgid "Log out"
