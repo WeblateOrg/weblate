@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-17 11:56+0000\n"
 "PO-Revision-Date: 2020-05-17 18:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -2151,14 +2151,12 @@ msgid "This string has been translated in the past"
 msgstr "過去に翻訳済みのもの"
 
 #: weblate/checks/duplicate.py:32
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Consecutive duplicated tokens"
-msgstr "重複した文字列の検出"
+msgstr "連続した重複トークン"
 
 #: weblate/checks/duplicate.py:33
 msgid "Text contains the same token twice in a row"
-msgstr ""
+msgstr "テキストには同じトークンが 2 回連続しています"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -2400,10 +2398,8 @@ msgid "Placeholders"
 msgstr "プレースホルダー"
 
 #: weblate/checks/placeholders.py:44
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders:"
-msgstr "一部のプレースホルダが翻訳にありません"
+msgstr "一部のプレースホルダが翻訳にありません:"
 
 #: weblate/checks/placeholders.py:79
 #: weblate/templates/addons/discovery_help.html:8
@@ -2572,22 +2568,16 @@ msgid "Failed to load strings from the file, try choosing other format."
 msgstr "ファイルから文字列を読み込めません。他の形式を選択してください。"
 
 #: weblate/formats/convert.py:152
-#, fuzzy
-#| msgid "YAML file"
 msgid "HTML file"
-msgstr "YAML ファイル"
+msgstr "HTML ファイル"
 
 #: weblate/formats/convert.py:186
-#, fuzzy
-#| msgid "Font file"
 msgid "OpenDocument file"
-msgstr "フォント ファイル"
+msgstr "OpenDocument ファイル"
 
 #: weblate/formats/convert.py:241
-#, fuzzy
-#| msgid "YAML file"
 msgid "IDML file"
-msgstr "YAML ファイル"
+msgstr "IDML ファイル"
 
 #: weblate/formats/convert.py:295
 msgid "RC file"
@@ -2674,10 +2664,8 @@ msgid "PHP strings"
 msgstr "PHP 文字列"
 
 #: weblate/formats/ttkit.py:1001
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Laravel PHP strings"
-msgstr "PHP 文字列"
+msgstr "Laravel PHP 文字列"
 
 #: weblate/formats/ttkit.py:1007
 msgid ".NET resource file"
@@ -3480,11 +3468,8 @@ msgid "Failing checks found"
 msgstr "整合性の問題を検出"
 
 #: weblate/templates/about/stats.html:104
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgid "Dismissed checks"
-msgstr "整合性に問題"
+msgstr "整合性の検査除外"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4494,16 +4479,10 @@ msgid "No subscriptions or due payments."
 msgstr "サブスクリプションまたは支払予定はありません。"
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "In case you miss access to billing of your project, please contact "
-#| "project maintainers to give you permission to access its billing."
 msgid ""
 "If you miss access to billing of your project, please contact its project "
 "maintainers to grant you access."
-msgstr ""
-"プロジェクトの請求書を閲覧できない場合は、プロジェクトの管理者に連絡して、請"
-"求書を閲覧できる権限をもらってください。"
+msgstr "プロジェクトの請求書を閲覧できない場合は、プロジェクトの管理者に連絡してアクセス権をもらってください。"
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4616,8 +4595,6 @@ msgstr "合計"
 
 #: weblate/templates/check.html:21 weblate/templates/check_component.html:23
 #: weblate/templates/check_project.html:22 weblate/templates/checks.html:20
-#, fuzzy
-#| msgid "Dismiss"
 msgid "Dismissed"
 msgstr "除外"
 
@@ -5495,8 +5472,6 @@ msgstr "ファイル サイズ"
 
 #: weblate/templates/fonts/font_detail.html:21
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created on"
 msgid "Created"
 msgstr "作成日時"
 
@@ -6270,7 +6245,7 @@ msgstr "招待状の再送信"
 msgid ""
 "Once all its permissions are removed, the user will be removed from the "
 "project."
-msgstr "すべての権限を削除すると、ユーザはプロジェクトから除去されます。"
+msgstr "すべての権限を削除すると、ユーザはプロジェクトから削除されます。"
 
 #: weblate/templates/manage-access.html:78
 msgid "Add a user"
@@ -6419,7 +6394,7 @@ msgstr ""
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
-msgstr "システムチェック"
+msgstr "システム チェック"
 
 #: weblate/templates/manage/performance.html:100
 msgid "Celery queues"
@@ -6658,19 +6633,19 @@ msgid "Request new translation"
 msgstr "新しい翻訳のリクエスト"
 
 #: weblate/templates/paginator.html:9 weblate/templates/translate.html:64
-#, fuzzy
-#| msgid "Go to position"
 msgid "Click to edit position"
-msgstr "位置に移動します"
+msgstr "クリックして位置の編集"
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid ""
 "\n"
 "    %(position)s / %(total)s\n"
 "    "
-msgstr "%(position)s / %(total)s"
+msgstr ""
+"\n"
+"    %(position)s / %(total)s\n"
+"    "
 
 #: weblate/templates/paginator.html:14 weblate/templates/translate.html:67
 msgid "Go to position"
@@ -6678,7 +6653,7 @@ msgstr "位置に移動します"
 
 #: weblate/templates/paginator.html:21 weblate/templates/translate.html:73
 msgid "Enter position to jump"
-msgstr ""
+msgstr "移動位置の入力"
 
 #: weblate/templates/paginator.html:23
 #, python-format
@@ -6687,6 +6662,9 @@ msgid ""
 "          / %(total)s\n"
 "          "
 msgstr ""
+"\n"
+"          / %(total)s\n"
+"          "
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -7169,10 +7147,8 @@ msgid "All untranslated strings added in the past month"
 msgstr "1 か月以内に追加された未翻訳の文字列"
 
 #: weblate/templates/snippets/query-field.html:15
-#, fuzzy
-#| msgid "Search"
 msgid "Custom Search"
-msgstr "検索"
+msgstr "カスタム検索"
 
 #: weblate/templates/snippets/query-field.html:25 weblate/trans/forms.py:166
 msgid "Query"
@@ -7181,38 +7157,28 @@ msgstr "検索文字列"
 #: weblate/templates/snippets/query-field.html:39
 #: weblate/templates/snippets/query-field.html:43
 msgid "Sort By"
-msgstr ""
+msgstr "並び替える基準"
 
 #: weblate/templates/snippets/query-field.html:45 weblate/utils/views.py:94
 #: weblate/utils/views.py:97
-#, fuzzy
-#| msgid "String priority"
 msgid "Position and priority"
-msgstr "文字列の優先順位"
+msgstr "位置と優先順位"
 
 #: weblate/templates/snippets/query-field.html:46 weblate/utils/views.py:86
-#, fuzzy
-#| msgid "Go to position"
 msgid "Position"
-msgstr "位置に移動します"
+msgstr "位置"
 
 #: weblate/templates/snippets/query-field.html:49 weblate/utils/views.py:89
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Age of string"
-msgstr "文字列の数"
+msgstr "文字列の年齢"
 
 #: weblate/templates/snippets/query-field.html:51 weblate/utils/views.py:92
-#, fuzzy
-#| msgid "Multiple failing checks"
 msgid "Number of failing checks"
-msgstr "複数の整合性に問題"
+msgstr "不合格検査数"
 
 #: weblate/templates/snippets/query-field.html:52 weblate/utils/views.py:91
-#, fuzzy
-#| msgid "Number of components"
 msgid "Number of comments"
-msgstr "コンポーネントの数"
+msgstr "コメント数"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7283,28 +7249,20 @@ msgid "Untranslated"
 msgstr "未翻訳"
 
 #: weblate/templates/snippets/unit-state.html:12
-#, fuzzy
-#| msgid "Failed check: {}"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "チェック不良: {}"
+msgstr "検査失敗:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Failed checks"
-msgstr "整合性に問題"
+msgstr "検査失敗:"
 
 #: weblate/templates/snippets/unit-state.html:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Dismissed checks"
-msgstr "整合性に問題"
+msgstr "整合性の検査除外"
 
 #: weblate/templates/snippets/unit-state.html:24
 msgctxt "String state"
@@ -7616,75 +7574,52 @@ msgstr ""
 "す。"
 
 #: weblate/templates/trans/delete-component.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
-msgstr ""
-"操作は元に戻せません。{} の翻訳と関連するすべてのコンテンツを完全に削除しま"
-"す。"
+msgstr "操作は元に戻せません。%(object)s の翻訳と関連するすべてのコンテンツを完全に削除します。"
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
-#, fuzzy
-#| msgid "The following translation components will be also removed:"
 msgid "The following translation components will be removed:"
-msgstr "以下の翻訳コンポーネントも同様に削除されます:"
+msgstr "以下の翻訳コンポーネントは削除します:"
 
 #: weblate/templates/trans/delete-component.html:20
-#, fuzzy
-#| msgid "Component to use"
 msgid "Component to remove"
-msgstr "使用するコンポーネント"
+msgstr "削除するコンポーネント"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "I understand the consequences, delete this translation"
 msgstr "結果を理解して、翻訳を削除します"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
-msgstr ""
-"操作は元に戻せません。{} の翻訳と関連するすべてのコンテンツを完全に削除しま"
-"す。"
+msgstr "操作は元に戻せません。%(object)s の翻訳と関連するすべてのプロジェクトを完全に削除します。"
 
 #: weblate/templates/trans/delete-project.html:6
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
-msgstr ""
+msgstr "これには、翻訳メモリ、用語集、またはユーザー権限を含みますが、これに限定しません。"
 
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "Project has been removed."
 msgid "Project to remove"
-msgstr "プロジェクトを削除しました。"
+msgstr "プロジェクトの除外"
 
 #: weblate/templates/trans/delete-translation.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
-msgstr ""
-"操作は元に戻せません。{} の翻訳と関連するすべてのコンテンツを完全に削除しま"
-"す。"
+msgstr "操作は元に戻せません。%(object)s の翻訳と関連するすべての翻訳を完全に削除します。"
 
 #: weblate/templates/trans/delete-translation.html:9
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation to remove"
-msgstr "翻訳フラグの削除"
+msgstr "翻訳の削除"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
@@ -7788,10 +7723,9 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:74
-#, fuzzy, python-format
-#| msgid "%(filter_pos)s / %(filter_count)s"
+#, python-format
 msgid "/ %(filter_count)s"
-msgstr "%(filter_pos)s / %(filter_count)s"
+msgstr "/ %(filter_count)s"
 
 #: weblate/templates/translate.html:80
 msgid "Next"
@@ -8315,7 +8249,7 @@ msgstr "VCS のリポジトリを更新"
 
 #: weblate/trans/admin.py:65
 msgid "Update quality checks"
-msgstr "品質チェックの更新"
+msgstr "品質検査の更新"
 
 #: weblate/trans/admin.py:90
 msgid "Administrators"
@@ -8391,8 +8325,6 @@ msgid "Strings needing action without suggestions"
 msgstr "提案はなく、校正が必要な文字列"
 
 #: weblate/trans/filter.py:51
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings with any failing checks"
 msgstr "整合性が取れない文字列"
 
@@ -8910,35 +8842,25 @@ msgid "I accept the contributor agreement"
 msgstr "貢献者同意条項に同意する"
 
 #: weblate/trans/forms.py:1889
-#, fuzzy
-#| msgid "The translation name does not match the one marked for deletion!"
 msgid "The slug does not match the one marked for deletion!"
-msgstr "翻訳名は削除する名前と一致しません！"
+msgstr "スラッグは削除する名前と一致しません！"
 
 #: weblate/trans/forms.py:1895 weblate/trans/forms.py:1904
 #: weblate/trans/forms.py:1913
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Removal confirmation"
-msgstr "設定が正しくありません"
+msgstr "削除の確認"
 
 #: weblate/trans/forms.py:1896
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "確認のために、完全な翻訳名を入力してください。"
+msgstr "確認のために、完全なスラッグを入力してください。"
 
 #: weblate/trans/forms.py:1905
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the component to confirm."
-msgstr "確認のために、完全な翻訳名を入力してください。"
+msgstr "確認のために、コンポーネントの完全なスラッグを入力してください。"
 
 #: weblate/trans/forms.py:1914
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the slug of the project to confirm."
-msgstr "確認のために、完全な翻訳名を入力してください。"
+msgstr "確認のため、プロジェクトのスラッグを入力してください。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
@@ -9342,16 +9264,12 @@ msgid "BCP style using hyphen as a separator"
 msgstr "ハイフンを区切り文字とする BCP 形式"
 
 #: weblate/trans/models/component.py:126
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "下線を区切り文字とする POSIX 形式"
+msgstr "国コードを含む、下線を区切り文字とする POSIX 形式"
 
 #: weblate/trans/models/component.py:131
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr "ハイフンを区切り文字とする BCP 形式"
+msgstr "国コードを含む、ハイフンを区切り文字とする BCP 形式"
 
 #: weblate/trans/models/component.py:133
 msgid "Android style"
@@ -9523,13 +9441,11 @@ msgstr "翻訳フラグ"
 msgid ""
 "Additional comma-separated flags to influence quality checks. Possible "
 "values can be found in the documentation."
-msgstr ""
-"品質チェックに影響する、カンマで区切られた追加のフラグ。使用可能な値について"
-"は、ドキュメントを参照してください。"
+msgstr "品質検査に影響する、カンマで区切られた追加のフラグ。使用可能な値については、ドキュメントを参照してください。"
 
 #: weblate/trans/models/component.py:372
 msgid "Enforced checks"
-msgstr "強制検査"
+msgstr "強制的に検査"
 
 #: weblate/trans/models/component.py:373
 msgid "List of checks which can not be ignored."
@@ -10929,10 +10845,8 @@ msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "ファイル名は、できるだけシンプルにしてください。ありがちな例: {}"
 
 #: weblate/utils/views.py:90
-#, fuzzy
-#| msgid "Words (%(count)s):"
 msgid "Word count"
-msgstr "単語 (%(count)s):"
+msgstr "単語数"
 
 #: weblate/utils/views.py:269
 #, python-format
@@ -11043,10 +10957,8 @@ msgid "Object listing turned off"
 msgstr "オブジェクトの一覧が無効化されています"
 
 #: weblate/wladmin/templates/admin/base.html:6
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Return to Weblate"
-msgstr "Weblate に寄付をする"
+msgstr "Weblate に戻る"
 
 #: weblate/wladmin/templates/admin/base.html:14
 msgid "Log out"
