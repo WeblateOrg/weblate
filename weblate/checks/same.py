@@ -61,7 +61,9 @@ PATH_RE = re.compile(r"(^|[ ])(/[a-zA-Z0-9=:?._-]+)+")
 
 TEMPLATE_RE = re.compile(r"{[a-z_-]+}|@[A-Z_]@", re.IGNORECASE)
 
-RST_MATCH = re.compile(r"(?::(ref|config:option|file|guilabel):`[^`]+`|``[^`]+``)")
+RST_MATCH = re.compile(
+    r"(?::(ref|config:option|file|guilabel|download):`[^`]+`|``[^`]+``)"
+)
 
 SPLIT_RE = re.compile(
     r"(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|"
