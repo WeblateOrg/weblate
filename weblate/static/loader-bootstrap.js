@@ -1239,7 +1239,7 @@ $(function () {
             Mousetrap.bindGlobal(
                 'mod+i ' + key,
                 function(e) {
-                    $this.find('.dismiss-single').click();
+                    $this.find('.check-dismiss-single').click();
                     return false;
                 }
             );
