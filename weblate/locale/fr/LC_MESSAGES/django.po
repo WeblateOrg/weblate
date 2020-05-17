@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-17 11:56+0000\n"
 "PO-Revision-Date: 2020-05-17 17:40+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
 "Language: fr\n"
@@ -2234,14 +2234,12 @@ msgid "This string has been translated in the past"
 msgstr "Cette chaîne a été traduite par le passé"
 
 #: weblate/checks/duplicate.py:32
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Consecutive duplicated tokens"
-msgstr "Chaîne en double détectée"
+msgstr "Jetons dupliqués consécutifs"
 
 #: weblate/checks/duplicate.py:33
 msgid "Text contains the same token twice in a row"
-msgstr ""
+msgstr "Le texte contient le même jeton deux fois de suite"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -7771,16 +7769,13 @@ msgid ""
 msgstr "Vous pourrez modifier plus d’options du composant après sa création."
 
 #: weblate/templates/trans/delete-component.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-"Cette action est IRRÉVERSIBLE. La traduction {} sera supprimée de manière "
-"définitive ainsi que tous les contenus qui lui sont attachés."
+"Cette action est IRRÉVERSIBLE. Cela supprimera définitivement le composant "
+"%(object)s et tout le contenu qui s'y rapporte."
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
@@ -7796,38 +7791,34 @@ msgid "I understand the consequences, delete this translation"
 msgstr "Je comprends les conséquences, supprimer cette traduction"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"Cette action est IRRÉVERSIBLE. La traduction {} sera supprimée de manière "
-"définitive ainsi que tous les contenus qui lui sont attachés."
+"Cette action est IRRÉVERSIBLE. Cela supprimera définitivement le projet "
+"%(object)s et tout le contenu qui s'y rapporte."
 
 #: weblate/templates/trans/delete-project.html:6
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
 msgstr ""
+"Cela comprend, sans s'y limiter, les mémoires de traduction, les glossaires "
+"ou les autorisation-utilisateurs."
 
 #: weblate/templates/trans/delete-project.html:21
 msgid "Project to remove"
 msgstr "Projet à supprimer"
 
 #: weblate/templates/trans/delete-translation.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
-"Cette action est IRRÉVERSIBLE. La traduction {} sera supprimée de manière "
-"définitive ainsi que tous les contenus qui lui sont attachés."
+"Cette action est IRRÉVERSIBLE. Cela supprimera définitivement la traduction "
+"de %(object)s et tout le contenu qui s'y rapporte."
 
 #: weblate/templates/trans/delete-translation.html:9
 msgid "Translation to remove"
@@ -9088,11 +9079,9 @@ msgid "I accept the contributor agreement"
 msgstr "J’accepte l’accord de contribution"
 
 #: weblate/trans/forms.py:1889
-#, fuzzy
-#| msgid "The translation name does not match the one marked for deletion!"
 msgid "The slug does not match the one marked for deletion!"
 msgstr ""
-"Le nom de la traduction ne correspond pas à la traduction à supprimer !"
+"L'intitulé ne correspond pas à celle qui est marquée pour être supprimée !"
 
 #: weblate/trans/forms.py:1895 weblate/trans/forms.py:1904
 #: weblate/trans/forms.py:1913
@@ -9100,22 +9089,16 @@ msgid "Removal confirmation"
 msgstr "Confirmation de suppression"
 
 #: weblate/trans/forms.py:1896
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "Veuillez saisir le nom complet de la traduction pour confirmer."
+msgstr "Veuillez saisir l'intitulé complet de la traduction pour confirmer."
 
 #: weblate/trans/forms.py:1905
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the component to confirm."
-msgstr "Veuillez saisir le nom complet de la traduction pour confirmer."
+msgstr "Veuillez saisir l'intitulé complet du composant pour confirmer."
 
 #: weblate/trans/forms.py:1914
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the slug of the project to confirm."
-msgstr "Veuillez saisir le nom complet de la traduction pour confirmer."
+msgstr "Veuillez saisir l'intitulé complet du projet pour confirmer."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
@@ -11183,10 +11166,8 @@ msgstr ""
 "utiliser : {}"
 
 #: weblate/utils/views.py:90
-#, fuzzy
-#| msgid "Words (%(count)s):"
 msgid "Word count"
-msgstr "Mots (%(count)s) :"
+msgstr "Nombre de mots"
 
 #: weblate/utils/views.py:269
 #, python-format
