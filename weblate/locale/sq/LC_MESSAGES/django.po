@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-17 11:56+0000\n"
+"POT-Creation-Date: 2020-05-17 18:47+0000\n"
 "PO-Revision-Date: 2020-05-17 18:46+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/master/"
@@ -2472,11 +2472,11 @@ msgstr "Format Ruby"
 msgid "Ruby format string does not match source"
 msgstr "Varg në format Ruby nuk përputhet me burimin"
 
-#: weblate/checks/same.py:158
+#: weblate/checks/same.py:165
 msgid "Unchanged translation"
 msgstr "Përkthim i pandryshuar"
 
-#: weblate/checks/same.py:159
+#: weblate/checks/same.py:166
 msgid "Source and translation are identical"
 msgstr "Burimi dhe përkthimi janë identikë"
 
@@ -6722,33 +6722,26 @@ msgstr "Klikoni që t’i përpunoni pozicion"
 #: weblate/templates/paginator.html:10
 #, fuzzy, python-format
 #| msgid "%(position)s / %(total)s"
-msgid ""
-"\n"
-"    %(position)s / %(total)s\n"
-"    "
+msgid "%(position)s / %(total)s"
 msgstr ""
 "\n"
 "    %(position)s / %(total)s\n"
 "    "
 
-#: weblate/templates/paginator.html:14 weblate/templates/translate.html:67
+#: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 msgid "Go to position"
 msgstr "Kalo te pozicioni"
 
-#: weblate/templates/paginator.html:21 weblate/templates/translate.html:73
+#: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
 msgstr "Jepni pozicion ku të kalohet"
 
-#: weblate/templates/paginator.html:23
+#. Translators: This is partial position indicator shown when editing position
+#: weblate/templates/paginator.html:22
 #, fuzzy, python-format
-msgid ""
-"\n"
-"          / %(total)s\n"
-"          "
-msgstr ""
-"\n"
-"          / %(total)s\n"
-"          "
+#| msgid "%(filter_pos)s / %(filter_count)s"
+msgid "/ %(total)s"
+msgstr "/ %(filter_count)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -10944,7 +10937,7 @@ msgstr "Skemë URL-sh e ndaluar!"
 msgid "Unsupported state: {}"
 msgstr "Gjendje e pambuluar: {}"
 
-#: weblate/utils/search.py:340
+#: weblate/utils/search.py:342
 msgid "Invalid regular expression: {}"
 msgstr "Shprehje e rregullt e pavlefshme: {}"
 
@@ -11201,6 +11194,16 @@ msgstr "U shkaktua proces kopjeruajtjeje"
 #: weblate/wladmin/views.py:191
 msgid "Could not dismiss the configuration error!"
 msgstr "S’u hodh dot tej gabimi i formësimit!"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
+#~ msgstr ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
 
 #~ msgid "Ignored checks"
 #~ msgstr "Kontrolle të shpërfillur"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-17 11:56+0000\n"
+"POT-Creation-Date: 2020-05-17 18:47+0000\n"
 "PO-Revision-Date: 2020-05-17 18:46+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -2460,11 +2460,11 @@ msgstr "Formato Ruby"
 msgid "Ruby format string does not match source"
 msgstr "O formato do texto Ruby não corresponde com a fonte"
 
-#: weblate/checks/same.py:158
+#: weblate/checks/same.py:165
 msgid "Unchanged translation"
 msgstr "Tradução não alterada"
 
-#: weblate/checks/same.py:159
+#: weblate/checks/same.py:166
 msgid "Source and translation are identical"
 msgstr "Fonte e tradução são idênticas"
 
@@ -6690,34 +6690,31 @@ msgid "Click to edit position"
 msgstr "Clique para editar a posição"
 
 #: weblate/templates/paginator.html:10
-#, python-format
-msgid ""
-"\n"
-"    %(position)s / %(total)s\n"
-"    "
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    %(position)s / %(total)s\n"
+#| "    "
+msgid "%(position)s / %(total)s"
 msgstr ""
 "\n"
 "    %(position)s / %(total)s\n"
 "    "
 
-#: weblate/templates/paginator.html:14 weblate/templates/translate.html:67
+#: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 msgid "Go to position"
 msgstr "Ir para a posição"
 
-#: weblate/templates/paginator.html:21 weblate/templates/translate.html:73
+#: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
 msgstr "Insira a posição para onde pular"
 
-#: weblate/templates/paginator.html:23
-#, python-format
-msgid ""
-"\n"
-"          / %(total)s\n"
-"          "
-msgstr ""
-"\n"
-"          / %(total)s\n"
-"          "
+#. Translators: This is partial position indicator shown when editing position
+#: weblate/templates/paginator.html:22
+#, fuzzy, python-format
+#| msgid "/ %(filter_count)s"
+msgid "/ %(total)s"
+msgstr "/ %(filter_count)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -9364,7 +9361,8 @@ msgstr "Estilo BCP usando hífen como um separador"
 
 #: weblate/trans/models/component.py:126
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "Estilo POSIX usando sublinhado como separador, incluindo código de país"
+msgstr ""
+"Estilo POSIX usando sublinhado como separador, incluindo código de país"
 
 #: weblate/trans/models/component.py:131
 msgid "BCP style using hyphen as a separator, including country code"
@@ -10916,7 +10914,7 @@ msgstr "Esquema de URL proibido!"
 msgid "Unsupported state: {}"
 msgstr "Estado não suportado: {0}"
 
-#: weblate/utils/search.py:340
+#: weblate/utils/search.py:342
 msgid "Invalid regular expression: {}"
 msgstr "Expressão regular inválida: {}"
 
@@ -11170,6 +11168,15 @@ msgstr "O processo de backup foi acionado"
 #: weblate/wladmin/views.py:191
 msgid "Could not dismiss the configuration error!"
 msgstr "Não foi possível descartar o erro de configuração!"
+
+#~ msgid ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
+#~ msgstr ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
 
 #~ msgid "Ignored checks"
 #~ msgstr "Verificações ignoradas"

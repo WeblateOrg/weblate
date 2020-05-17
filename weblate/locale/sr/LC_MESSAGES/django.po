@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-17 11:56+0000\n"
+"POT-Creation-Date: 2020-05-17 18:47+0000\n"
 "PO-Revision-Date: 2019-11-28 09:58+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -2907,11 +2907,11 @@ msgstr "Формат извештаја"
 msgid "Ruby format string does not match source"
 msgstr "ИксМЛ ознаке у преводу не одговарају извору"
 
-#: weblate/checks/same.py:158
+#: weblate/checks/same.py:165
 msgid "Unchanged translation"
 msgstr ""
 
-#: weblate/checks/same.py:159
+#: weblate/checks/same.py:166
 #, fuzzy
 #| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation are identical"
@@ -7579,29 +7579,25 @@ msgid "Click to edit position"
 msgstr "Група за доделу"
 
 #: weblate/templates/paginator.html:10
-#, python-format
-msgid ""
-"\n"
-"    %(position)s / %(total)s\n"
-"    "
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Used %(used)s of %(total)s"
+msgid "%(position)s / %(total)s"
+msgstr "Искоришћено %(used)s од %(total)s"
 
-#: weblate/templates/paginator.html:14 weblate/templates/translate.html:67
+#: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 #, fuzzy
 #| msgid "Group to assign"
 msgid "Go to position"
 msgstr "Група за доделу"
 
-#: weblate/templates/paginator.html:21 weblate/templates/translate.html:73
+#: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
 msgstr ""
 
-#: weblate/templates/paginator.html:23
+#. Translators: This is partial position indicator shown when editing position
+#: weblate/templates/paginator.html:22
 #, python-format
-msgid ""
-"\n"
-"          / %(total)s\n"
-"          "
+msgid "/ %(total)s"
 msgstr ""
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
@@ -12262,7 +12258,7 @@ msgstr "Недозвољена УРЛ шема!"
 msgid "Unsupported state: {}"
 msgstr "О Веблејту"
 
-#: weblate/utils/search.py:340
+#: weblate/utils/search.py:342
 #, fuzzy
 #| msgid "Email regular expression"
 msgid "Invalid regular expression: {}"

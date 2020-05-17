@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-17 11:56+0000\n"
+"POT-Creation-Date: 2020-05-17 18:47+0000\n"
 "PO-Revision-Date: 2020-05-17 18:46+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -2478,11 +2478,11 @@ msgstr "Ruby formátum"
 msgid "Ruby format string does not match source"
 msgstr "A Ruby formátumszöveg nem egyezik a forrással"
 
-#: weblate/checks/same.py:158
+#: weblate/checks/same.py:165
 msgid "Unchanged translation"
 msgstr "Változatlan fordítások"
 
-#: weblate/checks/same.py:159
+#: weblate/checks/same.py:166
 msgid "Source and translation are identical"
 msgstr "A forrás és a fordítás megegyezik"
 
@@ -6762,27 +6762,23 @@ msgstr "Ugrás a pozícióra"
 #: weblate/templates/paginator.html:10
 #, fuzzy, python-format
 #| msgid "%(position)s / %(total)s"
-msgid ""
-"\n"
-"    %(position)s / %(total)s\n"
-"    "
+msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
-#: weblate/templates/paginator.html:14 weblate/templates/translate.html:67
+#: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 msgid "Go to position"
 msgstr "Ugrás a pozícióra"
 
-#: weblate/templates/paginator.html:21 weblate/templates/translate.html:73
+#: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
 msgstr ""
 
-#: weblate/templates/paginator.html:23
-#, python-format
-msgid ""
-"\n"
-"          / %(total)s\n"
-"          "
-msgstr ""
+#. Translators: This is partial position indicator shown when editing position
+#: weblate/templates/paginator.html:22
+#, fuzzy, python-format
+#| msgid "%(filter_pos)s / %(filter_count)s"
+msgid "/ %(total)s"
+msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -11054,7 +11050,7 @@ msgstr "Tiltott URL séma!"
 msgid "Unsupported state: {}"
 msgstr "Nem támogatott állapot: {}"
 
-#: weblate/utils/search.py:340
+#: weblate/utils/search.py:342
 msgid "Invalid regular expression: {}"
 msgstr "Érvénytelen reguláris kifejezés: {}"
 

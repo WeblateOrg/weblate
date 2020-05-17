@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-17 11:56+0000\n"
+"POT-Creation-Date: 2020-05-17 18:47+0000\n"
 "PO-Revision-Date: 2020-05-17 18:46+0000\n"
 "Last-Translator: nautilusx <mail.ka@mailbox.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
@@ -2537,11 +2537,11 @@ msgstr "Ruby-Format"
 msgid "Ruby format string does not match source"
 msgstr "Ruby-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
-#: weblate/checks/same.py:158
+#: weblate/checks/same.py:165
 msgid "Unchanged translation"
 msgstr "Unveränderte Übersetzung"
 
-#: weblate/checks/same.py:159
+#: weblate/checks/same.py:166
 msgid "Source and translation are identical"
 msgstr "Ausgangs- und übersetzte Zeichenkette sind identisch"
 
@@ -6847,34 +6847,31 @@ msgid "Click to edit position"
 msgstr "Klicken Sie zum Bearbeiten der Position"
 
 #: weblate/templates/paginator.html:10
-#, python-format
-msgid ""
-"\n"
-"    %(position)s / %(total)s\n"
-"    "
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    %(position)s / %(total)s\n"
+#| "    "
+msgid "%(position)s / %(total)s"
 msgstr ""
 "\n"
 "    %(position)s / %(total)s\n"
 "    "
 
-#: weblate/templates/paginator.html:14 weblate/templates/translate.html:67
+#: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 msgid "Go to position"
 msgstr "Gehe zu Position"
 
-#: weblate/templates/paginator.html:21 weblate/templates/translate.html:73
+#: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
 msgstr "Position zum Springen eingeben"
 
-#: weblate/templates/paginator.html:23
-#, python-format
-msgid ""
-"\n"
-"          / %(total)s\n"
-"          "
-msgstr ""
-"\n"
-"          / %(total)s\n"
-"          "
+#. Translators: This is partial position indicator shown when editing position
+#: weblate/templates/paginator.html:22
+#, fuzzy, python-format
+#| msgid "/ %(filter_count)s"
+msgid "/ %(total)s"
+msgstr "/ %(filter_count)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -7816,8 +7813,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird die %(object)"
-"s Komponente und alle damit verbundenen Inhalte dauerhaft gelöscht."
+"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird die "
+"%(object)s Komponente und alle damit verbundenen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
@@ -7838,8 +7835,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das %(object)"
-"s Projekt und alle damit verbundenen Inhalte dauerhaft gelöscht."
+"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das "
+"%(object)s Projekt und alle damit verbundenen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-project.html:6
 msgid ""
@@ -7859,8 +7856,8 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
-"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird die %(object)"
-"s Übersetzung und alle damit verbundenen Inhalte dauerhaft gelöscht."
+"Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird die "
+"%(object)s Übersetzung und alle damit verbundenen Inhalte dauerhaft gelöscht."
 
 #: weblate/templates/trans/delete-translation.html:9
 msgid "Translation to remove"
@@ -11153,7 +11150,7 @@ msgstr "Verbotenes URL-Schema!"
 msgid "Unsupported state: {}"
 msgstr "Nicht unterstützter Status: {}"
 
-#: weblate/utils/search.py:340
+#: weblate/utils/search.py:342
 msgid "Invalid regular expression: {}"
 msgstr "Ungültiger regulärer Ausdruck: {}"
 
@@ -11414,6 +11411,15 @@ msgstr "Backup-Prozess ausgelöst"
 #: weblate/wladmin/views.py:191
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigurationsfehler konnte nicht behoben werden!"
+
+#~ msgid ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
+#~ msgstr ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
 
 #~ msgid "Ignored checks"
 #~ msgstr "Ignorierte Qualitätsprüfungen"

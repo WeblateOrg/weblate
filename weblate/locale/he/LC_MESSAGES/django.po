@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-17 11:56+0000\n"
+"POT-Creation-Date: 2020-05-17 18:47+0000\n"
 "PO-Revision-Date: 2020-05-17 18:46+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
@@ -2397,11 +2397,11 @@ msgstr "תבנית Ruby"
 msgid "Ruby format string does not match source"
 msgstr "המחרוזת בתבנית Ruby אינה תואמת למקור"
 
-#: weblate/checks/same.py:158
+#: weblate/checks/same.py:165
 msgid "Unchanged translation"
 msgstr "תרגום שלא השתנה"
 
-#: weblate/checks/same.py:159
+#: weblate/checks/same.py:166
 msgid "Source and translation are identical"
 msgstr "המקור והתרגום זהים"
 
@@ -6534,34 +6534,31 @@ msgid "Click to edit position"
 msgstr "ללחוץ לעריכת מיקום"
 
 #: weblate/templates/paginator.html:10
-#, python-format
-msgid ""
-"\n"
-"    %(position)s / %(total)s\n"
-"    "
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    %(position)s / %(total)s\n"
+#| "    "
+msgid "%(position)s / %(total)s"
 msgstr ""
 "\n"
 "    %(position)s / %(total)s\n"
 "    "
 
-#: weblate/templates/paginator.html:14 weblate/templates/translate.html:67
+#: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 msgid "Go to position"
 msgstr "מעבר למיקום"
 
-#: weblate/templates/paginator.html:21 weblate/templates/translate.html:73
+#: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
 msgstr ""
 
-#: weblate/templates/paginator.html:23
-#, python-format
-msgid ""
-"\n"
-"          / %(total)s\n"
-"          "
-msgstr ""
-"\n"
-"          / %(total)s\n"
-"          "
+#. Translators: This is partial position indicator shown when editing position
+#: weblate/templates/paginator.html:22
+#, fuzzy, python-format
+#| msgid "%(filter_pos)s / %(filter_count)s"
+msgid "/ %(total)s"
+msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -10698,7 +10695,7 @@ msgstr "סכימת הכתובת אסורה!"
 msgid "Unsupported state: {}"
 msgstr "מצב לא נתמך: {0}"
 
-#: weblate/utils/search.py:340
+#: weblate/utils/search.py:342
 msgid "Invalid regular expression: {}"
 msgstr "ביטוי רגולרי שגוי: {}"
 
@@ -10950,6 +10947,15 @@ msgstr "תהליך הגיבוי מתחיל"
 #: weblate/wladmin/views.py:191
 msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
+
+#~ msgid ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
+#~ msgstr ""
+#~ "\n"
+#~ "          / %(total)s\n"
+#~ "          "
 
 #~ msgid "Ignored checks"
 #~ msgstr "בדיקות שנדחו"
