@@ -134,6 +134,7 @@ class BaseStats:
     """Caching statistics calculator."""
 
     basic_keys = BASIC_KEYS
+    is_ghost = False
 
     def __init__(self, obj):
         self._object = obj
