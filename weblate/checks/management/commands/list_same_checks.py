@@ -30,10 +30,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         results = (
             Check.objects.filter(check="same")
-            .values("unit__content_hash")
-            .annotate(Count("unit__content_hash"))
+            .values("unit__source")
+            .annotate(Count("unit__source"))
             .filter(unit__content_hash__count__gt=1)
-            .order_by("-unit__content_hash__count")
+            .order_by("-unit__source__count")
         )
 
         for item in results:
