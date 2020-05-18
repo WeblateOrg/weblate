@@ -150,6 +150,8 @@ class LanguageQuerySet(models.QuerySet):
 
     def aliases_get(self, code, expanded_code=None):
         code = code.lower()
+        # Normalize script suffix
+        code = code.replace("_latin", "@latin").replace("_cyrillic", "@cyrillic")
         codes = [
             code,
             code.replace("+", "_"),
