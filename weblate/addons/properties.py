@@ -142,7 +142,7 @@ class PropertiesSortAddon(BaseAddon):
     name = "weblate.properties.sort"
     verbose = _("Formats the Java properties file")
     description = _("This addon sorts the Java properties file.")
-    compat = {"file_format": frozenset(("properties-utf8", "properties"))}
+    compat = {"file_format": {"properties-utf8", "properties"}}
     icon = "sort-alphabetical.svg"
 
     def pre_commit(self, translation, author):

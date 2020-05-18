@@ -32,9 +32,7 @@ class JSONCustomizeAddon(StoreBaseAddon):
         "indentation or sorting."
     )
     settings_form = JSONCustomizeForm
-    compat = {
-        "file_format": frozenset(("json", "json-nested", "webextension", "i18next"))
-    }
+    compat = {"file_format": {"json", "json-nested", "webextension", "i18next"}}
 
     def store_post_load(self, translation, store):
         config = self.instance.configuration

@@ -32,7 +32,7 @@ from weblate.formats.exporters import MoExporter
 
 
 class GettextBaseAddon(BaseAddon):
-    compat = {"file_format": frozenset(("po", "po-mono"))}
+    compat = {"file_format": {"po", "po-mono"}}
 
 
 class GenerateMoAddon(GettextBaseAddon):
