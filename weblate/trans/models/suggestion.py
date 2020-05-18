@@ -133,8 +133,12 @@ class Suggestion(models.Model, UserDisplayMixin):
         if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
             self.unit.target = self.target
             self.unit.state = STATE_TRANSLATED
+            if self.user and not self.user.is_anonymous:
+                author = self.user
+            else:
+                author = request.user
             self.unit.save_backend(
-                request.user, author=self.user, change_action=Change.ACTION_ACCEPT
+                request.user, author=author, change_action=Change.ACTION_ACCEPT
             )
 
         # Delete the suggestion
