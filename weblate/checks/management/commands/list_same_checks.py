@@ -37,12 +37,6 @@ class Command(BaseCommand):
         )
 
         for item in results:
-            check = Check.objects.filter(
-                check="same", unit__content_hash=item["unit__content_hash"]
-            )[0]
-
             self.stdout.write(
-                "{0:5d} {1}".format(
-                    item["unit__content_hash__count"], check.unit.source
-                )
+                "{0:5d} {1}".format(item["unit__source__count"], item["unit__source"])
             )
