@@ -25,6 +25,7 @@ Not yet released.
 * Consistently use dismissed as state of dismissed checks.
 * Add support for configuring default addons to enable.
 * Fixed editor keyboard shortcut to dismiss checks.
+* Improved machine translation of strings with placeholders.
 
 Weblate 4.0.4
 -------------

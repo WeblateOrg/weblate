@@ -302,6 +302,24 @@ class MachineTranslationTest(TestCase):
             [],
         )
 
+    def test_placeholders(self):
+        machine_translation = self.get_machine(DummyTranslation)
+        unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
+        self.assertEqual(
+            machine_translation.cleanup_text(unit), ("Hello, [7]!", {"[7]": "%s"})
+        )
+        self.assertEqual(
+            machine_translation.translate(unit),
+            [
+                {
+                    "quality": 100,
+                    "service": "Dummy",
+                    "source": "Hello, %s!",
+                    "text": "Nazdar %s!",
+                }
+            ],
+        )
+
     def assert_translate(self, machine, lang="cs", word="world", empty=False):
         translation = machine.translate(MockUnit(code=lang, source=word))
         self.assertIsInstance(translation, list)

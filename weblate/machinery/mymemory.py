@@ -27,6 +27,7 @@ class MyMemoryTranslation(MachineTranslation):
     """MyMemory machine translation support."""
 
     name = "MyMemory"
+    do_cleanup = False
 
     def map_language_code(self, code):
         """Convert language to service specific code."""

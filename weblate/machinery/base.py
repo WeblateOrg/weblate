@@ -28,6 +28,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.functional import cached_property
 from requests.exceptions import HTTPError
 
+from weblate.checks.utils import highlight_string
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
@@ -57,6 +58,7 @@ class MachineTranslation:
     cache_translations = True
     language_map: Dict[str, str] = {}
     same_languages = False
+    do_cleanup = True
 
     @classmethod
     def get_rank(cls):
@@ -196,6 +198,37 @@ class MachineTranslation:
             self.mtid, calculate_hash(source, language), calculate_hash(None, text)
         )
 
+    def cleanup_text(self, unit):
+        """Removes placeholder to avoid confusing the machine translation."""
+        text = unit.get_source_plurals()[0]
+        replacements = {}
+        if not self.do_cleanup:
+            return text, replacements
+
+        highlights = highlight_string(text, unit)
+        parts = []
+        start = 0
+        for h_start, h_end, h_text in highlights:
+            parts.append(text[start:h_start])
+            placeholder = f"[{h_start}]"
+            replacements[placeholder] = h_text
+            parts.append(placeholder)
+            start = h_end
+
+        parts.append(text[start:])
+
+        return "".join(parts), replacements
+
+    def uncleanup_results(self, replacements, results):
+        """Reverts replacements done by cleanup_text."""
+        keys = ["text", "source"]
+        for result in results:
+            for key in keys:
+                text = result[key]
+                for source, target in replacements.items():
+                    text = text.replace(source, target)
+                result[key] = text
+
     def translate(self, unit, user=None, search=None, language=None, source=None):
         """Return list of machine translations."""
         # source and language are set only for recursive calls when
@@ -206,7 +239,11 @@ class MachineTranslation:
                 unit.translation.component.project.source_language
             )
 
-        text = search or unit.get_source_plurals()[0]
+        if search:
+            replacements = {}
+            text = search
+        else:
+            text, replacements = self.cleanup_text(unit)
 
         if (
             not text
@@ -245,6 +282,8 @@ class MachineTranslation:
                     source, language, text, unit, user, search=bool(search)
                 )
             )
+            if replacements:
+                self.uncleanup_results(replacements, result)
             if cache_key:
                 cache.set(cache_key, result, 7 * 86400)
             return result

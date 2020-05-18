@@ -26,6 +26,7 @@ class GlosbeTranslation(MachineTranslation):
 
     name = "Glosbe"
     max_score = 90
+    do_cleanup = False
 
     def map_code_code(self, code):
         """Convert language to service specific code."""
