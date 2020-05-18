@@ -188,7 +188,7 @@ def show_component(request, project, component):
     translations = prefetch_stats(list(obj.translation_set.prefetch()))
 
     # Show ghost translations for user languages
-    if obj.can_add_new_language(request):
+    if obj.can_add_new_language(request.user):
         existing = {translation.language.code for translation in translations}
         for language in user.profile.languages.all():
             if language.code in existing:
@@ -320,7 +320,7 @@ def new_language(request, project, component):
     obj = get_component(request, project, component)
 
     form_class = get_new_language_form(request, obj)
-    can_add = obj.can_add_new_language(request)
+    can_add = obj.can_add_new_language(request.user)
 
     if request.method == "POST":
         form = form_class(obj, request.POST)

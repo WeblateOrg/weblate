@@ -2238,17 +2238,17 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         """Return parsed list of flags."""
         return Flags(self.file_format_cls.check_flags, self.check_flags)
 
-    def can_add_new_language(self, request):
+    def can_add_new_language(self, user):
         """Wrapper to check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.
         """
-        # The request is None in case of consistency or cli invocation
+        # The user is None in case of consistency or cli invocation
         if (
             self.new_lang != "add"
-            and request is not None
-            and not request.user.has_perm("component.edit", self)
+            and user is not None
+            and not user.has_perm("component.edit", self)
         ):
             return False
 
@@ -2256,7 +2256,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
-        if not self.can_add_new_language(request):
+        if not self.can_add_new_language(request.user if request else None):
             messages.error(request, _("Could not add new translation file."))
             return None
 
