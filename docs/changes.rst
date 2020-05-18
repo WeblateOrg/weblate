@@ -24,6 +24,7 @@ Not yet released.
 * Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`.
 * Consistently use dismissed as state of dismissed checks.
 * Add support for configuring default addons to enable.
+* Fixed editor keyboard shortcut to dismiss checks.
 
 Weblate 4.0.4
 -------------

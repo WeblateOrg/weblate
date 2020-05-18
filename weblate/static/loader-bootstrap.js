@@ -1211,15 +1211,17 @@ $(function () {
         titleFormat: 'MM yyyy'
     };
 
-    /* Check dismiss shortcuts */
-    Mousetrap.bindGlobal('mod+i', function(e) {});
-    for (var i = 1; i < 10; i++) {
-        Mousetrap.bindGlobal(
-            'mod+i ' + i,
-            function(e) {
-                return false;
+    if (document.querySelectorAll('.check-item').length > 0) {
+        // Cancel out browser's `meta+i` and let Mousetrap handle the rest
+        document.addEventListener('keydown', function (e) {
+            var isMod = /Mac|iPod|iPhone|iPad/.test(navigator.platform) ?
+                e.metaKey :
+                e.ctrlKey;
+            if (isMod && e.key.toLowerCase() === 'i') {
+                e.preventDefault();
+                e.stopPropagation();
             }
-        );
+        });
     }
 
     $('.check-item').each(function(idx) {
