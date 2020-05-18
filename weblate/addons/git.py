@@ -83,7 +83,13 @@ class GitSquashAddon(BaseAddon):
             if filenames:
                 command += ["--"] + filenames
 
-            trailers = repository.execute(command)
+            trailers = "\n".join(
+                [
+                    trailer
+                    for trailer in repository.execute(command).split("\n")
+                    if trailer.strip()
+                ]
+            )
             commit_message = "\n\n".join([commit_message, trailers])
 
         return commit_message
