@@ -22,7 +22,7 @@
 import os
 import tempfile
 from copy import deepcopy
-from typing import Optional, Tuple, Type
+from typing import Dict, Optional, Tuple, Type
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -173,6 +173,7 @@ class TranslationFormat:
     language_format: str = "posix"
     simple_filename: bool = True
     new_translation: Optional[str] = None
+    autoaddon: Dict[str, Dict[str, str]] = {}
 
     @classmethod
     def get_identifier(cls):

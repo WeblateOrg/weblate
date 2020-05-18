@@ -553,6 +553,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         changed_setup = False
         changed_template = False
         changed_shaping = False
+        create = True
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -578,6 +579,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
+            create = False
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
@@ -587,6 +589,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         # Save/Create object
         super().save(*args, **kwargs)
+
+        if create:
+            self.install_autoaddon()
 
         # Ensure source translation is existing, otherwise we might
         # be hitting race conditions between background update and frontend displaying
@@ -620,6 +625,21 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         self.logs = []
         self.translations_count = None
         self.translations_progress = 0
+
+    def install_autoaddon(self):
+        """Installs automatically enabled addons from file format."""
+        from weblate.addons.models import ADDONS
+
+        for name, params in self.file_format_cls.autoaddon.items():
+            try:
+                addon = ADDONS[name]
+            except KeyError:
+                self.log_warning("could not enable addon %s", name)
+                continue
+            self.log_info("enabling addon %s", name)
+
+            if addon.can_install(self, None):
+                addon.create(self, **params)
 
     @contextmanager
     def lock(self):
