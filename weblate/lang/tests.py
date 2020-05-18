@@ -82,7 +82,7 @@ TEST_LANGUAGES = (
         False,
     ),
     (
-        "sr_RS@latin",
+        "sr_RS_latin",
         "sr_Latn",
         "ltr",
         "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
@@ -166,7 +166,11 @@ class TestSequenceMeta(type):
             return test
 
         for params in TEST_LANGUAGES:
-            test_name = "test_create_%s" % params[1].replace("@", "_")
+            test_name = "test_create_%s" % params[0].replace("@", "___").replace(
+                "+", "_"
+            ).replace("-", "__")
+            if test_name in dict:
+                raise ValueError(f"Duplicate test: {params[0]}, mapped to {test_name}")
             dict[test_name] = gen_test(*params)
 
         return type.__new__(mcs, name, bases, dict)
