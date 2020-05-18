@@ -510,6 +510,11 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")
 
+    def test_view_component_ghost(self):
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        self.assertContains(response, "Spanish")
+
     def test_view_component_guide(self):
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")

@@ -26,6 +26,7 @@ Not yet released.
 * Add support for configuring default addons to enable.
 * Fixed editor keyboard shortcut to dismiss checks.
 * Improved machine translation of strings with placeholders.
+* Show ghost translation for user languages to ease starting them.
 
 Weblate 4.0.4
 -------------

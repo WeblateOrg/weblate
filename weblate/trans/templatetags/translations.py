@@ -46,6 +46,7 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
@@ -620,6 +621,8 @@ def get_translate_url(context, obj):
 @register.simple_tag(takes_context=True)
 def get_browse_url(context, obj):
     """Get translate URL based on user preference."""
+    if getattr(obj, "is_ghost", False):
+        return None
     # Project listing on language page
     if "language" in context and isinstance(obj, Project):
         return reverse(
@@ -663,7 +666,7 @@ def indicate_alerts(context, obj):
     component = None
     project = None
 
-    if isinstance(obj, Translation):
+    if isinstance(obj, (Translation, GhostTranslation)):
         translation = obj
         component = obj.component
         project = component.project
@@ -740,6 +743,10 @@ def indicate_alerts(context, obj):
             result.append(
                 ("state/lock.svg", gettext("This translation is locked."), None)
             )
+    if getattr(obj, "is_ghost", False):
+        result.append(
+            ("state/ghost.svg", gettext("This translation does not yet exist."), None)
+        )
 
     return {"icons": result, "component": component, "project": project}
 

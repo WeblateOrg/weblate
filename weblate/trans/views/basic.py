@@ -49,6 +49,7 @@ from weblate.trans.forms import (
     get_upload_form,
 )
 from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_objects, sort_unicode
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
@@ -184,6 +185,16 @@ def show_component(request, project, component):
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
+    translations = prefetch_stats(list(obj.translation_set.prefetch()))
+
+    # Show ghost translations for user languages
+    if obj.can_add_new_language(request):
+        existing = {translation.language.code for translation in translations}
+        for language in user.profile.languages.all():
+            if language.code in existing:
+                continue
+            translations.append(GhostTranslation(obj, language))
+
     return render(
         request,
         "component.html",
@@ -191,9 +202,7 @@ def show_component(request, project, component):
             "allow_index": True,
             "object": obj,
             "project": obj.project,
-            "translations": sort_objects(
-                prefetch_stats(obj.translation_set.prefetch())
-            ),
+            "translations": sort_objects(translations),
             "reports_form": ReportsForm(),
             "last_changes": last_changes,
             "last_changes_url": urlencode(

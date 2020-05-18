@@ -790,3 +790,31 @@ class GlobalStats(BaseStats):
     @cached_property
     def cache_key(self):
         return "stats-global"
+
+
+class ZeroStats(BaseStats):
+    basic_keys = SOURCE_KEYS
+
+    def __init__(self, base=None):
+        super().__init__(None)
+        self.base = base
+
+    def prefetch_basic(self):
+        stats = zero_stats(self.basic_keys)
+        if self.base is not None:
+            for key in "all", "all_words", "all_chars":
+                stats[key] = getattr(self.base, key)
+        for key, value in stats.items():
+            self.store(key, value)
+        self.calculate_basic_percents()
+
+    def calculate_item(self, item):
+        """Calculate stats for translation."""
+        return 0
+
+    @cached_property
+    def cache_key(self):
+        return "stats-zero"
+
+    def save(self):
+        return
