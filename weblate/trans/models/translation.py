@@ -1092,3 +1092,6 @@ class GhostTranslation:
 
     def __str__(self):
         return "{0} — {1}".format(self.component, self.language)
+
+    def get_absolute_url(self):
+        return None

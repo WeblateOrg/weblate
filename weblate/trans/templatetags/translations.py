@@ -621,8 +621,6 @@ def get_translate_url(context, obj):
 @register.simple_tag(takes_context=True)
 def get_browse_url(context, obj):
     """Get translate URL based on user preference."""
-    if getattr(obj, "is_ghost", False):
-        return None
     # Project listing on language page
     if "language" in context and isinstance(obj, Project):
         return reverse(
