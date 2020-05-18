@@ -146,6 +146,14 @@ TEST_LANGUAGES = (
     ("nb_NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
     ("nb-NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
     ("nb", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
+    (
+        "b+zh+Hant+HK",
+        "zh_Hant_HK",
+        "ltr",
+        "0",
+        "Chinese (Traditional, Hong Kong)",
+        False,
+    ),
 )
 
 

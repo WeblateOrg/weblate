@@ -180,6 +180,8 @@ class LanguageQuerySet(models.QuerySet):
             Q(code__iexact=code),
             # Replace dash with underscore (for things as zh_Hant)
             Q(code__iexact=code.replace("-", "_")),
+            # Replace plus with underscore (for things as zh+Hant+HK on Android)
+            Q(code__iexact=code.replace("+", "_")),
             # Try using name
             Q(name__iexact=code),
         ]
