@@ -157,7 +157,7 @@ class AutoTranslate:
         """Perform automatic translation based on machine translation."""
         units = set(self.get_units().values_list("id", flat=True))
         self.total = len(units)
-        translations = self.fetch_mt(engines, threshold)
+        translations = self.fetch_mt(engines, int(threshold))
 
         with transaction.atomic():
             # Perform the translation
