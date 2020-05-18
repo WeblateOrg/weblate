@@ -77,7 +77,7 @@ class GitSquashAddon(BaseAddon):
         if self.instance.configuration.get("append_trailers"):
             command = [
                 "log",
-                "--format={}".format("%(trailers:separator)"),
+                "--format=%(trailers:separator)",
                 "{}..HEAD".format(remote),
             ]
             if filenames:
