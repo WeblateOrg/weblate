@@ -208,6 +208,21 @@ Users
 
         Users object attributes are documented at :http:get:`/api/users/(str:username)/`.
 
+.. http:post:: /api/users/
+
+    Creates a new user.
+
+    :param username: Username
+    :type username: string
+    :param full_name: User full name
+    :type full_name: string
+    :param email: User email
+    :type email: string
+    :param is_superuser: Is user superuser? (optional)
+    :type is_superuser: boolean
+    :param is_active: Is user active? (optional)
+    :type is_active: boolean
+
 .. http:get:: /api/users/(str:username)/
 
     Returns information about users.
@@ -221,6 +236,24 @@ Users
     :>json boolean is_active: whether the user is active
     :>json string date_joined: date the user is created
     :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "email": "user@example.com",
+            "full_name": "Example User",
+            "username": "exampleusername",
+            "groups": [
+                "http://example.com/api/groups/2/",
+                "http://example.com/api/groups/3/"
+            ],
+            "is_superuser": true,
+            "is_active": true,
+            "date_joined": "2020-03-29T18:42:42.617681Z",
+            "url": "http://example.com/api/users/exampleusername/"
+        }
 
 .. http:put:: /api/users/(str:username)/
 
@@ -278,6 +311,17 @@ Groups
 
         Group object attributes are documented at :http:get:`/api/groups/(int:id)/`.
 
+.. http:post:: /api/groups/
+
+    Creates a new group.
+
+    :param name: Group name
+    :type name: string
+    :param project_selection: Group of project selection from given options
+    :type project_selection: int
+    :param language_selection: Group of languages selected from given options
+    :type language_selection: int
+
 .. http:get:: /api/groups/(int:id)/
 
     Returns information about group.
@@ -291,6 +335,33 @@ Groups
     :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
     :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json array componentlist: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "name": "Guests",
+            "project_selection": 3,
+            "language_selection": 1,
+            "url": "http://example.com/api/groups/1/",
+            "roles": [
+                "http://example.com/api/roles/1/",
+                "http://example.com/api/roles/2/"
+            ],
+            "languages": [
+                "http://example.com/api/languages/en/",
+                "http://example.com/api/languages/cs/",
+            ],
+            "projects": [
+                "http://example.com/api/projects/demo1/",
+                "http://example.com/api/projects/demo/"
+            ],
+            "componentlist": "http://example.com/api/component-lists/new/",
+            "components": [
+                "http://example.com/api/components/demo/weblate/"
+            ]
+        }
 
 .. http:put:: /api/groups/(int:id)/
 
@@ -407,6 +478,15 @@ Roles
     .. seealso::
 
         Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`.
+
+.. http:post:: /api/roles/
+
+    Creates a new role.
+
+    :param name: Role name
+    :type name: string
+    :param permissions: List of codenames of permissions
+    :type permissions: array
 
 .. http:get:: /api/roles/(int:id)/
 
