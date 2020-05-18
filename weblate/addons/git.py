@@ -19,7 +19,7 @@
 
 
 import os.path
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 
 from django.utils.translation import gettext_lazy as _
 
@@ -83,14 +83,15 @@ class GitSquashAddon(BaseAddon):
             if filenames:
                 command += ["--"] + filenames
 
-            trailers = "\n".join(
+            trailer_lines = OrderedDict.fromkeys(
                 [
                     trailer
                     for trailer in repository.execute(command).split("\n")
                     if trailer.strip()
                 ]
             )
-            commit_message = "\n\n".join([commit_message, trailers])
+
+            commit_message = "\n\n".join([commit_message, "\n".join(trailer_lines)])
 
         return commit_message
 
