@@ -262,7 +262,7 @@ LICENSES = (
         "BSD-1-Clause",
         "BSD 1-Clause License",
         "https://svnweb.freebsd.org/base/head/include/ifaddrs.h?revision=326823",
-        False,
+        True,
     ),
     (
         "BSD-2-Clause",
@@ -275,12 +275,6 @@ LICENSES = (
         "BSD 2-Clause FreeBSD License",
         "http://www.freebsd.org/copyright/freebsd-license.html",
         True,
-    ),
-    (
-        "BSD-2-Clause-NetBSD",
-        "BSD 2-Clause NetBSD License",
-        "http://www.netbsd.org/about/redistribution.html#default",
-        False,
     ),
     (
         "BSD-3-Clause",
@@ -358,13 +352,13 @@ LICENSES = (
     (
         "bzip2-1.0.5",
         "bzip2 and libbzip2 License v1.0.5",
-        "http://bzip.org/1.0.5/bzip2-manual-1.0.5.html",
+        "https://sourceware.org/bzip2/1.0.5/bzip2-manual-1.0.5.html",
         False,
     ),
     (
         "bzip2-1.0.6",
         "bzip2 and libbzip2 License v1.0.6",
-        "https://github.com/asimonov-im/bzip2/blob/master/LICENSE",
+        "https://sourceware.org/git/?p=bzip2.git;a=blob;f=LICENSE;hb=bzip2-1.0.6",
         False,
     ),
     (
@@ -419,6 +413,24 @@ LICENSES = (
         "CERN-OHL-1.2",
         "CERN Open Hardware Licence v1.2",
         "https://www.ohwr.org/project/licenses/wikis/cern-ohl-v1.2",
+        False,
+    ),
+    (
+        "CERN-OHL-P-2.0",
+        "CERN Open Hardware Licence Version 2 - Permissive",
+        "https://www.ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2",
+        False,
+    ),
+    (
+        "CERN-OHL-S-2.0",
+        "CERN Open Hardware Licence Version 2 - Strongly Reciprocal",
+        "https://www.ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2",
+        False,
+    ),
+    (
+        "CERN-OHL-W-2.0",
+        "CERN Open Hardware Licence Version 2 - Weakly Reciprocal",
+        "https://www.ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2",
         False,
     ),
     (
@@ -709,6 +721,18 @@ LICENSES = (
         "Crossword License",
         "https://fedoraproject.org/wiki/Licensing/Crossword",
         False,
+    ),
+    (
+        "CAL-1.0",
+        "Cryptographic Autonomy License 1.0",
+        "http://cryptographicautonomylicense.com/license-text.html",
+        True,
+    ),
+    (
+        "CAL-1.0-Combined-Work-Exception",
+        "Cryptographic Autonomy License 1.0 (Combined Work Exception)",
+        "http://cryptographicautonomylicense.com/license-text.html",
+        True,
     ),
     (
         "CrystalStacker",
@@ -1058,6 +1082,12 @@ LICENSES = (
         False,
     ),
     (
+        "Hippocratic-2.1",
+        "Hippocratic License 2.1",
+        "https://firstdonoharm.dev/version/2/1/license.html",
+        False,
+    ),
+    (
         "HPND",
         "Historical Permission Notice and Disclaimer",
         "https://opensource.org/licenses/HPND",
@@ -1400,6 +1430,12 @@ LICENSES = (
         True,
     ),
     (
+        "NCGL-UK-2.0",
+        "Non-Commercial Government Licence",
+        "https://github.com/spdx/license-list-XML/blob/master/src/Apache-2.0.xml",
+        False,
+    ),
+    (
         "NPOSL-3.0",
         "Non-Profit Open Software License 3.0",
         "https://opensource.org/licenses/NOSL3.0",
@@ -1436,6 +1472,12 @@ LICENSES = (
         "PDDL-1.0",
         "ODC Public Domain Dedication & License 1.0",
         "http://opendatacommons.org/licenses/pddl/1.0/",
+        False,
+    ),
+    (
+        "OGC-1.0",
+        "OGC Software License, Version 1.0",
+        "https://www.ogc.org/ogc/software/1.0",
         False,
     ),
     (
@@ -1618,6 +1660,12 @@ LICENSES = (
         "https://web.archive.org/web/20120101081418/http://rosenlaw.com:80/OSL3.0.htm",
         True,
     ),
+    (
+        "O-UDA-1.0",
+        "Open Use of Data Agreement v1.0",
+        "https://github.com/microsoft/Open-Use-of-Data-Agreement/blob/v1.0/O-UDA-1.0.md",
+        False,
+    ),
     ("OpenSSL", "OpenSSL License", "http://www.openssl.org/source/license.html", True),
     (
         "OSET-PL-2.1",
@@ -1637,6 +1685,18 @@ LICENSES = (
         "libpng-2.0",
         "PNG Reference Library version 2",
         "http://www.libpng.org/pub/png/src/libpng-LICENSE.txt",
+        False,
+    ),
+    (
+        "PolyForm-Noncommercial-1.0.0",
+        "PolyForm Noncommercial License 1.0.0",
+        "https://polyformproject.org/licenses/noncommercial/1.0.0",
+        False,
+    ),
+    (
+        "PolyForm-Small-Business-1.0.0",
+        "PolyForm Small Business License 1.0.0",
+        "https://polyformproject.org/licenses/small-business/1.0.0",
         False,
     ),
     (
