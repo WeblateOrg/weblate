@@ -42,7 +42,7 @@ class GitRepository(Repository):
     _cmd_list_changed_files = ["diff", "--name-status"]
 
     name = "Git"
-    req_version = "1.6"
+    req_version = "2.12"
     default_branch = "master"
     ref_to_remote = "..{0}"
     ref_from_remote = "{0}.."
@@ -395,7 +395,7 @@ class GitWithGerritRepository(GitRepository):
 class SubversionRepository(GitRepository):
 
     name = "Subversion"
-    req_version = "1.6"
+    req_version = "2.12"
 
     _version = None
 
