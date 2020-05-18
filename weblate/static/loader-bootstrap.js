@@ -4,6 +4,8 @@ var translationMemoryLoaded = false;
 var activityDataLoaded = false;
 var lastEditor = null;
 
+var IS_MAC = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
+
 // Remove some weird things from location hash
 if (window.location.hash && (window.location.hash.indexOf('"') > -1 || window.location.hash.indexOf('=') > -1)) {
     window.location.hash = '';
@@ -400,12 +402,14 @@ function processMachineTranslation(data, scope) {
             if (idx < 10) {
                 var key = getNumericKey(idx);
 
+                var title;
+                if (IS_MAC) {
+                    title = interpolate(gettext('Cmd+M then %s'), [key]);
+                } else {
+                    title = interpolate(gettext('Ctrl+M then %s'), [key]);
+                }
                 $(this).find('.mt-number').html(
-                    ' <kbd title="' +
-                    interpolate(gettext('Ctrl+M then %s'), [key]) +
-                    '">' +
-                    key +
-                    '</kbd>'
+                    ' <kbd title="' + title + '">' + key + '</kbd>'
                 );
                 Mousetrap.bindGlobal(
                     'mod+m ' + key,
@@ -1010,7 +1014,13 @@ $(function () {
             if (idx < 10) {
                 let key = getNumericKey(idx);
 
-                $(this).attr('title', interpolate(gettext('Ctrl/Command+%s'), [key]));
+                var title;
+                if (IS_MAC) {
+                    title = interpolate(gettext('Cmd+%s'), [key]);
+                } else {
+                    title = interpolate(gettext('Ctrl+%s'), [key]);
+                }
+                $(this).attr('title', title);
                 $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
 
                 Mousetrap.bindGlobal(
@@ -1214,9 +1224,7 @@ $(function () {
     if (document.querySelectorAll('.check-item').length > 0) {
         // Cancel out browser's `meta+i` and let Mousetrap handle the rest
         document.addEventListener('keydown', function (e) {
-            var isMod = /Mac|iPod|iPhone|iPad/.test(navigator.platform) ?
-                e.metaKey :
-                e.ctrlKey;
+            var isMod = IS_MAC ? e.metaKey : e.ctrlKey;
             if (isMod && e.key.toLowerCase() === 'i') {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1230,12 +1238,14 @@ $(function () {
         if (idx < 10) {
             let key = getNumericKey(idx);
 
+            var title;
+            if (IS_MAC) {
+                title = interpolate(gettext('Press Cmd+I then %s to dismiss this.'), [key]);
+            } else {
+                title = interpolate(gettext('Press Ctrl+I then %s to dismiss this.'), [key]);
+            }
             $(this).find('.check-number').html(
-                ' <kbd title="' +
-                interpolate(gettext('Press Ctrl+I then %s to dismiss this.'), [key]) +
-                '">' +
-                key +
-                '</kbd>'
+                ' <kbd title="' + title + '">' + key + '</kbd>'
             );
 
             Mousetrap.bindGlobal(
