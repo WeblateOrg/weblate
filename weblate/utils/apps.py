@@ -62,7 +62,7 @@ class UtilsConfig(AppConfig):
         register(check_site, deploy=True)
         register(check_perms, deploy=True)
         register(check_errors, deploy=True)
-        register(check_version)
+        register(check_version, deploy=True)
         register(check_encoding)
         register(check_diskspace, deploy=True)
 
