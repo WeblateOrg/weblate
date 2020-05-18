@@ -634,6 +634,16 @@ class DashboardTest(ViewTestCase):
         )
         self.assertEqual(len(response.context["componentlists"]), 1)
 
+    def test_component_list_ghost(self):
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.components.add(self.component)
+
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, "Spanish")
+
     def test_user_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
         clist.components.add(self.component)
