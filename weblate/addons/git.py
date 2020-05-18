@@ -91,7 +91,16 @@ class GitSquashAddon(BaseAddon):
                 ]
             )
 
-            commit_message = "\n\n".join([commit_message, "\n".join(trailer_lines)])
+            commit_message_lines_with_trailers_removed = [
+                line for line in commit_message.split("\n") if line not in trailer_lines
+            ]
+
+            commit_message = "\n\n".join(
+                [
+                    "\n".join(commit_message_lines_with_trailers_removed),
+                    "\n".join(trailer_lines),
+                ]
+            )
 
         return commit_message
 
