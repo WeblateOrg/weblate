@@ -1558,6 +1558,13 @@ LANGUAGES = (
         "0",
     ),
     (
+        "ms_Arab",
+        # Translators: Language name, ISO code: ms_Arab
+        _("Malay (Jawi)"),
+        1,
+        "0",
+    ),
+    (
         "mt",
         # Translators: Language name, ISO code: mt
         _("Maltese"),
