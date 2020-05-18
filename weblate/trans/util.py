@@ -244,10 +244,18 @@ def cleanup_path(path):
 
 def get_project_description(project):
     """Return verbose description for project translation."""
+    # Cache the count as it might be expensive to calculate (it pull
+    # all project stats) and there is no need to always have up to date
+    # count here
+    cache_key = f"project-lang-count-{project.id}"
+    count = cache.get(cache_key)
+    if count is None:
+        count = project.stats.languages
+        cache.set(cache_key, count, 6 * 3600)
     return _(
         "{0} is translated into {1} languages using Weblate. "
         "Join the translation or start translating your own project."
-    ).format(project, project.stats.languages)
+    ).format(project, count)
 
 
 def render(request, template, context=None, status=None):
