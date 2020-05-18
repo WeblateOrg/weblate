@@ -729,6 +729,12 @@ WebExtension JSON
 
 File format used when translating extensions for Mozilla Firefox or Google Chromium.
 
+.. note::
+
+    While this format is called JSON, its specification allows to include
+    comments, which are not part of JSON specification. Weblate currently does
+    not support file with comments.
+
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-webext.json
