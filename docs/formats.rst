@@ -850,7 +850,7 @@ YAML files
 
 .. versionadded:: 2.9
 
-The plain YAML files with string keys and values.
+The plain YAML files with string keys and values. Weblate also extract strings from lists or dictionaries.
 
 Example of a YAML file:
 
