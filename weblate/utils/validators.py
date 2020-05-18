@@ -48,7 +48,6 @@ FORBIDDEN_EXTENSIONS = {
     ".rtf",
     ".xls",
     ".docx",
-    ".html",
     ".py",
     ".js",
     ".exe",
