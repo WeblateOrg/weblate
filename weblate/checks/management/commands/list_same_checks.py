@@ -32,7 +32,7 @@ class Command(BaseCommand):
             Check.objects.filter(check="same")
             .values("unit__source")
             .annotate(Count("unit__source"))
-            .filter(unit__content_hash__count__gt=1)
+            .filter(unit__source__count__gt=1)
             .order_by("-unit__source__count")
         )
 
