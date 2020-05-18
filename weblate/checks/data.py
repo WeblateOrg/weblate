@@ -200,7 +200,6 @@ SAME_BLACKLIST = {
     "dtd",
     "dummy",
     "dump",
-    "email",
     "editor",
     "eib",
     "ellipsis",
