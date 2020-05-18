@@ -630,7 +630,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         """Installs automatically enabled addons from file format."""
         from weblate.addons.models import ADDONS
 
-        for name, params in self.file_format_cls.autoaddon.items():
+        for name, configuration in self.file_format_cls.autoaddon.items():
             try:
                 addon = ADDONS[name]
             except KeyError:
@@ -639,7 +639,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             self.log_info("enabling addon %s", name)
 
             if addon.can_install(self, None):
-                addon.create(self, **params)
+                addon.create(self, configuration=configuration)
 
     @contextmanager
     def lock(self):
