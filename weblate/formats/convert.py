@@ -87,7 +87,7 @@ class ConvertFormat(TranslationFormat):
     monolingual = True
     can_add_unit = False
     unit_class = ConvertUnit
-    autoaddon = {"weblate.flags.target_edit": {}}
+    autoaddon = {"weblate.flags.same_edit": {}}
 
     def save_content(self, handle):
         """Store content to file."""

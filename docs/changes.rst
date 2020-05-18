@@ -23,6 +23,7 @@ Not yet released.
 * Extended details in check listings.
 * Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`.
 * Consistently use dismissed as state of dismissed checks.
+* Add support for configuring default addons to enable.
 
 Weblate 4.0.4
 -------------

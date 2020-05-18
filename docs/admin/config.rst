@@ -369,6 +369,40 @@ Default commit messages for different operations, see :ref:`component`.
    :ref:`markup`, :ref:`component`
 
 
+.. setting:: DEFAULT_ADDONS
+
+DEFAULT_ADDONS
+--------------
+
+Default addons to install on every created component.
+
+.. note::
+
+   This setting affects only newly created components.
+
+Example:
+
+.. code-block:: python
+
+   DEFAULT_ADDONS = {
+        # Addon with no parameters
+        "weblate.flags.target_edit": {},
+
+        # Addon with parameters
+        "weblate.autotranslate.autotranslate": {
+            "mode": "suggest",
+            "filter_type": "todo",
+            "auto_source": "mt",
+            "component": "",
+            "engines": ["weblate-translation-memory"],
+            "threshold": "80",
+        }
+   }
+
+.. seealso::
+
+   :djadmin:`install_addon`
+
 .. setting:: DEFAULT_COMMITER_EMAIL
 
 DEFAULT_COMMITER_EMAIL

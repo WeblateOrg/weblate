@@ -160,6 +160,8 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     # Special chars for visual keyboard
     SPECIAL_CHARS = ("\t", "\n", "…")
 
+    DEFAULT_ADDONS = {}
+
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
     REPOSITORY_ALERT_THRESHOLD = 25

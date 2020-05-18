@@ -23,6 +23,7 @@ import os
 import shutil
 
 from django.core.exceptions import ValidationError
+from django.test.utils import override_settings
 
 from weblate.checks.models import Check
 from weblate.lang.models import Language
@@ -436,6 +437,34 @@ class ComponentTest(RepoTestCase):
         component.check_flags = "ignore-{0}".format(check.check)
         component.save()
         self.assertEqual(Check.objects.count(), 0)
+
+    @override_settings(
+        DEFAULT_ADDONS={
+            # Invalid addon name
+            "weblate.invalid.invalid": {},
+            # Duplicate (installed by file format)
+            "weblate.flags.same_edit": {},
+            # Not compatible
+            "weblate.gettext.mo": {},
+            # Missing params
+            "weblate.removal.comments": {},
+            # Correct
+            "weblate.autotranslate.autotranslate": {
+                "mode": "suggest",
+                "filter_type": "todo",
+                "auto_source": "mt",
+                "component": "",
+                "engines": ["weblate-translation-memory"],
+                "threshold": "80",
+            },
+        }
+    )
+    def test_create_autoaddon(self):
+        component = self.create_idml()
+        self.assertEqual(
+            set(component.addon_set.values_list("name", flat=True)),
+            {"weblate.flags.same_edit", "weblate.autotranslate.autotranslate"},
+        )
 
 
 class ComponentDeleteTest(RepoTestCase):
