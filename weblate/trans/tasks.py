@@ -355,6 +355,9 @@ def create_component(addons_from=None, in_task=False, **kwargs):
             component__pk=addons_from, project_scope=False, repo_scope=False
         )
         for addon in addons:
+            # Avoid installing duplicate addons
+            if component.addon_set.filter(name=addon.name).exists():
+                continue
             if not addon.addon.can_install(component, None):
                 continue
             addon.addon.create(component, configuration=addon.configuration)
