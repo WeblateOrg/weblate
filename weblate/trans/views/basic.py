@@ -199,9 +199,6 @@ def show_component(request, project, component):
             "last_changes_url": urlencode(
                 {"component": obj.slug, "project": obj.project.slug}
             ),
-            "language_count": Language.objects.filter(translation__component=obj)
-            .distinct()
-            .count(),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
