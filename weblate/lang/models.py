@@ -148,15 +148,17 @@ class LanguageQuerySet(models.QuerySet):
 
         return code
 
-    def aliases_get(self, code):
+    def aliases_get(self, code, expanded_code=None):
         code = code.lower()
-        codes = (
+        codes = [
             code,
             code.replace("+", "_"),
             code.replace("-", "_"),
             code.replace("-r", "_"),
             code.replace("_r", "_"),
-        )
+        ]
+        if expanded_code:
+            codes.append(expanded_code)
         for newcode in codes:
             if newcode in ALIASES:
                 newcode = ALIASES[newcode]
@@ -174,6 +176,7 @@ class LanguageQuerySet(models.QuerySet):
         It also handles Android special naming of regional locales like pt-rBR.
         """
         code = self.sanitize_code(code)
+        expanded_code = None
 
         lookups = [
             # First try getting language as is
@@ -188,7 +191,8 @@ class LanguageQuerySet(models.QuerySet):
 
         # Country codes used without underscore (ptbr insteat of pt_BR)
         if len(code) == 4:
-            lookups.append(Q(code__iexact="{}_{}".format(code[:2], code[2:])))
+            expanded_code = "{}_{}".format(code[:2], code[2:])
+            lookups.append(Q(code__iexact=expanded_code))
 
         for lookup in lookups:
             # First try getting language as is
@@ -197,7 +201,7 @@ class LanguageQuerySet(models.QuerySet):
                 return ret
 
         # Handle aliases
-        ret = self.aliases_get(code)
+        ret = self.aliases_get(code, expanded_code)
         if ret is not None:
             return ret
 
@@ -227,8 +231,11 @@ class LanguageQuerySet(models.QuerySet):
             return ret
 
         # Try canonical variant
-        if settings.SIMPLIFY_LANGUAGES and newcode.lower() in DEFAULT_LANGS:
-            ret = self.try_get(code=lang.lower())
+        if settings.SIMPLIFY_LANGUAGES:
+            if newcode.lower() in DEFAULT_LANGS:
+                ret = self.try_get(code=lang.lower())
+            elif expanded_code in DEFAULT_LANGS:
+                ret = self.try_get(code=expanded_code[:2])
             if ret is not None:
                 return ret
 

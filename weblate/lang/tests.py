@@ -54,6 +54,7 @@ TEST_LANGUAGES = (
     ("de_CZ", "de_CZ", "ltr", "n != 1", "German (de_CZ)", True),
     ("portuguese_portugal", "pt_PT", "ltr", "n > 1", "Portuguese (Portugal)", False),
     ("pt-rBR", "pt_BR", "ltr", "n > 1", "Portuguese (Brazil)", False),
+    ("ptbr", "pt_BR", "ltr", "n > 1", "Portuguese (Brazil)", False),
     (
         "sr+latn",
         "sr_Latn",
@@ -146,6 +147,7 @@ TEST_LANGUAGES = (
     ("nb_NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
     ("nb-NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
     ("nb", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
+    ("nono", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
     (
         "b+zh+Hant+HK",
         "zh_Hant_HK",

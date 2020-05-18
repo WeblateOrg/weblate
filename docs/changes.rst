@@ -27,6 +27,7 @@ Not yet released.
 * Fixed editor keyboard shortcut to dismiss checks.
 * Improved machine translation of strings with placeholders.
 * Show ghost translation for user languages to ease starting them.
+* Improved language code parsing.
 
 Weblate 4.0.4
 -------------
