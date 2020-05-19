@@ -445,6 +445,11 @@ InnoSetup INI file format for translations.
 
 InnoSetup INI translations are usually used as monolingual translations.
 
+.. note::
+
+   The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t``
+   placeholders for line break and tab.
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
