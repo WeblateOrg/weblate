@@ -743,7 +743,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         result.add_if(self.stats, "comments", "info")
 
         # Include labels
-        labels = self.component.project.label_set.all()
+        labels = self.component.project.label_set.order_by("name")
         if labels:
             for label in labels:
                 result.add_if(self.stats, "label:{}".format(label.name), "info")
