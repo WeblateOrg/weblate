@@ -360,10 +360,12 @@ strings.
 
 When set, the source translation is based on this file, but all others are
 based on :ref:`component-template`. In case the string is not translated in
-source translation, translating to other languages is prohibited.
+source translation, translating to other languages is prohibited. This provides
+:ref:`source-quality-gateway`.
 
 .. seealso::
 
+   :ref:`source-quality-gateway`,
    :ref:`bimono`
 
 .. _component-new_base:
