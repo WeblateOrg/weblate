@@ -127,25 +127,18 @@ def update_source(sender, instance, **kwargs):
 @disable_for_loaddata
 def change_labels(sender, instance, action, pk_set, **kwargs):
     """Update unit labels."""
-    operation = 0
-    if action == "post_add":
-        operation = 1
-    elif action == "post_remove":
-        operation = 2
-    elif action == "post_clear":
-        operation = 3
     if (
-        operation == 0
-        or (operation != 3 and not pk_set)
+        action not in ("post_add", "post_remove", "post_clear")
+        or (action != "post_clear" and not pk_set)
         or not instance.translation.is_source
     ):
         return
-    if operation in (2, 3):
+    if action in ("post_remove", "post_clear"):
         related = Unit.labels.through.objects.filter(
             unit__translation__component=instance.translation.component,
             unit__id_hash=instance.id_hash,
         )
-        if operation == 2:
+        if action == "post_remove":
             related.filter(label_id__in=pk_set).delete()
         else:
             related.delete()
