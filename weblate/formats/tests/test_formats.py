@@ -36,6 +36,8 @@ from weblate.formats.ttkit import (
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
+    INIFormat,
+    InnoSetupINIFormat,
     JoomlaFormat,
     JSONFormat,
     JSONNestedFormat,
@@ -63,7 +65,8 @@ TEST_JSON = get_test_file("cs.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
 TEST_PHP = get_test_file("cs.php")
-TEST_JOOMLA = get_test_file("cs.ini")
+TEST_JOOMLA = get_test_file("cs.joomla.ini")
+TEST_INI = get_test_file("cs.ini")
 TEST_PROPERTIES = get_test_file("swing.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
@@ -158,6 +161,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     FIND_CONTEXT = ""
     FIND_MATCH = "Ahoj světe!\n"
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
+    NEW_UNIT_KEY = "key"
     SUPPORTS_FLAG = True
     EXPECTED_FLAGS = "c-format, max-length:100"
     EDIT_OFFSET = 0
@@ -273,7 +277,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         storage = self.parse_file(testfile)
 
         # Add new unit
-        storage.new_unit("key", "Source string")
+        storage.new_unit(self.NEW_UNIT_KEY, "Source string")
 
         # Read new content
         with open(testfile, "rb") as handle:
@@ -761,3 +765,26 @@ class FlatXMLFormatTest(AutoFormatTest):
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
     EXPECTED_FLAGS = ""
+
+
+class INIFormatTest(AutoFormatTest):
+    FORMAT = INIFormat
+    FILE = TEST_INI
+    MIME = "text/plain"
+    COUNT = 4
+    BASE = ""
+    EXT = "ini"
+    MASK = "ini/*.ini"
+    EXPECTED_PATH = "ini/cs_CZ.ini"
+    MATCH = "\n"
+    FIND = 'Ahoj "světe"!\\n'
+    FIND_CONTEXT = "[weblate]hello"
+    FIND_MATCH = 'Ahoj "světe"!\\n'
+    NEW_UNIT_MATCH = b"\nkey = Source string"
+    NEW_UNIT_KEY = "[test]key"
+    EXPECTED_FLAGS = ""
+
+
+class InnoSetupINIFormatTest(INIFormatTest):
+    FORMAT = InnoSetupINIFormat
+    EXT = "islu"

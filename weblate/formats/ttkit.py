@@ -256,10 +256,14 @@ class TTKitFormat(TranslationFormat):
         # Get the class
         return getattr(module, class_name)
 
+    @staticmethod
+    def get_class_kwargs():
+        return {}
+
     @classmethod
     def parse_store(cls, storefile):
         """Parse the store."""
-        store = cls.get_class()()
+        store = cls.get_class()(**cls.get_class_kwargs())
 
         # Apply possible fixups
         cls.fixup(store)
@@ -729,6 +733,24 @@ class PHPUnit(KeyValueUnit):
         if self.unit is None:
             return ""
         return self.unit.source
+
+
+class INIUnit(TTKitUnit):
+    @cached_property
+    def locations(self):
+        return ""
+
+    @cached_property
+    def context(self):
+        if self.template is not None:
+            return self.template.location
+        return self.unit.location
+
+    def has_content(self):
+        return True
+
+    def is_readonly(self):
+        return False
 
 
 class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
@@ -1280,3 +1302,54 @@ class FlatXMLFormat(TTKitFormat):
     monolingual = True
     unit_class = FlatXMLUnit
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
+
+
+class INIFormat(TTKitFormat):
+    name = _("INI file")
+    format_id = "ini"
+    loader = ("ini", "inifile")
+    monolingual = True
+    unit_class = INIUnit
+    new_translation = "\n"
+
+    @staticmethod
+    def mimetype():
+        """Return most common media type for format."""
+        # INI files do not expose mimetype
+        return "text/plain"
+
+    @classmethod
+    def extension(cls):
+        """Return most common file extension for format."""
+        # INI files do not expose extension
+        return "ini"
+
+    @classmethod
+    def load(cls, storefile):
+        store = super().load(storefile)
+        # Adjust store to have translations
+        for unit in store.units:
+            unit.target = unit.source
+            unit.rich_target = unit.rich_source
+        return store
+
+    def create_unit(self, key, source):
+        unit = super().create_unit(key, source)
+        unit.location = key
+        return unit
+
+
+class InnoSetupINIFormat(INIFormat):
+    name = _("InnoSetup INI file")
+    format_id = "islu"
+    loader = ("ini", "inifile")
+
+    @classmethod
+    def extension(cls):
+        """Return most common file extension for format."""
+        # INI files do not expose extension
+        return "islu"
+
+    @staticmethod
+    def get_class_kwargs():
+        return {"dialect": "inno"}

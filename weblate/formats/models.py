@@ -88,6 +88,8 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.SubStationAlphaFormat",
         "weblate.formats.ttkit.DTDFormat",
         "weblate.formats.ttkit.FlatXMLFormat",
+        "weblate.formats.ttkit.INIFormat",
+        "weblate.formats.ttkit.InnoSetupINIFormat",
         "weblate.formats.external.XlsxFormat",
         "weblate.formats.txt.AppStoreFormat",
         "weblate.formats.convert.HTMLFormat",

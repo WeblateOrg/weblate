@@ -108,6 +108,10 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`idml`         | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`ini`          | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`islu`         | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -395,6 +399,75 @@ all others encode characters directly either in UTF-8 or UTF-16.
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`,
 
+.. _ini:
+
+INI translations
+----------------
+
+.. index::
+    pair: INI translations; file format
+
+.. versionadded:: 4.1
+
+INI file format for translations.
+
+INI translations are usually used as monolingual translations.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``language/*.ini``               |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en.ini``              |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `INI File`                       |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/ini`,
+    :ref:`joomla`,
+    :ref:`islu`
+
+.. _islu:
+
+InnoSetup INI translations
+--------------------------
+
+.. index::
+    pair: INI translations; file format
+
+.. versionadded:: 4.1
+
+InnoSetup INI file format for translations.
+
+InnoSetup INI translations are usually used as monolingual translations.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``language/*.islu``              |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en.islu``             |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `InnoSetup INI File`             |
++--------------------------------+----------------------------------+
+
+.. note::
+
+   Only Unicode files (``.islu``) are currently supported, ANSI variant
+   (``.isl``) is currently not supported.
+
+.. seealso::
+
+    :doc:`tt:formats/ini`,
+    :ref:`joomla`,
+    :ref:`ini`
+
 .. _joomla:
 
 Joomla translations
@@ -424,7 +497,9 @@ Joomla translations are usually used as monolingual translations.
 .. seealso::
 
     `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
-    :doc:`tt:formats/properties`
+    :doc:`tt:formats/properties`,
+    :ref:`ini`,
+    :ref:`islu`
 
 .. _qtling:
 

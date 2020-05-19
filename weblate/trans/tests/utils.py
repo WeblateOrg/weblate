@@ -327,6 +327,9 @@ class RepoTestMixin:
     def create_joomla(self):
         return self._create_component("joomla", "joomla/*.ini", "joomla/en-GB.ini")
 
+    def create_ini(self):
+        return self._create_component("ini", "ini/*.ini", "ini/en.ini")
+
     def create_tsv(self):
         return self._create_component("csv", "tsv/*.txt")
 
