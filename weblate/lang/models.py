@@ -166,6 +166,9 @@ class LanguageQuerySet(models.QuerySet):
                     return ret
         return None
 
+    def get_aliases_names(self, code):
+        return [alias for alias, codename in ALIASES.items() if codename == code]
+
     def fuzzy_get(self, code, strict=False):
         """Get matching language for code.
 
