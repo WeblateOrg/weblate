@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-19 07:25+0000\n"
-"PO-Revision-Date: 2020-05-17 18:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-05-20 07:06+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -2095,14 +2095,12 @@ msgid "This string has been translated in the past"
 msgstr "字串之前已經有翻譯過"
 
 #: weblate/checks/duplicate.py:32
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Consecutive duplicated tokens"
-msgstr "找到了重複字串"
+msgstr "連續重複代符"
 
 #: weblate/checks/duplicate.py:33
 msgid "Text contains the same token twice in a row"
-msgstr ""
+msgstr "文字在同一行有兩個相同的代符"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -2344,10 +2342,8 @@ msgid "Placeholders"
 msgstr "佔位符"
 
 #: weblate/checks/placeholders.py:44
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders:"
-msgstr "翻譯缺少一些佔位符"
+msgstr "翻譯缺少一些佔位符："
 
 #: weblate/checks/placeholders.py:79
 #: weblate/templates/addons/discovery_help.html:8
@@ -2513,22 +2509,16 @@ msgid "Failed to load strings from the file, try choosing other format."
 msgstr "無法從檔案載入字串，嘗試選擇其他格式。"
 
 #: weblate/formats/convert.py:153
-#, fuzzy
-#| msgid "YAML file"
 msgid "HTML file"
-msgstr "YAML 檔"
+msgstr "HTML 檔"
 
 #: weblate/formats/convert.py:187
-#, fuzzy
-#| msgid "Font file"
 msgid "OpenDocument file"
-msgstr "字型檔案"
+msgstr "OpenDocument 檔案"
 
 #: weblate/formats/convert.py:242
-#, fuzzy
-#| msgid "YAML file"
 msgid "IDML file"
-msgstr "YAML 檔"
+msgstr "IDML 檔"
 
 #: weblate/formats/convert.py:296
 msgid "RC file"
@@ -2615,10 +2605,8 @@ msgid "PHP strings"
 msgstr "PHP 字串"
 
 #: weblate/formats/ttkit.py:1001
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Laravel PHP strings"
-msgstr "PHP 字串"
+msgstr "Laravel PHP 字串"
 
 #: weblate/formats/ttkit.py:1007
 msgid ".NET resource file"
@@ -3402,11 +3390,8 @@ msgid "Failing checks found"
 msgstr "未通過查核"
 
 #: weblate/templates/about/stats.html:104
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgid "Dismissed checks"
-msgstr "未通過查核"
+msgstr "略過的查核"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4365,15 +4350,10 @@ msgid "No subscriptions or due payments."
 msgstr "沒有訂購或到期付款。"
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "In case you miss access to billing of your project, please contact "
-#| "project maintainers to give you permission to access its billing."
 msgid ""
 "If you miss access to billing of your project, please contact its project "
 "maintainers to grant you access."
-msgstr ""
-"如果您沒有存取您專案帳單的權限，請聯絡專案維護者以授予您該帳單的存取權。"
+msgstr "如果您遺失存取您專案帳單的權限，請聯絡專案維護者以授予您存取權。"
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4486,10 +4466,8 @@ msgstr "總計"
 
 #: weblate/templates/check.html:21 weblate/templates/check_component.html:23
 #: weblate/templates/check_project.html:22 weblate/templates/checks.html:20
-#, fuzzy
-#| msgid "Dismiss"
 msgid "Dismissed"
-msgstr "略過"
+msgstr "已略過"
 
 #: weblate/templates/check.html:23 weblate/templates/check_component.html:25
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
@@ -5338,8 +5316,6 @@ msgstr "檔案大小"
 
 #: weblate/templates/fonts/font_detail.html:21
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created on"
 msgid "Created"
 msgstr "建立時間"
 
@@ -6452,14 +6428,11 @@ msgid "Request new translation"
 msgstr "請求開展新翻譯"
 
 #: weblate/templates/paginator.html:9 weblate/templates/translate.html:64
-#, fuzzy
-#| msgid "Go to position"
 msgid "Click to edit position"
-msgstr "前往位置"
+msgstr "按一下編輯位置"
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s / %(total)s"
 
@@ -6469,14 +6442,13 @@ msgstr "前往位置"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
-msgstr ""
+msgstr "請輸入要跳轉的位置"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
-#, fuzzy, python-format
-#| msgid "%(filter_pos)s / %(filter_count)s"
+#, python-format
 msgid "/ %(total)s"
-msgstr "%(filter_pos)s / %(filter_count)s"
+msgstr "/ %(total)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -6793,10 +6765,8 @@ msgid "Comments"
 msgstr "評註"
 
 #: weblate/templates/snippets/list-objects.html:84
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Create translation"
-msgstr "Weblate 翻譯"
+msgstr "建立翻譯"
 
 #: weblate/templates/snippets/list-objects.html:106
 msgid "Nothing to list here."
@@ -6951,10 +6921,8 @@ msgid "All untranslated strings added in the past month"
 msgstr "近一個月加入的所有未翻譯字串"
 
 #: weblate/templates/snippets/query-field.html:15
-#, fuzzy
-#| msgid "Search"
 msgid "Custom Search"
-msgstr "搜尋"
+msgstr "自訂搜尋"
 
 #: weblate/templates/snippets/query-field.html:25 weblate/trans/forms.py:166
 msgid "Query"
@@ -6963,38 +6931,28 @@ msgstr "查詢"
 #: weblate/templates/snippets/query-field.html:39
 #: weblate/templates/snippets/query-field.html:43
 msgid "Sort By"
-msgstr ""
+msgstr "排序依據"
 
 #: weblate/templates/snippets/query-field.html:45 weblate/utils/views.py:94
 #: weblate/utils/views.py:97
-#, fuzzy
-#| msgid "String priority"
 msgid "Position and priority"
-msgstr "字串優先度"
+msgstr "位置及優先度"
 
 #: weblate/templates/snippets/query-field.html:46 weblate/utils/views.py:86
-#, fuzzy
-#| msgid "Go to position"
 msgid "Position"
-msgstr "前往位置"
+msgstr "位置"
 
 #: weblate/templates/snippets/query-field.html:49 weblate/utils/views.py:89
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Age of string"
-msgstr "字串數目"
+msgstr "字串存在時間"
 
 #: weblate/templates/snippets/query-field.html:51 weblate/utils/views.py:92
-#, fuzzy
-#| msgid "Multiple failing checks"
 msgid "Number of failing checks"
-msgstr "多項未通過查核"
+msgstr "未通過查核數"
 
 #: weblate/templates/snippets/query-field.html:52 weblate/utils/views.py:91
-#, fuzzy
-#| msgid "Number of components"
 msgid "Number of comments"
-msgstr "組件數目"
+msgstr "評註數目"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7065,25 +7023,17 @@ msgid "Untranslated"
 msgstr "未翻譯"
 
 #: weblate/templates/snippets/unit-state.html:12
-#, fuzzy
-#| msgid "Failed check: {}"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "未通過查核：{}"
+msgstr "未通過查核："
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Failed checks"
 msgstr "未通過查核"
 
 #: weblate/templates/snippets/unit-state.html:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Dismissed checks"
 msgstr "未通過查核"
@@ -7363,69 +7313,52 @@ msgid ""
 msgstr "在建立之後，您可以在組件設定中編輯更多選項。"
 
 #: weblate/templates/trans/delete-component.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
-msgstr "這個動作無法取消。這會永久刪除 {} 翻譯及其所有相關內容。"
+msgstr "這個動作無法取消。這會永久刪除 %(object)s 組件及其所有相關內容。"
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
-#, fuzzy
-#| msgid "The following translation components will be also removed:"
 msgid "The following translation components will be removed:"
-msgstr "下列翻譯組件也將移除："
+msgstr "會移除下列翻譯組件："
 
 #: weblate/templates/trans/delete-component.html:20
-#, fuzzy
-#| msgid "Component to use"
 msgid "Component to remove"
-msgstr "要使用的組件"
+msgstr "要移除的組件"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "I understand the consequences, delete this translation"
 msgstr "我瞭解所有後果，確認刪除此翻譯"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
-msgstr "這個動作無法取消。這會永久刪除 {} 翻譯及其所有相關內容。"
+msgstr "這個動作無法取消。這會永久刪除 %(object)s 專案及其所有相關內容。"
 
 #: weblate/templates/trans/delete-project.html:6
 msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
-msgstr ""
+msgstr "這包含但不限於：翻譯記憶、詞彙表及使用者權限。"
 
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "Project has been removed."
 msgid "Project to remove"
-msgstr "專案已經重新命名。"
+msgstr "要移除的專案"
 
 #: weblate/templates/trans/delete-translation.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
-msgstr "這個動作無法取消。這會永久刪除 {} 翻譯及其所有相關內容。"
+msgstr "這個動作無法取消。這會永久刪除 %(object)s 翻譯及其所有相關內容。"
 
 #: weblate/templates/trans/delete-translation.html:9
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation to remove"
-msgstr "要移除的翻譯標籤"
+msgstr "要移除的翻譯"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
@@ -7526,10 +7459,9 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:74
-#, fuzzy, python-format
-#| msgid "%(filter_pos)s / %(filter_count)s"
+#, python-format
 msgid "/ %(filter_count)s"
-msgstr "%(filter_pos)s / %(filter_count)s"
+msgstr "/ %(filter_count)s"
 
 #: weblate/templates/translate.html:80
 msgid "Next"
@@ -8110,10 +8042,8 @@ msgid "Strings needing action without suggestions"
 msgstr "需要處理但沒有翻譯建議的字串"
 
 #: weblate/trans/filter.py:51
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings with any failing checks"
-msgstr "任何未通過查核的字串"
+msgstr "任何未通過查核的已翻譯字串"
 
 #: weblate/trans/filter.py:54 weblate/trans/filter.py:122
 msgid "Approved strings"
@@ -8622,35 +8552,25 @@ msgid "I accept the contributor agreement"
 msgstr "我接受貢獻者協議書"
 
 #: weblate/trans/forms.py:1889
-#, fuzzy
-#| msgid "The translation name does not match the one marked for deletion!"
 msgid "The slug does not match the one marked for deletion!"
-msgstr "翻譯的名稱與標記刪除的項目不符！"
+msgstr "slug 與標記刪除的項目不符！"
 
 #: weblate/trans/forms.py:1895 weblate/trans/forms.py:1904
 #: weblate/trans/forms.py:1913
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Removal confirmation"
-msgstr "不良的組態"
+msgstr "移除確認"
 
 #: weblate/trans/forms.py:1896
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "請輸入翻譯的完整名稱以供確認。"
+msgstr "請輸入翻譯的完整 slug 以供確認。"
 
 #: weblate/trans/forms.py:1905
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the full slug of the component to confirm."
-msgstr "請輸入翻譯的完整名稱以供確認。"
+msgstr "請輸入組件的完整 slug 以供確認。"
 
 #: weblate/trans/forms.py:1914
-#, fuzzy
-#| msgid "Please type in the full name of the translation to confirm."
 msgid "Please type in the slug of the project to confirm."
-msgstr "請輸入翻譯的完整名稱以供確認。"
+msgstr "請輸入專案的 slug 以供確認。"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
@@ -9054,16 +8974,12 @@ msgid "BCP style using hyphen as a separator"
 msgstr "BCP 風格使用連字號當作分隔符"
 
 #: weblate/trans/models/component.py:127
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "POSIX 風格使用底線當作分隔符"
+msgstr "POSIX 風格使用底線當作分隔符，包含地區碼"
 
 #: weblate/trans/models/component.py:132
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr "BCP 風格使用連字號當作分隔符"
+msgstr "BCP 風格使用連字號當作分隔符，包含地區碼"
 
 #: weblate/trans/models/component.py:134
 msgid "Android style"
@@ -10005,10 +9921,8 @@ msgid "Some of the components within this project have alerts."
 msgstr "部份專案內的組件有警告。"
 
 #: weblate/trans/templatetags/translations.py:746
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation does not yet exist."
-msgstr "此翻譯已鎖定。"
+msgstr "此翻譯已不存在。"
 
 #: weblate/trans/templatetags/translations.py:772
 msgid "enabled"
@@ -10589,10 +10503,8 @@ msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "檔案名稱應盡可能簡單。或許您想使用：{}"
 
 #: weblate/utils/views.py:90
-#, fuzzy
-#| msgid "Words (%(count)s):"
 msgid "Word count"
-msgstr "單字 (%(count)s)："
+msgstr "單字數"
 
 #: weblate/utils/views.py:269
 #, python-format
@@ -10701,10 +10613,8 @@ msgid "Object listing turned off"
 msgstr "物件表列已關閉"
 
 #: weblate/wladmin/templates/admin/base.html:6
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Return to Weblate"
-msgstr "捐款給 Weblate"
+msgstr "返回 Weblate"
 
 #: weblate/wladmin/templates/admin/base.html:14
 msgid "Log out"
