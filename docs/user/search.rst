@@ -40,7 +40,7 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``shaping``, ``screenshot`` (works only on source strings).
+   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot`` (works only on source strings).
 ``is:TEXT``
    Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``

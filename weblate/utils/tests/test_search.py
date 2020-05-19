@@ -208,7 +208,7 @@ class QueryParserTest(TestCase):
         self.assert_query("has:resolved-comment", Q(comment__resolved=True))
         self.assert_query("has:dismissed-check", Q(check__dismissed=True))
         self.assert_query("has:translation", Q(state__gte=STATE_TRANSLATED))
-        self.assert_query("has:shaping", Q(shaping__isnull=False))
+        self.assert_query("has:variant", Q(variant__isnull=False))
         self.assert_query("has:label", Q(labels__isnull=False))
         self.assert_query("has:context", ~Q(context=""))
         self.assert_query("has:screenshot", Q(screenshots__isnull=False))

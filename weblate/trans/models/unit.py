@@ -230,8 +230,8 @@ class Unit(models.Model, LoggerMixin):
     extra_context = models.TextField(
         verbose_name=gettext_lazy("Additional context"), default="", blank=True
     )
-    shaping = models.ForeignKey(
-        "Shaping",
+    variant = models.ForeignKey(
+        "Variant",
         on_delete=models.deletion.SET_NULL,
         blank=True,
         null=True,
@@ -857,11 +857,11 @@ class Unit(models.Model, LoggerMixin):
             .order_by("context")
         )
 
-    def shapings(self):
-        if not self.shaping:
+    def variants(self):
+        if not self.variant:
             return []
         return (
-            self.shaping.unit_set.filter(translation=self.translation)
+            self.variant.unit_set.filter(translation=self.translation)
             .prefetch()
             .order_by("context")
         )

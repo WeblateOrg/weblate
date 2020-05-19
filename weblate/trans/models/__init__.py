@@ -35,10 +35,10 @@ from weblate.trans.models.componentlist import AutoComponentList, ComponentList
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.label import Label
 from weblate.trans.models.project import Project
-from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
@@ -58,7 +58,7 @@ __all__ = [
     "WeblateConf",
     "ContributorAgreement",
     "Alert",
-    "Shaping",
+    "Variant",
     "Label",
 ]
 

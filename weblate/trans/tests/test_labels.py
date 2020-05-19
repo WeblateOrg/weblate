@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Test for shapings."""
+"""Test for variants."""
 
 
 from django.urls import reverse

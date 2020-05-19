@@ -539,13 +539,13 @@ filemask. This can be used to limit the list of languages managed by Weblate
 (e.g. ``^(cs|de|es)$`` will include only these languages. Please note
 that you need to list language codes as they appear in the filename.
 
-.. _component-shaping_regex:
+.. _component-variant_regex:
 
-Shapings regular expression
+Variants regular expression
 +++++++++++++++++++++++++++
 
-Regular expression used to determine the shapings of a string, see
-:ref:`shapings`.
+Regular expression used to determine the variants of a string, see
+:ref:`variants`.
 
 .. note::
 

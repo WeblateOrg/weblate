@@ -1243,7 +1243,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "template",
             "intermediate",
             "language_regex",
-            "shaping_regex",
+            "variant_regex",
         )
         widgets = {"enforced_checks": SelectChecksWidget()}
 
@@ -1270,7 +1270,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         _("Translation settings"),
                         "allow_translation_propagation",
                         "check_flags",
-                        "shaping_regex",
+                        "variant_regex",
                         "enforced_checks",
                     ),
                     css_id="translation",

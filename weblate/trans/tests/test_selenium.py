@@ -1144,14 +1144,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Android")
 
-        # Edit shaping configuration
+        # Edit variant configuration
         self.click("Manage")
         with self.wait_for_page_load():
             self.click("Settings")
         self.click("Translation")
-        element = self.driver.find_element_by_id("id_shaping_regex")
+        element = self.driver.find_element_by_id("id_variant_regex")
         element.send_keys("_(short|min)$")
-        self.screenshot("shapings-settings.png")
+        self.screenshot("variants-settings.png")
         with self.wait_for_page_load():
             element.submit()
 
@@ -1162,7 +1162,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click("English")
         self.screenshot("source-review.png")
 
-        # Find string with shapings
+        # Find string with variants
         self.click("Search")
         element = self.driver.find_element_by_id("id_q")
         element.send_keys("Monday")
@@ -1170,9 +1170,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
         self.screenshot("source-review-detail.png")
 
-        # Display shapings
-        self.click(htmlid="toggle-shapings")
-        self.screenshot("shapings-translate.png")
+        # Display variants
+        self.click(htmlid="toggle-variants")
+        self.screenshot("variants-translate.png")
 
         # Edit context
         self.click(htmlid="edit-context")

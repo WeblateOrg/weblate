@@ -43,7 +43,7 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-{% with nearby=unit.nearby nearby_keys=unit.nearby_keys shapings=unit.shapings %}
+{% with nearby=unit.nearby nearby_keys=unit.nearby_keys variants=unit.variants %}
 
 <div class="row query-container">
   <div class="col-sm-9">
@@ -221,8 +221,8 @@
 {% if nearby_keys %}
 <li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
 {% endif %}
-{% if shapings|length > 1 %}
-<li><a href="#shapings" data-toggle="tab" id="toggle-shapings" title="{% trans "Shapings of the string" %}">{% trans "Shapings" %} <span class="badge">{{ shapings|length }}</span></a></li>
+{% if variants|length > 1 %}
+<li><a href="#variants" data-toggle="tab" id="toggle-variants" title="{% trans "Variants of the string" %}">{% trans "Variants" %} <span class="badge">{{ variants|length }}</span></a></li>
 {% endif %}
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions|length }}</span></a></li>
@@ -255,9 +255,9 @@
 </div>
 {% endif %}
 
-{% if shapings|length > 1 %}
-<div class="tab-pane" id="shapings">
-{% include "snippets/embed-units.html" with current_unit=unit units=shapings %}
+{% if variants|length > 1 %}
+<div class="tab-pane" id="variants">
+{% include "snippets/embed-units.html" with current_unit=unit units=variants %}
 </div>
 {% endif %}
 
@@ -407,7 +407,7 @@
 
 <div class="col-sm-3 source-info">
 
-{% if unit.all_checks or unit.suggestions or shapings %}
+{% if unit.all_checks or unit.suggestions or variants %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
 
@@ -470,16 +470,16 @@
     </div>
   {% endif %}
 
-  {% if shapings|length > 1 %}
+  {% if variants|length > 1 %}
     <div class="list-group-item check">
         <h5 class="list-group-item-heading">
-            {% documentation_icon 'user/translating' 'shapings' right=True %}
-            {% icon "shaping.svg" %}
-            {% trans "Shapings" %}
+            {% documentation_icon 'user/translating' 'variants' right=True %}
+            {% icon "variant.svg" %}
+            {% trans "Variants" %}
         </h5>
-        <p class="list-group-item-text">{% blocktrans count count=shapings|length %}There is {{ count }} shaping for this string.{% plural %}There are {{ count }} shapings for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text">{% blocktrans count count=variants|length %}There is {{ count }} variant for this string.{% plural %}There are {{ count }} variants for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
-            <a href="#shapings" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
+            <a href="#variants" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
         </p>
     </div>
   {% endif %}

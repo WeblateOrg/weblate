@@ -264,8 +264,8 @@ def has_sql(text):
         return Q(check__dismissed=True)
     if text == "translation":
         return Q(state__gte=STATE_TRANSLATED)
-    if text == "shaping":
-        return Q(shaping__isnull=False)
+    if text in ("variant", "shaping"):
+        return Q(variant__isnull=False)
     if text == "label":
         return Q(labels__isnull=False)
     if text == "context":
