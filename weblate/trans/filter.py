@@ -58,6 +58,7 @@ class FilterRegistry:
                 "state:approved AND has:suggestion",
             ),
             ("unapproved", _("Strings waiting for review"), "state:translated"),
+            ("unlabeled", _("Strings without a label"), "NOT has:label"),
         ]
         result.extend(
             (

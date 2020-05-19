@@ -54,6 +54,7 @@ BASICS = {
     "comments",
     "approved_suggestions",
     "languages",
+    "unlabeled",
 }
 BASIC_KEYS = frozenset(
     ["{}_words".format(x) for x in BASICS if x != "languages"]
@@ -355,6 +356,9 @@ class TranslationStats(BaseStats):
             approved=conditional_sum(1, state__gte=STATE_APPROVED),
             approved_words=conditional_sum("num_words", state__gte=STATE_APPROVED),
             approved_chars=conditional_sum(Length("source"), state__gte=STATE_APPROVED),
+            unlabeled=conditional_sum(1, labels__isnull=True),
+            unlabeled_words=conditional_sum("num_words", labels__isnull=True),
+            unlabeled_chars=conditional_sum(Length("source"), labels__isnull=True),
         )
         check_stats = Unit.objects.filter(
             id__in=set(base.filter(check__dismissed=False).values_list("id", flat=True))
