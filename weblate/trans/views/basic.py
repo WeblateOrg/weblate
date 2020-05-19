@@ -21,7 +21,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_str
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
@@ -50,7 +49,7 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, ComponentList, Translation, Unit
 from weblate.trans.models.translation import GhostTranslation
-from weblate.trans.util import render, sort_objects, sort_unicode
+from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import (
@@ -128,7 +127,10 @@ def show_project(request, project):
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
 
     language_stats = sort_unicode(
-        obj.stats.get_language_stats(), lambda x: force_str(x.language)
+        obj.stats.get_language_stats(),
+        lambda x: "{}-{}".format(
+            user.profile.get_language_order(x.language), x.language
+        ),
     )
 
     # Paginate components of project.
@@ -195,6 +197,13 @@ def show_component(request, project, component):
                 continue
             translations.append(GhostTranslation(obj, language))
 
+    translations = sort_unicode(
+        translations,
+        lambda x: "{}-{}".format(
+            user.profile.get_language_order(x.language), x.language
+        ),
+    )
+
     return render(
         request,
         "component.html",
@@ -202,7 +211,7 @@ def show_component(request, project, component):
             "allow_index": True,
             "object": obj,
             "project": obj.project,
-            "translations": sort_objects(translations),
+            "translations": translations,
             "reports_form": ReportsForm(),
             "last_changes": last_changes,
             "last_changes_url": urlencode(

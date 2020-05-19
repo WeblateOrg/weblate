@@ -19,6 +19,7 @@
 
 
 import datetime
+from typing import Set
 
 from appconf import AppConf
 from django.conf import settings
@@ -30,6 +31,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone, translation
 from django.utils.crypto import get_random_string
+from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import Token
@@ -485,6 +487,22 @@ class Profile(models.Model):
             project.slug for project in self.watched.iterator()
         ]
         return result
+
+    @cached_property
+    def primary_language_ids(self) -> Set[int]:
+        return set(self.languages.values_list("pk", flat=True))
+
+    @cached_property
+    def secondary_language_ids(self) -> Set[int]:
+        return set(self.secondary_languages.values_list("pk", flat=True))
+
+    def get_language_order(self, language: Language) -> int:
+        """Returns key suitable for ordering languages based on user preferences."""
+        if language.pk in self.primary_language_ids:
+            return 0
+        if language.pk in self.secondary_language_ids:
+            return 1
+        return 2
 
 
 def set_lang(response, profile):

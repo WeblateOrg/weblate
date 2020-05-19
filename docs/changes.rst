@@ -28,6 +28,7 @@ Not yet released.
 * Improved machine translation of strings with placeholders.
 * Show ghost translation for user languages to ease starting them.
 * Improved language code parsing.
+* Show translations in user language first in the list.
 
 Weblate 4.0.4
 -------------
