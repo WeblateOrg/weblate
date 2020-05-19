@@ -989,8 +989,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
             # Add as sugestions
             return self.merge_suggestions(request, store, fuzzy)
-        except Exception:
-            report_error(cause="File upload")
         finally:
             if orig_user:
                 request.user = orig_user
