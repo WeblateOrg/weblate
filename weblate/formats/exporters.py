@@ -259,8 +259,8 @@ class PoXliffExporter(XMLExporter):
 
     def build_unit(self, unit):
         try:
-            converted_source = xliff_string_to_rich(unit.source)
-            converted_target = xliff_string_to_rich(unit.target)
+            converted_source = xliff_string_to_rich(unit.get_source_plurals())
+            converted_target = xliff_string_to_rich(unit.get_target_plurals())
         except XMLSyntaxError:
             return super().build_unit(unit)
         output = self.storage.UnitClass("")
