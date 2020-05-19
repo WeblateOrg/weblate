@@ -199,6 +199,25 @@ class PoXliffExporterTest(PoExporterTest):
         result = self.check_unit(source="x " + xml, target="y " + xml).decode()
         self.assertIn("<g", result)
 
+    def test_php_code(self):
+        text = """<?php
+if (!defined("FILENAME")){
+define("FILENAME",0);
+/*
+* @author AUTHOR
+*/
+
+class CLASSNAME extends BASECLASS {
+  //constructor
+  function CLASSNAME(){
+   BASECLASS::BASECLASS();
+  }
+ }
+}
+?>"""
+        result = self.check_unit(source="x " + text, target="y " + text).decode()
+        self.assertIn("&lt;?php", result)
+
 
 class XliffExporterTest(PoXliffExporterTest):
     _class = XliffExporter
