@@ -151,7 +151,7 @@ The following keyboard shortcuts can be utilized during translation:
     Navigates to previous translation in current search.
 :kbd:`Alt+PageDown`
     Navigates to next translation in current search.
-:kbd:`Ctrl+Enter` or :kbd:`Cmd+Enter`
+:kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`
     Saves current translation.
 :kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`
     Unmarks translation as fuzzy and submits it.
@@ -173,7 +173,7 @@ The following keyboard shortcuts can be utilized during translation:
     Shows search tab.
 :kbd:`Ctrl+O` or :kbd:`Cmd+O`
     Copies source string.
-:kbd:`Ctrl+T` or :kbd:`Cmd+T`
+:kbd:`Ctrl+Y` or :kbd:`Cmd+Y`
     Toggles "Needs editing" flag.
 
 .. _visual-keyboard:
