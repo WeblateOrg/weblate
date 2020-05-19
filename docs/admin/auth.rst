@@ -329,7 +329,7 @@ The default :file:`settings.py` comes with a reasonable set of
 :setting:`django:AUTH_PASSWORD_VALIDATORS`:
 
 * Passwords can't be too similar to your other personal info.
-* Passwords must contain at least 6 characters.
+* Passwords must contain at least 10 characters.
 * Passwords can't be a commonly used password.
 * Passwords can't be entirely numeric.
 * Passwords can't consist of a single character or only whitespace.
