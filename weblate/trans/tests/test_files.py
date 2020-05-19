@@ -526,9 +526,9 @@ class ImportReplaceTest(ImportBaseTest):
 
         # Verify stats
         translation = self.get_translation()
-        self.assertEqual(translation.stats.translated, 1)
+        self.assertEqual(translation.stats.translated, 2)
         self.assertEqual(translation.stats.fuzzy, 0)
-        self.assertEqual(translation.stats.all, 1)
+        self.assertEqual(translation.stats.all, 2)
 
         # Verify unit
         unit = self.get_unit()

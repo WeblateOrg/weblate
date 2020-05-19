@@ -791,6 +791,10 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         """Cached access to source info."""
         from weblate.trans.models import Unit
 
+        # Preload sources when creating units
+        if not self._sources_prefetched and create:
+            self.preload_sources()
+
         try:
             return self._sources[id_hash]
         except KeyError:
