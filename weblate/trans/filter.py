@@ -36,7 +36,7 @@ class FilterRegistry:
             ("translated", _("Translated strings"), "state:>=translated"),
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
-            ("shapings", _("Strings with shapings"), "has:shaping"),
+            ("variants", _("Strings with variants"), "has:variant"),
             ("labels", _("Strings with labels"), "has:label"),
             ("context", _("Strings with context"), "has:context"),
             (

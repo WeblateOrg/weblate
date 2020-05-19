@@ -67,15 +67,15 @@ be rephrased or it is confusing.
 You can use Markdown syntax in the comments and mention other users using
 ``@mention``.
 
-Shapings
+Variants
 --------
 
-Shapings are used to group variants of the string in different lengths. The
+Variants are used to group variants of the string in different lengths. The
 frontend can use different strings depending on the screen or window size.
 
 .. seealso::
 
-    :ref:`shapings`
+    :ref:`variants`
 
 Labels
 ------

@@ -22,35 +22,35 @@ This can be done using :guilabel:`Start new translation` in :ref:`component`.
 Language files added manually to the VCS are added to the component when Weblate updates
 the repository. About repository update settings, see :ref:`update-vcs`).
 
-.. _shapings:
+.. _variants:
 
-String shapings
+String variants
 ---------------
 
-Shapings are useful to group several strings together so that translators can
+Variants are useful to group several strings together so that translators can
 see all variants of the string at one place. You can define regular expression
 to group the strings in the :ref:`component`:
 
-.. image:: /images/shapings-settings.png
+.. image:: /images/variants-settings.png
 
 The expression is matched against :guilabel:`Context` to generate root key of
-the shaping. All matching strings are then part of single shapings
+the variant. All matching strings are then part of single variants
 group, including the translation exactly matching the root key, even if that is
 not matched by the regular expression.
 
 The following table lists some usage examples:
 
 +---------------------------+-------------------------------+-----------------------------------------------+
-| Use case                  | Regular expression shaping    | Matched translation keys                      |
+| Use case                  | Regular expression variant    | Matched translation keys                      |
 +===========================+===============================+===============================================+
 | Suffix identification     | ``(Short|Min)$``              | ``monthShort``, ``monthMin``, ``month``       |
 +---------------------------+-------------------------------+-----------------------------------------------+
 | Inline identification     | ``#[SML]``                    | ``dial#S.key``, ``dial#M.key``, ``dial.key``  |
 +---------------------------+-------------------------------+-----------------------------------------------+
 
-The shaping is later grouped when translating:
+The variant is later grouped when translating:
 
-.. image:: /images/shapings-translate.png
+.. image:: /images/variants-translate.png
 
 .. _labels:
 

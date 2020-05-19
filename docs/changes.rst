@@ -29,6 +29,7 @@ Not yet released.
 * Show ghost translation for user languages to ease starting them.
 * Improved language code parsing.
 * Show translations in user language first in the list.
+* Renamed shapings to more generic name variants.
 
 Weblate 4.0.4
 -------------

@@ -69,7 +69,7 @@ class SearchField(Field):
             "translated",
             "fuzzy",
             "suggestions",
-            "shapings",
+            "variants",
             "labels",
             "context",
             "nosuggestions",

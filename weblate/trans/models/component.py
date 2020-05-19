@@ -62,8 +62,8 @@ from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
 from weblate.trans.models.change import Change
-from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.translation import Translation
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
     component_post_update,
     translation_post_add,
@@ -505,14 +505,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             "translation when scanning for filemask."
         ),
     )
-    shaping_regex = RegexField(
-        verbose_name=gettext_lazy("Shapings regular expression"),
+    variant_regex = RegexField(
+        verbose_name=gettext_lazy("Variants regular expression"),
         validators=[validate_re_nonempty],
         max_length=190,
         default="",
         blank=True,
         help_text=gettext_lazy(
-            "Regular expression used to determine shapings of a string."
+            "Regular expression used to determine variants of a string."
         ),
     )
 
@@ -553,7 +553,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         changed_git = True
         changed_setup = False
         changed_template = False
-        changed_shaping = False
+        changed_variant = False
         create = True
         if self.id:
             old = Component.objects.get(pk=self.id)
@@ -572,7 +572,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 or (old.edit_template != self.edit_template)
                 or changed_template
             )
-            changed_shaping = old.shaping_regex != self.shaping_regex
+            changed_variant = old.variant_regex != self.variant_regex
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
@@ -606,7 +606,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             changed_git,
             changed_setup,
             changed_template,
-            changed_shaping,
+            changed_variant,
             skip_push=kwargs.get("force_insert", False),
         )
         self.store_background_task(task)
@@ -1643,7 +1643,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             translation.notify_new(request)
 
         if was_change:
-            self.update_shapings()
+            self.update_variants()
             component_post_update.send(sender=self.__class__, component=self)
             # Update translation memory
             transaction.on_commit(lambda: import_memory.delay(self.project_id, self.id))
@@ -2014,7 +2014,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             )
 
     def after_save(
-        self, changed_git, changed_setup, changed_template, changed_shaping, skip_push
+        self, changed_git, changed_setup, changed_template, changed_variant, skip_push
     ):
         self.store_background_task()
         self.translations_progress = 0
@@ -2039,9 +2039,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         elif changed_git:
             was_change = self.create_translations()
 
-        # Update shapings (create_translation does this on change)
-        if changed_shaping and not was_change:
-            self.update_shapings()
+        # Update variants (create_translation does this on change)
+        if changed_variant and not was_change:
+            self.update_variants()
 
         self.update_alerts()
         self.progress_step(100)
@@ -2051,29 +2051,29 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         if changed_template:
             self.invalidate_stats_deep()
 
-    def update_shapings(self):
+    def update_variants(self):
         from weblate.trans.models import Unit
 
-        Shaping.objects.exclude(
-            shaping_regex=self.shaping_regex, component=self
+        Variant.objects.exclude(
+            variant_regex=self.variant_regex, component=self
         ).delete()
-        if not self.shaping_regex:
+        if not self.variant_regex:
             return
-        shaping_re = re.compile(self.shaping_regex)
+        variant_re = re.compile(self.variant_regex)
         units = Unit.objects.filter(
-            translation__component=self, context__regex=self.shaping_regex, shaping=None
+            translation__component=self, context__regex=self.variant_regex, variant=None
         )
         for unit in units.iterator():
-            if shaping_re.findall(unit.context):
-                key = shaping_re.sub("", unit.context)
-                unit.shaping = Shaping.objects.get_or_create(
-                    key=key, component=self, shaping_regex=self.shaping_regex
+            if variant_re.findall(unit.context):
+                key = variant_re.sub("", unit.context)
+                unit.variant = Variant.objects.get_or_create(
+                    key=key, component=self, variant_regex=self.variant_regex
                 )[0]
-                unit.save(update_fields=["shaping"])
-        for shaping in Shaping.objects.filter(component=self).iterator():
+                unit.save(update_fields=["variant"])
+        for variant in Variant.objects.filter(component=self).iterator():
             Unit.objects.filter(
-                translation__component=self, shaping=None, context=shaping.key
-            ).update(shaping=shaping)
+                translation__component=self, variant=None, context=variant.key
+            ).update(variant=variant)
 
     def update_alerts(self):
         if (
