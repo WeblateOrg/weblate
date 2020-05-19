@@ -21,7 +21,6 @@
 import codecs
 import os
 import tempfile
-from uuid import uuid4
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -56,7 +55,7 @@ from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
-from weblate.utils.stats import TranslationStats, ZeroStats
+from weblate.utils.stats import GhostStats, TranslationStats
 
 
 class TranslationManager(models.Manager):
@@ -1089,8 +1088,8 @@ class GhostTranslation:
     def __init__(self, component, language):
         self.component = component
         self.language = language
-        self.stats = ZeroStats(component.source_translation.stats)
-        self.pk = uuid4().hex
+        self.stats = GhostStats(component.source_translation.stats)
+        self.pk = self.stats.pk
         self.is_source = False
 
     def __str__(self):

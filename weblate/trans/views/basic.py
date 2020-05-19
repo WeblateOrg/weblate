@@ -51,7 +51,7 @@ from weblate.trans.models import Change, ComponentList, Translation, Unit
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import GhostStats, prefetch_stats
 from weblate.utils.views import (
     get_component,
     get_paginator,
@@ -126,8 +126,24 @@ def show_project(request, project):
 
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
 
+    language_stats = obj.stats.get_language_stats()
+    # Show ghost translations for user languages
+    component = None
+    for component in obj.component_set.all():
+        if component.can_add_new_language(user):
+            break
+    if component and component.can_add_new_language(user):
+        existing = {stats.language.code for stats in language_stats}
+        for language in user.profile.languages.all():
+            if language.code in existing:
+                continue
+            stats = GhostStats(obj.stats)
+            stats.language = language
+            stats.component = component
+            language_stats.append(stats)
+
     language_stats = sort_unicode(
-        obj.stats.get_language_stats(),
+        language_stats,
         lambda x: "{}-{}".format(
             user.profile.get_language_order(x.language), x.language
         ),
@@ -190,7 +206,7 @@ def show_component(request, project, component):
     translations = prefetch_stats(list(obj.translation_set.prefetch()))
 
     # Show ghost translations for user languages
-    if obj.can_add_new_language(request.user):
+    if obj.can_add_new_language(user):
         existing = {translation.language.code for translation in translations}
         for language in user.profile.languages.all():
             if language.code in existing:

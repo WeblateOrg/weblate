@@ -22,6 +22,7 @@ from copy import copy
 from datetime import timedelta
 from itertools import chain
 from types import GeneratorType
+from uuid import uuid4
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
@@ -797,12 +798,17 @@ class GlobalStats(BaseStats):
         return "stats-global"
 
 
-class ZeroStats(BaseStats):
+class GhostStats(BaseStats):
     basic_keys = SOURCE_KEYS
+    is_ghost = True
 
     def __init__(self, base=None):
         super().__init__(None)
         self.base = base
+
+    @cached_property
+    def pk(self):
+        return uuid4().hex
 
     def prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
@@ -823,3 +829,6 @@ class ZeroStats(BaseStats):
 
     def save(self):
         return
+
+    def get_absolute_url(self):
+        return None
