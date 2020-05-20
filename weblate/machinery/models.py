@@ -35,6 +35,7 @@ class WeblateConf(AppConf):
     # Microsoft Conginite Services Translator
     MICROSOFT_COGNITIVE_KEY = None
     MICROSOFT_BASE_URL = "api.cognitive.microsofttranslator.com"
+    MICROSOFT_ENDPOINT_URL = "api.cognitive.microsoft.com"
 
     # Microsoft Azure services region identification code
     MICROSOFT_REGION = None
