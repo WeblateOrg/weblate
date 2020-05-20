@@ -574,49 +574,9 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, self.component.name)
 
 
-class BasicResourceViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_android()
-
-
-class BasicBranchViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_po_branch()
-
-
-class BasicMercurialViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_po_mercurial()
-
-
-class BasicPoMonoViewTest(BasicViewTest):
+class BasicMonolingualViewTest(BasicViewTest):
     def create_component(self):
         return self.create_po_mono()
-
-
-class BasicIphoneViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_iphone()
-
-
-class BasicJSONViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_json()
-
-
-class BasicJavaViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_java()
-
-
-class BasicXliffViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_xliff()
-
-
-class BasicLinkViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_link()
 
 
 class DashboardTest(ViewTestCase):
