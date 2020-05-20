@@ -510,6 +510,14 @@ Machine translation settings
 
     Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
 
+.. envvar:: WEBLATE_MT_MICROSOFT_ENDPOINT_URL
+
+    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_ENDPOINT_URL`
+
+.. envvar:: WEBLATE_MT_MICROSOFT_BASE_URL
+
+    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_BASE_URL`
+
 .. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
 
     Enables :ref:`mymemory` machine translation and sets
