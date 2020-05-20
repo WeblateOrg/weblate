@@ -150,7 +150,7 @@ class UnitQuerySet(models.QuerySet):
                 sort_list.append(choice)
         if not sort_list:
             return self.order()
-        if "max_labels_name" in sort_list:
+        if "max_labels_name" in sort_list or "-max_labels_name" in sort_list:
             return self.annotate(max_labels_name=Max("labels__name")).order_by(
                 *sort_list
             )
