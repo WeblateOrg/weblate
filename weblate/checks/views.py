@@ -51,9 +51,9 @@ def show_checks(request):
         kwargs["unit__translation__component__project__slug"] = request.GET["project"]
         url_params["project"] = request.GET["project"]
 
-    if request.GET.get("language"):
-        kwargs["unit__translation__language__code"] = request.GET["language"]
-        url_params["language"] = request.GET["language"]
+    if request.GET.get("lang"):
+        kwargs["unit__translation__language__code"] = request.GET["lang"]
+        url_params["lang"] = request.GET["lang"]
 
     if request.GET.get("component"):
         kwargs["unit__translation__component__slug"] = request.GET["component"]
@@ -96,9 +96,9 @@ def show_check(request, name):
         "component__translation__unit__check__check": name,
     }
 
-    if request.GET.get("language"):
-        kwargs["component__translation__language__code"] = request.GET["language"]
-        url_params["language"] = request.GET["language"]
+    if request.GET.get("lang"):
+        kwargs["component__translation__language__code"] = request.GET["lang"]
+        url_params["lang"] = request.GET["lang"]
 
     # This has to be done after updating url_params
     if request.GET.get("project") and "/" not in request.GET["project"]:
@@ -155,9 +155,9 @@ def show_check_project(request, name, project):
         "translation__unit__check__check": name,
     }
 
-    if request.GET.get("language"):
-        kwargs["translation__language__code"] = request.GET["language"]
-        url_params["language"] = request.GET["language"]
+    if request.GET.get("lang"):
+        kwargs["translation__language__code"] = request.GET["lang"]
+        url_params["lang"] = request.GET["lang"]
 
     components = (
         Component.objects.filter(**kwargs)
@@ -201,8 +201,8 @@ def show_check_component(request, name, project, component):
 
     kwargs = {}
 
-    if request.GET.get("language"):
-        kwargs["language__code"] = request.GET["language"]
+    if request.GET.get("lang"):
+        kwargs["language__code"] = request.GET["lang"]
 
     translations = (
         Translation.objects.filter(
