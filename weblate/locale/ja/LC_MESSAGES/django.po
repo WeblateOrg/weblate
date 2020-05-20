@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-20 07:07+0000\n"
-"PO-Revision-Date: 2020-05-19 07:25+0000\n"
+"PO-Revision-Date: 2020-05-20 11:46+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -2752,14 +2752,12 @@ msgid "Flat XML file"
 msgstr "Flat XML ファイル"
 
 #: weblate/formats/ttkit.py:1308
-#, fuzzy
-#| msgid "IDML file"
 msgid "INI file"
-msgstr "IDML ファイル"
+msgstr "INI ファイル"
 
 #: weblate/formats/ttkit.py:1343
 msgid "InnoSetup INI file"
-msgstr ""
+msgstr "InnoSetup INI ファイル"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -4505,16 +4503,10 @@ msgid "No subscriptions or due payments."
 msgstr "サブスクリプションまたは支払予定はありません。"
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "If you miss access to billing of your project, please contact its project "
-#| "maintainers to grant you access."
 msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
-msgstr ""
-"プロジェクトの請求書を閲覧できない場合は、プロジェクトの管理者に連絡してアク"
-"セス権をもらってください。"
+msgstr "プロジェクトの請求書を閲覧できない場合は、プロジェクトの管理者にアクセス権を依頼してください。"
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -7013,10 +7005,8 @@ msgid "Comments"
 msgstr "コメント"
 
 #: weblate/templates/snippets/list-objects.html:84
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Create translation"
-msgstr "Weblate 翻訳"
+msgstr "翻訳の作成"
 
 #: weblate/templates/snippets/list-objects.html:106
 msgid "Nothing to list here."
@@ -7859,16 +7849,12 @@ msgid "Nearby keys"
 msgstr "前後の翻訳キー"
 
 #: weblate/templates/translate.html:225
-#, fuzzy
-#| msgid "Shapings of the string"
 msgid "Variants of the string"
-msgstr "キーワードの抽出"
+msgstr "文字列のバリアント"
 
 #: weblate/templates/translate.html:225 weblate/templates/translate.html:478
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "バイエルン・オーストリア語"
+msgstr "バリアント"
 
 #: weblate/templates/translate.html:231
 msgid "Other occurrences"
@@ -7959,12 +7945,10 @@ msgid_plural "There are %(count)s comments for this string."
 msgstr[0] "この文字列には %(count)s 件のコメントがあります。"
 
 #: weblate/templates/translate.html:480
-#, fuzzy, python-format
-#| msgid "There is %(count)s shaping for this string."
-#| msgid_plural "There are %(count)s shapings for this string."
+#, python-format
 msgid "There is %(count)s variant for this string."
 msgid_plural "There are %(count)s variants for this string."
-msgstr[0] "キーワードを抽出した文字列が %(count)s 件あります。"
+msgstr[0] "文字列には %(count)s のバリアントがあります。"
 
 #: weblate/templates/translate.html:494
 msgid "Manage glossary"
@@ -8350,10 +8334,8 @@ msgid "Strings marked for edit"
 msgstr "要編集マーク付きの文字列"
 
 #: weblate/trans/filter.py:39
-#, fuzzy
-#| msgid "Strings with shapings"
 msgid "Strings with variants"
-msgstr "キーワードの抽出"
+msgstr "バリアントを含む文字列"
 
 #: weblate/trans/filter.py:40
 msgid "Strings with labels"
@@ -8380,10 +8362,8 @@ msgid "Strings waiting for review"
 msgstr "査読待ちの文字列"
 
 #: weblate/trans/filter.py:61
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Strings without a label"
-msgstr "ラベル付き文字列"
+msgstr "ラベルのない文字列"
 
 #: weblate/trans/filter.py:66 weblate/trans/filter.py:128
 msgid "Failed check: {}"
@@ -9600,16 +9580,12 @@ msgid ""
 msgstr "ファイル マスクをスキャンするときに翻訳をフィルタ処理する正規表現。"
 
 #: weblate/trans/models/component.py:509
-#, fuzzy
-#| msgid "Shapings regular expression"
 msgid "Variants regular expression"
-msgstr "キーワードを抽出する正規表現"
+msgstr "バリアント正規表現"
 
 #: weblate/trans/models/component.py:515
-#, fuzzy
-#| msgid "Regular expression used to determine shapings of a string."
 msgid "Regular expression used to determine variants of a string."
-msgstr "キーワードを抽出するために使用する正規表現。"
+msgstr "文字列のバリアントを決定するために使用される正規表現。"
 
 #: weblate/trans/models/component.py:524
 msgid "Components with higher priority are offered first to translators."
@@ -10309,10 +10285,8 @@ msgid "Some of the components within this project have alerts."
 msgstr "プロジェクト内の一部のコンポーネントに警告があります。"
 
 #: weblate/trans/templatetags/translations.py:746
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation does not yet exist."
-msgstr "この翻訳は現在ロックされています。"
+msgstr "この翻訳はまだありません。"
 
 #: weblate/trans/templatetags/translations.py:772
 msgid "enabled"
