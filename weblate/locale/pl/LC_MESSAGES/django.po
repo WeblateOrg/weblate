@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-20 07:07+0000\n"
+"POT-Creation-Date: 2020-05-20 11:46+0000\n"
 "PO-Revision-Date: 2020-05-19 15:57+0000\n"
 "Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
@@ -747,7 +747,7 @@ msgid "Too many messages sent, please try again later!"
 msgstr "Zbyt wiele wysłanych komunikatów. Prosimy spróbować ponownie później!"
 
 #: weblate/accounts/views.py:476 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:232
+#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:247
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "Kontakt"
@@ -760,7 +760,7 @@ msgstr "Hosting"
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:184
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:194
 msgid "Sign in"
 msgstr "Zaloguj się"
 
@@ -2572,7 +2572,7 @@ msgstr "Czcionka"
 #: weblate/templates/component.html:135 weblate/templates/dictionaries.html:18
 #: weblate/templates/js/translations.html:7 weblate/templates/languages.html:11
 #: weblate/templates/project.html:57
-#: weblate/templates/trans/alert/duplicatelanguage.html:26
+#: weblate/templates/trans/alert/duplicatelanguage.html:29
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:993 weblate/trans/forms.py:1931
 #: weblate/trans/models/announcement.py:82
@@ -3293,7 +3293,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Niewystarczające uprawnienia do wyświetlenia tej strony."
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:121 weblate/templates/base.html:250
+#: weblate/templates/base.html:121 weblate/templates/base.html:265
 msgid "Dashboard"
 msgstr "Kokpit"
 
@@ -3384,7 +3384,7 @@ msgstr ""
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:233 weblate/templates/footer.html:6
+#: weblate/templates/base.html:248 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "O Weblate"
@@ -3429,7 +3429,7 @@ msgid "View hosting plans"
 msgstr "Zobacz plany hostingowe"
 
 #: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
+#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:206
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3538,8 +3538,8 @@ msgstr "Odrzucone testy"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:5
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:215
+#: weblate/templates/base.html:218 weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Twój profil"
 
@@ -3662,7 +3662,7 @@ msgstr ""
 "na warunkach określonych przez każdy z tłumaczonych projektów."
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:182
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:192
 #: weblate/templates/engage.html:58
 msgid "Register"
 msgstr "Zarejestruj się"
@@ -3771,7 +3771,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Zmień hasło"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:384
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:395
 #: weblate/trans/views/files.py:138
 msgid "Please fix errors in the form."
 msgstr "Prosimy o poprawienie błędów w formularzu."
@@ -3790,7 +3790,7 @@ msgstr "Powiadomienia"
 msgid "Account"
 msgstr "Konto"
 
-#: weblate/templates/accounts/profile.html:28 weblate/templates/base.html:215
+#: weblate/templates/accounts/profile.html:28 weblate/templates/base.html:227
 msgid "Profile"
 msgstr "Profil"
 
@@ -4363,15 +4363,16 @@ msgstr "Testy nie powiodły się w %(project)s projektach"
 msgid "Checks overview"
 msgstr "Podsumowanie testów"
 
-#: weblate/templates/base.html:173
+#: weblate/templates/base.html:174 weblate/templates/base.html:176
 msgid "Administration"
 msgstr "Administracja"
 
-#: weblate/templates/base.html:175 weblate/templates/manage/performance.html:19
+#: weblate/templates/base.html:181 weblate/templates/base.html:183
+#: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "Błędy konfiguracji"
 
-#: weblate/templates/base.html:190 weblate/templates/component.html:237
+#: weblate/templates/base.html:200 weblate/templates/component.html:237
 #: weblate/templates/dictionary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:127
@@ -4390,23 +4391,23 @@ msgstr "Błędy konfiguracji"
 msgid "Add"
 msgstr "Dodaj"
 
-#: weblate/templates/base.html:192 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:202 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Dodaj nowy projekt tłumaczenia"
 
-#: weblate/templates/base.html:193 weblate/templates/project.html:40
+#: weblate/templates/base.html:203 weblate/templates/project.html:40
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Dodaj nowy składnik tłumaczeń"
 
-#: weblate/templates/base.html:217
+#: weblate/templates/base.html:229
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "Przegląd płatności"
 
-#: weblate/templates/base.html:219 weblate/templates/component.html:95
+#: weblate/templates/base.html:231 weblate/templates/component.html:95
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:18
 #: weblate/templates/snippets/project-nav.html:98
@@ -4416,26 +4417,26 @@ msgstr "Przegląd płatności"
 msgid "Translation memory"
 msgstr "Pamięć tłumaczenia"
 
-#: weblate/templates/base.html:220 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:232 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/snippets/project-nav.html:112
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: weblate/templates/base.html:222 weblate/wladmin/sites.py:193
+#: weblate/templates/base.html:234 weblate/wladmin/sites.py:193
 msgid "Sign out"
 msgstr "Wyloguj się"
 
-#: weblate/templates/base.html:229
+#: weblate/templates/base.html:241 weblate/templates/base.html:243
 msgid "Help"
 msgstr "Pomoc"
 
-#: weblate/templates/base.html:231
+#: weblate/templates/base.html:246
 msgid "Support"
 msgstr "Wsparcie"
 
-#: weblate/templates/base.html:235 weblate/templates/check.html:50
+#: weblate/templates/base.html:250 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -4450,18 +4451,18 @@ msgstr "Wsparcie"
 msgid "Documentation"
 msgstr "Dokumentacja"
 
-#: weblate/templates/base.html:236
+#: weblate/templates/base.html:251
 msgid "Contribute to Weblate"
 msgstr "Przyczyń się do rozwoju Weblate"
 
-#: weblate/templates/base.html:285 weblate/templates/base.html:293
+#: weblate/templates/base.html:300 weblate/templates/base.html:308
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/translate.html:521 weblate/templates/translate.html:651
 msgid "Close"
 msgstr "Zamknij"
 
-#: weblate/templates/base.html:292 weblate/templates/dictionary.html:67
+#: weblate/templates/base.html:307 weblate/templates/dictionary.html:67
 #: weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82
 #: weblate/templates/js/translations.html:10
@@ -6754,8 +6755,10 @@ msgid "Go to position"
 msgstr "Przejdź do pozycji"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
-msgid "Enter position to jump"
-msgstr "Wprowadź pozycję"
+#, fuzzy
+#| msgid "Jump"
+msgid "Jump to"
+msgstr "Przejdź"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
@@ -7395,7 +7398,7 @@ msgid "Weblate could not execute script addon."
 msgstr "Weblate nie może wykonać dodatkowego skryptu."
 
 #: weblate/templates/trans/alert/addonscripterror.html:6
-#: weblate/templates/trans/alert/duplicatelanguage.html:22
+#: weblate/templates/trans/alert/duplicatelanguage.html:25
 #: weblate/templates/trans/alert/duplicatestring.html:6
 #: weblate/templates/trans/alert/parseerror.html:6
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:4
@@ -7458,29 +7461,46 @@ msgstr "Popraw to, usuwając jeden z nich."
 msgid "The following filemasks were found multiple times:"
 msgstr "Następujące maski plików znajdują się wiele razy:"
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:3
+#: weblate/templates/trans/alert/duplicatelanguage.html:4
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
 msgstr ""
 "Składnik zawiera kilka plików tłumaczeń mapowanych na jeden język w Weblate."
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:4
+#: weblate/templates/trans/alert/duplicatelanguage.html:5
 msgid "Please fix this by removing one of the translation files."
 msgstr "Popraw to, usuwając jeden z plików tłumaczenia."
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:9
+#: weblate/templates/trans/alert/duplicatelanguage.html:10
 msgid "Please consider the following:"
 msgstr "Proszę wziąć pod uwagę następujące kwestie:"
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:13
+#: weblate/templates/trans/alert/duplicatelanguage.html:14
+#, fuzzy
+#| msgid ""
+#| "Remove the translation file for the source language or change the source "
+#| "language in the project settings."
 msgid ""
-"Change the source language in the project settings, or remove its "
-"translation file."
+"In case the translation is desired, please change the source language in the "
+"project settings"
 msgstr ""
-"Zmień język źródłowy w ustawieniach projektu lub usuń jego plik tłumaczenia."
+"Usuń plik tłumaczenia dla języka źródłowego lub zmień język źródłowy w "
+"ustawieniach projektu."
+
+#: weblate/templates/trans/alert/duplicatelanguage.html:15
+msgid ""
+"In case the translation file is not needed, please remove it from the "
+"repository"
+msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
+msgid ""
+"In case the translation file is needed, but shoud be ignored by Weblate, "
+"please configure language regex to exclude it"
+msgstr ""
+
+#: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
@@ -7488,7 +7508,7 @@ msgstr ""
 "Unikaj posiadania plików tłumaczeń zarówno dla kodu zwykłego języka, jak i "
 "jego równoważnego oznaczenia terytorium (na przykład de i de_DE)."
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:26
+#: weblate/templates/trans/alert/duplicatelanguage.html:29
 msgid "Language codes"
 msgstr "Kody językowe"
 
@@ -10545,12 +10565,12 @@ msgstr "Użytkownik został zaproszony do tego projektu."
 msgid "User has been removed from this project."
 msgstr "Użytkownik został usunięty z tego projektu."
 
-#: weblate/trans/views/basic.py:117
+#: weblate/trans/views/basic.py:127
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Zaangażuj się w {0}!"
 
-#: weblate/trans/views/basic.py:379
+#: weblate/trans/views/basic.py:390
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Wysłano żądanie nowego tłumaczenia do utrzymujących projekt."
@@ -11259,6 +11279,16 @@ msgstr "Uruchomiono proces tworzenia kopii zapasowej"
 msgid "Could not dismiss the configuration error!"
 msgstr "Nie można odrzucić błędu konfiguracji!"
 
+#~ msgid "Enter position to jump"
+#~ msgstr "Wprowadź pozycję"
+
+#~ msgid ""
+#~ "Change the source language in the project settings, or remove its "
+#~ "translation file."
+#~ msgstr ""
+#~ "Zmień język źródłowy w ustawieniach projektu lub usuń jego plik "
+#~ "tłumaczenia."
+
 #~ msgid "Shapings"
 #~ msgstr "Kształty"
 
@@ -11276,9 +11306,6 @@ msgstr "Nie można odrzucić błędu konfiguracji!"
 
 #~ msgid "Jump to position"
 #~ msgstr "Przejdź do pozycji"
-
-#~ msgid "Jump"
-#~ msgstr "Przejdź"
 
 #~ msgid "%(filter_name)s (%(filter_count)s)"
 #~ msgstr "%(filter_name)s (%(filter_count)s)"
@@ -11383,13 +11410,6 @@ msgstr "Nie można odrzucić błędu konfiguracji!"
 
 #~ msgid "Add a project message"
 #~ msgstr "Dodaj wiadomość o projekcie"
-
-#~ msgid ""
-#~ "Remove the translation file for the source language or change the source "
-#~ "language in the project settings."
-#~ msgstr ""
-#~ "Usuń plik tłumaczenia dla języka źródłowego lub zmień język źródłowy w "
-#~ "ustawieniach projektu."
 
 #~ msgid "Add a translation message"
 #~ msgstr "Dodaj wiadomość do tłumaczenia"

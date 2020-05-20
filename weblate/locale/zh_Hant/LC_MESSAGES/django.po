@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-05-20 07:07+0000\n"
+"POT-Creation-Date: 2020-05-20 11:46+0000\n"
 "PO-Revision-Date: 2020-05-20 07:06+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -704,7 +704,7 @@ msgid "Too many messages sent, please try again later!"
 msgstr "傳送過多訊息，稍後請再試一次！"
 
 #: weblate/accounts/views.py:476 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:232
+#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:247
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "連絡我們"
@@ -717,7 +717,7 @@ msgstr "託管服務"
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:184
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:194
 msgid "Sign in"
 msgstr "登入"
 
@@ -2482,7 +2482,7 @@ msgstr "字型"
 #: weblate/templates/component.html:135 weblate/templates/dictionaries.html:18
 #: weblate/templates/js/translations.html:7 weblate/templates/languages.html:11
 #: weblate/templates/project.html:57
-#: weblate/templates/trans/alert/duplicatelanguage.html:26
+#: weblate/templates/trans/alert/duplicatelanguage.html:29
 #: weblate/templates/trans/alert/duplicatestring.html:10
 #: weblate/trans/forms.py:993 weblate/trans/forms.py:1931
 #: weblate/trans/models/announcement.py:82
@@ -3189,7 +3189,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "權利不足，無法顯示此頁面。"
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:121 weblate/templates/base.html:250
+#: weblate/templates/base.html:121 weblate/templates/base.html:265
 msgid "Dashboard"
 msgstr "控制面板"
 
@@ -3273,7 +3273,7 @@ msgstr "若您需要協助，您可以指出此錯誤為 %(error_id)s。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:233 weblate/templates/footer.html:6
+#: weblate/templates/base.html:248 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "關於 Weblate"
@@ -3314,7 +3314,7 @@ msgid "View hosting plans"
 msgstr "檢視託管方案"
 
 #: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:196
+#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:206
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3422,8 +3422,8 @@ msgstr "略過的查核"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:205
-#: weblate/templates/billing/overview.html:5
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:215
+#: weblate/templates/base.html:218 weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "您的個人檔案"
 
@@ -3539,7 +3539,7 @@ msgstr ""
 "專案所使用的授權條款提供您的貢獻。"
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:182
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:192
 #: weblate/templates/engage.html:58
 msgid "Register"
 msgstr "註冊"
@@ -3630,7 +3630,7 @@ msgstr "為了確保您的密碼輸入正確，請輸入您的新密碼兩次。
 msgid "Change my password"
 msgstr "更動我的密碼"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:384
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:395
 #: weblate/trans/views/files.py:138
 msgid "Please fix errors in the form."
 msgstr "請修正表單中的錯誤。"
@@ -3649,7 +3649,7 @@ msgstr "通知"
 msgid "Account"
 msgstr "帳號"
 
-#: weblate/templates/accounts/profile.html:28 weblate/templates/base.html:215
+#: weblate/templates/accounts/profile.html:28 weblate/templates/base.html:227
 msgid "Profile"
 msgstr "個人檔案"
 
@@ -4193,15 +4193,16 @@ msgstr "%(project)s 中的未通過查核"
 msgid "Checks overview"
 msgstr "查核概覽"
 
-#: weblate/templates/base.html:173
+#: weblate/templates/base.html:174 weblate/templates/base.html:176
 msgid "Administration"
 msgstr "管理"
 
-#: weblate/templates/base.html:175 weblate/templates/manage/performance.html:19
+#: weblate/templates/base.html:181 weblate/templates/base.html:183
+#: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "組態設定錯誤"
 
-#: weblate/templates/base.html:190 weblate/templates/component.html:237
+#: weblate/templates/base.html:200 weblate/templates/component.html:237
 #: weblate/templates/dictionary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:127
@@ -4220,23 +4221,23 @@ msgstr "組態設定錯誤"
 msgid "Add"
 msgstr "新增"
 
-#: weblate/templates/base.html:192 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:202 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "新增翻譯專案"
 
-#: weblate/templates/base.html:193 weblate/templates/project.html:40
+#: weblate/templates/base.html:203 weblate/templates/project.html:40
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "新增翻譯元件"
 
-#: weblate/templates/base.html:217
+#: weblate/templates/base.html:229
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "帳單概覽"
 
-#: weblate/templates/base.html:219 weblate/templates/component.html:95
+#: weblate/templates/base.html:231 weblate/templates/component.html:95
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:18
 #: weblate/templates/snippets/project-nav.html:98
@@ -4246,26 +4247,26 @@ msgstr "帳單概覽"
 msgid "Translation memory"
 msgstr "翻譯記憶"
 
-#: weblate/templates/base.html:220 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:232 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/snippets/project-nav.html:112
 msgid "Settings"
 msgstr "設定"
 
-#: weblate/templates/base.html:222 weblate/wladmin/sites.py:193
+#: weblate/templates/base.html:234 weblate/wladmin/sites.py:193
 msgid "Sign out"
 msgstr "登出"
 
-#: weblate/templates/base.html:229
+#: weblate/templates/base.html:241 weblate/templates/base.html:243
 msgid "Help"
 msgstr "幫助"
 
-#: weblate/templates/base.html:231
+#: weblate/templates/base.html:246
 msgid "Support"
 msgstr "支援"
 
-#: weblate/templates/base.html:235 weblate/templates/check.html:50
+#: weblate/templates/base.html:250 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -4280,18 +4281,18 @@ msgstr "支援"
 msgid "Documentation"
 msgstr "文件"
 
-#: weblate/templates/base.html:236
+#: weblate/templates/base.html:251
 msgid "Contribute to Weblate"
 msgstr "為 Weblate 做出貢獻"
 
-#: weblate/templates/base.html:285 weblate/templates/base.html:293
+#: weblate/templates/base.html:300 weblate/templates/base.html:308
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/translate.html:521 weblate/templates/translate.html:651
 msgid "Close"
 msgstr "關閉"
 
-#: weblate/templates/base.html:292 weblate/templates/dictionary.html:67
+#: weblate/templates/base.html:307 weblate/templates/dictionary.html:67
 #: weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82
 #: weblate/templates/js/translations.html:10
@@ -6471,8 +6472,10 @@ msgid "Go to position"
 msgstr "前往位置"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
-msgid "Enter position to jump"
-msgstr "請輸入要跳轉的位置"
+#, fuzzy
+#| msgid "Jump"
+msgid "Jump to"
+msgstr "跳至"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
@@ -7083,7 +7086,7 @@ msgid "Weblate could not execute script addon."
 msgstr "Weblate 無法執行指令稿附加元件。"
 
 #: weblate/templates/trans/alert/addonscripterror.html:6
-#: weblate/templates/trans/alert/duplicatelanguage.html:22
+#: weblate/templates/trans/alert/duplicatelanguage.html:25
 #: weblate/templates/trans/alert/duplicatestring.html:6
 #: weblate/templates/trans/alert/parseerror.html:6
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:4
@@ -7140,34 +7143,50 @@ msgstr "請移除其中一個以修正。"
 msgid "The following filemasks were found multiple times:"
 msgstr "多次找到下列檔案遮罩："
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:3
+#: weblate/templates/trans/alert/duplicatelanguage.html:4
 msgid ""
 "The component contains several translation files mapped to a single language "
 "in Weblate."
 msgstr "該組件包含許多映射到 Weblate 中單一語言的翻譯檔。"
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:4
+#: weblate/templates/trans/alert/duplicatelanguage.html:5
 msgid "Please fix this by removing one of the translation files."
 msgstr "請移除其中一個翻譯檔以修正。"
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:9
+#: weblate/templates/trans/alert/duplicatelanguage.html:10
 msgid "Please consider the following:"
 msgstr "請嘗試下述步驟："
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:13
+#: weblate/templates/trans/alert/duplicatelanguage.html:14
+#, fuzzy
+#| msgid ""
+#| "Remove the translation file for the source language or change the source "
+#| "language in the project settings."
 msgid ""
-"Change the source language in the project settings, or remove its "
-"translation file."
-msgstr "變更專案設定中的來源語言，或是移除其翻譯檔。"
+"In case the translation is desired, please change the source language in the "
+"project settings"
+msgstr "移除來源語言的翻譯檔，或變更專案設定中的來源語言。"
+
+#: weblate/templates/trans/alert/duplicatelanguage.html:15
+msgid ""
+"In case the translation file is not needed, please remove it from the "
+"repository"
+msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
+msgid ""
+"In case the translation file is needed, but shoud be ignored by Weblate, "
+"please configure language regex to exclude it"
+msgstr ""
+
+#: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
 "避免同時有一般語言碼，又帶有相等地區碼的翻譯檔（例如同時有 de 和 de_DE）。"
 
-#: weblate/templates/trans/alert/duplicatelanguage.html:26
+#: weblate/templates/trans/alert/duplicatelanguage.html:29
 msgid "Language codes"
 msgstr "語言碼"
 
@@ -10048,12 +10067,12 @@ msgstr "使用者已邀進此專案。"
 msgid "User has been removed from this project."
 msgstr "使用者已從這個專案中移除。"
 
-#: weblate/trans/views/basic.py:117
+#: weblate/trans/views/basic.py:127
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "參與 {0}！"
 
-#: weblate/trans/views/basic.py:379
+#: weblate/trans/views/basic.py:390
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "新增語言的要求已傳送給專案維護者。"
@@ -10728,6 +10747,14 @@ msgstr "已觸發備份程序"
 msgid "Could not dismiss the configuration error!"
 msgstr "無法略過組態設定錯誤！"
 
+#~ msgid "Enter position to jump"
+#~ msgstr "請輸入要跳轉的位置"
+
+#~ msgid ""
+#~ "Change the source language in the project settings, or remove its "
+#~ "translation file."
+#~ msgstr "變更專案設定中的來源語言，或是移除其翻譯檔。"
+
 #~ msgid "Shapings"
 #~ msgstr "變體"
 
@@ -10745,9 +10772,6 @@ msgstr "無法略過組態設定錯誤！"
 
 #~ msgid "Jump to position"
 #~ msgstr "跳至位置"
-
-#~ msgid "Jump"
-#~ msgstr "跳至"
 
 #~ msgid "%(filter_name)s (%(filter_count)s)"
 #~ msgstr "%(filter_name)s (%(filter_count)s)"
@@ -10845,11 +10869,6 @@ msgstr "無法略過組態設定錯誤！"
 
 #~ msgid "Add a project message"
 #~ msgstr "新增專案訊息"
-
-#~ msgid ""
-#~ "Remove the translation file for the source language or change the source "
-#~ "language in the project settings."
-#~ msgstr "移除來源語言的翻譯檔，或變更專案設定中的來源語言。"
 
 #~ msgid "Add a translation message"
 #~ msgstr "新增翻譯訊息"
