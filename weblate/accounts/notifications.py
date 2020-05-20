@@ -393,6 +393,7 @@ class MergeFailureNotification(Notification):
         Change.ACTION_FAILED_REBASE,
         Change.ACTION_FAILED_PUSH,
     )
+    # Translators: Notification name
     verbose = _("Repository failure")
     template_name = "repository_error"
     fake_notify = None
@@ -417,6 +418,7 @@ class RepositoryNotification(Notification):
         Change.ACTION_REBASE,
         Change.ACTION_MERGE,
     )
+    # Translators: Notification name
     verbose = _("Repository operation")
     template_name = "repository_operation"
 
@@ -424,6 +426,7 @@ class RepositoryNotification(Notification):
 @register_notification
 class ParseErrorNotification(Notification):
     actions = (Change.ACTION_PARSE_ERROR,)
+    # Translators: Notification name
     verbose = _("Parse error")
     template_name = "parse_error"
 
@@ -431,6 +434,7 @@ class ParseErrorNotification(Notification):
 @register_notification
 class NewStringNotificaton(Notification):
     actions = (Change.ACTION_NEW_STRING,)
+    # Translators: Notification name
     verbose = _("New string")
     template_name = "new_string"
     filter_languages = True
@@ -439,6 +443,7 @@ class NewStringNotificaton(Notification):
 @register_notification
 class NewContributorNotificaton(Notification):
     actions = (Change.ACTION_NEW_CONTRIBUTOR,)
+    # Translators: Notification name
     verbose = _("New contributor")
     template_name = "new_contributor"
     filter_languages = True
@@ -447,6 +452,7 @@ class NewContributorNotificaton(Notification):
 @register_notification
 class NewSuggestionNotificaton(Notification):
     actions = (Change.ACTION_SUGGESTION,)
+    # Translators: Notification name
     verbose = _("New suggestion")
     template_name = "new_suggestion"
     filter_languages = True
@@ -456,6 +462,7 @@ class NewSuggestionNotificaton(Notification):
 @register_notification
 class LastAuthorCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
+    # Translators: Notification name
     verbose = _("Comment on own translation")
     template_name = "new_comment"
     ignore_watched = True
@@ -491,6 +498,7 @@ class LastAuthorCommentNotificaton(Notification):
 @register_notification
 class MentionCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
+    # Translators: Notification name
     verbose = _("Mentioned in comment")
     template_name = "new_comment"
     ignore_watched = True
@@ -530,6 +538,7 @@ class MentionCommentNotificaton(Notification):
 @register_notification
 class NewCommentNotificaton(Notification):
     actions = (Change.ACTION_COMMENT,)
+    # Translators: Notification name
     verbose = _("New comment")
     template_name = "new_comment"
     filter_languages = True
@@ -554,6 +563,7 @@ class NewCommentNotificaton(Notification):
 @register_notification
 class ChangedStringNotificaton(Notification):
     actions = Change.ACTIONS_CONTENT
+    # Translators: Notification name
     verbose = _("Changed string")
     template_name = "changed_translation"
     filter_languages = True
@@ -562,6 +572,7 @@ class ChangedStringNotificaton(Notification):
 @register_notification
 class NewTranslationNotificaton(Notification):
     actions = (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE)
+    # Translators: Notification name
     verbose = _("New language")
     template_name = "new_language"
 
@@ -576,6 +587,7 @@ class NewTranslationNotificaton(Notification):
 @register_notification
 class NewComponentNotificaton(Notification):
     actions = (Change.ACTION_CREATE_COMPONENT,)
+    # Translators: Notification name
     verbose = _("New translation component")
     template_name = "new_component"
 
@@ -583,6 +595,7 @@ class NewComponentNotificaton(Notification):
 @register_notification
 class NewAnnouncementNotificaton(Notification):
     actions = (Change.ACTION_MESSAGE,)
+    # Translators: Notification name
     verbose = _("New announcement")
     template_name = "new_announcement"
     required_attr = "announcement"
@@ -591,6 +604,7 @@ class NewAnnouncementNotificaton(Notification):
 @register_notification
 class NewAlertNotificaton(Notification):
     actions = (Change.ACTION_ALERT,)
+    # Translators: Notification name
     verbose = _("New alert")
     template_name = "new_alert"
     required_attr = "alert"
@@ -649,6 +663,7 @@ class SummaryNotification(Notification):
 
 @register_notification
 class PendingSuggestionsNotification(SummaryNotification):
+    # Translators: Notification name
     verbose = _("Pending suggestions")
     digest_template = "pending_suggestions"
 
@@ -658,6 +673,7 @@ class PendingSuggestionsNotification(SummaryNotification):
 
 @register_notification
 class ToDoStringsNotification(SummaryNotification):
+    # Translators: Notification name
     verbose = _("Strings needing action")
     digest_template = "todo_strings"
 
