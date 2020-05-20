@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-20 07:07+0000\n"
-"PO-Revision-Date: 2020-05-17 18:46+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2020-05-20 11:46+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
 "Language: es\n"
@@ -453,7 +453,7 @@ msgid ""
 msgstr ""
 "Proporcione un URL personalizado que utilizar como enlace al código fuente. "
 "Puede utilizar {{branch}} para las ramas, así como {{filename}} y {{line}} "
-"como sustitutos para nombres de archivo y renglones respectivamente."
+"como sustitutorios para nombres de archivo y renglones respectivamente."
 
 #: weblate/accounts/models.py:333
 msgid "Translation editor mode"
@@ -1660,7 +1660,7 @@ msgstr "Administrar idiomas"
 #: weblate/auth/data.py:191
 msgctxt "Access control role"
 msgid "Manage glossary"
-msgstr "Administrar glosario"
+msgstr "Gestionar glosario"
 
 #: weblate/auth/data.py:193
 msgctxt "Access control role"
@@ -2211,14 +2211,12 @@ msgid "This string has been translated in the past"
 msgstr "Esta cadena se ha traducido en el pasado"
 
 #: weblate/checks/duplicate.py:32
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Consecutive duplicated tokens"
-msgstr "Se encontró una cadena duplicada"
+msgstr "Fichas consecutivas duplicadas"
 
 #: weblate/checks/duplicate.py:33
 msgid "Text contains the same token twice in a row"
-msgstr ""
+msgstr "El texto contiene la misma ficha dos veces seguidas"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -2390,12 +2388,12 @@ msgstr "La interpolación de i18next no coincide con aquella en el original"
 
 #: weblate/checks/format.py:448
 msgid "Percent placeholders"
-msgstr "Sustitutos con signo de porcentaje"
+msgstr "Sustitutorios con signo de porcentaje"
 
 #: weblate/checks/format.py:449
 msgid "The percent placeholders do not match source"
 msgstr ""
-"Los sustitutos con signo de porcentaje no coinciden con aquellos en el "
+"Los sustitutorios con signo de porcentaje no coinciden con aquellos en el "
 "original"
 
 #: weblate/checks/markup.py:76
@@ -2461,13 +2459,11 @@ msgstr "La traducción utiliza marcado HTML inseguro"
 
 #: weblate/checks/placeholders.py:43
 msgid "Placeholders"
-msgstr "Sustitutos"
+msgstr "Sustitutorios"
 
 #: weblate/checks/placeholders.py:44
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders:"
-msgstr "A la traducción le faltan algunos sustitutos"
+msgstr "A la traducción le faltan algunos sustitutorios:"
 
 #: weblate/checks/placeholders.py:79
 #: weblate/templates/addons/discovery_help.html:8
@@ -2642,22 +2638,16 @@ msgstr ""
 "No se pudieron cargar las cadenas del archivo. Intente con otro formato."
 
 #: weblate/formats/convert.py:153
-#, fuzzy
-#| msgid "YAML file"
 msgid "HTML file"
-msgstr "Archivo YAML"
+msgstr "Archivo HTML"
 
 #: weblate/formats/convert.py:187
-#, fuzzy
-#| msgid "Font file"
 msgid "OpenDocument file"
-msgstr "Archivo de tipo de letra"
+msgstr "Archivo OpenDocument"
 
 #: weblate/formats/convert.py:242
-#, fuzzy
-#| msgid "YAML file"
 msgid "IDML file"
-msgstr "Archivo YAML"
+msgstr "Archivo IDML"
 
 #: weblate/formats/convert.py:296
 msgid "RC file"
@@ -2744,10 +2734,8 @@ msgid "PHP strings"
 msgstr "Cadenas de PHP"
 
 #: weblate/formats/ttkit.py:1023
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Laravel PHP strings"
-msgstr "Cadenas de PHP"
+msgstr "Cadenas PHP de Laravel"
 
 #: weblate/formats/ttkit.py:1029
 msgid ".NET resource file"
@@ -2818,14 +2806,12 @@ msgid "Flat XML file"
 msgstr "Archivo XML plano"
 
 #: weblate/formats/ttkit.py:1308
-#, fuzzy
-#| msgid "YAML file"
 msgid "INI file"
-msgstr "Archivo YAML"
+msgstr "Archivo INI"
 
 #: weblate/formats/ttkit.py:1343
 msgid "InnoSetup INI file"
-msgstr ""
+msgstr "Archivo INI de InnoSetup"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3567,11 +3553,8 @@ msgid "Failing checks found"
 msgstr "Se encontraron comprobaciones fallidas"
 
 #: weblate/templates/about/stats.html:104
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgid "Dismissed checks"
-msgstr "Falla comprobaciones"
+msgstr "Comprobaciones desestimadas"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -4598,16 +4581,12 @@ msgid "No subscriptions or due payments."
 msgstr "No hay ninguna suscripción ni pago pendiente."
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "In case you miss access to billing of your project, please contact "
-#| "project maintainers to give you permission to access its billing."
 msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
 msgstr ""
 "Si no puede consultar la facturación de su proyecto, póngase en contacto con "
-"los responsables de este para que le den acceso."
+"los administradores para que le den acceso."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -4693,7 +4672,7 @@ msgid ""
 "Only use this if you know what you are doing, enabling it might revoke your "
 "access to this project."
 msgstr ""
-"Sólo utilizar esta opción si sabe lo que está haciendo, permitir esto puede "
+"Utilice esta opción solo si sabe lo que está haciendo: activarla puede "
 "revocar su acceso a este proyecto."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:67
@@ -5624,10 +5603,8 @@ msgstr "Tamaño de archivo"
 
 #: weblate/templates/fonts/font_detail.html:21
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created on"
 msgid "Created"
-msgstr "Creado el"
+msgstr "Creación"
 
 #: weblate/templates/fonts/font_detail.html:22
 #: weblate/templates/screenshots/screenshot_detail.html:115
@@ -6790,14 +6767,11 @@ msgid "Request new translation"
 msgstr "Solicitar traducción nueva"
 
 #: weblate/templates/paginator.html:9 weblate/templates/translate.html:64
-#, fuzzy
-#| msgid "Go to position"
 msgid "Click to edit position"
-msgstr "Ir a la posición"
+msgstr "Pulse para editar la posición"
 
 #: weblate/templates/paginator.html:10
-#, fuzzy, python-format
-#| msgid "%(position)s / %(total)s"
+#, python-format
 msgid "%(position)s / %(total)s"
 msgstr "%(position)s/%(total)s"
 
@@ -6807,14 +6781,13 @@ msgstr "Ir a la posición"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Enter position to jump"
-msgstr ""
+msgstr "Escriba la posición a la que saltar"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
-#, fuzzy, python-format
-#| msgid "%(filter_pos)s / %(filter_count)s"
+#, python-format
 msgid "/ %(total)s"
-msgstr "%(filter_pos)s / %(filter_count)s"
+msgstr "/%(total)s"
 
 #: weblate/templates/progress.html:5 weblate/trans/forms.py:439
 msgid "Approved"
@@ -7150,10 +7123,8 @@ msgid "Comments"
 msgstr "Comentarios"
 
 #: weblate/templates/snippets/list-objects.html:84
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Create translation"
-msgstr "Traducciones Weblate"
+msgstr "Crear traducción"
 
 #: weblate/templates/snippets/list-objects.html:106
 msgid "Nothing to list here."
@@ -7313,10 +7284,8 @@ msgid "All untranslated strings added in the past month"
 msgstr "Todas las cadenas no traducidas añadidas el mes pasado"
 
 #: weblate/templates/snippets/query-field.html:15
-#, fuzzy
-#| msgid "Search"
 msgid "Custom Search"
-msgstr "Buscar"
+msgstr "Búsqueda personalizada"
 
 #: weblate/templates/snippets/query-field.html:25 weblate/trans/forms.py:166
 msgid "Query"
@@ -7325,38 +7294,28 @@ msgstr "Consulta"
 #: weblate/templates/snippets/query-field.html:39
 #: weblate/templates/snippets/query-field.html:43
 msgid "Sort By"
-msgstr ""
+msgstr "Ordenar por"
 
 #: weblate/templates/snippets/query-field.html:45 weblate/utils/views.py:94
 #: weblate/utils/views.py:97
-#, fuzzy
-#| msgid "String priority"
 msgid "Position and priority"
-msgstr "Prioridad de la cadena"
+msgstr "Posición y prioridad"
 
 #: weblate/templates/snippets/query-field.html:46 weblate/utils/views.py:86
-#, fuzzy
-#| msgid "Go to position"
 msgid "Position"
-msgstr "Ir a la posición"
+msgstr "Posición"
 
 #: weblate/templates/snippets/query-field.html:49 weblate/utils/views.py:89
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Age of string"
-msgstr "Número de cadenas"
+msgstr "Antigüedad de cadena"
 
 #: weblate/templates/snippets/query-field.html:51 weblate/utils/views.py:92
-#, fuzzy
-#| msgid "Multiple failing checks"
 msgid "Number of failing checks"
-msgstr "Varias comprobaciones fallidas"
+msgstr "Número de comprobaciones fallidas"
 
 #: weblate/templates/snippets/query-field.html:52 weblate/utils/views.py:91
-#, fuzzy
-#| msgid "Number of components"
 msgid "Number of comments"
-msgstr "Número de componentes"
+msgstr "Número de comentarios"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7428,28 +7387,20 @@ msgid "Untranslated"
 msgstr "No traducida"
 
 #: weblate/templates/snippets/unit-state.html:12
-#, fuzzy
-#| msgid "Failed check: {}"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "Comprobación fallida: {}"
+msgstr "Comprobaciones fallidas:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Failed checks"
-msgstr "Falla comprobaciones"
+msgstr "Comprobaciones fallidas"
 
 #: weblate/templates/snippets/unit-state.html:19
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Fails checks"
 msgctxt "String state"
 msgid "Dismissed checks"
-msgstr "Falla comprobaciones"
+msgstr "Comprobaciones desestimadas"
 
 #: weblate/templates/snippets/unit-state.html:24
 msgctxt "String state"
@@ -7767,45 +7718,35 @@ msgstr ""
 "crearlos."
 
 #: weblate/templates/trans/delete-component.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-"Esta acción no puede deshacerse. Esto borrará permanentemente la traducción "
-"{} y todo el contenido relacionado."
+"Esta acción no puede deshacerse. Esto borrará permanentemente el componente "
+"%(object)s y todo el contenido relacionado."
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
-#, fuzzy
-#| msgid "The following translation components will be also removed:"
 msgid "The following translation components will be removed:"
-msgstr "También desaparecerán estos componentes de traducción:"
+msgstr "Desaparecerán estos componentes de traducción:"
 
 #: weblate/templates/trans/delete-component.html:20
-#, fuzzy
-#| msgid "Component to use"
 msgid "Component to remove"
-msgstr "Componente a utilizar"
+msgstr "Componente por eliminar"
 
 #: weblate/templates/trans/delete-form.html:12
 msgid "I understand the consequences, delete this translation"
 msgstr "Entiendo las consecuencias; eliminar esta traducción"
 
 #: weblate/templates/trans/delete-project.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"Esta acción no puede deshacerse. Esto borrará permanentemente la traducción "
-"{} y todo el contenido relacionado."
+"Esta acción no puede deshacerse. Esto borrará permanentemente el proyecto "
+"%(object)s y todo el contenido relacionado."
 
 #: weblate/templates/trans/delete-project.html:6
 msgid ""
@@ -7832,10 +7773,8 @@ msgstr ""
 "{} y todo el contenido relacionado."
 
 #: weblate/templates/trans/delete-translation.html:9
-#, fuzzy
-#| msgid "Translation flags to remove"
 msgid "Translation to remove"
-msgstr "Indicadores de traducción que quitar"
+msgstr "Traducción por eliminar"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
@@ -8045,16 +7984,12 @@ msgid "Nearby keys"
 msgstr "Claves adyacentes"
 
 #: weblate/templates/translate.html:225
-#, fuzzy
-#| msgid "Shapings of the string"
 msgid "Variants of the string"
-msgstr "Formas de la cadena"
+msgstr "Variantes de la cadena"
 
 #: weblate/templates/translate.html:225 weblate/templates/translate.html:478
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "Bávaro"
+msgstr "Variantes"
 
 #: weblate/templates/translate.html:231
 msgid "Other occurrences"
@@ -8147,13 +8082,11 @@ msgstr[0] "Hay %(count)s comentario para esta cadena."
 msgstr[1] "Hay %(count)s comentarios para esta cadena."
 
 #: weblate/templates/translate.html:480
-#, fuzzy, python-format
-#| msgid "There is %(count)s shaping for this string."
-#| msgid_plural "There are %(count)s shapings for this string."
+#, python-format
 msgid "There is %(count)s variant for this string."
 msgid_plural "There are %(count)s variants for this string."
-msgstr[0] "Hay %(count)s forma para esta cadena."
-msgstr[1] "Hay %(count)s formas para esta cadena."
+msgstr[0] "Hay %(count)s variante para esta cadena."
+msgstr[1] "Hay %(count)s variantes para esta cadena."
 
 #: weblate/templates/translate.html:494
 msgid "Manage glossary"
@@ -8543,10 +8476,8 @@ msgid "Strings marked for edit"
 msgstr "Cadenas marcadas para edición"
 
 #: weblate/trans/filter.py:39
-#, fuzzy
-#| msgid "Strings with shapings"
 msgid "Strings with variants"
-msgstr "Cadenas con formas"
+msgstr "Cadenas con variantes"
 
 #: weblate/trans/filter.py:40
 msgid "Strings with labels"
@@ -8575,10 +8506,8 @@ msgid "Strings waiting for review"
 msgstr "Cadenas esperando para revisión"
 
 #: weblate/trans/filter.py:61
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Strings without a label"
-msgstr "Cadenas con etiquetas"
+msgstr "Cadenas sin etiquetas"
 
 #: weblate/trans/filter.py:66 weblate/trans/filter.py:128
 msgid "Failed check: {}"
@@ -9537,10 +9466,8 @@ msgid "BCP style using hyphen as a separator"
 msgstr "Estilo BCP con guion como separador"
 
 #: weblate/trans/models/component.py:127
-#, fuzzy
-#| msgid "POSIX style using underscore as a separator"
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "Estilo POSIX con guion bajo como separador"
+msgstr "Estilo POSIX con guion bajo como separador; incluye código de país"
 
 #: weblate/trans/models/component.py:132
 #, fuzzy
@@ -9598,8 +9525,8 @@ msgid ""
 "{{line}} as filename and line placeholders."
 msgstr ""
 "Enlace al navegador del repositorio; utilice {{branch}}, {{filename}} y "
-"{{line}} como sustitutos para nombres de rama, nombres de archivo y números "
-"de renglón respectivamente."
+"{{line}} como sustitutorios para nombres de rama, nombres de archivo y "
+"números de renglón respectivamente."
 
 #: weblate/trans/models/component.py:246
 msgid "Exported repository URL"
@@ -9842,16 +9769,13 @@ msgstr ""
 "archivo."
 
 #: weblate/trans/models/component.py:509
-#, fuzzy
-#| msgid "Shapings regular expression"
 msgid "Variants regular expression"
-msgstr "Expresión regular de formas"
+msgstr "Expresión regular de variantes"
 
 #: weblate/trans/models/component.py:515
-#, fuzzy
-#| msgid "Regular expression used to determine shapings of a string."
 msgid "Regular expression used to determine variants of a string."
-msgstr "Expresión regular utilizada para determinar las formas de una cadena."
+msgstr ""
+"Expresión regular utilizada para determinar las variantes de una cadena."
 
 #: weblate/trans/models/component.py:524
 msgid "Components with higher priority are offered first to translators."
@@ -10578,10 +10502,8 @@ msgid "Some of the components within this project have alerts."
 msgstr "Algún componente de este proyecto tiene alertas."
 
 #: weblate/trans/templatetags/translations.py:746
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation does not yet exist."
-msgstr "Esta traducción está bloqueada."
+msgstr "Esta traducción no existe aún."
 
 #: weblate/trans/templatetags/translations.py:772
 msgid "enabled"
@@ -10618,7 +10540,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:29
 msgid "Filemask does not contain * as a language placeholder!"
-msgstr "La máscara de archivo no contiene «*» como sustituto del idioma."
+msgstr "La máscara de archivo no contiene «*» como sustitutorio del idioma."
 
 #: weblate/trans/validators.py:38
 msgid ""
@@ -11311,10 +11233,8 @@ msgid "Object listing turned off"
 msgstr "Lista de objetos desactivada"
 
 #: weblate/wladmin/templates/admin/base.html:6
-#, fuzzy
-#| msgid "Donate to Weblate"
 msgid "Return to Weblate"
-msgstr "Donar a Weblate"
+msgstr "Volver a Weblate"
 
 #: weblate/wladmin/templates/admin/base.html:14
 msgid "Log out"
