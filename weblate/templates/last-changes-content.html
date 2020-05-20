@@ -55,6 +55,8 @@
                 {% format_translation change.unit.source change.unit.translation.component.project.source_language %}
                 <label>{{ change.unit.translation.language }}</label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural %}
+            {% elif change.show_content and change.dictionary %}
+                {% format_translation change.target change.dictionary.language  %}
             {% elif change.show_source %}
                 {% format_translation change.target change.component.project.source_language diff=change.old %}
             {% elif change.target %}
