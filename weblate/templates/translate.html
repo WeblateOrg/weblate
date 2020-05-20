@@ -70,7 +70,7 @@
                 <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
               {% endfor %}
               <div class="input-group">
-                <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Enter position to jump" %}">
+                <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}">
                 <span class="input-group-addon">{% blocktrans %}/ {{ filter_count }}{% endblocktrans %}</span>
               </div>
             </form>
