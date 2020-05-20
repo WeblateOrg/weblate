@@ -403,7 +403,7 @@ class LanguageQuerySet(models.QuerySet):
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
 
-    @cached_property
+    @property
     def english(self):
         """Return English language object."""
         return self.get(code="en")
