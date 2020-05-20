@@ -20,8 +20,7 @@
 
 from django.utils.encoding import force_str
 
-from weblate.lang.models import Language
-from weblate.machinery.base import MachineTranslation
+from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.trans.models import Unit
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -36,9 +35,7 @@ class WeblateTranslation(MachineTranslation):
 
     def convert_language(self, language):
         """No conversion of language object."""
-        if language.code == "en_devel":
-            return Language.objects.get_default()
-        return language
+        return get_machinery_language(language)
 
     def is_supported(self, source, language):
         """Any language is supported."""

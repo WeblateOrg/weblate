@@ -29,12 +29,19 @@ from django.utils.functional import cached_property
 from requests.exceptions import HTTPError
 
 from weblate.checks.utils import highlight_string
+from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
 from weblate.utils.requests import request
 from weblate.utils.search import Comparer
 from weblate.utils.site import get_site_url
+
+
+def get_machinery_language(language):
+    if language.code == "en_devel":
+        return Language.objects.get_default()
+    return language
 
 
 class MachineTranslationError(Exception):

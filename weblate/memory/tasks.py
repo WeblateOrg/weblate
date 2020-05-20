@@ -19,6 +19,7 @@
 
 from django.db import transaction
 
+from weblate.machinery.base import get_machinery_language
 from weblate.memory.models import Memory
 from weblate.utils.celery import app
 from weblate.utils.state import STATE_TRANSLATED
@@ -49,8 +50,8 @@ def update_memory(user, unit, component=None, project=None):
     component = component or unit.translation.component
     project = project or component.project
     params = {
-        "source_language": project.source_language,
-        "target_language": unit.translation.language,
+        "source_language": get_machinery_language(project.source_language),
+        "target_language": get_machinery_language(unit.translation.language),
         "source": unit.source,
         "target": unit.target,
         "origin": component.full_slug,
