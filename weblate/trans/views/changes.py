@@ -36,8 +36,9 @@ from weblate.lang.models import Language
 from weblate.trans.forms import ChangesForm
 from weblate.trans.models.change import Change
 from weblate.utils import messages
+from weblate.utils.forms import FilterForm
 from weblate.utils.site import get_site_url
-from weblate.utils.views import get_project_translation
+from weblate.utils.views import get_project_translation, show_form_errors
 
 
 class ChangesView(ListView):
@@ -120,53 +121,54 @@ class ChangesView(ListView):
 
         return context
 
-    def _get_queryset_project(self):
+    def _get_queryset_project(self, form):
         """Filtering by translation/project."""
-        if "project" not in self.request.GET:
+        if form.cleaned_data.get("project"):
             return
         try:
             self.project, self.component, self.translation = get_project_translation(
                 self.request,
-                self.request.GET.get("project"),
-                self.request.GET.get("component"),
-                self.request.GET.get("lang"),
+                form.cleaned_data.get("project"),
+                form.cleaned_data.get("component"),
+                form.cleaned_data.get("lang"),
             )
         except Http404:
             messages.error(self.request, _("Failed to find matching project!"))
 
-    def _get_queryset_language(self):
+    def _get_queryset_language(self, form):
         """Filtering by language."""
-        if self.translation is None and self.request.GET.get("lang"):
+        if self.translation is None and form.cleaned_data.get("lang"):
             try:
-                self.language = Language.objects.get(code=self.request.GET["lang"])
+                self.language = Language.objects.get(code=form.cleaned_data["lang"])
             except Language.DoesNotExist:
                 messages.error(self.request, _("Failed to find matching language!"))
 
-    def _get_queryset_user(self):
+    def _get_queryset_user(self, form):
         """Filtering by user."""
-        if "user" in self.request.GET:
+        if form.cleaned_data.get("user"):
             try:
-                self.user = User.objects.get(username=self.request.GET["user"])
+                self.user = User.objects.get(username=form.cleaned_data["user"])
             except User.DoesNotExist:
                 messages.error(self.request, _("Failed to find matching user!"))
 
     def _get_request_actions(self):
-        if "action" in self.request.GET:
-            for action in self.request.GET.getlist("action"):
-                try:
-                    self.actions.add(int(action))
-                except ValueError:
-                    continue
+        form = ChangesForm(self.request, data=self.request.GET)
+        if form.is_valid() and "action" in form.cleaned_data:
+            self.actions.update(form.cleaned_data["action"])
 
     def get_queryset(self):
         """Return list of changes to browse."""
-        self._get_queryset_project()
+        form = FilterForm(self.request.GET)
+        if form.is_valid():
+            self._get_queryset_project(form)
 
-        self._get_queryset_language()
+            self._get_queryset_language(form)
 
-        self._get_queryset_user()
+            self._get_queryset_user(form)
 
-        self._get_request_actions()
+            self._get_request_actions()
+        else:
+            show_form_errors(self.request, form)
 
         result = Change.objects.last_changes(self.request.user)
 

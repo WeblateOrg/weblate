@@ -83,3 +83,10 @@ class SearchField(Field):
             for key in filter_keys
         ]
         return result
+
+
+class FilterForm(forms.Form):
+    project = forms.SlugField(required=False)
+    component = forms.SlugField(required=False)
+    lang = forms.SlugField(required=False)
+    user = forms.SlugField(required=False)
