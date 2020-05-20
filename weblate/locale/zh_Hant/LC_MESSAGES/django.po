@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-20 12:27+0000\n"
-"PO-Revision-Date: 2020-05-20 07:06+0000\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2020-05-22 09:42+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -267,14 +267,14 @@ msgstr "您只會收到您有管理權之專案的翻譯語言相關通知。"
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr "您只會收到 %(project)s 的翻譯語言相關通知。"
+msgstr "您只會收到 %(project)s 的您翻譯語言的相關通知。"
 
 #: weblate/accounts/forms.py:720
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr "您只會收到 %(component)s 的翻譯語言相關通知。"
+msgstr "您只會收到 %(component)s 的您翻譯語言的相關通知。"
 
 #: weblate/accounts/models.py:80
 msgid "Password changed."
@@ -424,8 +424,8 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"請輸入程式碼的自訂 URL 連結。可用 {{branch}} 作為分支名， {{filename}} 和 "
-"{{line}} 分別作為檔名和列號的佔位符碼。"
+"請輸入源始程式碼的自訂 URL 連結。可使用 {{branch}} 作為分支名， {{filename}} 和 {{line}} "
+"分別作為檔名和列號的佔位符。"
 
 #: weblate/accounts/models.py:333
 msgid "Translation editor mode"
@@ -749,7 +749,7 @@ msgstr "無法移除使用者身份"
 
 #: weblate/accounts/views.py:929
 msgid "Add another identity by confirming your e-mail address first."
-msgstr "需要先確認您的電子信箱位址，才能加入其他身分。"
+msgstr "需要先確認過您的電子信箱位址，才能加入其他身分。"
 
 #: weblate/accounts/views.py:974
 msgid ""
@@ -790,9 +790,7 @@ msgstr "伺服器不允許核對身份。"
 msgid ""
 "Could not complete registration. The supplied authentication, e-mail address "
 "or username is already in use for another account."
-msgstr ""
-"無法完成註冊。您所提供的身份核對資訊、電子郵件位址或使用者名稱，有其他帳號使"
-"用。"
+msgstr "無法完成註冊。您所提供的身分核對資訊、電子郵件位址或使用者名稱，已被其他帳號使用。"
 
 #: weblate/accounts/views.py:1084
 msgid "Notification settings adjusted."
@@ -1930,7 +1928,7 @@ msgstr "顯示畫面限制"
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
-msgstr "待您付清帳單或是移除專案後，就會停止接收此通知。"
+msgstr "待您付清帳單或是移除專案後，就會停止收到此通知。"
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -2116,7 +2114,7 @@ msgstr "連續重複代符"
 
 #: weblate/checks/duplicate.py:33
 msgid "Text contains the same token twice in a row"
-msgstr "文字在同一行有兩個相同的代符"
+msgstr "文字在同一行中有兩個相同的代符"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -2530,7 +2528,7 @@ msgstr "HTML 檔"
 
 #: weblate/formats/convert.py:187
 msgid "OpenDocument file"
-msgstr "OpenDocument 檔案"
+msgstr "OpenDocument 檔"
 
 #: weblate/formats/convert.py:242
 msgid "IDML file"
@@ -2646,7 +2644,7 @@ msgstr "WebExtension JSON 檔"
 
 #: weblate/formats/ttkit.py:1085
 msgid "i18next JSON file"
-msgstr "i18next JSON 檔案"
+msgstr "i18next JSON 檔"
 
 #: weblate/formats/ttkit.py:1093
 msgid "CSV file"
@@ -2693,18 +2691,16 @@ msgid "Flat XML file"
 msgstr "Flat XML 檔"
 
 #: weblate/formats/ttkit.py:1308
-#, fuzzy
-#| msgid "IDML file"
 msgid "INI file"
-msgstr "IDML 檔"
+msgstr "INI 檔"
 
 #: weblate/formats/ttkit.py:1343
 msgid "InnoSetup INI file"
-msgstr ""
+msgstr "InnoSetup INI 檔"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
-msgstr "App store 中介資料檔案"
+msgstr "App store 中介資料檔"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -4377,14 +4373,10 @@ msgid "No subscriptions or due payments."
 msgstr "沒有訂購或到期付款。"
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "If you miss access to billing of your project, please contact its project "
-#| "maintainers to grant you access."
 msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
-msgstr "如果您遺失存取您專案帳單的權限，請聯絡專案維護者以授予您存取權。"
+msgstr "如果您無法存取您專案的帳單，請聯絡管理員授予您存取權。"
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -6226,9 +6218,7 @@ msgstr "永遠忽略"
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
-msgstr ""
-"您可以安全地永久忽略您不打算用的功能之錯誤。這些錯誤通常是起於缺乏所需條件或"
-"所需條件已過時。"
+msgstr "您可以安全地永久忽略您不打算使用的功能的錯誤。這些錯誤通常起於缺少依賴條件，或依賴條件資訊過舊。"
 
 #: weblate/templates/manage/performance.html:66
 msgid "System checks"
@@ -6460,7 +6450,7 @@ msgstr "請求開展新翻譯"
 
 #: weblate/templates/paginator.html:9 weblate/templates/translate.html:64
 msgid "Click to edit position"
-msgstr "按一下編輯位置"
+msgstr "點按可編輯位置"
 
 #: weblate/templates/paginator.html:10
 #, python-format
@@ -6472,8 +6462,6 @@ msgid "Go to position"
 msgstr "前往位置"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
-#, fuzzy
-#| msgid "Jump"
 msgid "Jump to"
 msgstr "跳至"
 
@@ -6985,7 +6973,7 @@ msgstr "未通過查核數"
 
 #: weblate/templates/snippets/query-field.html:52 weblate/utils/views.py:91
 msgid "Number of comments"
-msgstr "評註數目"
+msgstr "評註數"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7158,34 +7146,22 @@ msgid "Please consider the following:"
 msgstr "請嘗試下述步驟："
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the project settings."
-msgstr "移除來源語言的翻譯檔，或變更專案設定中的來源語言。"
+msgstr "如果是想要翻譯成來源語言，請在專案設定中變更來源語言。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
-msgstr "移除來源語言的翻譯檔，或變更專案設定中的來源語言。"
+msgstr "如果是不需要用到來源語言的翻譯檔，請從儲存庫中將它移除。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is needed, but shoud be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr "移除來源語言的翻譯檔，或變更專案設定中的來源語言。"
+msgstr "如果是需要用到來源語言的翻譯檔，但應該讓 Weblate 忽略它，則請調整語言過濾器將它排除。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
@@ -7379,7 +7355,7 @@ msgstr "這個動作無法取消。這會永久刪除 %(object)s 組件及其所
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
 msgid "The following translation components will be removed:"
-msgstr "會移除下列翻譯組件："
+msgstr "將會移除下列翻譯組件："
 
 #: weblate/templates/trans/delete-component.html:20
 msgid "Component to remove"
@@ -7615,16 +7591,12 @@ msgid "Nearby keys"
 msgstr "相鄰鍵"
 
 #: weblate/templates/translate.html:225
-#, fuzzy
-#| msgid "Shapings of the string"
 msgid "Variants of the string"
 msgstr "字串的變體"
 
 #: weblate/templates/translate.html:225 weblate/templates/translate.html:478
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "巴伐利亞語"
+msgstr "變體"
 
 #: weblate/templates/translate.html:231
 msgid "Other occurrences"
@@ -7710,9 +7682,7 @@ msgid_plural "There are %(count)s comments for this string."
 msgstr[0] "此字串有 %(count)s 條評註。"
 
 #: weblate/templates/translate.html:480
-#, fuzzy, python-format
-#| msgid "There is %(count)s shaping for this string."
-#| msgid_plural "There are %(count)s shapings for this string."
+#, python-format
 msgid "There is %(count)s variant for this string."
 msgid_plural "There are %(count)s variants for this string."
 msgstr[0] "此字串有 %(count)s 個變體。"
@@ -8089,8 +8059,6 @@ msgid "Strings marked for edit"
 msgstr "有標需編輯的字串"
 
 #: weblate/trans/filter.py:39
-#, fuzzy
-#| msgid "Strings with shapings"
 msgid "Strings with variants"
 msgstr "有變體的字串"
 
@@ -8119,10 +8087,8 @@ msgid "Strings waiting for review"
 msgstr "等候檢閱的字串"
 
 #: weblate/trans/filter.py:61
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Strings without a label"
-msgstr "有標籤的字串"
+msgstr "沒有標籤的字串"
 
 #: weblate/trans/filter.py:66 weblate/trans/filter.py:128
 msgid "Failed check: {}"
@@ -8629,7 +8595,7 @@ msgstr "slug 與標記刪除的項目不符！"
 #: weblate/trans/forms.py:1895 weblate/trans/forms.py:1904
 #: weblate/trans/forms.py:1913
 msgid "Removal confirmation"
-msgstr "移除確認"
+msgstr "確認移除"
 
 #: weblate/trans/forms.py:1896
 msgid "Please type in the full slug of the translation to confirm."
@@ -9150,9 +9116,7 @@ msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
 "source strings."
-msgstr ""
-"中間翻譯檔的檔名。大部分情況下，這即是開發者提供的翻譯檔，會在建立實體來源字"
-"串時使用。"
+msgstr "中間翻譯檔的檔名。大部分情況下，這即是開發者提供的翻譯檔，會在建立實際來源字串時使用。"
 
 #: weblate/trans/models/component.py:311
 msgid "Template for new translations"
@@ -9313,14 +9277,10 @@ msgid ""
 msgstr "掃描檔案遮罩時用來篩選過濾翻譯的常規表述式。"
 
 #: weblate/trans/models/component.py:509
-#, fuzzy
-#| msgid "Shapings regular expression"
 msgid "Variants regular expression"
 msgstr "變體的常規表述式"
 
 #: weblate/trans/models/component.py:515
-#, fuzzy
-#| msgid "Regular expression used to determine shapings of a string."
 msgid "Regular expression used to determine variants of a string."
 msgstr "用來判定字串變體的常規表述式。"
 
