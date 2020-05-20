@@ -808,7 +808,14 @@ class Unit(models.Model, LoggerMixin):
             # Propagate checks which need it (for example consistency)
             if run_propagate:
                 for unit in self.same_source_units:
-                    unit.run_checks()
+                    try:
+                        unit.run_checks()
+                    except Unit.DoesNotExist:
+                        # This can happen in some corner cases like changing
+                        # source language of a project - the source language is
+                        # changed first and then components are updated. But
+                        # not all are yet updated and this spans across them.
+                        continue
             # Trigger source checks on target check update (multiple failing checks)
             if not self.translation.is_source:
                 self.source_info.is_batch_update = self.is_batch_update
