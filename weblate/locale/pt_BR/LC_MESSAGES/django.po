@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-20 12:27+0000\n"
-"PO-Revision-Date: 2020-05-19 15:57+0000\n"
+"PO-Revision-Date: 2020-05-22 09:42+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/master/pt_BR/>\n"
@@ -2771,14 +2771,12 @@ msgid "Flat XML file"
 msgstr "Arquivo XML simples"
 
 #: weblate/formats/ttkit.py:1308
-#, fuzzy
-#| msgid "IDML file"
 msgid "INI file"
-msgstr "Arquivo IDML"
+msgstr "Arquivo INI"
 
 #: weblate/formats/ttkit.py:1343
 msgid "InnoSetup INI file"
-msgstr ""
+msgstr "Arquivo INI InnoSetup"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3199,7 +3197,7 @@ msgstr "Falha ao analisar o arquivo TMX!"
 
 #: weblate/memory/models.py:161
 msgid "Failed to find source language!"
-msgstr "Falha ao encontrar o idioma fonte!"
+msgstr "Falha ao encontrar o idioma de origem!"
 
 #: weblate/memory/models.py:238
 msgctxt "Translation memory category"
@@ -4533,16 +4531,12 @@ msgid "No subscriptions or due payments."
 msgstr "Nenhuma assinatura e nenhum pagamento devido."
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "If you miss access to billing of your project, please contact its project "
-#| "maintainers to grant you access."
 msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
 msgstr ""
-"Se você perder o acesso à cobrança do seu projeto, entre em contato com os "
-"mantenedores deste projeto para lhe conceder acesso."
+"Se você perder o acesso à cobrança do seu projeto, peça aos seus "
+"administradores para lhe conceder acesso."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -6730,10 +6724,8 @@ msgid "Go to position"
 msgstr "Ir para a posição"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
-#, fuzzy
-#| msgid "Jump"
 msgid "Jump to"
-msgstr "Pular"
+msgstr "Pular para"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
@@ -7447,40 +7439,28 @@ msgid "Please consider the following:"
 msgstr "Por favor, considere o seguinte:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the project settings."
 msgstr ""
-"Remover o arquivo de tradução para o idioma de origem ou altere o idioma de "
+"Caso a tradução para o idioma de origem seja desejada, altere o idioma de "
 "origem nas configurações do projeto."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr ""
-"Remover o arquivo de tradução para o idioma de origem ou altere o idioma de "
-"origem nas configurações do projeto."
+"Caso o arquivo de tradução para o idioma de origem não seja necessário, "
+"remova-o do repositório."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is needed, but shoud be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
-"Remover o arquivo de tradução para o idioma de origem ou altere o idioma de "
-"origem nas configurações do projeto."
+"Caso o arquivo de tradução para o idioma de origem seja necessário, mas deva "
+"ser ignorado pelo Weblate, ajuste o filtro de idiomas para excluí-lo."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
@@ -7958,16 +7938,12 @@ msgid "Nearby keys"
 msgstr "Chaves próximas"
 
 #: weblate/templates/translate.html:225
-#, fuzzy
-#| msgid "Shapings of the string"
 msgid "Variants of the string"
-msgstr "Formas do texto"
+msgstr "Variantes do texto"
 
 #: weblate/templates/translate.html:225 weblate/templates/translate.html:478
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "Bávaro"
+msgstr "Variantes"
 
 #: weblate/templates/translate.html:231
 msgid "Other occurrences"
@@ -8060,13 +8036,11 @@ msgstr[0] "Existe %(count)s comentário para este texto."
 msgstr[1] "Existe %(count)s comentários para estes textos."
 
 #: weblate/templates/translate.html:480
-#, fuzzy, python-format
-#| msgid "There is %(count)s shaping for this string."
-#| msgid_plural "There are %(count)s shapings for this string."
+#, python-format
 msgid "There is %(count)s variant for this string."
 msgid_plural "There are %(count)s variants for this string."
-msgstr[0] "Existe %(count)s forma para este texto."
-msgstr[1] "Existem %(count)s formas para estes textos."
+msgstr[0] "Existe %(count)s variante para este texto."
+msgstr[1] "Existem %(count)s variantes para estes textos."
 
 #: weblate/templates/translate.html:494
 msgid "Manage glossary"
@@ -8456,10 +8430,8 @@ msgid "Strings marked for edit"
 msgstr "Textos marcados para edição"
 
 #: weblate/trans/filter.py:39
-#, fuzzy
-#| msgid "Strings with shapings"
 msgid "Strings with variants"
-msgstr "Textos com formas"
+msgstr "Textos com variantes"
 
 #: weblate/trans/filter.py:40
 msgid "Strings with labels"
@@ -8486,10 +8458,8 @@ msgid "Strings waiting for review"
 msgstr "Textos aguardando revisão"
 
 #: weblate/trans/filter.py:61
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Strings without a label"
-msgstr "Textos com etiquetas"
+msgstr "Textos sem uma etiqueta"
 
 #: weblate/trans/filter.py:66 weblate/trans/filter.py:128
 msgid "Failed check: {}"
@@ -8971,14 +8941,14 @@ msgstr ""
 
 #: weblate/trans/forms.py:1811
 msgid "Source language text"
-msgstr "Texto do idioma fonte"
+msgstr "Texto do idioma de origem"
 
 #: weblate/trans/forms.py:1813
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Você pode editar posteriormente, assim como qualquer outro texto no idioma "
-"fonte."
+"de origem."
 
 #: weblate/trans/forms.py:1828
 msgid "State to set"
@@ -9731,16 +9701,12 @@ msgstr ""
 "máscara de arquivo."
 
 #: weblate/trans/models/component.py:509
-#, fuzzy
-#| msgid "Shapings regular expression"
 msgid "Variants regular expression"
-msgstr "Expressão regular de formas"
+msgstr "Expressão regular de variantes"
 
 #: weblate/trans/models/component.py:515
-#, fuzzy
-#| msgid "Regular expression used to determine shapings of a string."
 msgid "Regular expression used to determine variants of a string."
-msgstr "Expressão regular usada para determinar formas de um texto."
+msgstr "Expressão regular usada para determinar variantes de um texto."
 
 #: weblate/trans/models/component.py:524
 msgid "Components with higher priority are offered first to translators."
@@ -9890,7 +9856,8 @@ msgstr "Não foi possível analisar os arquivos base de tradução: %s"
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
-"O idioma do modelo ({0}) não corresponde ao idioma fonte do projeto ({1})!"
+"O idioma do modelo ({0}) não corresponde ao idioma de origem do projeto "
+"({1})!"
 
 #: weblate/trans/models/component.py:1887
 msgid "You can not use a monolingual translation without a base file."
