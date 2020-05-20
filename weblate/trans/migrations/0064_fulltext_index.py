@@ -24,7 +24,10 @@ def create_index(apps, schema_editor):
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
         # Install pg_trgm for trigram search and index
-        schema_editor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
+        cur = schema_editor.connection.cursor()
+        cur.execute("SELECT * FROM pg_extension WHERE extname = 'pg_trgm'")
+        if not cur.fetchone():
+            schema_editor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
 
         # Create GIN trigram index on searched fields
         for table, field in FIELDS:
