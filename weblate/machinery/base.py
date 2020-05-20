@@ -40,7 +40,7 @@ from weblate.utils.site import get_site_url
 
 def get_machinery_language(language):
     if language.code == "en_devel":
-        return Language.objects.get_default()
+        return Language.objects.english
     return language
 
 

@@ -86,16 +86,17 @@ def get_plural_type(base_code, plural_formula):
 def get_english_lang():
     """Return object ID for English language."""
     try:
-        return Language.objects.get_default().id
+        return Language.objects.english.id
     except (Language.DoesNotExist, OperationalError):
-        return 65535
+        return -1
 
 
 class LanguageQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
-    def get_default(self):
-        """Return default source language object."""
+    @cached_property
+    def english(self):
+        """Return English language object."""
         return self.get(code="en")
 
     def try_get(self, *args, **kwargs):
