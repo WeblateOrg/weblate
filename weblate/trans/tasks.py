@@ -20,7 +20,7 @@
 
 import logging
 import os
-from datetime import timedelta
+from datetime import date, timedelta
 from glob import glob
 from shutil import rmtree
 from time import time
@@ -28,6 +28,7 @@ from time import time
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
+from django.db.models import F
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
@@ -380,11 +381,24 @@ def update_checks(pk):
         translation.invalidate_cache()
 
 
+@app.task(trail=False)
+def daily_update_checks():
+    # Update every component roughly once in a month
+    components = Component.objects.annotate(idmod=F("id") % 30).filter(
+        idmod=date.today().day
+    )
+    for component_id in components.values_list("id", flat=True):
+        update_checks.delay(component_id)
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(
         crontab(hour=3, minute=30), update_remotes.s(), name="update-remotes"
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=30), daily_update_checks.s(), name="daily-update-checks"
     )
     sender.add_periodic_task(3600 * 24, repository_alerts.s(), name="repository-alerts")
     sender.add_periodic_task(3600 * 24, component_alerts.s(), name="component-alerts")
