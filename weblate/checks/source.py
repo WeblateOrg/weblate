@@ -91,4 +91,4 @@ class LongUntranslatedCheck(SourceCheck):
         )
         total = len(states)
         not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
-        return total and not_translated > total / 2
+        return total and not_translated > total / 4
