@@ -1059,11 +1059,6 @@ Windows RC files
 
    Support for this format is currently in beta, feedback from testing is welcome.
 
-.. warning::
-
-    This format is still not supported on Python 3 due to bugs in underlying library,
-    see <https://github.com/translate/translate/issues/3204>.
-
 .. index::
     pair: RC; file format
 
