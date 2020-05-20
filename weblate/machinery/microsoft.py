@@ -61,7 +61,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         self._cognitive_token_url = TOKEN_URL.format(
             region,
             settings.MT_MICROSOFT_ENDPOINT_URL,
-            settings.MT_MICROSOFT_COGNITIVE_KEY
+            settings.MT_MICROSOFT_COGNITIVE_KEY,
         )
 
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
