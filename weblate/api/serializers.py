@@ -22,7 +22,7 @@ from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import REPO_LENGTH
 from weblate.trans.models import (
@@ -88,9 +88,20 @@ class RemovableSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
+class LanguagePluralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plural
+        fields = (
+            "source",
+            "number",
+            "formula",
+            "type",
+        )
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    plural = serializers.SerializerMethodField()
+    plural = LanguagePluralSerializer(read_only=True)
     aliases = serializers.SerializerMethodField()
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:language-statistics", lookup_field="code"
@@ -113,11 +124,8 @@ class LanguageSerializer(serializers.ModelSerializer):
             "code": {"validators": []},
         }
 
-    def get_plural(self, obj):
-        return obj.plural.list_plurals()
-
     def get_aliases(self, obj):
-        return Language.objects.get_aliases_names(obj.code)
+        return obj.get_aliases_names()
 
     def validate_code(self, value):
         check_query = Language.objects.filter(code=value)

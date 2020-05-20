@@ -166,9 +166,6 @@ class LanguageQuerySet(models.QuerySet):
                     return ret
         return None
 
-    def get_aliases_names(self, code):
-        return [alias for alias, codename in ALIASES.items() if codename == code]
-
     def fuzzy_get(self, code, strict=False):
         """Get matching language for code.
 
@@ -499,6 +496,9 @@ class Language(models.Model):
     @cached_property
     def plural(self):
         return self.plural_set.filter(source=Plural.SOURCE_DEFAULT)[0]
+
+    def get_aliases_names(self):
+        return [alias for alias, codename in ALIASES.items() if codename == self.code]
 
 
 class PluralQuerySet(models.QuerySet):
