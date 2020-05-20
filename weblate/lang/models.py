@@ -94,11 +94,6 @@ def get_english_lang():
 class LanguageQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
-    @cached_property
-    def english(self):
-        """Return English language object."""
-        return self.get(code="en")
-
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
         result = self.filter(*args, **kwargs)[:2]
@@ -407,6 +402,11 @@ class LanguageQuerySet(models.QuerySet):
 
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
+
+    @cached_property
+    def english(self):
+        """Return English language object."""
+        return self.get(code="en")
 
 
 def setup_lang(sender, **kwargs):
