@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import date
 
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
@@ -43,6 +44,10 @@ class AutoTranslateAddon(BaseAddon):
         self.daily(component)
 
     def daily(self, component):
+        # Translate every component once in a week to reduce load
+        if component.id % 7 != date.today.weekday():
+            return
+
         for translation in component.translation_set.iterator():
             if translation.is_source:
                 continue
