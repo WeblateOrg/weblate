@@ -28,6 +28,7 @@ from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Translation
 from weblate.trans.util import redirect_param
 from weblate.utils.db import conditional_sum
+from weblate.utils.forms import FilterForm
 from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.views import get_component, get_project
 
@@ -47,17 +48,23 @@ def show_checks(request):
         "unit__translation__component__project_id__in": user.allowed_project_ids,
     }
 
-    if request.GET.get("project"):
-        kwargs["unit__translation__component__project__slug"] = request.GET["project"]
-        url_params["project"] = request.GET["project"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("project"):
+            kwargs["unit__translation__component__project__slug"] = form.cleaned_data[
+                "project"
+            ]
+            url_params["project"] = form.cleaned_data["project"]
 
-    if request.GET.get("lang"):
-        kwargs["unit__translation__language__code"] = request.GET["lang"]
-        url_params["lang"] = request.GET["lang"]
+        if form.cleaned_data.get("lang"):
+            kwargs["unit__translation__language__code"] = form.cleaned_data["lang"]
+            url_params["lang"] = form.cleaned_data["lang"]
 
-    if request.GET.get("component"):
-        kwargs["unit__translation__component__slug"] = request.GET["component"]
-        url_params["component"] = request.GET["component"]
+        if form.cleaned_data.get("component"):
+            kwargs["unit__translation__component__slug"] = form.cleaned_data[
+                "component"
+            ]
+            url_params["component"] = form.cleaned_data["component"]
 
     allchecks = (
         Check.objects.filter(**kwargs)
@@ -96,18 +103,20 @@ def show_check(request, name):
         "component__translation__unit__check__check": name,
     }
 
-    if request.GET.get("lang"):
-        kwargs["component__translation__language__code"] = request.GET["lang"]
-        url_params["lang"] = request.GET["lang"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("lang"):
+            kwargs["component__translation__language__code"] = form.cleaned_data["lang"]
+            url_params["lang"] = form.cleaned_data["lang"]
 
-    # This has to be done after updating url_params
-    if request.GET.get("project") and "/" not in request.GET["project"]:
-        return redirect_param(
-            "show_check_project",
-            encode_optional(url_params),
-            project=request.GET["project"],
-            name=name,
-        )
+        # This has to be done after updating url_params
+        if form.cleaned_data.get("project") and "/" not in form.cleaned_data["project"]:
+            return redirect_param(
+                "show_check_project",
+                encode_optional(url_params),
+                project=form.cleaned_data["project"],
+                name=name,
+            )
 
     projects = (
         request.user.allowed_projects.filter(**kwargs)
@@ -155,9 +164,11 @@ def show_check_project(request, name, project):
         "translation__unit__check__check": name,
     }
 
-    if request.GET.get("lang"):
-        kwargs["translation__language__code"] = request.GET["lang"]
-        url_params["lang"] = request.GET["lang"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("lang"):
+            kwargs["translation__language__code"] = form.cleaned_data["lang"]
+            url_params["lang"] = form.cleaned_data["lang"]
 
     components = (
         Component.objects.filter(**kwargs)
