@@ -192,10 +192,22 @@ Source language
 Language used for source strings in all components. Change this if you are
 translating from something else than English.
 
-.. note::
+.. hint::
 
-    Most of the fields can be edited by project owners or managers, in the
-    Weblate interface.
+   In case you are translating bilingual files from English, but want to be
+   able to do fixes in the English translation as well, you might want to
+   choose :guilabel:`English (Developer)` as a source language. To avoid
+   conflict between name of the source language and existing translation.
+
+   For monolingual translations, you can use intermediate translation in this
+   case.
+
+.. seealso::
+
+   :ref:`component-intermediate`,
+   :ref:`source-quality-gateway`,
+   :ref:`bimono`,
+   :ref:`languages`
 
 .. _component:
 
