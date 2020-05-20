@@ -1818,7 +1818,8 @@ class NewUnitForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["value"].widget.attrs["tabindex"] = kwargs.pop("tabindex", 100)
+        self.fields["key"].widget.attrs["tabindex"] = 99
+        self.fields["value"].widget.attrs["tabindex"] = 100
         self.fields["value"].widget.profile = user.profile
 
 
