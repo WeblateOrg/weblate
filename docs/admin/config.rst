@@ -970,7 +970,7 @@ Region prefix as defined in `Multi service subscription <https://docs.microsoft.
 .. setting:: MT_MICROSOFT_ENDPOINT_URL
 
 MT_MICROSOFT_ENDPOINT_URL
----------------------
+-------------------------
 
 Region endpoint url domain for access token as defined in the `Authenticating with an access token section
 <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_.

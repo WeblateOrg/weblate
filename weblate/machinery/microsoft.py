@@ -24,9 +24,7 @@ from django.utils import timezone
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-TOKEN_URL = (
-    "https://{0}{1}/sts/v1.0/" "issueToken?Subscription-Key={2}"
-)
+TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
@@ -61,7 +59,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             region = "{}.".format(settings.MT_MICROSOFT_REGION)
 
         self._cognitive_token_url = TOKEN_URL.format(
-            region, settings.MT_MICROSOFT_ENDPOINT_URL, settings.MT_MICROSOFT_COGNITIVE_KEY
+            region,
+            settings.MT_MICROSOFT_ENDPOINT_URL,
+            settings.MT_MICROSOFT_COGNITIVE_KEY
         )
 
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
