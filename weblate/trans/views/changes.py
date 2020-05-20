@@ -123,7 +123,7 @@ class ChangesView(ListView):
 
     def _get_queryset_project(self, form):
         """Filtering by translation/project."""
-        if form.cleaned_data.get("project"):
+        if not form.cleaned_data.get("project"):
             return
         try:
             self.project, self.component, self.translation = get_project_translation(

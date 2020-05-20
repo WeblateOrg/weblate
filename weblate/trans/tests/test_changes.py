@@ -60,6 +60,12 @@ class ChangesTest(ViewTestCase):
         )
         self.assertContains(response, "Resource update")
         self.assertContains(response, "Failed to find matching project!")
+        response = self.client.get(
+            reverse("changes"),
+            {"project": "test\000x", "component": "test", "lang": "cs"},
+        )
+        self.assertContains(response, "Resource update")
+        self.assertContains(response, "Null characters are not allowed")
 
     def test_user(self):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
