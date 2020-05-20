@@ -35,10 +35,10 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
     max_score = 90
 
     language_map = {
-        "zh-hant": "zh-CHT",
-        "zh-hans": "zh-CHS",
-        "zh-tw": "zh-CHT",
-        "zh-cn": "zh-CHS",
+        "zh-hant": "zh-Hant",
+        "zh-hans": "zh-Hans",
+        "zh-tw": "zh-Hant",
+        "zh-cn": "zh-Hans",
         "tlh-qaak": "tlh-Qaak",
         "nb": "no",
         "bs-latn": "bs-Latn",
