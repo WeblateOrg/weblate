@@ -100,6 +100,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.source.OptionalPluralCheck",
         "weblate.checks.source.EllipsisCheck",
         "weblate.checks.source.MultipleFailingCheck",
+        "weblate.checks.format.MultipleUnnamedFormatsCheck",
     )
 
     class Meta:

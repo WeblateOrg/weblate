@@ -779,6 +779,17 @@ rendered, and may sound better with text-to-speech.
 
    `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
+.. _check-unnamed-format:
+
+Multiple unnamed variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are multiple unnamed variables in the string, making it impossible for
+translators to reorder them.
+
+Consider using named variables instead to allow translators to reorder them.
+
+
 .. _check-multiple-failures:
 
 Multiple failing checks

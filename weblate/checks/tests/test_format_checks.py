@@ -20,12 +20,15 @@
 """Tests for quality checks."""
 
 
+from django.test import SimpleTestCase
+
 from weblate.checks.format import (
     CFormatCheck,
     CSharpFormatCheck,
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    MultipleUnnamedFormatsCheck,
     PercentPlaceholdersCheck,
     PerlFormatCheck,
     PHPFormatCheck,
@@ -765,3 +768,26 @@ class PercentPlaceholdersCheckTest(CheckTestCase):
 
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format("%foo% string", "%bar% string", False))
+
+
+class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
+    check = MultipleUnnamedFormatsCheck()
+
+    def test_none_flag(self):
+        self.assertFalse(self.check.check_source(["text"], MockUnit()))
+
+    def test_none_format(self):
+        self.assertFalse(self.check.check_source(["text"], MockUnit(flags="c-format")))
+
+    def test_good(self):
+        self.assertFalse(
+            self.check.check_source(["%1$s %2$s"], MockUnit(flags="c-format"))
+        )
+
+    def test_bad_c(self):
+        self.assertTrue(self.check.check_source(["%s %s"], MockUnit(flags="c-format")))
+
+    def test_bad_python(self):
+        self.assertTrue(
+            self.check.check_source(["{} {}"], MockUnit(flags="python-brace-format"))
+        )
