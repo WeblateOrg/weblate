@@ -534,10 +534,26 @@ this period. The Default value can be changed in
 Language filter
 +++++++++++++++
 
-Regular expression used to filter the translation when scanning for
-filemask. This can be used to limit the list of languages managed by Weblate
-(e.g. ``^(cs|de|es)$`` will include only these languages. Please note
-that you need to list language codes as they appear in the filename.
+Regular expression used to filter the translation when scanning for filemask.
+This can be used to limit the list of languages managed by Weblate.
+
+.. note::
+
+    You need to list language codes as they appear in the filename.
+
+Some examples of filtering:
+
++-------------------------------+-----------------------+
+| Filter description            | Regular expression    |
++===============================+=======================+
+| Selected languages only       | ``^(cs|de|es)$``      |
++-------------------------------+-----------------------+
+| Exclude languages             | ``^(?!(it|fr)$).+$``  |
++-------------------------------+-----------------------+
+| Exclude non language files    | ``^(?!(blank)$).+$``  |
++-------------------------------+-----------------------+
+| Include all files (default)   | ``^[^.]+$``           |
++-------------------------------+-----------------------+
 
 .. _component-variant_regex:
 
