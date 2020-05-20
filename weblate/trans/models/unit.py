@@ -949,7 +949,7 @@ class Unit(models.Model, LoggerMixin):
                 state__gte=STATE_TRANSLATED,
                 translation__component=self.translation.component,
                 translation__language__in=secondary_langs,
-            )
+            ).exclude(target="")
         )
 
     @property
