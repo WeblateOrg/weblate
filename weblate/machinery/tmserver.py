@@ -48,7 +48,7 @@ class TMServerTranslation(MachineTranslation):
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
-        return code.replace("-", "_").lower()
+        return super().map_language_code(code).replace("-", "_").lower()
 
     def download_languages(self):
         """Download list of supported languages from a service."""

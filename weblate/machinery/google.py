@@ -48,7 +48,7 @@ class GoogleTranslation(MachineTranslation):
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
-        return super().map_language_code(code.replace("_", "-").split("@")[0])
+        return super().map_language_code(code).replace("_", "-").split("@")[0]
 
     def download_languages(self):
         """List of supported languages."""

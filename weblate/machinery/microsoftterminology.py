@@ -87,7 +87,7 @@ class MicrosoftTerminologyService(MachineTranslation):
 
         Add country part of locale if missing.
         """
-        code = code.replace("_", "-").lower()
+        code = super().map_language_code(code).replace("_", "-").lower()
         if "-" not in code:
             for lang in DEFAULT_LANGS:
                 if lang.split("_")[0] == code:

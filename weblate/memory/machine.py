@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from weblate.lang.models import Language
 from weblate.machinery.base import MachineTranslation
 from weblate.memory.models import Memory
 from weblate.utils.search import Comparer
@@ -33,6 +34,8 @@ class WeblateMemory(MachineTranslation):
 
     def convert_language(self, language):
         """No conversion of language object."""
+        if language.code == "en_devel":
+            return Language.objects.get_default()
         return language
 
     def is_supported(self, source, language):

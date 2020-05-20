@@ -31,7 +31,7 @@ class MyMemoryTranslation(MachineTranslation):
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
-        return code.replace("_", "-").lower()
+        return super().map_language_code(code).replace("_", "-").lower()
 
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
