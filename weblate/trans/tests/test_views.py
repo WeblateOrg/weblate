@@ -38,7 +38,7 @@ from PIL import Image
 from weblate.accounts.models import Profile
 from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Announcement, ComponentList, Project
+from weblate.trans.models import Announcement, Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -505,10 +505,17 @@ class BasicViewTest(ViewTestCase):
     def test_view_project(self):
         response = self.client.get(reverse("project", kwargs=self.kw_project))
         self.assertContains(response, "test/test")
+        self.assertNotContains(response, "Spanish")
+
+    def test_view_project_ghost(self):
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        self.assertContains(response, "Spanish")
 
     def test_view_component(self):
         response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")
+        self.assertNotContains(response, "Spanish")
 
     def test_view_component_ghost(self):
         self.user.profile.languages.add(Language.objects.get(code="es"))
@@ -522,6 +529,27 @@ class BasicViewTest(ViewTestCase):
     def test_view_translation(self):
         response = self.client.get(reverse("translation", kwargs=self.kw_translation))
         self.assertContains(response, "Test/Test")
+
+    def test_view_translation_others(self):
+        other = Component.objects.create(
+            name="RESX component",
+            slug="resx",
+            project=self.project,
+            repo="weblate://test/test",
+            file_format="resx",
+            filemask="resx/*.resx",
+            template="resx/en.resx",
+            new_lang="add",
+        )
+        # Existing translation
+        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        self.assertContains(response, other.name)
+        # Ghost translation
+        kwargs = {}
+        kwargs.update(self.kw_translation)
+        kwargs["lang"] = "it"
+        response = self.client.get(reverse("translation", kwargs=kwargs))
+        self.assertContains(response, other.name)
 
     def test_view_translation_alias(self):
         self.kw_translation["lang"] = "cs-CZ"

@@ -832,3 +832,10 @@ class GhostStats(BaseStats):
 
     def get_absolute_url(self):
         return None
+
+
+class GhostProjectLanguageStats(GhostStats):
+    def __init__(self, component, language):
+        super().__init__(component.stats)
+        self.language = language
+        self.component = component
