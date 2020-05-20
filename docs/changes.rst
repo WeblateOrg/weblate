@@ -30,7 +30,7 @@ Not yet released.
 * Improved language code parsing.
 * Show translations in user language first in the list.
 * Renamed shapings to more generic name variants.
-* Added new quality checks: :ref:`check-unnamed-format`.
+* Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-untranslated`.
 
 Weblate 4.0.4
 -------------

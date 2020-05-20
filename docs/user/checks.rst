@@ -789,6 +789,13 @@ translators to reorder them.
 
 Consider using named variables instead to allow translators to reorder them.
 
+.. _check-long-untranslated:
+
+Long untranslated
+~~~~~~~~~~~~~~~~~
+
+The string was not translated for a long time. This can indicate problem in a
+source string making it hard to translate.
 
 .. _check-multiple-failures:
 

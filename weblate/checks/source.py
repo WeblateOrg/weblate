@@ -19,10 +19,13 @@
 
 
 import re
+from datetime import timedelta
 
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import SourceCheck
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r"\(s\)(\W|\Z)")
@@ -69,3 +72,23 @@ class MultipleFailingCheck(SourceCheck):
             unit__translation__component=unit.translation.component,
         ).exclude(unit_id=unit.id)
         return related.count() >= 2
+
+
+class LongUntranslatedCheck(SourceCheck):
+    check_id = "long_untranslated"
+    name = _("Long untranslated")
+    description = _("The string was not translated for a long time")
+
+    def check_source(self, source, unit):
+        from weblate.trans.models import Unit
+
+        if unit.timestamp > timezone.now() - timedelta(days=90):
+            return False
+        states = list(
+            Unit.objects.filter(
+                translation__component=unit.translation.component, id_hash=unit.id_hash
+            ).values_list("state", flat=True)
+        )
+        total = len(states)
+        not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
+        return total and not_translated > total / 2
