@@ -16,7 +16,7 @@
       {% endfor %}
       <input type="hidden" name="limit" value="{{ page_obj.paginator.per_page }}" aria-label="{{ page_obj.paginator.per_page }}" />
       <div class="input-group">
-        <input type="number" min="1" max="{{ page_obj.paginator.num_pages }}" name="page" class="form-control" value="{{ page_obj.number }}" aria-label="{% trans "Enter position to jump" %}">
+        <input type="number" min="1" max="{{ page_obj.paginator.num_pages }}" name="page" class="form-control" value="{{ page_obj.number }}" aria-label="{% trans "Jump to" %}">
         <span class="input-group-addon">
           {% comment %}Translators: This is partial position indicator shown when editing position{% endcomment %}
           {% blocktrans with page_obj.paginator.num_pages as total %}/ {{ total }}{% endblocktrans %}
