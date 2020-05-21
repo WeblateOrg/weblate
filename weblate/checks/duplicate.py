@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
 
 from django.utils.html import escape
@@ -26,7 +25,8 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
 
-CHECK_RE = re.compile(r"\b(\w+)(?:\s+\1)\b")
+# Look for non-digit word sequences
+CHECK_RE = re.compile(r"\b([^\d\W]{2,})(?:\s+\1)\b")
 
 
 class DuplicateCheck(TargetCheck):

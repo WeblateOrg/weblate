@@ -51,6 +51,12 @@ class DuplicateCheckTest(CheckTestCase):
     def test_check_multiple_duplicated_tokens(self):
         self.assertTrue(self._run_check("I have two two lemons lemons"))
 
+    def test_check_duplicated_numbers(self):
+        self.assertFalse(self._run_check("I have 222 222 lemons"))
+
+    def test_check_duplicated_letter(self):
+        self.assertFalse(self._run_check("I have A A A"))
+
     def test_description(self):
         unit = Unit(source="string", target="I have two two lemons lemons")
         check = Check(unit=unit)
