@@ -31,8 +31,8 @@ class DuplicateCheckTest(CheckTestCase):
 
     _MOCK_UNIT = MockUnit(code="cs", note="")
 
-    def _run_check(self, target):
-        return self.check.check_single("", target, self._MOCK_UNIT)
+    def _run_check(self, target, source=""):
+        return self.check.check_single(source, target, self._MOCK_UNIT)
 
     def test_no_duplicated_token(self):
         self.assertFalse(self._run_check("I have two lemons"))
@@ -56,6 +56,11 @@ class DuplicateCheckTest(CheckTestCase):
 
     def test_check_duplicated_letter(self):
         self.assertFalse(self._run_check("I have A A A"))
+
+    def test_check_duplicated_source(self):
+        self.assertFalse(
+            self._run_check("begin begin end end", source="begin begin end end")
+        )
 
     def test_description(self):
         unit = Unit(source="string", target="I have two two lemons lemons")

@@ -37,9 +37,10 @@ class DuplicateCheck(TargetCheck):
     description = _("Text contains the same token twice in a row:")
 
     def check_single(self, source, target, unit):
-        if CHECK_RE.search(target):
-            return True
-        return False
+        source_matches = set(CHECK_RE.findall(source))
+        target_matches = set(CHECK_RE.findall(target))
+        diff = target_matches - source_matches
+        return bool(diff)
 
     def get_description(self, check_obj):
         duplicate = set()
