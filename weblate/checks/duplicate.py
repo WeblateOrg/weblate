@@ -20,9 +20,13 @@
 
 import re
 
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
+
+CHECK_RE = re.compile(r"\b(\w+)(?:\s+\1)+\b")
 
 
 class DuplicateCheck(TargetCheck):
@@ -30,9 +34,19 @@ class DuplicateCheck(TargetCheck):
 
     check_id = "duplicate"
     name = _("Consecutive duplicated tokens")
-    description = _("Text contains the same token twice in a row")
+    description = _("Text contains the same token twice in a row:")
 
     def check_single(self, source, target, unit):
-        if re.search(r"\b(\w+)(?:\s+\1)+\b", target):
+        if CHECK_RE.search(target):
             return True
         return False
+
+    def get_description(self, check_obj):
+        duplicate = set()
+        for target in check_obj.unit.get_target_plurals():
+            duplicate.update(CHECK_RE.findall(target))
+        return mark_safe(
+            "{} {}".format(
+                escape(self.description), escape(", ".join(sorted(duplicate)))
+            )
+        )

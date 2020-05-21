@@ -19,9 +19,10 @@
 
 """Tests for duplicate checks."""
 
-
 from weblate.checks.duplicate import DuplicateCheck
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.trans.models import Unit
 
 
 class DuplicateCheckTest(CheckTestCase):
@@ -49,3 +50,11 @@ class DuplicateCheckTest(CheckTestCase):
 
     def test_check_multiple_duplicated_tokens(self):
         self.assertTrue(self._run_check("I have two two lemons lemons"))
+
+    def test_description(self):
+        unit = Unit(source="string", target="I have two two lemons lemons")
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Text contains the same token twice in a row: lemons, two",
+        )
