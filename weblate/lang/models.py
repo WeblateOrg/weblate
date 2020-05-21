@@ -101,7 +101,8 @@ class LanguageQuerySet(models.QuerySet):
             return None
         return result[0]
 
-    def parse_lang_country(self, code):
+    @staticmethod
+    def parse_lang_country(code):
         """Parse language and country from locale code."""
         # Parse private use subtag
         subtag_pos = code.find("-x-")
@@ -290,6 +291,56 @@ class LanguageQuerySet(models.QuerySet):
 
         return lang
 
+    def have_translation(self):
+        """Return list of languages which have at least one translation."""
+        return self.exclude(translation=None).order()
+
+    def order(self):
+        return self.order_by("name")
+
+    def order_translated(self):
+        return sort_objects(self)
+
+    def get_by_code(self, code, cache, langmap=None):
+        """Cached and aliases aware getter."""
+        if code in cache:
+            return cache[code]
+        if langmap and code in langmap:
+            language = self.fuzzy_get(code=langmap[code], strict=True)
+        else:
+            language = self.fuzzy_get(code=code, strict=True)
+        if language is None:
+            raise Language.DoesNotExist(code)
+        cache[code] = language
+        return language
+
+    def as_choices(self):
+        return sort_choices(
+            (code, "{0} ({1})".format(_(name), code))
+            for name, code in self.values_list("name", "code")
+        )
+
+    def get(self, *args, **kwargs):
+        """Customized get caching getting of English language."""
+        if not args and not kwargs.pop("skip_cache", False):
+            english = Language.objects.english
+            if kwargs in ({"code": "en"}, {"pk": english.pk}, {"id": english.id}):
+                return english
+        return super().get(*args, **kwargs)
+
+
+class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
+    use_in_migrations = True
+
+    def flush_object_cache(self):
+        if "english" in self.__dict__:
+            del self.__dict__["english"]
+
+    @cached_property
+    def english(self):
+        """Return English language object."""
+        return self.get(code="en", skip_cache=True)
+
     def setup(self, update, logger=lambda x: x):
         """Create basic set of languages.
 
@@ -371,56 +422,6 @@ class LanguageQuerySet(models.QuerySet):
                         "Updated plural {} for language {}".format(plural_formula, code)
                     )
                     plural.save()
-
-    def have_translation(self):
-        """Return list of languages which have at least one translation."""
-        return self.exclude(translation=None).order()
-
-    def order(self):
-        return self.order_by("name")
-
-    def order_translated(self):
-        return sort_objects(self)
-
-    def get_by_code(self, code, cache, langmap=None):
-        """Cached and aliases aware getter."""
-        if code in cache:
-            return cache[code]
-        if langmap and code in langmap:
-            language = self.fuzzy_get(code=langmap[code], strict=True)
-        else:
-            language = self.fuzzy_get(code=code, strict=True)
-        if language is None:
-            raise Language.DoesNotExist(code)
-        cache[code] = language
-        return language
-
-    def as_choices(self):
-        return sort_choices(
-            (code, "{0} ({1})".format(_(name), code))
-            for name, code in self.values_list("name", "code")
-        )
-
-    def get(self, *args, **kwargs):
-        """Customized get caching getting of English language."""
-        if not args and not kwargs.pop("skip_cache", False):
-            english = Language.objects.english
-            if kwargs in ({"code": "en"}, {"pk": english.pk}, {"id": english.id}):
-                return english
-        return super().get(*args, **kwargs)
-
-
-class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
-    use_in_migrations = True
-
-    def flush_object_cache(self):
-        if "english" in self.__dict__:
-            del self.__dict__["english"]
-
-    @cached_property
-    def english(self):
-        """Return English language object."""
-        return self.get(code="en", skip_cache=True)
 
 
 def setup_lang(sender, **kwargs):
