@@ -401,6 +401,14 @@ class LanguageQuerySet(models.QuerySet):
             for name, code in self.values_list("name", "code")
         )
 
+    def get(self, *args, **kwargs):
+        """Customized get caching getting of English language."""
+        if not args and not kwargs.pop("skip_cache", False):
+            english = Language.objects.english
+            if kwargs in ({"code": "en"}, {"pk": english.pk}, {"id": english.id}):
+                return english
+        return super().get(*args, **kwargs)
+
 
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
@@ -412,7 +420,7 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     @cached_property
     def english(self):
         """Return English language object."""
-        return self.get(code="en")
+        return self.get(code="en", skip_cache=True)
 
 
 def setup_lang(sender, **kwargs):
@@ -440,6 +448,8 @@ class Language(models.Model):
     class Meta:
         verbose_name = gettext_lazy("Language")
         verbose_name_plural = gettext_lazy("Languages")
+        # Use own manager to utilize caching of English
+        base_manager_name = "objects"
 
     def __str__(self):
         if self.show_language_code:
