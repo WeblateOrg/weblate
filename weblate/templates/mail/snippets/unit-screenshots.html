@@ -1,0 +1,11 @@
+{% load i18n %}
+
+{% with unit.source_info.screenshots.order as screenshots %}
+{% if screenshots %}
+    <h2>{% trans "Screenshot context" %}</h2>
+
+    {% for screenshot in screenshots %}
+        {% include "screenshots/screenshot_show.html" %}
+    {% endfor %}
+{% endif %}
+{% endwith %}
