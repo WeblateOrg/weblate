@@ -3,7 +3,7 @@
 
 {% if simple %}
 <span lang="{{ language.code }}" dir="{{ language.direction }}">{{ items.0.content }}</span>
-{% else %}
+{% elif has_content %}
 <div class="list-group">
   {% for item in items %}
   <div class="list-group-item">

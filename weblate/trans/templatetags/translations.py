@@ -191,6 +191,7 @@ def format_translation(
 
     # We will collect part for each plural
     parts = []
+    has_content = False
 
     for idx, raw_value in enumerate(plurals):
         # HTML escape
@@ -226,8 +227,15 @@ def format_translation(
         content = mark_safe(newline.join(paras))
 
         parts.append({"title": title, "content": content, "copy": copy})
+        has_content |= bool(content)
 
-    return {"simple": simple, "items": parts, "language": language, "unit": unit}
+    return {
+        "simple": simple,
+        "items": parts,
+        "language": language,
+        "unit": unit,
+        "has_content": has_content,
+    }
 
 
 @register.simple_tag
