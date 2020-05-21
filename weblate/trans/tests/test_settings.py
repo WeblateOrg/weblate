@@ -24,6 +24,7 @@ from django.urls import reverse
 
 from weblate.trans.models import Change, Component, Project
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.utils import create_test_billing
 
 
 class SettingsTest(ViewTestCase):
@@ -64,10 +65,7 @@ class SettingsTest(ViewTestCase):
         self.assertContains(response, "error_1_id_access_control")
 
         # Allow editing by creating billing plan
-        from weblate.billing.models import Plan, Billing
-
-        plan = Plan.objects.create()
-        billing = Billing.objects.create(plan=plan)
+        billing = create_test_billing(self.user)
         billing.projects.add(self.project)
 
         # Editing should now work, but components do not have a license

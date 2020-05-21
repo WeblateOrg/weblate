@@ -415,18 +415,23 @@ class TempDirMixin:
             self.tempdir = None
 
 
-def create_billing(user):
+def create_test_billing(user, invoice=True):
     from weblate.billing.models import Billing, Invoice, Plan
 
     plan = Plan.objects.create(
-        display_limit_projects=1, name="Basic plan", price=19, yearly_price=199
+        limit_projects=1,
+        display_limit_projects=1,
+        name="Basic plan",
+        price=19,
+        yearly_price=199,
     )
     billing = Billing.objects.create(plan=plan)
     billing.owners.add(user)
-    Invoice.objects.create(
-        billing=billing,
-        amount=19,
-        start=timezone.now() - timedelta(days=1),
-        end=timezone.now() + timedelta(days=1),
-    )
+    if invoice:
+        Invoice.objects.create(
+            billing=billing,
+            amount=19,
+            start=timezone.now() - timedelta(days=1),
+            end=timezone.now() + timedelta(days=1),
+        )
     return billing

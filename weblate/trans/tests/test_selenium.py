@@ -52,7 +52,7 @@ from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     TempDirMixin,
-    create_billing,
+    create_test_billing,
     create_test_user,
     get_test_file,
 )
@@ -930,7 +930,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def test_add_component(self):
         """Test user adding project and component."""
         user = self.do_login()
-        create_billing(user)
+        create_test_billing(user)
 
         # Open billing page
         self.click(htmlid="user-dropdown")

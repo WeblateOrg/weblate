@@ -24,7 +24,7 @@ from django.test.utils import modify_settings
 from django.urls import reverse
 
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import create_billing, get_test_file
+from weblate.trans.tests.utils import create_test_billing, get_test_file
 from weblate.vcs.git import GitRepository
 
 TEST_ZIP = get_test_file("translations.zip")
@@ -70,7 +70,7 @@ class CreateTest(ViewTestCase):
         self.client_create_project(reverse("create-project"))
 
         # Create empty billing
-        billing = create_billing(self.user)
+        billing = create_test_billing(self.user)
         self.assert_create_project(True)
 
         # Create one project
@@ -133,7 +133,7 @@ class CreateTest(ViewTestCase):
         self.client_create_component(False)
 
         # Create billing and add permissions
-        billing = create_billing(self.user)
+        billing = create_test_billing(self.user)
         billing.projects.add(self.project)
         self.project.add_user(self.user, "@Administration")
         self.assert_create_component(True)
