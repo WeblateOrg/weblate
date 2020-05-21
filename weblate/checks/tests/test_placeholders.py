@@ -31,7 +31,7 @@ class PlaceholdersTest(CheckTestCase):
         super().setUp()
         self.test_good_matching = ("string $URL$", "string $URL$", "placeholders:$URL$")
         self.test_good_none = ("string", "string", "placeholders:")
-        self.test_good_ignore = ("$URL", "$OTHER")
+        self.test_good_ignore = ("$URL", "$OTHER", "")
         self.test_failure_1 = ("string $URL$", "string", "placeholders:$URL$")
         self.test_failure_2 = ("string $URL$", "string $URL", "placeholders:$URL$")
         self.test_failure_3 = (
@@ -42,6 +42,7 @@ class PlaceholdersTest(CheckTestCase):
         self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
 
     def do_test(self, expected, data, lang=None):
+        # Skip using check_single as the Check does not use that
         return
 
 
@@ -58,4 +59,5 @@ class RegexTest(CheckTestCase):
         self.test_highlight = ("regex:URL", "See URL", [(4, 7, "URL")])
 
     def do_test(self, expected, data, lang=None):
+        # Skip using check_single as the Check does not use that
         return
