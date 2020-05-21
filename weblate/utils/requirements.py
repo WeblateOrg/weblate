@@ -83,6 +83,9 @@ OPTIONAL = [
     "boto3",
     "zeep",
     "aeidon",
+    "iniparse",
+    "mysqlclient",
+    "pyparsing",
 ]
 
 
