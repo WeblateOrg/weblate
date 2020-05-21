@@ -9,7 +9,7 @@
 <span title="{% trans "Untranslated" context "String state" %}" class="state-empty">{% icon "empty.svg" %}</span>
 <span
   {% if detail %}
-    title="{% trans "Failed checks:" context "String state" %} {{ unit.all_checks|join:", "}}"
+    title="{% trans "Failed checks:" context "String state" %} {{ unit.active_checks|join:", "}}"
   {% else %}
     title="{% trans "Failed checks" context "String state" %}"
   {% endif %}
