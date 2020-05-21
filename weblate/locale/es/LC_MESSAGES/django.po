@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-20 12:27+0000\n"
-"PO-Revision-Date: 2020-05-20 11:46+0000\n"
+"PO-Revision-Date: 2020-05-22 09:42+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/master/"
 "es/>\n"
@@ -4700,10 +4700,8 @@ msgstr "Total"
 
 #: weblate/templates/check.html:21 weblate/templates/check_component.html:23
 #: weblate/templates/check_project.html:22 weblate/templates/checks.html:20
-#, fuzzy
-#| msgid "Dismiss"
 msgid "Dismissed"
-msgstr "Descartar"
+msgstr "Descartado"
 
 #: weblate/templates/check.html:23 weblate/templates/check_component.html:25
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
@@ -6781,10 +6779,8 @@ msgid "Go to position"
 msgstr "Ir a la posición"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
-#, fuzzy
-#| msgid "Jump"
 msgid "Jump to"
-msgstr "Saltar"
+msgstr "Saltar a"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
@@ -7500,40 +7496,28 @@ msgid "Please consider the following:"
 msgstr "Pruebe a hacer lo siguiente:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the project settings."
 msgstr ""
-"Quite el archivo de traducción del idioma de origen o cambie el idioma de "
-"origen en la configuración del proyecto."
+"En caso de que se desee la traducción al idioma de origen, cambie el idioma "
+"de origen en la configuración del proyecto."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr ""
-"Quite el archivo de traducción del idioma de origen o cambie el idioma de "
-"origen en la configuración del proyecto."
+"En caso de que no se necesite el archivo de traducción correspondiente al "
+"idioma de origen, elimínelo del repositorio."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is needed, but shoud be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
-"Quite el archivo de traducción del idioma de origen o cambie el idioma de "
-"origen en la configuración del proyecto."
+"En caso de que se necesite el archivo de traducción del idioma de origen "
+"pero Weblate debería ignorarlo, ajuste el filtro de idiomas para excluirlo."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
@@ -7784,24 +7768,21 @@ msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
 msgstr ""
+"Esto incluye, entre otros elementos, la memoria de traducción, los glosarios "
+"y los permisos de usuarios."
 
 #: weblate/templates/trans/delete-project.html:21
-#, fuzzy
-#| msgid "Source has been removed."
 msgid "Project to remove"
-msgstr "Fuente eliminada."
+msgstr "Proyecto por eliminar"
 
 #: weblate/templates/trans/delete-translation.html:5
-#, fuzzy, python-format
-#| msgid ""
-#| "This action cannot be undone. This will permanently delete the {} "
-#| "translation and all related content."
+#, python-format
 msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
 "Esta acción no puede deshacerse. Esto borrará permanentemente la traducción "
-"{} y todo el contenido relacionado."
+"%(object)s y todo el contenido relacionado."
 
 #: weblate/templates/trans/delete-translation.html:9
 msgid "Translation to remove"
@@ -7913,10 +7894,9 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr "%(filter_pos)s / %(filter_count)s"
 
 #: weblate/templates/translate.html:74
-#, fuzzy, python-format
-#| msgid "%(filter_pos)s / %(filter_count)s"
+#, python-format
 msgid "/ %(filter_count)s"
-msgstr "%(filter_pos)s / %(filter_count)s"
+msgstr "/%(filter_count)s"
 
 #: weblate/templates/translate.html:80
 msgid "Next"
@@ -8523,10 +8503,8 @@ msgid "Strings needing action without suggestions"
 msgstr "Cadenas sin sugerencias que necesitan acción"
 
 #: weblate/trans/filter.py:51
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings with any failing checks"
-msgstr "Cadenas con comprobaciones fallidas"
+msgstr "Cadenas traducidas con comprobaciones fallidas"
 
 #: weblate/trans/filter.py:54 weblate/trans/filter.py:123
 msgid "Approved strings"
@@ -9071,10 +9049,8 @@ msgstr ""
 
 #: weblate/trans/forms.py:1895 weblate/trans/forms.py:1904
 #: weblate/trans/forms.py:1913
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Removal confirmation"
-msgstr "Configuración errónea"
+msgstr "Confirmar la eliminación"
 
 #: weblate/trans/forms.py:1896
 #, fuzzy
@@ -9498,13 +9474,11 @@ msgstr "Estilo BCP con guion como separador"
 
 #: weblate/trans/models/component.py:127
 msgid "POSIX style using underscore as a separator, including country code"
-msgstr "Estilo POSIX con guion bajo como separador; incluye código de país"
+msgstr "Estilo POSIX con guion bajo como separador; incluye el código de país"
 
 #: weblate/trans/models/component.py:132
-#, fuzzy
-#| msgid "BCP style using hyphen as a separator"
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr "Estilo BCP con guion como separador"
+msgstr "Estilo BCP con guion como separador; incluye el código de país"
 
 #: weblate/trans/models/component.py:134
 msgid "Android style"
@@ -9516,7 +9490,7 @@ msgstr "Estilo Java"
 
 #: weblate/trans/models/component.py:138
 msgid "Merge"
-msgstr "Fusionar («merge»)"
+msgstr "Fusionar"
 
 #: weblate/trans/models/component.py:205
 msgid ""
@@ -11152,10 +11126,8 @@ msgstr ""
 "{}"
 
 #: weblate/utils/views.py:90
-#, fuzzy
-#| msgid "Words (%(count)s):"
 msgid "Word count"
-msgstr "Palabras (%(count)s):"
+msgstr "Recuento de palabras"
 
 #: weblate/utils/views.py:269
 #, python-format
