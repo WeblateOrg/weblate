@@ -21,7 +21,7 @@ Not yet released.
 * Include templates in ZIP download.
 * Add support for Markdown in announcements.
 * Extended details in check listings.
-* Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`.
+* Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`.
 * Consistently use dismissed as state of dismissed checks.
 * Add support for configuring default addons to enable.
 * Fixed editor keyboard shortcut to dismiss checks.

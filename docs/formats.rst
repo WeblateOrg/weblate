@@ -66,6 +66,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`javaprop`     | both             | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`gwt`          | mono             | yes           | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`joomla`       | mono             | no            | yes            | no            | yes            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`qtling`       | both             | yes           | yes            | no            | yes            | yes [#xl]_     | needs editing           |
@@ -395,6 +397,37 @@ all others encode characters directly either in UTF-8 or UTF-16.
 .. seealso::
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
+    :doc:`tt:formats/properties`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+.. _gwt:
+
+GWT properties
+--------------
+
+.. index::
+    pair: GWT properties; file format
+
+Native GWT format for translations.
+
+GWT properties are usually used as monolingual translations.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``src/app/Bundle_*.properties``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``src/app/Bundle.properties``    |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `GWT Properties`                 |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_
     :doc:`tt:formats/properties`,
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`,

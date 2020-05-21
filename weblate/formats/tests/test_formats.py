@@ -36,6 +36,7 @@ from weblate.formats.ttkit import (
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
+    GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
     JoomlaFormat,
@@ -68,6 +69,7 @@ TEST_PHP = get_test_file("cs.php")
 TEST_JOOMLA = get_test_file("cs.joomla.ini")
 TEST_INI = get_test_file("cs.ini")
 TEST_PROPERTIES = get_test_file("swing.properties")
+TEST_GWT = get_test_file("gwt.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
 TEST_POXLIFF = get_test_file("cs.poxliff")
@@ -165,6 +167,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     SUPPORTS_FLAG = True
     EXPECTED_FLAGS = "c-format, max-length:100"
     EDIT_OFFSET = 0
+    EDIT_TARGET = "Nazdar, svete!\n"
 
     def setUp(self):
         super().setUp()
@@ -202,7 +205,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
         if edit:
             units = storage.all_units
-            units[self.EDIT_OFFSET].set_target("Nazdar, svete!\n")
+            units[self.EDIT_OFFSET].set_target(self.EDIT_TARGET)
 
         # Save test file
         storage.save()
@@ -370,6 +373,33 @@ class PropertiesFormatTest(AutoFormatTest):
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
+
+    def assert_same(self, newdata, testdata):
+        self.assertEqual(
+            force_str(newdata).strip().splitlines(),
+            force_str(testdata).strip().splitlines(),
+        )
+
+
+class GWTFormatTest(AutoFormatTest):
+    FORMAT = GWTFormat
+    FILE = TEST_GWT
+    MIME = "text/plain"
+    COUNT = 1
+    EXT = "properties"
+    MASK = "gwt/gwt_*.properties"
+    EXPECTED_PATH = "gwt/gwt_cs-CZ.properties"
+    FIND = "cartItems"
+    FIND_CONTEXT = "cartItems"
+    FIND_MATCH = "There are {0,number} items in your cart."
+    EDIT_TARGET = [
+        "There are {0,number} goods in your cart.",
+        "There is {0,number} good in your cart.",
+    ]
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    EXPECTED_FLAGS = ""
+    BASE = ""
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
