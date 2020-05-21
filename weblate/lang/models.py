@@ -295,6 +295,8 @@ class LanguageQuerySet(models.QuerySet):
 
         It is based on languages defined in the languages-data repo.
         """
+        # Invalidate cache, we might change languages
+        self.flush_object_cache()
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
             lang, created = self.get_or_create(code=code, defaults={"name": name})
@@ -403,7 +405,11 @@ class LanguageQuerySet(models.QuerySet):
 class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
     use_in_migrations = True
 
-    @property
+    def flush_object_cache(self):
+        if "english" in self.__dict__:
+            del self.__dict__["english"]
+
+    @cached_property
     def english(self):
         """Return English language object."""
         return self.get(code="en")
