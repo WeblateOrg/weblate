@@ -26,7 +26,7 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
 
-CHECK_RE = re.compile(r"\b(\w+)(?:\s+\1)+\b")
+CHECK_RE = re.compile(r"\b(\w+)(?:\s+\1)\b")
 
 
 class DuplicateCheck(TargetCheck):
