@@ -460,6 +460,10 @@ Generic settings
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
 
+.. envvar:: WEBLATE_DEFAULT_ACCESS_CONTROL
+
+    Configures the default access control for project, see :setting:`DEFAULT_ACCESS_CONTROL`.
+
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.
