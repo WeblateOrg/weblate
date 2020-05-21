@@ -56,6 +56,8 @@ def fixup_languages_seq():
         with connection.cursor() as cursor:
             for sql in commands:
                 cursor.execute(sql)
+    # Invalidate object cache for languages
+    Language.objects.flush_object_cache()
 
 
 class BaseTestCase(TestCase):

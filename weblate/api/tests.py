@@ -24,6 +24,7 @@ from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
 
 from weblate.auth.models import Group, Role, User
+from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
     Change,
@@ -54,6 +55,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         immediate_on_commit_leave(cls)
 
     def setUp(self):
+        Language.objects.flush_object_cache()
         self.clone_test_repos()
         self.component = self.create_component()
         self.translation_kwargs = {
