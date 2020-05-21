@@ -28,6 +28,11 @@ from weblate.checks.base import TargetCheck
 # Look for non-digit word sequences
 CHECK_RE = re.compile(r"\b([^\d\W]{2,})(?:\s+\1)\b")
 
+# Per language ignore list
+IGNORES = {
+    "fr": {"vous", "nous"},
+}
+
 
 class DuplicateCheck(TargetCheck):
     """Check for duplicated tokens."""
@@ -40,6 +45,8 @@ class DuplicateCheck(TargetCheck):
         source_matches = set(CHECK_RE.findall(source))
         target_matches = set(CHECK_RE.findall(target))
         diff = target_matches - source_matches
+        if unit.translation.language.base_code in IGNORES:
+            diff = diff - IGNORES[unit.translation.language.base_code]
         return bool(diff)
 
     def get_description(self, check_obj):
