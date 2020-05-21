@@ -206,7 +206,7 @@ class KeyValueUnit(TTKitUnit):
         """Set translation unit target."""
         super().set_target(target)
         # Propagate to value so that is_translated works correctly
-        self.unit.value = self.unit.translation
+        self.unit.value = self.unit.target
 
 
 class TTKitFormat(TranslationFormat):
@@ -998,6 +998,13 @@ class JoomlaFormat(PropertiesBaseFormat):
     monolingual = True
     new_translation = "\n"
     autoload = ("*.ini",)
+
+
+class GWTFormat(StringsFormat):
+    name = _("GWT Properties")
+    format_id = "gwt"
+    loader = ("properties", "gwtfile")
+    new_translation = "\n"
 
 
 class PhpFormat(TTKitFormat):
