@@ -26,6 +26,7 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_int,
     get_env_list,
     get_env_map,
     modify_env_list,
@@ -1083,6 +1084,9 @@ DATABASE_BACKUP = os.environ.get("WEBLATE_DATABASE_BACKUP", "plain")
 
 # Enable auto updating
 AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
+
+# Default access control
+DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
