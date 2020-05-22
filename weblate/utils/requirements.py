@@ -22,6 +22,7 @@ import email.parser
 import sys
 
 import pkg_resources
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 
@@ -170,23 +171,31 @@ def get_versions():
     return result
 
 
-def get_version_number_db(database, version):
+def get_version_number_db(version):
     """Returns version of database in format as (Major Version.Minor Version.Revision).
 
     from an integer. To know more about database version,
     refer <https://www.psycopg.org/docs/connection.html>.
     """
-    if database == "POSTGRESQL":
-        major_version = version[0:2]
-        minor_version = version[2:4] if version[2:4] != "00" else ""
-        revision = version[5:]
-        return (
-            major_version + "." + minor_version + "." + revision
-            if minor_version != ""
-            else major_version + "." + revision
+    major_version = version[0:2]
+    major_version = (
+        major_version.split(major_version[1])[0]
+        if major_version[1] == "0"
+        else major_version
+    )
+    minor_version = version[2:4] if version[2:4] != "00" else ""
+    if minor_version != "":
+        minor_version = (
+            minor_version.split(minor_version[1])[0]
+            if minor_version[1] == "0"
+            else minor_version
         )
-    else:
-        return str(version[0]) + "." + str(version[1])
+    revision = version[4:]
+    return (
+        major_version + "." + minor_version + "." + revision
+        if minor_version != ""
+        else major_version + "." + revision
+    )
 
 
 def get_db_version():
@@ -196,7 +205,6 @@ def get_db_version():
                 connection.vendor,
                 "https://www.postgresql.org/",
                 get_version_number_db(
-                    connection.vendor,
                     str(connection.cursor().connection.server_version),
                 ),
             )
@@ -221,14 +229,14 @@ def get_db_version():
 
 def get_cache_version():
     try:
-        import os
-
-        cmd = "redis-server --version"
-        result = (
-            "Redis",
-            "https://redis.io/",
-            str(os.popen(cmd).read().split(" ")[2][2:]),
-        )
+        if (
+            settings.CACHES.get("default").get("BACKEND")
+            == "django_redis.cache.RedisCache"
+        ):
+            version = ""
+            result = ("Redis", "https://redis.io/", version)
+        else:
+            raise ImproperlyConfigured("please install a redis server.")
     except RuntimeError:
         raise ImproperlyConfigured("please install a redis server.")
     return result
