@@ -23,6 +23,7 @@ import sys
 
 import pkg_resources
 from django.core.exceptions import ImproperlyConfigured
+from django.db import connection
 
 import weblate
 from weblate.vcs.git import (
@@ -169,10 +170,81 @@ def get_versions():
     return result
 
 
+def get_version_number_db(database, version):
+    """Returns version of database in format as (Major Version.Minor Version.Revision).
+
+    from an integer. To know more about database version,
+    refer <https://www.psycopg.org/docs/connection.html>.
+    """
+    if database == "POSTGRESQL":
+        major_version = version[0:2]
+        minor_version = version[2:4] if version[2:4] != "00" else ""
+        revision = version[5:]
+        return (
+            major_version + "." + minor_version + "." + revision
+            if minor_version != ""
+            else major_version + "." + revision
+        )
+    else:
+        return str(version[0]) + "." + str(version[1])
+
+
+def get_db_version():
+    if connection.vendor.upper() == "POSTGRESQL":
+        try:
+            result = (
+                connection.vendor,
+                "https://www.postgresql.org/",
+                get_version_number_db(
+                    connection.vendor,
+                    str(connection.cursor().connection.server_version),
+                ),
+            )
+        except RuntimeError:
+            raise ImproperlyConfigured(
+                "Failed to get a database version. please install a database."
+            )
+    else:
+        try:
+            result = (
+                connection.vendor,
+                "https://www.mysql.com/",
+                connection.cursor().connection.get_server_info().split("-", 1)[0],
+            )
+        except RuntimeError:
+            raise ImproperlyConfigured(
+                "Failed to get a database version. please install a database."
+            )
+
+    return result
+
+
+def get_cache_version():
+    try:
+        import os
+
+        cmd = "redis-server --version"
+        result = (
+            "Redis",
+            "https://redis.io/",
+            str(os.popen(cmd).read().split(" ")[2][2:]),
+        )
+    except RuntimeError:
+        raise ImproperlyConfigured("please install a redis server.")
+    return result
+
+
+def get_db_cache_version():
+    """Returns the list of all the Database and Cache version."""
+    result = [get_db_version(), get_cache_version()]
+    return result
+
+
 def get_versions_list():
     """Return list with version information summary."""
     return (
         [("Weblate", "https://weblate.org/", weblate.GIT_VERSION)]
         + get_versions()
         + get_optional_versions()
+        + get_db_cache_version()
     )
