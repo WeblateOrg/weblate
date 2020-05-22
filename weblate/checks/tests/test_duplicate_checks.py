@@ -68,5 +68,5 @@ class DuplicateCheckTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "Text contains the same token twice in a row: lemons, two",
+            "Text contains the same word twice in a row: lemons, two",
         )
