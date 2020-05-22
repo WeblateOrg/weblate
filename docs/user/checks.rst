@@ -213,6 +213,12 @@ This only checks for the length of translation characters.
 Unlike the other checks, the flag should be set as a ``key:value`` pair like
 ``max-length:100``.
 
+.. hint::
+
+   This checks looks at number of chars, what might not be the best metric when
+   using proportional fonts to render the text. The :ref:`check-max-size` check
+   does check actual rendering of the text.
+
 .. _check-duplicate:
 
 Consecutive duplicated words
@@ -746,7 +752,7 @@ pixels:
 
 .. seealso::
 
-   :ref:`fonts`, :ref:`custom-checks`
+   :ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`
 
 Source checks
 -------------
