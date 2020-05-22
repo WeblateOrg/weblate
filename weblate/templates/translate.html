@@ -551,7 +551,7 @@
     {% for screenshot in screenshots %}
     {% include "screenshots/screenshot_show.html" %}
     {% empty %}
-    {% trans "No screenshot currently associated!" %}
+    <em>{% trans "No screenshot currently associated." %}</em>
     {% endfor %}
     </div>
     {% endif %}
@@ -582,7 +582,7 @@
     {% for label in unit.labels.all %}
     {{ label }}
     {% empty %}
-    {% trans "No labels currently set!" %}
+    <em>{% trans "No labels currently set." %}</em>
     {% endfor %}
     </div>
     {% endif %}
@@ -595,7 +595,7 @@
     {% if unit.all_flags %}
     {{ unit.all_flags.format }}
     {% else %}
-    {% trans "No flags currently set!" %}
+    <em>{% trans "No flags currently set." %}</em>
     {% endif %}
     </div>
     {% endif %}
