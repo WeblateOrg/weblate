@@ -203,6 +203,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 action=Change.ACTION_NEW_STRING,
                 user=request.user if request else None,
                 author=request.user if request else None,
+                details={"count": self.was_new},
             )
             self.was_new = 0
 

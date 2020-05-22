@@ -22,7 +22,7 @@ from django.db import models, transaction
 from django.db.models import Count
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, ngettext_lazy
 from jellyfish import damerau_levenshtein_distance
 
 from weblate.lang.models import Language
@@ -393,6 +393,12 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     }
 
+    PLURAL_ACTIONS = {
+        ACTION_NEW_STRING: ngettext_lazy(
+            "New string to translate", "New strings to translate"
+        ),
+    }
+
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
     language = models.ForeignKey(
         "lang.Language", null=True, on_delete=models.deletion.CASCADE
@@ -451,6 +457,15 @@ class Change(models.Model, UserDisplayMixin):
             "translation": self.translation,
             "user": self.get_user_display(False),
         }
+
+    @property
+    def plural_count(self):
+        return self.details.get("count", 1)
+
+    def get_action_display(self):
+        if self.action in self.PLURAL_ACTIONS:
+            return self.PLURAL_ACTIONS[self.action] % self.plural_count
+        return super().get_action_display()
 
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
