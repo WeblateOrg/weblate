@@ -215,12 +215,17 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 
 .. _check-duplicate:
 
-Consecutive duplicated tokens
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Consecutive duplicated words
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Checks that no duplicate tokens occur in translation.
+Checks that no consecutive duplicate words occur in a translation. This usually
+indicates a mistake in the translation.
 
-Check is false if any token occurs more than once consecutively.
+.. hint::
+
+   This check includes language specific rules to avoid false positives. In
+   case it triggers falsely in your case, let us know. See :ref:`report-issue`.
+
 
 .. _check-python-format:
 .. _check-python-brace-format:

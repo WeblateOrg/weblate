@@ -38,8 +38,8 @@ class DuplicateCheck(TargetCheck):
     """Check for duplicated tokens."""
 
     check_id = "duplicate"
-    name = _("Consecutive duplicated tokens")
-    description = _("Text contains the same token twice in a row:")
+    name = _("Consecutive duplicated words")
+    description = _("Text contains the same word twice in a row:")
 
     def check_single(self, source, target, unit):
         source_matches = set(CHECK_RE.findall(source))

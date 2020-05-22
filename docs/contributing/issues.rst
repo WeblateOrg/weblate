@@ -1,3 +1,5 @@
+.. _report-issue:
+
 Reporting issues in Weblate
 ===========================
 
