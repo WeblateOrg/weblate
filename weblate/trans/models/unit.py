@@ -228,7 +228,12 @@ class Unit(models.Model, LoggerMixin):
         blank=True,
     )
     extra_context = models.TextField(
-        verbose_name=gettext_lazy("Additional context"), default="", blank=True
+        verbose_name=gettext_lazy("Explanation"),
+        default="",
+        blank=True,
+        help_text=gettext_lazy(
+            "Additional explanation to clarify meaning or usage of the string."
+        ),
     )
     variant = models.ForeignKey(
         "Variant",
