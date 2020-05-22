@@ -1,3 +1,9 @@
 {% extends "mail/base.html" %}
 
 {% load i18n %}{% load translations %}
+
+{% block content %}
+<div class="line buttons">
+    <a class="button" href="{{ translation.get_translate_url }}?q=is:untranslated">{% trans "View" %}</a>
+</div>
+{% endblock %}
