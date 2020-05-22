@@ -33,8 +33,8 @@ class AutoTranslateAddon(BaseAddon):
     name = "weblate.autotranslate.autotranslate"
     verbose = _("Automatic translation")
     description = _(
-        "This addon automatically translates strings using "
-        "machine translation or other components."
+        "Automatically translates strings using machine translation or "
+        "other components."
     )
     settings_form = AutoAddonForm
     multiple = True

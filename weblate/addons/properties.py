@@ -141,7 +141,7 @@ class PropertiesSortAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.properties.sort"
     verbose = _("Formats the Java properties file")
-    description = _("This addon sorts the Java properties file.")
+    description = _("Sorts the Java properties file.")
     compat = {"file_format": {"properties-utf8", "properties", "gwt"}}
     icon = "sort-alphabetical.svg"
 

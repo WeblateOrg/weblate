@@ -39,7 +39,7 @@ class GenerateMoAddon(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.gettext.mo"
     verbose = _("Generate MO files")
-    description = _("Automatically generates MO file for every changed PO file.")
+    description = _("Automatically generates a MO file for every changed PO file.")
     settings_form = GenerateMoForm
 
     def pre_commit(self, translation, author):
@@ -229,9 +229,8 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = "weblate.gettext.msgmerge"
     verbose = _("Update PO files to match POT (msgmerge)")
     description = _(
-        "Update all PO files to match the POT file using msgmerge. This is "
-        "triggered whenever new changes are pulled from the upstream "
-        "repository."
+        "Updates all PO files to match the POT file using msgmerge. "
+        "Triggered whenever new changes are pulled from the upstream repository."
     )
     alert = "MsgmergeAddonError"
     settings_form = MsgmergeForm
@@ -296,8 +295,8 @@ class GettextAuthorComments(GettextBaseAddon):
     name = "weblate.gettext.authors"
     verbose = _("Contributors in comment")
     description = _(
-        "Update comment in the PO file header to include contributor name "
-        "and years of contributions."
+        "Update the comment in the PO file header to include contributor names and "
+        "years of contributions."
     )
 
     def pre_commit(self, translation, author):

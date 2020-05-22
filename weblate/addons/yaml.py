@@ -30,8 +30,7 @@ class YAMLCustomizeAddon(StoreBaseAddon):
     name = "weblate.yaml.customize"
     verbose = _("Customize YAML output")
     description = _(
-        "Allows to customize YAML output behavior, for example "
-        "line length or newlines."
+        "Allows adjusting YAML output behavior, for example line-length or newlines."
     )
     settings_form = YAMLCustomizeForm
     compat = {"file_format": {"yaml", "ruby-yaml"}}

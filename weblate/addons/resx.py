@@ -29,8 +29,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
     verbose = _("Update RESX files")
     description = _(
         "Update all translation files to match the monolingual upstream base file. "
-        "Unused strings are removed, and new ones are added as "
-        "copies of the source string."
+        "Unused strings are removed, and new ones added as copies of the source "
+        "string."
     )
     icon = "refresh.svg"
     compat = {"file_format": {"resx"}}

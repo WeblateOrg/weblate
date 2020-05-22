@@ -28,8 +28,7 @@ class JSONCustomizeAddon(StoreBaseAddon):
     name = "weblate.json.customize"
     verbose = _("Customize JSON output")
     description = _(
-        "Allows to customize JSON output behavior, for example "
-        "indentation or sorting."
+        "Allows adjusting JSON output behavior, for example " "indentation or sorting."
     )
     settings_form = JSONCustomizeForm
     compat = {"file_format": {"json", "json-nested", "webextension", "i18next"}}
