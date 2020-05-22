@@ -752,8 +752,8 @@ recommended to use a separate, file-backed cache for this purpose:
 
 .. _production-email:
 
-Configure e-mail addresses
-++++++++++++++++++++++++++
+Configure e-mail sending
+++++++++++++++++++++++++
 
 Weblate needs to send out e-mails on several occasions, and these e-mails should
 have a correct sender address, please configure :setting:`SERVER_EMAIL` and
@@ -777,6 +777,7 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
 
     :ref:`configuration`,
     :ref:`out-mail`,
+    :std:setting:`django:EMAIL_BACKEND`,
     :std:setting:`django:DEFAULT_FROM_EMAIL`,
     :std:setting:`django:SERVER_EMAIL`
 
