@@ -555,6 +555,8 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
+    :>json object plural: Object of language plural information
+    :>json array aliases: Array of aliases for language
 
     **Example JSON data:**
 
@@ -564,8 +566,23 @@ Languages
             "code": "en",
             "direction": "ltr",
             "name": "English",
+            "plural": {
+                "id": 75,
+                "source": 0,
+                "number": 2,
+                "formula": "n != 1",
+                "type": 1
+            },
+            "aliases": [
+                "english",
+                "en_en",
+                "base",
+                "source",
+                "eng"
+            ],
             "url": "http://example.com/api/languages/en/",
-            "web_url": "http://example.com/languages/en/"
+            "web_url": "http://example.com/languages/en/",
+            "statistics_url": "http://example.com/api/languages/en/statistics/"
         }
 
 

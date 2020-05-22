@@ -92,6 +92,7 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plural
         fields = (
+            "id",
             "source",
             "number",
             "formula",
@@ -99,10 +100,15 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
         )
 
 
+class LanguageAliasesSerializer(serializers.ListField):
+    def get_attribute(self, instance):
+        return super().get_attribute(instance)
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     plural = LanguagePluralSerializer(read_only=True)
-    aliases = serializers.SerializerMethodField()
+    aliases = LanguageAliasesSerializer(source="get_aliases_names", read_only=True)
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:language-statistics", lookup_field="code"
     )
@@ -123,9 +129,6 @@ class LanguageSerializer(serializers.ModelSerializer):
             "url": {"view_name": "api:language-detail", "lookup_field": "code"},
             "code": {"validators": []},
         }
-
-    def get_aliases(self, obj):
-        return obj.get_aliases_names()
 
     def validate_code(self, value):
         check_query = Language.objects.filter(code=value)

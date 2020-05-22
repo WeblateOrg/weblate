@@ -1102,6 +1102,11 @@ class LanguageAPITest(APIBaseTest):
             reverse("api:language-detail", kwargs={"code": "cs"})
         )
         self.assertEqual(response.data["name"], "Czech")
+        # Check plural exists
+        self.assertEqual(response.data["plural"]["type"], 2)
+        self.assertEqual(response.data["plural"]["number"], 3)
+        # Check for aliases
+        self.assertEqual(len(response.data["aliases"]), 2)
 
 
 class TranslationAPITest(APIBaseTest):
