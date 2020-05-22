@@ -21,6 +21,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count
 from django.utils import timezone
+from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext_lazy
 from jellyfish import damerau_levenshtein_distance
@@ -320,6 +321,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
     )
+    ACTIONS_DICT = dict(ACTION_CHOICES)
 
     # Actions which can be reverted
     ACTIONS_REVERTABLE = {
@@ -465,7 +467,7 @@ class Change(models.Model, UserDisplayMixin):
     def get_action_display(self):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
-        return super().get_action_display()
+        return force_str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
