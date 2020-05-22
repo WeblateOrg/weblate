@@ -134,7 +134,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
         self.commit_template = ""
-        self.was_new = False
+        self.was_new = 0
         self.reason = ""
 
     def get_badges(self):
@@ -204,7 +204,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 user=request.user if request else None,
                 author=request.user if request else None,
             )
-            self.was_new = False
+            self.was_new = 0
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
@@ -289,14 +289,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # - newly not translated
         # - newly fuzzy
         # - source string changed
-        self.was_new = self.was_new or (
-            newunit.state < STATE_TRANSLATED
-            and (
-                newunit.state != newunit.old_unit.state
-                or is_new
-                or newunit.source != newunit.old_unit.source
-            )
-        )
+        if newunit.state < STATE_TRANSLATED and (
+            newunit.state != newunit.old_unit.state
+            or is_new
+            or newunit.source != newunit.old_unit.source
+        ):
+            self.was_new += 1
 
         # Store current unit ID
         updated[id_hash] = newunit
@@ -340,7 +338,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 self.save(update_fields=["plural"])
 
             # Was there change?
-            self.was_new = False
+            self.was_new = 0
 
             # Select all current units for update
             dbunits = {unit.id_hash: unit for unit in self.unit_set.select_for_update()}
