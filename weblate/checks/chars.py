@@ -234,7 +234,7 @@ class EndQuestionCheck(TargetCheck):
     """Check for final question mark."""
 
     check_id = "end_question"
-    name = _("Trailing question")
+    name = _("Trailing question mark")
     description = _("Source and translation do not both end with a question mark")
     question_el = ("?", ";", ";")
 
@@ -267,7 +267,7 @@ class EndExclamationCheck(TargetCheck):
     """Check for final exclamation mark."""
 
     check_id = "end_exclamation"
-    name = _("Trailing exclamation")
+    name = _("Trailing exclamation mark")
     description = _("Source and translation do not both end with an exclamation mark")
 
     def check_single(self, source, target, unit):

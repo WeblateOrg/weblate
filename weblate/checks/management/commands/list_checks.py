@@ -37,16 +37,29 @@ def sorter(check):
 class Command(BaseCommand):
     help = "List installed checks"
 
+    def flush_lines(self, lines):
+        self.stdout.writelines(lines)
+        lines.clear()
+
     def handle(self, *args, **options):
         """List installed checks."""
+        lines = []
         for check in sorted(CHECKS.values(), key=sorter):
-            self.stdout.write(".. _{}:".format(check.doc_id))
-            self.stdout.write("\n")
-            self.stdout.write(check.name)
-            if isinstance(check, BaseFormatCheck):
-                self.stdout.write("*" * len(check.name))
+            is_format = isinstance(check, BaseFormatCheck)
+            if not is_format and lines:
+                self.flush_lines(lines)
+            # Output immediatelly
+            self.stdout.write(".. _{}:\n".format(check.doc_id))
+            if not lines:
+                lines.append("\n")
+            lines.append(str(check.name))
+            if is_format:
+                lines.append("*" * len(check.name))
             else:
-                self.stdout.write("~" * len(check.name))
-            self.stdout.write("\n")
-            self.stdout.write("\n".join(wrap(check.description, 79)))
-            self.stdout.write("\n")
+                lines.append("~" * len(check.name))
+            lines.append("\n")
+            lines.append("\n".join(wrap("*{}*".format(check.description), 79)))
+            lines.append("\n")
+
+            if not is_format:
+                self.flush_lines(lines)

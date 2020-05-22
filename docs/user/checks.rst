@@ -47,6 +47,8 @@ good quality translations.
 BBcode markup
 ~~~~~~~~~~~~~
 
+*BBcode in translation does not match source*
+
 BBCode represents simple markup, like for example highlighting important parts of a
 message in bold font, or italics.
 
@@ -61,6 +63,8 @@ This check ensures they are also found in translation.
 
 Consecutive duplicated words
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Text contains the same word twice in a row:*
 
 .. versionadded:: 4.1
 
@@ -78,25 +82,28 @@ indicates a mistake in the translation.
 Double space
 ~~~~~~~~~~~~
 
+*Translation contains double space*
+
 Checks that double space is present in translation to avoid false positives on other space-related checks.
 
 Check is false when double space is found in source meaning double space is intentional.
 
 
-.. _check-python-format:
-.. _check-python-brace-format:
-.. _check-php-format:
-.. _check-c-format:
-.. _check-perl-format:
-.. _check-javascript-format:
 .. _check-angularjs-format:
+.. _check-c-format:
 .. _check-c-sharp-format:
+.. _check-i18next-interpolation:
 .. _check-java-format:
 .. _check-java-messageformat:
+.. _check-javascript-format:
+.. _check-percent-placeholders:
+.. _check-perl-format:
+.. _check-php-format:
+.. _check-python-brace-format:
+.. _check-python-format:
 .. _check-qt-format:
 .. _check-qt-plural-format:
 .. _check-ruby-format:
-.. _check-i18next-interpolation:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -129,6 +136,8 @@ insert them into translated strings:
 AngularJS interpolation string
 ******************************
 
+*AngularJS interpolation strings do not match source*
+
 +----------------------+------------------------------------------------------------+
 | Named format string  | ``Your balance is {{amount}} {{ currency }}``              |
 +----------------------+------------------------------------------------------------+
@@ -141,6 +150,8 @@ AngularJS interpolation string
 
 C format
 ********
+
+*C format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -158,6 +169,8 @@ C format
 C# format
 *********
 
+*C# format string does not match source*
+
 +------------------------+------------------------------------------------------------+
 | Position format string | ``There are {0} apples``                                   |
 +------------------------+------------------------------------------------------------+
@@ -170,6 +183,8 @@ C# format
 
 i18next interpolation
 *********************
+
+*The i18next interpolation does not match source*
 
 .. versionadded:: 4.0
 
@@ -189,6 +204,8 @@ i18next interpolation
 Java format
 ***********
 
+*Java format string does not match source*
+
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
 +------------------------+------------------------------------------------------------+
@@ -205,6 +222,8 @@ Java format
 Java MessageFormat
 ******************
 
+*Java MessageFormat string does not match source*
+
 +------------------------+------------------------------------------------------------+
 | Position format string | ``There are {0} apples``                                   |
 +------------------------+------------------------------------------------------------+
@@ -217,8 +236,11 @@ Java MessageFormat
 .. seealso::
 
    `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
+
 JavaScript format
 *****************
+
+*JavaScript format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -233,6 +255,8 @@ JavaScript format
 Percent placeholders
 ********************
 
+*The percent placeholders do not match source*
+
 .. versionadded:: 4.0
 
 +------------------------+------------------------------------------------------------+
@@ -244,6 +268,8 @@ Percent placeholders
 
 Perl format
 ***********
+
+*Perl format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -260,6 +286,8 @@ Perl format
 
 PHP format
 **********
+
+*PHP format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -278,6 +306,8 @@ PHP format
 Python brace format
 *******************
 
+*Python brace format string does not match source*
+
 +----------------------+------------------------------------------------------------+
 | Simple format string | ``There are {} apples``                                    |
 +----------------------+------------------------------------------------------------+
@@ -293,6 +323,8 @@ Python brace format
 
 Python format
 *************
+
+*Python format string does not match source*
 
 +----------------------+------------------------------------------------------------+
 | Simple format string | ``There are %d apples``                                    |
@@ -310,21 +342,37 @@ Python format
 Qt format
 *********
 
+*Qt format string does not match source*
+
 +------------------------+------------------------------------------------------------+
 | Position format string | ``There are %1 apples``                                    |
 +------------------------+------------------------------------------------------------+
-| Plural format string   | ``There are %Ln apple(s)``                                 |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `qt-format`, `qt-plural-format`                            |
+| Flag to enable         | `qt-format`                                                |
 +------------------------+------------------------------------------------------------+
 
 .. seealso::
 
-    `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_,
+    `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+
+Qt plural format
+****************
+
+*Qt plural format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Plural format string   | ``There are %Ln apple(s)``                                 |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `qt-plural-format`                                         |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
     `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
 
 Ruby format
 ***********
+
+*Ruby format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -347,6 +395,8 @@ Ruby format
 Has been translated
 ~~~~~~~~~~~~~~~~~~~
 
+*This string has been translated in the past*
+
 Means a string has been translated already. This can happen when the
 translations have been reverted in VCS or lost otherwise.
 
@@ -354,6 +404,9 @@ translations have been reverted in VCS or lost otherwise.
 
 Inconsistent
 ~~~~~~~~~~~~
+
+*This string has more than one translation in this project or is not translated
+in some components.*
 
 Weblate checks translations of the same string across all translation within a
 project to help you keep consistent translations.
@@ -384,6 +437,8 @@ translations of this string on the :guilabel:`Other occurences` tab.
 Kashida letter used
 ~~~~~~~~~~~~~~~~~~~
 
+*The decorative kashida letters should not be used*
+
 .. versionadded:: 3.5
 
 The decorative Kashida letters should not be used in translation. These are
@@ -397,6 +452,8 @@ also known as Tatweel.
 
 Markdown links
 ~~~~~~~~~~~~~~
+
+*Markdown links do not match source*
 
 .. versionadded:: 3.5
 
@@ -412,6 +469,8 @@ Markdown links do not match source.
 Markdown references
 ~~~~~~~~~~~~~~~~~~~
 
+*Markdown link references do not match source*
+
 .. versionadded:: 3.5
 
 Markdown link references do not match source.
@@ -424,6 +483,8 @@ Markdown link references do not match source.
 
 Markdown syntax
 ~~~~~~~~~~~~~~~
+
+*Markdown syntax does not match source*
 
 .. versionadded:: 3.5
 
@@ -441,6 +502,8 @@ Markdown syntax does not match source
 Maximum length of translation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+*Translation should not exceed given length*
+
 Checks that translations are of acceptable length to fit available space.
 This only checks for the length of translation characters.
 
@@ -457,6 +520,8 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
 
 Maximum size of translation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Translation rendered text should not exceed given size*
 
 .. versionadded:: 3.7
 
@@ -491,6 +556,8 @@ pixels:
 Mismatched \n
 ~~~~~~~~~~~~~
 
+*Number of \n in translation does not match source*
+
 Usually escaped newlines are important for formatting program output.
 Check fails if the number of ``\\n`` literals in translation do not match the source.
 
@@ -498,6 +565,8 @@ Check fails if the number of ``\\n`` literals in translation do not match the so
 
 Mismatching line breaks
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+*Number of new lines in translation does not match source*
 
 Usually newlines are important for formatting program output.
 Check fails if the number of ``\n`` literals in translation do not match the source.
@@ -507,6 +576,8 @@ Check fails if the number of ``\n`` literals in translation do not match the sou
 
 Missing plurals
 ~~~~~~~~~~~~~~~
+
+*Some plural forms are not translated*
 
 Checks that all plural forms of a source string have been translated.
 Specifics on how each plural form is used can be found in the string definition.
@@ -518,6 +589,8 @@ the plural form is in use.
 
 Placeholders
 ~~~~~~~~~~~~
+
+*Translation is missing some placeholders:*
 
 .. versionadded:: 3.9
 
@@ -533,6 +606,8 @@ separated with colon:
 
 Punctuation spacing
 ~~~~~~~~~~~~~~~~~~~
+
+*Missing non breakable space before double punctuation sign*
 
 .. versionadded:: 3.9
 
@@ -551,6 +626,8 @@ punctuation sign is a typographic rule.
 Regular expression
 ~~~~~~~~~~~~~~~~~~
 
+*Translation does not match regular expression:*
+
 .. versionadded:: 3.9
 
 Translation does not match regular expression. The expression is either extracted from the
@@ -567,6 +644,8 @@ translation file or defined manually using ``regex`` flag:
 Same plurals
 ~~~~~~~~~~~~
 
+*Some plural forms are translated in the same way*
+
 Check that fails if some plural forms are duplicated in the translation.
 In most languages they have to be different.
 
@@ -575,7 +654,7 @@ In most languages they have to be different.
 Starting newline
 ~~~~~~~~~~~~~~~~
 
-Source and translation do not both start with a newline.
+*Source and translation do not both start with a newline*
 
 Newlines usually appear in source strings for good reason, omissions or additions
 can lead to formatting problems when the translated text is put to use.
@@ -589,7 +668,7 @@ can lead to formatting problems when the translated text is put to use.
 Starting spaces
 ~~~~~~~~~~~~~~~
 
-Source and translation do not both start with the same number of spaces.
+*Source and translation do not both start with same number of spaces*
 
 A space in the beginning of a string is usually used for indentation in the interface and thus
 important to keep.
@@ -598,6 +677,8 @@ important to keep.
 
 Trailing colon
 ~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a colon*
 
 Checks that colons are replicated between both source and translation. The
 presence of colons is also checked for various languages where they do not
@@ -612,6 +693,8 @@ belong (Chinese or Japanese).
 Trailing ellipsis
 ~~~~~~~~~~~~~~~~~
 
+*Source and translation do not both end with an ellipsis*
+
 Checks that trailing ellipses are replicated between both source and translation.
 This only checks for real ellipsis (``…``) not for three dots (``...``).
 
@@ -624,8 +707,10 @@ An ellipsis is usually rendered nicer than three dots in print, and sounds bette
 
 .. _check-end-exclamation:
 
-Trailing exclamation
-~~~~~~~~~~~~~~~~~~~~
+Trailing exclamation mark
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with an exclamation mark*
 
 Checks that exclamations are replicated between both source and translation.
 The presence of exclamation marks is also checked for various languages where
@@ -641,7 +726,7 @@ Nko).
 Trailing newline
 ~~~~~~~~~~~~~~~~
 
-Source and translation do not both end with a newline.
+*Source and translation do not both end with a newline*
 
 Newlines usually appear in source strings for good reason, omissions or additions
 can lead to formatting problems when the translated text is put to use.
@@ -655,6 +740,8 @@ can lead to formatting problems when the translated text is put to use.
 Trailing question mark
 ~~~~~~~~~~~~~~~~~~~~~~
 
+
+*Source and translation do not both end with a question mark*
 Checks that question marks are replicated between both source and translation.
 The presence of question marks is also checked for various languages where they
 do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or
@@ -671,6 +758,8 @@ Coptic).
 Trailing semicolon
 ~~~~~~~~~~~~~~~~~~
 
+*Source and translation do not both end with a semicolon*
+
 Checks that semicolons at the end of sentences are replicated between both source and translation.
 This can be useful to keep formatting of entries such as desktop files.
 
@@ -683,6 +772,8 @@ This can be useful to keep formatting of entries such as desktop files.
 Trailing space
 ~~~~~~~~~~~~~~
 
+*Source and translation do not both end with a space*
+
 Checks that trailing spaces are replicated between both source and translation.
 
 Trailing space is usually utilized to space out neighbouring elements, so
@@ -692,6 +783,8 @@ removing it might break layout.
 
 Trailing stop
 ~~~~~~~~~~~~~
+
+*Source and translation do not both end with a full stop*
 
 Checks that full stops are replicated between both source and translation.
 The presence of full stops is checked for various languages where they do not belong
@@ -705,6 +798,8 @@ The presence of full stops is checked for various languages where they do not be
 
 Unchanged translation
 ~~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation are identical*
 
 Happens if the source and corresponding translation strings is identical, down to
 at least one of the plural forms. Some strings commonly found across all
@@ -729,6 +824,8 @@ can be disabled by adding ``strict-same`` flag to string or component.
 Unsafe HTML
 ~~~~~~~~~~~
 
+*The translation uses unsafe HTML markup*
+
 .. versionadded:: 3.9
 
 The translation uses unsafe HTML markup. This check has to be enabled using
@@ -747,6 +844,8 @@ autofixer which can automatically sanitize the markup.
 URL
 ~~~
 
+*The translation does not contain an URL*
+
 .. versionadded:: 3.5
 
 The translation does not contain an URL. This is triggered only in case the
@@ -757,6 +856,8 @@ valid URL.
 
 XML markup
 ~~~~~~~~~~
+
+*XML tags in translation do not match source*
 
 This usually means the resulting output will look different. In most cases this is
 not a desired result from changing the translation, but occasionally it is.
@@ -770,6 +871,8 @@ Checks that XML tags are replicated between both source and translation.
 XML syntax
 ~~~~~~~~~~
 
+*The translation is not valid XML*
+
 .. versionadded:: 2.8
 
 The XML markup is not valid.
@@ -778,6 +881,8 @@ The XML markup is not valid.
 
 Zero-width space
 ~~~~~~~~~~~~~~~~
+
+*Translation contains extra zero-width space character*
 
 Zero-width space (<U+200B>) characters are used to break messages within words (word wrapping).
 
@@ -800,6 +905,8 @@ Source checks can help developers improve the quality of source strings.
 Ellipsis
 ~~~~~~~~
 
+*The string uses three dots (...) instead of an ellipsis character (…)*
+
 This fails when the string uses three dots (``...``) when it should use an ellipsis character (``…``).
 
 Using the Unicode character is in most cases the better approach and looks better
@@ -815,6 +922,8 @@ rendered, and may sound better with text-to-speech.
 Long untranslated
 ~~~~~~~~~~~~~~~~~
 
+*The string was not translated for a long time*
+
 .. versionadded:: 4.1
 
 The string was not translated for a long time. This can indicate problem in a
@@ -825,6 +934,8 @@ source string making it hard to translate.
 
 Multiple failing checks
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+*The translations in several languages have failing checks*
 
 Numerous translations of this string have failing quality checks. This is
 usually an indication that something could be done to improve the source
@@ -839,6 +950,9 @@ translation, while it would be better to fix it in the source string.
 Multiple unnamed variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+*There are multiple unnamed variables in the string, making it impossible for
+translators to reorder them*
+
 .. versionadded:: 4.1
 
 There are multiple unnamed variables in the string, making it impossible for
@@ -850,6 +964,8 @@ Consider using named variables instead to allow translators to reorder them.
 
 Unpluralised
 ~~~~~~~~~~~~
+
+*The string is used as plural, but not using plural forms*
 
 The string is used as a plural, but does not use plural forms. In case your
 translation system supports this, you should use the plural aware variant of
