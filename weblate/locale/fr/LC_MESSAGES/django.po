@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-22 09:43+0000\n"
-"PO-Revision-Date: 2020-05-24 09:26+0000\n"
+"PO-Revision-Date: 2020-05-24 10:37+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/master/fr/"
 ">\n"
@@ -918,8 +918,8 @@ msgid ""
 "Ensures all components within one project have translations for every added "
 "language for translation."
 msgstr ""
-"Veiller à ce que tous les éléments d’un même projet soient traduits dans "
-"chaque langue ajoutée."
+"Garantit que tous les composants d’un projet soient traduits dans toutes les "
+"langues paramétrées."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -931,7 +931,7 @@ msgid ""
 "the version control system."
 msgstr ""
 "Ajoute ou supprime automatiquement des composants du projet en fonction des "
-"changements de fichiers dans le système de contrôle de version."
+"fichiers modifiés dans le système de contrôle de version."
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
@@ -984,22 +984,16 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Marquer les traductions inchangées comme « À vérifier »"
 
 #: weblate/addons/flags.py:77
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches source strings, it is flagged as needing editing in Weblate. This "
-#| "is especially useful for file formats that include all strings even if "
-#| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"Chaque nouvelle chaîne de traduction, importée depuis le système de contrôle "
-"de versions et correspondant à la chaîne source, est marquée comme « À "
-"vérifier » dans Weblate. À utiliser par exemple pour les formats de fichier "
-"contenant toutes les chaînes même lorsqu’elles ne sont pas traduites."
+"Chaque nouvelle chaîne traduisible importée depuis le système de contrôle de "
+"versions et correspondant à la chaîne source, est marquée comme « À vérifier "
+"» dans Weblate. À utiliser par exemple pour les formats de fichier contenant "
+"toutes les chaînes même lorsqu’elles ne sont pas traduites."
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:71
 #: weblate/templates/component.html:202 weblate/templates/project.html:98
@@ -1222,14 +1216,10 @@ msgid "Statistics generator"
 msgstr "Générateur de statistiques"
 
 #: weblate/addons/generate.py:33
-#, fuzzy
-#| msgid ""
-#| "This addon generates a file containing detailed information about the "
-#| "translation."
 msgid "Generates a file containing detailed info about the translation."
 msgstr ""
-"Ce greffon génère un fichier contenant des informations détaillées à propos "
-"de la traduction."
+"Génère un fichier contenant des informations détaillées à propos de la "
+"traduction."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1346,19 +1336,14 @@ msgid "Update RESX files"
 msgstr "Mettre à jour les fichiers RESX"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual upstream base file. "
-#| "Unused strings are removed, and new ones are added as copies of the "
-#| "source string."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
 "Mettre à jour tous les fichiers de traduction pour qu’ils correspondent au "
-"fichier de base monolingue. Les chaînes inutilisées sont supprimées et de "
-"nouvelles chaînes sont ajoutées en copiant la chaîne source."
+"fichier de base amont monolingue. Les chaînes inutilisées sont supprimées et "
+"de nouvelles chaînes sont ajoutées en copiant la chaîne source."
 
 #: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
@@ -1369,15 +1354,11 @@ msgid "Customize YAML output"
 msgstr "Personnaliser la sortie YAML"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid ""
-#| "Allows to customize YAML output behavior, for example line length or "
-#| "newlines."
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
-"Permet de personnaliser le comportement de la sortie YAML, par exemple la "
-"longueur des lignes ou le tri."
+"Permet de paramétrer le comportement de la sortie YAML, par exemple la "
+"longueur des lignes ou le saut de ligne."
 
 #: weblate/auth/admin.py:106 weblate/auth/admin.py:111
 msgid "Personal info"
@@ -2141,8 +2122,6 @@ msgstr ""
 "points"
 
 #: weblate/checks/chars.py:237
-#, fuzzy
-#| msgid "Trailing question"
 msgid "Trailing question mark"
 msgstr "Point d’interrogation final"
 
@@ -2153,8 +2132,6 @@ msgstr ""
 "d’interrogation"
 
 #: weblate/checks/chars.py:270
-#, fuzzy
-#| msgid "Trailing exclamation"
 msgid "Trailing exclamation mark"
 msgstr "Point d’exclamation final"
 
@@ -2217,10 +2194,8 @@ msgstr ""
 "point-virgule"
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "Kashida utilisées"
+msgstr "Présence d'un caractère kashida"
 
 #: weblate/checks/chars.py:374
 msgid "The decorative kashida letters should not be used"
@@ -2271,10 +2246,8 @@ msgid "This string has been translated in the past"
 msgstr "Cette chaîne a été traduite par le passé"
 
 #: weblate/checks/duplicate.py:41
-#, fuzzy
-#| msgid "Consecutive duplicated tokens"
 msgid "Consecutive duplicated words"
-msgstr "Répétition de chaîne détectée"
+msgstr "Répétition de mots"
 
 #: weblate/checks/duplicate.py:42
 msgid "Text contains the same word twice in a row:"
@@ -2615,17 +2588,12 @@ msgid "The translations in several languages have failing checks"
 msgstr "Les traductions dans plusieurs langues ont des vérifications échouées"
 
 #: weblate/checks/source.py:79
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Not translated"
 msgid "Long untranslated"
-msgstr "Non traduit"
+msgstr "Ancienne chaîne non traduite"
 
 #: weblate/checks/source.py:80
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "The string was not translated for a long time"
-msgstr "Cette chaîne a été traduite par le passé"
+msgstr "Cette chaîne n'a pas été traduite depuis longtemps"
 
 #: weblate/checks/views.py:87 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -2815,10 +2783,8 @@ msgid "Joomla Language File"
 msgstr "Fichier de langue Joomla"
 
 #: weblate/formats/ttkit.py:1004
-#, fuzzy
-#| msgid "Java Properties"
 msgid "GWT Properties"
-msgstr "Propriétés Java"
+msgstr "Propriétés GWT"
 
 #: weblate/formats/ttkit.py:1011
 msgid "PHP strings"
@@ -6897,7 +6863,7 @@ msgstr "%(position)s / %(total)s"
 
 #: weblate/templates/paginator.html:12 weblate/templates/translate.html:67
 msgid "Go to position"
-msgstr "Accéder à la position"
+msgstr "Aller à cette position"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:73
 msgid "Jump to"
@@ -8058,10 +8024,8 @@ msgstr "Langue intermédiaire"
 
 #: weblate/templates/translate.html:159 weblate/templates/translate.html:563
 #: weblate/trans/models/unit.py:231
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation"
-msgstr "Traduction"
+msgstr "Explication"
 
 #: weblate/templates/translate.html:169 weblate/templates/zen-units.html:20
 msgid "Context:"
@@ -8254,10 +8218,8 @@ msgid "No screenshot currently associated."
 msgstr "Aucune capture d’écran associée actuellement."
 
 #: weblate/templates/translate.html:568
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "No explanation currently provided."
-msgstr "Cette traduction est actuellement verrouillée."
+msgstr "Aucune explication fournit actuellement."
 
 #: weblate/templates/translate.html:589
 msgid "No labels currently set."
