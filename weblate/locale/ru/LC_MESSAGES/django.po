@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-22 09:43+0000\n"
-"PO-Revision-Date: 2020-05-22 09:42+0000\n"
+"PO-Revision-Date: 2020-05-25 12:41+0000\n"
 "Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -866,16 +866,12 @@ msgid "Automatic translation"
 msgstr "Автоматический перевод"
 
 #: weblate/addons/autotranslate.py:36
-#, fuzzy
-#| msgid ""
-#| "This addon automatically translates strings using machine translation or "
-#| "other components."
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Это дополнение автоматически переводит строки при помощи машинного перевода "
-"или других компонентов."
+"Автоматически переводит строки при помощи машинного перевода или других "
+"компонентов."
 
 #: weblate/addons/base.py:304 weblate/trans/views/create.py:193
 msgid ""
@@ -1005,10 +1001,8 @@ msgid "Bulk edit"
 msgstr "Массовая правка"
 
 #: weblate/addons/flags.py:97
-#, fuzzy
-#| msgid "This addon allow to bulk edit flags, labels or state."
 msgid "Bulk edit flags, labels or state for strings."
-msgstr "Эта надстройка позволяет массово править флаги, метки или состояния."
+msgstr "Позволяет массово править флаги, метки или состояния для строк."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1209,13 +1203,8 @@ msgid "Statistics generator"
 msgstr "Генератор статистики"
 
 #: weblate/addons/generate.py:33
-#, fuzzy
-#| msgid ""
-#| "This addon generates a file containing detailed information about the "
-#| "translation."
 msgid "Generates a file containing detailed info about the translation."
-msgstr ""
-"Эта надстройка генерирует файл, содержащий детальную информацию о переводе."
+msgstr "Генерирует файл, содержащий детальную информацию о переводе."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -2251,8 +2240,6 @@ msgid "This string has been translated in the past"
 msgstr "Эта строка уже переводилась"
 
 #: weblate/checks/duplicate.py:41
-#, fuzzy
-#| msgid "Consecutive duplicated tokens"
 msgid "Consecutive duplicated words"
 msgstr "Повторяющиеся слова"
 
@@ -2439,7 +2426,7 @@ msgstr "Символы-заполнители в процентной нотац
 
 #: weblate/checks/format.py:463
 msgid "Multiple unnamed variables"
-msgstr ""
+msgstr "Несколько переменных без названий"
 
 #: weblate/checks/format.py:465
 msgid ""
@@ -2792,10 +2779,8 @@ msgid "Joomla Language File"
 msgstr "Языковой файл Joomla"
 
 #: weblate/formats/ttkit.py:1004
-#, fuzzy
-#| msgid "Java Properties"
 msgid "GWT Properties"
-msgstr "Свойства Java"
+msgstr "Свойства GWT"
 
 #: weblate/formats/ttkit.py:1011
 msgid "PHP strings"
@@ -6285,13 +6270,12 @@ msgid "New language request in %(component)s"
 msgstr "Запрос нового языка для %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgid_plural "New strings to translate in %(translation)s"
 msgstr[0] "Новая переводимая строка в %(translation)s"
-msgstr[1] "Новая переводимая строка в %(translation)s"
-msgstr[2] "Новая переводимая строка в %(translation)s"
+msgstr[1] "Новых переводимых строки в %(translation)s"
+msgstr[2] "Новых переводимых строк в %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:9
 msgid "Suggestion"
@@ -8195,10 +8179,8 @@ msgid "Source information"
 msgstr "Информация по источнику"
 
 #: weblate/templates/translate.html:554
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
-msgstr "Ни одного снимка экрана в настоящее время не связано!"
+msgstr "Ни одного снимка экрана в настоящее время не связано."
 
 #: weblate/templates/translate.html:568
 #, fuzzy
@@ -8207,20 +8189,16 @@ msgid "No explanation currently provided."
 msgstr "Этот перевод в настоящее время заблокирован."
 
 #: weblate/templates/translate.html:589
-#, fuzzy
-#| msgid "No labels currently set!"
 msgid "No labels currently set."
-msgstr "Ни одной метки в настоящее время не установлено!"
+msgstr "Ни одной метки в настоящее время не установлено."
 
 #: weblate/templates/translate.html:597
 msgid "Flags"
 msgstr "Флаги"
 
 #: weblate/templates/translate.html:602
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No flags currently set."
-msgstr "Ни одного флага в настоящее время не установлено!"
+msgstr "Ни одного флага в настоящее время не установлено."
 
 #: weblate/templates/translate.html:609
 msgid "Source string location"
@@ -9464,13 +9442,11 @@ msgstr "Компонент перемещён"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:301 weblate/trans/models/change.py:398
-#, fuzzy
-#| msgid "New string to translate"
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "Новая строка для перевода"
-msgstr[1] "Новая строка для перевода"
-msgstr[2] "Новая строка для перевода"
+msgstr[1] "Новых строки для перевода"
+msgstr[2] "Новых строк для перевода"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:309
