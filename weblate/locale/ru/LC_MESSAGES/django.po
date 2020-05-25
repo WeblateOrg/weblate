@@ -28,8 +28,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-22 09:43+0000\n"
-"PO-Revision-Date: 2020-05-25 12:41+0000\n"
-"Last-Translator: Artem <KovalevArtem.ru@gmail.com>\n"
+"PO-Revision-Date: 2020-05-26 08:02+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
@@ -900,32 +900,24 @@ msgid "Language consistency"
 msgstr "Языковая согласованность"
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid ""
-#| "Ensure that all components within one project have translation to same "
-#| "languages."
 msgid ""
 "Ensures all components within one project have translations for every added "
 "language for translation."
 msgstr ""
-"Убедитесь, что все компоненты в рамках одного проекта переведены на одни и "
-"те же языки."
+"Убедитесь, что все компоненты в рамках одного проекта переведены на все "
+"языки проекта."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
 msgstr "Обнаружение компонента"
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon automatically adds or removes components to the project based "
-#| "on file changes in the version control system."
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Эта надстройка автоматически добавляет или удаляет компоненты в проекте, "
-"основываясь на изменениях файлов в системе контроля версий."
+"Автоматически добавляет или удаляет компоненты проекта, основываясь на "
+"изменениях файлов в системе контроля версий."
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
@@ -976,12 +968,6 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Отмечать неизмененные переводы как «На правку»"
 
 #: weblate/addons/flags.py:77
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches source strings, it is flagged as needing editing in Weblate. This "
-#| "is especially useful for file formats that include all strings even if "
-#| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. This is "
@@ -989,8 +975,8 @@ msgid ""
 "translated."
 msgstr ""
 "Когда новую переводимую строку импортируют из VCS, и она совпадает с "
-"исходными строками, её помечают в Weblate как «На правку». Это особенно "
-"удобно для файловых форматов, содержащих все строки, даже непереведённые."
+"исходной строкой, её помечают в Weblate как «На правку». Это особенно удобно "
+"для файловых форматов, содержащих все строки, даже непереведённые."
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:71
 #: weblate/templates/component.html:202 weblate/templates/project.html:98
@@ -1211,8 +1197,6 @@ msgid "Generate MO files"
 msgstr "Генерировать MO-файлы"
 
 #: weblate/addons/gettext.py:42
-#, fuzzy
-#| msgid "Automatically generates MO file for every changed PO file."
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "Автоматически генерирует MO-файл для каждого изменённого PO-файла."
 
@@ -1241,15 +1225,11 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "Обновлять PO-файлы до соответствия POT (msgmerge)"
 
 #: weblate/addons/gettext.py:232
-#, fuzzy
-#| msgid ""
-#| "Update all PO files to match the POT file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"Обновлять все PO-файлы, используя msgmerge, приводя их в соответствие с POT-"
+"Обновляет все PO-файлы, используя msgmerge, приводя их в соответствие с POT-"
 "файлом. Это происходит всякий раз, когда новые изменения извлекаются из "
 "вышестоящего репозитория."
 
@@ -1267,15 +1247,11 @@ msgid "Contributors in comment"
 msgstr "Участники в комментарии"
 
 #: weblate/addons/gettext.py:298
-#, fuzzy
-#| msgid ""
-#| "Update comment in the PO file header to include contributor name and "
-#| "years of contributions."
 msgid ""
 "Update the comment in the PO file header to include contributor names and "
 "years of contributions."
 msgstr ""
-"Обновлять комментарий в заголовке PO-файла для включения имени участника и "
+"Обновлять комментарий в заголовке PO-файла для включения имён участников и "
 "лет участия."
 
 #: weblate/addons/git.py:35
@@ -1291,55 +1267,41 @@ msgid "Customize JSON output"
 msgstr "Настроить вывод JSON"
 
 #: weblate/addons/json.py:31
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Позволяет настроить поведение вывода JSON, например, отступы или разбор."
+"Позволяет подправить поведение вывода JSON, например, отступы или сортировку "
+"ключей."
 
 #: weblate/addons/properties.py:143
 msgid "Formats the Java properties file"
 msgstr "Форматирует файл свойств Java"
 
 #: weblate/addons/properties.py:144
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Sorts the Java properties file."
-msgstr "Форматирует файл свойств Java"
+msgstr "Сортирует файл свойств Java."
 
 #: weblate/addons/removal.py:49
 msgid "Stale comment removal"
 msgstr "Удаление устаревшего комментария"
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Set timeframe for removal of comments."
 msgid "Set a timeframe for removal of comments."
-msgstr "Установить сроки удаления комментариев."
+msgstr "Устанавливает сроки удаления комментариев."
 
 #: weblate/addons/removal.py:62
 msgid "Stale suggestion removal"
 msgstr "Устаревшее предложение удалено"
 
 #: weblate/addons/removal.py:63
-#, fuzzy
-#| msgid "Set timeframe for removal of suggestions."
 msgid "Set a timeframe for removal of suggestions."
-msgstr "Установить сроки удаления предложений."
+msgstr "Устанавливает сроки удаления предложений."
 
 #: weblate/addons/resx.py:29
 msgid "Update RESX files"
 msgstr "Обновить файлы RESX"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual upstream base file. "
-#| "Unused strings are removed, and new ones are added as copies of the "
-#| "source string."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
@@ -1358,15 +1320,11 @@ msgid "Customize YAML output"
 msgstr "Настроить вывод YAML"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid ""
-#| "Allows to customize YAML output behavior, for example line length or "
-#| "newlines."
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
-"Позволяет настроить поведение вывода YAML, например, символы перевода строк "
-"и их длину."
+"Позволяет подправить поведение вывода YAML, например, длину строк и символы "
+"перевода строк."
 
 #: weblate/auth/admin.py:106 weblate/auth/admin.py:111
 msgid "Personal info"
@@ -2118,20 +2076,16 @@ msgid "Source and translation do not both end with a colon"
 msgstr "Источник и перевод не заканчиваются оба двоеточием"
 
 #: weblate/checks/chars.py:237
-#, fuzzy
-#| msgid "Trailing question"
 msgid "Trailing question mark"
-msgstr "Вопрос-ный знак в конце"
+msgstr "Вопросительный знак в конце"
 
 #: weblate/checks/chars.py:238
 msgid "Source and translation do not both end with a question mark"
 msgstr "Источник и перевод не заканчиваются оба вопросительным знаком"
 
 #: weblate/checks/chars.py:270
-#, fuzzy
-#| msgid "Trailing exclamation"
 msgid "Trailing exclamation mark"
-msgstr "Воскл-ный знак в конце"
+msgstr "Восклицательный знак в конце"
 
 #: weblate/checks/chars.py:271
 msgid "Source and translation do not both end with an exclamation mark"
@@ -2186,8 +2140,6 @@ msgid "Source and translation do not both end with a semicolon"
 msgstr "Источник и перевод не заканчиваются оба точкой с запятой"
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
 msgstr "Используется кашида"
 
@@ -2244,10 +2196,8 @@ msgid "Consecutive duplicated words"
 msgstr "Повторяющиеся слова"
 
 #: weblate/checks/duplicate.py:42
-#, fuzzy
-#| msgid "Text contains the same token twice in a row"
 msgid "Text contains the same word twice in a row:"
-msgstr "Одно и тоже слово повторяется в тексте дважды подряд"
+msgstr "Одно и то же слово повторяется в тексте дважды подряд:"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -2433,6 +2383,8 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
 msgstr ""
+"Строка содержит несколько неименованных переменных, что не позволяет "
+"переводчикам их переупорядочивать"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2579,17 +2531,12 @@ msgid "The translations in several languages have failing checks"
 msgstr "Переводы на несколько языков имеют неудачные проверки"
 
 #: weblate/checks/source.py:79
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Not translated"
 msgid "Long untranslated"
-msgstr "Не переведено"
+msgstr "Давно не переводилась"
 
 #: weblate/checks/source.py:80
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "The string was not translated for a long time"
-msgstr "Эта строка уже переводилась"
+msgstr "Эта строка давно не переводилась"
 
 #: weblate/checks/views.py:87 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -2864,7 +2811,7 @@ msgstr "Файл INI"
 
 #: weblate/formats/ttkit.py:1350
 msgid "InnoSetup INI file"
-msgstr ""
+msgstr "INI-файл InnoSetup"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -4626,16 +4573,12 @@ msgid "No subscriptions or due payments."
 msgstr "Нет подписок или платежей."
 
 #: weblate/templates/billing/overview.html:16
-#, fuzzy
-#| msgid ""
-#| "If you miss access to billing of your project, please contact its project "
-#| "maintainers to grant you access."
 msgid ""
 "If you miss access to billing of your project, please ask its admins to "
 "grant you access."
 msgstr ""
-"Если вам не предоставили доступ к биллингу вашего проекта, свяжитесь с его "
-"сопровождающими, чтобы они дали вам права на доступ к оному."
+"Если вам не предоставили доступ к тарифному плану вашего проекта, попросите "
+"дать его вам у администраторов этого проекта."
 
 #: weblate/templates/billing/status.html:7
 msgid "Current plan"
@@ -7551,40 +7494,29 @@ msgid "Please consider the following:"
 msgstr "Возможны следующие решения:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the project settings."
 msgstr ""
-"Удалить файл перевода для исходного языка или изменить исходный язык в "
-"настройках проекта."
+"В случае необходимости перевода на исходный язык, пожалуйста, измените язык "
+"оригинала в настройках проекта."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr ""
-"Удалить файл перевода для исходного языка или изменить исходный язык в "
-"настройках проекта."
+"Если файл перевода для исходного языка не нужен, пожалуйста, удалите его из "
+"репозитория."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is needed, but shoud be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
-"Удалить файл перевода для исходного языка или изменить исходный язык в "
-"настройках проекта."
+"Если же файл перевода для исходного языка необходим, но должен "
+"игнорироваться Weblate, пожалуйста, настройте языковой фильтр для его "
+"исключения."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
@@ -7984,10 +7916,8 @@ msgstr "Промежуточный язык"
 
 #: weblate/templates/translate.html:159 weblate/templates/translate.html:563
 #: weblate/trans/models/unit.py:231
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation"
-msgstr "Перевод"
+msgstr "Объяснение"
 
 #: weblate/templates/translate.html:169 weblate/templates/zen-units.html:20
 msgid "Context:"
@@ -8183,10 +8113,8 @@ msgid "No screenshot currently associated."
 msgstr "Ни одного снимка экрана в настоящее время не связано."
 
 #: weblate/templates/translate.html:568
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "No explanation currently provided."
-msgstr "Этот перевод в настоящее время заблокирован."
+msgstr "В настоящее время объяснений нет."
 
 #: weblate/templates/translate.html:589
 msgid "No labels currently set."
@@ -9822,16 +9750,12 @@ msgstr ""
 "по файловой маске."
 
 #: weblate/trans/models/component.py:509
-#, fuzzy
-#| msgid "Shapings regular expression"
 msgid "Variants regular expression"
-msgstr "Регулярное выражение фасонов"
+msgstr "Регулярное выражение вариантов"
 
 #: weblate/trans/models/component.py:515
-#, fuzzy
-#| msgid "Regular expression used to determine shapings of a string."
 msgid "Regular expression used to determine variants of a string."
-msgstr "Регулярное выражение, которое определяет фасон (shapings) строки."
+msgstr "Регулярное выражение, которое определяет варианты строки."
 
 #: weblate/trans/models/component.py:524
 msgid "Components with higher priority are offered first to translators."
@@ -10274,6 +10198,8 @@ msgstr "Ошибка разбора файла %(file)s: %(error)s"
 #: weblate/trans/models/unit.py:235
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
+"Дополнительное объяснение для уточнения смысла или способов использования "
+"строки."
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
