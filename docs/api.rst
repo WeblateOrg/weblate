@@ -724,7 +724,7 @@ Projects
         curl \
             -d operation=pull \
             -H "Authorization: Token TOKEN" \
-            http://example.com/api/components/hello/weblate/repository/
+            http://example.com/api/projects/hello/repository/
 
     **JSON request example:**
 
@@ -771,6 +771,100 @@ Projects
 
     :param project: Project URL slug
     :type project: string
+    :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            --data-binary '{
+                "branch": "master",
+                "file_format": "po",
+                "filemask": "po/*.po",
+                "git_export": "",
+                "license": "",
+                "license_url": "",
+                "name": "Weblate",
+                "slug": "weblate",
+                "repo": "file:///home/nijel/work/weblate-hello",
+                "template": "",
+                "new_base": "",
+                "vcs": "git"
+            }' \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/projects/hello/components/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {
+            "branch": "master",
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "git_export": "",
+            "license": "",
+            "license_url": "",
+            "name": "Weblate",
+            "slug": "weblate",
+            "repo": "file:///home/nijel/work/weblate-hello",
+            "template": "",
+            "new_base": "",
+            "vcs": "git"
+        }
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {
+            "branch": "master",
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "git_export": "",
+            "license": "",
+            "license_url": "",
+            "name": "Weblate",
+            "slug": "weblate",
+            "project": {
+                "name": "Hello",
+                "slug": "hello",
+                "source_language": {
+                    "code": "en",
+                    "direction": "ltr",
+                    "name": "English",
+                    "url": "http://example.com/api/languages/en/",
+                    "web_url": "http://example.com/languages/en/"
+                },
+                "url": "http://example.com/api/projects/hello/",
+                "web": "https://weblate.org/",
+                "web_url": "http://example.com/projects/hello/"
+            },
+            "repo": "file:///home/nijel/work/weblate-hello",
+            "template": "",
+            "new_base": "",
+            "url": "http://example.com/api/components/hello/weblate/",
+            "vcs": "git",
+            "web_url": "http://example.com/projects/hello/weblate/"
+        }
 
 .. http:get:: /api/projects/(string:project)/languages/
 
@@ -941,6 +1035,43 @@ Components
     :type component: string
     :<json lock: Boolean whether to lock or not.
 
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            -d lock=true \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/components/hello/weblate/repository/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/components/hello/weblate/repository/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {"lock": true}
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {"locked":true}
+
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
     Returns information about VCS repository status.
@@ -970,6 +1101,43 @@ Components
     :type component: string
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            -d operation=pull \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/components/hello/weblate/repository/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/components/hello/weblate/repository/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {"operation":"pull"}
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {"result":true}
 
 .. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
 
@@ -1007,7 +1175,77 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
+    :<json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
+    :>json object result: new translation object created
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            -d language_code=cs \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/projects/hello/components/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {"language_code": "cs"}
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {
+            "failing_checks": 0,
+            "failing_checks_percent": 0,
+            "failing_checks_words": 0,
+            "filename": "po/cs.po",
+            "fuzzy": 0,
+            "fuzzy_percent": 0.0,
+            "fuzzy_words": 0,
+            "have_comment": 0,
+            "have_suggestion": 0,
+            "is_template": false,
+            "is_source": false,
+            "language": {
+                "code": "cs",
+                "direction": "ltr",
+                "name": "Czech",
+                "url": "http://example.com/api/languages/cs/",
+                "web_url": "http://example.com/languages/cs/"
+            },
+            "language_code": "cs",
+            "id": 125,
+            "last_author": null,
+            "last_change": null,
+            "share_url": "http://example.com/engage/hello/cs/",
+            "total": 4,
+            "total_words": 15,
+            "translate_url": "http://example.com/translate/hello/weblate/cs/",
+            "translated": 0,
+            "translated_percent": 0.0,
+            "translated_words": 0,
+            "url": "http://example.com/api/translations/hello/weblate/cs/",
+            "web_url": "http://example.com/projects/hello/weblate/cs/"
+        }
 
 .. http:get:: /api/components/(string:project)/(string:component)/statistics/
 
