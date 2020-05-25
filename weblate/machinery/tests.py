@@ -257,10 +257,11 @@ MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "dat
 class MachineTranslationTest(TestCase):
     """Testing of machine translation core."""
 
-    def get_machine(self, cls, cache=False):
+    def get_machine(self, cls, cache=False, english="en"):
         machine = cls()
         machine.delete_cache()
         machine.cache_translations = cache
+        self.assertEqual(machine.map_language_code("en_devel"), english)
         return machine
 
     def test_support(self):
@@ -399,8 +400,8 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_APERTIUM_APY="http://apertium.example.com/")
     @responses.activate
     def test_apertium_apy(self):
-        machine = self.get_machine(ApertiumAPYTranslation)
         self.register_apertium_urls()
+        machine = self.get_machine(ApertiumAPYTranslation, english="eng")
         self.assert_translate(machine, "es")
         self.assert_translate(machine, "es", word="Zkouška")
 
@@ -498,14 +499,14 @@ class MachineTranslationTest(TestCase):
     @responses.activate
     def test_microsoft_terminology(self):
         self.register_microsoft_terminology()
-        machine = self.get_machine(MicrosoftTerminologyService)
+        machine = self.get_machine(MicrosoftTerminologyService, english="en-us")
         self.assert_translate(machine)
         self.assert_translate(machine, lang="cs_CZ")
 
     @responses.activate
     def test_microsoft_terminology_error(self):
         self.register_microsoft_terminology(True)
-        machine = self.get_machine(MicrosoftTerminologyService)
+        machine = self.get_machine(MicrosoftTerminologyService, english="en-us")
         self.assertEqual(machine.supported_languages, set())
         with self.assertRaises(MachineTranslationError):
             self.assert_translate(machine, empty=True)
@@ -753,14 +754,14 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_DEEPL_KEY="KEY")
     @responses.activate
     def test_deepl(self):
-        machine = self.get_machine(DeepLTranslation)
+        machine = self.get_machine(DeepLTranslation, english="EN")
         self.register_deepl()
         self.assert_translate(machine, lang="de", word="Hello")
 
     @override_settings(MT_DEEPL_KEY="KEY")
     @responses.activate
     def test_cache(self):
-        machine = self.get_machine(DeepLTranslation, True)
+        machine = self.get_machine(DeepLTranslation, cache=True, english="EN")
         self.register_deepl()
         # Fetch from service
         self.assert_translate(machine, lang="de", word="Hello")
@@ -788,8 +789,8 @@ class MachineTranslationTest(TestCase):
     @override_settings(MT_APERTIUM_APY="http://apertium.example.com/")
     @responses.activate
     def test_languages_cache(self):
-        machine = self.get_machine(ApertiumAPYTranslation, True)
         self.register_apertium_urls()
+        machine = self.get_machine(ApertiumAPYTranslation, cache=True, english="eng")
         self.assert_translate(machine, "es")
         self.assert_translate(machine, "es", word="Zkouška")
         self.assertEqual(len(responses.calls), 3)
