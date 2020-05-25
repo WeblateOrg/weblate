@@ -31,7 +31,7 @@ class MyMemoryTranslation(MachineTranslation):
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
-        return super().map_language_code(code).replace("_", "-").lower()
+        return super().map_language_code(code).replace("_", "-")
 
     def is_supported(self, source, language):
         """Check whether given language combination is supported."""
@@ -46,7 +46,7 @@ class MyMemoryTranslation(MachineTranslation):
         """Almost any language without modifiers is supported."""
         if language in ("ia", "tt", "ug"):
             return False
-        return "@" not in language and len(language) == 2
+        return "@" not in language
 
     def format_match(self, match):
         """Reformat match to (translation, quality) tuple."""
