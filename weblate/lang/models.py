@@ -497,6 +497,9 @@ class Language(models.Model):
     def plural(self):
         return self.plural_set.filter(source=Plural.SOURCE_DEFAULT)[0]
 
+    def get_aliases_names(self):
+        return [alias for alias, codename in ALIASES.items() if codename == self.code]
+
 
 class PluralQuerySet(models.QuerySet):
     def order(self):

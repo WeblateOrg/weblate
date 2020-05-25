@@ -22,7 +22,7 @@ from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.lang.models import Language
+from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import REPO_LENGTH
 from weblate.trans.models import (
@@ -88,12 +88,38 @@ class RemovableSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
+class LanguagePluralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plural
+        fields = (
+            "id",
+            "source",
+            "number",
+            "formula",
+            "type",
+        )
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
+    plural = LanguagePluralSerializer(read_only=True)
+    aliases = serializers.ListField(source="get_aliases_names", read_only=True)
+    statistics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:language-statistics", lookup_field="code"
+    )
 
     class Meta:
         model = Language
-        fields = ("code", "name", "direction", "web_url", "url")
+        fields = (
+            "code",
+            "name",
+            "plural",
+            "aliases",
+            "direction",
+            "web_url",
+            "url",
+            "statistics_url",
+        )
         extra_kwargs = {
             "url": {"view_name": "api:language-detail", "lookup_field": "code"},
             "code": {"validators": []},
@@ -518,7 +544,24 @@ class RepoRequestSerializer(ReadOnlySerializer):
 
 class StatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
-        return instance.get_stats()
+        stats = instance.stats
+        return {
+            "total": stats.all,
+            "total_words": stats.all_words,
+            "last_change": stats.last_changed,
+            "recent_changes": stats.recent_changes,
+            "translated": stats.translated,
+            "translated_words": stats.translated_words,
+            "translated_percent": stats.translated_percent,
+            "translated_words_percent": stats.translated_words_percent,
+            "translated_chars": stats.translated_chars,
+            "translated_chars_percent": stats.translated_chars_percent,
+            "total_chars": stats.all_chars,
+            "fuzzy": stats.fuzzy,
+            "fuzzy_percent": stats.fuzzy_percent,
+            "failing": stats.allchecks,
+            "failing_percent": stats.allchecks_percent,
+        }
 
 
 class UnitSerializer(RemovableSerializer):

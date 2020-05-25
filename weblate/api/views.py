@@ -914,6 +914,14 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return Language.objects.have_translation().order_by("id")
 
+    @action(detail=True, methods=["get"])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        serializer = StatisticsSerializer(obj, context={"request": request})
+
+        return Response(serializer.data)
+
 
 class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     """Units API."""

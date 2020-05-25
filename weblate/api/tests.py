@@ -1102,6 +1102,11 @@ class LanguageAPITest(APIBaseTest):
             reverse("api:language-detail", kwargs={"code": "cs"})
         )
         self.assertEqual(response.data["name"], "Czech")
+        # Check plural exists
+        self.assertEqual(response.data["plural"]["type"], 2)
+        self.assertEqual(response.data["plural"]["number"], 3)
+        # Check for aliases
+        self.assertEqual(len(response.data["aliases"]), 2)
 
 
 class TranslationAPITest(APIBaseTest):
@@ -1280,15 +1285,11 @@ class TranslationAPITest(APIBaseTest):
             "api:translation-statistics",
             self.translation_kwargs,
             data={
-                "last_author": None,
-                "code": "cs",
                 "failing_percent": 0.0,
-                "url": "http://example.com/engage/test/cs/",
                 "translated_percent": 0.0,
                 "total_words": 15,
                 "failing": 0,
                 "translated_words": 0,
-                "url_translate": "http://example.com/projects/test/test/cs/",
                 "fuzzy_percent": 0.0,
                 "translated": 0,
                 "translated_words_percent": 0.0,
@@ -1297,7 +1298,6 @@ class TranslationAPITest(APIBaseTest):
                 "total_chars": 139,
                 "fuzzy": 0,
                 "total": 4,
-                "name": "Czech",
                 "recent_changes": 0,
             },
             skip=("last_change",),
