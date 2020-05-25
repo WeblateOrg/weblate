@@ -585,6 +585,28 @@ Languages
             "statistics_url": "http://example.com/api/languages/en/statistics/"
         }
 
+.. http:get:: /api/languages/(string:language)/statistics/
+
+    Returns statistics for a language.
+
+    :param language: Language code
+    :type language: string
+    :>json int total: total number of strings
+    :>json int total_words: total number of words
+    :>json timestamp last_change: last changes in the language
+    :>json int recent_changes: total number of changes
+    :>json int translated: number of translated strings
+    :>json float translated_percent: percentage of translated strings
+    :>json int translated_words: number of translated words
+    :>json int translated_words_percent: percentage of translated words
+    :>json int translated_chars: number of translated characters
+    :>json int translated_chars_percent: percentage of translated characters
+    :>json int total_chars: number of total characters
+    :>json int fuzzy: number of fuzzy strings
+    :>json int fuzzy_percent: percentage of fuzzy strings
+    :>json int failing: number of failing strings
+    :>json int failing: percentage of failing strings
+
 
 Projects
 ++++++++

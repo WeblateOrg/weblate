@@ -100,15 +100,10 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
         )
 
 
-class LanguageAliasesSerializer(serializers.ListField):
-    def get_attribute(self, instance):
-        return super().get_attribute(instance)
-
-
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     plural = LanguagePluralSerializer(read_only=True)
-    aliases = LanguageAliasesSerializer(source="get_aliases_names", read_only=True)
+    aliases = serializers.ListField(source="get_aliases_names", read_only=True)
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:language-statistics", lookup_field="code"
     )
