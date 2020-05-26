@@ -32,6 +32,7 @@
   {% if project %}
   <tr>
   <th>{% trans "Shared translation memory" %}</th>
+  <td></td>
   <td>
   {% if project.use_shared_tm %}
     {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
@@ -60,15 +61,28 @@
       {% trans "Number of your entries" %}
     {% endif %}
   </th>
+  <td></td>
   <td class="number">{{ num_entries|intcomma }}</td>
   <td>
       <a href="{{ download_url }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
       <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
   </td>
   </tr>
+  {% for item in entries_origin %}
+  <tr>
+    <td></td>
+    <td>{{ item.origin }}</td>
+    <td class="number">{{ item.id__count|intcomma }}</td>
+    <td>
+      <a href="{{ download_url }}?origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+      <a href="{{ download_url }}?format=tmx&amp;origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+    </td>
+  </tr>
+  {% endfor %}
   {% if shared_entries %}
   <tr>
   <th>{% trans "Number of shared entries" %}</th>
+  <td></td>
   <td class="number">{{ shared_entries|intcomma }}</td>
   <td>
     {% if from_file %}
@@ -80,6 +94,7 @@
   {% endif %}
   <tr>
   <th>{% trans "Total number of entries" %}</th>
+  <td></td>
   <td class="number">{{ total_entries|intcomma }}</td>
   <td>
     {% if from_file %}

@@ -157,6 +157,11 @@ class MemoryViewTest(FixtureTestCase):
         )
         self.assertContains(response, "<tmx")
         response = self.client.get(
+            reverse("memory-download", **kwargs),
+            {"format": "tmx", "origin": "memory.tmx"},
+        )
+        self.assertContains(response, "<tmx")
+        response = self.client.get(
             reverse("memory-download", **kwargs), {"format": "json"}
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))

@@ -20,6 +20,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -100,6 +101,9 @@ class MemoryView(TemplateView):
         context.update(self.objects)
         entries = Memory.objects.filter_type(**self.objects)
         context["num_entries"] = entries.count()
+        context["entries_origin"] = (
+            entries.values("origin").order_by("origin").annotate(Count("id"))
+        )
         context["total_entries"] = Memory.objects.all().count()
         context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")
@@ -120,6 +124,8 @@ class DownloadView(MemoryView):
     def get(self, request, *args, **kwargs):
         fmt = request.GET.get("format", "json")
         data = Memory.objects.filter_type(**self.objects).prefetch_lang()
+        if "origin" in request.GET:
+            data = data.filter(origin=request.GET["origin"])
         if "from_file" in self.objects and "kind" in request.GET:
             if request.GET["kind"] == "shared":
                 data = Memory.objects.filter_type(use_shared=True).prefetch_lang()
