@@ -31,7 +31,21 @@ work, but is not as well tested as single version upgrades.
 1. Stop wsgi and Celery processes. The upgrade can perform incompatible changes in the
    database, so it is always safer to avoid old processes running while upgrading.
 
-2. Upgrade Weblate code. For pip installs it can be achieved by ``pip install -U Weblate`` for Git checkout ``git pull`` should do it.
+2. Upgrade Weblate code.
+
+   For pip installs it can be achieved by:
+
+   .. code-block:: sh
+
+      pip install -U Weblate
+
+   With Git checkout you need to fetch new source code and update your installation:
+
+   .. code-block:: sh
+
+        cd weblate-src
+        git pull
+        . ~/weblate-env/bin/pip install -e .
 
 3. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
