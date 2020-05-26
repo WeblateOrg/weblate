@@ -28,6 +28,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 
 import weblate
+from weblate.utils.errors import report_error
 from weblate.vcs.git import (
     GithubRepository,
     GitLabRepository,
@@ -173,52 +174,47 @@ def get_versions():
 
 
 def get_db_version():
-    if connection.vendor.upper() == "POSTGRESQL":
+    if connection.vendor == "postgresql":
         try:
-            cursor = connection.cursor()
-            cursor.execute("SHOW server_version")
-            version = cursor.fetchone()
-            version = version[0].split(" ")[0]
-            result = (
-                connection.vendor,
-                "https://www.postgresql.org/",
-                version,
-            )
-            cursor.close()
+            with connection.cursor() as cursor:
+                cursor.execute("SHOW server_version")
+                version = cursor.fetchone()
         except RuntimeError:
-            raise ImproperlyConfigured(
-                "Failed to get a database version. please install a database."
-            )
+            report_error(cause="PostgreSQL version check")
+            return None
+
+        return (
+            "PostgreSQL server",
+            "https://www.postgresql.org/",
+            version[0].split(" ")[0],
+        )
     else:
         try:
-            cursor = connection.cursor()
-            result = (
-                connection.vendor,
-                "https://www.mysql.com/",
-                cursor.connection.get_server_info().split("-", 1)[0],
-            )
-            cursor.close()
+            with connection.cursor() as cursor:
+                version = cursor.connection.get_server_info()
         except RuntimeError:
-            raise ImproperlyConfigured(
-                "Failed to get a database version. please install a database."
-            )
-
-    return result
+            report_error(cause="MySQL version check")
+            return None
+        return (
+            f"{connection.display_name} sever",
+            "https://mariadb.org/"
+            if connection.mysql_is_mariadb
+            else "https://www.mysql.com/",
+            version.split("-", 1)[0],
+        )
 
 
 def get_cache_version():
-    result = ()
-    try:
-        if (
-            settings.CACHES.get("default", {}).get("BACKEND")
-            == "django_redis.cache.RedisCache"
-        ):
+    if settings.CACHES["default"]["BACKEND"] == "django_redis.cache.RedisCache":
+        try:
             version = cache.client.get_client().info()["redis_version"]
-            result = ("Redis", "https://redis.io/", version)
+        except RuntimeError:
+            report_error(cause="Redis version check")
+            return None
 
-    except RuntimeError:
-        raise ImproperlyConfigured("please install a redis server.")
-    return result
+        return ("Redis server", "https://redis.io/", version)
+
+    return None
 
 
 def get_db_cache_version():
@@ -227,7 +223,9 @@ def get_db_cache_version():
     cache_version = get_cache_version()
     if cache_version:
         result.append(cache_version)
-    result.append(get_db_version())
+    db_version = get_db_version()
+    if db_version:
+        result.append(db_version)
     return result
 
 
