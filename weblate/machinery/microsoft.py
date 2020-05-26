@@ -97,7 +97,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
     def download_languages(self):
         """Download list of supported languages from a service.
 
-        Example of the respostablense:
+        Example of the response:
 
         ['af', 'ar', 'bs-Latn', 'bg', 'ca', 'zh-CHS', 'zh-CHT', 'yue', 'hr', 'cs', 'da',
         'nl', 'en', 'et', 'fj', 'fil', 'fi', 'fr', 'de', 'el', 'ht', 'he', 'hi', 'mww',
