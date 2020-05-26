@@ -22,7 +22,10 @@ import email.parser
 import sys
 
 import pkg_resources
+from django.conf import settings
+from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
+from django.db import connection
 
 import weblate
 from weblate.vcs.git import (
@@ -169,10 +172,70 @@ def get_versions():
     return result
 
 
+def get_db_version():
+    if connection.vendor.upper() == "POSTGRESQL":
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SHOW server_version")
+            version = cursor.fetchone()
+            version = version[0].split(" ")[0]
+            result = (
+                connection.vendor,
+                "https://www.postgresql.org/",
+                version,
+            )
+            cursor.close()
+        except RuntimeError:
+            raise ImproperlyConfigured(
+                "Failed to get a database version. please install a database."
+            )
+    else:
+        try:
+            cursor = connection.cursor()
+            result = (
+                connection.vendor,
+                "https://www.mysql.com/",
+                cursor.connection.get_server_info().split("-", 1)[0],
+            )
+            cursor.close()
+        except RuntimeError:
+            raise ImproperlyConfigured(
+                "Failed to get a database version. please install a database."
+            )
+
+    return result
+
+
+def get_cache_version():
+    result = ()
+    try:
+        if (
+            settings.CACHES.get("default", {}).get("BACKEND")
+            == "django_redis.cache.RedisCache"
+        ):
+            version = cache.client.get_client().info()["redis_version"]
+            result = ("Redis", "https://redis.io/", version)
+
+    except RuntimeError:
+        raise ImproperlyConfigured("please install a redis server.")
+    return result
+
+
+def get_db_cache_version():
+    """Returns the list of all the Database and Cache version."""
+    result = []
+    cache_version = get_cache_version()
+    if cache_version:
+        result.append(cache_version)
+    result.append(get_db_version())
+    return result
+
+
 def get_versions_list():
     """Return list with version information summary."""
     return (
         [("Weblate", "https://weblate.org/", weblate.GIT_VERSION)]
         + get_versions()
         + get_optional_versions()
+        + get_db_cache_version()
     )
