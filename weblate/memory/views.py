@@ -29,7 +29,7 @@ from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
-from weblate.memory.forms import UploadForm
+from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
@@ -65,6 +65,21 @@ class MemoryFormView(ErrorFormView):
     def dispatch(self, request, *args, **kwargs):
         self.objects = get_objects(request, kwargs)
         return super().dispatch(request, *args, **kwargs)
+
+
+class DeleteView(MemoryFormView):
+
+    form_class = DeleteForm
+
+    def form_valid(self, form):
+        if not check_perm(self.request.user, "memory.delete", self.objects):
+            raise PermissionDenied()
+        entries = Memory.objects.filter_type(**self.objects)
+        if "origin" in self.request.POST:
+            entries = entries.filter(origin=self.request.POST["origin"])
+        entries.delete()
+        messages.success(self.request, _("Entries deleted."))
+        return super().form_valid(form)
 
 
 class UploadView(MemoryFormView):
@@ -108,6 +123,8 @@ class MemoryView(TemplateView):
         context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")
         user = self.request.user
+        if check_perm(user, "memory.delete", self.objects):
+            context["delete_url"] = self.get_url("memory-delete")
         if check_perm(user, "memory.edit", self.objects):
             context["upload_form"] = UploadForm()
         if "from_file" in self.objects:

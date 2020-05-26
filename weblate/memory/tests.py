@@ -137,6 +137,14 @@ class MemoryViewTest(FixtureTestCase):
             )
 
     def test_memory(self, match="Number of your entries", fail=False, **kwargs):
+        # Test wipe without confirmation
+        response = self.client.get(reverse("memory-delete", **kwargs))
+        self.assertRedirects(response, reverse("memory", **kwargs))
+
+        response = self.client.post(reverse("memory-delete", **kwargs))
+        self.assertRedirects(response, reverse("memory", **kwargs))
+
+        # Test list
         response = self.client.get(reverse("memory", **kwargs))
         self.assertContains(response, match)
 
@@ -165,6 +173,24 @@ class MemoryViewTest(FixtureTestCase):
             reverse("memory-download", **kwargs), {"format": "json"}
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))
+
+        # Test wipe
+        count = Memory.objects.count()
+        response = self.client.post(
+            reverse("memory-delete", **kwargs),
+            {"confirm": "1", "origin": "invalid"},
+            follow=True,
+        )
+        if fail:
+            self.assertContains(response, "Permission Denied", status_code=403)
+        else:
+            self.assertContains(response, "Entries deleted")
+            self.assertEqual(count, Memory.objects.count())
+            response = self.client.post(
+                reverse("memory-delete", **kwargs), {"confirm": "1"}, follow=True
+            )
+            self.assertContains(response, "Entries deleted")
+            self.assertTrue(count > Memory.objects.count())
 
         # Test invalid upload
         response = self.upload_file("cs.json", **kwargs)
@@ -199,9 +225,7 @@ class MemoryViewTest(FixtureTestCase):
         self.user.is_superuser = True
         self.user.save()
         self.test_memory(
-            "Number of entries on the whole platform",
-            False,
-            kwargs={"manage": "manage"},
+            "Number of uploaded shared entries", False, kwargs={"manage": "manage"},
         )
         # Download all entries
         response = self.client.get(
