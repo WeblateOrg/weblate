@@ -12,7 +12,7 @@
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
 {% elif from_file %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory for the whole platform" %}</a></li>
+<li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory" %}</a></li>
 {% else %}
 <li><a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a></li>
 <li><a href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
@@ -55,7 +55,7 @@
     {% if project %}
       {% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}
     {% elif from_file %}
-      {% trans "Number of entries on the whole platform" %}
+      {% trans "Number of uploaded shared entries" %}
     {% else %}
       {% trans "Number of your entries" %}
     {% endif %}
