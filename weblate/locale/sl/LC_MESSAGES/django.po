@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-22 09:43+0000\n"
-"PO-Revision-Date: 2020-05-22 09:42+0000\n"
+"PO-Revision-Date: 2020-05-28 00:41+0000\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
 "sl/>\n"
@@ -149,9 +149,7 @@ msgstr "Geslo"
 
 #: weblate/accounts/forms.py:483
 msgid "Please enter the correct username and password."
-msgstr ""
-"Prosimo, vnesite pravilno uporabniško ime in geslo. Pomnite, da sta obe "
-"polji morda občutljivi na velikost črk."
+msgstr "Prosimo, vnesite pravilno uporabniško ime in geslo."
 
 #: weblate/accounts/forms.py:484
 msgid "This account is inactive."
@@ -320,12 +318,12 @@ msgstr "Geslo smo spremenili."
 #: weblate/accounts/models.py:81
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
-msgstr "Uporabniško ime se je spremenilo iz {old} v {new}."
+msgstr "Uporabniško ime spremenjeno iz {old} v {new}."
 
 #: weblate/accounts/models.py:82
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "Naslov elektronske pošte se je spremenil iz {old} v {new}."
+msgstr "E-poštni naslov spremenjen iz {old} to {new}."
 
 #: weblate/accounts/models.py:83
 #, python-brace-format
@@ -491,21 +489,13 @@ msgid "Editor link"
 msgstr "Povezava urejevalnika"
 
 #: weblate/accounts/models.py:324
-#, fuzzy
-#| msgid ""
-#| "Enter custom URL to be used as link to open source code. You can use "
-#| "{{branch}} for branch, {{filename}} and  {{line}} as filename and line "
-#| "placeholders. Usually something like editor://open/?file={{filename}}"
-#| "&line={{line}} is good option."
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Vnesite URL po meri, ki ga bomo uporabili kot povezavo do odprte izvorne "
-"kode. Uporabite lahko prostornike {{branch}} za vejo, {{filename}} in "
-"{{line}} za ime datoteke in vrstico. Po navadi je nekaj v slogu editor://"
-"open/?file={{filename}}&line={{line}} dobra izbira."
+"Vnesite URL za povezavo do izvorne kode. V njem lahko uporabite prostornike "
+"{{branch}} za vejo, {{filename}} in {{line}} za ime datoteke in vrstico."
 
 #: weblate/accounts/models.py:333
 #, fuzzy
@@ -1035,10 +1025,8 @@ msgid "This addon executes a script."
 msgstr ""
 
 #: weblate/addons/flags.py:47
-#, fuzzy
-#| msgid "Review source strings in %s"
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Pregled izvirnih nizov v %s"
+msgstr "Označi nove izvorne nize z oznako \"Potrebno urejanja\""
 
 #: weblate/addons/flags.py:49
 msgid ""
@@ -1048,10 +1036,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/flags.py:61
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Dodaj kot prevod, ki potrebuje pregled"
+msgstr "Označi nove prevode z oznako \"Potrebno urejanja\""
 
 #: weblate/addons/flags.py:63
 msgid ""
@@ -1061,10 +1047,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/flags.py:75
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Dodaj kot prevod, ki potrebuje pregled"
+msgstr "Označi nespremenjene nize z oznako \"Potrebno urejanja\""
 
 #: weblate/addons/flags.py:77
 msgid ""
@@ -2834,17 +2818,13 @@ msgid "Placeholders"
 msgstr ""
 
 #: weblate/checks/placeholders.py:44
-#, fuzzy
-#| msgid "Translations with failing checks"
 msgid "Translation is missing some placeholders:"
-msgstr "Prevodi s spodletelimi preverjanji"
+msgstr "Prevodu manjka nekaj prostornikov:"
 
 #: weblate/checks/placeholders.py:79
 #: weblate/templates/addons/discovery_help.html:8
-#, fuzzy
-#| msgid "Email regular expression"
 msgid "Regular expression"
-msgstr "Regularni izraz za e-pošto"
+msgstr "Regularni izraz"
 
 #: weblate/checks/placeholders.py:80
 #, fuzzy
@@ -3696,10 +3676,8 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "V slovarju nismo našli sorodnih nizov."
 
 #: weblate/memory/models.py:117 weblate/memory/models.py:122
-#, fuzzy
-#| msgid "Failed to parse %d matched files!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Nismo uspeli razčleniti %d ujemajočih se datotek!"
+msgstr "Ni bilo možno razčleniti datoteke JSON: {!s}"
 
 #: weblate/memory/models.py:151
 #, fuzzy
@@ -4963,10 +4941,9 @@ msgid "Checks"
 msgstr "Preverjanja"
 
 #: weblate/templates/base.html:161
-#, fuzzy, python-format
-#| msgid "Failed to find matching project!"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Nismo uspeli najti ujemajočega projekta!"
+msgstr "Spodletela preverjanja v projektu %(project)s"
 
 #: weblate/templates/base.html:165
 msgid "Checks overview"
@@ -7051,12 +7028,11 @@ msgid "New language request in %(component)s"
 msgstr "Nova prošnja za jezik %(translation)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgid_plural "New strings to translate in %(translation)s"
-msgstr[0] "Novi nizi za prevajanje pri %(translation)s"
-msgstr[1] "Novi nizi za prevajanje pri %(translation)s"
+msgstr[0] "Nov niz za prevajanje pri %(translation)s"
+msgstr[1] "Nova niza za prevajanje pri %(translation)s"
 msgstr[2] "Novi nizi za prevajanje pri %(translation)s"
 msgstr[3] "Novi nizi za prevajanje pri %(translation)s"
 
@@ -7715,10 +7691,8 @@ msgstr ""
 
 #: weblate/templates/progress.html:14 weblate/templates/translation.html:414
 #: weblate/trans/forms.py:418 weblate/trans/forms.py:437
-#, fuzzy
-#| msgid "Needs review"
 msgid "Needs editing"
-msgstr "Potrebuje pregled"
+msgstr "Potrebno urejanja"
 
 #: weblate/templates/project-label-edit.html:9
 #: weblate/templates/project-labels.html:9
@@ -8086,10 +8060,8 @@ msgid "Nothing to list here."
 msgstr ""
 
 #: weblate/templates/snippets/login-info.html:4
-#, fuzzy
-#| msgid "Sent by Weblate translation system"
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr "Poslal prevajalni sistem Weblate"
+msgstr "<strong>Neprekinjena</strong> spletna lokalizacija"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
@@ -8367,10 +8339,8 @@ msgid "Suggested change:"
 msgstr "Predlagana sprememba:"
 
 #: weblate/templates/snippets/suggestions.html:53
-#, fuzzy
-#| msgid "Failing checks"
 msgid "Failing checks:"
-msgstr "Spodletela preverjanja"
+msgstr "Spodletela preverjanja:"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 #, fuzzy
@@ -8380,11 +8350,9 @@ msgstr "Pregled izvirnih nizov"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:497 weblate/utils/state.py:31
-#, fuzzy
-#| msgid "Needs review"
 msgctxt "String state"
 msgid "Needs editing"
-msgstr "Potrebuje pregled"
+msgstr "Potrebuje urejanje"
 
 #: weblate/templates/snippets/unit-state.html:6 weblate/utils/state.py:34
 #, fuzzy
@@ -8418,11 +8386,9 @@ msgid "Untranslated"
 msgstr "Neprevedeno"
 
 #: weblate/templates/snippets/unit-state.html:12
-#, fuzzy
-#| msgid "Failing checks"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "Spodletela preverjanja"
+msgstr "Spodletela preverjanja:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
@@ -9201,10 +9167,8 @@ msgid "Source information"
 msgstr "Podatki vira"
 
 #: weblate/templates/translate.html:554
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
-msgstr "Trenutno ni povezan noben zaslonski posnetek!"
+msgstr "Trenutno ni povezan noben zaslonski posnetek."
 
 #: weblate/templates/translate.html:568
 #, fuzzy
@@ -9213,20 +9177,16 @@ msgid "No explanation currently provided."
 msgstr "Prevod trenutno ni zaklenjen."
 
 #: weblate/templates/translate.html:589
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No labels currently set."
-msgstr "Trenutno ni nastavljena nobena zastavica!"
+msgstr "Trenutno ni nastavljena nobena labela."
 
 #: weblate/templates/translate.html:597
 msgid "Flags"
 msgstr "Zastavice"
 
 #: weblate/templates/translate.html:602
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No flags currently set."
-msgstr "Trenutno ni nastavljena nobena zastavica!"
+msgstr "Trenutno ni nastavljena nobena zastavica."
 
 #: weblate/templates/translate.html:609
 msgid "Source string location"
@@ -9725,10 +9685,8 @@ msgid "Please choose a valid filter type."
 msgstr ""
 
 #: weblate/trans/forms.py:410
-#, fuzzy
-#| msgid "Message you wanted to translate is no longer available!"
 msgid "The string you wanted to translate is no longer available."
-msgstr "Sporočilo, ki ga želite prevesti, ni več na voljo!"
+msgstr "Besedilo, ki ga želite prevesti, ni več na voljo."
 
 #: weblate/trans/forms.py:420
 msgid ""
@@ -10674,14 +10632,12 @@ msgstr "Druge komponente"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:301 weblate/trans/models/change.py:398
-#, fuzzy
-#| msgid "Strings to translate"
 msgid "New string to translate"
 msgid_plural "New strings to translate"
-msgstr[0] "Nizi za prevajanje"
-msgstr[1] "Nizi za prevajanje"
-msgstr[2] "Nizi za prevajanje"
-msgstr[3] "Nizi za prevajanje"
+msgstr[0] "Nov niz za prevajanje"
+msgstr[1] "Nova niza za prevajanje"
+msgstr[2] "Novi nizi za prevajanje"
+msgstr[3] "Novi nizi za prevajanje"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:309
@@ -10907,10 +10863,8 @@ msgstr ""
 "Ali bodo uporabniki lahko urejali temeljno datoteko enojezikovnih prevodov."
 
 #: weblate/trans/models/component.py:299
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Intermediate language file"
-msgstr "Zaprošen jezik:"
+msgstr "Datoteka vmesnega jezika"
 
 #: weblate/trans/models/component.py:303
 msgid ""
@@ -12630,11 +12584,8 @@ msgid "Unsupported image type: %s"
 msgstr "Nepodprta vrsta slike: %s"
 
 #: weblate/utils/validators.py:129
-#, fuzzy
-#| msgid "Image is too big, please scale it down or crop relevant part!"
 msgid "The image is too big, please crop or scale it down."
-msgstr ""
-"Slika je prevelika; prosimo, zmanjšajte jo ali izrežite relevantni del!"
+msgstr "Slika je prevelika; prosimo, obrežite ali zmanjšajte jo."
 
 #: weblate/utils/validators.py:147
 msgid "Please avoid using special characters in the full name."
@@ -12675,10 +12626,8 @@ msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 
 #: weblate/utils/views.py:90
-#, fuzzy
-#| msgid "Words (%(count)s):"
 msgid "Word count"
-msgstr "Besede (%(count)s):"
+msgstr "Število besed"
 
 #: weblate/utils/views.py:269
 #, python-format
