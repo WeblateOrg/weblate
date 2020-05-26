@@ -176,9 +176,9 @@ def get_db_version():
     if connection.vendor.upper() == "POSTGRESQL":
         try:
             cursor = connection.cursor()
-            cursor.execute("SELECT version()")
+            cursor.execute("SHOW server_version")
             version = cursor.fetchall()[0]
-            version = version[0].split(" ")[1]
+            version = version[0].split(" ")[0]
             result = (
                 connection.vendor,
                 "https://www.postgresql.org/",
@@ -191,11 +191,13 @@ def get_db_version():
             )
     else:
         try:
+            cursor = connection.cursor()
             result = (
                 connection.vendor,
                 "https://www.mysql.com/",
-                connection.cursor().connection.get_server_info().split("-", 1)[0],
+                cursor.connection.get_server_info().split("-", 1)[0],
             )
+            cursor.close()
         except RuntimeError:
             raise ImproperlyConfigured(
                 "Failed to get a database version. please install a database."
