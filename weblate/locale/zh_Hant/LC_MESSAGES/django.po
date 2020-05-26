@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-22 09:43+0000\n"
-"PO-Revision-Date: 2020-05-22 09:42+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"PO-Revision-Date: 2020-05-28 00:41+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -811,14 +811,10 @@ msgid "Automatic translation"
 msgstr "自動翻譯"
 
 #: weblate/addons/autotranslate.py:36
-#, fuzzy
-#| msgid ""
-#| "This addon automatically translates strings using machine translation or "
-#| "other components."
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
-msgstr "此附加元件使用機器翻譯或其他元件自動翻譯字串。"
+msgstr "使用機器翻譯或其他組件自動翻譯字串。"
 
 #: weblate/addons/base.py:304 weblate/trans/views/create.py:193
 msgid ""
@@ -851,21 +847,17 @@ msgstr "語言的一致性"
 msgid ""
 "Ensures all components within one project have translations for every added "
 "language for translation."
-msgstr "確保同一個專案下的所有組件之翻譯皆採用相同的詞語。"
+msgstr "確保同一個專案下的所有組件，每個加入的翻譯語言皆有翻譯。"
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
 msgstr "組件探索"
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon automatically adds or removes components to the project based "
-#| "on file changes in the version control system."
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
-msgstr "此附加元件會根據版本控制系統中的檔案更動自動加入組件至專案中或移除。"
+msgstr "根據版本控制系統中的檔案更動自動加入或移除組件專案。"
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
@@ -914,21 +906,14 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "將未變動的翻譯標記為「需要編輯」"
 
 #: weblate/addons/flags.py:77
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches source strings, it is flagged as needing editing in Weblate. This "
-#| "is especially useful for file formats that include all strings even if "
-#| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"每當新的可翻譯字串從 VCS 匯入且符合來源字串時，會在 Weblate 中標記為需要編"
-"輯。這對於一次包含所有翻譯字串的檔案格式來說特別有用，即使這些字串皆未翻譯亦"
-"然。"
+"每當新的可翻譯字串從 VCS 匯入且符合來源字串時，會在 Weblate "
+"中標記為需要編輯。這對於一次包含所有翻譯字串的檔案格式來說特別有用，即使未翻譯亦然。"
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:71
 #: weblate/templates/component.html:202 weblate/templates/project.html:98
@@ -939,10 +924,8 @@ msgid "Bulk edit"
 msgstr "大量編輯"
 
 #: weblate/addons/flags.py:97
-#, fuzzy
-#| msgid "This addon allow to bulk edit flags, labels or state."
 msgid "Bulk edit flags, labels or state for strings."
-msgstr "此附加元件能讓您大量編輯旗標、標籤或狀態。"
+msgstr "大量編輯字串的旗標、標籤或狀態。"
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1139,20 +1122,14 @@ msgid "Statistics generator"
 msgstr "統計數據生成器"
 
 #: weblate/addons/generate.py:33
-#, fuzzy
-#| msgid ""
-#| "This addon generates a file containing detailed information about the "
-#| "translation."
 msgid "Generates a file containing detailed info about the translation."
-msgstr "此附加元件會生成內含翻譯相關詳細資訊的檔案。"
+msgstr "生成內含翻譯詳細資訊的檔案。"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
 msgstr "生成 MO 檔"
 
 #: weblate/addons/gettext.py:42
-#, fuzzy
-#| msgid "Automatically generates MO file for every changed PO file."
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "每次 PO 檔有變動時便自動生成 MO 檔。"
 
@@ -1181,16 +1158,10 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "更新 PO 檔以符合 POT (msgmerge)"
 
 #: weblate/addons/gettext.py:232
-#, fuzzy
-#| msgid ""
-#| "Update all PO files to match the POT file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository."
-msgstr ""
-"使用 msgmerge 更新所有 PO 檔使其符合 POT 檔。每當從上游儲存庫拉入新更動時會觸"
-"發這個動作。"
+msgstr "使用 msgmerge 更新所有 PO 檔使其符合 POT 檔。會在每次從上游儲存庫拉入新更動時觸發。"
 
 #: weblate/addons/gettext.py:283
 msgid "Customize gettext output"
@@ -1206,10 +1177,6 @@ msgid "Contributors in comment"
 msgstr "評註中的貢獻者紀錄"
 
 #: weblate/addons/gettext.py:298
-#, fuzzy
-#| msgid ""
-#| "Update comment in the PO file header to include contributor name and "
-#| "years of contributions."
 msgid ""
 "Update the comment in the PO file header to include contributor names and "
 "years of contributions."
@@ -1228,31 +1195,23 @@ msgid "Customize JSON output"
 msgstr "自訂 JSON 輸出"
 
 #: weblate/addons/json.py:31
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
-msgstr "允許自訂 JSON 輸出行為，例如縮排或排序。"
+msgstr "允許調整 JSON 輸出行為，例如縮排或排序。"
 
 #: weblate/addons/properties.py:143
 msgid "Formats the Java properties file"
 msgstr "格式化 Java properties 檔案"
 
 #: weblate/addons/properties.py:144
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Sorts the Java properties file."
-msgstr "格式化 Java properties 檔案"
+msgstr "排序 Java properties 檔案。"
 
 #: weblate/addons/removal.py:49
 msgid "Stale comment removal"
 msgstr "陳舊評註移除"
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Set timeframe for removal of comments."
 msgid "Set a timeframe for removal of comments."
 msgstr "設定移除評註的時間間隔。"
 
@@ -1261,8 +1220,6 @@ msgid "Stale suggestion removal"
 msgstr "陳舊建議移除"
 
 #: weblate/addons/removal.py:63
-#, fuzzy
-#| msgid "Set timeframe for removal of suggestions."
 msgid "Set a timeframe for removal of suggestions."
 msgstr "設定建議移除的時間間隔。"
 
@@ -1271,18 +1228,11 @@ msgid "Update RESX files"
 msgstr "更新 RESX 檔案"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual upstream base file. "
-#| "Unused strings are removed, and new ones are added as copies of the "
-#| "source string."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
-msgstr ""
-"更新所有翻譯檔以符合單語言上游基底檔。未使用的字串將移除，新增加的字串將根據"
-"來源字串複製加入。"
+msgstr "更新所有翻譯檔以符合單語言上游基底檔。未使用的字串將移除，新增加的字串將根據來源字串複製加入。"
 
 #: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
@@ -1293,13 +1243,9 @@ msgid "Customize YAML output"
 msgstr "自訂 YAML 輸出"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid ""
-#| "Allows to customize YAML output behavior, for example line length or "
-#| "newlines."
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
-msgstr "允許自訂 YAML 輸出行為，例如一列長度或換行。"
+msgstr "允許調整 YAML 輸出行為，例如列長或換行。"
 
 #: weblate/auth/admin.py:106 weblate/auth/admin.py:111
 msgid "Personal info"
@@ -2047,20 +1993,16 @@ msgid "Source and translation do not both end with a colon"
 msgstr "翻譯沒有和來源一致以冒號結尾"
 
 #: weblate/checks/chars.py:237
-#, fuzzy
-#| msgid "Trailing question"
 msgid "Trailing question mark"
-msgstr "問號結尾"
+msgstr "問號符結尾"
 
 #: weblate/checks/chars.py:238
 msgid "Source and translation do not both end with a question mark"
 msgstr "翻譯沒有和來源一致以問號結尾"
 
 #: weblate/checks/chars.py:270
-#, fuzzy
-#| msgid "Trailing exclamation"
 msgid "Trailing exclamation mark"
-msgstr "驚嘆號結尾"
+msgstr "驚嘆號符結尾"
 
 #: weblate/checks/chars.py:271
 msgid "Source and translation do not both end with an exclamation mark"
@@ -2115,10 +2057,8 @@ msgid "Source and translation do not both end with a semicolon"
 msgstr "翻譯沒有和來源一致以分號結尾"
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "使用卡希達對齊"
+msgstr "使用 Kashida letter"
 
 #: weblate/checks/chars.py:374
 msgid "The decorative kashida letters should not be used"
@@ -2167,16 +2107,12 @@ msgid "This string has been translated in the past"
 msgstr "字串之前已經有翻譯過"
 
 #: weblate/checks/duplicate.py:41
-#, fuzzy
-#| msgid "Consecutive duplicated tokens"
 msgid "Consecutive duplicated words"
-msgstr "連續重複代符"
+msgstr "連續重複單字"
 
 #: weblate/checks/duplicate.py:42
-#, fuzzy
-#| msgid "Text contains the same token twice in a row"
 msgid "Text contains the same word twice in a row:"
-msgstr "文字在同一行中有兩個相同的代符"
+msgstr "文字在同一行中有兩個相同的單字："
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -2355,13 +2291,13 @@ msgstr "百分比佔位符與來源不符"
 
 #: weblate/checks/format.py:463
 msgid "Multiple unnamed variables"
-msgstr ""
+msgstr "多個未命名變數"
 
 #: weblate/checks/format.py:465
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
-msgstr ""
+msgstr "字串中有多個未命名字串，導致翻譯者難以重新排序"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2505,17 +2441,12 @@ msgid "The translations in several languages have failing checks"
 msgstr "多個語言的翻譯有未通過查核的項目"
 
 #: weblate/checks/source.py:79
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Not translated"
 msgid "Long untranslated"
-msgstr "尚未翻譯"
+msgstr "太久未翻譯"
 
 #: weblate/checks/source.py:80
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "The string was not translated for a long time"
-msgstr "字串之前已經有翻譯過"
+msgstr "字串很久沒有翻譯"
 
 #: weblate/checks/views.py:87 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -2700,10 +2631,8 @@ msgid "Joomla Language File"
 msgstr "Joomla 語言檔"
 
 #: weblate/formats/ttkit.py:1004
-#, fuzzy
-#| msgid "Java Properties"
 msgid "GWT Properties"
-msgstr "JAVA 屬性"
+msgstr "GWT 屬性"
 
 #: weblate/formats/ttkit.py:1011
 msgid "PHP strings"
@@ -6030,8 +5959,7 @@ msgid "New language request in %(component)s"
 msgstr "%(component)s 有新語言提出申請"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgid_plural "New strings to translate in %(translation)s"
 msgstr[0] "%(translation)s 有新字串可翻譯"
@@ -7624,10 +7552,8 @@ msgstr "中間語言"
 
 #: weblate/templates/translate.html:159 weblate/templates/translate.html:563
 #: weblate/trans/models/unit.py:231
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation"
-msgstr "翻譯"
+msgstr "解釋"
 
 #: weblate/templates/translate.html:169 weblate/templates/zen-units.html:20
 msgid "Context:"
@@ -7805,32 +7731,24 @@ msgid "Source information"
 msgstr "來源資訊"
 
 #: weblate/templates/translate.html:554
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
-msgstr "目前沒有相關的畫面快照！"
+msgstr "目前無關聯的畫面快照。"
 
 #: weblate/templates/translate.html:568
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "No explanation currently provided."
-msgstr "此翻譯目前正被鎖定。"
+msgstr "目前未提供解釋。"
 
 #: weblate/templates/translate.html:589
-#, fuzzy
-#| msgid "No labels currently set!"
 msgid "No labels currently set."
-msgstr "目前沒有設定標籤！"
+msgstr "目前未設定標籤。"
 
 #: weblate/templates/translate.html:597
 msgid "Flags"
 msgstr "旗標"
 
 #: weblate/templates/translate.html:602
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No flags currently set."
-msgstr "目前沒有設定旗標！"
+msgstr "目前未設定旗標。"
 
 #: weblate/templates/translate.html:609
 msgid "Source string location"
@@ -9044,8 +8962,6 @@ msgstr "移動了組件"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:301 weblate/trans/models/change.py:398
-#, fuzzy
-#| msgid "New string to translate"
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "有新字串要翻譯"
@@ -9805,7 +9721,7 @@ msgstr "無法解析 %(file)s 檔案：%(error)s"
 
 #: weblate/trans/models/unit.py:235
 msgid "Additional explanation to clarify meaning or usage of the string."
-msgstr ""
+msgstr "用來闡明意義或字串用法的額外解釋。"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
@@ -9869,7 +9785,7 @@ msgstr "自動翻譯已完成，未更新任何字串。"
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
-msgstr[0] "自動翻譯已完成，已更新 %d 條字串。"
+msgstr[0] "自動翻譯完成，已更新 %d 條字串。"
 
 #: weblate/trans/templatetags/translations.py:73
 msgid "Good configuration"
