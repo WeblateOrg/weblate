@@ -181,6 +181,11 @@ class Billing(models.Model):
             base = "Unassigned"
         return "{0} ({1})".format(base, self.plan)
 
+    def save(self, *args, **kwargs):
+        if not kwargs.pop("skip_limits", False) and self.pk:
+            self.check_limits(save=False)
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return "{}#billing-{}".format(reverse("billing"), self.pk)
 
@@ -356,11 +361,6 @@ class Billing(models.Model):
 
         if save and modified:
             self.save(skip_limits=True)
-
-    def save(self, *args, **kwargs):
-        if not kwargs.pop("skip_limits", False) and self.pk:
-            self.check_limits(save=False)
-        super().save(*args, **kwargs)
 
     def is_active(self):
         return self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
