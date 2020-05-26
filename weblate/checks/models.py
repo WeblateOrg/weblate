@@ -115,18 +115,18 @@ class Check(models.Model):
 
     weblate_unsafe_delete = True
 
+    class Meta:
+        unique_together = ("unit", "check")
+
+    def __str__(self):
+        return str(self.get_name())
+
     @cached_property
     def check_obj(self):
         try:
             return CHECKS[self.check]
         except KeyError:
             return None
-
-    class Meta:
-        unique_together = ("unit", "check")
-
-    def __str__(self):
-        return str(self.get_name())
 
     def is_enforced(self):
         return self.check in self.unit.translation.component.enforced_checks

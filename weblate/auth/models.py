@@ -155,12 +155,6 @@ class Group(models.Model):
     def __str__(self):
         return pgettext("Access control group", self.name)
 
-    @cached_property
-    def short_name(self):
-        if "@" in self.name:
-            return pgettext("Per project access control group", self.name.split("@")[1])
-        return self.__str__()
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
@@ -183,6 +177,12 @@ class Group(models.Model):
                 Project.objects.filter(component__componentlist=self.componentlist),
                 clear=True,
             )
+
+    @cached_property
+    def short_name(self):
+        if "@" in self.name:
+            return pgettext("Per project access control group", self.name.split("@")[1])
+        return self.__str__()
 
 
 class UserManager(BaseUserManager):
@@ -331,6 +331,27 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["email", "full_name"]
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
+    def __str__(self):
+        return self.full_name
+
+    def get_absolute_url(self):
+        return reverse("user_page", kwargs={"user": self.username})
+
+    def save(self, *args, **kwargs):
+        # Generate full name from parts
+        # This is needed with LDAP authentication when the
+        # server does not contain full name
+        if "first_name" in self.extra_data and "last_name" in self.extra_data:
+            self.full_name = "{first_name} {last_name}".format(**self.extra_data)
+        elif "first_name" in self.extra_data:
+            self.full_name = self.extra_data["first_name"]
+        elif "last_name" in self.extra_data:
+            self.full_name = self.extra_data["last_name"]
+        if not self.email:
+            self.email = None
+        super().save(*args, **kwargs)
+        self.clear_cache()
+
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
         self.cla_cache = {}
@@ -340,9 +361,6 @@ class User(AbstractBaseUser):
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)
         super().__init__(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse("user_page", kwargs={"user": self.username})
 
     def clear_cache(self):
         self.cla_cache = {}
@@ -377,30 +395,12 @@ class User(AbstractBaseUser):
     def get_short_name(self):
         return self.full_name
 
-    def __str__(self):
-        return self.full_name
-
     def __setattr__(self, name, value):
         """Mimic first/last name for third party auth and ignore is_staff flag."""
         if name in self.DUMMY_FIELDS:
             self.extra_data[name] = value
         else:
             super().__setattr__(name, value)
-
-    def save(self, *args, **kwargs):
-        # Generate full name from parts
-        # This is needed with LDAP authentication when the
-        # server does not contain full name
-        if "first_name" in self.extra_data and "last_name" in self.extra_data:
-            self.full_name = "{first_name} {last_name}".format(**self.extra_data)
-        elif "first_name" in self.extra_data:
-            self.full_name = self.extra_data["first_name"]
-        elif "last_name" in self.extra_data:
-            self.full_name = self.extra_data["last_name"]
-        if not self.email:
-            self.email = None
-        super().save(*args, **kwargs)
-        self.clear_cache()
 
     def has_module_perms(self, module):
         """Compatibility API for admin interface."""

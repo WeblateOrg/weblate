@@ -460,15 +460,6 @@ class Change(models.Model, UserDisplayMixin):
             "user": self.get_user_display(False),
         }
 
-    @property
-    def plural_count(self):
-        return self.details.get("count", 1)
-
-    def get_action_display(self):
-        if self.action in self.PLURAL_ACTIONS:
-            return self.PLURAL_ACTIONS[self.action] % self.plural_count
-        return force_str(self.ACTIONS_DICT.get(self.action, self.action))
-
     def save(self, *args, **kwargs):
         from weblate.accounts.tasks import notify_change
 
@@ -502,6 +493,15 @@ class Change(models.Model, UserDisplayMixin):
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
         super().__init__(*args, **kwargs)
+
+    @property
+    def plural_count(self):
+        return self.details.get("count", 1)
+
+    def get_action_display(self):
+        if self.action in self.PLURAL_ACTIONS:
+            return self.PLURAL_ACTIONS[self.action] % self.plural_count
+        return force_str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE
