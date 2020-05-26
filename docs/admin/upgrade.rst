@@ -45,7 +45,10 @@ work, but is not as well tested as single version upgrades.
 
         cd weblate-src
         git pull
+        # Update Weblate inside your virtualenv
         . ~/weblate-env/bin/pip install -e .
+        # Install dependecies directly when not using virtualenv
+        pip install --upgrade -r requirements.txt
 
 3. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
