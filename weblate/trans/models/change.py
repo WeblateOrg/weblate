@@ -481,6 +481,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.unit is not None:
             return self.unit.get_absolute_url()
         if self.translation is not None:
+            if self.action == self.ACTION_NEW_STRING:
+                return self.translation.get_translate_url() + "?q=is:untranslated"
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
