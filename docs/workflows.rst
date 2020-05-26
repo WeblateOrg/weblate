@@ -149,6 +149,72 @@ Reviews can be turned on in the project configuration, from the
     you. For example on Hosted Weblate this is not available for projects hosted
     for free.
 
+.. _source-quality-gateway:
+
+Quality gateway for the source strings
+--------------------------------------
+
+In many cases the original source language strings are coming from developers,
+because they write the code and provide initial strings. However developers are
+often not a native speakers in the source language and do not provide desired
+quality of the source strings. The intermediate translation can help you in
+addressing this - there is additional quality gateway for the strings between
+developers and translators and users.
+
+By setting :ref:`component-intermediate`, this file will be used as source for
+the strings, but it will be edited to source language to polish it.  Once the
+string is ready in the source language, it will be also available for
+translators to translate into additional languages.
+
+.. graphviz::
+
+    digraph translations {
+        graph [fontname = "sans-serif"];
+        node [fontname = "sans-serif"];
+        edge [fontname = "sans-serif"];
+
+        subgraph cluster_dev {
+            style=filled;
+            color=lightgrey;
+            node [style=filled,fillcolor=white];
+
+            label = "Development process";
+
+            "Developers" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+            "Developers" -> "Intermediate file";
+            "Intermediate file" [shape=note];
+        }
+
+        subgraph cluster_l10n {
+            style=filled;
+            color=lightgrey;
+            node [style=filled,fillcolor=white];
+
+            label = "Localization process";
+
+            "Translators" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+            "Editors" [shape=box, fillcolor=seagreen, fontcolor=white, style=filled];
+
+            "Monolingual base language file" [shape=note];
+            "Translation language file" [shape=note];
+
+            "Editors" -> "Monolingual base language file";
+            "Translators" -> "Translation language file";
+        }
+
+
+
+        "Intermediate file" -> "Monolingual base language file" [constraint=false];
+        "Monolingual base language file" -> "Translation language file" [constraint=false];
+
+    }
+
+.. seealso::
+
+   :ref:`component-intermediate`,
+   :ref:`component-template`,
+   :ref:`bimono`
+
 .. _source-reviews:
 
 Source strings reviews

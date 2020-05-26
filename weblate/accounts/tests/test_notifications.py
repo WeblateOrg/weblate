@@ -160,6 +160,18 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             1, "[Weblate] New string to translate in Test/Test — Czech"
         )
 
+    def test_notify_new_strings(self):
+        Change.objects.create(
+            translation=self.get_translation(),
+            action=Change.ACTION_NEW_STRING,
+            details={"count": 10},
+        )
+
+        # Check mail
+        self.validate_notifications(
+            1, "[Weblate] New strings to translate in Test/Test — Czech"
+        )
+
     def test_notify_new_translation(self):
         Change.objects.create(
             unit=self.get_unit(),

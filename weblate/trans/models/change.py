@@ -21,8 +21,9 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count
 from django.utils import timezone
+from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, ngettext_lazy
 from jellyfish import damerau_levenshtein_distance
 
 from weblate.lang.models import Language
@@ -320,6 +321,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
     )
+    ACTIONS_DICT = dict(ACTION_CHOICES)
 
     # Actions which can be reverted
     ACTIONS_REVERTABLE = {
@@ -380,6 +382,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION,
         ACTION_SUGGESTION_DELETE,
         ACTION_SUGGESTION_CLEANUP,
+        ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
         ACTION_DICTIONARY_NEW,
         ACTION_DICTIONARY_EDIT,
@@ -390,6 +393,12 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_MERGE,
         ACTION_FAILED_REBASE,
         ACTION_FAILED_PUSH,
+    }
+
+    PLURAL_ACTIONS = {
+        ACTION_NEW_STRING: ngettext_lazy(
+            "New string to translate", "New strings to translate"
+        ),
     }
 
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
@@ -472,6 +481,8 @@ class Change(models.Model, UserDisplayMixin):
         if self.unit is not None:
             return self.unit.get_absolute_url()
         if self.translation is not None:
+            if self.action == self.ACTION_NEW_STRING:
+                return self.translation.get_translate_url() + "?q=is:untranslated"
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
@@ -484,6 +495,15 @@ class Change(models.Model, UserDisplayMixin):
     def __init__(self, *args, **kwargs):
         self.notify_state = {}
         super().__init__(*args, **kwargs)
+
+    @property
+    def plural_count(self):
+        return self.details.get("count", 1)
+
+    def get_action_display(self):
+        if self.action in self.PLURAL_ACTIONS:
+            return self.PLURAL_ACTIONS[self.action] % self.plural_count
+        return force_str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def is_merge_failure(self):
         return self.action in self.ACTIONS_MERGE_FAILURE

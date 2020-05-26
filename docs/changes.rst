@@ -20,6 +20,18 @@ Not yet released.
 * Improved removal confirmation dialog.
 * Include templates in ZIP download.
 * Add support for Markdown in announcements.
+* Extended details in check listings.
+* Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`.
+* Consistently use dismissed as state of dismissed checks.
+* Add support for configuring default addons to enable.
+* Fixed editor keyboard shortcut to dismiss checks.
+* Improved machine translation of strings with placeholders.
+* Show ghost translation for user languages to ease starting them.
+* Improved language code parsing.
+* Show translations in user language first in the list.
+* Renamed shapings to more generic name variants.
+* Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-untranslated`, :ref:`check-duplicate`.
+* Reintroduced support for wiping translation memory.
 
 Weblate 4.0.4
 -------------

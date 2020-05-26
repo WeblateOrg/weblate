@@ -17,18 +17,18 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Test for shapings."""
+"""Test for variants."""
 
 
-from weblate.trans.models import Shaping
+from weblate.trans.models import Variant
 from weblate.trans.tests.test_views import ViewTestCase
 
 
-class ShapingTest(ViewTestCase):
+class VariantTest(ViewTestCase):
     def create_component(self):
         return self.create_android()
 
-    def add_shapings(self):
+    def add_variants(self):
         request = self.get_request()
         translation = self.component.source_translation
         translation.new_unit(request, "bar", "Default string")
@@ -36,18 +36,18 @@ class ShapingTest(ViewTestCase):
         translation.new_unit(request, "barShort", "Short string")
 
     def test_edit_component(self):
-        self.add_shapings()
-        self.assertEqual(Shaping.objects.count(), 0)
-        self.component.shaping_regex = "(Min|Short)$"
+        self.add_variants()
+        self.assertEqual(Variant.objects.count(), 0)
+        self.component.variant_regex = "(Min|Short)$"
         self.component.save()
-        self.assertEqual(Shaping.objects.count(), 1)
-        self.component.shaping_regex = ""
+        self.assertEqual(Variant.objects.count(), 1)
+        self.component.variant_regex = ""
         self.component.save()
-        self.assertEqual(Shaping.objects.count(), 0)
+        self.assertEqual(Variant.objects.count(), 0)
 
     def test_add_units(self):
-        self.component.shaping_regex = "(Min|Short)$"
+        self.component.variant_regex = "(Min|Short)$"
         self.component.save()
-        self.assertEqual(Shaping.objects.count(), 0)
-        self.add_shapings()
-        self.assertEqual(Shaping.objects.count(), 1)
+        self.assertEqual(Variant.objects.count(), 0)
+        self.add_variants()
+        self.assertEqual(Variant.objects.count(), 1)

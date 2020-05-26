@@ -38,7 +38,7 @@ from PIL import Image
 from weblate.accounts.models import Profile
 from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Announcement, ComponentList, Project
+from weblate.trans.models import Announcement, Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -505,10 +505,22 @@ class BasicViewTest(ViewTestCase):
     def test_view_project(self):
         response = self.client.get(reverse("project", kwargs=self.kw_project))
         self.assertContains(response, "test/test")
+        self.assertNotContains(response, "Spanish")
+
+    def test_view_project_ghost(self):
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        self.assertContains(response, "Spanish")
 
     def test_view_component(self):
         response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")
+        self.assertNotContains(response, "Spanish")
+
+    def test_view_component_ghost(self):
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        self.assertContains(response, "Spanish")
 
     def test_view_component_guide(self):
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
@@ -517,6 +529,27 @@ class BasicViewTest(ViewTestCase):
     def test_view_translation(self):
         response = self.client.get(reverse("translation", kwargs=self.kw_translation))
         self.assertContains(response, "Test/Test")
+
+    def test_view_translation_others(self):
+        other = Component.objects.create(
+            name="RESX component",
+            slug="resx",
+            project=self.project,
+            repo="weblate://test/test",
+            file_format="resx",
+            filemask="resx/*.resx",
+            template="resx/en.resx",
+            new_lang="add",
+        )
+        # Existing translation
+        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        self.assertContains(response, other.name)
+        # Ghost translation
+        kwargs = {}
+        kwargs.update(self.kw_translation)
+        kwargs["lang"] = "it"
+        response = self.client.get(reverse("translation", kwargs=kwargs))
+        self.assertContains(response, other.name)
 
     def test_view_translation_alias(self):
         self.kw_translation["lang"] = "cs-CZ"
@@ -541,49 +574,9 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, self.component.name)
 
 
-class BasicResourceViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_android()
-
-
-class BasicBranchViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_po_branch()
-
-
-class BasicMercurialViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_po_mercurial()
-
-
-class BasicPoMonoViewTest(BasicViewTest):
+class BasicMonolingualViewTest(BasicViewTest):
     def create_component(self):
         return self.create_po_mono()
-
-
-class BasicIphoneViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_iphone()
-
-
-class BasicJSONViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_json()
-
-
-class BasicJavaViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_java()
-
-
-class BasicXliffViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_xliff()
-
-
-class BasicLinkViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_link()
 
 
 class DashboardTest(ViewTestCase):
@@ -628,6 +621,16 @@ class DashboardTest(ViewTestCase):
             response, reverse("component-list", kwargs={"name": "testcl"})
         )
         self.assertEqual(len(response.context["componentlists"]), 1)
+
+    def test_component_list_ghost(self):
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.components.add(self.component)
+
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, "Spanish")
 
     def test_user_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")

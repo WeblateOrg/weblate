@@ -20,12 +20,26 @@
 import os
 
 from django.apps import AppConfig
+from django.core.checks import Warning, register
 from filelock import FileLock
 
 from weblate.trans.util import add_configuration_error, delete_configuration_error
+from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
+
+
+def check_vcs(app_configs, **kwargs):
+    from weblate.vcs.models import VCS_REGISTRY
+
+    message = "Failure in loading VCS module for {}t: {}"
+    return [
+        weblate_check(
+            "weblate.W033.{}".format(key), message.format(key, value.strip()), Warning
+        )
+        for key, value in VCS_REGISTRY.errors.items()
+    ]
 
 
 class VCSConfig(AppConfig):
@@ -34,6 +48,8 @@ class VCSConfig(AppConfig):
     verbose_name = "VCS"
 
     def ready(self):
+        super().ready()
+        register(check_vcs)
         home = data_dir("home")
         if not os.path.exists(home):
             os.makedirs(home)

@@ -74,10 +74,10 @@ class SameEditAddon(FlagBase):
     name = "weblate.flags.same_edit"
     verbose = _('Flag unchanged translations as "Needs editing"')
     description = _(
-        "Whenever a new translatable string is imported from the VCS and it "
-        "matches source strings, it is flagged as needing editing in Weblate. "
-        "This is especially useful for file formats that include all strings "
-        "even if they are not translated."
+        "Whenever a new translatable string is imported from the VCS and it matches a "
+        "source string, it is flagged as needing editing in Weblate. This is "
+        "especially useful for file formats that include all strings even if not "
+        "translated."
     )
 
     def unit_pre_create(self, unit):
@@ -94,7 +94,7 @@ class BulkEditAddon(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE,)
     name = "weblate.flags.bulk"
     verbose = _("Bulk edit")
-    description = _("This addon allow to bulk edit flags, labels or state.")
+    description = _("Bulk edit flags, labels or state for strings.")
     settings_form = BulkEditAddonForm
     multiple = True
 

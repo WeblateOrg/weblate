@@ -36,7 +36,7 @@ class FilterRegistry:
             ("translated", _("Translated strings"), "state:>=translated"),
             ("fuzzy", _("Strings marked for edit"), "state:needs-editing"),
             ("suggestions", _("Strings with suggestions"), "has:suggestion"),
-            ("shapings", _("Strings with shapings"), "has:shaping"),
+            ("variants", _("Strings with variants"), "has:variant"),
             ("labels", _("Strings with labels"), "has:label"),
             ("context", _("Strings with context"), "has:context"),
             (
@@ -46,6 +46,11 @@ class FilterRegistry:
             ),
             ("comments", _("Strings with comments"), "has:comment"),
             ("allchecks", _("Strings with any failing checks"), "has:check"),
+            (
+                "translated_checks",
+                _("Translated strings with any failing checks"),
+                "has:check AND state:>=translated",
+            ),
             ("approved", _("Approved strings"), "state:approved"),
             (
                 "approved_suggestions",
@@ -53,6 +58,7 @@ class FilterRegistry:
                 "state:approved AND has:suggestion",
             ),
             ("unapproved", _("Strings waiting for review"), "state:translated"),
+            ("unlabeled", _("Strings without a label"), "NOT has:label"),
         ]
         result.extend(
             (

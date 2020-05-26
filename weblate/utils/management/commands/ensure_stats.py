@@ -17,20 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from weblate.trans.management.commands import WeblateLangCommand
+from weblate.utils.management.base import BaseCommand
+from weblate.utils.stats import GlobalStats
 
 
-class Command(WeblateLangCommand):
-    help = "fixes flags for units"
+class Command(BaseCommand):
+    help = "ensures that stats are present"
 
     def handle(self, *args, **options):
-        for unit in self.iterate_units(*args, **options):
-            if unit.has_suggestion:
-                unit.update_has_suggestion()
-            if unit.has_comment:
-                unit.update_has_comment()
-            if unit.has_failing_check:
-                unit.update_has_failing_check()
-
-        for translation in self.get_translations(**options):
-            translation.invalidate_cache()
+        GlobalStats().ensure_basic()

@@ -34,6 +34,7 @@ from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
@@ -185,6 +186,45 @@ def home(request):
     return dashboard_user(request)
 
 
+def fetch_componentlists(user, user_translations):
+    componentlists = list(
+        ComponentList.objects.filter(
+            show_dashboard=True, components__project_id__in=user.allowed_project_ids,
+        )
+        .distinct()
+        .order()
+    )
+    for componentlist in componentlists:
+        components = componentlist.components.all()
+        # Force fetching the query now
+        list(components)
+
+        translations = prefetch_stats(
+            list(user_translations.filter(component__in=components))
+        )
+
+        # Show ghost translations for user languages
+        existing = {
+            (translation.component.slug, translation.language.code)
+            for translation in translations
+        }
+        languages = user.profile.languages.all()
+        for component in components:
+            for language in languages:
+                if (
+                    component.slug,
+                    language.code,
+                ) in existing or not component.can_add_new_language(user):
+                    continue
+                translations.append(GhostTranslation(component, language))
+
+        componentlist.translations = translations
+
+    # Filter out component lists with translations
+    # This will remove the ones where user doesn't have access to anything
+    return [c for c in componentlists if c.translations]
+
+
 def dashboard_user(request):
     """Home page of Weblate for authenticated user."""
     user = request.user
@@ -197,21 +237,7 @@ def dashboard_user(request):
 
     usersubscriptions = None
 
-    componentlists = list(
-        ComponentList.objects.filter(
-            show_dashboard=True,
-            components__project_id__in=request.user.allowed_project_ids,
-        )
-        .distinct()
-        .order()
-    )
-    for componentlist in componentlists:
-        componentlist.translations = prefetch_stats(
-            user_translations.filter(component__in=componentlist.components.all())
-        )
-    # Filter out component lists with translations
-    # This will remove the ones where user doesn't have access to anything
-    componentlists = [c for c in componentlists if c.translations]
+    componentlists = fetch_componentlists(request.user, user_translations)
 
     active_tab_id = user.profile.dashboard_view
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)

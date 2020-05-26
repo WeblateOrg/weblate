@@ -28,9 +28,15 @@ from weblate.utils.site import get_site_url
 # List of schemes not allowed in editor URL
 # This list is not intededed to be complete, just block
 # the possibly dangerous ones.
-FORBIDDEN_URL_SCHEMES = frozenset(
-    ("javascript", "data", "vbscript", "mailto", "ftp", "sms", "tel")
-)
+FORBIDDEN_URL_SCHEMES = {
+    "javascript",
+    "data",
+    "vbscript",
+    "mailto",
+    "ftp",
+    "sms",
+    "tel",
+}
 
 
 class InvalidString(str):

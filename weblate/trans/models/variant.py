@@ -23,15 +23,15 @@ from django.db import models
 from weblate.trans.fields import RegexField
 
 
-class Shaping(models.Model):
+class Variant(models.Model):
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
-    shaping_regex = RegexField(max_length=190)
+    variant_regex = RegexField(max_length=190)
     key = models.CharField(max_length=190, db_index=True)
 
     class Meta:
-        unique_together = (("key", "component", "shaping_regex"),)
-        verbose_name = "shaping definition"
-        verbose_name_plural = "shaping definitions"
+        unique_together = (("key", "component", "variant_regex"),)
+        verbose_name = "variant definition"
+        verbose_name_plural = "variant definitions"
 
     def __str__(self):
         return "{}: {}".format(self.component, self.key)

@@ -75,7 +75,6 @@ class BBCodeCheck(TargetCheck):
     check_id = "bbcode"
     name = _("BBcode markup")
     description = _("BBcode in translation does not match source")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         # Parse source
@@ -135,7 +134,6 @@ class XMLValidityCheck(BaseXMLCheck):
     check_id = "xml-invalid"
     name = _("XML syntax")
     description = _("The translation is not valid XML")
-    severity = "danger"
 
     def check_single(self, source, target, unit):
         if not self.is_source_xml(unit.all_flags, source):
@@ -164,7 +162,6 @@ class XMLTagsCheck(BaseXMLCheck):
     check_id = "xml-tags"
     name = _("XML markup")
     description = _("XML tags in translation do not match source")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         if not self.is_source_xml(unit.all_flags, source):
@@ -325,7 +322,6 @@ class SafeHTMLCheck(TargetCheck):
     name = _("Unsafe HTML")
     description = _("The translation uses unsafe HTML markup")
     default_disabled = True
-    severity = "danger"
 
     @cached_property
     def validator(self):

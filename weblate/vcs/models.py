@@ -26,12 +26,19 @@ from weblate.utils.classloader import ClassLoader
 class VcsClassLoader(ClassLoader):
     def __init__(self):
         super().__init__("VCS_BACKENDS", False)
+        self.errors = {}
 
     def load_data(self):
         result = super().load_data()
 
         for key, vcs in list(result.items()):
-            if not vcs.is_supported():
+            try:
+                supported = vcs.is_supported()
+            except Exception as error:
+                supported = False
+                self.errors[vcs.name] = str(error)
+
+            if not supported:
                 result.pop(key)
 
         return result

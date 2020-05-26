@@ -30,19 +30,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         results = (
             Check.objects.filter(check="same")
-            .values("unit__content_hash")
-            .annotate(Count("unit__content_hash"))
-            .filter(unit__content_hash__count__gt=1)
-            .order_by("-unit__content_hash__count")
+            .values("unit__source")
+            .annotate(Count("unit__source"))
+            .filter(unit__source__count__gt=1)
+            .order_by("-unit__source__count")
         )
 
         for item in results:
-            check = Check.objects.filter(
-                check="same", unit__content_hash=item["unit__content_hash"]
-            )[0]
-
             self.stdout.write(
-                "{0:5d} {1}".format(
-                    item["unit__content_hash__count"], check.unit.source
-                )
+                "{0:5d} {1}".format(item["unit__source__count"], item["unit__source"])
             )

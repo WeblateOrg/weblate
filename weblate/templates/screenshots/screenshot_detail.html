@@ -31,7 +31,7 @@
 </tr>
 </thead>
 <tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
-{% include "screenshots/screenshot_sources_body.html" with sources=objects.units.all %}
+{% include "screenshots/screenshot_sources_body.html" with sources=objects.units.order %}
 </tbody>
 </table>
   <div class="panel-footer">

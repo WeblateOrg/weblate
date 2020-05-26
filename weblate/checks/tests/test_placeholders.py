@@ -20,8 +20,11 @@
 """Tests for placeholder quality checks."""
 
 
+from weblate.checks.flags import Flags
+from weblate.checks.models import Check
 from weblate.checks.placeholders import PlaceholderCheck, RegexCheck
 from weblate.checks.tests.test_checks import CheckTestCase
+from weblate.trans.models import Unit
 
 
 class PlaceholdersTest(CheckTestCase):
@@ -31,7 +34,7 @@ class PlaceholdersTest(CheckTestCase):
         super().setUp()
         self.test_good_matching = ("string $URL$", "string $URL$", "placeholders:$URL$")
         self.test_good_none = ("string", "string", "placeholders:")
-        self.test_good_ignore = ("$URL", "$OTHER")
+        self.test_good_ignore = ("$URL", "$OTHER", "")
         self.test_failure_1 = ("string $URL$", "string", "placeholders:$URL$")
         self.test_failure_2 = ("string $URL$", "string $URL", "placeholders:$URL$")
         self.test_failure_3 = (
@@ -42,7 +45,17 @@ class PlaceholdersTest(CheckTestCase):
         self.test_highlight = ("placeholders:$URL$", "See $URL$", [(4, 9, "$URL$")])
 
     def do_test(self, expected, data, lang=None):
+        # Skip using check_single as the Check does not use that
         return
+
+    def test_description(self):
+        unit = Unit(source="string $URL$", target="string")
+        unit.__dict__["all_flags"] = Flags("placeholders:$URL$")
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Translation is missing some placeholders: $URL$",
+        )
 
 
 class RegexTest(CheckTestCase):
@@ -58,4 +71,14 @@ class RegexTest(CheckTestCase):
         self.test_highlight = ("regex:URL", "See URL", [(4, 7, "URL")])
 
     def do_test(self, expected, data, lang=None):
+        # Skip using check_single as the Check does not use that
         return
+
+    def test_description(self):
+        unit = Unit(source="string URL", target="string")
+        unit.__dict__["all_flags"] = Flags("regex:URL")
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Translation does not match regular expression: <code>URL</code>",
+        )

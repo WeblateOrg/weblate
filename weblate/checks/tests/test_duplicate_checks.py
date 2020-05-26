@@ -19,19 +19,18 @@
 
 """Tests for duplicate checks."""
 
-
 from weblate.checks.duplicate import DuplicateCheck
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.trans.models import Unit
 
 
 class DuplicateCheckTest(CheckTestCase):
 
     check = DuplicateCheck()
 
-    _MOCK_UNIT = MockUnit(code="cs", note="")
-
-    def _run_check(self, target):
-        return self.check.check_single("", target, self._MOCK_UNIT)
+    def _run_check(self, target, source="", lang="cs"):
+        return self.check.check_single(source, target, MockUnit(code=lang, note=""))
 
     def test_no_duplicated_token(self):
         self.assertFalse(self._run_check("I have two lemons"))
@@ -49,3 +48,25 @@ class DuplicateCheckTest(CheckTestCase):
 
     def test_check_multiple_duplicated_tokens(self):
         self.assertTrue(self._run_check("I have two two lemons lemons"))
+
+    def test_check_duplicated_numbers(self):
+        self.assertFalse(self._run_check("I have 222 222 lemons"))
+
+    def test_check_duplicated_letter(self):
+        self.assertFalse(self._run_check("I have A A A"))
+
+    def test_check_duplicated_source(self):
+        self.assertFalse(
+            self._run_check("begin begin end end", source="begin begin end end")
+        )
+
+    def test_check_duplicated_language_ignore(self):
+        self.assertFalse(self._run_check("Si vous vous interrogez", lang="fr"))
+
+    def test_description(self):
+        unit = Unit(source="string", target="I have two two lemons lemons")
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Text contains the same word twice in a row: lemons, two",
+        )

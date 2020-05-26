@@ -49,11 +49,11 @@ The following examples assume you have a working Docker environment, with
         If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created with
         a random password shown on first startup.
 
-        Append ',localhost' to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to access locally for testing.
+        Append ``,localhost`` to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to
+        access locally for testing.
 
-        You may also need to edit the *docker-compose.yml* file and change the
-        default port from 80 if you already have a web server running on your
-        local machine.
+        The provided example makes Weblate listen on port 80, edit the port
+        mapping in the :file:`docker-compose-override.yml` file to change it.
 
 3. Start Weblate containers:
 
@@ -460,6 +460,10 @@ Generic settings
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
 
+.. envvar:: WEBLATE_DEFAULT_ACCESS_CONTROL
+
+    Configures the default access control for project, see :setting:`DEFAULT_ACCESS_CONTROL`.
+
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.
@@ -509,6 +513,14 @@ Machine translation settings
 .. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
 
     Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
+
+.. envvar:: WEBLATE_MT_MICROSOFT_ENDPOINT_URL
+
+    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_ENDPOINT_URL`
+
+.. envvar:: WEBLATE_MT_MICROSOFT_BASE_URL
+
+    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_BASE_URL`
 
 .. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
 
@@ -643,6 +655,8 @@ Google
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS
+.. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS
 
     Enables :ref:`google_auth`.
 

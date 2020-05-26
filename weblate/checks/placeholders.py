@@ -42,7 +42,6 @@ class PlaceholderCheck(TargetCheckParametrized):
     default_disabled = True
     name = _("Placeholders")
     description = _("Translation is missing some placeholders:")
-    severity = "danger"
     param_type = parse_placeholders
 
     def check_target_params(self, sources, targets, unit, value):
@@ -79,7 +78,6 @@ class RegexCheck(TargetCheckParametrized):
     default_disabled = True
     name = _("Regular expression")
     description = _("Translation does not match regular expression:")
-    severity = "danger"
     param_type = parse_regex
 
     def check_target_params(self, sources, targets, unit, value):

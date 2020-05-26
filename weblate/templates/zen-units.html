@@ -71,7 +71,7 @@
 {% if not user.profile.hide_source_secondary or not item.secondary %}
 <div class="form-group">
 <label>
-    {% trans "Source" %}
+    {{ item.unit.translation.component.project.source_language }}
     {% perm 'unit.edit' item.unit.source_info as user_can_edit_template %}
     <a title="{% trans "Edit source string" %}"href="{{ item.unit.source_info.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
 </label>

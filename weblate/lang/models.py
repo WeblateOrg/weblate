@@ -86,17 +86,13 @@ def get_plural_type(base_code, plural_formula):
 def get_english_lang():
     """Return object ID for English language."""
     try:
-        return Language.objects.get_default().id
+        return Language.objects.english.id
     except (Language.DoesNotExist, OperationalError):
-        return 65535
+        return -1
 
 
 class LanguageQuerySet(models.QuerySet):
     # pylint: disable=no-init
-
-    def get_default(self):
-        """Return default source language object."""
-        return self.get(code="en")
 
     def try_get(self, *args, **kwargs):
         """Try to get language by code."""
@@ -105,7 +101,8 @@ class LanguageQuerySet(models.QuerySet):
             return None
         return result[0]
 
-    def parse_lang_country(self, code):
+    @staticmethod
+    def parse_lang_country(code):
         """Parse language and country from locale code."""
         # Parse private use subtag
         subtag_pos = code.find("-x-")
@@ -148,15 +145,19 @@ class LanguageQuerySet(models.QuerySet):
 
         return code
 
-    def aliases_get(self, code):
+    def aliases_get(self, code, expanded_code=None):
         code = code.lower()
-        codes = (
+        # Normalize script suffix
+        code = code.replace("_latin", "@latin").replace("_cyrillic", "@cyrillic")
+        codes = [
             code,
             code.replace("+", "_"),
             code.replace("-", "_"),
             code.replace("-r", "_"),
             code.replace("_r", "_"),
-        )
+        ]
+        if expanded_code:
+            codes.append(expanded_code)
         for newcode in codes:
             if newcode in ALIASES:
                 newcode = ALIASES[newcode]
@@ -174,19 +175,23 @@ class LanguageQuerySet(models.QuerySet):
         It also handles Android special naming of regional locales like pt-rBR.
         """
         code = self.sanitize_code(code)
+        expanded_code = None
 
         lookups = [
             # First try getting language as is
             Q(code__iexact=code),
             # Replace dash with underscore (for things as zh_Hant)
             Q(code__iexact=code.replace("-", "_")),
+            # Replace plus with underscore (for things as zh+Hant+HK on Android)
+            Q(code__iexact=code.replace("+", "_")),
             # Try using name
             Q(name__iexact=code),
         ]
 
         # Country codes used without underscore (ptbr insteat of pt_BR)
         if len(code) == 4:
-            lookups.append(Q(code__iexact="{}_{}".format(code[:2], code[2:])))
+            expanded_code = "{}_{}".format(code[:2], code[2:])
+            lookups.append(Q(code__iexact=expanded_code))
 
         for lookup in lookups:
             # First try getting language as is
@@ -195,7 +200,7 @@ class LanguageQuerySet(models.QuerySet):
                 return ret
 
         # Handle aliases
-        ret = self.aliases_get(code)
+        ret = self.aliases_get(code, expanded_code)
         if ret is not None:
             return ret
 
@@ -225,8 +230,11 @@ class LanguageQuerySet(models.QuerySet):
             return ret
 
         # Try canonical variant
-        if settings.SIMPLIFY_LANGUAGES and newcode.lower() in DEFAULT_LANGS:
-            ret = self.try_get(code=lang.lower())
+        if settings.SIMPLIFY_LANGUAGES:
+            if newcode.lower() in DEFAULT_LANGS:
+                ret = self.try_get(code=lang.lower())
+            elif expanded_code in DEFAULT_LANGS:
+                ret = self.try_get(code=expanded_code[:2])
             if ret is not None:
                 return ret
 
@@ -283,11 +291,63 @@ class LanguageQuerySet(models.QuerySet):
 
         return lang
 
+    def have_translation(self):
+        """Return list of languages which have at least one translation."""
+        return self.exclude(translation=None).order()
+
+    def order(self):
+        return self.order_by("name")
+
+    def order_translated(self):
+        return sort_objects(self)
+
+    def get_by_code(self, code, cache, langmap=None):
+        """Cached and aliases aware getter."""
+        if code in cache:
+            return cache[code]
+        if langmap and code in langmap:
+            language = self.fuzzy_get(code=langmap[code], strict=True)
+        else:
+            language = self.fuzzy_get(code=code, strict=True)
+        if language is None:
+            raise Language.DoesNotExist(code)
+        cache[code] = language
+        return language
+
+    def as_choices(self):
+        return sort_choices(
+            (code, "{0} ({1})".format(_(name), code))
+            for name, code in self.values_list("name", "code")
+        )
+
+    def get(self, *args, **kwargs):
+        """Customized get caching getting of English language."""
+        if not args and not kwargs.pop("skip_cache", False):
+            english = Language.objects.english
+            if kwargs in ({"code": "en"}, {"pk": english.pk}, {"id": english.id}):
+                return english
+        return super().get(*args, **kwargs)
+
+
+class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
+    use_in_migrations = True
+
+    def flush_object_cache(self):
+        if "english" in self.__dict__:
+            del self.__dict__["english"]
+
+    @cached_property
+    def english(self):
+        """Return English language object."""
+        return self.get(code="en", skip_cache=True)
+
     def setup(self, update, logger=lambda x: x):
         """Create basic set of languages.
 
         It is based on languages defined in the languages-data repo.
         """
+        # Invalidate cache, we might change languages
+        self.flush_object_cache()
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
             lang, created = self.get_or_create(code=code, defaults={"name": name})
@@ -363,39 +423,6 @@ class LanguageQuerySet(models.QuerySet):
                     )
                     plural.save()
 
-    def have_translation(self):
-        """Return list of languages which have at least one translation."""
-        return self.exclude(translation=None).order()
-
-    def order(self):
-        return self.order_by("name")
-
-    def order_translated(self):
-        return sort_objects(self)
-
-    def get_by_code(self, code, cache, langmap=None):
-        """Cached and aliases aware getter."""
-        if code in cache:
-            return cache[code]
-        if langmap and code in langmap:
-            language = self.fuzzy_get(code=langmap[code], strict=True)
-        else:
-            language = self.fuzzy_get(code=code, strict=True)
-        if language is None:
-            raise Language.DoesNotExist(code)
-        cache[code] = language
-        return language
-
-    def as_choices(self):
-        return sort_choices(
-            (code, "{0} ({1})".format(_(name), code))
-            for name, code in self.values_list("name", "code")
-        )
-
-
-class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
-    use_in_migrations = True
-
 
 def setup_lang(sender, **kwargs):
     """Hook for creating basic set of languages on database migration."""
@@ -422,6 +449,8 @@ class Language(models.Model):
     class Meta:
         verbose_name = gettext_lazy("Language")
         verbose_name_plural = gettext_lazy("Languages")
+        # Use own manager to utilize caching of English
+        base_manager_name = "objects"
 
     def __str__(self):
         if self.show_language_code:
@@ -467,6 +496,9 @@ class Language(models.Model):
     @cached_property
     def plural(self):
         return self.plural_set.filter(source=Plural.SOURCE_DEFAULT)[0]
+
+    def get_aliases_names(self):
+        return [alias for alias, codename in ALIASES.items() if codename == self.code]
 
 
 class PluralQuerySet(models.QuerySet):

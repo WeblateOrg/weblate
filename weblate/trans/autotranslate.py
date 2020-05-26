@@ -39,7 +39,7 @@ class AutoTranslate:
     def get_units(self):
         units = self.translation.unit_set.all()
         if self.mode == "suggest":
-            units = units.exclude(has_suggestion=True)
+            units = units.filter(suggestion__isnull=True)
         return units.filter_type(self.filter_type).prefetch()
 
     def set_progress(self, current):
@@ -89,10 +89,16 @@ class AutoTranslate:
             sources = sources.exclude(**exclude)
 
         # Filter by strings
-        units = self.get_units().filter(source__in=sources.values("source"))
-        self.total = units.count()
+        units = set(
+            self.get_units()
+            .filter(source__in=sources.values("source"))
+            .values_list("id", flat=True)
+        )
+        self.total = len(units)
 
-        for pos, unit in enumerate(units.select_for_update()):
+        for pos, unit in enumerate(
+            Unit.objects.filter(id__in=units).select_for_update()
+        ):
             # Get first matching entry
             update = sources.filter(source=unit.source)[0]
             # No save if translation is same
@@ -149,12 +155,15 @@ class AutoTranslate:
 
     def process_mt(self, engines, threshold):
         """Perform automatic translation based on machine translation."""
-        self.total = self.get_units().count()
-        translations = self.fetch_mt(engines, threshold)
+        units = set(self.get_units().values_list("id", flat=True))
+        self.total = len(units)
+        translations = self.fetch_mt(engines, int(threshold))
 
         with transaction.atomic():
             # Perform the translation
-            for pos, unit in enumerate(self.get_units().select_for_update()):
+            for pos, unit in enumerate(
+                Unit.objects.filter(id__in=units).select_for_update()
+            ):
                 # Copy translation
                 try:
                     self.update(unit, self.target_state, translations[unit.pk])

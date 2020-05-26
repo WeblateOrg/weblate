@@ -100,6 +100,8 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.source.OptionalPluralCheck",
         "weblate.checks.source.EllipsisCheck",
         "weblate.checks.source.MultipleFailingCheck",
+        "weblate.checks.source.LongUntranslatedCheck",
+        "weblate.checks.format.MultipleUnnamedFormatsCheck",
     )
 
     class Meta:
@@ -109,9 +111,15 @@ class WeblateChecksConf(AppConf):
 class Check(models.Model):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
-    ignore = models.BooleanField(db_index=True, default=False)
+    dismissed = models.BooleanField(db_index=True, default=False)
 
     weblate_unsafe_delete = True
+
+    class Meta:
+        unique_together = ("unit", "check")
+
+    def __str__(self):
+        return str(self.get_name())
 
     @cached_property
     def check_obj(self):
@@ -119,12 +127,6 @@ class Check(models.Model):
             return CHECKS[self.check]
         except KeyError:
             return None
-
-    class Meta:
-        unique_together = ("unit", "check")
-
-    def __str__(self):
-        return "{0}: {1}".format(self.unit, self.check)
 
     def is_enforced(self):
         return self.check in self.unit.translation.component.enforced_checks
@@ -150,19 +152,14 @@ class Check(models.Model):
             return self.check_obj.name
         return self.check
 
-    def get_severity(self):
-        if self.check_obj:
-            return self.check_obj.severity
-        return "info"
-
     def get_doc_url(self):
         if self.check_obj:
             return self.check_obj.get_doc_url()
         return ""
 
-    def set_ignore(self, state=True):
+    def set_dismiss(self, state=True):
         """Set ignore flag."""
-        self.ignore = state
+        self.dismissed = state
         self.save()
 
 
@@ -171,25 +168,25 @@ class Check(models.Model):
 def check_post_save(sender, instance, created, **kwargs):
     """Handle check creation or updates."""
     if not created:
-        # Update related unit failed check flag (the check was (un)ignored)
-        instance.unit.update_has_failing_check(
-            has_checks=None if instance.ignore else True
-        )
+        instance.unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Check)
 @disable_for_loaddata
 def remove_complimentary_checks(sender, instance, **kwargs):
     """Remove propagate checks from all units."""
+    instance.unit.translation.invalidate_cache()
     check_obj = instance.check_obj
     if not check_obj:
         return
 
-    # Handle propagating checks
+    # Handle propagating checks - remove on other units
     if check_obj.propagates:
+        Check.objects.filter(
+            unit__in=instance.unit.same_source_units, check=instance.check
+        ).delete()
         for unit in instance.unit.same_source_units:
-            if unit.check_set.filter(check=instance.check).delete()[0]:
-                unit.update_has_failing_check()
+            unit.translation.invalidate_cache()
 
     # Update source checks if needed
     if check_obj.target:

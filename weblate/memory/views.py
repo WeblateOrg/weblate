@@ -20,6 +20,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -28,7 +29,7 @@ from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
 from django.views.generic.base import TemplateView
 
-from weblate.memory.forms import UploadForm
+from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
@@ -66,6 +67,21 @@ class MemoryFormView(ErrorFormView):
         return super().dispatch(request, *args, **kwargs)
 
 
+class DeleteView(MemoryFormView):
+
+    form_class = DeleteForm
+
+    def form_valid(self, form):
+        if not check_perm(self.request.user, "memory.delete", self.objects):
+            raise PermissionDenied()
+        entries = Memory.objects.filter_type(**self.objects)
+        if "origin" in self.request.POST:
+            entries = entries.filter(origin=self.request.POST["origin"])
+        entries.delete()
+        messages.success(self.request, _("Entries deleted."))
+        return super().form_valid(form)
+
+
 class UploadView(MemoryFormView):
     form_class = UploadForm
 
@@ -100,10 +116,15 @@ class MemoryView(TemplateView):
         context.update(self.objects)
         entries = Memory.objects.filter_type(**self.objects)
         context["num_entries"] = entries.count()
+        context["entries_origin"] = (
+            entries.values("origin").order_by("origin").annotate(Count("id"))
+        )
         context["total_entries"] = Memory.objects.all().count()
         context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")
         user = self.request.user
+        if check_perm(user, "memory.delete", self.objects):
+            context["delete_url"] = self.get_url("memory-delete")
         if check_perm(user, "memory.edit", self.objects):
             context["upload_form"] = UploadForm()
         if "from_file" in self.objects:
@@ -120,6 +141,8 @@ class DownloadView(MemoryView):
     def get(self, request, *args, **kwargs):
         fmt = request.GET.get("format", "json")
         data = Memory.objects.filter_type(**self.objects).prefetch_lang()
+        if "origin" in request.GET:
+            data = data.filter(origin=request.GET["origin"])
         if "from_file" in self.objects and "kind" in request.GET:
             if request.GET["kind"] == "shared":
                 data = Memory.objects.filter_type(use_shared=True).prefetch_lang()

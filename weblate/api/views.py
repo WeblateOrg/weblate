@@ -77,6 +77,7 @@ from weblate.trans.stats import get_project_stats
 from weblate.trans.tasks import component_removal, project_removal
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.docs import get_doc_url
+from weblate.utils.errors import report_error
 from weblate.utils.stats import GlobalStats
 from weblate.utils.views import download_translation_file, zip_download
 from weblate.wladmin.models import ConfigurationError
@@ -860,6 +861,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 }
             )
         except Exception as error:
+            report_error(cause="Upload error")
             return Response(
                 data={"result": False, "detail": force_str(error)}, status=400
             )
@@ -911,6 +913,14 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Language.objects.have_translation().order_by("id")
+
+    @action(detail=True, methods=["get"])
+    def statistics(self, request, **kwargs):
+        obj = self.get_object()
+
+        serializer = StatisticsSerializer(obj, context={"request": request})
+
+        return Response(serializer.data)
 
 
 class UnitViewSet(viewsets.ReadOnlyModelViewSet):

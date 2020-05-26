@@ -66,6 +66,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`javaprop`     | both             | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`gwt`          | mono             | yes           | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`joomla`       | mono             | no            | yes            | no            | yes            | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`qtling`       | both             | yes           | yes            | no            | yes            | yes [#xl]_     | needs editing           |
@@ -101,6 +103,16 @@ Capabilities of all supported formats:
 | :ref:`appstore`     | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`subtitles`    | mono             | no            | no             | no            | yes            | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`html`         | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`odf`          | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`idml`         | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`ini`          | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`islu`         | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
@@ -389,6 +401,111 @@ all others encode characters directly either in UTF-8 or UTF-16.
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`,
 
+.. _gwt:
+
+GWT properties
+--------------
+
+.. index::
+    pair: GWT properties; file format
+
+Native GWT format for translations.
+
+GWT properties are usually used as monolingual translations.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``src/app/Bundle_*.properties``  |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``src/app/Bundle.properties``    |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `GWT Properties`                 |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_
+    :doc:`tt:formats/properties`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+.. _ini:
+
+INI translations
+----------------
+
+.. index::
+    pair: INI translations; file format
+
+.. versionadded:: 4.1
+
+INI file format for translations.
+
+INI translations are usually used as monolingual translations.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``language/*.ini``               |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en.ini``              |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `INI File`                       |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/ini`,
+    :ref:`joomla`,
+    :ref:`islu`
+
+.. _islu:
+
+InnoSetup INI translations
+--------------------------
+
+.. index::
+    pair: INI translations; file format
+
+.. versionadded:: 4.1
+
+InnoSetup INI file format for translations.
+
+InnoSetup INI translations are usually used as monolingual translations.
+
+.. note::
+
+   The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t``
+   placeholders for line break and tab.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``language/*.islu``              |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``language/en.islu``             |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `InnoSetup INI File`             |
++--------------------------------+----------------------------------+
+
+.. note::
+
+   Only Unicode files (``.islu``) are currently supported, ANSI variant
+   (``.isl``) is currently not supported.
+
+.. seealso::
+
+    :doc:`tt:formats/ini`,
+    :ref:`joomla`,
+    :ref:`ini`
+
 .. _joomla:
 
 Joomla translations
@@ -418,7 +535,9 @@ Joomla translations are usually used as monolingual translations.
 .. seealso::
 
     `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
-    :doc:`tt:formats/properties`
+    :doc:`tt:formats/properties`,
+    :ref:`ini`,
+    :ref:`islu`
 
 .. _qtling:
 
@@ -723,6 +842,12 @@ WebExtension JSON
 
 File format used when translating extensions for Mozilla Firefox or Google Chromium.
 
+.. note::
+
+    While this format is called JSON, its specification allows to include
+    comments, which are not part of JSON specification. Weblate currently does
+    not support file with comments.
+
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-webext.json
@@ -838,7 +963,7 @@ YAML files
 
 .. versionadded:: 2.9
 
-The plain YAML files with string keys and values.
+The plain YAML files with string keys and values. Weblate also extract strings from lists or dictionaries.
 
 Example of a YAML file:
 
@@ -959,14 +1084,13 @@ Example of a flat XML file:
 Windows RC files
 ----------------
 
-.. versionadded:: 3.0
+.. versionchanged:: 4.1
 
-    Experimental support has been added in Weblate 3.0, and is not supported in Python 3.
+    Support for Windows RC files has been rewritten.
 
-.. warning::
+.. note::
 
-    This format is still not supported on Python 3 due to bugs in underlying library,
-    see <https://github.com/translate/translate/issues/3204>.
+   Support for this format is currently in beta, feedback from testing is welcome.
 
 .. index::
     pair: RC; file format
@@ -1066,6 +1190,53 @@ contains the translation). Additionally there should be the column called ``cont
 (which contains the context path of the translation string). If you use the XLSX
 download for exporting the translations into an Excel workbook, you already get
 a file with the correct file format.
+
+.. _html:
+
+HTML files
+----------
+
+.. versionadded:: 4.1
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+The translatable content is extacted from the HTML files and offered for the translation.
+
+.. seealso::
+
+   :doc:`tt:formats/html`
+
+.. _odf:
+
+OpenDocument Format
+-------------------
+
+.. versionadded:: 4.1
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+The translatable content is extacted from the OpenDocument files and offered for the translation.
+
+.. seealso::
+
+   :doc:`tt:formats/odf`
+
+.. _idml:
+
+IDML Format
+-----------
+
+.. versionadded:: 4.1
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+The translatable content is extacted from the Adobe InDesign Markup Language files and offered for the translation.
 
 
 Others

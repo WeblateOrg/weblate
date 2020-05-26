@@ -27,6 +27,9 @@ from django.utils.translation import gettext as _
 from weblate.checks.models import CHECKS, Check
 from weblate.trans.models import Component, Translation
 from weblate.trans.util import redirect_param
+from weblate.utils.db import conditional_sum
+from weblate.utils.forms import FilterForm
+from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.views import get_component, get_project
 
 
@@ -38,32 +41,42 @@ def encode_optional(params):
 
 def show_checks(request):
     """List of failing checks."""
-    ignore = "ignored" in request.GET
     url_params = {}
     user = request.user
 
-    if ignore:
-        url_params["ignored"] = "true"
-
     kwargs = {
         "unit__translation__component__project_id__in": user.allowed_project_ids,
-        "ignore": ignore,
     }
 
-    if request.GET.get("project"):
-        kwargs["unit__translation__component__project__slug"] = request.GET["project"]
-        url_params["project"] = request.GET["project"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("project"):
+            kwargs["unit__translation__component__project__slug"] = form.cleaned_data[
+                "project"
+            ]
+            url_params["project"] = form.cleaned_data["project"]
 
-    if request.GET.get("language"):
-        kwargs["unit__translation__language__code"] = request.GET["language"]
-        url_params["language"] = request.GET["language"]
+        if form.cleaned_data.get("lang"):
+            kwargs["unit__translation__language__code"] = form.cleaned_data["lang"]
+            url_params["lang"] = form.cleaned_data["lang"]
 
-    if request.GET.get("component"):
-        kwargs["unit__translation__component__slug"] = request.GET["component"]
-        url_params["component"] = request.GET["component"]
+        if form.cleaned_data.get("component"):
+            kwargs["unit__translation__component__slug"] = form.cleaned_data[
+                "component"
+            ]
+            url_params["component"] = form.cleaned_data["component"]
 
     allchecks = (
-        Check.objects.filter(**kwargs).values("check").annotate(count=Count("id"))
+        Check.objects.filter(**kwargs)
+        .values("check")
+        .annotate(
+            check_count=Count("id"),
+            dismissed_check_count=conditional_sum(1, dismissed=True),
+            active_check_count=conditional_sum(1, dismissed=False),
+            translated_check_count=conditional_sum(
+                1, dismissed=False, unit__state__gte=STATE_TRANSLATED
+            ),
+        )
     )
 
     return render(
@@ -84,34 +97,43 @@ def show_check(request, name):
     except KeyError:
         raise Http404("No check matches the given query.")
 
-    ignore = "ignored" in request.GET
-
     url_params = {}
-
-    if ignore:
-        url_params["ignored"] = "true"
 
     kwargs = {
         "component__translation__unit__check__check": name,
-        "component__translation__unit__check__ignore": ignore,
     }
 
-    if request.GET.get("language"):
-        kwargs["component__translation__language__code"] = request.GET["language"]
-        url_params["language"] = request.GET["language"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("lang"):
+            kwargs["component__translation__language__code"] = form.cleaned_data["lang"]
+            url_params["lang"] = form.cleaned_data["lang"]
 
-    # This has to be done after updating url_params
-    if request.GET.get("project") and "/" not in request.GET["project"]:
-        return redirect_param(
-            "show_check_project",
-            encode_optional(url_params),
-            project=request.GET["project"],
-            name=name,
-        )
+        # This has to be done after updating url_params
+        if form.cleaned_data.get("project") and "/" not in form.cleaned_data["project"]:
+            return redirect_param(
+                "show_check_project",
+                encode_optional(url_params),
+                project=form.cleaned_data["project"],
+                name=name,
+            )
 
     projects = (
         request.user.allowed_projects.filter(**kwargs)
-        .annotate(check_count=Count("component__translation__unit__check"))
+        .annotate(
+            check_count=Count("component__translation__unit__check"),
+            dismissed_check_count=conditional_sum(
+                1, component__translation__unit__check__dismissed=True
+            ),
+            active_check_count=conditional_sum(
+                1, component__translation__unit__check__dismissed=False
+            ),
+            translated_check_count=conditional_sum(
+                1,
+                component__translation__unit__check__dismissed=False,
+                component__translation__unit__state__gte=STATE_TRANSLATED,
+            ),
+        )
         .order()
     )
 
@@ -135,26 +157,35 @@ def show_check_project(request, name, project):
     except KeyError:
         raise Http404("No check matches the given query.")
 
-    ignore = "ignored" in request.GET
-
     url_params = {}
 
     kwargs = {
         "project": prj,
         "translation__unit__check__check": name,
-        "translation__unit__check__ignore": ignore,
     }
 
-    if ignore:
-        url_params["ignored"] = "true"
-
-    if request.GET.get("language"):
-        kwargs["translation__language__code"] = request.GET["language"]
-        url_params["language"] = request.GET["language"]
+    form = FilterForm(request.GET)
+    if form.is_valid():
+        if form.cleaned_data.get("lang"):
+            kwargs["translation__language__code"] = form.cleaned_data["lang"]
+            url_params["lang"] = form.cleaned_data["lang"]
 
     components = (
         Component.objects.filter(**kwargs)
-        .annotate(check_count=Count("translation__unit__check"))
+        .annotate(
+            check_count=Count("translation__unit__check"),
+            dismissed_check_count=conditional_sum(
+                1, translation__unit__check__dismissed=True
+            ),
+            active_check_count=conditional_sum(
+                1, translation__unit__check__dismissed=False
+            ),
+            translated_check_count=conditional_sum(
+                1,
+                translation__unit__check__dismissed=False,
+                translation__unit__state__gte=STATE_TRANSLATED,
+            ),
+        )
         .order()
     )
 
@@ -179,41 +210,23 @@ def show_check_component(request, name, project, component):
     except KeyError:
         raise Http404("No check matches the given query.")
 
-    ignore = "ignored" in request.GET
-    url_params = {}
+    kwargs = {}
 
-    if ignore:
-        url_params["ignored"] = "true"
-
-    # Source checks are for single language only, redirect directly there
-    if check.source:
-        return redirect_param(
-            "translate",
-            encode_optional(
-                {"q": "{}{}".format("ignored_" if ignore else "", check.url_id)}
-            ),
-            project=component.project.slug,
-            component=component.slug,
-            lang=component.project.source_language.code,
-        )
-
-    # When filtering language, redirect directly to it
-    if request.GET.get("language") and "/" not in request.GET["language"]:
-        return redirect_param(
-            "translate",
-            encode_optional(
-                {"q": "{}{}".format("ignored_" if ignore else "", check.url_id)}
-            ),
-            project=component.project.slug,
-            component=component.slug,
-            lang=request.GET["language"],
-        )
+    if request.GET.get("lang"):
+        kwargs["language__code"] = request.GET["lang"]
 
     translations = (
         Translation.objects.filter(
-            component=component, unit__check__check=name, unit__check__ignore=ignore,
+            component=component, unit__check__check=name, **kwargs
         )
-        .annotate(check_count=Count("unit__check"))
+        .annotate(
+            check_count=Count("unit__check"),
+            dismissed_check_count=conditional_sum(1, unit__check__dismissed=True),
+            active_check_count=conditional_sum(1, unit__check__dismissed=False),
+            translated_check_count=conditional_sum(
+                1, unit__check__dismissed=False, unit__state__gte=STATE_TRANSLATED
+            ),
+        )
         .order_by("language__code")
         .select_related("language")
     )
@@ -223,11 +236,9 @@ def show_check_component(request, name, project, component):
         "check_component.html",
         {
             "translations": translations,
-            "ignored": ignore,
             "title": "{0}/{1}".format(force_str(component), check.name),
             "check": check,
             "component": component,
-            "url_params": encode_optional(url_params),
         },
     )
 

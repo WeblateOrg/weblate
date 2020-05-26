@@ -2,8 +2,7 @@ Checks and fixups
 =================
 
 The quality checks help catch common translator errors, ensuring the
-translation is in good shape. The checks are divided into three levels of severity,
-and can be ignored in case of false positives.
+translation is in good shape. The checks can be ignored in case of false positives.
 
 Once submitting a translation with a failing check, this is immediately shown to
 the user:
@@ -43,200 +42,68 @@ Translation checks
 Executed upon every translation change, helping translators maintain
 good quality translations.
 
-.. _check-same:
+.. _check-bbcode:
 
-Unchanged translation
-~~~~~~~~~~~~~~~~~~~~~
+BBcode markup
+~~~~~~~~~~~~~
 
-Happens if the source and corresponding translation strings is identical, down to
-at least one of the plural forms. Some strings commonly found across all
-languages are ignored, and various markup is stripped. This reduces
-the number of false positives.
+*BBcode in translation does not match source*
 
-This check can help find strings mistakenly untranslated.
+BBCode represents simple markup, like for example highlighting important parts of a
+message in bold font, or italics.
 
-The default behavior of this check is to exclude words from the built-in
-blacklist from the checking. These are words which are frequently not being
-translated. This is useful to avoid false positives on short strings, which
-consist only of single word which is same in several languages. This blacklist
-can be disabled by adding ``strict-same`` flag to string or component.
+This check ensures they are also found in translation.
 
-.. seealso::
+.. note::
 
-   :ref:`component`,
-   :ref:`custom-checks`
+    The method for detecting BBcode is currently quite simple so this check
+    might produce false positives.
 
-.. _check-begin-newline:
-.. _check-end-newline:
+.. _check-duplicate:
 
-Starting or trailing newline
+Consecutive duplicated words
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Source and translation do not both start (or end) with a newline.
+*Text contains the same word twice in a row:*
 
-Newlines usually appear in source strings for good reason, omissions or additions
-can lead to formatting problems when the translated text is put to use.
+.. versionadded:: 4.1
 
-.. _check-begin-space:
+Checks that no consecutive duplicate words occur in a translation. This usually
+indicates a mistake in the translation.
 
-Starting spaces
-~~~~~~~~~~~~~~~
+.. hint::
 
-Source and translation do not both start with the same number of spaces.
+   This check includes language specific rules to avoid false positives. In
+   case it triggers falsely in your case, let us know. See :ref:`report-issue`.
 
-A space in the beginning of a string is usually used for indentation in the interface and thus
-important to keep.
-
-.. _check-end-space:
-
-Trailing space
-~~~~~~~~~~~~~~
-
-Checks that trailing spaces are replicated between both source and translation.
-
-Trailing space is usually utilized to space out neighbouring elements, so
-removing it might break layout.
 
 .. _check-double-space:
 
 Double space
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~
+
+*Translation contains double space*
 
 Checks that double space is present in translation to avoid false positives on other space-related checks.
 
 Check is false when double space is found in source meaning double space is intentional.
 
-.. _check-end-stop:
 
-Trailing stop
-~~~~~~~~~~~~~
-
-Checks that full stops are replicated between both source and translation.
-The presence of full stops is checked for various languages where they do not belong
-(Chinese, Japanese, Devanagari or Urdu).
-
-.. seealso::
-
-   `Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_
-
-.. _check-end-colon:
-
-Trailing colon
-~~~~~~~~~~~~~~
-
-Checks that colons are replicated between both source and translation. The
-presence of colons is also checked for various languages where they do not
-belong (Chinese or Japanese).
-
-.. seealso::
-
-   `Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_
-
-.. _check-end-question:
-
-Trailing question mark
-~~~~~~~~~~~~~~~~~~~~~~
-
-Checks that question marks are replicated between both source and translation.
-The presence of question marks is also checked for various languages where they
-do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or
-Coptic).
-
-.. seealso::
-
-   `Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_
-
-.. _check-end-exclamation:
-
-Trailing exclamation
-~~~~~~~~~~~~~~~~~~~~
-
-Checks that exclamations are replicated between both source and translation.
-The presence of exclamation marks is also checked for various languages where
-they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, Myanmar or
-Nko).
-
-.. seealso::
-
-   `Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/Exclamation_mark>`_
-
-.. _check-punctuation-spacing:
-
-Punctuation spacing
-~~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.9
-
-Checks that there is non breakable space before double punctuation sign
-(exclamation mark, question mark, semicolon and colon). This rule is used only
-in a few selected languages like French or Breton, where space before double
-punctuation sign is a typographic rule.
-
-.. seealso::
-
-   `French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/History_of_sentence_spacing#French_and_English_spacing>`_
-
-.. _check-end-ellipsis:
-
-Trailing ellipsis
-~~~~~~~~~~~~~~~~~
-
-Checks that trailing ellipses are replicated between both source and translation.
-This only checks for real ellipsis (``…``) not for three dots (``...``).
-
-An ellipsis is usually rendered nicer than three dots in print, and sounds better with text-to-speech.
-
-.. seealso::
-
-   `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
-
-
-.. _check-end-semicolon:
-
-Trailing semicolon
-~~~~~~~~~~~~~~~~~~
-
-Checks that semicolons at the end of sentences are replicated between both source and translation.
-This can be useful to keep formatting of entries such as desktop files.
-
-.. seealso::
-
-   `Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_
-
-.. _check-max-length:
-
-Maximum length
-~~~~~~~~~~~~~~
-
-Checks that translations are of acceptable length to fit available space.
-This only checks for the length of translation characters.
-
-Unlike the other checks, the flag should be set as a ``key:value`` pair like
-``max-length:100``.
-
-.. _check-duplicate:
-
-Consecutive duplicated tokens
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Checks that no duplicate tokens occur in translation.
-
-Check is false if any token occurs more than once consecutively.
-
-.. _check-python-format:
-.. _check-python-brace-format:
-.. _check-php-format:
-.. _check-c-format:
-.. _check-perl-format:
-.. _check-javascript-format:
 .. _check-angularjs-format:
+.. _check-c-format:
 .. _check-c-sharp-format:
+.. _check-i18next-interpolation:
 .. _check-java-format:
 .. _check-java-messageformat:
+.. _check-javascript-format:
+.. _check-percent-placeholders:
+.. _check-perl-format:
+.. _check-php-format:
+.. _check-python-brace-format:
+.. _check-python-format:
 .. _check-qt-format:
 .. _check-qt-plural-format:
 .. _check-ruby-format:
-.. _check-i18next-interpolation:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -256,61 +123,35 @@ Having it defined per component is simpler, but can lead to false positives in
 case the string is not interpreted as a formating string, but format string syntax
 happens to be used.
 
+.. hint::
+
+   In case specific format check is not available in Weblate, you can use
+   generic :ref:`check-placeholders`.
+
 Besides checking, this will also highligh the formatting strings to easily
 insert them into translated strings:
 
 .. image:: /images/format-highlight.png
 
-Python format
-*************
+AngularJS interpolation string
+******************************
+
+*AngularJS interpolation strings do not match source*
 
 +----------------------+------------------------------------------------------------+
-| Simple format string | ``There are %d apples``                                    |
+| Named format string  | ``Your balance is {{amount}} {{ currency }}``              |
 +----------------------+------------------------------------------------------------+
-| Named format string  | ``Your balance is %(amount) %(currency)``                  |
-+----------------------+------------------------------------------------------------+
-| Flag to enable       | `python-format`                                            |
-+----------------------+------------------------------------------------------------+
-
-.. seealso::
-
-    :ref:`Python string formatting <python:old-string-formatting>`,
-    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
-
-Python brace format
-*******************
-
-+----------------------+------------------------------------------------------------+
-| Simple format string | ``There are {} apples``                                    |
-+----------------------+------------------------------------------------------------+
-| Named format string  | ``Your balance is {amount} {currency}``                    |
-+----------------------+------------------------------------------------------------+
-| Flag to enable       | `python-brace-format`                                      |
+| Flag to enable       | `angularjs-format`                                         |
 +----------------------+------------------------------------------------------------+
 
 .. seealso::
 
-    :ref:`Python brace format <python:formatstrings>`,
-    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
-
-PHP format
-**********
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Position format string | ``Your balance is %1$d %2$s``                              |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `php-format`                                               |
-+------------------------+------------------------------------------------------------+
-
-.. seealso::
-
-    `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
-    `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
+    `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
 
 C format
 ********
+
+*C format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -325,50 +166,10 @@ C format
     `C format strings <https://www.gnu.org/software/gettext/manual/html_node/c_002dformat.html>`_,
     `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_
 
-Perl format
-***********
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Position format string | ``Your balance is %1$d %2$s``                              |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `perl-format`                                              |
-+------------------------+------------------------------------------------------------+
-
-.. seealso::
-
-    `Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_,
-    `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
-
-JavaScript format
-*****************
-
-+------------------------+------------------------------------------------------------+
-| Simple format string   | ``There are %d apples``                                    |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `javascript-format`                                        |
-+------------------------+------------------------------------------------------------+
-
-.. seealso::
-
-    `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
-
-AngularJS interpolation string
-******************************
-
-+----------------------+------------------------------------------------------------+
-| Named format string  | ``Your balance is {{amount}} {{ currency }}``              |
-+----------------------+------------------------------------------------------------+
-| Flag to enable       | `angularjs-format`                                         |
-+----------------------+------------------------------------------------------------+
-
-.. seealso::
-
-    `AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/$interpolate>`_
-
 C# format
 *********
+
+*C# format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Position format string | ``There are {0} apples``                                   |
@@ -382,6 +183,8 @@ C# format
 
 i18next interpolation
 *********************
+
+*The i18next interpolation does not match source*
 
 .. versionadded:: 4.0
 
@@ -397,8 +200,11 @@ i18next interpolation
 
     `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
 
+
 Java format
 ***********
+
+*Java format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -412,8 +218,11 @@ Java format
 
     `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
 
+
 Java MessageFormat
 ******************
+
+*Java MessageFormat string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Position format string | ``There are {0} apples``                                   |
@@ -428,24 +237,25 @@ Java MessageFormat
 
    `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
 
-Qt format
-*********
+JavaScript format
+*****************
+
+*JavaScript format string does not match source*
 
 +------------------------+------------------------------------------------------------+
-| Position format string | ``There are %1 apples``                                    |
+| Simple format string   | ``There are %d apples``                                    |
 +------------------------+------------------------------------------------------------+
-| Plural format string   | ``There are %Ln apple(s)``                                 |
-+------------------------+------------------------------------------------------------+
-| Flag to enable         | `qt-format`, `qt-plural-format`                            |
+| Flag to enable         | `javascript-format`                                        |
 +------------------------+------------------------------------------------------------+
 
 .. seealso::
 
-    `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_,
-    `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+    `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
 
 Percent placeholders
 ********************
+
+*The percent placeholders do not match source*
 
 .. versionadded:: 4.0
 
@@ -455,8 +265,114 @@ Percent placeholders
 | Flag to enable         | `percent-placeholders`                                     |
 +------------------------+------------------------------------------------------------+
 
+
+Perl format
+***********
+
+*Perl format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$d %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `perl-format`                                              |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Perl sprintf <https://perldoc.perl.org/functions/sprintf.html>`_,
+    `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+
+PHP format
+**********
+
+*PHP format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Position format string | ``Your balance is %1$d %2$s``                              |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `php-format`                                               |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
+    `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
+
+
+Python brace format
+*******************
+
+*Python brace format string does not match source*
+
++----------------------+------------------------------------------------------------+
+| Simple format string | ``There are {} apples``                                    |
++----------------------+------------------------------------------------------------+
+| Named format string  | ``Your balance is {amount} {currency}``                    |
++----------------------+------------------------------------------------------------+
+| Flag to enable       | `python-brace-format`                                      |
++----------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    :ref:`Python brace format <python:formatstrings>`,
+    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+Python format
+*************
+
+*Python format string does not match source*
+
++----------------------+------------------------------------------------------------+
+| Simple format string | ``There are %d apples``                                    |
++----------------------+------------------------------------------------------------+
+| Named format string  | ``Your balance is %(amount) %(currency)``                  |
++----------------------+------------------------------------------------------------+
+| Flag to enable       | `python-format`                                            |
++----------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    :ref:`Python string formatting <python:old-string-formatting>`,
+    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+Qt format
+*********
+
+*Qt format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Position format string | ``There are %1 apples``                                    |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `qt-format`                                                |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+
+Qt plural format
+****************
+
+*Qt plural format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Plural format string   | ``There are %Ln apple(s)``                                 |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `qt-plural-format`                                         |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+
 Ruby format
 ***********
+
+*Ruby format string does not match source*
 
 +------------------------+------------------------------------------------------------+
 | Simple format string   | ``There are %d apples``                                    |
@@ -474,59 +390,23 @@ Ruby format
 
     `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
 
-.. _check-placeholders:
+.. _check-translated:
 
-Placeholders
-~~~~~~~~~~~~
+Has been translated
+~~~~~~~~~~~~~~~~~~~
 
-.. versionadded:: 3.9
+*This string has been translated in the past*
 
-Translation is missing some placeholders. These are either extracted from the
-translation file or defined manually using ``placeholders`` flag, more can be
-separated with colon:
-
-.. code-block:: text
-
-   placeholders:$URL$:$TARGET$
-
-.. _check-regex:
-
-Regular expression
-~~~~~~~~~~~~~~~~~~
-
-.. versionadded:: 3.9
-
-Translation does not match regular expression. The expression is either extracted from the
-translation file or defined manually using ``regex`` flag:
-
-.. code-block:: text
-
-   regex:^foo|bar$
-
-
-.. _check-plurals:
-
-Missing plurals
-~~~~~~~~~~~~~~~
-
-Checks that all plural forms of a source string have been translated.
-Specifics on how each plural form is used can be found in the string definition.
-
-Failing to fill in plural forms will in some cases lead to displaying nothing when
-the plural form is in use.
-
-.. _check-same-plurals:
-
-Same plurals
-~~~~~~~~~~~~
-
-Check that fails if some plural forms are duplicated in the translation.
-In most languages they have to be different.
+Means a string has been translated already. This can happen when the
+translations have been reverted in VCS or lost otherwise.
 
 .. _check-inconsistent:
 
 Inconsistent
 ~~~~~~~~~~~~
+
+*This string has more than one translation in this project or is not translated
+in some components.*
 
 Weblate checks translations of the same string across all translation within a
 project to help you keep consistent translations.
@@ -551,114 +431,29 @@ translations of this string on the :guilabel:`Other occurences` tab.
 
    :ref:`translation-consistency`
 
-.. _check-translated:
 
-Has been translated
+.. _check-kashida:
+
+Kashida letter used
 ~~~~~~~~~~~~~~~~~~~
 
-Means a string has been translated already. This can happen when the
-translations have been reverted in VCS or lost otherwise.
-
-.. _check-escaped-newline:
-
-Mismatched \\n
-~~~~~~~~~~~~~~
-
-Usually escaped newlines are important for formatting program output.
-Check fails if the number of ``\\n`` literals in translation do not match the source.
-
-.. _check-newline:
-
-Mismatched \n
-~~~~~~~~~~~~~~
-
-Usually newlines are important for formatting program output.
-Check fails if the number of ``\n`` literals in translation do not match the source.
-
-.. _check-bbcode:
-
-BBcode markup
-~~~~~~~~~~~~~
-
-BBCode represents simple markup, like for example highlighting important parts of a
-message in bold font, or italics.
-
-This check ensures they are also found in translation.
-
-.. note::
-
-    The method for detecting BBcode is currently quite simple so this check
-    might produce false positives.
-
-.. _check-zero-width-space:
-
-Zero-width space
-~~~~~~~~~~~~~~~~
-
-Zero-width space (<U+200B>) characters are used to break messages within words (word wrapping).
-
-As they are usually inserted by mistake, this check is triggered once they are present
-in translation. Some programs might have problems when this character is used.
-
-.. seealso::
-
-    `Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-width_space>`_
-
-
-.. _check-xml-invalid:
-
-XML syntax
-~~~~~~~~~~
-
-.. versionadded:: 2.8
-
-The XML markup is not valid.
-
-.. _check-xml-tags:
-
-XML markup
-~~~~~~~~~~
-
-This usually means the resulting output will look different. In most cases this is
-not a desired result from changing the translation, but occasionally it is.
-
-Checks that XML tags are replicated between both source and translation.
-
-
-.. _check-safe-html:
-
-Unsafe HTML
-~~~~~~~~~~~
-
-.. versionadded:: 3.9
-
-The translation uses unsafe HTML markup. This check has to be enabled using
-``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
-autofixer which can automatically sanitize the markup.
-
-.. seealso::
-
-   The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/>`_
-   library developed by Mozilla.
-
-
-.. _check-md-reflink:
-
-Markdown references
-~~~~~~~~~~~~~~~~~~~
+*The decorative kashida letters should not be used*
 
 .. versionadded:: 3.5
 
-Markdown link references do not match source.
+The decorative Kashida letters should not be used in translation. These are
+also known as Tatweel.
 
 .. seealso::
 
-   `Markdown links`_
+   `Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_
 
 .. _check-md-link:
 
 Markdown links
 ~~~~~~~~~~~~~~
+
+*Markdown links do not match source*
 
 .. versionadded:: 3.5
 
@@ -669,10 +464,27 @@ Markdown links do not match source.
    `Markdown links`_
 
 
+.. _check-md-reflink:
+
+Markdown references
+~~~~~~~~~~~~~~~~~~~
+
+*Markdown link references do not match source*
+
+.. versionadded:: 3.5
+
+Markdown link references do not match source.
+
+.. seealso::
+
+   `Markdown links`_
+
 .. _check-md-syntax:
 
 Markdown syntax
 ~~~~~~~~~~~~~~~
+
+*Markdown syntax does not match source*
 
 .. versionadded:: 3.5
 
@@ -685,36 +497,31 @@ Markdown syntax does not match source
 .. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
 .. _Markdown span elements: https://daringfireball.net/projects/markdown/syntax#span
 
+.. _check-max-length:
 
-.. _check-kashida:
+Maximum length of translation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Kashida letter used
-~~~~~~~~~~~~~~~~~~~
+*Translation should not exceed given length*
 
-.. versionadded:: 3.5
+Checks that translations are of acceptable length to fit available space.
+This only checks for the length of translation characters.
 
-The decorative Kashida letters should not be used in translation. These are
-also known as Tatweel.
+Unlike the other checks, the flag should be set as a ``key:value`` pair like
+``max-length:100``.
 
-.. seealso::
+.. hint::
 
-   `Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_
-
-.. _check-url:
-
-URL
-~~~
-
-.. versionadded:: 3.5
-
-The translation does not contain an URL. This is triggered only in case the
-unit is marked as containing URL. In that case the translation has to be a
-valid URL.
+   This checks looks at number of chars, what might not be the best metric when
+   using proportional fonts to render the text. The :ref:`check-max-size` check
+   does check actual rendering of the text.
 
 .. _check-max-size:
 
 Maximum size of translation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Translation rendered text should not exceed given size*
 
 .. versionadded:: 3.7
 
@@ -742,17 +549,423 @@ pixels:
 
 .. seealso::
 
-   :ref:`fonts`, :ref:`custom-checks`
+   :ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`
+
+.. _check-escaped-newline:
+
+Mismatched \n
+~~~~~~~~~~~~~
+
+*Number of \n in translation does not match source*
+
+Usually escaped newlines are important for formatting program output.
+Check fails if the number of ``\\n`` literals in translation do not match the source.
+
+.. _check-newline-count:
+
+Mismatching line breaks
+~~~~~~~~~~~~~~~~~~~~~~~
+
+*Number of new lines in translation does not match source*
+
+Usually newlines are important for formatting program output.
+Check fails if the number of ``\n`` literals in translation do not match the source.
+
+
+.. _check-plurals:
+
+Missing plurals
+~~~~~~~~~~~~~~~
+
+*Some plural forms are not translated*
+
+Checks that all plural forms of a source string have been translated.
+Specifics on how each plural form is used can be found in the string definition.
+
+Failing to fill in plural forms will in some cases lead to displaying nothing when
+the plural form is in use.
+
+.. _check-placeholders:
+
+Placeholders
+~~~~~~~~~~~~
+
+*Translation is missing some placeholders:*
+
+.. versionadded:: 3.9
+
+Translation is missing some placeholders. These are either extracted from the
+translation file or defined manually using ``placeholders`` flag, more can be
+separated with colon:
+
+.. code-block:: text
+
+   placeholders:$URL$:$TARGET$
+
+.. _check-punctuation-spacing:
+
+Punctuation spacing
+~~~~~~~~~~~~~~~~~~~
+
+*Missing non breakable space before double punctuation sign*
+
+.. versionadded:: 3.9
+
+Checks that there is non breakable space before double punctuation sign
+(exclamation mark, question mark, semicolon and colon). This rule is used only
+in a few selected languages like French or Breton, where space before double
+punctuation sign is a typographic rule.
+
+.. seealso::
+
+   `French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/History_of_sentence_spacing#French_and_English_spacing>`_
+
+
+.. _check-regex:
+
+Regular expression
+~~~~~~~~~~~~~~~~~~
+
+*Translation does not match regular expression:*
+
+.. versionadded:: 3.9
+
+Translation does not match regular expression. The expression is either extracted from the
+translation file or defined manually using ``regex`` flag:
+
+.. code-block:: text
+
+   regex:^foo|bar$
+
+
+
+.. _check-same-plurals:
+
+Same plurals
+~~~~~~~~~~~~
+
+*Some plural forms are translated in the same way*
+
+Check that fails if some plural forms are duplicated in the translation.
+In most languages they have to be different.
+
+.. _check-begin-newline:
+
+Starting newline
+~~~~~~~~~~~~~~~~
+
+*Source and translation do not both start with a newline*
+
+Newlines usually appear in source strings for good reason, omissions or additions
+can lead to formatting problems when the translated text is put to use.
+
+.. seealso::
+
+   :ref:`check-end-newline`
+
+.. _check-begin-space:
+
+Starting spaces
+~~~~~~~~~~~~~~~
+
+*Source and translation do not both start with same number of spaces*
+
+A space in the beginning of a string is usually used for indentation in the interface and thus
+important to keep.
+
+.. _check-end-colon:
+
+Trailing colon
+~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a colon*
+
+Checks that colons are replicated between both source and translation. The
+presence of colons is also checked for various languages where they do not
+belong (Chinese or Japanese).
+
+.. seealso::
+
+   `Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_
+
+.. _check-end-ellipsis:
+
+Trailing ellipsis
+~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with an ellipsis*
+
+Checks that trailing ellipses are replicated between both source and translation.
+This only checks for real ellipsis (``…``) not for three dots (``...``).
+
+An ellipsis is usually rendered nicer than three dots in print, and sounds better with text-to-speech.
+
+.. seealso::
+
+   `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
+
+
+.. _check-end-exclamation:
+
+Trailing exclamation mark
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with an exclamation mark*
+
+Checks that exclamations are replicated between both source and translation.
+The presence of exclamation marks is also checked for various languages where
+they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, Myanmar or
+Nko).
+
+.. seealso::
+
+   `Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/Exclamation_mark>`_
+
+.. _check-end-newline:
+
+Trailing newline
+~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a newline*
+
+Newlines usually appear in source strings for good reason, omissions or additions
+can lead to formatting problems when the translated text is put to use.
+
+.. seealso::
+
+   :ref:`check-begin-newline`
+
+.. _check-end-question:
+
+Trailing question mark
+~~~~~~~~~~~~~~~~~~~~~~
+
+
+*Source and translation do not both end with a question mark*
+Checks that question marks are replicated between both source and translation.
+The presence of question marks is also checked for various languages where they
+do not belong (Armenian, Arabic, Chinese, Korean, Japanese, Ethiopic, Vai or
+Coptic).
+
+.. seealso::
+
+   `Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_
+
+
+
+.. _check-end-semicolon:
+
+Trailing semicolon
+~~~~~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a semicolon*
+
+Checks that semicolons at the end of sentences are replicated between both source and translation.
+This can be useful to keep formatting of entries such as desktop files.
+
+.. seealso::
+
+   `Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_
+
+.. _check-end-space:
+
+Trailing space
+~~~~~~~~~~~~~~
+
+*Source and translation do not both end with a space*
+
+Checks that trailing spaces are replicated between both source and translation.
+
+Trailing space is usually utilized to space out neighbouring elements, so
+removing it might break layout.
+
+.. _check-end-stop:
+
+Trailing stop
+~~~~~~~~~~~~~
+
+*Source and translation do not both end with a full stop*
+
+Checks that full stops are replicated between both source and translation.
+The presence of full stops is checked for various languages where they do not belong
+(Chinese, Japanese, Devanagari or Urdu).
+
+.. seealso::
+
+   `Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_
+
+.. _check-same:
+
+Unchanged translation
+~~~~~~~~~~~~~~~~~~~~~
+
+*Source and translation are identical*
+
+Happens if the source and corresponding translation strings is identical, down to
+at least one of the plural forms. Some strings commonly found across all
+languages are ignored, and various markup is stripped. This reduces
+the number of false positives.
+
+This check can help find strings mistakenly untranslated.
+
+The default behavior of this check is to exclude words from the built-in
+blacklist from the checking. These are words which are frequently not being
+translated. This is useful to avoid false positives on short strings, which
+consist only of single word which is same in several languages. This blacklist
+can be disabled by adding ``strict-same`` flag to string or component.
+
+.. seealso::
+
+   :ref:`component`,
+   :ref:`custom-checks`
+
+.. _check-safe-html:
+
+Unsafe HTML
+~~~~~~~~~~~
+
+*The translation uses unsafe HTML markup*
+
+.. versionadded:: 3.9
+
+The translation uses unsafe HTML markup. This check has to be enabled using
+``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
+autofixer which can automatically sanitize the markup.
+
+.. seealso::
+
+   The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/>`_
+   library developed by Mozilla.
+
+
+
+.. _check-url:
+
+URL
+~~~
+
+*The translation does not contain an URL*
+
+.. versionadded:: 3.5
+
+The translation does not contain an URL. This is triggered only in case the
+unit is marked as containing URL. In that case the translation has to be a
+valid URL.
+
+.. _check-xml-tags:
+
+XML markup
+~~~~~~~~~~
+
+*XML tags in translation do not match source*
+
+This usually means the resulting output will look different. In most cases this is
+not a desired result from changing the translation, but occasionally it is.
+
+Checks that XML tags are replicated between both source and translation.
+
+
+
+.. _check-xml-invalid:
+
+XML syntax
+~~~~~~~~~~
+
+*The translation is not valid XML*
+
+.. versionadded:: 2.8
+
+The XML markup is not valid.
+
+.. _check-zero-width-space:
+
+Zero-width space
+~~~~~~~~~~~~~~~~
+
+*Translation contains extra zero-width space character*
+
+Zero-width space (<U+200B>) characters are used to break messages within words (word wrapping).
+
+As they are usually inserted by mistake, this check is triggered once they are present
+in translation. Some programs might have problems when this character is used.
+
+.. seealso::
+
+    `Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-width_space>`_
+
+
 
 Source checks
 -------------
 
 Source checks can help developers improve the quality of source strings.
 
+.. _check-ellipsis:
+
+Ellipsis
+~~~~~~~~
+
+*The string uses three dots (...) instead of an ellipsis character (…)*
+
+This fails when the string uses three dots (``...``) when it should use an ellipsis character (``…``).
+
+Using the Unicode character is in most cases the better approach and looks better
+rendered, and may sound better with text-to-speech.
+
+.. seealso::
+
+   `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
+
+
+.. _check-long-untranslated:
+
+Long untranslated
+~~~~~~~~~~~~~~~~~
+
+*The string was not translated for a long time*
+
+.. versionadded:: 4.1
+
+The string was not translated for a long time. This can indicate problem in a
+source string making it hard to translate.
+
+
+.. _check-multiple-failures:
+
+Multiple failing checks
+~~~~~~~~~~~~~~~~~~~~~~~
+
+*The translations in several languages have failing checks*
+
+Numerous translations of this string have failing quality checks. This is
+usually an indication that something could be done to improve the source
+string.
+
+This check failing can quite often be caused by a missing full stop at the end of
+a sentence, or similar minor issues which translators tend to fix in
+translation, while it would be better to fix it in the source string.
+
+.. _check-unnamed-format:
+
+Multiple unnamed variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*There are multiple unnamed variables in the string, making it impossible for
+translators to reorder them*
+
+.. versionadded:: 4.1
+
+There are multiple unnamed variables in the string, making it impossible for
+translators to reorder them.
+
+Consider using named variables instead to allow translators to reorder them.
+
 .. _check-optional-plural:
 
 Unpluralised
 ~~~~~~~~~~~~
+
+*The string is used as plural, but not using plural forms*
 
 The string is used as a plural, but does not use plural forms. In case your
 translation system supports this, you should use the plural aware variant of
@@ -765,30 +978,3 @@ For example with Gettext in Python it could be:
     from gettext import ngettext
 
     print ngettext('Selected %d file', 'Selected %d files', files) % files
-
-.. _check-ellipsis:
-
-Ellipsis
-~~~~~~~~
-
-This fails when the string uses three dots (``...``) when it should use an ellipsis character (``…``).
-
-Using the Unicode character is in most cases the better approach and looks better
-rendered, and may sound better with text-to-speech.
-
-.. seealso::
-
-   `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
-
-.. _check-multiple-failures:
-
-Multiple failing checks
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Numerous translations of this string have failing quality checks. This is
-usually an indication that something could be done to improve the source
-string.
-
-This check failing can quite often be caused by a missing full stop at the end of
-a sentence, or similar minor issues which translators tend to fix in
-translation, while it would be better to fix it in the source string.

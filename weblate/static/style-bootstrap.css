@@ -392,13 +392,7 @@ kbd {
     table-layout: fixed;
 }
 .zen tr td:first-child {
-    width: 130px;
-}
-.zen .translatetext label {
-    width: 130px;
-    position: absolute;
-    left: 0;
-    text-align: right;
+    width: 60px;
 }
 .zen-unit:nth-child(even) {
     background-color: #f9f9f9;
@@ -684,7 +678,7 @@ td.number, th.number {
 .navbar-right {
     margin-right: 0;
 }
-.navbar-right.flip {
+.dir-rtl .navbar-right.flip {
     margin-left: 0;
 }
 .breadcrumb > li.bread-icon + li::before {
@@ -801,9 +795,13 @@ button.red:hover path, a.red:hover path {
 }
 .btn-group-settings a {
     color: #2A3744;
+    padding: 10px 15px;
 }
 .btn-group-settings a:hover {
     color: #1fa385;
+}
+.btn-group-settings svg {
+    height: 1em;
 }
 svg {
     vertical-align: middle;
@@ -839,19 +837,19 @@ svg {
 .check .list-buttons {
     margin: 10px 0 5px 0;
 }
-.check-disabled {
+.check-dismissed {
     color: #bfc3c7;
 }
-.check-disabled .check-number, .check-disabled .check-dismiss {
+.check-dismissed .check-number, .check-dismissed .check-dismiss {
     display: none;
 }
 .check .check-revert {
     display: none;
 }
-.check-disabled .check-dismiss.check-revert {
+.check-dismissed .check-dismiss.check-revert {
     display: inherit;
 }
-.check-disabled .red path {
+.check-dismissed .red path, .gray path {
     fill: #bfc3c7;
 }
 .string-info .list-group-item h5 {
@@ -930,7 +928,10 @@ a.format-item:hover {
 .state-icon.state-empty .state-empty {
     display: inline;
 }
-.state-icon.state-alert .state-alert {
+.state-icon.state-check .state-check {
+    display: inline;
+}
+.state-icon.state-dismissed-check .state-dismissed-check {
     display: inline;
 }
 .state-icon.state-readonly .state-readonly {
@@ -1079,4 +1080,8 @@ a.format-item:hover {
 }
 .mt-text {
     word-wrap: anywhere;
+}
+.ghost {
+    font-weight: normal;
+    font-style: italic;
 }

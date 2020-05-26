@@ -31,14 +31,15 @@ sed \
     weblate/locale/*/*/*.po weblate/locale/*.pot \
     weblate/langdata/locale/*/*/*.po weblate/langdata/locale/*.pot
 
-# Include language names from CLDR
+# Include language names from CLDR and iso-codes
 for locale in weblate/langdata/locale/*/LC_MESSAGES/django.po ; do
     code=${locale#weblate/langdata/locale/}
     code=${code%/LC_MESSAGES/django.po}
-    file=scripts/language-data/languages-po/$code.po
-    if [ -f $file ] ; then
-        msgmerge --previous -C $file -U $locale weblate/langdata/locale/django.pot
-    fi
+    for file in scripts/iso-codes/iso_639-2/$code.po scripts/iso-codes/iso_639-2/$code.po scripts/language-data/languages-po/$code.po ; do
+        if [ -f $file ] ; then
+            msgmerge --previous -C $file -U $locale weblate/langdata/locale/django.pot
+        fi
+    done
 done
 
 # Include translations from Django

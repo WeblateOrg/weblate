@@ -24,7 +24,7 @@ from copy import copy
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import Count, Max, Q
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -59,15 +59,15 @@ from weblate.utils.state import (
 SIMPLE_FILTERS = {
     "fuzzy": {"state": STATE_FUZZY},
     "approved": {"state": STATE_APPROVED},
-    "approved_suggestions": {"state": STATE_APPROVED, "has_suggestion": True},
+    "approved_suggestions": {"state": STATE_APPROVED, "suggestion__isnull": False},
     "unapproved": {"state": STATE_TRANSLATED},
     "todo": {"state__lt": STATE_TRANSLATED},
     "nottranslated": {"state": STATE_EMPTY},
     "translated": {"state__gte": STATE_TRANSLATED},
-    "suggestions": {"has_suggestion": True},
-    "nosuggestions": {"has_suggestion": False, "state__lt": STATE_TRANSLATED},
-    "comments": {"has_comment": True},
-    "allchecks": {"has_failing_check": True},
+    "suggestions": {"suggestion__isnull": False},
+    "nosuggestions": {"suggestion__isnull": True, "state__lt": STATE_TRANSLATED},
+    "comments": {"comment__resolved": False},
+    "allchecks": {"check__ignore": False},
 }
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
@@ -82,7 +82,7 @@ class UnitQuerySet(models.QuerySet):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
                 raise ValueError("Unknown check: {}".format(check_id))
-            return self.filter(check__check=check_id, check__ignore=False)
+            return self.filter(check__check=check_id, check__dismissed=False)
         if rqtype.startswith("label:"):
             return self.filter(labels__name=rqtype[6:])
         if rqtype == "all":
@@ -118,15 +118,50 @@ class UnitQuerySet(models.QuerySet):
 
     def order_by_request(self, form_data):
         sort_list_request = form_data.get("sort_by", "").split(",")
-        available_sort_choices = ["priority", "position", "context", "num_words"]
-        sort_list = [
-            choice
-            for choice in sort_list_request
-            if choice.replace("-", "") in available_sort_choices
+        available_sort_choices = [
+            "priority",
+            "position",
+            "context",
+            "num_words",
+            "labels",
+            "timestamp",
         ]
+        countable_sort_choices = {
+            "num_comments": {"order_by": "comment__count", "filter": None},
+            "num_failing_checks": {
+                "order_by": "check__count",
+                "filter": Q(check__dismissed=False),
+            },
+        }
+        sort_list = []
+        for choice in sort_list_request:
+            unsigned_choice = choice.replace("-", "")
+            if unsigned_choice in countable_sort_choices:
+                return self.order_by_count(
+                    choice.replace(
+                        unsigned_choice,
+                        countable_sort_choices[unsigned_choice]["order_by"],
+                    ),
+                    countable_sort_choices[unsigned_choice]["filter"],
+                )
+            if unsigned_choice in available_sort_choices:
+                if unsigned_choice == "labels":
+                    choice = choice.replace("labels", "max_labels_name")
+                sort_list.append(choice)
         if not sort_list:
             return self.order()
+        if "max_labels_name" in sort_list or "-max_labels_name" in sort_list:
+            return self.annotate(max_labels_name=Max("labels__name")).order_by(
+                *sort_list
+            )
         return self.order_by(*sort_list)
+
+    def order_by_count(self, choice, filter):
+        model = choice.split("__")[0].replace("-", "")
+        annotation_name = choice.replace("-", "")
+        return self.annotate(**{annotation_name: Count(model, filter=filter)}).order_by(
+            choice
+        )
 
     def get_unit(self, ttunit):
         """Find unit matching translate-toolkit unit.
@@ -175,10 +210,6 @@ class Unit(models.Model, LoggerMixin):
 
     position = models.IntegerField()
 
-    has_suggestion = models.BooleanField(default=False, db_index=True)
-    has_comment = models.BooleanField(default=False, db_index=True)
-    has_failing_check = models.BooleanField(default=False, db_index=True)
-
     num_words = models.IntegerField(default=0)
 
     priority = models.IntegerField(default=100)
@@ -197,10 +228,15 @@ class Unit(models.Model, LoggerMixin):
         blank=True,
     )
     extra_context = models.TextField(
-        verbose_name=gettext_lazy("Additional context"), default="", blank=True
+        verbose_name=gettext_lazy("Explanation"),
+        default="",
+        blank=True,
+        help_text=gettext_lazy(
+            "Additional explanation to clarify meaning or usage of the string."
+        ),
     )
-    shaping = models.ForeignKey(
-        "Shaping",
+    variant = models.ForeignKey(
+        "Variant",
         on_delete=models.deletion.SET_NULL,
         blank=True,
         null=True,
@@ -282,6 +318,21 @@ class Unit(models.Model, LoggerMixin):
     @property
     def fuzzy(self):
         return self.state == STATE_FUZZY
+
+    @property
+    def has_failing_check(self):
+        return bool(self.active_checks)
+
+    @property
+    def has_comment(self):
+        return any(
+            not comment.resolved and comment.unit_id == self.id
+            for comment in self.all_comments
+        )
+
+    @property
+    def has_suggestion(self):
+        return bool(self.suggestions)
 
     @cached_property
     def full_slug(self):
@@ -648,9 +699,7 @@ class Unit(models.Model, LoggerMixin):
                     unit.state = STATE_FUZZY
                 unit.previous_source = previous_source
 
-            # Update source index and stats
-            unit.update_has_comment()
-            unit.update_has_suggestion()
+            # Save unit and change
             unit.save()
             Change.objects.create(
                 unit=unit,
@@ -660,6 +709,7 @@ class Unit(models.Model, LoggerMixin):
                 old=previous_source,
                 target=self.target,
             )
+            # Invalidate stats
             unit.translation.invalidate_cache()
 
     def generate_change(self, user, author, change_action):
@@ -679,7 +729,7 @@ class Unit(models.Model, LoggerMixin):
             action = change_action
         elif self.state == STATE_FUZZY:
             action = Change.ACTION_MARKED_EDIT
-        elif self.old_unit.state >= STATE_TRANSLATED:
+        elif self.old_unit.state >= STATE_FUZZY:
             if self.state == STATE_APPROVED:
                 action = Change.ACTION_APPROVE
             else:
@@ -702,31 +752,39 @@ class Unit(models.Model, LoggerMixin):
         """Return all suggestions for this unit."""
         return self.suggestion_set.order()
 
-    def checks(self, values=False):
-        """Return all checks names for this unit (even ignored)."""
+    @cached_property
+    def all_checks(self):
         result = self.check_set.all()
-        if values:
-            return result.values_list("check", flat=True)
+        # Force fetching
+        list(result)
         return result
 
+    @property
+    def all_checks_names(self):
+        return {check.check for check in self.all_checks}
+
+    @property
+    def dismissed_checks(self):
+        return [check for check in self.all_checks if check.dismissed]
+
+    @property
     def active_checks(self):
         """Return all active (not ignored) checks for this unit."""
-        return self.check_set.filter(ignore=False)
+        return [check for check in self.all_checks if not check.dismissed]
 
-    def get_comments(self):
+    @cached_property
+    def all_comments(self):
         """Return list of target comments."""
         return Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info)).order()
 
     def run_checks(self, same_content=True):
         """Update checks for this unit."""
-        was_change = False
-        has_checks = None
         run_propagate = False
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
 
-        old_checks = set(self.check_set.values_list("check", flat=True))
+        old_checks = self.all_checks_names
         create = []
 
         if self.translation.is_source:
@@ -747,9 +805,7 @@ class Unit(models.Model, LoggerMixin):
                     old_checks.remove(check)
                 else:
                     # Create new check
-                    create.append(Check(unit=self, ignore=False, check=check))
-                    was_change = True
-                    has_checks = True
+                    create.append(Check(unit=self, dismissed=False, check=check))
                     run_propagate |= check_obj.propagates
 
         if create:
@@ -757,7 +813,14 @@ class Unit(models.Model, LoggerMixin):
             # Propagate checks which need it (for example consistency)
             if run_propagate:
                 for unit in self.same_source_units:
-                    unit.run_checks()
+                    try:
+                        unit.run_checks()
+                    except Unit.DoesNotExist:
+                        # This can happen in some corner cases like changing
+                        # source language of a project - the source language is
+                        # changed first and then components are updated. But
+                        # not all are yet updated and this spans across them.
+                        continue
             # Trigger source checks on target check update (multiple failing checks)
             if not self.translation.is_source:
                 self.source_info.is_batch_update = self.is_batch_update
@@ -765,46 +828,10 @@ class Unit(models.Model, LoggerMixin):
 
         # Delete no longer failing checks
         if old_checks:
-            was_change = True
             Check.objects.filter(unit=self, check__in=old_checks).delete()
 
-        # Update failing checks flag
-        if not self.is_batch_update and (was_change or not same_content):
-            self.update_has_failing_check(has_checks)
-
-    def update_has_failing_check(self, has_checks=None):
-        """Update flag counting failing checks."""
-        if has_checks is None:
-            has_checks = self.active_checks().exists()
-
-        # Change attribute if it has changed
-        if has_checks != self.has_failing_check:
-            self.has_failing_check = has_checks
-            self.save(
-                same_content=True, same_state=True, update_fields=["has_failing_check"]
-            )
-            if not self.is_batch_update:
-                self.translation.invalidate_cache()
-
-    def update_has_suggestion(self):
-        """Update flag counting suggestions."""
-        has_suggestion = len(self.suggestions) > 0
-        if has_suggestion != self.has_suggestion:
-            self.has_suggestion = has_suggestion
-            self.save(
-                same_content=True, same_state=True, update_fields=["has_suggestion"]
-            )
-            return True
-        return False
-
-    def update_has_comment(self):
-        """Update flag counting comments."""
-        has_comment = len(self.get_comments().filter(resolved=False)) > 0
-        if has_comment != self.has_comment:
-            self.has_comment = has_comment
-            self.save(same_content=True, same_state=True, update_fields=["has_comment"])
-            return True
-        return False
+        # This is always preset as it is used in top of this method
+        del self.__dict__["all_checks"]
 
     def nearby(self):
         """Return list of nearby messages based on location."""
@@ -842,11 +869,11 @@ class Unit(models.Model, LoggerMixin):
             .order_by("context")
         )
 
-    def shapings(self):
-        if not self.shaping:
+    def variants(self):
+        if not self.variant:
             return []
         return (
-            self.shaping.unit_set.filter(translation=self.translation)
+            self.variant.unit_set.filter(translation=self.translation)
             .prefetch()
             .order_by("context")
         )
@@ -884,9 +911,7 @@ class Unit(models.Model, LoggerMixin):
         if (
             self.state >= STATE_TRANSLATED
             and self.translation.component.enforced_checks
-            and self.check_set.filter(
-                check__in=self.translation.component.enforced_checks
-            ).exists()
+            and self.all_checks_names & set(self.translation.component.enforced_checks)
         ):
             self.state = self.original_state = STATE_FUZZY
             self.save(same_state=True, same_content=True, update_fields=["state"])
@@ -929,7 +954,7 @@ class Unit(models.Model, LoggerMixin):
                 state__gte=STATE_TRANSLATED,
                 translation__component=self.translation.component,
                 translation__language__in=secondary_langs,
-            )
+            ).exclude(target="")
         )
 
     @property

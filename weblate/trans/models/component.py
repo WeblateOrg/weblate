@@ -26,6 +26,7 @@ from collections import Counter
 from contextlib import contextmanager
 from copy import copy
 from glob import glob
+from itertools import chain
 from typing import List, Optional
 from urllib.parse import urlparse
 
@@ -61,8 +62,8 @@ from weblate.trans.fields import RegexField
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
 from weblate.trans.models.change import Change
-from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.translation import Translation
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
     component_post_update,
     translation_post_add,
@@ -504,14 +505,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             "translation when scanning for filemask."
         ),
     )
-    shaping_regex = RegexField(
-        verbose_name=gettext_lazy("Shapings regular expression"),
+    variant_regex = RegexField(
+        verbose_name=gettext_lazy("Variants regular expression"),
         validators=[validate_re_nonempty],
         max_length=190,
         default="",
         blank=True,
         help_text=gettext_lazy(
-            "Regular expression used to determine shapings of a string."
+            "Regular expression used to determine variants of a string."
         ),
     )
 
@@ -552,7 +553,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         changed_git = True
         changed_setup = False
         changed_template = False
-        changed_shaping = False
+        changed_variant = False
+        create = True
         if self.id:
             old = Component.objects.get(pk=self.id)
             changed_git = (
@@ -570,7 +572,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 or (old.edit_template != self.edit_template)
                 or changed_template
             )
-            changed_shaping = old.shaping_regex != self.shaping_regex
+            changed_variant = old.variant_regex != self.variant_regex
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
@@ -578,6 +580,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
+            create = False
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
@@ -587,6 +590,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         # Save/Create object
         super().save(*args, **kwargs)
+
+        if create:
+            self.install_autoaddon()
 
         # Ensure source translation is existing, otherwise we might
         # be hitting race conditions between background update and frontend displaying
@@ -600,7 +606,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             changed_git,
             changed_setup,
             changed_template,
-            changed_shaping,
+            changed_variant,
             skip_push=kwargs.get("force_insert", False),
         )
         self.store_background_task(task)
@@ -620,6 +626,38 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         self.logs = []
         self.translations_count = None
         self.translations_progress = 0
+
+    def install_autoaddon(self):
+        """Installs automatically enabled addons from file format."""
+        from weblate.addons.models import ADDONS
+
+        for name, configuration in chain(
+            self.file_format_cls.autoaddon.items(), settings.DEFAULT_ADDONS.items()
+        ):
+            if self.addon_set.filter(name=name).exists():
+                self.log_warning("could not enable addon %s, already installed", name)
+                continue
+
+            try:
+                addon = ADDONS[name]()
+            except KeyError:
+                self.log_warning("could not enable addon %s, not found", name)
+                continue
+
+            if addon.has_settings:
+                form = addon.get_add_form(self, data=configuration)
+                if not form.is_valid():
+                    self.log_warning(
+                        "could not enable addon %s, invalid settings", name
+                    )
+                    continue
+
+            if not addon.can_install(self, None):
+                self.log_warning("could not enable addon %s, not compatible", name)
+                continue
+
+            self.log_info("enabling addon %s", name)
+            addon.create(self, configuration=configuration)
 
     @contextmanager
     def lock(self):
@@ -752,6 +790,10 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     def get_source(self, id_hash, create=None):
         """Cached access to source info."""
         from weblate.trans.models import Unit
+
+        # Preload sources when creating units
+        if not self._sources_prefetched and create:
+            self.preload_sources()
 
         try:
             return self._sources[id_hash]
@@ -1083,6 +1125,44 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             perform_push.delay(self.pk, None, force_commit=False, do_update=do_update)
 
     @perform_on_link
+    def push_repo(self, request, retry=True):
+        """Push repository changes upstream."""
+        try:
+            self.log_info("pushing to remote repo")
+            with self.repository.lock:
+                self.repository.push()
+            self.delete_alert("RepositoryChanges")
+            self.delete_alert("PushFailure")
+            return True
+        except RepositoryException as error:
+            report_error(cause="Could not push the repo")
+            error_text = self.error_text(error)
+            Change.objects.create(
+                action=Change.ACTION_FAILED_PUSH,
+                component=self,
+                target=error_text,
+                user=request.user if request else None,
+            )
+            if retry:
+                if "Host key verification failed" in error_text:
+                    self.add_ssh_host_key()
+                    return self.push_repo(request, retry=False)
+                if (
+                    "shallow update not allowed" in error_text
+                    or "expected old/new/ref, got 'shallow" in error_text
+                ):
+                    with self.repository.lock:
+                        try:
+                            self.repository.unshallow()
+                            return self.push_repo(request, retry=False)
+                        except RepositoryException:
+                            report_error(cause="Could not unshallow the repo")
+                            pass
+            messages.error(request, _("Could not push to remote branch on %s.") % self)
+            self.add_alert("PushFailure", error=error_text)
+            return False
+
+    @perform_on_link
     def do_push(self, request, force_commit=True, do_update=True, retry=True):
         """Wrapper for pushing changes to remote repo."""
         # Do we have push configured
@@ -1114,37 +1194,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
-        try:
-            self.log_info("pushing to remote repo")
-            with self.repository.lock:
-                self.repository.push()
-                if self.id:
-                    self.delete_alert("PushFailure")
-        except RepositoryException as error:
-            report_error(cause="Could not to push the repo")
-            error_text = self.error_text(error)
-            Change.objects.create(
-                action=Change.ACTION_FAILED_PUSH,
-                component=self,
-                target=error_text,
-                user=request.user if request else None,
-            )
-            if retry:
-                if "Host key verification failed" in error_text:
-                    self.add_ssh_host_key()
-                    self.do_push(request, force_commit, do_update, retry=False)
-                if (
-                    "shallow update not allowed" in error_text
-                    or "expected old/new/ref, got 'shallow" in error_text
-                ):
-                    with self.repository.lock:
-                        self.repository.unshallow()
-                    self.do_push(request, force_commit, do_update, retry=False)
-            messages.error(
-                request, _("Could not push to remote branch on %s.") % force_str(self)
-            )
-            if self.id:
-                self.add_alert("PushFailure", error=error_text)
+        result = self.push_repo(request)
+        if not result:
             return False
 
         Change.objects.create(
@@ -1156,7 +1207,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         vcs_post_push.send(sender=self.__class__, component=self)
         for component in self.linked_childs:
             vcs_post_push.send(sender=component.__class__, component=component)
-        self.delete_alert("RepositoryChanges")
 
         return True
 
@@ -1580,7 +1630,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         # Update flags
         if was_change:
-            self.update_unit_flags()
             self.invalidate_stats_deep()
 
         # Schedule background cleanup if needed
@@ -1594,7 +1643,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             translation.notify_new(request)
 
         if was_change:
-            self.update_shapings()
+            self.update_variants()
             component_post_update.send(sender=self.__class__, component=self)
             # Update translation memory
             transaction.on_commit(lambda: import_memory.delay(self.project_id, self.id))
@@ -1602,25 +1651,11 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         self.log_info("updating completed")
         return was_change
 
-    def update_unit_flags(self):
-        from weblate.trans.models import Unit
-
-        units = Unit.objects.filter(translation__component=self)
-
-        self.log_info("updating unit flags: has_failing_check")
-
-        units.filter(has_failing_check=False).filter(check__ignore=False).update(
-            has_failing_check=True
-        )
-        units.filter(has_failing_check=True).exclude(check__ignore=False).update(
-            has_failing_check=False
-        )
-        self.log_info("all unit flags updated")
-
     def invalidate_stats_deep(self):
         self.log_info("updating stats caches")
         for translation in self.translation_set.select_related("language"):
-            transaction.on_commit(lambda: translation.stats.invalidate(recurse=False))
+            # This calls on_commit in the background
+            translation.invalidate_cache(recurse=False)
         transaction.on_commit(self.stats.invalidate)
 
     def get_lang_code(self, path, validate=False):
@@ -1979,7 +2014,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             )
 
     def after_save(
-        self, changed_git, changed_setup, changed_template, changed_shaping, skip_push
+        self, changed_git, changed_setup, changed_template, changed_variant, skip_push
     ):
         self.store_background_task()
         self.translations_progress = 0
@@ -2004,9 +2039,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         elif changed_git:
             was_change = self.create_translations()
 
-        # Update shapings (create_translation does this on change)
-        if changed_shaping and not was_change:
-            self.update_shapings()
+        # Update variants (create_translation does this on change)
+        if changed_variant and not was_change:
+            self.update_variants()
 
         self.update_alerts()
         self.progress_step(100)
@@ -2016,29 +2051,29 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         if changed_template:
             self.invalidate_stats_deep()
 
-    def update_shapings(self):
+    def update_variants(self):
         from weblate.trans.models import Unit
 
-        Shaping.objects.exclude(
-            shaping_regex=self.shaping_regex, component=self
+        Variant.objects.exclude(
+            variant_regex=self.variant_regex, component=self
         ).delete()
-        if not self.shaping_regex:
+        if not self.variant_regex:
             return
-        shaping_re = re.compile(self.shaping_regex)
+        variant_re = re.compile(self.variant_regex)
         units = Unit.objects.filter(
-            translation__component=self, context__regex=self.shaping_regex, shaping=None
+            translation__component=self, context__regex=self.variant_regex, variant=None
         )
         for unit in units.iterator():
-            if shaping_re.findall(unit.context):
-                key = shaping_re.sub("", unit.context)
-                unit.shaping = Shaping.objects.get_or_create(
-                    key=key, component=self, shaping_regex=self.shaping_regex
+            if variant_re.findall(unit.context):
+                key = variant_re.sub("", unit.context)
+                unit.variant = Variant.objects.get_or_create(
+                    key=key, component=self, variant_regex=self.variant_regex
                 )[0]
-                unit.save(update_fields=["shaping"])
-        for shaping in Shaping.objects.filter(component=self).iterator():
+                unit.save(update_fields=["variant"])
+        for variant in Variant.objects.filter(component=self).iterator():
             Unit.objects.filter(
-                translation__component=self, shaping=None, context=shaping.key
-            ).update(shaping=shaping)
+                translation__component=self, variant=None, context=variant.key
+            ).update(variant=variant)
 
     def update_alerts(self):
         if (
@@ -2208,17 +2243,17 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         """Return parsed list of flags."""
         return Flags(self.file_format_cls.check_flags, self.check_flags)
 
-    def can_add_new_language(self, request):
+    def can_add_new_language(self, user):
         """Wrapper to check if a new language can be added.
 
         Generic users can add only if configured, in other situations it works if there
         is valid new base.
         """
-        # The request is None in case of consistency or cli invocation
+        # The user is None in case of consistency or cli invocation
         if (
             self.new_lang != "add"
-            and request is not None
-            and not request.user.has_perm("component.edit", self)
+            and user is not None
+            and not user.has_perm("component.edit", self)
         ):
             return False
 
@@ -2226,7 +2261,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
-        if not self.can_add_new_language(request):
+        if not self.can_add_new_language(request.user if request else None):
             messages.error(request, _("Could not add new translation file."))
             return None
 
@@ -2256,7 +2291,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                     self, language, format_code, filename, request=request
                 )
                 self.update_source_checks()
-                self.update_unit_flags()
                 translation.invalidate_cache()
                 translation.notify_new(request)
                 messages.error(request, _("Translation file already exists!"))
@@ -2287,7 +2321,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 timezone.now(),
             )
             self.update_source_checks()
-            self.update_unit_flags()
             translation.invalidate_cache()
             translation.notify_new(request)
             return translation

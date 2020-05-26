@@ -66,7 +66,6 @@
             {% endif %}
                 <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
                 <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
-                <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
         {% else %}
             {% if replace_form %}
                 <li><a href="#replace" data-toggle="tab">{% trans "Search and replace" %}</a></li>
@@ -76,7 +75,6 @@
             {% endif %}
                 <li><a href="{% url 'data_project' project=object.slug  %}">{% trans "Data exports" %}</a></li>
                 <li><a href="{% url 'checks' %}?project={{ object.slug }}">{% trans "Failing checks" %}</a></li>
-                <li><a href="{% url 'checks' %}?project={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
         {% endif %}
         </ul>
     </li>

@@ -19,6 +19,10 @@ print_step "Testing migration from $TAG on $CI_DATABASE..."
 cleanup_database
 check
 git fetch --depth 1 origin tag $TAG
+if [ $? -ne 0 ] ; then
+    git remote add upstream https://github.com/WeblateOrg/weblate.git
+    git fetch --depth 1 upstream tag $TAG
+fi
 check
 git checkout $TAG
 check

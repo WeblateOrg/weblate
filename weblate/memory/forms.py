@@ -31,3 +31,9 @@ class UploadForm(forms.Form):
         validators=[FileExtensionValidator(allowed_extensions=["json", "tmx"])],
         help_text=_("You can upload a TMX or JSON file."),
     )
+
+
+class DeleteForm(forms.Form):
+    confirm = forms.BooleanField(
+        label=_("Confirm deleting all translation memory entries"), required=True
+    )

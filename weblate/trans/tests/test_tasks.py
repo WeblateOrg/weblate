@@ -28,6 +28,7 @@ from weblate.trans.tasks import (
     cleanup_old_comments,
     cleanup_old_suggestions,
     cleanup_suggestions,
+    daily_update_checks,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
@@ -101,3 +102,8 @@ class CleanupTest(ViewTestCase):
     @override_settings(COMMENT_CLEANUP_DAYS=15)
     def test_cleanup_old_comments_enabled(self):
         self.test_cleanup_old_comments(1)
+
+
+class TasksTest(ViewTestCase):
+    def test_daily_update_checks(self):
+        daily_update_checks()

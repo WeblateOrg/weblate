@@ -18,6 +18,10 @@
 #
 
 
+from copy import copy
+from typing import Type
+from unittest import SkipTest
+
 import responses
 from botocore.stub import ANY, Stubber
 from django.conf import settings
@@ -28,7 +32,11 @@ from weblate.checks.tests.test_checks import MockUnit
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
-from weblate.machinery.base import MachineryRateLimit, MachineTranslationError
+from weblate.machinery.base import (
+    MachineryRateLimit,
+    MachineTranslation,
+    MachineTranslationError,
+)
 from weblate.machinery.deepl import DEEPL_LANGUAGES, DEEPL_TRANSLATE, DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
@@ -254,59 +262,45 @@ MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "data"}}
 
 
-class MachineTranslationTest(TestCase):
+class BaseMachineTranslationTest(TestCase):
     """Testing of machine translation core."""
 
-    def get_machine(self, cls, cache=False):
-        machine = cls()
+    MACHINE_CLS: Type[MachineTranslation] = DummyTranslation
+    ENGLISH = "en"
+    SUPPORTED = "cs"
+    SUPPORTED_VARIANT = "cs_CZ"
+    NOTSUPPORTED = "de"
+    NOTSUPPORTED_VARIANT = "de_CZ"
+    SOURCE_BLANK = "Hello"
+    SOURCE_TRANSLATED = "Hello, world!"
+    EXPECTED_LEN = 2
+
+    def get_machine(self, cache=False):
+        machine = self.MACHINE_CLS()
         machine.delete_cache()
         machine.cache_translations = cache
         return machine
 
+    def test_english_map(self):
+        machine = self.get_machine()
+        self.assertEqual(machine.map_language_code("en_devel"), self.ENGLISH)
+
+    @responses.activate
     def test_support(self):
-        machine_translation = self.get_machine(DummyTranslation)
-        self.assertTrue(machine_translation.is_supported("en", "cs"))
-        self.assertFalse(machine_translation.is_supported("en", "de"))
+        self.mock_response()
+        machine_translation = self.get_machine()
+        self.assertTrue(machine_translation.is_supported(self.ENGLISH, self.SUPPORTED))
+        if self.NOTSUPPORTED:
+            self.assertFalse(
+                machine_translation.is_supported(self.ENGLISH, self.NOTSUPPORTED)
+            )
 
-    def test_translate(self):
-        machine_translation = self.get_machine(DummyTranslation)
-        self.assertEqual(
-            machine_translation.translate(MockUnit(code="cs", source="Hello")), []
-        )
-        self.assertEqual(
-            len(
-                machine_translation.translate(
-                    MockUnit(code="cs", source="Hello, world!")
-                )
-            ),
-            2,
-        )
-
-    def test_translate_fallback(self):
-        machine_translation = self.get_machine(DummyTranslation)
-        self.assertEqual(
-            len(
-                machine_translation.translate(
-                    MockUnit(code="cs_CZ", source="Hello, world!")
-                )
-            ),
-            2,
-        )
-
-    def test_translate_fallback_missing(self):
-        machine_translation = self.get_machine(DummyTranslation)
-        self.assertEqual(
-            machine_translation.translate(
-                MockUnit(code="de_CZ", source="Hello, world!"),
-            ),
-            [],
-        )
-
-    def assert_translate(self, machine, lang="cs", word="world", empty=False):
+    def assert_translate(self, lang, word, expected_len, machine=None, cache=False):
+        if machine is None:
+            machine = self.get_machine(cache=cache)
         translation = machine.translate(MockUnit(code=lang, source=word))
         self.assertIsInstance(translation, list)
-        if not empty:
-            self.assertTrue(translation)
+        self.assertEqual(len(translation), expected_len)
         for result in translation:
             for key, value in result.items():
                 if key == "quality":
@@ -318,48 +312,150 @@ class MachineTranslationTest(TestCase):
                         value, str, "'{}' is supposed to be a string".format(key)
                     )
 
+    def mock_empty(self):
+        pass
+
+    def mock_response(self):
+        pass
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
     @responses.activate
-    def test_glosbe(self):
-        machine = self.get_machine(GlosbeTranslation)
+    def test_translate_empty(self):
+        self.mock_empty()
+        self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+    @responses.activate
+    def test_translate(self, **kwargs):
+        self.mock_response()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, **kwargs
+        )
+
+    @responses.activate
+    def test_error(self):
+        self.mock_error()
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+
+class MachineTranslationTest(BaseMachineTranslationTest):
+    def test_translate_fallback(self):
+        machine_translation = self.get_machine()
+        self.assertEqual(
+            len(
+                machine_translation.translate(
+                    MockUnit(code=self.SUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED)
+                ),
+            ),
+            self.EXPECTED_LEN,
+        )
+
+    def test_translate_fallback_missing(self):
+        machine_translation = self.get_machine()
+        self.assertEqual(
+            machine_translation.translate(
+                MockUnit(code=self.NOTSUPPORTED_VARIANT, source=self.SOURCE_TRANSLATED)
+            ),
+            [],
+        )
+
+    def test_placeholders(self):
+        machine_translation = self.get_machine()
+        unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
+        self.assertEqual(
+            machine_translation.cleanup_text(unit), ("Hello, [7]!", {"[7]": "%s"})
+        )
+        self.assertEqual(
+            machine_translation.translate(unit),
+            [
+                {
+                    "quality": 100,
+                    "service": "Dummy",
+                    "source": "Hello, %s!",
+                    "text": "Nazdar %s!",
+                }
+            ],
+        )
+
+
+class GlosbeTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = GlosbeTranslation
+    EXPECTED_LEN = 1
+    NOTSUPPORTED = None
+
+    def mock_empty(self):
+        response = copy(GLOSBE_JSON)
+        response["tuc"] = []
+        responses.add(responses.GET, "https://glosbe.com/gapi/translate", json=response)
+
+    def mock_response(self):
         responses.add(
             responses.GET, "https://glosbe.com/gapi/translate", json=GLOSBE_JSON
         )
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
 
-    @responses.activate
-    def test_glosbe_ratelimit(self):
-        machine = self.get_machine(GlosbeTranslation)
+    def mock_error(self):
         responses.add(
             responses.GET,
             "https://glosbe.com/gapi/translate",
             json=GLOSBE_JSON,
             status=429,
         )
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, empty=True)
-        self.assert_translate(machine, empty=True)
 
-    @responses.activate
-    def test_glosbe_ratelimit_set(self):
-        machine = self.get_machine(GlosbeTranslation)
-        machine.set_rate_limit()
-        responses.add(
-            responses.GET, "https://glosbe.com/gapi/translate", json=GLOSBE_JSON
+    def test_ratelimit(self):
+        """Test rate limit response handling."""
+        # This raises an exception
+        self.test_error()
+        # The second call should not perform due to rate limiting being cached
+        machine = self.MACHINE_CLS()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, 0, machine=machine
         )
-        self.assert_translate(machine, empty=True)
 
-    @override_settings(MT_MYMEMORY_EMAIL="test@weblate.org")
     @responses.activate
-    def test_mymemory(self):
-        machine = self.get_machine(MyMemoryTranslation)
+    def test_ratelimit_set(self):
+        """Test manual setting of rate limit."""
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        machine.set_rate_limit()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, 0, machine=machine
+        )
+
+
+@override_settings(MT_MYMEMORY_EMAIL="test@weblate.org")
+class MyMemoryTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = MyMemoryTranslation
+    EXPECTED_LEN = 3
+    NOTSUPPORTED = "ia"
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
         responses.add(
             responses.GET, "https://mymemory.translated.net/api/get", json=MYMEMORY_JSON
         )
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
 
-    def register_apertium_urls(self):
+
+@override_settings(MT_APERTIUM_APY="http://apertium.example.com/")
+class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = ApertiumAPYTranslation
+    ENGLISH = "eng"
+    SUPPORTED = "spa"
+    EXPECTED_LEN = 1
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
         responses.add(
             responses.GET,
             "http://apertium.example.com/listPairs",
@@ -378,18 +474,36 @@ class MachineTranslationTest(TestCase):
             },
         )
 
-    @override_settings(MT_APERTIUM_APY="http://apertium.example.com/")
     @responses.activate
-    def test_apertium_apy(self):
-        machine = self.get_machine(ApertiumAPYTranslation)
-        self.register_apertium_urls()
-        self.assert_translate(machine, "es")
-        self.assert_translate(machine, "es", word="Zkouška")
+    def test_translations_cache(self):
+        self.mock_response()
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assertEqual(len(responses.calls), 2)
+        responses.reset()
+        # New instance should use cached languages and translations
+        machine = self.MACHINE_CLS()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assertEqual(len(responses.calls), 0)
 
-    @override_settings(MT_MICROSOFT_COGNITIVE_KEY="KEY")
-    @responses.activate
-    def test_microsoft_cognitive(self):
-        machine = self.get_machine(MicrosoftCognitiveTranslation)
+
+@override_settings(MT_MICROSOFT_COGNITIVE_KEY="KEY")
+class MicrosoftCognitiveTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = MicrosoftCognitiveTranslation
+    EXPECTED_LEN = 1
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
         responses.add(
             responses.POST,
             "https://api.cognitive.microsoft.com/sts/v1.0/issueToken"
@@ -409,15 +523,10 @@ class MachineTranslationTest(TestCase):
             json=MICROSOFT_RESPONSE,
         )
 
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
 
-    @override_settings(
-        MT_MICROSOFT_COGNITIVE_KEY="KEY", MT_MICROSOFT_REGION="westeurope"
-    )
-    @responses.activate
-    def test_microsoft_cognitive_with_region(self):
-        machine = self.get_machine(MicrosoftCognitiveTranslation)
+@override_settings(MT_MICROSOFT_COGNITIVE_KEY="KEY", MT_MICROSOFT_REGION="westeurope")
+class MicrosoftCognitiveTranslationRegionTest(MicrosoftCognitiveTranslationTest):
+    def mock_response(self):
         responses.add(
             responses.POST,
             "https://westeurope.api.cognitive.microsoft.com/sts/v1.0/issueToken"
@@ -437,10 +546,20 @@ class MachineTranslationTest(TestCase):
             json=MICROSOFT_RESPONSE,
         )
 
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
 
-    def register_microsoft_terminology(self, fail=False):
+class MicrosoftTerminologyServiceTest(BaseMachineTranslationTest):
+    MACHINE_CLS = MicrosoftTerminologyService
+    ENGLISH = "en-us"
+    SUPPORTED = "cs-cz"
+    EXPECTED_LEN = 2
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        self.mock_response(fail=True)
+
+    def mock_response(self, fail=False):
         def request_callback_get(request):
             headers = {}
             if request.path_url == "/Terminology.svc?wsdl":
@@ -477,25 +596,20 @@ class MachineTranslationTest(TestCase):
             content_type="text/xml",
         )
 
-    @responses.activate
-    def test_microsoft_terminology(self):
-        self.register_microsoft_terminology()
-        machine = self.get_machine(MicrosoftTerminologyService)
-        self.assert_translate(machine)
-        self.assert_translate(machine, lang="cs_CZ")
 
-    @responses.activate
-    def test_microsoft_terminology_error(self):
-        self.register_microsoft_terminology(True)
-        machine = self.get_machine(MicrosoftTerminologyService)
-        self.assertEqual(machine.supported_languages, set())
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, empty=True)
+@override_settings(MT_GOOGLE_KEY="KEY")
+class GoogleTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = GoogleTranslation
+    EXPECTED_LEN = 1
 
-    @override_settings(MT_GOOGLE_KEY="KEY")
-    @responses.activate
-    def test_google(self):
-        machine = self.get_machine(GoogleTranslation)
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(responses.GET, GOOGLE_API_ROOT + "languages", body="", status=500)
+        responses.add(responses.GET, GOOGLE_API_ROOT, body="", status=500)
+
+    def mock_response(self):
         responses.add(
             responses.GET,
             GOOGLE_API_ROOT + "languages",
@@ -514,76 +628,53 @@ class MachineTranslationTest(TestCase):
             GOOGLE_API_ROOT,
             json={"data": {"translations": [{"translatedText": "svet"}]}},
         )
-        self.assert_translate(machine)
-        self.assert_translate(machine, lang="he")
-        self.assert_translate(machine, word="Zkouška")
-
-    @override_settings(MT_GOOGLE_KEY="KEY")
-    @responses.activate
-    def test_google_invalid(self):
-        """Test handling of server failure."""
-        machine = self.get_machine(GoogleTranslation)
-        responses.add(responses.GET, GOOGLE_API_ROOT + "languages", body="", status=500)
-        responses.add(responses.GET, GOOGLE_API_ROOT, body="", status=500)
-        self.assertEqual(machine.supported_languages, set())
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, empty=True)
 
     @responses.activate
-    def test_amagama_nolang(self):
-        machine = self.get_machine(AmagamaTranslation)
+    def test_ratelimit_set(self):
+        """Test manual setting of rate limit."""
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        machine.set_rate_limit()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, 0, machine=machine
+        )
+
+
+class AmagamaTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = AmagamaTranslation
+    EXPECTED_LEN = 1
+    SOURCE_TRANSLATED = "Hello"
+
+    def mock_empty(self):
         responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
-        responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/world", json=AMAGAMA_JSON
-        )
-        responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Zkou%C5%A1ka", json=AMAGAMA_JSON
-        )
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
+        responses.add(responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=[])
 
-    @override_settings(DEBUG=True)
-    def test_amagama_nolang_debug(self):
-        self.test_amagama_nolang()
-
-    @responses.activate
-    def test_amagama(self):
-        machine = self.get_machine(AmagamaTranslation)
+    def mock_response(self):
         responses.add(
             responses.GET,
             AMAGAMA_LIVE + "/languages/",
             json={"sourceLanguages": ["en"], "targetLanguages": ["cs"]},
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/world", json=AMAGAMA_JSON
+            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=AMAGAMA_JSON
         )
-        responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Zkou%C5%A1ka", json=AMAGAMA_JSON
-        )
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
 
-    @override_settings(MT_YANDEX_KEY="KEY")
-    @responses.activate
-    def test_yandex(self):
-        machine = self.get_machine(YandexTranslation)
+    def mock_error(self):
+        responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
         responses.add(
-            responses.GET,
-            "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
-            json={"langs": {"en": "English", "cs": "Czech"}},
+            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", body="", status=500
         )
-        responses.add(
-            responses.GET,
-            "https://translate.yandex.net/api/v1.5/tr.json/translate",
-            json={"code": 200, "lang": "en-cs", "text": ["svet"]},
-        )
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
 
-    @override_settings(MT_YANDEX_KEY="KEY")
-    @responses.activate
-    def test_yandex_error(self):
-        machine = self.get_machine(YandexTranslation)
+
+@override_settings(MT_YANDEX_KEY="KEY")
+class YandexTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = YandexTranslation
+    EXPECTED_LEN = 1
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
         responses.add(
             responses.GET,
             "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
@@ -594,36 +685,57 @@ class MachineTranslationTest(TestCase):
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
             json={"code": 401, "message": "Invalid request"},
         )
-        self.assertEqual(machine.supported_languages, set())
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, empty=True)
 
-    @override_settings(MT_YOUDAO_ID="id", MT_YOUDAO_SECRET="secret")
-    @responses.activate
-    def test_youdao(self):
-        machine = self.get_machine(YoudaoTranslation)
+    def mock_response(self):
+        responses.add(
+            responses.GET,
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
+            json={"langs": {"en": "English", "cs": "Czech"}},
+        )
+        responses.add(
+            responses.GET,
+            "https://translate.yandex.net/api/v1.5/tr.json/translate",
+            json={"code": 200, "lang": "en-cs", "text": ["svet"]},
+        )
+
+
+@override_settings(MT_YOUDAO_ID="id", MT_YOUDAO_SECRET="secret")
+class YoudaoTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = YoudaoTranslation
+    EXPECTED_LEN = 1
+    SUPPORTED = "de"
+    NOTSUPPORTED = "cs"
+    ENGLISH = "EN"
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(
+            responses.GET, "https://openapi.youdao.com/api", json={"errorCode": 1}
+        )
+
+    def mock_response(self):
         responses.add(
             responses.GET,
             "https://openapi.youdao.com/api",
             json={"errorCode": 0, "translation": ["hello"]},
         )
-        self.assert_translate(machine, lang="ja")
-        self.assert_translate(machine, lang="ja", word="Zkouška")
 
-    @override_settings(MT_YOUDAO_ID="id", MT_YOUDAO_SECRET="secret")
-    @responses.activate
-    def test_youdao_error(self):
-        machine = self.get_machine(YoudaoTranslation)
-        responses.add(
-            responses.GET, "https://openapi.youdao.com/api", json={"errorCode": 1}
-        )
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, lang="ja", empty=True)
 
-    @override_settings(MT_NETEASE_KEY="key", MT_NETEASE_SECRET="secret")
-    @responses.activate
-    def test_netease(self):
-        machine = self.get_machine(NeteaseSightTranslation)
+@override_settings(MT_NETEASE_KEY="key", MT_NETEASE_SECRET="secret")
+class NeteaseSightTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = NeteaseSightTranslation
+    EXPECTED_LEN = 1
+    SUPPORTED = "zh"
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(responses.POST, NETEASE_API_ROOT, json={"success": "false"})
+
+    def mock_response(self):
         responses.add(
             responses.POST,
             NETEASE_API_ROOT,
@@ -632,66 +744,63 @@ class MachineTranslationTest(TestCase):
                 "relatedObject": {"content": [{"transContent": "hello"}]},
             },
         )
-        self.assert_translate(machine, lang="zh")
-        self.assert_translate(machine, lang="zh", word="Zkouška")
 
-    @override_settings(MT_NETEASE_KEY="key", MT_NETEASE_SECRET="secret")
-    @responses.activate
-    def test_netease_error(self):
-        machine = self.get_machine(NeteaseSightTranslation)
-        responses.add(responses.POST, NETEASE_API_ROOT, json={"success": "false"})
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, lang="zh", empty=True)
 
-    @override_settings(MT_BAIDU_ID="id", MT_BAIDU_SECRET="secret")
-    @responses.activate
-    def test_baidu(self):
-        machine = self.get_machine(BaiduTranslation)
+@override_settings(MT_BAIDU_ID="id", MT_BAIDU_SECRET="secret")
+class BaiduTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = BaiduTranslation
+    EXPECTED_LEN = 1
+    NOTSUPPORTED = "ia"
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(
+            responses.GET, BAIDU_API, json={"error_code": 1, "error_msg": "Error"}
+        )
+
+    def mock_response(self):
         responses.add(
             responses.GET,
             BAIDU_API,
             json={"trans_result": [{"src": "hello", "dst": "hallo"}]},
         )
-        self.assert_translate(machine, lang="ja")
-        self.assert_translate(machine, lang="ja", word="Zkouška")
 
-    @override_settings(MT_BAIDU_ID="id", MT_BAIDU_SECRET="secret")
     @responses.activate
-    def test_baidu_error(self):
-        machine = self.get_machine(BaiduTranslation)
-        responses.add(
-            responses.GET, BAIDU_API, json={"error_code": 1, "error_msg": "Error"}
-        )
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, lang="ja", empty=True)
-
-    @override_settings(MT_BAIDU_ID="id", MT_BAIDU_SECRET="secret")
-    @responses.activate
-    def test_baidu_error_bug(self):
-        machine = self.get_machine(BaiduTranslation)
-        responses.add(
-            responses.GET, BAIDU_API, json={"error_code": "bug", "error_msg": "Error"}
-        )
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, lang="ja", empty=True)
-
-    @override_settings(MT_BAIDU_ID="id", MT_BAIDU_SECRET="secret")
-    @responses.activate
-    def test_baidu_error_rate(self):
-        machine = self.get_machine(BaiduTranslation)
+    def test_ratelimit(self):
         responses.add(
             responses.GET, BAIDU_API, json={"error_code": "54003", "error_msg": "Error"}
         )
         with self.assertRaises(MachineryRateLimit):
-            self.assert_translate(machine, lang="ja", empty=True)
+            self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
 
-    @override_settings(MT_SAP_BASE_URL="http://sth.example.com/")
-    @override_settings(MT_SAP_SANDBOX_APIKEY="http://sandbox.example.com")
-    @override_settings(MT_SAP_USERNAME="username")
-    @override_settings(MT_SAP_PASSWORD="password")
     @responses.activate
-    def test_saptranslationhub(self):
-        machine = self.get_machine(SAPTranslationHub)
+    def test_bug(self):
+        responses.add(
+            responses.GET, BAIDU_API, json={"error_code": "bug", "error_msg": "Error"}
+        )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_TRANSLATED, 0)
+
+
+@override_settings(MT_SAP_BASE_URL="http://sth.example.com/",)
+class SAPTranslationHubTest(BaseMachineTranslationTest):
+    MACHINE_CLS = SAPTranslationHub
+    EXPECTED_LEN = 1
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(
+            responses.GET, "http://sth.example.com/languages", body="", status=500
+        )
+        responses.add(
+            responses.POST, "http://sth.example.com/translate", body="", status=500
+        )
+
+    def mock_response(self):
         responses.add(
             responses.GET,
             "http://sth.example.com/languages",
@@ -710,51 +819,75 @@ class MachineTranslationTest(TestCase):
             status=200,
             content_type="text/json",
         )
-        self.assert_translate(machine)
-        self.assert_translate(machine, word="Zkouška")
 
-    @override_settings(MT_SAP_BASE_URL="http://sth.example.com/")
-    @responses.activate
-    def test_saptranslationhub_invalid(self):
-        machine = self.get_machine(SAPTranslationHub)
-        responses.add(
-            responses.GET, "http://sth.example.com/languages", body="", status=500
-        )
-        responses.add(
-            responses.POST, "http://sth.example.com/translate", body="", status=500
-        )
-        self.assertEqual(machine.supported_languages, set())
-        with self.assertRaises(MachineTranslationError):
-            self.assert_translate(machine, empty=True)
 
-    @staticmethod
-    def register_deepl():
+@override_settings(
+    MT_SAP_SANDBOX_APIKEY="http://sandbox.example.com",
+    MT_SAP_USERNAME="username",
+    MT_SAP_PASSWORD="password",
+)
+class SAPTranslationHubAuthTest(SAPTranslationHubTest):
+    pass
+
+
+@override_settings(MT_DEEPL_KEY="KEY")
+class DeepLTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = DeepLTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "EN"
+    SUPPORTED = "DE"
+    NOTSUPPORTED = "CS"
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(
+            responses.POST, DEEPL_LANGUAGES, json=DEEPL_LANG_RESPONSE, status=500
+        )
+        responses.add(responses.POST, DEEPL_TRANSLATE, json=DEEPL_RESPONSE, status=500)
+
+    def mock_response(self):
         responses.add(responses.POST, DEEPL_LANGUAGES, json=DEEPL_LANG_RESPONSE)
         responses.add(responses.POST, DEEPL_TRANSLATE, json=DEEPL_RESPONSE)
 
-    @override_settings(MT_DEEPL_KEY="KEY")
-    @responses.activate
-    def test_deepl(self):
-        machine = self.get_machine(DeepLTranslation)
-        self.register_deepl()
-        self.assert_translate(machine, lang="de", word="Hello")
-
-    @override_settings(MT_DEEPL_KEY="KEY")
     @responses.activate
     def test_cache(self):
-        machine = self.get_machine(DeepLTranslation, True)
-        self.register_deepl()
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        self.mock_response()
         # Fetch from service
-        self.assert_translate(machine, lang="de", word="Hello")
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
         self.assertEqual(len(responses.calls), 2)
         responses.reset()
         # Fetch from cache
-        self.assert_translate(machine, lang="de", word="Hello")
+        machine = self.MACHINE_CLS()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
         self.assertEqual(len(responses.calls), 0)
 
-    @override_settings(MT_AWS_REGION="us-west-2")
-    def test_aws(self):
-        machine = self.get_machine(AWSTranslation)
+
+@override_settings(MT_AWS_REGION="us-west-2")
+class AWSTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = AWSTranslation
+    EXPECTED_LEN = 1
+    NOTSUPPORTED = "ia"
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        pass
+
+    @responses.activate
+    def test_translate(self, **kwargs):
+        machine = self.get_machine()
         with Stubber(machine.client) as stubber:
             stubber.add_response(
                 "translate_text",
@@ -765,21 +898,12 @@ class MachineTranslationTest(TestCase):
                 },
                 {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
             )
-            self.assert_translate(machine, lang="de", word="Hello")
-
-    @override_settings(MT_APERTIUM_APY="http://apertium.example.com/")
-    @responses.activate
-    def test_languages_cache(self):
-        machine = self.get_machine(ApertiumAPYTranslation, True)
-        self.register_apertium_urls()
-        self.assert_translate(machine, "es")
-        self.assert_translate(machine, "es", word="Zkouška")
-        self.assertEqual(len(responses.calls), 3)
-        responses.reset()
-        # New instance should use cached languages
-        machine = ApertiumAPYTranslation()
-        self.assert_translate(machine, "es")
-        self.assertEqual(len(responses.calls), 0)
+            self.assert_translate(
+                self.SUPPORTED,
+                self.SOURCE_TRANSLATED,
+                self.EXPECTED_LEN,
+                machine=machine,
+            )
 
 
 class WeblateTranslationTest(FixtureTestCase):

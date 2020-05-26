@@ -30,7 +30,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import User
-from weblate.billing.models import Billing, Invoice, Plan
+from weblate.billing.models import Billing, Invoice
 from weblate.billing.tasks import (
     billing_alert,
     billing_check,
@@ -39,6 +39,7 @@ from weblate.billing.tasks import (
     schedule_removal,
 )
 from weblate.trans.models import Project
+from weblate.trans.tests.utils import create_test_billing
 
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data")
 
@@ -48,9 +49,8 @@ class BillingTest(TestCase):
         self.user = User.objects.create_user(
             username="bill", password="kill", email="noreply@example.net"
         )
-        self.plan = Plan.objects.create(name="test", limit_projects=1, price=1.0)
-        self.billing = Billing.objects.create(plan=self.plan)
-        self.billing.owners.add(self.user)
+        self.billing = create_test_billing(self.user, invoice=False)
+        self.plan = self.billing.plan
         self.invoice = Invoice.objects.create(
             billing=self.billing,
             start=timezone.now().date() - timedelta(days=2),
@@ -111,7 +111,7 @@ class BillingTest(TestCase):
         call_command("billing_check", stdout=out)
         self.assertEqual(
             out.getvalue(),
-            "Following billings are over limit:\n" " * test0, test1 (test)\n",
+            "Following billings are over limit:\n" " * test0, test1 (Basic plan)\n",
         )
         out = StringIO()
         call_command("billing_check", "--valid", stdout=out)
@@ -122,9 +122,9 @@ class BillingTest(TestCase):
         self.assertEqual(
             out.getvalue(),
             "Following billings are over limit:\n"
-            " * test0, test1 (test)\n"
+            " * test0, test1 (Basic plan)\n"
             "Following billings are past due date:\n"
-            " * test0, test1 (test)\n",
+            " * test0, test1 (Basic plan)\n",
         )
         call_command("billing_check", "--notify", stdout=out)
         self.assertEqual(len(mail.outbox), 1)

@@ -34,6 +34,7 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
+    Comment,
     Component,
     ComponentList,
     Project,
@@ -55,6 +56,8 @@ def fixup_languages_seq():
         with connection.cursor() as cursor:
             for sql in commands:
                 cursor.execute(sql)
+    # Invalidate object cache for languages
+    Language.objects.flush_object_cache()
 
 
 class BaseTestCase(TestCase):
@@ -333,6 +336,63 @@ class UnitTest(ModelTestCase):
         unit = Unit.objects.filter(translation__language_code="cs")[0]
         unit.flags = "no-wrap, ignore-same"
         self.assertEqual(unit.all_flags.items(), {"no-wrap", "ignore-same"})
+
+    def test_order_by_request(self):
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
+        source = unit.source_info
+        source.extra_flags = "priority:200"
+        source.save()
+
+        # test both ascending and descending order works
+        unit1 = Unit.objects.filter(translation__language_code="cs")
+        unit1 = unit1.order_by_request({"sort_by": "-priority"})
+        self.assertEqual(unit1[0].priority, 200)
+        unit1 = Unit.objects.filter(translation__language_code="cs")
+        unit1 = unit1.order_by_request({"sort_by": "priority"})
+        self.assertEqual(unit1[0].priority, 100)
+
+        # test if invalid sorting, then sorted in default order
+        unit2 = Unit.objects.filter(translation__language_code="cs")
+        unit2 = unit2.order()
+        unit3 = Unit.objects.filter(translation__language_code="cs")
+        unit3 = unit3.order_by_request({"sort_by": "invalid"})
+        self.assertEqual(unit3[0], unit2[0])
+
+        # test sorting by count
+        unit4 = Unit.objects.filter(translation__language_code="cs")[2]
+        Comment.objects.create(unit=unit4, comment="Foo")
+        unit5 = Unit.objects.filter(translation__language_code="cs")
+        unit5 = unit5.order_by_request({"sort_by": "-num_comments"})
+        self.assertEqual(unit5[0].comment_set.count(), 1)
+        unit5 = Unit.objects.filter(translation__language_code="cs")
+        unit5 = unit5.order_by_request({"sort_by": "num_comments"})
+        self.assertEqual(unit5[0].comment_set.count(), 0)
+
+        # check all order options produce valid queryset
+        order_options = [
+            "priority",
+            "position",
+            "context",
+            "num_words",
+            "labels",
+            "timestamp",
+            "num_failing_checks",
+        ]
+        for order_option in order_options:
+            ordered_unit = Unit.objects.filter(
+                translation__language_code="cs"
+            ).order_by_request({"sort_by": order_option})
+            ordered_desc_unit = Unit.objects.filter(
+                translation__language_code="cs"
+            ).order_by_request({"sort_by": "-{}".format(order_option)})
+            self.assertEqual(len(ordered_unit), 4)
+            self.assertEqual(len(ordered_desc_unit), 4)
+
+        # check sorting with multiple options work
+        multiple_ordered_unit = Unit.objects.filter(
+            translation__language_code="cs"
+        ).order_by_request({"sort_by": "position,timestamp"})
+        self.assertEqual(multiple_ordered_unit.count(), 4)
 
     def test_get_max_length_no_pk(self):
         unit = Unit.objects.filter(translation__language_code="cs")[0]

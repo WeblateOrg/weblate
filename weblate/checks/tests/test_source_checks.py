@@ -19,11 +19,18 @@
 
 """Tests for source checks."""
 
+from datetime import timedelta
 
 from django.test import TestCase
+from django.utils import timezone
 
-from weblate.checks.source import EllipsisCheck, OptionalPluralCheck
+from weblate.checks.source import (
+    EllipsisCheck,
+    LongUntranslatedCheck,
+    OptionalPluralCheck,
+)
 from weblate.checks.tests.test_checks import MockUnit
+from weblate.trans.tests.test_views import FixtureTestCase
 
 
 class OptionalPluralCheckTest(TestCase):
@@ -52,3 +59,19 @@ class EllipsisCheckTest(TestCase):
 
     def test_failing(self):
         self.assertTrue(self.check.check_source(["text..."], MockUnit()))
+
+
+class LongUntranslatedCheckTestCase(FixtureTestCase):
+    check = LongUntranslatedCheck()
+
+    def test_recent(self):
+        unit = self.get_unit(language="en")
+        unit.timestamp = timezone.now()
+        unit.run_checks()
+        self.assertNotIn("long_untranslated", unit.all_checks_names)
+
+    def test_old(self):
+        unit = self.get_unit(language="en")
+        unit.timestamp = timezone.now() - timedelta(days=100)
+        unit.run_checks()
+        self.assertIn("long_untranslated", unit.all_checks_names)

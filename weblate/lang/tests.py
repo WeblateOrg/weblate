@@ -54,6 +54,7 @@ TEST_LANGUAGES = (
     ("de_CZ", "de_CZ", "ltr", "n != 1", "German (de_CZ)", True),
     ("portuguese_portugal", "pt_PT", "ltr", "n > 1", "Portuguese (Portugal)", False),
     ("pt-rBR", "pt_BR", "ltr", "n > 1", "Portuguese (Brazil)", False),
+    ("ptbr", "pt_BR", "ltr", "n > 1", "Portuguese (Brazil)", False),
     (
         "sr+latn",
         "sr_Latn",
@@ -82,7 +83,7 @@ TEST_LANGUAGES = (
         False,
     ),
     (
-        "sr_RS@latin",
+        "sr_RS_latin",
         "sr_Latn",
         "ltr",
         "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
@@ -146,6 +147,15 @@ TEST_LANGUAGES = (
     ("nb_NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
     ("nb-NO", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
     ("nb", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
+    ("nono", "nb_NO", "ltr", "n != 1", "Norwegian Bokmål", False),
+    (
+        "b+zh+Hant+HK",
+        "zh_Hant_HK",
+        "ltr",
+        "0",
+        "Chinese (Traditional, Hong Kong)",
+        False,
+    ),
 )
 
 
@@ -158,7 +168,11 @@ class TestSequenceMeta(type):
             return test
 
         for params in TEST_LANGUAGES:
-            test_name = "test_create_%s" % params[1].replace("@", "_")
+            test_name = "test_create_%s" % params[0].replace("@", "___").replace(
+                "+", "_"
+            ).replace("-", "__")
+            if test_name in dict:
+                raise ValueError(f"Duplicate test: {params[0]}, mapped to {test_name}")
             dict[test_name] = gen_test(*params)
 
         return type.__new__(mcs, name, bases, dict)

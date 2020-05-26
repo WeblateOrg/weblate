@@ -592,6 +592,13 @@ LANGUAGES = (
         "n != 1",
     ),
     (
+        "en_devel",
+        # Translators: Language name, ISO code: en_devel
+        _("English (Developer)"),
+        2,
+        "n != 1",
+    ),
+    (
         "en_AU",
         # Translators: Language name, ISO code: en_AU
         _("English (Australia)"),
@@ -1554,6 +1561,13 @@ LANGUAGES = (
         "ms",
         # Translators: Language name, ISO code: ms
         _("Malay"),
+        1,
+        "0",
+    ),
+    (
+        "ms_Arab",
+        # Translators: Language name, ISO code: ms_Arab
+        _("Malay (Jawi)"),
         1,
         "0",
     ),

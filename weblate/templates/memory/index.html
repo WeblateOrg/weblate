@@ -12,7 +12,7 @@
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
 {% elif from_file %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory for the whole platform" %}</a></li>
+<li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory" %}</a></li>
 {% else %}
 <li><a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a></li>
 <li><a href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
@@ -32,6 +32,7 @@
   {% if project %}
   <tr>
   <th>{% trans "Shared translation memory" %}</th>
+  <td></td>
   <td>
   {% if project.use_shared_tm %}
     {% comment %}Translators: Shared translation memory is enabled{% endcomment %}
@@ -55,20 +56,80 @@
     {% if project %}
       {% blocktrans %}Number of entries for {{ project }}{% endblocktrans %}
     {% elif from_file %}
-      {% trans "Number of entries on the whole platform" %}
+      {% trans "Number of uploaded shared entries" %}
     {% else %}
       {% trans "Number of your entries" %}
     {% endif %}
   </th>
+  <td></td>
   <td class="number">{{ num_entries|intcomma }}</td>
   <td>
       <a href="{{ download_url }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
       <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+      {% if delete_url %}
+      <a href="#" data-toggle="modal" data-target="#delete_memory_form" class="btn btn-danger">{% trans "Delete" %}</a>
+        <form action="{{ delete_url }}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="confirm" value="1" />
+        <div class="modal fade" tabindex="-1" role="dialog" id="delete_memory_form">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+              </div>
+              <div class="modal-body">
+                  {% blocktrans count count=num_entries %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktrans %}
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        </form>
+      {% endif %}
   </td>
   </tr>
+  {% for item in entries_origin %}
+  <tr>
+    <td></td>
+    <td>{{ item.origin }}</td>
+    <td class="number">{{ item.id__count|intcomma }}</td>
+    <td>
+      <a href="{{ download_url }}?origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as JSON" %}</a>
+      <a href="{{ download_url }}?format=tmx&amp;origin={{ item.origin }}" class="btn btn-primary">{% trans "Download as TMX" %}</a>
+      {% if delete_url %}
+      <a href="#" data-toggle="modal" data-target="#delete_memory_form_{{ item.origin|hash_text }}" class="btn btn-danger">{% trans "Delete" %}</a>
+        <form action="{{ delete_url }}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="confirm" value="1" />
+        <input type="hidden" name="origin" value="{{ item.origin }}" />
+        <div class="modal fade" tabindex="-1" role="dialog" id="delete_memory_form_{{ item.origin|hash_text }}">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+              </div>
+              <div class="modal-body">
+                  {% blocktrans count count=item.id__count %}This will permanently delete {{ count }} entry from the translation memory.{% plural %}This will permanently delete {{ count }} entries from the translation memory.{% endblocktrans %}
+              </div>
+              <div class="modal-footer">
+                <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
   {% if shared_entries %}
   <tr>
   <th>{% trans "Number of shared entries" %}</th>
+  <td></td>
   <td class="number">{{ shared_entries|intcomma }}</td>
   <td>
     {% if from_file %}
@@ -80,6 +141,7 @@
   {% endif %}
   <tr>
   <th>{% trans "Total number of entries" %}</th>
+  <td></td>
   <td class="number">{{ total_entries|intcomma }}</td>
   <td>
     {% if from_file %}

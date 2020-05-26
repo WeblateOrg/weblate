@@ -43,7 +43,7 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-{% with comments=unit.get_comments nearby=unit.nearby nearby_keys=unit.nearby_keys shapings=unit.shapings%}
+{% with nearby=unit.nearby nearby_keys=unit.nearby_keys variants=unit.variants %}
 
 <div class="row query-container">
   <div class="col-sm-9">
@@ -70,7 +70,7 @@
                 <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
               {% endfor %}
               <div class="input-group">
-                <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Enter position to jump" %}">
+                <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}">
                 <span class="input-group-addon">{% blocktrans %}/ {{ filter_count }}{% endblocktrans %}</span>
               </div>
             </form>
@@ -156,7 +156,7 @@
         {% if unit.extra_context %}
             <!-- source string context  -->
             <div class="form-group help-block">
-            <label>{% trans "Additional context" %}</label>
+            <label>{% trans "Explanation" %}</label>
             {% format_translation unit.extra_context unit.translation.component.project.source_language %}
             </div>
         {% endif %}
@@ -221,8 +221,8 @@
 {% if nearby_keys %}
 <li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
 {% endif %}
-{% if shapings %}
-<li><a href="#shapings" data-toggle="tab" id="toggle-shapings" title="{% trans "Shapings of the string" %}">{% trans "Shapings" %} <span class="badge">{{ shapings|length }}</span></a></li>
+{% if variants|length > 1 %}
+<li><a href="#variants" data-toggle="tab" id="toggle-variants" title="{% trans "Variants of the string" %}">{% trans "Variants" %} <span class="badge">{{ variants|length }}</span></a></li>
 {% endif %}
 {% if unit.suggestions %}
 <li><a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% trans "Suggestions" %} <span class="badge">{{ unit.suggestions|length }}</span></a></li>
@@ -230,8 +230,8 @@
 {% if others.total %}
 <li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurrences" %} <span class="badge">{{ others.total }}</span></a></li>
 {% endif %}
-{% if comments or user_can_add_comment %}
-<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if comments %} <span class="badge">{{ comments|length }}</span>{% endif %}</a></li>
+{% if unit.all_comments or user_can_add_comment %}
+<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if unit.all_comments %} <span class="badge">{{ unit.all_comments|length }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_mt %}
 <li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
@@ -255,9 +255,9 @@
 </div>
 {% endif %}
 
-{% if shapings %}
-<div class="tab-pane" id="shapings">
-{% include "snippets/embed-units.html" with current_unit=unit units=shapings %}
+{% if variants|length > 1 %}
+<div class="tab-pane" id="variants">
+{% include "snippets/embed-units.html" with current_unit=unit units=variants %}
 </div>
 {% endif %}
 
@@ -371,12 +371,12 @@
 </div>
 {% endif %}
 
-{% if comments or user_can_add_comment %}
+{% if unit.all_comments or user_can_add_comment %}
 <div class="tab-pane" id="comments">
 
-{% if comments %}
+{% if unit.all_comments %}
   {% with this_unit_url as next_url %}
-    {% include "list-comments.html" with object=unit.translation %}
+    {% include "list-comments.html" with object=unit.translation comments=unit.all_comments %}
   {% endwith %}
 {% endif %}
 
@@ -407,8 +407,7 @@
 
 <div class="col-sm-3 source-info">
 
-{% with unit.check_set.all as checks %}
-{% if checks or unit.suggestions or shapings %}
+{% if unit.all_checks or unit.suggestions or variants %}
 <div class="panel panel-danger">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Things to check" %}</h4></div>
 
@@ -427,8 +426,8 @@
     </div>
   {% endif %}
 
-    {% for check in checks %}
-    <div class="list-group-item check check-item {% if check.ignore %}check-disabled{% endif %}">
+    {% for check in unit.all_checks %}
+    <div class="list-group-item check check-item {% if check.dismissed %}check-dismissed{% endif %}">
         <h5>
             {% documentation_icon 'user/checks' check.check_obj.doc_id right=True %}
             <span class="red">{% icon "alert.svg" %}</span>
@@ -446,7 +445,7 @@
         {% if not check.is_enforced %}
         <p class="list-group-item-text list-buttons">
             {% if user_can_ignore_check %}
-            <a href="{% url 'js-ignore-check' check_id=check.id %}" class="btn btn-warning check-dismiss">{% trans "Dismiss" %}</a>
+            <a href="{% url 'js-ignore-check' check_id=check.id %}" class="btn btn-warning check-dismiss check-dismiss-single">{% trans "Dismiss" %}</a>
             {% if user_can_edit_source %}
             <a href="{% url 'js-ignore-check-source' check_id=check.id %}" class="btn btn-warning check-dismiss check-dismiss-all">{% trans "Dismiss for all languages" %}</a>
             {% endif %}
@@ -457,30 +456,30 @@
     </div>
     {% endfor %}
 
-  {% if comments %}
+  {% if unit.all_comments %}
     <div class="list-group-item check">
         <h5 class="list-group-item-heading">
             {% documentation_icon 'user/translating' 'comments' right=True %}
             {% icon "comment.svg" %}
             {% trans "Comments" %}
         </h5>
-        <p class="list-group-item-text">{% blocktrans count count=comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text">{% blocktrans count count=unit.all_comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
             <a href="#comments" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
         </p>
     </div>
   {% endif %}
 
-  {% if shapings %}
+  {% if variants|length > 1 %}
     <div class="list-group-item check">
         <h5 class="list-group-item-heading">
-            {% documentation_icon 'user/translating' 'shapings' right=True %}
-            {% icon "shaping.svg" %}
-            {% trans "Shapings" %}
+            {% documentation_icon 'user/translating' 'variants' right=True %}
+            {% icon "variant.svg" %}
+            {% trans "Variants" %}
         </h5>
-        <p class="list-group-item-text">{% blocktrans count count=shapings|length %}There is {{ count }} shaping for this string.{% plural %}There are {{ count }} shapings for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text">{% blocktrans count count=variants|length %}There is {{ count }} variant for this string.{% plural %}There are {{ count }} variants for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
-            <a href="#shapings" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
+            <a href="#variants" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
         </p>
     </div>
   {% endif %}
@@ -488,7 +487,6 @@
   </div>
 </div>
 {% endif %}
-{% endwith %}
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -553,26 +551,30 @@
     {% for screenshot in screenshots %}
     {% include "screenshots/screenshot_show.html" %}
     {% empty %}
-    {% trans "No screenshot currently associated!" %}
+    <em>{% trans "No screenshot currently associated." %}</em>
     {% endfor %}
     </div>
     {% endif %}
     {% endwith %}
-    {% if unit.context or unit.extra_context or user_can_edit_source %}
+    {% if unit.extra_context or user_can_edit_source %}
     <div class="list-group-item">
     <h5>
     {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-focus="#id_extra_context" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
-    {% trans "Context" %}
+    {% trans "Explanation" %}
     </h5>
-    {% if user_can_edit_source and not unit.extra_context and not unit.context %}
-    {% trans "No context currently associated!" %}
-    {% endif %}
     {% if unit.extra_context %}
     <p>{{ unit.extra_context }}</p>
+    {% else %}
+    <em>{% trans "No explanation currently provided." %}</em>
+    {% endif %}
+    </div>
     {% endif %}
     {% if unit.context %}
+    <div class="list-group-item">
+    <h5>
+    {% trans "Context" %}
+    </h5>
     {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}
-    {% endif %}
     </div>
     {% endif %}
     {% if unit.labels or user_can_edit_source %}
@@ -584,7 +586,7 @@
     {% for label in unit.labels.all %}
     {{ label }}
     {% empty %}
-    {% trans "No labels currently set!" %}
+    <em>{% trans "No labels currently set." %}</em>
     {% endfor %}
     </div>
     {% endif %}
@@ -597,7 +599,7 @@
     {% if unit.all_flags %}
     {{ unit.all_flags.format }}
     {% else %}
-    {% trans "No flags currently set!" %}
+    <em>{% trans "No flags currently set." %}</em>
     {% endif %}
     </div>
     {% endif %}

@@ -571,14 +571,6 @@ To install :ref:`addon-weblate.gettext.customize` for all components:
 
    :ref:`addons`
 
-list_ignored_checks
--------------------
-
-.. django-admin:: list_ignored_checks
-
-Lists the most frequently ignored checks. This can be useful for tuning your setup,
-if users have to ignore too many false positive consistency checks.
-
 list_languages
 --------------
 

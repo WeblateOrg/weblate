@@ -21,6 +21,7 @@
 import copy
 import json
 from datetime import date, datetime, timedelta
+from typing import Dict, List
 
 from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
@@ -1242,7 +1243,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "template",
             "intermediate",
             "language_regex",
-            "shaping_regex",
+            "variant_regex",
         )
         widgets = {"enforced_checks": SelectChecksWidget()}
 
@@ -1269,7 +1270,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         _("Translation settings"),
                         "allow_translation_propagation",
                         "check_flags",
-                        "shaping_regex",
+                        "variant_regex",
                         "enforced_checks",
                     ),
                     css_id="translation",
@@ -1395,7 +1396,7 @@ class ComponentSelectForm(ComponentNameForm):
 class ComponentBranchForm(ComponentSelectForm):
     branch = forms.ChoiceField(label=_("Repository branch"))
 
-    branch_data = {}
+    branch_data: Dict[int, List[str]] = {}
     instance = None
 
     def clean_component(self):
@@ -1817,7 +1818,8 @@ class NewUnitForm(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["value"].widget.attrs["tabindex"] = kwargs.pop("tabindex", 100)
+        self.fields["key"].widget.attrs["tabindex"] = 99
+        self.fields["value"].widget.attrs["tabindex"] = 100
         self.fields["value"].widget.profile = user.profile
 
 

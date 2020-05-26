@@ -218,6 +218,11 @@ def check_suggestion_add(user, permission, obj):
         obj = obj.translation
     if not obj.component.enable_suggestions:
         return False
+    # Check contributor agreement
+    if obj.component.agreement and not ContributorAgreement.objects.has_agreed(
+        user, obj.component
+    ):
+        return False
     return check_permission(user, permission, obj)
 
 

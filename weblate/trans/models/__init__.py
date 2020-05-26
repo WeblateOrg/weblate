@@ -35,10 +35,10 @@ from weblate.trans.models.componentlist import AutoComponentList, ComponentList
 from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.label import Label
 from weblate.trans.models.project import Project
-from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
@@ -58,7 +58,7 @@ __all__ = [
     "WeblateConf",
     "ContributorAgreement",
     "Alert",
-    "Shaping",
+    "Variant",
     "Label",
 ]
 
@@ -127,25 +127,18 @@ def update_source(sender, instance, **kwargs):
 @disable_for_loaddata
 def change_labels(sender, instance, action, pk_set, **kwargs):
     """Update unit labels."""
-    operation = 0
-    if action == "post_add":
-        operation = 1
-    elif action == "post_remove":
-        operation = 2
-    elif action == "post_clear":
-        operation = 3
     if (
-        operation == 0
-        or (operation != 3 and not pk_set)
+        action not in ("post_add", "post_remove", "post_clear")
+        or (action != "post_clear" and not pk_set)
         or not instance.translation.is_source
     ):
         return
-    if operation in (2, 3):
+    if action in ("post_remove", "post_clear"):
         related = Unit.labels.through.objects.filter(
             unit__translation__component=instance.translation.component,
             unit__id_hash=instance.id_hash,
         )
-        if operation == 2:
+        if action == "post_remove":
             related.filter(label_id__in=pk_set).delete()
         else:
             related.delete()
@@ -162,32 +155,6 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
 
     if not instance.is_bulk_edit:
         instance.translation.component.invalidate_stats_deep()
-
-
-@receiver(post_delete, sender=Comment)
-@receiver(post_save, sender=Comment)
-@disable_for_loaddata
-def update_comment_flag(sender, instance, **kwargs):
-    """Update related unit comment flags."""
-    # Update unit stats
-    try:
-        if instance.unit.update_has_comment():
-            instance.unit.translation.invalidate_cache()
-    except Unit.DoesNotExist:
-        pass
-
-
-@receiver(post_delete, sender=Suggestion)
-@receiver(post_save, sender=Suggestion)
-@disable_for_loaddata
-def update_suggestion_flag(sender, instance, **kwargs):
-    """Update related unit suggestion flags."""
-    # Update unit stats
-    try:
-        if instance.unit.update_has_suggestion():
-            instance.unit.translation.invalidate_cache()
-    except Unit.DoesNotExist:
-        pass
 
 
 @receiver(user_pre_delete)
@@ -258,3 +225,16 @@ def post_delete_linked(sender, instance, **kwargs):
             instance.linked_component.update_alerts()
     except Component.DoesNotExist:
         pass
+
+
+@receiver(post_save, sender=Comment)
+@receiver(post_save, sender=Suggestion)
+@disable_for_loaddata
+def stats_invalidate(sender, instance, created, **kwargs):
+    """Invalidate stats on new comment or suggestion."""
+    # Invalidate stats counts
+    instance.unit.translation.invalidate_cache()
+    # Invalidate unit cached properties
+    for key in ["all_comments", "suggestions"]:
+        if key in instance.__dict__:
+            del instance.__dict__[key]

@@ -22,6 +22,7 @@ from django.conf import settings
 from django.http import HttpRequest
 from social_django.views import complete
 
+from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.accounts.strategy import create_session
 from weblate.accounts.views import store_userid
@@ -45,7 +46,7 @@ def send_invitation(request: HttpRequest, project_name: str, user: User):
     complete(fake, "email")
 
 
-class InviteUserForm(forms.ModelForm):
+class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
     class Meta:
         model = User
         fields = ["email", "username", "full_name"]

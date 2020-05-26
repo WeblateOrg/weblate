@@ -58,7 +58,7 @@ class SuggestionsTest(ViewTestCase):
         self.assert_backend(0)
 
         # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 2)
@@ -83,7 +83,7 @@ class SuggestionsTest(ViewTestCase):
         self.assert_backend(0)
 
         # Unit should not be translated
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertFalse(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(len(self.get_unit().suggestions), 1)
@@ -146,7 +146,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(translation.stats.suggestions, 1)
 
         # Unit should be translated
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, "Ahoj svete!\n")
@@ -222,7 +222,7 @@ class SuggestionsTest(ViewTestCase):
         self.assertEqual(translation.stats.suggestions, 0)
 
         # Unit should be translated
-        self.assertEqual(len(unit.checks()), 0)
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertTrue(unit.translated)
         self.assertFalse(unit.fuzzy)
         self.assertEqual(unit.target, "Nazdar svete!\n")

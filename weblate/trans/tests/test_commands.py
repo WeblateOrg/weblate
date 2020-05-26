@@ -315,8 +315,8 @@ class BasicCommandTest(FixtureTestCase):
 class WeblateComponentCommandTestCase(ViewTestCase):
     """Base class for handling tests of WeblateComponentCommand based commands."""
 
-    command_name = ""
-    expected_string = ""
+    command_name = "checkgit"
+    expected_string = "On branch master"
 
     def do_test(self, *args, **kwargs):
         output = StringIO()
@@ -325,13 +325,6 @@ class WeblateComponentCommandTestCase(ViewTestCase):
             self.assertIn(self.expected_string, output.getvalue())
         else:
             self.assertEqual("", output.getvalue())
-
-
-class CheckGitTest(WeblateComponentCommandTestCase):
-    """Base class for handling tests of WeblateComponentCommand based commands."""
-
-    command_name = "checkgit"
-    expected_string = "On branch master"
 
     def test_all(self):
         self.do_test(all=True)
@@ -398,11 +391,6 @@ class LockTranslationTest(WeblateComponentCommandTestCase):
 class UnLockTranslationTest(WeblateComponentCommandTestCase):
     command_name = "unlock_translation"
     expected_string = ""
-
-
-class FixupFlagsTest(WeblateComponentCommandTestCase):
-    command_name = "fixup_flags"
-    expected_string = "Processing"
 
 
 class CreateDemoTestCase(TestCase):

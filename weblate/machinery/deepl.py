@@ -35,7 +35,7 @@ class DeepLTranslation(MachineTranslation):
     # better than other ones.
     max_score = 91
     language_map = {
-        "zh-hans": "zh",
+        "zh_hans": "zh",
     }
 
     def __init__(self):
@@ -46,7 +46,7 @@ class DeepLTranslation(MachineTranslation):
 
     def map_language_code(self, code):
         """Convert language to service specific code."""
-        return super().map_language_code(code.replace("_", "-").upper())
+        return super().map_language_code(code).replace("_", "-").upper()
 
     def download_languages(self):
         """List of supported languages is currently hardcoded."""

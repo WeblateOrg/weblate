@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
 from datetime import date
 from uuid import uuid4
@@ -31,6 +30,7 @@ from django.utils.encoding import force_str
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
+from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
@@ -46,9 +46,11 @@ from weblate.trans.models import (
     Project,
     Translation,
 )
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
+from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
 from weblate.utils.stats import BaseStats, ProjectLanguageStats
 
@@ -190,6 +192,7 @@ def format_translation(
 
     # We will collect part for each plural
     parts = []
+    has_content = False
 
     for idx, raw_value in enumerate(plurals):
         # HTML escape
@@ -225,17 +228,15 @@ def format_translation(
         content = mark_safe(newline.join(paras))
 
         parts.append({"title": title, "content": content, "copy": copy})
+        has_content |= bool(content)
 
-    return {"simple": simple, "items": parts, "language": language, "unit": unit}
-
-
-@register.simple_tag
-def check_severity(check):
-    """Return check severity, or its id if check is not known."""
-    try:
-        return escape(CHECKS[check].severity)
-    except KeyError:
-        return "info"
+    return {
+        "simple": simple,
+        "items": parts,
+        "language": language,
+        "unit": unit,
+        "has_content": has_content,
+    }
 
 
 @register.simple_tag
@@ -509,9 +510,13 @@ def get_state_badge(unit):
 
 
 @register.inclusion_tag("snippets/unit-state.html")
-def get_state_flags(unit):
+def get_state_flags(unit, detail=False):
     """Return state flags."""
-    return {"state": " ".join(get_state_css(unit))}
+    return {
+        "state": " ".join(get_state_css(unit)),
+        "unit": unit,
+        "detail": detail,
+    }
 
 
 @register.simple_tag
@@ -668,7 +673,7 @@ def indicate_alerts(context, obj):
     component = None
     project = None
 
-    if isinstance(obj, Translation):
+    if isinstance(obj, (Translation, GhostTranslation)):
         translation = obj
         component = obj.component
         project = component.project
@@ -745,6 +750,10 @@ def indicate_alerts(context, obj):
             result.append(
                 ("state/lock.svg", gettext("This translation is locked."), None)
             )
+    if getattr(obj, "is_ghost", False):
+        result.append(
+            ("state/ghost.svg", gettext("This translation does not yet exist."), None)
+        )
 
     return {"icons": result, "component": component, "project": project}
 
@@ -793,3 +802,9 @@ def percent_format(number):
     return pgettext("Translated percents", "%(percent)s%%") % {
         "percent": intcomma(int(number))
     }
+
+
+@register.filter
+def hash_text(name):
+    """Hash text for use in HTML id."""
+    return hash_to_checksum(siphash("Weblate URL hash", name.encode()))

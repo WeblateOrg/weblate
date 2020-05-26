@@ -27,7 +27,7 @@ from weblate.addons.events import EVENT_PRE_COMMIT
 class ExampleAddon(BaseAddon):
     # Filter for compatible components, every key is
     # matched against property of component
-    compat = {"file_format": frozenset(("po", "po-mono"))}
+    compat = {"file_format": {"po", "po-mono"}}
     # List of events addon should receive
     events = (EVENT_PRE_COMMIT,)
     # Addon unique identifier

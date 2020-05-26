@@ -26,6 +26,7 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_int,
     get_env_list,
     get_env_map,
     modify_env_list,
@@ -252,6 +253,12 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get(
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", ""
 )
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = get_env_list(
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS", ""
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = get_env_list(
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS", ""
+)
 
 if "WEBLATE_SOCIAL_AUTH_GITLAB_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitlab.GitLabOAuth2",)
@@ -428,7 +435,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-        "OPTIONS": {"min_length": 6},
+        "OPTIONS": {"min_length": 10},
     },
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -677,6 +684,14 @@ if MT_DEEPL_KEY:
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
 
+ms_endpoint_url = os.environ.get("WEBLATE_MT_MICROSOFT_ENDPOINT_URL", None)
+if ms_endpoint_url is not None:
+    MT_MICROSOFT_ENDPOINT_URL = ms_endpoint_url
+
+ms_base_url = os.environ.get("WEBLATE_MT_MICROSOFT_BASE_URL", None)
+if ms_base_url is not None:
+    MT_MICROSOFT_BASE_URL = ms_base_url
+
 if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
 
@@ -867,6 +882,8 @@ CHECK_LIST = [
     "weblate.checks.source.OptionalPluralCheck",
     "weblate.checks.source.EllipsisCheck",
     "weblate.checks.source.MultipleFailingCheck",
+    "weblate.checks.source.LongUntranslatedCheck",
+    "weblate.checks.format.MultipleUnnamedFormatsCheck",
 ]
 modify_env_list(CHECK_LIST, "CHECK")
 
@@ -1067,6 +1084,9 @@ DATABASE_BACKUP = os.environ.get("WEBLATE_DATABASE_BACKUP", "plain")
 
 # Enable auto updating
 AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
+
+# Default access control
+DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)

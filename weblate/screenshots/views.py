@@ -269,5 +269,5 @@ def get_sources(request, pk):
     return render(
         request,
         "screenshots/screenshot_sources_body.html",
-        {"sources": obj.units.all(), "object": obj},
+        {"sources": obj.units.order(), "object": obj},
     )

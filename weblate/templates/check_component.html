@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'checks' %}">{% trans "Checks" %}</a></li>
@@ -13,23 +14,50 @@
 
 <div class="row">
 <div class="col-lg-6">
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Checks listing" %}</h4></div>
 
-{% if translations %}
-<div class="list-group">
-{% for obj in translations %}
-<a class="list-group-item" href="{% url 'translate' project=component.project.slug component=component.slug lang=obj.language.code %}?q={% if ignored %}ignored_{% endif %}{{ check.url_id }}"><span class="badge">{{ obj.check_count }}</span>{{ obj.language }}</a>
-{% endfor %}
-</div>
-{% else %}
-<div class="panel-body">
-{% trans "No matching checks found!" as msg %}
-{% show_message "warning" msg %}
-</div>
-{% endif %}
-
-</div>
+<table class="sort table progress-table table-border">
+    <thead>
+        <tr>
+            <th>{% trans "Translation" %}</th>
+            <th class="number">{% trans "Total" %}</th>
+            <th class="number">{% trans "Dismissed" %}</th>
+            <th class="number">{% trans "Active" %}</th>
+            <th class="number">{% trans "Translated" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for obj in translations %}
+        {% url 'translate' project=component.project.slug component=component.slug lang=obj.language.code as translate_url %}
+        <tr>
+            <th>
+                <a href="{{ translate_url }}?q={{ check.url_id }}">
+                    {{ obj.language }}
+                </a>
+            </th>
+            <td class="number" data-value="{{ obj.check_count }}">
+                <a href="{{ translate_url }}?q={{ check.url_id }} OR dismissed_{{ check.url_id }}">
+                    {{ obj.check_count |intcomma}}
+                </a>
+            </td>
+            <td class="number" data-value="{{ obj.dismissed_check_count }}">
+                <a href="{{ translate_url }}?q=dismissed_{{ check.url_id }}">
+                    {{ obj.dismissed_check_count |intcomma}}
+                </a>
+            </td>
+            <td class="number" data-value="{{ obj.active_check_count }}">
+                <a href="{{ translate_url }}?q={{ check.url_id }}">
+                    {{ obj.active_check_count |intcomma}}
+                </a>
+            </td>
+            <td class="number" data-value="{{ obj.translated_check_count }}">
+                <a href="{{ translate_url }}?q={{ check.url_id }} AND state:&gt;=translated">
+                    {{ obj.translated_check_count |intcomma}}
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </div>
 
 <div class="col-lg-6">

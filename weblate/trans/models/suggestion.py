@@ -133,8 +133,12 @@ class Suggestion(models.Model, UserDisplayMixin):
         if self.unit.target != self.target or self.unit.state < STATE_TRANSLATED:
             self.unit.target = self.target
             self.unit.state = STATE_TRANSLATED
+            if self.user and not self.user.is_anonymous:
+                author = self.user
+            else:
+                author = request.user
             self.unit.save_backend(
-                request.user, author=self.user, change_action=Change.ACTION_ACCEPT
+                request.user, author=author, change_action=Change.ACTION_ACCEPT
             )
 
         # Delete the suggestion
@@ -183,7 +187,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         result = []
         for check, check_obj in CHECKS.target.items():
             if check_obj.check_target(source, target, fake_unit):
-                result.append(Check(unit=fake_unit, ignore=False, check=check))
+                result.append(Check(unit=fake_unit, dismissed=False, check=check))
         return result
 
 

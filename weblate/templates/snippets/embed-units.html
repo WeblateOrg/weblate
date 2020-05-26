@@ -20,7 +20,7 @@
 <td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.component.project.source_language %}</a></td>
 {% endif %}
 <td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural %}</a></td>
-<td>{% get_state_flags unit %}</td>
+<td>{% get_state_flags unit True %}</td>
 </tr>
 {% endfor %}
 </tbody>

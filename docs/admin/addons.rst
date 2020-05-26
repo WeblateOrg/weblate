@@ -44,7 +44,9 @@ Language consistency
 --------------------
 
 Ensures all components within one project have translations for every added
-language for translation. It creates empty translations in languages that have
+language for translation.
+
+It creates empty translations in languages that have
 unadded components.
 
 Missing languages are checked once every 24 hours and when a new language is
@@ -62,8 +64,8 @@ Unlike most others, this addon affects the whole project.
 Component discovery
 -------------------
 
-Automatically adds or removes project components based on file changes
-in the version control system.
+Automatically adds or removes project components based on file changes in the
+version control system.
 
 It is triggered on every VCS update, and otherwise similar to the :djadmin:`import_project`
 management command. This way you can track multiple translation
@@ -135,6 +137,7 @@ Statistics generator
 --------------------
 
 Generates a file containing detailed info about the translation.
+
 You can use Django template in both filename and content, see :ref:`markup`
 for a detailed markup description.
 
@@ -163,8 +166,8 @@ Content
 Contributors in comment
 -----------------------
 
-Update the comment in the PO file header to include contributor names and years of
-contributions.
+Update the comment in the PO file header to include contributor names and years
+of contributions.
 
 The PO file header will contain a list of contributors and years contributed:
 
@@ -221,15 +224,17 @@ Automatically generates a MO file for every changed PO file.
 Update PO files to match POT (msgmerge)
 ---------------------------------------
 
-Updates all PO files to match the POT file using msgmerge.
-Triggered whenever new changes are pulled from the upstream repository.
+Updates all PO files to match the POT file using msgmerge. Triggered whenever
+new changes are pulled from the upstream repository.
 
 .. _addon-weblate.git.squash:
 
 Squash Git commits
 ------------------
 
-Squash Git commits prior to pushing changes. You can choose one of following modes:
+Squash Git commits prior to pushing changes.
+
+You can choose one of following modes:
 
 .. versionadded:: 3.4
 
@@ -257,7 +262,6 @@ Formats the Java properties file
 --------------------------------
 
 Sorts the Java properties file.
-Available only if applicable.
 
 .. _addon-weblate.removal.comments:
 
@@ -266,7 +270,9 @@ Stale comment removal
 
 .. versionadded:: 3.7
 
-Set a timeframe for removal of comments. This can be useful to remove old
+Set a timeframe for removal of comments.
+
+This can be useful to remove old
 comments which might have become outdated. Use with care as comment being old
 does not mean they have lost their importance.
 
@@ -277,7 +283,9 @@ Stale suggestion removal
 
 .. versionadded:: 3.7
 
-Set a timeframe for removal of suggestions. This can be very useful in connection
+Set a timeframe for removal of suggestions.
+
+This can be very useful in connection
 with suggestion voting (see :ref:`peer-review`) to remove suggestions which
 don't receive enough positive votes in a given timeframe.
 
@@ -290,7 +298,6 @@ Update RESX files
 
 Update all translation files to match the monolingual upstream base file.
 Unused strings are removed, and new ones added as copies of the source string.
-Available only if applicable.
 
 .. hint::
 

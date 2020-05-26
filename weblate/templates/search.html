@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 {% if project %}
@@ -18,35 +19,37 @@
 {% block content %}
 
 {% if show_results %}
-{% if page_obj.object_list %}
-<table class="table table-bordered">
-<tbody>
-{% for unit in page_obj.object_list %}
-<tr><th colspan="2">
-<a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation }}</a>
-{% get_state_flags unit %}
-</th></tr>
-<tr>
-<th class="source">{% trans "Source" %}</th>
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.source unit.translation.component.project.source_language search_match=search_query %}</a></td>
-</tr>
-<tr>
-<th class="source">{{ unit.translation.language }}</th>
-<td><a href="{{ unit.get_absolute_url }}">{% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}</a></td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
+    <form method="GET" class="result-page-form">
+        {% crispy search_form  %}
+    </form>
+    {% if page_obj.object_list %}
+        <div class="list-group">
+            {% for unit in page_obj.object_list %}
+                <a href="{{ unit.get_absolute_url }}{% if query_string %}&amp;{{ query_string }}{% endif %}" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        {% get_state_flags unit %}
+                        {{ unit.translation }}
+                    </h4>
+                    <p class="list-group-item-text">
+                        {{ unit.translation.component.project.source_language }}
+                        {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query %}
+                        {{ unit.translation.language }}
+                        {% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}
+                    </p>
+                </a>
+            {% endfor %}
+        </div>
 
-{% include "paginator.html" %}
+        {% include "paginator.html" %}
+    {% else %}
+        {% trans "No matching strings found." as msg %}
+        {% show_message "info" msg %}
+    {% endif %}
+
 {% else %}
-{% trans "No matching strings found." as msg %}
-{% show_message "info" msg %}
+    <form method="GET" class="result-page-form">
+    {% include "snippets/search-form.html" %}
+    </form>
 {% endif %}
-{% endif %}
-
-<form method="GET" class="result-page-form">
-{% include "snippets/search-form.html" %}
-</form>
 
 {% endblock %}

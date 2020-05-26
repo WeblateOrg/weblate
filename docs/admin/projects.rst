@@ -192,10 +192,22 @@ Source language
 Language used for source strings in all components. Change this if you are
 translating from something else than English.
 
-.. note::
+.. hint::
 
-    Most of the fields can be edited by project owners or managers, in the
-    Weblate interface.
+   In case you are translating bilingual files from English, but want to be
+   able to do fixes in the English translation as well, you might want to
+   choose :guilabel:`English (Developer)` as a source language. To avoid
+   conflict between name of the source language and existing translation.
+
+   For monolingual translations, you can use intermediate translation in this
+   case.
+
+.. seealso::
+
+   :ref:`component-intermediate`,
+   :ref:`source-quality-gateway`,
+   :ref:`bimono`,
+   :ref:`languages`
 
 .. _component:
 
@@ -360,10 +372,12 @@ strings.
 
 When set, the source translation is based on this file, but all others are
 based on :ref:`component-template`. In case the string is not translated in
-source translation, translating to other languages is prohibited.
+source translation, translating to other languages is prohibited. This provides
+:ref:`source-quality-gateway`.
 
 .. seealso::
 
+   :ref:`source-quality-gateway`,
    :ref:`bimono`
 
 .. _component-new_base:
@@ -532,18 +546,34 @@ this period. The Default value can be changed in
 Language filter
 +++++++++++++++
 
-Regular expression used to filter the translation when scanning for
-filemask. This can be used to limit the list of languages managed by Weblate
-(e.g. ``^(cs|de|es)$`` will include only these languages. Please note
-that you need to list language codes as they appear in the filename.
+Regular expression used to filter the translation when scanning for filemask.
+This can be used to limit the list of languages managed by Weblate.
 
-.. _component-shaping_regex:
+.. note::
 
-Shapings regular expression
+    You need to list language codes as they appear in the filename.
+
+Some examples of filtering:
+
++-------------------------------+-----------------------+
+| Filter description            | Regular expression    |
++===============================+=======================+
+| Selected languages only       | ``^(cs|de|es)$``      |
++-------------------------------+-----------------------+
+| Exclude languages             | ``^(?!(it|fr)$).+$``  |
++-------------------------------+-----------------------+
+| Exclude non language files    | ``^(?!(blank)$).+$``  |
++-------------------------------+-----------------------+
+| Include all files (default)   | ``^[^.]+$``           |
++-------------------------------+-----------------------+
+
+.. _component-variant_regex:
+
+Variants regular expression
 +++++++++++++++++++++++++++
 
-Regular expression used to determine the shapings of a string, see
-:ref:`shapings`.
+Regular expression used to determine the variants of a string, see
+:ref:`variants`.
 
 .. note::
 

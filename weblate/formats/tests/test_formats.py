@@ -36,6 +36,9 @@ from weblate.formats.ttkit import (
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
+    GWTFormat,
+    INIFormat,
+    InnoSetupINIFormat,
     JoomlaFormat,
     JSONFormat,
     JSONNestedFormat,
@@ -48,7 +51,6 @@ from weblate.formats.ttkit import (
     RubyYAMLFormat,
     TSFormat,
     WebExtensionJSONFormat,
-    WindowsRCFormat,
     XliffFormat,
     YAMLFormat,
 )
@@ -64,8 +66,10 @@ TEST_JSON = get_test_file("cs.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
 TEST_PHP = get_test_file("cs.php")
-TEST_JOOMLA = get_test_file("cs.ini")
+TEST_JOOMLA = get_test_file("cs.joomla.ini")
+TEST_INI = get_test_file("cs.ini")
 TEST_PROPERTIES = get_test_file("swing.properties")
+TEST_GWT = get_test_file("gwt.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
 TEST_POXLIFF = get_test_file("cs.poxliff")
@@ -77,7 +81,6 @@ TEST_TS = get_test_file("cs.ts")
 TEST_YAML = get_test_file("cs.pyml")
 TEST_RUBY_YAML = get_test_file("cs.ryml")
 TEST_DTD = get_test_file("cs.dtd")
-TEST_RC = get_test_file("cs-CZ.rc")
 TEST_HE_CLDR = get_test_file("he-cldr.po")
 TEST_HE_CUSTOM = get_test_file("he-custom.po")
 TEST_HE_SIMPLE = get_test_file("he-simple.po")
@@ -160,16 +163,17 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     FIND_CONTEXT = ""
     FIND_MATCH = "Ahoj světe!\n"
     NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
+    NEW_UNIT_KEY = "key"
     SUPPORTS_FLAG = True
     EXPECTED_FLAGS = "c-format, max-length:100"
+    EDIT_OFFSET = 0
+    EDIT_TARGET = "Nazdar, svete!\n"
 
     def setUp(self):
         super().setUp()
         self.create_temp()
         if self.FORMAT.format_id not in FILE_FORMATS:
-            raise SkipTest(
-                "File format {0} is not supported!".format(self.FORMAT.format_id)
-            )
+            raise SkipTest("File format {0!r} is not supported!".format(self.FORMAT))
 
     def tearDown(self):
         super().tearDown()
@@ -201,7 +205,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
         if edit:
             units = storage.all_units
-            units[0].set_target("Nazdar, svete!\n")
+            units[self.EDIT_OFFSET].set_target(self.EDIT_TARGET)
 
         # Save test file
         storage.save()
@@ -276,7 +280,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         storage = self.parse_file(testfile)
 
         # Add new unit
-        storage.new_unit("key", "Source string")
+        storage.new_unit(self.NEW_UNIT_KEY, "Source string")
 
         # Read new content
         with open(testfile, "rb") as handle:
@@ -304,6 +308,7 @@ class XMLMixin:
 
 class PoFormatTest(AutoFormatTest):
     FORMAT = PoFormat
+    EDIT_OFFSET = 1
 
     def test_add_encoding(self):
         out = os.path.join(self.tempdir, "test.po")
@@ -368,6 +373,33 @@ class PropertiesFormatTest(AutoFormatTest):
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
+
+    def assert_same(self, newdata, testdata):
+        self.assertEqual(
+            force_str(newdata).strip().splitlines(),
+            force_str(testdata).strip().splitlines(),
+        )
+
+
+class GWTFormatTest(AutoFormatTest):
+    FORMAT = GWTFormat
+    FILE = TEST_GWT
+    MIME = "text/plain"
+    COUNT = 1
+    EXT = "properties"
+    MASK = "gwt/gwt_*.properties"
+    EXPECTED_PATH = "gwt/gwt_cs-CZ.properties"
+    FIND = "cartItems"
+    FIND_CONTEXT = "cartItems"
+    FIND_MATCH = "There are {0,number} items in your cart."
+    EDIT_TARGET = [
+        "There are {0,number} goods in your cart.",
+        "There is {0,number} good in your cart.",
+    ]
+    MATCH = "\n"
+    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    EXPECTED_FLAGS = ""
+    BASE = ""
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
@@ -716,25 +748,6 @@ class DTDFormatTest(AutoFormatTest):
     EXPECTED_FLAGS = ""
 
 
-class WindowsRCFormatTest(AutoFormatTest):
-    FORMAT = WindowsRCFormat
-    FILE = TEST_RC
-    BASE = TEST_RC
-    MIME = "text/plain"
-    EXT = "rc"
-    COUNT = 4
-    MASK = "rc/*.rc"
-    EXPECTED_PATH = "rc/cs-CZ.rc"
-    MATCH = "STRINGTABLE"
-    FIND = "Hello, world!\n"
-    FIND_MATCH = "Hello, world!\n"
-    NEW_UNIT_MATCH = None
-    EXPECTED_FLAGS = ""
-
-    def test_edit(self):
-        raise SkipTest("Known to be broken")
-
-
 class CSVFormatTest(AutoFormatTest):
     FORMAT = CSVFormat
     FILE = TEST_CSV
@@ -782,3 +795,26 @@ class FlatXMLFormatTest(AutoFormatTest):
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
     EXPECTED_FLAGS = ""
+
+
+class INIFormatTest(AutoFormatTest):
+    FORMAT = INIFormat
+    FILE = TEST_INI
+    MIME = "text/plain"
+    COUNT = 4
+    BASE = ""
+    EXT = "ini"
+    MASK = "ini/*.ini"
+    EXPECTED_PATH = "ini/cs_CZ.ini"
+    MATCH = "\n"
+    FIND = 'Ahoj "světe"!\\n'
+    FIND_CONTEXT = "[weblate]hello"
+    FIND_MATCH = 'Ahoj "světe"!\\n'
+    NEW_UNIT_MATCH = b"\nkey = Source string"
+    NEW_UNIT_KEY = "[test]key"
+    EXPECTED_FLAGS = ""
+
+
+class InnoSetupINIFormatTest(INIFormatTest):
+    FORMAT = InnoSetupINIFormat
+    EXT = "islu"

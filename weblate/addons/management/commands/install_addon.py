@@ -48,20 +48,22 @@ class Command(WeblateComponentCommand):
             configuration = json.loads(options["configuration"])
         except ValueError as error:
             raise CommandError("Invalid addon configuration: {}".format(error))
-        if addon.has_settings:
-            form = addon.get_add_form(None, data=configuration)
-            if not form.is_valid():
-                for error in form.non_field_errors():
-                    self.stderr.write(error)
-                for field in form:
-                    for error in field.errors:
-                        self.stderr.write("Error in {}: {}".format(field.name, error))
-                raise CommandError("Invalid addon configuration!")
         try:
             user = User.objects.filter(is_superuser=True)[0]
         except IndexError:
             user = get_anonymous()
         for component in self.get_components(*args, **options):
+            if addon.has_settings:
+                form = addon.get_add_form(component, data=configuration)
+                if not form.is_valid():
+                    for error in form.non_field_errors():
+                        self.stderr.write(error)
+                    for field in form:
+                        for error in field.errors:
+                            self.stderr.write(
+                                "Error in {}: {}".format(field.name, error)
+                            )
+                    raise CommandError("Invalid addon configuration!")
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
             if addons.exists():
                 if options["update"]:

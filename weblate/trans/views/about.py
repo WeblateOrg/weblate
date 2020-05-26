@@ -82,7 +82,7 @@ class StatsView(AboutView):
         context["total_words"] = stats.all_words
         context["total_languages"] = stats.languages
         context["total_checks"] = Check.objects.count()
-        context["ignored_checks"] = Check.objects.filter(ignore=True).count()
+        context["dismissed_checks"] = Check.objects.filter(dismissed=True).count()
 
         top_translations = Profile.objects.order_by("-translated")[:10]
         top_suggestions = Profile.objects.order_by("-suggested")[:10]

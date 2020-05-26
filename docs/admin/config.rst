@@ -369,6 +369,40 @@ Default commit messages for different operations, see :ref:`component`.
    :ref:`markup`, :ref:`component`
 
 
+.. setting:: DEFAULT_ADDONS
+
+DEFAULT_ADDONS
+--------------
+
+Default addons to install on every created component.
+
+.. note::
+
+   This setting affects only newly created components.
+
+Example:
+
+.. code-block:: python
+
+   DEFAULT_ADDONS = {
+        # Addon with no parameters
+        "weblate.flags.target_edit": {},
+
+        # Addon with parameters
+        "weblate.autotranslate.autotranslate": {
+            "mode": "suggest",
+            "filter_type": "todo",
+            "auto_source": "mt",
+            "component": "",
+            "engines": ["weblate-translation-memory"],
+            "threshold": "80",
+        }
+   }
+
+.. seealso::
+
+   :djadmin:`install_addon`
+
 .. setting:: DEFAULT_COMMITER_EMAIL
 
 DEFAULT_COMMITER_EMAIL
@@ -910,7 +944,9 @@ MT_MICROSOFT_BASE_URL
 Region base url domain as defined in the `Base URLs section
 <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_.
 
-Defaults to ``api.cognitive.microsofttranslator.com``.
+Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global.
+
+For Azure China, please use ``api.translator.azure.cn``.
 
 .. setting:: MT_MICROSOFT_COGNITIVE_KEY
 
@@ -930,6 +966,18 @@ MT_MICROSOFT_REGION
 -------------------
 
 Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
+
+.. setting:: MT_MICROSOFT_ENDPOINT_URL
+
+MT_MICROSOFT_ENDPOINT_URL
+-------------------------
+
+Region endpoint url domain for access token as defined in the `Authenticating with an access token section
+<https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_.
+
+Defaults to ``api.cognitive.microsoft.com`` for Azure Global.
+
+For Azure China, please use your endpoint from Azure Portal.
 
 .. setting:: MT_MYMEMORY_EMAIL
 
