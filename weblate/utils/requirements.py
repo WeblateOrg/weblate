@@ -177,7 +177,7 @@ def get_db_version():
         try:
             cursor = connection.cursor()
             cursor.execute("SHOW server_version")
-            version = cursor.fetchall()[0]
+            version = cursor.fetchone()
             version = version[0].split(" ")[0]
             result = (
                 connection.vendor,
@@ -207,6 +207,7 @@ def get_db_version():
 
 
 def get_cache_version():
+    result = ()
     try:
         if (
             settings.CACHES.get("default", {}).get("BACKEND")
@@ -214,8 +215,7 @@ def get_cache_version():
         ):
             version = cache.client.get_client().info()["redis_version"]
             result = ("Redis", "https://redis.io/", version)
-        else:
-            raise ImproperlyConfigured("please install a redis server.")
+
     except RuntimeError:
         raise ImproperlyConfigured("please install a redis server.")
     return result
@@ -223,7 +223,11 @@ def get_cache_version():
 
 def get_db_cache_version():
     """Returns the list of all the Database and Cache version."""
-    result = [get_db_version(), get_cache_version()]
+    result = []
+    cache_version = get_cache_version()
+    if cache_version:
+        result.append(cache_version)
+    result.append(get_db_version())
     return result
 
 
