@@ -19,17 +19,16 @@
 """Translate Toolkit convertor based file format wrappers."""
 
 import codecs
-import os
 import shutil
 from io import BytesIO
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from translate.convert.html2po import html2po
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
 from translate.convert.xliff2odf import translate_odf, write_odf
+from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
 from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
@@ -45,6 +44,7 @@ from translate.storage.xml_extract.extract import (
 )
 
 from weblate.formats.base import TranslationFormat
+from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import TTKitUnit, XliffUnit
 from weblate.utils.errors import report_error
 
@@ -66,15 +66,6 @@ class ConvertUnit(TTKitUnit):
     def context(self):
         """Return context of message."""
         return "".join(self.mainunit.getlocations())
-
-
-class FileNameUnit(ConvertUnit):
-    @cached_property
-    def context(self):
-        """Return context of message."""
-        return "".join(
-            location.rsplit("/", 1)[1] for location in self.mainunit.getlocations()
-        )
 
 
 class ConvertFormat(TranslationFormat):
@@ -143,7 +134,7 @@ class ConvertFormat(TranslationFormat):
             raise ImportError("Needs newer translate-toolkit")
 
     def add_unit(self, ttkit_unit):
-        raise ValueError("Not supported")
+        self.store.addunit(ttkit_unit)
 
     def create_unit(self, key, source):
         raise ValueError("Not supported")
@@ -154,11 +145,20 @@ class HTMLFormat(ConvertFormat):
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
-    unit_class = FileNameUnit
 
     @staticmethod
     def convertfile(storefile):
-        return html2po().convertfile(storefile, os.path.basename(storefile.name))
+        store = pofile()
+        # Fake input file with a blank filename
+        htmlparser = htmlfile(
+            includeuntaggeddata=False, inputfile=BytesIOMode("", storefile.read())
+        )
+        for htmlunit in htmlparser.units:
+            thepo = store.addsourceunit(htmlunit.source)
+            thepo.addlocations(htmlunit.getlocations())
+            thepo.addnote(htmlunit.getnotes(), "developer")
+        store.removeduplicates("msgctxt")
+        return store
 
     def save_content(self, handle):
         """Store content to file."""
@@ -211,7 +211,7 @@ class OpenDocumentFormat(ConvertFormat):
     @staticmethod
     def convertfile(storefile):
         store = xlifffile()
-        store.setfilename(store.getfilenode("NoName"), os.path.basename(storefile.name))
+        store.setfilename(store.getfilenode("NoName"), "odf")
         contents = open_odf(storefile)
         for data in contents.values():
             parse_state = ParseState(no_translate_content_elements, inline_elements)
