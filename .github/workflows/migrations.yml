@@ -59,28 +59,9 @@ jobs:
           pip install psycopg2-binary==2.7.7
       - name: Check missing migrations
         run: ./ci/run-checkmigrate
-      - name: Migrate from 3.1.1
-        run: ./ci/run-migrate 3.1.1
-      - name: Migrate from 3.2.2
-        run: ./ci/run-migrate 3.2.2
-      - name: Migrate from 3.3
-        run: ./ci/run-migrate 3.3
-      - name: Migrate from 3.4
-        run: ./ci/run-migrate 3.4
-      - name: Migrate from 3.5.1
-        run: ./ci/run-migrate 3.5.1
-      # The 3.6.1 is skipped, suggestion import was broken there
-      - name: Migrate from 3.7.1
-        run: ./ci/run-migrate 3.7.1
-      - name: Migrate from 3.8
-        run: ./ci/run-migrate 3.8
-      - name: Migrate from 3.9.1
-        run: ./ci/run-migrate 3.9.1
-      - name: Migrate from 3.10.3
-        run: ./ci/run-migrate 3.10.3
-      - name: Migrate from 3.11.3
-        run: ./ci/run-migrate 3.11.3
-      - name: Migrate from 4.0.3
+      - name: Migrate from 4.0
+        run: ./ci/run-migrate 4.0
+      - name: Migrate from 4.0.4
         run: ./ci/run-migrate 4.0.4
       - name: Migrate from 4.1
         run: ./ci/run-migrate 4.1
