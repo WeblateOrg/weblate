@@ -50,7 +50,7 @@ class HTMLFormatTest(ConvertFormatTest):
     COUNT = 5
     MASK = "*/translations.html"
     EXPECTED_PATH = "cs_CZ/translations.html"
-    FIND_CONTEXT = "cs.html+html.body.p:5-1"
+    FIND_CONTEXT = "+html.body.p:5-1"
     FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"<body>"
     NEW_UNIT_MATCH = None
@@ -68,7 +68,7 @@ class OpenDocumentFormatTest(ConvertFormatTest):
     MASK = "*/translations.odt"
     EXPECTED_PATH = "cs_CZ/translations.odt"
     FIND_CONTEXT = (
-        "cs.odt///office:document-content[0]/office:body[0]/office:text[0]/text:p[1]"
+        "odf///office:document-content[0]/office:body[0]/office:text[0]/text:p[1]"
     )
     FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"PK"
