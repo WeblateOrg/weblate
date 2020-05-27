@@ -344,6 +344,11 @@ For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``.
 In case your filename contains special characters such as ``[``, ``]``, these need
 to be escaped as ``[[]`` or ``[]]``.
 
+.. seealso::
+
+   :ref:`bimono`,
+   :ref:`faq-duplicate-files`
+
 .. _component-template:
 
 Monolingual base language file
@@ -353,7 +358,8 @@ Base file containing string definitions for :ref:`monolingual`.
 
 .. seealso::
 
-   :ref:`bimono`
+   :ref:`bimono`,
+   :ref:`faq-duplicate-files`
 
 .. _component-edit_template:
 
@@ -379,7 +385,8 @@ source translation, translating to other languages is prohibited. This provides
 .. seealso::
 
    :ref:`source-quality-gateway`,
-   :ref:`bimono`
+   :ref:`bimono`,
+   :ref:`faq-duplicate-files`
 
 .. _component-new_base:
 
@@ -388,6 +395,11 @@ Template for new translations
 
 Base file used to generate new translations, e.g. ``.pot`` file with gettext,
 see :ref:`new-translations` for more info.
+
+.. seealso::
+
+   :ref:`bimono`,
+   :ref:`faq-duplicate-files`
 
 .. _component-file_format:
 
