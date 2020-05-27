@@ -29,15 +29,22 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
 
+import weblate
+from weblate.formats.models import FILE_FORMATS
 from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
+from weblate.vcs.models import VCS_REGISTRY
 
 
 @app.task(trail=False)
 def ping():
-    return None
+    return {
+        "version": weblate.VERSION,
+        "vcs": sorted(VCS_REGISTRY.keys()),
+        "formats": sorted(FILE_FORMATS.keys()),
+    }
 
 
 @app.task(trail=False)

@@ -92,6 +92,7 @@ DOC_LINKS = {
     "weblate.C031": ("admin/upgrade",),
     "weblate.C032": ("admin/install",),
     "weblate.W033": ("vcs",),
+    "weblate.E034": ("admin/install", "celery"),
 }
 
 
@@ -194,7 +195,15 @@ def check_celery(app_configs, **kwargs):
 
         result = ping.delay()
         try:
-            result.get(timeout=10, disable_sync_subtasks=False)
+            pong = result.get(timeout=10, disable_sync_subtasks=False)
+            # Check for outdated Celery running different version of configuration
+            if ping() != pong:
+                errors.append(
+                    weblate_check(
+                        "weblate.E034",
+                        "The Celery process is outdated, please restart it.",
+                    )
+                )
         except TimeoutError:
             errors.append(
                 weblate_check(
@@ -211,6 +220,7 @@ def check_celery(app_configs, **kwargs):
                     "CELERY_RESULT_BACKEND is probably not set.",
                 )
             )
+
     heartbeat = cache.get("celery_heartbeat")
     loaded = cache.get("celery_loaded")
     now = time.time()
