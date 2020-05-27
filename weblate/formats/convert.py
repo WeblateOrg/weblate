@@ -223,6 +223,11 @@ class OpenDocumentFormat(ConvertFormat):
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
+        # This is workaround for weird fuzzy handling in translate-toolkit
+        for unit in self.all_units:
+            if unit.xliff_state == "translated":
+                unit.mark_approved(True)
+
         with open(templatename, "rb") as templatefile:
             dom_trees = translate_odf(templatefile, self.store)
             write_odf(templatefile, handle, dom_trees)
