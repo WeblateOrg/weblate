@@ -1680,6 +1680,16 @@ $(function () {
         window.location = $(this).data('href');
     });
 
+    /* ZIP import - autofill name and slug */
+    $('#id_zipcreate_zipfile').change(function () {
+        var target = $('#id_zipcreate_name');
+        if (this.files.length > 0 && target.val() === '') {
+            var name = this.files[0].name;
+            target.val(name.substring(0, name.lastIndexOf('.')));
+            target.change();
+        }
+    });
+
     /* Warn users that they do not want to use developer console in most cases */
     console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
     console.log( "%cThis is a console for developers. If someone has asked you to open this "
