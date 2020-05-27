@@ -562,7 +562,7 @@ class GitMergeRequestBase(GitRepository):
                 self.component.project.slug, self.component.slug
             )
         else:
-            fork_branch = "{0}-weblate".format(self.branch)
+            fork_branch = "weblate-{0}".format(self.branch)
         self.push_to_fork(self.branch, fork_branch)
         try:
             self.create_pull_request(self.branch, fork_branch)
