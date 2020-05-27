@@ -401,6 +401,8 @@ class SubversionRepository(GitRepository):
 
     _fetch_revision = None
 
+    needs_push_url = False
+
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
@@ -523,6 +525,8 @@ class SubversionRepository(GitRepository):
 
 
 class GitMergeRequestBase(GitRepository):
+    needs_push_url = False
+
     @staticmethod
     def get_username():
         raise NotImplementedError()
