@@ -1,8 +1,16 @@
 {% extends "base.html" %}
+{% load compress %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load translations %}
 {% load icons %}
+{% load static %}
+
+{% block extra_script %}
+{% compress js %}
+<script defer data-cfasync="false" src="{% static 'editor.js' %}{{ cache_param }}"></script>
+{% endcompress %}
+{% endblock %}
 
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
