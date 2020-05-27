@@ -51,7 +51,7 @@
     <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>/<a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
     — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
 {% else %}
-    <a href="{{ browse_url }}">
+    <a href="{{ browse_url }}">{% spaceless %}
     {% if name_source == "language" %}
         {{ object.language }}
     {% elif name_source == "component_name" %}
@@ -63,7 +63,7 @@
     {% else %}
         {{ object }}
     {% endif %}
-    </a>
+    {% endspaceless %}</a>
 {% endif %}
 {% indicate_alerts object %}
 </th>
