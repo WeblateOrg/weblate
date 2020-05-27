@@ -287,8 +287,9 @@ VCS repository used to pull changes.
 Repository push URL
 +++++++++++++++++++
 
-Repository URL used for pushing. This is completely optional and push
-support is turned off when this is empty.
+Repository URL used for pushing. This setting is used only for :ref:`vcs-git`
+and :ref:`vcs-mercurial` and push support is turned off for these when this is
+empty.
 
 .. seealso::
 

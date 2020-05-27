@@ -68,6 +68,7 @@ class Repository:
     name = None
     req_version = None
     default_branch = ""
+    needs_push_url = True
 
     _version = None
 
