@@ -356,6 +356,10 @@ class TestCrashAddon(UpdateBaseAddon):
         if previous_head:
             raise TestException("Test error")
 
+    @classmethod
+    def can_install(cls, component, user):
+        return False
+
 
 class StoreBaseAddon(BaseAddon):
     """Base class for addons tweaking store."""

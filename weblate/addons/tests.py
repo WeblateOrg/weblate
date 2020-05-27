@@ -142,13 +142,16 @@ class IntegrationTest(ViewTestCase):
 
     def test_crash(self):
         addon = TestCrashAddon.create(self.component)
+        self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
         ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
 
         with self.assertRaises(TestException):
             addon.post_update(self.component, "head")
 
-        with self.assertRaises(TestException):
-            self.component.update_branch()
+        # The crash should be handled here and addon uninstalled
+        self.component.update_branch()
+
+        self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
 
     def test_process_error(self):
         addon = TestAddon.create(self.component)

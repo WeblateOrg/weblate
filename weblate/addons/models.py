@@ -57,6 +57,7 @@ from weblate.trans.signals import (
 )
 from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.errors import report_error
 from weblate.utils.fields import JSONField
 
 # Initialize addons registry
@@ -167,18 +168,32 @@ class AddonsConf(AppConf):
         prefix = "WEBLATE"
 
 
+def handle_addon_error(addon, component):
+    report_error(cause="addon error")
+    # Uninstall no longer compatible addons
+    if not addon.addon.can_install(component, None):
+        component.log_warning("disabling no longer compatible addon: %s", addon.name)
+        addon.delete()
+
+
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
         component.log_debug("running pre_push addon: %s", addon.name)
-        addon.addon.pre_push(component)
+        try:
+            addon.addon.pre_push(component)
+        except Exception:
+            handle_addon_error(addon, component)
 
 
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
         component.log_debug("running post_push addon: %s", addon.name)
-        addon.addon.post_push(component)
+        try:
+            addon.addon.post_push(component)
+        except Exception:
+            handle_addon_error(addon, component)
 
 
 @receiver(vcs_post_update)
@@ -187,21 +202,30 @@ def post_update(sender, component, previous_head, child=False, **kwargs):
         if child and addon.repo_scope:
             continue
         component.log_debug("running post_update addon: %s", addon.name)
-        addon.addon.post_update(component, previous_head)
+        try:
+            addon.addon.post_update(component, previous_head)
+        except Exception:
+            handle_addon_error(addon, component)
 
 
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_COMPONENT_UPDATE):
         component.log_debug("running component_update addon: %s", addon.name)
-        addon.addon.component_update(component)
+        try:
+            addon.addon.component_update(component)
+        except Exception:
+            handle_addon_error(addon, component)
 
 
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
         component.log_debug("running pre_update addon: %s", addon.name)
-        addon.addon.pre_update(component)
+        try:
+            addon.addon.pre_update(component)
+        except Exception:
+            handle_addon_error(addon, component)
 
 
 @receiver(vcs_pre_commit)
@@ -209,7 +233,10 @@ def pre_commit(sender, translation, author, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_PRE_COMMIT)
     for addon in addons:
         translation.log_debug("running pre_commit addon: %s", addon.name)
-        addon.addon.pre_commit(translation, author)
+        try:
+            addon.addon.pre_commit(translation, author)
+        except Exception:
+            handle_addon_error(addon, translation.component)
 
 
 @receiver(vcs_post_commit)
@@ -217,7 +244,10 @@ def post_commit(sender, component, translation=None, **kwargs):
     addons = Addon.objects.filter_event(component, EVENT_POST_COMMIT)
     for addon in addons:
         component.log_debug("running post_commit addon: %s", addon.name)
-        addon.addon.post_commit(component, translation)
+        try:
+            addon.addon.post_commit(component, translation)
+        except Exception:
+            handle_addon_error(addon, component)
 
 
 @receiver(translation_post_add)
@@ -225,7 +255,10 @@ def post_add(sender, translation, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_POST_ADD)
     for addon in addons:
         translation.log_debug("running post_add addon: %s", addon.name)
-        addon.addon.post_add(translation)
+        try:
+            addon.addon.post_add(translation)
+        except Exception:
+            handle_addon_error(addon, translation.component)
 
 
 @receiver(unit_pre_create)
@@ -235,7 +268,10 @@ def unit_pre_create_handler(sender, unit, **kwargs):
     )
     for addon in addons:
         unit.translation.log_debug("running unit_pre_create addon: %s", addon.name)
-        addon.addon.unit_pre_create(unit)
+        try:
+            addon.addon.unit_pre_create(unit)
+        except Exception:
+            handle_addon_error(addon, unit.translation.component)
 
 
 @receiver(post_save, sender=Unit)
@@ -246,7 +282,10 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
     )
     for addon in addons:
         instance.translation.log_debug("running unit_post_save addon: %s", addon.name)
-        addon.addon.unit_post_save(instance, created)
+        try:
+            addon.addon.unit_post_save(instance, created)
+        except Exception:
+            handle_addon_error(addon, instance.translation.component)
 
 
 @receiver(store_post_load)
@@ -254,4 +293,7 @@ def store_post_load_handler(sender, translation, store, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_STORE_POST_LOAD)
     for addon in addons:
         translation.log_debug("running store_post_load addon: %s", addon.name)
-        addon.addon.store_post_load(translation, store)
+        try:
+            addon.addon.store_post_load(translation, store)
+        except Exception:
+            handle_addon_error(addon, translation.component)
