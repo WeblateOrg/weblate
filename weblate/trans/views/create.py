@@ -367,10 +367,8 @@ class CreateComponentSelection(CreateComponent):
                 pk__in=self.branch_data.keys()
             )
             form.branch_data = self.branch_data
-            form.auto_id = "id_branch_%s"
         elif isinstance(form, ComponentSelectForm):
             form.fields["component"].queryset = self.components
-            form.auto_id = "id_existing_%s"
         return form
 
     def get_form_class(self):

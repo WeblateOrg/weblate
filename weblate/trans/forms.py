@@ -1390,6 +1390,8 @@ class ComponentSelectForm(ComponentNameForm):
     def __init__(self, request, *args, **kwargs):
         if "instance" in kwargs:
             kwargs.pop("instance")
+        if "auto_id" not in kwargs:
+            kwargs["auto_id"] = "id_existing_%s"
         super().__init__(*args, **kwargs)
 
 
@@ -1398,6 +1400,10 @@ class ComponentBranchForm(ComponentSelectForm):
 
     branch_data: Dict[int, List[str]] = {}
     instance = None
+
+    def __init__(self, *args, **kwargs):
+        kwargs["auto_id"] = "id_branch_%s"
+        super().__init__(*args, **kwargs)
 
     def clean_component(self):
         component = self.cleaned_data["component"]
@@ -1464,6 +1470,10 @@ class ComponentScratchCreateForm(ComponentProjectForm):
         ),
     )
 
+    def __init__(self, *args, **kwargs):
+        kwargs["auto_id"] = "id_scratchcreate_%s"
+        super().__init__(*args, **kwargs)
+
 
 class ComponentZipCreateForm(ComponentProjectForm):
     zipfile = forms.FileField(
@@ -1471,6 +1481,12 @@ class ComponentZipCreateForm(ComponentProjectForm):
         validators=[FileExtensionValidator(allowed_extensions=["zip"])],
         widget=forms.FileInput(attrs={"accept": ".zip,application/zip"}),
     )
+
+    field_order = ["zipfile", "project", "name", "slug"]
+
+    def __init__(self, *args, **kwargs):
+        kwargs["auto_id"] = "id_zipcreate_%s"
+        super().__init__(*args, **kwargs)
 
 
 class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
