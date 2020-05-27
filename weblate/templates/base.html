@@ -78,6 +78,10 @@ var _rollbarConfig = {
   <script defer data-cfasync="false" src="{% static 'js/slugify.js' %}{{ cache_param }}"></script>
   <script defer data-cfasync="false" src="{% static 'loader-bootstrap.js' %}{{ cache_param }}"></script>
 {% endcompress %}
+
+{% block extra_script %}
+{% endblock %}
+
   <link rel="image_src" type="image/png" href="{% static 'weblate-128.png' %}"/>
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'logo-32.png' %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'logo-16.png' %}">
