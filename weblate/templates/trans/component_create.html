@@ -33,6 +33,9 @@
 {% if zip_form %}
   <li role="presentation"><a href="#zip" data-toggle="tab">{% trans "Upload translations files" %}</a></li>
 {% endif %}
+{% if doc_form %}
+  <li role="presentation"><a href="#doc" data-toggle="tab">{% trans "Translate document" %}</a></li>
+{% endif %}
 {% if scratch_form %}
   <li role="presentation"><a href="#scratch" data-toggle="tab">{% trans "Start from scratch" %}</a></li>
 {% endif %}
@@ -86,6 +89,18 @@
 <input type="hidden" name="project" value="{{ selected_project }}" />
 <p>{% trans "Create a new translation component from an uploaded ZIP file containing strings for translation." %}</p>
 {{ zip_form | crispy }}
+<input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
+</form>
+</div>
+{% endif %}
+
+{% if doc_form %}
+<div class="tab-pane" id="doc">
+<form action="{% url 'create-component-doc' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<input type="hidden" name="project" value="{{ selected_project }}" />
+<p>{% trans "Create a new translation component from an uploaded document for translation." %}</p>
+{{ doc_form | crispy }}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>
 </div>

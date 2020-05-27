@@ -367,6 +367,11 @@ real_patterns = [
         name="create-component-zip",
     ),
     url(
+        r"^create/component/doc/$",
+        weblate.trans.views.create.CreateFromDoc.as_view(),
+        name="create-component-doc",
+    ),
+    url(
         r"^contributor-agreement/" + COMPONENT + "$",
         weblate.trans.views.agreement.agreement_confirm,
         name="contributor-agreement",

@@ -29,6 +29,7 @@ from weblate.vcs.git import GitRepository
 
 TEST_ZIP = get_test_file("translations.zip")
 TEST_INVALID_ZIP = get_test_file("invalid.zip")
+TEST_HTML = get_test_file("cs.html")
 
 
 class CreateTest(ViewTestCase):
@@ -292,6 +293,36 @@ class CreateTest(ViewTestCase):
         )
         self.assertContains(response, "Adding new translation")
         self.assertContains(response, "*.po")
+
+    @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
+    def test_create_doc(self):
+        self.user.is_superuser = True
+        self.user.save()
+        with open(TEST_HTML, "rb") as handle:
+            response = self.client.post(
+                reverse("create-component-doc"),
+                {
+                    "docfile": handle,
+                    "name": "Create Component",
+                    "slug": "create-component",
+                    "project": self.project.pk,
+                },
+            )
+        self.assertContains(response, "*.html")
+
+        response = self.client.post(
+            reverse("create-component-doc"),
+            {
+                "name": "Create Component",
+                "slug": "create-component",
+                "project": self.project.pk,
+                "vcs": "local",
+                "repo": "local:",
+                "discovery": "0",
+            },
+        )
+        self.assertContains(response, "Adding new translation")
+        self.assertContains(response, "*.html")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_scratch(self):

@@ -1681,8 +1681,9 @@ $(function () {
     });
 
     /* ZIP import - autofill name and slug */
-    $('#id_zipcreate_zipfile').change(function () {
-        var target = $('#id_zipcreate_name');
+    $('#id_zipcreate_zipfile,#id_doccreate_docfile').change(function () {
+        var $form = $(this).closest('form');
+        var target = $form.find('input[name=name]');
         if (this.files.length > 0 && target.val() === '') {
             var name = this.files[0].name;
             target.val(name.substring(0, name.lastIndexOf('.')));

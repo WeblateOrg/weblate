@@ -1489,6 +1489,18 @@ class ComponentZipCreateForm(ComponentProjectForm):
         super().__init__(*args, **kwargs)
 
 
+class ComponentDocCreateForm(ComponentProjectForm):
+    docfile = forms.FileField(
+        label=_("Document to translate"), validators=[validate_file_extension],
+    )
+
+    field_order = ["docfile", "project", "name", "slug"]
+
+    def __init__(self, *args, **kwargs):
+        kwargs["auto_id"] = "id_doccreate_%s"
+        super().__init__(*args, **kwargs)
+
+
 class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
     """Component creation form.
 

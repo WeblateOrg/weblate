@@ -377,7 +377,7 @@ class RepoTestMixin:
         return self._create_component("idml", "idml/*.idml", "idml/en.idml")
 
     def create_odt(self):
-        return self._create_component("odt", "odt/*.odt", "odt/en.odt")
+        return self._create_component("odf", "odt/*.odt", "odt/en.odt")
 
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)

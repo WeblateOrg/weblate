@@ -18,6 +18,7 @@
 #
 
 import json
+import os
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -36,6 +37,7 @@ from weblate.trans.forms import (
     ComponentBranchForm,
     ComponentCreateForm,
     ComponentDiscoverForm,
+    ComponentDocCreateForm,
     ComponentInitCreateForm,
     ComponentScratchCreateForm,
     ComponentSelectForm,
@@ -307,6 +309,40 @@ class CreateFromZip(CreateComponent):
         return self.get(self, self.request)
 
 
+class CreateFromDoc(CreateComponent):
+    form_class = ComponentDocCreateForm
+
+    def form_valid(self, form):
+        if self.stage != "init":
+            return super().form_valid(form)
+
+        # Create fake component (needed to calculate path)
+        fake = Component(
+            project=form.cleaned_data["project"],
+            slug=form.cleaned_data["slug"],
+            name=form.cleaned_data["name"],
+        )
+
+        # Create repository
+        uploaded = form.cleaned_data["docfile"]
+        name, ext = os.path.splitext(os.path.basename(uploaded.name))
+        filename = "{}/{}{}".format(
+            form.cleaned_data["slug"],
+            form.cleaned_data["project"].source_language.code,
+            ext,
+        )
+        LocalRepository.from_files(fake.full_path, {filename: uploaded.read()})
+
+        # Move to discover phase
+        self.stage = "discover"
+        self.initial = form.cleaned_data
+        self.initial["vcs"] = "local"
+        self.initial["repo"] = "local:"
+        self.initial.pop("docfile")
+        self.request.method = "GET"
+        return self.get(self, self.request)
+
+
 class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
@@ -352,6 +388,7 @@ class CreateComponentSelection(CreateComponent):
             kwargs["scratch_form"] = self.get_form(
                 ComponentScratchCreateForm, empty=True
             )
+            kwargs["doc_form"] = self.get_form(ComponentDocCreateForm, empty=True)
         if self.origin == "branch":
             kwargs["branch_form"] = kwargs["form"]
         elif self.origin == "scratch":
