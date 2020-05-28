@@ -99,6 +99,141 @@ function Editor() {
     this.$translationArea[0].focus();
 }
 
+function FullEditor() {
+    Editor.call(this);
+
+    Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
+    Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
+    Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
+    Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
+    Mousetrap.bindGlobal('mod+o', function(e) {$('.translation-item .copy-text').click(); return false;});
+    Mousetrap.bindGlobal('mod+y', function(e) {$('input[name="fuzzy"]').click(); return false;});
+    Mousetrap.bindGlobal(
+        'mod+shift+enter',
+        function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
+    );
+    Mousetrap.bindGlobal(
+        'mod+e',
+        function(e) {
+            $('.translation-editor').get(0).focus();
+            return false;
+        }
+    );
+    Mousetrap.bindGlobal(
+        'mod+s',
+        function(e) {
+            $('#search-dropdown').click();
+            $('input[name="q"]').focus();
+            return false;
+        }
+    );
+    Mousetrap.bindGlobal(
+        'mod+u',
+        function(e) {
+            $('.nav [href="#comments"]').click();
+            $('textarea[name="comment"]').focus();
+            return false;
+        }
+    );
+    Mousetrap.bindGlobal(
+        'mod+j',
+        function(e) {
+            $('.nav [href="#nearby"]').click();
+            return false;
+        }
+    );
+    Mousetrap.bindGlobal(
+        'mod+m',
+        function(e) {
+            $('.nav [href="#machine"]').click();
+            return false;
+        }
+    );
+}
+
+function ZenEditor() {
+    Editor.call(this);
+
+    $window.scroll(function() {
+        var $loadingNext = $('#loading-next');
+        var loader = $('#zen-load');
+
+        if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
+            if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
+                return;
+            }
+            $loadingNext.show();
+
+            loader.data('offset', 20 + parseInt(loader.data('offset'), 10));
+
+            $.get(
+                loader.attr('href') + '&offset=' + loader.data('offset'),
+                function (data) {
+                    $loadingNext.hide();
+
+                    $('.zen tfoot').before(data);
+
+                    initEditor();
+                }
+            );
+        }
+    });
+
+    /*
+        * Ensure current editor is reasonably located in the window
+        * - show whole element if moving back
+        * - scroll down if in bottom half of the window
+        */
+    $document.on('focus', '.zen .translation-editor', function() {
+        var current = $window.scrollTop();
+        var rowOffset = $(this).closest('tbody').offset().top;
+        if (rowOffset < current || rowOffset - current > $window.height() / 2) {
+            $([document.documentElement, document.body]).animate({
+                scrollTop: rowOffset
+            }, 100);
+        }
+    });
+
+    $document.on('change', '.translation-editor', zenEditor);
+    $document.on('change', '.fuzzy_checkbox', zenEditor);
+    $document.on('change', '.review_radio', zenEditor);
+
+    Mousetrap.bindGlobal('mod+end', function(e) {
+        $('.zen-unit:last').find('.translation-editor:first').focus();
+        return false;
+    });
+    Mousetrap.bindGlobal('mod+home', function(e) {
+        $('.zen-unit:first').find('.translation-editor:first').focus();
+        return false;
+    });
+    Mousetrap.bindGlobal('mod+pagedown', function(e) {
+        var focus = $(':focus');
+
+        if (focus.length === 0) {
+            $('.zen-unit:first').find('.translation-editor:first').focus();
+        } else {
+            focus.closest('.zen-unit').next().find('.translation-editor:first').focus();
+        }
+        return false;
+    });
+    Mousetrap.bindGlobal('mod+pageup', function(e) {
+        var focus = $(':focus');
+
+        if (focus.length === 0) {
+            $('.zen-unit:last').find('.translation-editor:first').focus();
+        } else {
+            focus.closest('.zen-unit').prev().find('.translation-editor:first').focus();
+        }
+        return false;
+    });
+
+    $window.on('beforeunload', function() {
+        if ($('.translation-modified').length > 0) {
+            return gettext('There are some unsaved changes, are you sure you want to leave?');
+        }
+    });
+}
+
 function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
@@ -631,141 +766,3 @@ $('.bug-comment').click(function () {
 });
 
 // end TODO: move to non-zen editor
-
-/* Translation editor */
-new Editor();
-
-// TODO: move to non-zen editor
-if ($('#button-first').length > 0) {
-    Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
-    Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
-    Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
-    Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
-    Mousetrap.bindGlobal('mod+o', function(e) {$('.translation-item .copy-text').click(); return false;});
-    Mousetrap.bindGlobal('mod+y', function(e) {$('input[name="fuzzy"]').click(); return false;});
-    Mousetrap.bindGlobal(
-        'mod+shift+enter',
-        function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
-    );
-    Mousetrap.bindGlobal(
-        'mod+e',
-        function(e) {
-            $('.translation-editor').get(0).focus();
-            return false;
-        }
-    );
-    Mousetrap.bindGlobal(
-        'mod+s',
-        function(e) {
-            $('#search-dropdown').click();
-            $('input[name="q"]').focus();
-            return false;
-        }
-    );
-    Mousetrap.bindGlobal(
-        'mod+u',
-        function(e) {
-            $('.nav [href="#comments"]').click();
-            $('textarea[name="comment"]').focus();
-            return false;
-        }
-    );
-    Mousetrap.bindGlobal(
-        'mod+j',
-        function(e) {
-            $('.nav [href="#nearby"]').click();
-            return false;
-        }
-    );
-    Mousetrap.bindGlobal(
-        'mod+m',
-        function(e) {
-            $('.nav [href="#machine"]').click();
-            return false;
-        }
-    );
-}
-
-// TODO: move to zen mode
-
-/* Zen mode handling */
-if ($('.zen').length > 0) {
-    $window.scroll(function() {
-        var $loadingNext = $('#loading-next');
-        var loader = $('#zen-load');
-
-        if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
-            if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
-                return;
-            }
-            $loadingNext.show();
-
-            loader.data('offset', 20 + parseInt(loader.data('offset'), 10));
-
-            $.get(
-                loader.attr('href') + '&offset=' + loader.data('offset'),
-                function (data) {
-                    $loadingNext.hide();
-
-                    $('.zen tfoot').before(data);
-
-                    initEditor();
-                }
-            );
-        }
-    });
-
-    /*
-        * Ensure current editor is reasonably located in the window
-        * - show whole element if moving back
-        * - scroll down if in bottom half of the window
-        */
-    $document.on('focus', '.zen .translation-editor', function() {
-        var current = $window.scrollTop();
-        var rowOffset = $(this).closest('tbody').offset().top;
-        if (rowOffset < current || rowOffset - current > $window.height() / 2) {
-            $([document.documentElement, document.body]).animate({
-                scrollTop: rowOffset
-            }, 100);
-        }
-    });
-
-    $document.on('change', '.translation-editor', zenEditor);
-    $document.on('change', '.fuzzy_checkbox', zenEditor);
-    $document.on('change', '.review_radio', zenEditor);
-
-    Mousetrap.bindGlobal('mod+end', function(e) {
-        $('.zen-unit:last').find('.translation-editor:first').focus();
-        return false;
-    });
-    Mousetrap.bindGlobal('mod+home', function(e) {
-        $('.zen-unit:first').find('.translation-editor:first').focus();
-        return false;
-    });
-    Mousetrap.bindGlobal('mod+pagedown', function(e) {
-        var focus = $(':focus');
-
-        if (focus.length === 0) {
-            $('.zen-unit:first').find('.translation-editor:first').focus();
-        } else {
-            focus.closest('.zen-unit').next().find('.translation-editor:first').focus();
-        }
-        return false;
-    });
-    Mousetrap.bindGlobal('mod+pageup', function(e) {
-        var focus = $(':focus');
-
-        if (focus.length === 0) {
-            $('.zen-unit:last').find('.translation-editor:first').focus();
-        } else {
-            focus.closest('.zen-unit').prev().find('.translation-editor:first').focus();
-        }
-        return false;
-    });
-
-    $window.on('beforeunload', function() {
-        if ($('.translation-modified').length > 0) {
-            return gettext('There are some unsaved changes, are you sure you want to leave?');
-        }
-    });
-};
