@@ -19,7 +19,7 @@ Not yet released.
 * Add direct link to edit screenshot from translate page.
 * Improved removal confirmation dialog.
 * Include templates in ZIP download.
-* Add support for Markdown in announcements.
+* Add support for Markdown and notification configuration in announcements.
 * Extended details in check listings.
 * Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`.
 * Consistently use dismissed as state of dismissed checks.

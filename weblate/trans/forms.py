@@ -1951,7 +1951,7 @@ class AnnouncementForm(forms.ModelForm):
 
     class Meta:
         model = Announcement
-        fields = ["message", "category", "expiry"]
+        fields = ["message", "category", "expiry", "notify"]
         widgets = {"expiry": WeblateDateInput()}
 
 

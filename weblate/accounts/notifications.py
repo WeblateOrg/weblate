@@ -600,6 +600,9 @@ class NewAnnouncementNotificaton(Notification):
     template_name = "new_announcement"
     required_attr = "announcement"
 
+    def should_skip(self, user, change):
+        return not change.announcement.notify
+
 
 @register_notification
 class NewAlertNotificaton(Notification):

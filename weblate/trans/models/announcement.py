@@ -60,7 +60,7 @@ class AnnouncementManager(models.Manager):
     def create(self, user=None, **kwargs):
         from weblate.trans.models.change import Change
 
-        result = super().create(user=user, **kwargs)
+        result = super().create(**kwargs)
 
         Change.objects.create(
             action=Change.ACTION_MESSAGE,
@@ -121,6 +121,9 @@ class Announcement(models.Model):
             "Use it to announce string freeze and translation "
             "deadline for next release."
         ),
+    )
+    notify = models.BooleanField(
+        blank=True, default=True, verbose_name=gettext_lazy("Notify users"),
     )
 
     objects = AnnouncementManager()

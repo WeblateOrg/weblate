@@ -22,6 +22,7 @@
 import os.path
 import shutil
 
+from django.core import mail
 from django.urls import reverse
 
 from weblate.trans.models import Announcement, Component, Project
@@ -142,13 +143,17 @@ class RenameTest(ViewTestCase):
 
 class AnnouncementTest(ViewTestCase):
     data = {"message": "Announcement testing", "category": "warning"}
+    outbox = 0
 
     def perform_test(self, url):
         response = self.client.post(url, self.data, follow=True)
         self.assertEqual(response.status_code, 403)
         self.make_manager()
+        # Add second user to receive notifications
+        self.project.add_user(self.anotheruser, "@Administration")
         response = self.client.post(url, self.data, follow=True)
         self.assertContains(response, self.data["message"])
+        self.assertEqual(len(mail.outbox), self.outbox)
 
     def test_translation(self):
         kwargs = {"lang": "cs"}
@@ -174,3 +179,8 @@ class AnnouncementTest(ViewTestCase):
         message = Announcement.objects.create(message="test")
         self.client.post(reverse("announcement-delete", kwargs={"pk": message.pk}))
         self.assertEqual(Announcement.objects.count(), 1)
+
+
+class AnnouncementNotifyTest(AnnouncementTest):
+    data = {"message": "Announcement testing", "category": "warning", "notify": "1"}
+    outbox = 1
