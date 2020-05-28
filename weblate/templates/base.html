@@ -274,7 +274,7 @@ var _rollbarConfig = {
 {% endblock %}
 </header>
 
-<div class="content">
+<div class="content {% block content_class %}{% endblock %}">
 
 {% if messages %}
 {% for message in messages %}
