@@ -97,6 +97,7 @@ WLT.Editor = (function () {
             e.preventDefault();
         });
 
+        this.initHighlight();
         this.init();
 
         this.$translationArea[0].focus();
@@ -105,6 +106,64 @@ WLT.Editor = (function () {
     EditorBase.prototype.init = function() {
         /* Autosizing */
         autosize($('.translation-editor'));
+    };
+
+    EditorBase.prototype.initHighlight = function () {
+        /* Copy from source text highlight check */
+        this.$editor.on('click', '.hlcheck', function (e) {
+            var text = $(this).clone();
+
+            text.find('.highlight-number').remove();
+            text=text.text();
+            insertEditor(text, $(this));
+            e.preventDefault();
+        });
+
+        /* and shortcuts */
+        for (var i = 1; i < 10; i++) {
+            Mousetrap.bindGlobal(
+                'mod+' + i,
+                function(e) {
+                    return false;
+                }
+            );
+        }
+
+        if ($('.hlcheck').length>0) {
+            $('.hlcheck').each(function(idx) {
+                var $this = $(this);
+
+                if (idx < 10) {
+                    let key = getNumericKey(idx);
+
+                    var title;
+                    if (IS_MAC) {
+                        title = interpolate(gettext('Cmd+%s'), [key]);
+                    } else {
+                        title = interpolate(gettext('Ctrl+%s'), [key]);
+                    }
+                    $(this).attr('title', title);
+                    $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
+
+                    Mousetrap.bindGlobal(
+                        'mod+' + key,
+                        function(e) {
+                            $this.click();
+                            return false;
+                        }
+                    );
+                } else {
+                    $this.find('.highlight-number').html('');
+                }
+            });
+            $('.highlight-number').hide();
+        }
+        Mousetrap.bindGlobal('mod', function (e) {
+            $('.highlight-number').show();
+        }, 'keydown');
+        Mousetrap.bindGlobal('mod', function (e) {
+            $('.highlight-number').hide();
+        }, 'keyup');
     };
 
 
@@ -423,61 +482,6 @@ WLT.Editor = (function () {
         insertEditor(text);
         e.preventDefault();
     });
-
-    /* Copy from source text highlight check */
-    $document.on('click', '.hlcheck', function (e) {
-        var text = $(this).clone();
-
-        text.find('.highlight-number').remove();
-        text=text.text();
-        insertEditor(text, $(this));
-        e.preventDefault();
-    });
-    /* and shortcuts */
-    for (var i = 1; i < 10; i++) {
-        Mousetrap.bindGlobal(
-            'mod+' + i,
-            function(e) {
-                return false;
-            }
-        );
-    }
-
-    if ($('.hlcheck').length>0) {
-        $('.hlcheck').each(function(idx) {
-            var $this = $(this);
-
-            if (idx < 10) {
-                let key = getNumericKey(idx);
-
-                var title;
-                if (IS_MAC) {
-                    title = interpolate(gettext('Cmd+%s'), [key]);
-                } else {
-                    title = interpolate(gettext('Ctrl+%s'), [key]);
-                }
-                $(this).attr('title', title);
-                $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
-
-                Mousetrap.bindGlobal(
-                    'mod+' + key,
-                    function(e) {
-                        $this.click();
-                        return false;
-                    }
-                );
-            } else {
-                $this.find('.highlight-number').html('');
-            }
-        });
-        $('.highlight-number').hide();
-    }
-    Mousetrap.bindGlobal('mod', function (e) {
-        $('.highlight-number').show();
-    }, 'keydown');
-    Mousetrap.bindGlobal('mod', function (e) {
-        $('.highlight-number').hide();
-    }, 'keyup');
 
     if (document.querySelectorAll('.check-item').length > 0) {
         // Cancel out browser's `meta+i` and let Mousetrap handle the rest
