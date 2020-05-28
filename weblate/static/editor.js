@@ -16,14 +16,14 @@ function getNumericKey(idx) {
     return ret;
 }
 
-function mark_fuzzy(elm) {
+function markFuzzy(elm) {
     /* Standard worflow */
     elm.find('input[name="fuzzy"]').prop('checked', true);
     /* Review workflow */
     elm.find('input[name="review"][value="10"]').prop('checked', true);
 }
 
-function mark_translated(elm) {
+function markTranslated(elm) {
     /* Standard worflow */
     elm.find('input[name="fuzzy"]').prop('checked', false);
     /* Review workflow */
@@ -37,16 +37,16 @@ function initEditor() {
     /* Minimal height for editor */
     $('.zen-horizontal .translator').each(function () {
         var $this = $(this);
-        var td_height = $this.height();
-        var editor_height = 0;
-        var content_height = $this.find('form').height();
+        var tdHeight = $this.height();
+        var editorHeight = 0;
+        var contentHeight = $this.find('form').height();
         var $editors = $this.find('.translation-editor');
         $editors.each(function () {
             var $editor = $(this);
-            editor_height += $editor.height();
+            editorHeight += $editor.height();
         });
         /* There is 10px padding */
-        $editors.css('min-height', ((td_height - (content_height - editor_height - 10)) / $editors.length) + 'px');
+        $editors.css('min-height', ((tdHeight - (contentHeight - editorHeight - 10)) / $editors.length) + 'px');
     });
 
     /* Count characters */
@@ -74,7 +74,7 @@ function initEditor() {
             $.parseJSON($this.data('content'))
         ).change();
         autosize.update($('.translation-editor'));
-        mark_fuzzy($this.closest('form'));
+        markFuzzy($this.closest('form'));
         $this.button('reset');
         e.preventDefault();
     });
@@ -105,7 +105,7 @@ function testChangeHandler(e) {
     if (e.key && e.key === 'Tab') {
         return;
     }
-    mark_translated($(this).closest('form'));
+    markTranslated($(this).closest('form'));
 }
 
 function processMachineTranslation(data, scope) {
@@ -190,14 +190,14 @@ function processMachineTranslation(data, scope) {
 
             $('.translation-editor').val(text).change();
             autosize.update($('.translation-editor'));
-            mark_fuzzy($('.translation-form'));
+            markFuzzy($('.translation-form'));
         });
         $('a.copymt-save').click(function () {
             var text = $(this).parent().parent().find('.target').text();
 
             $('.translation-editor').val(text).change();
             autosize.update($('.translation-editor'));
-            mark_translated($('.translation-form'));
+            markTranslated($('.translation-form'));
             submitForm({target:$('.translation-editor')});
         });
 
@@ -577,7 +577,7 @@ $('.add-dict-inline').submit(function () {
 /* Translate forms persistence */
 $forms = $('.translation-form');
 if ($forms.length > 0 && window.localStorage && window.localStorage.translation_autosave) {
-    var translation_restore = JSON.parse(window.localStorage.translation_autosave);
+    var translationRestore = JSON.parse(window.localStorage.translation_autosave);
 
     $.each(translation_restore, function () {
         var target = $('#' + this.id);
@@ -711,10 +711,10 @@ if ($('.zen').length > 0) {
         */
     $document.on('focus', '.zen .translation-editor', function() {
         var current = $window.scrollTop();
-        var row_offset = $(this).closest('tbody').offset().top;
-        if (row_offset < current || row_offset - current > $window.height() / 2) {
+        var rowOffset = $(this).closest('tbody').offset().top;
+        if (rowOffset < current || rowOffset - current > $window.height() / 2) {
             $([document.documentElement, document.body]).animate({
-                scrollTop: row_offset
+                scrollTop: rowOffset
             }, 100);
         }
     });
