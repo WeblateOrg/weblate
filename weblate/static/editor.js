@@ -97,10 +97,16 @@ WLT.editor = (function () {
             e.preventDefault();
         });
 
-        // TODO: mode-specific initialization
-        initEditor();
+        this.init();
+
         this.$translationArea[0].focus();
     }
+
+    Editor.prototype.init = function() {
+        /* Autosizing */
+        autosize($('.translation-editor'));
+    };
+
 
     function FullEditor() {
         Editor.call(this);
@@ -153,10 +159,14 @@ WLT.editor = (function () {
             }
         );
     }
+    FullEditor.prototype = Object.create(Editor.prototype);
+    FullEditor.prototype.constructor = FullEditor;
+
 
     function ZenEditor() {
         Editor.call(this);
 
+        var self = this;
         $window.scroll(function() {
             var $loadingNext = $('#loading-next');
             var loader = $('#zen-load');
@@ -176,7 +186,7 @@ WLT.editor = (function () {
 
                         $('.zen tfoot').before(data);
 
-                        initEditor();
+                        self.init();
                     }
                 );
             }
@@ -236,12 +246,13 @@ WLT.editor = (function () {
             }
         });
     }
+    ZenEditor.prototype = Object.create(Editor.prototype);
+    ZenEditor.prototype.constructor = ZenEditor;
 
-    function initEditor() {
-        /* Autosizing */
-        autosize($('.translation-editor'));
+    ZenEditor.prototype.init = function() {
+        Editor.prototype.init.call(this);
 
-        /* Minimal height for editor */
+        /* Minimal height for side-by-side editor */
         $('.zen-horizontal .translator').each(function () {
             var $this = $(this);
             var tdHeight = $this.height();
