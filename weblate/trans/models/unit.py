@@ -288,7 +288,7 @@ class Unit(models.Model, LoggerMixin):
 
         # Update checks if content or fuzzy flag has changed
         if not same_content or not same_state:
-            self.run_checks(same_content)
+            self.run_checks()
 
     def get_absolute_url(self):
         return "{0}?checksum={1}".format(
@@ -777,7 +777,7 @@ class Unit(models.Model, LoggerMixin):
         """Return list of target comments."""
         return Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info)).order()
 
-    def run_checks(self, same_content=True):
+    def run_checks(self):
         """Update checks for this unit."""
         run_propagate = False
 
