@@ -57,6 +57,21 @@ class AnnouncementManager(models.Manager):
         # All are None
         return base.filter(project=None, component=None, language=None)
 
+    def create(self, user=None, **kwargs):
+        from weblate.trans.models.change import Change
+
+        result = super().create(user=user, **kwargs)
+
+        Change.objects.create(
+            action=Change.ACTION_MESSAGE,
+            project=result.project,
+            component=result.component,
+            announcement=result,
+            target=result.message,
+            user=user,
+        )
+        return result
+
 
 class Announcement(models.Model):
     message = models.TextField(
@@ -117,20 +132,6 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.message
-
-    def save(self, *args, **kwargs):
-        is_new = not self.id
-        super().save(*args, **kwargs)
-        if is_new:
-            from weblate.trans.models.change import Change
-
-            Change.objects.create(
-                action=Change.ACTION_MESSAGE,
-                project=self.project,
-                component=self.component,
-                announcement=self,
-                target=self.message,
-            )
 
     def clean(self):
         if self.project and self.component and self.component.project != self.project:

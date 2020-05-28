@@ -241,6 +241,7 @@ def announcement_translation(request, project, component, lang):
         return redirect_param(obj, "#announcement")
 
     Announcement.objects.create(
+        user=request.user,
         project=obj.component.project,
         component=obj.component,
         language=obj.language,
@@ -263,7 +264,9 @@ def announcement_component(request, project, component):
         show_form_errors(request, form)
         return redirect_param(obj, "#announcement")
 
-    Announcement.objects.create(project=obj.project, component=obj, **form.cleaned_data)
+    Announcement.objects.create(
+        user=request.user, project=obj.project, component=obj, **form.cleaned_data
+    )
 
     return redirect(obj)
 
@@ -281,7 +284,7 @@ def announcement_project(request, project):
         show_form_errors(request, form)
         return redirect_param(obj, "#announcement")
 
-    Announcement.objects.create(project=obj, **form.cleaned_data)
+    Announcement.objects.create(user=request.user, project=obj, **form.cleaned_data)
 
     return redirect(obj)
 
