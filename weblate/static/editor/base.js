@@ -109,12 +109,15 @@ WLT.Editor = (function () {
     };
 
     EditorBase.prototype.initHighlight = function () {
+        var hlSelector = '.hlcheck';
+        var hlNumberSelector = '.highlight-number';
+
         /* Copy from source text highlight check */
-        this.$editor.on('click', '.hlcheck', function (e) {
+        this.$editor.on('click', hlSelector, function (e) {
             var text = $(this).clone();
 
-            text.find('.highlight-number').remove();
-            text=text.text();
+            text.find(hlNumberSelector).remove();
+            text = text.text();
             insertEditor(text, $(this));
             e.preventDefault();
         });
@@ -129,8 +132,9 @@ WLT.Editor = (function () {
             );
         }
 
-        if ($('.hlcheck').length>0) {
-            $('.hlcheck').each(function(idx) {
+        var $hlCheck = $(hlSelector);
+        if ($hlCheck.length > 0) {
+            $hlCheck.each(function(idx) {
                 var $this = $(this);
 
                 if (idx < 10) {
@@ -143,7 +147,7 @@ WLT.Editor = (function () {
                         title = interpolate(gettext('Ctrl+%s'), [key]);
                     }
                     $(this).attr('title', title);
-                    $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
+                    $(this).find(hlNumberSelector).html('<kbd>' + key + '</kbd>');
 
                     Mousetrap.bindGlobal(
                         'mod+' + key,
@@ -153,16 +157,17 @@ WLT.Editor = (function () {
                         }
                     );
                 } else {
-                    $this.find('.highlight-number').html('');
+                    $this.find(hlNumberSelector).html('');
                 }
             });
-            $('.highlight-number').hide();
+            $(hlNumberSelector).hide();
         }
+
         Mousetrap.bindGlobal('mod', function (e) {
-            $('.highlight-number').show();
+            $(hlNumberSelector).show();
         }, 'keydown');
         Mousetrap.bindGlobal('mod', function (e) {
-            $('.highlight-number').hide();
+            $(hlNumberSelector).hide();
         }, 'keyup');
     };
 
