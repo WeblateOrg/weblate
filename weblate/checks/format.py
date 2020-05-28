@@ -466,7 +466,7 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         "making it impossible for translators to reorder them"
     )
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         """Check source string."""
         rules = [FLAG_RULES[flag] for flag in unit.all_flags if flag in FLAG_RULES]
         if not rules:

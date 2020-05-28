@@ -38,7 +38,7 @@ class OptionalPluralCheck(SourceCheck):
     name = _("Unpluralised")
     description = _("The string is used as plural, but not using plural forms")
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         if len(source) > 1:
             return False
         return len(PLURAL_MATCH.findall(source[0])) > 0
@@ -53,7 +53,7 @@ class EllipsisCheck(SourceCheck):
         "The string uses three dots (...) " "instead of an ellipsis character (…)"
     )
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         return "..." in source[0]
 
 
@@ -64,7 +64,7 @@ class MultipleFailingCheck(SourceCheck):
     name = _("Multiple failing checks")
     description = _("The translations in several languages have failing checks")
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         from weblate.checks.models import Check
 
         related = Check.objects.filter(
@@ -79,7 +79,7 @@ class LongUntranslatedCheck(SourceCheck):
     name = _("Long untranslated")
     description = _("The string was not translated for a long time")
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         from weblate.trans.models import Unit
 
         if unit.timestamp > timezone.now() - timedelta(days=90):

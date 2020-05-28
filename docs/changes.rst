@@ -32,6 +32,7 @@ Not yet released.
 * Renamed shapings to more generic name variants.
 * Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-untranslated`, :ref:`check-duplicate`.
 * Reintroduced support for wiping translation memory.
+* Fixed option to ignore source checks.
 
 Weblate 4.0.4
 -------------

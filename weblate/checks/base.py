@@ -90,6 +90,12 @@ class Check:
         raise NotImplementedError()
 
     def check_source(self, source, unit):
+        """Check source strings."""
+        if self.should_skip(unit):
+            return False
+        return self.check_source_unit(source, unit)
+
+    def check_source_unit(self, source, unit):
         """Check source string."""
         raise NotImplementedError()
 
@@ -138,7 +144,7 @@ class TargetCheck(Check):
         """We don't check flag value here."""
         return False
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         """We don't check source strings here."""
         return False
 
@@ -160,7 +166,7 @@ class SourceCheck(Check):
         """We don't check target strings here."""
         return False
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         """Check source string."""
         raise NotImplementedError()
 
@@ -192,7 +198,7 @@ class TargetCheckParametrized(Check):
         """We don't check single phrase here."""
         return False
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         """We don't check source strings here."""
         return False
 
