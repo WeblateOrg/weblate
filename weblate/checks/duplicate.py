@@ -31,6 +31,7 @@ CHECK_RE = re.compile(r"\b([^\d\W]{2,})(?:\s+\1)\b")
 # Per language ignore list
 IGNORES = {
     "fr": {"vous", "nous"},
+    "hi": {"कर"},
 }
 
 
