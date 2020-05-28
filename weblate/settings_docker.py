@@ -141,7 +141,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
-MEDIA_URL = "{0}/media/".format(URL_PREFIX)
+MEDIA_URL = f"{URL_PREFIX}/media/"
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -149,7 +149,7 @@ MEDIA_URL = "{0}/media/".format(URL_PREFIX)
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
 
 # URL prefix for static files.
-STATIC_URL = "{0}/static/".format(URL_PREFIX)
+STATIC_URL = f"{URL_PREFIX}/static/"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -464,7 +464,6 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -541,7 +540,7 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporte
 # Default logging of Weblate messages
 # - to syslog in production (if available)
 # - otherwise to console
-# - you can also choose 'logfile' to log into separate file
+# - you can also choose "logfile" to log into separate file
 #   after configuring it below
 
 # Detect if we can connect to syslog
@@ -595,13 +594,13 @@ LOGGING = {
             "facility": SysLogHandler.LOG_LOCAL2,
         },
         # Logging to a file
-        # 'logfile': {
-        #     'level':'DEBUG',
-        #     'class':'logging.handlers.RotatingFileHandler',
-        #     'filename': "/var/log/weblate/weblate.log",
-        #     'maxBytes': 100000,
-        #     'backupCount': 3,
-        #     'formatter': 'logfile',
+        # "logfile": {
+        #     "level":"DEBUG",
+        #     "class":"logging.handlers.RotatingFileHandler",
+        #     "filename": "/var/log/weblate/weblate.log",
+        #     "maxBytes": 100000,
+        #     "backupCount": 3,
+        #     "formatter": "logfile",
         # },
     },
     "loggers": {
@@ -616,9 +615,9 @@ LOGGING = {
             "propagate": False,
         },
         # Logging database queries
-        # 'django.db.backends': {
-        #     'handlers': [DEFAULT_LOG],
-        #     'level': 'DEBUG',
+        # "django.db.backends": {
+        #     "handlers": [DEFAULT_LOG],
+        #     "level": "DEBUG",
         # },
         "weblate": {
             "handlers": [DEFAULT_LOG],
@@ -767,6 +766,7 @@ CSRF_USE_SESSIONS = True
 # Customize CSRF failure view
 CSRF_FAILURE_VIEW = "weblate.trans.views.error.csrf_failure"
 SESSION_COOKIE_SECURE = ENABLE_HTTPS
+SESSION_COOKIE_HTTPONLY = True
 # SSL redirect
 SECURE_SSL_REDIRECT = ENABLE_HTTPS
 # Sent referrrer only for same origin links
@@ -778,14 +778,19 @@ SESSION_COOKIE_AGE = 1209600
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 
+# Apply session coookie settings to language cookie as ewll
+LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
+LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
+LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE * 10
+
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Optionally enable HSTS
-SECURE_HSTS_SECONDS = 0
-SECURE_HSTS_PRELOAD = False
+SECURE_HSTS_SECONDS = 31536000 if ENABLE_HTTPS else 0
+SECURE_HSTS_PRELOAD = ENABLE_HTTPS
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 
 # URL of login
@@ -949,7 +954,7 @@ CACHES = {
         ),
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:
-        # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=1',
+        # "LOCATION": "unix:///var/run/redis/redis.sock?db=1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PARSER_CLASS": "redis.connection.HiredisParser",
@@ -1065,7 +1070,6 @@ if REDIS_PROTO == "rediss":
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_PREFETCH_MULTIPLIER = 0
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
