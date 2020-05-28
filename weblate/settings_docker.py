@@ -458,6 +458,9 @@ REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS"
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = os.environ.get("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 
+# Shortcut for login required setting
+REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN", False)
+
 # Middleware
 MIDDLEWARE = [
     "weblate.middleware.ProxyMiddleware",
@@ -984,7 +987,10 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+        # Require authentication for login required sites
+        "rest_framework.permissions.IsAuthenticated"
+        if REQUIRE_LOGIN
+        else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
@@ -1002,33 +1008,28 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 
-if get_env_bool("WEBLATE_REQUIRE_LOGIN", False):
-    # Force authentication for REST API
-    REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
-        "rest_framework.permissions.IsAuthenticated"
-    ]
-
-    # Example for restricting access to logged in users
+# Require login for all URLs
+if REQUIRE_LOGIN:
     LOGIN_REQUIRED_URLS = (r"/(.*)$",)
 
-    # In such case you will want to include some of the exceptions
-    LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
-        "WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS",
-        (
-            rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
-            rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
-            rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
-            rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
-            rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
-            rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notifications
-            rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
-            rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
-            rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
-            rf"{URL_PREFIX}/contact/$",  # Optional for contact form
-            rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
-        ),
-    )
-    modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
+# In such case you will want to include some of the exceptions
+LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
+    "WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS",
+    (
+        rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
+        rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
+        rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
+        rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
+        rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
+        rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notifications
+        rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
+        rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
+        rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
+        rf"{URL_PREFIX}/contact/$",  # Optional for contact form
+        rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
+    ),
+)
+modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
 
 # Email server
 EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)

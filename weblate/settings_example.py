@@ -320,7 +320,7 @@ AUTH_PASSWORD_VALIDATORS = [
 REGISTRATION_OPEN = True
 
 # Shortcut for login required setting
-LOGIN_REQUIRED = False
+REQUIRE_LOGIN = False
 
 # Middleware
 MIDDLEWARE = [
@@ -784,7 +784,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         # Require authentication for login required sites
         "rest_framework.permissions.IsAuthenticated"
-        if LOGIN_REQUIRED
+        if REQUIRE_LOGIN
         else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -803,8 +803,8 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 
-# Example for restricting access to logged in users
-if LOGIN_REQUIRED:
+# Require login for all URLs
+if REQUIRE_LOGIN:
     LOGIN_REQUIRED_URLS = (r"/(.*)$",)
 
 # In such case you will want to include some of the exceptions
