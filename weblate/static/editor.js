@@ -746,7 +746,7 @@ WLT.editor = (function () {
     if ($forms.length > 0 && window.localStorage && window.localStorage.translation_autosave) {
         var translationRestore = JSON.parse(window.localStorage.translation_autosave);
 
-        $.each(translation_restore, function () {
+        $.each(translationRestore, function () {
             var target = $('#' + this.id);
 
             if (target.length > 0) {
