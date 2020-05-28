@@ -280,7 +280,20 @@ class QueryParserTest(TestCase):
     def test_timestamp_format(self):
         self.assert_query(
             "changed:>=01/20/2020",
-            Q(change__timestamp__gte=datetime(2020, 20, 1, 0, 0, tzinfo=utc)),
+            Q(change__timestamp__gte=datetime(2020, 1, 20, 0, 0, tzinfo=utc))
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
+    def test_timestamp_interval(self):
+        self.assert_query(
+            "changed:2020-03-27>",
+            Q(change__timestamp__gte=datetime(2020, 3, 27, 0, 0, tzinfo=utc))
+            & Q(
+                change__timestamp__lte=datetime(
+                    2020, 3, 27, 23, 59, 59, 999999, tzinfo=utc
+                )
+            )
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
     @expectedFailure

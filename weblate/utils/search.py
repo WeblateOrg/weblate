@@ -29,6 +29,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from jellyfish import damerau_levenshtein_distance
 from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
+from whoosh.util.times import long_to_datetime
 
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import (
@@ -333,6 +334,18 @@ def query_sql(obj):
             ),
         )
     if isinstance(obj, whoosh.query.NumericRange):
+        if obj.fieldname in {"added", "changed"}:
+            return field_extra(
+                obj.fieldname,
+                range_sql(
+                    obj.fieldname,
+                    long_to_datetime(obj.start),
+                    long_to_datetime(obj.end),
+                    obj.startexcl,
+                    obj.endexcl,
+                    timezone.make_aware,
+                ),
+            )
         return range_sql(obj.fieldname, obj.start, obj.end, obj.startexcl, obj.endexcl)
     if isinstance(obj, whoosh.query.Regex):
         try:
