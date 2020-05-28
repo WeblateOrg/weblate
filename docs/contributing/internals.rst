@@ -21,7 +21,7 @@ Quick overview of directory structure of Weblate main repository:
 ``weblate``
    Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ application, see :ref:`internals`.
 ``weblate/static``
-   Client files (CSS, Javascript and images).
+   Client files (CSS, Javascript and images), see :doc:`frontend`.
 
 Modules
 -------

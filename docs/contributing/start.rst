@@ -1,7 +1,8 @@
 Starting contributing code to Weblate
 =====================================
 
-To understand Weblate source code, please first look into :doc:`code` and :doc:`internals`.
+To understand Weblate source code, please first look into :doc:`code`,
+:doc:`frontend` and :doc:`internals`.
 
 Starting with our codebase
 --------------------------

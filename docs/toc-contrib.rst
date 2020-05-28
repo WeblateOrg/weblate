@@ -7,6 +7,7 @@
     contributing/code
     contributing/debugging
     contributing/internals
+    contributing/frontend
     contributing/issues
     contributing/tests
     contributing/schemas

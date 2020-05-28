@@ -1,0 +1,23 @@
+Weblate fronted
+===============
+
+The frontend it currently built using Bootstrap, jQuery and few third party libraries.
+
+Depencendy management
+---------------------
+
+The yarn package manager is used to update third party libraries. The
+configuration lives in :file:`scripts/yarn` and there is a wrapper script
+:file:`scripts/yarn-update` to upgrade the libraries, build them and copy to
+correct locations in :file:`weblate/static`. It also runs :command:`pre-commit`
+to format the code, see :doc:`code` for instructions to set it up.
+
+Icons
+-----
+
+Weblate currently uses material design icons, in case you are looking for new
+one, check <https://materialdesignicons.com/>.
+
+Additionally, there is :file:`scripts/optimize-svg` to reduce size of the SVG
+as most of the icons are embedded inside the HTML to allow styling of the
+paths.
