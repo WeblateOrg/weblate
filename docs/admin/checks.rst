@@ -72,74 +72,116 @@ Here is a list of flags currently accepted:
     :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
     :ref:`check-c-sharp-format`, :ref:`check-java-format`,
     :ref:`check-java-messageformat`, :ref:`check-same`.
-``ignore-end-space``
-    Skip the "Trailing space" quality check.
-``ignore-inconsistent``
-    Skip the "Inconsistent" quality check.
-``ignore-translated``
-    Skip the "Has been translated" quality check.
-``ignore-begin-newline``
-    Skip the "Starting newline" quality check.
-``ignore-zero-width-space``
-    Skip the "Zero-width space" quality check.
-``ignore-escaped-newline``
-    Skip the "Mismatched \n" quality check.
-``ignore-same``
-    Skip the "Unchanged translation" quality check.
 ``strict-same``
     Make "Unchanged translation" avoid using built in words blacklist, see :ref:`check-same`.
-``ignore-end-question``
-    Skip the "Trailing question" quality check.
-``ignore-end-ellipsis``
-    Skip the "Trailing ellipsis" quality check.
-``ignore-ellipsis``
-    Skip the "Ellipsis" quality check.
-``ignore-python-brace-format``
-    Skip the "Python brace format" quality check.
-``ignore-end-newline``
-    Skip the "Trailing newline" quality check.
-``ignore-c-format``
-    Skip the "C format" quality check.
-``ignore-javascript-format``
-    Skip the "JavaScript format" quality check.
-``ignore-optional-plural``
-    Skip the "Unpluralized" quality check.
-``ignore-end-exclamation``
-    Skip the "Trailing exclamation" quality check.
-``ignore-end-colon``
-    Skip the "Trailing colon" quality check.
-``ignore-xml-invalid``
-    Skip the "XML syntax" quality check.
-``ignore-xml-tags``
-    Skip the "XML markup" quality check.
-``ignore-python-format``
-    Skip the "Python format" quality check.
-``ignore-plurals``
-    Skip the "Missing plurals" quality check.
-``ignore-begin-space``
-    Skip the "Starting spaces" quality check.
 ``ignore-bbcode``
     Skip the "BBcode markup" quality check.
-``ignore-multiple-failures``
-    Skip the "Multiple failing checks" quality check.
-``ignore-php-format``
-    Skip the "PHP format" quality check.
-``ignore-end-stop``
-    Skip the "Trailing stop" quality check.
+``ignore-duplicate``
+    Skip the "Consecutive duplicated words" quality check.
+``ignore-double-space``
+    Skip the "Double space" quality check.
 ``ignore-angularjs-format``
     Skip the "AngularJS interpolation string" quality check.
+``ignore-c-format``
+    Skip the "C format" quality check.
 ``ignore-c-sharp-format``
     Skip the "C# format" quality check.
+``ignore-i18next-interpolation``
+    Skip the "i18next interpolation" quality check.
 ``ignore-java-format``
     Skip the "Java format" quality check.
+``ignore-java-messageformat``
+    Skip the "Java MessageFormat" quality check.
+``ignore-javascript-format``
+    Skip the "JavaScript format" quality check.
+``ignore-percent-placeholders``
+    Skip the "Percent placeholders" quality check.
+``ignore-perl-format``
+    Skip the "Perl format" quality check.
+``ignore-php-format``
+    Skip the "PHP format" quality check.
+``ignore-python-brace-format``
+    Skip the "Python brace format" quality check.
+``ignore-python-format``
+    Skip the "Python format" quality check.
 ``ignore-qt-format``
     Skip the "Qt format" quality check.
 ``ignore-qt-plural-format``
     Skip the "Qt plural format" quality check.
 ``ignore-ruby-format``
     Skip the "Ruby format" quality check.
+``ignore-translated``
+    Skip the "Has been translated" quality check.
+``ignore-inconsistent``
+    Skip the "Inconsistent" quality check.
+``ignore-kashida``
+    Skip the "Kashida letter used" quality check.
+``ignore-md-link``
+    Skip the "Markdown links" quality check.
+``ignore-md-reflink``
+    Skip the "Markdown references" quality check.
+``ignore-md-syntax``
+    Skip the "Markdown syntax" quality check.
+``ignore-max-length``
+    Skip the "Maximum length of translation" quality check.
+``ignore-max-size``
+    Skip the "Maximum size of translation" quality check.
+``ignore-escaped-newline``
+    Skip the "Mismatched \n" quality check.
+``ignore-newline-count``
+    Skip the "Mismatching line breaks" quality check.
+``ignore-plurals``
+    Skip the "Missing plurals" quality check.
+``ignore-placeholders``
+    Skip the "Placeholders" quality check.
 ``ignore-punctuation-spacing``
     Skip the "Punctuation spacing" quality check.
+``ignore-regex``
+    Skip the "Regular expression" quality check.
+``ignore-same-plurals``
+    Skip the "Same plurals" quality check.
+``ignore-begin-newline``
+    Skip the "Starting newline" quality check.
+``ignore-begin-space``
+    Skip the "Starting spaces" quality check.
+``ignore-end-colon``
+    Skip the "Trailing colon" quality check.
+``ignore-end-ellipsis``
+    Skip the "Trailing ellipsis" quality check.
+``ignore-end-exclamation``
+    Skip the "Trailing exclamation mark" quality check.
+``ignore-end-newline``
+    Skip the "Trailing newline" quality check.
+``ignore-end-question``
+    Skip the "Trailing question mark" quality check.
+``ignore-end-semicolon``
+    Skip the "Trailing semicolon" quality check.
+``ignore-end-space``
+    Skip the "Trailing space" quality check.
+``ignore-end-stop``
+    Skip the "Trailing stop" quality check.
+``ignore-same``
+    Skip the "Unchanged translation" quality check.
+``ignore-safe-html``
+    Skip the "Unsafe HTML" quality check.
+``ignore-url``
+    Skip the "URL" quality check.
+``ignore-xml-tags``
+    Skip the "XML markup" quality check.
+``ignore-xml-invalid``
+    Skip the "XML syntax" quality check.
+``ignore-zero-width-space``
+    Skip the "Zero-width space" quality check.
+``ignore-ellipsis``
+    Skip the "Ellipsis" quality check.
+``ignore-long-untranslated``
+    Skip the "Long untranslated" quality check.
+``ignore-multiple-failures``
+    Skip the "Multiple failing checks" quality check.
+``ignore-unnamed-format``
+    Skip the "Multiple unnamed variables" quality check.
+``ignore-optional-plural``
+    Skip the "Unpluralised" quality check.
 
 .. note::
 

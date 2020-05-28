@@ -43,6 +43,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """List installed checks."""
+        ignores = []
         lines = []
         for check in sorted(CHECKS.values(), key=sorter):
             is_format = isinstance(check, BaseFormatCheck)
@@ -63,3 +64,9 @@ class Command(BaseCommand):
 
             if not is_format:
                 self.flush_lines(lines)
+
+            ignores.append(f"``{check.ignore_string}``")
+            ignores.append(f'    Skip the "{check.name}" quality check.')
+
+        self.stdout.write("\n")
+        self.stdout.writelines(ignores)
