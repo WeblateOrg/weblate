@@ -12,6 +12,30 @@ configuration lives in :file:`scripts/yarn` and there is a wrapper script
 correct locations in :file:`weblate/static`. It also runs :command:`pre-commit`
 to format the code, see :doc:`code` for instructions to set it up.
 
+Localization
+------------
+
+Should you need any user visible text in the frontend code, it should be
+localizable. In most cases all you need is to wrap your text inside ``gettext``
+function, but there are more complex features available:
+
+.. code-block:: javascript
+
+    document.write(gettext('this is to be translated'));
+
+    var object_count = 1 // or 0, or 2, or 3, ...
+    s = ngettext('literal for the singular case',
+            'literal for the plural case', object_count);
+
+    fmts = ngettext('There is %s object. Remaining: %s',
+            'There are %s objects. Remaining: %s', 11);
+    s = interpolate(fmts, [11, 20]);
+    // s is 'There are 11 objects. Remaining: 20'
+
+.. seealso::
+
+   :doc:`Translation topic in the Django documentation <django:topics/i18n/translation>`
+
 Icons
 -----
 
