@@ -1,9 +1,9 @@
-Weblate fronted
-===============
+Weblate frontend
+================
 
-The frontend it currently built using Bootstrap, jQuery and few third party libraries.
+The frontend is currently built using Bootstrap, jQuery and few third party libraries.
 
-Depencendy management
+Dependency management
 ---------------------
 
 The yarn package manager is used to update third party libraries. The
