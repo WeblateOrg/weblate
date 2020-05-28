@@ -30,6 +30,24 @@ function markTranslated(elm) {
     elm.find('input[name="review"][value="20"]').prop('checked', true);
 }
 
+function Editor() {
+    var translationAreaSelector =  '.translation-editor';
+
+    this.$editor = $('.js-editor');
+    this.$translationArea = $(translationAreaSelector);
+
+    this.$editor.on('change', translationAreaSelector, testChangeHandler);
+    this.$editor.on('keypress', translationAreaSelector, testChangeHandler);
+    this.$editor.on('keydown', translationAreaSelector, testChangeHandler);
+    this.$editor.on('paste', translationAreaSelector, testChangeHandler);
+    this.$editor.on('focusin', translationAreaSelector, function () {
+        lastEditor = $(this);
+    });
+
+    initEditor();
+    this.$translationArea[0].focus();
+}
+
 function initEditor() {
     /* Autosizing */
     autosize($('.translation-editor'));
@@ -615,14 +633,7 @@ $('.bug-comment').click(function () {
 // end TODO: move to non-zen editor
 
 /* Translation editor */
-var translationEditor = $('.translation-editor');
-$document.on('change', '.translation-editor', testChangeHandler);
-$document.on('keypress', '.translation-editor', testChangeHandler);
-$document.on('keydown', '.translation-editor', testChangeHandler);
-$document.on('paste', '.translation-editor', testChangeHandler);
-$document.on('focusin', '.translation-editor', function () { lastEditor = $(this); });
-initEditor();
-translationEditor.get(0).focus();
+new Editor();
 
 // TODO: move to non-zen editor
 if ($('#button-first').length > 0) {
