@@ -788,16 +788,16 @@ class Unit(models.Model, LoggerMixin):
         create = []
 
         if self.translation.is_source:
-            checks = CHECKS.source.items()
+            checks = CHECKS.source
             meth = "check_source"
             args = src, self
         else:
-            checks = CHECKS.target.items()
+            checks = CHECKS.target
             meth = "check_target"
             args = src, tgt, self
 
         # Run all checks
-        for check, check_obj in checks:
+        for check, check_obj in checks.items():
             # Does the check fire?
             if getattr(check_obj, meth)(*args):
                 if check in old_checks:
