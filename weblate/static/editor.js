@@ -742,8 +742,7 @@ WLT.editor = (function () {
     });
 
     /* Translate forms persistence */
-    $forms = $('.translation-form');
-    if ($forms.length > 0 && window.localStorage && window.localStorage.translation_autosave) {
+    if ($('.translation-form').length > 0 && window.localStorage && window.localStorage.translation_autosave) {
         var translationRestore = JSON.parse(window.localStorage.translation_autosave);
 
         $.each(translationRestore, function () {
