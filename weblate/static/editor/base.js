@@ -114,11 +114,12 @@ WLT.Editor = (function () {
 
         /* Copy from source text highlight check */
         this.$editor.on('click', hlSelector, function (e) {
-            var text = $(this).clone();
+            var $this = $(this);
+            var text = $this.clone();
 
             text.find(hlNumberSelector).remove();
             text = text.text();
-            insertEditor(text, $(this));
+            insertEditor(text, $this);
             e.preventDefault();
         });
 
@@ -146,8 +147,8 @@ WLT.Editor = (function () {
                     } else {
                         title = interpolate(gettext('Ctrl+%s'), [key]);
                     }
-                    $(this).attr('title', title);
-                    $(this).find(hlNumberSelector).html('<kbd>' + key + '</kbd>');
+                    $this.attr('title', title);
+                    $this.find(hlNumberSelector).html('<kbd>' + key + '</kbd>');
 
                     Mousetrap.bindGlobal(
                         'mod+' + key,
