@@ -44,6 +44,57 @@ function Editor() {
         lastEditor = $(this);
     });
 
+    /* Count characters */
+    this.$editor.on('keyup', translationAreaSelector, function() {
+        var $this = $(this);
+        var counter = $this.parent().find('.length-indicator');
+        var limit = parseInt(counter.data('max'));
+        var length = $this.val().length;
+        counter.text(length);
+        if (length >= limit) {
+            counter.parent().addClass('badge-danger').removeClass('badge-warning');
+        } else if (length + 10 >= limit) {
+            counter.parent().addClass('badge-warning').removeClass('badge-danger');
+        } else {
+            counter.parent().removeClass('badge-warning').removeClass('badge-danger');
+        }
+    });
+
+    /* Copy source text */
+    this.$editor.on('click', '.copy-text', function (e) {
+        var $this = $(this);
+
+        $this.button('loading');
+        $this.closest('.translation-item').find('.translation-editor').val(
+            $.parseJSON($this.data('content'))
+        ).change();
+        autosize.update($('.translation-editor'));
+        markFuzzy($this.closest('form'));
+        $this.button('reset');
+        e.preventDefault();
+    });
+
+    /* Direction toggling */
+    this.$editor.on('change', '.direction-toggle', function () {
+        var $this = $(this);
+
+        $this.closest('.translation-item').find('.translation-editor').attr(
+            'dir',
+            $this.find('input').val()
+        );
+    });
+
+    /* Special characters */
+    this.$editor.on('click', '.specialchar', function (e) {
+        var $this = $(this);
+        var text = $this.data('value');
+
+        $this.closest('.translation-item').find('.translation-editor').insertAtCaret(text).change();
+        autosize.update($('.translation-editor'));
+        e.preventDefault();
+    });
+
+    // TODO: mode-specific initialization
     initEditor();
     this.$translationArea[0].focus();
 }
@@ -66,57 +117,6 @@ function initEditor() {
         /* There is 10px padding */
         $editors.css('min-height', ((tdHeight - (contentHeight - editorHeight - 10)) / $editors.length) + 'px');
     });
-
-    /* Count characters */
-    $(".translation-editor").keyup(function() {
-        var $this = $(this);
-        var counter = $this.parent().find('.length-indicator');
-        var limit = parseInt(counter.data('max'));
-        var length = $this.val().length;
-        counter.text(length);
-        if (length >= limit) {
-            counter.parent().addClass('badge-danger').removeClass('badge-warning');
-        } else if (length + 10 >= limit) {
-            counter.parent().addClass('badge-warning').removeClass('badge-danger');
-        } else {
-            counter.parent().removeClass('badge-warning').removeClass('badge-danger');
-        }
-    });
-
-    /* Copy source text */
-    $('.copy-text').click(function (e) {
-        var $this = $(this);
-
-        $this.button('loading');
-        $this.closest('.translation-item').find('.translation-editor').val(
-            $.parseJSON($this.data('content'))
-        ).change();
-        autosize.update($('.translation-editor'));
-        markFuzzy($this.closest('form'));
-        $this.button('reset');
-        e.preventDefault();
-    });
-
-    /* Direction toggling */
-    $('.direction-toggle').change(function () {
-        var $this = $(this);
-
-        $this.closest('.translation-item').find('.translation-editor').attr(
-            'dir',
-            $this.find('input').val()
-        );
-    });
-
-    /* Special characters */
-    $('.specialchar').click(function (e) {
-        var $this = $(this);
-        var text = $this.data('value');
-
-        $this.closest('.translation-item').find('.translation-editor').insertAtCaret(text).change();
-        autosize.update($('.translation-editor'));
-        e.preventDefault();
-    });
-
 }
 
 function testChangeHandler(e) {
