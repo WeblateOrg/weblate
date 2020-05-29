@@ -473,6 +473,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
     "weblate.accounts.middleware.RequireLoginMiddleware",
+    "weblate.api.middleware.ThrottlingMiddleware",
     "weblate.middleware.SecurityMiddleware",
 ]
 
@@ -998,8 +999,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_THROTTLE_CLASSES": (
-        "rest_framework.throttling.AnonRateThrottle",
-        "rest_framework.throttling.UserRateThrottle",
+        "weblate.api.throttling.UserRateThrottle",
+        "weblate.api.throttling.AnonRateThrottle",
     ),
     "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "5000/hour"},
     "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination"),

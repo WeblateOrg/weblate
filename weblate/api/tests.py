@@ -1508,6 +1508,13 @@ class MetricsAPITest(APIBaseTest):
         response = self.client.get(reverse("api:metrics"))
         self.assertEqual(response.data["detail"].code, "not_authenticated")
 
+    def test_ratelimit(self):
+        self.authenticate()
+        response = self.client.get(reverse("api:metrics"), HTTP_REMOTE_ADDR="127.0.0.2")
+        current = int(response["X-RateLimit-Remaining"])
+        response = self.client.get(reverse("api:metrics"), HTTP_REMOTE_ADDR="127.0.0.2")
+        self.assertEqual(current - 1, int(response["X-RateLimit-Remaining"]))
+
 
 class ComponentListAPITest(APIBaseTest):
     def setUp(self):

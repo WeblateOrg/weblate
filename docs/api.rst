@@ -157,6 +157,9 @@ Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
+The status of rate limiting is reported in follwing headers:
+``X-RateLimit-Limit``, ``X-RateLimit-Remaining``, ``X-RateLimit-Reset``
+
 API Entry Point
 +++++++++++++++
 

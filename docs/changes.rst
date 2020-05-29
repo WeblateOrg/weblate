@@ -34,6 +34,7 @@ Not yet released.
 * Reintroduced support for wiping translation memory.
 * Fixed option to ignore source checks.
 * Added support for configuring different branch for pushing changes.
+* API now reports rate limiting status in the HTTP headers.
 
 Weblate 4.0.4
 -------------
