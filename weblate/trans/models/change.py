@@ -529,6 +529,10 @@ class Change(models.Model, UserDisplayMixin):
     def get_details_display(self):  # noqa: C901
         from weblate.utils.markdown import render_markdown
 
+        if self.action == self.ACTION_ANNOUNCEMENT:
+            return render_markdown(self.target)
+
+        # Following rendering relies on details present
         if not self.details:
             return ""
         user_actions = {
@@ -565,8 +569,6 @@ class Change(models.Model, UserDisplayMixin):
             return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
         if self.action == self.ACTION_COMMENT and "comment" in self.details:
             return render_markdown(self.details["comment"])
-        if self.action == self.ACTION_ANNOUNCEMENT:
-            return render_markdown(self.target)
 
         return ""
 
