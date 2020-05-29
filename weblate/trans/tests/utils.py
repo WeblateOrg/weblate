@@ -228,9 +228,9 @@ class RepoTestMixin:
             **kwargs
         )
 
-    def create_component(self):
+    def create_component(self, **kwargs):
         """Wrapper method for providing test component."""
-        return self.create_po()
+        return self.create_po(**kwargs)
 
     def create_po(self, **kwargs):
         return self._create_component("po", "po/*.po", **kwargs)

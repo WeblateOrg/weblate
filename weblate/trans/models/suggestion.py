@@ -86,7 +86,7 @@ class SuggestionManager(models.Manager):
             user.profile.suggested += 1
             user.profile.save()
 
-        return True
+        return suggestion
 
 
 class SuggestionQuerySet(models.QuerySet):

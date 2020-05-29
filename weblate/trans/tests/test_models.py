@@ -38,7 +38,9 @@ from weblate.trans.models import (
     Component,
     ComponentList,
     Project,
+    Suggestion,
     Unit,
+    Vote,
 )
 from weblate.trans.tests.utils import RepoTestMixin, create_test_user
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
@@ -140,6 +142,17 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.full_path))
         project.delete()
         self.assertFalse(os.path.exists(project.full_path))
+
+    def test_delete_votes(self):
+        component = self.create_component(
+            suggestion_voting=True, suggestion_autoaccept=True,
+        )
+        user = create_test_user()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.first()
+        suggestion = Suggestion.objects.add(unit, "Test", None)
+        Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
+        component.project.delete()
 
     def test_delete_all(self):
         project = self.create_project()
