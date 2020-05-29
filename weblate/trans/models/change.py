@@ -571,4 +571,8 @@ class Change(models.Model, UserDisplayMixin):
         return ""
 
     def get_distance(self):
-        return damerau_levenshtein_distance(self.old, self.target)
+        try:
+            return damerau_levenshtein_distance(self.old, self.target)
+        except MemoryError:
+            # Too long strings
+            return abs(len(self.old) - len(self.target))
