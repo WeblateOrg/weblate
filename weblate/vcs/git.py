@@ -384,6 +384,7 @@ class GitRepository(Repository):
 class GitWithGerritRepository(GitRepository):
 
     name = "Gerrit"
+    req_version = "1.27.0"
 
     _version = None
 
