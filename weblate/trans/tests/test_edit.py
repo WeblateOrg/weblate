@@ -638,7 +638,9 @@ class EditComplexTest(ViewTestCase):
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         # We should get to second message
         self.assertContains(
-            response, "This translation is currently locked for updates."
+            response,
+            "The translation is temporarily closed for contributions due "
+            "to maintenance, please come back later.",
         )
         self.assert_backend(0)
 
