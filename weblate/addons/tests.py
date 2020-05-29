@@ -803,6 +803,36 @@ class GitSquashAddonTest(ViewTestCase):
         self.component.commit_pending("test", None)
         self.assertEqual(self.component.repository.count_outgoing(), 3)
 
+    def test_commit_message(self):
+        commit_message = "Squashed commit message"
+        GitSquashAddon.create(
+            self.component,
+            configuration={"squash": "all", "commit_message": commit_message},
+        )
+
+        self.edit()
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn(commit_message, commit)
+        self.assertEqual(self.component.repository.count_outgoing(), 1)
+
+    def test_append_trailers(self):
+        GitSquashAddon.create(
+            self.component, configuration={"squash": "all", "append_trailers": True}
+        )
+
+        self.edit()
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+
+        expected_trailers = (
+            "    Translation: Test/Test\n"
+            "    Translate-URL: http://example.com/projects/test/test/de/\n"
+            "    Translate-URL: http://example.com/projects/test/test/cs/\n"
+        )
+        self.assertIn(expected_trailers, commit)
+        self.assertEqual(self.component.repository.count_outgoing(), 1)
+
 
 class TestRemoval(FixtureTestCase):
     def setUp(self):

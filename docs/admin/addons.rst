@@ -249,6 +249,13 @@ You can choose one of following modes:
 Original commit messages are kept, but authorship is lost unless "Per author" is selected, or
 the commit message is customized to include it.
 
+.. versionadded:: 4.1
+
+The original commit messages can optionally be overridden with a custom commit message.
+
+Trailers (commit lines like ``Co-authored-by: ...``) can optionally be removed from the
+original commit messages and appended to the end of the squashed commit message.
+
 .. _addon-weblate.json.customize:
 
 Customize JSON output
