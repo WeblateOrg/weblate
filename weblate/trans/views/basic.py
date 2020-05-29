@@ -135,6 +135,11 @@ def show_project(request, project):
     user = request.user
 
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
+    last_announcements = (
+        Change.objects.prefetch()
+        .order()
+        .filter(project=obj, action=Change.ACTION_ANNOUNCEMENT)[:10]
+    )
 
     language_stats = obj.stats.get_language_stats()
     # Show ghost translations for user languages
@@ -166,6 +171,7 @@ def show_project(request, project):
             "object": obj,
             "project": obj,
             "last_changes": last_changes,
+            "last_announcements": last_announcements,
             "reports_form": ReportsForm(),
             "last_changes_url": urlencode({"project": obj.slug}),
             "language_stats": language_stats,
