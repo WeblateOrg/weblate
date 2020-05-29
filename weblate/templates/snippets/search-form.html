@@ -3,11 +3,16 @@
 {% load translations %}
 
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">
-{% documentation_icon 'user/search' right=True %}
-{% trans "Search" %}
-</h4></div>
-  <div class="panel-body">
-{% crispy search_form %}
-</div>
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            {% documentation_icon 'user/search' right=True %}
+            {% trans "Search" %}
+        </h4>
+    </div>
+    <div class="panel-body">
+        {% crispy search_form %}
+    </div>
+    <div class="panel-footer">
+        <input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
+    </div>
 </div>
