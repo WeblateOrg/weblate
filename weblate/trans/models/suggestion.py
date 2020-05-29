@@ -200,6 +200,8 @@ class Vote(models.Model):
     )
     value = models.SmallIntegerField(default=0)
 
+    weblate_unsafe_delete = True
+
     POSITIVE = 1
     NEGATIVE = -1
 
