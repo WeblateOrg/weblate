@@ -266,6 +266,15 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         default="",
         blank=True,
     )
+    push_branch = models.CharField(
+        verbose_name=gettext_lazy("Push branch"),
+        max_length=REPO_LENGTH,
+        help_text=gettext_lazy(
+            "Branch for pushing changes, leave empty to use repository branch"
+        ),
+        default="",
+        blank=True,
+    )
     filemask = models.CharField(
         verbose_name=gettext_lazy("Filemask"),
         max_length=FILENAME_LENGTH,
@@ -1130,7 +1139,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         try:
             self.log_info("pushing to remote repo")
             with self.repository.lock:
-                self.repository.push()
+                self.repository.push(self.push_branch)
             self.delete_alert("RepositoryChanges")
             self.delete_alert("PushFailure")
             return True

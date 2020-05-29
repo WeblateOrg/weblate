@@ -18,13 +18,13 @@
 #
 """Version control system abstraction for Weblate needs."""
 
-
 import hashlib
 import logging
 import os
 import os.path
 import subprocess
 from distutils.version import LooseVersion
+from typing import Optional
 
 from dateutil import parser
 from django.conf import settings
@@ -66,6 +66,7 @@ class Repository:
     _cmd_list_changed_files = None
 
     name = None
+    identifier: Optional[str] = None
     req_version = None
     default_branch = ""
     needs_push_url = True
@@ -74,7 +75,7 @@ class Repository:
 
     @classmethod
     def get_identifier(cls):
-        return cls.name.lower()
+        return cls.identifier or cls.name.lower()
 
     def __init__(self, path, branch=None, component=None, local=False):
         self.path = path
@@ -243,7 +244,7 @@ class Repository:
         with self.lock:
             return self.execute(self._cmd_status)
 
-    def push(self):
+    def push(self, branch):
         """Push given branch to remote repository."""
         raise NotImplementedError()
 

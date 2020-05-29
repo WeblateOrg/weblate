@@ -33,6 +33,7 @@ Not yet released.
 * Added new quality checks: :ref:`check-unnamed-format`, :ref:`check-long-untranslated`, :ref:`check-duplicate`.
 * Reintroduced support for wiping translation memory.
 * Fixed option to ignore source checks.
+* Added support for configuring different branch for pushing changes.
 
 Weblate 4.0.4
 -------------

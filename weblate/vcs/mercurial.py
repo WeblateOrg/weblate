@@ -307,7 +307,7 @@ class HgRepository(Repository):
             merge_err=False,
         ).strip()
 
-    def push(self):
+    def push(self, branch):
         """Push given branch to remote repository."""
         try:
             self.execute(["push", "-b", self.branch])

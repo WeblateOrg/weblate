@@ -328,6 +328,18 @@ Repository branch
 
 Which branch to checkout from the VCS, and where to look for translations.
 
+.. _component-push_branch:
+
+Push branch
++++++++++++
+
+Branch for pushing changes, leave empty to use :ref:`component-branch`.
+
+.. note::
+
+   This is currently only supported for Git and GitHub, it is ignored for other
+   VCS integrations.
+
 .. _component-filemask:
 
 File mask

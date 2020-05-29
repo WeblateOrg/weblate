@@ -103,6 +103,10 @@ Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to
 access more than one repository, you will hit a GitHub limitation on allowed
 SSH key usage (since one key can be used only for one repository).
 
+In case the :ref:`component-push_branch` is not set, the project is forked and
+changes pushed through a fork. In case it is set, changes are pushed to the
+upstream repository and chosen branch.
+
 For smaller deployments, use HTTPS authentication with a personal access
 token and your GitHub account, see `Creating an access token for command-line use`_.
 

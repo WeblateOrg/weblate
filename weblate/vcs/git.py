@@ -40,6 +40,7 @@ class GitRepository(Repository):
     _cmd_last_revision = ["log", "-n", "1", "--format=format:%H", "HEAD"]
     _cmd_last_remote_revision = ["log", "-n", "1", "--format=format:%H", "@{upstream}"]
     _cmd_list_changed_files = ["diff", "--name-status"]
+    _cmd_push = ["push"]
 
     name = "Git"
     req_version = "2.12"
@@ -362,9 +363,13 @@ class GitRepository(Repository):
             self.execute(["fetch", "origin"] + self.get_depth())
         self.clean_revision_cache()
 
-    def push(self):
+    def push(self, branch):
         """Push given branch to remote repository."""
-        self.execute(["push", "origin", self.branch])
+        if branch:
+            refspec = f"{self.branch}:{branch}"
+        else:
+            refspec = self.branch
+        self.execute(self._cmd_push + ["origin", refspec])
 
     def unshallow(self):
         self.execute(["fetch", "--unshallow"])
@@ -387,7 +392,7 @@ class GitWithGerritRepository(GitRepository):
         """Return VCS program version."""
         return cls._popen(["review", "--version"], merge_err=True).split()[-1]
 
-    def push(self):
+    def push(self, branch):
         if self.needs_push():
             self.execute(["review", "--yes", self.branch])
 
@@ -519,13 +524,20 @@ class SubversionRepository(GitRepository):
     def list_remote_branches(self):
         return []
 
-    def push(self):
+    def push(self, branch):
         """Push given branch to remote repository."""
         self.execute(["svn", "dcommit", self.branch])
 
 
-class GitMergeRequestBase(GitRepository):
+class GitForcePushRepository(GitRepository):
+    name = gettext_lazy("Git with force push")
+    _cmd_push = ["push", "--force"]
+    identifier = "git-force-push"
+
+
+class GitMergeRequestBase(GitForcePushRepository):
     needs_push_url = False
+    identifier = None
 
     @staticmethod
     def get_username():
@@ -554,22 +566,28 @@ class GitMergeRequestBase(GitRepository):
         if self.get_username() not in remotes:
             self.execute(["fork"])
 
-    def push(self):
+    def push(self, branch):
         """Fork repository on Github and push changes.
 
         Pushes changes to *-weblate branch on fork and creates pull request against
         original repository.
         """
-        self.fork()
-        if self.component is not None:
-            fork_branch = "weblate-{0}-{1}".format(
-                self.component.project.slug, self.component.slug
-            )
+        if branch:
+            fork_remote = "origin"
+            fork_branch = branch
+            super().push(branch)
         else:
-            fork_branch = "weblate-{0}".format(self.branch)
-        self.push_to_fork(self.branch, fork_branch)
+            fork_remote = self.get_username()
+            self.fork()
+            if self.component is not None:
+                fork_branch = "weblate-{0}-{1}".format(
+                    self.component.project.slug, self.component.slug
+                )
+            else:
+                fork_branch = "weblate-{0}".format(self.branch)
+            self.push_to_fork(self.branch, fork_branch)
         try:
-            self.create_pull_request(self.branch, fork_branch)
+            self.create_pull_request(self.branch, fork_remote, fork_branch)
         except RepositoryException as error:
             if error.retcode == 1:
                 # Pull request already exists.
@@ -615,17 +633,21 @@ class GithubRepository(GitMergeRequestBase):
 
         return env
 
-    def create_pull_request(self, origin_branch, fork_branch):
+    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         """Create pull request.
 
         Use to merge branch in forked repository into branch of remote repository.
         """
+        if fork_remote == "origin":
+            head = fork_branch
+        else:
+            head = "{0}:{1}".format(fork_remote, fork_branch)
         self.execute(
             [
                 "pull-request",
                 "--force",
                 "--head",
-                "{0}:{1}".format(self.get_username(), fork_branch),
+                head,
                 "--base",
                 origin_branch,
                 "--message",
@@ -638,10 +660,7 @@ class LocalRepository(GitRepository):
     """Local filesystem driver with no upstream repo."""
 
     name = gettext_lazy("No remote repository")
-
-    @staticmethod
-    def get_identifier():
-        return "local"
+    identifier = "local"
 
     def configure_remote(self, pull_url, push_url, branch):
         return
@@ -652,7 +671,7 @@ class LocalRepository(GitRepository):
     def update_remote(self):
         return
 
-    def push(self):
+    def push(self, branch):
         return
 
     def reset(self):
@@ -738,7 +757,7 @@ class GitLabRepository(GitMergeRequestBase):
     def get_username():
         return settings.GITLAB_USERNAME
 
-    def create_pull_request(self, origin_branch, fork_branch):
+    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         """Create merge (a.k.a pull) request.
 
         Used to merge branch in forked repository into branch of remote
@@ -751,12 +770,7 @@ class GitLabRepository(GitMergeRequestBase):
         """
         # Checkout the branch we want to use as the source for new MR.
         self.execute(
-            [
-                "checkout",
-                "-B",
-                fork_branch,
-                "{}/{}".format(self.get_username(), fork_branch),
-            ]
+            ["checkout", "-B", fork_branch, "{}/{}".format(fork_remote, fork_branch)]
         )
         # Reset the branch to be up to date with our main branch
         self.execute(["reset", "--hard", self.branch])
@@ -775,15 +789,3 @@ class GitLabRepository(GitMergeRequestBase):
         finally:
             # Return to the previous checked out branch.
             self.execute(["checkout", "-"])
-
-
-class GitForcePushRepository(GitRepository):
-    name = gettext_lazy("Git with force push")
-
-    @staticmethod
-    def get_identifier():
-        return "git-force-push"
-
-    def push(self):
-        """Push given branch to remote repository."""
-        self.execute(["push", "--force", "origin", self.branch])

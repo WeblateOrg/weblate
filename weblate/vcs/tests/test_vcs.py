@@ -164,7 +164,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 )
 
                 # Push it
-                repo.push()
+                repo.push("")
         finally:
             shutil.rmtree(tempdir, onerror=remove_readonly)
 
@@ -185,13 +185,17 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.update_remote()
 
-    def test_push(self):
+    def test_push(self, branch=""):
         with self.repo.lock:
-            self.repo.push()
+            self.repo.push(branch)
 
     def test_push_commit(self):
         self.test_commit()
         self.test_push()
+
+    def test_push_branch(self):
+        self.test_commit()
+        self.test_push("push-branch")
 
     def test_reset(self):
         with self.repo.lock:
