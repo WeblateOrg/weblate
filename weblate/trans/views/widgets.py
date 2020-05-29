@@ -57,7 +57,7 @@ def widgets(request, project):
     kwargs = {"project": obj.slug}
     if lang is not None:
         kwargs["lang"] = lang
-    engage_url = get_site_url(reverse("engage", kwargs=kwargs))
+    engage_url = request.build_absolute_uri(reverse("engage", kwargs=kwargs))
     engage_url_track = "{0}?utm_source=widget".format(engage_url)
     engage_link = mark_safe(
         '<a href="{0}" id="engage-link">{0}</a>'.format(escape(engage_url))
@@ -81,7 +81,7 @@ def widgets(request, project):
             if component is not None:
                 kwargs["component"] = component
             color_url = reverse("widget-image", kwargs=kwargs)
-            color_list.append({"name": color, "url": get_site_url(color_url)})
+            color_list.append({"name": color, "url": request.build_absolute_uri(color_url)})
         widget_list.append(
             {"name": widget_name, "colors": color_list, "verbose": widget_class.verbose}
         )

@@ -136,11 +136,11 @@
         {% trans "Share" %} <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-    {% with object.get_share_url as share_url and object.get_widgets_url as widgets_url %}
+    {% with object.get_share_url as share_url %}
         <li><a href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% trans "Share on Facebook" %}</a></li>
         <li><a href="https://twitter.com/share?text={% blocktrans %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktrans %}">{% trans "Tweet this translation" %}</a></li>
         <li><a href="{% url 'engage' project=object.slug %}">{% trans "Engage page" %}</a></li>
-        <li><a href="{{ widgets_url }}">{% trans "Status widgets" %}</a></li>
+        <li><a href="{% url 'widgets' project=object.slug %}">{% trans "Status widgets" %}</a></li>
     {% endwith %}
         </ul>
     </li>
