@@ -594,7 +594,7 @@ class NewComponentNotificaton(Notification):
 
 @register_notification
 class NewAnnouncementNotificaton(Notification):
-    actions = (Change.ACTION_MESSAGE,)
+    actions = (Change.ACTION_ANNOUNCEMENT,)
     # Translators: Notification name
     verbose = _("New announcement")
     template_name = "new_announcement"

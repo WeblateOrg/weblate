@@ -199,7 +199,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MOVE_COMPONENT = 43
     ACTION_NEW_STRING = 44
     ACTION_NEW_CONTRIBUTOR = 45
-    ACTION_MESSAGE = 46
+    ACTION_ANNOUNCEMENT = 46
     ACTION_ALERT = 47
     ACTION_ADDED_LANGUAGE = 48
     ACTION_REQUESTED_LANGUAGE = 49
@@ -303,7 +303,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
-        (ACTION_MESSAGE, gettext_lazy("New announcement")),
+        (ACTION_ANNOUNCEMENT, gettext_lazy("New announcement")),
         # Translators: Name of event in the history
         (ACTION_ALERT, gettext_lazy("New alert")),
         # Translators: Name of event in the history
@@ -565,7 +565,7 @@ class Change(models.Model, UserDisplayMixin):
             return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
         if self.action == self.ACTION_COMMENT and "comment" in self.details:
             return render_markdown(self.details["comment"])
-        if self.action == self.ACTION_MESSAGE:
+        if self.action == self.ACTION_ANNOUNCEMENT:
             return render_markdown(self.target)
 
         return ""

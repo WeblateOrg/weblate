@@ -63,7 +63,7 @@ class AnnouncementManager(models.Manager):
         result = super().create(**kwargs)
 
         Change.objects.create(
-            action=Change.ACTION_MESSAGE,
+            action=Change.ACTION_ANNOUNCEMENT,
             project=result.project,
             component=result.component,
             announcement=result,
