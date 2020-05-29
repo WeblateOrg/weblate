@@ -53,7 +53,7 @@ class SuggestionManager(models.Manager):
             if same.target == target:
                 if same.user == user or not vote:
                     return False
-                same.add_vote(unit.translation, request, Vote.POSITIVE)
+                same.add_vote(request, Vote.POSITIVE)
                 return False
 
         # Create the suggestion
@@ -79,7 +79,7 @@ class SuggestionManager(models.Manager):
 
         # Add unit vote
         if vote:
-            suggestion.add_vote(unit.translation, request, Vote.POSITIVE)
+            suggestion.add_vote(request, Vote.POSITIVE)
 
         # Update suggestion stats
         if user is not None:
@@ -159,7 +159,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         """Return number of votes."""
         return self.vote_set.aggregate(Sum("value"))["value__sum"] or 0
 
-    def add_vote(self, translation, request, value):
+    def add_vote(self, request, value):
         """Add (or updates) vote for a suggestion."""
         if not request.user.is_authenticated:
             return
@@ -172,9 +172,9 @@ class Suggestion(models.Model, UserDisplayMixin):
             vote.save()
 
         # Automatic accepting
-        required_votes = translation.component.suggestion_autoaccept
+        required_votes = self.unit.translation.component.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
-            self.accept(translation, request, "suggestion.vote")
+            self.accept(self.unit.translation, request, "suggestion.vote")
 
     def get_checks(self):
         # Build fake unit to run checks

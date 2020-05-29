@@ -381,10 +381,10 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     elif "delete" in request.POST or "spam" in request.POST:
         suggestion.delete_log(request.user, is_spam="spam" in request.POST)
     elif "upvote" in request.POST:
-        suggestion.add_vote(translation, request, Vote.POSITIVE)
+        suggestion.add_vote(request, Vote.POSITIVE)
         redirect_url = next_unit_url
     elif "downvote" in request.POST:
-        suggestion.add_vote(translation, request, Vote.NEGATIVE)
+        suggestion.add_vote(request, Vote.NEGATIVE)
 
     return HttpResponseRedirect(redirect_url)
 
