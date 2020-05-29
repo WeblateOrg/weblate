@@ -29,6 +29,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import Group
+from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import add_configuration_error, delete_configuration_error
@@ -158,6 +159,17 @@ class AdminTest(ViewTestCase):
         configuration_health_check(False)
         self.assertEqual(ConfigurationError.objects.count(), 1)
         configuration_health_check()
+
+    def test_post_announcenement(self):
+        response = self.client.get(reverse("manage-tools"))
+        self.assertContains(response, "announcement")
+        self.assertFalse(Announcement.objects.exists())
+        response = self.client.post(
+            reverse("manage-tools"),
+            {"message": "Test message", "category": "info"},
+            follow=True,
+        )
+        self.assertTrue(Announcement.objects.exists())
 
     def test_send_test_email(self, expected="Test e-mail sent"):
         response = self.client.get(reverse("manage-tools"))

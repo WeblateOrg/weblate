@@ -11,6 +11,24 @@
 
 {% block content %}
 
+
+<form  method="POST">
+{% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">
+{% documentation_icon 'admin/announcement' right=True %}
+{% trans "Post announcement" %}
+</h4></div>
+  <div class="panel-body">
+  {{ announce_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Send" %}" />
+  </div>
+</div>
+</form>
+
+
 <div class="panel panel-default">
 <div class="panel-heading">
   <h4 class="panel-title">

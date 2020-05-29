@@ -29,7 +29,8 @@ from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import InviteUserForm
-from weblate.trans.models import Alert, Component, Project
+from weblate.trans.forms import AnnouncementForm
+from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
@@ -86,14 +87,15 @@ def send_test_mail(email):
 
 @management_access
 def tools(request):
-    emailform = TestMailForm(initial={"email": request.user.email})
+    email_form = TestMailForm(initial={"email": request.user.email})
+    announce_form = AnnouncementForm()
 
     if request.method == "POST":
         if "email" in request.POST:
-            emailform = TestMailForm(request.POST)
-            if emailform.is_valid():
+            email_form = TestMailForm(request.POST)
+            if email_form.is_valid():
                 try:
-                    send_test_mail(**emailform.cleaned_data)
+                    send_test_mail(**email_form.cleaned_data)
                     messages.success(request, _("Test e-mail sent."))
                 except Exception as error:
                     report_error()
@@ -105,10 +107,22 @@ def tools(request):
             except Exception:
                 report_error()
 
+        if "message" in request.POST:
+            announce_form = AnnouncementForm(request.POST)
+            if announce_form.is_valid():
+                Announcement.objects.create(
+                    user=request.user, **announce_form.cleaned_data
+                )
+
     return render(
         request,
         "manage/tools.html",
-        {"menu_items": MENU, "menu_page": "tools", "email_form": emailform},
+        {
+            "menu_items": MENU,
+            "menu_page": "tools",
+            "email_form": email_form,
+            "announce_form": announce_form,
+        },
     )
 
 
