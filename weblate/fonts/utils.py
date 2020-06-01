@@ -20,6 +20,7 @@
 
 
 import os
+from functools import lru_cache
 from io import BytesIO
 from tempfile import NamedTemporaryFile
 
@@ -113,6 +114,7 @@ def get_font_weight(weight):
     return FONT_WEIGHTS[weight]
 
 
+@lru_cache(maxsize=512)
 def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_key=None):
     """Check whether rendered text fits."""
     configure_fontconfig()
