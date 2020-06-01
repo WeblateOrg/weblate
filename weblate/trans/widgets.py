@@ -414,6 +414,7 @@ class MultiLanguageWidget(SVGWidget):
         translations = []
         offset = 20
         color = self.COLOR_MAP[self.color]
+        language_width = 190
         for stats in self.obj.stats.get_language_stats():
             language = stats.language
             percent = stats.translated_percent
@@ -424,10 +425,21 @@ class MultiLanguageWidget(SVGWidget):
                     color = "#38f"
                 else:
                     color = "#f6664c"
+            language_name = force_str(language)
+
+            language_width = max(
+                language_width,
+                (
+                    render_size(
+                        "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, language_name
+                    )[0].width
+                    + 5
+                ),
+            )
             translations.append(
                 (
                     # Language name
-                    force_str(language),
+                    language_name,
                     # Translation percent
                     int(percent),
                     # Text y offset
@@ -456,8 +468,13 @@ class MultiLanguageWidget(SVGWidget):
                 self.template_name,
                 {
                     "height": len(translations) * 15 + 15,
+                    "width": language_width + 210,
+                    "language_offset": language_width,
+                    "bar_offset": language_width + 10,
+                    "text_offset": language_width + 170,
                     "translations": translations,
                     "site_url": get_site_url(),
+                    "horizontal_height": language_width + 130,
                 },
             )
         )
