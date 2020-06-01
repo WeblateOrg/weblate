@@ -498,7 +498,7 @@ if not HAVE_SYSLOG:
 #     "weblate.machinery.deepl.DeepLTranslation",
 #     "weblate.machinery.glosbe.GlosbeTranslation",
 #     "weblate.machinery.google.GoogleTranslation",
-#     "weblate.machinery.google.GoogleTranslationV3",
+#     "weblate.machinery.googlev3.GoogleV3Translation",
 #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
 #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
 #     "weblate.machinery.mymemory.MyMemoryTranslation",

@@ -36,15 +36,13 @@ from weblate.machinery.base import (
     MachineryRateLimit,
     MachineTranslation,
     MachineTranslationError,
+    MissingConfiguration,
 )
 from weblate.machinery.deepl import DEEPL_LANGUAGES, DEEPL_TRANSLATE, DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
-from weblate.machinery.google import (
-    GOOGLE_API_ROOT,
-    GoogleTranslation,
-    GoogleTranslationV3,
-)
+from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
+from weblate.machinery.googlev3 import GoogleV3Translation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
     MST_API_URL,
@@ -255,6 +253,8 @@ TERMINOLOGY_TRANSLATE = """
 </s:Envelope>
 """.encode()
 TERMINOLOGY_WDSL = get_test_file("microsoftterminology.wsdl")
+
+GOOGLEV3_KEY = get_test_file("googlev3.json")
 
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 DEEPL_LANG_RESPONSE = [
@@ -633,38 +633,6 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
             json={"data": {"translations": [{"translatedText": "svet"}]}},
         )
 
-    def test_google_apiv3_bad_config(self):
-        with self.assertRaisesRegex(
-            MachineTranslationError, r"API\sskey|Cloud\sproject"
-        ):
-            # flake8: noqa: F841
-            machine = self.get_machine(GoogleTranslationV3)
-
-    @override_settings(
-        MT_GOOGLE_CREDENTIALS="SECRET", MT_GOOGLE_PROJECT="translating-7586"
-    )
-    @patch.object(
-        GoogleTranslationV3, "download_languages", Mock(return_value=["cs", "en", "es"])
-    )
-    @patch.object(
-        GoogleTranslationV3,
-        "download_translations",
-        Mock(
-            return_value=[
-                {
-                    "text": "Ahoj",
-                    "quality": 90,
-                    "service": "Google Translate API v3",
-                    "source": "Hello",
-                }
-            ]
-        ),
-    )
-    def test_google_apiv3(self):
-        with patch("google.oauth2.service_account.Credentials"):
-            machine = self.get_machine(GoogleTranslationV3)
-            self.assert_translate(machine)
-
     @responses.activate
     def test_ratelimit_set(self):
         """Test manual setting of rate limit."""
@@ -674,6 +642,53 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
         self.assert_translate(
             self.SUPPORTED, self.SOURCE_TRANSLATED, 0, machine=machine
         )
+
+
+@override_settings(
+    MT_GOOGLE_CREDENTIALS=GOOGLEV3_KEY, MT_GOOGLE_PROJECT="translating-7586"
+)
+class GoogleV3TranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = GoogleV3Translation
+    EXPECTED_LEN = 1
+
+    @override_settings(MT_GOOGLE_CREDENTIALS=None)
+    def test_google_apiv3_bad_config(self):
+        with self.assertRaises(MissingConfiguration):
+            self.get_machine()
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        raise SkipTest("Not tested")
+
+    def mock_response(self):
+        # TODO: Patch methods instead of our own ones:
+        # google.cloud.translate_v3.gapic.translation_service_client
+        # .TranslationServiceClient.{translate_text,get_supported_languages}
+        patcher = patch.object(
+            GoogleV3Translation,
+            "download_languages",
+            Mock(return_value=["cs", "en", "es"]),
+        )
+        patcher.start()
+        self.addCleanup(patcher.stop)
+        patcher = patch.object(
+            GoogleV3Translation,
+            "download_translations",
+            Mock(
+                return_value=[
+                    {
+                        "text": "Ahoj",
+                        "quality": 90,
+                        "service": "Google Translate API v3",
+                        "source": "Hello",
+                    }
+                ]
+            ),
+        )
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
 
 class AmagamaTranslationTest(BaseMachineTranslationTest):

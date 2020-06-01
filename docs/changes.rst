@@ -35,6 +35,7 @@ Not yet released.
 * Fixed option to ignore source checks.
 * Added support for configuring different branch for pushing changes.
 * API now reports rate limiting status in the HTTP headers.
+* Added support for Google Translate V3 API (Advanced).
 
 Weblate 4.0.4
 -------------
