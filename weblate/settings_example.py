@@ -498,6 +498,7 @@ if not HAVE_SYSLOG:
 #     "weblate.machinery.deepl.DeepLTranslation",
 #     "weblate.machinery.glosbe.GlosbeTranslation",
 #     "weblate.machinery.google.GoogleTranslation",
+#     "weblate.machinery.google.GoogleTranslationV3",
 #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
 #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
 #     "weblate.machinery.mymemory.MyMemoryTranslation",
@@ -532,8 +533,12 @@ MT_MYMEMORY_EMAIL = None
 MT_MYMEMORY_USER = None
 MT_MYMEMORY_KEY = None
 
-# Google API key for Google Translate API
+# Google API key for Google Translate API v2
 MT_GOOGLE_KEY = None
+
+# Google Translate API3 credentials and project id
+MT_GOOGLE_CREDENTIALS = None
+MT_GOOGLE_PROJECT = None
 
 # Baidu app key and secret
 MT_BAIDU_ID = None

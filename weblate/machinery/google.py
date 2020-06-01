@@ -22,6 +22,8 @@ import json
 
 from django.conf import settings
 
+from google.cloud.translate_v3 import TranslationServiceClient
+from google.oauth2 import service_account
 from weblate.machinery.base import (
     MachineTranslation,
     MachineTranslationError,
@@ -99,3 +101,54 @@ class GoogleTranslation(MachineTranslation):
                 pass
 
         return super().get_error_message(exc)
+
+
+class GoogleTranslationV3(MachineTranslation):
+    """Google Translate API v3 machine translation support."""
+
+    setup = None
+    name = "Google Translate API v3"
+    max_score = 90
+
+    def __init__(self):
+        """Check configuration."""
+        super().__init__()
+        config_error = []
+        if settings.MT_GOOGLE_CREDENTIALS is None:
+            config_error.append("Google Translate requires API key")
+        if settings.MT_GOOGLE_PROJECT is None:
+            config_error.append(
+                "You have to specify Google Cloud project "
+                "affiliated with provided credentials"
+            )
+        if len(config_error) > 0:
+            raise MachineTranslationError(", ".join(config_error))
+
+        credentials = service_account.Credentials.from_service_account_file(
+            settings.MT_GOOGLE_CREDENTIALS
+        )
+
+        self.client = TranslationServiceClient(credentials=credentials)
+        self.parent = self.client.location_path(
+            settings.MT_GOOGLE_PROJECT, settings.MT_GOOGLE_LOCATION
+        )
+
+    def download_languages(self):
+        """List of supported languages."""
+        return [
+            l.language_code
+            for l in self.client.get_supported_languages(self.parent).languages
+        ]
+
+    def download_translations(self, source, language, text, unit, user, search):
+        """Download list of possible translations from a service."""
+        trans = self.client.translate_text(
+            [text], language, self.parent, source_language_code=source
+        )
+
+        yield {
+            "text": trans.translations[0].translated_text,
+            "quality": self.max_score,
+            "service": self.name,
+            "source": text,
+        }

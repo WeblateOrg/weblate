@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from unittest.mock import Mock, patch
 
 from copy import copy
 from typing import Type
@@ -40,7 +41,11 @@ from weblate.machinery.base import (
 from weblate.machinery.deepl import DEEPL_LANGUAGES, DEEPL_TRANSLATE, DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
-from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
+from weblate.machinery.google import (
+    GOOGLE_API_ROOT,
+    GoogleTranslation,
+    GoogleTranslationV3,
+)
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
     MST_API_URL,
@@ -628,6 +633,38 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
             GOOGLE_API_ROOT,
             json={"data": {"translations": [{"translatedText": "svet"}]}},
         )
+
+    def test_google_apiv3_bad_config(self):
+        with self.assertRaisesRegex(
+            MachineTranslationError, r"API\sskey|Cloud\sproject"
+        ):
+            # flake8: noqa: F841
+            machine = self.get_machine(GoogleTranslationV3)
+
+    @override_settings(
+        MT_GOOGLE_CREDENTIALS="SECRET", MT_GOOGLE_PROJECT="translating-7586"
+    )
+    @patch.object(
+        GoogleTranslationV3, "download_languages", Mock(return_value=["cs", "en", "es"])
+    )
+    @patch.object(
+        GoogleTranslationV3,
+        "download_translations",
+        Mock(
+            return_value=[
+                {
+                    "text": "Ahoj",
+                    "quality": 90,
+                    "service": "Google Translate API v3",
+                    "source": "Hello",
+                }
+            ]
+        ),
+    )
+    def test_google_apiv3(self):
+        with patch("google.oauth2.service_account.Credentials"):
+            machine = self.get_machine(GoogleTranslationV3)
+            self.assert_translate(machine)
 
     @responses.activate
     def test_ratelimit_set(self):

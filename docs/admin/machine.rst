@@ -136,6 +136,27 @@ To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` to
     :setting:`MT_GOOGLE_KEY`,
     `Google translate documentation <https://cloud.google.com/translate/docs>`_
 
+.. _google-translate-api3:
+
+Google Translate api v3
+----------------------------------
+
+Machine translation service provided by Google Cloud services.
+
+This services differs from the former one by having another mean of authentication.
+To enable service, add ``weblate.machinery.google.GoogleTranslationV3`` to
+:setting:`MT_SERVICES` and set
+
+ - :setting:`MT_GOOGLE_CREDENTIALS`
+ - :setting:`MT_GOOGLE_PROJECT`
+
+If `location` fails, you may also need to specify :setting:`MT_GOOGLE_LOCATION`.
+
+.. seealso::
+
+    :setting:`MT_GOOGLE_CREDENTIALS`, :setting:`MT_GOOGLE_PROJECT`, :setting:`MT_GOOGLE_LOCATION`
+    `Google translate documentation <https://cloud.google.com/translate/docs>`_
+
 .. _ms-cognitive-translate:
 
 Microsoft Cognitive Services Translator

@@ -51,6 +51,11 @@ class WeblateConf(AppConf):
     # Google API key for Google Translate API
     GOOGLE_KEY = None
 
+    # Google Translate API3 credentials and project id
+    GOOGLE_CREDENTIALS = None
+    GOOGLE_PROJECT = None
+    GOOGLE_LOCATION = "global"
+
     # API key for Yandex Translate API
     YANDEX_KEY = None
 
