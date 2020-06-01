@@ -1491,6 +1491,19 @@ Translations
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/add_monolingual/
+
+    Add new monolingual unit.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :<json string key: Name of translation unit
+    :<json string value: The translation unit value
+
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/statistics/
 
     Returns detailed translation statistics.
