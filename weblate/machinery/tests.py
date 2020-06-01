@@ -17,11 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from unittest.mock import Mock, patch
-
 from copy import copy
 from typing import Type
 from unittest import SkipTest
+from unittest.mock import Mock, patch
 
 import responses
 from botocore.stub import ANY, Stubber

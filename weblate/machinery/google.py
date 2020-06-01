@@ -21,9 +21,9 @@
 import json
 
 from django.conf import settings
-
 from google.cloud.translate_v3 import TranslationServiceClient
 from google.oauth2 import service_account
+
 from weblate.machinery.base import (
     MachineTranslation,
     MachineTranslationError,
@@ -136,8 +136,8 @@ class GoogleTranslationV3(MachineTranslation):
     def download_languages(self):
         """List of supported languages."""
         return [
-            l.language_code
-            for l in self.client.get_supported_languages(self.parent).languages
+            language.language_code
+            for language in self.client.get_supported_languages(self.parent).languages
         ]
 
     def download_translations(self, source, language, text, unit, user, search):
