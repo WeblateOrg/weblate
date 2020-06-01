@@ -100,6 +100,8 @@ ALIASES = {
     "zh_hans_cn": "zh_Hans",
     "zh_cmn_hans": "zh_Hans",
     "zh_cmn_hant": "zh_Hant",
+    "zh_latn_pinyin": "zh_Latn",
+    "zh_latn@pinyin": "zh_Latn",
     "base": "en",
     "source": "en",
     "de_fo": "de_form",

@@ -9486,6 +9486,7 @@ LANGUAGES = {
     "príncipe",
     "prākrit",
     "psalter",
+    "pseudolocale",
     "psikye",
     "pskovskaya",
     "ptuj",

@@ -158,6 +158,13 @@ LANGUAGES = (
         "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
     ),
     (
+        "ar_XB",
+        # Translators: Language name, ISO code: ar_XB
+        _("Arabic (XB pseudolocale)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
+    (
         "ar_YE",
         # Translators: Language name, ISO code: ar_YE
         _("Arabic (Yemen)"),
@@ -651,6 +658,13 @@ LANGUAGES = (
         "en_US",
         # Translators: Language name, ISO code: en_US
         _("English (United States)"),
+        2,
+        "n != 1",
+    ),
+    (
+        "en_XA",
+        # Translators: Language name, ISO code: en_XA
+        _("English (XA pseudolocale)"),
         2,
         "n != 1",
     ),
@@ -2548,6 +2562,13 @@ LANGUAGES = (
         "zh_Hant_HK",
         # Translators: Language name, ISO code: zh_Hant_HK
         _("Chinese (Traditional, Hong Kong)"),
+        1,
+        "0",
+    ),
+    (
+        "zh_Latn",
+        # Translators: Language name, ISO code: zh_Latn
+        _("Chinese (Pinyin)"),
         1,
         "0",
     ),
