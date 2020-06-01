@@ -70,7 +70,7 @@ of them in :file:`requirements-optional.txt`.
 Database backend dependencies
 +++++++++++++++++++++++++++++
 
-Any database supported in Django will work, see :ref:`database-setup` and
+Weblate supports PostgreSQL, MySQL and MariaDB, see :ref:`database-setup` and
 backends documentation for more details.
 
 Other system requirements
@@ -270,6 +270,11 @@ PostgreSQL
 
 PostgreSQL is usually the best choice for Django based sites. It's the reference
 database used for implementing Django database layer.
+
+.. note::
+
+   Weblate uses trigram extension which has to be installe separately in some
+   cases. Look for ``postgresql-contrib`` or similarly named package.
 
 .. seealso::
 

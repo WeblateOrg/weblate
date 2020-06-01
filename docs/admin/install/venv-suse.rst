@@ -32,7 +32,7 @@ Installing on SUSE and openSUSE
     zypper install redis-server
 
     # Database server: PostgreSQL
-    zypper install postgresql
+    zypper install postgresql postgresql-contrib
 
     # SMTP server
     zypper install postfix
