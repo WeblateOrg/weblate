@@ -48,6 +48,7 @@ from weblate.api.serializers import (
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
+    MonolingualUnitSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
     RoleSerializer,
@@ -895,6 +896,28 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         serializer = UnitSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def add_monolingual(self, request, **kwargs):
+        obj = self.get_object()
+        serializer = MonolingualUnitSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        key = serializer.validated_data["key"]
+        value = serializer.validated_data["value"]
+
+        if obj.unit_set.filter(context=key).exists():
+            return Response(
+                data={
+                    "result": "Unsuccessful",
+                    "detail": "Translation with this key seem to already exist!",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        else:
+            obj.new_unit(request, key, value)
+            serializer = self.serializer_class(obj, context={"request": request})
+            return Response(serializer.data, status=status.HTTP_200_OK,)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
