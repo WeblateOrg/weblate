@@ -200,7 +200,7 @@ translating from something else than English.
    conflict between name of the source language and existing translation.
 
    For monolingual translations, you can use intermediate translation in this
-   case.
+   case, see :ref:`component-intermediate`.
 
 .. seealso::
 
