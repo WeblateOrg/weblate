@@ -900,6 +900,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     @action(detail=True, methods=["post"])
     def add_monolingual(self, request, **kwargs):
         obj = self.get_object()
+        if not request.user.has_perm("unit.add", obj):
+            self.permission_denied(request, message="Can not add unit")
         serializer = MonolingualUnitSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

@@ -1311,6 +1311,45 @@ class TranslationAPITest(APIBaseTest):
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
+    def test_add_monolingual(self):
+        self.create_acl()
+        self.do_request(
+            "api:translation-add-monolingual",
+            {
+                "language__code": "cs",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            request={"key": "key", "value": "Source Language"},
+            code=403,
+        )
+        self.do_request(
+            "api:translation-add-monolingual",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            request={"key": "key", "value": "Source Language"},
+            code=200,
+        )
+        self.do_request(
+            "api:translation-add-monolingual",
+            {
+                "language__code": "en",
+                "component__slug": "test",
+                "component__project__slug": "acl",
+            },
+            method="post",
+            superuser=True,
+            request={"key": "key", "value": "Source Language"},
+            code=400,
+        )
+
     def test_delete(self):
         self.assertEqual(Translation.objects.count(), 4)
         self.do_request(
