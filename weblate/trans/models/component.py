@@ -2063,8 +2063,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     def update_variants(self):
         from weblate.trans.models import Unit
 
-        Variant.objects.exclude(
-            variant_regex=self.variant_regex, component=self
+        Variant.objects.filter(component=self).exclude(
+            variant_regex=self.variant_regex
         ).delete()
         if not self.variant_regex:
             return
