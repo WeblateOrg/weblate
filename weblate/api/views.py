@@ -886,9 +886,31 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
 
         return self.get_paginated_response(serializer.data)
 
-    @action(detail=True, methods=["get"])
+    @action(detail=True, methods=["get", "post"])
     def units(self, request, **kwargs):
         obj = self.get_object()
+
+        if request.method == "POST":
+            if not request.user.has_perm("unit.add", obj):
+                self.permission_denied(request, message="Can not add unit")
+            serializer = MonolingualUnitSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            key = serializer.validated_data["key"]
+            value = serializer.validated_data["value"]
+
+            if obj.unit_set.filter(context=key).exists():
+                return Response(
+                    data={
+                        "result": "Unsuccessful",
+                        "detail": "Translation with this key seem to already exist!",
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                obj.new_unit(request, key, value)
+                serializer = self.serializer_class(obj, context={"request": request})
+                return Response(serializer.data, status=status.HTTP_200_OK,)
 
         queryset = obj.unit_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
@@ -896,30 +918,6 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         serializer = UnitSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
-
-    @action(detail=True, methods=["post"])
-    def add_monolingual(self, request, **kwargs):
-        obj = self.get_object()
-        if not request.user.has_perm("unit.add", obj):
-            self.permission_denied(request, message="Can not add unit")
-        serializer = MonolingualUnitSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        key = serializer.validated_data["key"]
-        value = serializer.validated_data["value"]
-
-        if obj.unit_set.filter(context=key).exists():
-            return Response(
-                data={
-                    "result": "Unsuccessful",
-                    "detail": "Translation with this key seem to already exist!",
-                },
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        else:
-            obj.new_unit(request, key, value)
-            serializer = self.serializer_class(obj, context={"request": request})
-            return Response(serializer.data, status=status.HTTP_200_OK,)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

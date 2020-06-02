@@ -1314,7 +1314,7 @@ class TranslationAPITest(APIBaseTest):
     def test_add_monolingual(self):
         self.create_acl()
         self.do_request(
-            "api:translation-add-monolingual",
+            "api:translation-units",
             {
                 "language__code": "cs",
                 "component__slug": "test",
@@ -1326,7 +1326,7 @@ class TranslationAPITest(APIBaseTest):
             code=403,
         )
         self.do_request(
-            "api:translation-add-monolingual",
+            "api:translation-units",
             {
                 "language__code": "en",
                 "component__slug": "test",
@@ -1338,7 +1338,7 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.do_request(
-            "api:translation-add-monolingual",
+            "api:translation-units",
             {
                 "language__code": "en",
                 "component__slug": "test",
