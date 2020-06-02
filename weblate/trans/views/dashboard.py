@@ -116,7 +116,7 @@ def get_user_translations(request, user, user_has_languages):
     """
     result = (
         Translation.objects.prefetch()
-        .filter(component__project_id__in=user.allowed_project_ids)
+        .filter_access(user)
         .order_by("component__priority", "component__project__name", "component__name")
     )
 
@@ -195,7 +195,7 @@ def fetch_componentlists(user, user_translations):
         .order()
     )
     for componentlist in componentlists:
-        components = componentlist.components.all()
+        components = componentlist.components.filter_access(user)
         # Force fetching the query now
         list(components)
 
@@ -248,7 +248,7 @@ def dashboard_user(request):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
-        usersubscriptions = user_translations.filter(
+        usersubscriptions = user_translations.filter_access(user).filter(
             component__project__in=user.watched_projects
         )
 

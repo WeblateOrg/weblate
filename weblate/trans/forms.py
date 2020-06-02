@@ -958,13 +958,15 @@ class EngageForm(forms.Form):
     lang = forms.ChoiceField(required=False, choices=[("", _("All languages"))])
     component = forms.ChoiceField(required=False, choices=[("", _("All components"))])
 
-    def __init__(self, project, *args, **kwargs):
+    def __init__(self, user, project, *args, **kwargs):
         """Dynamically generate choices for used languages in project."""
         super().__init__(*args, **kwargs)
 
         self.fields["lang"].choices += project.languages.as_choices()
-        self.fields["component"].choices += project.component_set.order().values_list(
-            "slug", "name"
+        self.fields["component"].choices += (
+            project.component_set.filter_access(user)
+            .order()
+            .values_list("slug", "name")
         )
 
 
@@ -1245,11 +1247,14 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "intermediate",
             "language_regex",
             "variant_regex",
+            "restricted",
         )
         widgets = {"enforced_checks": SelectChecksWidget()}
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
+        if settings.OFFER_HOSTING:
+            self.fields["restricted"].widget = forms.HiddenInput()
         self.helper.layout = Layout(
             TabHolder(
                 Tab(
@@ -1273,6 +1278,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "check_flags",
                         "variant_regex",
                         "enforced_checks",
+                        "restricted",
                     ),
                     css_id="translation",
                 ),
@@ -1340,6 +1346,11 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
         self.fields["vcs"].choices = [
             c for c in self.fields["vcs"].choices if c[0] in vcses
         ]
+
+    def clean(self):
+        data = self.cleaned_data
+        if settings.OFFER_HOSTING:
+            data["restricted"] = self.instance.restricted
 
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):

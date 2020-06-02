@@ -181,6 +181,14 @@ class ComponentQuerySet(models.QuerySet):
     def with_repo(self):
         return self.exclude(repo__startswith="weblate:")
 
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(project_id__in=user.allowed_project_ids)
+            & (Q(restricted=False) | Q(id__in=user.component_permissions))
+        )
+
 
 class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     name = models.CharField(
@@ -531,6 +539,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         verbose_name=_("Priority"),
         help_text=_(
             "Components with higher priority are offered first to translators."
+        ),
+    )
+    restricted = models.BooleanField(
+        verbose_name=gettext_lazy("Restricted component"),
+        default=settings.DEFAULT_RESTRICTED_COMPONENT,
+        db_index=True,
+        help_text=gettext_lazy(
+            "Restrict access to the component only to explicitely given permissions."
         ),
     )
 

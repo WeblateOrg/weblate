@@ -36,6 +36,7 @@ Not yet released.
 * Added support for configuring different branch for pushing changes.
 * API now reports rate limiting status in the HTTP headers.
 * Added support for Google Translate V3 API (Advanced).
+* Added ability to restrict access on component level.
 
 Weblate 4.0.4
 -------------

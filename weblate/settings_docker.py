@@ -1094,6 +1094,11 @@ AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
 # Default access control
 DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
 
+# Default access control
+DEFAULT_RESTRICTED_COMPONENT = get_env_bool(
+    "WEBLATE_DEFAULT_RESTRICTED_COMPONENT", False
+)
+
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
 

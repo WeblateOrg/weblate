@@ -20,6 +20,7 @@
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -31,6 +32,17 @@ from weblate.trans.models import Component, Unit
 class ScreenshotQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("name")
+
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(component__project_id__in=user.allowed_project_ids)
+            & (
+                Q(component__restricted=False)
+                | Q(component_id__in=user.component_permissions)
+            )
+        )
 
 
 class Screenshot(models.Model, UserDisplayMixin):

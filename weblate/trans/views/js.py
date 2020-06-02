@@ -38,7 +38,7 @@ from weblate.utils.views import get_component, get_project, get_translation
 
 
 def handle_machinery(request, service, unit, search=None):
-    request.user.check_access(unit.translation.component.project)
+    request.user.check_access_component(unit.translation.component)
     if not request.user.has_perm(
         "memory.view" if service == "weblate-translation-memory" else "machinery.view",
         unit.translation,
@@ -101,7 +101,7 @@ def memory(request, unit_id):
 def get_unit_translations(request, unit_id):
     """Return unit's other translations."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    request.user.check_access(unit.translation.component.project)
+    request.user.check_access_component(unit.translation.component)
 
     return render(
         request,

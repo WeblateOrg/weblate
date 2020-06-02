@@ -103,6 +103,7 @@ class WeblateConf(AppConf):
     DEFAULT_MERGE_STYLE = "rebase"
 
     DEFAULT_ACCESS_CONTROL = 0
+    DEFAULT_RESTRICTED_COMPONENT = False
     DEFAULT_SHARED_TM = True
 
     DEFAULT_PUSH_ON_COMMIT = True

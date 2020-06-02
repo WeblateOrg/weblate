@@ -23,6 +23,7 @@ import json
 from appconf import AppConf
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -108,12 +109,27 @@ class WeblateChecksConf(AppConf):
         prefix = ""
 
 
+class CheckQuerySet(models.QuerySet):
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(unit__translation__component__project_id__in=user.allowed_project_ids)
+            & (
+                Q(unit__translation__component__restricted=False)
+                | Q(unit__translation__component_id__in=user.component_permissions)
+            )
+        )
+
+
 class Check(models.Model):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     dismissed = models.BooleanField(db_index=True, default=False)
 
     weblate_unsafe_delete = True
+
+    objects = CheckQuerySet.as_manager()
 
     class Meta:
         unique_together = ("unit", "check")

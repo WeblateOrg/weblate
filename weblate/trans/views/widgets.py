@@ -43,7 +43,7 @@ def widgets(request, project):
     obj = get_project(request, project)
 
     # Parse possible language selection
-    form = EngageForm(obj, request.GET)
+    form = EngageForm(request.user, obj, request.GET)
     lang = None
     component = None
     if form.is_valid():

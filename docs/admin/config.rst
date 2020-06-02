@@ -350,6 +350,22 @@ on the internal Weblate management.
 .. seealso::
 
    :ref:`acl`,
+   :ref:`project-access_control`,
+   :ref:`privileges`
+
+.. setting:: DEFAULT_RESTRICTED_COMPONENT
+
+DEFAULT_RESTRICTED_COMPONENT
+----------------------------
+
+.. versionadded:: 4.1
+
+The default value for component restriction.
+
+.. seealso::
+
+   :ref:`acl`,
+   :ref:`component-restricted`,
    :ref:`privileges`
 
 .. setting:: DEFAULT_COMMIT_MESSAGE

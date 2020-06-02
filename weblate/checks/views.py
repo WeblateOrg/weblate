@@ -44,9 +44,7 @@ def show_checks(request):
     url_params = {}
     user = request.user
 
-    kwargs = {
-        "unit__translation__component__project_id__in": user.allowed_project_ids,
-    }
+    kwargs = {}
 
     form = FilterForm(request.GET)
     if form.is_valid():
@@ -68,6 +66,7 @@ def show_checks(request):
 
     allchecks = (
         Check.objects.filter(**kwargs)
+        .filter_access(user)
         .values("check")
         .annotate(
             check_count=Count("id"),
@@ -171,7 +170,8 @@ def show_check_project(request, name, project):
             url_params["lang"] = form.cleaned_data["lang"]
 
     components = (
-        Component.objects.filter(**kwargs)
+        Component.objects.filter_access(request.user)
+        .filter(**kwargs)
         .annotate(
             check_count=Count("translation__unit__check"),
             dismissed_check_count=conditional_sum(

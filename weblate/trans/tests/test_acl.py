@@ -24,6 +24,7 @@ from django.core import mail
 from django.urls import reverse
 
 from weblate.auth.models import Group, User, get_anonymous
+from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase
 
@@ -307,3 +308,24 @@ class ACLTest(FixtureTestCase):
         )
         self.project.delete()
         self.assertEqual(0, Group.objects.filter(name__startswith=match).count())
+
+    def test_restricted_component(self):
+        # Make the project public
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        # Add user language to ensure the suggestions are shown
+        self.user.profile.languages.add(Language.objects.get(code="cs"))
+
+        url = self.component.get_absolute_url()
+
+        # It is shown on the dashboard and accessible
+        self.assertEqual(self.client.get(url).status_code, 200)
+        self.assertContains(self.client.get(reverse("home")), url)
+
+        # Make it restricted
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        # It is no longer shown on the dashboard and not accessible
+        self.assertEqual(self.client.get(url).status_code, 404)
+        self.assertNotContains(self.client.get(reverse("home")), url)

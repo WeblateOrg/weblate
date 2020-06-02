@@ -596,9 +596,7 @@ class NotificationForm(forms.Form):
         self.is_active = is_active
         self.show_default = show_default
         self.fields["project"].queryset = user.allowed_projects
-        self.fields["component"].queryset = Component.objects.filter(
-            project_id__in=user.allowed_project_ids
-        )
+        self.fields["component"].queryset = Component.objects.filter_access(user)
         language_fields = []
         component_fields = []
         for field, notification_cls in self.notification_fields():

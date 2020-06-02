@@ -144,7 +144,7 @@ def show_project(request, project):
     language_stats = obj.stats.get_language_stats()
     # Show ghost translations for user languages
     component = None
-    for component in obj.component_set.all():
+    for component in obj.component_set.filter_access(user).all():
         if component.can_add_new_language(user):
             break
     if component:
@@ -160,7 +160,7 @@ def show_project(request, project):
     )
 
     # Paginate components of project.
-    all_components = obj.component_set.prefetch().order()
+    all_components = obj.component_set.filter_access(user).prefetch().order()
     components = prefetch_stats(get_paginator(request, all_components))
 
     return render(
@@ -301,7 +301,9 @@ def show_translation(request, project, component, lang):
     # Include ghost translations for other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(obj.component.slug)
-    for component in obj.component.project.component_set.exclude(slug__in=existing):
+    for component in obj.component.project.component_set.filter_access(user).exclude(
+        slug__in=existing
+    ):
         if component.can_add_new_language(user):
             other_translations.append(GhostTranslation(component, obj.language))
 
@@ -352,7 +354,11 @@ def data_project(request, project):
     return render(
         request,
         "data.html",
-        {"object": obj, "components": obj.component_set.order(), "project": obj},
+        {
+            "object": obj,
+            "components": obj.component_set.filter_access(request.user).order(),
+            "project": obj,
+        },
     )
 
 
@@ -422,10 +428,5 @@ def show_component_list(request, name):
     return render(
         request,
         "component-list.html",
-        {
-            "object": obj,
-            "components": obj.components.filter(
-                project_id__in=request.user.allowed_project_ids
-            ),
-        },
+        {"object": obj, "components": obj.components.filter_access(request.user)},
     )

@@ -101,3 +101,15 @@ class PermissionsTest(FixtureTestCase):
         self.user.groups.add(group)
 
         self.assertTrue(self.user.has_perm("management.use"))
+
+    def test_restricted_component(self):
+        self.assertTrue(self.superuser.has_perm("unit.edit", self.component))
+        self.assertTrue(self.admin.has_perm("unit.edit", self.component))
+        self.assertTrue(self.user.has_perm("unit.edit", self.component))
+
+        self.component.restricted = True
+        self.component.save(update_fields=["restricted"])
+
+        self.assertTrue(self.superuser.has_perm("unit.edit", self.component))
+        self.assertFalse(self.admin.has_perm("unit.edit", self.component))
+        self.assertFalse(self.user.has_perm("unit.edit", self.component))

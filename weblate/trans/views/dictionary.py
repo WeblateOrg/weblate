@@ -206,7 +206,7 @@ def download_dictionary(request, project, lang):
 @session_ratelimit_post("glossary")
 def add_dictionary(request, unit_id):
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    request.user.check_access(unit.translation.component.project)
+    request.user.check_access_component(unit.translation.component)
 
     prj = unit.translation.component.project
     lang = unit.translation.language
