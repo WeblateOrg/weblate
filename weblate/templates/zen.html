@@ -8,12 +8,8 @@
 
 {% block extra_script %}
 {% compress js %}
-<script defer data-cfasync="false" src="{% static 'editor.js' %}{{ cache_param }}"></script>
-<script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function() {
-    new WLT.editor.Zen();
-});
-</script>
+<script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
+<script defer data-cfasync="false" src="{% static 'editor/zen.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 {% endblock %}
 
