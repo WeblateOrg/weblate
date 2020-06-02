@@ -1419,6 +1419,18 @@ Translations
     :type language: string
     :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
 
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/units/
+
+    Add new monolingual unit.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :<json string key: Name of translation unit
+    :<json string value: The translation unit value
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 

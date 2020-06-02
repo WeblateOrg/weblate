@@ -495,6 +495,11 @@ class TranslationSerializer(RemovableSerializer):
         }
 
 
+class MonolingualUnitSerializer(serializers.Serializer):
+    key = serializers.CharField()
+    value = serializers.CharField()
+
+
 class ReadOnlySerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         return None
