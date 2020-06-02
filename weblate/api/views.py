@@ -907,10 +907,10 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                     },
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-            else:
-                obj.new_unit(request, key, value)
-                serializer = self.serializer_class(obj, context={"request": request})
-                return Response(serializer.data, status=status.HTTP_200_OK,)
+
+            obj.new_unit(request, key, value)
+            serializer = self.serializer_class(obj, context={"request": request})
+            return Response(serializer.data, status=status.HTTP_200_OK,)
 
         queryset = obj.unit_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
