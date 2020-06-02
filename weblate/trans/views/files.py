@@ -68,7 +68,7 @@ def download_multi(translations, fmt=None):
 
 def download_component_list(request, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
-    components = obj.components.filter(project_id__in=request.user.allowed_project_ids)
+    components = obj.components.filter_access(request.user)
     for component in components:
         component.commit_pending("download", None)
     return download_multi(

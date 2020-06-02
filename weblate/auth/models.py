@@ -466,6 +466,19 @@ class User(AbstractBaseUser):
         if not self.can_access_project(project):
             raise Http404("Access denied")
 
+    def can_access_component(self, component):
+        """Check access to given component."""
+        if self.is_superuser:
+            return True
+        if not self.can_access_project(component.project):
+            return False
+        return not component.restricted or component.pk in self.component_permissions
+
+    def check_access_component(self, component):
+        """Raise an error if user is not allowed to access this component."""
+        if not self.can_access_component(component):
+            raise Http404("Access denied")
+
     @cached_property
     def allowed_projects(self):
         """List of allowed projects."""

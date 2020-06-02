@@ -123,7 +123,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
         )
 
     if not skip_acl:
-        request.user.check_access(translation.component.project)
+        request.user.check_access_component(translation.component)
     return translation
 
 
@@ -135,7 +135,7 @@ def get_component(request, project, component, skip_acl=False):
         slug__iexact=component,
     )
     if not skip_acl:
-        request.user.check_access(component.project)
+        request.user.check_access_component(component)
     return component
 
 

@@ -191,6 +191,13 @@ inside it. Only membership is enough, no specific permissions are needed to
 access a project (this is used in the default `Viewers` group, see
 :ref:`default-groups`).
 
+Checking access to a component
+++++++++++++++++++++++++++++++
+
+A user can access the unrestricted component once he can access the containing
+project. With enabled :ref:`component-restricted` the access to the component
+requires explicit perimission on the component (or containing component list).
+
 .. _manage-users:
 
 Managing users and groups

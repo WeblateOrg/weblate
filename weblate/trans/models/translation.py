@@ -25,7 +25,7 @@ import tempfile
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models.aggregates import Max
+from django.db.models import Max, Q
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -96,6 +96,17 @@ class TranslationQuerySet(models.QuerySet):
             "component__linked_component",
             "component__linked_component__project",
         ).prefetch_related("language__plural_set", "component__alert_set")
+
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(component__project_id__in=user.allowed_project_ids)
+            & (
+                Q(component__restricted=False)
+                | Q(component_id__in=user.component_permissions)
+            )
+        )
 
 
 class Translation(models.Model, URLMixin, LoggerMixin):

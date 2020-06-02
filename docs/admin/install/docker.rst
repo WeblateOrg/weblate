@@ -464,6 +464,10 @@ Generic settings
 
     Configures the default access control for project, see :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. envvar:: WEBLATE_DEFAULT_RESTRICTED_COMPONENT
+
+    Configures the default value for restricting components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.

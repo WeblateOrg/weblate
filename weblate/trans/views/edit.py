@@ -576,7 +576,7 @@ def comment(request, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)
     component = unit.translation.component
-    request.user.check_access(component.project)
+    request.user.check_access_component(component)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied()

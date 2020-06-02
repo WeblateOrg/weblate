@@ -22,7 +22,7 @@ from copy import copy
 
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.utils.translation import gettext as _
 
 from weblate.checks.models import CHECKS, Check
@@ -92,6 +92,17 @@ class SuggestionManager(models.Manager):
 class SuggestionQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("-timestamp")
+
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(unit__translation__component__project_id__in=user.allowed_project_ids)
+            & (
+                Q(unit__translation__component__restricted=False)
+                | Q(unit__translation__component_id__in=user.component_permissions)
+            )
+        )
 
 
 class Suggestion(models.Model, UserDisplayMixin):

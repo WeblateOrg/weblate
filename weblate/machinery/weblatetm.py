@@ -44,18 +44,13 @@ class WeblateTranslation(MachineTranslation):
     def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         if user:
-            kwargs = {
-                "translation__component__project_id__in": user.allowed_project_ids
-            }
+            base = Unit.objects.filter_access(user)
         else:
-            kwargs = {
-                "translation__component__project": unit.translation.component.project
-            }
-        matching_units = Unit.objects.prefetch().filter(
+            base = Unit.objects.all()
+        matching_units = base.filter(
             source__search=text,
             translation__language=language,
             state__gte=STATE_TRANSLATED,
-            **kwargs
         )
 
         for munit in matching_units:

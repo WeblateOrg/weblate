@@ -495,8 +495,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             raise ParseError("Missing component_id parameter")
 
         try:
-            component = Component.objects.get(
-                project_id__in=self.request.user.allowed_project_ids,
+            component = Component.objects.filter_access(request.user).get(
                 pk=int(request.data["component_id"]),
             )
         except (Component.DoesNotExist, ValueError) as error:
@@ -593,7 +592,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
                     },
                 )
 
-        queryset = obj.component_set.all().order_by("id")
+        queryset = obj.component_set.filter_access(self.request.user).order_by("id")
         page = self.paginate_queryset(queryset)
 
         serializer = ComponentSerializer(
@@ -668,7 +667,7 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def get_queryset(self):
         return (
             Component.objects.prefetch()
-            .filter(project_id__in=self.request.user.allowed_project_ids)
+            .filter_access(self.request.user)
             .prefetch_related("project__source_language")
             .order_by("id")
         )
@@ -799,7 +798,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     def get_queryset(self):
         return (
             Translation.objects.prefetch()
-            .filter(component__project_id__in=self.request.user.allowed_project_ids)
+            .filter_access(self.request.user)
             .prefetch_related("component__project__source_language")
             .order_by("id")
         )
@@ -953,9 +952,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UnitSerializer
 
     def get_queryset(self):
-        return Unit.objects.filter(
-            translation__component__project_id__in=self.request.user.allowed_project_ids
-        ).order_by("id")
+        return Unit.objects.filter_access(self.request.user).order_by("id")
 
 
 class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
@@ -966,9 +963,7 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
     raw_urls = ("screenshot-file",)
 
     def get_queryset(self):
-        return Screenshot.objects.filter(
-            component__project_id__in=self.request.user.allowed_project_ids
-        ).order_by("id")
+        return Screenshot.objects.filter_access(self.request.user).order_by("id")
 
     @action(
         detail=True,
@@ -1111,8 +1106,7 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             raise ParseError("Missing component_id parameter")
 
         try:
-            component = Component.objects.get(
-                project_id__in=self.request.user.allowed_project_ids,
+            component = Component.objects.filter_access(self.request.user).get(
                 pk=int(request.data["component_id"]),
             )
         except (Component.DoesNotExist, ValueError) as error:

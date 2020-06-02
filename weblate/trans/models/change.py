@@ -19,7 +19,7 @@
 
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
@@ -127,7 +127,18 @@ class ChangeQuerySet(models.QuerySet):
         Prefilter Changes by ACL for users and fetches related fields for last changes
         display.
         """
-        return self.prefetch().filter(project_id__in=user.allowed_project_ids).order()
+        return (
+            self.prefetch()
+            .filter(
+                Q(project_id__in=user.allowed_project_ids)
+                & (
+                    Q(component__isnull=True)
+                    | Q(component__restricted=False)
+                    | Q(component_id__in=user.component_permissions)
+                )
+            )
+            .order()
+        )
 
     def authors_list(self, date_range=None):
         """Return list of authors."""

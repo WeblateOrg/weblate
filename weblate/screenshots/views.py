@@ -112,7 +112,7 @@ class ScreenshotDetail(DetailView):
 
     def get_object(self, *args, **kwargs):
         obj = super().get_object(*args, **kwargs)
-        self.request.user.check_access(obj.component.project)
+        self.request.user.check_access_component(obj.component)
         return obj
 
     def get_context_data(self, **kwargs):
@@ -144,7 +144,7 @@ class ScreenshotDetail(DetailView):
 @login_required
 def delete_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    request.user.check_access(obj.component.project)
+    request.user.check_access_component(obj.component)
     if not request.user.has_perm("screenshot.delete", obj.component):
         raise PermissionDenied()
 
@@ -159,7 +159,7 @@ def delete_screenshot(request, pk):
 
 def get_screenshot(request, pk):
     obj = get_object_or_404(Screenshot, pk=pk)
-    request.user.check_access(obj.component.project)
+    request.user.check_access_component(obj.component)
     if not request.user.has_perm("screenshot.edit", obj.component):
         raise PermissionDenied()
     return obj
