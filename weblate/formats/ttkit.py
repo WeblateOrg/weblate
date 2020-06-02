@@ -1096,6 +1096,13 @@ class I18NextFormat(JSONFormat):
     check_flags = ("i18next-interpolation",)
 
 
+class GoI18JSONFormat(JSONFormat):
+    name = _("go-i18 JSON file")
+    format_id = "go-i18n-json"
+    loader = ("jsonl10n", "GoI18NFile")
+    autoload = ()
+
+
 class CSVFormat(TTKitFormat):
     name = _("CSV file")
     format_id = "csv"

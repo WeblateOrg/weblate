@@ -78,6 +78,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.JSONNestedFormat",
         "weblate.formats.ttkit.WebExtensionJSONFormat",
         "weblate.formats.ttkit.I18NextFormat",
+        "weblate.formats.ttkit.GoI18JSONFormat",
         "weblate.formats.ttkit.CSVFormat",
         "weblate.formats.ttkit.CSVSimpleFormat",
         "weblate.formats.ttkit.CSVSimpleFormatISO",

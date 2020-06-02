@@ -82,6 +82,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`js-i18next`   | mono             | yes           | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`go-i18n-json` | mono             | yes           | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`webex`        | mono             | yes           | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`dotnet`       | mono             | no            | yes            | no            | no             | yes [#xl]_     |                         |
@@ -746,6 +748,7 @@ Weblate currently supports several variants of JSON translations:
 * Simple key / value files.
 * Files with nested keys.
 * :ref:`js-i18next`
+* :ref:`go-i18n-json`
 * :ref:`webex`
 
 JSON translations are usually monolingual, so it is recommended to specify a base
@@ -828,6 +831,43 @@ Example file:
 
     :doc:`tt:formats/json`,
     `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+.. _go-i18n-json:
+
+go-i18n JSON files
+------------------
+
+.. index::
+    pair: go-i18n; file format
+
+.. versionadded:: 4.1
+
+go-i18n translations are monolingual, so it is recommended to specify a base file
+with (what is most often the) English strings.
+
+.. note::
+
+   Weblate supports the go-i18n JSON v2 format, it does not support flat
+   JSON files supported in v1.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``langs/*.json``                 |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``langs/en.json``                |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `go-i18n JSON file`              |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
