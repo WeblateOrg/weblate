@@ -21,7 +21,7 @@
 from django.db import transaction
 
 from weblate.checks.flags import Flags
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Component
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY
 
 
@@ -36,51 +36,50 @@ def bulk_perform(
     remove_labels,
 ):
     matching = unit_set.search(query)
+    components = Component.objects.filter(
+        id__in=matching.values_list("translation__component_id", flat=True)
+    )
 
     target_state = int(target_state)
     add_flags = Flags(add_flags)
     remove_flags = Flags(remove_flags)
 
-    cleanups = {}
-    preloaded_sources = False
-
     updated = 0
-    with transaction.atomic():
-        for unit in matching.select_for_update():
-            if not preloaded_sources:
-                unit.translation.component.preload_sources()
-                preloaded_sources = True
-            if user is not None and not user.has_perm("unit.edit", unit):
-                continue
-            updated += 1
-            if (
-                target_state != -1
-                and unit.state > STATE_EMPTY
-                and unit.state < STATE_READONLY
-            ):
-                unit.translate(
-                    user,
-                    unit.target,
-                    target_state,
-                    change_action=Change.ACTION_BULK_EDIT,
-                    propagate=False,
-                )
-            if add_flags or remove_flags:
-                flags = Flags(unit.source_info.extra_flags)
-                flags.merge(add_flags)
-                flags.remove(remove_flags)
-                unit.source_info.is_bulk_edit = True
-                unit.source_info.extra_flags = flags.format()
-                unit.source_info.save(update_fields=["extra_flags"])
-                cleanups[unit.translation.component.pk] = unit.translation.component
-            if add_labels:
-                unit.source_info.is_bulk_edit = True
-                unit.source_info.labels.add(*add_labels)
-                cleanups[unit.translation.component.pk] = unit.translation.component
-            if remove_labels:
-                unit.source_info.is_bulk_edit = True
-                unit.source_info.labels.remove(*remove_labels)
-                cleanups[unit.translation.component.pk] = unit.translation.component
-    for component in cleanups.values():
+    for component in components:
+        component.preload_sources()
+        with transaction.atomic(), component.lock():
+            for unit in matching.filter(
+                translation__component=component
+            ).select_for_update():
+                if user is not None and not user.has_perm("unit.edit", unit):
+                    continue
+                updated += 1
+                if (
+                    target_state != -1
+                    and unit.state > STATE_EMPTY
+                    and unit.state < STATE_READONLY
+                ):
+                    unit.translate(
+                        user,
+                        unit.target,
+                        target_state,
+                        change_action=Change.ACTION_BULK_EDIT,
+                        propagate=False,
+                    )
+                if add_flags or remove_flags:
+                    flags = Flags(unit.source_info.extra_flags)
+                    flags.merge(add_flags)
+                    flags.remove(remove_flags)
+                    unit.source_info.is_bulk_edit = True
+                    unit.source_info.extra_flags = flags.format()
+                    unit.source_info.save(update_fields=["extra_flags"])
+                if add_labels:
+                    unit.source_info.is_bulk_edit = True
+                    unit.source_info.labels.add(*add_labels)
+                if remove_labels:
+                    unit.source_info.is_bulk_edit = True
+                    unit.source_info.labels.remove(*remove_labels)
+
         component.invalidate_stats_deep()
+
     return updated
