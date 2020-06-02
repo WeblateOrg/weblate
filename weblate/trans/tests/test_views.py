@@ -261,7 +261,9 @@ class FixtureTestCase(ViewTestCase):
         return project
 
     def create_component(self):
-        return self.create_project().component_set.all()[0]
+        component = self.create_project().component_set.all()[0]
+        component.create_path()
+        return component
 
 
 class TranslationManipulationTest(ViewTestCase):
