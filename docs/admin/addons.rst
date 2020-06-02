@@ -24,6 +24,8 @@ Automatic translation
 
 Automatically translates strings using machine translation or other components.
 
+This addon is triggered automatically when new strings appear in a component.
+
 .. seealso::
 
    :ref:`auto-translation`,
