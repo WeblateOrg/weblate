@@ -337,7 +337,7 @@ class ComponentSerializer(RemovableSerializer):
 
     repo = RepoField(max_length=REPO_LENGTH)
 
-    push = RepoField(required=False, max_length=REPO_LENGTH)
+    push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 

@@ -1060,6 +1060,40 @@ class ComponentAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 1)
         self.assertEqual(request.data["results"][0]["name"], "Obrazek")
 
+    def test_patch(self):
+        self.do_request(
+            "api:component-detail", self.component_kwargs, method="patch", code=403
+        )
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="patch",
+            superuser=True,
+            code=200,
+            format="json",
+            request={"name": "New Name"},
+        )
+        self.assertEqual(response.data["name"], "New Name")
+
+    def test_put(self):
+        self.do_request(
+            "api:component-detail", self.component_kwargs, method="put", code=403
+        )
+        component = self.client.get(
+            reverse("api:component-detail", kwargs=self.component_kwargs)
+        ).data
+        component["name"] = "New Name"
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request=component,
+        )
+        self.assertEqual(response.data["name"], "New Name")
+
     def test_delete(self):
         self.do_request(
             "api:component-detail", self.component_kwargs, method="delete", code=403
