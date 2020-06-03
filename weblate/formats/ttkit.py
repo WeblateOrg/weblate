@@ -1103,6 +1103,13 @@ class GoI18JSONFormat(JSONFormat):
     autoload = ()
 
 
+class ARBFormat(JSONFormat):
+    name = _("ARB file")
+    format_id = "arb"
+    loader = ("jsonl10n", "ARBFile")
+    autoload = ("*.arb",)
+
+
 class CSVFormat(TTKitFormat):
     name = _("CSV file")
     format_id = "csv"

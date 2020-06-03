@@ -84,6 +84,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`go-i18n-json` | mono             | yes           | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`arb`          | mono             | yes           | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`webex`        | mono             | yes           | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`dotnet`       | mono             | no            | yes            | no            | no             | yes [#xl]_     |                         |
@@ -750,6 +752,7 @@ Weblate currently supports several variants of JSON translations:
 * :ref:`js-i18next`
 * :ref:`go-i18n-json`
 * :ref:`webex`
+* :ref:`arb`
 
 JSON translations are usually monolingual, so it is recommended to specify a base
 file with (what is most often the) English strings.
@@ -868,6 +871,39 @@ with (what is most often the) English strings.
 
     :doc:`tt:formats/json`,
     `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
+    :ref:`addon-weblate.json.customize`,
+    :ref:`addon-weblate.cleanup.generic`,
+
+.. _arb:
+
+ARB File
+--------
+
+.. index::
+    pair: ARB; file format
+
+.. versionadded:: 4.1
+
+ARB translations are monolingual, so it is recommended to specify a base file
+with (what is most often the) English strings.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``lib/l10n/intl_*.arb``          |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``lib/l10n/intl_en.arb``         |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `ARB file`                       |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    :doc:`tt:formats/json`,
+    `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
+    `Internationalizing Flutter apps <https://flutter.dev/docs/development/accessibility-and-localization/internationalization>`_,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
