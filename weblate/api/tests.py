@@ -1285,6 +1285,8 @@ class TranslationAPITest(APIBaseTest):
             "api:translation-statistics",
             self.translation_kwargs,
             data={
+                "name": "Czech",
+                "code": "cs",
                 "failing_percent": 0.0,
                 "translated_percent": 0.0,
                 "total_words": 15,

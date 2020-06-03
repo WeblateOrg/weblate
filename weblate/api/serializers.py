@@ -550,7 +550,7 @@ class RepoRequestSerializer(ReadOnlySerializer):
 class StatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
         stats = instance.stats
-        return {
+        result = {
             "total": stats.all,
             "total_words": stats.all_words,
             "last_change": stats.last_changed,
@@ -567,6 +567,10 @@ class StatisticsSerializer(ReadOnlySerializer):
             "failing": stats.allchecks,
             "failing_percent": stats.allchecks_percent,
         }
+        if hasattr(instance, "language"):
+            result["code"] = instance.language.code
+            result["name"] = instance.language.name
+        return result
 
 
 class UnitSerializer(RemovableSerializer):
