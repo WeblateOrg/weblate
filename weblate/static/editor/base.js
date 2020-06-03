@@ -1,11 +1,15 @@
 var WLT = WLT || {};
 
+WLT.Config = (function () {
+    return {
+        IS_MAC: /Mac|iPod|iPhone|iPad/.test(navigator.platform),
+    };
+})();
+
 WLT.Editor = (function () {
     var machineTranslationLoaded = false;
     var translationMemoryLoaded = false;
     var lastEditor = null;
-
-    var IS_MAC = /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 
     var $window = $(window);
     var $document = $(document);
@@ -137,7 +141,7 @@ WLT.Editor = (function () {
                     let key = getNumericKey(idx);
 
                     var title;
-                    if (IS_MAC) {
+                    if (WLT.Config.IS_MAC) {
                         title = interpolate(gettext('Cmd+%s'), [key]);
                     } else {
                         title = interpolate(gettext('Ctrl+%s'), [key]);
@@ -284,7 +288,7 @@ WLT.Editor = (function () {
                     var key = getNumericKey(idx);
 
                     var title;
-                    if (IS_MAC) {
+                    if (WLT.Config.IS_MAC) {
                         title = interpolate(gettext('Cmd+M then %s'), [key]);
                     } else {
                         title = interpolate(gettext('Ctrl+M then %s'), [key]);
@@ -487,7 +491,7 @@ WLT.Editor = (function () {
     if (document.querySelectorAll('.check-item').length > 0) {
         // Cancel out browser's `meta+i` and let Mousetrap handle the rest
         document.addEventListener('keydown', function (e) {
-            var isMod = IS_MAC ? e.metaKey : e.ctrlKey;
+            var isMod = WLT.Config.IS_MAC ? e.metaKey : e.ctrlKey;
             if (isMod && e.key.toLowerCase() === 'i') {
                 e.preventDefault();
                 e.stopPropagation();
@@ -502,7 +506,7 @@ WLT.Editor = (function () {
             let key = getNumericKey(idx);
 
             var title;
-            if (IS_MAC) {
+            if (WLT.Config.IS_MAC) {
                 title = interpolate(gettext('Press Cmd+I then %s to dismiss this.'), [key]);
             } else {
                 title = interpolate(gettext('Press Ctrl+I then %s to dismiss this.'), [key]);
