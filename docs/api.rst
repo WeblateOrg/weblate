@@ -977,6 +977,105 @@ Components
             "web_url": "http://example.com/projects/hello/weblate/"
         }
 
+.. http:patch:: /api/components/(string:project)/(string:component)/
+
+    Edit a component by a patch request.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :<json string name: name of component
+    :<json string slug: slug of component
+    :<json string repo: VCS repository URL
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            --data-binary '{"name": "new name"}' \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Token TOKEN" \
+            PATCH http://example.com/api/projects/hello/components/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        PATCH /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {
+            "name": "new name"
+        }
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {
+            "branch": "master",
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "git_export": "",
+            "license": "",
+            "license_url": "",
+            "name": "new name",
+            "slug": "weblate",
+            "project": {
+                "name": "Hello",
+                "slug": "hello",
+                "source_language": {
+                    "code": "en",
+                    "direction": "ltr",
+                    "name": "English",
+                    "url": "http://example.com/api/languages/en/",
+                    "web_url": "http://example.com/languages/en/"
+                },
+                "url": "http://example.com/api/projects/hello/",
+                "web": "https://weblate.org/",
+                "web_url": "http://example.com/projects/hello/"
+            },
+            "repo": "file:///home/nijel/work/weblate-hello",
+            "template": "",
+            "new_base": "",
+            "url": "http://example.com/api/components/hello/weblate/",
+            "vcs": "git",
+            "web_url": "http://example.com/projects/hello/weblate/"
+        }
+
+.. http:put:: /api/components/(string:project)/(string:component)/
+
+    Edit a component by a put request.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :<json string branch: VCS repository branch
+    :<json string file_format: file format of translations
+    :<json string filemask: mask of translation files in the repository
+    :<json string name: name of component
+    :<json string slug: slug of component
+    :<json string repo: VCS repository URL
+    :<json string template: base file for monolingual translations
+    :<json string new_base: base file for adding new translations
+    :<json string vcs: version control system
+
 .. http:delete:: /api/components/(string:project)/(string:component)/
 
     .. versionadded:: 3.9

@@ -31,7 +31,7 @@ from django.utils.safestring import mark_safe
 from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
-from rest_framework.mixins import CreateModelMixin, DestroyModelMixin
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -657,7 +657,9 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
+class ComponentViewSet(
+    MultipleFieldMixin, WeblateViewSet, UpdateModelMixin, DestroyModelMixin
+):
     """Translation components API."""
 
     queryset = Component.objects.none()
@@ -777,6 +779,12 @@ class ComponentViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         serializer = ScreenshotSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not request.user.has_perm("component.edit", instance):
+            self.permission_denied(request, message="Can not edit component")
+        return super().update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
