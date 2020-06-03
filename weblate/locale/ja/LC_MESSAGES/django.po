@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-05-22 09:43+0000\n"
-"PO-Revision-Date: 2020-05-20 11:46+0000\n"
+"PO-Revision-Date: 2020-06-04 06:31+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -846,16 +846,10 @@ msgid "Automatic translation"
 msgstr "自動翻訳"
 
 #: weblate/addons/autotranslate.py:36
-#, fuzzy
-#| msgid ""
-#| "This addon automatically translates strings using machine translation or "
-#| "other components."
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
-msgstr ""
-"このアドオンは、機械翻訳または他のコンポーネントを使用して文字列を自動的に翻"
-"訳します。"
+msgstr "自動翻訳または他のコンポーネントを使用して文字列を自動的に翻訳します。"
 
 #: weblate/addons/base.py:304 weblate/trans/views/create.py:193
 msgid ""
@@ -881,32 +875,20 @@ msgid "Language consistency"
 msgstr "言語の一貫性"
 
 #: weblate/addons/consistency.py:33
-#, fuzzy
-#| msgid ""
-#| "Ensure that all components within one project have translation to same "
-#| "languages."
 msgid ""
 "Ensures all components within one project have translations for every added "
 "language for translation."
-msgstr ""
-"1 つのプロジェクト内のすべてのコンポーネントが、同じ言語に翻訳されていること"
-"を保証します。"
+msgstr "1 つのプロジェクト内のすべてのコンポーネントに、追加されたすべての言語の翻訳を適用します。"
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
 msgstr "コンポーネントの検出"
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon automatically adds or removes components to the project based "
-#| "on file changes in the version control system."
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
-msgstr ""
-"このアドオンは、VCS のファイル変更に基づき、プロジェクトに自動的にコンポーネ"
-"ントを追加または削除します。"
+msgstr "バージョン管理システムのファイル変更に基づいて、プロジェクトコンポーネントを自動的に追加または削除します。"
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
@@ -957,21 +939,14 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "未変更の翻訳に \"要編集\" フラグを付ける"
 
 #: weblate/addons/flags.py:77
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches source strings, it is flagged as needing editing in Weblate. This "
-#| "is especially useful for file formats that include all strings even if "
-#| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. This is "
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、"
-"Weblate は \"要編集\" フラグを付けます。これは、文字列が翻訳されていない場合"
-"であっても、すべての文字列を含むファイル形式には特に便利です。"
+"VCS からインポートされた新しい翻訳可能な文字列が原文と一致するたびに、Weblate は \"要編集\" "
+"フラグを付けます。これは、文字列が翻訳されていない場合であっても、すべての文字列を含むファイル形式には特に便利です。"
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:71
 #: weblate/templates/component.html:202 weblate/templates/project.html:98
@@ -982,10 +957,8 @@ msgid "Bulk edit"
 msgstr "一括編集"
 
 #: weblate/addons/flags.py:97
-#, fuzzy
-#| msgid "This addon allow to bulk edit flags, labels or state."
 msgid "Bulk edit flags, labels or state for strings."
-msgstr "フラグ、ラベル、または状態を一括編集できるアドオンです。"
+msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1188,20 +1161,14 @@ msgid "Statistics generator"
 msgstr "統計の生成"
 
 #: weblate/addons/generate.py:33
-#, fuzzy
-#| msgid ""
-#| "This addon generates a file containing detailed information about the "
-#| "translation."
 msgid "Generates a file containing detailed info about the translation."
-msgstr "このアドオンは、翻訳の詳細情報ファイルを生成します。"
+msgstr "翻訳の詳細情報ファイルを生成します。"
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
 msgstr "MO ファイルの生成"
 
 #: weblate/addons/gettext.py:42
-#, fuzzy
-#| msgid "Automatically generates MO file for every changed PO file."
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "変更された PO ファイルごとに自動的に MO ファイルを生成します。"
 
@@ -1230,16 +1197,12 @@ msgid "Update PO files to match POT (msgmerge)"
 msgstr "POT に一致する PO ファイルの更新 (msgmerge)"
 
 #: weblate/addons/gettext.py:232
-#, fuzzy
-#| msgid ""
-#| "Update all PO files to match the POT file using msgmerge. This is "
-#| "triggered whenever new changes are pulled from the upstream repository."
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
-"msgmerge を使用して、POT ファイルと一致するすべての PO ファイルを更新します。"
-"これは、上流のリポジトリから新しい変更が取得されるたびに実行されます。"
+"msgmerge を使用して、POT ファイルと一致するすべての PO "
+"ファイルを更新します。上流のリポジトリから新しい変更が取得されるたびに実行されます。"
 
 #: weblate/addons/gettext.py:283
 msgid "Customize gettext output"
@@ -1255,10 +1218,6 @@ msgid "Contributors in comment"
 msgstr "コメント内の貢献者情報"
 
 #: weblate/addons/gettext.py:298
-#, fuzzy
-#| msgid ""
-#| "Update comment in the PO file header to include contributor name and "
-#| "years of contributions."
 msgid ""
 "Update the comment in the PO file header to include contributor names and "
 "years of contributions."
@@ -1277,31 +1236,23 @@ msgid "Customize JSON output"
 msgstr "JSON 出力形式のカスタマイズ"
 
 #: weblate/addons/json.py:31
-#, fuzzy
-#| msgid ""
-#| "Allows to customize JSON output behavior, for example indentation or "
-#| "sorting."
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
-msgstr "インデント処理や並べ替えなど、JSON 出力形式をカスタマイズできます。"
+msgstr "インデント処理や並べ替えなど、JSON 出力形式を調整できます。"
 
 #: weblate/addons/properties.py:143
 msgid "Formats the Java properties file"
 msgstr "Java プロパティ ファイルの整形"
 
 #: weblate/addons/properties.py:144
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Sorts the Java properties file."
-msgstr "Java プロパティ ファイルの整形"
+msgstr "Java プロパティ ファイルをソートします。"
 
 #: weblate/addons/removal.py:49
 msgid "Stale comment removal"
 msgstr "古いコメントの削除"
 
 #: weblate/addons/removal.py:50
-#, fuzzy
-#| msgid "Set timeframe for removal of comments."
 msgid "Set a timeframe for removal of comments."
 msgstr "コメントを削除するまでの期間を設定します。"
 
@@ -1310,8 +1261,6 @@ msgid "Stale suggestion removal"
 msgstr "古い提案の削除"
 
 #: weblate/addons/removal.py:63
-#, fuzzy
-#| msgid "Set timeframe for removal of suggestions."
 msgid "Set a timeframe for removal of suggestions."
 msgstr "提案を削除するまでの期間を設定します。"
 
@@ -1320,19 +1269,13 @@ msgid "Update RESX files"
 msgstr "RESX ファイルの更新"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual upstream base file. "
-#| "Unused strings are removed, and new ones are added as copies of the "
-#| "source string."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"アップストリームの単一言語の基本ファイルに合わせて、すべての翻訳ファイルを更"
-"新します。使われていない文字列は削除し、新しい文字列は原文のコピーとして追加"
-"します。"
+"アップストリームの単一言語の基本ファイルに合わせて、すべての翻訳ファイルを更新します。使われていない文字列は削除し、新しい文字列は原文のコピーとして追加し"
+"ます。"
 
 #: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
@@ -1343,13 +1286,9 @@ msgid "Customize YAML output"
 msgstr "YAML 出力形式のカスタマイズ"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid ""
-#| "Allows to customize YAML output behavior, for example line length or "
-#| "newlines."
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
-msgstr "インデント処理や並べ替えなど、YAML 出力形式をカスタマイズできます。"
+msgstr "行の長さや改行など、YAML 出力の動作を調整できます。"
 
 #: weblate/auth/admin.py:106 weblate/auth/admin.py:111
 msgid "Personal info"
@@ -2101,8 +2040,6 @@ msgid "Source and translation do not both end with a colon"
 msgstr "原文と翻訳で一致しない文末のコロン"
 
 #: weblate/checks/chars.py:237
-#, fuzzy
-#| msgid "Trailing question"
 msgid "Trailing question mark"
 msgstr "文末の疑問符"
 
@@ -2111,8 +2048,6 @@ msgid "Source and translation do not both end with a question mark"
 msgstr "原文と翻訳で一致しない文末の疑問符"
 
 #: weblate/checks/chars.py:270
-#, fuzzy
-#| msgid "Trailing exclamation"
 msgid "Trailing exclamation mark"
 msgstr "文末の感嘆符"
 
@@ -2169,10 +2104,8 @@ msgid "Source and translation do not both end with a semicolon"
 msgstr "原文と翻訳で一致しない文末のセミコロン"
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "カシーダの使用"
+msgstr "Kashida 文字の使用"
 
 #: weblate/checks/chars.py:374
 msgid "The decorative kashida letters should not be used"
@@ -2223,16 +2156,12 @@ msgid "This string has been translated in the past"
 msgstr "過去に翻訳済みのもの"
 
 #: weblate/checks/duplicate.py:41
-#, fuzzy
-#| msgid "Consecutive duplicated tokens"
 msgid "Consecutive duplicated words"
-msgstr "連続した重複トークン"
+msgstr "連続した重複重複単語"
 
 #: weblate/checks/duplicate.py:42
-#, fuzzy
-#| msgid "Text contains the same token twice in a row"
 msgid "Text contains the same word twice in a row:"
-msgstr "テキストには同じトークンが 2 回連続しています"
+msgstr "テキストには同じ単語が 2 回連続して含みます:"
 
 #: weblate/checks/flags.py:37
 msgid "RST text"
@@ -2411,7 +2340,7 @@ msgstr "%（記号）プレースホルダー（補完）が原文と不一致"
 
 #: weblate/checks/format.py:463
 msgid "Multiple unnamed variables"
-msgstr ""
+msgstr "複数の無名変数"
 
 #: weblate/checks/format.py:465
 msgid ""
