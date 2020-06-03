@@ -119,7 +119,7 @@ def update_source(sender, instance, **kwargs):
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
-        if not instance.is_bulk_edit:
+        if not instance.is_bulk_edit and not instance.is_batch_update:
             instance.translation.component.invalidate_stats_deep()
 
 
