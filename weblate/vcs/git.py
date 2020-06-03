@@ -573,7 +573,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         Pushes changes to *-weblate branch on fork and creates pull request against
         original repository.
         """
-        if branch:
+        if branch and branch != self.branch:
             fork_remote = "origin"
             fork_branch = branch
             super().push(branch)
