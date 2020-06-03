@@ -1346,9 +1346,9 @@ keys present (for example :ref:`gettext`). In some situations this really doesn'
 on the format, but rather on the framework you use to handle the translation (for example with
 :ref:`json`).
 
-When you specify :guilabel:`Template for new translations` in
-:ref:`component`, Weblate will use this file to start new translations. Any
-exiting translations will be removed from the file when doing so.
+When you specify :ref:`component-new_base` in :ref:`component`, Weblate will
+use this file to start new translations. Any exiting translations will be
+removed from the file when doing so.
 
 When :guilabel:`Template for new translations` is empty and the file format
 supports it, an empty file is created where new strings will be added once they are
