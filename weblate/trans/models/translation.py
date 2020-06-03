@@ -1010,32 +1010,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         """Return URL of exported git repository."""
         return self.component.get_export_url()
 
-    def get_stats(self):
-        """Return stats dictionary."""
-        stats = self.stats
-        return {
-            "code": self.language.code,
-            "name": self.language.name,
-            "total": stats.all,
-            "total_words": stats.all_words,
-            "last_change": stats.last_changed,
-            "last_author": self.get_last_author(),
-            "recent_changes": stats.recent_changes,
-            "translated": stats.translated,
-            "translated_words": stats.translated_words,
-            "translated_percent": stats.translated_percent,
-            "translated_words_percent": stats.translated_words_percent,
-            "translated_chars": stats.translated_chars,
-            "translated_chars_percent": stats.translated_chars_percent,
-            "total_chars": stats.all_chars,
-            "fuzzy": stats.fuzzy,
-            "fuzzy_percent": stats.fuzzy_percent,
-            "failing": stats.allchecks,
-            "failing_percent": stats.allchecks_percent,
-            "url": self.get_share_url(),
-            "url_translate": get_site_url(self.get_absolute_url()),
-        }
-
     def remove(self, user):
         """Remove translation from the VCS."""
         author = user.get_author_name()

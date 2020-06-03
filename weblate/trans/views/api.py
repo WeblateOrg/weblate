@@ -22,6 +22,7 @@ import csv
 
 from django.http import HttpResponse, JsonResponse
 
+from weblate.api.serializers import StatisticsSerializer
 from weblate.trans.stats import get_project_stats
 from weblate.utils.views import get_component, get_project
 
@@ -80,7 +81,7 @@ def export_stats(request, project, component):
             "last_author",
             "recent_changes",
         ),
-        [trans.get_stats() for trans in translations.iterator()],
+        StatisticsSerializer(translations, many=True).data,
     )
 
 
