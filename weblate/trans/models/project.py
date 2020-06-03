@@ -315,25 +315,6 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             or self.billing_set.filter(paid=True).exists()
         )
 
-    def get_stats(self):
-        """Return stats dictionary."""
-        return {
-            "name": self.name,
-            "total": self.stats.all,
-            "total_words": self.stats.all_words,
-            "last_change": self.stats.last_changed,
-            "recent_changes": self.stats.recent_changes,
-            "translated": self.stats.translated,
-            "translated_words": self.stats.translated_words,
-            "translated_percent": self.stats.translated_percent,
-            "fuzzy": self.stats.fuzzy,
-            "fuzzy_percent": self.stats.fuzzy_percent,
-            "failing": self.stats.allchecks,
-            "failing_percent": self.stats.allchecks_percent,
-            "url": self.get_share_url(),
-            "url_translate": get_site_url(self.get_absolute_url()),
-        }
-
     def post_create(self, user, billing=None):
         from weblate.trans.models import Change
 
