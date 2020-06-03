@@ -323,9 +323,5 @@ class SafeHTMLCheck(TargetCheck):
     description = _("The translation uses unsafe HTML markup")
     default_disabled = True
 
-    @cached_property
-    def validator(self):
-        return URLValidator()
-
     def check_single(self, source, target, unit):
         return bleach.clean(target, **extract_bleach(source)) != target
