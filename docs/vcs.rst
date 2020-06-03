@@ -251,6 +251,11 @@ translation changes as pull requests, instead of pushing directly to the reposit
 :ref:`vcs-github` creates pull requests.
 The latter is not needed for merely accessing Git repositories.
 
+.. seealso::
+
+   :ref:`push-changes`
+
+
 .. _github-push:
 
 Pushing changes to GitHub as pull requests
@@ -259,7 +264,6 @@ Pushing changes to GitHub as pull requests
 If not wanting to push translations to a GitHub repository, they can be sent as either
 one or many pull requests instead.
 
-Configure the `hub`_ command line tool and set :setting:`GITHUB_USERNAME` for this to work.
 
 .. seealso::
 
@@ -306,6 +310,10 @@ There is no need to use this access Git repositories, ordinary :ref:`vcs-git`
 works the same, the only difference is how pushing to a repository is
 handled. With :ref:`vcs-git` changes are pushed directly to the repository,
 while :ref:`vcs-gitlab` creates merge request.
+
+.. seealso::
+
+   :ref:`push-changes`
 
 .. _gitlab-push:
 

@@ -528,7 +528,7 @@ GitLab username used to send merge requests for translation updates.
 
 .. seealso::
 
-   :ref:`gitlab-push`,
+   :ref:`vcs-gitlab`,
    :ref:`lab-setup`
 
 .. setting:: GITHUB_USERNAME
@@ -540,7 +540,7 @@ GitHub username used to send pull requests for translation updates.
 
 .. seealso::
 
-   :ref:`github-push`,
+   :ref:`vcs-github`,
    :ref:`hub-setup`
 
 .. setting:: GOOGLE_ANALYTICS_ID

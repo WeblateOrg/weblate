@@ -252,8 +252,8 @@ nightly merges as well, by enabling :setting:`AUTO_UPDATE`.
 
 .. _push-changes:
 
-Pushing changes
----------------
+Pushing changes from Weblate
+----------------------------
 
 Each translation component can have a push URL set up (see
 :ref:`component-push`), and in that case Weblate will be able to push change to
@@ -268,6 +268,25 @@ In case you do not want direct pushes by Weblate, there is support for
 :ref:`vcs-github`, :ref:`vcs-gitlab` pull requests or :ref:`vcs-gerrit`
 reviews, you can activate these by choosing :guilabel:`GitHub`,
 :guilabel:`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`.
+
+Overall, following options are available with Git, GitHub and GitLab:
+
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Desired setup                     | :ref:`component-vcs`          | :ref:`component-push`         | :ref:`component-push_branch`  |
++===================================+===============================+===============================+===============================+
+| No push                           | :ref:`vcs-git`                | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push directly                     | :ref:`vcs-git`                | SSH URL                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitHub pull request from fork     | :ref:`vcs-github`             | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitHub pull request from branch   | :ref:`vcs-github`             | `empty`                       | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitLab merge request from barnch  | :ref:`vcs-gitlab`             | `empty`                       | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+
 
 .. note::
 

@@ -425,7 +425,7 @@ Generic settings
 
     .. seealso::
 
-       :ref:`github-push`,
+       :ref:`vcs-github`,
        :ref:`hub-setup`
 
 .. envvar:: WEBLATE_GITLAB_USERNAME
@@ -435,7 +435,7 @@ Generic settings
 
     .. seealso::
 
-       :ref:`gitlab-push`
+       :ref:`vcs-gitlab`
        :ref:`lab-setup`
 
 .. envvar:: WEBLATE_GITLAB_HOST
@@ -444,7 +444,7 @@ Generic settings
 
     .. seealso::
 
-       :ref:`gitlab-push`
+       :ref:`vcs-gitlab`
        :ref:`lab-setup`
 
 .. envvar:: WEBLATE_GITLAB_TOKEN
@@ -453,7 +453,7 @@ Generic settings
 
     .. seealso::
 
-       :ref:`gitlab-push`
+       :ref:`vcs-gitlab`
        :ref:`lab-setup`
 
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
@@ -1015,7 +1015,7 @@ The username passed for credentials must be the same as :setting:`GITHUB_USERNAM
 
 .. seealso::
 
-    :ref:`github-push`,
+    :ref:`vcs-github`,
     :ref:`hub-setup`
 
 
@@ -1047,7 +1047,7 @@ The ``access_token`` passed for lab configuratoin must be same as :setting:`GITL
 
 .. seealso::
 
-     :ref:`gitlab-push`
+     :ref:`vcs-gitlab`
      :ref:`lab-setup`
 
 
