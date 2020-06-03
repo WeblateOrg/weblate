@@ -11,12 +11,7 @@ WLT.Editor = (function () {
     var $document = $(document);
 
     function getNumericKey(idx) {
-        var ret = idx + 1;
-
-        if (ret === 10) {
-            return '0';
-        }
-        return ret;
+        return (idx + 1) % 10;
     }
 
     function markFuzzy(elm) {
