@@ -660,7 +660,7 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
         return get_string(self.template.target)
 
     def has_content(self):
-        return True
+        return not self.mainunit.isheader()
 
     def is_readonly(self):
         return False
