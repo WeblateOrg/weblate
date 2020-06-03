@@ -1097,9 +1097,9 @@ class I18NextFormat(JSONFormat):
 
 
 class GoI18JSONFormat(JSONFormat):
-    name = _("go-i18 JSON file")
+    name = _("go-i18n JSON file")
     format_id = "go-i18n-json"
-    loader = ("jsonl10n", "GoI18NFile")
+    loader = ("jsonl10n", "GoI18NJsonFile")
     autoload = ()
 
 
