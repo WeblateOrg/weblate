@@ -1106,7 +1106,7 @@ class GoI18JSONFormat(JSONFormat):
 class ARBFormat(JSONFormat):
     name = _("ARB file")
     format_id = "arb"
-    loader = ("jsonl10n", "ARBFile")
+    loader = ("jsonl10n", "ARBJsonFile")
     autoload = ("*.arb",)
 
 
