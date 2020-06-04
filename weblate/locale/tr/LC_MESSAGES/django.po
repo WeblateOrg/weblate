@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-04 06:31+0000\n"
-"PO-Revision-Date: 2020-06-01 18:41+0000\n"
+"PO-Revision-Date: 2020-06-04 16:06+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -1044,7 +1044,7 @@ msgstr "Hazırlayan başına"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Sıkıştırılmış işleme iletisi sonuna artbilgileri ekle"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -1052,12 +1052,17 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
+"'Ortak yazan: ...' gibi bir işleme iletisinin başka bir serbest biçim "
+"parçasının sonunda, artbilgi satırları RFC 822 e-posta üstbilgilerine "
+"benzeyen satırlardır."
 
 #: weblate/addons/forms.py:163
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Bu işleme iletisi, sıkıştırılmış işleme iletilerinden gelen birleşik işleme "
+"iletileri yerine kullanılacaktır."
 
 #: weblate/addons/forms.py:180
 msgid "Sort JSON keys"
@@ -2754,16 +2759,12 @@ msgid "i18next JSON file"
 msgstr "i18next JSON dosyası"
 
 #: weblate/formats/ttkit.py:1111
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n JSON file"
-msgstr "i18next JSON dosyası"
+msgstr "go-i18n JSON dosyası"
 
 #: weblate/formats/ttkit.py:1118
-#, fuzzy
-#| msgid "RC file"
 msgid "ARB file"
-msgstr "RC dosyası"
+msgstr "ARB dosyası"
 
 #: weblate/formats/ttkit.py:1126
 msgid "CSV file"
@@ -6690,10 +6691,8 @@ msgid "Number of entries for %(project)s"
 msgstr "%(project)s için girdi sayısı"
 
 #: weblate/templates/memory/index.html:59
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of uploaded shared entries"
-msgstr "Paylaşılan girdi sayısı"
+msgstr "Yüklenen paylaşılmış giriş sayısı"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
@@ -6720,8 +6719,8 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Bu, çeviri belleğinden %(count)s girişi kalıcı olarak silecek."
+msgstr[1] "Bu, çeviri belleğinden %(count)s girişi kalıcı olarak silecek."
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -6999,6 +6998,8 @@ msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
 msgstr ""
+"Çeviri bakım nedeniyle katkılar için geçici olarak kapatıldı, lütfen daha "
+"sonra geri gelin."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7655,10 +7656,8 @@ msgid "Upload translations files"
 msgstr "Çeviri dosyalarını yükle"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "Çeviri yorumu"
+msgstr "Belgeyi çevir"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -7714,15 +7713,9 @@ msgstr ""
 "bileşeni oluşturun."
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded ZIP file containing "
-#| "strings for translation."
 msgid ""
 "Create a new translation component from an uploaded document for translation."
-msgstr ""
-"Çeviri için dizgiler içeren yüklenmiş bir ZIP dosyasından yeni bir çeviri "
-"bileşeni oluşturun."
+msgstr "Çeviri için yüklenen bir belgeden yeni bir çeviri bileşeni oluşturun."
 
 #: weblate/templates/trans/component_create.html:116
 msgid "Create a new empty translation component to start from scratch."
@@ -8932,10 +8925,8 @@ msgid "ZIP file containing translations"
 msgstr "Çevirileri içeren ZIP dosyası"
 
 #: weblate/trans/forms.py:1508
-#, fuzzy
-#| msgid "Units to translate"
 msgid "Document to translate"
-msgstr "Çevirmek için birim"
+msgstr "Çevrilecek belge"
 
 #: weblate/trans/forms.py:1531
 msgid ""
@@ -9183,7 +9174,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:126
 msgid "Notify users"
-msgstr ""
+msgstr "Kullanıcıları bilgilendir"
 
 #: weblate/trans/models/announcement.py:141
 msgid "Do not specify both component and project!"
@@ -9550,14 +9541,13 @@ msgstr ""
 "boş bırakın."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Git branch"
 msgid "Push branch"
-msgstr "Git dalı"
+msgstr "Yollama dalı"
 
 #: weblate/trans/models/component.py:281
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
+"Değişiklikleri yollamak için dal, depo dalını kullanmak için boş bırakın"
 
 #: weblate/trans/models/component.py:291
 msgid ""
@@ -9788,14 +9778,12 @@ msgid "Components with higher priority are offered first to translators."
 msgstr "Yüksek öncelikli bileşenler çevirmenlere ilk olarak sunulur."
 
 #: weblate/trans/models/component.py:545
-#, fuzzy
-#| msgid "Created component"
 msgid "Restricted component"
-msgstr "Bileşen oluşturuldu"
+msgstr "Kısıtlı bileşen"
 
 #: weblate/trans/models/component.py:549
 msgid "Restrict access to the component only to explicitely given permissions."
-msgstr ""
+msgstr "Bileşene erişimi yalnızca açıkça verilen izinlere kısıtlayın."
 
 #: weblate/trans/models/component.py:975
 msgid ""
