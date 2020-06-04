@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.16.0 (7dd27c3b) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.16.1 (7e2b0183) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3211,8 +3211,7 @@ var Sentry = (function (exports) {
         };
         /**
          * Returns an object that can be used in request headers.
-         *
-         * @deprecated in favor of `getStoreEndpointWithUrlEncodedAuth` and `getEnvelopeEndpointWithUrlEncodedAuth`.
+         * This is needed for node and the old /store endpoint in sentry
          */
         API.prototype.getRequestHeaders = function (clientName, clientVersion) {
             var dsn = this._dsnObject;
@@ -5463,7 +5462,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.16.0';
+    var SDK_VERSION = '5.16.1';
 
     /**
      * The Sentry Browser SDK Client.
