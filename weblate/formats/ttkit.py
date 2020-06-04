@@ -677,6 +677,17 @@ class WebExtensionJSONUnit(MonolingualSimpleUnit):
         )
 
 
+class ARBJSONUnit(MonolingualSimpleUnit):
+    @cached_property
+    def flags(self):
+        placeholders = self.mainunit.placeholders
+        if not placeholders:
+            return ""
+        return "placeholders:{}".format(
+            ":".join("{{{}}}".format(key.upper()) for key in placeholders.keys())
+        )
+
+
 class CSVUnit(MonolingualSimpleUnit):
     @cached_property
     def context(self):
@@ -1108,6 +1119,7 @@ class ARBFormat(JSONFormat):
     format_id = "arb"
     loader = ("jsonl10n", "ARBJsonFile")
     autoload = ("*.arb",)
+    unit_class = ARBJSONUnit
 
 
 class CSVFormat(TTKitFormat):
