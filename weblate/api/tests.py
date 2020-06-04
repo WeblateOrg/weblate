@@ -1657,6 +1657,37 @@ class ComponentListAPITest(APIBaseTest):
             request={"component_id": self.component.pk},
         )
 
+    def test_remove_component(self):
+        self.do_request(
+            "api:componentlist-delete-components",
+            kwargs={
+                "slug": ComponentList.objects.get().slug,
+                "component_slug": self.component.slug,
+            },
+            method="delete",
+            code=403,
+        )
+        self.do_request(
+            "api:componentlist-delete-components",
+            kwargs={
+                "slug": ComponentList.objects.get().slug,
+                "component_slug": "invalid",
+            },
+            method="delete",
+            superuser=True,
+            code=400,
+        )
+        self.do_request(
+            "api:componentlist-delete-components",
+            kwargs={
+                "slug": ComponentList.objects.get().slug,
+                "component_slug": self.component.slug,
+            },
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
     def test_put(self):
         self.do_request(
             "api:componentlist-detail",

@@ -1128,6 +1128,25 @@ class ComponentListViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @action(
+        detail=True,
+        methods=["delete"],
+        url_path="components/(?P<component_slug>[^/.]+)",
+    )
+    def delete_components(self, request, slug, component_slug):
+        obj = self.get_object()
+        self.perm_check(request)
+
+        try:
+            component = Component.objects.get(slug=component_slug)
+        except (Component.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        obj.components.remove(component)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class Metrics(APIView):
     """Metrics view for monitoring."""

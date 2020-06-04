@@ -1834,13 +1834,22 @@ Component lists
     :param slug: Component list slug
     :type slug: string
 
-.. http:put:: /api/component-lists/(str:slug)/components/
+.. http:post:: /api/component-lists/(str:slug)/components/
 
     Associate component with a component list.
 
     :param slug: Component list slug
     :type slug: string
     :form string component_id: Component ID
+
+.. http:delete:: /api/component-lists/(str:slug)/components/(str:component_slug)
+
+    Disassociate a component from the component list.
+
+    :param slug: Component list slug
+    :type slug: string
+    :param component_slug: Component slug
+    :type component_slug: string
 
 .. _hooks:
 
