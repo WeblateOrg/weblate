@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-04 06:31+0000\n"
-"PO-Revision-Date: 2020-06-04 06:31+0000\n"
+"PO-Revision-Date: 2020-06-05 08:31+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
@@ -1039,7 +1039,7 @@ msgstr "翻訳者別に"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "縮小したコミット メッセージに予告の行を追加する"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -1047,12 +1047,14 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
+"予告の行とは、RFC 822 のメール ヘッダに似た行のことで、\"Co-authored-by: ...\" のようにコミット "
+"メッセージの自由形式部分の末尾につきます。"
 
 #: weblate/addons/forms.py:163
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
-msgstr ""
+msgstr "このコミット メッセージは、縮小したコミットを結合したコミット メッセージの代わりに使用されます。"
 
 #: weblate/addons/forms.py:180
 msgid "Sort JSON keys"
@@ -2369,7 +2371,7 @@ msgstr "複数の無名変数"
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
-msgstr ""
+msgstr "文字列内に複数の名前のない変数があるため、翻訳者は並べ替えができません"
 
 #: weblate/checks/markup.py:76
 msgid "BBcode markup"
@@ -2513,17 +2515,12 @@ msgid "The translations in several languages have failing checks"
 msgstr "いくつかの言語の翻訳で整合性に問題があります"
 
 #: weblate/checks/source.py:79
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Not translated"
 msgid "Long untranslated"
-msgstr "未翻訳"
+msgstr "長期間未翻訳"
 
 #: weblate/checks/source.py:80
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "The string was not translated for a long time"
-msgstr "過去に翻訳済みのもの"
+msgstr "文字列は長い間翻訳されていません"
 
 #: weblate/checks/views.py:86 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -2712,7 +2709,7 @@ msgstr "Joomla 言語ファイル"
 
 #: weblate/formats/ttkit.py:1015
 msgid "GWT Properties"
-msgstr ""
+msgstr "GWT プロパティ"
 
 #: weblate/formats/ttkit.py:1022
 msgid "PHP strings"
@@ -2747,16 +2744,12 @@ msgid "i18next JSON file"
 msgstr "i18next JSON ファイル"
 
 #: weblate/formats/ttkit.py:1111
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n JSON file"
-msgstr "i18next JSON ファイル"
+msgstr "go-i18n JSON ファイル"
 
 #: weblate/formats/ttkit.py:1118
-#, fuzzy
-#| msgid "RC file"
 msgid "ARB file"
-msgstr "RC ファイル"
+msgstr "ARB ファイル"
 
 #: weblate/formats/ttkit.py:1126
 msgid "CSV file"
@@ -6196,8 +6189,7 @@ msgid "New language request in %(component)s"
 msgstr "%(component)s で新しい言語のリクエスト"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgid_plural "New strings to translate in %(translation)s"
 msgstr[0] "%(translation)s 内での新しい翻訳対象文字列"
@@ -6674,10 +6666,8 @@ msgid "Number of entries for %(project)s"
 msgstr "%(project)s に対する項目数"
 
 #: weblate/templates/memory/index.html:59
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of uploaded shared entries"
-msgstr "共有エントリ数"
+msgstr "アップロードされた共有エントリ数"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
@@ -6704,7 +6694,7 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] ""
+msgstr[0] "実行すると翻訳メモリから %(count)s のエントリが永久に削除されます。"
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -6760,10 +6750,8 @@ msgid "Go to position"
 msgstr "位置に移動します"
 
 #: weblate/templates/paginator.html:19 weblate/templates/translate.html:84
-#, fuzzy
-#| msgid "Jump"
 msgid "Jump to"
-msgstr "ジャンプ"
+msgstr "ジャンプ先"
 
 #. Translators: This is partial position indicator shown when editing position
 #: weblate/templates/paginator.html:22
@@ -6979,7 +6967,7 @@ msgstr "該当する文字列は見つかりませんでした。"
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
-msgstr ""
+msgstr "メンテナンスのため一時的に翻訳を停止していますので、後ほどお越しください。"
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7476,40 +7464,22 @@ msgid "Please consider the following:"
 msgstr "考慮すべき事項:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the project settings."
-msgstr ""
-"翻訳元言語への翻訳ファイルを削除するか、プロジェクトの設定で翻訳元言語を変更"
-"する。"
+msgstr "翻訳元言語への翻訳が必要であれば、プロジェクトの設定で翻訳元言語を変更ください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
-msgstr ""
-"翻訳元言語への翻訳ファイルを削除するか、プロジェクトの設定で翻訳元言語を変更"
-"する。"
+msgstr "翻訳元言語の翻訳ファイルが不必要な場合は、リポジトリから削除してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case the translation file for the source language is needed, but shoud be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr ""
-"翻訳元言語への翻訳ファイルを削除するか、プロジェクトの設定で翻訳元言語を変更"
-"する。"
+msgstr "翻訳元言語用の翻訳ファイルが必要だが、Weblateで無視する必要がある場合は、言語フィルタを調整して除外してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
@@ -7647,10 +7617,8 @@ msgid "Upload translations files"
 msgstr "翻訳ファイルのアップロード"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "翻訳文へのコメント"
+msgstr "ドキュメントの翻訳"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -7707,15 +7675,9 @@ msgstr ""
 "を作成します。"
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded ZIP file containing "
-#| "strings for translation."
 msgid ""
 "Create a new translation component from an uploaded document for translation."
-msgstr ""
-"翻訳する文字列を含む ZIP ファイルをアップロードして、新しい翻訳コンポーネント"
-"を作成します。"
+msgstr "翻訳用にアップロードしたドキュメントから、新しい翻訳コンポーネントを作成します。"
 
 #: weblate/templates/trans/component_create.html:116
 msgid "Create a new empty translation component to start from scratch."
@@ -7926,10 +7888,8 @@ msgstr "中間言語"
 
 #: weblate/templates/translate.html:178 weblate/templates/translate.html:582
 #: weblate/trans/models/unit.py:242
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation"
-msgstr "翻訳"
+msgstr "説明"
 
 #: weblate/templates/translate.html:188 weblate/templates/zen-units.html:20
 msgid "Context:"
@@ -8114,32 +8074,24 @@ msgid "Source information"
 msgstr "原文の情報"
 
 #: weblate/templates/translate.html:573
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
-msgstr "現時点ではスクリーンショットは関連づけられていません！"
+msgstr "現在、関連するスクリーンショットはありません。"
 
 #: weblate/templates/translate.html:587
-#, fuzzy
-#| msgid "This translation is currently locked."
 msgid "No explanation currently provided."
-msgstr "この翻訳は現在ロックされています。"
+msgstr "現在、説明はありません。"
 
 #: weblate/templates/translate.html:616
-#, fuzzy
-#| msgid "No labels currently set!"
 msgid "No labels currently set."
-msgstr "現在ラベルは設定されていません！"
+msgstr "現在、設定されているラベルはありません。"
 
 #: weblate/templates/translate.html:624
 msgid "Flags"
 msgstr "フラグ"
 
 #: weblate/templates/translate.html:629
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No flags currently set."
-msgstr "現時点ではフラグが設定されていません！"
+msgstr "現在、設定されているフラグはありません。"
 
 #: weblate/templates/translate.html:636
 msgid "Source string location"
@@ -8924,10 +8876,8 @@ msgid "ZIP file containing translations"
 msgstr "翻訳を含む ZIP ファイル"
 
 #: weblate/trans/forms.py:1508
-#, fuzzy
-#| msgid "Units to translate"
 msgid "Document to translate"
-msgstr "翻訳の対象となる単位数"
+msgstr "翻訳するドキュメント"
 
 #: weblate/trans/forms.py:1531
 msgid ""
@@ -9170,7 +9120,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:126
 msgid "Notify users"
-msgstr ""
+msgstr "ユーザーに通知"
 
 #: weblate/trans/models/announcement.py:141
 msgid "Do not specify both component and project!"
@@ -9378,8 +9328,6 @@ msgstr "コンポーネントの移動"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:313 weblate/trans/models/change.py:411
-#, fuzzy
-#| msgid "New string to translate"
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "新しい翻訳対象の文字列"
@@ -9536,14 +9484,12 @@ msgstr ""
 "す。"
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Git branch"
 msgid "Push branch"
-msgstr "Git ブランチ"
+msgstr "ブランチに push"
 
 #: weblate/trans/models/component.py:281
 msgid "Branch for pushing changes, leave empty to use repository branch"
-msgstr ""
+msgstr "変更を push するブランチ。リポジトリ ブランチを使用するには空のままにします"
 
 #: weblate/trans/models/component.py:291
 msgid ""
@@ -9767,14 +9713,12 @@ msgstr ""
 "翻訳者に対しては、高い優先順位を設定したコンポーネントを先に提示します。"
 
 #: weblate/trans/models/component.py:545
-#, fuzzy
-#| msgid "Created component"
 msgid "Restricted component"
-msgstr "コンポーネントの作成"
+msgstr "制限付きコンポーネント"
 
 #: weblate/trans/models/component.py:549
 msgid "Restrict access to the component only to explicitely given permissions."
-msgstr ""
+msgstr "コンポーネントへのアクセスを、明示的に与えられた権限のみに制限します。"
 
 #: weblate/trans/models/component.py:975
 msgid ""
@@ -10204,7 +10148,7 @@ msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 
 #: weblate/trans/models/unit.py:246
 msgid "Additional explanation to clarify meaning or usage of the string."
-msgstr ""
+msgstr "文字列の意味や使い方を明確にするための追加説明。"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
