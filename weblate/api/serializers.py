@@ -570,6 +570,10 @@ class StatisticsSerializer(ReadOnlySerializer):
         if hasattr(instance, "language"):
             result["code"] = instance.language.code
             result["name"] = instance.language.name
+        elif hasattr(instance, "name"):
+            result["name"] = instance.name
+        if hasattr(instance, "get_absolute_url"):
+            result["url"] = get_site_url(instance.get_absolute_url())
         return result
 
 
