@@ -143,7 +143,7 @@ Example:
 
 .. code-block:: sh
 
-    weblate --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
+    weblate auto_translate --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
 
 .. seealso::
 
