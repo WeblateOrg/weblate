@@ -216,6 +216,8 @@
             title="{% trans "This translation only accepts suggestions and these are approved by voting." %}"
         {% elif unit.translation.component.agreement %}
             title="{% trans "Contribution to this translation requires you to agree with a contributor agreement." %}"
+        {% elif unit.readonly %}
+            title="{% trans "Read only" %}"
         {% elif unit.translation.is_template %}
             title="{% trans "Insufficient privileges for editing template." %}"
         {% else %}
