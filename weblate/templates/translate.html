@@ -204,19 +204,23 @@
   </div>
   <div class="panel-footer">
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
-    {% if locked or not user_can_translate %}disabled="disabled"{% endif %}
-    {% if not user_can_translate %}
-    {% if not user.is_authenticated %}
-    title="{% trans "Please sign in to save translations." %}"
-    {% elif unit.approved %}
-    title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
-    {% elif unit.translation.component.suggestion_voting %}
-    title="{% trans "This translation only accepts suggestions and these are approved by voting." %}"
-    {% else %}
-    title="{% trans "Insufficient privileges for saving translations." %}"
-    {% endif %}
-    {% elif locked %}
-    title="{% trans "This translation is currently locked." %}"
+    {% if locked or not user_can_translate %}
+        disabled="disabled"
+        {% if locked %}
+            title="{% trans "This translation is currently locked." %}"
+        {% elif not user.is_authenticated %}
+            title="{% trans "Please sign in to save translations." %}"
+        {% elif unit.approved %}
+            title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
+        {% elif unit.translation.component.suggestion_voting %}
+            title="{% trans "This translation only accepts suggestions and these are approved by voting." %}"
+        {% elif unit.translation.component.agreement %}
+            title="{% trans "Contribution to this translation requires you to agree with a contributor agreement." %}"
+        {% elif unit.translation.is_template %}
+            title="{% trans "Insufficient privileges for editing template." %}"
+        {% else %}
+            title="{% trans "Insufficient privileges for saving translations." %}"
+        {% endif %}
     {% endif %}
     > {% trans "Save" %}</button>
 
