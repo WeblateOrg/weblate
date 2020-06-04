@@ -1050,7 +1050,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def new_unit(self, request, key, value):
         with self.component.repository.lock:
-            self.commit_pending("new unit", request.user)
+            self.component.commit_pending("new unit", request.user)
             Change.objects.create(
                 translation=self,
                 action=Change.ACTION_NEW_UNIT,
