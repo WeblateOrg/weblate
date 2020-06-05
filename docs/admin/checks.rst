@@ -70,6 +70,11 @@ Here is a list of flags currently accepted:
     Define font-spacing for rendering checks, see :ref:`fonts`.
 ``placeholders:NAME``
     Placeholder strings expected in translation, see :ref:`check-placeholders`.
+``replacements:FROM:TO:FROM2:TO2...```
+    Replacements to perform when checking resulting text parameters (for
+    example in :ref:`check-max-size` or :ref:`check-max-length`). The typical
+    use case for this is to expand placeables to ensure that the text fits even
+    with long names, for example: ``replacements:%s:"John Doe"``.
 ``regex:REGEX``
     Regular expresion to match translation, see :ref:`check-regex`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``

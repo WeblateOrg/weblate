@@ -27,7 +27,7 @@ from weblate.checks.models import Check
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
-class UnitdataTestCase(FixtureTestCase):
+class CheckModelTestCase(FixtureTestCase):
     def create_check(self, name):
         return Check.objects.create(unit=self.get_unit(), check=name)
 
@@ -50,7 +50,7 @@ class UnitdataTestCase(FixtureTestCase):
         unit.source_info.save()
         check = self.create_check("max-size")
         url = reverse(
-            "render-check", kwargs={"check_id": check.check_id, "unit_id": unit.id}
+            "render-check", kwargs={"check_id": check.check, "unit_id": unit.id}
         )
         self.assertEqual(
             force_str(check.get_description()),

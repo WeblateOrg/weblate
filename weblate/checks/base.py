@@ -149,7 +149,10 @@ class Check:
 
     def get_cache_key(self, unit, pos):
         return "check:{}:{}:{}:{}".format(
-            self.check_id, unit.pk, siphash(unit.all_flags.format()), pos,
+            self.check_id,
+            unit.pk,
+            siphash("Weblate   Checks", unit.all_flags.format()),
+            pos,
         )
 
     def get_replacement_function(self, unit):

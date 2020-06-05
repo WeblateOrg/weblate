@@ -70,9 +70,6 @@ class MaxSizeCheck(TargetCheckParametrized):
         except ObjectDoesNotExist:
             return "{} {}".format(group.font.family, group.font.style)
 
-    def get_cache_key(self, unit, i):
-        return ("check:render:{}:{}:{}".format(unit.pk, unit.all_flags.format(), i),)
-
     def check_target_params(self, sources, targets, unit, value):
         if len(value) == 2:
             width, lines = value
