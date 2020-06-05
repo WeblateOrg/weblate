@@ -546,7 +546,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_RESTRICTED_COMPONENT,
         db_index=True,
         help_text=gettext_lazy(
-            "Restrict access to the component only to explicitely given permissions."
+            "Restrict access to the component only to explicitly given permissions."
         ),
     )
 
