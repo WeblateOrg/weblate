@@ -207,7 +207,7 @@ class PoExporter(BaseExporter):
 
     def store_flags(self, output, flags):
         for flag in flags.items():
-            output.settypecomment(flag)
+            output.settypecomment(flags.format_flag(flag))
 
     def get_storage(self):
         store = super().get_storage()

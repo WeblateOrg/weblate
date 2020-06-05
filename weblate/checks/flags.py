@@ -187,12 +187,14 @@ class Flags:
             return json.dumps(value, ensure_ascii=False)
         return value
 
+    @classmethod
+    def format_flag(cls, flag):
+        if isinstance(flag, tuple):
+            return ":".join(cls.format_value(val) for val in flag)
+        return cls.format_value(flag)
+
     def _format_values(self):
-        for item in self._items.values():
-            if isinstance(item, tuple):
-                yield ":".join(self.format_value(val) for val in item)
-            else:
-                yield item
+        return (self.format_flag(item) for item in self._items.values())
 
     def format(self):
         return ", ".join(sorted(self._format_values()))
