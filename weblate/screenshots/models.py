@@ -21,12 +21,16 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Component, Unit
+from weblate.trans.tasks import component_alerts
+from weblate.utils.decorators import disable_for_loaddata
 
 
 class ScreenshotQuerySet(models.QuerySet):
@@ -69,3 +73,11 @@ class Screenshot(models.Model, UserDisplayMixin):
 
     def get_absolute_url(self):
         return reverse("screenshot", kwargs={"pk": self.pk})
+
+
+@receiver(m2m_changed, sender=Screenshot.units.through)
+@disable_for_loaddata
+def change_componentlist(sender, instance, action, **kwargs):
+    # Update alerts in case there is change in string assignment
+    if instance.component.alert_set.filter(name="UnusedScreenshot").exists():
+        component_alerts.delay([instance.pk])

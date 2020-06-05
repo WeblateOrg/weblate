@@ -280,3 +280,9 @@ class BrokenProjectURL(BaseAlert):
     def __init__(self, instance, error=None):
         super().__init__(instance)
         self.error = error
+
+
+@register
+class UnusedScreenshot(BaseAlert):
+    # Translators: Name of an alert
+    verbose = _("Unused screenshot")

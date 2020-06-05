@@ -36,7 +36,7 @@ from django.conf import settings
 from django.core.cache import cache, caches
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import Count, Q
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_str
@@ -2179,6 +2179,11 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 self.delete_alert("BrokenProjectURL")
         else:
             self.delete_alert("BrokenProjectURL")
+
+        if self.screenshot_set.annotate(Count("units")).filter(units__count=0).exists():
+            self.add_alert("UnusedScreenshot")
+        else:
+            self.delete_alert("UnusedScreenshot")
 
     def needs_commit(self):
         """Check for uncommitted changes."""
