@@ -71,10 +71,10 @@ class MaxSizeCheck(TargetCheckParametrized):
             return "{} {}".format(group.font.family, group.font.style)
 
     def check_target_params(self, sources, targets, unit, value):
-        if isinstance(value, list):
+        if len(value) == 2:
             width, lines = value
         else:
-            width = value
+            width = value[0]
             lines = 1
         font_group, weight, size, spacing = self.get_params(unit)
         font = self.last_font = self.load_font(
