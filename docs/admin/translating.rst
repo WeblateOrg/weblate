@@ -41,9 +41,8 @@ Additional info on source strings
 ---------------------------------
 
 Enhance the translation process with info available in the translation files.
-This includes string priority, check flags, or providing visual context.
-All these features can be set in the
-:ref:`source-review`:
+This includes explanation, string priority, check flags, or providing visual
+context.  All these features can be set in the :ref:`source-review`:
 
 .. image:: /images/source-review-edit.png
 
@@ -81,6 +80,16 @@ The default set of translation flags is determined by the translation
 to customize this per source string.
 
 .. seealso:: :ref:`checks`
+
+Explanation
++++++++++++
+
+.. versionchanged:: 4.1
+
+    In previous version this has been called extra context.
+
+Use the explanation to clarify scope or usage of the translation. You can use
+Markdown to include links and other markup.
 
 .. _screenshots:
 
