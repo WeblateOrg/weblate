@@ -596,11 +596,11 @@ Placeholders
 
 Translation is missing some placeholders. These are either extracted from the
 translation file or defined manually using ``placeholders`` flag, more can be
-separated with colon:
+separated with colon, strings with space can be quoted:
 
 .. code-block:: text
 
-   placeholders:$URL$:$TARGET$
+   placeholders:$URL$:$TARGET$:"some long text"
 
 .. _check-punctuation-spacing:
 

@@ -37,6 +37,7 @@ Not yet released.
 * API now reports rate limiting status in the HTTP headers.
 * Added support for Google Translate V3 API (Advanced).
 * Added ability to restrict access on component level.
+* Added support for whitespace and other special chars in translation flags, see :ref:`custom-checks`.
 
 Weblate 4.0.4
 -------------

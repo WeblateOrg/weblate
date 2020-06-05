@@ -31,6 +31,13 @@ source strings review, see :ref:`additional`) or in the :ref:`component`
 (:guilabel:`Translation flags`). Some file formats also allow to specify flags
 directly in the format.
 
+The flags are comma separated, the parameters are separated with colon. You can
+use quotes to include whitespace or special chars in the string. For example:
+
+.. code-block:: text
+
+   placeholders:"special:value":"other value", regex:.*
+
 Here is a list of flags currently accepted:
 
 ``rst-text``

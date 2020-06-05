@@ -283,6 +283,7 @@ Notable configuration or dependencies changes:
 * There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
 * There are new quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
 * There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting the in API.
+* There are some new and updated requirements.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from pyparsing import Optional, QuotedString, Word, ZeroOrMore, printables
+
 
 def single_value_flag(func):
     def parse_values(val):
@@ -38,3 +40,17 @@ def multi_value_flag(func, minimum=1, maximum=None):
         return [func(x) for x in val]
 
     return parse_values
+
+
+SYNTAXCHARS = {",", ":", '"', "'", "\\"}
+ALLOWEDCHARS = "".join(c for c in printables if c not in SYNTAXCHARS)
+
+FlagParam = (
+    Word(ALLOWEDCHARS)
+    | QuotedString("'", escChar="\\")
+    | QuotedString('"', escChar="\\")
+)
+
+Flag = Word(ALLOWEDCHARS) + ZeroOrMore(":" + FlagParam)
+
+FlagsParser = Optional(Flag) + ZeroOrMore("," + Optional(Flag))

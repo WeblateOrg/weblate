@@ -74,6 +74,7 @@ REQUIRES = [
     "misaka",
     "GitPython",
     "borgbackup",
+    "pyparsing",
 ]
 
 OPTIONAL = [
@@ -89,7 +90,6 @@ OPTIONAL = [
     "aeidon",
     "iniparse",
     "mysqlclient",
-    "pyparsing",
 ]
 
 

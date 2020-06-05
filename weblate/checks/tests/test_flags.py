@@ -45,11 +45,20 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(Flags({"foo"}, {"bar"}).items(), {"foo", "bar"})
 
     def test_merge_prefix(self):
-        self.assertEqual(Flags({"foo:1"}, {"foo:2"}).items(), {"foo:2"})
+        self.assertEqual(Flags({("foo", "1")}, {("foo", "2")}).items(), {("foo", "2")})
 
     def test_values(self):
         flags = Flags("placeholders:bar:baz")
         self.assertEqual(flags.get_value("placeholders"), ["bar", "baz"])
+
+    def test_quoted_values(self):
+        flags = Flags(r"""placeholders:"bar: \"value\"":'baz \'value\''""")
+        self.assertEqual(
+            flags.get_value("placeholders"), ['bar: "value"', "baz 'value'"]
+        )
+        self.assertEqual(
+            flags.format(), r'''placeholders:"bar: \"value\"":"baz 'value'"'''
+        )
 
     def test_validate_value(self):
         with self.assertRaises(ValidationError):
@@ -65,3 +74,15 @@ class FlagTest(SimpleTestCase):
 
     def test_typed(self):
         self.assertEqual(TYPED_FLAGS.keys(), TYPED_FLAGS_ARGS.keys())
+
+    def test_remove(self):
+        flags = Flags("placeholders:bar:baz, foo:1, bar")
+        flags.remove("foo")
+        self.assertEqual(flags.items(), {("placeholders", "bar", "baz"), "bar"})
+        flags.remove("bar")
+        self.assertEqual(flags.items(), {("placeholders", "bar", "baz")})
+
+    def test_regex(self):
+        flags = Flags("regex:.*")
+        regex = flags.get_value("regex")
+        self.assertEqual(regex.pattern, ".*")

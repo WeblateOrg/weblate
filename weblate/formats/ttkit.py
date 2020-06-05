@@ -423,7 +423,7 @@ class PoUnit(TTKitUnit):
     def flags(self):
         """Return flags or typecomments from units."""
         flags = Flags(*self.mainunit.typecomments)
-        flags.remove(Flags("fuzzy"))
+        flags.remove({"fuzzy"})
         return flags.format()
 
     @cached_property
@@ -673,7 +673,10 @@ class WebExtensionJSONUnit(MonolingualSimpleUnit):
         if not placeholders:
             return ""
         return "placeholders:{}".format(
-            ":".join("${}$".format(key.upper()) for key in placeholders.keys())
+            ":".join(
+                Flags.format_value("${}$".format(key.upper()))
+                for key in placeholders.keys()
+            )
         )
 
 
@@ -684,7 +687,10 @@ class ARBJSONUnit(MonolingualSimpleUnit):
         if not placeholders:
             return ""
         return "placeholders:{}".format(
-            ":".join("{{{}}}".format(key.upper()) for key in placeholders.keys())
+            ":".join(
+                Flags.format_value("{{{}}}".format(key.upper()))
+                for key in placeholders.keys()
+            )
         )
 
 
