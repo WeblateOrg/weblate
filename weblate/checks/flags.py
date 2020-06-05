@@ -119,6 +119,7 @@ class Flags:
                 value = [name]
                 state = 1
             elif state == 1 and token == ",":
+                # End of flag
                 state = 0
                 yield name
             elif state in (1, 3) and token == ":":
@@ -140,9 +141,12 @@ class Flags:
             else:
                 raise ValueError("Unexpected token: {}, state={}".format(token, state))
 
+        # With state 0 there was nothing parsed yet
         if state > 0:
             if state == 2:
+                # There was empty value
                 value.append("")
+            # Is this flag or flag with value
             if len(value) > 1:
                 yield tuple(value)
             else:
