@@ -172,11 +172,11 @@
             </div>
         {% endif %}
 
-        {% if unit.extra_context %}
+        {% if unit.explanation %}
             <!-- source string context  -->
             <div class="form-group help-block">
             <label>{% trans "Explanation" %}</label>
-            {% format_translation unit.extra_context unit.translation.component.project.source_language %}
+            {% format_translation unit.explanation unit.translation.component.project.source_language %}
             </div>
         {% endif %}
 
@@ -581,14 +581,14 @@
     </div>
     {% endif %}
     {% endwith %}
-    {% if unit.extra_context or user_can_edit_source %}
+    {% if unit.explanation or user_can_edit_source %}
     <div class="list-group-item">
     <h5>
-    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-focus="#id_extra_context" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
+    {% if user_can_edit_source %} <a class="btn btn-link btn-xs pull-right flip" id="edit-context" href="#" data-toggle="modal" data-focus="#id_explanation" data-target="#context-edit-form">{% icon "pencil.svg" %}</a>{% endif %}
     {% trans "Explanation" %}
     </h5>
-    {% if unit.extra_context %}
-    <p>{{ unit.extra_context }}</p>
+    {% if unit.explanation %}
+    <p>{{ unit.explanation }}</p>
     {% else %}
     <em>{% trans "No explanation currently provided." %}</em>
     {% endif %}

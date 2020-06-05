@@ -72,14 +72,14 @@ class LabelTest(ViewTestCase):
         unit = self.get_unit().source_info
         self.client.post(
             reverse("edit_context", kwargs={"pk": unit.pk}),
-            {"extra_context": "", "extra_flags": "", "labels": label.pk},
+            {"explanation": "", "extra_flags": "", "labels": label.pk},
         )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 1)
 
         self.client.post(
             reverse("edit_context", kwargs={"pk": unit.pk}),
-            {"extra_context": "", "extra_flags": ""},
+            {"explanation": "", "extra_flags": ""},
         )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 0)

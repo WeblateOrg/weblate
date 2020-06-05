@@ -146,9 +146,9 @@ class BaseExporter:
         note = self.string_filter(unit.note)
         if note:
             output.addnote(note, origin="developer")
-        # In Weblate context
-        note = self.string_filter(unit.extra_context)
-        if context:
+        # In Weblate explanation
+        note = self.string_filter(unit.explanation)
+        if note:
             output.addnote(note, origin="developer")
         # Comments
         for comment in unit.all_comments:

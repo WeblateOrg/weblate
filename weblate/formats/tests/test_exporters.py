@@ -150,7 +150,7 @@ class PoExporterTest(BaseTestCase):
             state=STATE_TRANSLATED,
             source_info={
                 "extra_flags": "max-length:200",
-                "extra_context": "Context in Weblate",
+                "explanation": "Context in Weblate",
             },
         )
         if self._has_context:
