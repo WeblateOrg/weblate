@@ -4,7 +4,6 @@ Weblate 4.1
 Not yet released.
 
 * Added support for creating new translations with included country code.
-* Added support for Laravel PHP files.
 * Added support for seaching source strings with screenshot.
 * Extended information available in the stats insights.
 * Improved search editing on translate pages.
@@ -21,7 +20,7 @@ Not yet released.
 * Include templates in ZIP download.
 * Add support for Markdown and notification configuration in announcements.
 * Extended details in check listings.
-* Added support for new file formats: :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:`go-i18n-json`, :ref:`arb`.
+* Added support for new file formats: :ref:`laravel-php`, :ref:`html`, :ref:`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:`go-i18n-json`, :ref:`arb`.
 * Consistently use dismissed as state of dismissed checks.
 * Add support for configuring default addons to enable.
 * Fixed editor keyboard shortcut to dismiss checks.

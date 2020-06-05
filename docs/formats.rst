@@ -706,6 +706,8 @@ Example file:
 | File format                    | `PHP strings`                    |
 +--------------------------------+----------------------------------+
 
+.. _laravel-php:
+
 Laravel PHP strings
 +++++++++++++++++++
 
