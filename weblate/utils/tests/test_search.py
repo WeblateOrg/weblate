@@ -83,6 +83,11 @@ class QueryParserTest(TestCase):
         self.assert_query('"hello world"', expected)
         self.assert_query("'hello world'", expected)
 
+    def test_context(self):
+        expected = Q(context__substring="hello world")
+        self.assert_query('key:"hello world"', expected)
+        self.assert_query("context:'hello world'", expected)
+
     def test_field(self):
         self.assert_query(
             "source:hello target:world",

@@ -27,6 +27,8 @@ Fields
    Target string case insensitive search.
 ``context:TEXT``
    Context string case insensitive search.
+``key:TEXT``
+   Key string case insensitive search.
 ``note:TEXT``
    Comment string case insensitive search.
 ``location:TEXT``

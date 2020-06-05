@@ -142,6 +142,7 @@ class QueryParser(whoosh.qparser.QueryParser):
             "source": TEXT,
             "target": TEXT,
             "context": TEXT,
+            "key": TEXT,
             "note": TEXT,
             "location": TEXT,
             "priority": NumberField,
@@ -198,6 +199,7 @@ PARSER = QueryParser()
 PLAIN_FIELDS = ("source", "target", "context", "note", "location")
 FIELD_MAP = {"changed": "change__timestamp", "added": "timestamp"}
 STRING_FIELD_MAP = {"suggestion": "suggestion__target", "comment": "comment__comment"}
+STRING_FIELD_MAP = {"key": "context"}
 EXACT_FIELD_MAP = {
     "check": "check__check",
     "dismissed_check": "check__check",
