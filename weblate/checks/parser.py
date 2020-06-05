@@ -45,7 +45,7 @@ def multi_value_flag(func, minimum=1, maximum=None):
 SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 ALLOWEDCHARS = "".join(c for c in printables if c not in SYNTAXCHARS)
 
-FlagParam = (
+FlagParam = Optional(
     Word(ALLOWEDCHARS)
     | QuotedString("'", escChar="\\")
     | QuotedString('"', escChar="\\")

@@ -124,6 +124,11 @@ class Flags:
             elif state in (1, 3) and token == ":":
                 # Value separator
                 state = 2
+            elif state == 2 and token == ",":
+                # Flag with empty parameter
+                state = 0
+                value.append("")
+                yield tuple(value)
             elif state == 2:
                 # Value
                 value.append(token)
@@ -136,6 +141,8 @@ class Flags:
                 raise ValueError("Unexpected token: {}, state={}".format(token, state))
 
         if state > 0:
+            if state == 2:
+                value.append("")
             if len(value) > 1:
                 yield tuple(value)
             else:

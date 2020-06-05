@@ -82,6 +82,14 @@ class FlagTest(SimpleTestCase):
         flags.remove("bar")
         self.assertEqual(flags.items(), {("placeholders", "bar", "baz")})
 
+    def test_empty_value(self):
+        flags = Flags("regex:")
+        regex = flags.get_value("regex")
+        self.assertEqual(regex.pattern, "")
+        flags = Flags("regex:,bar")
+        regex = flags.get_value("regex")
+        self.assertEqual(regex.pattern, "")
+
     def test_regex(self):
         flags = Flags("regex:.*")
         regex = flags.get_value("regex")
