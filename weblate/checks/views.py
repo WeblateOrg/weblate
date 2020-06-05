@@ -25,7 +25,7 @@ from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 
 from weblate.checks.models import CHECKS, Check
-from weblate.trans.models import Component, Translation
+from weblate.trans.models import Component, Translation, Unit
 from weblate.trans.util import redirect_param
 from weblate.utils.db import conditional_sum
 from weblate.utils.forms import FilterForm
@@ -243,10 +243,13 @@ def show_check_component(request, name, project, component):
     )
 
 
-def render_check(request, check_id):
+def render_check(request, unit_id, check_id):
     """Render endpoint for checks."""
-    obj = get_object_or_404(Check, pk=int(check_id))
-    project = obj.unit.translation.component.project
-    request.user.check_access(project)
+    try:
+        obj = Check.objects.get(unit_id=unit_id, check=check_id)
+    except Check.DoesNotExist:
+        unit = get_object_or_404(Unit, pk=int(unit_id))
+        obj = Check(unit=unit, dismissed=False, check=check_id)
+    request.user.check_access_component(obj.unit.translation.component)
 
     return obj.check_obj.render(request, obj.unit)

@@ -214,3 +214,9 @@ def remove_complimentary_checks(sender, instance, **kwargs):
                 unit.source_info.run_checks()
             except ObjectDoesNotExist:
                 pass
+
+
+def get_display_checks(unit):
+    for check, check_obj in CHECKS.target.items():
+        if check_obj.should_display(unit):
+            yield Check(unit=unit, dismissed=False, check=check)

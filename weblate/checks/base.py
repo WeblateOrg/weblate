@@ -34,6 +34,7 @@ class Check:
     default_disabled = False
     propagates = False
     param_type = None
+    always_display = False
 
     def get_identifier(self):
         return self.check_id
@@ -56,6 +57,15 @@ class Check:
             return True
 
         return False
+
+    def should_display(self, unit):
+        """Display the check always, not only when failing."""
+        if self.ignore_untranslated and not unit.state:
+            return False
+        if self.should_skip(unit):
+            return False
+        # Display if enabled and the check is not triggered
+        return self.always_display and self.check_id not in unit.all_checks_names
 
     def check_target(self, sources, targets, unit):
         """Check target strings."""

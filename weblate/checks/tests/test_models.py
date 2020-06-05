@@ -49,7 +49,9 @@ class UnitdataTestCase(FixtureTestCase):
         unit.source_info.extra_flags = "max-size:1:1"
         unit.source_info.save()
         check = self.create_check("max-size")
-        url = reverse("render-check", kwargs={"check_id": check.pk})
+        url = reverse(
+            "render-check", kwargs={"check_id": check.check_id, "unit_id": unit.id}
+        )
         self.assertEqual(
             force_str(check.get_description()),
             '<a href="{0}?pos=0" class="thumbnail">'

@@ -38,6 +38,7 @@ Not yet released.
 * Added support for Google Translate V3 API (Advanced).
 * Added ability to restrict access on component level.
 * Added support for whitespace and other special chars in translation flags, see :ref:`custom-checks`.
+* Always show rendered text check if enabled.
 
 Weblate 4.0.4
 -------------

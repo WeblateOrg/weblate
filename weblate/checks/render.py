@@ -47,6 +47,7 @@ class MaxSizeCheck(TargetCheckParametrized):
     description = _("Translation rendered text should not exceed given size")
     default_disabled = True
     last_font = None
+    always_display = True
 
     @property
     def param_type(self):
@@ -97,7 +98,10 @@ class MaxSizeCheck(TargetCheckParametrized):
         )
 
     def get_description(self, check_obj):
-        url = reverse("render-check", kwargs={"check_id": check_obj.pk})
+        url = reverse(
+            "render-check",
+            kwargs={"check_id": self.check_id, "unit_id": check_obj.unit_id},
+        )
         return mark_safe(
             "\n".join(
                 IMAGE.format("{}?pos={}".format(url, i))

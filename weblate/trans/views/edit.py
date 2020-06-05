@@ -33,7 +33,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
-from weblate.checks.models import CHECKS
+from weblate.checks.models import CHECKS, get_display_checks
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     AntispamForm,
@@ -529,6 +529,7 @@ def translate(request, project, component, lang):
             "addword_form": InlineWordForm(),
             "last_changes": unit.change_set.prefetch().order()[:10],
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
+            "display_checks": get_display_checks(unit),
         },
     )
 

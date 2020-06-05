@@ -921,7 +921,7 @@ real_patterns = [
     ),
     # AJAX/JS backends
     url(
-        r"^js/render-check/(?P<check_id>[0-9]+)/$",
+        r"^js/render-check/(?P<unit_id>[0-9]+)/(?P<check_id>[a-z_-]+)/$",
         weblate.checks.views.render_check,
         name="render-check",
     ),
