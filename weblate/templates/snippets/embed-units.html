@@ -4,7 +4,7 @@
 <table class="table table-condensed">
 <thead>
 <tr>
-    <th>{% trans "Context" %}</th>
+    <th>{{ unit.translation.component.context_label }}</th>
     {% if not unit.translation.is_source %}
     <th>{{ unit.translation.component.project.source_language }}</th>
     {% endif %}

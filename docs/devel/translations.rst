@@ -33,10 +33,10 @@ to group the strings in the :ref:`component`:
 
 .. image:: /images/variants-settings.png
 
-The expression is matched against :guilabel:`Context` to generate root key of
-the variant. All matching strings are then part of single variants
-group, including the translation exactly matching the root key, even if that is
-not matched by the regular expression.
+The expression is matched against :guilabel:`Key` to generate root key of the
+variant. All matching strings are then part of single variants group, including
+the translation exactly matching the root key, even if that is not matched by
+the regular expression.
 
 The following table lists some usage examples:
 

@@ -42,7 +42,7 @@ from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, ngettext
+from django.utils.translation import gettext_lazy, ngettext, pgettext
 from django_redis.cache import RedisCache
 from filelock import FileLock, Timeout
 from redis_lock import Lock
@@ -2385,3 +2385,11 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             user=user,
             author=user,
         )
+
+    @property
+    def context_label(self):
+        if self.file_format in ("po", "po-mono"):
+            # Translators: Translation context for Gettext
+            return _("Context")
+        # Translators: Translation key for monolingual translations
+        return pgettext("Translation key", "Key")

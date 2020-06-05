@@ -144,7 +144,7 @@
         {% if unit.context %}
             <!-- editing template -->
             <div class="form-group">
-            <label>{% trans "Context" %}</label>
+            <label>{{ unit.translation.component.context_label }}</label>
             {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
             </div>
         {% endif %}
@@ -184,7 +184,7 @@
             <div class="form-group">
             {% if unit.context %}
                 <div class="pull-right flip">
-                <label>{% trans "Context:" %}</label>
+                <label>{{ unit.translation.component.context_label }}</label>
                 {{ unit.context }}
                 </div>
             {% endif %}
@@ -596,7 +596,7 @@
     {% if unit.context %}
     <div class="list-group-item">
     <h5>
-    {% trans "Context" %}
+        {{ unit.translation.component.context_label }}
     </h5>
     {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query simple=True %}
     </div>

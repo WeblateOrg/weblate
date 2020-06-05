@@ -25,7 +25,7 @@
 <thead>
 <tr>
     <th>{% trans "Source string" %}</th>
-    <th>{% trans "Context" %}</th>
+    <th>{{ object.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
     <th colspan="2">{% trans "Actions" %}</th>
 </tr>
@@ -52,7 +52,7 @@
     <thead>
     <tr>
     <th>{% trans "Source string" %}</th>
-    <th>{% trans "Context" %}</th>
+    <th>{{ object.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
     <th>{% trans "Actions" %}</th>
     </tr>
