@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-04 06:31+0000\n"
-"PO-Revision-Date: 2020-05-25 12:41+0000\n"
+"PO-Revision-Date: 2020-06-05 08:31+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -1007,7 +1007,7 @@ msgstr "לפי מחבר"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "הוספת שורות מקדימות לסופן של הודעות הגשה מתוקצרות"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -1015,12 +1015,16 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
+"שורות מקדימות הן שורות שנראות כמו כותרות דוא״ל לפי תקן RFC 822, בסוף של מה "
+"שאמור היה להיות החלק הפתוח בהודעת ההגשה, כגון ‚Co-authored-by: …‎’."
 
 #: weblate/addons/forms.py:163
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"במקום הודעת ההגשה המתוקצרות ייעשה שימוש בהודעה הגשה זו מההגשות שקובצו להן "
+"יחדיו."
 
 #: weblate/addons/forms.py:180
 msgid "Sort JSON keys"
@@ -2698,16 +2702,12 @@ msgid "i18next JSON file"
 msgstr "קובץ JSON מסוג i18next"
 
 #: weblate/formats/ttkit.py:1111
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n JSON file"
-msgstr "קובץ JSON מסוג i18next"
+msgstr "קובץ JSON מסוג go-i18n"
 
 #: weblate/formats/ttkit.py:1118
-#, fuzzy
-#| msgid "RC file"
 msgid "ARB file"
-msgstr "קובץ RC"
+msgstr "קובץ ARB"
 
 #: weblate/formats/ttkit.py:1126
 msgid "CSV file"
@@ -6567,10 +6567,8 @@ msgid "Number of entries for %(project)s"
 msgstr "מספר הרשומות עבור %(project)s"
 
 #: weblate/templates/memory/index.html:59
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of uploaded shared entries"
-msgstr "מספר רשומות משותפות"
+msgstr "מספר רשומות משותפות שהועלו"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
@@ -6597,10 +6595,10 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "פעולה זו תמחק רשומה אחת מזיכרון התרגום."
+msgstr[1] "פעולה זו תמחק %(count)s רשומות מזיכרון התרגום."
+msgstr[2] "פעולה זו תמחק %(count)s רשומות מזיכרון התרגום."
+msgstr[3] "פעולה זו תמחק %(count)s רשומות מזיכרון התרגום."
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -6864,7 +6862,7 @@ msgstr "לא נמצאו מחרוזות תואמות."
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
-msgstr ""
+msgstr "התרגום סגור לתרומות עקב עבודות תחזוקה, נא לחזור לכאן בהמשך."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7499,10 +7497,8 @@ msgid "Upload translations files"
 msgstr "העלאת קובצי תרגומים"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "הערת תרגום"
+msgstr "תרגום מסמך"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -7549,13 +7545,9 @@ msgid ""
 msgstr "יצירת רכיב תרגום חדש מקובץ ZIP שנשלח ומכיל מחרוזות לתרגום."
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded ZIP file containing "
-#| "strings for translation."
 msgid ""
 "Create a new translation component from an uploaded document for translation."
-msgstr "יצירת רכיב תרגום חדש מקובץ ZIP שנשלח ומכיל מחרוזות לתרגום."
+msgstr "יצירת רכיב תרגום חדש ממסמך שהועלה לתרגום."
 
 #: weblate/templates/trans/component_create.html:116
 msgid "Create a new empty translation component to start from scratch."
@@ -7880,10 +7872,10 @@ msgstr[3] "למחרוזות אלו יש הקשר שונה אך מקור זהה."
 #: weblate/templates/translate.html:324
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
-msgstr[0] "למחרוזת הזו יש מקור שונה אך אך הקשר זהה."
-msgstr[1] "למחרוזות אלו יש מקור שונה אך אך הקשר זהה."
-msgstr[2] "למחרוזות אלו יש מקור שונה אך אך הקשר זהה."
-msgstr[3] "למחרוזות אלו יש מקור שונה אך אך הקשר זהה."
+msgstr[0] "למחרוזת הזו יש מקור שונה אך הקשר זהה."
+msgstr[1] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
+msgstr[2] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
+msgstr[3] "למחרוזות אלו יש מקור שונה אך הקשר זהה."
 
 #: weblate/templates/translate.html:352
 msgid "Service"
@@ -7924,7 +7916,7 @@ msgstr "תיקון מחרוזת"
 
 #: weblate/templates/translate.html:469
 msgid "Dismiss for all languages"
-msgstr "להתעלם  עבור כל השפות"
+msgstr "להתעלם עבור כל השפות"
 
 #: weblate/templates/translate.html:485
 #, python-format
@@ -8749,10 +8741,8 @@ msgid "ZIP file containing translations"
 msgstr "קובץ ZIP שמכיל תרגומים"
 
 #: weblate/trans/forms.py:1508
-#, fuzzy
-#| msgid "Units to translate"
 msgid "Document to translate"
-msgstr "יחידות לתרגום"
+msgstr "מסמך לתרגום"
 
 #: weblate/trans/forms.py:1531
 msgid ""
@@ -8994,7 +8984,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:126
 msgid "Notify users"
-msgstr ""
+msgstr "הודעה למשתמשים"
 
 #: weblate/trans/models/announcement.py:141
 msgid "Do not specify both component and project!"
@@ -9358,14 +9348,12 @@ msgstr ""
 "כתובת דוא״ל לדיווח על שגיאות במחרוזות המקור, יש להשאיר ריק אם אין כתובת כזו."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Git branch to translate"
 msgid "Push branch"
-msgstr "ענף Git לתרגום"
+msgstr "ענף דחיפה"
 
 #: weblate/trans/models/component.py:281
 msgid "Branch for pushing changes, leave empty to use repository branch"
-msgstr ""
+msgstr "ענף לדחיפת שינויים, יש להשאיר ריק כדי להשתמש בענף של המאגר"
 
 #: weblate/trans/models/component.py:291
 msgid ""
@@ -9582,14 +9570,12 @@ msgid "Components with higher priority are offered first to translators."
 msgstr "רכיבים עם עדיפות גבוהה יותר מוצעים תחילה למתרגמים."
 
 #: weblate/trans/models/component.py:545
-#, fuzzy
-#| msgid "Created component"
 msgid "Restricted component"
-msgstr "נוצר רכיב"
+msgstr "רכיב מוגבל"
 
 #: weblate/trans/models/component.py:549
 msgid "Restrict access to the component only to explicitely given permissions."
-msgstr ""
+msgstr "הגבלת גישה לרכיב למעט הרשאות שניתנו במפורש."
 
 #: weblate/trans/models/component.py:975
 msgid ""
