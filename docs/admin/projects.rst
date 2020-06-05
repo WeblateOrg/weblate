@@ -625,7 +625,7 @@ By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it
 easier to keep translation consistency within the project.
 
-Enable this in case you want to grant access to this component explicitely -
+Enable this in case you want to grant access to this component explicitly -
 the project level permissions will not apply and you will have to specify
 component or component list level permission in order to grant access.
 
