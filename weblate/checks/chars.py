@@ -355,7 +355,8 @@ class MaxLengthCheck(TargetCheckParametrized):
         return single_value_flag(int)
 
     def check_target_params(self, sources, targets, unit, value):
-        return any((len(target) > value for target in targets))
+        replace = self.get_replacement_function(unit)
+        return any((len(replace(target)) > value for target in targets))
 
 
 class EndSemicolonCheck(TargetCheck):

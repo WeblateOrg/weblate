@@ -272,6 +272,20 @@ class MaxLengthCheckTest(TestCase):
             )
         )
 
+    def test_replace_check(self):
+        self.assertFalse(
+            self.check.check_target(
+                ["hi %s"], ["ahoj %s"], MockUnit(flags="max-length:10"),
+            )
+        )
+        self.assertTrue(
+            self.check.check_target(
+                ["hi %s"],
+                ["ahoj %s"],
+                MockUnit(flags='max-length:10, replacements:%s:"very long text"'),
+            )
+        )
+
 
 class EndSemicolonCheckTest(CheckTestCase):
     check = EndSemicolonCheck()

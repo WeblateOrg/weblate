@@ -23,7 +23,12 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.models import CHECKS
-from weblate.checks.parser import SYNTAXCHARS, FlagsParser, single_value_flag
+from weblate.checks.parser import (
+    SYNTAXCHARS,
+    FlagsParser,
+    multi_value_flag,
+    single_value_flag,
+)
 from weblate.fonts.utils import get_font_weight
 
 PLAIN_FLAGS = {
@@ -59,6 +64,8 @@ TYPED_FLAGS["priority"] = gettext_lazy("Priority")
 TYPED_FLAGS_ARGS["priority"] = single_value_flag(int)
 TYPED_FLAGS["max-length"] = gettext_lazy("Maximum length of translation")
 TYPED_FLAGS_ARGS["max-length"] = single_value_flag(int)
+TYPED_FLAGS["replacements"] = gettext_lazy("Replacements while rendering")
+TYPED_FLAGS_ARGS["replacements"] = multi_value_flag(str, modulo=2)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 

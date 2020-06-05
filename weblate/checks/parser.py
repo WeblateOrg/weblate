@@ -31,8 +31,10 @@ def single_value_flag(func):
     return parse_values
 
 
-def multi_value_flag(func, minimum=1, maximum=None):
+def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
     def parse_values(val):
+        if modulo and len(val) % modulo != 0:
+            raise ValueError("Number of parameter is not even")
         if minimum and len(val) < minimum:
             raise ValueError("Missing required parameter")
         if maximum and len(val) > maximum:

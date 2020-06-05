@@ -17,7 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from django.http import Http404
+from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
 
@@ -143,6 +146,28 @@ class Check:
 
     def render(self, request, unit):
         raise Http404("Not supported")
+
+    def get_cache_key(self, unit, pos):
+        return "check:{}:{}:{}:{}".format(
+            self.check_id, unit.pk, siphash(unit.all_flags.format()), pos,
+        )
+
+    def get_replacement_function(self, unit):
+        flags = unit.all_flags
+        if not flags.has_value("replacements"):
+            return lambda text: text
+
+        # Parse the flag
+        replacements = flags.get_value("replacements")
+        # Create dict from that
+        replacements = dict(
+            replacements[pos : pos + 2] for pos in range(0, len(replacements), 2)
+        )
+
+        # Build regexp matcher
+        pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
+
+        return lambda text: pattern.sub(lambda m: replacements[m.group(0)], text)
 
 
 class TargetCheck(Check):

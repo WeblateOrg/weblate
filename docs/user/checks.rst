@@ -516,6 +516,9 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
    using proportional fonts to render the text. The :ref:`check-max-size` check
    does check actual rendering of the text.
 
+   The ``replacements:`` flag might be also useful to expand placeables before
+   checking the string.
+
 .. _check-max-size:
 
 Maximum size of translation
@@ -546,6 +549,9 @@ pixels:
    You might want to set ``font-*`` directives in :ref:`component` to have the same
    font configured for all strings within a component. You can override those
    values per string in case you need to customize it per string.
+
+   The ``replacements:`` flag might be also useful to expand placeables before
+   checking the string.
 
 .. seealso::
 

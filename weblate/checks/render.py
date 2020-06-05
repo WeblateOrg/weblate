@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse
@@ -71,6 +70,9 @@ class MaxSizeCheck(TargetCheckParametrized):
         except ObjectDoesNotExist:
             return "{} {}".format(group.font.family, group.font.style)
 
+    def get_cache_key(self, unit, i):
+        return ("check:render:{}:{}:{}".format(unit.pk, unit.all_flags.format(), i),)
+
     def check_target_params(self, sources, targets, unit, value):
         if len(value) == 2:
             width, lines = value
@@ -81,6 +83,7 @@ class MaxSizeCheck(TargetCheckParametrized):
         font = self.last_font = self.load_font(
             unit.translation.component.project, unit.translation.language, font_group
         )
+        replace = self.get_replacement_function(unit)
         return any(
             (
                 not check_render_size(
@@ -88,10 +91,10 @@ class MaxSizeCheck(TargetCheckParametrized):
                     weight,
                     size,
                     spacing,
-                    target,
+                    replace(target),
                     width,
                     lines,
-                    "check:render:{}:{}".format(unit.pk, i),
+                    self.get_cache_key(unit, i),
                 )
                 for i, target in enumerate(targets)
             )
@@ -114,7 +117,7 @@ class MaxSizeCheck(TargetCheckParametrized):
             pos = int(request.GET.get("pos", "0"))
         except ValueError:
             pos = 0
-        key = "check:render:{}:{}".format(unit.pk, pos)
+        key = self.get_cache_key(unit, pos)
         result = cache.get(key)
         if result is None:
             self.check_target_unit(
