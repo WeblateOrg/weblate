@@ -151,13 +151,26 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_ke
     # Render box around desired size
     expected_height = lines * pixel_size.height / line_count
     context.new_path()
-    context.set_source_rgb(246, 102, 76)
-    context.set_source_rgb(246.0 / 255, 102.0 / 255, 76.0 / 255)
+    context.set_source_rgb(0.8, 0.8, 0.8)
     context.set_line_width(1)
     context.move_to(1, 1)
     context.line_to(width, 1)
     context.line_to(width, expected_height)
     context.line_to(1, expected_height)
+    context.line_to(1, 1)
+    context.stroke()
+
+    # Render box about actual size
+    context.new_path()
+    if pixel_size.width > width or line_count > lines:
+        context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
+    else:
+        context.set_source_rgb(0.4, 0.4, 0.4)
+    context.set_line_width(1)
+    context.move_to(1, 1)
+    context.line_to(pixel_size.width, 1)
+    context.line_to(pixel_size.width, pixel_size.height)
+    context.line_to(1, pixel_size.height)
     context.line_to(1, 1)
     context.stroke()
 
