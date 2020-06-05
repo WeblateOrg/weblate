@@ -238,7 +238,7 @@ class Unit(models.Model, LoggerMixin):
         validators=[validate_check_flags],
         blank=True,
     )
-    extra_context = models.TextField(
+    explanation = models.TextField(
         verbose_name=gettext_lazy("Explanation"),
         default="",
         blank=True,
@@ -444,7 +444,7 @@ class Unit(models.Model, LoggerMixin):
                     same_content=True,
                     same_state=True,
                 )
-            self.extra_context = source_info.extra_context
+            self.explanation = source_info.explanation
             self.extra_flags = source_info.extra_flags
             self.__dict__["source_info"] = source_info
 

@@ -102,8 +102,8 @@ def update_source(sender, instance, **kwargs):
         translation__component=instance.translation.component, id_hash=instance.id_hash
     )
     # Propagate attributes
-    units.exclude(extra_context=instance.extra_context).update(
-        extra_context=instance.extra_context
+    units.exclude(explanation=instance.explanation).update(
+        explanation=instance.explanation
     )
     units.exclude(extra_flags=instance.extra_flags).update(
         extra_flags=instance.extra_flags

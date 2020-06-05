@@ -462,7 +462,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         source = Unit.objects.get(
             source=text, translation__language=language
         ).source_info
-        source.extra_context = "Help text for automatic translation tool"
+        source.explanation = "Help text for automatic translation tool"
         source.save()
         Dictionary.objects.create(
             user=None,
@@ -1105,7 +1105,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         finally:
             self.remove_temp()
 
-    def test_extra_context(self):
+    def test_explanation(self):
         project = self.create_component()
         Component.objects.create(
             name="Android",
@@ -1180,5 +1180,5 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png", scroll=False)
 
         # Close modal dialog
-        self.driver.find_element_by_id("id_extra_context").send_keys(Keys.ESCAPE)
+        self.driver.find_element_by_id("id_explanation").send_keys(Keys.ESCAPE)
         time.sleep(0.5)

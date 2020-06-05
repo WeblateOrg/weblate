@@ -1017,11 +1017,11 @@ def get_new_language_form(request, component):
 class ContextForm(forms.ModelForm):
     class Meta:
         model = Unit
-        fields = ("extra_context", "labels", "extra_flags")
+        fields = ("explanation", "labels", "extra_flags")
         widgets = {"labels": forms.CheckboxSelectMultiple()}
 
     doc_links = {
-        "extra_context": ("admin/translating", "additional"),
+        "explanation": ("admin/translating", "additional"),
         "labels": ("devel/translations", "labels"),
         "extra_flags": ("admin/translating", "additional"),
     }
@@ -1037,7 +1037,7 @@ class ContextForm(forms.ModelForm):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("extra_context"),
+            Field("explanation"),
             Field("labels"),
             ContextDiv(
                 template="snippets/labels_description.html",

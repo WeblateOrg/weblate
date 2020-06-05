@@ -749,13 +749,13 @@ class SourceStringsTest(ViewTestCase):
         source = self.get_unit().source_info
         response = self.client.post(
             reverse("edit_context", kwargs={"pk": source.pk}),
-            {"extra_context": "Extra context"},
+            {"explanation": "Extra context"},
         )
         self.assertRedirects(response, source.get_absolute_url())
 
         unit = self.get_unit()
         self.assertEqual(unit.context, "")
-        self.assertEqual(unit.extra_context, "Extra context")
+        self.assertEqual(unit.explanation, "Extra context")
 
     def test_edit_check_flags(self):
         # Need extra power
