@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-04 06:31+0000\n"
-"PO-Revision-Date: 2020-05-25 12:41+0000\n"
+"PO-Revision-Date: 2020-06-06 17:41+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/master/"
 "it/>\n"
@@ -1064,7 +1064,7 @@ msgstr "Per autore"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Aggiungi trailer al messaggio commit compresso"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -1072,12 +1072,17 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
+"Le linee trailer sono linee simili alle intestazioni email di RFC 822, alla "
+"fine della parte altrimenti libera di un messaggio di commit, ad esempio "
+"'Autore congiunto: ...'."
 
 #: weblate/addons/forms.py:163
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Questo messaggio di commit verrà usato al posto dei messaggi di commit "
+"combinati dai commit compressi."
 
 #: weblate/addons/forms.py:180
 msgid "Sort JSON keys"
@@ -2592,8 +2597,7 @@ msgid ""
 "whitespaces and special characters."
 msgstr ""
 "Identificatore usato nei controlli per selezionare questo gruppo di "
-"caratteri. \n"
-"Evita gli spazi e i caratteri speciali."
+"caratteri. Evita gli spazi e i caratteri speciali."
 
 #: weblate/fonts/models.py:111 weblate/templates/fonts/font_list.html:26
 #: weblate/templates/fonts/fontgroup_detail.html:19
@@ -2787,16 +2791,12 @@ msgid "i18next JSON file"
 msgstr "File JSON i18next"
 
 #: weblate/formats/ttkit.py:1111
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n JSON file"
-msgstr "File JSON i18next"
+msgstr "File go-i18n JSON"
 
 #: weblate/formats/ttkit.py:1118
-#, fuzzy
-#| msgid "RC file"
 msgid "ARB file"
-msgstr "File RC"
+msgstr "File ARB"
 
 #: weblate/formats/ttkit.py:1126
 msgid "CSV file"
@@ -4393,7 +4393,7 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
 msgstr ""
-"I messaggi di modifica originali  saranno mantenuti, ma l'informazione "
+"I messaggi di modifica originali saranno mantenuti, ma l'informazione "
 "sull'autore della modifica non verrà conservata, a meno che non sia "
 "selezionato \"Per autore\" o si personalizzi il messaggio di modifica per "
 "includerlo."
@@ -5149,8 +5149,8 @@ msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
 msgstr ""
-"Non sei autorizzato a visualizzare i rapporti per tutti gli utenti.\n"
-"Verranno elencati solo i tuoi contributi."
+"Non sei autorizzato a visualizzare i rapporti per tutti gli utenti. Verranno "
+"elencati solo i tuoi contributi."
 
 #: weblate/templates/component.html:305
 #: weblate/templates/dashboard/user.html:108 weblate/templates/project.html:186
@@ -5568,9 +5568,9 @@ msgid ""
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"Il progetto di traduzione di %(project)s in Inglese attualmente contiene  "
-"<strong>%(total)s </strong> stringhe da tradurre ed è tradotto al  <strong>"
-"%(percent)s%% </strong>."
+"Il progetto di traduzione di %(project)s in Inglese attualmente contiene "
+"<strong>%(total)s </strong> stringhe da tradurre ed è tradotto al "
+"<strong>%(percent)s%% </strong>."
 
 #: weblate/templates/engage.html:45
 #, python-format
@@ -5585,16 +5585,15 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Il progetto di traduzione di %(project)s attualmente contiene <strong>"
-"%(total)s stringhe</strong> per la traduzione ed è in corso di traduzione in "
-"<strong>%(languages)s lingua</strong>. Nel complesso queste traduzioni sono "
-"tradotte al <strong>%(percent)s%%</strong>."
+"Il progetto di traduzione di %(project)s attualmente contiene "
+"<strong>%(total)s stringhe</strong> per la traduzione ed è in corso di "
+"traduzione in <strong>%(languages)s lingua</strong>. Nel complesso queste "
+"traduzioni sono tradotte al <strong>%(percent)s%%</strong>."
 msgstr[1] ""
-"Il progetto di traduzione di %(project)s attualmente contiene <strong>"
-"%(total)s stringhe</strong> per la traduzione ed è in corso di traduzione in "
-"<strong>%(languages)s lingue</strong>.\n"
-"Nel complesso queste traduzioni sono tradotte al <strong>%(percent)s%%</"
-"strong>."
+"Il progetto di traduzione di %(project)s attualmente contiene "
+"<strong>%(total)s stringhe</strong> per la traduzione ed è in corso di "
+"traduzione in <strong>%(languages)s lingue</strong>. Nel complesso queste "
+"traduzioni sono tradotte al <strong>%(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:47
 #, python-format
@@ -6655,8 +6654,8 @@ msgid ""
 "You don't seem to have existing SSH key, by pressing button below Weblate "
 "will generate one for you."
 msgstr ""
-"Non sembra che tu abbia la chiave SSH corretta. \n"
-"Selezionando il pulsante qui sotto Weblate la genererà per te."
+"Non sembra che tu abbia la chiave SSH corretta. Selezionando il pulsante qui "
+"sotto Weblate la genererà per te."
 
 #: weblate/templates/manage/ssh.html:60
 msgid "Known host keys"
@@ -6751,10 +6750,8 @@ msgid "Number of entries for %(project)s"
 msgstr "Numero di voci per %(project)s"
 
 #: weblate/templates/memory/index.html:59
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of uploaded shared entries"
-msgstr "Numero elementi condivisi"
+msgstr "Numero elementi uploadati condivisi"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
@@ -6782,7 +6779,11 @@ msgid ""
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
 msgstr[0] ""
+"Questo eliminerà definitivamente la voce %(count)s dalla memoria di "
+"traduzione."
 msgstr[1] ""
+"Questo eliminerà definitivamente le voci %(count)s dalla memoria di "
+"traduzione."
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -7060,6 +7061,8 @@ msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
 msgstr ""
+"La traduzione è temporaneamente chiusa alle modifiche per manutenzione. Per "
+"favore riprova più tardi."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7726,10 +7729,8 @@ msgid "Upload translations files"
 msgstr "Carica file traduzioni"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "Commento traduzione"
+msgstr "Traduci documento"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -7786,15 +7787,11 @@ msgstr ""
 "stringhe per la traduzione."
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded ZIP file containing "
-#| "strings for translation."
 msgid ""
 "Create a new translation component from an uploaded document for translation."
 msgstr ""
-"Crea un nuovo componente di traduzione da un file ZIP caricato contenente le "
-"stringhe per la traduzione."
+"Crea un nuovo componente traduzione da un documento uploadato per la "
+"traduzione."
 
 #: weblate/templates/trans/component_create.html:116
 msgid "Create a new empty translation component to start from scratch."
@@ -8313,10 +8310,9 @@ msgid ""
 "new component using translation memory."
 msgstr ""
 "La traduzione automatica prende le traduzioni esistenti in questo progetto e "
-"le applica al componente attuale. \n"
-"Può essere utilizzata per trasferire traduzioni in un ramo diverso, per "
-"correggere traduzioni incoerenti o per tradurre un nuovo componente usando "
-"la memoria traduzione."
+"le applica al componente attuale. Può essere utilizzata per trasferire "
+"traduzioni in un ramo diverso, per correggere traduzioni incoerenti o per "
+"tradurre un nuovo componente usando la memoria traduzione."
 
 #: weblate/templates/translation.html:239
 msgid ""
@@ -8340,9 +8336,9 @@ msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to turn it on."
 msgstr ""
-"Il file caricato verrà unito alla traduzione attuale. \n"
-"Nel caso in cui vuoi sovrascrivere le stringhe già tradotte, non dimenticare "
-"di abilitare tale opzione."
+"Il file caricato verrà unito alla traduzione attuale. Nel caso in cui vuoi "
+"sovrascrivere le stringhe già tradotte, non dimenticare di abilitare tale "
+"opzione."
 
 #: weblate/templates/translation.html:329
 msgid "The uploaded file will be merged with the current translation."
@@ -9014,10 +9010,8 @@ msgid "ZIP file containing translations"
 msgstr "File ZIP contenente le traduzioni"
 
 #: weblate/trans/forms.py:1508
-#, fuzzy
-#| msgid "Units to translate"
 msgid "Document to translate"
-msgstr "Unità da tradurre"
+msgstr "Documento da tradurre"
 
 #: weblate/trans/forms.py:1531
 msgid ""
@@ -9261,13 +9255,12 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
-"Il messaggio non verrà visualizzato dopo questa data. \n"
-"Usalo per annunci come blocchi stringhe e scadenza traduzione per la "
-"prossima versione."
+"Il messaggio non verrà visualizzato dopo questa data. Usalo per annunci come "
+"blocchi stringhe e scadenza traduzione per la prossima versione."
 
 #: weblate/trans/models/announcement.py:126
 msgid "Notify users"
-msgstr ""
+msgstr "Notifica agli utenti"
 
 #: weblate/trans/models/announcement.py:141
 msgid "Do not specify both component and project!"
@@ -9590,8 +9583,8 @@ msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"URL di un repository. \n"
-"Per la condivisione con altri componenti usa weblate://progetto/componente."
+"URL di un repository. Per la condivisione con altri componenti usa weblate://"
+"progetto/componente."
 
 #: weblate/trans/models/component.py:237
 msgid "Repository push URL"
@@ -9631,16 +9624,17 @@ msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
 msgstr ""
-"Indirizzo email a cui segnalare errori nella stringa sorgente. \n"
-"Lascialo vuoto per non ricevere email."
+"Indirizzo email a cui segnalare errori nella stringa sorgente. Lascialo "
+"vuoto per non ricevere email."
 
 #: weblate/trans/models/component.py:278
 msgid "Push branch"
-msgstr ""
+msgstr "Push ramo"
 
 #: weblate/trans/models/component.py:281
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
+"Ramo per push modifiche, lascialo vuoto per usare il ramo del repository"
 
 #: weblate/trans/models/component.py:291
 msgid ""
@@ -9656,8 +9650,8 @@ msgid ""
 "it is recommended for monolingual translation formats."
 msgstr ""
 "Nome file del file della traduzione base, che contiene tutte le stringhe e "
-"la loro sorgente. \n"
-"Questo è raccomandato per i formati di traduzione a lingua singola."
+"la loro sorgente. Questo è raccomandato per i formati di traduzione a lingua "
+"singola."
 
 #: weblate/trans/models/component.py:308
 msgid "Edit base file"
@@ -9735,8 +9729,8 @@ msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
 msgstr ""
-"Accetta automaticamente suggerimenti con questo numero di voti. \n"
-"Usa 0 per disabilitarlo."
+"Accetta automaticamente suggerimenti con questo numero di voti. Usa 0 per "
+"disabilitarlo."
 
 #: weblate/trans/models/component.py:380 weblate/trans/models/unit.py:232
 msgid "Translation flags"
@@ -9747,7 +9741,7 @@ msgid ""
 "Additional comma-separated flags to influence quality checks. Possible "
 "values can be found in the documentation."
 msgstr ""
-"Ulteriori flag separati da virgola per influenzare i controlli di qualità. \n"
+"Ulteriori flag separati da virgola per influenzare i controlli di qualità. "
 "Per i possibili valori consulta la documentazione."
 
 #: weblate/trans/models/component.py:390
@@ -9809,8 +9803,8 @@ msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
 msgstr ""
-"Puoi usare il modello lingua per varie informazioni. \n"
-"Per ulteriori dettagli consulta la documentazione."
+"Puoi usare il modello lingua per varie informazioni. Per ulteriori dettagli "
+"consulta la documentazione."
 
 #: weblate/trans/models/component.py:455
 msgid "Commit message when adding translation"
@@ -9877,22 +9871,22 @@ msgstr ""
 "Ai traduttori vengono offerti prima i componenti con priorità più alta."
 
 #: weblate/trans/models/component.py:545
-#, fuzzy
-#| msgid "Created component"
 msgid "Restricted component"
-msgstr "Componente creato"
+msgstr "Componente ristretto"
 
 #: weblate/trans/models/component.py:549
 msgid "Restrict access to the component only to explicitly given permissions."
 msgstr ""
+"Limita l'accesso al componente solo alle autorizzazioni esplicitamente "
+"fornite."
 
 #: weblate/trans/models/component.py:975
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
-"Impossibile verificare la chiave host SSH. \n"
-"Aggiungila nella pagina SSH nell'interfaccia di amministrazione."
+"Impossibile verificare la chiave host SSH. Aggiungila nella pagina SSH "
+"nell'interfaccia di amministrazione."
 
 #: weblate/trans/models/component.py:984
 msgid ""
@@ -9941,20 +9935,20 @@ msgstr "Impossibile unire il ramo remoto in %s."
 #: weblate/trans/models/component.py:1743
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
-"Collegamento non valido ad un progetto Weblate. \n"
-"Impossibile connettersi al repository collegato!"
+"Collegamento non valido ad un progetto Weblate. Impossibile connettersi al "
+"repository collegato!"
 
 #: weblate/trans/models/component.py:1752
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
-"Collegamento non valido ad un progetto Weblate. \n"
-"Impossibile collegarsi a sé stesso!"
+"Collegamento non valido ad un progetto Weblate. Impossibile collegarsi a sé "
+"stesso!"
 
 #: weblate/trans/models/component.py:1761
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
-"Collegamento non valido per un progetto Weblate. \n"
-"Usa weblate://progetto/componente."
+"Collegamento non valido per un progetto Weblate. Usa weblate://progetto/"
+"componente."
 
 #: weblate/trans/models/component.py:1770
 msgid "Option is not available for linked repositories."
@@ -9967,16 +9961,12 @@ msgstr "La maschera file non corrispondeva a nessun file."
 #: weblate/trans/models/component.py:1787
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
-msgstr ""
-"Il codice lingua per %s era vuoto. \n"
-"Controlla la maschera file."
+msgstr "Il codice lingua per %s era vuoto. Controlla la maschera file."
 
 #: weblate/trans/models/component.py:1794
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
-msgstr ""
-"Il codice lingua \"%s\" è troppo lungo. \n"
-"Controlla la maschera file."
+msgstr "Il codice lingua \"%s\" è troppo lungo. Controlla la maschera file."
 
 #: weblate/trans/models/component.py:1801
 #, python-format
@@ -9984,8 +9974,8 @@ msgid ""
 "There are more files for the single language (%s), please adjust the "
 "filemask and use components for translating different resources."
 msgstr ""
-"Ci sono più file per la singola lingua (%s). \n"
-"Imposta la maschera file e usa i componenti per tradurre risorse diverse."
+"Ci sono più file per la singola lingua (%s). Imposta la maschera file e usa "
+"i componenti per tradurre risorse diverse."
 
 #: weblate/trans/models/component.py:1826
 #, python-format
@@ -11065,20 +11055,14 @@ msgstr "Richiesta ricerca non valida!"
 
 #: weblate/trans/views/search.py:249
 msgid "Bulk edit completed, no strings were updated."
-msgstr ""
-"Modifica condivisa completata.\n"
-"Nessuna stringa aggiornata."
+msgstr "Modifica condivisa completata. Nessuna stringa aggiornata."
 
 #: weblate/trans/views/search.py:251
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] ""
-"Modifica condivisa completata.\n"
-"%d stringa aggiornata."
-msgstr[1] ""
-"Modifica condivisa completata.\n"
-"%d stringhe aggiornate."
+msgstr[0] "Modifica condivisa completata, %d stringa aggiornata."
+msgstr[1] "Modifica condivisa completata, %d stringhe aggiornate."
 
 #: weblate/trans/views/settings.py:64 weblate/trans/views/settings.py:92
 msgid "Settings saved"
@@ -11402,8 +11386,8 @@ msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
 msgstr ""
-"L'attivazione non è riuscita. \n"
-"Controlla che il token di attivazione sia corretto."
+"L'attivazione non è riuscita. Controlla che il token di attivazione sia "
+"corretto."
 
 #: weblate/wladmin/views.py:183
 msgid "Backup process triggered"
