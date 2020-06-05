@@ -26,6 +26,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
+from weblate.checks.parser import multi_value_flag
 from weblate.fonts.utils import check_render_size
 
 FONT_PARAMS = (
@@ -38,14 +39,6 @@ FONT_PARAMS = (
 IMAGE = '<a href="{0}" class="thumbnail"><img class="img-responsive" src="{0}" /></a>'
 
 
-@staticmethod
-def parse_size(val):
-    if ":" in val:
-        width, lines = val.split(":")
-        return int(width), int(lines)
-    return int(val)
-
-
 class MaxSizeCheck(TargetCheckParametrized):
     """Check for maximum size of rendered text."""
 
@@ -53,8 +46,11 @@ class MaxSizeCheck(TargetCheckParametrized):
     name = _("Maximum size of translation")
     description = _("Translation rendered text should not exceed given size")
     default_disabled = True
-    param_type = parse_size
     last_font = None
+
+    @property
+    def param_type(self):
+        return multi_value_flag(int, 1, 2)
 
     def get_params(self, unit):
         for name, default in FONT_PARAMS:
@@ -75,7 +71,7 @@ class MaxSizeCheck(TargetCheckParametrized):
             return "{} {}".format(group.font.family, group.font.style)
 
     def check_target_params(self, sources, targets, unit, value):
-        if isinstance(value, tuple):
+        if isinstance(value, list):
             width, lines = value
         else:
             width = value

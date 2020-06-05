@@ -22,6 +22,7 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 from weblate.checks.markup import strip_entities
+from weblate.checks.parser import single_value_flag
 
 KASHIDA_CHARS = (
     "\u0640",
@@ -348,7 +349,10 @@ class MaxLengthCheck(TargetCheckParametrized):
     name = _("Maximum length of translation")
     description = _("Translation should not exceed given length")
     default_disabled = True
-    param_type = int
+
+    @property
+    def param_type(self):
+        return single_value_flag(int)
 
     def check_target_params(self, sources, targets, unit, value):
         return any((len(target) > value for target in targets))

@@ -22,6 +22,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.models import CHECKS
+from weblate.checks.parser import single_value_flag
 from weblate.fonts.utils import get_font_weight
 
 PLAIN_FLAGS = {
@@ -46,17 +47,17 @@ PLAIN_FLAGS["read-only"] = gettext_lazy("Read only")
 PLAIN_FLAGS["strict-same"] = gettext_lazy("Strict unchanged check")
 
 TYPED_FLAGS["font-family"] = gettext_lazy("Font family")
-TYPED_FLAGS_ARGS["font-family"] = str
+TYPED_FLAGS_ARGS["font-family"] = single_value_flag(str)
 TYPED_FLAGS["font-size"] = gettext_lazy("Font size")
-TYPED_FLAGS_ARGS["font-size"] = int
+TYPED_FLAGS_ARGS["font-size"] = single_value_flag(int)
 TYPED_FLAGS["font-weight"] = gettext_lazy("Font weight")
-TYPED_FLAGS_ARGS["font-weight"] = get_font_weight
+TYPED_FLAGS_ARGS["font-weight"] = single_value_flag(get_font_weight)
 TYPED_FLAGS["font-spacing"] = gettext_lazy("Font spacing")
-TYPED_FLAGS_ARGS["font-spacing"] = int
+TYPED_FLAGS_ARGS["font-spacing"] = single_value_flag(int)
 TYPED_FLAGS["priority"] = gettext_lazy("Priority")
-TYPED_FLAGS_ARGS["priority"] = int
+TYPED_FLAGS_ARGS["priority"] = single_value_flag(int)
 TYPED_FLAGS["max-length"] = gettext_lazy("Maximum length of translation")
-TYPED_FLAGS_ARGS["max-length"] = int
+TYPED_FLAGS_ARGS["max-length"] = single_value_flag(int)
 
 IGNORE_CHECK_FLAGS = {CHECKS[x].ignore_string for x in CHECKS}
 
@@ -133,7 +134,7 @@ class Flags:
         return key in self._values
 
     def get_value(self, key):
-        return TYPED_FLAGS_ARGS[key](self._values[key])
+        return TYPED_FLAGS_ARGS[key](self._values[key].split(":"))
 
     def items(self):
         return set(self._items.values())

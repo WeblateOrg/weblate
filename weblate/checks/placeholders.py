@@ -25,14 +25,9 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
+from weblate.checks.parser import multi_value_flag, single_value_flag
 
 
-@staticmethod
-def parse_placeholders(val):
-    return val.split(":")
-
-
-@staticmethod
 def parse_regex(val):
     return re.compile(val)
 
@@ -42,7 +37,10 @@ class PlaceholderCheck(TargetCheckParametrized):
     default_disabled = True
     name = _("Placeholders")
     description = _("Translation is missing some placeholders:")
-    param_type = parse_placeholders
+
+    @property
+    def param_type(self):
+        return multi_value_flag(str)
 
     def check_target_params(self, sources, targets, unit, value):
         return any(any(param not in target for param in value) for target in targets)
@@ -78,7 +76,10 @@ class RegexCheck(TargetCheckParametrized):
     default_disabled = True
     name = _("Regular expression")
     description = _("Translation does not match regular expression:")
-    param_type = parse_regex
+
+    @property
+    def param_type(self):
+        return single_value_flag(parse_regex)
 
     def check_target_params(self, sources, targets, unit, value):
         return any(not value.findall(target) for target in targets)

@@ -47,6 +47,10 @@ class FlagTest(SimpleTestCase):
     def test_merge_prefix(self):
         self.assertEqual(Flags({"foo:1"}, {"foo:2"}).items(), {"foo:2"})
 
+    def test_values(self):
+        flags = Flags("placeholders:bar:baz")
+        self.assertEqual(flags.get_value("placeholders"), ["bar", "baz"])
+
     def test_validate_value(self):
         with self.assertRaises(ValidationError):
             Flags("max-length:x").validate()
