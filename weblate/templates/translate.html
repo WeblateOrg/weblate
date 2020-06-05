@@ -148,14 +148,6 @@
             {% format_translation unit.context unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number %}
             </div>
         {% endif %}
-        {% if unit.note %}
-            <!-- note -->
-            <div class="form-group help-block">
-            <label>{% trans "Source string comment" %}</label>
-            {% format_translation unit.note unit.translation.component.project.source_language %}
-            </div>
-        {% endif %}
-
         {% if unit.translation.component.intermediate %}
             <!-- editing template -->
             <div class="form-group">
@@ -163,23 +155,30 @@
             {% format_translation unit.source unit.translation.component.project.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
             </div>
         {% endif %}
-    {% else %}
-        {% if unit.note %}
-            <!-- note -->
-            <div class="form-group help-block">
-            <label>{% trans "Source string comment" %}</label>
-            {% format_translation unit.note unit.translation.component.project.source_language %}
-            </div>
-        {% endif %}
+    {% endif %}
+    {% if unit.note %}
+        <!-- note -->
+        <div class="form-group help-block">
+        <label>{% trans "Source string comment" %}</label>
+        {% format_translation unit.note unit.translation.component.project.source_language %}
+        </div>
+    {% endif %}
 
-        {% if unit.explanation %}
-            <!-- source string context  -->
-            <div class="form-group help-block">
-            <label>{% trans "Explanation" %}</label>
-            {% format_translation unit.explanation unit.translation.component.project.source_language %}
+    {% if unit.explanation %}
+        <!-- source string context  -->
+        <div class="form-group help-block">
+        <label>{% trans "Explanation" %}</label>
+        <div class="list-group">
+            <div class="list-group-item">
+                <div class="list-group-item-text">
+                    {{ unit.explanation|markdown }}
+                </div>
             </div>
-        {% endif %}
+        </div>
+        </div>
+    {% endif %}
 
+    {% if not unit.translation.is_source %}
         {% if not user.profile.hide_source_secondary or not secondary %}
             <!-- source -->
             <div class="form-group">
@@ -588,7 +587,7 @@
     {% trans "Explanation" %}
     </h5>
     {% if unit.explanation %}
-    <p>{{ unit.explanation }}</p>
+    <p>{{ unit.explanation|markdown }}</p>
     {% else %}
     <em>{% trans "No explanation currently provided." %}</em>
     {% endif %}
