@@ -26,10 +26,10 @@ in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`.
 Customizing behavior
 --------------------
 
-You can fine-tune the behavior of Weblate (mostly checks) for each source string (in
-source strings review, see :ref:`additional`) or in the :ref:`component`
-(:guilabel:`Translation flags`). Some file formats also allow to specify flags
-directly in the format.
+You can fine-tune the behavior of Weblate (mostly checks) for each source
+string (in source strings review, see :ref:`additional`) or in the
+:ref:`component` (:ref:`component-check_flags`). Some file formats also allow
+to specify flags directly in the format (see :ref:`formats`).
 
 The flags are comma separated, the parameters are separated with colon. You can
 use quotes to include whitespace or special chars in the string. For example:

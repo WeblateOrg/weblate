@@ -608,6 +608,10 @@ separated with colon, strings with space can be quoted:
 
    placeholders:$URL$:$TARGET$:"some long text"
 
+.. seealso::
+
+   :ref:`custom-checks`
+
 .. _check-punctuation-spacing:
 
 Punctuation spacing
