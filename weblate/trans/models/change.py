@@ -127,6 +127,8 @@ class ChangeQuerySet(models.QuerySet):
         Prefilter Changes by ACL for users and fetches related fields for last changes
         display.
         """
+        if user.is_superuser:
+            return self.prefetch().order()
         return (
             self.prefetch()
             .filter(
