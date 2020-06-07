@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-07 19:12+0000\n"
-"PO-Revision-Date: 2020-05-29 19:41+0000\n"
+"PO-Revision-Date: 2020-06-08 11:49+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
@@ -1037,7 +1037,7 @@ msgstr "Po autorima"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Dodaj krajnje retke združenoj poruci izmjena"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -1045,12 +1045,15 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
+"Krajnji redci sliče RFC 822 zaglavljima e-pošte, na kraju inače slobodnog "
+"dijela poruke izmjene, poput „Co-authored-by: ...”."
 
 #: weblate/addons/forms.py:163
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Umjesto poruka izmjena združenih izmjena, koristit će se ova poruka izmjene."
 
 #: weblate/addons/forms.py:180
 msgid "Sort JSON keys"
@@ -2244,10 +2247,8 @@ msgid "Priority"
 msgstr "Prioritet"
 
 #: weblate/checks/flags.py:67
-#, fuzzy
-#| msgid "Replacement string"
 msgid "Replacements while rendering"
-msgstr "Zamjenski izraz"
+msgstr "Zamjene tijekom iscrtavanja"
 
 #: weblate/checks/flags.py:227
 #, python-format
@@ -2749,16 +2750,12 @@ msgid "i18next JSON file"
 msgstr "i18next JSON datoteka"
 
 #: weblate/formats/ttkit.py:1117
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n JSON file"
-msgstr "i18next JSON datoteka"
+msgstr "go-i18n JSON datoteka"
 
 #: weblate/formats/ttkit.py:1124
-#, fuzzy
-#| msgid "RC file"
 msgid "ARB file"
-msgstr "RC datoteka"
+msgstr "ARB datoteka"
 
 #: weblate/formats/ttkit.py:1132
 msgid "CSV file"
@@ -3502,7 +3499,7 @@ msgstr ""
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
-msgstr "Spremanje izmjena nije konfigurirano."
+msgstr "Potpisivanje izmjena nije konfigurirano."
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:64
 #: weblate/templates/dashboard/user.html:37 weblate/templates/data.html:51
@@ -6677,10 +6674,8 @@ msgid "Number of entries for %(project)s"
 msgstr "Broj zapisa za %(project)s"
 
 #: weblate/templates/memory/index.html:59
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of uploaded shared entries"
-msgstr "Broj zajedničkih unosa"
+msgstr "Broj prenešenih dijeljenih zapisa"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
@@ -6708,8 +6703,11 @@ msgid ""
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
 msgstr[0] ""
+"Ovo će zauvijek ukloniti %(count)s zapis iz tvoje prevodilačke memorije."
 msgstr[1] ""
+"Ovo će zauvijek ukloniti %(count)s zapisa iz tvoje prevodilačke memorije."
 msgstr[2] ""
+"Ovo će zauvijek ukloniti %(count)s zapisa iz tvoje prevodilačke memorije."
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -6973,10 +6971,8 @@ msgid "Strings"
 msgstr "izraza"
 
 #: weblate/templates/screenshots/screenshot_list.html:54
-#, fuzzy
-#| msgid "There are no glossaries defined for this language."
 msgid "There are no assigned strings."
-msgstr "Nema određenih glosara za ovaj jezik."
+msgstr "Nema dodijeljenih izraza."
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
 msgid "No source strings are currently assigned!"
@@ -6990,7 +6986,7 @@ msgstr "Nema poklapajućih izraza."
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
-msgstr ""
+msgstr "Prevođenje je trenutačno onemogućeno. Vrati se natrag kasnije."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7174,10 +7170,8 @@ msgid "Target strings"
 msgstr "Izrazi ciljnog jezika"
 
 #: weblate/templates/snippets/query-builder.html:16
-#, fuzzy
-#| msgid "Context strings"
 msgid "Key/Context strings"
-msgstr "Izrazi konteksta"
+msgstr "Ključni izrazi"
 
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Comment strings"
@@ -7319,11 +7313,9 @@ msgstr "Broj komentara"
 #. Translators: Translation key for monolingual translations
 #: weblate/templates/snippets/query-field.html:53
 #: weblate/trans/models/component.py:2395 weblate/utils/views.py:94
-#, fuzzy
-#| msgid "Keys"
 msgctxt "Translation key"
 msgid "Key"
-msgstr "Ključevi"
+msgstr "Ključ"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7625,11 +7617,9 @@ msgstr ""
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
 msgstr ""
+"Postoji barem jedna snimka ekrana, koja nije dodijeljena niti jednom izrazu."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage screenshots"
 msgid "Manage screenshots"
 msgstr "Upravljaj snimkama ekrana"
 
@@ -7678,10 +7668,8 @@ msgid "Upload translations files"
 msgstr "Prenesi prevodilačke datoteke"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "Komentar za prijevod"
+msgstr "Prevedi dokument"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -7738,15 +7726,10 @@ msgstr ""
 "izraze za prijevod."
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded ZIP file containing "
-#| "strings for translation."
 msgid ""
 "Create a new translation component from an uploaded document for translation."
 msgstr ""
-"Stvori novu prevodilačku komponentu iz prenesene ZIP datoteke koja sadrži "
-"izraze za prijevod."
+"Stvori novu prevodilačku komponentu iz prenesenog dokumenta za prevođenje."
 
 #: weblate/templates/trans/component_create.html:116
 msgid "Create a new empty translation component to start from scratch."
@@ -7992,10 +7975,8 @@ msgid ""
 msgstr "Ovaj prijevod prihvaća samo prijedloge i oni se odobravaju glasanjem."
 
 #: weblate/templates/translate.html:221
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for editing template."
-msgstr "Nedovoljna prava za spremanje prijevoda."
+msgstr "Nedovoljna prava za uređivanje predloška."
 
 #: weblate/templates/translate.html:223 weblate/trans/views/edit.py:268
 #: weblate/trans/views/edit.py:289 weblate/trans/views/edit.py:308
@@ -8960,10 +8941,8 @@ msgid "ZIP file containing translations"
 msgstr "ZIP datoteka s prijevodima"
 
 #: weblate/trans/forms.py:1508
-#, fuzzy
-#| msgid "Percents translated"
 msgid "Document to translate"
-msgstr "Postotaka prevedeno"
+msgstr "Dokument za prevođenje"
 
 #: weblate/trans/forms.py:1531
 msgid ""
@@ -9174,10 +9153,8 @@ msgstr "Neispravan URL web-stranice projekta"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:288
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Unused screenshot"
-msgstr "Dodaj snimke ekrana"
+msgstr "Neupotrijebljena snimka ekrana"
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -9217,7 +9194,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:126
 msgid "Notify users"
-msgstr ""
+msgstr "Obavijesti korisnike"
 
 #: weblate/trans/models/announcement.py:141
 msgid "Do not specify both component and project!"
@@ -9585,11 +9562,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:278
 msgid "Push branch"
-msgstr ""
+msgstr "Prenesi granu"
 
 #: weblate/trans/models/component.py:281
 msgid "Branch for pushing changes, leave empty to use repository branch"
-msgstr ""
+msgstr "Grana u koju se prenose promjene, ostavi prazno za granu repozitorija"
 
 #: weblate/trans/models/component.py:291
 msgid ""
@@ -9746,7 +9723,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:446
 msgid "Commit message when translating"
-msgstr "Poruka izmjene za prijevode"
+msgstr "Poruka izmjene kad se prevodi"
 
 #: weblate/trans/models/component.py:448 weblate/trans/models/component.py:457
 #: weblate/trans/models/component.py:466 weblate/trans/models/component.py:475
@@ -9760,19 +9737,19 @@ msgstr ""
 
 #: weblate/trans/models/component.py:455
 msgid "Commit message when adding translation"
-msgstr "Poruka izmjene za dodavanje prijevoda"
+msgstr "Poruka izmjene kad se prijevod dodaje"
 
 #: weblate/trans/models/component.py:464
 msgid "Commit message when removing translation"
-msgstr "Poruka izmjene za uklanjanje prijevoda"
+msgstr "Poruka izmjene kad se prijevod uklanjanja"
 
 #: weblate/trans/models/component.py:473
 msgid "Commit message when merging translation"
-msgstr "Poruka izmjene za sjedinjavanje prijevoda"
+msgstr "Poruka izmjene kad se prijevod sjedinjuje"
 
 #: weblate/trans/models/component.py:482
 msgid "Commit message when addon makes a change"
-msgstr "Poruka izmjene za dodatak koji nešto mijenja"
+msgstr "Poruka izmjene kad dodatak nešto promijeni"
 
 #: weblate/trans/models/component.py:491
 msgid "Committer name"
@@ -9821,14 +9798,12 @@ msgid "Components with higher priority are offered first to translators."
 msgstr "Prevodiocima se najprije predlažu komponente s višim prioritetom."
 
 #: weblate/trans/models/component.py:545
-#, fuzzy
-#| msgid "Created component"
 msgid "Restricted component"
-msgstr "Stvorena komponenta"
+msgstr "Ograničena komponenta"
 
 #: weblate/trans/models/component.py:549
 msgid "Restrict access to the component only to explicitly given permissions."
-msgstr ""
+msgstr "Ograniči pristup komponenti samo na izričito odobrene dozvole."
 
 #: weblate/trans/models/component.py:975
 msgid ""
