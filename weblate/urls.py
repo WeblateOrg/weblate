@@ -949,6 +949,7 @@ real_patterns = [
         ),
         name="js-catalog",
     ),
+    url(r"^js/matomo/$", weblate.trans.views.js.matomo, name="js-matomo"),
     url(
         r"^js/mt-services/$", weblate.trans.views.js.mt_services, name="js-mt-services"
     ),

@@ -90,6 +90,9 @@ var _rollbarConfig = {
   <meta name="msapplication-TileColor" content="#144d3f">
   <meta name="msapplication-config" content="/browserconfig.xml">
   <link rel="manifest" href="/site.webmanifest">
+  {% if matomo_url %}
+  <link rel="preconnect" href="{{ matomo_url }}">
+  {% endif %}
   <meta name="theme-color" content="#144d3f">
 
   <meta name="robots" content="index, follow" />

@@ -18,23 +18,7 @@
 
 {% if matomo_site_id and matomo_url %}
 <!-- Matomo -->
-<script>
-  var _paq = window._paq || [];
-  _paq.push(['setCustomVariable', 1, 'Language', '{{ LANGUAGE_CODE }}', 'page']);
-  {% if project %}
-  _paq.push(['setCustomVariable', 2, 'Project', '{{ project.name }}', 'page']);
-  {% endif %}
-  _paq.push(['disableCookies']);
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="{{ matomo_url }}";
-    _paq.push(['setTrackerUrl', u+'matomo.php']);
-    _paq.push(['setSiteId', '{{ matomo_site_id }}']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
+<script src="{% url "js-matomo" %}" async defer id="matomo-tracker" data-params='{"Language": "{{ LANGUAGE_CODE|escapejs }}"{% if project %}, "Project": "{{ project.name|escapejs }}"{% endif %}}'></script>
 <noscript><img src="{{ matomo_url }}matomo.php?idsite={{ matomo_site_id }}&amp;rec=1" style="border:0" alt="" /></noscript>
 <!-- End Matomo Code -->
 {% endif %}

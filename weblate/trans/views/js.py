@@ -24,6 +24,7 @@ from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonRespo
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
+from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
@@ -253,4 +254,11 @@ def task_progress(request, task_id):
             "progress": get_task_progress(task),
             "result": str(result) if isinstance(result, Exception) else result,
         }
+    )
+
+
+@cache_control(max_age=3600)
+def matomo(request):
+    return render(
+        request, "js/matomo.js", content_type='text/javascript; charset="utf-8"'
     )
