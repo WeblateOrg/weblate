@@ -6687,6 +6687,7 @@ LANGUAGES = {
     "luče",
     "lwalu",
     "lyantonde",
+    "lybia",
     "lycian",
     "lydian",
     "lyngngam",
