@@ -6,6 +6,28 @@ WLT.Config = (function () {
     };
 })();
 
+WLT.Utils = (function () {
+    return {
+        getNumericKey: function (idx) {
+            return (idx + 1) % 10;
+        },
+
+        markFuzzy: function ($el) {
+            /* Standard worflow */
+            $el.find('input[name="fuzzy"]').prop('checked', true);
+            /* Review workflow */
+            $el.find('input[name="review"][value="10"]').prop('checked', true);
+        },
+
+        markTranslated: function ($el) {
+            /* Standard worflow */
+            $el.find('input[name="fuzzy"]').prop('checked', false);
+            /* Review workflow */
+            $el.find('input[name="review"][value="20"]').prop('checked', true);
+        },
+    }
+})();
+
 WLT.Editor = (function () {
     var machineTranslationLoaded = false;
     var translationMemoryLoaded = false;
@@ -13,24 +35,6 @@ WLT.Editor = (function () {
 
     var $window = $(window);
     var $document = $(document);
-
-    function getNumericKey(idx) {
-        return (idx + 1) % 10;
-    }
-
-    function markFuzzy(elm) {
-        /* Standard worflow */
-        elm.find('input[name="fuzzy"]').prop('checked', true);
-        /* Review workflow */
-        elm.find('input[name="review"][value="10"]').prop('checked', true);
-    }
-
-    function markTranslated(elm) {
-        /* Standard worflow */
-        elm.find('input[name="fuzzy"]').prop('checked', false);
-        /* Review workflow */
-        elm.find('input[name="review"][value="20"]').prop('checked', true);
-    }
 
     function EditorBase() {
         var translationAreaSelector =  '.translation-editor';
@@ -71,7 +75,7 @@ WLT.Editor = (function () {
                 $.parseJSON($this.data('content'))
             ).change();
             autosize.update($('.translation-editor'));
-            markFuzzy($this.closest('form'));
+            WLT.Utils.markFuzzy($this.closest('form'));
             $this.button('reset');
             e.preventDefault();
         });
@@ -138,7 +142,7 @@ WLT.Editor = (function () {
                 var $this = $(this);
 
                 if (idx < 10) {
-                    let key = getNumericKey(idx);
+                    let key = WLT.Utils.getNumericKey(idx);
 
                     var title;
                     if (WLT.Config.IS_MAC) {
@@ -176,7 +180,7 @@ WLT.Editor = (function () {
         if (e.key && e.key === 'Tab') {
             return;
         }
-        markTranslated($(this).closest('form'));
+        WLT.Utils.markTranslated($(this).closest('form'));
     }
 
     function processMachineTranslation(data, scope) {
@@ -261,14 +265,14 @@ WLT.Editor = (function () {
 
                 $('.translation-editor').val(text).change();
                 autosize.update($('.translation-editor'));
-                markFuzzy($('.translation-form'));
+                WLT.Utils.markFuzzy($('.translation-form'));
             });
             $('a.copymt-save').click(function () {
                 var text = $(this).parent().parent().find('.target').text();
 
                 $('.translation-editor').val(text).change();
                 autosize.update($('.translation-editor'));
-                markTranslated($('.translation-form'));
+                WLT.Utils.markTranslated($('.translation-form'));
                 submitForm({target:$('.translation-editor')});
             });
 
@@ -285,7 +289,7 @@ WLT.Editor = (function () {
 
             $machineTranslations.children('tr').each(function (idx) {
                 if (idx < 10) {
-                    var key = getNumericKey(idx);
+                    var key = WLT.Utils.getNumericKey(idx);
 
                     var title;
                     if (WLT.Config.IS_MAC) {
@@ -503,7 +507,7 @@ WLT.Editor = (function () {
         var $this = $(this);
 
         if (idx < 10) {
-            let key = getNumericKey(idx);
+            let key = WLT.Utils.getNumericKey(idx);
 
             var title;
             if (WLT.Config.IS_MAC) {
