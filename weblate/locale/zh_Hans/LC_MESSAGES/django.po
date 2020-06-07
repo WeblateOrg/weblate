@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-04 06:31+0000\n"
+"POT-Creation-Date: 2020-06-07 19:12+0000\n"
 "PO-Revision-Date: 2020-06-07 19:12+0000\n"
 "Last-Translator: Liu-Wen-Yuan <15816141883@163.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -556,7 +556,7 @@ msgstr "仓库操作"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:275
+#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr "解析错误"
 
@@ -567,7 +567,7 @@ msgstr "新字符串"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:315
+#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr "新贡献者"
 
@@ -587,7 +587,7 @@ msgid "Mentioned in comment"
 msgstr "在注释中提及"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:407
+#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:412
 #: weblate/trans/forms.py:943
 msgid "New comment"
 msgstr "新注释"
@@ -609,13 +609,13 @@ msgstr "新翻译组件"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
 msgid "New announcement"
 msgstr "新公告"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
 msgid "New alert"
 msgstr "新提醒"
 
@@ -716,7 +716,7 @@ msgid "Too many messages sent, please try again later!"
 msgstr "发送了太多信息，请稍后重试！"
 
 #: weblate/accounts/views.py:475 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:251
+#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:254
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "联系"
@@ -729,7 +729,7 @@ msgstr "托管"
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:198
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:201
 msgid "Sign in"
 msgstr "登录"
 
@@ -816,7 +816,7 @@ msgstr "通知更改链接不再有效，请登录以配置通知。"
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:63
-#: weblate/templates/translation.html:234 weblate/trans/models/change.py:237
+#: weblate/templates/translation.html:234 weblate/trans/models/change.py:239
 msgid "Automatic translation"
 msgstr "自动化翻译"
 
@@ -918,8 +918,8 @@ msgid ""
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"每当新的翻译字符串从版本控制系统（VCS）中导入时，它将在 Weblate "
-"中被标记为需要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
+"每当新的翻译字符串从版本控制系统（VCS）中导入时，它将在 Weblate 中被标记为需"
+"要编辑。这对于包含全部字符串的文件格式十分有用，即使它们没有被翻译。"
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:71
 #: weblate/templates/component.html:202 weblate/templates/project.html:105
@@ -1014,7 +1014,9 @@ msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
-msgstr "额外信息是看起来类似于 RFC 822 电子邮件标头，位于提交消息的其他自由格式部分的末尾，例如 “Co-authored-by:...”。"
+msgstr ""
+"额外信息是看起来类似于 RFC 822 电子邮件标头，位于提交消息的其他自由格式部分的"
+"末尾，例如 “Co-authored-by:...”。"
 
 #: weblate/addons/forms.py:163
 msgid ""
@@ -1184,7 +1186,9 @@ msgstr "更新 PO 文件以匹配 POT 文件 (msgmerge)"
 msgid ""
 "Updates all PO files to match the POT file using msgmerge. Triggered "
 "whenever new changes are pulled from the upstream repository."
-msgstr "使用 msgmerge 更新所有的 PO 文件以匹配 POT 文件。会在每次拉取上游代码库的更新时触发。"
+msgstr ""
+"使用 msgmerge 更新所有的 PO 文件以匹配 POT 文件。会在每次拉取上游代码库的更新"
+"时触发。"
 
 #: weblate/addons/gettext.py:283
 msgid "Customize gettext output"
@@ -1255,7 +1259,9 @@ msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
-msgstr "更新所有翻译文件以匹配上游单语种译文模版文件。未使用的字符串将被删除，新字符串将复制源字符串添加。"
+msgstr ""
+"更新所有翻译文件以匹配上游单语种译文模版文件。未使用的字符串将被删除，新字符"
+"串将复制源字符串添加。"
 
 #: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
@@ -1390,7 +1396,7 @@ msgid "Delete screenshot"
 msgstr "删除截图"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:74 weblate/templates/translate.html:683
+#: weblate/auth/data.py:74 weblate/templates/translate.html:701
 msgid "Edit additional string info"
 msgstr "编辑串额外信息"
 
@@ -1748,7 +1754,7 @@ msgstr "取自组件列表"
 
 #: weblate/auth/models.py:124 weblate/billing/admin.py:73
 #: weblate/billing/models.py:229 weblate/templates/accounts/user.html:38
-#: weblate/templates/base.html:127 weblate/templates/billing/status.html:66
+#: weblate/templates/base.html:130 weblate/templates/billing/status.html:66
 #: weblate/templates/language.html:18 weblate/templates/projects.html:5
 #: weblate/trans/models/project.py:151 weblate/trans/views/basic.py:79
 msgid "Projects"
@@ -1774,7 +1780,7 @@ msgstr "所有语言"
 #: weblate/auth/models.py:146 weblate/billing/models.py:264
 #: weblate/lang/models.py:451 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
-#: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:143
+#: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:146
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:7
@@ -1959,139 +1965,139 @@ msgstr "AngularJS 插值字符串"
 msgid "AngularJS interpolation strings do not match source"
 msgstr "AngularJS 插值字符串与源文不匹配"
 
-#: weblate/checks/chars.py:45
+#: weblate/checks/chars.py:46
 msgid "Starting newline"
 msgstr "换行开头"
 
-#: weblate/checks/chars.py:46
+#: weblate/checks/chars.py:47
 msgid "Source and translation do not both start with a newline"
 msgstr "源字符串与已翻译字符串没有都以换行开头"
 
-#: weblate/checks/chars.py:56
+#: weblate/checks/chars.py:57
 msgid "Trailing newline"
 msgstr "换行结尾"
 
-#: weblate/checks/chars.py:57
+#: weblate/checks/chars.py:58
 msgid "Source and translation do not both end with a newline"
 msgstr "源字符串与已翻译字符串没有都以换行结尾"
 
-#: weblate/checks/chars.py:67
+#: weblate/checks/chars.py:68
 msgid "Starting spaces"
 msgstr "空格开头"
 
-#: weblate/checks/chars.py:69
+#: weblate/checks/chars.py:70
 msgid "Source and translation do not both start with same number of spaces"
 msgstr "源字符串与已翻译字符串开头空格数量不同"
 
-#: weblate/checks/chars.py:106
+#: weblate/checks/chars.py:107
 msgid "Trailing space"
 msgstr "空格结尾"
 
-#: weblate/checks/chars.py:107
+#: weblate/checks/chars.py:108
 msgid "Source and translation do not both end with a space"
 msgstr "源字符串与已翻译字符串没有都以空格结尾"
 
-#: weblate/checks/chars.py:145
+#: weblate/checks/chars.py:146
 msgid "Double space"
 msgstr "双空格"
 
-#: weblate/checks/chars.py:146
+#: weblate/checks/chars.py:147
 msgid "Translation contains double space"
 msgstr "翻译包含双空格"
 
-#: weblate/checks/chars.py:167
+#: weblate/checks/chars.py:168
 msgid "Trailing stop"
 msgstr "句号结尾"
 
-#: weblate/checks/chars.py:168
+#: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "源字符串与已翻译字符串没有都以句号结尾"
 
-#: weblate/checks/chars.py:206
+#: weblate/checks/chars.py:207
 msgid "Trailing colon"
 msgstr "冒号结尾"
 
-#: weblate/checks/chars.py:207
+#: weblate/checks/chars.py:208
 msgid "Source and translation do not both end with a colon"
 msgstr "源字符串与已翻译字符串没有都以分号结尾"
 
-#: weblate/checks/chars.py:237
+#: weblate/checks/chars.py:238
 msgid "Trailing question mark"
 msgstr "问号结尾"
 
-#: weblate/checks/chars.py:238
+#: weblate/checks/chars.py:239
 msgid "Source and translation do not both end with a question mark"
 msgstr "源条目和已经翻译的条目不全都以问号结束"
 
-#: weblate/checks/chars.py:270
+#: weblate/checks/chars.py:271
 msgid "Trailing exclamation mark"
 msgstr "感叹号结尾"
 
-#: weblate/checks/chars.py:271
+#: weblate/checks/chars.py:272
 msgid "Source and translation do not both end with an exclamation mark"
 msgstr "源条目和已经翻译的条目不全都以感叹号结束"
 
-#: weblate/checks/chars.py:294 weblate/trans/autofixes/chars.py:31
+#: weblate/checks/chars.py:295 weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
 msgstr "省略号结尾"
 
-#: weblate/checks/chars.py:295
+#: weblate/checks/chars.py:296
 msgid "Source and translation do not both end with an ellipsis"
 msgstr "源字符串与已翻译字符串没有都以省略号结尾"
 
-#: weblate/checks/chars.py:313
+#: weblate/checks/chars.py:314
 msgid "Mismatched \\n"
 msgstr "\\n 数量"
 
-#: weblate/checks/chars.py:314
+#: weblate/checks/chars.py:315
 msgid "Number of \\n in translation does not match source"
 msgstr "译文中的 \\n 数量和原文不一致"
 
-#: weblate/checks/chars.py:322
+#: weblate/checks/chars.py:323
 msgid "Mismatching line breaks"
 msgstr "换行符不符"
 
-#: weblate/checks/chars.py:323
+#: weblate/checks/chars.py:324
 msgid "Number of new lines in translation does not match source"
 msgstr "译文中的换行数量和原文不一致"
 
-#: weblate/checks/chars.py:330 weblate/trans/autofixes/chars.py:43
+#: weblate/checks/chars.py:331 weblate/trans/autofixes/chars.py:43
 msgid "Zero-width space"
 msgstr "零宽空格"
 
-#: weblate/checks/chars.py:331
+#: weblate/checks/chars.py:332
 msgid "Translation contains extra zero-width space character"
 msgstr "译文中含有额外的零宽空格字符"
 
-#: weblate/checks/chars.py:348 weblate/checks/flags.py:58
+#: weblate/checks/chars.py:349 weblate/checks/flags.py:65
 msgid "Maximum length of translation"
 msgstr "译文最大长度"
 
-#: weblate/checks/chars.py:349
+#: weblate/checks/chars.py:350
 msgid "Translation should not exceed given length"
 msgstr "译文不应超过给定长度"
 
-#: weblate/checks/chars.py:361
+#: weblate/checks/chars.py:366
 msgid "Trailing semicolon"
 msgstr "分号结尾"
 
-#: weblate/checks/chars.py:362
+#: weblate/checks/chars.py:367
 msgid "Source and translation do not both end with a semicolon"
 msgstr "源字符串与已翻译字符串没有都以分号结尾"
 
-#: weblate/checks/chars.py:373
+#: weblate/checks/chars.py:378
 msgid "Kashida letter used"
 msgstr "已使用 Kashida 字符"
 
-#: weblate/checks/chars.py:374
+#: weblate/checks/chars.py:379
 msgid "The decorative kashida letters should not be used"
 msgstr "不应使用装饰性的kashida字母"
 
-#: weblate/checks/chars.py:385
+#: weblate/checks/chars.py:390
 msgid "Punctuation spacing"
 msgstr "标点间距"
 
-#: weblate/checks/chars.py:386
+#: weblate/checks/chars.py:391
 msgid "Missing non breakable space before double punctuation sign"
 msgstr "双引号前缺少不可换行的空格"
 
@@ -2137,80 +2143,87 @@ msgstr "连续重复的单词"
 msgid "Text contains the same word twice in a row:"
 msgstr "一行文本中包含同一单词两次："
 
-#: weblate/checks/flags.py:37
+#: weblate/checks/flags.py:44
 msgid "RST text"
 msgstr "RST 文本"
 
-#: weblate/checks/flags.py:38
+#: weblate/checks/flags.py:45
 msgid "Markdown text"
 msgstr "Markdown 文本"
 
-#: weblate/checks/flags.py:39
+#: weblate/checks/flags.py:46
 msgid "XML text"
 msgstr "XML 文本"
 
-#: weblate/checks/flags.py:40
+#: weblate/checks/flags.py:47
 msgid "DOS line endings"
 msgstr "DOS 行尾"
 
-#: weblate/checks/flags.py:41 weblate/checks/markup.py:302
+#: weblate/checks/flags.py:48 weblate/checks/markup.py:302
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
 #: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
 msgstr "URL"
 
-#: weblate/checks/flags.py:43
+#: weblate/checks/flags.py:50
 msgid "Automatically detect Java MessageFormat"
 msgstr "自动识别 Java MessageFormat"
 
-#: weblate/checks/flags.py:45
+#: weblate/checks/flags.py:52
 #: weblate/templates/snippets/unit-readonly-badge.html:6
+#: weblate/templates/translate.html:219
 msgid "Read only"
 msgstr "只读"
 
-#: weblate/checks/flags.py:46
+#: weblate/checks/flags.py:53
 msgid "Strict unchanged check"
 msgstr "严格的未变更检查"
 
-#: weblate/checks/flags.py:48 weblate/fonts/models.py:39
+#: weblate/checks/flags.py:55 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
 #: weblate/templates/fonts/font_list.html:73
 msgid "Font family"
 msgstr "字体系列"
 
-#: weblate/checks/flags.py:50
+#: weblate/checks/flags.py:57
 msgid "Font size"
 msgstr "字体大小"
 
-#: weblate/checks/flags.py:52
+#: weblate/checks/flags.py:59
 msgid "Font weight"
 msgstr "字体粗细"
 
-#: weblate/checks/flags.py:54
+#: weblate/checks/flags.py:61
 msgid "Font spacing"
 msgstr "字体间距"
 
-#: weblate/checks/flags.py:56 weblate/templates/snippets/query-field.html:47
-#: weblate/trans/models/component.py:539 weblate/utils/views.py:87
+#: weblate/checks/flags.py:63 weblate/templates/snippets/query-field.html:47
+#: weblate/trans/models/component.py:539 weblate/utils/views.py:88
 msgid "Priority"
 msgstr "优先权"
 
-#: weblate/checks/flags.py:158
+#: weblate/checks/flags.py:67
+#, fuzzy
+#| msgid "Replacement string"
+msgid "Replacements while rendering"
+msgstr "替换字符串"
+
+#: weblate/checks/flags.py:227
 #, python-format
 msgid "Invalid translation flag: \"%s\""
 msgstr "无效的翻译标记：“%s”"
 
-#: weblate/checks/flags.py:162
+#: weblate/checks/flags.py:231
 #, python-format
 msgid "Translation flag has no parameters: \"%s\""
 msgstr "翻译标志没有参数：\"%s\""
 
-#: weblate/checks/flags.py:168
+#: weblate/checks/flags.py:237
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "错误的翻译标记：“%s”"
 
-#: weblate/checks/flags.py:172
+#: weblate/checks/flags.py:241
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "缺少的翻译标记：“%s”"
@@ -2382,20 +2395,20 @@ msgstr "不安全的 HTML 网站"
 msgid "The translation uses unsafe HTML markup"
 msgstr "这条翻译使用了不安全的 HTML 标记"
 
-#: weblate/checks/placeholders.py:43
+#: weblate/checks/placeholders.py:38
 msgid "Placeholders"
 msgstr "占位符"
 
-#: weblate/checks/placeholders.py:44
+#: weblate/checks/placeholders.py:39
 msgid "Translation is missing some placeholders:"
 msgstr "翻译缺少一些占位符："
 
-#: weblate/checks/placeholders.py:79
+#: weblate/checks/placeholders.py:77
 #: weblate/templates/addons/discovery_help.html:8
 msgid "Regular expression"
 msgstr "正则表达式"
 
-#: weblate/checks/placeholders.py:80
+#: weblate/checks/placeholders.py:78
 msgid "Translation does not match regular expression:"
 msgstr "翻译与正则表达式不匹配："
 
@@ -2415,11 +2428,11 @@ msgstr "Qt 复数格式"
 msgid "Qt plural format string does not match source"
 msgstr "Qt 复数格式的字符串与原文不匹配"
 
-#: weblate/checks/render.py:53
+#: weblate/checks/render.py:45
 msgid "Maximum size of translation"
 msgstr "最大翻译大小"
 
-#: weblate/checks/render.py:54
+#: weblate/checks/render.py:46
 msgid "Translation rendered text should not exceed given size"
 msgstr "译文不应超过给定长度"
 
@@ -2609,143 +2622,143 @@ msgstr "CSV"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:864
+#: weblate/formats/ttkit.py:870
 msgid "gettext PO file"
 msgstr "gettext PO 文件"
 
-#: weblate/formats/ttkit.py:877
+#: weblate/formats/ttkit.py:883
 msgid "gettext PO file (monolingual)"
 msgstr "Gettext PO 文件（单语种）"
 
-#: weblate/formats/ttkit.py:892
+#: weblate/formats/ttkit.py:898
 msgid "Qt Linguist translation file"
 msgstr "Qt Linguist 翻译文件"
 
-#: weblate/formats/ttkit.py:908
+#: weblate/formats/ttkit.py:914
 msgid "XLIFF translation file"
 msgstr "XLIFF 翻译文件"
 
-#: weblate/formats/ttkit.py:923
+#: weblate/formats/ttkit.py:929
 msgid "XLIFF translation file with PO extensions"
 msgstr "XLIFF 翻译文件（PO 扩展名）"
 
-#: weblate/formats/ttkit.py:950
+#: weblate/formats/ttkit.py:956
 msgid "iOS strings"
 msgstr "iOS 字符串"
 
-#: weblate/formats/ttkit.py:959
+#: weblate/formats/ttkit.py:965
 msgid "iOS strings (UTF-8)"
 msgstr "iOS 字符串 (UTF-8)"
 
-#: weblate/formats/ttkit.py:966
+#: weblate/formats/ttkit.py:972
 msgid "Java Properties (UTF-8)"
 msgstr "Java 属性 (UTF-8)"
 
-#: weblate/formats/ttkit.py:974
+#: weblate/formats/ttkit.py:980
 msgid "Java Properties (UTF-16)"
 msgstr "Java 属性 (UTF-16)"
 
-#: weblate/formats/ttkit.py:989
+#: weblate/formats/ttkit.py:995
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Java 属性 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1006
+#: weblate/formats/ttkit.py:1012
 msgid "Joomla Language File"
 msgstr "Joomla 语言文件"
 
-#: weblate/formats/ttkit.py:1015
+#: weblate/formats/ttkit.py:1021
 msgid "GWT Properties"
 msgstr "GWT 属性"
 
-#: weblate/formats/ttkit.py:1022
+#: weblate/formats/ttkit.py:1028
 msgid "PHP strings"
 msgstr "PHP 字符串"
 
-#: weblate/formats/ttkit.py:1041
+#: weblate/formats/ttkit.py:1047
 msgid "Laravel PHP strings"
 msgstr "Laravel PHP 字符串"
 
-#: weblate/formats/ttkit.py:1047
+#: weblate/formats/ttkit.py:1053
 msgid ".NET resource file"
 msgstr ".NET 资源文件"
 
-#: weblate/formats/ttkit.py:1057
+#: weblate/formats/ttkit.py:1063
 msgid "Android String Resource"
 msgstr "Android 字符串资源"
 
-#: weblate/formats/ttkit.py:1068
+#: weblate/formats/ttkit.py:1074
 msgid "JSON file"
 msgstr "JSON文件"
 
-#: weblate/formats/ttkit.py:1087
+#: weblate/formats/ttkit.py:1093
 msgid "JSON nested structure file"
 msgstr "JSON 嵌套结构文件"
 
-#: weblate/formats/ttkit.py:1094
+#: weblate/formats/ttkit.py:1100
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 文件"
 
-#: weblate/formats/ttkit.py:1103
+#: weblate/formats/ttkit.py:1109
 msgid "i18next JSON file"
 msgstr "i18next JSON 文件"
 
-#: weblate/formats/ttkit.py:1111
+#: weblate/formats/ttkit.py:1117
 msgid "go-i18n JSON file"
 msgstr "go-i18n JSON 文件"
 
-#: weblate/formats/ttkit.py:1118
+#: weblate/formats/ttkit.py:1124
 msgid "ARB file"
 msgstr "ARB 文件"
 
-#: weblate/formats/ttkit.py:1126
+#: weblate/formats/ttkit.py:1132
 msgid "CSV file"
 msgstr "CSV 文件"
 
-#: weblate/formats/ttkit.py:1202
+#: weblate/formats/ttkit.py:1208
 msgid "Simple CSV file"
 msgstr "简单 CSV 文件"
 
-#: weblate/formats/ttkit.py:1223
+#: weblate/formats/ttkit.py:1229
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "简单 CSV 文件 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1230
+#: weblate/formats/ttkit.py:1236
 msgid "YAML file"
 msgstr "YAML 文件"
 
-#: weblate/formats/ttkit.py:1249
+#: weblate/formats/ttkit.py:1255
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 文件"
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1262
 msgid "DTD file"
 msgstr "DTD 文件"
 
-#: weblate/formats/ttkit.py:1297
+#: weblate/formats/ttkit.py:1303
 msgid "SubRip subtitle file"
 msgstr "SubRip字幕文件"
 
-#: weblate/formats/ttkit.py:1311
+#: weblate/formats/ttkit.py:1317
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD字幕文件"
 
-#: weblate/formats/ttkit.py:1318
+#: weblate/formats/ttkit.py:1324
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "高级SubStation Alpha字幕文件"
 
-#: weblate/formats/ttkit.py:1325
+#: weblate/formats/ttkit.py:1331
 msgid "SubStation Alpha subtitle file"
 msgstr "SubStation Alpha字幕文件"
 
-#: weblate/formats/ttkit.py:1332
+#: weblate/formats/ttkit.py:1338
 msgid "Flat XML file"
 msgstr "Flat XML 文件"
 
-#: weblate/formats/ttkit.py:1341
+#: weblate/formats/ttkit.py:1347
 msgid "INI file"
 msgstr "INI 文件"
 
-#: weblate/formats/ttkit.py:1376
+#: weblate/formats/ttkit.py:1382
 msgid "InnoSetup INI file"
 msgstr "InnoSetup INI 文件"
 
@@ -3187,18 +3200,18 @@ msgstr "条目已删除。"
 msgid "File processed, the entries will appear shortly."
 msgstr "文件已被处理，条目将很快出现。"
 
-#: weblate/screenshots/models.py:49
-#: weblate/templates/screenshots/screenshot_list.html:35
+#: weblate/screenshots/models.py:53
+#: weblate/templates/screenshots/screenshot_list.html:37
 msgid "Screenshot name"
 msgstr "截图名称"
 
-#: weblate/screenshots/models.py:51
+#: weblate/screenshots/models.py:55
 #: weblate/templates/screenshots/screenshot_detail.html:87
-#: weblate/templates/screenshots/screenshot_list.html:36
+#: weblate/templates/screenshots/screenshot_list.html:38
 msgid "Image"
 msgstr "图片"
 
-#: weblate/screenshots/models.py:52
+#: weblate/screenshots/models.py:56
 msgid "Upload JPEG or PNG images up to 2000x2000 pixels."
 msgstr "上传 JPEG 或 PNG 图像，最高 2000x2000 像素。"
 
@@ -3238,12 +3251,12 @@ msgid "Insufficient privileges to display this page."
 msgstr "没有足够的权限以显示此页。"
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:125 weblate/templates/base.html:269
+#: weblate/templates/base.html:128 weblate/templates/base.html:272
 msgid "Dashboard"
 msgstr "控制面板"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
-#: weblate/templates/base.html:139
+#: weblate/templates/base.html:142
 msgid "Browse all projects"
 msgstr "浏览所有项目变更"
 
@@ -3320,7 +3333,7 @@ msgstr "如果您需要帮助，您可以在汇报错误时引用此错误代码
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:252 weblate/templates/footer.html:6
+#: weblate/templates/base.html:255 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "关于 Weblate"
@@ -3361,7 +3374,7 @@ msgid "View hosting plans"
 msgstr "查看托管套餐"
 
 #: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:210
+#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:213
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3469,8 +3482,8 @@ msgstr "略过的检查"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:219
-#: weblate/templates/base.html:222 weblate/templates/billing/overview.html:5
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:222
+#: weblate/templates/base.html:225 weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "您的个人资料"
 
@@ -3584,7 +3597,7 @@ msgstr ""
 "许可协议授权。"
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:196
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:199
 #: weblate/templates/engage.html:58
 msgid "Register"
 msgstr "注册"
@@ -3695,7 +3708,7 @@ msgstr "通知"
 msgid "Account"
 msgstr "账户"
 
-#: weblate/templates/accounts/profile.html:28 weblate/templates/base.html:231
+#: weblate/templates/accounts/profile.html:28 weblate/templates/base.html:234
 msgid "Profile"
 msgstr "用户资料"
 
@@ -3739,8 +3752,8 @@ msgstr "向要翻译的项目发送请求来添加缺失的语言。"
 #: weblate/templates/screenshots/screenshot_detail.html:104
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
-#: weblate/templates/translate.html:221 weblate/templates/translate.html:413
-#: weblate/templates/translate.html:547 weblate/templates/translate.html:689
+#: weblate/templates/translate.html:226 weblate/templates/translate.html:418
+#: weblate/templates/translate.html:565 weblate/templates/translate.html:707
 msgid "Save"
 msgstr "保存"
 
@@ -4134,7 +4147,7 @@ msgstr "带有首字母大写的组件文件名"
 #: weblate/templates/dashboard/user.html:73
 #: weblate/templates/dashboard/user.html:82
 #: weblate/templates/language-project.html:51 weblate/templates/project.html:34
-#: weblate/templates/translate.html:298 weblate/templates/translation.html:185
+#: weblate/templates/translate.html:303 weblate/templates/translation.html:185
 #: weblate/trans/forms.py:1400 weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:561
 msgid "Component"
@@ -4204,48 +4217,48 @@ msgstr ""
 "原始提交消息会保留，但是除非选择“每位作者”或自定义提交消息以包括它，否则作者"
 "身份将丢失。"
 
-#: weblate/templates/base.html:114
+#: weblate/templates/base.html:117
 msgid "Toggle navigation"
 msgstr "导航栏开关"
 
-#: weblate/templates/base.html:136
+#: weblate/templates/base.html:139
 msgid "Manage watched projects"
 msgstr "管理已关注项目"
 
-#: weblate/templates/base.html:154
+#: weblate/templates/base.html:157
 msgid "Manage translated languages"
 msgstr "管理已翻译的语言"
 
-#: weblate/templates/base.html:157
+#: weblate/templates/base.html:160
 msgid "Browse all languages"
 msgstr "查看所有语言"
 
-#: weblate/templates/base.html:161 weblate/templates/check.html:7
+#: weblate/templates/base.html:164 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:19
 msgid "Checks"
 msgstr "检查"
 
-#: weblate/templates/base.html:165
+#: weblate/templates/base.html:168
 #, python-format
 msgid "Failed checks in %(project)s"
 msgstr "检查 %(project)s 失败"
 
-#: weblate/templates/base.html:169
+#: weblate/templates/base.html:172
 msgid "Checks overview"
 msgstr "检查小结"
 
-#: weblate/templates/base.html:178 weblate/templates/base.html:180
+#: weblate/templates/base.html:181 weblate/templates/base.html:183
 msgid "Administration"
 msgstr "管理"
 
-#: weblate/templates/base.html:185 weblate/templates/base.html:187
+#: weblate/templates/base.html:188 weblate/templates/base.html:190
 #: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "配置错误"
 
-#: weblate/templates/base.html:204 weblate/templates/component.html:237
+#: weblate/templates/base.html:207 weblate/templates/component.html:237
 #: weblate/templates/dictionary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:134
@@ -4264,53 +4277,53 @@ msgstr "配置错误"
 msgid "Add"
 msgstr "添加"
 
-#: weblate/templates/base.html:206 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:209 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "添加新翻译项目"
 
-#: weblate/templates/base.html:207 weblate/templates/project.html:40
+#: weblate/templates/base.html:210 weblate/templates/project.html:40
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "添加新翻译组件"
 
-#: weblate/templates/base.html:233
+#: weblate/templates/base.html:236
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "账单概览"
 
-#: weblate/templates/base.html:235 weblate/templates/component.html:95
+#: weblate/templates/base.html:238 weblate/templates/component.html:95
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
 #: weblate/templates/snippets/project-nav.html:104
-#: weblate/templates/translate.html:259 weblate/templates/translate.html:370
+#: weblate/templates/translate.html:264 weblate/templates/translate.html:375
 #: weblate/wladmin/templates/admin/weblate-index.html:43
 #: weblate/wladmin/views.py:54
 msgid "Translation memory"
 msgstr "翻译记忆库"
 
-#: weblate/templates/base.html:236 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:239 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/snippets/project-nav.html:118
 msgid "Settings"
 msgstr "设置"
 
-#: weblate/templates/base.html:238 weblate/wladmin/sites.py:193
+#: weblate/templates/base.html:241 weblate/wladmin/sites.py:193
 msgid "Sign out"
 msgstr "登出"
 
-#: weblate/templates/base.html:245 weblate/templates/base.html:247
+#: weblate/templates/base.html:248 weblate/templates/base.html:250
 msgid "Help"
 msgstr "帮助"
 
-#: weblate/templates/base.html:250
+#: weblate/templates/base.html:253
 msgid "Support"
 msgstr "支持"
 
-#: weblate/templates/base.html:254 weblate/templates/check.html:50
+#: weblate/templates/base.html:257 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -4325,27 +4338,27 @@ msgstr "支持"
 msgid "Documentation"
 msgstr "文档"
 
-#: weblate/templates/base.html:255
+#: weblate/templates/base.html:258
 msgid "Contribute to Weblate"
 msgstr "为 Weblate 做出贡献"
 
-#: weblate/templates/base.html:304 weblate/templates/base.html:312
+#: weblate/templates/base.html:307 weblate/templates/base.html:315
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
-#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:540
-#: weblate/templates/translate.html:682
+#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:558
+#: weblate/templates/translate.html:700
 msgid "Close"
 msgstr "关闭"
 
-#: weblate/templates/base.html:311 weblate/templates/dictionary.html:67
+#: weblate/templates/base.html:314 weblate/templates/dictionary.html:67
 #: weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/language.html:34
 #: weblate/templates/language.html:55 weblate/templates/language.html:69
 #: weblate/templates/project-labels.html:27 weblate/templates/replace.html:40
-#: weblate/templates/screenshots/screenshot_list.html:51
+#: weblate/templates/screenshots/screenshot_list.html:60
 msgid "Edit"
 msgstr "编辑"
 
@@ -4560,8 +4573,8 @@ msgstr "检查的详细信息"
 #: weblate/templates/mail/changed_translation.html:9
 #: weblate/templates/mail/pending_suggestions.html:8
 #: weblate/templates/mail/todo_strings.html:8
-#: weblate/templates/translate.html:113 weblate/templates/translate.html:298
-#: weblate/templates/translate.html:350 weblate/templates/translate.html:378
+#: weblate/templates/translate.html:113 weblate/templates/translate.html:303
+#: weblate/templates/translate.html:355 weblate/templates/translate.html:383
 #: weblate/trans/forms.py:865 weblate/trans/forms.py:1268
 msgid "Translation"
 msgstr "翻译"
@@ -4664,7 +4677,7 @@ msgstr "提醒"
 #: weblate/templates/snippets/search-form.html:16
 #: weblate/templates/trans/change_list.html:55
 #: weblate/templates/trans/change_list.html:60
-#: weblate/templates/translate.html:373 weblate/templates/translation.html:36
+#: weblate/templates/translate.html:378 weblate/templates/translation.html:36
 #: weblate/trans/forms.py:857
 msgid "Search"
 msgstr "搜索"
@@ -4690,7 +4703,7 @@ msgstr "洞察"
 #: weblate/templates/language.html:20
 #: weblate/templates/snippets/project-nav.html:29
 #: weblate/templates/snippets/project-nav.html:40
-#: weblate/templates/translate.html:262 weblate/templates/translation.html:43
+#: weblate/templates/translate.html:267 weblate/templates/translation.html:43
 msgid "History"
 msgstr "历史"
 
@@ -4745,7 +4758,7 @@ msgstr "工具"
 #: weblate/templates/snippets/project-nav.html:68
 #: weblate/templates/snippets/project-nav.html:77
 #: weblate/templates/translation.html:66 weblate/templates/translation.html:255
-#: weblate/trans/models/change.py:281
+#: weblate/trans/models/change.py:283
 msgid "Search and replace"
 msgstr "搜索并替换"
 
@@ -4793,7 +4806,7 @@ msgstr "代码库维护"
 
 #: weblate/templates/component.html:94
 #: weblate/templates/screenshots/screenshot_detail.html:11
-#: weblate/templates/screenshots/screenshot_list.html:9
+#: weblate/templates/screenshots/screenshot_list.html:11
 msgid "Screenshots"
 msgstr "截图"
 
@@ -4890,7 +4903,7 @@ msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。
 msgid "Apply"
 msgstr "应用"
 
-#: weblate/templates/component.html:218 weblate/templates/translate.html:342
+#: weblate/templates/component.html:218 weblate/templates/translate.html:347
 msgid "Browse all component changes"
 msgstr "查看所有组件变更"
 
@@ -4929,7 +4942,7 @@ msgid "Move"
 msgstr "移动"
 
 #: weblate/templates/component.html:288 weblate/templates/project.html:169
-#: weblate/templates/translate.html:336 weblate/templates/translation.html:371
+#: weblate/templates/translate.html:341 weblate/templates/translation.html:371
 msgid "Loading…"
 msgstr "正在加载…"
 
@@ -5036,8 +5049,8 @@ msgstr "贡献者协议"
 #: weblate/templates/mail/pending_suggestions.html:15
 #: weblate/templates/mail/todo_strings.html:15
 #: weblate/templates/screenshots/screenshot_sources_body.html:13
-#: weblate/templates/translate.html:443 weblate/templates/translate.html:487
-#: weblate/templates/translate.html:501
+#: weblate/templates/translate.html:448 weblate/templates/translate.html:505
+#: weblate/templates/translate.html:519
 msgid "View"
 msgstr "查看"
 
@@ -5208,7 +5221,7 @@ msgstr "单词"
 
 #: weblate/templates/dictionary.html:10
 #: weblate/templates/language-project.html:19
-#: weblate/templates/translate.html:515 weblate/templates/translation.html:37
+#: weblate/templates/translate.html:533 weblate/templates/translation.html:37
 msgid "Glossary"
 msgstr "词汇表"
 
@@ -5247,7 +5260,7 @@ msgstr "TermBase eXchange (TBX)"
 
 #: weblate/templates/dictionary.html:54 weblate/templates/matrix.html:18
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/templates/translate.html:351 weblate/templates/translate.html:379
+#: weblate/templates/translate.html:356 weblate/templates/translate.html:384
 #: weblate/trans/forms.py:864
 msgid "Source"
 msgstr "源字符串"
@@ -5264,7 +5277,7 @@ msgstr "源字符串"
 #: weblate/templates/memory/index.html:119
 #: weblate/templates/project-labels.html:28
 #: weblate/templates/screenshots/screenshot_detail.html:129
-#: weblate/templates/screenshots/screenshot_list.html:58
+#: weblate/templates/screenshots/screenshot_list.html:67
 #: weblate/templates/snippets/suggestions.html:41
 msgid "Delete"
 msgstr "删除"
@@ -5430,7 +5443,7 @@ msgstr "添加字体"
 
 #: weblate/templates/fonts/font_list.html:97
 #: weblate/templates/memory/index.html:165
-#: weblate/templates/screenshots/screenshot_list.html:26
+#: weblate/templates/screenshots/screenshot_list.html:28
 #: weblate/templates/translation.html:324
 #: weblate/templates/translation.html:335
 msgid "Upload"
@@ -5658,7 +5671,7 @@ msgid "Rebase local changes onto the remote repository"
 msgstr "将本地变更变基至远程代码库"
 
 #: weblate/templates/js/git-status.html:136
-#: weblate/templates/translate.html:472
+#: weblate/templates/translate.html:477
 msgid "Reset"
 msgstr "重设"
 
@@ -5752,8 +5765,7 @@ msgstr "已解决的评论"
 
 #: weblate/templates/list-comments.html:15
 #: weblate/templates/mail/snippets/source-string.html:14
-#: weblate/templates/translate.html:154 weblate/templates/translate.html:170
-#: weblate/templates/translate.html:602
+#: weblate/templates/translate.html:162 weblate/templates/translate.html:620
 msgid "Source string comment"
 msgstr "源字符串注释"
 
@@ -6091,16 +6103,6 @@ msgstr "确认帐户删除"
 msgid "Confirm registration"
 msgstr "确认注册"
 
-#: weblate/templates/mail/snippets/source-string.html:4
-#: weblate/templates/screenshots/screenshot_detail.html:28
-#: weblate/templates/screenshots/screenshot_detail.html:55
-#: weblate/templates/snippets/embed-units.html:7
-#: weblate/templates/snippets/query-field.html:53
-#: weblate/templates/translate.html:147 weblate/templates/translate.html:594
-#: weblate/utils/views.py:93
-msgid "Context"
-msgstr "上下文"
-
 #: weblate/templates/mail/snippets/source-string.html:9
 #: weblate/templates/screenshots/screenshot_detail.html:27
 #: weblate/templates/screenshots/screenshot_detail.html:54
@@ -6109,7 +6111,7 @@ msgid "Source string"
 msgstr "源字符串"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
-#: weblate/templates/translate.html:568
+#: weblate/templates/translate.html:586
 msgid "Screenshot context"
 msgstr "截图上下文"
 
@@ -6267,7 +6269,7 @@ msgid "Last occurrence"
 msgstr "上次出现"
 
 #: weblate/templates/manage/performance.html:42
-#: weblate/templates/translate.html:467
+#: weblate/templates/translate.html:472
 msgid "Dismiss"
 msgstr "消除"
 
@@ -6558,8 +6560,8 @@ msgstr "需要编辑"
 #: weblate/templates/project-labels.html:9
 #: weblate/templates/snippets/project-nav.html:117
 #: weblate/templates/snippets/query-field.html:48
-#: weblate/templates/translate.html:611 weblate/trans/models/unit.py:257
-#: weblate/utils/views.py:88
+#: weblate/templates/translate.html:629 weblate/trans/models/unit.py:257
+#: weblate/utils/views.py:89
 msgid "Labels"
 msgstr "标签"
 
@@ -6718,15 +6720,21 @@ msgstr "截图详情"
 msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "删除截图将从关联的源字符串处移除它。"
 
-#: weblate/templates/screenshots/screenshot_list.html:21
+#: weblate/templates/screenshots/screenshot_list.html:23
 msgid "Add new screenshot"
 msgstr "添加新截图"
 
-#: weblate/templates/screenshots/screenshot_list.html:37
+#: weblate/templates/screenshots/screenshot_list.html:39
 #: weblate/templates/translation.html:133
 #: weblate/templates/translation.html:393
 msgid "Strings"
 msgstr "字符串"
+
+#: weblate/templates/screenshots/screenshot_list.html:54
+#, fuzzy
+#| msgid "Search in target strings"
+msgid "There are no assigned strings."
+msgstr "搜索目标字符串"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
 msgid "No source strings are currently assigned!"
@@ -6751,6 +6759,7 @@ msgid "View contributor agreement"
 msgstr "查看贡献者协议"
 
 #: weblate/templates/show-contributor-agreement.html:8
+#: weblate/templates/translate.html:217
 msgid ""
 "Contribution to this translation requires you to agree with a contributor "
 "agreement."
@@ -6844,14 +6853,14 @@ msgstr "未翻译的词"
 
 #: weblate/templates/snippets/list-objects.html:20
 #: weblate/templates/trans/suggestion_list.html:7
-#: weblate/templates/translate.html:247 weblate/templates/translate.html:439
+#: weblate/templates/translate.html:252 weblate/templates/translate.html:444
 #: weblate/trans/forms.py:1270
 msgid "Suggestions"
 msgstr "建议"
 
 #: weblate/templates/snippets/list-objects.html:21
-#: weblate/templates/translate.html:253 weblate/templates/translate.html:483
-#: weblate/templates/translate.html:644
+#: weblate/templates/translate.html:258 weblate/templates/translate.html:501
+#: weblate/templates/translate.html:662
 msgid "Comments"
 msgstr "注释"
 
@@ -6911,7 +6920,9 @@ msgid "Target strings"
 msgstr "目标字符串"
 
 #: weblate/templates/snippets/query-builder.html:16
-msgid "Context strings"
+#, fuzzy
+#| msgid "Context strings"
+msgid "Key/Context strings"
 msgstr "字符串上下文"
 
 #: weblate/templates/snippets/query-builder.html:17
@@ -7030,30 +7041,39 @@ msgstr "查询"
 msgid "Sort By"
 msgstr "排序方式"
 
-#: weblate/templates/snippets/query-field.html:45 weblate/utils/views.py:94
-#: weblate/utils/views.py:97
+#: weblate/templates/snippets/query-field.html:45 weblate/utils/views.py:95
+#: weblate/utils/views.py:98
 msgid "Position and priority"
 msgstr "位置和优先级"
 
-#: weblate/templates/snippets/query-field.html:46 weblate/utils/views.py:86
+#: weblate/templates/snippets/query-field.html:46 weblate/utils/views.py:87
 msgid "Position"
 msgstr "位置"
 
-#: weblate/templates/snippets/query-field.html:49 weblate/utils/views.py:89
+#: weblate/templates/snippets/query-field.html:49 weblate/utils/views.py:90
 msgid "Age of string"
 msgstr "字符串的存在时间"
 
-#: weblate/templates/snippets/query-field.html:51 weblate/utils/views.py:92
+#: weblate/templates/snippets/query-field.html:51 weblate/utils/views.py:93
 msgid "Number of failing checks"
 msgstr "失败的检查数量"
 
-#: weblate/templates/snippets/query-field.html:52 weblate/utils/views.py:91
+#: weblate/templates/snippets/query-field.html:52 weblate/utils/views.py:92
 msgid "Number of comments"
 msgstr "组件数量"
 
+#. Translators: Translation key for monolingual translations
+#: weblate/templates/snippets/query-field.html:53
+#: weblate/trans/models/component.py:2395 weblate/utils/views.py:94
+#, fuzzy
+#| msgid "Keys"
+msgctxt "Translation key"
+msgid "Key"
+msgstr "密钥信息"
+
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
-#: weblate/trans/models/change.py:235
+#: weblate/trans/models/change.py:237
 msgid "Suggestion added"
 msgstr "已提出建议"
 
@@ -7237,7 +7257,9 @@ msgstr "如果不需要源语言的翻译文件，请从存储库中将其删除
 msgid ""
 "In case the translation file for the source language is needed, but shoud be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr "如果需要源语言的翻译文件，但 Weblate 应该忽略该文件，请调整语言过滤器以将其排除。"
+msgstr ""
+"如果需要源语言的翻译文件，但 Weblate 应该忽略该文件，请调整语言过滤器以将其排"
+"除。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
@@ -7318,6 +7340,14 @@ msgid ""
 "This can happen after turning off support for these features, or when "
 "dependencies are missing."
 msgstr "在关闭对这些功能的支持或缺少依赖项时，可能会发生这种情况。"
+
+#: weblate/templates/trans/alert/unusedscreenshot.html:2
+msgid "There is at least one screenshot which is not assigned to any strings."
+msgstr ""
+
+#: weblate/templates/trans/alert/unusedscreenshot.html:4
+msgid "Manage screenshots"
+msgstr "管理截图"
 
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
@@ -7603,223 +7633,225 @@ msgstr "编辑字符串"
 msgid "Source change"
 msgstr "源变化"
 
-#: weblate/templates/translate.html:162
+#: weblate/templates/translate.html:154
 msgid "Intermediate language"
 msgstr "中间语言"
 
-#: weblate/templates/translate.html:178 weblate/templates/translate.html:582
+#: weblate/templates/translate.html:170 weblate/templates/translate.html:600
 #: weblate/trans/models/unit.py:242
 msgid "Explanation"
 msgstr "解释"
 
-#: weblate/templates/translate.html:188 weblate/templates/zen-units.html:20
-msgid "Context:"
-msgstr "上下文："
-
-#: weblate/templates/translate.html:193 weblate/templates/zen-units.html:76
+#: weblate/templates/translate.html:192 weblate/templates/zen-units.html:76
 msgid "Edit source string"
 msgstr "编辑源字符串"
 
-#: weblate/templates/translate.html:195 weblate/trans/forms.py:930
+#: weblate/templates/translate.html:194 weblate/trans/forms.py:930
 msgid "Report issue with the source string"
 msgstr "报告源字符串问题"
 
-#: weblate/templates/translate.html:210
+#: weblate/templates/translate.html:209 weblate/templates/translate.html:234
+msgid "This translation is currently locked."
+msgstr "该翻译当前被锁定。"
+
+#: weblate/templates/translate.html:211
 msgid "Please sign in to save translations."
 msgstr "请登录以保存翻译。"
 
-#: weblate/templates/translate.html:212
+#: weblate/templates/translate.html:213
 msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
 "仅复查者可以更改已批准字符串，如果您认为该字符串应该修改的话请添加建议。"
 
-#: weblate/templates/translate.html:214
+#: weblate/templates/translate.html:215
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr "这个翻译只接受建议并最终由投票决定。"
 
-#: weblate/templates/translate.html:216 weblate/trans/views/edit.py:268
+#: weblate/templates/translate.html:221
+#, fuzzy
+#| msgid "Insufficient privileges for saving translations."
+msgid "Insufficient privileges for editing template."
+msgstr "保存翻译的权限不足。"
+
+#: weblate/templates/translate.html:223 weblate/trans/views/edit.py:268
 #: weblate/trans/views/edit.py:289 weblate/trans/views/edit.py:308
-#: weblate/trans/views/edit.py:755
+#: weblate/trans/views/edit.py:756
 msgid "Insufficient privileges for saving translations."
 msgstr "保存翻译的权限不足。"
 
-#: weblate/templates/translate.html:219 weblate/templates/translate.html:229
-msgid "This translation is currently locked."
-msgstr "该翻译当前被锁定。"
-
-#: weblate/templates/translate.html:227
+#: weblate/templates/translate.html:232
 msgid "Insufficient privileges for adding suggestions."
 msgstr "添加新建议的权限不足。"
 
-#: weblate/templates/translate.html:231
+#: weblate/templates/translate.html:236
 msgid "Suggest"
 msgstr "建议"
 
-#: weblate/templates/translate.html:233
+#: weblate/templates/translate.html:238
 msgid "Skip"
 msgstr "跳过"
 
-#: weblate/templates/translate.html:239
+#: weblate/templates/translate.html:244
 msgid "Messages placed around this one"
 msgstr "此项附近的字符串"
 
-#: weblate/templates/translate.html:239
+#: weblate/templates/translate.html:244
 msgid "Nearby strings"
 msgstr "附近字符串"
 
-#: weblate/templates/translate.html:241
+#: weblate/templates/translate.html:246
 msgid "Strings with similar keys"
 msgstr "具有相似键的字符串"
 
-#: weblate/templates/translate.html:241
+#: weblate/templates/translate.html:246
 msgid "Nearby keys"
 msgstr "附近的字符串"
 
-#: weblate/templates/translate.html:244
+#: weblate/templates/translate.html:249
 msgid "Variants of the string"
 msgstr "字符串的变体"
 
-#: weblate/templates/translate.html:244 weblate/templates/translate.html:497
+#: weblate/templates/translate.html:249 weblate/templates/translate.html:515
 msgid "Variants"
 msgstr "变体"
 
-#: weblate/templates/translate.html:250
+#: weblate/templates/translate.html:255
 msgid "Other occurrences"
 msgstr "其它的出现位置"
 
-#: weblate/templates/translate.html:256
+#: weblate/templates/translate.html:261
 msgid "Machine translation suggestions"
 msgstr "机器翻译建议"
 
-#: weblate/templates/translate.html:256 weblate/trans/forms.py:781
+#: weblate/templates/translate.html:261 weblate/trans/forms.py:781
 msgid "Machine translation"
 msgstr "机器翻译"
 
-#: weblate/templates/translate.html:261
+#: weblate/templates/translate.html:266
 msgid "Translations of this string in the other languages"
 msgstr "此字符串的其他语言翻译"
 
-#: weblate/templates/translate.html:261
+#: weblate/templates/translate.html:266
 msgid "Other languages"
 msgstr "其它语言"
 
-#: weblate/templates/translate.html:262
+#: weblate/templates/translate.html:267
 msgid "List of recent changes done in Weblate"
 msgstr "在 Weblate 中最近所做的修改"
 
-#: weblate/templates/translate.html:308
+#: weblate/templates/translate.html:313
 msgid "Following string has same context and same source."
 msgid_plural "Following strings have same context and same source."
 msgstr[0] "下列字符串有相同的上下文和相同的来源。"
 
-#: weblate/templates/translate.html:316
+#: weblate/templates/translate.html:321
 msgid "Following string has different context but same source."
 msgid_plural "Following strings have different contexts but same source."
 msgstr[0] "下列字符串有相同的源字符串但上下文不同。"
 
-#: weblate/templates/translate.html:324
+#: weblate/templates/translate.html:329
 msgid "Following string has different source but same context."
 msgid_plural "Following strings have different sources but same context."
 msgstr[0] "下列字符串有不同的来源，但具有相同的上下文。"
 
-#: weblate/templates/translate.html:352
+#: weblate/templates/translate.html:357
 msgid "Service"
 msgstr "服务"
 
-#: weblate/templates/translate.html:353
+#: weblate/templates/translate.html:358
 msgid "Quality"
 msgstr "质量"
 
-#: weblate/templates/translate.html:380
+#: weblate/templates/translate.html:385
 msgid "Origin"
 msgstr "来源"
 
-#: weblate/templates/translate.html:381
+#: weblate/templates/translate.html:386
 msgid "Similarity"
 msgstr "相似性"
 
-#: weblate/templates/translate.html:409
+#: weblate/templates/translate.html:414
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr "您可以针对该字符串做出注释以供其他翻译员和开发者阅读。"
 
-#: weblate/templates/translate.html:431
+#: weblate/templates/translate.html:436
 msgid "Things to check"
 msgstr "要检查的事项"
 
-#: weblate/templates/translate.html:441
+#: weblate/templates/translate.html:446
 #, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
 msgstr[0] "这个字串符还有 %(count)s 个建议。"
 
-#: weblate/templates/translate.html:460
+#: weblate/templates/translate.html:465
 msgid "Fix string"
 msgstr "修正字符串"
 
-#: weblate/templates/translate.html:469
+#: weblate/templates/translate.html:474
 msgid "Dismiss for all languages"
 msgstr "关闭所有语言翻译"
 
-#: weblate/templates/translate.html:485
+#: weblate/templates/translate.html:503
 #, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
 msgstr[0] "此字符串有 %(count)s 条注释。"
 
-#: weblate/templates/translate.html:499
+#: weblate/templates/translate.html:517
 #, python-format
 msgid "There is %(count)s variant for this string."
 msgid_plural "There are %(count)s variants for this string."
 msgstr[0] "此字串符还有 %(count)s 个变体。"
 
-#: weblate/templates/translate.html:513
+#: weblate/templates/translate.html:531
 msgid "Manage glossary"
 msgstr "管理词汇表"
 
-#: weblate/templates/translate.html:531 weblate/templates/translate.html:541
+#: weblate/templates/translate.html:549 weblate/templates/translate.html:559
 msgid "Add word to glossary"
 msgstr "添加单词到词汇表"
 
-#: weblate/templates/translate.html:560
+#: weblate/templates/translate.html:578
 msgid "Source information"
 msgstr "源字符串信息"
 
-#: weblate/templates/translate.html:573
+#: weblate/templates/translate.html:591
 msgid "No screenshot currently associated."
 msgstr "无相关的截图。"
 
-#: weblate/templates/translate.html:587
+#: weblate/templates/translate.html:605
 msgid "No explanation currently provided."
 msgstr "目前未提供解释。"
 
-#: weblate/templates/translate.html:616
+#: weblate/templates/translate.html:634
 msgid "No labels currently set."
 msgstr "当前未设置标签。"
 
-#: weblate/templates/translate.html:624
+#: weblate/templates/translate.html:642
 msgid "Flags"
 msgstr "标记"
 
-#: weblate/templates/translate.html:629
+#: weblate/templates/translate.html:647
 msgid "No flags currently set."
 msgstr "目前未设置旗标。"
 
-#: weblate/templates/translate.html:636
+#: weblate/templates/translate.html:654
 msgid "Source string location"
 msgstr "源字符串位置"
 
-#: weblate/templates/translate.html:651
+#: weblate/templates/translate.html:669
 msgid "Source string age"
 msgstr "源字符串添加时间"
 
-#: weblate/templates/translate.html:658 weblate/templates/translation.html:198
+#: weblate/templates/translate.html:676 weblate/templates/translation.html:198
 msgid "Translation file"
 msgstr "翻译文件"
 
-#: weblate/templates/translate.html:661
+#: weblate/templates/translate.html:679
 #, python-format
 msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s，字符串 %(position)s"
@@ -8775,6 +8807,13 @@ msgstr "损坏的仓库浏览器 URL"
 msgid "Broken project website URL"
 msgstr "损坏的项目网站 URL"
 
+#. Translators: Name of an alert
+#: weblate/trans/models/alert.py:288
+#, fuzzy
+#| msgid "Add screenshot"
+msgid "Unused screenshot"
+msgstr "添加截图"
+
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
 msgstr "分类"
@@ -8820,247 +8859,247 @@ msgid "Do not specify both component and project!"
 msgstr "不要同时指定组件和项目！"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:225
+#: weblate/trans/models/change.py:227
 msgid "Resource update"
 msgstr "资源更新"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:227
+#: weblate/trans/models/change.py:229
 msgid "Translation completed"
 msgstr "已完成翻译"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:229
+#: weblate/trans/models/change.py:231
 msgid "Translation changed"
 msgstr "已修改翻译"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:231
+#: weblate/trans/models/change.py:233
 msgid "New translation"
 msgstr "新翻译"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:233
+#: weblate/trans/models/change.py:235
 msgid "Comment added"
 msgstr "已添加注释"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:239
+#: weblate/trans/models/change.py:241
 msgid "Suggestion accepted"
 msgstr "已接受建议"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:241
+#: weblate/trans/models/change.py:243
 msgid "Translation reverted"
 msgstr "已撤销翻译"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:243
+#: weblate/trans/models/change.py:245
 msgid "Translation uploaded"
 msgstr "已上传翻译"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:245
+#: weblate/trans/models/change.py:247
 msgid "Added to glossary"
 msgstr "已新增至词汇表"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:247
+#: weblate/trans/models/change.py:249
 msgid "Glossary updated"
 msgstr "词汇表已更新"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:249
+#: weblate/trans/models/change.py:251
 msgid "Glossary uploaded"
 msgstr "词汇表已上传"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:251
+#: weblate/trans/models/change.py:253
 msgid "New source string"
 msgstr "新的源字符串"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:253
+#: weblate/trans/models/change.py:255
 msgid "Component locked"
 msgstr "组件已锁定"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:255
+#: weblate/trans/models/change.py:257
 msgid "Component unlocked"
 msgstr "组件已解锁"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:257
+#: weblate/trans/models/change.py:259
 msgid "Found duplicated string"
 msgstr "发现重复字符串"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:259
+#: weblate/trans/models/change.py:261
 msgid "Committed changes"
 msgstr "已提交变更"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:261
+#: weblate/trans/models/change.py:263
 msgid "Pushed changes"
 msgstr "已推送更改"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:263
+#: weblate/trans/models/change.py:265
 msgid "Reset repository"
 msgstr "重置代码库"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:265
+#: weblate/trans/models/change.py:267
 msgid "Merged repository"
 msgstr "已合并代码库"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:267
+#: weblate/trans/models/change.py:269
 msgid "Rebased repository"
 msgstr "已变基代码库"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:269
+#: weblate/trans/models/change.py:271
 msgid "Failed merge on repository"
 msgstr "代码库合并失败"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:271
+#: weblate/trans/models/change.py:273
 msgid "Failed rebase on repository"
 msgstr "变基代码库失败"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:273
+#: weblate/trans/models/change.py:275
 msgid "Failed push on repository"
 msgstr "推送至代码库失败"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:277
+#: weblate/trans/models/change.py:279
 msgid "Removed translation"
 msgstr "已移除的翻译"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:279
+#: weblate/trans/models/change.py:281
 msgid "Suggestion removed"
 msgstr "建议已移除"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:283
+#: weblate/trans/models/change.py:285
 msgid "Suggestion removed during cleanup"
 msgstr "建议已在清理中移除"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:285
+#: weblate/trans/models/change.py:287
 msgid "Source string changed"
 msgstr "源字符串已改变"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:287
+#: weblate/trans/models/change.py:289
 msgid "New string added"
 msgstr "已添加新字符串"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:289
+#: weblate/trans/models/change.py:291
 msgid "Bulk status change"
 msgstr "批量状态更改"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:291
+#: weblate/trans/models/change.py:293
 msgid "Changed visibility"
 msgstr "已改变可见性"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:293
+#: weblate/trans/models/change.py:295
 msgid "Added user"
 msgstr "用户已添加"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:295
+#: weblate/trans/models/change.py:297
 msgid "Removed user"
 msgstr "用户已删除"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:297
+#: weblate/trans/models/change.py:299
 msgid "Translation approved"
 msgstr "翻译已核准"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:299
+#: weblate/trans/models/change.py:301
 msgid "Marked for edit"
 msgstr "标记为需要编辑"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:301
+#: weblate/trans/models/change.py:303
 msgid "Removed component"
 msgstr "组件已删除"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:303
+#: weblate/trans/models/change.py:305
 msgid "Removed project"
 msgstr "项目已删除"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:305
+#: weblate/trans/models/change.py:307
 msgid "Found duplicated language"
 msgstr "发现重复的语言"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:307
+#: weblate/trans/models/change.py:309
 msgid "Renamed project"
 msgstr "项目已重命名"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:309
+#: weblate/trans/models/change.py:311
 msgid "Renamed component"
 msgstr "组件已重命名"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:311
+#: weblate/trans/models/change.py:313
 msgid "Moved component"
 msgstr "组件已移动"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:313 weblate/trans/models/change.py:411
+#: weblate/trans/models/change.py:315 weblate/trans/models/change.py:413
 msgid "New string to translate"
 msgid_plural "New strings to translate"
 msgstr[0] "要翻译的新字符串"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:321
+#: weblate/trans/models/change.py:323
 msgid "Added new language"
 msgstr "添加了新语言"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:323
+#: weblate/trans/models/change.py:325
 msgid "Requested new language"
 msgstr "申请新语言"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:325
+#: weblate/trans/models/change.py:327
 msgid "Created project"
 msgstr "创建的项目"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:327
+#: weblate/trans/models/change.py:329
 msgid "Created component"
 msgstr "创建的组件"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:329
+#: weblate/trans/models/change.py:331
 msgid "Invited user"
 msgstr "邀请的用户"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:331
+#: weblate/trans/models/change.py:333
 msgid "Received repository notification"
 msgstr "收到仓库通知"
 
 #. Translators: Name of event in the history
-#: weblate/trans/models/change.py:333
+#: weblate/trans/models/change.py:335
 msgid "Replaced file by upload"
 msgstr "上传并替换文件"
 
-#: weblate/trans/models/change.py:467
+#: weblate/trans/models/change.py:469
 #, python-format
 msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
@@ -9546,17 +9585,22 @@ msgstr "无法验证文件匹配，因为无效的正则表达式。"
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "仅有在投票启用的情况下才可以自动接受建议。"
 
-#: weblate/trans/models/component.py:2290
+#: weblate/trans/models/component.py:2295
 msgid "Could not add new translation file."
 msgstr "无法添加新的翻译文件。"
 
-#: weblate/trans/models/component.py:2301
+#: weblate/trans/models/component.py:2306
 msgid "The given language is filtered by the language filter."
 msgstr "给定的语言被语言筛选器过滤。"
 
-#: weblate/trans/models/component.py:2321
+#: weblate/trans/models/component.py:2326
 msgid "Translation file already exists!"
 msgstr "翻译文件已经存在！"
+
+#. Translators: Translation context for Gettext
+#: weblate/trans/models/component.py:2393
+msgid "Context"
+msgstr "上下文"
 
 #: weblate/trans/models/componentlist.py:40
 msgid "Component list name"
@@ -10252,7 +10296,7 @@ msgstr[0] "已从上传的文件中导入 %d 个单词。"
 msgid "File upload has failed: %s"
 msgstr "文件上传失败：%s"
 
-#: weblate/trans/views/dictionary.py:166 weblate/trans/views/edit.py:547
+#: weblate/trans/views/dictionary.py:166 weblate/trans/views/edit.py:548
 #: weblate/trans/views/search.py:86 weblate/trans/views/search.py:231
 msgid "Failed to process form!"
 msgstr "处理表单失败！"
@@ -10321,35 +10365,35 @@ msgstr "无效建议！"
 msgid "Invalid search string!"
 msgstr "搜索的字符无效！"
 
-#: weblate/trans/views/edit.py:567
+#: weblate/trans/views/edit.py:568
 msgid "Automatic translation in progress"
 msgstr "正在自动翻译"
 
-#: weblate/trans/views/edit.py:604
+#: weblate/trans/views/edit.py:605
 msgid "Source needs review"
 msgstr "来源需要审查"
 
-#: weblate/trans/views/edit.py:607
+#: weblate/trans/views/edit.py:608
 msgid "Posted new comment"
 msgstr "新注释已发表"
 
-#: weblate/trans/views/edit.py:609
+#: weblate/trans/views/edit.py:610
 msgid "Failed to add comment!"
 msgstr "添加注释失败！"
 
-#: weblate/trans/views/edit.py:630
+#: weblate/trans/views/edit.py:631
 msgid "Translation comment has been deleted."
 msgstr "翻译评论已删除。"
 
-#: weblate/trans/views/edit.py:650
+#: weblate/trans/views/edit.py:651
 msgid "Translation comment has been resolved."
 msgstr "翻译评论已解决。"
 
-#: weblate/trans/views/edit.py:800
+#: weblate/trans/views/edit.py:801
 msgid "Translation with this key seem to already exist!"
 msgstr "包含此键的翻译已存在！"
 
-#: weblate/trans/views/edit.py:804
+#: weblate/trans/views/edit.py:805
 msgid "New string has been added."
 msgstr "新翻译字符串已添加。"
 
@@ -10448,7 +10492,7 @@ msgstr "加入完全 HTML 标签以避免来自翻译者的危险 HTML 代码。
 msgid "Workflow customization"
 msgstr "定制工作流程"
 
-#: weblate/trans/views/js.py:62
+#: weblate/trans/views/js.py:63
 msgid "Service is currently not available."
 msgstr "服务当前不可用。"
 
@@ -10580,7 +10624,7 @@ msgstr "禁止的 URL 方案！"
 msgid "Unsupported state: {}"
 msgstr "不支持的状态：{}"
 
-#: weblate/utils/search.py:355
+#: weblate/utils/search.py:357
 msgid "Invalid regular expression: {}"
 msgstr "无效正则表达式：{}"
 
@@ -10650,11 +10694,11 @@ msgstr "文件名不能是绝对路径。"
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr "文件名应尽可能简单。也许您想使用：{}"
 
-#: weblate/utils/views.py:90
+#: weblate/utils/views.py:91
 msgid "Word count"
 msgstr "字数"
 
-#: weblate/utils/views.py:269
+#: weblate/utils/views.py:270
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "参数 %(field)s 出错：%(error)s"
@@ -10827,6 +10871,9 @@ msgstr "已触发备份进程"
 #: weblate/wladmin/views.py:205
 msgid "Could not dismiss the configuration error!"
 msgstr "无法排除配置错误！"
+
+#~ msgid "Context:"
+#~ msgstr "上下文："
 
 #~ msgid "Translation memory for the whole platform"
 #~ msgstr "整个平台的翻译记忆库"
@@ -11234,9 +11281,6 @@ msgstr "无法排除配置错误！"
 
 #~ msgid "Ignore: %(check)s"
 #~ msgstr "忽略：%(check)s"
-
-#~ msgid "Manage screenshots"
-#~ msgstr "管理截图"
 
 #~ msgid "User comments"
 #~ msgstr "用户注释"
@@ -12420,9 +12464,6 @@ msgstr "无法排除配置错误！"
 
 #~ msgid "Search in source strings"
 #~ msgstr "搜索源字符串"
-
-#~ msgid "Search in target strings"
-#~ msgstr "搜索目标字符串"
 
 #~ msgid "Search in location strings"
 #~ msgstr "搜索字符串所在位置"
