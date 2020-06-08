@@ -935,7 +935,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
+class LanguageViewSet(viewsets.ModelViewSet):
     """Languages API."""
 
     queryset = Language.objects.none()
@@ -943,7 +943,25 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "code"
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Language.objects.order_by("id")
         return Language.objects.have_translation().order_by("id")
+
+    def perm_check(self, request):
+        if not request.user.has_perm("language.edit"):
+            self.permission_denied(request, message="Can not manage languages")
+
+    def update(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.perm_check(request)
+        return super().destroy(request, *args, **kwargs)
 
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):

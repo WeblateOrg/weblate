@@ -22,6 +22,7 @@ from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.lang import data
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import REPO_LENGTH
@@ -102,7 +103,7 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
 
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    plural = LanguagePluralSerializer(read_only=True)
+    plural = LanguagePluralSerializer()
     aliases = serializers.ListField(source="get_aliases_names", read_only=True)
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:language-statistics", lookup_field="code"
@@ -134,11 +135,26 @@ class LanguageSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Language with this Language code already exists."
             )
-        if not check_query.exists():
+        if not check_query.exists() and (
+            isinstance(self.parent, ProjectSerializer)
+            and self.field_name == "source_language"
+        ):
             raise serializers.ValidationError(
                 "Language with this language code was not found."
             )
         return value
+
+    def create(self, validated_data):
+        plural_validated = validated_data.pop("plural", None)
+        if not plural_validated:
+            raise serializers.ValidationError("No valid plural data was provided.")
+        language = Language.objects.create(**validated_data)
+        plural = Plural(**plural_validated)
+        plural.language = language
+        plural.type = data.PLURAL_UNKNOWN
+        plural.source = Plural.SOURCE_DEFAULT
+        plural.save()
+        return language
 
 
 class UserSerializer(serializers.ModelSerializer):
