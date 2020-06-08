@@ -180,7 +180,7 @@ class Repository:
 
     def execute(self, args, needs_lock=True, fullcmd=False, merge_err=True):
         """Execute command and caches its output."""
-        self.log("Executing VCS command: {}".format(" ".join([self._cmd] + args)))
+        self.log("Executing VCS command: {}".format(" ".join([self._cmd] + list(args))))
         if needs_lock:
             if not self.lock.is_locked:
                 raise RuntimeError("Repository operation without lock held!")
