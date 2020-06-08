@@ -218,7 +218,7 @@
         {% elif unit.readonly %}
             title="{% trans "Read only" %}"
         {% elif unit.translation.is_template %}
-            title="{% trans "Insufficient privileges for editing template." %}"
+            title="{% trans "Insufficient privileges for editing source strings." %}"
         {% else %}
             title="{% trans "Insufficient privileges for saving translations." %}"
         {% endif %}
