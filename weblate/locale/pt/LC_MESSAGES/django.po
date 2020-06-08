@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-07 19:12+0000\n"
-"PO-Revision-Date: 2020-05-26 08:02+0000\n"
+"PO-Revision-Date: 2020-06-09 06:38+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
@@ -1061,7 +1061,7 @@ msgstr "Por autor"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Anexar linhas finalizadoras à mensagem do commit de squash"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -1069,12 +1069,17 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
+"As linhas finalizadoras são linhas semelhantes aos cabeçalhos de e-mail RFC "
+"822, no final de uma mensagem de commit de outra forma livre, como \"Co"
+"-authored-by: ...\"."
 
 #: weblate/addons/forms.py:163
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Esta mensagem de commit será usada em vez das mensagens de commit combinadas "
+"dos commits após squash."
 
 #: weblate/addons/forms.py:180
 msgid "Sort JSON keys"
@@ -2275,10 +2280,8 @@ msgid "Priority"
 msgstr "Prioridade"
 
 #: weblate/checks/flags.py:67
-#, fuzzy
-#| msgid "Replacement string"
 msgid "Replacements while rendering"
-msgstr "Cadeia de substituição"
+msgstr "Substituições durante a renderização"
 
 #: weblate/checks/flags.py:227
 #, python-format
@@ -2782,16 +2785,12 @@ msgid "i18next JSON file"
 msgstr "Ficheiro i18next JSON"
 
 #: weblate/formats/ttkit.py:1117
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "go-i18n JSON file"
-msgstr "Ficheiro i18next JSON"
+msgstr "Ficheiro JSON go-i18n"
 
 #: weblate/formats/ttkit.py:1124
-#, fuzzy
-#| msgid "RC file"
 msgid "ARB file"
-msgstr "Ficheiro RC"
+msgstr "Ficheiro ARB"
 
 #: weblate/formats/ttkit.py:1132
 msgid "CSV file"
@@ -3695,7 +3694,7 @@ msgid ""
 "registration. Should the problem persist, please contact us."
 msgstr ""
 "Se não a receber em breve, por favor, verifique a sua pasta de spam ou tente "
-"registar-se novamente. Se o problema persistir, por favor,  contacte-nos."
+"registar-se novamente. Se o problema persistir, por favor, contacte-nos."
 
 #: weblate/templates/accounts/email-sent.html:41
 #: weblate/templates/mail/shared-registration.html:23
@@ -6722,10 +6721,8 @@ msgid "Number of entries for %(project)s"
 msgstr "Número de entradas para %(project)s"
 
 #: weblate/templates/memory/index.html:59
-#, fuzzy
-#| msgid "Number of shared entries"
 msgid "Number of uploaded shared entries"
-msgstr "Quantidade de entradas compartilhadas"
+msgstr "Quantidade de entradas compartilhadas enviadas"
 
 #: weblate/templates/memory/index.html:61
 msgid "Number of your entries"
@@ -6753,7 +6750,9 @@ msgid ""
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
 msgstr[0] ""
+"Isto irá apagar permanentemente %(count)s entrada da memória de tradução."
 msgstr[1] ""
+"Isto irá apagar permanentemente %(count)s entradas da memória de tradução."
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -7020,10 +7019,8 @@ msgid "Strings"
 msgstr "Entradas"
 
 #: weblate/templates/screenshots/screenshot_list.html:54
-#, fuzzy
-#| msgid "Search in target strings"
 msgid "There are no assigned strings."
-msgstr "Procurar nas cadeias destino"
+msgstr "Não há cadeias de caracteres atribuídas."
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
 msgid "No source strings are currently assigned!"
@@ -7038,6 +7035,8 @@ msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
 msgstr ""
+"A tradução está temporariamente fechada para contribuições por razão de "
+"manutenção, por favor, volte mais tarde."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7220,13 +7219,11 @@ msgstr "Criador avançado de consulta"
 
 #: weblate/templates/snippets/query-builder.html:15
 msgid "Target strings"
-msgstr "Entradas  de destino"
+msgstr "Cadeias de destino"
 
 #: weblate/templates/snippets/query-builder.html:16
-#, fuzzy
-#| msgid "Context strings"
 msgid "Key/Context strings"
-msgstr "Entradas de contexto"
+msgstr "Chave/Contexto de cadeias"
 
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Comment strings"
@@ -7368,11 +7365,9 @@ msgstr "Número de comentários"
 #. Translators: Translation key for monolingual translations
 #: weblate/templates/snippets/query-field.html:53
 #: weblate/trans/models/component.py:2395 weblate/utils/views.py:94
-#, fuzzy
-#| msgid "Keys"
 msgctxt "Translation key"
 msgid "Key"
-msgstr "Chaves"
+msgstr "Chave"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7677,7 +7672,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
-msgstr ""
+msgstr "Há pelo menos um screenshot que não é atribuído a qualquer cadeia."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -7728,10 +7723,8 @@ msgid "Upload translations files"
 msgstr "Enviar ficheiros das traduções"
 
 #: weblate/templates/trans/component_create.html:37
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "Comentário à tradução"
+msgstr "Traduzir documento"
 
 #: weblate/templates/trans/component_create.html:40
 msgid "Start from scratch"
@@ -7787,15 +7780,9 @@ msgstr ""
 "as entradas para tradução."
 
 #: weblate/templates/trans/component_create.html:102
-#, fuzzy
-#| msgid ""
-#| "Create a new translation component from an uploaded ZIP file containing "
-#| "strings for translation."
 msgid ""
 "Create a new translation component from an uploaded document for translation."
-msgstr ""
-"Criar um novo componente de tradução a partir de um ficheiro ZIP enviado com "
-"as entradas para tradução."
+msgstr "Criar um componente de tradução de um documento enviado para tradução."
 
 #: weblate/templates/trans/component_create.html:116
 msgid "Create a new empty translation component to start from scratch."
@@ -8044,10 +8031,8 @@ msgid ""
 msgstr "Esta tradução só aceita sugestões e estas são aprovadas por votação."
 
 #: weblate/templates/translate.html:221
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid "Insufficient privileges for editing template."
-msgstr "Permissões insuficientes para guardar as traduções."
+msgstr "Privilégios insuficientes para editar modelo."
 
 #: weblate/templates/translate.html:223 weblate/trans/views/edit.py:268
 #: weblate/trans/views/edit.py:289 weblate/trans/views/edit.py:308
@@ -8942,7 +8927,7 @@ msgstr "A data inicial tem de ser anterior à data final!"
 
 #: weblate/trans/forms.py:1164
 msgid "You do not have permission to access this component!"
-msgstr "Não tem permissão para para aceder a este componente!"
+msgstr "Não tem permissão para acessar este componente!"
 
 #: weblate/trans/forms.py:1261 weblate/trans/forms.py:1741
 msgid "Basic"
@@ -9012,10 +8997,8 @@ msgid "ZIP file containing translations"
 msgstr "Ficheiro ZIP com as traduções"
 
 #: weblate/trans/forms.py:1508
-#, fuzzy
-#| msgid "Units to translate"
 msgid "Document to translate"
-msgstr "Unidades a traduzir"
+msgstr "Documento para traduzir"
 
 #: weblate/trans/forms.py:1531
 msgid ""
@@ -9228,10 +9211,8 @@ msgstr "URL do \"site\" da Web do projeto com problemas"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:288
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Unused screenshot"
-msgstr "Adicionar captura de ecrã"
+msgstr "Captura de ecrã não usada"
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -9272,7 +9253,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:126
 msgid "Notify users"
-msgstr ""
+msgstr "Notificar os utilizadores"
 
 #: weblate/trans/models/announcement.py:141
 msgid "Do not specify both component and project!"
@@ -9642,14 +9623,14 @@ msgstr ""
 "gerar e-mails."
 
 #: weblate/trans/models/component.py:278
-#, fuzzy
-#| msgid "Git branch"
 msgid "Push branch"
-msgstr "Ramo Git"
+msgstr "Ramo do push"
 
 #: weblate/trans/models/component.py:281
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
+"Ramo para fazer push das alterações, deixe vazio para usar o ramo do "
+"repositório"
 
 #: weblate/trans/models/component.py:291
 msgid ""
@@ -9886,14 +9867,13 @@ msgstr ""
 "tradutores."
 
 #: weblate/trans/models/component.py:545
-#, fuzzy
-#| msgid "Created component"
 msgid "Restricted component"
-msgstr "Componente criado"
+msgstr "Componente restrito"
 
 #: weblate/trans/models/component.py:549
 msgid "Restrict access to the component only to explicitly given permissions."
 msgstr ""
+"Restringir o acesso apenas ao componente explicitamente atribuído permissões."
 
 #: weblate/trans/models/component.py:975
 msgid ""
