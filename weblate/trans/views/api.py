@@ -77,6 +77,7 @@ def export_stats(request, project, component):
             "fuzzy_percent",
             "url_translate",
             "url",
+            "translate_url",
             "last_change",
             "last_author",
             "recent_changes",
