@@ -1322,6 +1322,7 @@ class TranslationAPITest(APIBaseTest):
                 "name": "Czech",
                 "code": "cs",
                 "url": "http://example.com/projects/test/test/cs/",
+                "translate_url": "http://example.com/translate/test/test/cs/",
                 "failing_percent": 0.0,
                 "translated_percent": 0.0,
                 "total_words": 15,
