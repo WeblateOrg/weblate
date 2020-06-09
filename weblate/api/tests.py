@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import timedelta
 
 from django.core.files import File
 from django.urls import reverse
@@ -1567,6 +1568,27 @@ class ChangeAPITest(APIBaseTest):
     def test_list_changes(self):
         response = self.client.get(reverse("api:change-list"))
         self.assertEqual(response.data["count"], 14)
+
+    def test_filter_changes_after(self):
+        """Filter chanages since timestamp."""
+        start = Change.objects.order().last().timestamp
+        response = self.client.get(
+            reverse("api:change-list"), {"timestamp_after": start.isoformat()}
+        )
+        self.assertEqual(response.data["count"], 14)
+
+    def test_filter_changes_before(self):
+        """Filter changes prior to timestamp."""
+        start = Change.objects.order().first().timestamp - timedelta(seconds=60)
+        response = self.client.get(
+            reverse("api:change-list"), {"timestamp_before": start.isoformat()}
+        )
+        self.assertEqual(response.data["count"], 0)
+
+    def test_filter_changes_user(self):
+        """Filter by non existing user."""
+        response = self.client.get(reverse("api:change-list"), {"user": "nonexisting"})
+        self.assertEqual(response.data["count"], 0)
 
     def test_get_change(self):
         response = self.client.get(

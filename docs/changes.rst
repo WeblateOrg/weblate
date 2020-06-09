@@ -38,6 +38,7 @@ Not yet released.
 * Added ability to restrict access on component level.
 * Added support for whitespace and other special chars in translation flags, see :ref:`custom-checks`.
 * Always show rendered text check if enabled.
+* API now supports filtering of changes.
 
 Weblate 4.0.4
 -------------

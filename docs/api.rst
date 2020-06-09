@@ -1684,11 +1684,20 @@ Changes
 
 .. http:get:: /api/changes/
 
+    .. versionchanged:: 4.1
+
+       Filtering of changes was introduced in the 4.1 release.
+
     Returns a list of translation changes.
 
     .. seealso::
 
         Change object attributes are documented at :http:get:`/api/changes/(int:id)/`.
+
+    :query string user: Username of user to filters
+    :query int action: Action to filter, can be used several times
+    :query timestamp timestamp_after: ISO 8601 formatted timestmap to list changes after
+    :query timestamp timestamp_before: ISO 8601 formatted timestmap to list changes before
 
 .. http:get:: /api/changes/(int:id)/
 

@@ -378,6 +378,7 @@ INSTALLED_APPS = [
     "compressor",
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
 ]
 
 # Custom exception reporter to include some details

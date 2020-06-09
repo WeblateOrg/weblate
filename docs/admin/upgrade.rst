@@ -284,6 +284,7 @@ Notable configuration or dependencies changes:
 * There are new quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
 * There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting the in API.
 * There are some new and updated requirements.
+* There is a change in :setting:`django:INSTALLED_APPS`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

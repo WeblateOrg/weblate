@@ -28,6 +28,7 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_str, smart_str
 from django.utils.safestring import mark_safe
+from django_filters import rest_framework as filters
 from rest_framework import parsers, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
@@ -1060,11 +1061,23 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
             return Response(serializer.data, status=status.HTTP_201_CREATED,)
 
 
+class ChangeFilter(filters.FilterSet):
+    timestamp = filters.IsoDateTimeFromToRangeFilter()
+    action = filters.MultipleChoiceFilter(choices=Change.ACTION_CHOICES)
+    user = filters.CharFilter(field_name="user__username")
+
+    class Meta:
+        model = Change
+        fields = ["action", "user", "timestamp"]
+
+
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     """Changes API."""
 
     queryset = Change.objects.none()
     serializer_class = ChangeSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ChangeFilter
 
     def get_queryset(self):
         return Change.objects.last_changes(self.request.user).order_by("id")

@@ -534,6 +534,7 @@ INSTALLED_APPS = [
     "compressor",
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
 ]
 
 modify_env_list(INSTALLED_APPS, "APPS")
