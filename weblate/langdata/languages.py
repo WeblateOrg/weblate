@@ -146,7 +146,7 @@ LANGUAGES = (
     (
         "ar_LY",
         # Translators: Language name, ISO code: ar_LY
-        _("Arabic (Lybia)"),
+        _("Arabic (Libya)"),
         6,
         "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
     ),
@@ -606,13 +606,6 @@ LANGUAGES = (
         "n != 1",
     ),
     (
-        "en_devel",
-        # Translators: Language name, ISO code: en_devel
-        _("English (Developer)"),
-        2,
-        "n != 1",
-    ),
-    (
         "en_AU",
         # Translators: Language name, ISO code: en_AU
         _("English (Australia)"),
@@ -679,6 +672,13 @@ LANGUAGES = (
         "en_ZA",
         # Translators: Language name, ISO code: en_ZA
         _("English (South Africa)"),
+        2,
+        "n != 1",
+    ),
+    (
+        "en_devel",
+        # Translators: Language name, ISO code: en_devel
+        _("English (Developer)"),
         2,
         "n != 1",
     ),
