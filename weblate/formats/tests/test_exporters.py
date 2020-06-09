@@ -28,11 +28,11 @@ from weblate.formats.exporters import (
     XlsxExporter,
 )
 from weblate.formats.helpers import BytesIOMode
+from weblate.glossary.models import Term
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
     Component,
-    Dictionary,
     Project,
     Suggestion,
     Translation,
@@ -65,19 +65,19 @@ class PoExporterTest(BaseTestCase):
         self.assertIn(b"msgid_plural", result)
         self.assertIn(b"msgstr[2]", result)
 
-    def check_dict(self, word):
+    def check_glossary(self, word):
         exporter = self.get_exporter()
-        exporter.add_dictionary(word)
+        exporter.add_glossary_term(word)
         self.check_export(exporter)
 
-    def test_dictionary(self):
-        self.check_dict(Dictionary(source="foo", target="bar"))
+    def test_glossary(self):
+        self.check_glossary(Term(source="foo", target="bar"))
 
-    def test_dictionary_markup(self):
-        self.check_dict(Dictionary(source="<b>foo</b>", target="<b>bar</b>"))
+    def test_glossary_markup(self):
+        self.check_glossary(Term(source="<b>foo</b>", target="<b>bar</b>"))
 
-    def test_dictionary_special(self):
-        self.check_dict(Dictionary(source="bar\x1e\x1efoo", target="br\x1eff"))
+    def test_glossary_special(self):
+        self.check_glossary(Term(source="bar\x1e\x1efoo", target="br\x1eff"))
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
         if nplurals == 3:

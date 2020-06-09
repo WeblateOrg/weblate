@@ -36,6 +36,12 @@ class SortedSelectMixin:
         return sort_unicode(groups, lambda val: force_str(val[1][0]["label"]))
 
 
+class ColorWidget(forms.RadioSelect):
+    def __init__(self, attrs=None, choices=()):
+        attrs = {**(attrs or {}), "class": "color_edit"}
+        super().__init__(attrs, choices)
+
+
 class SortedSelectMultiple(SortedSelectMixin, forms.SelectMultiple):
     """Wrapper class to sort choices alphabetically."""
 

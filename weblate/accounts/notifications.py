@@ -252,7 +252,7 @@ class Notification:
                 "translation",
                 "component",
                 "project",
-                "dictionary",
+                "glossary_term",
                 "comment",
                 "suggestion",
                 "announcement",

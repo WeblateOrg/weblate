@@ -247,6 +247,8 @@ translated string is not too long:
   :ref:`check-max-length`.
 * Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`.
 
+.. _glossary:
+
 Glossary
 --------
 
@@ -257,16 +259,20 @@ Terms from the currently translated string can be displayed in the bottom tabs.
 Managing glossaries
 +++++++++++++++++++
 
-On the :guilabel:`Glossaries` tab of each project page, you can edit
-existing glossaries. An empty glossary for a given project is automatically created when a language is added to a component (to do this, select a component, its :guilabel:`Translation` tab and click :guilabel:`Start new translation`). Once a glossary exists, it will also show up in this list.
+On the :guilabel:`Glossaries` tab of each project page, you can edit existing
+glossaries.
 
 .. image:: /images/project-glossaries.png
 
-Glossaries are shared among all components of the same project.
+An empty glossary for a given project is automatically created when project is
+created. Glossaries are shared among all components of the same project and you
+can also choose to share them with another projects. You can do this only for
+projects you can administer.
 
 On this list, you can choose which glossary to manage (all languages used in
-the current project are shown). Following one of the language links will lead you to a page
-which can be used to edit, import or export the selected glossary, or view the edit history:
+the current project are shown). Following one of the language links will lead
+you to a page which can be used to edit, import or export the selected
+glossary, or view the edit history:
 
 .. image:: /images/glossary-edit.png
 

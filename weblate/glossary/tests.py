@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Test for dictionary manipulations."""
+"""Test for glossary manipulations."""
 
 
 import json
@@ -25,7 +25,7 @@ import json
 from django.conf import settings
 from django.urls import reverse
 
-from weblate.trans.models import Dictionary
+from weblate.glossary.models import Glossary, Term
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
 
@@ -87,8 +87,14 @@ more options)</p>
 """
 
 
-class DictionaryTest(FixtureTestCase):
-    """Testing of dictionary manipulations."""
+class GlossaryTest(FixtureTestCase):
+    """Testing of glossary manipulations."""
+
+    def setUp(self):
+        super().setUp()
+        self.glossary = Glossary.objects.create(
+            name=self.project.name, color="silver", project=self.project
+        )
 
     @classmethod
     def _databases_support_transactions(cls):
@@ -106,13 +112,13 @@ class DictionaryTest(FixtureTestCase):
 
     def import_file(self, filename, **kwargs):
         with open(filename, "rb") as handle:
-            params = {"file": handle}
+            params = {"file": handle, "glossary": self.glossary.pk}
             params.update(kwargs)
-            return self.client.post(self.get_url("upload_dictionary"), params)
+            return self.client.post(self.get_url("upload_glossary"), params)
 
     def test_import(self):
         """Test for importing of TBX into glossary."""
-        show_url = self.get_url("show_dictionary")
+        show_url = self.get_url("show_glossary")
 
         # Import file
         response = self.import_file(TEST_TBX)
@@ -121,85 +127,88 @@ class DictionaryTest(FixtureTestCase):
         self.assertRedirects(response, show_url)
 
         # Check number of imported objects
-        self.assertEqual(Dictionary.objects.count(), 164)
+        self.assertEqual(Term.objects.count(), 164)
 
         # Check they are shown
         response = self.client.get(show_url)
         self.assertContains(response, "podpůrná vrstva")
 
-        # Change single word
-        word = Dictionary.objects.get(target="podpůrná vrstva")
-        word.target = "zkouška sirén"
-        word.save()
+        # Change single term
+        term = Term.objects.get(target="podpůrná vrstva")
+        term.target = "zkouška sirén"
+        term.save()
 
         # Import file again with orverwriting
         response = self.import_file(TEST_TBX, method="overwrite")
 
         # Check number of imported objects
-        self.assertEqual(Dictionary.objects.count(), 164)
+        self.assertEqual(Term.objects.count(), 164)
 
         # Check entry got overwritten
         response = self.client.get(show_url)
         self.assertContains(response, "podpůrná vrstva")
 
-        # Change single word
-        word = Dictionary.objects.get(target="podpůrná vrstva")
-        word.target = "zkouška sirén"
-        word.save()
+        # Change single term
+        term = Term.objects.get(target="podpůrná vrstva")
+        term.target = "zkouška sirén"
+        term.save()
 
         # Import file again with adding
         response = self.import_file(TEST_TBX, method="add")
 
         # Check number of imported objects
-        self.assertEqual(Dictionary.objects.count(), 165)
+        self.assertEqual(Term.objects.count(), 165)
 
     def test_import_csv(self):
         # Import file
         response = self.import_file(TEST_CSV)
 
         # Check correct response
-        self.assertRedirects(response, self.get_url("show_dictionary"))
+        self.assertRedirects(response, self.get_url("show_glossary"))
 
-        response = self.client.get(self.get_url("show_dictionary"))
+        response = self.client.get(self.get_url("show_glossary"))
 
         # Check number of imported objects
-        self.assertEqual(Dictionary.objects.count(), 164)
+        self.assertEqual(Term.objects.count(), 164)
 
     def test_import_csv_header(self):
         # Import file
         response = self.import_file(TEST_CSV_HEADER)
 
         # Check correct response
-        self.assertRedirects(response, self.get_url("show_dictionary"))
+        self.assertRedirects(response, self.get_url("show_glossary"))
 
         # Check number of imported objects
-        self.assertEqual(Dictionary.objects.count(), 164)
+        self.assertEqual(Term.objects.count(), 164)
 
     def test_import_po(self):
         # Import file
         response = self.import_file(TEST_PO)
 
         # Check correct response
-        self.assertRedirects(response, self.get_url("show_dictionary"))
+        self.assertRedirects(response, self.get_url("show_glossary"))
 
         # Check number of imported objects
-        self.assertEqual(Dictionary.objects.count(), 164)
+        self.assertEqual(Term.objects.count(), 164)
 
     def test_edit(self):
-        """Test for manually adding words to glossary."""
-        show_url = self.get_url("show_dictionary")
+        """Test for manually adding terms to glossary."""
+        show_url = self.get_url("show_glossary")
 
-        # Add word
-        response = self.client.post(show_url, {"source": "source", "target": "překlad"})
+        # Add term
+        response = self.client.post(
+            show_url,
+            {"source": "source", "target": "překlad", "glossary": self.glossary.pk},
+        )
 
         # Check correct response
         self.assertRedirects(response, show_url)
 
         # Check number of objects
-        self.assertEqual(Dictionary.objects.count(), 1)
+        self.assertEqual(Term.objects.count(), 1)
 
-        dict_id = Dictionary.objects.all()[0].id
-        edit_url = self.get_url("edit_dictionary", pk=dict_id)
+        dict_id = Term.objects.all()[0].id
+        edit_url = reverse("edit_glossary", kwargs={"pk": dict_id})
 
         # Check they are shown
         response = self.client.get(show_url)
@@ -210,7 +219,9 @@ class DictionaryTest(FixtureTestCase):
         self.assertContains(response, "překlad")
 
         # Edit translation
-        response = self.client.post(edit_url, {"source": "src", "target": "přkld"})
+        response = self.client.post(
+            edit_url, {"source": "src", "target": "přkld", "glossary": self.glossary.pk}
+        )
         self.assertRedirects(response, show_url)
 
         # Check they are shown
@@ -218,21 +229,19 @@ class DictionaryTest(FixtureTestCase):
         self.assertContains(response, "přkld")
 
         # Test deleting
-        delete_url = self.get_url("delete_dictionary", pk=dict_id)
+        delete_url = reverse("delete_glossary", kwargs={"pk": dict_id})
         response = self.client.post(delete_url)
         self.assertRedirects(response, show_url)
 
         # Check number of objects
-        self.assertEqual(Dictionary.objects.count(), 0)
+        self.assertEqual(Term.objects.count(), 0)
 
     def test_download_csv(self):
         """Test for downloading CVS file."""
         # Import test data
         self.import_file(TEST_TBX)
 
-        response = self.client.get(
-            self.get_url("download_dictionary"), {"format": "csv"}
-        )
+        response = self.client.get(self.get_url("download_glossary"), {"format": "csv"})
         self.assertContains(response, '"addon","doplněk"')
 
     def test_download_tbx(self):
@@ -240,9 +249,7 @@ class DictionaryTest(FixtureTestCase):
         # Import test data
         self.import_file(TEST_TBX)
 
-        response = self.client.get(
-            self.get_url("download_dictionary"), {"format": "tbx"}
-        )
+        response = self.client.get(self.get_url("download_glossary"), {"format": "tbx"})
         self.assertContains(response, "<term>website</term>")
         self.assertContains(response, "<term>webové stránky</term>")
 
@@ -252,7 +259,7 @@ class DictionaryTest(FixtureTestCase):
         self.import_file(TEST_TBX)
 
         response = self.client.get(
-            self.get_url("download_dictionary"), {"format": "xliff"}
+            self.get_url("download_glossary"), {"format": "xliff"}
         )
         self.assertContains(response, "<source>website</source>")
         self.assertContains(
@@ -264,23 +271,21 @@ class DictionaryTest(FixtureTestCase):
         # Import test data
         self.import_file(TEST_TBX)
 
-        response = self.client.get(
-            self.get_url("download_dictionary"), {"format": "po"}
-        )
+        response = self.client.get(self.get_url("download_glossary"), {"format": "po"})
         self.assertContains(response, 'msgid "wizard"\nmsgstr "průvodce"')
 
     def test_list(self):
-        """Test for listing dictionaries."""
+        """Test for listing glossaries."""
         self.import_file(TEST_TBX)
 
-        # List dictionaries
-        response = self.client.get(reverse("show_dictionaries", kwargs=self.kw_project))
+        # List glossaries
+        response = self.client.get(reverse("show_glossaries", kwargs=self.kw_project))
         self.assertContains(response, "Czech")
         self.assertContains(response, "Italian")
 
-        dict_url = self.get_url("show_dictionary")
+        dict_url = self.get_url("show_glossary")
 
-        # List all words
+        # List all terms
         response = self.client.get(dict_url)
         self.assertContains(response, "Czech")
         self.assertContains(response, "1 / 2")
@@ -298,98 +303,143 @@ class DictionaryTest(FixtureTestCase):
         self.assertNotContains(response, "1 / 1")
         self.assertContains(response, "záložka")
 
-    def test_get_words(self):
+    def test_get_terms(self):
         translation = self.get_translation()
-        Dictionary.objects.create(
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="hello",
             target="ahoj",
         )
-        Dictionary.objects.create(
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="thank",
             target="děkujeme",
         )
         unit = self.get_unit("Thank you for using Weblate.")
-        self.assertEqual(Dictionary.objects.get_words(unit).count(), 1)
-        Dictionary.objects.create(
+        self.assertEqual(Term.objects.get_terms(unit).count(), 1)
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="thank",
             target="díky",
         )
-        self.assertEqual(Dictionary.objects.get_words(unit).count(), 2)
-        Dictionary.objects.create(
+        self.assertEqual(Term.objects.get_terms(unit).count(), 2)
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="thank you",
             target="děkujeme vám",
         )
-        self.assertEqual(Dictionary.objects.get_words(unit).count(), 3)
-        Dictionary.objects.create(
+        self.assertEqual(Term.objects.get_terms(unit).count(), 3)
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="thank you for using Weblate",
             target="děkujeme vám za použití Weblate",
         )
-        self.assertEqual(Dictionary.objects.get_words(unit).count(), 4)
+        self.assertEqual(Term.objects.get_terms(unit).count(), 4)
 
     def test_get_long(self):
         """Test parsing long source string."""
         unit = self.get_unit()
         unit.source = LONG
         unit.save()
-        self.assertEqual(Dictionary.objects.get_words(unit).count(), 0)
+        self.assertEqual(Term.objects.get_terms(unit).count(), 0)
         return unit
 
     def test_stoplist(self):
         unit = self.test_get_long()
         # Add one matching and one not matching terms
         translation = self.get_translation()
-        Dictionary.objects.create(
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="the blue",
             target="modrý",
         )
-        Dictionary.objects.create(
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="the red",
             target="červený",
         )
 
-        self.assertEqual(Dictionary.objects.get_words(unit).count(), 1)
+        self.assertEqual(Term.objects.get_terms(unit).count(), 1)
 
     def test_get_dash(self):
         translation = self.get_translation()
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "Nordrhein-Westfalen"
-        Dictionary.objects.create(
+        Term.objects.create(
             self.user,
-            project=self.project,
+            glossary=self.glossary,
             language=translation.language,
             source="Nordrhein-Westfalen",
             target="Northrhine Westfalia",
         )
-        self.assertEqual(Dictionary.objects.get_words(unit).count(), 1)
+        self.assertEqual(Term.objects.get_terms(unit).count(), 1)
 
     def test_add(self):
-        """Test for adding word from translate page."""
+        """Test for adding term from translate page."""
         unit = self.get_unit("Thank you for using Weblate.")
-        # Add word
+        # Add term
         response = self.client.post(
             reverse("js-add-glossary", kwargs={"unit_id": unit.pk}),
-            {"source": "source", "target": "překlad"},
+            {"source": "source", "target": "překlad", "glossary": self.glossary.pk},
         )
         content = json.loads(response.content.decode())
         self.assertEqual(content["responseCode"], 200)
+
+    def test_manage(self):
+        url = reverse("show_glossaries", kwargs=self.kw_project)
+        self.assertEqual(Glossary.objects.count(), 1)
+
+        # No permission to create
+        self.client.post(url, {"name": "GlossaryName", "color": "navy"})
+        self.assertEqual(Glossary.objects.count(), 1)
+
+        # Get permissions
+        self.user.is_superuser = True
+        self.user.save()
+
+        # Create, missing param
+        response = self.client.post(url, {"name": "Name"})
+        self.assertContains(response, "This field is required.")
+
+        # Create
+        self.client.post(url, {"name": "GlossaryName", "color": "navy"})
+        self.assertEqual(Glossary.objects.count(), 2)
+
+        glossary = Glossary.objects.get(name="GlossaryName")
+
+        # Edit, wrong object
+        response = self.client.post(url, {"name": "Name", "edit_glossary": -2})
+        self.assertContains(response, "Glossary was not found.")
+
+        # Edit, missing param
+        response = self.client.post(url, {"name": "Name", "edit_glossary": glossary.pk})
+        self.assertContains(response, "This field is required.")
+
+        # Edit
+        self.client.post(
+            url, {"name": "OtherName", "color": "navy", "edit_glossary": glossary.pk}
+        )
+        glossary.refresh_from_db()
+        self.assertEqual(glossary.name, "OtherName")
+
+        # Delete
+        self.client.post(url, {"delete_glossary": glossary.pk})
+        self.assertEqual(Glossary.objects.count(), 1)
+
+        # Delete, wrong object
+        response = self.client.post(url, {"delete_glossary": -2})
+        self.assertContains(response, "Glossary was not found.")

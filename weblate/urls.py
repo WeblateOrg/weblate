@@ -34,6 +34,7 @@ import weblate.addons.views
 import weblate.api.urls
 import weblate.checks.views
 import weblate.fonts.views
+import weblate.glossary.views
 import weblate.lang.views
 import weblate.memory.views
 import weblate.screenshots.views
@@ -45,7 +46,6 @@ import weblate.trans.views.basic
 import weblate.trans.views.charts
 import weblate.trans.views.create
 import weblate.trans.views.dashboard
-import weblate.trans.views.dictionary
 import weblate.trans.views.edit
 import weblate.trans.views.error
 import weblate.trans.views.files
@@ -121,36 +121,36 @@ real_patterns = [
         weblate.trans.views.basic.show_engage,
         name="engage",
     ),
-    # Glossary/Dictionary pages
+    # Glossary pages
     url(
-        r"^dictionaries/" + PROJECT + "$",
-        weblate.trans.views.dictionary.show_dictionaries,
-        name="show_dictionaries",
+        r"^glossaries/" + PROJECT + "$",
+        weblate.glossary.views.show_glossaries,
+        name="show_glossaries",
     ),
     url(
-        r"^dictionaries/" + PROJECT_LANG + "$",
-        weblate.trans.views.dictionary.show_dictionary,
-        name="show_dictionary",
+        r"^glossaries/" + PROJECT_LANG + "$",
+        weblate.glossary.views.show_glossary,
+        name="show_glossary",
     ),
     url(
-        r"^upload-dictionaries/" + PROJECT_LANG + "$",
-        weblate.trans.views.dictionary.upload_dictionary,
-        name="upload_dictionary",
+        r"^upload-glossaries/" + PROJECT_LANG + "$",
+        weblate.glossary.views.upload_glossary,
+        name="upload_glossary",
     ),
     url(
-        r"^delete-dictionaries/" + PROJECT_LANG + "(?P<pk>[0-9]+)/$",
-        weblate.trans.views.dictionary.delete_dictionary,
-        name="delete_dictionary",
+        r"^delete-glossaries/(?P<pk>[0-9]+)/$",
+        weblate.glossary.views.delete_glossary,
+        name="delete_glossary",
     ),
     url(
-        r"^edit-dictionaries/" + PROJECT_LANG + "(?P<pk>[0-9]+)/$",
-        weblate.trans.views.dictionary.edit_dictionary,
-        name="edit_dictionary",
+        r"^edit-glossaries/(?P<pk>[0-9]+)/$",
+        weblate.glossary.views.edit_glossary,
+        name="edit_glossary",
     ),
     url(
-        r"^download-dictionaries/" + PROJECT_LANG + "$",
-        weblate.trans.views.dictionary.download_dictionary,
-        name="download_dictionary",
+        r"^download-glossaries/" + PROJECT_LANG + "$",
+        weblate.glossary.views.download_glossary,
+        name="download_glossary",
     ),
     # Subroject pages
     url(
@@ -993,6 +993,11 @@ real_patterns = [
         weblate.trans.views.edit.save_zen,
         name="save_zen",
     ),
+    url(
+        r"^js/glossary/(?P<unit_id>[0-9]+)/$",
+        weblate.glossary.views.add_glossary_term,
+        name="js-add-glossary",
+    ),
     # Admin interface
     url(
         r"^admin/",
@@ -1091,43 +1096,6 @@ real_patterns = [
             permanent=True,
             query_string=True,
         ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "upload/$",
-        RedirectView.as_view(
-            url="/upload-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "delete/$",
-        RedirectView.as_view(
-            url="/delete-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "edit/$",
-        RedirectView.as_view(
-            url="/edit-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "download/$",
-        RedirectView.as_view(
-            url="/download-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^js/glossary/(?P<unit_id>[0-9]+)/$",
-        weblate.trans.views.dictionary.add_dictionary,
-        name="js-add-glossary",
     ),
     # Old activity charts
     url(

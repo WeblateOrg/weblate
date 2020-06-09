@@ -22,9 +22,9 @@
         <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
     {% endif %}
     {% if request.path != project_url %}
-        <li class="active"><a href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Glossaries" %}</a></li>
+        <li class="active"><a href="{% url 'show_glossaries' project=object.slug %}">{% trans "Glossaries" %}</a></li>
     {% else %}
-        <li><a href="{% url 'show_dictionaries' project=object.slug %}">{% trans "Glossaries" %}</a></li>
+        <li><a href="{% url 'show_glossaries' project=object.slug %}">{% trans "Glossaries" %}</a></li>
     {% endif %}
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">

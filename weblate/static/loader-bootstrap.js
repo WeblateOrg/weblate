@@ -580,8 +580,13 @@ $(function () {
 
     $('.link-post').click(function () {
         var $form = $('#link-post');
+        var $this = $(this);
 
-        $form.attr('action', $(this).attr('href'));
+        $form.attr('action', $this.attr('href'));
+        $.each($this.data("params"), function (name, value) {
+            var elm = $("<input>").attr("name", name).attr("value", value);
+            $form.append(elm)
+        });
         $form.submit();
         return false;
     });

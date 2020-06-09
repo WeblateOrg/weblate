@@ -680,7 +680,7 @@ class ChangeSerializer(RemovableSerializer):
             "unit",
             "component",
             "translation",
-            "dictionary",
+            "glossary_term",
             "user",
             "author",
             "timestamp",

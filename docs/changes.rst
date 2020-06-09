@@ -39,6 +39,7 @@ Not yet released.
 * Added support for whitespace and other special chars in translation flags, see :ref:`custom-checks`.
 * Always show rendered text check if enabled.
 * API now supports filtering of changes.
+* Added support for sharing glossaries between projects.
 
 Weblate 4.0.4
 -------------

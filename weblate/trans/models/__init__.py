@@ -32,7 +32,6 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
 from weblate.trans.models.componentlist import AutoComponentList, ComponentList
-from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.label import Label
 from weblate.trans.models.project import Project
 from weblate.trans.models.suggestion import Suggestion, Vote
@@ -52,7 +51,6 @@ __all__ = [
     "Comment",
     "Vote",
     "Change",
-    "Dictionary",
     "Announcement",
     "ComponentList",
     "WeblateConf",

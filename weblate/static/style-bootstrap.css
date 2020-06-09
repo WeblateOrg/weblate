@@ -974,6 +974,13 @@ a.format-item:hover {
     transform: rotate(359deg);
   }
 }
+.label-box:empty {
+    width: 1.2em;
+    height: 1.2em;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
 .label-navy {
     background-color: #001f3f;
 }
@@ -1026,15 +1033,15 @@ a.format-item:hover {
     background-color: #dddddd;
     color: #000;
 }
-#div_id_color input {
+input.color_edit {
 	position: absolute;
 	visibility: hidden;
 }
-#div_id_color label {
+input.color_edit + label {
     width: 12em;
     margin: 3px;
 }
-#div_id_color input:checked + label {
+input.color_edit:checked + label {
     border: 2px solid black;
 }
 @media (max-width: 768px) {

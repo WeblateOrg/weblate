@@ -5,17 +5,18 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
-<li><a href="{% url 'show_dictionaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
-<li><a href="{% url 'show_dictionary' project=project.slug lang=language.code %}">{{ language }}</a></li>
+<li><a href="{% url 'show_glossaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
+<li><a href="{% url 'show_glossary' project=project.slug lang=language.code %}">{{ language }}</a></li>
 {% endblock %}
 
 {% block content %}
 
-{% perm 'glossary.edit' project as user_can_change_dictionary %}
+{% perm 'glossary.edit' project as user_can_change_glossary %}
 
-{% if user_can_change_dictionary %}
+{% if user_can_change_glossary %}
 
 <form method="POST">
+<input type="hidden" name="next" value="{{next}}" />
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Change word" %}</h4></div>
   <div class="panel-body">

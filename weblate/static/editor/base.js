@@ -255,7 +255,7 @@ WLT.Editor = (function () {
         $window.scrollTop($(href).offset().top);
     });
 
-    /* Copy from dictionary */
+    /* Copy from glossary */
     $document.on('click', '.glossary-embed', function (e) {
         var text = $(this).find('.target').text();
 
@@ -302,7 +302,7 @@ WLT.Editor = (function () {
         }
     });
 
-    /* Inline dictionary adding */
+    /* Inline glossary adding */
     $('.add-dict-inline').submit(function () {
         var form = $(this);
 
@@ -315,8 +315,8 @@ WLT.Editor = (function () {
             success: function (data) {
                 decreaseLoading('glossary-add');
                 if (data.responseCode === 200) {
-                    $('#glossary-words').html(data.results);
-                    form.find('[name=words]').attr('value', data.words);
+                    $('#glossary-terms').html(data.results);
+                    form.find('[name=terms]').attr('value', data.terms);
                 }
                 $('.translation-editor:first').focus();
                 form.trigger('reset');

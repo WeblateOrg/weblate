@@ -24,8 +24,12 @@ from itertools import islice
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django.db.models.functions import Lower
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.urls import reverse
+from django.utils.translation import gettext_lazy
 from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
 from whoosh.analysis.filters import StopFilter
 from whoosh.lang import NoStopWords
@@ -33,19 +37,60 @@ from whoosh.lang import NoStopWords
 from weblate.checks.same import strip_string
 from weblate.formats.auto import AutodetectFormat
 from weblate.lang.models import Language
-from weblate.trans.defines import GLOSSARY_LENGTH
+from weblate.trans.defines import GLOSSARY_LENGTH, PROJECT_NAME_LENGTH
 from weblate.trans.models.project import Project
+from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.db import re_escape
+from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
 
 
-class DictionaryManager(models.Manager):
+class GlossaryQuerySet(models.QuerySet):
+    def for_project(self, project):
+        return self.filter(Q(project=project) | Q(links=project))
+
+
+class Glossary(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
+    links = models.ManyToManyField(
+        Project,
+        verbose_name=gettext_lazy("Additional projects"),
+        blank=True,
+        related_name="linked_glossaries",
+        help_text=gettext_lazy(
+            "Choose additional projects where this glossary can be used."
+        ),
+    )
+    name = models.CharField(
+        verbose_name=gettext_lazy("Glossary name"),
+        max_length=PROJECT_NAME_LENGTH,
+        unique=True,
+    )
+    color = models.CharField(
+        verbose_name=gettext_lazy("Color"),
+        max_length=30,
+        choices=COLOR_CHOICES,
+        blank=False,
+        default=None,
+    )
+
+    objects = GlossaryQuerySet.as_manager()
+
+    class Meta:
+        verbose_name = "glossary"
+        verbose_name_plural = "glossaries"
+
+    def __str__(self):
+        return self.name
+
+
+class TermManager(models.Manager):
     # pylint: disable=no-init
 
-    def upload(self, request, project, language, fileobj, method):
-        """Handle dictionary upload."""
+    def upload(self, request, glossary, language, fileobj, method):
+        """Handle glossary upload."""
         from weblate.trans.models.change import Change
 
         store = AutodetectFormat.parse(fileobj)
@@ -57,63 +102,68 @@ class DictionaryManager(models.Manager):
             source = unit.source
             target = unit.target
 
-            # Ignore too long words
+            # Ignore too long terms
             if len(source) > 190 or len(target) > 190:
                 continue
 
             # Get object
             try:
-                word, created = self.get_or_create(
-                    project=project,
+                term, created = self.get_or_create(
+                    glossary=glossary,
                     language=language,
                     source=source,
                     defaults={"target": target},
                 )
-            except Dictionary.MultipleObjectsReturned:
-                word = self.filter(project=project, language=language, source=source)[0]
+            except Term.MultipleObjectsReturned:
+                term = self.filter(glossary=glossary, language=language, source=source)[
+                    0
+                ]
                 created = False
 
             # Already existing entry found
             if not created:
                 # Same as current -> ignore
-                if target == word.target:
+                if target == term.target:
                     continue
                 if method == "add":
-                    # Add word
+                    # Add term
                     self.create(
                         user=request.user,
                         action=Change.ACTION_DICTIONARY_UPLOAD,
-                        project=project,
+                        glossary=glossary,
                         language=language,
                         source=source,
                         target=target,
                     )
                 elif method == "overwrite":
-                    # Update word
-                    word.target = target
-                    word.save()
+                    # Update term
+                    term.target = target
+                    term.save()
 
             ret += 1
 
         return ret
 
     def create(self, user, **kwargs):
-        """Create new dictionary object."""
+        """Create new glossary object."""
         from weblate.trans.models.change import Change
 
         action = kwargs.pop("action", Change.ACTION_DICTIONARY_NEW)
         created = super().create(**kwargs)
         Change.objects.create(
-            action=action, dictionary=created, user=user, target=created.target
+            action=action, glossary_term=created, user=user, target=created.target
         )
         return created
 
 
-class DictionaryQuerySet(models.QuerySet):
+class TermQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
-    def get_words(self, unit):
-        """Return list of word pairs for an unit."""
+    def for_project(self, project):
+        return self.filter(glossary__in=Glossary.objects.for_project(project))
+
+    def get_terms(self, unit):
+        """Return list of term pairs for an unit."""
         words = set()
         source_language = unit.translation.component.project.source_language
 
@@ -146,7 +196,7 @@ class DictionaryQuerySet(models.QuerySet):
                 try:
                     words.update(token.text for token in analyzer(text))
                 except (UnicodeDecodeError, IndexError):
-                    report_error(cause="Dictionary words parsing")
+                    report_error(cause="Term words parsing")
                 if len(words) > 1000:
                     break
             if len(words) > 1000:
@@ -156,7 +206,7 @@ class DictionaryQuerySet(models.QuerySet):
             words.remove("")
 
         if not words:
-            # No extracted words, no dictionary
+            # No extracted words, no glossary
             return self.none()
 
         # Build the query for fetching the words
@@ -178,59 +228,72 @@ class DictionaryQuerySet(models.QuerySet):
                 ),
             )
 
-        return results.filter(
-            project=unit.translation.component.project,
-            language=unit.translation.language,
+        return results.for_project(unit.translation.component.project).filter(
+            language=unit.translation.language
         )
 
     def order(self):
         return self.order_by(Lower("source"))
 
 
-class Dictionary(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.deletion.CASCADE)
+class Term(models.Model):
+    glossary = models.ForeignKey(
+        Glossary,
+        on_delete=models.deletion.CASCADE,
+        verbose_name=gettext_lazy("Glossary"),
+    )
     language = models.ForeignKey(Language, on_delete=models.deletion.CASCADE)
-    source = models.CharField(max_length=GLOSSARY_LENGTH, db_index=True)
-    target = models.CharField(max_length=GLOSSARY_LENGTH)
+    source = models.CharField(
+        max_length=GLOSSARY_LENGTH, db_index=True, verbose_name=gettext_lazy("Source"),
+    )
+    target = models.CharField(
+        max_length=GLOSSARY_LENGTH, verbose_name=gettext_lazy("Translation"),
+    )
 
-    objects = DictionaryManager.from_queryset(DictionaryQuerySet)()
+    objects = TermManager.from_queryset(TermQuerySet)()
 
     class Meta:
-        app_label = "trans"
-        verbose_name = "glossary entry"
-        verbose_name_plural = "glossary entries"
+        verbose_name = "glossary term"
+        verbose_name_plural = "glossary terms"
 
     def __str__(self):
         return "{0}/{1}: {2} -> {3}".format(
-            self.project, self.language, self.source, self.target
+            self.glossary, self.language, self.source, self.target
         )
 
     def get_absolute_url(self):
-        return reverse(
-            "edit_dictionary",
-            kwargs={
-                "project": self.project.slug,
-                "lang": self.language.code,
-                "pk": self.id,
-            },
-        )
+        return reverse("edit_glossary", kwargs={"pk": self.id})
 
     def get_parent_url(self):
         return reverse(
-            "show_dictionary",
-            kwargs={"project": self.project.slug, "lang": self.language.code},
+            "show_glossary",
+            kwargs={"project": self.glossary.project.slug, "lang": self.language.code},
         )
 
-    def edit(self, request, source, target):
-        """Edit word in a dictionary."""
+    def edit(self, request, source, target, glossary):
+        """Edit term in a glossary."""
         from weblate.trans.models.change import Change
 
         self.source = source
         self.target = target
+        self.glossary = glossary
         self.save()
         Change.objects.create(
             action=Change.ACTION_DICTIONARY_EDIT,
-            dictionary=self,
+            glossary_term=self,
             user=request.user,
             target=self.target,
         )
+
+    def check_perm(self, user, perm):
+        return user.has_perm(perm, self.glossary.project) or any(
+            user.has_perm(perm, prj) for prj in self.glossary.linked
+        )
+
+
+@receiver(post_save, sender=Project)
+@disable_for_loaddata
+def create_glossary(sender, instance, created, **kwargs):
+    """Creates glossary on project creation."""
+    if created:
+        Glossary.objects.create(name=instance.name, color="silver", project=instance)

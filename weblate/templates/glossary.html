@@ -7,22 +7,22 @@
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 <li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
-<li><a href="{% url 'show_dictionary' project=project.slug lang=language.code %}">{% trans "Glossary" %}</a></li>
+<li><a href="{% url 'show_glossary' project=project.slug lang=language.code %}">{% trans "Glossary" %}</a></li>
 {% endblock %}
 
 {% block content %}
 
-{% perm 'glossary.delete' project as user_can_delete_dictionary %}
-{% perm 'glossary.edit' project as user_can_change_dictionary %}
-{% perm 'glossary.upload' project as user_can_upload_dictionary %}
-{% perm 'glossary.add' project as user_can_add_dictionary %}
+{% perm 'glossary.delete' project as user_can_delete_glossary %}
+{% perm 'glossary.edit' project as user_can_change_glossary %}
+{% perm 'glossary.upload' project as user_can_upload_glossary %}
+{% perm 'glossary.add' project as user_can_add_glossary %}
 
 <ul class="nav nav-pills">
 <li class="active"><a href="#browse" data-toggle="tab">{% trans "Browse" %}</a></li>
-{% if user_can_add_dictionary %}
+{% if user_can_add_glossary %}
 <li><a href="#add" data-toggle="tab">{% trans "Add new word" %}</a></li>
 {% endif %}
-{% if user_can_upload_dictionary %}
+{% if user_can_upload_glossary %}
 <li><a href="#import" data-toggle="tab">{% trans "Import glossary" %}</a></li>
 {% endif %}
 <li>
@@ -30,10 +30,10 @@
       {% trans "Export glossary" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=po">{% trans "gettext (PO)" %}</a></li>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=xliff">{% trans "XML Localization Interchange File Format (XLIFF)" %}</a></li>
-<li><a href="{% url 'download_dictionary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
+<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
+<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=po">{% trans "gettext (PO)" %}</a></li>
+<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=xliff">{% trans "XML Localization Interchange File Format (XLIFF)" %}</a></li>
+<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
 </ul>
 </li>
 <li><a href="#changes" data-toggle="tab">{% trans "History" %}</a></li>
@@ -53,6 +53,7 @@
 <tr>
 <th>{% trans "Source" %}</th>
 <th>{% trans "Translation" %}</th>
+<th>{% trans "Glossary" %}</th>
 <th></th>
 </tr>
 </thead>
@@ -61,18 +62,18 @@
 <tr>
 <td>{% format_translation word.source project.source_language simple=True %}</td>
 <td>{% format_translation word.target language simple=True %}</td>
+<td>{% include "snippets/glossary-badge.html" with glossary=word.glossary %}</td>
 <td>
-{% if user_can_change_dictionary %}
-<form action="{% url 'edit_dictionary' project=project.slug lang=language.code pk=word.id %}" method="get" class="inlineform">
+{% if user_can_change_glossary %}
+<form action="{% url 'edit_glossary' pk=word.id %}" method="get" class="inlineform">
+<input type="hidden" name="next" value="{{ request.get_full_path }}" />
 <button type="submit" class="btn btn-xs btn-primary">{% trans "Edit" %}</button>
 </form>
 {% endif %}
-{% if user_can_delete_dictionary %}
-<form action="{% url 'delete_dictionary' project=project.slug lang=language.code pk=word.id %}" method="post" class="inlineform">
+{% if user_can_delete_glossary %}
+<form action="{% url 'delete_glossary' pk=word.id %}" method="post" class="inlineform">
 {% csrf_token %}
-<input type="hidden" name="letter" value="{{ letter }}" />
-<input type="hidden" name="limit" value="{{ page_obj.paginator.per_page }}" />
-<input type="hidden" name="page" value="{{ page_obj.number }}" />
+<input type="hidden" name="next" value="{{ request.get_full_path }}" />
 <button type="submit" class="btn btn-xs btn-danger">{% trans "Delete" %}</button>
 </form>
 {% endif %}
@@ -85,16 +86,16 @@
 {% else %}
 <p>{% trans "No words found!" %}</p>
 {% endif %}
-<form class="searchform" action="{% url 'show_dictionary' project=project.slug lang=language.code %}">
+<form class="searchform" action="{% url 'show_glossary' project=project.slug lang=language.code %}">
 {{ searchform | crispy }}
 <button type="submit" class="btn btn-ok"> {% trans "Search" %} </button>
 </form>
 </div>
 
-{% if user_can_add_dictionary %}
+{% if user_can_add_glossary %}
 <div class="tab-pane" id="add">
 
-<form action="{% url 'show_dictionary' project=project.slug lang=language.code %}" method="POST">
+<form action="{% url 'show_glossary' project=project.slug lang=language.code %}" method="POST">
 {% csrf_token %}
 {{ form|crispy }}
 <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
@@ -103,9 +104,9 @@
 </div>
 {% endif %}
 
-{% if user_can_upload_dictionary %}
+{% if user_can_upload_glossary %}
 <div class="tab-pane" id="import">
-<form action="{% url 'upload_dictionary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'upload_glossary' project=project.slug lang=language.code %}" method="post" enctype="multipart/form-data">
 
 {% csrf_token %}
 {{ uploadform|crispy }}

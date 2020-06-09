@@ -42,7 +42,6 @@ from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
-from django.utils.translation import pgettext_lazy
 from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
@@ -51,7 +50,7 @@ from weblate.formats.exporters import EXPORTERS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.defines import COMPONENT_NAME_LENGTH, GLOSSARY_LENGTH, REPO_LENGTH
+from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
@@ -59,6 +58,7 @@ from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
 from weblate.utils.forms import (
+    ColorWidget,
     ContextDiv,
     SearchField,
     SortedSelect,
@@ -837,84 +837,6 @@ class AutoForm(forms.Form):
             Div("component", css_id="auto_source_others"),
             Div("engines", "threshold", css_id="auto_source_mt"),
         )
-
-
-class CommaSeparatedIntegerField(forms.Field):
-    def to_python(self, value):
-        if not value:
-            return []
-
-        try:
-            return [int(item.strip()) for item in value.split(",") if item.strip()]
-        except (ValueError, TypeError):
-            raise ValidationError(_("Invalid integer list!"))
-
-
-class OneWordForm(forms.Form):
-    """Simple one-word form."""
-
-    term = forms.CharField(
-        label=_("Search"), max_length=GLOSSARY_LENGTH, required=False
-    )
-
-
-class WordForm(forms.Form):
-    """Form for adding word to a glossary."""
-
-    source = forms.CharField(label=_("Source"), max_length=GLOSSARY_LENGTH)
-    target = forms.CharField(label=_("Translation"), max_length=GLOSSARY_LENGTH)
-    words = CommaSeparatedIntegerField(widget=forms.HiddenInput, required=False)
-
-
-class InlineWordForm(WordForm):
-    """Inline rendered form for adding words."""
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for fieldname in ("source", "target"):
-            field = self.fields[fieldname]
-            field.widget.attrs["placeholder"] = field.label
-
-
-class DictUploadForm(forms.Form):
-    """Uploading file to a dictionary."""
-
-    file = forms.FileField(
-        label=_("File"),
-        validators=[validate_file_extension],
-        help_text=_(
-            "You can upload any format understood by "
-            "Translate Toolkit (including TBX, CSV or gettext PO files)."
-        ),
-    )
-    method = forms.ChoiceField(
-        label=_("Merge method"),
-        choices=(
-            ("", _("Keep current")),
-            ("overwrite", _("Overwrite existing")),
-            ("add", _("Add as other translation")),
-        ),
-        required=False,
-    )
-
-
-class LetterForm(forms.Form):
-    """Form for choosing starting letter in a glossary."""
-
-    LETTER_CHOICES = [(chr(97 + x), chr(65 + x)) for x in range(26)]
-    any_letter = pgettext_lazy("Choose starting letter in glossary", "Any")
-    letter = forms.ChoiceField(
-        label=_("Starting letter"),
-        choices=[("", any_letter)] + LETTER_CHOICES,
-        required=False,
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.disable_csrf = True
-        self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap3/layout/inline_field.html"
 
 
 class CommentForm(forms.Form):
@@ -1991,7 +1913,7 @@ class LabelForm(forms.ModelForm):
     class Meta:
         model = Label
         fields = ("name", "color")
-        widgets = {"color": forms.RadioSelect()}
+        widgets = {"color": ColorWidget()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -44,7 +44,7 @@
 {% perm 'unit.check' unit.translation as user_can_ignore_check %}
 {% perm 'screenshot.add' project as user_can_add_screenshot %}
 {% perm 'comment.add' project as user_can_add_comment %}
-{% perm 'glossary.add' project as user_can_add_dictionary %}
+{% perm 'glossary.add' project as user_can_add_glossary %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
@@ -527,7 +527,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
   <h4 class="panel-title">
-    <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'show_dictionary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
+    <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'show_glossary' project=unit.translation.component.project.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
     {% loading_icon "glossary-add" %}
     {% trans "Glossary" %}
   </h4>
@@ -537,15 +537,16 @@
         <tr>
         <th>{{ unit.translation.component.project.source_language }}</th>
         <th>{{ unit.translation.language }}</th>
+        <th></th>
         </tr>
         </thead>
-        <tbody id="glossary-words">
+        <tbody id="glossary-terms">
             {% include "snippets/glossary.html" %}
         </tbody>
     </table>
-{% if user_can_add_dictionary %}
+{% if user_can_add_glossary %}
     <div class="panel-footer panel-footer-links">
-        <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% trans "Add word to glossary" %}</a>
+        <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% trans "Add term to glossary" %}</a>
     </div>
     <form action="{% url 'js-add-glossary' unit_id=unit.id %}" method="POST" class="add-dict-inline double-submission">
     {% csrf_token %}
@@ -555,10 +556,10 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{% trans "Add word to glossary" %}</h4>
+            <h4 class="modal-title">{% trans "Add term to glossary" %}</h4>
           </div>
           <div class="modal-body">
-            {{ addword_form|crispy }}
+            {{ addterm_form|crispy }}
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
