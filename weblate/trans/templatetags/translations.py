@@ -42,7 +42,6 @@ from weblate.trans.models import (
     Announcement,
     Component,
     ContributorAgreement,
-    Dictionary,
     Project,
     Translation,
 )
@@ -255,12 +254,6 @@ def check_description(check):
         return escape(CHECKS[check].description)
     except KeyError:
         return escape(check)
-
-
-@register.simple_tag
-def dictionary_count(lang, project):
-    """Return number of words in dictionary."""
-    return Dictionary.objects.filter(project=project, language=lang).count()
 
 
 @register.simple_tag

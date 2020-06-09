@@ -106,6 +106,13 @@ def get_bread_image(path):
         return "wrench.svg"
     if first in ("about", "stats", "keys", "legal"):
         return "weblate.svg"
+    if first in (
+        "glossaries",
+        "upload-glossaries",
+        "delete-glossaries",
+        "edit-glossaries",
+    ):
+        return "glossary.svg"
     return "project.svg"
 
 

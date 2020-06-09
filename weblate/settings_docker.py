@@ -503,6 +503,7 @@ INSTALLED_APPS = [
     "weblate.auth",
     "weblate.checks",
     "weblate.formats",
+    "weblate.glossary",
     "weblate.machinery",
     "weblate.trans",
     "weblate.lang",

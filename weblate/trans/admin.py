@@ -161,12 +161,6 @@ class CommentAdmin(WeblateModelAdmin):
     search_fields = ["unit__content_hash", "comment"]
 
 
-class DictionaryAdmin(WeblateModelAdmin):
-    list_display = ["source", "target", "project", "language"]
-    search_fields = ["source", "target"]
-    list_filter = ["project", "language"]
-
-
 class ChangeAdmin(WeblateModelAdmin):
     list_display = ["unit", "user", "timestamp"]
     date_hierarchy = "timestamp"

@@ -46,8 +46,9 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 
 import weblate.screenshots.views
 from weblate.fonts.tests.utils import FONT
+from weblate.glossary.models import Glossary, Term
 from weblate.lang.models import Language
-from weblate.trans.models import Change, Component, Dictionary, Project, Unit
+from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -464,16 +465,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         ).source_info
         source.explanation = "Help text for automatic translation tool"
         source.save()
-        Dictionary.objects.create(
+        glossary = Glossary.objects.get()
+        Term.objects.create(
             user=None,
-            project=source.translation.component.project,
+            glossary=glossary,
             language=language,
             source="machine translation",
             target="strojový překlad",
         )
-        Dictionary.objects.create(
+        Term.objects.create(
             user=None,
-            project=source.translation.component.project,
+            glossary=glossary,
             language=language,
             source="project",
             target="projekt",
@@ -751,7 +753,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click("Glossaries")
         with self.wait_for_page_load():
-            self.click("Czech")
+            self.click(self.driver.find_element_by_partial_link_text("Czech"))
         self.click("Add new word")
         self.driver.find_element_by_id("id_source").send_keys("language")
         element = self.driver.find_element_by_id("id_target")

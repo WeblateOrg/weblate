@@ -13,8 +13,9 @@
             {% if change.project %}
             <a href="{{ change.project.get_absolute_url }}">{{ change.project }}</a>
             {% endif %}
-            {% if change.dictionary %}
-            — <a href="{{ change.dictionary.get_parent_url }}">{{ change.dictionary.language }}</a>
+            {% if change.glossary_term %}
+            — <a href="{{ change.glossary_term.get_parent_url }}">{{ change.glossary_term.language }}</a>
+            {% include "snippets/glossary-badge.html" with glossary=change.glossary_term.glossary %}
             {% endif %}
             {% if change.component %}
             / <a href="{{ change.component.get_absolute_url }}">{{ change.component.name }}</a>
@@ -55,8 +56,8 @@
                 {% format_translation change.unit.source change.unit.translation.component.project.source_language %}
                 <label>{{ change.unit.translation.language }}</label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural %}
-            {% elif change.show_content and change.dictionary %}
-                {% format_translation change.target change.dictionary.language  %}
+            {% elif change.show_content and change.glossary_term %}
+                {% format_translation change.target change.glossary_term.language  %}
             {% elif change.show_source %}
                 {% format_translation change.target change.component.project.source_language diff=change.old %}
             {% elif change.target %}

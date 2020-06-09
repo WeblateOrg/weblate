@@ -53,7 +53,7 @@ class Command(BaseCommand):
         for group in source.group_set.iterator():
             group.languages.remove(source)
             group.languages.add(target)
-        source.dictionary_set.update(language=target)
+        source.term_set.update(language=target)
 
         for plural in source.plural_set.iterator():
             try:

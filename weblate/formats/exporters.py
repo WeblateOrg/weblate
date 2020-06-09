@@ -109,8 +109,8 @@ class BaseExporter:
     def add(self, unit, word):
         unit.target = word
 
-    def add_dictionary(self, word):
-        """Add dictionary word."""
+    def add_glossary_term(self, word):
+        """Add glossary term."""
         unit = self.storage.UnitClass(self.string_filter(word.source))
         self.add(unit, self.string_filter(word.target))
         self.storage.addunit(unit)

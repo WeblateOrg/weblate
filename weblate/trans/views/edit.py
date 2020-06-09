@@ -34,13 +34,14 @@ from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS, get_display_checks
+from weblate.glossary.forms import TermForm
+from weblate.glossary.models import Term
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
     CommentForm,
     ContextForm,
-    InlineWordForm,
     MergeForm,
     NewUnitForm,
     RevertForm,
@@ -48,7 +49,7 @@ from weblate.trans.forms import (
     TranslationForm,
     ZenTranslationForm,
 )
-from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit, Vote
+from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
 from weblate.trans.util import get_state_css, join_plural, redirect_next, render
 from weblate.utils import messages
@@ -525,8 +526,8 @@ def translate(request, project, component, lang):
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": locked,
-            "glossary": Dictionary.objects.get_words(unit),
-            "addword_form": InlineWordForm(),
+            "glossary": Term.objects.get_terms(unit),
+            "addterm_form": TermForm(translation.component.project),
             "last_changes": unit.change_set.prefetch().order()[:10],
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),

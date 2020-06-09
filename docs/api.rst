@@ -1708,7 +1708,7 @@ Changes
     :>json string unit: URL of a related unit object
     :>json string translation: URL of a related translation object
     :>json string component: URL of a related component object
-    :>json string dictionary: URL of a related dictionary object
+    :>json string glossary_term: URL of a related glossary term object
     :>json string user: URL of a related user object
     :>json string author: URL of a related author object
     :>json timestamp timestamp: event timestamp

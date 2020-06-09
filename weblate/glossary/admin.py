@@ -16,24 +16,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from weblate.wladmin.models import WeblateModelAdmin
 
 
-from django import forms
-from django.core.validators import FileExtensionValidator
-from django.utils.translation import gettext_lazy as _
+class GlossaryAdmin(WeblateModelAdmin):
+    list_display = ["name", "color", "project"]
+    list_filter = ["links"]
 
 
-class UploadForm(forms.Form):
-    """Uploading file to a translation memory."""
-
-    file = forms.FileField(
-        label=_("File"),
-        validators=[FileExtensionValidator(allowed_extensions=["json", "tmx"])],
-        help_text=_("You can upload a TMX or JSON file."),
-    )
-
-
-class DeleteForm(forms.Form):
-    confirm = forms.BooleanField(
-        label=_("Confirm deleting all translation memory entries"), required=True
-    )
+class TermAdmin(WeblateModelAdmin):
+    list_display = ["source", "target", "glossary", "language"]
+    search_fields = ["source", "target"]
+    list_filter = ["glossary", "language"]
