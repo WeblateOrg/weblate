@@ -35,6 +35,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
+from weblate.trans.test_models import fixup_languages_seq
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import STATE_TRANSLATED
@@ -54,6 +55,11 @@ class APIBaseTest(APITestCase, RepoTestMixin):
     def tearDownClass(cls):
         super().tearDownClass()
         immediate_on_commit_leave(cls)
+
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        fixup_languages_seq()
 
     def setUp(self):
         Language.objects.flush_object_cache()
