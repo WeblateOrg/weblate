@@ -552,6 +552,19 @@ Languages
 
         Language object attributes are documented at :http:get:`/api/languages/(string:language)/`.
 
+.. http:post:: /api/languages/
+
+    Creates a new language.
+
+    :param code: Language name
+    :type code: string
+    :param name: Language name
+    :type name: string
+    :param direction: Language direction
+    :type direction: string
+    :param plural: Language plural formula and number
+    :type plural: object
+
 .. http:get:: /api/languages/(string:language)/
 
     Returns information about a language.
@@ -589,6 +602,33 @@ Languages
             "web_url": "http://example.com/languages/en/",
             "statistics_url": "http://example.com/api/languages/en/statistics/"
         }
+
+.. http:put:: /api/languages/(string:language)/
+
+    Changes the lnnguage parameters.
+
+    :param language: Language's code
+    :type language: string
+    :<json string name: Language name
+    :<json string direction: Language direction
+    :<json object plural: Language plural details
+
+.. http:patch:: /api/languages/(string:language)/
+
+    Changes the language parameters.
+
+    :param language: Language's code
+    :type language: string
+    :<json string name: Language name
+    :<json string direction: Language direction
+    :<json object plural: Language plural details
+
+.. http:delete:: /api/languages/(string:language)/
+
+    Deletes the Language.
+
+    :param language: Language's code
+    :type language: string
 
 .. http:get:: /api/languages/(string:language)/statistics/
 

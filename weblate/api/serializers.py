@@ -128,13 +128,6 @@ class LanguageSerializer(serializers.ModelSerializer):
 
     def validate_code(self, value):
         check_query = Language.objects.filter(code=value)
-        if check_query.exists() and not (
-            isinstance(self.parent, ProjectSerializer)
-            and self.field_name == "source_language"
-        ):
-            raise serializers.ValidationError(
-                "Language with this Language code already exists."
-            )
         if not check_query.exists() and (
             isinstance(self.parent, ProjectSerializer)
             and self.field_name == "source_language"
@@ -148,6 +141,12 @@ class LanguageSerializer(serializers.ModelSerializer):
         plural_validated = validated_data.pop("plural", None)
         if not plural_validated:
             raise serializers.ValidationError("No valid plural data was provided.")
+
+        check_query = Language.objects.filter(code=validated_data.get("code"))
+        if check_query.exists():
+            raise serializers.ValidationError(
+                "Language with this Language code already exists."
+            )
         language = Language.objects.create(**validated_data)
         plural = Plural(**plural_validated)
         plural.language = language

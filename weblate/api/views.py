@@ -943,7 +943,7 @@ class LanguageViewSet(viewsets.ModelViewSet):
     lookup_field = "code"
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
+        if self.request.user.has_perm("language.edit"):
             return Language.objects.order_by("id")
         return Language.objects.have_translation().order_by("id")
 
