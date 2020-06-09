@@ -35,7 +35,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.test_models import fixup_languages_seq
+from weblate.trans.tests.test_models import fixup_languages_seq
 from weblate.trans.tests.utils import RepoTestMixin, get_test_file
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import STATE_TRANSLATED
