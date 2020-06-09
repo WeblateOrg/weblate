@@ -1149,6 +1149,115 @@ class LanguageAPITest(APIBaseTest):
         # Check for aliases
         self.assertEqual(len(response.data["aliases"]), 2)
 
+    def test_create(self):
+        self.do_request(
+            "api:language-list", method="post", code=403,
+        )
+        response = self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertEqual(Language.objects.count(), 366)
+        self.assertEqual(response.data["code"], "new_lang")
+        # Check that languages without translation are shown
+        # only to super users
+        response = self.do_request("api:language-list", method="get", code=200,)
+        self.assertEqual(response.data["count"], 4)
+        response = self.do_request(
+            "api:language-list", method="get", superuser=True, code=200,
+        )
+        self.assertEqual(response.data["count"], 366)
+        self.do_request(
+            "api:language-detail", kwargs={"code": "new_lang"}, method="get", code=404,
+        )
+        self.do_request(
+            "api:language-detail",
+            kwargs={"code": "new_lang"},
+            superuser=True,
+            method="get",
+            code=200,
+        )
+        # Creation with duplicate code gives 400
+        response = self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+
+    def test_delete(self):
+        self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "code": "new_lang",
+                "name": "New Language",
+                "direction": "rtl",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.do_request(
+            "api:language-detail",
+            kwargs={"code": "new_lang"},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Language.objects.count(), 365)
+
+    def test_put(self):
+        self.do_request(
+            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403,
+        )
+        self.do_request(
+            "api:language-detail",
+            kwargs={"code": "cs"},
+            method="put",
+            superuser=True,
+            code=200,
+            format="json",
+            request={
+                "code": "cs",
+                "name": "New Language",
+                "direction": "rtl",
+                "plural": {"number": 2, "formula": "n != 1"},
+            },
+        )
+        self.assertEqual(Language.objects.get(code="cs").name, "New Language")
+
+    def test_patch(self):
+        self.do_request(
+            "api:language-detail", kwargs={"code": "cs"}, method="put", code=403,
+        )
+        self.do_request(
+            "api:language-detail",
+            kwargs={"code": "cs"},
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"name": "New Language"},
+        )
+        self.assertEqual(Language.objects.get(code="cs").name, "New Language")
+
 
 class TranslationAPITest(APIBaseTest):
     def test_list_translations(self):
