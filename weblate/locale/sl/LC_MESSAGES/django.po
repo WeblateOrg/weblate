@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-09 06:41+0000\n"
-"PO-Revision-Date: 2020-06-04 06:31+0000\n"
+"PO-Revision-Date: 2020-06-10 15:09+0000\n"
 "Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/master/"
 "sl/>\n"
@@ -242,8 +242,8 @@ msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Prejeli boste obvestilo ob vsakem takšnem dogodku v projektih za katere "
-"skrbite."
+"Prejeli boste obvestilo ob vsakem takšnem dogodku v projektih kjer imate "
+"skrbniške pravice."
 
 #: weblate/accounts/forms.py:694
 #, fuzzy, python-format
@@ -2913,10 +2913,8 @@ msgid "Source and translation are identical"
 msgstr "Izvirnik in prevod sta identična"
 
 #: weblate/checks/source.py:38
-#, fuzzy
-#| msgid "Plural"
 msgid "Unpluralised"
-msgstr "Množina"
+msgstr "Brez množinskih oblik"
 
 #: weblate/checks/source.py:39
 #, fuzzy
@@ -3298,15 +3296,11 @@ msgid "Weblate languages"
 msgstr "Jeziki Weblate"
 
 #: weblate/lang/data.py:171
-#, fuzzy
-#| msgid "Singular"
 msgctxt "Plural form description"
 msgid "Singular"
 msgstr "Ednina"
 
 #: weblate/lang/data.py:172
-#, fuzzy
-#| msgid "Plural"
 msgctxt "Plural form description"
 msgid "Plural"
 msgstr "Množina"
@@ -3658,10 +3652,8 @@ msgid "Security FAQ"
 msgstr ""
 
 #: weblate/legal/templates/legal/security.html:40
-#, fuzzy
-#| msgid "Set my password"
 msgid "How are user passwords stored?"
-msgstr "Nastavi moje geslo"
+msgstr "Kako so shranjena gesla uporabnikov?"
 
 #: weblate/legal/templates/legal/security.html:42
 msgid ""
@@ -3885,17 +3877,13 @@ msgstr ""
 "ste zahtevek res naredili vi."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have configured your browser to disable cookies, please re-enable "
-#| "them, at least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again, at-least for this site, or for 'same-origin' requests."
 msgstr ""
 "Če ste v brskalniku onemogočili hrambo piškotkov, jih prosimo ponovno "
 "omogočite, vsaj za to spletno stran ali za povezave iz istega vira ('same-"
-"origin').  "
+"origin')."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:40
 msgid "Page Not Found"
@@ -4317,10 +4305,8 @@ msgid "Sign in with:"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:59
-#, fuzzy
-#| msgid "Set my password"
 msgid "Forgot your password?"
-msgstr "Nastavi moje geslo"
+msgstr "Ste pozabili svoje geslo?"
 
 #: weblate/templates/accounts/login.html:64
 #, fuzzy
@@ -6258,11 +6244,10 @@ msgstr[3] "Jezikov"
 
 #: weblate/templates/engage.html:32
 #: weblate/trans/templatetags/translations.py:802 weblate/trans/widgets.py:98
-#, fuzzy, python-format
-#| msgid "Percent"
+#, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
-msgstr "%(percent)s%%"
+msgstr "%(percent)s %%"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -6730,10 +6715,8 @@ msgstr[2] "Vaši prevodi"
 msgstr[3] "Vaši prevodi"
 
 #: weblate/templates/language.html:84
-#, fuzzy
-#| msgid "Plural"
 msgid "Plurals"
-msgstr "Množina"
+msgstr "Množine"
 
 #: weblate/templates/language.html:122
 msgid "There are no glossaries defined for this language."
@@ -9091,22 +9074,16 @@ msgid "Messages placed around this one"
 msgstr "Sporočila, ki se nahajajo ob tem sporočilu"
 
 #: weblate/templates/translate.html:244
-#, fuzzy
-#| msgid "Search string"
 msgid "Nearby strings"
-msgstr "Iskalni niz"
+msgstr "Bližnji nizi"
 
 #: weblate/templates/translate.html:246
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Strings with similar keys"
-msgstr "Nizi s pripombami"
+msgstr "Nizi s podobnimi ključi"
 
 #: weblate/templates/translate.html:246
-#, fuzzy
-#| msgid "Nearby messages"
 msgid "Nearby keys"
-msgstr "Bližnja sporočila"
+msgstr "Bližnji ključi"
 
 #: weblate/templates/translate.html:249
 #, fuzzy
@@ -12311,12 +12288,12 @@ msgid "Following fixups were applied to translation: %s"
 msgstr "Na prevodu smo izvedli naslednje popravke: %s"
 
 #: weblate/trans/views/edit.py:238
-#, fuzzy, python-brace-format
-#| msgid "The translations in several languages have failing checks"
+#, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
-msgstr "Prevodi v več jezikih imajo spodletela preverjanja"
+msgstr ""
+"Prevod je bil shranjen, vendar vsebuje več novih spodletelih preverjanj: {0}"
 
 #: weblate/trans/views/edit.py:282
 msgid "Invalid merge request!"
