@@ -103,7 +103,7 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
 
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    plural = LanguagePluralSerializer()
+    plural = LanguagePluralSerializer(required=False)
     aliases = serializers.ListField(source="get_aliases_names", read_only=True)
     statistics_url = serializers.HyperlinkedIdentityField(
         view_name="api:language-statistics", lookup_field="code"
@@ -135,6 +135,14 @@ class LanguageSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Language with this language code was not found."
             )
+        return value
+
+    def validate_plural(self, value):
+        if not value and not (
+            isinstance(self.parent, ProjectSerializer)
+            and self.field_name == "source_language"
+        ):
+            raise serializers.ValidationError("This field is required.")
         return value
 
     def create(self, validated_data):

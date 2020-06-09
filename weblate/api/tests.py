@@ -1153,6 +1153,15 @@ class LanguageAPITest(APIBaseTest):
         self.do_request(
             "api:language-list", method="post", code=403,
         )
+        # Ensure it throws error without plural data
+        self.do_request(
+            "api:language-list",
+            method="post",
+            superuser=True,
+            code=400,
+            format="json",
+            request={"code": "new_lang", "name": "New Language", "direction": "rtl"},
+        )
         response = self.do_request(
             "api:language-list",
             method="post",
