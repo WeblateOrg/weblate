@@ -7,6 +7,8 @@
     function FullEditor() {
         EditorBase.call(this);
 
+        var self = this;
+
         // TODO: leverage this.$editor where possible
         this.initTabs();
         this.initChecks();
@@ -25,7 +27,7 @@
         Mousetrap.bindGlobal(
             'mod+e',
             function(e) {
-                $('.translation-editor').get(0).focus();
+                self.$translationArea.get(0).focus();
                 return false;
             }
         );
@@ -139,6 +141,8 @@
             return;
         }
 
+        var self = this;
+
         /* Check ignoring */
         $('.check-dismiss').click(function () {
             var $this = $(this);
@@ -165,7 +169,7 @@
         /* Check fix */
         $('[data-check-fixup]').click(function (e) {
             var fixups = $(this).data('check-fixup');
-            $('.translation-editor').each(function () {
+            self.$translationArea.each(function () {
                 var $this = $(this);
                 $.each(fixups, function (key, value) {
                     var re = new RegExp(value[0], value[2]);
@@ -250,7 +254,7 @@
                         $('#glossary-words').html(data.results);
                         form.find('[name=words]').attr('value', data.words);
                     }
-                    $('.translation-editor:first').focus();
+                    self.$translationArea.first().focus();
                     form.trigger('reset');
                 },
                 error: function (xhr, textStatus, errorThrown) {
@@ -297,6 +301,7 @@
         }
     }
 
+    // TODO: move some logic to the class so that $translationArea can be reused
     function processMachineTranslation(data, scope) {
         decreaseLoading(scope);
         if (data.responseStatus !== 200) {
