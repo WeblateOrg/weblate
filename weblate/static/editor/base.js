@@ -31,7 +31,6 @@ WLT.Utils = (function () {
 WLT.Editor = (function () {
     var lastEditor = null;
 
-    var $window = $(window);
     var $document = $(document);
 
     function EditorBase() {
@@ -210,96 +209,12 @@ WLT.Editor = (function () {
 
     // TODO: move to editor
 
-    /* Check ignoring */
-    $('.check-dismiss').click(function () {
-        var $this = $(this);
-        var $form = $('#link-post');
-
-        $.ajax({
-            type: 'POST',
-            url: $this.attr('href'),
-            data: {
-                csrfmiddlewaretoken: $form.find('input').val(),
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                addAlert(errorThrown);
-            },
-        });
-        if ($this.hasClass("check-dismiss-all")) {
-            $this.closest('.check').remove();
-        } else {
-            $this.closest('.check').toggleClass("check-dismissed");
-        }
-        return false;
-    });
-
-    /* Check fix */
-    $('[data-check-fixup]').click(function (e) {
-        var fixups = $(this).data('check-fixup');
-        $('.translation-editor').each(function () {
-            var $this = $(this);
-            $.each(fixups, function (key, value) {
-                var re = new RegExp(value[0], value[2]);
-                $this.val($this.val().replace(re, value[1]));
-            });
-        });
-        return false;
-    });
-
-    /* Check link clicking */
-    $document.on('click', '.check [data-toggle="tab"]', function (e) {
-        var href = $(this).attr('href');
-
-        e.preventDefault();
-        $('.nav [href="' + href + '"]').click();
-        $window.scrollTop($(href).offset().top);
-    });
-
     /* Copy from glossary */
     $document.on('click', '.glossary-embed', function (e) {
         var text = $(this).find('.target').text();
 
         insertEditor(text);
         e.preventDefault();
-    });
-
-    if (document.querySelectorAll('.check-item').length > 0) {
-        // Cancel out browser's `meta+i` and let Mousetrap handle the rest
-        document.addEventListener('keydown', function (e) {
-            var isMod = WLT.Config.IS_MAC ? e.metaKey : e.ctrlKey;
-            if (isMod && e.key.toLowerCase() === 'i') {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        });
-    }
-
-    $('.check-item').each(function(idx) {
-        var $this = $(this);
-
-        if (idx < 10) {
-            let key = WLT.Utils.getNumericKey(idx);
-
-            var title;
-            if (WLT.Config.IS_MAC) {
-                title = interpolate(gettext('Press Cmd+I then %s to dismiss this.'), [key]);
-            } else {
-                title = interpolate(gettext('Press Ctrl+I then %s to dismiss this.'), [key]);
-            }
-            $(this).find('.check-number').html(
-                ' <kbd title="' + title + '">' + key + '</kbd>'
-            );
-
-            Mousetrap.bindGlobal(
-                'mod+i ' + key,
-                function(e) {
-                    $this.find('.check-dismiss-single').click();
-                    return false;
-                }
-            );
-        } else {
-            $(this).find('.check-number').html('');
-        }
     });
 
     /* Inline glossary adding */
