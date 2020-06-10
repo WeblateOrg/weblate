@@ -1845,7 +1845,10 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         if not self.is_valid_base_for_new():
             filename = self.get_new_base_filename()
             if filename:
-                message = _("Unrecognized base file for new translations.")
+                if os.path.exists(filename):
+                    message = _("Unrecognized base file for new translations.")
+                else:
+                    message = _("Base file for new translations not found.")
             else:
                 message = _(
                     "You have set up Weblate to add new translation "
