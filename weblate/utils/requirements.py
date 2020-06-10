@@ -53,6 +53,7 @@ REQUIRES = [
     "oauthlib",
     "django-compressor",
     "djangorestframework",
+    "django-filter",
     "django-appconf",
     "user-agents",
     "filelock",
