@@ -31,8 +31,6 @@ WLT.Utils = (function () {
 WLT.Editor = (function () {
     var lastEditor = null;
 
-    var $document = $(document);
-
     function EditorBase() {
         var translationAreaSelector =  '.translation-editor';
 
