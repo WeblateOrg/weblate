@@ -1,7 +1,13 @@
 {% load i18n %}
 {% load translations %}
+{% load permissions %}
 
 {% url 'project' project=object.slug as project_url %}
+
+{% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+{% perm 'vcs.commit' object as user_can_commit_translation %}
+{% perm 'project.permissions' object as user_can_manage_acl %}
+{% perm 'project.edit' object as user_can_edit_project %}
 
 <ul class="nav nav-pills">
     {% if request.path != project_url %}
