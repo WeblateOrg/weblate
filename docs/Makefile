@@ -18,6 +18,7 @@ update-screenshots:
 	@rm -rf ../data-test ../test-images
 	@cd .. && \
 		export DJANGO_SETTINGS_MODULE=weblate.settings_test && \
+		export LANG=en_US.UTF-8 && \
 		./manage.py collectstatic --noinput && \
 		./manage.py test weblate.trans.tests.test_selenium.SeleniumTests
 	@set -e ;for file in ../test-images/*.png ; do \
