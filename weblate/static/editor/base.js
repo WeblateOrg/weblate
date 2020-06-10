@@ -180,8 +180,7 @@ WLT.Editor = (function () {
         WLT.Utils.markTranslated($(this).closest('form'));
     }
 
-    function insertEditor(text, element)
-    {
+    function insertEditor(text, element) {
         var root;
 
         /* Find withing root element */
@@ -208,42 +207,6 @@ WLT.Editor = (function () {
 
 
     // TODO: move to editor
-
-    /* Copy from glossary */
-    $document.on('click', '.glossary-embed', function (e) {
-        var text = $(this).find('.target').text();
-
-        insertEditor(text);
-        e.preventDefault();
-    });
-
-    /* Inline glossary adding */
-    $('.add-dict-inline').submit(function () {
-        var form = $(this);
-
-        increaseLoading('glossary-add');
-        $.ajax({
-            type: 'POST',
-            url: form.attr('action'),
-            data: form.serialize(),
-            dataType: 'json',
-            success: function (data) {
-                decreaseLoading('glossary-add');
-                if (data.responseCode === 200) {
-                    $('#glossary-terms').html(data.results);
-                    form.find('[name=terms]').attr('value', data.terms);
-                }
-                $('.translation-editor:first').focus();
-                form.trigger('reset');
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                addAlert(errorThrown);
-                decreaseLoading('glossary-add');
-            }
-        });
-        $('#add-glossary-form').modal('hide');
-        return false;
-    });
 
     /* Translate forms persistence */
     if ($('.translation-form').length > 0 && window.localStorage && window.localStorage.translation_autosave) {

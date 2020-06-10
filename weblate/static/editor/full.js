@@ -10,6 +10,7 @@
         // TODO: leverage this.$editor where possible
         this.initTabs();
         this.initChecks();
+        this.initGlossary();
 
         Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
         Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
@@ -220,6 +221,51 @@
             $('.nav [href="' + href + '"]').click();
             $window.scrollTop($(href).offset().top);
         });
+    };
+
+    FullEditor.prototype.initGlossary = function () {
+        var self = this;
+
+        /* Copy from glossary */
+        $document.on('click', '.glossary-embed', function (e) {
+            var text = $(this).find('.target').text();
+
+            self.insertIntoTranslation(text);
+            e.preventDefault();
+        });
+
+        /* Inline glossary adding */
+        $('.add-dict-inline').submit(function () {
+            var form = $(this);
+
+            increaseLoading('glossary-add');
+            $.ajax({
+                type: 'POST',
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    decreaseLoading('glossary-add');
+                    if (data.responseCode === 200) {
+                        $('#glossary-words').html(data.results);
+                        form.find('[name=words]').attr('value', data.words);
+                    }
+                    $('.translation-editor:first').focus();
+                    form.trigger('reset');
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    addAlert(errorThrown);
+                    decreaseLoading('glossary-add');
+                }
+            });
+            $('#add-glossary-form').modal('hide');
+            return false;
+        });
+
+    };
+
+    FullEditor.prototype.insertIntoTranslation = function (text) {
+        this.$translationArea.insertAtCaret($.trim(text)).change();
     };
 
     function loadMachineTranslations(data, textStatus) {
