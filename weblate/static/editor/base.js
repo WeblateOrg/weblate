@@ -105,7 +105,7 @@ WLT.Editor = (function () {
 
     EditorBase.prototype.init = function() {
         /* Autosizing */
-        autosize($('.translation-editor'));
+        autosize(this.$translationArea);
     };
 
     EditorBase.prototype.initHighlight = function () {
