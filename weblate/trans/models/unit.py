@@ -959,15 +959,15 @@ class Unit(models.Model, LoggerMixin):
         secondary_langs = user.profile.secondary_languages.exclude(
             id=self.translation.language.id
         )
+        component = self.translation.component
         return get_distinct_translations(
             Unit.objects.filter(
                 id_hash=self.id_hash,
                 state__gte=STATE_TRANSLATED,
-                translation__component=self.translation.component,
+                translation__component=component,
                 translation__language__in=secondary_langs,
             ).exclude(
-                target="",
-                translation__language=self.translation.project.source_language,
+                target="", translation__language=component.project.source_language,
             )
         )
 
