@@ -1,7 +1,6 @@
 (function () {
     var EditorBase = WLT.Editor.Base;
 
-    var $document = $(document);
     var $window = $(window);
 
     function FullEditor() {
@@ -9,7 +8,6 @@
 
         var self = this;
 
-        // TODO: leverage this.$editor where possible
         this.initTabs();
         this.initChecks();
         this.initGlossary();
@@ -76,7 +74,7 @@
         });
 
         /* Machine translation */
-        $document.on('show.bs.tab', '[data-load="mt"]', function (e) {
+        this.$editor.on('show.bs.tab', '[data-load="mt"]', function (e) {
             if (this.isMTLoaded) {
                 return;
             }
@@ -91,7 +89,7 @@
         });
 
         /* Translation memory */
-        $document.on('show.bs.tab', '[data-load="memory"]', function (e) {
+        this.$editor.on('show.bs.tab', '[data-load="memory"]', function (e) {
             if (this.isTMLoaded) {
                 return;
             }
@@ -218,7 +216,7 @@
         });
 
         /* Clicking links (e.g. comments, suggestions) */
-        $document.on('click', '.check [data-toggle="tab"]', function (e) {
+        this.$editor.on('click', '.check [data-toggle="tab"]', function (e) {
             var href = $(this).attr('href');
 
             e.preventDefault();
@@ -231,7 +229,7 @@
         var self = this;
 
         /* Copy from glossary */
-        $document.on('click', '.glossary-embed', function (e) {
+        this.$editor.on('click', '.glossary-embed', function (e) {
             var text = $(this).find('.target').text();
 
             self.insertIntoTranslation(text);
