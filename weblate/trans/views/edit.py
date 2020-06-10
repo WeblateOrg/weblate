@@ -529,7 +529,7 @@ def translate(request, project, component, lang):
             "addword_form": InlineWordForm(),
             "last_changes": unit.change_set.prefetch().order()[:10],
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
-            "display_checks": get_display_checks(unit),
+            "display_checks": list(get_display_checks(unit)),
         },
     )
 
