@@ -65,6 +65,8 @@
     FullEditor.prototype.constructor = FullEditor;
 
     FullEditor.prototype.initTranslationForm = function () {
+        var self = this;
+
         this.$translationForm = $('.translation-form');
 
         /* Report source bug */
@@ -75,6 +77,37 @@
                 scrollTop: $('#comment-form').offset().top
             }, 1000);
             $("#id_comment").focus();
+        });
+
+
+        /* Form persistence. Restores translation form upon comment submission */
+        if (window.localStorage && window.localStorage.translation_autosave) {
+            var translationRestore = JSON.parse(window.localStorage.translation_autosave);
+
+            $.each(translationRestore, function () {
+                var target = $('#' + this.id);
+
+                if (target.length > 0) {
+                    target.val(this.value);
+                    autosize.update(target);
+                }
+            });
+            localStorage.removeItem('translation_autosave');
+        }
+
+        this.$editor.on('submit', '.auto-save-translation', function () {
+            if (window.localStorage) {
+                var data = self.$translationArea.map(function () {
+                    var $this = $(this);
+
+                    return {
+                        id: $this.attr('id'),
+                        value: $this.val(),
+                    };
+                });
+
+                window.localStorage.translation_autosave = JSON.stringify(data.get());
+            }
         });
     };
 

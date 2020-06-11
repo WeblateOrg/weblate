@@ -203,38 +203,6 @@ WLT.Editor = (function () {
         autosize.update(editor);
     }
 
-
-    // TODO: move to editor
-
-    /* Translate forms persistence */
-    if ($('.translation-form').length > 0 && window.localStorage && window.localStorage.translation_autosave) {
-        var translationRestore = JSON.parse(window.localStorage.translation_autosave);
-
-        $.each(translationRestore, function () {
-            var target = $('#' + this.id);
-
-            if (target.length > 0) {
-                target.val(this.value);
-                autosize.update(target);
-            }
-        });
-        localStorage.removeItem('translation_autosave');
-    }
-
-    $('.auto-save-translation').on('submit', function () {
-        if (window.localStorage) {
-            let data = $('.translation-editor').map(function () {
-                var $this = $(this);
-
-                return {id: $this.attr('id'), value: $this.val()};
-            });
-
-            window.localStorage.translation_autosave = JSON.stringify(data.get());
-        }
-    });
-
-    // end TODO: move to non-zen editor
-
     return {
         Base: EditorBase,
     };
