@@ -126,12 +126,8 @@ class Group(models.Model):
     components = models.ManyToManyField(
         "trans.Component", verbose_name=_("Components"), blank=True
     )
-    componentlist = models.ForeignKey(
-        "trans.ComponentList",
-        verbose_name=_("Component list"),
-        on_delete=models.deletion.CASCADE,
-        null=True,
-        blank=True,
+    componentlists = models.ManyToManyField(
+        "trans.ComponentList", verbose_name=_("Component lists"), blank=True,
     )
 
     language_selection = models.IntegerField(

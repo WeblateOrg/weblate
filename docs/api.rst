@@ -454,15 +454,15 @@ Groups
     :param language_code: The unique language code
     :type language_code: string
 
-.. http:post:: /api/groups/(int:id)/componentlist/
+.. http:post:: /api/groups/(int:id)/componentlists/
 
-    Associate componentlist with a group.
+    Associate componentlists with a group.
 
     :param id: Group's ID
     :type id: int
     :form string component_list_id: The unique componentlist ID
 
-.. http:delete:: /api/groups/(int:id)/componentlist/(int:component_list_id)
+.. http:delete:: /api/groups/(int:id)/componentlists/(int:component_list_id)
 
     Delete componentlist from a group.
 

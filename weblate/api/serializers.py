@@ -250,10 +250,10 @@ class GroupSerializer(serializers.ModelSerializer):
     projects = serializers.HyperlinkedIdentityField(
         view_name="api:project-detail", lookup_field="slug", many=True, read_only=True,
     )
-    componentlist = serializers.HyperlinkedRelatedField(
+    componentlists = serializers.HyperlinkedRelatedField(
         view_name="api:componentlist-detail",
         lookup_field="slug",
-        many=False,
+        many=True,
         read_only=True,
     )
     components = MultiFieldHyperlinkedIdentityField(
@@ -273,7 +273,7 @@ class GroupSerializer(serializers.ModelSerializer):
             "roles",
             "languages",
             "projects",
-            "componentlist",
+            "componentlists",
             "components",
         )
         extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
