@@ -81,7 +81,7 @@
 
 
         /* Form persistence. Restores translation form upon comment submission */
-        if (window.localStorage && window.localStorage.translation_autosave) {
+        if (window.localStorage.translation_autosave) {
             var translationRestore = JSON.parse(window.localStorage.translation_autosave);
 
             $.each(translationRestore, function () {
@@ -96,18 +96,16 @@
         }
 
         this.$editor.on('submit', '.auto-save-translation', function () {
-            if (window.localStorage) {
-                var data = self.$translationArea.map(function () {
-                    var $this = $(this);
+            var data = self.$translationArea.map(function () {
+                var $this = $(this);
 
-                    return {
-                        id: $this.attr('id'),
-                        value: $this.val(),
-                    };
-                });
+                return {
+                    id: $this.attr('id'),
+                    value: $this.val(),
+                };
+            });
 
-                window.localStorage.translation_autosave = JSON.stringify(data.get());
-            }
+            window.localStorage.translation_autosave = JSON.stringify(data.get());
         });
     };
 
