@@ -94,3 +94,18 @@ class FlagTest(SimpleTestCase):
         flags = Flags("regex:.*")
         regex = flags.get_value("regex")
         self.assertEqual(regex.pattern, ".*")
+
+    def test_whitespace(self):
+        self.assertEqual(Flags("  foo    , bar  ").items(), {"foo", "bar"})
+        flags = Flags(
+            "max-size:120:2,font-family:DIN next pro,font-spacing:2, priority:140"
+        )
+        self.assertEqual(
+            flags.items(),
+            {
+                ("font-family", "DIN next pro"),
+                ("priority", "140"),
+                ("max-size", "120", "2"),
+                ("font-spacing", "2"),
+            },
+        )

@@ -115,6 +115,7 @@ class Flags:
         name = None
         value = []
         for token in FlagsParser.parseString(flags, parseAll=True):
+            token = token.strip()
             if state == 0 and token == ",":
                 pass
             elif state == 0:
