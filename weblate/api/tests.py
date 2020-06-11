@@ -958,6 +958,30 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["repo"], repo_url)
 
+    def test_create_component_empty_push(self):
+        repo_url = self.format_local_path(self.git_repo_path)
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "repo": repo_url,
+                "push": "",
+                "filemask": "po/*.po",
+                "file_format": "po",
+            },
+        )
+        self.assertEqual(Component.objects.count(), 2)
+        self.assertEqual(
+            Component.objects.get(slug="api-project", project__slug="test").repo,
+            repo_url,
+        )
+        self.assertEqual(response.data["repo"], repo_url)
+
 
 class ComponentAPITest(APIBaseTest):
     def setUp(self):
