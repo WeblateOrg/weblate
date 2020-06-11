@@ -29,7 +29,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-10 15:09+0000\n"
-"PO-Revision-Date: 2020-06-10 15:09+0000\n"
+"PO-Revision-Date: 2020-06-11 19:41+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
@@ -2925,20 +2925,17 @@ msgid "Starting letter"
 msgstr "Начальная буква"
 
 #: weblate/glossary/models.py:59
-#, fuzzy
-#| msgid "Additional context"
 msgid "Additional projects"
-msgstr "Дополнительный контекст"
+msgstr "Дополнительные проекты"
 
 #: weblate/glossary/models.py:63
 msgid "Choose additional projects where this glossary can be used."
 msgstr ""
+"Выберите дополнительные проекты, где может быть использован этот глоссарий."
 
 #: weblate/glossary/models.py:67
-#, fuzzy
-#| msgid "Glossary added"
 msgid "Glossary name"
-msgstr "Добавлено в глоссарий"
+msgstr "Название глоссария"
 
 #: weblate/glossary/models.py:72 weblate/templates/project-labels.html:18
 #: weblate/trans/models/label.py:33
@@ -2969,26 +2966,20 @@ msgid "%(language)s glossary for %(project)s"
 msgstr "%(language)s глоссарий для %(project)s"
 
 #: weblate/glossary/views.py:128 weblate/glossary/views.py:143
-#, fuzzy
-#| msgid "Override was not found."
 msgid "Glossary was not found."
-msgstr "Переопределение не найдено."
+msgstr "Глоссарий не найден."
 
 #: weblate/glossary/views.py:253
-#, fuzzy
-#| msgid "No words to import found in file."
 msgid "No terms to import found in file."
-msgstr "В файле не найдено слов для импорта."
+msgstr "В файле не найдено терминов для импорта."
 
 #: weblate/glossary/views.py:255
-#, fuzzy, python-format
-#| msgid "Imported %d word from the uploaded file."
-#| msgid_plural "Imported %d words from the uploaded file."
+#, python-format
 msgid "Imported %d term from the uploaded file."
 msgid_plural "Imported %d terms from the uploaded file."
-msgstr[0] "Импортировано %d слово из загруженного файла."
-msgstr[1] "Импортировано %d слова из загруженного файла."
-msgstr[2] "Импортировано %d слов из загруженного файла."
+msgstr[0] "Из загруженного файла импортирован %d термин."
+msgstr[1] "Из загруженного файла импортировано %d термина."
+msgstr[2] "Из загруженного файла импортировано %d терминов."
 
 #: weblate/glossary/views.py:262 weblate/trans/views/files.py:187
 #, python-format
@@ -5212,8 +5203,8 @@ msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"Сообщение отображается для всех переводов в компоненте, либо до истечения "
-"его срока, либо постоянно до его удаления."
+"Сообщение отображается для всех переводов в компоненте либо до истечения его "
+"срока, либо постоянно, пока оно не будет удалено."
 
 #: weblate/templates/component.html:254
 msgid "Rename component"
@@ -5774,24 +5765,17 @@ msgid "Are you absolutely sure?"
 msgstr "Вы абсолютно уверены?"
 
 #: weblate/templates/glossaries.html:57
-#, fuzzy, python-format
-#| msgid ""
-#| "This will permanently delete %(count)s entry from the translation memory."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the translation "
-#| "memory."
+#, python-format
 msgid "This will permanently delete %(count)s entry from the glossary."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the glossary."
-msgstr[0] "Это действие навсегда удалит %(count)s запись из памяти переводов."
-msgstr[1] "Это действие навсегда удалит %(count)s записи из памяти переводов."
-msgstr[2] "Это действие навсегда удалит %(count)s записей из памяти переводов."
+msgstr[0] "Это действие навсегда удалит из глоссария %(count)s запись."
+msgstr[1] "Это действие навсегда удалит из глоссария %(count)s записи."
+msgstr[2] "Это действие навсегда удалит из глоссария %(count)s записей."
 
 #: weblate/templates/glossaries.html:73
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new glossary"
-msgstr "Управлять глоссарием"
+msgstr "Создание нового глоссария"
 
 #: weblate/templates/glossary.html:21
 #: weblate/templates/snippets/list-objects.html:93
@@ -6884,9 +6868,9 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] "Это действие навсегда удалит %(count)s запись из памяти переводов."
-msgstr[1] "Это действие навсегда удалит %(count)s записи из памяти переводов."
-msgstr[2] "Это действие навсегда удалит %(count)s записей из памяти переводов."
+msgstr[0] "Это действие навсегда удалит из памяти переводов %(count)s запись."
+msgstr[1] "Это действие навсегда удалит из памяти переводов %(count)s записи."
+msgstr[2] "Это действие навсегда удалит из памяти переводов %(count)s записей."
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -6999,8 +6983,8 @@ msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
 msgstr ""
-"Сообщение показывается для всех переводов в проекте, либо до истечения его "
-"срока, либо постоянно до его удаления."
+"Сообщение отображается для всех переводов в проекте либо до истечения его "
+"срока, либо постоянно, пока оно не будет удалено."
 
 #: weblate/templates/project.html:150
 msgid "Rename project"
@@ -7936,7 +7920,7 @@ msgid ""
 "component and all related content."
 msgstr ""
 "Это действие нельзя отменить. Компонент %(object)s и всё связанное с ним "
-"содержание будут безвозвратно удалены."
+"содержимое будут безвозвратно удалены."
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
@@ -7958,7 +7942,7 @@ msgid ""
 "project and all related content."
 msgstr ""
 "Это действие нельзя отменить. Проект %(object)s и всё связанное с ним "
-"содержание будут безвозвратно удалены."
+"содержимое будут безвозвратно удалены."
 
 #: weblate/templates/trans/delete-project.html:6
 msgid ""
@@ -7979,7 +7963,7 @@ msgid ""
 "translation and all related content."
 msgstr ""
 "Это действие нельзя отменить. Перевод %(object)s и всё связанное с ним "
-"содержание будут безвозвратно удалены."
+"содержимое будут безвозвратно удалены."
 
 #: weblate/templates/trans/delete-translation.html:9
 msgid "Translation to remove"
@@ -8303,10 +8287,8 @@ msgid "Manage glossary"
 msgstr "Управлять глоссарием"
 
 #: weblate/templates/translate.html:550 weblate/templates/translate.html:560
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Add term to glossary"
-msgstr "Добавлено в глоссарий"
+msgstr "Добавить термин в глоссарий"
 
 #: weblate/templates/translate.html:579
 msgid "Source information"
@@ -8468,8 +8450,8 @@ msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "permanently until it is deleted."
 msgstr ""
-"Сообщение отображается на странице перевода, либо до истечения срока, либо "
-"постоянно пока не удалено."
+"Сообщение отображается на странице перевода либо до истечения его срока, "
+"либо постоянно, пока оно не будет удалено."
 
 #: weblate/templates/translation.html:392
 msgid "Percent"
@@ -10069,10 +10051,8 @@ msgid "Unrecognized base file for new translations."
 msgstr "Неопознанный базовый файл для новых переводов."
 
 #: weblate/trans/models/component.py:1851
-#, fuzzy
-#| msgid "Unused base file for new translations."
 msgid "Base file for new translations not found."
-msgstr "Неиспользуемый базовый файл для новых переводов."
+msgstr "Базовый файл для новых переводов не найден."
 
 #: weblate/trans/models/component.py:1854
 msgid ""
