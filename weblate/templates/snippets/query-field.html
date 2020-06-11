@@ -30,8 +30,7 @@
   <div class="col-sm-4">
     <div class="form-group">
       <div class="btn-group search-group sort-field" role="group">
-        <div class="input-group">
-          <div class="input-group-btn">
+          <div class="btn-group" role="group">
             <button type="button" id="query-sort-dropdown" class="btn btn-default dropdown-toggle search-field" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {% if sort_name %}
               <span class="search-label">{{ sort_name }}</span>
@@ -53,16 +52,15 @@
               <li><a data-sort="context">{% trans "Key" context "Translation key" %}</a></li>
             </ul>
           </div>
-          <span class="input-group-btn">
+          <div class="btn-group" role="group">
             <button type="button" id="query-sort-toggle" class="btn btn-default search-field">
               <span class="search-label asc active">
                 {% icon "sort-ascending.svg" %}
               </span>
               <span class="search-label desc">{% icon "sort-descending.svg" %}</span>
             </button>
-          </span>
-        </div><!-- /input-group -->
-      </div>
+          </div>
+       </div>
     </div>
   </div>
 </div>
