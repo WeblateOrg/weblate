@@ -405,11 +405,18 @@ source translation, translating to other languages is prohibited. This provides
 Template for new translations
 +++++++++++++++++++++++++++++
 
-Base file used to generate new translations, e.g. ``.pot`` file with gettext,
-see :ref:`new-translations` for more info.
+Base file used to generate new translations, e.g. ``.pot`` file with gettext.
+
+.. hint::
+
+   In many monolingual formats Weblate starts with blank file by default. Use
+   this in case you want to have all strings present with empty value when
+   creating new translation.
 
 .. seealso::
 
+   :ref:`new-translations`,
+   :ref:`component-new_lang`,
    :ref:`bimono`,
    :ref:`faq-duplicate-files`
 
@@ -495,7 +502,25 @@ component.
 Adding new translation
 ++++++++++++++++++++++
 
-How to handle requests for creation of new languages. See :ref:`adding-translation`.
+How to handle requests for creation of new languages. Available options:
+
+Contact maintainers
+    User can select desired language and the project maintainers will receive a
+    notification about this. It is up to them to add (or not) the language to the
+    repository.
+Point to translation instructions URL
+    User is presented a link to page which describes process of starting new
+    translations. Use this in case more formal process is desired (for example
+    forming a team of people before starting actual translation).
+Create new language file
+    User can select language and Weblate automatically creates the file for it
+    and translation can begin.
+Disable adding new translations
+    There will be no option for user to start new translation.
+
+.. seealso::
+
+   :ref:`adding-translation`.
 
 .. _component-language_code_style:
 
