@@ -81,8 +81,10 @@
 
 
         /* Form persistence. Restores translation form upon comment submission */
-        if (window.localStorage.translation_autosave) {
-            var translationRestore = JSON.parse(window.localStorage.translation_autosave);
+        var restoreKey = 'translation_autosave';
+        var restoreValue = window.localStorage.getItem(restoreKey);
+        if (restoreValue !== null) {
+            var translationRestore = JSON.parse(restoreValue);
 
             $.each(translationRestore, function () {
                 var target = $('#' + this.id);
@@ -92,7 +94,7 @@
                     autosize.update(target);
                 }
             });
-            localStorage.removeItem('translation_autosave');
+            localStorage.removeItem(restoreKey);
         }
 
         this.$editor.on('submit', '.auto-save-translation', function () {
@@ -105,7 +107,7 @@
                 };
             });
 
-            window.localStorage.translation_autosave = JSON.stringify(data.get());
+            window.localStorage.setItem(restoreKey, JSON.stringify(data.get()));
         });
     };
 
