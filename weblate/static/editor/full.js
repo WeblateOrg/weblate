@@ -8,6 +8,7 @@
 
         var self = this;
 
+        this.initTranslationForm();
         this.initTabs();
         this.initChecks();
         this.initGlossary();
@@ -62,6 +63,20 @@
     }
     FullEditor.prototype = Object.create(EditorBase.prototype);
     FullEditor.prototype.constructor = FullEditor;
+
+    FullEditor.prototype.initTranslationForm = function () {
+        this.$translationForm = $('.translation-form');
+
+        /* Report source bug */
+        this.$translationForm.on('click', '.bug-comment', function () {
+            $('.translation-tabs a[href="#comments"]').tab('show');
+            $("#id_scope").val("report");
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $('#comment-form').offset().top
+            }, 1000);
+            $("#id_comment").focus();
+        });
+    };
 
     FullEditor.prototype.initTabs = function () {
         this.isMTLoaded = false;
