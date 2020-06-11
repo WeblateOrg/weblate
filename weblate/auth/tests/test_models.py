@@ -76,8 +76,7 @@ class ModelTest(FixtureTestCase):
 
         # Assign component list to a group
         clist = ComponentList.objects.create(name="Test", slug="test")
-        self.group.componentlist = clist
-        self.group.save()
+        self.group.componentlists.add(clist)
 
         # No permissions as component list is empty
         self.assertFalse(self.user.can_access_project(self.project))

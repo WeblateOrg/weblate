@@ -521,10 +521,11 @@ class User(AbstractBaseUser):
                 group.roles.values_list("permissions__codename", flat=True)
             )
             # Component list specific permissions
-            if group.componentlist:
-                for component, project in group.componentlist.components.values_list(
-                    "id", "project_id"
-                ):
+            componentlist_values = group.componentlists.values_list(
+                "components__id", "components__project_id"
+            )
+            if componentlist_values:
+                for component, project in componentlist_values:
                     components[component].append((permissions, languages))
                     # Grant access to the project
                     projects[project].append(((), languages))
@@ -646,7 +647,7 @@ def change_componentlist(sender, instance, action, **kwargs):
     if not action.startswith("post_"):
         return
     groups = Group.objects.filter(
-        componentlist=instance, project_selection=Group.SELECTION_COMPONENT_LIST
+        componentlists=instance, project_selection=Group.SELECTION_COMPONENT_LIST
     )
     for group in groups:
         group.projects.set(
