@@ -233,16 +233,6 @@ WLT.Editor = (function () {
         }
     });
 
-    /* Report source bug */
-    $('.bug-comment').click(function () {
-        $('.translation-tabs a[href="#comments"]').tab('show');
-        $("#id_scope").val("report");
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $('#comment-form').offset().top
-        }, 1000);
-        $("#id_comment").focus();
-    });
-
     // end TODO: move to non-zen editor
 
     return {
