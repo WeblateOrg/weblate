@@ -897,14 +897,14 @@ $(function () {
             $this.closest('form').submit();
         }
     });
-    $('.search-group input').not('#id_q').on('keydown', function (event) {
+    $('.search-group input').not('#id_q,#id_position').on('keydown', function (event) {
         if (event.key === "Enter") {
             $(this).closest('.input-group').find('.search-add').click();
             event.preventDefault();
             return false;
         }
     });
-    $('#id_q').on('keydown', function (event) {
+    $('#id_q,#id_position').on('keydown', function (event) {
         if (event.key === "Enter") {
             $(this).closest('form').submit();
         }

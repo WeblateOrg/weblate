@@ -44,6 +44,7 @@ from weblate.trans.forms import (
     ContextForm,
     MergeForm,
     NewUnitForm,
+    PositionSearchForm,
     RevertForm,
     SearchForm,
     TranslationForm,
@@ -110,10 +111,10 @@ def cleanup_session(session):
             del session[key]
 
 
-def search(translation, request):
+def search(translation, request, form_class=SearchForm):
     """Perform search or returns cached search results."""
     # Possible new search
-    form = SearchForm(request.user, request.GET, show_builder=False)
+    form = form_class(request.user, request.GET, show_builder=False)
 
     # Process form
     form_valid = form.is_valid()
@@ -398,7 +399,7 @@ def translate(request, project, component, lang):
     locked = translation.component.locked
 
     # Search results
-    search_result = search(translation, request)
+    search_result = search(translation, request, PositionSearchForm)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):

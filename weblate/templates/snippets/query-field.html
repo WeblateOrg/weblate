@@ -2,11 +2,7 @@
 {% load translations %}
 {% load icons %}
 {% load crispy_forms_field %}
-<div class="row">
-  <div class="col-sm-8">
-    <div class="form-group">
-      <div class="search-group query-field" role="group" >
-        <div class="input-group">
+        <div class="input-group search-group query-field" role="group" >
           <div class="input-group-btn">
             <button type="button" id="query-dropdown" class="btn btn-default dropdown-toggle search-field" data-field="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {% if filter_name and filter_name != search_query.strip %}
@@ -24,11 +20,6 @@
           </div><!-- /btn-group -->
           {% crispy_field field 'aria-label' _('Query') %}
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="form-group">
       <div class="btn-group search-group sort-field" role="group">
           <div class="btn-group" role="group">
             <button type="button" id="query-sort-dropdown" class="btn btn-default dropdown-toggle search-field" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -61,6 +52,3 @@
             </button>
           </div>
        </div>
-    </div>
-  </div>
-</div>

@@ -636,6 +636,7 @@ class SearchForm(forms.Form):
     sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
     checksum = ChecksumField(required=False)
     offset = forms.IntegerField(min_value=-1, required=False, widget=forms.HiddenInput)
+    offset_kwargs = {}
 
     def __init__(self, user, *args, **kwargs):
         """Generate choices for other component in same project."""
@@ -647,7 +648,12 @@ class SearchForm(forms.Form):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q", template="snippets/query-field.html"),
+            Div(
+                Field("offset", **self.offset_kwargs),
+                SearchField("q", template="snippets/query-field.html"),
+                css_class="btn-toolbar",
+                role="toolbar",
+            ),
             ContextDiv(
                 template="snippets/query-builder.html",
                 context={
@@ -657,7 +663,6 @@ class SearchForm(forms.Form):
                 },
             ),
             Field("checksum"),
-            Field("offset"),
         )
 
     def get_name(self):
@@ -713,6 +718,11 @@ class SearchForm(forms.Form):
         data["checksum"] = ""
         self.data = data
         return self
+
+
+class PositionSearchForm(SearchForm):
+    offset = forms.IntegerField(min_value=-1, required=False)
+    offset_kwargs = {"template": "snippets/position-field.html"}
 
 
 class MergeForm(ChecksumForm):

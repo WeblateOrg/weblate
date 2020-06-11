@@ -56,46 +56,10 @@
 
 {% with nearby=unit.nearby nearby_keys=unit.nearby_keys variants=unit.variants %}
 
-<div class="row query-container">
-  <div class="col-sm-9">
-      <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
-        {% crispy search_form  %}
-      </form>
-  </div>
-  <div class="col">
-    <div class="btn-group">
-      <ul class="pagination unit-navi">
-        <li>
-          <a id="button-first" class="green" href="{{ first_unit_url }}" title="{% trans "First" %}">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a>
-        </li>
-        <li>
-          <a id="button-prev" class="green" href="{{ prev_unit_url }}" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
-        </li>
-        <li>
-          <a id="position-input" title="{% trans "Click to edit position" %}" >
-            {% blocktrans %}{{ filter_pos }} / {{ filter_count }}{% endblocktrans %}
-          </a>
-          <a id="position-input-editable" title="{% trans "Go to position" %}" >
-            <form action="{{ unit.translation.get_translate_url }}" method="GET">
-              {% for key, value in search_items %}
-                <input type="hidden" name="{{ key }}" value="{{ value }}" aria-label="{{ value }}" />
-              {% endfor %}
-              <div class="input-group">
-                <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}">
-                <span class="input-group-addon">{% blocktrans %}/ {{ filter_count }}{% endblocktrans %}</span>
-              </div>
-            </form>
-          </a>
-        </li>
-        <li>
-          <a id="button-next" class="green" href="{{ next_unit_url }}" title="{% trans "Next" %}">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
-        </li>
-        <li>
-          <a id="button-end" class="green" href="{{ last_unit_url }}" title="{% trans "Last" %}">{% if not LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div class="query-container">
+  <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
+    {% crispy search_form  %}
+  </form>
 </div>
 
 <div class="row">
