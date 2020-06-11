@@ -54,6 +54,7 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.defines import (
     COMPONENT_NAME_LENGTH,
     FILENAME_LENGTH,
+    LANGUAGE_CODE_LENGTH,
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
@@ -1779,7 +1780,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 {"filemask": _("The filemask did not match any files.")}
             )
         langs = set()
-        translated_langs = set()
+        existing_langs = set()
+
         for match in matches:
             code = self.get_lang_code(match)
             if not code:
@@ -1789,7 +1791,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 )
                 raise ValidationError({"filemask": message})
             lang = Language.objects.auto_get_or_create(code, create=False)
-            if len(code) > 20:
+            if len(code) > LANGUAGE_CODE_LENGTH:
                 message = (
                     _('The language code "%s" is too long, please check the filemask.')
                     % code
@@ -1806,7 +1808,15 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 )
                 raise ValidationError({"filemask": message})
             langs.add(code)
-            translated_langs.add(lang.code)
+            if "(generated)" not in lang.name:
+                existing_langs.add(lang.code)
+
+        # No languages matched our definition
+        if not existing_langs and langs:
+            message = _(
+                "Could not find any matching language, please check the filemask."
+            )
+            raise ValidationError({"filemask": message})
 
     def clean_files(self, matches):
         """Validate that translation files can be."""
