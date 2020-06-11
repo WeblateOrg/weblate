@@ -86,11 +86,10 @@
         if (restoreValue !== null) {
             var translationRestore = JSON.parse(restoreValue);
 
-            $.each(translationRestore, function () {
-                var target = $('#' + this.id);
-
-                if (target.length > 0) {
-                    target.val(this.value);
+            translationRestore.forEach(function (restoreArea) {
+                var target = document.getElementById(restoreArea.id);
+                if (target) {
+                    target.value = restoreArea.value;
                     autosize.update(target);
                 }
             });
