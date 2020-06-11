@@ -14,7 +14,7 @@ default configuration it uses syslog and that makes the log appear either in
 daemon configuration).
 
 The Docker containers log (as usual in the Docker world) to their output, so
-you can look at the logs using `docker-compose logs`.
+you can look at the logs using ``docker-compose logs``.
 
 .. seealso::
 
