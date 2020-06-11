@@ -41,6 +41,7 @@ from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.langdata.languages import LANGUAGES
 from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
+from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.util import sort_choices, sort_objects
 from weblate.utils.stats import LanguageStats
 from weblate.utils.templatetags.icons import icon
@@ -431,8 +432,14 @@ def setup_lang(sender, **kwargs):
 
 
 class Language(models.Model):
-    code = models.SlugField(unique=True, verbose_name=gettext_lazy("Language code"))
-    name = models.CharField(max_length=100, verbose_name=gettext_lazy("Language name"))
+    code = models.SlugField(
+        max_length=LANGUAGE_CODE_LENGTH,
+        unique=True,
+        verbose_name=gettext_lazy("Language code"),
+    )
+    name = models.CharField(
+        max_length=LANGUAGE_NAME_LENGTH, verbose_name=gettext_lazy("Language name")
+    )
     direction = models.CharField(
         verbose_name=gettext_lazy("Text direction"),
         max_length=3,
