@@ -66,6 +66,7 @@ from weblate.checks.models import Check
 from weblate.formats.exporters import EXPORTERS
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
+from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Change,
     Component,
@@ -76,7 +77,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.stats import get_project_stats
-from weblate.trans.tasks import component_removal, project_removal
+from weblate.trans.tasks import auto_translate, component_removal, project_removal
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
@@ -926,6 +927,36 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         serializer = UnitSerializer(page, many=True, context={"request": request})
 
         return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def autotranslate(self, request, **kwargs):
+        translation = self.get_object()
+        project = translation.component.project
+        if not request.user.has_perm("translation.auto", project):
+            self.permission_denied(request, message="Can not auto translate")
+        autoform = AutoForm(translation.component, request.data)
+        if translation.component.locked or not autoform.is_valid():
+            return Response(
+                data={
+                    "result": "Unsuccessful",
+                    "detail": "Failed to process autotranslation data!",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        args = (
+            request.user.id,
+            translation.id,
+            autoform.cleaned_data["mode"],
+            autoform.cleaned_data["filter_type"],
+            autoform.cleaned_data["auto_source"],
+            autoform.cleaned_data["component"],
+            autoform.cleaned_data["engines"],
+            autoform.cleaned_data["threshold"],
+        )
+        return Response(
+            data={"result": "Success", "details": auto_translate(*args)},
+            status=status.HTTP_200_OK,
+        )
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
