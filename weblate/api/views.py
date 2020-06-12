@@ -931,7 +931,6 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     @action(detail=True, methods=["post"])
     def autotranslate(self, request, **kwargs):
         translation = self.get_object()
-        project = translation.component.project
         if not request.user.has_perm("translation.auto", translation):
             self.permission_denied(request, message="Can not auto translate")
         autoform = AutoForm(translation.component, request.data)
