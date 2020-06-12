@@ -487,14 +487,14 @@ class GroupAPITest(APIBaseTest):
         clist = ComponentList.objects.create(name="Name", slug="name")
         clist.autocomponentlist_set.create()
         self.do_request(
-            "api:group-componentlist",
+            "api:group-componentlists",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             code=403,
             request={"component_list_id": ComponentList.objects.get().pk},
         )
         self.do_request(
-            "api:group-componentlist",
+            "api:group-componentlists",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
@@ -502,7 +502,7 @@ class GroupAPITest(APIBaseTest):
             request={"component_list_id": -1},
         )
         self.do_request(
-            "api:group-componentlist",
+            "api:group-componentlists",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
@@ -514,7 +514,7 @@ class GroupAPITest(APIBaseTest):
         clist = ComponentList.objects.create(name="Name", slug="name")
         clist.autocomponentlist_set.create()
         self.do_request(
-            "api:group-componentlist",
+            "api:group-componentlists",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
@@ -522,7 +522,7 @@ class GroupAPITest(APIBaseTest):
             request={"component_list_id": ComponentList.objects.get().pk},
         )
         self.do_request(
-            "api:group-delete-componentlist",
+            "api:group-delete-componentlists",
             kwargs={
                 "id": Group.objects.get(name="Users").id,
                 "component_list_id": ComponentList.objects.get().pk,
@@ -531,14 +531,14 @@ class GroupAPITest(APIBaseTest):
             code=403,
         )
         self.do_request(
-            "api:group-delete-componentlist",
+            "api:group-delete-componentlists",
             kwargs={"id": Group.objects.get(name="Users").id, "component_list_id": -1},
             method="delete",
             superuser=True,
             code=400,
         )
         self.do_request(
-            "api:group-delete-componentlist",
+            "api:group-delete-componentlists",
             kwargs={
                 "id": Group.objects.get(name="Users").id,
                 "component_list_id": ComponentList.objects.get().pk,
@@ -547,7 +547,7 @@ class GroupAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertIsNone(Group.objects.get(name="Users").componentlist)
+        self.assertEqual(Group.objects.get(name="Users").componentlists.count(), 0)
 
     def test_delete(self):
         self.do_request(

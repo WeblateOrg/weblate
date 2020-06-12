@@ -445,7 +445,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["post"],
     )
-    def componentlist(self, request, **kwargs):
+    def componentlists(self, request, **kwargs):
         obj = self.get_object()
         self.perm_check(request)
 
@@ -461,8 +461,7 @@ class GroupViewSet(viewsets.ModelViewSet):
                 data={"result": "Unsuccessful", "detail": force_str(error)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        obj.componentlist = component_list
-        obj.save()
+        obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -470,20 +469,19 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["delete"],
-        url_path="componentlist/(?P<component_list_id>[^/.]+)",
+        url_path="componentlists/(?P<component_list_id>[^/.]+)",
     )
-    def delete_componentlist(self, request, id, component_list_id):
+    def delete_componentlists(self, request, id, component_list_id):
         obj = self.get_object()
         self.perm_check(request)
         try:
-            ComponentList.objects.get(pk=int(component_list_id),)
+            component_list = ComponentList.objects.get(pk=int(component_list_id),)
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        obj.componentlist = None
-        obj.save()
+        obj.componentlists.remove(component_list)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
