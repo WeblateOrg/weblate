@@ -880,10 +880,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         element = self.driver.find_element_by_id("id_q")
         self.clear_field(element)
         element.send_keys("'%(count)s word'")
-        self.screenshot("query-done-1.png")
         with self.wait_for_page_load():
             element.submit()
-        self.screenshot("query-done.png")
 
         # Trigger check
         self.clear_field(self.driver.find_element_by_id("id_a2a808c8ccbece08_0"))
