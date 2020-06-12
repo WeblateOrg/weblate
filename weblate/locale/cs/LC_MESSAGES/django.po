@@ -10,11 +10,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 19:33+0000\n"
+"POT-Creation-Date: 2020-06-12 20:23+0000\n"
 "PO-Revision-Date: 2020-06-12 20:22+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/>"
-"\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/weblate/master/cs/"
+">\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -635,15 +635,13 @@ msgstr "Čekající návrhy"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:697
-#: weblate/templates/mail/todo_strings.html:8
-#: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
+#: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
-#, python-format
+#, fuzzy
+#| msgid "Strings needing action"
+#| msgid_plural "%(count)s strings needing action"
 msgid "Strings needing action"
-msgid_plural "%(count)s strings needing action"
-msgstr[0] "Řetězec vyžadující pozornost"
-msgstr[1] "%(count)s řetězce vyžadující pozornost"
-msgstr[2] "%(count)s řetězců vyžadujících pozornost"
+msgstr "Řetězec vyžadující pozornost"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6452,6 +6450,16 @@ msgid_plural "%(count)s strings needing action in %(component)s"
 msgstr[0] "Řetězec vyžadující pozornost v %(component)s"
 msgstr[1] "%(count)s řetězce vyžadující pozornost v %(component)s"
 msgstr[2] "%(count)s řetězců vyžadujících pozornost v %(component)s"
+
+#: weblate/templates/mail/todo_strings_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Strings needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "String needing action"
+msgid_plural "%(count)s strings needing action"
+msgstr[0] "Řetězec vyžadující pozornost"
+msgstr[1] "%(count)s řetězce vyžadující pozornost"
+msgstr[2] "%(count)s řetězců vyžadujících pozornost"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
