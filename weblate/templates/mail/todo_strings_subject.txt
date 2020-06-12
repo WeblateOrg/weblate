@@ -3,6 +3,6 @@
 {% if changes|length == 1 %}
 {% blocktrans count count=total_count with component=changes.0.component %}String needing action in {{ component }}{% plural %}{{ count }} strings needing action in {{ component }}{% endblocktrans %}
 {% else %}
-{% blocktrans count count=total_count %}Strings needing action{% plural %}{{ count }} strings needing action{% endblocktrans %}
+{% blocktrans count count=total_count %}String needing action{% plural %}{{ count }} strings needing action{% endblocktrans %}
 {% endif %}
 {% endautoescape %}
