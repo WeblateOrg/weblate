@@ -1571,6 +1571,23 @@ Translations
     :<json string key: Name of translation unit
     :<json string value: The translation unit value
 
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
+
+    Trigger automatic translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :<json string mode: Automatic translation mode
+    :<json string filter_type: Automatic translation filter type
+    :<json string auto_source: Automatic translation source
+    :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
+    :<json string engines: Machine translation engines
+    :<json string threshold: Score threshold
+
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Download current translation file as stored in VCS (without ``format``

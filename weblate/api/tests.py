@@ -1498,6 +1498,39 @@ class TranslationAPITest(APIBaseTest):
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
+    def test_autotranslate(self):
+        self.do_request(
+            "api:translation-autotranslate",
+            self.translation_kwargs,
+            method="post",
+            request={"mode": "invalid"},
+            code=403,
+        )
+        self.do_request(
+            "api:translation-autotranslate",
+            self.translation_kwargs,
+            superuser=True,
+            method="post",
+            request={"mode": "invalid"},
+            code=400,
+        )
+        response = self.do_request(
+            "api:translation-autotranslate",
+            self.translation_kwargs,
+            superuser=True,
+            method="post",
+            request={
+                "mode": "suggest",
+                "filter_type": "todo",
+                "auto_source": "others",
+                "threshold": "100",
+            },
+            code=200,
+        )
+        self.assertContains(
+            response, "Automatic translation completed",
+        )
+
     def test_add_monolingual(self):
         self.create_acl()
         self.do_request(
