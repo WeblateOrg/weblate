@@ -6,10 +6,9 @@ from django.db import migrations
 def migrate_componentlist(apps, schema_editor):
     Group = apps.get_model("weblate_auth", "Group")
     db_alias = schema_editor.connection.alias
-    groups = Group.objects.using(db_alias).all()
+    groups = Group.objects.using(db_alias).filter(componentlist__isnull=False)
     for group in groups:
-        if group.componentlist:
-            group.componentlists.add(group.componentlist)
+        group.componentlists.add(group.componentlist)
 
 
 class Migration(migrations.Migration):
