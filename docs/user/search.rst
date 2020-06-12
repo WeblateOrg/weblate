@@ -98,3 +98,17 @@ Regular expressions
 
 Anywhere text is accepted you can also specify a regular expression as ``r"regexp"``. For instance, to search for all source strings which contain any digit between 2 and 5, use:
 ``source:r"[2-5]"``
+
+Predefined queries
+------------------
+
+You can select out of predefined queries on the search page, this allows you to quickly access the most frequent searches:
+
+.. image:: /images/query-dropdown.png
+
+Ordering the results
+--------------------
+
+There are many options to order the strings according to your needs:
+
+.. image:: /images/query-sort.png
