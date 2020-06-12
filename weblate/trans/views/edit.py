@@ -132,7 +132,6 @@ def search(translation, request, form_class=SearchForm):
     if (
         session_key in request.session
         and "offset" in request.GET
-        and "sort_by" not in request.GET
         and "items" in request.session[session_key]
     ):
         search_result.update(request.session[session_key])
