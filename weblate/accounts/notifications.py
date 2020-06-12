@@ -231,7 +231,9 @@ class Notification:
         )
         return render_to_string(template_name, context).strip()
 
-    def get_context(self, change=None, subscription=None, extracontext=None):
+    def get_context(
+        self, change=None, subscription=None, extracontext=None, changes=None
+    ):
         """Return context for rendering mail."""
         result = {
             "LANGUAGE_CODE": get_language(),
@@ -240,6 +242,8 @@ class Notification:
             "site_title": settings.SITE_TITLE,
             "notification_name": self.verbose,
         }
+        if changes is not None:
+            result["changes"] = changes
         if subscription is not None:
             result["unsubscribe_nonce"] = TimestampSigner().sign(subscription.pk)
         if extracontext:
@@ -337,8 +341,7 @@ class Notification:
 
     def send_digest(self, language, email, changes, subscription=None):
         with override("en" if language is None else language):
-            context = self.get_context(subscription=subscription)
-            context["changes"] = changes
+            context = self.get_context(subscription=subscription, changes=changes)
             subject = self.render_template("_subject.txt", context, digest=True)
             context["subject"] = subject
             LOGGER.info(
@@ -576,8 +579,10 @@ class NewTranslationNotificaton(Notification):
     verbose = _("New language")
     template_name = "new_language"
 
-    def get_context(self, change=None, subscription=None, extracontext=None):
-        context = super().get_context(change, subscription, extracontext)
+    def get_context(
+        self, change=None, subscription=None, extracontext=None, changes=None
+    ):
+        context = super().get_context(change, subscription, extracontext, changes)
         if change:
             context["language"] = Language.objects.get(code=change.details["language"])
             context["was_added"] = change.action == Change.ACTION_ADDED_LANGUAGE
@@ -637,21 +642,21 @@ class SummaryNotification(Notification):
     def notify_monthly(self):
         self.notify_summary(FREQ_MONTHLY)
 
-    def should_notify(self, translation):
-        return False
-
     def notify_summary(self, frequency):
         users = {}
         notifications = defaultdict(list)
         for translation in prefetch_stats(Translation.objects.prefetch()):
-            if not self.should_notify(translation):
+            count = self.get_count(translation)
+            if not count:
                 continue
             context = {
                 "project": translation.component.project,
                 "component": translation.component,
                 "translation": translation,
             }
-            for user in self.get_users(frequency, **context):
+            current_users = self.get_users(frequency, **context)
+            context["count"] = count
+            for user in current_users:
                 users[user.pk] = user
                 notifications[user.pk].append(context)
         for userid, changes in notifications.items():
@@ -663,6 +668,17 @@ class SummaryNotification(Notification):
                 subscription=user.current_subscription,
             )
 
+    @staticmethod
+    def get_count(translation):
+        raise NotImplementedError()
+
+    def get_context(
+        self, change=None, subscription=None, extracontext=None, changes=None
+    ):
+        context = super().get_context(change, subscription, extracontext, changes)
+        context["total_count"] = sum(change["count"] for change in changes)
+        return context
+
 
 @register_notification
 class PendingSuggestionsNotification(SummaryNotification):
@@ -670,8 +686,9 @@ class PendingSuggestionsNotification(SummaryNotification):
     verbose = _("Pending suggestions")
     digest_template = "pending_suggestions"
 
-    def should_notify(self, translation):
-        return translation.stats.suggestions > 0
+    @staticmethod
+    def get_count(translation):
+        return translation.stats.suggestions
 
 
 @register_notification
@@ -680,8 +697,9 @@ class ToDoStringsNotification(SummaryNotification):
     verbose = _("Strings needing action")
     digest_template = "todo_strings"
 
-    def should_notify(self, translation):
-        return translation.stats.todo > 0
+    @staticmethod
+    def get_count(translation):
+        return translation.stats.todo
 
 
 def get_notification_emails(

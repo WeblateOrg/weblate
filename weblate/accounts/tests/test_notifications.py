@@ -365,7 +365,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         frequency=FREQ_DAILY,
         notify=notify_daily,
         notification="ToDoStringsNotification",
-        subj="Strings needing action in Test/Test",
+        subj="4 strings needing action in Test/Test",
     ):
         self.user.subscription_set.create(
             scope=SCOPE_DEFAULT, notification=notification, frequency=frequency
@@ -388,7 +388,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Suggestion.objects.create(unit=unit, target="Foo")
         self.test_reminder(
             notification="PendingSuggestionsNotification",
-            subj="Pending suggestions in Test/Test",
+            subj="Pending suggestion in Test/Test",
         )
 
 
