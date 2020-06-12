@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-03-30 11:51+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/master/"
@@ -589,14 +589,14 @@ msgid "Monthly digest"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 #, fuzzy
 #| msgid "repository wide"
 msgid "Repository failure"
 msgstr "varamu ülene"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 #, fuzzy
 #| msgid "Repository initialization"
 msgid "Repository operation"
@@ -604,12 +604,12 @@ msgstr "Varamu initsialiseerimine"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 #, fuzzy
 #| msgid "Translated"
 msgid "New string"
@@ -617,51 +617,51 @@ msgstr "Tõlgitud"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 #, fuzzy
 #| msgid "Suggested translations"
 msgid "Comment on own translation"
 msgstr "Soovitatud tõlked"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 #, fuzzy
 #| msgid "Default component list"
 msgid "Mentioned in comment"
 msgstr "Vaikimisi komponentide nimekiri"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 #, fuzzy
 #| msgid "Translated"
 msgid "Changed string"
 msgstr "Tõlgitud"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 #, fuzzy
 #| msgid "Your languages"
 msgid "New language"
 msgstr "Sinu keeled"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 #, fuzzy
 #| msgid "Translation key"
 msgid "New translation component"
@@ -669,7 +669,7 @@ msgstr "Tõlke võti"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "Component list"
 msgid "New announcement"
@@ -677,26 +677,28 @@ msgstr "Komponentide nimekiri"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 #, fuzzy
 #| msgid "Component list"
 msgid "New alert"
 msgstr "Komponentide nimekiri"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, python-format
 msgid "Strings needing action"
-msgstr ""
+msgid_plural "%(count)s strings needing action"
+msgstr[0] ""
+msgstr[1] ""
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6490,8 +6492,18 @@ msgstr ""
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Translation key"
-msgid "Pending suggestions in %(component)s"
-msgstr "Tõlke võti"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Tõlke võti"
+msgstr[1] "Tõlke võti"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Translated"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Tõlgitud"
+msgstr[1] "Tõlgitud"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6572,8 +6584,10 @@ msgstr ""
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Translation key"
-msgid "Strings needing action in %(component)s"
-msgstr "Tõlke võti"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Tõlke võti"
+msgstr[1] "Tõlke võti"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

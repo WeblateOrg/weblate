@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-05-20 11:46+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/master/"
@@ -561,94 +561,97 @@ msgid "Monthly digest"
 msgstr "Përmbledhje mujore"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 msgid "Repository failure"
 msgstr "Dështim në depo"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 msgid "Repository operation"
 msgstr "Veprim depoje"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr "Gabim përtypjeje"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 msgid "New string"
 msgstr "Varg i ri"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr "Kontribues i ri"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr "Sugjerim i ri"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 msgid "Comment on own translation"
 msgstr "Koment në përkthimin tuaj"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 msgid "Mentioned in comment"
 msgstr "Përmendur në koment"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr "Koment i ri"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 msgid "Changed string"
 msgstr "Ndryshim vargu"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 msgid "New language"
 msgstr "Gjuhë e re"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 msgid "New translation component"
 msgstr "Përbërës i ri përkthimi"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 msgid "New announcement"
 msgstr "Lajmërim i ri"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 msgid "New alert"
 msgstr "Sinjalizim i ri"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr "Sugjerime pezull"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, fuzzy, python-format
+#| msgid "Strings needing action"
 msgid "Strings needing action"
-msgstr "Vargje që duan veprim"
+msgid_plural "%(count)s strings needing action"
+msgstr[0] "Vargje që duan veprim"
+msgstr[1] "Vargje që duan veprim"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6496,9 +6499,20 @@ msgid "Strings with suggestions"
 msgstr "Vargje me sugjerime"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, python-format
-msgid "Pending suggestions in %(component)s"
-msgstr "Sugjerime pezull te %(component)s"
+#, fuzzy, python-format
+#| msgid "Pending suggestions in %(component)s"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Sugjerime pezull te %(component)s"
+msgstr[1] "Sugjerime pezull te %(component)s"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Pending suggestions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Sugjerime pezull"
+msgstr[1] "Sugjerime pezull"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6578,9 +6592,12 @@ msgid "Screenshot context"
 msgstr "Kontekst fotoje ekrani"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, python-format
-msgid "Strings needing action in %(component)s"
-msgstr "Vargje që lypin veprim te %(component)s"
+#, fuzzy, python-format
+#| msgid "Strings needing action in %(component)s"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Vargje që lypin veprim te %(component)s"
+msgstr[1] "Vargje që lypin veprim te %(component)s"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

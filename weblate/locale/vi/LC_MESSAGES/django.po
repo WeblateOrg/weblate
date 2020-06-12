@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -631,14 +631,14 @@ msgid "Monthly digest"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 #, fuzzy
 #| msgid "Failed to generate key: %s"
 msgid "Repository failure"
 msgstr "Xảy ra lỗi khi tạo khóa: %s"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Repository operation"
@@ -646,12 +646,12 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "New string"
@@ -659,55 +659,55 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "New contributor"
 msgstr "Tập tin dịch kiểu XLIFF"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "New suggestion"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Comment on own translation"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "Mentioned in comment"
 msgstr "Tập tin dịch kiểu XLIFF"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 #, fuzzy
 #| msgid "Recent changes in %s"
 msgid "Changed string"
 msgstr "Các thay đổi gần đây trong %s"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 #, fuzzy
 #| msgid "PHP strings"
 msgid "New language"
 msgstr "PHP strings"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "New translation component"
@@ -715,7 +715,7 @@ msgstr "Tập tin dịch kiểu XLIFF"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "Secondary languages"
 msgid "New announcement"
@@ -723,15 +723,14 @@ msgstr "Ngôn ngữ thứ hai"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 #, fuzzy
 #| msgid "Secondary languages"
 msgid "New alert"
 msgstr "Ngôn ngữ thứ hai"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 #, fuzzy
 #| msgid "Notification on any translation"
@@ -739,12 +738,14 @@ msgid "Pending suggestions"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, python-format
 msgid "Strings needing action"
-msgstr ""
+msgid_plural "%(count)s strings needing action"
+msgstr[0] ""
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6906,8 +6907,16 @@ msgstr ""
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Notification on any translation"
-msgid "Pending suggestions in %(component)s"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Nhận thông báo về bất kỳ bản dịch nào"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Notification on any translation"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6995,8 +7004,9 @@ msgstr ""
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Notification on any translation"
-msgid "Strings needing action in %(component)s"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

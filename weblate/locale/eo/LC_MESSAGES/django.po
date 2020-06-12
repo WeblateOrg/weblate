@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-02-03 09:33+0000\n"
 "Last-Translator: Jorge Maldonado Ventura <jorgesumle@freakspot.net>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/weblate/master/"
@@ -581,14 +581,14 @@ msgid "Monthly digest"
 msgstr "Monata mesaĝaro"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 #, fuzzy
 #| msgid "Versions"
 msgid "Repository failure"
 msgstr "Versioj"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 #, fuzzy
 #| msgid "Untranslated strings:"
 msgid "Repository operation"
@@ -596,62 +596,62 @@ msgstr "Netradukitaj ĉenoj:"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr "Analizeraro"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 msgid "New string"
 msgstr "Nova tekstĉeno"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr "Nova kontribuanto"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr "Nova sugestaĵo"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 #, fuzzy
 #| msgid "Comment on authored translation"
 msgid "Comment on own translation"
 msgstr "Komento pri aŭtora traduko"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 msgid "Mentioned in comment"
 msgstr "Menciita en komento"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr "Nova komento"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 msgid "Changed string"
 msgstr "Ŝanĝita tekstĉeno"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 msgid "New language"
 msgstr "Nova lingvo"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 msgid "New translation component"
 msgstr "Nova traduka komponanto"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "New comment"
 msgid "New announcement"
@@ -659,13 +659,12 @@ msgstr "Nova komento"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 msgid "New alert"
 msgstr "Nova atentigo"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 #, fuzzy
 #| msgid "Permissions"
@@ -673,12 +672,15 @@ msgid "Pending suggestions"
 msgstr "Permesoj"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, python-format
 msgid "Strings needing action"
-msgstr ""
+msgid_plural "%(count)s strings needing action"
+msgstr[0] ""
+msgstr[1] ""
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6542,8 +6544,18 @@ msgstr ""
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Permissions"
-msgid "Pending suggestions in %(component)s"
-msgstr "Permesoj"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Permesoj"
+msgstr[1] "Permesoj"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Permissions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Permesoj"
+msgstr[1] "Permesoj"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6628,8 +6640,10 @@ msgstr ""
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Permissions"
-msgid "Strings needing action in %(component)s"
-msgstr "Permesoj"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Permesoj"
+msgstr[1] "Permesoj"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

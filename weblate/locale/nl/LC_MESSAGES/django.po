@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-05-09 16:18+0000\n"
 "Last-Translator: Jaimie85 <alsemgeest@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/"
@@ -606,71 +606,71 @@ msgid "Monthly digest"
 msgstr "Maandelijks overzicht"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 msgid "Repository failure"
 msgstr "Opslagruimte fout"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 msgid "Repository operation"
 msgstr "Opslagruimte bewerking"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr "Verwerkingsfout"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 msgid "New string"
 msgstr "Nieuwe tekenreeks"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr "Nieuwe medewerker"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr "Nieuwe suggestie"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 msgid "Comment on own translation"
 msgstr "Opmerking op eigen vertaling"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 msgid "Mentioned in comment"
 msgstr "Genoemd in opmerking"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr "Nieuwe opmerking"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 msgid "Changed string"
 msgstr "Gewijzigde tekenreeks"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 msgid "New language"
 msgstr "Nieuwe taal"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 msgid "New translation component"
 msgstr "Nieuw vertaalonderdeel"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "New comment"
 msgid "New announcement"
@@ -678,24 +678,27 @@ msgstr "Nieuwe opmerking"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 msgid "New alert"
 msgstr "Nieuwe waarschuwing"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr "Openstaande suggesties"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, fuzzy, python-format
+#| msgid "Strings needing action"
 msgid "Strings needing action"
-msgstr "Te behandelen tekenreeksen"
+msgid_plural "%(count)s strings needing action"
+msgstr[0] "Te behandelen tekenreeksen"
+msgstr[1] "Te behandelen tekenreeksen"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6800,8 +6803,18 @@ msgstr "Tekenreeksen met suggesties"
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Pending suggestions"
-msgid "Pending suggestions in %(component)s"
-msgstr "Openstaande suggesties"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Openstaande suggesties"
+msgstr[1] "Openstaande suggesties"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Pending suggestions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Openstaande suggesties"
+msgstr[1] "Openstaande suggesties"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6893,8 +6906,10 @@ msgstr "Vertaalcontext bij schermafdruk"
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Strings needing action"
-msgid "Strings needing action in %(component)s"
-msgstr "Te behandelen tekenreeksen"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Te behandelen tekenreeksen"
+msgstr[1] "Te behandelen tekenreeksen"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

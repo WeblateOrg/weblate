@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-05-26 08:02+0000\n"
 "Last-Translator: Tomas Darius Davainis <tomas@davainis.lt>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
@@ -567,14 +567,14 @@ msgid "Monthly digest"
 msgstr "Kaina mėnesiui"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 #, fuzzy
 #| msgid "Recent changes"
 msgid "Repository failure"
 msgstr "Paskiausi pakeitimai"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Repository operation"
@@ -582,12 +582,12 @@ msgstr "Stebimi vertimai"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 #, fuzzy
 #| msgid "Add new association"
 msgid "New string"
@@ -595,46 +595,46 @@ msgstr "Pridėti naują asociaciją"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 #, fuzzy
 #| msgid "Permissions"
 msgid "New suggestion"
 msgstr "Leidimai"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 #, fuzzy
 #| msgid "Watched translations"
 msgid "Comment on own translation"
 msgstr "Stebimi vertimai"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 #, fuzzy
 #| msgid "Delete this account"
 msgid "Mentioned in comment"
 msgstr "Panaikinti šią paskyrą"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 #, fuzzy
 #| msgid "Translated languages"
 msgid "Changed string"
 msgstr "Kalbos, į kurias verčiate"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 #, fuzzy
 #| msgctxt "Plural type"
 #| msgid "Arabic languages"
@@ -642,7 +642,7 @@ msgid "New language"
 msgstr "Arabų kalbos"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 #, fuzzy
 #| msgid "Translation status"
 msgid "New translation component"
@@ -650,7 +650,7 @@ msgstr "Vertimų būsena"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "Component list"
 msgid "New announcement"
@@ -658,15 +658,14 @@ msgstr "Komponentų sąrašas"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 #, fuzzy
 #| msgid "Component list"
 msgid "New alert"
 msgstr "Komponentų sąrašas"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 #, fuzzy
 #| msgid "Permissions"
@@ -674,12 +673,17 @@ msgid "Pending suggestions"
 msgstr "Leidimai"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, python-format
 msgid "Strings needing action"
-msgstr ""
+msgid_plural "%(count)s strings needing action"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6697,8 +6701,22 @@ msgstr ""
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Permissions"
-msgid "Pending suggestions in %(component)s"
-msgstr "Leidimai"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Leidimai"
+msgstr[1] "Leidimai"
+msgstr[2] "Leidimai"
+msgstr[3] "Leidimai"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Permissions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Leidimai"
+msgstr[1] "Leidimai"
+msgstr[2] "Leidimai"
+msgstr[3] "Leidimai"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6786,8 +6804,12 @@ msgstr ""
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Watched translations"
-msgid "Strings needing action in %(component)s"
-msgstr "Stebimi vertimai"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Stebimi vertimai"
+msgstr[1] "Stebimi vertimai"
+msgstr[2] "Stebimi vertimai"
+msgstr[3] "Stebimi vertimai"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

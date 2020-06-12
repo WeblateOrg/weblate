@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2019-11-28 09:57+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -655,14 +655,14 @@ msgid "Monthly digest"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 #, fuzzy
 #| msgid "Reports"
 msgid "Repository failure"
 msgstr "Danevelloù"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 #, fuzzy
 #| msgid "Git maintenance"
 msgid "Repository operation"
@@ -670,14 +670,14 @@ msgstr "Trezalc'h GIT"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 #, fuzzy
 #| msgid "Server Error"
 msgid "Parse error"
 msgstr "Fazi gant ar servijer"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 #, fuzzy
 #| msgid "Source strings review"
 msgid "New string"
@@ -685,55 +685,55 @@ msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 #, fuzzy
 #| msgid "Recent contributions"
 msgid "New contributor"
 msgstr "Degasadennoù diwezhañ"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 #, fuzzy
 #| msgid "Suggestions"
 msgid "New suggestion"
 msgstr "Kinnigoù"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 #, fuzzy
 #| msgid "Your translations"
 msgid "Comment on own translation"
 msgstr "Ho troidigezhioù"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Mentioned in comment"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr "Evezhiadenn nevez"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 #, fuzzy
 #| msgid "Changes"
 msgid "Changed string"
 msgstr "Cheñchamantoù"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 #, fuzzy
 #| msgid "Songhai languages"
 msgid "New language"
 msgstr "Yezhoù Songhai"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 #, fuzzy
 #| msgid "Translation context"
 msgid "New translation component"
@@ -741,7 +741,7 @@ msgstr "Kendestenn ar meneg da dreiñ"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "New comment"
 msgid "New announcement"
@@ -749,15 +749,14 @@ msgstr "Evezhiadenn nevez"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 #, fuzzy
 #| msgid "Comments"
 msgid "New alert"
 msgstr "Evezhiadennoù"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 #, fuzzy
 #| msgid "Suggestions"
@@ -765,14 +764,19 @@ msgid "Pending suggestions"
 msgstr "Kinnigoù"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
-#, fuzzy
+#, fuzzy, python-format
 #| msgid "Source strings review"
 msgid "Strings needing action"
-msgstr "Selladenn ouzh mammennoù an neudennadoù"
+msgid_plural "%(count)s strings needing action"
+msgstr[0] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[1] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[2] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[3] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[4] "Selladenn ouzh mammennoù an neudennadoù"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -7247,8 +7251,24 @@ msgstr ""
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Suggestions"
-msgid "Pending suggestions in %(component)s"
-msgstr "Kinnigoù"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Kinnigoù"
+msgstr[1] "Kinnigoù"
+msgstr[2] "Kinnigoù"
+msgstr[3] "Kinnigoù"
+msgstr[4] "Kinnigoù"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Suggestions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Kinnigoù"
+msgstr[1] "Kinnigoù"
+msgstr[2] "Kinnigoù"
+msgstr[3] "Kinnigoù"
+msgstr[4] "Kinnigoù"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -7340,8 +7360,13 @@ msgstr ""
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Source strings review"
-msgid "Strings needing action in %(component)s"
-msgstr "Selladenn ouzh mammennoù an neudennadoù"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[1] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[2] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[3] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[4] "Selladenn ouzh mammennoù an neudennadoù"
 
 #: weblate/templates/manage-access.html:10
 #, fuzzy

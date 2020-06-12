@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-05-25 12:41+0000\n"
 "Last-Translator: Balázs Úr <balazs@urbalazs.hu>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/master/"
@@ -568,94 +568,97 @@ msgid "Monthly digest"
 msgstr "Havi összegzés"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 msgid "Repository failure"
 msgstr "Tárolóhiba"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 msgid "Repository operation"
 msgstr "Tárolóművelet"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr "Feldolgozási hiba"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 msgid "New string"
 msgstr "Új szöveg"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr "Új közreműködő"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr "Új javaslat"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 msgid "Comment on own translation"
 msgstr "Megjegyzés a saját fordításhoz"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 msgid "Mentioned in comment"
 msgstr "Megemlítve a megjegyezésben"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr "Új megjegyzés"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 msgid "Changed string"
 msgstr "Megváltoztatott szöveg"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 msgid "New language"
 msgstr "Új nyelv"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 msgid "New translation component"
 msgstr "Új fordítási összetevő"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 msgid "New announcement"
 msgstr "Új közlemény"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 msgid "New alert"
 msgstr "Új riasztás"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr "Függőben lévő javaslatok"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, fuzzy, python-format
+#| msgid "Strings needing action"
 msgid "Strings needing action"
-msgstr "Műveletet igénylő szövegek"
+msgid_plural "%(count)s strings needing action"
+msgstr[0] "Műveletet igénylő szövegek"
+msgstr[1] "Műveletet igénylő szövegek"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6427,9 +6430,20 @@ msgid "Strings with suggestions"
 msgstr "Javaslatokkal rendelkező szövegek"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, python-format
-msgid "Pending suggestions in %(component)s"
-msgstr "Függőben lévő javaslatok a(z) %(component)s összetevőben"
+#, fuzzy, python-format
+#| msgid "Pending suggestions in %(component)s"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Függőben lévő javaslatok a(z) %(component)s összetevőben"
+msgstr[1] "Függőben lévő javaslatok a(z) %(component)s összetevőben"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Pending suggestions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Függőben lévő javaslatok"
+msgstr[1] "Függőben lévő javaslatok"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6510,9 +6524,12 @@ msgid "Screenshot context"
 msgstr "Képernyőkép-környezet"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, python-format
-msgid "Strings needing action in %(component)s"
-msgstr "Műveletet igénylő szövegek a(z) %(component)s összetevőben"
+#, fuzzy, python-format
+#| msgid "Strings needing action in %(component)s"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Műveletet igénylő szövegek a(z) %(component)s összetevőben"
+msgstr[1] "Műveletet igénylő szövegek a(z) %(component)s összetevőben"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

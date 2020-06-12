@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-06-06 17:41+0000\n"
 "Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
@@ -563,94 +563,96 @@ msgid "Monthly digest"
 msgstr "1 か月のまとめ"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 msgid "Repository failure"
 msgstr "リポジトリ エラー"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 msgid "Repository operation"
 msgstr "リポジトリ操作"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr "解析エラー"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 msgid "New string"
 msgstr "原文の追加"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr "新しい貢献者"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr "新しい提案"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 msgid "Comment on own translation"
 msgstr "自分の翻訳へのコメント"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 msgid "Mentioned in comment"
 msgstr "自分が指名されたコメント"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr "新しいコメント"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 msgid "Changed string"
 msgstr "文字列変更"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 msgid "New language"
 msgstr "新しい言語"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 msgid "New translation component"
 msgstr "新しい翻訳コンポーネント"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 msgid "New announcement"
 msgstr "新着情報"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 msgid "New alert"
 msgstr "新しい警告"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr "採用待ちの提案"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, fuzzy, python-format
+#| msgid "Strings needing action"
 msgid "Strings needing action"
-msgstr "校正が必要な文字列"
+msgid_plural "%(count)s strings needing action"
+msgstr[0] "校正が必要な文字列"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6343,9 +6345,18 @@ msgid "Strings with suggestions"
 msgstr "提案がある文字列"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, python-format
-msgid "Pending suggestions in %(component)s"
-msgstr "%(component)s の保留中の提案"
+#, fuzzy, python-format
+#| msgid "Pending suggestions in %(component)s"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "%(component)s の保留中の提案"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Pending suggestions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "採用待ちの提案"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6425,9 +6436,11 @@ msgid "Screenshot context"
 msgstr "スクリーンショットのコンテキスト"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, python-format
-msgid "Strings needing action in %(component)s"
-msgstr "%(component)s で校正が必要な文字列"
+#, fuzzy, python-format
+#| msgid "Strings needing action in %(component)s"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "%(component)s で校正が必要な文字列"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-05-12 10:46+0000\n"
 "Last-Translator: salman <amir1architect@yahoo.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/weblate/master/"
@@ -539,14 +539,14 @@ msgid "Monthly digest"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 #, fuzzy
 #| msgid "Translate"
 msgid "Repository failure"
 msgstr "ترجمه"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 #, fuzzy
 #| msgid "Translate"
 msgid "Repository operation"
@@ -554,12 +554,12 @@ msgstr "ترجمه"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 #, fuzzy
 #| msgid "Source strings"
 msgid "New string"
@@ -567,51 +567,51 @@ msgstr "رشته های منبع"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 #, fuzzy
 #| msgid "Translate"
 msgid "Comment on own translation"
 msgstr "ترجمه"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 #, fuzzy
 #| msgid "Source strings"
 msgid "Mentioned in comment"
 msgstr "رشته های منبع"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 #, fuzzy
 #| msgid "Source strings"
 msgid "Changed string"
 msgstr "رشته های منبع"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 #, fuzzy
 #| msgid "Interlingua"
 msgid "New language"
 msgstr "میان‌زبان"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 #, fuzzy
 #| msgid "Translate"
 msgid "New translation component"
@@ -619,7 +619,7 @@ msgstr "ترجمه"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "Source strings"
 msgid "New announcement"
@@ -627,26 +627,28 @@ msgstr "رشته های منبع"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 #, fuzzy
 #| msgid "Source strings"
 msgid "New alert"
 msgstr "رشته های منبع"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr ""
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, python-format
 msgid "Strings needing action"
-msgstr ""
+msgid_plural "%(count)s strings needing action"
+msgstr[0] ""
+msgstr[1] ""
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6419,8 +6421,18 @@ msgstr ""
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Source strings"
-msgid "Pending suggestions in %(component)s"
-msgstr "رشته های منبع"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "رشته های منبع"
+msgstr[1] "رشته های منبع"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Source strings"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "رشته های منبع"
+msgstr[1] "رشته های منبع"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6501,8 +6513,10 @@ msgstr ""
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Translate"
-msgid "Strings needing action in %(component)s"
-msgstr "ترجمه"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "ترجمه"
+msgstr[1] "ترجمه"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"

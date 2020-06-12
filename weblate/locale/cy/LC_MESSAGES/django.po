@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 12:23+0000\n"
+"POT-Creation-Date: 2020-06-12 19:33+0000\n"
 "PO-Revision-Date: 2020-02-19 15:06+0000\n"
 "Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/master/cy/"
@@ -606,71 +606,71 @@ msgid "Monthly digest"
 msgstr "Crynodeb misol"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:397
+#: weblate/accounts/notifications.py:400
 msgid "Repository failure"
 msgstr "Methiant yr ystorfa"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:422
+#: weblate/accounts/notifications.py:425
 msgid "Repository operation"
 msgstr "Gweithrediad yr ystorfa"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:430 weblate/trans/models/change.py:277
+#: weblate/accounts/notifications.py:433 weblate/trans/models/change.py:277
 msgid "Parse error"
 msgstr "Gwall dosrannu"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:438
+#: weblate/accounts/notifications.py:441
 msgid "New string"
 msgstr "Llinyn newydd"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:447 weblate/trans/models/change.py:317
+#: weblate/accounts/notifications.py:450 weblate/trans/models/change.py:317
 msgid "New contributor"
 msgstr "Cyfrannwr newydd"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:456
+#: weblate/accounts/notifications.py:459
 msgid "New suggestion"
 msgstr "Awgrym newydd"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:466
+#: weblate/accounts/notifications.py:469
 msgid "Comment on own translation"
 msgstr "Sylw ar eich cyfieithiad eich hun"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:502
+#: weblate/accounts/notifications.py:505
 msgid "Mentioned in comment"
 msgstr "Wedi'i grybwyll mewn sylw"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:542 weblate/templates/translate.html:376
+#: weblate/accounts/notifications.py:545 weblate/templates/translate.html:376
 #: weblate/trans/forms.py:875
 msgid "New comment"
 msgstr "Sylw newydd"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:567
+#: weblate/accounts/notifications.py:570
 msgid "Changed string"
 msgstr "Llinyn wedi newid"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:576
+#: weblate/accounts/notifications.py:579
 msgid "New language"
 msgstr "Iaith newydd"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:591
+#: weblate/accounts/notifications.py:596
 msgid "New translation component"
 msgstr "Cydran cyfieithu newydd"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:599 weblate/trans/models/change.py:319
+#: weblate/accounts/notifications.py:604 weblate/trans/models/change.py:319
 #, fuzzy
 #| msgid "New comment"
 msgid "New announcement"
@@ -678,24 +678,31 @@ msgstr "Sylw newydd"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
-#: weblate/accounts/notifications.py:611 weblate/trans/models/change.py:321
+#: weblate/accounts/notifications.py:616 weblate/trans/models/change.py:321
 msgid "New alert"
 msgstr "Rhybudd newydd"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:670
-#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#: weblate/accounts/notifications.py:686
 #: weblate/templates/user-activity.html:13
 msgid "Pending suggestions"
 msgstr "Awgrymiadau'n disgwyl sylw"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:680
+#: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/mail/todo_strings_subject.txt:6 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
+#, fuzzy, python-format
+#| msgid "Strings needing action"
 msgid "Strings needing action"
-msgstr "Llinynnau sydd angen eu gweithredu"
+msgid_plural "%(count)s strings needing action"
+msgstr[0] "Llinynnau sydd angen eu gweithredu"
+msgstr[1] "Llinynnau sydd angen eu gweithredu"
+msgstr[2] "Llinynnau sydd angen eu gweithredu"
+msgstr[3] "Llinynnau sydd angen eu gweithredu"
+msgstr[4] "Llinynnau sydd angen eu gweithredu"
+msgstr[5] "Llinynnau sydd angen eu gweithredu"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
@@ -6462,9 +6469,28 @@ msgid "Strings with suggestions"
 msgstr ""
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, python-format
-msgid "Pending suggestions in %(component)s"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Pending suggestions"
+msgid "Pending suggestion in %(component)s"
+msgid_plural "%(count)s pending suggestions in %(component)s"
+msgstr[0] "Awgrymiadau'n disgwyl sylw"
+msgstr[1] "Awgrymiadau'n disgwyl sylw"
+msgstr[2] "Awgrymiadau'n disgwyl sylw"
+msgstr[3] "Awgrymiadau'n disgwyl sylw"
+msgstr[4] "Awgrymiadau'n disgwyl sylw"
+msgstr[5] "Awgrymiadau'n disgwyl sylw"
+
+#: weblate/templates/mail/pending_suggestions_subject.txt:6
+#, fuzzy, python-format
+#| msgid "Pending suggestions"
+msgid "Pending suggestion"
+msgid_plural "%(count)s pending suggestions"
+msgstr[0] "Awgrymiadau'n disgwyl sylw"
+msgstr[1] "Awgrymiadau'n disgwyl sylw"
+msgstr[2] "Awgrymiadau'n disgwyl sylw"
+msgstr[3] "Awgrymiadau'n disgwyl sylw"
+msgstr[4] "Awgrymiadau'n disgwyl sylw"
+msgstr[5] "Awgrymiadau'n disgwyl sylw"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6547,9 +6573,16 @@ msgid "Screenshot context"
 msgstr ""
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, python-format
-msgid "Strings needing action in %(component)s"
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Strings needing action"
+msgid "String needing action in %(component)s"
+msgid_plural "%(count)s strings needing action in %(component)s"
+msgstr[0] "Llinynnau sydd angen eu gweithredu"
+msgstr[1] "Llinynnau sydd angen eu gweithredu"
+msgstr[2] "Llinynnau sydd angen eu gweithredu"
+msgstr[3] "Llinynnau sydd angen eu gweithredu"
+msgstr[4] "Llinynnau sydd angen eu gweithredu"
+msgstr[5] "Llinynnau sydd angen eu gweithredu"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
