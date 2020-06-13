@@ -159,7 +159,7 @@ def perform_on_link(func):
 def prefetch_tasks(components):
     """Prefetch update tasks."""
     lookup = {component.update_key: component for component in components}
-    for item, value in cache.get_many(lookup.keys()):
+    for item, value in cache.get_many(lookup.keys()).items():
         lookup[item].__dict__["background_task"] = AsyncResult(value)
         lookup.pop(item)
     for component in lookup.values():
