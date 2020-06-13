@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-13 11:31+0000\n"
-"PO-Revision-Date: 2020-06-11 19:41+0000\n"
+"PO-Revision-Date: 2020-06-13 18:21+0000\n"
 "Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/master/pl/"
 ">\n"
@@ -36,7 +36,7 @@ msgstr ""
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
 msgid "None"
-msgstr "Brak"
+msgstr "Żaden"
 
 #: weblate/accounts/forms.py:84
 msgid ""
@@ -655,8 +655,6 @@ msgstr "Oczekujące sugestie"
 #: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings needing action"
 msgstr "Teksty wymagające podjęcia czynności"
 
@@ -1060,7 +1058,7 @@ msgstr "Dla autora"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Dołącz zwiastun do komunikatu o zatwierdzenia"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -2915,10 +2913,8 @@ msgid "Starting letter"
 msgstr "Litera początkowa"
 
 #: weblate/glossary/models.py:59
-#, fuzzy
-#| msgid "Additional context"
 msgid "Additional projects"
-msgstr "Dodatkowe projekty"
+msgstr "Dalsze projekty"
 
 #: weblate/glossary/models.py:63
 #, fuzzy
@@ -3694,7 +3690,7 @@ msgstr "Najbardziej aktywni użytkownicy przesyłający zrzuty ekranu"
 
 #: weblate/templates/about/stats.html:76
 msgid "Translatable strings"
-msgstr "Tłumaczone teksty"
+msgstr "Przetłumaczone teksty"
 
 #: weblate/templates/about/stats.html:80
 msgid "Translatable words"
@@ -3964,7 +3960,7 @@ msgstr "Zmień hasło"
 #: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:407
 #: weblate/trans/views/files.py:138
 msgid "Please fix errors in the form."
-msgstr "Prosimy o poprawienie błędów w formularzu."
+msgstr "Napraw błędy w formularzu."
 
 #: weblate/templates/accounts/profile.html:25
 #: weblate/templates/accounts/profile.html:53
@@ -5758,18 +5754,13 @@ msgid "Are you absolutely sure?"
 msgstr "Czy jesteś absolutnie pewien?"
 
 #: weblate/templates/glossaries.html:57
-#, fuzzy, python-format
-#| msgid ""
-#| "This will permanently delete %(count)s entry from the translation memory."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the translation "
-#| "memory."
+#, python-format
 msgid "This will permanently delete %(count)s entry from the glossary."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the glossary."
-msgstr[0] "Spowoduje to trwałe usunięcie %(count)s wpisu z pamięci tłumaczeń."
-msgstr[1] "Spowoduje to trwałe usunięcie %(count)s wpisów z pamięci tłumaczeń."
-msgstr[2] "Spowoduje to trwałe usunięcie %(count)s wpisów z pamięci tłumaczeń."
+msgstr[0] "Spowoduje to trwałe usunięcie %(count)s wpisu ze słownika."
+msgstr[1] "Spowoduje to trwałe usunięcie %(count)s wpisów ze słownika."
+msgstr[2] "Spowoduje to trwałe usunięcie %(count)s wpisów ze słownika."
 
 #: weblate/templates/glossaries.html:73
 msgid "Create new glossary"
@@ -6403,25 +6394,23 @@ msgstr "Błąd przetwarzania w projekcie %(component)s"
 #: weblate/templates/mail/pending_suggestions.html:8 weblate/trans/filter.py:38
 #: weblate/trans/filter.py:119
 msgid "Strings with suggestions"
-msgstr "Teksty z propozycjami"
+msgstr "Ciągi z propozycjami"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "Oczekujące sugestie w %(component)s"
-msgstr[1] "Oczekujące sugestie w %(component)s"
-msgstr[2] "Oczekujące sugestie w %(component)s"
+msgstr[0] "%(count)s oczekująca sugestia w %(component)s"
+msgstr[1] "%(count)s oczekujące sugestie w %(component)s"
+msgstr[2] "%(count)s oczekujących sugestii w %(component)s"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Oczekujące sugestie"
-msgstr[1] "Oczekujące sugestie"
-msgstr[2] "Oczekujące sugestie"
+msgstr[0] "%(count)s oczekująca sugestia"
+msgstr[1] "%(count)s oczekujące sugestie"
+msgstr[2] "%(count)s oczekujących sugestii"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6501,23 +6490,20 @@ msgid "Screenshot context"
 msgstr "Zrzut ekranu"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing review."
-#| msgid_plural "There are %(count)s strings needing review."
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Jest %(count)s ciąg znaków wymagający przeglądu."
-msgstr[1] "Są %(count)s ciągi znaków wymagające przeglądu."
-msgstr[2] "Jest %(count)s ciągów znaków wymagających przeglądu."
+msgstr[0] "%(count)s ciąg wymagający podjęcia czynności w %(component)s"
+msgstr[1] "%(count)s ciągi wymagające podjęcia czynności w %(component)s"
+msgstr[2] "%(count)s ciągów wymagających podjęcia czynności w %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "Teksty wymagające podjęcia czynności"
+msgstr[0] "Tekst wymagający podjęcia czynności"
 msgstr[1] "Teksty wymagające podjęcia czynności"
-msgstr[2] "Teksty wymagające podjęcia czynności"
+msgstr[2] "Tekstów wymagających podjęcia czynności"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
@@ -7385,7 +7371,7 @@ msgstr "Zaawansowany kreator zapytań"
 
 #: weblate/templates/snippets/query-builder.html:15
 msgid "Target strings"
-msgstr "Docelowe teksty"
+msgstr "Teksty docelowe"
 
 #: weblate/templates/snippets/query-builder.html:16
 msgid "Key/Context strings"
@@ -7397,7 +7383,7 @@ msgstr "Teksty komentarzy"
 
 #: weblate/templates/snippets/query-builder.html:18
 msgid "Location strings"
-msgstr "Teksty położenia"
+msgstr "Teksty lokalizacji"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "String state"
@@ -7469,17 +7455,17 @@ msgstr "Przejrzyj ciągi zmienione przez innych użytkowników"
 #: weblate/templates/snippets/query-builder.html:78 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:117
 msgid "Translated strings"
-msgstr "Przetłumaczone teksty"
+msgstr "Ciągi przetłumaczone"
 
 #: weblate/templates/snippets/query-builder.html:83 weblate/trans/filter.py:47
 #: weblate/trans/filter.py:121
 msgid "Strings with comments"
-msgstr "Teksty z komentarzami"
+msgstr "Ciągi z komentarzami"
 
 #: weblate/templates/snippets/query-builder.html:88 weblate/trans/filter.py:48
 #: weblate/trans/filter.py:122
 msgid "Strings with any failing checks"
-msgstr "Teksty nie przechodzące testu"
+msgstr "Ciągi z wszelkimi nieudanymi kontrolami"
 
 #: weblate/templates/snippets/query-builder.html:93
 msgid "Strings with suggestions from others"
@@ -8193,7 +8179,7 @@ msgstr "Wiadomości umieszczone obok tej wiadomości"
 
 #: weblate/templates/translate.html:208
 msgid "Nearby strings"
-msgstr "Pobliskie teksty"
+msgstr "Teksty sąsiadujące"
 
 #: weblate/templates/translate.html:210
 msgid "Strings with similar keys"
@@ -8693,15 +8679,15 @@ msgstr "Wszystkie ostatnie zmiany wprowadzone za pomocą Weblate w %s."
 
 #: weblate/trans/filter.py:33 weblate/trans/filter.py:114
 msgid "All strings"
-msgstr "Wszystkie teksty"
+msgstr "Wszystkie ciągi"
 
 #: weblate/trans/filter.py:34 weblate/trans/filter.py:115
 msgid "Not translated strings"
-msgstr "Nieprzetłumaczone teksty"
+msgstr "Ciągi przetłumaczone"
 
 #: weblate/trans/filter.py:37 weblate/trans/filter.py:118
 msgid "Strings marked for edit"
-msgstr "Teksty wymagające zmian"
+msgstr "Ciągi oznaczone do edycji"
 
 #: weblate/trans/filter.py:39
 msgid "Strings with variants"
@@ -8721,15 +8707,15 @@ msgstr "Ciągi wymagające działania bez sugestii"
 
 #: weblate/trans/filter.py:51
 msgid "Translated strings with any failing checks"
-msgstr "Teksty nie przechodzące dowolnego testu"
+msgstr "Przetłumaczone ciągi znaków z wszelkimi nieudanymi kontrolami"
 
 #: weblate/trans/filter.py:54 weblate/trans/filter.py:123
 msgid "Approved strings"
-msgstr "Zaakceptowane teksty"
+msgstr "Ciągi zaakceptowane"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:125
 msgid "Strings waiting for review"
-msgstr "Teksty oczekujące na sprawdzenie"
+msgstr "Ciągi oczekujące na sprawdzenie"
 
 #: weblate/trans/filter.py:61
 msgid "Strings without a label"
@@ -8859,7 +8845,7 @@ msgstr "Nie importowanie"
 
 #: weblate/trans/forms.py:575
 msgid "Import as string needing edit"
-msgstr "Zaimportowanie jako teksty wymagające modyfikacji"
+msgstr "Zaimportuj jako ciąg wymagający edycji"
 
 #: weblate/trans/forms.py:576
 msgid "Import as translated"
@@ -10069,10 +10055,8 @@ msgstr ""
 "komponentów do tłumaczenia różnych zasobów."
 
 #: weblate/trans/models/component.py:1817
-#, fuzzy
-#| msgid "The language code \"%s\" is too long, please check the filemask."
 msgid "Could not find any matching language, please check the filemask."
-msgstr "Kod języka \"%s\" jest zbyt długi, sprawdź maskę."
+msgstr "Nie można znaleźć żadnego pasującego języka, sprawdź maskę pliku."
 
 #: weblate/trans/models/component.py:1836
 #, python-format
@@ -11428,7 +11412,7 @@ msgstr "Wyloguj się"
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:23
 msgid "Please confirm your logout."
-msgstr "Prosimy o potwierdzenie wylogowania."
+msgstr "Potwierdź wylogowanie."
 
 #: weblate/wladmin/templates/admin/logout-confirm.html:26
 msgid "I confirm logout"
