@@ -54,6 +54,7 @@ class WeblateConf(AppConf):
     SENTRY_ORGANIZATION = "weblate"
     SENTRY_TOKEN = None
     SENTRY_PROJECTS = ["weblate"]
+    SENTRY_EXTRA_ARGS = {}
 
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_BROKER_URL = "memory://"

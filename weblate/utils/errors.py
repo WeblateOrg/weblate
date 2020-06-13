@@ -88,6 +88,7 @@ def init_error_collection(celery=False):
             send_default_pii=True,
             release=weblate.GIT_REVISION or weblate.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
+            **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those should be reported as proper errors
         ignore_logger("weblate")
