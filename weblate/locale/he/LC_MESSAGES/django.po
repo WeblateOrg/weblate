@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 20:23+0000\n"
+"POT-Creation-Date: 2020-06-13 11:31+0000\n"
 "PO-Revision-Date: 2020-06-13 11:31+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
@@ -6234,8 +6234,10 @@ msgid "Strings with suggestions"
 msgstr "מחרוזות עם הצעות"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, python-format
-msgid "Pending suggestion in %(component)s"
+#, fuzzy, python-format
+#| msgid "Pending suggestion in %(component)s"
+#| msgid_plural "%(count)s pending suggestions in %(component)s"
+msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "הצעה ממתינה ברכיב %(component)s"
 msgstr[1] "%(count)s הצעות ממתינות ברכיב %(component)s"
@@ -6243,8 +6245,10 @@ msgstr[2] "%(count)s הצעות ממתינות ברכיב %(component)s"
 msgstr[3] "%(count)s הצעות ממתינות ברכיב %(component)s"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, python-format
-msgid "Pending suggestion"
+#, fuzzy, python-format
+#| msgid "Pending suggestion"
+#| msgid_plural "%(count)s pending suggestions"
+msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
 msgstr[0] "הצעה ממתינה"
 msgstr[1] "%(count)s הצעות ממתינות"
@@ -6328,17 +6332,21 @@ msgid "Screenshot context"
 msgstr "הקשר צילום המסך"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, python-format
-msgid "String needing action in %(component)s"
+#, fuzzy, python-format
+#| msgid "There is %(count)s string needing action in %(component)s."
+#| msgid_plural "There are %(count)s strings needing action in %(component)s."
+msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "מחרוזת שדורשת פעולה ברכיב %(component)s"
-msgstr[1] "%(count)s מחרוזות שדורשות פעולה ברכיב %(component)s"
-msgstr[2] "%(count)s מחרוזות שדורשות פעולה ברכיב %(component)s"
-msgstr[3] "%(count)s מחרוזות שדורשות פעולה ברכיב %(component)s"
+msgstr[0] "ישנה מחרוזת אחת שדורשת פעולה ברכיב %(component)s."
+msgstr[1] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
+msgstr[2] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
+msgstr[3] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, python-format
-msgid "String needing action"
+#, fuzzy, python-format
+#| msgid "String needing action"
+#| msgid_plural "%(count)s strings needing action"
+msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
 msgstr[0] "מחרוזת דורשת פעילות"
 msgstr[1] "%(count)s מחרוזות דורשות פעילות"
@@ -11171,6 +11179,13 @@ msgstr "תהליך הגיבוי מתחיל"
 msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
 
+#~ msgid "String needing action in %(component)s"
+#~ msgid_plural "%(count)s strings needing action in %(component)s"
+#~ msgstr[0] "מחרוזת שדורשת פעולה ברכיב %(component)s"
+#~ msgstr[1] "%(count)s מחרוזות שדורשות פעולה ברכיב %(component)s"
+#~ msgstr[2] "%(count)s מחרוזות שדורשות פעולה ברכיב %(component)s"
+#~ msgstr[3] "%(count)s מחרוזות שדורשות פעולה ברכיב %(component)s"
+
 #~ msgid "Add word to glossary"
 #~ msgstr "הוספת מילה למונחון"
 
@@ -11596,13 +11611,6 @@ msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
 
 #~ msgid "If there is a problem with your registration, please contact us:"
 #~ msgstr "אם התגלתה בעיה ברישום שלך, נא ליצור עמנו קשר:"
-
-#~ msgid "There is %(count)s string needing action in %(component)s."
-#~ msgid_plural "There are %(count)s strings needing action in %(component)s."
-#~ msgstr[0] "ישנה מחרוזת אחת שדורשת פעולה ברכיב %(component)s."
-#~ msgstr[1] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
-#~ msgstr[2] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
-#~ msgstr[3] "ישנן %(count)s מחרוזות שדורשות פעולה ברכיב %(component)s."
 
 #~ msgid "Set up"
 #~ msgstr "הקמה"

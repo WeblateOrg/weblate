@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 20:23+0000\n"
+"POT-Creation-Date: 2020-06-13 11:31+0000\n"
 "PO-Revision-Date: 2020-05-12 10:46+0000\n"
 "Last-Translator: Michal Čihař <michal@cihar.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/master/el/"
@@ -7315,7 +7315,7 @@ msgstr "Κείμενα με προτάσεις"
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Enable suggestions"
-msgid "Pending suggestion in %(component)s"
+msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "Ενεργοποίηση προτάσεων"
 msgstr[1] "Ενεργοποίηση προτάσεων"
@@ -7323,7 +7323,7 @@ msgstr[1] "Ενεργοποίηση προτάσεων"
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Enable suggestions"
-msgid "Pending suggestion"
+msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
 msgstr[0] "Ενεργοποίηση προτάσεων"
 msgstr[1] "Ενεργοποίηση προτάσεων"
@@ -7415,16 +7415,17 @@ msgstr "Περιεχόμενο στιγμιότυπου"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
-#| msgid "Strings needing action"
-msgid "String needing action in %(component)s"
+#| msgid "There is %(count)s string needing review."
+#| msgid_plural "There are %(count)s strings needing review."
+msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Κείμενα που χρήζουν ενέργειας"
-msgstr[1] "Κείμενα που χρήζουν ενέργειας"
+msgstr[0] "Υπάρχει %(count)s ασαφές κείμενο που χρειάζεται έλεγχο."
+msgstr[1] "Υπάρχουν %(count)s ασαφή κείμενα που χρειάζονται έλεγχο."
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Strings needing action"
-msgid "String needing action"
+msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
 msgstr[0] "Κείμενα που χρήζουν ενέργειας"
 msgstr[1] "Κείμενα που χρήζουν ενέργειας"
@@ -13110,6 +13111,13 @@ msgstr "Ο λογαριασμός σας απομακρύνθηκε."
 msgid "Could not dismiss the configuration error!"
 msgstr "Σφάλματα ρύθμισης"
 
+#, fuzzy
+#~| msgid "Strings needing action"
+#~ msgid "String needing action in %(component)s"
+#~ msgid_plural "%(count)s strings needing action in %(component)s"
+#~ msgstr[0] "Κείμενα που χρήζουν ενέργειας"
+#~ msgstr[1] "Κείμενα που χρήζουν ενέργειας"
+
 #~ msgid "Add word to glossary"
 #~ msgstr "Εισαγωγή λέξης στο γλωσσάρι"
 
@@ -13593,14 +13601,6 @@ msgstr "Σφάλματα ρύθμισης"
 
 #~ msgid "If there is a problem with your registration, please contact us:"
 #~ msgstr "Αν υπάρχει πρόβλημα με την εγγραφή σας, επικοινωνήστε μαζί μας:"
-
-#, fuzzy
-#~| msgid "There is %(count)s string needing review."
-#~| msgid_plural "There are %(count)s strings needing review."
-#~ msgid "There is %(count)s string needing action in %(component)s."
-#~ msgid_plural "There are %(count)s strings needing action in %(component)s."
-#~ msgstr[0] "Υπάρχει %(count)s ασαφές κείμενο που χρειάζεται έλεγχο."
-#~ msgstr[1] "Υπάρχουν %(count)s ασαφή κείμενα που χρειάζονται έλεγχο."
 
 #, fuzzy
 #~| msgid "Ctrl+M - Shows machine translation tab"

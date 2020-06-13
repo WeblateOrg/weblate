@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 20:23+0000\n"
+"POT-Creation-Date: 2020-06-13 11:31+0000\n"
 "PO-Revision-Date: 2020-06-11 19:41+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -6380,7 +6380,7 @@ msgstr "Entradas com sugestões"
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Pending suggestions in %(component)s"
-msgid "Pending suggestion in %(component)s"
+msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "Sugestões pendentes em %(component)s"
 msgstr[1] "Sugestões pendentes em %(component)s"
@@ -6388,7 +6388,7 @@ msgstr[1] "Sugestões pendentes em %(component)s"
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Pending suggestions"
-msgid "Pending suggestion"
+msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
 msgstr[0] "Sugestões pendentes"
 msgstr[1] "Sugestões pendentes"
@@ -6472,16 +6472,17 @@ msgstr "Contexto da captura"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
-#| msgid "Strings needing action in %(component)s"
-msgid "String needing action in %(component)s"
+#| msgid "There is %(count)s string needing action in %(component)s."
+#| msgid_plural "There are %(count)s strings needing action in %(component)s."
+msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Entradas que precisam de ação em %(component)s"
-msgstr[1] "Entradas que precisam de ação em %(component)s"
+msgstr[0] "Há %(count)s entrada a precisar de ação em %(component)s."
+msgstr[1] "Há %(count)s entradas a precisar de ação em %(component)s."
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Strings needing action"
-msgid "String needing action"
+msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
 msgstr[0] "Entradas que precisam de ação"
 msgstr[1] "Entradas que precisam de ação"
@@ -11452,6 +11453,13 @@ msgstr "Processo de cópias de segurança ativado"
 msgid "Could not dismiss the configuration error!"
 msgstr "Não foi possível ignorar o erro de configuração!"
 
+#, fuzzy
+#~| msgid "Strings needing action in %(component)s"
+#~ msgid "String needing action in %(component)s"
+#~ msgid_plural "%(count)s strings needing action in %(component)s"
+#~ msgstr[0] "Entradas que precisam de ação em %(component)s"
+#~ msgstr[1] "Entradas que precisam de ação em %(component)s"
+
 #~ msgid "Add word to glossary"
 #~ msgstr "Adicionar palavra ao glossário"
 
@@ -11879,11 +11887,6 @@ msgstr "Não foi possível ignorar o erro de configuração!"
 
 #~ msgid "If there is a problem with your registration, please contact us:"
 #~ msgstr "Se existe algum problema com o seu registo, por favor contacte-nos:"
-
-#~ msgid "There is %(count)s string needing action in %(component)s."
-#~ msgid_plural "There are %(count)s strings needing action in %(component)s."
-#~ msgstr[0] "Há %(count)s entrada a precisar de ação em %(component)s."
-#~ msgstr[1] "Há %(count)s entradas a precisar de ação em %(component)s."
 
 #~ msgid "Set up"
 #~ msgstr "Configurar"

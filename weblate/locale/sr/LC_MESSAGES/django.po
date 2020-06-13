@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 20:23+0000\n"
+"POT-Creation-Date: 2020-06-13 11:31+0000\n"
 "PO-Revision-Date: 2019-11-28 09:58+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -7224,7 +7224,7 @@ msgstr "Низови са предлозима"
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Strings with suggestions"
-msgid "Pending suggestion in %(component)s"
+msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "Низови са предлозима"
 msgstr[1] "Низови са предлозима"
@@ -7233,7 +7233,7 @@ msgstr[2] "Низови са предлозима"
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Strings with suggestions"
-msgid "Pending suggestion"
+msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
 msgstr[0] "Низови са предлозима"
 msgstr[1] "Низови са предлозима"
@@ -7326,17 +7326,18 @@ msgstr "Контекст снимка екрана"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
-#| msgid "Strings needing action"
-msgid "String needing action in %(component)s"
+#| msgid "There is %(count)s string needing review."
+#| msgid_plural "There are %(count)s strings needing review."
+msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Низови који захтевају радњу"
-msgstr[1] "Низови који захтевају радњу"
-msgstr[2] "Низови који захтевају радњу"
+msgstr[0] "%(count)s ниска захтева оверу."
+msgstr[1] "%(count)s ниске захтевају оверу."
+msgstr[2] "%(count)s ниски захтева оверу."
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Strings needing action"
-msgid "String needing action"
+msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
 msgstr[0] "Низови који захтевају радњу"
 msgstr[1] "Низови који захтевају радњу"
@@ -12864,6 +12865,14 @@ msgstr "Ваш налог је уклоњен."
 msgid "Could not dismiss the configuration error!"
 msgstr "Грешке поставе"
 
+#, fuzzy
+#~| msgid "Strings needing action"
+#~ msgid "String needing action in %(component)s"
+#~ msgid_plural "%(count)s strings needing action in %(component)s"
+#~ msgstr[0] "Низови који захтевају радњу"
+#~ msgstr[1] "Низови који захтевају радњу"
+#~ msgstr[2] "Низови који захтевају радњу"
+
 #~ msgid "Add word to glossary"
 #~ msgstr "Додај реч у речник"
 
@@ -13232,15 +13241,6 @@ msgstr "Грешке поставе"
 
 #~ msgid "If there is a problem with your registration, please contact us:"
 #~ msgstr "Ако имате проблем са регистрацијом, контактирајте нас:"
-
-#, fuzzy
-#~| msgid "There is %(count)s string needing review."
-#~| msgid_plural "There are %(count)s strings needing review."
-#~ msgid "There is %(count)s string needing action in %(component)s."
-#~ msgid_plural "There are %(count)s strings needing action in %(component)s."
-#~ msgstr[0] "%(count)s ниска захтева оверу."
-#~ msgstr[1] "%(count)s ниске захтевају оверу."
-#~ msgstr[2] "%(count)s ниски захтева оверу."
 
 #, fuzzy
 #~| msgid "Alt+M - Shows machine translation tab"

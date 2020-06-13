@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-06-12 20:23+0000\n"
+"POT-Creation-Date: 2020-06-13 11:31+0000\n"
 "PO-Revision-Date: 2019-11-28 09:57+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/master/br/"
@@ -7245,7 +7245,7 @@ msgstr ""
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, fuzzy, python-format
 #| msgid "Suggestions"
-msgid "Pending suggestion in %(component)s"
+msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "Kinnigoù"
 msgstr[1] "Kinnigoù"
@@ -7256,7 +7256,7 @@ msgstr[4] "Kinnigoù"
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Suggestions"
-msgid "Pending suggestion"
+msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
 msgstr[0] "Kinnigoù"
 msgstr[1] "Kinnigoù"
@@ -7353,19 +7353,17 @@ msgstr ""
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
 #, fuzzy, python-format
-#| msgid "Source strings review"
-msgid "String needing action in %(component)s"
+#| msgid "There is %(count)s fuzzy string."
+#| msgid_plural "There are %(count)s fuzzy strings."
+msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Selladenn ouzh mammennoù an neudennadoù"
-msgstr[1] "Selladenn ouzh mammennoù an neudennadoù"
-msgstr[2] "Selladenn ouzh mammennoù an neudennadoù"
-msgstr[3] "Selladenn ouzh mammennoù an neudennadoù"
-msgstr[4] "Selladenn ouzh mammennoù an neudennadoù"
+msgstr[0] "Bez' ez eus %(count)s neudennad fuilhet."
+msgstr[1] "Bez' ez eus %(count)s neudennad fuilhet."
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, fuzzy, python-format
 #| msgid "Source strings review"
-msgid "String needing action"
+msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
 msgstr[0] "Selladenn ouzh mammennoù an neudennadoù"
 msgstr[1] "Selladenn ouzh mammennoù an neudennadoù"
@@ -13077,6 +13075,16 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Kregiñ gant un droidigezh nevez"
 
 #, fuzzy
+#~| msgid "Source strings review"
+#~ msgid "String needing action in %(component)s"
+#~ msgid_plural "%(count)s strings needing action in %(component)s"
+#~ msgstr[0] "Selladenn ouzh mammennoù an neudennadoù"
+#~ msgstr[1] "Selladenn ouzh mammennoù an neudennadoù"
+#~ msgstr[2] "Selladenn ouzh mammennoù an neudennadoù"
+#~ msgstr[3] "Selladenn ouzh mammennoù an neudennadoù"
+#~ msgstr[4] "Selladenn ouzh mammennoù an neudennadoù"
+
+#, fuzzy
 #~| msgid "Import glossary"
 #~ msgid "Add word to glossary"
 #~ msgstr "Enporzhiañ ar c'heriaoueg"
@@ -13392,14 +13400,6 @@ msgstr "Kregiñ gant un droidigezh nevez"
 #~ "There are %(count)s strings with suggestions in %(component)s."
 #~ msgstr[0] "Bez' ez eus %(count)s c'hinnig."
 #~ msgstr[1] "Bez' ez eus %(count)s kinnig."
-
-#, fuzzy
-#~| msgid "There is %(count)s fuzzy string."
-#~| msgid_plural "There are %(count)s fuzzy strings."
-#~ msgid "There is %(count)s string needing action in %(component)s."
-#~ msgid_plural "There are %(count)s strings needing action in %(component)s."
-#~ msgstr[0] "Bez' ez eus %(count)s neudennad fuilhet."
-#~ msgstr[1] "Bez' ez eus %(count)s neudennad fuilhet."
 
 #, fuzzy
 #~| msgid "Machine translation"
