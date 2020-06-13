@@ -172,7 +172,7 @@ class ComponentQuerySet(models.QuerySet):
 
     def prefetch(self):
         return self.prefetch_related(
-            "project", "linked_component", "linked_component__project"
+            "project", "linked_component", "linked_component__project", "alert_set"
         )
 
     def get_linked(self, val):
