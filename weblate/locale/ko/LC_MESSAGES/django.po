@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-13 11:31+0000\n"
-"PO-Revision-Date: 2020-06-13 11:31+0000\n"
+"PO-Revision-Date: 2020-06-13 18:21+0000\n"
 "Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/master/ko/"
 ">\n"
@@ -424,7 +424,7 @@ msgstr "젠 모드에서 제2언어 번역 표시"
 
 #: weblate/accounts/models.py:316
 msgid "Hide source if a secondary translation exists"
-msgstr "보조 번역이 있는 경우 소스 숨기기"
+msgstr "보조 번역이 있는 경우 원문 숨기기"
 
 #: weblate/accounts/models.py:322
 msgid "Editor link"
@@ -1250,7 +1250,7 @@ msgstr "자바 속성 파일 형식을 지정하기"
 
 #: weblate/addons/properties.py:144
 msgid "Sorts the Java properties file."
-msgstr "자바 특성 파일을 정렬합니다."
+msgstr "자바 속성 파일을 정렬합니다."
 
 #: weblate/addons/removal.py:49
 msgid "Stale comment removal"
@@ -6239,17 +6239,13 @@ msgid "Strings with suggestions"
 msgstr "제안된 문자열"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "%(component)s에서 대기 중인 %(count)s개의 제안"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestion"
-#| msgid_plural "%(count)s pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
 msgstr[0] "대기 중인 %(count)s개의 제안"
@@ -6329,17 +6325,13 @@ msgid "Screenshot context"
 msgstr "갈무리 문맥"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "There is %(count)s fuzzy string."
-#| msgid_plural "There are %(count)s fuzzy strings."
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "흐트러진 문자열이 %(count)s개 있습니다."
+msgstr[0] "%(component)s의 %(count)s개 문자열에 작업이 필요합니다"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "String needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
 msgstr[0] "작업이 필요한 %(count)s개의 문자열"
