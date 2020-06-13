@@ -156,6 +156,17 @@ def perform_on_link(func):
     return on_link_wrapper
 
 
+def prefetch_tasks(components):
+    """Prefetch update tasks."""
+    lookup = {component.update_key: component for component in components}
+    for item, value in cache.get_many(lookup.keys()):
+        lookup[item].__dict__["background_task"] = AsyncResult(value)
+        lookup.pop(item)
+    for component in lookup.values():
+        component.__dict__["background_task"] = None
+    return components
+
+
 class ComponentQuerySet(models.QuerySet):
     # pylint: disable=no-init
 
@@ -729,6 +740,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
     @cached_property
     def background_task(self):
+        print(self.__dict__)
         task_id = cache.get(self.update_key)
         if not task_id:
             return None

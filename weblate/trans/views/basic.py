@@ -48,6 +48,7 @@ from weblate.trans.forms import (
     get_upload_form,
 )
 from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
@@ -161,7 +162,7 @@ def show_project(request, project):
 
     # Paginate components of project.
     all_components = obj.component_set.filter_access(user).prefetch().order()
-    components = prefetch_stats(get_paginator(request, all_components))
+    components = prefetch_tasks(prefetch_stats(get_paginator(request, all_components)))
 
     return render(
         request,
