@@ -388,7 +388,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Suggestion.objects.create(unit=unit, target="Foo")
         self.test_reminder(
             notification="PendingSuggestionsNotification",
-            subj="Pending suggestion in Test/Test",
+            subj="1 pending suggestion in Test/Test",
         )
 
 
