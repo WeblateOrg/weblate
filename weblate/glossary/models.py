@@ -287,7 +287,7 @@ class Term(models.Model):
 
     def check_perm(self, user, perm):
         return user.has_perm(perm, self.glossary.project) or any(
-            user.has_perm(perm, prj) for prj in self.glossary.linked
+            user.has_perm(perm, prj) for prj in self.glossary.links
         )
 
 
