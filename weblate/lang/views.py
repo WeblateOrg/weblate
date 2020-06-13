@@ -76,7 +76,9 @@ def show_language(request, lang):
     last_changes = Change.objects.last_changes(request.user).filter(language=obj)[:10]
     projects = request.user.allowed_projects
     dicts = projects.filter(glossary__term__language=obj).distinct()
-    projects = projects.filter(component__translation__language=obj).distinct()
+    projects = prefetch_stats(
+        projects.filter(component__translation__language=obj).distinct()
+    )
 
     for project in projects:
         project.language_stats = project.stats.get_single_language_stats(obj)
