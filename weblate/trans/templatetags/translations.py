@@ -730,7 +730,7 @@ def indicate_alerts(context, obj):
                 )
             )
     elif project:
-        if project.all_alerts.exists():
+        if project.has_alerts:
             result.append(
                 (
                     "state/alert.svg",

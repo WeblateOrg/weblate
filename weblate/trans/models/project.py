@@ -23,6 +23,7 @@ import os.path
 
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models import Count
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
@@ -40,6 +41,22 @@ from weblate.utils.stats import ProjectStats
 class ProjectQuerySet(models.QuerySet):
     def order(self):
         return self.order_by("name")
+
+
+def prefetch_project_flags(projects):
+    lookup = {project.id: project for project in projects}
+    for alert in projects.values("id").annotate(Count("component__alert")):
+        lookup[alert["id"]].__dict__["has_alerts"] = bool(
+            alert["component__alert__count"]
+        )
+    for locks in (
+        projects.filter(component__locked=False)
+        .values("id")
+        .distinct()
+        .annotate(Count("component__id"))
+    ):
+        lookup[locks["id"]].__dict__["locked"] = bool(locks["component__id__count"])
+    return projects
 
 
 class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
@@ -335,3 +352,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         result = Alert.objects.filter(component__project=self)
         list(result)
         return result
+
+    @cached_property
+    def has_alerts(self):
+        return self.all_alerts.exists()

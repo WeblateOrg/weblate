@@ -31,6 +31,7 @@ from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
 from weblate.trans.forms import SearchForm
 from weblate.trans.models import Change
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
 from weblate.utils.stats import GlobalStats, prefetch_stats
@@ -76,8 +77,8 @@ def show_language(request, lang):
     last_changes = Change.objects.last_changes(request.user).filter(language=obj)[:10]
     projects = request.user.allowed_projects
     dicts = projects.filter(glossary__term__language=obj).distinct()
-    projects = prefetch_stats(
-        projects.filter(component__translation__language=obj).distinct()
+    projects = prefetch_project_flags(
+        prefetch_stats(projects.filter(component__translation__language=obj).distinct())
     )
 
     for project in projects:

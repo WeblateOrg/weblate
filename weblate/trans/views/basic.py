@@ -49,6 +49,7 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, ComponentList, Translation, Unit
 from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
@@ -76,7 +77,9 @@ def list_projects(request):
         "projects.html",
         {
             "allow_index": True,
-            "projects": prefetch_stats(request.user.allowed_projects),
+            "projects": prefetch_project_flags(
+                prefetch_stats(request.user.allowed_projects)
+            ),
             "title": _("Projects"),
         },
     )
