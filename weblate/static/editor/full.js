@@ -296,8 +296,8 @@
                 success: function (data) {
                     decreaseLoading('glossary-add');
                     if (data.responseCode === 200) {
-                        $('#glossary-words').html(data.results);
-                        form.find('[name=words]').attr('value', data.words);
+                        $('#glossary-terms').html(data.results);
+                        form.find('[name=terms]').attr('value', data.terms);
                     }
                     self.$translationArea.first().focus();
                     form.trigger('reset');
