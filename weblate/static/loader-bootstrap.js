@@ -876,7 +876,9 @@ $(function () {
         if ($this.closest('.query-field').length) {
             $('#id_q').val($this.data('field'));
             if ($this.closest('.result-page-form').length) {
-                $this.closest('form').submit();
+                var $form = $this.closest('form');
+                $form.find("input[name=offset]").val("1");
+                $form.submit();
             }
         }
     });
@@ -904,9 +906,16 @@ $(function () {
             return false;
         }
     });
-    $('#id_q,#id_position').on('keydown', function (event) {
+    $('#id_position').on('keydown', function (event) {
         if (event.key === "Enter") {
             $(this).closest('form').submit();
+        }
+    });
+    $('#id_q').on('keydown', function (event) {
+        if (event.key === "Enter") {
+            var $form = $(this).closest('form');
+            $form.find("input[name=offset]").val("1");
+            $form.submit();
         }
     });
     $('.search-add').click(function () {
