@@ -111,72 +111,80 @@
     };
 
     FullEditor.prototype.initTabs = function () {
-        this.isMTLoaded = false;
-        this.isTMLoaded = false;
-
         /* Store active tab in a cookie */
         $('.translation-tabs a[data-toggle="tab"]').on('shown.bs.tab', function () {
             Cookies.remove('translate-tab', { path: '' });
             Cookies.set('translate-tab', $(this).attr('href'), { path: '/', expires: 365 });
         });
 
+        var self = this;
         /* Machine translation */
-        this.$editor.on('show.bs.tab', '[data-load="mt"]', function (e) {
-            if (this.isMTLoaded) {
+        this.isTMLoaded = false;
+        this.$editor.on('show.bs.tab', '[data-load="mt"]', function () {
+            if (self.isMTLoaded) {
                 return;
             }
-            this.isMTLoaded = true;
-            increaseLoading('mt');
-            $.ajax({
-                url: $('#js-mt-services').attr('href'),
-                success: loadMachineTranslations,
-                error: failedMachineTranslation,
-                dataType: 'json'
-            });
+            self.isMTLoaded = true;
+            self.initMachineTranslation();
         });
 
         /* Translation memory */
-        this.$editor.on('show.bs.tab', '[data-load="memory"]', function (e) {
-            if (this.isTMLoaded) {
+        this.isMTLoaded = false;
+        this.$editor.on('show.bs.tab', '[data-load="memory"]', function () {
+            if (self.isTMLoaded) {
                 return;
             }
-            this.isTMLoaded = true;
+            self.isTMLoaded = true;
+            self.initTranslationMemory();
+        });
+    };
+
+    FullEditor.prototype.initMachineTranslation = function () {
+        increaseLoading('mt');
+        $.ajax({
+            url: $('#js-mt-services').attr('href'),
+            success: loadMachineTranslations,
+            error: failedMachineTranslation,
+            dataType: 'json'
+        });
+    };
+
+    FullEditor.prototype.initTranslationMemory = function () {
+        increaseLoading('memory');
+        var $form = $('#link-post');
+        $.ajax({
+            type: 'POST',
+            url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
+            success: function (data) {
+                processMachineTranslation(data, 'memory');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
+            },
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: $form.find('input').val(),
+            },
+        });
+
+        $('#memory-search').submit(function () {
+            var form = $(this);
+
             increaseLoading('memory');
-            var $form = $('#link-post');
+            $('#memory-translations').empty();
             $.ajax({
                 type: 'POST',
-                url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
+                url: form.attr('action'),
+                data: form.serialize(),
+                dataType: 'json',
                 success: function (data) {
                     processMachineTranslation(data, 'memory');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
                 },
-                dataType: 'json',
-                data: {
-                    csrfmiddlewaretoken: $form.find('input').val(),
-                },
             });
-
-            $('#memory-search').submit(function () {
-                var form = $(this);
-
-                increaseLoading('memory');
-                $('#memory-translations').empty();
-                $.ajax({
-                    type: 'POST',
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    dataType: 'json',
-                    success: function (data) {
-                        processMachineTranslation(data, 'memory');
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
-                    },
-                });
-                return false;
-            });
+            return false;
         });
     };
 
