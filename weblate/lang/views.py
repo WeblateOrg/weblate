@@ -34,7 +34,7 @@ from weblate.trans.models import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
-from weblate.utils.stats import GlobalStats, prefetch_stats
+from weblate.utils.stats import GlobalStats, ProjectLanguageStats, prefetch_stats
 from weblate.utils.views import get_paginator, get_project
 
 
@@ -81,8 +81,11 @@ def show_language(request, lang):
         prefetch_stats(projects.filter(component__translation__language=obj).distinct())
     )
 
+    stats = []
     for project in projects:
         project.language_stats = project.stats.get_single_language_stats(obj)
+        stats.append(project.language_stats)
+    ProjectLanguageStats.prefetch_many(stats)
 
     return render(
         request,

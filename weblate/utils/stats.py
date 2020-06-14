@@ -172,7 +172,8 @@ class BaseStats:
     def get_parent_stats(self, parent):
         return ParentStats(self, parent)
 
-    def prefetch_many(self, stats):
+    @staticmethod
+    def prefetch_many(stats):
         lookup = {i.cache_key: i for i in stats if not i.is_loaded}
         if not lookup:
             return
