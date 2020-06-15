@@ -315,14 +315,14 @@
             }
         });
 
-        for (var i = 1; i < 10; i++) {
-            Mousetrap.bindGlobal(
-                'mod+m ' + i,
-                function () {
-                    return false;
-                }
-            );
-        }
+        // Cancel out browser's `meta+m` and let Mousetrap handle the rest
+        document.addEventListener('keydown', function (e) {
+            var isMod = WLT.Config.IS_MAC ? e.metaKey : e.ctrlKey;
+            if (isMod && e.key.toLowerCase() === 'm') {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
 
         var $translationRows = $('#' + scope + '-translations').children('tr');
         $translationRows.each(function (idx) {
