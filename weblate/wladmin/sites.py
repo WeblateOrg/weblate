@@ -82,6 +82,7 @@ class WeblateAdminSite(AdminSite):
     site_header = _("Weblate administration")
     site_title = _("Weblate administration")
     index_template = "admin/weblate-index.html"
+    enable_nav_sidebar = False
 
     @property
     def site_url(self):
