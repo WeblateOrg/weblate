@@ -1,6 +1,8 @@
 (function () {
     var EditorBase = WLT.Editor.Base;
 
+    var TM_SERVICE_NAME = 'weblate-translation-memory';
+
     var $window = $(window);
 
     function FullEditor() {
@@ -140,28 +142,15 @@
     };
 
     FullEditor.prototype.initMachineTranslation = function () {
+        var self = this;
         increaseLoading('mt');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
             success: function (servicesList) {
-                var $form = $('#link-post');
                 decreaseLoading('mt');
                 servicesList.forEach(function (serviceName) {
                     increaseLoading('mt');
-                    $.ajax({
-                        type: 'POST',
-                        url: $('#js-translate').attr('href').replace('__service__', serviceName),
-                        success: function (data) {
-                            processMachineryResults(data, 'mt');
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            processMachineryError(jqXHR, textStatus, errorThrown, 'mt');
-                        },
-                        dataType: 'json',
-                        data: {
-                            csrfmiddlewaretoken: $form.find('input').val(),
-                        },
-                    });
+                    self.fetchMachinery(serviceName);
                 });
             },
             error: processMachineryError,
@@ -171,21 +160,7 @@
 
     FullEditor.prototype.initTranslationMemory = function () {
         increaseLoading('memory');
-        var $form = $('#link-post');
-        $.ajax({
-            type: 'POST',
-            url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
-            success: function (data) {
-                processMachineryResults(data, 'memory');
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
-            },
-            dataType: 'json',
-            data: {
-                csrfmiddlewaretoken: $form.find('input').val(),
-            },
-        });
+        this.fetchMachinery(TM_SERVICE_NAME);
 
         $('#memory-search').submit(function () {
             var form = $(this);
@@ -205,6 +180,24 @@
                 },
             });
             return false;
+        });
+    };
+
+    FullEditor.prototype.fetchMachinery = function (serviceName) {
+        var serviceType = serviceName === TM_SERVICE_NAME ? 'memory' : 'mt';
+        $.ajax({
+            type: 'POST',
+            url: $('#js-translate').attr('href').replace('__service__', serviceName),
+            success: function (data) {
+                processMachineryResults(data, serviceType);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                processMachineryError(jqXHR, textStatus, errorThrown, serviceType);
+            },
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: $('#link-post').find('input').val(),
+            },
         });
     };
 
