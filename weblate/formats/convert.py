@@ -27,13 +27,15 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
+from translate.convert.po2rc import rerc
+from translate.convert.rc2po import rc2po
 from translate.convert.xliff2odf import translate_odf, write_odf
 from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
 from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
 from translate.storage.po import pofile
-from translate.storage.test_factory import BaseTestFactory
+from translate.storage.rc import rcfile
 from translate.storage.xliff import xlifffile
 from translate.storage.xml_extract.extract import (
     IdMaker,
@@ -126,15 +128,12 @@ class ConvertFormat(TranslationFormat):
             report_error(cause="File parse error")
             return False
 
-    @classmethod
-    def get_class(cls):
-        # This needs translate-toolkit 3.0.0, check can be
-        # removed once dependency is raised
-        if not hasattr(BaseTestFactory, "test_getobject_store"):
-            raise ImportError("Needs newer translate-toolkit")
-
     def add_unit(self, ttkit_unit):
         self.store.addunit(ttkit_unit)
+
+    @classmethod
+    def get_class(cls):
+        return None
 
     def create_unit(self, key, source):
         raise ValueError("Not supported")
@@ -313,17 +312,8 @@ class WindowsRCFormat(ConvertFormat):
         """Return most common file extension for format."""
         return "rc"
 
-    @classmethod
-    def get_class(cls):
-        # This needs translate-toolkit 3.0.0 and pyparsing optional dep
-        from translate.storage.rc import rc_statement
-
-        return rc_statement
-
     @staticmethod
     def convertfile(storefile):
-        from translate.storage.rc import rcfile
-        from translate.convert.rc2po import rc2po
 
         input_store = rcfile(storefile)
         convertor = rc2po()
@@ -333,8 +323,6 @@ class WindowsRCFormat(ConvertFormat):
 
     def save_content(self, handle):
         """Store content to file."""
-        from translate.convert.po2rc import rerc
-
         # Fallback language
         lang = "LANG_ENGLISH"
         sublang = "SUBLANG_DEFAULT"
