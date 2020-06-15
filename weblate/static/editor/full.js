@@ -170,7 +170,7 @@
                 decreaseLoading('mt');
                 servicesList.forEach(function (serviceName) {
                     increaseLoading('mt');
-                    self.fetchMachinery(serviceName);
+                    self.fetchMachinery(serviceName, 'mt');
                 });
             },
             error: self.processMachineryError,
@@ -180,7 +180,7 @@
 
     FullEditor.prototype.initTranslationMemory = function () {
         increaseLoading('memory');
-        this.fetchMachinery(TM_SERVICE_NAME);
+        this.fetchMachinery(TM_SERVICE_NAME, 'memory');
 
         var self = this;
         $('#memory-search').submit(function () {
@@ -204,8 +204,7 @@
         });
     };
 
-    FullEditor.prototype.fetchMachinery = function (serviceName) {
-        var serviceType = serviceName === TM_SERVICE_NAME ? 'memory' : 'mt';
+    FullEditor.prototype.fetchMachinery = function (serviceName, serviceType) {
         var self = this;
         $.ajax({
             type: 'POST',
