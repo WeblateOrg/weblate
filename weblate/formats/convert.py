@@ -328,11 +328,11 @@ class WindowsRCFormat(ConvertFormat):
         sublang = "SUBLANG_DEFAULT"
 
         # Keep existing language tags
-        rcfile = self.store.rcfile
-        if rcfile.lang:
-            lang = rcfile.lang
-            if rcfile.sublang:
-                sublang = rcfile.sublang
+        storage = self.store.rcfile
+        if storage.lang:
+            lang = storage.lang
+            if storage.sublang:
+                sublang = storage.sublang
 
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
