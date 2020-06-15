@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-13 11:31+0000\n"
-"PO-Revision-Date: 2020-06-13 11:31+0000\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"PO-Revision-Date: 2020-06-16 15:41+0000\n"
+"Last-Translator: Changpeng Sun <zzjbcn@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.1.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -2201,10 +2201,8 @@ msgid "Priority"
 msgstr "优先权"
 
 #: weblate/checks/flags.py:67
-#, fuzzy
-#| msgid "Replacement string"
 msgid "Replacements while rendering"
-msgstr "替换字符串"
+msgstr "渲染时的替换字符串"
 
 #: weblate/checks/flags.py:228
 #, python-format
@@ -2835,20 +2833,16 @@ msgid "Starting letter"
 msgstr "开头字母"
 
 #: weblate/glossary/models.py:59
-#, fuzzy
-#| msgid "Additional context"
 msgid "Additional projects"
-msgstr "额外上下文"
+msgstr "其他项目"
 
 #: weblate/glossary/models.py:63
 msgid "Choose additional projects where this glossary can be used."
-msgstr ""
+msgstr "选择可以使用此词汇表的其他项目。"
 
 #: weblate/glossary/models.py:67
-#, fuzzy
-#| msgid "Glossary added"
 msgid "Glossary name"
-msgstr "词汇表已增加"
+msgstr "词汇表名称"
 
 #: weblate/glossary/models.py:72 weblate/templates/project-labels.html:18
 #: weblate/trans/models/label.py:33
@@ -2879,24 +2873,18 @@ msgid "%(language)s glossary for %(project)s"
 msgstr "%(language)s 术语表，%(project)s"
 
 #: weblate/glossary/views.py:128 weblate/glossary/views.py:143
-#, fuzzy
-#| msgid "Reverted change not found!"
 msgid "Glossary was not found."
-msgstr "未找到恢复的更改！"
+msgstr "未找到词汇表。"
 
 #: weblate/glossary/views.py:253
-#, fuzzy
-#| msgid "No words to import found in file."
 msgid "No terms to import found in file."
-msgstr "在此文件中未找到要导入的单词。"
+msgstr "在此文件中未找到要导入的术语。"
 
 #: weblate/glossary/views.py:255
-#, fuzzy, python-format
-#| msgid "Imported %d word from the uploaded file."
-#| msgid_plural "Imported %d words from the uploaded file."
+#, python-format
 msgid "Imported %d term from the uploaded file."
 msgid_plural "Imported %d terms from the uploaded file."
-msgstr[0] "已从上传的文件中导入 %d 个单词。"
+msgstr[0] "已从上传的文件中导入 %d 个术语。"
 
 #: weblate/glossary/views.py:262 weblate/trans/views/files.py:187
 #, python-format
@@ -5527,22 +5515,15 @@ msgid "Are you absolutely sure?"
 msgstr "您确定吗？"
 
 #: weblate/templates/glossaries.html:57
-#, fuzzy, python-format
-#| msgid ""
-#| "This will permanently delete %(count)s entry from the translation memory."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the translation "
-#| "memory."
+#, python-format
 msgid "This will permanently delete %(count)s entry from the glossary."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the glossary."
-msgstr[0] "这将从翻译记忆库中永久地删除 %(count)s 个条目。"
+msgstr[0] "这将从术语表中永久地删除 %(count)s 个条目。"
 
 #: weblate/templates/glossaries.html:73
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new glossary"
-msgstr "管理词汇表"
+msgstr "创建新的术语表"
 
 #: weblate/templates/glossary.html:21
 #: weblate/templates/snippets/list-objects.html:93
@@ -6147,18 +6128,16 @@ msgid "Strings with suggestions"
 msgstr "有建议的字符串"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "在 %(component)s待处理的建议"
+msgstr[0] "在 %(component)s 中 %(count)s 个待处理的建议"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "待处理的建议"
+msgstr[0] "%(count)s 个待处理的建议"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6234,19 +6213,16 @@ msgid "Screenshot context"
 msgstr "截图上下文"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing review."
-#| msgid_plural "There are %(count)s strings needing review."
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "还有 %(count)s 个字符串需要复查。"
+msgstr[0] "在 %(component)s 中还有 %(count)s 个字符串需要操作。"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "需要处理的字符串"
+msgstr[0] "%(count)s 个需要处理的字符串"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
@@ -6851,10 +6827,8 @@ msgid "Strings"
 msgstr "字符串"
 
 #: weblate/templates/screenshots/screenshot_list.html:54
-#, fuzzy
-#| msgid "Search in target strings"
 msgid "There are no assigned strings."
-msgstr "搜索目标字符串"
+msgstr "没有分配的字符串。"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
 msgid "No source strings are currently assigned!"
@@ -7066,10 +7040,8 @@ msgid "Target strings"
 msgstr "目标字符串"
 
 #: weblate/templates/snippets/query-builder.html:16
-#, fuzzy
-#| msgid "Context strings"
 msgid "Key/Context strings"
-msgstr "字符串上下文"
+msgstr "键/上下文字符串"
 
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Comment strings"
@@ -7211,11 +7183,9 @@ msgstr "组件数量"
 #. Translators: Translation key for monolingual translations
 #: weblate/templates/snippets/query-field.html:43
 #: weblate/trans/models/component.py:2408 weblate/utils/views.py:94
-#, fuzzy
-#| msgid "Keys"
 msgctxt "Translation key"
 msgid "Key"
-msgstr "密钥信息"
+msgstr "键"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7489,7 +7459,7 @@ msgstr "在关闭对这些功能的支持或缺少依赖项时，可能会发生
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
-msgstr ""
+msgstr "至少有一个未分配给任何字符串的屏幕截图。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -7791,10 +7761,8 @@ msgid ""
 msgstr "这个翻译只接受建议并最终由投票决定。"
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid "Insufficient privileges for adding suggestions."
 msgid "Insufficient privileges for editing source strings."
-msgstr "添加新建议的权限不足。"
+msgstr "编辑源字符串的权限不足。"
 
 #: weblate/templates/translate.html:187 weblate/trans/views/edit.py:269
 #: weblate/trans/views/edit.py:290 weblate/trans/views/edit.py:309
@@ -7932,10 +7900,8 @@ msgid "Manage glossary"
 msgstr "管理词汇表"
 
 #: weblate/templates/translate.html:514 weblate/templates/translate.html:524
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Add term to glossary"
-msgstr "已新增至词汇表"
+msgstr "将术语添加到术语表"
 
 #: weblate/templates/translate.html:543
 msgid "Source information"
@@ -8900,10 +8866,8 @@ msgstr "损坏的项目网站 URL"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:288
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Unused screenshot"
-msgstr "添加截图"
+msgstr "未使用的屏幕截图"
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -9610,10 +9574,8 @@ msgid ""
 msgstr "单个语言还有更多文件（%s），请调整文件掩码并使用组件翻译不同的资源。"
 
 #: weblate/trans/models/component.py:1817
-#, fuzzy
-#| msgid "The language code \"%s\" is too long, please check the filemask."
 msgid "Could not find any matching language, please check the filemask."
-msgstr "\"%s\" 语言代码过长，请检查文件掩码。"
+msgstr "找不到任何匹配的语言，请检查所要处理的文件掩码."
 
 #: weblate/trans/models/component.py:1836
 #, python-format
@@ -9626,10 +9588,8 @@ msgid "Unrecognized base file for new translations."
 msgstr "无法识别的新翻译基础文件。"
 
 #: weblate/trans/models/component.py:1861
-#, fuzzy
-#| msgid "Unused base file for new translations."
 msgid "Base file for new translations not found."
-msgstr "未在新翻译中使用新译文模版文件。"
+msgstr "找不到新翻译的基础文件。"
 
 #: weblate/trans/models/component.py:1864
 msgid ""
