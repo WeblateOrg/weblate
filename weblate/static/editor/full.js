@@ -324,8 +324,8 @@
             );
         }
 
-        var $translations = $('#' + scope + '-translations');
-        $translations.children('tr').each(function (idx) {
+        var $translationRows = $('#' + scope + '-translations').children('tr');
+        $translationRows.each(function (idx) {
             if (idx < 10) {
                 var key = WLT.Utils.getNumericKey(idx);
 
@@ -341,7 +341,7 @@
                 Mousetrap.bindGlobal(
                     'mod+m ' + key,
                     function () {
-                        $($('#' + scope + '-translations').children('tr')[idx]).find('.js-copy-machinery').click();
+                        $translationRows.eq(idx).find('.js-copy-machinery').click();
                         return false;
                     }
                 );
