@@ -103,6 +103,10 @@ jobs:
         env:
           COVERAGE_NO_ERASE: 1
         run: ./ci/run-migrate 4.0.4
+      - name: Migrate from 4.1
+        env:
+          COVERAGE_NO_ERASE: 1
+        run: ./ci/run-migrate 4.1
       - name: Coverage
         run: |
           coverage combine
