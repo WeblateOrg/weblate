@@ -27,7 +27,8 @@ You need to install :mod:`wlc`:, wlc to use these.
 Getting started
 +++++++++++++++
 
-Configuration is stored in ``~/.config/weblate``:
+The wlc configuration is stored in ``~/.config/weblate``, please create it to
+match your environment:
 
 .. code-block:: ini
 
