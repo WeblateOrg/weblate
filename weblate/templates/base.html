@@ -4,7 +4,6 @@
 {% load compress %}
 {% load icons %}
 
-{% if not request.is_ajax %}
 <!DOCTYPE html>
 
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
@@ -285,8 +284,6 @@ var _rollbarConfig = {
 {% endfor %}
 {% endif %}
 
-{% endif %}
-
 {% if menu_items %}
 {% include 'snippets/menu.html' %}
 {% endif %}
@@ -294,7 +291,6 @@ var _rollbarConfig = {
 {% block content %}
 {% endblock %}
 
-{% if not request.is_ajax %}
 </div>
 <form id="link-post" method="POST">
 {% csrf_token %}
@@ -320,4 +316,3 @@ var _rollbarConfig = {
 {% include 'footer.html' %}
  </body>
 </html>
-{% endif %}
