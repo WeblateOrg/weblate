@@ -774,7 +774,13 @@ def choiceval(boundfield):
         return gettext("enabled")
     if not hasattr(boundfield.field, "choices"):
         return value
-    choices = dict(boundfield.field.choices)
+    choices = list(boundfield.field.choices)
+    if choices and hasattr(choices[0][0], "value"):
+        # Django 3.1+ yields ModelChoiceIteratorValue
+        choices = {choice.value: value for choice, value in choices}
+    else:
+        # Django 3.0
+        choices = dict(choices)
     if isinstance(value, list):
         return ", ".join(choices.get(val, val) for val in value)
     return choices.get(value, value)
