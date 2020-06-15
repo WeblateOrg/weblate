@@ -143,7 +143,27 @@
         increaseLoading('mt');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
-            success: fetchMachinery,
+            success: function (servicesList) {
+                var $form = $('#link-post');
+                decreaseLoading('mt');
+                servicesList.forEach(function (serviceName) {
+                    increaseLoading('mt');
+                    $.ajax({
+                        type: 'POST',
+                        url: $('#js-translate').attr('href').replace('__service__', serviceName),
+                        success: function (data) {
+                            processMachineryResults(data, 'mt');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            processMachineryError(jqXHR, textStatus, errorThrown, 'mt');
+                        },
+                        dataType: 'json',
+                        data: {
+                            csrfmiddlewaretoken: $form.find('input').val(),
+                        },
+                    });
+                });
+            },
             error: processMachineryError,
             dataType: 'json'
         });
@@ -324,28 +344,6 @@
     FullEditor.prototype.insertIntoTranslation = function (text) {
         this.$translationArea.insertAtCaret($.trim(text)).change();
     };
-
-    function fetchMachinery(servicesList) {
-        var $form = $('#link-post');
-        decreaseLoading('mt');
-        servicesList.forEach(function (serviceName) {
-            increaseLoading('mt');
-            $.ajax({
-                type: 'POST',
-                url: $('#js-translate').attr('href').replace('__service__', serviceName),
-                success: function (data) {
-                    processMachineryResults(data, 'mt');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    processMachineryError(jqXHR, textStatus, errorThrown, 'mt');
-                },
-                dataType: 'json',
-                data: {
-                    csrfmiddlewaretoken: $form.find('input').val(),
-                },
-            });
-        });
-    }
 
     function processMachineryError(jqXHR, textStatus, errorThrown, scope) {
         decreaseLoading(scope);
