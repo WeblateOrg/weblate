@@ -143,8 +143,8 @@
         increaseLoading('mt');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
-            success: loadMachineTranslations,
-            error: failedMachineTranslation,
+            success: fetchMachinery,
+            error: processMachineryError,
             dataType: 'json'
         });
     };
@@ -156,10 +156,10 @@
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
             success: function (data) {
-                processMachineTranslation(data, 'memory');
+                processMachineryResults(data, 'memory');
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
+                processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
             },
             dataType: 'json',
             data: {
@@ -178,10 +178,10 @@
                 data: form.serialize(),
                 dataType: 'json',
                 success: function (data) {
-                    processMachineTranslation(data, 'memory');
+                    processMachineryResults(data, 'memory');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
+                    processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
                 },
             });
             return false;
@@ -325,19 +325,19 @@
         this.$translationArea.insertAtCaret($.trim(text)).change();
     };
 
-    function loadMachineTranslations(data, textStatus) {
+    function fetchMachinery(servicesList) {
         var $form = $('#link-post');
         decreaseLoading('mt');
-        data.forEach(function (el, idx) {
+        servicesList.forEach(function (serviceName) {
             increaseLoading('mt');
             $.ajax({
                 type: 'POST',
-                url: $('#js-translate').attr('href').replace('__service__', el),
+                url: $('#js-translate').attr('href').replace('__service__', serviceName),
                 success: function (data) {
-                    processMachineTranslation(data, 'mt');
+                    processMachineryResults(data, 'mt');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    failedMachineTranslation(jqXHR, textStatus, errorThrown, 'mt');
+                    processMachineryError(jqXHR, textStatus, errorThrown, 'mt');
                 },
                 dataType: 'json',
                 data: {
@@ -347,7 +347,7 @@
         });
     }
 
-    function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
+    function processMachineryError(jqXHR, textStatus, errorThrown, scope) {
         decreaseLoading(scope);
         if (jqXHR.state() !== 'rejected') {
             addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
@@ -355,7 +355,7 @@
     }
 
     // TODO: move some logic to the class so that $translationArea can be reused
-    function processMachineTranslation(data, scope) {
+    function processMachineryResults(data, scope) {
         decreaseLoading(scope);
         if (data.responseStatus !== 200) {
             var msg = interpolate(
