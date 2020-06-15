@@ -9,6 +9,7 @@
         EditorBase.call(this);
 
         var self = this;
+        this.csrfToken = $('#link-post').find('input').val();
 
         this.initTranslationForm();
         this.initTabs();
@@ -217,7 +218,7 @@
             },
             dataType: 'json',
             data: {
-                csrfmiddlewaretoken: $('#link-post').find('input').val(),
+                csrfmiddlewaretoken: self.csrfToken,
             },
         });
     };
@@ -362,13 +363,11 @@
         /* Check ignoring */
         $('.check-dismiss').click(function () {
             var $this = $(this);
-            var $form = $('#link-post');
-
             $.ajax({
                 type: 'POST',
                 url: $this.attr('href'),
                 data: {
-                    csrfmiddlewaretoken: $form.find('input').val(),
+                    csrfmiddlewaretoken: self.csrfToken,
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     addAlert(errorThrown);
