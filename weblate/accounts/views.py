@@ -164,10 +164,10 @@ class EmailSentView(TemplateView):
         context["is_remove"] = False
         # This view is not visible for invitation that's
         # why don't handle user_invite here
-        if kwargs["password_reset"]:
+        if self.request.flags["password_reset"]:
             context["title"] = _("Password reset")
             context["is_reset"] = True
-        elif kwargs["account_remove"]:
+        elif self.request.flags["account_remove"]:
             context["title"] = _("Remove account")
             context["is_remove"] = True
         else:
@@ -179,9 +179,12 @@ class EmailSentView(TemplateView):
         if not request.session.get("registration-email-sent"):
             return redirect("home")
 
-        kwargs["password_reset"] = request.session["password_reset"]
-        kwargs["account_remove"] = request.session["account_remove"]
-        kwargs["user_invite"] = request.session["user_invite"]
+        request.flags = {
+            "password_reset": request.session["password_reset"],
+            "account_remove": request.session["account_remove"],
+            "user_invite": request.session["user_invite"],
+        }
+
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
         # with multiple registrations from single browser.
