@@ -15,6 +15,25 @@
         this.initChecks();
         this.initGlossary();
 
+        /* Copy machinery results */
+        this.$editor.on('click', '.js-copy-machinery', function () {
+            var text = $(this).parent().parent().find('.target').text();
+
+            self.$translationArea.val(text).change();
+            autosize.update(self.$translationArea);
+            WLT.Utils.markFuzzy(self.$translationForm);
+        });
+
+        /* Copy and save machinery results */
+        this.$editor.on('click', '.js-copy-save-machinery', function () {
+            var text = $(this).parent().parent().find('.target').text();
+
+            self.$translationArea.val(text).change();
+            autosize.update(self.$translationArea);
+            WLT.Utils.markTranslated(self.$translationForm);
+            submitForm({ target: self.$translationArea });
+        });
+
         Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
         Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
         Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
@@ -210,7 +229,6 @@
         }
     };
 
-    // TODO: move some logic to the class so that $translationArea can be reused
     FullEditor.prototype.processMachineryResults = function (data, scope) {
         decreaseLoading(scope);
         if (data.responseStatus !== 200) {
@@ -264,13 +282,13 @@
             /* Translators: Verb for copy operation */
             newRow.append($(
                 '<td>' +
-                '<a class="copymt btn btn-warning">' +
+                '<a class="js-copy-machinery btn btn-warning">' +
                 gettext('Copy') +
                 '<span class="mt-number text-info"></span>' +
                 '</a>' +
                 '</td>' +
                 '<td>' +
-                '<a class="copymt-save btn btn-primary">' +
+                '<a class="js-copy-save-machinery btn btn-primary">' +
                 gettext('Copy and save') +
                 '</a>' +
                 '</td>'
@@ -295,21 +313,6 @@
             if (!done) {
                 $translations.append(newRow);
             }
-        });
-        $('a.copymt').click(function () {
-            var text = $(this).parent().parent().find('.target').text();
-
-            $('.translation-editor').val(text).change();
-            autosize.update($('.translation-editor'));
-            WLT.Utils.markFuzzy($('.translation-form'));
-        });
-        $('a.copymt-save').click(function () {
-            var text = $(this).parent().parent().find('.target').text();
-
-            $('.translation-editor').val(text).change();
-            autosize.update($('.translation-editor'));
-            WLT.Utils.markTranslated($('.translation-form'));
-            submitForm({ target: $('.translation-editor') });
         });
 
         for (var i = 1; i < 10; i++) {
@@ -338,7 +341,7 @@
                 Mousetrap.bindGlobal(
                     'mod+m ' + key,
                     function () {
-                        $($('#' + scope + '-translations').children('tr')[idx]).find('a.copymt').click();
+                        $($('#' + scope + '-translations').children('tr')[idx]).find('.js-copy-machinery').click();
                         return false;
                     }
                 );
