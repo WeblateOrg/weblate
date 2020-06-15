@@ -370,7 +370,7 @@
         data.translations.forEach(function (el, idx) {
             var newRow = $('<tr/>').data('raw', el);
             var done = false;
-            var $machineTranslations = $('#' + scope + '-translations');
+            var $translations = $('#' + scope + '-translations');
             var service;
 
             newRow.append($('<td/>').attr('class', 'target mt-text').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
@@ -419,7 +419,7 @@
                 '</a>' +
                 '</td>'
             ));
-            $machineTranslations.children('tr').each(function (idx) {
+            $translations.children('tr').each(function (idx) {
                 var $this = $(this);
                 var base = $this.data('raw');
                 if (base.text == el.text && base.source == el.source) {
@@ -437,7 +437,7 @@
                 }
             });
             if (!done) {
-                $machineTranslations.append(newRow);
+                $translations.append(newRow);
             }
         });
         $('a.copymt').click(function () {
@@ -465,8 +465,8 @@
             );
         }
 
-        var $machineTranslations = $('#' + scope + '-translations');
-        $machineTranslations.children('tr').each(function (idx) {
+        var $translations = $('#' + scope + '-translations');
+        $translations.children('tr').each(function (idx) {
             if (idx < 10) {
                 var key = WLT.Utils.getNumericKey(idx);
 
