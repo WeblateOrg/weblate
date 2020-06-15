@@ -16,5 +16,6 @@ else
     pip install --upgrade-strategy eager -U -r requirements-optional.txt
     if [ ${1:-latest} = edge ] ; then
         pip install --upgrade https://github.com/translate/translate/archive/master.zip
+        pip install --upgrade --pre Django
     fi
 fi
