@@ -1,7 +1,7 @@
 Weblate 4.1
 -----------
 
-Not yet released.
+Released on June 15th 2020.
 
 * Added support for creating new translations with included country code.
 * Added support for seaching source strings with screenshot.
