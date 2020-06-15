@@ -153,7 +153,7 @@
                     self.fetchMachinery(serviceName);
                 });
             },
-            error: processMachineryError,
+            error: self.processMachineryError,
             dataType: 'json'
         });
     };
@@ -162,6 +162,7 @@
         increaseLoading('memory');
         this.fetchMachinery(TM_SERVICE_NAME);
 
+        var self = this;
         $('#memory-search').submit(function () {
             var form = $(this);
 
@@ -173,10 +174,10 @@
                 data: form.serialize(),
                 dataType: 'json',
                 success: function (data) {
-                    processMachineryResults(data, 'memory');
+                    self.processMachineryResults(data, 'memory');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
+                    self.processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
                 },
             });
             return false;
@@ -185,19 +186,165 @@
 
     FullEditor.prototype.fetchMachinery = function (serviceName) {
         var serviceType = serviceName === TM_SERVICE_NAME ? 'memory' : 'mt';
+        var self = this;
         $.ajax({
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', serviceName),
             success: function (data) {
-                processMachineryResults(data, serviceType);
+                self.processMachineryResults(data, serviceType);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                processMachineryError(jqXHR, textStatus, errorThrown, serviceType);
+                self.processMachineryError(jqXHR, textStatus, errorThrown, serviceType);
             },
             dataType: 'json',
             data: {
                 csrfmiddlewaretoken: $('#link-post').find('input').val(),
             },
+        });
+    };
+
+    FullEditor.prototype.processMachineryError = function (jqXHR, textStatus, errorThrown, scope) {
+        decreaseLoading(scope);
+        if (jqXHR.state() !== 'rejected') {
+            addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
+        }
+    };
+
+    // TODO: move some logic to the class so that $translationArea can be reused
+    FullEditor.prototype.processMachineryResults = function (data, scope) {
+        decreaseLoading(scope);
+        if (data.responseStatus !== 200) {
+            var msg = interpolate(
+                gettext('The request for machine translation using %s has failed:'),
+                [data.service]
+            );
+            addAlert(msg + ' ' + data.responseDetails);
+
+            return;
+        }
+
+        data.translations.forEach(function (el, idx) {
+            var newRow = $('<tr/>').data('raw', el);
+            var done = false;
+            var $translations = $('#' + scope + '-translations');
+            var service;
+
+            newRow.append($('<td/>').attr('class', 'target mt-text').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
+            newRow.append($('<td/>').attr('class', 'mt-text').text(el.source));
+            if (scope === "mt") {
+                service = $('<td/>').text(el.service);
+                if (typeof el.origin !== 'undefined') {
+                    service.append(' (');
+                    var origin;
+                    if (typeof el.origin_detail !== 'undefined') {
+                        origin = $('<abbr/>').text(el.origin).attr('title', el.origin_detail);
+                    } else if (typeof el.origin_url !== 'undefined') {
+                        origin = $('<a/>').text(el.origin).attr('href', el.origin_url);
+                    } else {
+                        origin = el.origin;
+                    }
+                    service.append(origin);
+                    service.append(')');
+                }
+            } else {
+                service = $('<td/>').text(el.origin);
+            }
+            newRow.append(service);
+            /* Quality score as bar with the text */
+            newRow.append($(
+                '<td>' +
+                '<div class="progress" title="' + el.quality + ' / 100">' +
+                '<div class="progress-bar ' +
+                (el.quality >= 70 ? 'progress-bar-success' : el.quality >= 50 ? 'progress-bar-warning' : 'progress-bar-danger') + '"' +
+                ' role="progressbar" aria-valuenow="' + el.quality + '"' +
+                ' aria-valuemin="0" aria-valuemax="100" style="width: ' + el.quality + '%;"></div>' +
+                '</div>' +
+                '</td>'
+            ));
+            /* Translators: Verb for copy operation */
+            newRow.append($(
+                '<td>' +
+                '<a class="copymt btn btn-warning">' +
+                gettext('Copy') +
+                '<span class="mt-number text-info"></span>' +
+                '</a>' +
+                '</td>' +
+                '<td>' +
+                '<a class="copymt-save btn btn-primary">' +
+                gettext('Copy and save') +
+                '</a>' +
+                '</td>'
+            ));
+            $translations.children('tr').each(function (idx) {
+                var $this = $(this);
+                var base = $this.data('raw');
+                if (base.text == el.text && base.source == el.source) {
+                    // Add origin to current ones
+                    var current = $this.children('td:nth-child(3)');
+                    current.append($("<br/>"));
+                    current.append(service.html());
+                    done = true;
+                    return false;
+                } else if (base.quality <= el.quality) {
+                    // Insert match before lower quality one
+                    $this.before(newRow);
+                    done = true;
+                    return false;
+                }
+            });
+            if (!done) {
+                $translations.append(newRow);
+            }
+        });
+        $('a.copymt').click(function () {
+            var text = $(this).parent().parent().find('.target').text();
+
+            $('.translation-editor').val(text).change();
+            autosize.update($('.translation-editor'));
+            WLT.Utils.markFuzzy($('.translation-form'));
+        });
+        $('a.copymt-save').click(function () {
+            var text = $(this).parent().parent().find('.target').text();
+
+            $('.translation-editor').val(text).change();
+            autosize.update($('.translation-editor'));
+            WLT.Utils.markTranslated($('.translation-form'));
+            submitForm({ target: $('.translation-editor') });
+        });
+
+        for (var i = 1; i < 10; i++) {
+            Mousetrap.bindGlobal(
+                'mod+m ' + i,
+                function () {
+                    return false;
+                }
+            );
+        }
+
+        var $translations = $('#' + scope + '-translations');
+        $translations.children('tr').each(function (idx) {
+            if (idx < 10) {
+                var key = WLT.Utils.getNumericKey(idx);
+
+                var title;
+                if (WLT.Config.IS_MAC) {
+                    title = interpolate(gettext('Cmd+M then %s'), [key]);
+                } else {
+                    title = interpolate(gettext('Ctrl+M then %s'), [key]);
+                }
+                $(this).find('.mt-number').html(
+                    ' <kbd title="' + title + '">' + key + '</kbd>'
+                );
+                Mousetrap.bindGlobal(
+                    'mod+m ' + key,
+                    function () {
+                        $($('#' + scope + '-translations').children('tr')[idx]).find('a.copymt').click();
+                        return false;
+                    }
+                );
+            } else {
+                $(this).find('.mt-number').html('');
+            }
         });
     };
 
@@ -337,151 +484,6 @@
     FullEditor.prototype.insertIntoTranslation = function (text) {
         this.$translationArea.insertAtCaret($.trim(text)).change();
     };
-
-    function processMachineryError(jqXHR, textStatus, errorThrown, scope) {
-        decreaseLoading(scope);
-        if (jqXHR.state() !== 'rejected') {
-            addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
-        }
-    }
-
-    // TODO: move some logic to the class so that $translationArea can be reused
-    function processMachineryResults(data, scope) {
-        decreaseLoading(scope);
-        if (data.responseStatus !== 200) {
-            var msg = interpolate(
-                gettext('The request for machine translation using %s has failed:'),
-                [data.service]
-            );
-            addAlert(msg + ' ' + data.responseDetails);
-
-            return;
-        }
-
-        data.translations.forEach(function (el, idx) {
-            var newRow = $('<tr/>').data('raw', el);
-            var done = false;
-            var $translations = $('#' + scope + '-translations');
-            var service;
-
-            newRow.append($('<td/>').attr('class', 'target mt-text').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
-            newRow.append($('<td/>').attr('class', 'mt-text').text(el.source));
-            if (scope === "mt") {
-                service = $('<td/>').text(el.service);
-                if (typeof el.origin !== 'undefined') {
-                    service.append(' (');
-                    var origin;
-                    if (typeof el.origin_detail !== 'undefined') {
-                        origin = $('<abbr/>').text(el.origin).attr('title', el.origin_detail);
-                    } else if (typeof el.origin_url !== 'undefined') {
-                        origin = $('<a/>').text(el.origin).attr('href', el.origin_url);
-                    } else {
-                        origin = el.origin;
-                    }
-                    service.append(origin);
-                    service.append(')');
-                }
-            } else {
-                service = $('<td/>').text(el.origin);
-            }
-            newRow.append(service);
-            /* Quality score as bar with the text */
-            newRow.append($(
-                '<td>' +
-                '<div class="progress" title="' + el.quality + ' / 100">' +
-                '<div class="progress-bar ' +
-                (el.quality >= 70 ? 'progress-bar-success' : el.quality >= 50 ? 'progress-bar-warning' : 'progress-bar-danger') + '"' +
-                ' role="progressbar" aria-valuenow="' + el.quality + '"' +
-                ' aria-valuemin="0" aria-valuemax="100" style="width: ' + el.quality + '%;"></div>' +
-                '</div>' +
-                '</td>'
-            ));
-            /* Translators: Verb for copy operation */
-            newRow.append($(
-                '<td>' +
-                '<a class="copymt btn btn-warning">' +
-                gettext('Copy') +
-                '<span class="mt-number text-info"></span>' +
-                '</a>' +
-                '</td>' +
-                '<td>' +
-                '<a class="copymt-save btn btn-primary">' +
-                gettext('Copy and save') +
-                '</a>' +
-                '</td>'
-            ));
-            $translations.children('tr').each(function (idx) {
-                var $this = $(this);
-                var base = $this.data('raw');
-                if (base.text == el.text && base.source == el.source) {
-                    // Add origin to current ones
-                    var current = $this.children('td:nth-child(3)');
-                    current.append($("<br/>"));
-                    current.append(service.html());
-                    done = true;
-                    return false;
-                } else if (base.quality <= el.quality) {
-                    // Insert match before lower quality one
-                    $this.before(newRow);
-                    done = true;
-                    return false;
-                }
-            });
-            if (!done) {
-                $translations.append(newRow);
-            }
-        });
-        $('a.copymt').click(function () {
-            var text = $(this).parent().parent().find('.target').text();
-
-            $('.translation-editor').val(text).change();
-            autosize.update($('.translation-editor'));
-            WLT.Utils.markFuzzy($('.translation-form'));
-        });
-        $('a.copymt-save').click(function () {
-            var text = $(this).parent().parent().find('.target').text();
-
-            $('.translation-editor').val(text).change();
-            autosize.update($('.translation-editor'));
-            WLT.Utils.markTranslated($('.translation-form'));
-            submitForm({ target: $('.translation-editor') });
-        });
-
-        for (var i = 1; i < 10; i++) {
-            Mousetrap.bindGlobal(
-                'mod+m ' + i,
-                function () {
-                    return false;
-                }
-            );
-        }
-
-        var $translations = $('#' + scope + '-translations');
-        $translations.children('tr').each(function (idx) {
-            if (idx < 10) {
-                var key = WLT.Utils.getNumericKey(idx);
-
-                var title;
-                if (WLT.Config.IS_MAC) {
-                    title = interpolate(gettext('Cmd+M then %s'), [key]);
-                } else {
-                    title = interpolate(gettext('Ctrl+M then %s'), [key]);
-                }
-                $(this).find('.mt-number').html(
-                    ' <kbd title="' + title + '">' + key + '</kbd>'
-                );
-                Mousetrap.bindGlobal(
-                    'mod+m ' + key,
-                    function () {
-                        $($('#' + scope + '-translations').children('tr')[idx]).find('a.copymt').click();
-                        return false;
-                    }
-                );
-            } else {
-                $(this).find('.mt-number').html('');
-            }
-        });
-    }
 
     document.addEventListener('DOMContentLoaded', function () {
         new FullEditor();
