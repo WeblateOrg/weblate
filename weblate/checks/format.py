@@ -18,6 +18,7 @@
 #
 
 import re
+from functools import lru_cache
 
 from django.utils.translation import gettext_lazy as _
 
@@ -237,6 +238,10 @@ class BaseFormatCheck(TargetCheck):
     def normalize(self, matches):
         return matches
 
+    @lru_cache(maxsize=1024)
+    def extract_maches(self, string):
+        return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
+
     def check_format(self, source, target, ignore_missing):
         """Generic checker for format strings."""
         if not target or not source:
@@ -245,11 +250,11 @@ class BaseFormatCheck(TargetCheck):
         uses_position = True
 
         # Calculate value
-        src_matches = [self.cleanup_string(x[0]) for x in self.regexp.findall(source)]
+        src_matches = self.extract_maches(source)
         if src_matches:
             uses_position = any((self.is_position_based(x) for x in src_matches))
 
-        tgt_matches = [self.cleanup_string(x[0]) for x in self.regexp.findall(target)]
+        tgt_matches = self.extract_maches(target)
 
         if not uses_position:
             src_matches = set(src_matches)
