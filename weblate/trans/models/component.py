@@ -740,7 +740,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
     @cached_property
     def background_task(self):
-        print(self.__dict__)
         task_id = cache.get(self.update_key)
         if not task_id:
             return None
