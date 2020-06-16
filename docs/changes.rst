@@ -3,6 +3,8 @@ Weblate 4.1.1
 
 Not yet released.
 
+* Fixed changing autofix or addons configuration in Docker.
+
 Weblate 4.1
 -----------
 

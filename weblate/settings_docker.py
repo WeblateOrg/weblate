@@ -905,7 +905,7 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
 ]
-modify_env_list(CHECK_LIST, "AUTOFIX")
+modify_env_list(AUTOFIX_LIST, "AUTOFIX")
 
 # List of enabled addons
 WEBLATE_ADDONS = [
@@ -932,7 +932,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
 ]
-modify_env_list(CHECK_LIST, "ADDONS")
+modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
 # E-mail address that error messages come from.
 SERVER_EMAIL = os.environ["WEBLATE_SERVER_EMAIL"]
