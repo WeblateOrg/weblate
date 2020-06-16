@@ -1601,7 +1601,7 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
-    :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``
+    :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``
 
     :param project: Project URL slug
     :type project: string
