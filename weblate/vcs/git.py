@@ -545,10 +545,8 @@ class GitMergeRequestBase(GitForcePushRepository):
         raise NotImplementedError()
 
     @classmethod
-    def is_supported(cls):
-        if cls.get_username() is None:
-            return False
-        return super().is_supported()
+    def is_configured(cls):
+        return cls.get_username() is not None
 
     def push_to_fork(self, local_branch, fork_branch):
         """Push given local branch to branch in forked repository."""

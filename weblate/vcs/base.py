@@ -317,6 +317,10 @@ class Repository:
         return result
 
     @classmethod
+    def is_configured(cls):
+        return True
+
+    @classmethod
     def is_supported(cls):
         """Check whether this VCS backend is supported."""
         version = cls.get_version()
