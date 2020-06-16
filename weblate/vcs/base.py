@@ -323,7 +323,10 @@ class Repository:
     @classmethod
     def is_supported(cls):
         """Check whether this VCS backend is supported."""
-        version = cls.get_version()
+        try:
+            version = cls.get_version()
+        except Exception:
+            return False
         return cls.req_version is None or LooseVersion(version) >= LooseVersion(
             cls.req_version
         )
