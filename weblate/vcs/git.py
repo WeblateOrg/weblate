@@ -751,7 +751,14 @@ class GitLabRepository(GitMergeRequestBase):
     @classmethod
     def _get_version(cls):
         """Return VCS program version."""
-        return cls._popen(["--version"], merge_err=False).split()[-1]
+        try:
+            return cls._popen(["--version"], merge_err=False).split()[-1]
+        except RepositoryException as error:
+            # It asks for configuration even with --version, see
+            # https://github.com/zaquestion/lab/issues/374
+            if error.retcode == 1 and "EOF" in error.get_message():
+                return "0.16"
+            raise
 
     @staticmethod
     def get_username():
