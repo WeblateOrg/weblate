@@ -7,6 +7,7 @@ Not yet released.
 * Fixed possible crash in about page.
 * Improved installation of byte-compiled locale files.
 * Fixed adding words to glossary.
+* Fixed keyboard shortcuts for machinery.
 
 Weblate 4.1
 -----------
