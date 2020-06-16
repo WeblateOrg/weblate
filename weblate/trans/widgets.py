@@ -395,6 +395,7 @@ class SVGBadgeWidget(SVGWidget):
                     "translated_offset": translated_width // 2,
                     "percent_offset": translated_width + percent_width // 2,
                     "lang": get_language(),
+                    "fonts_cdn_url": settings.FONTS_CDN_URL,
                 },
             )
         )
@@ -475,6 +476,7 @@ class MultiLanguageWidget(SVGWidget):
                     "translations": translations,
                     "site_url": get_site_url(),
                     "horizontal_height": language_width + 130,
+                    "fonts_cdn_url": settings.FONTS_CDN_URL,
                 },
             )
         )
