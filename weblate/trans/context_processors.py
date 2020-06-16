@@ -138,7 +138,9 @@ def weblate_context(request):
     weblate_url = URL_BASE % weblate.VERSION
 
     context = {
-        "cache_param": "?v={}".format(weblate.GIT_VERSION),
+        "cache_param": "?v={}".format(weblate.GIT_VERSION)
+        if not settings.COMPRESS_ENABLED
+        else "",
         "version": weblate.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,
