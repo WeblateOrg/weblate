@@ -697,6 +697,16 @@ class PluralTest(FixtureTestCase):
             )
         )
 
+    def test_non_format_singular(self):
+        czech = Language.objects.get(code="cs")
+        translation = Translation(language=czech, plural=czech.plural)
+        unit = Unit(translation=translation)
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%d apples"], ["%d jablo", "%d jablka", "%d jablek"], unit
+            )
+        )
+
 
 class I18NextInterpolationCheckTest(CheckTestCase):
     check = I18NextInterpolationCheck()

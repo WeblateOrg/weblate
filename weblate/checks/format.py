@@ -212,9 +212,19 @@ class BaseFormatCheck(TargetCheck):
             yield self.check_format(sources[1], targets[0], False)
             return
 
+        # Use plural as source in case singlular misses format string
+        if (
+            len(sources) > 1
+            and not self.extract_maches(sources[0])
+            and self.extract_maches(sources[1])
+        ):
+            source = sources[1]
+        else:
+            source = sources[0]
+
         # Check singular
         yield self.check_format(
-            sources[0],
+            source,
             targets[0],
             len(sources) > 1 and len(unit.translation.plural.examples[0]) == 1,
         )
