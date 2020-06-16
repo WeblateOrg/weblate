@@ -73,7 +73,7 @@ class TermForm(forms.ModelForm):
         fields = ["source", "target", "glossary"]
 
     def __init__(self, project, data=None, instance=None, initial=None, **kwargs):
-        glossaries = Glossary.objects.for_project(project)
+        glossaries = Glossary.objects.for_project(project).order_by("name").distinct()
         if not instance and not initial:
             initial = {}
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:

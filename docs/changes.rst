@@ -6,6 +6,7 @@ Not yet released.
 * Fixed changing autofix or addons configuration in Docker.
 * Fixed possible crash in about page.
 * Improved installation of byte-compiled locale files.
+* Fixed adding words to glossary.
 
 Weblate 4.1
 -----------
