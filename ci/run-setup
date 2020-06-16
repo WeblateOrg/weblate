@@ -7,10 +7,6 @@ INSTALL_DIR=`mktemp -d`
 
 trap "rm -rf $INSTALL_DIR" EXIT
 
-# TODO: setup build really should do this
-run_coverage ./manage.py compilemessages
-check
-
 # Do setup.py install
 run_coverage ./setup.py install --root="$INSTALL_DIR"
 check

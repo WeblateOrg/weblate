@@ -19,9 +19,20 @@
 #
 
 import os
+from distutils.command.build import build
+from distutils.core import Command
+from distutils.dep_util import newer
+from glob import glob
+from itertools import chain
 
 from setuptools import find_packages, setup
 from setuptools.command.build_py import build_py
+from translate.tools.pocompile import convertmo
+
+LOCALE_MASKS = [
+    "weblate/locale/*/LC_MESSAGES/*.po",
+    "weblate/langdata/locale/*/LC_MESSAGES/*.po",
+]
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -50,6 +61,33 @@ class WeblateBuildPy(build_py):
         """Filter settings.py from built module."""
         result = super().find_package_modules(package, package_dir)
         return [item for item in result if item[2] != "weblate/settings.py"]
+
+
+class BuildMo(Command):
+    description = "update MO files to match PO"
+    user_options = []
+
+    def initialize_options(self):
+        self.build_base = None
+
+    def finalize_options(self):
+        self.set_undefined_options("build", ("build_base", "build_base"))
+
+    def run(self):
+        for name in chain.from_iterable(glob(mask) for mask in LOCALE_MASKS):
+            output = os.path.splitext(name)[0] + ".mo"
+            if not newer(name, output):
+                continue
+            print(f"compiling {name} -> {output}")
+            with open(name) as pofile, open(output, "wb") as mofile:
+                convertmo(pofile, mofile, None)
+
+
+class WeblateBuild(build):
+    """Override the default build with new subcommands."""
+
+    # The build_mo has to be before build_data
+    sub_commands = [("build_mo", lambda self: True)] + build.sub_commands
 
 
 setup(
@@ -98,5 +136,5 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
     entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
-    cmdclass={"build_py": WeblateBuildPy},
+    cmdclass={"build_py": WeblateBuildPy, "build_mo": BuildMo, "build": WeblateBuild},
 )
