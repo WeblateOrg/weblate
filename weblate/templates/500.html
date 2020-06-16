@@ -18,7 +18,6 @@
 <p>{% blocktrans with error_id=sentry_event_id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
 
 {% if sentry_dsn %}
-{% compress js %}
 <script src="{% static "js/sentry.js" %}"></script>
 
 <script>
@@ -30,7 +29,6 @@
     eventId: '{{ sentry_event_id }}'
   })
 </script>
-{% endcompress %}
 {% endif %}
 {% endif %}
 
