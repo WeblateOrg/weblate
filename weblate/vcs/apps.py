@@ -33,7 +33,7 @@ from weblate.vcs.git import GitRepository
 def check_vcs(app_configs, **kwargs):
     from weblate.vcs.models import VCS_REGISTRY
 
-    message = "Failure in loading VCS module for {}t: {}"
+    message = "Failure in loading VCS module for {}: {}"
     return [
         weblate_check(
             "weblate.W033.{}".format(key), message.format(key, value.strip()), Warning
