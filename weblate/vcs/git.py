@@ -613,6 +613,7 @@ class GithubRepository(GitMergeRequestBase):
     name = "GitHub"
     _cmd = "hub"
     _version = None
+    req_version = "2.7"
 
     @classmethod
     def _get_version(cls):
