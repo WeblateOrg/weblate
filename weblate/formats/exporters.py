@@ -23,10 +23,13 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
+from translate.storage.aresource import AndroidResourceFile
 from translate.storage.csvl10n import csvfile
+from translate.storage.jsonl10n import JsonFile
 from translate.storage.mo import mofile
 from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
+from translate.storage.properties import stringsfile
 from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
@@ -387,3 +390,52 @@ class XlsxExporter(CVSBaseExporter):
     def serialize(self):
         """Return storage content."""
         return XlsxFormat.serialize(self.storage)
+
+
+class MonolingualExporter(BaseExporter):
+    """Base class for monolingual exports."""
+
+    @staticmethod
+    def supports(translation):
+        return translation.component.has_template()
+
+    def build_unit(self, unit):
+        output = self.storage.UnitClass(unit.context)
+        output.setid(unit.context)
+        self.add(output, self.handle_plurals(unit.get_target_plurals()))
+        return output
+
+
+@register_exporter
+class JSONExporter(MonolingualExporter):
+    storage_class = JsonFile
+    name = "json"
+    content_type = "application/json"
+    extension = "json"
+    verbose = _("JSON")
+
+
+@register_exporter
+class AndroidResourceExporter(MonolingualExporter):
+    storage_class = AndroidResourceFile
+    name = "aresource"
+    content_type = "application/xml"
+    extension = "xml"
+    verbose = _("Android String Resource")
+
+    def add(self, unit, word):
+        # Need to have storage to handle plurals
+        unit._store = self.storage
+        super().add(unit, word)
+
+    def string_filter(self, text):
+        return text.translate(_CHARMAP)
+
+
+@register_exporter
+class StringsExporter(MonolingualExporter):
+    storage_class = stringsfile
+    name = "strings"
+    content_type = "text/plain"
+    extension = "strings"
+    verbose = _("iOS strings")
