@@ -9,6 +9,7 @@ Not yet released.
 * Fixed adding words to glossary.
 * Fixed keyboard shortcuts for machinery.
 * Removed debugging output causing discarding of log events in some setups.
+* Fixed lock indication on project listing.
 
 Weblate 4.1
 -----------

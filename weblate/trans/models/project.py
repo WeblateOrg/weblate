@@ -55,7 +55,7 @@ def prefetch_project_flags(projects):
         .distinct()
         .annotate(Count("component__id"))
     ):
-        lookup[locks["id"]].__dict__["locked"] = bool(locks["component__id__count"])
+        lookup[locks["id"]].__dict__["locked"] = locks["component__id__count"] == 0
     return projects
 
 
