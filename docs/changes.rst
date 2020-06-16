@@ -8,6 +8,7 @@ Not yet released.
 * Improved installation of byte-compiled locale files.
 * Fixed adding words to glossary.
 * Fixed keyboard shortcuts for machinery.
+* Removed debugging output causing discarding of log events in some setups.
 
 Weblate 4.1
 -----------
