@@ -355,7 +355,7 @@ class SVGBadgeWidget(SVGWidget):
     name = "svg"
     colors = ("badge",)
     order = 80
-    template_name = "badge.svg"
+    template_name = "svg/badge.svg"
     verbose = gettext_lazy("Status badge")
 
     def render(self, response):
@@ -405,7 +405,7 @@ class MultiLanguageWidget(SVGWidget):
     name = "multi"
     order = 81
     colors = ("auto", "red", "green", "blue")
-    template_name = "multi-language-badge.svg"
+    template_name = "svg/multi-language-badge.svg"
     verbose = gettext_lazy("Vertical multi language status widget")
 
     COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
@@ -484,5 +484,5 @@ class MultiLanguageWidget(SVGWidget):
 class HorizontalMultiLanguageWidget(MultiLanguageWidget):
     name = "horizontal"
     order = 82
-    template_name = "multi-language-badge-horizontal.svg"
+    template_name = "svg/multi-language-badge-horizontal.svg"
     verbose = gettext_lazy("Horizontal multi language status widget")
