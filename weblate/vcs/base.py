@@ -335,7 +335,12 @@ class Repository:
     def get_version(cls):
         """Cached getting of version."""
         if cls._version is None:
-            cls._version = cls._get_version()
+            try:
+                cls._version = cls._get_version()
+            except Exception as error:
+                cls._version = error
+        if isinstance(cls._version, Exception):
+            raise cls._version
         return cls._version
 
     @classmethod
