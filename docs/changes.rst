@@ -4,6 +4,8 @@ Weblate 4.1.1
 Not yet released.
 
 * Fixed changing autofix or addons configuration in Docker.
+* Fixed possible crash in about page.
+* Improved installation of byte-compiled locale files.
 
 Weblate 4.1
 -----------
