@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-13 11:31+0000\n"
-"PO-Revision-Date: 2020-06-09 06:38+0000\n"
+"PO-Revision-Date: 2020-06-19 09:19+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/master/"
 "fi/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.1.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -663,8 +663,6 @@ msgstr "Odottavat ehdotukset"
 #: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings needing action"
 msgstr "Toimenpiteitä vaativat tekstit"
 
@@ -1232,13 +1230,8 @@ msgid "Statistics generator"
 msgstr "Tilastogeneraattori"
 
 #: weblate/addons/generate.py:33
-#, fuzzy
-#| msgid ""
-#| "This addon generates a file containing detailed information about the "
-#| "translation."
 msgid "Generates a file containing detailed info about the translation."
-msgstr ""
-"Tämä lisäosa luo tiedoston jossa on yksityiskohtaisia tietoja käännöksestä."
+msgstr "Luo tiedoston, joka sisältää yksityiskohtaista tietoa käännöksestä."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1340,10 +1333,8 @@ msgid "Formats the Java properties file"
 msgstr "Muotoilee Java-ominaisuustiedoston (Java properties)"
 
 #: weblate/addons/properties.py:144
-#, fuzzy
-#| msgid "Formats the Java properties file"
 msgid "Sorts the Java properties file."
-msgstr "Muotoilee Java-ominaisuustiedoston (Java properties)"
+msgstr "Lajittelee Java-ominaisuustiedoston (Java properties)."
 
 #: weblate/addons/removal.py:49
 msgid "Stale comment removal"
@@ -1370,11 +1361,6 @@ msgid "Update RESX files"
 msgstr "Päivitä RESX-tiedostot"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual upstream base file. "
-#| "Unused strings are removed, and new ones are added as copies of the "
-#| "source string."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
@@ -2276,7 +2262,7 @@ msgstr "Löydetty duplikaattiteksti"
 
 #: weblate/checks/duplicate.py:43
 msgid "Text contains the same word twice in a row:"
-msgstr ""
+msgstr "Teksti sisältää saman sanan kahdesti peräkkäin:"
 
 #: weblate/checks/flags.py:44
 msgid "RST text"
@@ -2620,11 +2606,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "Monilla eri kielisillä käännöksillä on epäonnistuneita tarkistuksia"
 
 #: weblate/checks/source.py:79
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Not translated"
 msgid "Long untranslated"
-msgstr "Kääntämättä"
+msgstr "Pitkään kääntämättä"
 
 #: weblate/checks/source.py:80
 #, fuzzy
@@ -2995,20 +2978,16 @@ msgid "Starting letter"
 msgstr "Aloituskirjain"
 
 #: weblate/glossary/models.py:59
-#, fuzzy
-#| msgid "Additional context"
 msgid "Additional projects"
-msgstr "Laajempi asiayhteys"
+msgstr "Lisäprojektit"
 
 #: weblate/glossary/models.py:63
 msgid "Choose additional projects where this glossary can be used."
-msgstr ""
+msgstr "Valitse muut projektit, joissa tätä sanastoa voi käyttää."
 
 #: weblate/glossary/models.py:67
-#, fuzzy
-#| msgid "Glossary added"
 msgid "Glossary name"
-msgstr "Sanasto lisätty"
+msgstr "Sanaston nimi"
 
 #: weblate/glossary/models.py:72 weblate/templates/project-labels.html:18
 #: weblate/trans/models/label.py:33
@@ -3039,16 +3018,12 @@ msgid "%(language)s glossary for %(project)s"
 msgstr "Kielen %(language)s sanasto projektille %(project)s"
 
 #: weblate/glossary/views.py:128 weblate/glossary/views.py:143
-#, fuzzy
-#| msgid "Reverted change not found!"
 msgid "Glossary was not found."
-msgstr "Palautettua muutosta ei löydy!"
+msgstr "Sanastoa ei löytynyt."
 
 #: weblate/glossary/views.py:253
-#, fuzzy
-#| msgid "No words to import found in file."
 msgid "No terms to import found in file."
-msgstr "Tuotavia sanoja ei löytynyt tiedostosta."
+msgstr "Tiedostosta ei löytynyt tuotavia termejä."
 
 #: weblate/glossary/views.py:255
 #, fuzzy, python-format
@@ -5731,8 +5706,6 @@ msgstr "Tiedoston koko"
 
 #: weblate/templates/fonts/font_detail.html:21
 #: weblate/templates/screenshots/screenshot_detail.html:114
-#, fuzzy
-#| msgid "Created on"
 msgid "Created"
 msgstr "Luotu"
 
@@ -5840,14 +5813,12 @@ msgstr "Oletko ehdottoman varma?"
 msgid "This will permanently delete %(count)s entry from the glossary."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the glossary."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tämä poistaa pysyvästi yhden merkinnän sanastosta."
+msgstr[1] "Tämä poistaa pysyvästi %(count)s merkintää sanastosta."
 
 #: weblate/templates/glossaries.html:73
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new glossary"
-msgstr "Hallinnoi sanastoa"
+msgstr "Luo uusi sanasto"
 
 #: weblate/templates/glossary.html:21
 #: weblate/templates/snippets/list-objects.html:93
@@ -6475,20 +6446,18 @@ msgid "Strings with suggestions"
 msgstr "Tekstit, joihin on ehdotuksia"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "Odottavat ehdotukset komponentissa %(component)s"
-msgstr[1] "Odottavat ehdotukset komponentissa %(component)s"
+msgstr[0] "Yksi odottava ehdotus komponentissa %(component)s"
+msgstr[1] "%(count)s odottavaa ehdotusta komponentissa %(component)s"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Odottavat ehdotukset"
-msgstr[1] "Odottavat ehdotukset"
+msgstr[0] "Yksi odottava ehdotus"
+msgstr[1] "%(count)s odottavaa ehdotusta"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6567,23 +6536,18 @@ msgid "Screenshot context"
 msgstr "Ruudunkaappauskuvan konteksti"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing action in %(component)s."
-#| msgid_plural "There are %(count)s strings needing action in %(component)s."
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] ""
-"Komponentissa %(component)s on %(count)s toimenpiteitä vaativa teksti."
-msgstr[1] ""
-"Komponentissa %(component)s on %(count)s toimenpiteitä vaativaa tekstiä."
+msgstr[0] "Yksi teksti vaatii toimenpiteitä komponentissa %(component)s"
+msgstr[1] "%(count)s tekstiä vaatii toimenpiteitä komponentissa %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "Toimenpiteitä vaativat tekstit"
-msgstr[1] "Toimenpiteitä vaativat tekstit"
+msgstr[0] "Yksi teksti vaatii toimenpiteitä"
+msgstr[1] "%(count)s tekstiä vaatii toimenpiteitä"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
@@ -6960,8 +6924,8 @@ msgid ""
 "This will permanently delete %(count)s entry from the translation memory."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the translation memory."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Tämä poistaa pysyvästi yhden merkinnän käännösmuistista."
+msgstr[1] "Tämä poistaa pysyvästi %(count)s merkintää käännösmuistista."
 
 #: weblate/templates/memory/index.html:131
 msgid "Number of shared entries"
@@ -7018,7 +6982,7 @@ msgstr "%(position)s / %(total)s"
 #: weblate/templates/paginator.html:12
 #: weblate/templates/snippets/position-field.html:10
 msgid "Go to position"
-msgstr "Siirry kohtaan"
+msgstr "Siirry sijaintiin"
 
 #: weblate/templates/paginator.html:19
 #: weblate/templates/snippets/position-field.html:12
@@ -7052,6 +7016,7 @@ msgstr "Vaatii muokkaamista"
 #: weblate/templates/snippets/query-field.html:38
 #: weblate/templates/translate.html:594 weblate/trans/models/unit.py:257
 #: weblate/utils/views.py:89
+#, fuzzy
 msgid "Labels"
 msgstr "Otsikot"
 
@@ -7243,7 +7208,7 @@ msgstr "Hakuehtoa vastaavia tekstejä ei löytynyt."
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
-msgstr ""
+msgstr "Tämä käännös on tilapäisesti suljettu huoltotöiden takia."
 
 #: weblate/templates/show-component-state.html:11
 msgid "Pay the bills to unlock this project."
@@ -7578,10 +7543,8 @@ msgid "Position and priority"
 msgstr "Sijainti ja tärkeys"
 
 #: weblate/templates/snippets/query-field.html:36 weblate/utils/views.py:87
-#, fuzzy
-#| msgid "Go to position"
 msgid "Position"
-msgstr "Siirry kohtaan"
+msgstr "Sijainti"
 
 #: weblate/templates/snippets/query-field.html:39 weblate/utils/views.py:90
 msgid "Age of string"
@@ -8417,10 +8380,8 @@ msgid "Manage glossary"
 msgstr "Hallinnoi sanastoa"
 
 #: weblate/templates/translate.html:514 weblate/templates/translate.html:524
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Add term to glossary"
-msgstr "Lisäys sanastoon"
+msgstr "Lisää termi sanastoon"
 
 #: weblate/templates/translate.html:543
 msgid "Source information"
@@ -10216,10 +10177,8 @@ msgid "Unrecognized base file for new translations."
 msgstr "Uusien käännösten kantatiedostoa ei voida tunnistaa."
 
 #: weblate/trans/models/component.py:1861
-#, fuzzy
-#| msgid "Unused base file for new translations."
 msgid "Base file for new translations not found."
-msgstr "Käyttämätön uusien käännösten kantatiedosto."
+msgstr "Uusien käännösten kantatiedostoa ei löydy."
 
 #: weblate/trans/models/component.py:1864
 msgid ""
