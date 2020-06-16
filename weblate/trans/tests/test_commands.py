@@ -23,6 +23,7 @@ import sys
 from io import StringIO
 from unittest import SkipTest
 
+import requests
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
 from django.test import SimpleTestCase, TestCase
@@ -59,7 +60,7 @@ class ImportProjectTest(RepoTestCase):
             self.git_repo_path if path is None else path,
             "master",
             "**/*.po",
-            **kwargs
+            **kwargs,
         )
 
     def test_import(self):
@@ -393,8 +394,12 @@ class UnLockTranslationTest(WeblateComponentCommandTestCase):
     expected_string = ""
 
 
-class CreateDemoTestCase(TestCase):
-    def test_create(self):
+class ImportDemoTestCase(TestCase):
+    def test_import(self):
+        try:
+            requests.get("https://github.com/")
+        except requests.exceptions.ConnectionError as error:
+            raise SkipTest(f"GitHub not reachable: {error}")
         output = StringIO()
         call_command("import_demo", stdout=output)
         self.assertEqual(output.getvalue(), "")

@@ -51,6 +51,7 @@ class Command(BaseCommand):
             file_format="po",
             license="GPL-3.0-or-later",
         )
+        component.clean()
         while component.in_progress():
             self.stdout.write(
                 "Importing base component: {}%".format(component.get_progress()[0])
