@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+import os
 import re
 from collections import defaultdict
 from importlib import import_module
@@ -547,6 +547,8 @@ def user_avatar(request, user, size):
 
     if user.email == "noreply@weblate.org":
         return redirect(get_fallback_avatar_url(size))
+    if user.email == "noreply+{}@weblate.org".format(user.pk):
+        return redirect(os.path.join(settings.STATIC_URL, "state/ghost.svg"))
 
     response = HttpResponse(
         content_type="image/png", content=get_avatar_image(user, size)
