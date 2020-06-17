@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-13 11:31+0000\n"
-"PO-Revision-Date: 2020-06-11 19:41+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2020-06-19 09:19+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "master/pt/>\n"
 "Language: pt\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.1.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -652,8 +652,6 @@ msgstr "Sugestões pendentes"
 #: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings needing action"
 msgstr "Entradas que precisam de ação"
 
@@ -6378,20 +6376,18 @@ msgid "Strings with suggestions"
 msgstr "Entradas com sugestões"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "Sugestões pendentes em %(component)s"
-msgstr[1] "Sugestões pendentes em %(component)s"
+msgstr[0] "%(count)s sugestão pendente em %(component)s"
+msgstr[1] "%(count)s sugestões pendentes em %(component)s"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Sugestões pendentes"
-msgstr[1] "Sugestões pendentes"
+msgstr[0] "%(count)s sugestão pendente"
+msgstr[1] "%(count)s sugestões pendentes"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6471,21 +6467,18 @@ msgid "Screenshot context"
 msgstr "Contexto da captura"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing action in %(component)s."
-#| msgid_plural "There are %(count)s strings needing action in %(component)s."
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Há %(count)s entrada a precisar de ação em %(component)s."
-msgstr[1] "Há %(count)s entradas a precisar de ação em %(component)s."
+msgstr[0] "%(count)s entrada a precisar de ação em %(component)s"
+msgstr[1] "%(count)s entradas a precisar de ação em %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "Entradas que precisam de ação"
-msgstr[1] "Entradas que precisam de ação"
+msgstr[0] "%(count)s entrada que precisa de ação"
+msgstr[1] "%(count)s entradas que precisam de ação"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
@@ -10055,12 +10048,10 @@ msgstr ""
 "de ficheiro e utilize os componentes para traduzir os diferentes recursos."
 
 #: weblate/trans/models/component.py:1817
-#, fuzzy
-#| msgid "The language code \"%s\" is too long, please check the filemask."
 msgid "Could not find any matching language, please check the filemask."
 msgstr ""
-"O código de idioma \"%s\" é muito longo, por favor, verifique a máscara de "
-"ficheiro."
+"Não foi possível encontrar qualquer idioma coincidente, por favor, verifique "
+"a máscara de ficheiro."
 
 #: weblate/trans/models/component.py:1836
 #, python-format
