@@ -51,6 +51,7 @@ def generate_gpg_key():
             env=get_clean_env(),
             capture_output=True,
             text=True,
+            check=True,
         )
         delete_configuration_error("GPG key generating")
         return get_gpg_key()
@@ -73,6 +74,7 @@ def get_gpg_key(silent=False):
             capture_output=True,
             env=get_clean_env(),
             text=True,
+            check=True,
         )
         for line in result.stdout.splitlines():
             if not line.startswith("fpr:"):
@@ -113,6 +115,7 @@ def get_gpg_public_key():
                 env=get_clean_env(),
                 capture_output=True,
                 text=True,
+                check=True,
             )
             data = result.stdout
             cache.set("gpg-key-public", data, 7 * 86400)
