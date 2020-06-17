@@ -33,6 +33,7 @@ from weblate.vcs.gpg import (
     get_gpg_public_key,
     get_gpg_sign_key,
 )
+from weblate.wladmin.models import ConfigurationError
 
 
 class GPGTest(TestCase):
@@ -56,6 +57,16 @@ class GPGTest(TestCase):
         if self.gpg_error:
             raise SkipTest(self.gpg_error)
 
+    def check_errors(self):
+        self.assertEqual(
+            list(
+                ConfigurationError.objects.filter(name__startswith="GPG").values_list(
+                    "message", flat=True
+                )
+            ),
+            [],
+        )
+
     @tempdir_setting("DATA_DIR")
     @override_settings(
         WEBLATE_GPG_IDENTITY="Weblate <weblate@example.com>", WEBLATE_GPG_ALGO="rsa512"
@@ -64,6 +75,7 @@ class GPGTest(TestCase):
         self.assertEqual(check_data_writable(), [])
         self.assertIsNone(get_gpg_key())
         key = generate_gpg_key()
+        self.check_errors()
         self.assertIsNotNone(key)
         self.assertEqual(key, get_gpg_key())
 
@@ -75,6 +87,7 @@ class GPGTest(TestCase):
         self.assertEqual(check_data_writable(), [])
         # This will generate new key
         key = get_gpg_sign_key()
+        self.check_errors()
         self.assertIsNotNone(key)
         # Check cache access
         self.assertEqual(key, get_gpg_sign_key())
@@ -90,6 +103,7 @@ class GPGTest(TestCase):
         self.assertEqual(check_data_writable(), [])
         # This will generate new key
         key = get_gpg_public_key()
+        self.check_errors()
         self.assertIsNotNone(key)
         # Check cache access
         self.assertEqual(key, get_gpg_public_key())
