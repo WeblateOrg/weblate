@@ -104,6 +104,7 @@ from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import (
@@ -113,6 +114,7 @@ from weblate.utils.ratelimit import (
 )
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.site import get_site_url
+from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_component, get_project
 
 CONTACT_TEMPLATE = """
@@ -515,6 +517,7 @@ def hosting(request):
 def user_page(request, user):
     """User details page."""
     user = get_object_or_404(User, username=user)
+    allowed_project_ids = request.user.allowed_project_ids
 
     # Filter all user activity
     all_changes = Change.objects.last_changes(request.user).filter(user=user)
@@ -526,7 +529,9 @@ def user_page(request, user):
     user_projects_ids = set(
         all_changes.values_list("translation__component__project", flat=True)
     )
-    user_projects = Project.objects.filter(id__in=user_projects_ids)
+    user_projects = Project.objects.filter(
+        id__in=user_projects_ids & allowed_project_ids
+    )
 
     return render(
         request,
@@ -536,7 +541,13 @@ def user_page(request, user):
             "page_user": user,
             "last_changes": last_changes,
             "last_changes_url": urlencode({"user": user.username}),
-            "user_projects": user_projects,
+            "user_projects": prefetch_project_flags(prefetch_stats(user_projects)),
+            "owned_projects": prefetch_project_flags(
+                prefetch_stats(user.owned_projects.filter(id__in=allowed_project_ids))
+            ),
+            "watched_projects": prefetch_project_flags(
+                prefetch_stats(user.watched_projects.filter(id__in=allowed_project_ids))
+            ),
         },
     )
 

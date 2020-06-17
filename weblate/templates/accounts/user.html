@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load humanize %}
 
 {% block breadcrumbs %}
 <li><a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a></li>
@@ -8,50 +9,83 @@
 
 {% block content %}
 
-<div class="row">
-{% if enable_avatars %}
-<div class="col-lg-2">
-<img class="avatar w128" src="{% url 'user_avatar' user=page_user.username size=128 %}" alt="{% trans "User avatar" %}" />
+<div class="user-page text-center">
+    <img class="avatar w128" src="{% url 'user_avatar' user=page_user.username size=128 %}" alt="{% trans "User avatar" %}" />
+    <h3>{{ page_user }}</h3>
+    <p>
+        <span class="middle-dot-divider">@{{ page_user.username }}</span>
+        <span class="middle-dot-divider">{% blocktrans with date=user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktrans %}</span>
+    </p>
+    {% if page_profile.translated or page_profile.suggested or page_profile.uploaded %}
+    <p>
+        {% if page_profile.translated %}
+            <span class="middle-dot-divider">
+                {% blocktrans count cnt=page_profile.translated with count=page_profile.translated|intcomma %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktrans %}
+            </span>
+        {% endif %}
+        {% if page_profile.suggested %}
+            <span class="middle-dot-divider">
+                {% blocktrans count cnt=page_profile.suggested with count=page_profile.suggested|intcomma %}{{ count }} suggestion{% plural %}{{ count }} suggestions{% endblocktrans %}
+            </span>
+        {% endif %}
+        {% with pending_suggestions=page_user.suggestion_set.count %}
+        {% if pending_suggestions %}
+            <span class="middle-dot-divider">
+                <a href="{% url 'user_suggestions' user=page_user.username %}">
+                    {% blocktrans count cnt=pending_suggestions with count=pending_suggestions|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktrans %}
+                </a>
+            </span>
+        {% endif %}
+        {% endwith %}
+        {% if page_profile.uploaded %}
+            <span class="middle-dot-divider">
+                {% blocktrans count cnt=page_profile.uploaded with count=page_profile.uploaded|intcomma %}{{ count }} screenshots{% plural %}{{ count }} screenshots{% endblocktrans %}
+            </span>
+        {% endif %}
+    </p>
+    {% endif %}
 </div>
-{% endif %}
 
-<div class="col-lg-10">
-{% with page_profile as profile and page_user as user %}
-<table class="table table-condensed">
-<tr>
-<th>{% trans "Username" %}</th>
-<td>{{ user.username }}</td>
-</tr>
-<tr>
-<th>{% trans "Full name" %}</th>
-<td>{{ user }}</td>
-</tr>
-{% include 'user-activity.html' %}
-</table>
-{% endwith %}
-</div>
+<ul class="nav nav-pills nav-center">
+<li class="active"><a data-toggle="tab" href="#contributed">{% trans "Contributed projects" %}</a></li>
+<li><a data-toggle="tab" href="#managed">{% trans "Managed projects" %}</a></li>
+<li><a data-toggle="tab" href="#watched">{% trans "Watched projects" %}</a></li>
+<li><a data-toggle="tab" href="#activity">{% trans "Activity" %}</a></li>
+<li><a data-toggle="tab" href="#changes">{% trans "Recent changes" %}</a></li>
+</ul>
 
-</div>
+<div class="tab-content">
 
-{% if user_projects %}
-
-<h3>{% trans "Projects" %}</h3>
+<div class="tab-pane active" id="contributed">
 <div class="list-group">
-{% for project in user_projects %}
-<a class="list-group-item" href="{{ project.get_absolute_url }}">{{ project }}</a>
-{% endfor %}
+{% include "list-projects.html" with projects=user_projects %}
+</div>
 </div>
 
-{% endif %}
+<div class="tab-pane" id="managed">
+<div class="list-group">
+{% include "list-projects.html" with projects=owned_projects %}
+</div>
+</div>
+
+<div class="tab-pane" id="watched">
+<div class="list-group">
+{% include "list-projects.html" with projects=watched_projects %}
+</div>
+</div>
+
+<div class="tab-pane" id="activity">
 
 {% url 'yearly_activity' user=page_user.username as yearly_activity %}
 {% url 'monthly_activity' user=page_user.username as monthy_actitity %}
 {% include "activity-tab.html" %}
 
-<h3>{% trans "Recent changes" %}</h3>
+</div>
 
-{% include "last-changes-content.html" %}
-
-<a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes for user" %}</a>
+<div class="tab-pane" id="changes">
+    {% include "last-changes-content.html" %}
+    <a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes for user" %}</a>
+</div>
+</div>
 
 {% endblock %}
