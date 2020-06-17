@@ -34,7 +34,7 @@ from weblate.utils.errors import report_error
 
 def generate_gpg_key():
     try:
-        subprocess.check_output(
+        subprocess.run(
             [
                 "gpg",
                 "--batch",
@@ -48,8 +48,9 @@ def generate_gpg_key():
                 "default",
                 "never",
             ],
-            stderr=subprocess.STDOUT,
             env=get_clean_env(),
+            capture_output=True,
+            text=True,
         )
         delete_configuration_error("GPG key generating")
         return get_gpg_key()
@@ -61,7 +62,7 @@ def generate_gpg_key():
 
 def get_gpg_key(silent=False):
     try:
-        output = subprocess.check_output(
+        result = subprocess.run(
             [
                 "gpg",
                 "--batch",
@@ -69,10 +70,11 @@ def get_gpg_key(silent=False):
                 "--list-secret-keys",
                 settings.WEBLATE_GPG_IDENTITY,
             ],
-            stderr=subprocess.STDOUT,
+            capture_output=True,
             env=get_clean_env(),
-        ).decode()
-        for line in output.splitlines():
+            text=True,
+        )
+        for line in result.stdout.splitlines():
             if not line.startswith("fpr:"):
                 continue
             delete_configuration_error("GPG key listing")
@@ -106,11 +108,13 @@ def get_gpg_public_key():
     data = cache.get("gpg-key-public")
     if not data:
         try:
-            data = subprocess.check_output(
+            result = subprocess.run(
                 ["gpg", "--batch", "-armor", "--export", key],
-                stderr=subprocess.STDOUT,
                 env=get_clean_env(),
-            ).decode()
+                capture_output=True,
+                text=True,
+            )
+            data = result.stdout
             cache.set("gpg-key-public", data, 7 * 86400)
             delete_configuration_error("GPG key public")
         except (subprocess.CalledProcessError, OSError) as error:

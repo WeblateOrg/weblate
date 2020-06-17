@@ -10,6 +10,7 @@ Not yet released.
 * Fixed keyboard shortcuts for machinery.
 * Removed debugging output causing discarding of log events in some setups.
 * Fixed lock indication on project listing.
+* Fixed listing GPG keys is some setups.
 
 Weblate 4.1
 -----------
