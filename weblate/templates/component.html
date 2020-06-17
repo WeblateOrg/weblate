@@ -42,7 +42,7 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-      <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug component=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug component=object.slug %}">{% trans "Activity" %}</a></li>
+      <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
       {% if user.is_authenticated %}
@@ -218,6 +218,8 @@
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all component changes" %}</a>
 </div>
 
+{% url 'yearly_activity' project=object.project.slug component=object.slug as yearly_activity %}
+{% url 'monthly_activity' project=object.project.slug component=object.slug as monthly_activity %}
 {% include "activity-tab.html" %}
 
 {% if announcement_form %}

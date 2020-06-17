@@ -37,6 +37,14 @@ from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 
 
+def get_percent_color(percent):
+    if percent >= 85:
+        return "#2eccaa"
+    if percent >= 50:
+        return "#38f"
+    return "#f6664c"
+
+
 def get_page_limit(request, default):
     """Return page and limit as integers."""
     try:
