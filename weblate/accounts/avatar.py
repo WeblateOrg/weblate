@@ -120,7 +120,7 @@ def get_user_display(user, icon=True, link=False, prefix=""):
         else:
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
-        username = f'<img src="{avatar}" class="avatar" /> {prefix}{username}'
+        username = f'<img src="{avatar}" class="avatar w32" /> {prefix}{username}'
     else:
         username = prefix + username
 
