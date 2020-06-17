@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-13 11:31+0000\n"
-"PO-Revision-Date: 2020-06-10 15:09+0000\n"
+"PO-Revision-Date: 2020-06-19 09:20+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "master/nb_NO/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.1.1-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -5569,7 +5569,7 @@ msgid ""
 "To follow translation progress you can use RSS feeds, detailing all "
 "important translation changes."
 msgstr ""
-"For å følge fremdriften i oversettelsesarbeidet kan du bruke  RSS-"
+"For å følge fremdriften i oversettelsesarbeidet kan du bruke RSS-"
 "oppdateringer, som har med alle viktige endringer i oversettelsene."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
@@ -6534,16 +6534,15 @@ msgstr "Strenger med forslag"
 #| msgid "Pending suggestions in %(component)s"
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "Ventende forslag i %(component)s"
-msgstr[1] "Ventende forslag i %(component)s"
+msgstr[0] "%(count)s ventende forslag i %(component)s"
+msgstr[1] "%(count)s ventende forslag i %(component)s"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Ventende forslag"
-msgstr[1] "Ventende forslag"
+msgstr[0] "%(count)s ventende forslag"
+msgstr[1] "%(count)s ventende forslag"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6631,12 +6630,11 @@ msgstr[0] "Det er %(count)s streng i påvente av handling i %(component)s."
 msgstr[1] "Det er %(count)s strenger i påvente av handling i %(component)s."
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "Strenger som trenger handling"
-msgstr[1] "Strenger som trenger handling"
+msgstr[0] "%(count) streng som trenger handling"
+msgstr[1] "%(count)strenger som trenger handling"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
@@ -11365,11 +11363,11 @@ msgstr "oversatt"
 
 #: weblate/trans/widgets.py:409
 msgid "Vertical multi language status widget"
-msgstr "Loddrett  statusminiprogram for flere språk"
+msgstr "Loddrett statusminiprogram for flere språk"
 
 #: weblate/trans/widgets.py:488
 msgid "Horizontal multi language status widget"
-msgstr "Vannrett  statusminiprogram for flere språk"
+msgstr "Vannrett statusminiprogram for flere språk"
 
 #. Translators: Name of a color
 #: weblate/utils/colors.py:24
