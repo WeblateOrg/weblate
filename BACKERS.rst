@@ -3,6 +3,7 @@ Backers who have funded Weblate
 
 List of Weblate supporters:
 
+* https://freedombox.org/
 * Yashiro Ccs
 * Cheng-Chia Tseng
 * Timon Reinhard
