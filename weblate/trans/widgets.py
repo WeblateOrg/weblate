@@ -35,6 +35,7 @@ from django.utils.translation import gettext_lazy, npgettext, pgettext
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
+from weblate.utils.views import get_percent_color
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
@@ -420,12 +421,7 @@ class MultiLanguageWidget(SVGWidget):
             language = stats.language
             percent = stats.translated_percent
             if self.color == "auto":
-                if percent >= 85:
-                    color = "#2eccaa"
-                elif percent >= 50:
-                    color = "#38f"
-                else:
-                    color = "#f6664c"
+                color = get_percent_color(percent)
             language_name = force_str(language)
 
             language_width = max(

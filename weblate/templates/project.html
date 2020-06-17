@@ -68,6 +68,8 @@
 </div>
 {% endif %}
 
+{% url 'yearly_activity' project=object.slug as yearly_activity %}
+{% url 'monthly_activity' project=object.slug as monthly_activity %}
 {% include "activity-tab.html" %}
 
 <div class="tab-pane" id="search">

@@ -41,7 +41,7 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-      <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" data-monthly="{% url 'monthly_activity' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Activity" %}</a></li>
+      <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
       <li><a href="#stats" data-toggle="tab">{% trans "Statistics" %}</a></li>
     </ul>
   </li>
@@ -456,6 +456,8 @@
 
 </div>
 
+{% url 'yearly_activity' project=object.component.project.slug component=object.component.slug lang=object.language.code as yearly_activity %}
+{% url 'monthly_activity' project=object.component.project.slug component=object.component.slug lang=object.language.code as monthly_activity %}
 {% include "activity-tab.html" %}
 
 </div>

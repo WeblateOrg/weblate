@@ -1,5 +1,4 @@
 var loading = 0;
-var activityDataLoaded = false;
 
 // Remove some weird things from location hash
 if (window.location.hash && (window.location.hash.indexOf('"') > -1 || window.location.hash.indexOf('=') > -1)) {
@@ -89,39 +88,6 @@ Mousetrap.bindGlobal(
     ['alt+enter', 'mod+enter'],
     submitForm
 );
-
-function loadActivityChart(element) {
-    if (activityDataLoaded) {
-        return;
-    }
-    activityDataLoaded = true;
-
-    increaseLoading('activity');
-    $.ajax({
-        url: element.data('monthly'),
-        success: function(data) {
-            Chartist.Bar('#activity-month', data);
-            decreaseLoading('activity');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            addAlert(errorThrown);
-        },
-        dataType: 'json'
-    });
-
-    increaseLoading('activity');
-    $.ajax({
-        url: element.data('yearly'),
-        success: function(data) {
-            Chartist.Bar('#activity-year', data);
-            decreaseLoading('activity');
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            addAlert(errorThrown);
-        },
-        dataType: 'json'
-    });
-}
 
 function screenshotStart() {
     $('#search-results').empty();
@@ -381,17 +347,6 @@ $(function () {
             var $target = $(e.target);
             $('#form-activetab').attr('value', $target.attr('href'));
         });
-    }
-
-    /* Activity charts on tabs */
-    $document.on('show.bs.tab', '[data-load="activity"]', function (e) {
-        loadActivityChart($(this));
-    });
-
-    /* Automatic loading of activity charts on page load */
-    var autoLoadActivity = $('#load-activity');
-    if (autoLoadActivity.length > 0) {
-        loadActivityChart(autoLoadActivity);
     }
 
     /* Hiding spam protection field */

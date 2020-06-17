@@ -18,7 +18,7 @@
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Projects" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-  <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' lang=object.code %}" data-monthly="{% url 'monthly_activity' lang=object.code %}">{% trans "Activity" %}</a></li>
+  <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
   <li><a href="#dicts" data-toggle="tab">{% trans "Glossaries" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -109,6 +109,8 @@
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
 </div>
 
+{% url 'yearly_activity' lang=object.code as yearly_activity %}
+{% url 'monthly_activity' lang=object.code as monthly_activity %}
 {% include "activity-tab.html" %}
 
 <div class="tab-pane" id="dicts">

@@ -44,8 +44,8 @@
 
 {% endif %}
 
-<span class="hidden" id="load-activity" data-yearly="{% url 'yearly_activity' user=page_user.username %}" data-monthly="{% url 'monthly_activity' user=page_user.username %}"></span>
-
+{% url 'yearly_activity' user=page_user.username as yearly_activity %}
+{% url 'monthly_activity' user=page_user.username as monthy_actitity %}
 {% include "activity-tab.html" %}
 
 <h3>{% trans "Recent changes" %}</h3>

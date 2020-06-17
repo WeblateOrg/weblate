@@ -18,15 +18,17 @@
 #
 """Charting library for Weblate."""
 
+from datetime import datetime
+from typing import Callable, Optional
+
 from django.core.cache import cache
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import pgettext
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import Change
-from weblate.utils.views import get_project_translation
+from weblate.utils.views import get_percent_color, get_project_translation
 
 
 def cache_key(*args):
@@ -40,8 +42,14 @@ def cache_key(*args):
     return "activity-{}".format("-".join(makekey(arg) for arg in args))
 
 
-def get_json_stats(
-    request, days, step, project=None, component=None, lang=None, user=None
+def get_activity_stats(
+    request,
+    days: int,
+    step: int,
+    project: Optional[str] = None,
+    component: Optional[str] = None,
+    lang: Optional[str] = None,
+    user: Optional[str] = None,
 ):
     """Parse json stats URL params."""
     if project is None and lang is None and user is None:
@@ -81,45 +89,86 @@ def get_json_stats(
     return result
 
 
-def yearly_activity(request, project=None, component=None, lang=None, user=None):
+def get_label_month(pos: int, previous_month: int, timestamp: datetime) -> str:
+    if previous_month != timestamp.month:
+        return pgettext(
+            "Format string for yearly activity chart", "{month}/{year}"
+        ).format(month=timestamp.month, year=timestamp.year)
+    return ""
+
+
+def get_label_day(pos: int, previous_month: int, timestamp: datetime) -> str:
+    if pos % 5 == 0:
+        return pgettext(
+            "Format string for monthly activity chart", "{day}/{month}"
+        ).format(day=timestamp.day, month=timestamp.month, year=timestamp.year)
+    return ""
+
+
+def render_activity(
+    request,
+    days: int,
+    step: int,
+    label_func: Callable[[int, int, datetime], str],
+    project: Optional[str] = None,
+    component: Optional[str] = None,
+    lang: Optional[str] = None,
+    user: Optional[str] = None,
+):
     """Return yearly activity for matching changes as json."""
-    activity = get_json_stats(request, 364, 7, project, component, lang, user)
+    activity = get_activity_stats(request, days, step, project, component, lang, user)
 
-    # Format
+    max_value = max(item[1] for item in activity)
+
     serie = []
-    labels = []
-    month = -1
-    for item in activity:
-        serie.append(item[1])
-        if month != item[0].month:
-            labels.append(
-                pgettext(
-                    "Format string for yearly activity chart", "{month}/{year}"
-                ).format(month=item[0].month, year=item[0].year)
-            )
-            month = item[0].month
-        else:
-            labels.append("")
-
-    return JsonResponse(data={"series": [serie], "labels": labels})
-
-
-def monthly_activity(request, project=None, component=None, lang=None, user=None):
-    """Return monthly activity for matching changes as json."""
-    activity = get_json_stats(request, 31, 1, project, component, lang, user)
-
-    # Format
-    serie = []
-    labels = []
+    previous_month = -1
+    offset = 0
     for pos, item in enumerate(activity):
-        serie.append(item[1])
-        if pos % 5 == 0:
-            labels.append(
-                pgettext(
-                    "Format string for monthly activity chart", "{day}/{month}"
-                ).format(day=item[0].day, month=item[0].month, year=item[0].year)
+        timestamp, value = item
+        percent = value * 100 // max_value if max_value else 0
+        if value and percent < 4:
+            percent = 4
+        label = label_func(pos, previous_month, timestamp)
+        previous_month = timestamp.month
+        offset += 15
+        height = int(1.5 * percent)
+        serie.append(
+            (
+                value,
+                label,
+                offset,
+                get_percent_color(percent),
+                height,
+                10 + (150 - height),
             )
-        else:
-            labels.append("")
+        )
 
-    return JsonResponse(data={"series": [serie], "labels": labels})
+    return render(
+        request, "svg/activity.svg", {"serie": serie}, content_type="image/svg+xml"
+    )
+
+
+def yearly_activity(
+    request,
+    project: Optional[str] = None,
+    component: Optional[str] = None,
+    lang: Optional[str] = None,
+    user: Optional[str] = None,
+):
+    """Return yearly activity for matching changes as json."""
+    return render_activity(
+        request, 364, 7, get_label_month, project, component, lang, user
+    )
+
+
+def monthly_activity(
+    request,
+    project: Optional[str] = None,
+    component: Optional[str] = None,
+    lang: Optional[str] = None,
+    user: Optional[str] = None,
+):
+    """Return monthly activity for matching changes as json."""
+    return render_activity(
+        request, 52, 1, get_label_day, project, component, lang, user
+    )
