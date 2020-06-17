@@ -173,13 +173,18 @@ def can_generate_key():
 
 
 class SSHWrapper:
+    # Custom ssh wrapper
+    # - use custom location for known hosts and key
+    # - do not hash it
+    # - strict hosk key checking
+    # - force not using system configuration (to avoid evil things as SendEnv)
     SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
     exec ssh \
         -o "UserKnownHostsFile={known_hosts}" \
         -o "IdentityFile={identity}" \
         -o StrictHostKeyChecking=yes \
         -o HashKnownHosts=no \
-        -o SendEnv= \
+        -F /dev/null \
         "$@"
     """
 
