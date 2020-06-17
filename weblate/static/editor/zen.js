@@ -7,8 +7,7 @@
     function ZenEditor() {
         EditorBase.call(this);
 
-        var self = this;
-        $window.scroll(function() {
+        $window.scroll(() => {
             var $loadingNext = $('#loading-next');
             var loader = $('#zen-load');
 
@@ -22,12 +21,12 @@
 
                 $.get(
                     loader.attr('href') + '&offset=' + loader.data('offset'),
-                    function (data) {
+                    (data) => {
                         $loadingNext.hide();
 
                         $('.zen tfoot').before(data);
 
-                        self.init();
+                        this.init();
                     }
                 );
             }
