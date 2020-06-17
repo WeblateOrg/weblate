@@ -171,7 +171,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def add_vote(self, request, value):
         """Add (or updates) vote for a suggestion."""
-        if not request.user.is_authenticated:
+        if request is None or not request.user.is_authenticated:
             return
 
         vote, created = Vote.objects.get_or_create(
