@@ -155,27 +155,28 @@ class Repository:
         if not fullcmd:
             args = [cls._cmd] + list(args)
         text_cmd = " ".join(args)
-        process = subprocess.Popen(
+        process = subprocess.run(
             args,
             cwd=cwd,
             env={} if local else cls._getenv(),
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
             stdin=subprocess.PIPE,
+            universal_newlines=not raw,
         )
-        output, stderr = process.communicate()
-        if not raw:
-            output = output.decode()
-        retcode = process.poll()
         cls.add_breadcrumb(
-            text_cmd, retcode=retcode, output=output, stderr=stderr, cwd=cwd
+            text_cmd,
+            retcode=process.returncode,
+            output=process.stdout,
+            stderr=process.stderr,
+            cwd=cwd,
         )
-        cls.log("exec {0} [retcode={1}]".format(text_cmd, retcode))
-        if retcode:
-            if stderr:
-                output += stderr.decode()
-            raise RepositoryException(retcode, output)
-        return output
+        cls.log("exec {0} [retcode={1}]".format(text_cmd, process.returncode))
+        if process.returncode:
+            raise RepositoryException(
+                process.returncode, process.stdout + (process.stderr or "")
+            )
+        return process.stdout
 
     def execute(self, args, needs_lock=True, fullcmd=False, merge_err=True):
         """Execute command and caches its output."""

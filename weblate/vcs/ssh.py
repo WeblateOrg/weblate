@@ -104,7 +104,7 @@ def generate_ssh_key(request):
     """Generate SSH key."""
     try:
         # Actually generate the key
-        subprocess.check_output(
+        subprocess.run(
             [
                 "ssh-keygen",
                 "-q",
@@ -117,7 +117,10 @@ def generate_ssh_key(request):
                 "-f",
                 ssh_file(RSA_KEY),
             ],
-            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             env=get_clean_env(),
         )
         messages.success(request, _("Created new SSH key."))
@@ -137,11 +140,16 @@ def add_host_key(request, host, port=""):
             cmdline.extend(["-p", str(port)])
         cmdline.append(host)
         try:
-            output = subprocess.check_output(
-                cmdline, stderr=subprocess.STDOUT, env=get_clean_env()
+            result = subprocess.run(
+                cmdline,
+                env=get_clean_env(),
+                check=True,
+                universal_newlines=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
             )
             keys = []
-            for key in output.decode().splitlines():
+            for key in result.stdout.splitlines():
                 key = key.strip()
                 if not is_key_line(key):
                     continue
@@ -162,7 +170,9 @@ def add_host_key(request, host, port=""):
                 for key in keys:
                     handle.write("{0}\n".format(key))
         except subprocess.CalledProcessError as exc:
-            messages.error(request, _("Failed to get host key: %s") % exc.output)
+            messages.error(
+                request, _("Failed to get host key: %s") % exc.stderr or exc.stdout
+            )
         except OSError as exc:
             messages.error(request, _("Failed to get host key: %s") % str(exc))
 

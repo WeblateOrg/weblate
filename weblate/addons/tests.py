@@ -430,7 +430,9 @@ class YAMLAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("        try:", commit)
-        self.assertIn("\r\n", commit)
+        self.assertIn("cs.yml", commit)
+        with open(self.get_translation().get_filename(), "rb") as handle:
+            self.assertIn(b"\r\n", handle.read())
 
 
 class ViewTests(ViewTestCase):

@@ -44,10 +44,14 @@ class GPGTest(TestCase):
         """Check whether we can use gpg."""
         super().setUpClass()
         try:
-            output = subprocess.check_output(
-                ["gpg", "--version"], stderr=subprocess.STDOUT
-            ).decode()
-            version = output.splitlines()[0].strip().rsplit(None, 1)[-1]
+            result = subprocess.run(
+                ["gpg", "--version"],
+                check=True,
+                universal_newlines=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            version = result.stdout.splitlines()[0].strip().rsplit(None, 1)[-1]
             if LooseVersion(version) < LooseVersion("2.1"):
                 cls.gpg_error = "gpg too old"
         except (subprocess.CalledProcessError, OSError):

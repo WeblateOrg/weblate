@@ -853,14 +853,13 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
                 cmd,
                 env=get_clean_env(),
                 cwd=os.path.dirname(out_file),
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 check=True,
-                text=True,
+                universal_newlines=True,
             )
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)
-            print(result.stderr)
-            print(result.stdout)
             if "warning:" in result.stderr:
                 raise UpdateError(" ".join(cmd), result.stderr)
         except (OSError, subprocess.CalledProcessError) as error:

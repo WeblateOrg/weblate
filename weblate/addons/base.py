@@ -215,10 +215,11 @@ class BaseAddon:
                 env=get_clean_env(env),
                 cwd=component.full_path,
                 stderr=subprocess.STDOUT,
+                universal_newlines=True,
             )
-            component.log_debug("exec result: %s", output.decode())
+            component.log_debug("exec result: %s", output)
         except (OSError, subprocess.CalledProcessError) as err:
-            output = getattr(err, "output", b"").decode()
+            output = getattr(err, "output", "")
             component.log_error("failed to exec %s: %s", repr(cmd), err)
             for line in output.splitlines():
                 component.log_error("program output: %s", line)

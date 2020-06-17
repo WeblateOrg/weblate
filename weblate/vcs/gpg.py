@@ -49,8 +49,9 @@ def generate_gpg_key():
                 "never",
             ],
             env=get_clean_env(),
-            capture_output=True,
-            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
             check=True,
         )
         delete_configuration_error("GPG key generating")
@@ -71,9 +72,10 @@ def get_gpg_key(silent=False):
                 "--list-secret-keys",
                 settings.WEBLATE_GPG_IDENTITY,
             ],
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             env=get_clean_env(),
-            text=True,
+            universal_newlines=True,
             check=True,
         )
         for line in result.stdout.splitlines():
@@ -113,8 +115,9 @@ def get_gpg_public_key():
             result = subprocess.run(
                 ["gpg", "--batch", "-armor", "--export", key],
                 env=get_clean_env(),
-                capture_output=True,
-                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
                 check=True,
             )
             data = result.stdout
