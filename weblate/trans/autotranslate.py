@@ -49,7 +49,7 @@ class AutoTranslate:
             )
 
     def update(self, unit, state, target):
-        if self.mode == "suggest":
+        if self.mode == "suggest" or len(target) > unit.get_max_length():
             Suggestion.objects.add(unit, target, None, False)
         else:
             unit.translate(self.user, target, state, Change.ACTION_AUTO, False)
