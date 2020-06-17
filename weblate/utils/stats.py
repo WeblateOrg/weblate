@@ -24,6 +24,7 @@ from itertools import chain
 from types import GeneratorType
 from uuid import uuid4
 
+import sentry_sdk
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Sum
@@ -249,6 +250,10 @@ class BaseStats:
         return False
 
     def prefetch_basic(self):
+        with sentry_sdk.start_span(op="stats-prefetch", description=self.cache_key):
+            self._prefetch_basic()
+
+    def _prefetch_basic(self):
         raise NotImplementedError()
 
     def calculate_percents(self, item, total=None):
@@ -312,7 +317,7 @@ class DummyTranslationStats(BaseStats):
     def calculate_item(self, item):
         return
 
-    def prefetch_basic(self):
+    def _prefetch_basic(self):
         self._data = zero_stats(self.basic_keys)
 
 
@@ -333,7 +338,7 @@ class TranslationStats(BaseStats):
     def has_review(self):
         return self._object.enable_review
 
-    def prefetch_basic(self):
+    def _prefetch_basic(self):
         from weblate.trans.models import Unit
 
         base = self._object.unit_set
@@ -563,7 +568,7 @@ class LanguageStats(BaseStats):
     def prefetch_source(self):
         return
 
-    def prefetch_basic(self):
+    def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
         for translation in self.translation_set:
             stats_obj = translation.stats
@@ -674,8 +679,8 @@ class ProjectLanguageStats(LanguageStats):
         self.store("source_words", words)
         self.store("source_strings", strings)
 
-    def prefetch_basic(self):
-        super().prefetch_basic()
+    def _prefetch_basic(self):
+        super()._prefetch_basic()
         self.store("languages", 1)
 
 
@@ -712,7 +717,7 @@ class ProjectStats(BaseStats):
             result.append(self.get_single_language_stats(language, prefetch=True))
         return prefetch_stats(result)
 
-    def prefetch_basic(self):
+    def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
         for component in self.component_set:
             stats_obj = component.stats
@@ -743,7 +748,7 @@ class ComponentListStats(BaseStats):
     def component_set(self):
         return prefetch_stats(self._object.components.iterator())
 
-    def prefetch_basic(self):
+    def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
         for component in self.component_set:
             stats_obj = component.stats
@@ -777,7 +782,7 @@ class GlobalStats(BaseStats):
 
         return prefetch_stats(Project.objects.iterator())
 
-    def prefetch_basic(self):
+    def _prefetch_basic(self):
         from weblate.lang.models import Language
 
         stats = zero_stats(self.basic_keys)
@@ -819,7 +824,7 @@ class GhostStats(BaseStats):
     def pk(self):
         return uuid4().hex
 
-    def prefetch_basic(self):
+    def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)
         if self.base is not None:
             for key in "all", "all_words", "all_chars":
