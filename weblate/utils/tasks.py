@@ -95,13 +95,16 @@ def database_backup():
         cmd += ["--file", data_dir("backups", "database.sql")]
 
     try:
-        subprocess.check_output(
+        subprocess.run(
             cmd,
             env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
-            stderr=subprocess.STDOUT,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True,
+            universal_newlines=True,
         )
     except subprocess.CalledProcessError as error:
-        report_error(extra_data={"stdout": error.stdout.decode()})
+        report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
 
 
 @app.on_after_finalize.connect

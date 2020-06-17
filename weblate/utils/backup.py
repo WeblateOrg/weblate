@@ -76,13 +76,14 @@ def borg(cmd, env=None):
             ["borg", "--rsh", SSH_WRAPPER.filename] + cmd,
             stderr=subprocess.STDOUT,
             env=get_clean_env(env),
-        ).decode()
+            universal_newlines=True,
+        )
     except EnvironmentError as error:
         report_error()
         raise BackupError("Could not execute borg program: {}".format(error))
     except subprocess.CalledProcessError as error:
-        report_error(extra_data={"stdout": error.stdout.decode()})
-        raise BackupError(error.stdout.decode())
+        report_error(extra_data={"stdout": error.stdout})
+        raise BackupError(error.stdout)
 
 
 def initialize(location, passphrase):
