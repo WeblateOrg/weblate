@@ -812,30 +812,56 @@ Email server setup
 
 To make outgoing e-mail work, you need to provide a mail server.
 
+Example TLS configuration:
+
+.. code-block:: yaml
+
+    environment:
+        WEBLATE_EMAIL_HOST: smtp.example.com
+        WEBLATE_EMAIL_HOST_USER: user
+        WEBLATE_EMAIL_HOST_PASSWORD: pass
+
+Example SSL configuration:
+
+.. code-block:: yaml
+
+    environment:
+        WEBLATE_EMAIL_HOST: smtp.example.com
+        WEBLATE_EMAIL_PORT: 465
+        WEBLATE_EMAIL_HOST_USER: user
+        WEBLATE_EMAIL_HOST_PASSWORD: pass
+        WEBLATE_EMAIL_USE_TLS: 0
+        WEBLATE_EMAIL_USE_SSL: 1
+
+
 .. seealso:: :ref:`out-mail`
 
 .. envvar:: WEBLATE_EMAIL_HOST
 
-    Mail server, the server has to listen on port 587 and understand TLS.
+    Mail server hostname or IP address.
 
-    .. seealso:: :setting:`django:EMAIL_HOST`
+    .. seealso::
+
+        :envvar:`WEBLATE_EMAIL_PORT`,
+        :envvar:`WEBLATE_EMAIL_USE_SSL`,
+        :envvar:`WEBLATE_EMAIL_USE_TLS`,
+        :setting:`django:EMAIL_HOST`
 
 .. envvar:: WEBLATE_EMAIL_PORT
 
-    Mail server port. Use if your cloud provider or ISP blocks outgoing
-    connections on port 587.
+    Mail server port, defaults to 25.
 
     .. seealso:: :setting:`django:EMAIL_PORT`
 
 .. envvar:: WEBLATE_EMAIL_HOST_USER
 
-    Email authentication user, do NOT use quotes here.
+    Email authentication user.
 
     .. seealso:: :setting:`django:EMAIL_HOST_USER`
 
 .. envvar:: WEBLATE_EMAIL_HOST_PASSWORD
 
-    Email authentication password, do NOT use quotes here.
+    Email authentication password.
 
     .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
 
@@ -846,16 +872,24 @@ To make outgoing e-mail work, you need to provide a mail server.
     to as SSL. It is generally used on port 465. If you are experiencing
     problems, see the explicit TLS setting :envvar:`WEBLATE_EMAIL_USE_TLS`.
 
-    .. seealso:: :setting:`django:EMAIL_USE_SSL`
+    .. seealso::
+
+        :envvar:`WEBLATE_EMAIL_PORT`,
+        :envvar:`WEBLATE_EMAIL_USE_TLS`,
+        :setting:`django:EMAIL_USE_SSL`
 
 .. envvar:: WEBLATE_EMAIL_USE_TLS
 
     Whether to use a TLS (secure) connection when talking to the SMTP server.
-    This is used for explicit TLS connections, generally on port 587. If you
-    are experiencing connections that hang, see the implicit TLS setting
+    This is used for explicit TLS connections, generally on port 587 or 25. If
+    you are experiencing connections that hang, see the implicit TLS setting
     :envvar:`WEBLATE_EMAIL_USE_SSL`.
 
-    .. seealso:: :setting:`django:EMAIL_USE_TLS`
+    .. seealso::
+
+        :envvar:`WEBLATE_EMAIL_PORT`,
+        :envvar:`WEBLATE_EMAIL_USE_SSL`,
+        :setting:`django:EMAIL_USE_TLS`
 
 .. envvar:: WEBLATE_EMAIL_BACKEND
 
