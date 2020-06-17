@@ -15,6 +15,23 @@
     width: 24px;
     height: 24px;
 }
+
+.middle-dot-divider::after {
+    content: '\00B7';
+    padding: 0 0.375rem;
+    font-weight: 600;
+}
+.middle-dot-divider:last-child::after {
+    content: '';
+    padding: 0;
+}
+.nav-center > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+}
+.nav-center {
+    text-align: center;
+}
 .navbar {
     margin-bottom: 0;
 }
