@@ -27,7 +27,6 @@
 <tbody>
 {% for object in objects %}
 {% get_stats object stats_attr as stats %}
-{% global_stats object stats global_base as global_stats %}
 {% get_translate_url object as translate_url %}
 {% get_browse_url object as browse_url %}
 {% get_unique_row_id object as row_id %}
@@ -69,7 +68,8 @@
 </th>
 {% include "snippets/list-objects-percent.html" with percent=stats.translated_percent value=stats.translated all=stats.all %}
 {% if global_base %}
-{% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
+    {% global_stats object stats global_base as global_stats %}
+    {% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
 {% endif %}
 {% include "snippets/list-objects-number.html" with value=stats.todo query="q=state:<translated" class="zero-width-640" %}
 {% include "snippets/list-objects-number.html" with value=stats.todo_words query="q=state:<translated" class="zero-width-720" %}
