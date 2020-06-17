@@ -920,6 +920,32 @@ system, please change locales to UTF-8 variant.
 For examble by editing :file:`/etc/default/locale` and setting there
 ``LANG="C.UTF-8"``.
 
+.. _production-certs:
+
+Using custom certificate authority
+++++++++++++++++++++++++++++++++++
+
+Weblate does verify SSL certificates during HTTP requests. In case you are
+using custom certificate authority which is not trusted in default bundles, you
+will have to add its certificate as trusted.
+
+The preferred approach is to do this at system level, please check your distro
+documentation for more details (for example on debian this can be done by
+placing the CA certificate into :file:`/usr/local/share/ca-certificates/` and
+running :command:`update-ca-certificates`).
+
+Once this is done, system tools will trust the certificate and this includes
+Git.
+
+For Python code, you will need to configure requests to use system CA bundle
+instead of the one shipped with it. This can be achieved by placing following
+snippet to :file:`settings.py` (the path is Debian specific):
+
+.. code-block:: python
+
+    import os
+    os.environ["REQUESTS_CA_BUNDLE"] = "/etc/ssl/certs/ca-certificates.crt"
+
 .. _server:
 
 Running server
