@@ -446,6 +446,15 @@
             e.preventDefault();
         });
 
+        /* Glossary dialog */
+        var $glossaryDialog = null;
+        this.$editor.on('show.bs.modal', '#add-glossary-form', (e) => {
+            $glossaryDialog = $(e.currentTarget);
+        })
+        this.$editor.on('hidden.bs.modal', '#add-glossary-form', () => {
+            this.$translationArea.first().focus();
+        });
+
         /* Inline glossary adding */
         this.$editor.on('submit', '.add-dict-inline', (e) => {
             var $form = $(e.currentTarget);
@@ -462,15 +471,16 @@
                         $('#glossary-terms').html(data.results);
                         $form.find('[name=terms]').attr('value', data.terms);
                     }
-                    this.$translationArea.first().focus();
                     $form.trigger('reset');
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     addAlert(errorThrown);
                     decreaseLoading('glossary-add');
-                }
+                },
+                complete: function () {
+                    $glossaryDialog.modal('hide');
+                },
             });
-            $('#add-glossary-form').modal('hide');
             return false;
         });
 
