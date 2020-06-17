@@ -849,21 +849,23 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
 
         cmd = ["msgmerge"] + args
         try:
-            output = subprocess.check_output(
+            result = subprocess.run(
                 cmd,
                 env=get_clean_env(),
                 cwd=os.path.dirname(out_file),
-                stderr=subprocess.STDOUT,
-                universal_newlines=True,
+                capture_output=True,
+                check=True,
+                text=True,
             )
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)
-            if "warning:" in output:
-                raise UpdateError(" ".join(cmd), output)
+            print(result.stderr)
+            print(result.stdout)
+            if "warning:" in result.stderr:
+                raise UpdateError(" ".join(cmd), result.stderr)
         except (OSError, subprocess.CalledProcessError) as error:
             report_error(cause="Failed msgmerge")
-            output = getattr(error, "output", str(error))
-            raise UpdateError(" ".join(cmd), output)
+            raise UpdateError(" ".join(cmd), getattr(error, "output", str(error)))
 
 
 class PoFormat(BasePoFormat):
