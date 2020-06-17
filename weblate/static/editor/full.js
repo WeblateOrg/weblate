@@ -8,7 +8,6 @@
     function FullEditor() {
         EditorBase.call(this);
 
-        var self = this;
         this.csrfToken = $('#link-post').find('input').val();
 
         this.initTranslationForm();
@@ -17,22 +16,24 @@
         this.initGlossary();
 
         /* Copy machinery results */
-        this.$editor.on('click', '.js-copy-machinery', function () {
-            var text = $(this).parent().parent().find('.target').text();
+        this.$editor.on('click', '.js-copy-machinery', (e) => {
+            var $el = $(e.currentTarget);
+            var text = $el.parent().parent().find('.target').text();
 
-            self.$translationArea.val(text).change();
-            autosize.update(self.$translationArea);
-            WLT.Utils.markFuzzy(self.$translationForm);
+            this.$translationArea.val(text).change();
+            autosize.update(this.$translationArea);
+            WLT.Utils.markFuzzy(this.$translationForm);
         });
 
         /* Copy and save machinery results */
-        this.$editor.on('click', '.js-copy-save-machinery', function () {
-            var text = $(this).parent().parent().find('.target').text();
+        this.$editor.on('click', '.js-copy-save-machinery', (e) => {
+            var $el = $(e.currentTarget);
+            var text = $el.parent().parent().find('.target').text();
 
-            self.$translationArea.val(text).change();
-            autosize.update(self.$translationArea);
-            WLT.Utils.markTranslated(self.$translationForm);
-            submitForm({ target: self.$translationArea });
+            this.$translationArea.val(text).change();
+            autosize.update(this.$translationArea);
+            WLT.Utils.markTranslated(this.$translationForm);
+            submitForm({ target: this.$translationArea });
         });
 
         Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
@@ -47,8 +48,8 @@
         );
         Mousetrap.bindGlobal(
             'mod+e',
-            function(e) {
-                self.$translationArea.get(0).focus();
+            () => {
+                this.$translationArea.get(0).focus();
                 return false;
             }
         );
@@ -139,41 +140,39 @@
             Cookies.set('translate-tab', $(this).attr('href'), { path: '/', expires: 365 });
         });
 
-        var self = this;
         /* Machine translation */
         this.isTMLoaded = false;
-        this.$editor.on('show.bs.tab', '[data-load="mt"]', function () {
-            if (self.isMTLoaded) {
+        this.$editor.on('show.bs.tab', '[data-load="mt"]', () => {
+            if (this.isMTLoaded) {
                 return;
             }
-            self.isMTLoaded = true;
-            self.initMachineTranslation();
+            this.isMTLoaded = true;
+            this.initMachineTranslation();
         });
 
         /* Translation memory */
         this.isMTLoaded = false;
-        this.$editor.on('show.bs.tab', '[data-load="memory"]', function () {
-            if (self.isTMLoaded) {
+        this.$editor.on('show.bs.tab', '[data-load="memory"]', () => {
+            if (this.isTMLoaded) {
                 return;
             }
-            self.isTMLoaded = true;
-            self.initTranslationMemory();
+            this.isTMLoaded = true;
+            this.initTranslationMemory();
         });
     };
 
     FullEditor.prototype.initMachineTranslation = function () {
-        var self = this;
         increaseLoading('mt');
         $.ajax({
             url: $('#js-mt-services').attr('href'),
-            success: function (servicesList) {
+            success: (servicesList) => {
                 decreaseLoading('mt');
-                servicesList.forEach(function (serviceName) {
+                servicesList.forEach((serviceName) => {
                     increaseLoading('mt');
-                    self.fetchMachinery(serviceName, 'mt');
+                    this.fetchMachinery(serviceName, 'mt');
                 });
             },
-            error: self.processMachineryError,
+            error: this.processMachineryError,
             dataType: 'json'
         });
     };
@@ -182,22 +181,21 @@
         increaseLoading('memory');
         this.fetchMachinery(TM_SERVICE_NAME, 'memory');
 
-        var self = this;
-        $('#memory-search').submit(function () {
-            var form = $(this);
+        this.$editor.on('submit', '#memory-search', (e) => {
+            var $form = $(e.currentTarget);
 
             increaseLoading('memory');
             $('#memory-translations').empty();
             $.ajax({
                 type: 'POST',
-                url: form.attr('action'),
-                data: form.serialize(),
+                url: $form.attr('action'),
+                data: $form.serialize(),
                 dataType: 'json',
-                success: function (data) {
-                    self.processMachineryResults(data, 'memory');
+                success: (data) => {
+                    this.processMachineryResults(data, 'memory');
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    self.processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
+                error: (jqXHR, textStatus, errorThrown) => {
+                    this.processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
                 },
             });
             return false;
@@ -205,19 +203,18 @@
     };
 
     FullEditor.prototype.fetchMachinery = function (serviceName, serviceType) {
-        var self = this;
         $.ajax({
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', serviceName),
-            success: function (data) {
-                self.processMachineryResults(data, serviceType);
+            success: (data) => {
+                this.processMachineryResults(data, serviceType);
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                self.processMachineryError(jqXHR, textStatus, errorThrown, serviceType);
+            error: (jqXHR, textStatus, errorThrown) => {
+                this.processMachineryError(jqXHR, textStatus, errorThrown, serviceType);
             },
             dataType: 'json',
             data: {
-                csrfmiddlewaretoken: self.csrfToken,
+                csrfmiddlewaretoken: this.csrfToken,
             },
         });
     };
@@ -357,33 +354,32 @@
             return;
         }
 
-        var self = this;
-
         /* Check ignoring */
-        $('.check-dismiss').click(function () {
-            var $this = $(this);
+        this.$editor.on('click', '.check-dismiss', (e) => {
+            var $el = $(e.currentTarget);
             $.ajax({
                 type: 'POST',
-                url: $this.attr('href'),
+                url: $el.attr('href'),
                 data: {
-                    csrfmiddlewaretoken: self.csrfToken,
+                    csrfmiddlewaretoken: this.csrfToken,
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     addAlert(errorThrown);
                 },
             });
-            if ($this.hasClass("check-dismiss-all")) {
-                $this.closest('.check').remove();
+            if ($el.hasClass("check-dismiss-all")) {
+                $el.closest('.check').remove();
             } else {
-                $this.closest('.check').toggleClass("check-dismissed");
+                $el.closest('.check').toggleClass("check-dismissed");
             }
             return false;
         });
 
         /* Check fix */
-        $('[data-check-fixup]').click(function (e) {
-            var fixups = $(this).data('check-fixup');
-            self.$translationArea.each(function () {
+        this.$editor.on('click', '[data-check-fixup]', (e) => {
+            var $el = $(e.currentTarget);
+            var fixups = $el.data('check-fixup');
+            this.$translationArea.each(function () {
                 var $this = $(this);
                 $.each(fixups, function (key, value) {
                     var re = new RegExp(value[0], value[2]);
@@ -442,34 +438,32 @@
     };
 
     FullEditor.prototype.initGlossary = function () {
-        var self = this;
-
         /* Copy from glossary */
-        this.$editor.on('click', '.glossary-embed', function (e) {
-            var text = $(this).find('.target').text();
+        this.$editor.on('click', '.glossary-embed', (e) => {
+            var text = $(e.currentTarget).find('.target').text();
 
-            self.insertIntoTranslation(text);
+            this.insertIntoTranslation(text);
             e.preventDefault();
         });
 
         /* Inline glossary adding */
-        $('.add-dict-inline').submit(function () {
-            var form = $(this);
+        this.$editor.on('submit', '.add-dict-inline', (e) => {
+            var $form = $(e.currentTarget);
 
             increaseLoading('glossary-add');
             $.ajax({
                 type: 'POST',
-                url: form.attr('action'),
-                data: form.serialize(),
+                url: $form.attr('action'),
+                data: $form.serialize(),
                 dataType: 'json',
-                success: function (data) {
+                success: (data) => {
                     decreaseLoading('glossary-add');
                     if (data.responseCode === 200) {
                         $('#glossary-terms').html(data.results);
-                        form.find('[name=terms]').attr('value', data.terms);
+                        $form.find('[name=terms]').attr('value', data.terms);
                     }
-                    self.$translationArea.first().focus();
-                    form.trigger('reset');
+                    this.$translationArea.first().focus();
+                    $form.trigger('reset');
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     addAlert(errorThrown);
