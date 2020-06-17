@@ -136,6 +136,7 @@ def show_engage(request, project, lang=None):
 @never_cache
 def show_project(request, project):
     obj = get_project(request, project)
+    obj.stats.ensure_basic()
     user = request.user
 
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
@@ -214,6 +215,7 @@ def show_project(request, project):
 @never_cache
 def show_component(request, project, component):
     obj = get_component(request, project, component)
+    obj.stats.ensure_basic()
     user = request.user
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
