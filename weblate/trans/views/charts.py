@@ -72,7 +72,7 @@ def get_json_stats(
 
     key = cache_key(days, step, project, component, translation, language, user)
     result = cache.get(key)
-    if not result or True:
+    if not result:
         # Get actual stats
         result = Change.objects.base_stats(
             days, step, project, component, translation, language, user
