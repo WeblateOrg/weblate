@@ -656,7 +656,7 @@ class ProjectLanguageStats(LanguageStats):
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.component_set.all())
+        return prefetch_stats(self._object.component_set.prefetch_source_stats())
 
     @cached_property
     def translation_set(self):
@@ -705,7 +705,7 @@ class ProjectStats(BaseStats):
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.component_set.iterator())
+        return prefetch_stats(self._object.component_set.prefetch_source_stats())
 
     def get_single_language_stats(self, language, prefetch: bool = False):
         result = ProjectLanguageStats(self._object, language)
@@ -749,7 +749,7 @@ class ComponentListStats(BaseStats):
 
     @cached_property
     def component_set(self):
-        return prefetch_stats(self._object.components.iterator())
+        return prefetch_stats(self._object.components.prefetch_source_stats())
 
     def _prefetch_basic(self):
         stats = zero_stats(self.basic_keys)

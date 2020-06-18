@@ -102,7 +102,7 @@ from weblate.utils.render import (
 from weblate.utils.requests import get_uri_error
 from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
-from weblate.utils.stats import ComponentStats
+from weblate.utils.stats import ComponentStats, prefetch_stats
 from weblate.utils.validators import validate_filename, validate_re_nonempty
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.models import VCS_REGISTRY
@@ -200,6 +200,23 @@ class ComponentQuerySet(models.QuerySet):
             Q(project_id__in=user.allowed_project_ids)
             & (Q(restricted=False) | Q(id__in=user.component_permissions))
         )
+
+    def prefetch_source_stats(self):
+        """Prefetch source stats."""
+        filters = Q()
+        lookup = {}
+        for component in self:
+            lookup[component.id] = component
+            filters |= Q(component_id=component.id) & Q(
+                language_id=component.project.source_language.id
+            )
+
+        for translation in prefetch_stats(Translation.objects.filter(filters)):
+            lookup[translation.component_id].__dict__[
+                "source_translation"
+            ] = translation
+
+        return self
 
 
 class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
