@@ -510,6 +510,10 @@ Machine translation settings
 
     Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`
 
+.. envvar:: WEBLATE_MT_DEEPL_API_VERSION
+
+   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_VERSION`.
+
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
     Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`

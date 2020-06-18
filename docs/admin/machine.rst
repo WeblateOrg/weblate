@@ -96,9 +96,18 @@ You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
 Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
 :setting:`MT_SERVICES` and set :setting:`MT_DEEPL_KEY`.
 
+.. hint::
+
+   In case you have subscription for CAT tools, you are supposed to use "v1
+   API" instead of default "v2" used by Weblate (it is not really an API
+   version in this case). You can toggle this by :setting:`MT_DEEPL_API_VERSION`.
+
 .. seealso::
 
-    :setting:`MT_DEEPL_KEY`, `DeepL website <https://www.deepl.com/>`_,
+    :setting:`MT_DEEPL_KEY`,
+    :setting:`MT_DEEPL_API_VERSION`,
+    `DeepL website <https://www.deepl.com/>`_,
+    `DeepL pricing <https://www.deepl.com/pro#developer>`_,
     `DeepL API documentation <https://www.deepl.com/api.html>`_
 
 

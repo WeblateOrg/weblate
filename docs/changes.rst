@@ -11,6 +11,7 @@ Not yet released.
 * Removed debugging output causing discarding of log events in some setups.
 * Fixed lock indication on project listing.
 * Fixed listing GPG keys is some setups.
+* Added option to configure DeepL API version to use.
 
 Weblate 4.1
 -----------

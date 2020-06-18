@@ -894,13 +894,23 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
 
     def mock_error(self):
         responses.add(
-            responses.POST, DEEPL_LANGUAGES, json=DEEPL_LANG_RESPONSE, status=500
+            responses.POST,
+            DEEPL_LANGUAGES.format("v2"),
+            json=DEEPL_LANG_RESPONSE,
+            status=500,
         )
-        responses.add(responses.POST, DEEPL_TRANSLATE, json=DEEPL_RESPONSE, status=500)
+        responses.add(
+            responses.POST,
+            DEEPL_TRANSLATE.format("v2"),
+            json=DEEPL_RESPONSE,
+            status=500,
+        )
 
     def mock_response(self):
-        responses.add(responses.POST, DEEPL_LANGUAGES, json=DEEPL_LANG_RESPONSE)
-        responses.add(responses.POST, DEEPL_TRANSLATE, json=DEEPL_RESPONSE)
+        responses.add(
+            responses.POST, DEEPL_LANGUAGES.format("v2"), json=DEEPL_LANG_RESPONSE
+        )
+        responses.add(responses.POST, DEEPL_TRANSLATE.format("v2"), json=DEEPL_RESPONSE)
 
     @responses.activate
     def test_cache(self):

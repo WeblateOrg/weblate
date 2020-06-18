@@ -941,6 +941,27 @@ Client secret for the Baidu Zhiyun API, you can register at https://api.fanyi.ba
 
    :ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
+.. setting:: MT_DEEPL_API_VERSION
+
+MT_DEEPL_API_VERSION
+--------------------
+
+API version to use with DeepL service. The version limits scope of usage:
+
+v1
+    Is meant for CAT tools and is usable with user based suscription.
+v2
+    Is meant for API usage and the subscription is usage based.
+
+Previously Weblate was classified as a CAT tool by DeepL, so it was supposed to
+use v1 API, but now it is not classified that way and is supposed to use v2
+API. Therefore it defaults to v2, you can change it to v1 in case you have
+existing CAT subscription and want Weblate to use that.
+
+.. seealso::
+
+   :ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
 .. setting:: MT_DEEPL_KEY
 
 MT_DEEPL_KEY
