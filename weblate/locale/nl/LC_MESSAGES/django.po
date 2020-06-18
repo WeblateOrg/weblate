@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-13 11:31+0000\n"
-"PO-Revision-Date: 2020-06-18 21:27+0000\n"
+"PO-Revision-Date: 2020-06-19 09:20+0000\n"
 "Last-Translator: Jaimie85 <alsemgeest@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
 "\n"
@@ -2201,10 +2201,8 @@ msgid "Mismatching line breaks"
 msgstr ""
 
 #: weblate/checks/chars.py:324
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of new lines in translation does not match source"
-msgstr "Het aantal \\n in de vertaling komt niet overeen met de bron"
+msgstr "Het aantal regeleinden in de vertaling komt niet overeen met de bron"
 
 #: weblate/checks/chars.py:331 weblate/trans/autofixes/chars.py:43
 msgid "Zero-width space"
@@ -2269,12 +2267,12 @@ msgid "Inconsistent"
 msgstr "Inconsistent"
 
 #: weblate/checks/consistency.py:74
-#, fuzzy
-#| msgid "This string has more than one translation in this project"
 msgid ""
 "This string has more than one translation in this project or is not "
 "translated in some components."
-msgstr "Deze tekenreeks heeft meer dan één vertaling in dit project"
+msgstr ""
+"Deze tekenreeks heeft meer dan één vertaling in dit project of is in sommige "
+"onderdelen nog niet vertaald."
 
 #: weblate/checks/consistency.py:97
 msgid "Has been translated"
@@ -2561,10 +2559,8 @@ msgid "Placeholders"
 msgstr "Plaatshouders"
 
 #: weblate/checks/placeholders.py:39
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders:"
-msgstr "De vertaling mist een aantal plaatshouders"
+msgstr "De vertaling mist een aantal plaatshouders:"
 
 #: weblate/checks/placeholders.py:77
 #: weblate/templates/addons/discovery_help.html:8
@@ -3384,10 +3380,9 @@ msgid "Remove all translations using this language first."
 msgstr "De vertaling gebruikt tweetalige bestanden."
 
 #: weblate/lang/views.py:73
-#, fuzzy, python-format
-#| msgid "Language overrides"
+#, python-format
 msgid "Language %s removed."
-msgstr "Taalvoorrangsregels"
+msgstr "Taal %s verwijderd."
 
 #: weblate/legal/forms.py:27
 msgid "I agree with the Terms of Service document"
@@ -3564,10 +3559,8 @@ msgid "No valid entries found in the uploaded file!"
 msgstr "Geen geldige items teruggevonden in geüpload bestand!"
 
 #: weblate/memory/models.py:117 weblate/memory/models.py:122
-#, fuzzy
-#| msgid "Failed to parse JSON file!"
 msgid "Failed to parse JSON file: {!s}"
-msgstr "Verwerken van JSON-bestand mislukt!"
+msgstr "Verwerken van JSON-bestand {!s} is mislukt"
 
 #: weblate/memory/models.py:151
 msgid "Failed to parse TMX file!"
@@ -4561,8 +4554,8 @@ msgid ""
 "This addon is used for the whole project, it is enough to install it for one "
 "component."
 msgstr ""
-"Deze add-on  wordt gebruikt voor het hele project. Het is voldoende om hem "
-"te installeren voor één onderdeel."
+"Deze add-on wordt gebruikt voor het hele project. Het is voldoende om hem te "
+"installeren voor één onderdeel."
 
 #: weblate/templates/addons/addon_head.html:7
 msgid "project wide"
@@ -4778,7 +4771,7 @@ msgstr "Controles"
 #: weblate/templates/base.html:168
 #, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Mislukte controles in project"
+msgstr "Mislukte controles in %(project)s"
 
 #: weblate/templates/base.html:172
 msgid "Checks overview"
@@ -5057,10 +5050,8 @@ msgid "Only chosen users can contribute."
 msgstr "Enkel gekozen gebruikers kunnen bijdragen."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:46
-#, fuzzy
-#| msgid "Visible and translatable only for chosen users"
 msgid "Visible only to chosen users."
-msgstr "Alleen zichtbaar en vertaalbaar voor gekozen gebruikers"
+msgstr "Alleen zichtbaar voor gekozen gebruikers."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:53
 msgid "Permissions are not managed in Weblate."
@@ -5824,11 +5815,10 @@ msgstr[1] "Talen"
 
 #: weblate/templates/engage.html:32
 #: weblate/trans/templatetags/translations.py:795 weblate/trans/widgets.py:98
-#, fuzzy, python-format
-#| msgid "Percent"
+#, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
-msgstr "Procent"
+msgstr "%(percent)s %%"
 
 #. Translators: line of text in engagement page, please use your language name instead of English
 #: weblate/templates/engage.html:42
@@ -6312,10 +6302,8 @@ msgid "Status"
 msgstr "Status"
 
 #: weblate/templates/lang/create.html:7 weblate/templates/languages.html:15
-#, fuzzy
-#| msgid "Added language:"
 msgid "Add language"
-msgstr "Taal toegevoegd:"
+msgstr "Taal toevoegen"
 
 #: weblate/templates/language-project.html:67
 #: weblate/templates/language.html:109
@@ -6406,15 +6394,11 @@ msgid "There has been a change in your account at %(site_title)s:"
 msgstr "Er is een wijziging geweest in uw account op %(site_title)s :"
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please notify us as soon as possible "
-#| "using following form:"
 msgid ""
 "If you did not request this change, please report it as soon as possible."
 msgstr ""
-"Als u deze wijziging niet heeft aangevraagd, neem dan contact met ons op via "
-"onderstaand formulier:"
+"Als u deze wijziging niet heeft aangevraagd, rapporteer dit dan zo snel "
+"mogelijk."
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6448,10 +6432,8 @@ msgid "Project Information"
 msgstr "Projectinformatie"
 
 #: weblate/templates/mail/base.html:302
-#, fuzzy
-#| msgid "Sent by Weblate translation system"
 msgid "Weblate, the libre continuous localization system."
-msgstr "Verzonden door het Weblate-vertaalsysteem"
+msgstr "Weblate, het vrije software continue vertaalsysteem."
 
 #: weblate/templates/mail/base.html:309
 #, fuzzy
@@ -6465,16 +6447,12 @@ msgid "Generated on %(timestamp)s."
 msgstr "Aangemaakt op %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:6
-#, fuzzy
-#| msgid ""
-#| "Your billing plan has expired, if you want to continue using the service, "
-#| "please renew it using the following link:"
 msgid ""
 "Your billing plan has expired, if you want to continue using the service, "
 "please renew it."
 msgstr ""
 "Uw facturatieplan is vervallen. Als u de service wilt blijven gebruiken, "
-"vernieuw het dan via de volgende link:"
+"vernieuw dan uw facturatieplan."
 
 #: weblate/templates/mail/billing_expired.html:8
 msgid "This billing plan covers following projects:"
@@ -6514,10 +6492,8 @@ msgstr "Uw facturatieplan is vervallen"
 
 #: weblate/templates/mail/changed_translation.html:14
 #: weblate/templates/mail/new_suggestion.html:14
-#, fuzzy
-#| msgid "Translation change:"
 msgid "Translation change"
-msgstr "Wijziging in de vertaling:"
+msgstr "Wijziging in de vertaling"
 
 #: weblate/templates/mail/changed_translation.html:20
 #: weblate/templates/mail/new_comment.html:16
@@ -6573,10 +6549,9 @@ msgid "Announcement"
 msgstr "Aankondiging"
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "New comment in %(component)s"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Nieuwe opmerking in %(component)s"
+msgstr "Nieuwe bericht in %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
 #, fuzzy, python-format
@@ -6621,21 +6596,17 @@ msgid "New contributor in %(translation)s"
 msgstr "Nieuwe medewerker voor %(translation)s"
 
 #: weblate/templates/mail/new_language.html:8
-#, fuzzy
-#| msgid "Added language:"
 msgid "Added language"
-msgstr "Taal toegevoegd:"
+msgstr "Taal toegevoegd"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid ""
-#| "There has been a request for new language on %(component)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Er is een aanvraag voor een nieuwe taal in %(component)s op %(site_title)s."
+"Er is een aanvraag voor een nieuwe taal in %(component)s op %(site_title)s "
+"door %(user)s."
 
 #: weblate/templates/mail/new_language.html:16
 msgid ""
@@ -6654,10 +6625,8 @@ msgstr ""
 "documentatie."
 
 #: weblate/templates/mail/new_language.html:25
-#, fuzzy
-#| msgid "Requested language:"
 msgid "Requested language"
-msgstr "Aangevraagde taal:"
+msgstr "Aangevraagde taal"
 
 #: weblate/templates/mail/new_language.html:33
 #, fuzzy
@@ -6676,12 +6645,11 @@ msgid "New language request in %(component)s"
 msgstr "Nieuw taalverzoek in %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New string to translate in %(translation)s"
+#, python-format
 msgid "New string to translate in %(translation)s"
 msgid_plural "New strings to translate in %(translation)s"
 msgstr[0] "Nieuwe tekenreeks om te vertalen in %(translation)s"
-msgstr[1] "Nieuwe tekenreeks om te vertalen in %(translation)s"
+msgstr[1] "Nieuwe tekenreeksen om te vertalen in %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:9
 msgid "Suggestion"
@@ -6712,20 +6680,18 @@ msgid "Strings with suggestions"
 msgstr "Tekenreeksen met suggesties"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "Openstaande suggesties"
-msgstr[1] "Openstaande suggesties"
+msgstr[0] "%(count)s openstaande suggestie in %(component)s"
+msgstr[1] "%(count)s openstaande suggesties in %(component)s"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Openstaande suggesties"
-msgstr[1] "Openstaande suggesties"
+msgstr[0] "%(count)s openstaande suggestie"
+msgstr[1] "%(count)s openstaande suggesties"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6745,10 +6711,9 @@ msgid "Repository failure in %(component)s"
 msgstr "Fout bij samenvoegen in %(component)s"
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "Repository operation in %(component)s"
-msgstr "Openstaande suggesties"
+msgstr "Repository-bewerking in %(component)s"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -6777,12 +6742,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/mail/shared-registration.html:12
-#, fuzzy
-#| msgid "If there is a problem with your registration, please contact us:"
 msgid "If there is a problem with your registration, please contact us."
 msgstr ""
 "Als er een probleem is met uw registratie, gelieve dan contact met ons op te "
-"nemen:"
+"nemen."
 
 #: weblate/templates/mail/shared-registration.html:17
 #, fuzzy
@@ -7009,17 +6972,12 @@ msgid "Ignore permanently"
 msgstr "Permanent negeren"
 
 #: weblate/templates/manage/performance.html:55
-#, fuzzy
-#| msgid ""
-#| "You can safely permanently ignore errors for file formats you do not "
-#| "intend to use. These are usually caused by missing or outdated "
-#| "dependencies."
 msgid ""
 "You can safely permanently ignore errors for features you do not intend to "
 "use. These are usually caused by missing or outdated dependencies."
 msgstr ""
-"U kunt fouten voor bestandsformaten die u  niet van plan bent te gebruiken "
-"negeren. Deze worden meestal veroorzaakt door ontbrekende of verouderde "
+"U kunt fouten voor functies, die u niet van plan bent te gebruiken, negeren. "
+"Deze worden meestal veroorzaakt door ontbrekende of verouderde "
 "afhankelijkheden."
 
 #: weblate/templates/manage/performance.html:66
