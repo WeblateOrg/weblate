@@ -17,9 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from string import printable
-
-from pyparsing import Optional, QuotedString, Word, ZeroOrMore
+from pyparsing import Optional, QuotedString, Regex, ZeroOrMore
 
 
 def single_value_flag(func):
@@ -47,14 +45,13 @@ def multi_value_flag(func, minimum=1, maximum=None, modulo=None):
 
 
 SYNTAXCHARS = {",", ":", '"', "'", "\\"}
-ALLOWEDCHARS = "".join(c for c in printable if c not in SYNTAXCHARS)
+
+FlagName = Regex(r"""[^,:"'\\]+""")
 
 FlagParam = Optional(
-    Word(ALLOWEDCHARS)
-    | QuotedString("'", escChar="\\")
-    | QuotedString('"', escChar="\\")
+    FlagName | QuotedString("'", escChar="\\") | QuotedString('"', escChar="\\")
 )
 
-Flag = Word(ALLOWEDCHARS) + ZeroOrMore(":" + FlagParam)
+Flag = FlagName + ZeroOrMore(":" + FlagParam)
 
 FlagsParser = Optional(Flag) + ZeroOrMore("," + Optional(Flag))

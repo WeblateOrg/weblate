@@ -109,3 +109,8 @@ class FlagTest(SimpleTestCase):
                 ("font-spacing", "2"),
             },
         )
+
+    def test_unicode(self):
+        self.assertEqual(
+            Flags("zkouška, Memóriakártya").items(), {"zkouška", "Memóriakártya"}
+        )
