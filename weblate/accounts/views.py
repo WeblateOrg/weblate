@@ -280,7 +280,7 @@ def get_notification_forms(request):
             except (ObjectDoesNotExist, ValueError):
                 pass
 
-        # Popupate scopes from the database
+        # Populate scopes from the database
         for subscription in user.subscription_set.iterator():
             key = (
                 subscription.scope,
