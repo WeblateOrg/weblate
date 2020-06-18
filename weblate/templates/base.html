@@ -219,7 +219,7 @@ var _rollbarConfig = {
         <li class="dropdown">
           <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" title="{% trans "Your profile" %}">
             {% if enable_avatars %}
-            <img class="avatar w24" src="{% url 'user_avatar' user=user.username size=24 %}" />
+            <img class="avatar w24" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=user.username size=24 %}" />
             <span class="visible-xs-inline">{% trans "Your profile" %}</span>
             {% else %}
             {{ user.profile.get_user_name }}

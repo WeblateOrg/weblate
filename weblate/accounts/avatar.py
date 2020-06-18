@@ -29,7 +29,7 @@ from django.core.cache import InvalidCacheBackendError, caches
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.translation import pgettext
+from django.utils.translation import gettext, pgettext
 
 from weblate.utils.errors import report_error
 from weblate.utils.requests import request
@@ -120,7 +120,10 @@ def get_user_display(user, icon=True, link=False, prefix=""):
         else:
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
-        username = f'<img src="{avatar}" class="avatar w32" /> {prefix}{username}'
+        alt = escape(gettext("User avatar"))
+        username = (
+            f'<img src="{avatar}" class="avatar w32" alt="{alt}" /> {prefix}{username}'
+        )
     else:
         username = prefix + username
 
