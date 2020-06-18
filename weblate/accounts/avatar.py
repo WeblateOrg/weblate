@@ -94,7 +94,7 @@ def download_avatar_image(user, size):
     return response.content
 
 
-def get_user_display(user, icon=True, link=False, prefix=""):
+def get_user_display(user, icon: bool = True, link: bool = False):
     """Nicely format user for display."""
     # Did we get any user?
     if user is None:
@@ -121,11 +121,7 @@ def get_user_display(user, icon=True, link=False, prefix=""):
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
         alt = escape(gettext("User avatar"))
-        username = (
-            f'<img src="{avatar}" class="avatar w32" alt="{alt}" /> {prefix}{username}'
-        )
-    else:
-        username = prefix + username
+        username = f'<img src="{avatar}" class="avatar w32" alt="{alt}" /> {username}'
 
     if link and user is not None:
         return mark_safe(

@@ -145,7 +145,7 @@ class PathMixin(LoggerMixin):
 
 
 class UserDisplayMixin:
-    def get_user_display(self, icon=True):
+    def get_user_display(self, icon: bool = True):
         return get_user_display(self.user, icon, link=True)
 
     def get_user_text_display(self):
