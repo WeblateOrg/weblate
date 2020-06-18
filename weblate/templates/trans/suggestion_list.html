@@ -3,6 +3,7 @@
 {% load translations %}
 
 {% block breadcrumbs %}
+<li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
 <li><a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a></li>
 <li><a href="{% url 'user_suggestions' user=page_user.username %}">{% trans "Suggestions" %}</a></li>
 {% endblock %}

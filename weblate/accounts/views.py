@@ -89,6 +89,7 @@ from weblate.accounts.forms import (
     SetPasswordForm,
     SubscriptionForm,
     UserForm,
+    UserSearchForm,
     UserSettingsForm,
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
@@ -1156,3 +1157,40 @@ def saml_metadata(request):
         return HttpResponseServerError(content=", ".join(errors))
 
     return HttpResponse(content=metadata, content_type="text/xml")
+
+
+class UserList(ListView):
+    paginate_by = 50
+    model = User
+
+    def get_queryset(self):
+        users = User.objects.filter(is_active=True)
+        form = self.form
+        if form.is_valid():
+            search = form.cleaned_data.get("q", "").strip()
+            if search:
+                users = users.filter(
+                    Q(username__icontains=search) | Q(full_name__icontains=search)
+                )
+        else:
+            users = User.objects.order()
+
+        return users.order_by(self.sort_query)
+
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.form = form = UserSearchForm(request.GET)
+        self.sort_query = None
+        if form.is_valid():
+            self.sort_query = form.cleaned_data.get("sort_by")
+        if not self.sort_query:
+            self.sort_query = "username"
+
+    def get_context_data(self, **kwargs):
+        """Create context for rendering page."""
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form
+        context["sort_query"] = self.sort_query
+        context["sort_name"] = self.form.sort_choices[self.sort_query.strip("-")]
+        context["sort_choices"] = self.form.sort_choices
+        return context
