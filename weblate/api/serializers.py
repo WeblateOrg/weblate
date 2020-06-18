@@ -393,6 +393,7 @@ class ComponentSerializer(RemovableSerializer):
             "push",
             "check_flags",
             "enforced_checks",
+            "restricted",
         )
         extra_kwargs = {
             "url": {
