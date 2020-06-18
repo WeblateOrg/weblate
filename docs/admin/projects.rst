@@ -163,6 +163,8 @@ Access control
 
 Configure per project access control, see :ref:`acl` for more details.
 
+Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
+
 .. _project-translation_review:
 
 Enable reviews
@@ -447,6 +449,8 @@ translating, sometimes it's desirable to have make use of a translation more tha
 It's usually a good idea to turn this off for monolingual translations, unless
 you are using the same IDs across the whole project.
 
+Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
+
 .. _component-enable_suggestions:
 
 Enable suggestions
@@ -539,6 +543,8 @@ You can configure how updates from the upstream repository are handled.
 This might not be supported for some VCSs. See :ref:`merge-rebase` for
 more details.
 
+Default value can be changed by :ref:`DEFAULT_MERGE_STYLE`.
+
 .. _component-commit_message:
 .. _component-add_message:
 .. _component-delete_message:
@@ -548,8 +554,11 @@ more details.
 Commit, add, delete, merge and addon messages
 +++++++++++++++++++++++++++++++++++++++++++++
 
-Message used when committing a translation, see :ref:`markup`, default can be
-changed in :setting:`DEFAULT_COMMIT_MESSAGE`.
+Message used when committing a translation, see :ref:`markup`.
+
+Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
+:setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
+:setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`.
 
 .. _component-committer_name:
 
@@ -557,8 +566,9 @@ Committer name
 ++++++++++++++
 
 Name of the committer used for Weblate commits, the author will always be the
-real translator. On some VCSs this might be not supported. Default value
-can be changed in :setting:`DEFAULT_COMMITER_NAME`.
+real translator. On some VCSs this might be not supported.
+
+Default value can be changed by :setting:`DEFAULT_COMMITER_NAME`.
 
 .. _component-committer_email:
 
@@ -588,8 +598,9 @@ Age of changes to commit
 Sets how old changes (in hours) are to get before they are committed by
 background task or :djadmin:`commit_pending` management command.  All
 changes in a component are committed once there is at least one older than
-this period. The Default value can be changed in
-:setting:`COMMIT_PENDING_HOURS`.
+this period.
+
+Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
 .. _component-language_regex:
 
@@ -654,7 +665,7 @@ Enable this in case you want to grant access to this component explicitly -
 the project level permissions will not apply and you will have to specify
 component or component list level permission in order to grant access.
 
-The default value for this can be configured using :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
 .. hint::
 
