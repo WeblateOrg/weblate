@@ -18,7 +18,7 @@
 #
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Fieldset, Layout
+from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
 from django import forms
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
@@ -622,12 +622,12 @@ class NotificationForm(forms.Form):
             Fieldset(
                 _("Component wide notifications"),
                 HTML(escape(self.get_help_component())),
-                *component_fields
+                *component_fields,
             ),
             Fieldset(
                 _("Translation notifications"),
                 HTML(escape(self.get_help_translation())),
-                *language_fields
+                *language_fields,
             ),
         )
 
@@ -736,7 +736,7 @@ class NotificationForm(forms.Form):
             subscription, created = self.user.subscription_set.get_or_create(
                 notification=notification_cls.get_name(),
                 defaults={"frequency": frequency},
-                **lookup
+                **lookup,
             )
             # Update old subscription
             if not created and subscription.frequency != frequency:
@@ -745,3 +745,40 @@ class NotificationForm(forms.Form):
             handled.add(subscription.pk)
         # Delete stale subscriptions
         self.user.subscription_set.filter(**lookup).exclude(pk__in=handled).delete()
+
+
+class UserSearchForm(forms.Form):
+    """User searching form."""
+
+    # pylint: disable=invalid-name
+    q = forms.CharField(required=False)
+    sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
+
+    sort_choices = {
+        "username": _("Username"),
+        "full_name": _("Full name"),
+        "date_joined": _("Date joined"),
+    }
+    sort_values = set(sort_choices) | {f"-{val}" for val in sort_choices}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = Layout(
+            Div(
+                Field("q", template="snippets/user-query-field.html"),
+                css_class="btn-toolbar",
+                role="toolbar",
+            ),
+        )
+
+    def clean_sort_by(self):
+        sort_by = self.cleaned_data.get("sort_by")
+        if sort_by:
+            if sort_by not in self.sort_values:
+                raise forms.ValidationError(_("Invalid ordering"))
+            return sort_by
+        return None

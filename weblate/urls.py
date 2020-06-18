@@ -1031,6 +1031,7 @@ real_patterns = [
     url(r"^keys/$", weblate.trans.views.about.KeysView.as_view(), name="keys"),
     url(r"^stats/$", weblate.trans.views.about.StatsView.as_view(), name="stats"),
     # User pages
+    url(r"^user/$", weblate.accounts.views.UserList.as_view(), name="user_list"),
     url(r"^user/(?P<user>[^/]+)/$", weblate.accounts.views.user_page, name="user_page"),
     url(
         r"^user/(?P<user>[^/]+)/suggestions/$",

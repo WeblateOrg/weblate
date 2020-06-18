@@ -167,6 +167,17 @@ class ViewTest(TestCase):
         self.assertContains(response, 'value="First Second"')
         self.assertContains(response, user.email)
 
+    def test_user_list(self):
+        """Test user pages."""
+        user = self.get_user()
+        user_url = user.get_absolute_url()
+        response = self.client.get(reverse("user_list"), {"q": user.username})
+        self.assertContains(response, user_url)
+        response = self.client.get(reverse("user_list"), {"q": user.full_name})
+        self.assertContains(response, user_url)
+        response = self.client.get(reverse("user_list"), {"sort_by": "invalid"})
+        self.assertContains(response, user_url)
+
     def test_user(self):
         """Test user pages."""
         # Setup user

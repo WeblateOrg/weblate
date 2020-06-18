@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load translations %}
 {% load humanize %}
 
 {% block breadcrumbs %}
+<li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
 <li><a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a></li>
 {% endblock %}
 

@@ -763,6 +763,7 @@ $(function () {
             return $(this).text() == sort_name;
         }).data('sort');
         var sort_value = $('#id_sort_by').val();
+        console.log(sort_value);
         if (sort_dropdown_value) {
             if (
                 sort_value.replace("-", "") === sort_dropdown_value.replace("-", "")
