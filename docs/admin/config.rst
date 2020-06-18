@@ -262,10 +262,12 @@ COMMIT_PENDING_HOURS
 
 .. versionadded:: 2.10
 
-Number of hours between committing pending changes with :djadmin:`commit_pending`.
+Number of hours between committing pending changes with background task.
 
 .. seealso::
 
+   :ref:`component`,
+   :ref:`component-commit_pending_age`,
    :ref:`production-cron`,
    :djadmin:`commit_pending`
 
@@ -382,7 +384,9 @@ Default commit messages for different operations, see :ref:`component`.
 
 .. seealso::
 
-   :ref:`markup`, :ref:`component`
+   :ref:`markup`,
+   :ref:`component`,
+   :ref:`component-commit_message`
 
 
 .. setting:: DEFAULT_ADDONS
@@ -426,12 +430,13 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Committer e-mail address for created translation components defaulting to ``noreply@weblate.org``,
-(see :ref:`component`).
+Committer e-mail address for created translation components defaulting to ``noreply@weblate.org``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_NAME`, :ref:`component`
+   :setting:`DEFAULT_COMMITER_NAME`,
+   :ref:`component`,
+   :ref:`component-committer_email`
 
 .. setting:: DEFAULT_COMMITER_NAME
 
@@ -440,12 +445,13 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Committer name for created translation components defualting to ``Weblate``,
-(see :ref:`component`).
+Committer name for created translation components defualting to ``Weblate``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`
+   :setting:`DEFAULT_COMMITER_EMAIL`,
+   :ref:`component`,
+   :ref:`component-committer_name`
 
 .. setting:: DEFAULT_MERGE_STYLE
 
@@ -454,10 +460,15 @@ DEFAULT_MERGE_STYLE
 
 .. versionadded:: 3.4
 
-Merge style for any new components (see :ref:`component`):
+Merge style for any new components.
 
 * `rebase` - default
 * `merge`
+
+.. seealso::
+
+   :ref:`component`,
+   :ref:`component-merge_style`
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
@@ -466,12 +477,12 @@ DEFAULT_TRANSLATION_PROPAGATION
 
 .. versionadded:: 2.5
 
-Default setting for translation propagation (see :ref:`component`),
-defaults to ``True``.
+Default setting for translation propagation, defaults to ``True``.
 
 .. seealso::
 
-   :ref:`component`
+   :ref:`component`,
+   :ref:`component-allow_translation_propagation`
 
 .. setting:: DEFAULT_PULL_MESSAGE
 
