@@ -44,6 +44,15 @@
         {% endif %}
     </p>
     {% endif %}
+    {% if user_languages %}
+    <p>
+        {% for language in user_languages %}
+            <span class="middle-dot-divider">
+                <a href="{{ language.get_absolute_url }}">{{ language }}</a>
+            </span>
+        {% endfor %}
+    </p>
+    {% endif %}
 </div>
 
 <ul class="nav nav-pills nav-center">
