@@ -285,6 +285,7 @@ Notable configuration or dependencies changes:
 * There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting the in API.
 * There are some new and updated requirements.
 * There is a change in :setting:`django:INSTALLED_APPS`.
+* The :ref:`deepl` machine translation now defaults to v2 API, you might need to adjust :setting:`MT_DEEPL_API_VERSION` in case your current DeepL subscription does not support that.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
