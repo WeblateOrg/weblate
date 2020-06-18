@@ -307,8 +307,8 @@ SAML
 Please follow the Python Social Auth instructions for configuration. Notable differences:
 
 * Weblate supports single IDP which has to be called ``weblate`` in
-  ``SOCIAL_AUTH_SAML_ENABLED_IDPS`` and the metadata URL is
-  ``/accounts/metadata/saml/``.
+  ``SOCIAL_AUTH_SAML_ENABLED_IDPS``.
+* The SAML XML metadata URL is ``/accounts/metadata/saml/``.
 * Following settings are automatically filled in:
   ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``,
   ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``
