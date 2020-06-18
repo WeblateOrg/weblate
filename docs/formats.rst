@@ -771,6 +771,14 @@ Nested files are supported as well (see above for requirements), such a file can
     :language: json
     :encoding: utf-8
 
+.. warning::
+
+   Weblate currently handles nested JSON by flattening the keys. This leads to
+   serializing issues when special chars such as ``.`` or ``[]`` are used in
+   the actual keys, because Weblate thinks it is indication of nesting.
+
+   See <https://github.com/WeblateOrg/weblate/issues/2149>
+
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
