@@ -114,3 +114,7 @@ class FlagTest(SimpleTestCase):
         self.assertEqual(
             Flags("zkouška, Memóriakártya").items(), {"zkouška", "Memóriakártya"}
         )
+        self.assertEqual(
+            Flags("placeholder:'zkouška sirén'").items(),
+            {("placeholder", "zkouška sirén")},
+        )
