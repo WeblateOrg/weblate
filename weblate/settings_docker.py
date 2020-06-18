@@ -284,6 +284,26 @@ if "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS" in os.environ:
         "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
     )
 
+# SAML
+if "WEBLATE_SAML_IDP_URL" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
+    # The keys are generated on container startup if missing
+    with open("/app/data/ssl/saml.crt", "r") as handle:
+        SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
+    with open("/app/data/ssl/saml.key", "r") as handle:
+        SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
+    # Identity Provider
+    SOCIAL_AUTH_SAML_ENABLED_IDPS = {
+        "weblate": {
+            "entity_id": os.environ.get("WEBLATE_SAML_IDP_ENTITY_ID", ""),
+            "url": os.environ.get("WEBLATE_SAML_IDP_URL", ""),
+            "x509cert": os.environ.get("WEBLATE_SAML_IDP_X509CERT", ""),
+            "attr_name": "full_name",
+            "attr_username": "username",
+            "attr_email": "email",
+        }
+    }
+
 # Azure
 if "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.azuread.AzureADOAuth2",)

@@ -726,6 +726,22 @@ Slack
 
     Enables Slack authentication, see :ref:`slack-auth`.
 
+.. _docker-saml:
+
+SAML
+++++
+
+Self-signed SAML keys are automatically generated on first container startup.
+In case you want to use own keys, place the certificate and private key in
+:file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`.
+
+.. envvar:: WEBLATE_SAML_IDP_ENTITY_ID
+.. envvar:: WEBLATE_SAML_IDP_URL
+.. envvar:: WEBLATE_SAML_IDP_X509CERT
+
+    SAML Identity Provider settings, see :ref:`saml-auth`.
+
+
 Other authentication settings
 +++++++++++++++++++++++++++++
 

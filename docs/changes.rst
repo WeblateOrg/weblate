@@ -12,6 +12,7 @@ Not yet released.
 * Fixed lock indication on project listing.
 * Fixed listing GPG keys is some setups.
 * Added option to configure DeepL API version to use.
+* Added support for acting as SAML Service Provider, see :ref:`saml-auth`.
 
 Weblate 4.1
 -----------

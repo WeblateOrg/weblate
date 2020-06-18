@@ -32,6 +32,7 @@ from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.trans.tests.utils import get_test_file
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -47,6 +48,15 @@ GH_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",
     "weblate.accounts.auth.WeblateUserBackend",
 )
+SAML_BACKENDS = (
+    "social_core.backends.email.EmailAuth",
+    "social_core.backends.saml.SAMLAuth",
+    "weblate.accounts.auth.WeblateUserBackend",
+)
+with open(get_test_file("saml.crt"), "r") as handle:
+    SAML_CERT = handle.read()
+with open(get_test_file("saml.key"), "r") as handle:
+    SAML_KEY = handle.read()
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
@@ -650,6 +660,28 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertEqual(len(mail.outbox), 1)
         self.assert_notify_mailbox(mail.outbox[0])
         self.assertEqual(mail.outbox[0].to, ["noreply-weblate@example.org"])
+
+    def test_saml_disabled(self):
+        url = reverse("social:saml-metadata")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    @override_settings(
+        AUTHENTICATION_BACKENDS=SAML_BACKENDS,
+        SOCIAL_AUTH_SAML_SP_PUBLIC_CERT=SAML_CERT,
+        SOCIAL_AUTH_SAML_SP_PRIVATE_KEY=SAML_KEY,
+    )
+    def test_saml(self):
+        try:
+            # psa creates copy of settings...
+            orig_backends = social_django.utils.BACKENDS
+            social_django.utils.BACKENDS = SAML_BACKENDS
+
+            url = reverse("social:saml-metadata")
+            response = self.client.get(url)
+            self.assertContains(response, url)
+        finally:
+            social_django.utils.BACKENDS = orig_backends
 
 
 class CookieRegistrationTest(BaseRegistrationTest):

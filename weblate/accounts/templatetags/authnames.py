@@ -31,6 +31,10 @@ SOCIALS = {
         "name": settings.SOCIAL_AUTH_AUTH0_TITLE,
         "image": settings.SOCIAL_AUTH_AUTH0_IMAGE,
     },
+    "saml": {
+        "name": settings.SOCIAL_AUTH_SAML_TITLE,
+        "image": settings.SOCIAL_AUTH_SAML_IMAGE,
+    },
     "google": {"name": "Google", "image": "google.svg"},
     "google-oauth2": {"name": "Google", "image": "google.svg"},
     "google-plus": {"name": "Google+", "image": "google.svg"},

@@ -608,6 +608,8 @@ class WeblateAccountsConf(AppConf):
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
     SOCIAL_AUTH_AUTH0_TITLE = "Auth0"
+    SOCIAL_AUTH_SAML_IMAGE = "saml.svg"
+    SOCIAL_AUTH_SAML_TITLE = "SAML"
 
     # Login required URLs
     LOGIN_REQUIRED_URLS = []
