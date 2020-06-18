@@ -25,7 +25,9 @@
 <li><a data-toggle="tab" href="#preferences">{% trans "Preferences" %}</a></li>
 <li><a data-toggle="tab" href="#notifications">{% trans "Notifications" %}</a></li>
 <li><a data-toggle="tab" href="#account">{% trans "Account" %}</a></li>
-<li><a data-toggle="tab" href="#profile">{% trans "Profile" %}</a></li>
+{% if enable_avatars %}
+<li><a data-toggle="tab" href="#avatar">{% trans "Avatar" %}</a></li>
+{% endif %}
 <li><a data-toggle="tab" href="#licenses">{% trans "Licenses" %}</a></li>
 <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
 <li><a data-toggle="tab" href="#api">{% trans "API access" %}</a></li>
@@ -183,23 +185,8 @@
 
 </div>
 
-<div class="tab-pane" id="profile">
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
-<table class="table">
-{% include 'user-activity.html' with user=request.user %}
-<tr>
-{% url 'user_page' user=request.user.username as user_page%}
-<th>{% trans "Your public profile" %}</th>
-<td><a href="{{ user_page }}">{{ user_page }}</a></td>
-</tr>
-</table>
-<div class="panel-footer">
-    <p class="help-block">{% trans "Your public appearance on this site." %}</p>
-</div>
-</div>
-
 {% if enable_avatars %}
+<div class="tab-pane" id="avatar">
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% trans "Your avatar" %}</h4></div>
   <div class="panel-body">
@@ -207,9 +194,9 @@
 <p><a href="https://www.gravatar.com/">{% trans "Avatars are provided using Gravatar." %}</a></p>
 </div>
 </div>
-{% endif %}
 
 </div>
+{% endif %}
 
 <div class="tab-pane" id="audit">
 <div class="panel panel-default">
