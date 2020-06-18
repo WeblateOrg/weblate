@@ -11,7 +11,7 @@
 <div class="row">
 {% if enable_avatars %}
 <div class="col-lg-2">
-<img class="avatar w128" src="{% url 'user_avatar' user=page_user.username size=128 %}" />
+<img class="avatar w128" src="{% url 'user_avatar' user=page_user.username size=128 %}" alt="{% trans "User avatar" %}" />
 </div>
 {% endif %}
 
