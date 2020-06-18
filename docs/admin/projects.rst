@@ -543,7 +543,7 @@ You can configure how updates from the upstream repository are handled.
 This might not be supported for some VCSs. See :ref:`merge-rebase` for
 more details.
 
-Default value can be changed by :ref:`DEFAULT_MERGE_STYLE`.
+Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 
 .. _component-commit_message:
 .. _component-add_message:
