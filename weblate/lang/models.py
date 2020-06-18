@@ -467,7 +467,7 @@ class Language(models.Model):
     def save(self, *args, **kwargs):
         """Set default direction for language."""
         if not self.direction:
-            if self.base_code in data.RTL_LANGS:
+            if self.base_code in data.RTL_LANGS or self.code in data.RTL_LANGS:
                 self.direction = "rtl"
             else:
                 self.direction = "ltr"

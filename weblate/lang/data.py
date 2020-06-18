@@ -26,7 +26,21 @@ from weblate.langdata import languages
 NO_CODE_LANGUAGES = {lang[0] for lang in languages.LANGUAGES}
 
 # List of RTL languages
-RTL_LANGS = {"ar", "arc", "ckb", "dv", "fa", "ha", "he", "ks", "ps", "ug", "ur", "yi"}
+RTL_LANGS = {
+    "ar",
+    "arc",
+    "ckb",
+    "dv",
+    "fa",
+    "ha",
+    "he",
+    "ks",
+    "ps",
+    "ug",
+    "ur",
+    "yi",
+    "ms_Arab",
+}
 
 # Following variables are used to map Gettext plural formulas
 # to one/few/may/other like rules
