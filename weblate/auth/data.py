@@ -57,8 +57,6 @@ PERMISSIONS = (
     # Translators: Permission name
     ("memory.delete", _("Delete translation memory")),
     # Translators: Permission name
-    ("memory.view", _("Use translation memory")),
-    # Translators: Permission name
     ("project.edit", _("Edit project settings")),
     # Translators: Permission name
     ("project.permissions", _("Manage project access")),
@@ -163,7 +161,8 @@ TRANSLATE_PERMS = {
     "upload.overwrite",
     "upload.perform",
     "machinery.view",
-    "memory.view",
+    # TODO: migrate to machinery.view??
+    # "memory.view",
 }
 
 # Default set of roles
