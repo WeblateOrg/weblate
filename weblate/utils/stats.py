@@ -250,7 +250,9 @@ class BaseStats:
         return False
 
     def prefetch_basic(self):
-        with sentry_sdk.start_span(op="stats-prefetch", description=self.cache_key):
+        with sentry_sdk.start_span(
+            op="stats", description=f"PREFETCH {self.cache_key}"
+        ):
             self._prefetch_basic()
 
     def _prefetch_basic(self):
