@@ -548,6 +548,7 @@ def user_page(request, user):
             "watched_projects": prefetch_project_flags(
                 prefetch_stats(user.watched_projects.filter(id__in=allowed_project_ids))
             ),
+            "user_languages": user.profile.languages.all()[:7],
         },
     )
 
