@@ -582,7 +582,8 @@ class LanguageStats(BaseStats):
         for key, value in stats.items():
             self.store(key, value)
 
-        self.prefetch_source()
+        with sentry_sdk.start_span(op="stats", description=f"SOURCE {self.cache_key}"):
+            self.prefetch_source()
 
         # Calculate percents
         self.calculate_basic_percents()
