@@ -335,7 +335,7 @@ Turn on this service by adding ``weblate.machinery.youdao.YoudaoTranslation`` to
 
     :setting:`MT_YOUDAO_ID`,
     :setting:`MT_YOUDAO_SECRET`
-    `Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/product-fanyi.s>`_
+    `Youdao Zhiyun Natural Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_
 
 Weblate
 -------
