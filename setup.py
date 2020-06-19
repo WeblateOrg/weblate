@@ -43,7 +43,7 @@ with open("README.rst") as readme:
 with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
-EXTRAS = {}
+EXTRAS = {"all": []}
 with open("requirements-optional.txt") as requirements:
     section = None
     for line in requirements:
@@ -53,7 +53,9 @@ with open("requirements-optional.txt") as requirements:
         if line.startswith("#"):
             section = line[2:]
         else:
-            EXTRAS[section] = line.split(";")[0].strip()
+            dep = line.split(";")[0].strip()
+            EXTRAS[section] = dep
+            EXTRAS["all"].append(dep)
 
 
 class WeblateBuildPy(build_py):
