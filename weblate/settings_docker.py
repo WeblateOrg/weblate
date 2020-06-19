@@ -1122,6 +1122,11 @@ DEFAULT_RESTRICTED_COMPONENT = get_env_bool(
     "WEBLATE_DEFAULT_RESTRICTED_COMPONENT", False
 )
 
+# Default translation propagation
+DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
+    "WEBLATE_DEFAULT_TRANSLATION_PROPAGATION", True
+)
+
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
 

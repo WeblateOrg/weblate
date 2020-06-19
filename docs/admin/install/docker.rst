@@ -462,11 +462,15 @@ Generic settings
 
 .. envvar:: WEBLATE_DEFAULT_ACCESS_CONTROL
 
-    Configures the default access control for project, see :setting:`DEFAULT_ACCESS_CONTROL`.
+    Configures the default :ref:`project-access_control` for new projects, see :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. envvar:: WEBLATE_DEFAULT_RESTRICTED_COMPONENT
 
-    Configures the default value for restricting components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+    Configures the default value for :ref:`component-restricted` for new components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+
+.. envvar:: WEBLATE_DEFAULT_TRANSLATION_PROPAGATION
+
+    Configures the default value for :ref:`component-allow_translation_propagation` for new components, see :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
 
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
