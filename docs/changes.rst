@@ -1,7 +1,7 @@
 Weblate 4.1.1
 -------------
 
-Not yet released.
+Released on June 19th 2020.
 
 * Fixed changing autofix or addons configuration in Docker.
 * Fixed possible crash in about page.
