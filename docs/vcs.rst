@@ -130,9 +130,20 @@ Weblate internal URLs
 +++++++++++++++++++++
 
 To share one repository between different components you can use a special URL
-like ``weblate://project/component``. This way, the component will share the VCS
-repository configuration with the referenced component, and the VCS repository will
-be stored just once on the disk.
+like ``weblate://project/component``. This way, the component will share the
+VCS repository configuration with the referenced component
+(``project/component`` in the example).
+
+Weblate automatically adjusts repository URL when creating component when it
+finds component with matching repository setup. You can override this in last
+step of component configuration.
+
+Reasons to use this:
+
+* Saves disk space on the server, the repository is stored just once.
+* Makes the updates faster, only one repository is updated.
+* There is just single exported repository with Weblate translations (see :ref:`git-exporter`).
+* Some addons can operate on more components sharing single repository, for example :ref:`addon-weblate.git.squash`.
 
 
 HTTPS repositories
