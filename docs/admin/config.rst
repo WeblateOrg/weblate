@@ -946,6 +946,8 @@ Client secret for the Baidu Zhiyun API, you can register at https://api.fanyi.ba
 MT_DEEPL_API_VERSION
 --------------------
 
+.. versionadded:: 4.1.1
+
 API version to use with DeepL service. The version limits scope of usage:
 
 v1
