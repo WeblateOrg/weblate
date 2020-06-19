@@ -98,6 +98,7 @@ class UnitQuerySet(models.QuerySet):
             "translation__component",
             "translation__component__project",
             "translation__component__project__source_language",
+            "check_set",
         )
 
     def search(self, query):
