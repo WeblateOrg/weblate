@@ -90,6 +90,8 @@ class UnitQuerySet(models.QuerySet):
         raise ValueError("Unknown filter: {}".format(rqtype))
 
     def prefetch(self):
+        from weblate.trans.models import Suggestion
+
         return self.prefetch_related(
             "labels",
             "translation",
@@ -99,6 +101,11 @@ class UnitQuerySet(models.QuerySet):
             "translation__component__project",
             "translation__component__project__source_language",
             "check_set",
+            models.Prefetch(
+                "suggestion_set",
+                queryset=Suggestion.objects.order(),
+                to_attr="suggestions",
+            ),
         )
 
     def search(self, query):
