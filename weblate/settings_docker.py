@@ -383,7 +383,6 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     AUTH_LDAP_BIND_DN = os.environ.get("WEBLATE_AUTH_LDAP_BIND_DN", "")
     AUTH_LDAP_BIND_PASSWORD = os.environ.get("WEBLATE_AUTH_LDAP_BIND_PASSWORD", "")
 
-    _AUTH_LDAP_USER_SEARCH = get_env_list("")
     if "WEBLATE_AUTH_LDAP_USER_SEARCH" in os.environ:
         AUTH_LDAP_USER_SEARCH = LDAPSearch(
             os.environ["WEBLATE_AUTH_LDAP_USER_SEARCH"],
