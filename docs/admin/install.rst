@@ -34,7 +34,7 @@ Most notable dependencies:
 Django
     https://www.djangoproject.com/
 Celery
-    http://www.celeryproject.org/
+    https://docs.celeryproject.org/
 Translate Toolkit
     https://toolkit.translatehouse.org/
 translation-finder
