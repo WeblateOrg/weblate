@@ -1,7 +1,12 @@
 Weblate 4.2
--------------
+-----------
 
 Not yet released.
+
+* Improved user pages and added listing of users.
+* Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0.
+* Added exports in several monolingual formats.
+* Improved activity charts.
 
 Weblate 4.1.1
 -------------
