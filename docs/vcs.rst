@@ -23,14 +23,16 @@ authentication.
 Accessing repositories from Hosted Weblate
 ++++++++++++++++++++++++++++++++++++++++++
 
-For Hosted Weblate there is a dedicated push user registered on GitHub, Bitbucket
-and GitLab (with username :guilabel:`weblate` named
+For Hosted Weblate there is a dedicated push user registered on GitHub,
+Bitbucket, Codeberg and GitLab (with username :guilabel:`weblate` named
 :guilabel:`Weblate push user`). You need to add this user as a collaborator and
 give it appropriate permission to your repository (read only is okay for
 cloning, write is required for pushing). Depending on service and your
 organization settings, this happens immediately or requires confirmation from
-Weblate side. The invitations on GitHub are accepted automatically within five
-minutes, on other services manual processing is needed, so please be patient.
+Weblate side.
+
+The invitations on GitHub are accepted automatically within five minutes, on
+other services manual processing might be needed, so please be patient.
 
 Once the :guilabel:`weblate` user is added, you can configure
 :ref:`component-repo` and :ref:`component-push` using SSH protocol (for example
