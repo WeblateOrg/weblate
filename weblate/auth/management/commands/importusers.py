@@ -51,33 +51,36 @@ class Command(BaseCommand):
             if "is_active" in line and not line["is_active"]:
                 continue
 
-            if not line["email"] or not line["username"]:
-                self.stderr.write(
-                    "Skipping {0}, has blank username or email".format(line)
-                )
+            username = line["username"]
+            email = line["email"]
+
+            if not email or not username:
+                self.stderr.write(f"Skipping {line}, has blank username or email")
                 continue
 
-            if User.objects.filter(username=line["username"]).exists():
-                self.stderr.write(
-                    "Skipping {0}, username exists".format(line["username"])
-                )
+            if User.objects.filter(username=username).exists():
+                self.stderr.write(f"Skipping {username}, username exists")
                 continue
 
-            if User.objects.filter(email=line["email"]).exists():
-                self.stderr.write("Skipping {0}, email exists".format(line["email"]))
+            if User.objects.filter(email=email).exists():
+                self.stderr.write(f"Skipping {email}, email exists")
                 continue
 
-            if line["last_name"] not in line["first_name"]:
-                full_name = "{0} {1}".format(line["first_name"], line["last_name"])
-            elif line.get("first_name"):
-                full_name = line["first_name"]
+            last_name = line.get("last_name", "")
+            first_name = line.get("first_name", "")
+            if last_name and last_name not in first_name:
+                full_name = f"{first_name} {last_name}"
+            elif first_name:
+                full_name = first_name
+            elif last_name:
+                full_name = last_name
             else:
-                full_name = line["username"]
+                full_name = username
 
             if not options["check"]:
                 User.objects.create(
-                    username=line["username"],
+                    username=username,
                     full_name=full_name,
                     password=line.get("password", ""),
-                    email=line["email"],
+                    email=email,
                 )
