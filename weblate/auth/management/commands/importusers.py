@@ -69,13 +69,15 @@ class Command(BaseCommand):
 
             if line["last_name"] not in line["first_name"]:
                 full_name = "{0} {1}".format(line["first_name"], line["last_name"])
-            else:
+            elif line.get("first_name"):
                 full_name = line["first_name"]
+            else:
+                full_name = line["username"]
 
             if not options["check"]:
                 User.objects.create(
                     username=line["username"],
                     full_name=full_name,
-                    password=line["password"],
+                    password=line.get("password", ""),
                     email=line["email"],
                 )
