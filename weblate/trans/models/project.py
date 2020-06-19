@@ -45,17 +45,18 @@ class ProjectQuerySet(models.QuerySet):
 
 def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
-    for alert in projects.values("id").annotate(Count("component__alert")):
-        lookup[alert["id"]].__dict__["has_alerts"] = bool(
-            alert["component__alert__count"]
-        )
-    for locks in (
-        projects.filter(component__locked=False)
-        .values("id")
-        .distinct()
-        .annotate(Count("component__id"))
-    ):
-        lookup[locks["id"]].__dict__["locked"] = locks["component__id__count"] == 0
+    if lookup:
+        for alert in projects.values("id").annotate(Count("component__alert")):
+            lookup[alert["id"]].__dict__["has_alerts"] = bool(
+                alert["component__alert__count"]
+            )
+        for locks in (
+            projects.filter(component__locked=False)
+            .values("id")
+            .distinct()
+            .annotate(Count("component__id"))
+        ):
+            lookup[locks["id"]].__dict__["locked"] = locks["component__id__count"] == 0
     return projects
 
 

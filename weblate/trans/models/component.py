@@ -159,11 +159,12 @@ def perform_on_link(func):
 def prefetch_tasks(components):
     """Prefetch update tasks."""
     lookup = {component.update_key: component for component in components}
-    for item, value in cache.get_many(lookup.keys()).items():
-        lookup[item].__dict__["background_task"] = AsyncResult(value)
-        lookup.pop(item)
-    for component in lookup.values():
-        component.__dict__["background_task"] = None
+    if lookup:
+        for item, value in cache.get_many(lookup.keys()).items():
+            lookup[item].__dict__["background_task"] = AsyncResult(value)
+            lookup.pop(item)
+        for component in lookup.values():
+            component.__dict__["background_task"] = None
     return components
 
 
@@ -211,10 +212,11 @@ class ComponentQuerySet(models.QuerySet):
                 language_id=component.project.source_language.id
             )
 
-        for translation in prefetch_stats(Translation.objects.filter(filters)):
-            lookup[translation.component_id].__dict__[
-                "source_translation"
-            ] = translation
+        if lookup:
+            for translation in prefetch_stats(Translation.objects.filter(filters)):
+                lookup[translation.component_id].__dict__[
+                    "source_translation"
+                ] = translation
 
         return self
 
