@@ -301,6 +301,53 @@ Users
     :type username: string
     :form string group_id: The unique group ID
 
+.. http:get:: /api/users/(str:username)/notifications/
+
+    List subscriptions of a user.
+
+    :param username: User's username
+    :type username: string
+
+.. http:post:: /api/users/(str:username)/notifications/
+
+    Associate subscriptions with a user.
+
+    :param username: User's username
+    :type username: string
+    :<json string notification: Name of notification registered
+    :<json int scope: Scope of notification from the available choices
+    :<json int frequency: Frequency choices for notifications
+
+.. http:get:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Get a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: Name of notification registered
+    :param subscription_id: int
+
+.. http:put:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Edit a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: Name of notification registered
+    :param subscription_id: int
+    :<json string notification: Name of notification registered
+    :<json int scope: Scope of notification from the available choices
+    :<json int frequency: Frequency choices for notifications
+
+.. http:delete:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Delete a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: Name of notification registered
+    :param subscription_id: int
+
 
 Groups
 ++++++
