@@ -297,52 +297,6 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 
    :doc:`psa:backends/slack`
 
-.. _saml-auth:
-
-SAML
-~~~~
-
-.. versionadded:: 4.1.1
-
-Please follow the Python Social Auth instructions for configuration. Notable differences:
-
-* Weblate supports single IDP which has to be called ``weblate`` in
-  ``SOCIAL_AUTH_SAML_ENABLED_IDPS``.
-* The SAML XML metadata URL is ``/accounts/metadata/saml/``.
-* Following settings are automatically filled in:
-  ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``,
-  ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``
-
-Example configuration:
-
-.. code-block::
-
-    # Authentication configuration
-    AUTHENTICATION_BACKENDS = (
-        "social_core.backends.email.EmailAuth",
-        "social_core.backends.saml.SAMLAuth",
-        "weblate.accounts.auth.WeblateUserBackend",
-    )
-
-    # Social auth backends setup
-    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = "-----BEGIN CERTIFICATE-----"
-    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
-    SOCIAL_AUTH_SAML_ENABLED_IDPS = {
-        "weblate": {
-            "entity_id": "https://idp.testshib.org/idp/shibboleth",
-            "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO",
-            "x509cert": "MIIEDjCCAvagAwIBAgIBADA ... 8Bbnl+ev0peYzxFyF5sQA==",
-            "attr_name": "full_name",
-            "attr_username": "username",
-            "attr_email": "email",
-        }
-    }
-
-.. seealso::
-
-   :ref:`Configuring SAML in Docker <docker-saml>`,
-   :doc:`psa:backends/saml`
-
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -387,6 +341,52 @@ Additionally you can also install
 `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/>`_
 which gives quite realistic estimates of password difficulty and allows rejecting
 passwords below a certain threshold.
+
+.. _saml-auth:
+
+SAML authentication
+-------------------
+
+.. versionadded:: 4.1.1
+
+Please follow the Python Social Auth instructions for configuration. Notable differences:
+
+* Weblate supports single IDP which has to be called ``weblate`` in
+  ``SOCIAL_AUTH_SAML_ENABLED_IDPS``.
+* The SAML XML metadata URL is ``/accounts/metadata/saml/``.
+* Following settings are automatically filled in:
+  ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``,
+  ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``
+
+Example configuration:
+
+.. code-block::
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.email.EmailAuth",
+        "social_core.backends.saml.SAMLAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = "-----BEGIN CERTIFICATE-----"
+    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
+    SOCIAL_AUTH_SAML_ENABLED_IDPS = {
+        "weblate": {
+            "entity_id": "https://idp.testshib.org/idp/shibboleth",
+            "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO",
+            "x509cert": "MIIEDjCCAvagAwIBAgIBADA ... 8Bbnl+ev0peYzxFyF5sQA==",
+            "attr_name": "full_name",
+            "attr_username": "username",
+            "attr_email": "email",
+        }
+    }
+
+.. seealso::
+
+   :ref:`Configuring SAML in Docker <docker-saml>`,
+   :doc:`psa:backends/saml`
 
 .. _ldap-auth:
 
