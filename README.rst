@@ -41,7 +41,7 @@ Installation
 
 Setup instructions:
 
-https://docs.weblate.org/en/latest/admin/quick.html
+https://docs.weblate.org/en/latest/admin/install.html
 
 Bugs
 ----
