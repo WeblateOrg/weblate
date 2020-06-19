@@ -112,7 +112,9 @@ def get_unit_translations(request, unit_id):
                 Unit.objects.filter(
                     id_hash=unit.id_hash,
                     translation__component=unit.translation.component,
-                ).exclude(pk=unit.pk)
+                )
+                .exclude(pk=unit.pk)
+                .prefetch()
             )
         },
     )
