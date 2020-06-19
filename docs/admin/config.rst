@@ -315,13 +315,15 @@ Defaults to ``$BASE_DIR/data``.
 .. setting:: DATABASE_BACKUP
 
 DATABASE_BACKUP
---------------------
+---------------
+
 .. versionadded:: 3.1
 
 Whether the database backups should be stored as plain text, compressed or skipped.
 The authorized values are:
-* ``"plain``"
-* ``"compressed``"
+
+* ``"plain"``
+* ``"compressed"``
 * ``"none"``
 
 .. seealso::
