@@ -1144,7 +1144,7 @@ API key for the Yandex Translate API, you can register at https://tech.yandex.co
 MT_YOUDAO_ID
 ------------
 
-Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
+Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi-text.s.
 
 .. seealso::
 
@@ -1155,7 +1155,7 @@ Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao.com/p
 MT_YOUDAO_SECRET
 ----------------
 
-Client secret for the Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi.s
+Client secret for the Youdao Zhiyun API, you can register at https://ai.youdao.com/product-fanyi-text.s.
 
 .. seealso::
 
