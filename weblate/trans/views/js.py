@@ -32,7 +32,7 @@ from weblate.checks.models import Check
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.machinery.base import MachineTranslationError
 from weblate.trans.models import Change, Unit
-from weblate.trans.util import sort_objects
+from weblate.trans.util import sort_unicode
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_component, get_project, get_translation
@@ -108,13 +108,14 @@ def get_unit_translations(request, unit_id):
         request,
         "js/translations.html",
         {
-            "units": sort_objects(
+            "units": sort_unicode(
                 Unit.objects.filter(
                     id_hash=unit.id_hash,
                     translation__component=unit.translation.component,
                 )
                 .exclude(pk=unit.pk)
-                .prefetch()
+                .prefetch(),
+                lambda unit: str(unit.translation.language),
             )
         },
     )
