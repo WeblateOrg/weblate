@@ -45,7 +45,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
 from django_redis.cache import RedisCache
 from filelock import FileLock, Timeout
-from redis_lock import Lock
+from redis_lock import Lock, NotAcquired
 
 from weblate.checks.flags import Flags
 from weblate.formats.models import FILE_FORMATS
@@ -744,7 +744,12 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             yield
         finally:
             # Release lock (the API is same in both cases)
-            lock.release()
+            try:
+                lock.release()
+            except NotAcquired:
+                # This can happen in case of overloaded server fails to renew the
+                # lock before expiry
+                pass
 
     @cached_property
     def update_key(self):
