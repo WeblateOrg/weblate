@@ -407,6 +407,12 @@ real_patterns = [
         weblate.trans.views.charts.monthly_activity,
         name="monthly_activity",
     ),
+    # Used by weblate.org to reder own activity chart on homepage
+    url(
+        r"^activity/month.json$",
+        weblate.trans.views.charts.monthly_activity_json,
+        name="monthly_activity_json",
+    ),
     url(
         r"^activity/month/" + PROJECT + "$",
         weblate.trans.views.charts.monthly_activity,

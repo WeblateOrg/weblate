@@ -22,6 +22,7 @@ from datetime import datetime
 from typing import Callable, Optional
 
 from django.core.cache import cache
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import pgettext
 
@@ -115,7 +116,7 @@ def render_activity(
     lang: Optional[str] = None,
     user: Optional[str] = None,
 ):
-    """Return yearly activity for matching changes as json."""
+    """Return activity for matching changes and interval as SVG chart."""
     activity = get_activity_stats(request, days, step, project, component, lang, user)
 
     max_value = max(item[1] for item in activity)
@@ -155,7 +156,7 @@ def yearly_activity(
     lang: Optional[str] = None,
     user: Optional[str] = None,
 ):
-    """Return yearly activity for matching changes as json."""
+    """Return yearly activity for matching changes as SVG chart."""
     return render_activity(
         request, 364, 7, get_label_month, project, component, lang, user
     )
@@ -168,7 +169,20 @@ def monthly_activity(
     lang: Optional[str] = None,
     user: Optional[str] = None,
 ):
-    """Return monthly activity for matching changes as json."""
+    """Return monthly activity for matching changes as SVG chart."""
     return render_activity(
         request, 52, 1, get_label_day, project, component, lang, user
     )
+
+
+def monthly_activity_json(
+    request,
+    project: Optional[str] = None,
+    component: Optional[str] = None,
+    lang: Optional[str] = None,
+    user: Optional[str] = None,
+):
+    """Return monthly activity for matching changes as json."""
+    activity = get_activity_stats(request, 52, 1, project, component, lang, user)
+
+    return JsonResponse(data=[item[1] for item in activity], safe=False)

@@ -32,6 +32,9 @@ class ChartsTest(FixtureTestCase):
         response = self.client.get(reverse("monthly_activity"))
         self.assert_svg(response)
 
+        response = self.client.get(reverse("monthly_activity_json"))
+        self.assertEqual(len(response.json()), 52)
+
         response = self.client.get(reverse("monthly_activity", kwargs=self.kw_project))
         self.assert_svg(response)
 
