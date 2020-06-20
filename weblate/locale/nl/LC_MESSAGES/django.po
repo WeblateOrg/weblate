@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.1.1\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-19 09:21+0000\n"
-"PO-Revision-Date: 2020-06-19 17:37+0000\n"
+"PO-Revision-Date: 2020-06-20 14:38+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/master/nl/>"
 "\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.1.1\n"
+"X-Generator: Weblate 4.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -8054,24 +8054,32 @@ msgid ""
 "In case the translation to the source language is desired, please change the "
 "source language in the project settings."
 msgstr ""
+"Als vertaling van de brontaal gewenst is, wijzig dan de brontaal in de "
+"projectinstellingen."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr ""
+"Als vertaling van de brontaal niet noodzakelijk is, verwijder deze dan uit "
+"de opslagruimte."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
 "In case the translation file for the source language is needed, but shoud be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
+"Als vertaling van de brontaal noodzakelijk is, maar niet door Weblate hoeft "
+"te worden opgenomen, wijzig dan het taalfilter en sluit de brontaal uit."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:19
 msgid ""
 "Avoid having translation files for both the plain language code and its "
 "equivalent territory designation (for example de and de_DE)."
 msgstr ""
+"Voorkom vertaalbestanden voor zowel de hoofdtaal als landstaal (bijv. nl en "
+"nl_NL)."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:29
 msgid "Language codes"
@@ -8270,12 +8278,16 @@ msgid ""
 "The new component will be created for the selected branch with the exact "
 "same configuration as the existing one."
 msgstr ""
+"Het nieuwe onderdeel wordt aangemaakt op de gekozen branch, met dezelfde "
+"configuratie als het reeds aanwezige."
 
 #: weblate/templates/trans/component_create.html:90
 msgid ""
 "Create a new translation component from an uploaded ZIP file containing "
 "strings for translation."
 msgstr ""
+"Maak een nieuw vertaalonderdeel aan met behulp van een geüpload zip-bestand "
+"dat tekenreeksen bevat."
 
 #: weblate/templates/trans/component_create.html:102
 #, fuzzy
@@ -8300,6 +8312,8 @@ msgid ""
 "Create a ZIP file containing any existing translation files you have, and "
 "%(link_start)supload it%(link_end)s."
 msgstr ""
+"Stel een zip-bestand samen met daarin alle aanwezige vertaalbestanden en "
+"%(link_start)supload deze%(link_end)s."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -8349,6 +8363,8 @@ msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
 msgstr ""
+"Dit bevat, maar is niet beperkt tot, het vertaalgeheugen, woordenlijsten of "
+"gebruikersmachtigingen."
 
 #: weblate/templates/trans/delete-project.html:21
 msgid "Project to remove"
@@ -9299,6 +9315,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
+"Schakel bijdragen aan het gedeeld vertaalgeheugen in om toegang te krijgen "
+"tot aanvullende onderdelen."
 
 #: weblate/trans/forms.py:805
 msgid "Machine translation engines"
@@ -9354,7 +9372,7 @@ msgstr "Toe te voegen gebruiker"
 
 #: weblate/trans/forms.py:986
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr ""
+msgstr "Voer de naam in van een bestaand Weblate-account of e-mailadres."
 
 #: weblate/trans/forms.py:993
 msgid "Report format"
@@ -9551,7 +9569,7 @@ msgstr "API-toegang"
 
 #: weblate/trans/forms.py:1686
 msgid "Workflow"
-msgstr ""
+msgstr "Werkmethode"
 
 #: weblate/trans/forms.py:1711
 msgid ""
@@ -9790,7 +9808,7 @@ msgstr ""
 
 #: weblate/trans/models/announcement.py:126
 msgid "Notify users"
-msgstr ""
+msgstr "Gebruikers op de hoogte stellen"
 
 #: weblate/trans/models/announcement.py:141
 msgid "Do not specify both component and project!"
@@ -10040,7 +10058,7 @@ msgstr "Opslagruimte-onderhoud"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:335
 msgid "Replaced file by upload"
-msgstr ""
+msgstr "Bestand vervangen door geüpload bestand"
 
 #: weblate/trans/models/change.py:469
 #, python-format
@@ -10177,6 +10195,8 @@ msgstr "Git branch"
 #: weblate/trans/models/component.py:310
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
+"De branch voor het verwerken van wijzigingen - laat leeg om de opslagruimte-"
+"branch te gebruiken"
 
 #: weblate/trans/models/component.py:320
 msgid ""
@@ -10218,6 +10238,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"De bestandsnaam van het vertaalbestand. Doorgaans is dit een vertaalbestand "
+"van de ontwikkelaars dat wordt gebruikt om de brontekenreeksen samen te "
+"stellen."
 
 #: weblate/trans/models/component.py:357
 #, fuzzy
@@ -10297,7 +10320,7 @@ msgstr "Genegeerde controles"
 
 #: weblate/trans/models/component.py:420
 msgid "List of checks which can not be ignored."
-msgstr ""
+msgstr "Lijst met controles die niet kunnen worden overgeslagen."
 
 #: weblate/trans/models/component.py:438
 msgid ""
@@ -10435,6 +10458,7 @@ msgstr "Onderdeel aangemaakt"
 #: weblate/trans/models/component.py:578
 msgid "Restrict access to the component only to explicitly given permissions."
 msgstr ""
+"Beperk toegang tot het onderdeel middels expliciet ingestelde machtigingen."
 
 #: weblate/trans/models/component.py:1004
 msgid ""
