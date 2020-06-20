@@ -1184,7 +1184,7 @@ class UserList(ListView):
         if form.is_valid():
             self.sort_query = form.cleaned_data.get("sort_by")
         if not self.sort_query:
-            self.sort_query = "username"
+            self.sort_query = "-date_joined"
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
