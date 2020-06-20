@@ -758,6 +758,7 @@ class UserSearchForm(forms.Form):
         "username": _("Username"),
         "full_name": _("Full name"),
         "date_joined": _("Date joined"),
+        "profile__translated": _("Translations made"),
     }
     sort_values = set(sort_choices) | {f"-{val}" for val in sort_choices}
 
