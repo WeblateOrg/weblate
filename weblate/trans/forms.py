@@ -1912,6 +1912,7 @@ class ChangesForm(forms.Form):
         widget=SortedSelectMultiple,
         choices=Change.ACTION_CHOICES,
     )
+    user = forms.SlugField(label=_("Author username"), required=False)
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
