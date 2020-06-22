@@ -374,7 +374,7 @@ class RegistrationTest(BaseRegistrationTest):
             {"new_password1": "3pa$$word!", "new_password2": "3pa$$word!"},
             follow=True,
         )
-        self.assertContains(response, "Password reset has been already completed!")
+        self.assertContains(response, "Password reset has been already completed.")
 
     def test_wrong_username(self):
         data = REGISTRATION_DATA.copy()
