@@ -82,7 +82,7 @@ Released on May 07th 2020.
 * Fixed intermediate translation behavior with units non existing in translation.
 
 Weblate 4.0.3
---------------
+-------------
 
 Released on May 02nd 2020.
 
@@ -153,8 +153,11 @@ Released on April 16th 2020.
 * Added support for source strings review.
 * Extended download options for platform wide translation memory.
 
+Weblate 3.x series
+------------------
+
 Weblate 3.11.3
---------------
+~~~~~~~~~~~~~~
 
 Released on March 11th 2020.
 
@@ -178,7 +181,7 @@ Released on March 11th 2020.
 * Fixed authentication using some third party providers.
 
 Weblate 3.11.2
---------------
+~~~~~~~~~~~~~~
 
 Released on February 22nd 2020.
 
@@ -186,7 +189,7 @@ Released on February 22nd 2020.
 * Fixed some strings wrongly reported as having no words.
 
 Weblate 3.11.1
---------------
+~~~~~~~~~~~~~~
 
 Released on February 20th 2020.
 
@@ -198,7 +201,7 @@ Released on February 20th 2020.
 * Improved glossary matching.
 
 Weblate 3.11
-------------
+~~~~~~~~~~~~
 
 Released on February 17th 2020.
 
@@ -229,14 +232,14 @@ Released on February 17th 2020.
 * LINGUAS addons now do full sync of translations in Weblate.
 
 Weblate 3.10.3
---------------
+~~~~~~~~~~~~~~
 
 Released on January 18th 2020.
 
 * Support for translate-toolkit 2.5.0.
 
 Weblate 3.10.2
---------------
+~~~~~~~~~~~~~~
 
 Released on January 18th 2020.
 
@@ -253,7 +256,7 @@ Released on January 18th 2020.
 * Fixed regex search on some fields.
 
 Weblate 3.10.1
---------------
+~~~~~~~~~~~~~~
 
 Released on January 9th 2020.
 
@@ -268,7 +271,7 @@ Released on January 9th 2020.
 * Added support for GitLab merge requests in Docker container.
 
 Weblate 3.10
-------------
+~~~~~~~~~~~~
 
 Released on December 20th 2019.
 
@@ -297,7 +300,7 @@ Released on December 20th 2019.
 * Provide choice for translation license.
 
 Weblate 3.9.1
--------------
+~~~~~~~~~~~~~
 
 Released on October 28th 2019.
 
@@ -314,7 +317,7 @@ Released on October 28th 2019.
 * Fix SSL connection to redis in Celery in Docker container.
 
 Weblate 3.9
------------
+~~~~~~~~~~~
 
 Released on October 15th 2019.
 
@@ -352,7 +355,7 @@ Released on October 15th 2019.
 * Perform automated translation in the background.
 
 Weblate 3.8
------------
+~~~~~~~~~~~
 
 Released on August 15th 2019.
 
@@ -386,7 +389,7 @@ Released on August 15th 2019.
 * Added separate view for translation memory with search capability.
 
 Weblate 3.7.1
--------------
+~~~~~~~~~~~~~
 
 Released on June 28th 2019.
 
@@ -399,7 +402,7 @@ Released on June 28th 2019.
 * More verbosely report missing file format requirements.
 
 Weblate 3.7
------------
+~~~~~~~~~~~
 
 Released on June 21st 2019.
 
@@ -434,7 +437,7 @@ Released on June 21st 2019.
 * New look of bitmap badges.
 
 Weblate 3.6.1
--------------
+~~~~~~~~~~~~~
 
 Released on April 26th 2019.
 
@@ -447,7 +450,7 @@ Released on April 26th 2019.
 * Allow update to recover from missing VCS repository.
 
 Weblate 3.6
------------
+~~~~~~~~~~~
 
 Released on April 20th 2019.
 
@@ -471,7 +474,7 @@ Released on April 20th 2019.
 * Improved handling of three letter language codes.
 
 Weblate 3.5.1
--------------
+~~~~~~~~~~~~~
 
 Released on March 10th 2019.
 
@@ -487,7 +490,7 @@ Released on March 10th 2019.
 * Localization updates.
 
 Weblate 3.5
-------------
+~~~~~~~~~~~
 
 Released on March 3rd 2019.
 
@@ -509,7 +512,7 @@ Released on March 3rd 2019.
 * Billing addon now removes projects for unpaid billings after 45 days.
 
 Weblate 3.4
------------
+~~~~~~~~~~~
 
 Released on January 22nd 2019.
 
@@ -529,7 +532,7 @@ Released on January 22nd 2019.
 * Extended file upload API to support more parameters.
 
 Weblate 3.3
------------
+~~~~~~~~~~~
 
 Released on November 30th 2018.
 
@@ -542,7 +545,7 @@ Released on November 30th 2018.
 * Improved CSV export for changes.
 
 Weblate 3.2.2
--------------
+~~~~~~~~~~~~~
 
 Released on October 20th 2018.
 
@@ -556,7 +559,7 @@ Released on October 20th 2018.
 * Fixed updating Git configuration in case it was changed manually.
 
 Weblate 3.2.1
--------------
+~~~~~~~~~~~~~
 
 Released on October 10th 2018.
 
@@ -571,7 +574,7 @@ Released on October 10th 2018.
 * Added support for cleanup of old suggestions.
 
 Weblate 3.2
-------------
+~~~~~~~~~~~
 
 Released on October 6th 2018.
 
@@ -601,14 +604,14 @@ See `3.2 milestone on GitHub <https://github.com/WeblateOrg/weblate/milestone/36
 for detailed list of addressed issues.
 
 Weblate 3.1.1
--------------
+~~~~~~~~~~~~~
 
 Released on July 27th 2018.
 
 * Fix testsuite failure on some setups.
 
 Weblate 3.1
-------------
+~~~~~~~~~~~
 
 Released on July 27th 2018.
 
@@ -626,7 +629,7 @@ Released on July 27th 2018.
 * Added support by signing Git commits by GnuPG.
 
 Weblate 3.0.1
--------------
+~~~~~~~~~~~~~
 
 Released on June 10th 2018.
 
@@ -638,7 +641,7 @@ Released on June 10th 2018.
 * Improved handling of long language names.
 
 Weblate 3.0
------------
+~~~~~~~~~~~
 
 Released on June 1st 2018.
 
