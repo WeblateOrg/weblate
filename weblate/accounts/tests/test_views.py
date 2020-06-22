@@ -344,6 +344,7 @@ class ProfileTest(FixtureTestCase):
                 "dashboard_view": Profile.DASHBOARD_WATCHED,
                 "translate_mode": Profile.TRANSLATE_FULL,
                 "zen_mode": Profile.ZEN_VERTICAL,
+                "nearby_strings": 10,
             },
         )
         self.assertRedirects(response, reverse("profile"))
