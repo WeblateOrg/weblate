@@ -32,6 +32,7 @@ CHECK_RE = re.compile(r"\b([^\d\W]{2,})(?:\s+\1)\b")
 IGNORES = {
     "fr": {"vous", "nous"},
     "hi": {"कर"},
+    "tr": {"tek"},
 }
 
 
