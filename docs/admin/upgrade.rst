@@ -133,6 +133,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or 4.1 first.
+* There are some new and updated requirements.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
