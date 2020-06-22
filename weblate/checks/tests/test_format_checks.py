@@ -724,8 +724,8 @@ class PluralTest(FixtureTestCase):
         )
 
     def test_non_format_singular_named(self):
-        czech = Language.objects.get(code="cs")
-        translation = Translation(language=czech, plural=czech.plural)
+        language = Language.objects.get(code="cs")
+        translation = Translation(language=language, plural=language.plural)
         unit = Unit(translation=translation)
         self.assertFalse(
             self.check.check_target_unit(
@@ -745,6 +745,30 @@ class PluralTest(FixtureTestCase):
             self.check.check_target_unit(
                 ["One apple", "%(count)s apples"],
                 ["Jedno jablko", "jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+
+    def test_non_format_singular_named_be(self):
+        language = Language.objects.get(code="be")
+        translation = Translation(language=language, plural=language.plural)
+        unit = Unit(translation=translation)
+        self.assertTrue(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+
+    def test_non_format_singular_named_kab(self):
+        language = Language.objects.get(code="kab")
+        translation = Translation(language=language, plural=language.plural)
+        unit = Unit(translation=translation)
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
                 unit,
             )
         )

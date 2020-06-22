@@ -212,7 +212,7 @@ class BaseFormatCheck(TargetCheck):
             yield self.check_format(sources[1], targets[0], False)
             return
 
-        # Use plural as source in case singlular misses format string
+        # Use plural as source in case singlular misses format string and plural has it
         if (
             len(sources) > 1
             and not self.extract_matches(sources[0])
@@ -222,11 +222,18 @@ class BaseFormatCheck(TargetCheck):
         else:
             source = sources[0]
 
+        # Fetch plural examples
+        plural_examples = unit.translation.plural.examples
+
         # Check singular
         yield self.check_format(
             source,
             targets[0],
-            len(sources) > 1 and len(unit.translation.plural.examples[0]) == 1,
+            # Allow to skip format string in case there is single plural or in special
+            # case of 0, 1 plural. It is technically wrong, but in many cases there
+            # won't be 0 so don't trigger too many false positives
+            len(sources) > 1
+            and (len(plural_examples[0]) == 1 or plural_examples[0] == ["0", "1"]),
         )
 
         # Do we have more to check?
@@ -236,7 +243,7 @@ class BaseFormatCheck(TargetCheck):
         # Check plurals against plural from source
         for i, target in enumerate(targets[1:]):
             yield self.check_format(
-                sources[1], target, len(unit.translation.plural.examples[i + 1]) == 1
+                sources[1], target, len(plural_examples[i + 1]) == 1
             )
 
     def format_string(self, string):
