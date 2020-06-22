@@ -356,7 +356,7 @@ class RegistrationForm(EmailForm):
     def clean(self):
         if not check_rate_limit("registration", self.request):
             raise forms.ValidationError(
-                _("Too many failed registration attempts from this location!")
+                _("Too many failed registration attempts from this location.")
             )
         return self.cleaned_data
 
@@ -498,7 +498,7 @@ class LoginForm(forms.Form):
         if username and password:
             if not check_rate_limit("login", self.request):
                 raise forms.ValidationError(
-                    _("Too many authentication attempts from this location!")
+                    _("Too many authentication attempts from this location.")
                 )
             self.user_cache = authenticate(
                 self.request, username=username, password=password
