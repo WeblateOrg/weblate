@@ -703,7 +703,49 @@ class PluralTest(FixtureTestCase):
         unit = Unit(translation=translation)
         self.assertFalse(
             self.check.check_target_unit(
-                ["One apple", "%d apples"], ["%d jablo", "%d jablka", "%d jablek"], unit
+                ["One apple", "%d apples"],
+                ["%d jablko", "%d jablka", "%d jablek"],
+                unit,
+            )
+        )
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka", "%d jablek"],
+                unit,
+            )
+        )
+        self.assertTrue(
+            self.check.check_target_unit(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "jablka", "%d jablek"],
+                unit,
+            )
+        )
+
+    def test_non_format_singular_named(self):
+        czech = Language.objects.get(code="cs")
+        translation = Translation(language=czech, plural=czech.plural)
+        unit = Unit(translation=translation)
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["%(count)s jablko", "%(count)s jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+        self.assertTrue(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "jablka", "%(count)s jablek"],
+                unit,
             )
         )
 
