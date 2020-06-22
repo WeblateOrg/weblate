@@ -19,6 +19,7 @@
 
 import re
 
+from django.utils.functional import SimpleLazyObject
 from django.utils.translation import gettext_lazy as _
 from methodtools import lru_cache
 
@@ -223,7 +224,7 @@ class BaseFormatCheck(TargetCheck):
             source = sources[0]
 
         # Fetch plural examples
-        plural_examples = unit.translation.plural.examples
+        plural_examples = SimpleLazyObject(lambda: unit.translation.plural.examples)
 
         # Check singular
         yield self.check_format(
