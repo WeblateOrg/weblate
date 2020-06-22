@@ -259,7 +259,11 @@ class UserAPITest(APIBaseTest):
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user).first().id,
+                "subscription_id": Subscription.objects.filter(
+                    user=user, notification="NewAnnouncementNotificaton"
+                )
+                .first()
+                .id,
             },
             method="put",
             superuser=True,
@@ -278,7 +282,11 @@ class UserAPITest(APIBaseTest):
             "api:user-notifications-details",
             kwargs={
                 "username": user.username,
-                "subscription_id": Subscription.objects.filter(user=user).first().id,
+                "subscription_id": Subscription.objects.filter(
+                    user=user, notification="NewAnnouncementNotificaton"
+                )
+                .first()
+                .id,
             },
             method="patch",
             superuser=True,
