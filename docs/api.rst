@@ -339,6 +339,18 @@ Users
     :<json int scope: Scope of notification from the available choices
     :<json int frequency: Frequency choices for notifications
 
+.. http:patch:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Edit a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: Name of notification registered
+    :param subscription_id: int
+    :<json string notification: Name of notification registered
+    :<json int scope: Scope of notification from the available choices
+    :<json int frequency: Frequency choices for notifications
+
 .. http:delete:: /api/users/(str:username)/notifications/(int:subscription_id)/
 
     Delete a subscription associated with a user.

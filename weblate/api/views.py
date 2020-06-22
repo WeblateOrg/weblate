@@ -368,7 +368,10 @@ class UserViewSet(viewsets.ModelViewSet):
         else:
             self.perm_check(request)
             serializer = NotificationSerializer(
-                subscription, data=request.data, context={"request": request},
+                subscription,
+                data=request.data,
+                context={"request": request},
+                partial=request.method == "PATCH",
             )
             serializer.is_valid(raise_exception=True)
             serializer.save()

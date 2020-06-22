@@ -272,6 +272,21 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["notification"], "RepositoryNotification")
 
+    def test_patch_notifications(self):
+        user = User.objects.filter(is_active=True).first()
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": user.username,
+                "subscription_id": Subscription.objects.filter(user=user).first().id,
+            },
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"notification": "RepositoryNotification"},
+        )
+        self.assertEqual(response.data["notification"], "RepositoryNotification")
+
     def test_delete_notifications(self):
         user = User.objects.filter(is_active=True).first()
         self.do_request(
