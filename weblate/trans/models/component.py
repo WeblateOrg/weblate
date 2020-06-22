@@ -138,6 +138,8 @@ LANGUAGE_CODE_STYLE_CHOICES = (
 
 MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
 
+LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure"}
+
 
 class ComponentLockTimeout(Exception):
     """Component lock timeout."""
@@ -541,6 +543,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         help_text=gettext_lazy(
             "Time in hours after which any pending changes will be "
             "committed to the VCS."
+        ),
+    )
+    auto_lock_error = models.BooleanField(
+        verbose_name=gettext_lazy("Lock on error"),
+        default=settings.DEFAULT_AUTO_LOCK_ERROR,
+        help_text=gettext_lazy(
+            "Whether the component should be locked on repository errors."
         ),
     )
 
@@ -1516,6 +1525,12 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
     def delete_alert(self, alert):
         self.alert_set.filter(name=alert).delete()
+        if (
+            self.auto_lock_error
+            and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
+        ):
+            self.do_lock(user=None, lock=False)
+
         if ALERTS[alert].link_wide:
             for component in self.linked_childs:
                 component.delete_alert(alert)
@@ -1524,6 +1539,11 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         obj, created = self.alert_set.get_or_create(
             name=alert, defaults={"details": details}
         )
+
+        # Automatically lock on error
+        if created and self.auto_lock_error and alert in LOCKING_ALERTS:
+            self.do_lock(user=None, lock=True)
+
         if not created:
             obj.details = details
             obj.save(update_fields=["details"])
@@ -2403,15 +2423,16 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             translation.notify_new(request)
             return translation
 
-    def do_lock(self, user, lock=True):
+    def do_lock(self, user, lock: bool = True):
         """Lock or unlock component."""
-        self.locked = lock
-        self.save(update_fields=["locked"])
-        Change.objects.create(
-            component=self,
-            user=user,
-            action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
-        )
+        if self.locked != lock:
+            self.locked = lock
+            self.save(update_fields=["locked"])
+            Change.objects.create(
+                component=self,
+                user=user,
+                action=Change.ACTION_LOCK if lock else Change.ACTION_UNLOCK,
+            )
 
     @cached_property
     def libre_license(self):

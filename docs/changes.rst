@@ -8,6 +8,7 @@ Not yet released.
 * Added exports in several monolingual formats.
 * Improved activity charts.
 * Number of displayed nearby strings can be configured.
+* Added support for locking component while there is repository error.
 
 Weblate 4.1.1
 -------------

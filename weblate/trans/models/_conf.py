@@ -107,6 +107,7 @@ class WeblateConf(AppConf):
     DEFAULT_SHARED_TM = True
 
     DEFAULT_PUSH_ON_COMMIT = True
+    DEFAULT_AUTO_LOCK_ERROR = True
     DEFAULT_VCS = "git"
     DEFAULT_COMMIT_MESSAGE = (
         "Translated using Weblate ({{ language_name }})\n\n"

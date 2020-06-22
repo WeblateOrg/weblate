@@ -602,6 +602,18 @@ this period.
 
 Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
+.. _component-auto_lock_error:
+
+Lock on error
++++++++++++++
+
+Enables locking the component on repository error (failed pull, push or merge).
+Locking in this situation avoids adding another conflict which would have to be
+resolved manually.
+
+The component will be automatically unlocked once there are no repository
+errors left.
+
 .. _component-language_regex:
 
 Language filter

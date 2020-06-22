@@ -586,6 +586,30 @@ class ComponentChangeTest(RepoTestCase):
         component.save()
         self.assertEqual(component.translation_set.count(), 4)
 
+    def test_autolock(self):
+        component = self.create_component()
+        start = component.change_set.count()
+
+        component.add_alert("MergeFailure")
+        self.assertTrue(component.locked)
+        # Locked event, alert added
+        self.assertEqual(component.change_set.count() - start, 2)
+
+        component.add_alert("UpdateFailure")
+        self.assertTrue(component.locked)
+        # No other locked event, alert added
+        self.assertEqual(component.change_set.count() - start, 3)
+
+        component.delete_alert("UpdateFailure")
+        self.assertTrue(component.locked)
+        # No other locked event
+        self.assertEqual(component.change_set.count() - start, 3)
+
+        component.delete_alert("MergeFailure")
+        self.assertFalse(component.locked)
+        # Unlocked event
+        self.assertEqual(component.change_set.count() - start, 4)
+
 
 class ComponentValidationTest(RepoTestCase):
     """Component object validation testing."""
