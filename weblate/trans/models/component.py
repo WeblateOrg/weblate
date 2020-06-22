@@ -1524,9 +1524,11 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             self.alerts_trigger[name] = [kwargs]
 
     def delete_alert(self, alert):
-        self.alert_set.filter(name=alert).delete()
+        deleted = self.alert_set.filter(name=alert).delete()[0]
         if (
-            self.auto_lock_error
+            deleted
+            and self.auto_lock_error
+            and alert in LOCKING_ALERTS
             and not self.alert_set.filter(name__in=LOCKING_ALERTS).exists()
         ):
             self.do_lock(user=None, lock=False)
