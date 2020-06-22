@@ -18,9 +18,9 @@
 #
 
 import re
-from functools import lru_cache
 
 from django.utils.translation import gettext_lazy as _
+from methodtools import lru_cache
 
 from weblate.checks.base import SourceCheck, TargetCheck
 
@@ -215,8 +215,8 @@ class BaseFormatCheck(TargetCheck):
         # Use plural as source in case singlular misses format string
         if (
             len(sources) > 1
-            and not self.extract_maches(sources[0])
-            and self.extract_maches(sources[1])
+            and not self.extract_matches(sources[0])
+            and self.extract_matches(sources[1])
         ):
             source = sources[1]
         else:
@@ -249,7 +249,7 @@ class BaseFormatCheck(TargetCheck):
         return matches
 
     @lru_cache(maxsize=1024)
-    def extract_maches(self, string):
+    def extract_matches(self, string):
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
     def check_format(self, source, target, ignore_missing):
@@ -260,11 +260,11 @@ class BaseFormatCheck(TargetCheck):
         uses_position = True
 
         # Calculate value
-        src_matches = self.extract_maches(source)
+        src_matches = self.extract_matches(source)
         if src_matches:
             uses_position = any((self.is_position_based(x) for x in src_matches))
 
-        tgt_matches = self.extract_maches(target)
+        tgt_matches = self.extract_matches(target)
 
         if not uses_position:
             src_matches = set(src_matches)
