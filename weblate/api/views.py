@@ -40,6 +40,7 @@ from rest_framework.settings import api_settings
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
+from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.api.serializers import (
     ChangeSerializer,
@@ -50,6 +51,7 @@ from weblate.api.serializers import (
     LockRequestSerializer,
     LockSerializer,
     MonolingualUnitSerializer,
+    NotificationSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
     RoleSerializer,
@@ -311,6 +313,68 @@ class UserViewSet(viewsets.ModelViewSet):
 
         obj.groups.add(group)
         serializer = self.serializer_class(obj, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=NotificationSerializer
+    )
+    def notifications(self, request, **kwargs):
+        obj = self.get_object()
+        if request.method == "POST":
+            self.perm_check(request)
+            with transaction.atomic():
+                serializer = NotificationSerializer(
+                    data=request.data, context={"request": request}
+                )
+                serializer.is_valid(raise_exception=True)
+                serializer.save(user=obj)
+                return Response(serializer.data, status=status.HTTP_201_CREATED,)
+
+        queryset = obj.subscription_set.order_by("id")
+        page = self.paginate_queryset(queryset)
+        serializer = NotificationSerializer(
+            page, many=True, context={"request": request}
+        )
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=["get", "put", "patch", "delete"],
+        url_path="notifications/(?P<subscription_id>[^/.]+)",
+        serializer_class=NotificationSerializer,
+    )
+    def notifications_details(self, request, username, subscription_id):
+        obj = self.get_object()
+
+        try:
+            subscription = obj.subscription_set.get(id=subscription_id)
+        except (Subscription.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if request.method == "DELETE":
+            self.perm_check(request)
+            subscription.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        if request.method == "GET":
+            serializer = NotificationSerializer(
+                subscription, context={"request": request}
+            )
+        else:
+            self.perm_check(request)
+            serializer = NotificationSerializer(
+                subscription,
+                data=request.data,
+                context={"request": request},
+                partial=request.method == "PATCH",
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

@@ -21,6 +21,7 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
+from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang import data
 from weblate.lang.models import Language, Plural
@@ -168,6 +169,9 @@ class UserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
     )
+    subscriptions = serializers.HyperlinkedIdentityField(
+        view_name="api:user-notifications", lookup_field="username",
+    )
 
     class Meta:
         model = User
@@ -176,6 +180,7 @@ class UserSerializer(serializers.ModelSerializer):
             "full_name",
             "username",
             "groups",
+            "subscriptions",
             "is_superuser",
             "is_active",
             "date_joined",
@@ -413,6 +418,22 @@ class ComponentSerializer(RemovableSerializer):
             result["filemask"] = None
             result["push"] = None
         return result
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+    component = ComponentSerializer(read_only=True)
+
+    class Meta:
+        model = Subscription
+        fields = (
+            "notification",
+            "id",
+            "scope",
+            "frequency",
+            "project",
+            "component",
+        )
 
 
 class TranslationSerializer(RemovableSerializer):

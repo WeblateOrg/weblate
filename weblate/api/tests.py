@@ -24,6 +24,7 @@ from django.urls import reverse
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APITestCase
 
+from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
@@ -202,6 +203,111 @@ class UserAPITest(APIBaseTest):
             code=200,
             request={"group_id": group.id},
         )
+
+    def test_list_notifications(self):
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="get",
+            superuser=True,
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 9)
+
+    def test_post_notifications(self):
+        self.do_request(
+            "api:user-notifications",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="post",
+            code=403,
+        )
+        self.do_request(
+            "api:user-notifications",
+            kwargs={"username": User.objects.filter(is_active=True).first().username},
+            method="post",
+            superuser=True,
+            code=201,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+        self.assertEqual(Subscription.objects.count(), 10)
+
+    def test_get_notifications(self):
+        user = User.objects.filter(is_active=True).first()
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": user.username, "subscription_id": -1},
+            method="get",
+            code=400,
+        )
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": user.username,
+                "subscription_id": Subscription.objects.filter(user=user).first().id,
+            },
+            method="get",
+            code=200,
+        )
+
+    def test_put_notifications(self):
+        user = User.objects.filter(is_active=True).first()
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": user.username,
+                "subscription_id": Subscription.objects.filter(
+                    user=user, notification="NewAnnouncementNotificaton"
+                )
+                .first()
+                .id,
+            },
+            method="put",
+            superuser=True,
+            code=200,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+        self.assertEqual(response.data["notification"], "RepositoryNotification")
+
+    def test_patch_notifications(self):
+        user = User.objects.filter(is_active=True).first()
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": user.username,
+                "subscription_id": Subscription.objects.filter(
+                    user=user, notification="NewAnnouncementNotificaton"
+                )
+                .first()
+                .id,
+            },
+            method="patch",
+            superuser=True,
+            code=200,
+            request={"notification": "RepositoryNotification"},
+        )
+        self.assertEqual(response.data["notification"], "RepositoryNotification")
+
+    def test_delete_notifications(self):
+        user = User.objects.filter(is_active=True).first()
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": user.username,
+                "subscription_id": Subscription.objects.filter(user=user).first().id,
+            },
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+        self.assertEqual(Subscription.objects.count(), 8)
 
     def test_put(self):
         self.do_request(
