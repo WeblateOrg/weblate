@@ -1221,7 +1221,7 @@ Possible values: True / False
 NEARBY_MESSAGES
 ---------------
 
-How many messages to show around the currently translated string.
+How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
 
 .. setting:: RATELIMIT_ATTEMPTS
 
