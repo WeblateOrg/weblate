@@ -207,8 +207,8 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
-        messages.error(request, _("Could not send message to administrator!"))
-        LOGGER.error("ADMINS not configured, cannot send message!")
+        messages.error(request, _("Could not send message to administrator."))
+        LOGGER.error("ADMINS not configured, cannot send message")
         return
 
     mail = EmailMultiAlternatives(
@@ -457,7 +457,7 @@ def contact(request):
             captcha = CaptchaForm(request, form, request.POST)
         if not check_rate_limit("message", request):
             messages.error(
-                request, _("Too many messages sent, please try again later!")
+                request, _("Too many messages sent, please try again later.")
             )
         elif (captcha is None or captcha.is_valid()) and form.is_valid():
             mail_admins_contact(
@@ -750,7 +750,7 @@ def reset_password_set(request):
     if user.has_usable_password():
         request.session.flush()
         request.session.set_expiry(None)
-        messages.error(request, _("Password reset has been already completed!"))
+        messages.error(request, _("Password reset has been already completed."))
         return redirect("login")
     if request.method == "POST":
         form = SetPasswordForm(user, request.POST)

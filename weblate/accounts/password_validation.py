@@ -65,7 +65,7 @@ class PastPasswordsValidator:
             for old in passwords:
                 if check_password(password, old):
                     raise ValidationError(
-                        _("Can not reuse previously used password!"),
+                        _("Can not reuse previously used password."),
                         code="password-past",
                     )
 
