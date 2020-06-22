@@ -23,6 +23,7 @@ import subprocess
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.encoding import force_str
+from siphashc import siphash
 
 from weblate.trans.util import (
     add_configuration_error,
@@ -91,17 +92,24 @@ def get_gpg_key(silent=False):
         return None
 
 
+def gpg_cache_key(suffix):
+    return "gpg:{}:{}".format(
+        siphash("Weblate GPG hash", settings.WEBLATE_GPG_IDENTITY), suffix
+    )
+
+
 def get_gpg_sign_key():
     """High level wrapper to cache key ID."""
     if not settings.WEBLATE_GPG_IDENTITY:
         return None
-    keyid = cache.get("gpg-key-id")
+    cache_key = gpg_cache_key("id")
+    keyid = cache.get(cache_key)
     if keyid is None:
         keyid = get_gpg_key(silent=True)
         if keyid is None:
             keyid = generate_gpg_key()
         if keyid:
-            cache.set("gpg-key-id", keyid, 7 * 86400)
+            cache.set(cache_key, keyid, 7 * 86400)
     return keyid
 
 
@@ -109,7 +117,8 @@ def get_gpg_public_key():
     key = get_gpg_sign_key()
     if key is None:
         return None
-    data = cache.get("gpg-key-public")
+    cache_key = gpg_cache_key("public")
+    data = cache.get(cache_key)
     if not data:
         try:
             result = subprocess.run(
@@ -121,7 +130,7 @@ def get_gpg_public_key():
                 check=True,
             )
             data = result.stdout
-            cache.set("gpg-key-public", data, 7 * 86400)
+            cache.set(cache_key, data, 7 * 86400)
             delete_configuration_error("GPG key public")
         except (subprocess.CalledProcessError, OSError) as error:
             report_error(cause="GPG key public")

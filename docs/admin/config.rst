@@ -1607,11 +1607,9 @@ Identity used by Weblate to sign Git commits, for example:
 
     WEBLATE_GPG_IDENTITY = 'Weblate <weblate@example.com>'
 
-.. warning::
-
-    Clean the cache if you change this setting, to clear info about its key is otherwise being
-    cached for seven days. This does not apply for initial setup, as nothing is cached
-    if this feature is not configured.
+The matching key is searched in Weblate GPG keyring (:file:`home/.gnupg` under
+:setting:`DATA_DIR`), if it is not found the key is generated, see
+:ref:`gpg-sign` for more details.
 
 .. seealso::
 
