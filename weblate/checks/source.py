@@ -91,4 +91,8 @@ class LongUntranslatedCheck(SourceCheck):
         )
         total = len(states)
         not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
-        return total and not_translated > total / 4
+        translated_percent = (total - not_translated) / total
+        return (
+            total
+            and translated_percent < unit.translation.component.stats.translated_percent
+        )
