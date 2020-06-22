@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-22 08:54+0000\n"
-"PO-Revision-Date: 2020-06-21 21:43+0000\n"
+"PO-Revision-Date: 2020-06-22 19:14+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/master/"
 "tr/>\n"
@@ -69,7 +69,7 @@ msgstr "Bu kullanıcı adı zaten alınmış. Lütfen başka bir tane seçin."
 #: weblate/accounts/forms.py:149 weblate/accounts/forms.py:759
 #: weblate/auth/models.py:289 weblate/templates/manage-access.html:25
 msgid "Full name"
-msgstr "Tam adı"
+msgstr "Ad soyad"
 
 #: weblate/accounts/forms.py:246 weblate/accounts/forms.py:321
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:295
@@ -329,7 +329,7 @@ msgstr "E-posta {old} adresinden {new} adresine değiştirildi."
 #: weblate/accounts/models.py:83
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
-msgstr "Tam adınız {old} isminden {new} ismine değiştirildi."
+msgstr "Ad soyad {old} isminden {new} ismine değiştirildi."
 
 #: weblate/accounts/models.py:84
 msgid "Password reset requested."
@@ -1697,7 +1697,7 @@ msgstr "Yönetim"
 #: weblate/auth/data.py:206
 msgctxt "Access control role"
 msgid "Billing"
-msgstr "Faturalama"
+msgstr "Faturalandırma"
 
 #: weblate/auth/data.py:212
 msgctxt "Access control group"
@@ -1772,7 +1772,7 @@ msgstr "Yönetim"
 #: weblate/auth/data.py:233
 msgctxt "Per project access control group"
 msgid "Billing"
-msgstr "Faturalama"
+msgstr "Faturalandırma"
 
 #: weblate/auth/models.py:71
 msgid "Permission"
@@ -4311,19 +4311,15 @@ msgstr[0] "%(count)s bekleyen öneri"
 msgstr[1] "%(count)s bekleyen öneri"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s screenshots"
-#| msgid_plural "%(count)s screenshots"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
 msgstr[0] "%(count)s ekran görüntüsü"
 msgstr[1] "%(count)s ekran görüntüsü"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project contributions"
-msgstr "Proje Bilgileri"
+msgstr "Proje katkıları"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4733,7 +4729,8 @@ msgstr "Yinelenen ödemeyi sonlandır"
 
 #: weblate/templates/billing/detail.html:40
 msgid "To terminate billing you have to remove all projects first."
-msgstr "Faturalamayı sonlandırmak için önce tüm projeleri kaldırmanız gerekir."
+msgstr ""
+"Faturalandırmayı sonlandırmak için önce tüm projeleri kaldırmanız gerekir."
 
 #: weblate/templates/billing/detail.html:43
 msgid "Terminate billing plan"
@@ -4767,7 +4764,7 @@ msgstr "Fatura bulunmadı."
 #: weblate/templates/billing/overview.html:6
 #: weblate/templates/project_info.html:29 weblate/trans/forms.py:1730
 msgid "Billing"
-msgstr "Faturalama"
+msgstr "Faturalandırma"
 
 #: weblate/templates/billing/overview.html:15
 msgid "No subscriptions or due payments."
@@ -5259,7 +5256,7 @@ msgstr ""
 #: weblate/templates/component.html:307
 #: weblate/templates/dashboard/user.html:110 weblate/templates/project.html:186
 msgid "Credits"
-msgstr "Katkıda Bulunanlar"
+msgstr "Katkıda bulunanlar"
 
 #: weblate/templates/component.html:311
 msgid ""
@@ -7565,7 +7562,7 @@ msgstr "Onaylanan"
 #: weblate/trans/templatetags/translations.py:495 weblate/utils/state.py:32
 msgctxt "String state"
 msgid "Translated"
-msgstr "Çevrilen"
+msgstr "Çevrilmiş"
 
 #: weblate/templates/snippets/unit-state.html:9
 msgctxt "String state"
@@ -8902,7 +8899,7 @@ msgstr "Lütfen seçin"
 
 #: weblate/trans/forms.py:984
 msgid "User to add"
-msgstr "Eklemek için kullanıcı"
+msgstr "Eklenecek kullanıcı"
 
 #: weblate/trans/forms.py:986
 msgid "Please type in an existing Weblate account name or e-mail address."
@@ -10720,7 +10717,7 @@ msgstr ""
 
 #: weblate/trans/views/dashboard.py:168
 msgid "Please set your full name and e-mail in your profile."
-msgstr "Lütfen profilinizde tam adınızı ve e-postanızı ayarlayın."
+msgstr "Lütfen profilinizde adınızı soyadınızı ve e-postanızı ayarlayın."
 
 #: weblate/trans/views/edit.py:152 weblate/trans/views/edit.py:419
 msgid "No string matched your search!"
@@ -11180,7 +11177,7 @@ msgstr "Resim çok büyük, lütfen kırpın ya da ölçeğini küçültün."
 
 #: weblate/utils/validators.py:147
 msgid "Please avoid using special characters in the full name."
-msgstr "Lütfen tam adda özel karakterler kullanmaktan kaçının."
+msgstr "Lütfen ad soyadda özel karakterler kullanmaktan kaçının."
 
 #: weblate/utils/validators.py:162
 msgid "The username can not start with a full stop."
