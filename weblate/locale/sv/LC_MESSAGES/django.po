@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-22 08:54+0000\n"
-"PO-Revision-Date: 2020-06-21 21:43+0000\n"
+"PO-Revision-Date: 2020-06-22 19:14+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/master/"
 "sv/>\n"
@@ -301,7 +301,7 @@ msgstr "Översättningar"
 
 #: weblate/accounts/forms.py:783
 msgid "Invalid ordering"
-msgstr "Ogiltig ordning!"
+msgstr "Ogiltig ordning"
 
 #: weblate/accounts/models.py:80
 msgid "Password changed."
@@ -4303,28 +4303,22 @@ msgstr[1] "%(count)s förslag"
 
 #: weblate/templates/accounts/user.html:35
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestion"
-#| msgid_plural "%(count)s pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Väntande förslag"
+msgstr[0] "%(count)s väntande förslag"
 msgstr[1] "%(count)s väntande förslag"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s röst"
-msgstr[1] "%(count)s röster"
+msgstr[0] "%(count)s skärmdump"
+msgstr[1] "%(count)s skärmdumpar"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project contributions"
-msgstr "Projektinformation"
+msgstr "Projektbidrag"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4345,17 +4339,13 @@ msgid "Browse all changes for user"
 msgstr "Utforska alla ändringar för användaren"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
-#, fuzzy
-#| msgid "Last activity"
 msgid "Daily activity"
-msgstr "Senaste aktivitet"
+msgstr "Daglig aktivitet"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
-#, fuzzy
-#| msgid "Last activity"
 msgid "Weekly activity"
-msgstr "Senaste aktivitet"
+msgstr "Veckoaktivitet"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -5322,7 +5312,7 @@ msgstr "Översättningar kan göras direkt."
 
 #: weblate/templates/component_info.html:16
 msgid "Translation suggestions can be made."
-msgstr "Översättningsförslag kan göras."
+msgstr "Översättningsförslag kan ges."
 
 #: weblate/templates/component_info.html:18
 msgid "Translation suggestions are turned off."
@@ -6400,12 +6390,10 @@ msgid "Strings with suggestions"
 msgstr "Strängar med förslag"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestion in %(component)s"
-#| msgid_plural "%(count)s pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "Väntande förslag i %(component)s"
+msgstr[0] "Ett väntande förslag i %(component)s"
 msgstr[1] "%(count)s väntande förslag i %(component)s"
 
 #: weblate/templates/mail/remove.html:7
@@ -6484,18 +6472,14 @@ msgid "Screenshot context"
 msgstr "Skärmdumpskontext"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing action in %(component)s."
-#| msgid_plural "There are %(count)s strings needing action in %(component)s."
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Det finns %(count)s sträng som behöver åtgärdas i %(component)s."
-msgstr[1] "Det finns %(count)s strängar som behöver åtgärdas i %(component)s."
+msgstr[0] "En sträng behöver åtgärdas i %(component)s"
+msgstr[1] "%(count)s strängar behöver åtgärdas i %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "String needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
 msgstr[0] "En sträng behöver åtgärdas"
@@ -9188,10 +9172,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Skriv in översättningens SLUG för att bekräfta."
 
 #: weblate/trans/forms.py:1915
-#, fuzzy
-#| msgid "Author name"
 msgid "Author username"
-msgstr "Författarens namn"
+msgstr "Författarens användarnamn"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
