@@ -504,6 +504,8 @@ def translate(request, project, component, lang):
             "object": translation,
             "project": translation.component.project,
             "unit": unit,
+            "nearby": unit.nearby(request.user.profile.nearby_strings),
+            "nearby_keys": unit.nearby_keys(request.user.profile.nearby_strings),
             "others": get_other_units(unit),
             "search_url": search_result["url"],
             "search_items": search_result["items"],

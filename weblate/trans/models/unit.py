@@ -852,19 +852,19 @@ class Unit(models.Model, LoggerMixin):
         # This is always preset as it is used in top of this method
         del self.__dict__["all_checks"]
 
-    def nearby(self):
+    def nearby(self, count):
         """Return list of nearby messages based on location."""
         return (
             Unit.objects.prefetch()
             .order_by("position")
             .filter(
                 translation=self.translation,
-                position__gte=self.position - settings.NEARBY_MESSAGES,
-                position__lte=self.position + settings.NEARBY_MESSAGES,
+                position__gte=self.position - count,
+                position__lte=self.position + count,
             )
         )
 
-    def nearby_keys(self):
+    def nearby_keys(self, count):
         # Do not show nearby keys on bilingual
         if not self.translation.component.has_template():
             return []
@@ -878,10 +878,7 @@ class Unit(models.Model, LoggerMixin):
             )
             cache.set(key, key_list)
         offset = key_list.index(self.pk)
-        nearby = key_list[
-            max(offset - settings.NEARBY_MESSAGES, 0) : offset
-            + settings.NEARBY_MESSAGES
-        ]
+        nearby = key_list[max(offset - count, 0) : offset + count]
         return (
             Unit.objects.filter(translation=self.translation, id__in=nearby)
             .prefetch()

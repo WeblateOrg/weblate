@@ -25,6 +25,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -353,6 +354,14 @@ class Profile(models.Model):
             "You can specify additional special visual keyboard characters "
             "to be shown while translating. It can be useful for "
             "characters you use frequently, but are hard to type on your keyboard."
+        ),
+    )
+    nearby_strings = models.SmallIntegerField(
+        verbose_name=_("Number of nearby strings"),
+        default=settings.NEARBY_MESSAGES,
+        validators=[MinValueValidator(1), MaxValueValidator(50)],
+        help_text=_(
+            "Number of nearby strings to show in each direction in the full editor."
         ),
     )
 

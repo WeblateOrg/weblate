@@ -7,6 +7,7 @@ Not yet released.
 * Dropped support for migrating from 3.x releases, migrate through 4.1 or 4.0.
 * Added exports in several monolingual formats.
 * Improved activity charts.
+* Number of displayed nearby strings can be configured.
 
 Weblate 4.1.1
 -------------

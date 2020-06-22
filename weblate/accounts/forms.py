@@ -210,6 +210,7 @@ class UserSettingsForm(ProfileBaseForm):
             "hide_completed",
             "translate_mode",
             "zen_mode",
+            "nearby_strings",
             "secondary_in_zen",
             "hide_source_secondary",
             "editor_link",

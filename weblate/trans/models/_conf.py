@@ -47,7 +47,7 @@ class WeblateConf(AppConf):
     ENABLE_SHARING = True
 
     # Number of nearby messages to show in each direction
-    NEARBY_MESSAGES = 5
+    NEARBY_MESSAGES = 8
 
     # Minimal number of similar messages to show
     SIMILAR_MESSAGES = 5

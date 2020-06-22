@@ -54,7 +54,7 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-{% with nearby=unit.nearby nearby_keys=unit.nearby_keys variants=unit.variants %}
+{% with variants=unit.variants %}
 
 <div class="query-container">
   <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
