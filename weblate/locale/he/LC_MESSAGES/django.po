@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-21 18:16+0000\n"
-"PO-Revision-Date: 2020-06-15 08:23+0000\n"
+"PO-Revision-Date: 2020-06-22 08:54+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/master/he/"
 ">\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -30,10 +30,8 @@ msgstr "אין"
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:193
 #: weblate/templates/accounts/user.html:13 weblate/templates/base.html:222
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User data"
 msgid "User avatar"
-msgstr "נתוני משתמש"
+msgstr "תמונה מייצגת למשתמש"
 
 #: weblate/accounts/forms.py:84
 msgid ""
@@ -293,10 +291,8 @@ msgid "Translations made"
 msgstr "תרגומים שהוגשו"
 
 #: weblate/accounts/forms.py:783
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid ordering"
-msgstr "המחרוזת לחיפוש שגויה!"
+msgstr "סידור שגוי"
 
 #: weblate/accounts/models.py:80
 msgid "Password changed."
@@ -4195,7 +4191,7 @@ msgstr "משתמשים"
 #: weblate/templates/accounts/user.html:17
 #, python-format
 msgid "Joined on %(date)s"
-msgstr ""
+msgstr "הצטרפות: %(date)s"
 
 #: weblate/templates/accounts/user.html:23 weblate/templates/language.html:72
 #, python-format
@@ -4207,15 +4203,13 @@ msgstr[2] "%(count)s תרגומים"
 msgstr[3] "%(count)s תרגומים"
 
 #: weblate/templates/accounts/user.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion"
-#| msgid_plural "%(count)s pending suggestions"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "הצעה ממתינה"
-msgstr[1] "%(count)s הצעות ממתינות"
-msgstr[2] "%(count)s הצעות ממתינות"
-msgstr[3] "%(count)s הצעות ממתינות"
+msgstr[0] "הצעה"
+msgstr[1] "%(count)s הצעות"
+msgstr[2] "%(count)s הצעות"
+msgstr[3] "%(count)s הצעות"
 
 #: weblate/templates/accounts/user.html:35
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
@@ -4228,21 +4222,17 @@ msgstr[2] "%(count)s הצעות ממתינות"
 msgstr[3] "%(count)s הצעות ממתינות"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshots"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "קול אחד"
-msgstr[1] "%(count)s קולות"
-msgstr[2] "%(count)s קולות"
-msgstr[3] "%(count)s קולות"
+msgstr[0] "צילום מסך"
+msgstr[1] "%(count)s צילומי מסך"
+msgstr[2] "%(count)s צילומי מסך"
+msgstr[3] "%(count)s צילומי מסך"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Created project"
 msgid "Contributed projects"
-msgstr "נוצר מיזם"
+msgstr "מיזמים שנתרמו"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4263,17 +4253,13 @@ msgid "Browse all changes for user"
 msgstr "עיון בכל השינויים של משתמש"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
-#, fuzzy
-#| msgid "Last activity"
 msgid "Daily activity"
-msgstr "פעילות אחרונה"
+msgstr "פעילות יומית"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
-#, fuzzy
-#| msgid "Last activity"
 msgid "Weekly activity"
-msgstr "פעילות אחרונה"
+msgstr "פעילות שבועית"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -9006,10 +8992,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "נא להקליד את השם המופשט המלא של המיזם כדי לאשר."
 
 #: weblate/trans/forms.py:1915
-#, fuzzy
-#| msgid "Author name"
 msgid "Author username"
-msgstr "שם מחבר"
+msgstr "שם המשתמש של המחבר"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
