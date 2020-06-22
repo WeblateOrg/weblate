@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Igor <f2404@yandex.ru>, 2018, 2019.
 # mesnevi <shams@airpost.net>, 2018.
-# Andrey <andrey@mailbox.org>, 2018, 2019.
+# Andrey <andrey@mailbox.org>, 2018, 2019, 2020.
 # Victor K <ktrace@yandex.ru>, 2019.
 # WWWesten <wwwesten@gmail.com>, 2019.
 # Nikolay Parukhin <parukhin@gmail.com>, 2019.
@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-22 08:54+0000\n"
-"PO-Revision-Date: 2020-06-21 21:43+0000\n"
-"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
+"PO-Revision-Date: 2020-06-22 19:14+0000\n"
+"Last-Translator: Andrey <andrey@mailbox.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/master/"
 "ru/>\n"
 "Language: ru\n"
@@ -975,9 +975,9 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Всякий раз, когда новая переводимая строка импортируется из VCS, она "
-"помечается как «На правку» в Weblate. Таким образом, вы можете легко "
-"фильтровать и править переводы, созданные разработчиками."
+"При импорте из VCS подлежащей переводу строки она помечается в Weblate как «"
+"На правку». Таким образом, вы можете легко фильтровать и редактировать "
+"переводы, созданные разработчиками."
 
 #: weblate/addons/flags.py:75
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -990,9 +990,9 @@ msgid ""
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"Когда новую переводимую строку импортируют из VCS, и она совпадает с "
-"исходной строкой, её помечают в Weblate как «На правку». Это особенно удобно "
-"для файловых форматов, содержащих все строки, даже непереведённые."
+"При импорте из VCS подлежащей переводу строки и ее совпадении с исходной, "
+"она помечается в Weblate как «На правку». Это особенно полезно для файловых "
+"форматов, которые включают в себя все строки, даже если они не переведены."
 
 #: weblate/addons/flags.py:96 weblate/templates/component.html:71
 #: weblate/templates/component.html:202 weblate/templates/project.html:105
@@ -3871,8 +3871,8 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"Регистрируясь, вы соглашаетесь на использование вашего имени и e-mail в "
-"коммитах и предоставляете свой вклад под лицензией, определённой каждым "
+"Зарегистрировавшись, вы соглашаетесь использовать ваше имя и электронную "
+"почту в коммитах и вносить свой вклад по лицензии, определяемой каждым "
 "переводимым проектом."
 
 #: weblate/templates/accounts/email.html:30
@@ -4234,8 +4234,8 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Регистрируясь, вы соглашаетесь на использование вашего имени и e-mail в "
-"коммитах и предоставляете свой вклад под лицензией, определённой каждым "
+"Зарегистрировавшись, вы соглашаетесь использовать ваше имя и электронную "
+"почту в коммитах и вносить свой вклад по лицензии, определяемой каждым "
 "переводимым проектом."
 
 #: weblate/templates/accounts/profile.html:315
@@ -4351,9 +4351,7 @@ msgstr[1] "%(count)s ожидающих предложения"
 msgstr[2] "%(count)s ожидающих предложений"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s screenshots"
-#| msgid_plural "%(count)s screenshots"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
 msgstr[0] "%(count)s снимок экрана"
@@ -4361,10 +4359,8 @@ msgstr[1] "%(count)s снимка экрана"
 msgstr[2] "%(count)s снимков экрана"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project contributions"
-msgstr "Информация о проекте"
+msgstr "Вклад в проект"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -5350,13 +5346,14 @@ msgid "Suggestions with one vote are automatically accepted as translations."
 msgid_plural ""
 "Suggestions are automatically accepted as translations once they have "
 "%(count)s votes."
-msgstr[0] "Предложения автоматически принимаются как переводы с одним голосом."
+msgstr[0] ""
+"Предложения с одним голосом автоматически принимаются в качестве переводов."
 msgstr[1] ""
-"Предложения автоматически принимаются как переводы, как только они получат "
-"%(count)s голоса."
+"Предложения с %(count)s голосами автоматически принимаются в качестве "
+"переводов."
 msgstr[2] ""
-"Предложения автоматически принимаются как переводы, как только они получат "
-"%(count)s голосов."
+"Предложения с %(count)s голосами автоматически принимаются в качестве "
+"переводов."
 
 #: weblate/templates/component_info.html:14
 msgid "Translations can be made directly."
@@ -5643,8 +5640,8 @@ msgid ""
 "<strong>%(total)s strings</strong> for translation and is <strong>%(percent)s"
 "%% complete</strong>."
 msgstr ""
-"Проект перевода для %(project)s на русском языке в настоящее время момент "
-"содержит <strong>%(total)s переводимых строк</strong> и <strong>готов на "
+"Проект по переводу %(project)s на русский язык в настоящее время момент "
+"содержит <strong>%(total)s строк для перевода</strong> и <strong>готов на "
 "%(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:45
@@ -5660,16 +5657,16 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Проект перевода %(project)s в настоящее время содержит <strong>%(total)s "
-"переводимых строк</strong> и переводится на <strong>%(languages)s язык</"
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(total)s "
+"строк для перевода</strong> и переводится на <strong>%(languages)s язык</"
 "strong>. В целом, эти переводы готовы на <strong>%(percent)s %%</strong>."
 msgstr[1] ""
-"Проект перевода %(project)s в настоящее время содержит <strong>%(total)s "
-"переводимых строк</strong> и переводится на <strong>%(languages)s языка</"
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(total)s "
+"строк для перевода</strong> и переводится на <strong>%(languages)s языка</"
 "strong>. В целом, эти переводы готовы на <strong>%(percent)s %%</strong>."
 msgstr[2] ""
-"Проект перевода %(project)s в настоящее время содержит <strong>%(total)s "
-"переводимых строк</strong> и переводится на <strong>%(languages)s языков</"
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(total)s "
+"строк для перевода</strong> и переводится на <strong>%(languages)s языков</"
 "strong>. В целом, эти переводы готовы на <strong>%(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:47
@@ -6416,9 +6413,9 @@ msgstr "Запрос нового языка для %(component)s"
 #, python-format
 msgid "New string to translate in %(translation)s"
 msgid_plural "New strings to translate in %(translation)s"
-msgstr[0] "Новая переводимая строка в %(translation)s"
-msgstr[1] "Новых переводимых строки в %(translation)s"
-msgstr[2] "Новых переводимых строк в %(translation)s"
+msgstr[0] "Новая строка для перевода в %(translation)s"
+msgstr[1] "Новые строки для перевода в %(translation)s"
+msgstr[2] "Новые строки для перевода в %(translation)s"
 
 #: weblate/templates/mail/new_suggestion.html:9
 msgid "Suggestion"
@@ -7355,9 +7352,9 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"Регистрируясь, вы соглашаетесь с использованием вашего имени и e-mail в "
-"коммитах системы контроля версий и предоставлением вашего вклада под "
-"лицензией, определённой каждым переводимым проектом."
+"Зарегистрировавшись, вы соглашаетесь использовать ваше имя и электронную "
+"почту в коммитах системы контроля версий и вносить свой вклад под лицензией, "
+"определяемой каждым переводимым проектом."
 
 #: weblate/templates/snippets/plural-formula.html:4
 msgid ""
@@ -10256,7 +10253,7 @@ msgstr "Настраиваемый"
 
 #: weblate/trans/models/project.py:90
 msgid "Main website of translated project."
-msgstr "Головной веб-сайт переводимого проекта."
+msgstr "Основной сайт переводимого проекта."
 
 #: weblate/trans/models/project.py:93
 msgid "Mailing list"
