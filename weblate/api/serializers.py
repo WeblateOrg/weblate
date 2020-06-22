@@ -169,8 +169,10 @@ class UserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
     )
-    subscriptions = serializers.HyperlinkedIdentityField(
-        view_name="api:user-notifications", lookup_field="username",
+    notifications = serializers.HyperlinkedIdentityField(
+        view_name="api:user-notifications",
+        lookup_field="username",
+        source="subscriptions",
     )
 
     class Meta:
@@ -180,7 +182,7 @@ class UserSerializer(serializers.ModelSerializer):
             "full_name",
             "username",
             "groups",
-            "subscriptions",
+            "notifications",
             "is_superuser",
             "is_active",
             "date_joined",
