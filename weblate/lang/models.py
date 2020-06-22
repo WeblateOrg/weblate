@@ -191,7 +191,7 @@ class LanguageQuerySet(models.QuerySet):
 
         # Country codes used without underscore (ptbr insteat of pt_BR)
         if len(code) == 4:
-            expanded_code = "{}_{}".format(code[:2], code[2:])
+            expanded_code = "{}_{}".format(code[:2], code[2:]).lower()
             lookups.append(Q(code__iexact=expanded_code))
 
         for lookup in lookups:

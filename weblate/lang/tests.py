@@ -156,6 +156,14 @@ TEST_LANGUAGES = (
         "Chinese (Traditional, Hong Kong)",
         False,
     ),
+    (
+        "plPL",
+        "pl",
+        "ltr",
+        "n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
+        "Polish",
+        False,
+    ),
 )
 
 
