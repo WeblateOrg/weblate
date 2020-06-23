@@ -18,7 +18,6 @@
 #
 
 from datetime import datetime
-from unittest import expectedFailure
 
 from django.db.models import Q
 from django.test import SimpleTestCase, TestCase
@@ -120,12 +119,12 @@ class QueryParserTest(TestCase):
         self.assert_query("", Q())
 
     def test_invalid(self):
-        self.assert_query(
-            "changed:inval AND target:world", Q(target__substring="world")
-        )
+        with self.assertRaises(ValueError):
+            self.assert_query(
+                "changed:inval AND target:world", Q(target__substring="world")
+            )
 
-    def test_dates(self):
-        action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
+    def test_year(self):
         self.assert_query(
             "changed:2018",
             Q(change__timestamp__gte=datetime(2018, 1, 1, 0, 0, tzinfo=utc))
@@ -134,8 +133,11 @@ class QueryParserTest(TestCase):
                     2018, 12, 31, 23, 59, 59, 999999, tzinfo=utc
                 )
             )
-            & action_change,
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
+
+    def test_dates(self):
+        action_change = Q(change__action__in=Change.ACTIONS_CONTENT)
         self.assert_query(
             "changed:>20190301",
             Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
@@ -156,6 +158,8 @@ class QueryParserTest(TestCase):
             )
             & action_change,
         )
+
+    def test_date_range(self):
         self.assert_query(
             "changed:[2019-03-01 to 2019-04-01]",
             Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc))
@@ -164,8 +168,10 @@ class QueryParserTest(TestCase):
                     2019, 4, 1, 23, 59, 59, 999999, tzinfo=utc
                 )
             )
-            & action_change,
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
+
+    def test_date_added(self):
         self.assert_query(
             "added:>2019-03-01",
             Q(timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=utc)),
@@ -181,12 +187,16 @@ class QueryParserTest(TestCase):
         self.assert_query("state:translated", Q(state=STATE_TRANSLATED))
         self.assert_query("state:needs-editing", Q(state=STATE_FUZZY))
 
-    @expectedFailure
     def test_invalid_state(self):
         with self.assertRaises(ValueError):
             self.assert_query("state:invalid", Q())
 
     def test_parenthesis(self):
+        self.assert_query(
+            "state:translated AND ( source:hello OR source:bar )",
+            Q(state=STATE_TRANSLATED)
+            & (Q(source__substring="hello") | Q(source__substring="bar")),
+        )
         self.assert_query(
             "state:translated AND (source:hello OR source:bar)",
             Q(state=STATE_TRANSLATED)
@@ -249,11 +259,9 @@ class QueryParserTest(TestCase):
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))
 
-    @expectedFailure
     def test_text_html(self):
-        self.assert_query("target:<name>", Q(target="<name>"))
+        self.assert_query("target:<name>", Q(target__substring="<name>"))
 
-    @expectedFailure
     def test_text_long(self):
         self.assert_query(
             "[one to other]",
@@ -274,14 +282,12 @@ class QueryParserTest(TestCase):
             ),
         )
 
-    @expectedFailure
     def test_lowercase_or(self):
         self.assert_query(
             "state:<translated or state:empty",
             Q(state__lt=STATE_TRANSLATED) | Q(state=STATE_EMPTY),
         )
 
-    @expectedFailure
     def test_timestamp_format(self):
         self.assert_query(
             "changed:>=01/20/2020",
@@ -291,7 +297,7 @@ class QueryParserTest(TestCase):
 
     def test_timestamp_interval(self):
         self.assert_query(
-            "changed:2020-03-27>",
+            "changed:2020-03-27",
             Q(change__timestamp__gte=datetime(2020, 3, 27, 0, 0, tzinfo=utc))
             & Q(
                 change__timestamp__lte=datetime(
@@ -301,13 +307,11 @@ class QueryParserTest(TestCase):
             & Q(change__action__in=Change.ACTIONS_CONTENT),
         )
 
-    @expectedFailure
     def test_non_quoted_strings(self):
         self.assert_query(
             "%(count)s word", parse_query("'%(count)s' 'word'"),
         )
 
-    @expectedFailure
     def test_specialchars(self):
         self.assert_query(
             "to %{_topdir}",

@@ -19,17 +19,15 @@
 
 
 import re
+from datetime import datetime
 from functools import lru_cache, reduce
 
-import whoosh.qparser
-import whoosh.qparser.dateparse
-import whoosh.query
+from dateutil.parser import ParserError, parse
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from jellyfish import damerau_levenshtein_distance
-from whoosh.fields import BOOLEAN, DATETIME, NUMERIC, TEXT, Schema
-from whoosh.util.times import long_to_datetime
+from pyparsing import Optional, QuotedString, Regex, Word, infixNotation, oneOf, opAssoc
 
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import (
@@ -59,144 +57,9 @@ class Comparer:
             return 50
 
 
-class QuotePlugin(whoosh.qparser.SingleQuotePlugin):
-    """Single and double quotes to specify a term."""
-
-    expr = r"(^|(?<=\W))['\"](?P<text>.*?)['\"](?=\s|\]|[)}]|$)"
-
-
-class Exact(whoosh.query.Term):
-    """Class for queries with exact operator."""
-
-    pass
-
-
-class ExactPlugin(whoosh.qparser.TaggingPlugin):
-    """Exact match plugin to specify an exact term."""
-
-    class ExactNode(whoosh.qparser.syntax.TextNode):
-        qclass = Exact
-
-        def r(self):
-            return "Exact %r" % self.text
-
-    expr = r"\=(^|(?<=\W))(['\"]?)(?P<text>.*?)\2(?=\s|\]|[)}]|$)"
-    nodetype = ExactNode
-
-
-class GtLtPlugin(whoosh.qparser.GtLtPlugin):
-    """GtLt plugin taggin only after ":"."""
-
-    def match(self, parser, text, pos):
-        if pos == 0 or text[pos - 1] != ":":
-            return None
-        return super().match(parser, text, pos)
-
-
-class DateParser(whoosh.qparser.dateparse.English):
-    def setup(self):
-        super().setup()
-        # We prefer simple parser prior to datetime
-        # This might not be necessary after following issue is fixed:
-        # https://github.com/whoosh-community/whoosh/issues/552
-        self.bundle.elements = (self.plusdate, self.simple, self.datetime)
-
-
-class NumberField(NUMERIC):
-    def to_bytes(self, x, shift=0):
-        return int(x)
-
-
-class StateField(NumberField):
-    def parse_query(self, fieldname, qstring, boost=1.0):
-        return super().parse_query(fieldname, state_to_int(qstring), boost)
-
-    def parse_range(self, fieldname, start, end, startexcl, endexcl, boost=1.0):
-        return super().parse_range(
-            fieldname, state_to_int(start), state_to_int(end), startexcl, endexcl, boost
-        )
-
-
-def state_to_int(text):
-    if text is None:
-        return None
-    try:
-        return STATE_NAMES[text]
-    except KeyError:
-        raise ValueError(_("Unsupported state: {}").format(text))
-
-
-class QueryParser(whoosh.qparser.QueryParser):
-    """Weblate query parser, differences to Whoosh default.
-
-    - no phrase plugin
-    - <> operators support
-    - double and single quotes behave identical
-    - multifield lookup for unspecified terms
-    """
-
-    def __init__(self):
-        # Define fields for parsing
-        fields = {
-            # Unit fields
-            "source": TEXT,
-            "target": TEXT,
-            "context": TEXT,
-            "key": TEXT,
-            "note": TEXT,
-            "location": TEXT,
-            "priority": NumberField,
-            "added": DATETIME,
-            "state": StateField,
-            "pending": BOOLEAN,
-            "has": TEXT,
-            "is": TEXT,
-            # Language
-            "language": TEXT,
-            # Change fields
-            "changed": DATETIME,
-            "changed_by": TEXT,
-            # Unit data
-            "check": TEXT,
-            "dismissed_check": TEXT,
-            "suggestion": TEXT,
-            "suggestion_author": TEXT,
-            "comment": TEXT,
-            "comment_author": TEXT,
-            "label": TEXT,
-        }
-        schema = Schema(**fields)
-
-        # List of plugins
-        plugins = [
-            whoosh.qparser.WhitespacePlugin(),
-            QuotePlugin(),
-            whoosh.qparser.FieldsPlugin(),
-            whoosh.qparser.RangePlugin(),
-            GtLtPlugin(),
-            ExactPlugin(),
-            whoosh.qparser.RegexPlugin(),
-            whoosh.qparser.GroupPlugin(),
-            whoosh.qparser.OperatorsPlugin(),
-            whoosh.qparser.dateparse.DateParserPlugin(dateparser=DateParser()),
-            whoosh.qparser.MultifieldPlugin(["source", "target", "context"]),
-        ]
-        super().__init__(None, schema, plugins=plugins)
-
-    def term_query(
-        self, fieldname, text, termclass, boost=1.0, tokenize=True, removestops=True
-    ):
-        if self.schema and fieldname in self.schema:
-            if isinstance(self.schema[fieldname], TEXT):
-                return termclass(fieldname, text, boost=boost)
-        return super().term_query(
-            fieldname, text, termclass, boost, tokenize, removestops
-        )
-
-
-PARSER = QueryParser()
-
+# Field type definitions
 PLAIN_FIELDS = ("source", "target", "context", "note", "location")
+NONTEXT_FIELDS = {"priority", "state", "timestamp", "change__timestamp"}
 FIELD_MAP = {"changed": "change__timestamp", "added": "timestamp"}
 STRING_FIELD_MAP = {"suggestion": "suggestion__target", "comment": "comment__comment"}
 STRING_FIELD_MAP = {"key": "context"}
@@ -209,160 +72,336 @@ EXACT_FIELD_MAP = {
     "comment_author": "comment__user__username",
     "label": "labels__name",
 }
+OPERATOR_MAP = {
+    ":": "substring",
+    ":=": "iexact",
+    ":<": "lt",
+    ":<=": "lte",
+    ":>": "gt",
+    ":>=": "gte",
+}
+
+# Parsing grammar
+
+AND = oneOf(["AND", "and"])
+OR = Optional(oneOf(["OR", "or"]))
+NOT = oneOf(["NOT", "not"])
+
+# Search operator
+OPERATOR = oneOf(OPERATOR_MAP.keys())
+
+# Match token
+WORD = Regex(r"""[^: '"\(\)]([^: '"]*[^: '"\)])?""")
+DATE = Word("0123456789:.-T")
+
+# Date range
+RANGE = "[" + DATE + "to" + DATE + "]"
+
+# Match value
+REGEX_STRING = "r" + QuotedString('"', escChar="\\")
+STRING = (
+    REGEX_STRING
+    | QuotedString("'", escChar="\\")
+    | QuotedString('"', escChar="\\")
+    | WORD
+)
+
+# Single term, either field specific or not
+TERM = STRING + Optional(OPERATOR + (RANGE | STRING))
+
+# Multi term with or without operator
+QUERY = Optional(
+    infixNotation(
+        TERM,
+        [(NOT, 1, opAssoc.RIGHT,), (AND, 2, opAssoc.LEFT,), (OR, 2, opAssoc.LEFT,)],
+    )
+)
+
+# Helper parsing objects
 
 
-def field_name(field, suffix="substring"):
-    if field in FIELD_MAP:
-        return FIELD_MAP[field]
-    if field in PLAIN_FIELDS:
-        return "{}__{}".format(field, suffix)
-    if field in STRING_FIELD_MAP:
-        return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
-    if field in EXACT_FIELD_MAP:
-        # Change contains to exact, do not change other (for example regex)
-        if suffix == "substring":
-            suffix = "iexact"
-        return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
-    return field
+class RegexExpr:
+    def __init__(self, tokens):
+        self.expr = tokens[1]
 
 
-def field_extra(field, query):
-    from weblate.trans.models import Change
-
-    if field in {"changed", "changed_by"}:
-        return query & Q(change__action__in=Change.ACTIONS_CONTENT)
-    if field == "check":
-        return query & Q(check__dismissed=False)
-    if field == "dismissed_check":
-        return query & Q(check__dismissed=True)
-    return query
+REGEX_STRING.addParseAction(RegexExpr)
 
 
-def range_sql(field, start, end, startexcl, endexcl, conv=int):
-    def range_lookup(field, op, value):
-        return {"{}__{}".format(field_name(field), op): conv(value)}
-
-    gte = "gt" if startexcl else "gte"
-    lte = "lt" if endexcl else "lte"
-
-    if start is not None and end is not None:
-        return Q(**range_lookup(field, gte, start)) & Q(**range_lookup(field, lte, end))
-    if start is not None:
-        return Q(**range_lookup(field, gte, start))
-    return Q(**range_lookup(field, lte, end))
+class RangeExpr:
+    def __init__(self, tokens):
+        self.start = tokens[1]
+        self.end = tokens[3]
 
 
-def has_sql(text):
-    if text == "plural":
-        return Q(source__contains=PLURAL_SEPARATOR)
-    if text == "suggestion":
-        return Q(suggestion__isnull=False)
-    if text == "comment":
-        return Q(comment__resolved=False)
-    if text in ("resolved-comment", "resolved_comment"):
-        return Q(comment__resolved=True)
-    if text in ("check", "failing-check", "failing_check"):
-        return Q(check__dismissed=False)
-    if text in ("dismissed-check", "dismissed_check", "ignored-check", "ignored_check"):
-        return Q(check__dismissed=True)
-    if text == "translation":
-        return Q(state__gte=STATE_TRANSLATED)
-    if text in ("variant", "shaping"):
-        return Q(variant__isnull=False)
-    if text == "label":
-        return Q(labels__isnull=False)
-    if text == "context":
-        return ~Q(context="")
-    if text == "screenshot":
-        return Q(screenshots__isnull=False)
-    if text == "flags":
-        return ~Q(extra_flags="")
-
-    raise ValueError("Unsupported has lookup: {}".format(text))
+RANGE.addParseAction(RangeExpr)
 
 
-def is_sql(text):
-    if text in ("read-only", "readonly"):
-        return Q(state=STATE_READONLY)
-    if text == "approved":
-        return Q(state=STATE_APPROVED)
-    if text in ("fuzzy", "needs-editing"):
-        return Q(state=STATE_FUZZY)
-    if text == "translated":
-        return Q(state__gte=STATE_TRANSLATED)
-    if text == "untranslated":
-        return Q(state__lt=STATE_TRANSLATED)
-    if text == "pending":
-        return Q(pending=True)
+class TermExpr:
+    def __init__(self, tokens):
+        if len(tokens) == 1:
+            self.field = None
+            self.operator = ":"
+            self.match = tokens[0]
+        else:
+            self.field, self.operator, self.match = tokens
+            self.fixup()
 
-    raise ValueError("Unsupported is lookup: {}".format(text))
+    def fixup(self):
+        # Avoid unwanted lt/gt searches on plain text fields
+        if self.field in PLAIN_FIELDS and self.operator not in (":", ":="):
+            self.match = self.operator[1:] + self.match
+            self.operator = ":"
 
+    def is_field(self, text):
+        if text in ("read-only", "readonly"):
+            return Q(state=STATE_READONLY)
+        if text == "approved":
+            return Q(state=STATE_APPROVED)
+        if text in ("fuzzy", "needs-editing"):
+            return Q(state=STATE_FUZZY)
+        if text == "translated":
+            return Q(state__gte=STATE_TRANSLATED)
+        if text == "untranslated":
+            return Q(state__lt=STATE_TRANSLATED)
+        if text == "pending":
+            return Q(pending=True)
 
-def exact_sql(field, text):
-    return Q(**{field_name(field, "iexact"): text})
+        raise ValueError("Unsupported is lookup: {}".format(text))
 
+    def has_field(self, text):
+        if text == "plural":
+            return Q(source__contains=PLURAL_SEPARATOR)
+        if text == "suggestion":
+            return Q(suggestion__isnull=False)
+        if text == "comment":
+            return Q(comment__resolved=False)
+        if text in ("resolved-comment", "resolved_comment"):
+            return Q(comment__resolved=True)
+        if text in ("check", "failing-check", "failing_check"):
+            return Q(check__dismissed=False)
+        if text in (
+            "dismissed-check",
+            "dismissed_check",
+            "ignored-check",
+            "ignored_check",
+        ):
+            return Q(check__dismissed=True)
+        if text == "translation":
+            return Q(state__gte=STATE_TRANSLATED)
+        if text in ("variant", "shaping"):
+            return Q(variant__isnull=False)
+        if text == "label":
+            return Q(labels__isnull=False)
+        if text == "context":
+            return ~Q(context="")
+        if text == "screenshot":
+            return Q(screenshots__isnull=False)
+        if text == "flags":
+            return ~Q(extra_flags="")
 
-def query_sql(obj):
-    if isinstance(obj, whoosh.query.And):
-        return reduce(
-            lambda x, y: x & y,
-            (query_sql(q) for q in obj.subqueries if q != whoosh.query.NullQuery),
-        )
-    if isinstance(obj, whoosh.query.Or):
-        return reduce(
-            lambda x, y: x | y,
-            (query_sql(q) for q in obj.subqueries if q != whoosh.query.NullQuery),
-        )
-    if isinstance(obj, whoosh.query.Not):
-        return ~query_sql(obj.query)
-    if isinstance(obj, Exact):
-        return exact_sql(obj.fieldname, obj.text)
-    if isinstance(obj, whoosh.query.Term):
-        if obj.fieldname == "has":
-            return has_sql(obj.text)
-        if obj.fieldname == "is":
-            return is_sql(obj.text)
-        return field_extra(obj.fieldname, Q(**{field_name(obj.fieldname): obj.text}))
-    if isinstance(obj, whoosh.query.DateRange):
-        return field_extra(
-            obj.fieldname,
-            range_sql(
-                obj.fieldname,
-                obj.startdate,
-                obj.enddate,
-                obj.startexcl,
-                obj.endexcl,
-                timezone.make_aware,
-            ),
-        )
-    if isinstance(obj, whoosh.query.NumericRange):
-        if obj.fieldname in {"added", "changed"}:
-            return field_extra(
-                obj.fieldname,
-                range_sql(
-                    obj.fieldname,
-                    long_to_datetime(obj.start),
-                    long_to_datetime(obj.end),
-                    obj.startexcl,
-                    obj.endexcl,
-                    timezone.make_aware,
+        raise ValueError("Unsupported has lookup: {}".format(text))
+
+    def field_extra(self, field, query):
+        from weblate.trans.models import Change
+
+        if field in {"changed", "changed_by"}:
+            return query & Q(change__action__in=Change.ACTIONS_CONTENT)
+        if field == "check":
+            return query & Q(check__dismissed=False)
+        if field == "dismissed_check":
+            return query & Q(check__dismissed=True)
+        return query
+
+    def convert_state(self, text):
+        if text is None:
+            return None
+        if text.isdigit():
+            return int(text)
+        try:
+            return STATE_NAMES[text]
+        except KeyError:
+            raise ValueError(_("Unsupported state: {}").format(text))
+
+    def convert_bool(self, text):
+        ltext = text.lower()
+        if ltext in ("yes", "true", "on", "1"):
+            return True
+        if ltext in ("no", "false", "off", "0"):
+            return False
+        raise ValueError(f"Invalid boolean value: {text}")
+
+    def convert_pending(self, text):
+        return self.convert_bool(text)
+
+    def convert_int(self, text):
+        return int(text)
+
+    def convert_priority(self, text):
+        return self.convert_int(text)
+
+    def convert_datetime(self, text, hour=5, minute=55, second=55, microsecond=0):
+        if isinstance(text, RangeExpr):
+            return (
+                self.convert_datetime(
+                    text.start, hour=0, minute=0, second=0, microsecond=0
+                ),
+                self.convert_datetime(
+                    text.end, hour=23, minute=59, second=59, microsecond=999999
                 ),
             )
-        return range_sql(obj.fieldname, obj.start, obj.end, obj.startexcl, obj.endexcl)
-    if isinstance(obj, whoosh.query.Regex):
+        if text.isdigit() and len(text) == 4:
+            year = int(text)
+            tzinfo = timezone.get_current_timezone()
+            return (
+                datetime(
+                    year=year,
+                    month=1,
+                    day=1,
+                    hour=0,
+                    minute=0,
+                    second=0,
+                    microsecond=0,
+                    tzinfo=tzinfo,
+                ),
+                datetime(
+                    year=year,
+                    month=12,
+                    day=31,
+                    hour=23,
+                    minute=59,
+                    second=59,
+                    microsecond=999999,
+                    tzinfo=tzinfo,
+                ),
+            )
         try:
-            re.compile(obj.text)
-            return Q(**{field_name(obj.fieldname, "regex"): obj.text})
-        except re.error as error:
-            raise ValueError(_("Invalid regular expression: {}").format(error))
+            # Here we inject 5:55:55 time and if that was not changed
+            # during parsing, we assume it was not specified while
+            # generating the query
+            result = parse(
+                text,
+                default=timezone.now().replace(
+                    hour=hour, minute=minute, second=second, microsecond=microsecond
+                ),
+            )
+        except ParserError as error:
+            raise ValueError(_("Invalid timestamp: {}").format(error))
+        if result.hour == 5 and result.minute == 55 and result.second == 55:
+            return (
+                result.replace(hour=0, minute=0, second=0, microsecond=0),
+                result.replace(hour=23, minute=59, second=59, microsecond=999999),
+            )
+        return result
 
-    if obj == whoosh.query.NullQuery:
+    def convert_changed(self, text):
+        return self.convert_datetime(text)
+
+    def convert_added(self, text):
+        return self.convert_datetime(text)
+
+    def field_name(self, field, suffix=None):
+        if suffix is None:
+            suffix = OPERATOR_MAP[self.operator]
+
+        # Name mapping
+        if field in FIELD_MAP:
+            field = FIELD_MAP[field]
+
+        if field in PLAIN_FIELDS:
+            return "{}__{}".format(field, suffix)
+        if field in STRING_FIELD_MAP:
+            return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
+        if field in EXACT_FIELD_MAP:
+            # Change contains to exact, do not change other (for example regex)
+            if suffix == "substring":
+                suffix = "iexact"
+            return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
+        if field in NONTEXT_FIELDS and suffix not in ("substring", "iexact"):
+            return "{}__{}".format(field, suffix)
+        return field
+
+    def as_sql(self):
+        field = self.field
+        match = self.match
+        # Simple term based search
+        if not field:
+            return (
+                Q(source__substring=self.match)
+                | Q(target__substring=self.match)
+                | Q(context__substring=self.match)
+            )
+
+        # Field specific code
+        field_method = getattr(self, f"{field}_field", None)
+        if field_method is not None:
+            return field_method(match)
+
+        # Field conversion
+        convert_method = getattr(self, f"convert_{field}", None)
+        if convert_method is not None:
+            match = convert_method(match)
+
+        if isinstance(match, RegexExpr):
+            # Regullar expression
+            try:
+                re.compile(match.expr)
+            except re.error as error:
+                raise ValueError(_("Invalid regular expression: {}").format(error))
+            return Q(**{self.field_name(field, "regex"): match.expr})
+
+        if isinstance(match, tuple):
+            start, end = match
+            # Ranges
+            if self.operator in (":", ":="):
+                query = Q(
+                    **{
+                        self.field_name(field, "gte"): start,
+                        self.field_name(field, "lte"): end,
+                    }
+                )
+            elif self.operator in (":>", ":>="):
+                query = Q(**{self.field_name(field, "gte"): start})
+            else:
+                query = Q(**{self.field_name(field, "lte"): end})
+
+        else:
+            # Generic query
+            query = Q(**{self.field_name(field): match})
+
+        return self.field_extra(field, query)
+
+
+TERM.addParseAction(TermExpr)
+
+
+def parser_to_query(obj):
+    # Simple lookups
+    if isinstance(obj, TermExpr):
+        return obj.as_sql()
+
+    # Operators
+    operator = "AND"
+    expressions = []
+    for item in obj:
+        if isinstance(item, str) and item.upper() in ("OR", "AND", "NOT"):
+            operator = item.upper()
+            continue
+        expressions.append(parser_to_query(item))
+
+    if not expressions:
         return Q()
-    raise ValueError("Unsupported: {!r}".format(obj))
+
+    if operator == "NOT":
+        assert len(expressions) == 1
+        return ~expressions[0]
+    if operator == "AND":
+        return reduce(lambda x, y: x & y, expressions)
+    return reduce(lambda x, y: x | y, expressions)
 
 
 @lru_cache(maxsize=512)
 def parse_query(text):
     if "\x00" in text:
         raise ValueError("Invalid query string.")
-    return query_sql(PARSER.parse(text))
+    return parser_to_query(QUERY.parseString(text, parseAll=True))

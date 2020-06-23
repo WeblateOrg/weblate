@@ -12,6 +12,7 @@ Not yet released.
 * Simplified main navigation (replaced buttons with icons).
 * Improved language codes handling in Google Translate integration.
 * The Git squash addon can generate ``Co-authored-by:`` trailers.
+* Improved query search parser.
 
 Weblate 4.1.1
 -------------
