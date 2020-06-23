@@ -10,6 +10,7 @@ Not yet released.
 * Number of displayed nearby strings can be configured.
 * Added support for locking component while there is repository error.
 * Simplified main navigation (replaced buttons with icons).
+* Improved language codes handling in Google Translate integration.
 
 Weblate 4.1.1
 -------------

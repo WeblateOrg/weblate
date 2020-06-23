@@ -30,14 +30,39 @@ from weblate.machinery.base import (
 GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 
 
-class GoogleTranslation(MachineTranslation):
+class GoogleBaseTranslation(MachineTranslation):
+    # Map codes used by Google to the ones used by Weblate
+    language_map = {
+        "nb": "no",
+        "fil": "tl",
+        "zh_Hant": "zh-TW",
+        "zh_Hans": "zh-CN",
+    }
+
+    def __init__(self):
+        """Check configuration."""
+        super().__init__()
+        if settings.MT_GOOGLE_KEY is None:
+            raise MissingConfiguration("Google Translate requires API key")
+
+    def map_language_code(self, code):
+        """Convert language to service specific code."""
+        return super().map_language_code(code).replace("_", "-").split("@")[0]
+
+
+class GoogleTranslation(GoogleBaseTranslation):
     """Google Translate API v2 machine translation support."""
 
     name = "Google Translate"
     max_score = 90
 
-    # Map old codes used by Google to new ones used by Weblate
-    language_map = {"he": "iw", "jv": "jw", "nb": "no", "fil": "tl"}
+    # Map codes used by Google to the ones used by Weblate
+    language_map = {
+        "nb": "no",
+        "fil": "tl",
+        "zh_Hant": "zh-TW",
+        "zh_Hans": "zh-CN",
+    }
 
     def __init__(self):
         """Check configuration."""

@@ -21,10 +21,11 @@ from django.conf import settings
 from google.cloud.translate_v3 import TranslationServiceClient
 from google.oauth2 import service_account
 
-from weblate.machinery.base import MachineTranslation, MissingConfiguration
+from weblate.machinery.base import MissingConfiguration
+from weblate.machinery.google import GoogleBaseTranslation
 
 
-class GoogleV3Translation(MachineTranslation):
+class GoogleV3Translation(GoogleBaseTranslation):
     """Google Translate API v3 machine translation support."""
 
     setup = None
