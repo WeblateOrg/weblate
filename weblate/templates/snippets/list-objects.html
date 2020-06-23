@@ -2,6 +2,7 @@
 {% load translations %}
 {% load permissions %}
 {% load humanize %}
+{% load icons %}
 
 {% init_unique_row_id %}
 
@@ -9,6 +10,7 @@
 <table class="sort table progress-table autocolspan {% if not in_panel %}table-border{% endif %}">
 <thead>
 <tr>
+<th class="sort-skip"></th>
 <th>{{ label|default:_("Project") }}</th>
 <th class="number">{% trans "Translated" %}</th>
 {% if global_base %}
@@ -19,7 +21,6 @@
 <th class="number zero-width-768">{% trans "Checks" %}</th>
 <th class="number zero-width-900">{% trans "Suggestions" %}</th>
 <th class="number zero-width-1000">{% trans "Comments" %}</th>
-<th class="sort-skip"></th>
 </tr>
 </thead>
 
@@ -31,6 +32,21 @@
 {% get_browse_url object as browse_url %}
 {% get_unique_row_id object as row_id %}
 <tr id="{{ row_id }}">
+<td class="actions" rowspan="2">
+{% if object.is_ghost %}
+    <form action="{% url 'new-language' project=object.component.project.slug component=object.component.slug %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="lang" value="{{ object.language.code }}" />
+        <button type="submit" alt="{% trans "Create translation" %}" title="{% trans "Create translation" %}" class="btn btn-link green">{% icon "plus.svg" %}</button>
+    </form>
+{% else %}
+    {% if translate_url %}
+        <a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn btn-link green" title="{% trans "Translate" %}" alt="{% trans "Translate" %}">{% icon "pencil.svg" %}</a>
+    {% else %}
+        <a href="{{ browse_url }}" class="btn btn-link green" title="{% trans "Browse" %}" alt="{% trans "Browse" %}">{% icon "folder-search-outline.svg" %}</a>
+    {% endif %}
+{% endif %}
+</td>
 <th class="object-link">
 {% if object.is_ghost %}
     <span class="ghost">
@@ -76,25 +92,6 @@
 {% include "snippets/list-objects-number.html" with value=stats.allchecks query="q=has:check" class="zero-width-768" %}
 {% include "snippets/list-objects-number.html" with value=stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
 {% include "snippets/list-objects-number.html" with value=stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
-<td class="actions buttons-cell" rowspan="2">
-{% if object.is_ghost %}
-    <form action="{% url 'new-language' project=object.component.project.slug component=object.component.slug %}" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="lang" value="{{ object.language.code }}" />
-        <input type="submit" value="{% trans "Create translation" %}" class="btn btn-info" />
-    </form>
-{% else %}
-    {% if translate_url %}
-    <a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn {% if stats.todo %}btn-primary{% else %}btn-info{% endif %}">
-    {% trans "Translate" %}
-    </a>
-    {% else %}
-    <a href="{{ browse_url }}" class="btn btn-info">
-    {% trans "Browse" %}
-    </a>
-    {% endif %}
-{% endif %}
-</td>
 </tr>
 <tr data-parent="{{ row_id }}">
 <td colspan="{% if global_base %}8{% else %}7{% endif %}" class="progress-row autocolspan">{% translation_progress stats %}</td>
