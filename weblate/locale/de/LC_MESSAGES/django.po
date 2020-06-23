@@ -21,13 +21,14 @@
 # iLocIT! <matthiasc@ilocit.de>, 2020.
 # Oliver <websites@posteo.de>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
+# Milo Ivir <mail@milotype.de>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-22 08:54+0000\n"
-"PO-Revision-Date: 2020-06-20 14:38+0000\n"
-"Last-Translator: nautilusx <mail.ka@mailbox.org>\n"
+"PO-Revision-Date: 2020-06-26 19:42+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/master/de/"
 ">\n"
 "Language: de\n"
@@ -45,10 +46,8 @@ msgstr "–"
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:193
 #: weblate/templates/accounts/user.html:13 weblate/templates/base.html:222
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User data"
 msgid "User avatar"
-msgstr "Benutzerdaten"
+msgstr "Benutzer-Profilbild"
 
 #: weblate/accounts/forms.py:84
 msgid ""
@@ -329,10 +328,8 @@ msgid "Translations made"
 msgstr "Übersetzungen"
 
 #: weblate/accounts/forms.py:783
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid ordering"
-msgstr "Ungültiger Suchbegriff!"
+msgstr "Ungültige Bestellung"
 
 #: weblate/accounts/models.py:80
 msgid "Password changed."
@@ -1114,7 +1111,7 @@ msgstr "Pro Übersetzer"
 
 #: weblate/addons/forms.py:150
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Fügen Sie der zusammengeführten Commit-Nachricht Endzeilen hinzu"
 
 #: weblate/addons/forms.py:154
 msgid ""
@@ -1122,12 +1119,16 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: ...'."
 msgstr ""
+"Die Endzeilen ähneln RFC 822-E-Mail-Headern, am Ende eines ansonsten freien "
+"Teils der Commit-Nachricht, z. B. \"Mitverfasst von: ...\"."
 
 #: weblate/addons/forms.py:163
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Diese Commit-Nachricht wird anstelle der zusammengeführten Commit-"
+"Nachrichten verwendet."
 
 #: weblate/addons/forms.py:180
 msgid "Sort JSON keys"
@@ -2339,7 +2340,7 @@ msgstr "Schriftgröße"
 
 #: weblate/checks/flags.py:59
 msgid "Font weight"
-msgstr "Schriftartgewicht"
+msgstr "Schriftgewicht"
 
 #: weblate/checks/flags.py:61
 msgid "Font spacing"
@@ -2351,10 +2352,8 @@ msgid "Priority"
 msgstr "Priorität"
 
 #: weblate/checks/flags.py:67
-#, fuzzy
-#| msgid "Replacement string"
 msgid "Replacements while rendering"
-msgstr "Ersetzungszeichenkette"
+msgstr "Ersetzungszeichenketten beim Rendern"
 
 #: weblate/checks/flags.py:228
 #, python-format
@@ -4417,7 +4416,7 @@ msgstr "Benutzer"
 #: weblate/templates/accounts/user.html:17
 #, python-format
 msgid "Joined on %(date)s"
-msgstr ""
+msgstr "Beigetreten am %(date)s"
 
 #: weblate/templates/accounts/user.html:23 weblate/templates/language.html:72
 #, python-format
@@ -4427,13 +4426,11 @@ msgstr[0] "%(count)s Übersetzung"
 msgstr[1] "%(count)s Übersetzungen"
 
 #: weblate/templates/accounts/user.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion"
-#| msgid_plural "%(count)s pending suggestions"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "%(count)s ausstehender Vorschlag"
-msgstr[1] "%(count)s ausstehende Vorschläge"
+msgstr[0] "%(count)s Vorschlag"
+msgstr[1] "%(count)s Vorschläge"
 
 #: weblate/templates/accounts/user.html:35
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
@@ -4444,19 +4441,15 @@ msgstr[0] "%(count)s ausstehender Vorschlag"
 msgstr[1] "%(count)s ausstehende Vorschläge"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s Stimme"
-msgstr[1] "%(count)s Stimmen"
+msgstr[0] "%(count)s Bildschirmfoto"
+msgstr[1] "%(count)s Bildschirmfotos"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project contributions"
-msgstr "Projektinformation"
+msgstr "Projektbeiträge"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4477,17 +4470,13 @@ msgid "Browse all changes for user"
 msgstr "Alle Änderungen des Benutzers durchsuchen"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
-#, fuzzy
-#| msgid "Last activity"
 msgid "Daily activity"
-msgstr "Letzte Aktivität"
+msgstr "Tägliche Aktivität"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
-#, fuzzy
-#| msgid "Last activity"
 msgid "Weekly activity"
-msgstr "Letzte Aktivität"
+msgstr "Wöchentliche Aktivität"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -7556,10 +7545,8 @@ msgid "Target strings"
 msgstr "Zielzeichenketten"
 
 #: weblate/templates/snippets/query-builder.html:16
-#, fuzzy
-#| msgid "Context strings"
 msgid "Key/Context strings"
-msgstr "Kontextzeichenketten"
+msgstr "Schlüssel/Kontextzeichenketten"
 
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Comment strings"
@@ -7706,8 +7693,6 @@ msgstr "Anzahl der Kommentare"
 #. Translators: Translation key for monolingual translations
 #: weblate/templates/snippets/query-field.html:43
 #: weblate/trans/models/component.py:2443 weblate/utils/views.py:102
-#, fuzzy
-#| msgid "Keys"
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Schlüssel"
@@ -8357,10 +8342,8 @@ msgstr ""
 "genehmigt."
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid "Insufficient privileges for adding suggestions."
 msgid "Insufficient privileges for editing source strings."
-msgstr "Unzureichende Rechte, um Vorschläge hinzuzufügen."
+msgstr "Unzureichende Rechte, um Ausgangszeichenketten zu überarbeiten."
 
 #: weblate/templates/translate.html:187 weblate/trans/views/edit.py:269
 #: weblate/trans/views/edit.py:290 weblate/trans/views/edit.py:309
@@ -8512,10 +8495,8 @@ msgid "Manage glossary"
 msgstr "Glossar verwalten"
 
 #: weblate/templates/translate.html:514 weblate/templates/translate.html:524
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Add term to glossary"
-msgstr "Zum Glossar hinzugefügt"
+msgstr "Begriff zum Glossar hinzufügen"
 
 #: weblate/templates/translate.html:543
 msgid "Source information"
@@ -9072,7 +9053,7 @@ msgstr ""
 
 #: weblate/trans/forms.py:610
 msgid "Author name"
-msgstr "Autorname"
+msgstr "Autor-Name"
 
 #: weblate/trans/forms.py:611
 msgid "Author e-mail"
@@ -9440,10 +9421,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "Bitte geben Sie zur Bestätigung die Ausgangsform des Projekts ein."
 
 #: weblate/trans/forms.py:1915
-#, fuzzy
-#| msgid "Author name"
 msgid "Author username"
-msgstr "Autorname"
+msgstr "Autor-Benutzername"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
@@ -9527,10 +9506,8 @@ msgstr "Kaputte Projektwebsite-URL"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:288
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Unused screenshot"
-msgstr "Bildschirmfoto hinzufügen"
+msgstr "Unbenutztes Bildschirmfoto"
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -9935,14 +9912,14 @@ msgstr ""
 "Leer lassen, um E-Mails zu deaktivieren."
 
 #: weblate/trans/models/component.py:309
-#, fuzzy
-#| msgid "Git branch to translate"
 msgid "Push branch"
-msgstr "Zu übersetzender Git-Branch"
+msgstr "Push Branch"
 
 #: weblate/trans/models/component.py:312
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
+"Branch zum Push von Änderungen. Leer lassen, um den Repository-Branch zu "
+"verwenden"
 
 #: weblate/trans/models/component.py:322
 msgid ""
