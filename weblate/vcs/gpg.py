@@ -19,10 +19,10 @@
 
 
 import subprocess
+from typing import Optional
 
 from django.conf import settings
 from django.core.cache import cache
-from django.utils.encoding import force_str
 from siphashc import siphash
 
 from weblate.trans.util import (
@@ -33,7 +33,18 @@ from weblate.trans.util import (
 from weblate.utils.errors import report_error
 
 
-def generate_gpg_key():
+def gpg_error(name: str, error: Exception, silent: bool = False):
+    report_error(cause=name)
+    if not silent:
+        add_configuration_error(
+            name,
+            "{}\n{}\n{}".format(
+                error, getattr(error, "stderr", ""), getattr(error, "stdout", "")
+            ),
+        )
+
+
+def generate_gpg_key() -> Optional[str]:
     try:
         subprocess.run(
             [
@@ -57,13 +68,12 @@ def generate_gpg_key():
         )
         delete_configuration_error("GPG key generating")
         return get_gpg_key()
-    except (subprocess.CalledProcessError, OSError) as exc:
-        report_error(cause="GPG key generating")
-        add_configuration_error("GPG key generating", force_str(exc))
+    except (subprocess.CalledProcessError, OSError) as error:
+        gpg_error("GPG key generating", error)
         return None
 
 
-def get_gpg_key(silent=False):
+def get_gpg_key(silent=False) -> Optional[str]:
     try:
         result = subprocess.run(
             [
@@ -86,19 +96,17 @@ def get_gpg_key(silent=False):
             return line.split(":")[9]
         return None
     except (subprocess.CalledProcessError, OSError) as error:
-        report_error(cause="GPG key listing")
-        if not silent:
-            add_configuration_error("GPG key listing", force_str(error))
+        gpg_error("GPG key listing", error, silent)
         return None
 
 
-def gpg_cache_key(suffix):
+def gpg_cache_key(suffix: str) -> str:
     return "gpg:{}:{}".format(
         siphash("Weblate GPG hash", settings.WEBLATE_GPG_IDENTITY), suffix
     )
 
 
-def get_gpg_sign_key():
+def get_gpg_sign_key() -> Optional[str]:
     """High level wrapper to cache key ID."""
     if not settings.WEBLATE_GPG_IDENTITY:
         return None
@@ -113,7 +121,7 @@ def get_gpg_sign_key():
     return keyid
 
 
-def get_gpg_public_key():
+def get_gpg_public_key() -> Optional[str]:
     key = get_gpg_sign_key()
     if key is None:
         return None
@@ -133,7 +141,6 @@ def get_gpg_public_key():
             cache.set(cache_key, data, 7 * 86400)
             delete_configuration_error("GPG key public")
         except (subprocess.CalledProcessError, OSError) as error:
-            report_error(cause="GPG key public")
-            add_configuration_error("GPG key public", force_str(error))
+            gpg_error("GPG key public", error)
             return None
     return data
