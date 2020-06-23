@@ -148,7 +148,8 @@ class ChangeQuerySet(models.QuerySet):
         if date_range is not None:
             authors = authors.filter(timestamp__range=date_range)
         return (
-            authors.values("author")
+            authors.exclude(author__isnull=True)
+            .values("author")
             .annotate(change_count=Count("id"))
             .values_list("author__email", "author__full_name", "change_count")
         )
