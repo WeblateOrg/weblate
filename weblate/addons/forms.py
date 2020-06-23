@@ -149,7 +149,7 @@ class GitSquashForm(BaseAddonForm):
     append_trailers = forms.BooleanField(
         label=_("Append trailers to squashed commit message"),
         required=False,
-        initial=False,
+        initial=True,
         help_text=_(
             "Trailer lines are lines that look similar to RFC 822 e-mail "
             "headers, at the end of the otherwise free-form part of a commit "

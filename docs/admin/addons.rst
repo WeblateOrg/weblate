@@ -255,8 +255,10 @@ the commit message is customized to include it.
 
 The original commit messages can optionally be overridden with a custom commit message.
 
-Trailers (commit lines like ``Co-authored-by: ...``) can optionally be removed from the
-original commit messages and appended to the end of the squashed commit message.
+Trailers (commit lines like ``Co-authored-by: ...``) can optionally be removed
+from the original commit messages and appended to the end of the squashed
+commit message. This also generates proper ``Co-authored-by:`` credit for every
+translator.
 
 .. _addon-weblate.json.customize:
 

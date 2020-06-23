@@ -828,9 +828,9 @@ class GitSquashAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
 
         expected_trailers = (
-            "    Translation: Test/Test\n"
-            "    Translate-URL: http://example.com/projects/test/test/de/\n"
             "    Translate-URL: http://example.com/projects/test/test/cs/\n"
+            "    Translate-URL: http://example.com/projects/test/test/de/\n"
+            "    Translation: Test/Test\n"
         )
         self.assertIn(expected_trailers, commit)
         self.assertEqual(self.component.repository.count_outgoing(), 1)

@@ -19,7 +19,7 @@
 
 
 import os.path
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 
 from django.utils.translation import gettext_lazy as _
 
@@ -77,19 +77,17 @@ class GitSquashAddon(BaseAddon):
         if self.instance.configuration.get("append_trailers"):
             command = [
                 "log",
-                "--format=%(trailers)",
+                "--format=%(trailers)%nCo-authored-by: %an <%ae>",
                 "{}..HEAD".format(remote),
             ]
             if filenames:
                 command += ["--"] + filenames
 
-            trailer_lines = OrderedDict.fromkeys(
-                [
-                    trailer
-                    for trailer in repository.execute(command).split("\n")
-                    if trailer.strip()
-                ]
-            )
+            trailer_lines = {
+                trailer
+                for trailer in repository.execute(command).split("\n")
+                if trailer.strip()
+            }
 
             commit_message_lines_with_trailers_removed = [
                 line for line in commit_message.split("\n") if line not in trailer_lines
@@ -98,7 +96,7 @@ class GitSquashAddon(BaseAddon):
             commit_message = "\n\n".join(
                 [
                     "\n".join(commit_message_lines_with_trailers_removed),
-                    "\n".join(trailer_lines),
+                    "\n".join(sorted(trailer_lines)),
                 ]
             )
 
