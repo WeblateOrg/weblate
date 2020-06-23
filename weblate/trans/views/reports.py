@@ -59,7 +59,7 @@ def get_credits(request, project=None, component=None):
     """View for credits."""
     if project is None:
         obj = None
-        kwargs = {"translation__pk__gt": 0}
+        kwargs = {"translation__isnull": False}
     elif component is None:
         obj = get_project(request, project)
         kwargs = {"translation__component__project": obj}
