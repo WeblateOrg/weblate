@@ -44,6 +44,10 @@ It will render as:
 
         * Jae Doe <jane@example.com> (42)
 
+.. hint::
+
+    The number in parenthesis indicates number of contributions in given period.
+
 .. _stats:
 
 
