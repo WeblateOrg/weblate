@@ -313,6 +313,7 @@ class QueryParserTest(TestCase):
         self.assert_query(
             "%(count)s word", parse_query("'%(count)s' 'word'"),
         )
+        self.assert_query("{actor}", parse_query("'{actor}'"))
 
     def test_specialchars(self):
         self.assert_query(
