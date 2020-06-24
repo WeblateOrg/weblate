@@ -242,6 +242,15 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return super().can_install(component, user)
 
     def update_translations(self, component, previous_head):
+        if previous_head:
+            changes = component.repository.list_changed_files(
+                component.repository.ref_to_remote.format(previous_head)
+            )
+            if component.new_base not in changes:
+                component.log_debug(
+                    "%s addon skipped, new base was not updated", self.name
+                )
+                return
         template = component.get_new_base_filename()
         args = []
         if not self.instance.configuration.get("fuzzy", True):

@@ -242,6 +242,8 @@ class GettextAddonTest(ViewTestCase):
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "")
         self.assertEqual(rev, self.component.repository.last_revision)
+        addon.post_update(self.component, rev)
+        self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
         self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
