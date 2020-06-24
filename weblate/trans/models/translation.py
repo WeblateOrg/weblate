@@ -1011,10 +1011,10 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             if orig_user:
                 request.user = orig_user
 
-    def invalidate_cache(self, recurse=True):
+    def invalidate_cache(self, recurse: bool = True):
         """Invalidate any cached stats."""
         # Invalidate summary stats
-        transaction.on_commit(lambda: self.stats.invalidate(recurse))
+        transaction.on_commit(lambda: self.stats.invalidate(recurse=recurse))
 
     @property
     def keys_cache_key(self):

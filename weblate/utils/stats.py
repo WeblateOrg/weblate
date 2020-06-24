@@ -22,6 +22,7 @@ from copy import copy
 from datetime import timedelta
 from itertools import chain
 from types import GeneratorType
+from typing import Optional
 from uuid import uuid4
 
 import sentry_sdk
@@ -33,6 +34,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 
 from weblate.checks.models import CHECKS
+from weblate.lang.models import Language
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.util import translation_percent
 from weblate.utils.db import conditional_sum
@@ -220,7 +222,7 @@ class BaseStats:
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
 
-    def invalidate(self, language=None, recurse=True):
+    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
         """Invalidate local and cache data."""
         self.clear()
         cache.delete(self.cache_key)
@@ -332,7 +334,7 @@ class DummyTranslationStats(BaseStats):
 class TranslationStats(BaseStats):
     """Per translation stats."""
 
-    def invalidate(self, language=None, recurse=True):
+    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
         super().invalidate()
         if recurse:
             self._object.component.stats.invalidate(language=self._object.language)
@@ -628,7 +630,7 @@ class ComponentStats(LanguageStats):
             self.store("source_words", stats_obj.all_words)
             self.store("source_strings", stats_obj.all)
 
-    def invalidate(self, language=None, recurse=True):
+    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
         super().invalidate()
         self._object.project.stats.invalidate(language=language)
         for clist in self._object.componentlist_set.iterator():
@@ -703,7 +705,7 @@ class ProjectStats(BaseStats):
     def has_review(self):
         return self._object.source_review or self._object.translation_review
 
-    def invalidate(self, language=None, recurse=True):
+    def invalidate(self, language: Optional[Language] = None, recurse: bool = True):
         super().invalidate()
         if language:
             self.get_single_language_stats(language).invalidate()
@@ -795,7 +797,6 @@ class GlobalStats(BaseStats):
         return prefetch_stats(Project.objects.iterator())
 
     def _prefetch_basic(self):
-        from weblate.lang.models import Language
 
         stats = zero_stats(self.basic_keys)
         for project in self.project_set:

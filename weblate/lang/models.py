@@ -43,7 +43,6 @@ from weblate.langdata.plurals import EXTRAPLURALS
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.util import sort_choices, sort_objects
-from weblate.utils.stats import LanguageStats
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_plural_formula
 
@@ -478,6 +477,8 @@ class Language(models.Model):
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
+        from weblate.utils.stats import LanguageStats
+
         super().__init__(*args, **kwargs)
         self._plural_examples = {}
         self.stats = LanguageStats(self)
