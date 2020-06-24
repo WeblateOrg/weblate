@@ -511,9 +511,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 )
 
             # Remove the pending flag
-            Unit.objects.filter(pk__in=[unit.id for unit in units]).update(
-                pending=False
-            )
+            units.update(pending=False)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
