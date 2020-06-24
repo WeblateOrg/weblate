@@ -106,6 +106,8 @@ You need to register an application on GitHub and then tell Weblate all its secr
 The GitHub should be configured to have callback URL as
 ``https://example.com/accounts/complete/github/``.
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
     :doc:`psa:backends/github`
@@ -130,6 +132,8 @@ You need to register an application on Bitbucket and then tell Weblate all its s
     SOCIAL_AUTH_BITBUCKET_KEY = 'Bitbucket Client ID'
     SOCIAL_AUTH_BITBUCKET_SECRET = 'Bitbucket Client Secret'
     SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+
+.. include:: /snippets/oauth-site.rst
 
 .. seealso::
 
@@ -158,6 +162,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
    :doc:`psa:backends/google`
@@ -185,6 +191,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``
     SOCIAL_AUTH_FACEBOOK_KEY = 'key'
     SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+
+.. include:: /snippets/oauth-site.rst
 
 .. seealso::
 
@@ -218,6 +226,8 @@ ensure you mark the `read_user` scope.
 
     # If you are using your own GitLab
     # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
+
+.. include:: /snippets/oauth-site.rst
 
 .. seealso::
 
@@ -266,6 +276,8 @@ for tenant specific authentication.
     # Tenant ID
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ""
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
    :doc:`psa:backends/azuread`
@@ -292,6 +304,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
     # Social auth backends setup
     SOCIAL_AUTH_SLACK_KEY = ''
     SOCIAL_AUTH_SLACK_SECRET = ''
+
+.. include:: /snippets/oauth-site.rst
 
 .. seealso::
 

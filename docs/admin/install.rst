@@ -652,6 +652,11 @@ For a production site, you want something like:
 
     weblate changesite --set-name weblate.example.com
 
+.. hint::
+
+   On a Docker container, the site domain is configured through
+   :envvar:`WEBLATE_ALLOWED_HOSTS`.
+
 .. seealso::
 
    :ref:`faq-site`,
