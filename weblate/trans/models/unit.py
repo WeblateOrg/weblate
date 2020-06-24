@@ -813,7 +813,11 @@ class Unit(models.Model, LoggerMixin):
     @cached_property
     def all_comments(self):
         """Return list of target comments."""
-        return Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info)).order()
+        return (
+            Comment.objects.filter(Q(unit=self) | Q(unit=self.source_info))
+            .prefetch_related("unit")
+            .order()
+        )
 
     def run_checks(self):
         """Update checks for this unit."""
