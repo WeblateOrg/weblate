@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-22 08:54+0000\n"
-"PO-Revision-Date: 2020-06-06 17:41+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2020-06-26 19:42+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/master/"
 "ja/>\n"
 "Language: ja\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1-dev\n"
+"X-Generator: Weblate 4.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -38,10 +38,8 @@ msgstr "なし"
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:193
 #: weblate/templates/accounts/user.html:13 weblate/templates/base.html:222
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User data"
 msgid "User avatar"
-msgstr "ユーザ データ"
+msgstr "ユーザーのアバター"
 
 #: weblate/accounts/forms.py:84
 msgid ""
@@ -314,10 +312,8 @@ msgid "Translations made"
 msgstr "翻訳数"
 
 #: weblate/accounts/forms.py:783
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid ordering"
-msgstr "無効な検索文字列です！"
+msgstr "無効な並べ替え"
 
 #: weblate/accounts/models.py:80
 msgid "Password changed."
@@ -668,8 +664,6 @@ msgstr "採用待ちの提案"
 #: weblate/accounts/notifications.py:697
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:35
 #: weblate/trans/filter.py:116
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Strings needing action"
 msgstr "校正が必要な文字列"
 
@@ -2267,10 +2261,8 @@ msgid "Priority"
 msgstr "優先順位"
 
 #: weblate/checks/flags.py:67
-#, fuzzy
-#| msgid "Replacement string"
 msgid "Replacements while rendering"
-msgstr "置換文字列"
+msgstr "表示処理中の代替"
 
 #: weblate/checks/flags.py:228
 #, python-format
@@ -2910,20 +2902,16 @@ msgid "Starting letter"
 msgstr "開始文字"
 
 #: weblate/glossary/models.py:59
-#, fuzzy
-#| msgid "Additional context"
 msgid "Additional projects"
-msgstr "追加のコンテキスト"
+msgstr "追加のプロジェクト"
 
 #: weblate/glossary/models.py:63
 msgid "Choose additional projects where this glossary can be used."
-msgstr ""
+msgstr "この用語集を使用できる追加プロジェクトを選択してください。"
 
 #: weblate/glossary/models.py:67
-#, fuzzy
-#| msgid "Glossary added"
 msgid "Glossary name"
-msgstr "用語集への追加"
+msgstr "用語集の名前"
 
 #: weblate/glossary/models.py:72 weblate/templates/project-labels.html:18
 #: weblate/trans/models/label.py:33
@@ -2954,24 +2942,18 @@ msgid "%(language)s glossary for %(project)s"
 msgstr "%(project)s 用の %(language)s の用語集"
 
 #: weblate/glossary/views.py:128 weblate/glossary/views.py:143
-#, fuzzy
-#| msgid "Override was not found."
 msgid "Glossary was not found."
-msgstr "オーバーライドが見つかりません。"
+msgstr "用語集が見つかりません。"
 
 #: weblate/glossary/views.py:253
-#, fuzzy
-#| msgid "No words to import found in file."
 msgid "No terms to import found in file."
-msgstr "インポートできる単語がファイル内にありません。"
+msgstr "インポートする用語がファイル内にありません。"
 
 #: weblate/glossary/views.py:255
-#, fuzzy, python-format
-#| msgid "Imported %d word from the uploaded file."
-#| msgid_plural "Imported %d words from the uploaded file."
+#, python-format
 msgid "Imported %d term from the uploaded file."
 msgid_plural "Imported %d terms from the uploaded file."
-msgstr[0] "アップロードしたファイルから %d 個の単語をインポートしました。"
+msgstr[0] "アップロードしたファイルから %d 個の用語をインポートしました。"
 
 #: weblate/glossary/views.py:262 weblate/trans/views/files.py:187
 #, python-format
@@ -4288,7 +4270,7 @@ msgstr "ユーザ"
 #: weblate/templates/accounts/user.html:17
 #, python-format
 msgid "Joined on %(date)s"
-msgstr ""
+msgstr "%(date)s に参加"
 
 #: weblate/templates/accounts/user.html:23 weblate/templates/language.html:72
 #, python-format
@@ -4297,33 +4279,27 @@ msgid_plural "%(count)s translations"
 msgstr[0] "%(count)s 件の翻訳"
 
 #: weblate/templates/accounts/user.html:28
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "採用待ちの提案"
+msgstr[0] "%(count)s 個の提案"
 
 #: weblate/templates/accounts/user.html:35
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "採用待ちの提案"
+msgstr[0] "%(count)s 個の採用待ちの提案"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s 票"
+msgstr[0] "%(count)s 個のスクリーンショット"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project contributions"
-msgstr "プロジェクト情報"
+msgstr "プロジェクトへの貢献"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4344,17 +4320,13 @@ msgid "Browse all changes for user"
 msgstr "ユーザが行った変更をすべて表示"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
-#, fuzzy
-#| msgid "Last activity"
 msgid "Daily activity"
-msgstr "直前の作業"
+msgstr "日々の行動履歴"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
-#, fuzzy
-#| msgid "Last activity"
 msgid "Weekly activity"
-msgstr "直前の作業"
+msgstr "毎週の行動履歴"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -5754,22 +5726,15 @@ msgid "Are you absolutely sure?"
 msgstr "本当によろしいですか？"
 
 #: weblate/templates/glossaries.html:57
-#, fuzzy, python-format
-#| msgid ""
-#| "This will permanently delete %(count)s entry from the translation memory."
-#| msgid_plural ""
-#| "This will permanently delete %(count)s entries from the translation "
-#| "memory."
+#, python-format
 msgid "This will permanently delete %(count)s entry from the glossary."
 msgid_plural ""
 "This will permanently delete %(count)s entries from the glossary."
-msgstr[0] "実行すると翻訳メモリから %(count)s のエントリが永久に削除されます。"
+msgstr[0] "実行すると翻訳メモリから %(count)s の項目を完全に削除します。"
 
 #: weblate/templates/glossaries.html:73
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Create new glossary"
-msgstr "用語集の管理"
+msgstr "新しい用語集の作成"
 
 #: weblate/templates/glossary.html:21
 #: weblate/templates/snippets/list-objects.html:93
@@ -6396,11 +6361,10 @@ msgid "Strings with suggestions"
 msgstr "提案がある文字列"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
-msgstr[0] "%(component)s の保留中の提案"
+msgstr[0] "%(component)s に %(count)s 個の保留中の提案"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -6480,19 +6444,16 @@ msgid "Screenshot context"
 msgstr "スクリーンショットのコンテキスト"
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "There is %(count)s string needing action in %(component)s."
-#| msgid_plural "There are %(count)s strings needing action in %(component)s."
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "%(component)s には査読が必要な文字列が %(count)s 個あります。"
+msgstr[0] "%(component)s には校正が必要な文字列が %(count)s 個あります"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Strings needing action"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "校正が必要な文字列"
+msgstr[0] "%(count)s 個の校正が必要な文字列"
 
 #: weblate/templates/manage-access.html:10
 msgid "Manage users"
@@ -7122,10 +7083,8 @@ msgid "Strings"
 msgstr "文字列"
 
 #: weblate/templates/screenshots/screenshot_list.html:54
-#, fuzzy
-#| msgid "Search in target strings"
 msgid "There are no assigned strings."
-msgstr "翻訳先内を検索する"
+msgstr "割り当てられた文字列はありません。"
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:27
 msgid "No source strings are currently assigned!"
@@ -7345,10 +7304,8 @@ msgid "Target strings"
 msgstr "翻訳文"
 
 #: weblate/templates/snippets/query-builder.html:16
-#, fuzzy
-#| msgid "Context strings"
 msgid "Key/Context strings"
-msgstr "コンテキスト文字列"
+msgstr "キー / コンテキスト文字列"
 
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Comment strings"
@@ -7494,11 +7451,9 @@ msgstr "コメント数"
 #. Translators: Translation key for monolingual translations
 #: weblate/templates/snippets/query-field.html:43
 #: weblate/trans/models/component.py:2443 weblate/utils/views.py:102
-#, fuzzy
-#| msgid "Keys"
 msgctxt "Translation key"
 msgid "Key"
-msgstr "暗号鍵"
+msgstr "キー"
 
 #. Translators: Name of event in the history
 #: weblate/templates/snippets/suggestions.html:12
@@ -7795,7 +7750,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
-msgstr ""
+msgstr "文字列に割り当てられていないスクリーンショットが最低 1 つあります。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:4
 msgid "Manage screenshots"
@@ -8126,10 +8081,8 @@ msgstr ""
 "この翻訳は提案のみを受け付け、投票によって承認されるようになっています。"
 
 #: weblate/templates/translate.html:185
-#, fuzzy
-#| msgid "Insufficient privileges for adding suggestions."
 msgid "Insufficient privileges for editing source strings."
-msgstr "提案を追加する権限がありません。"
+msgstr "原文を編集する権限が不足しています。"
 
 #: weblate/templates/translate.html:187 weblate/trans/views/edit.py:269
 #: weblate/trans/views/edit.py:290 weblate/trans/views/edit.py:309
@@ -8272,10 +8225,8 @@ msgid "Manage glossary"
 msgstr "用語集の管理"
 
 #: weblate/templates/translate.html:514 weblate/templates/translate.html:524
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Add term to glossary"
-msgstr "用語集に追加"
+msgstr "用語集に用語を追加"
 
 #: weblate/templates/translate.html:543
 msgid "Source information"
@@ -9163,10 +9114,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "確認のため、プロジェクトのスラッグを入力してください。"
 
 #: weblate/trans/forms.py:1915
-#, fuzzy
-#| msgid "Author name"
 msgid "Author username"
-msgstr "製作者名"
+msgstr "翻訳者のユーザー名"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
@@ -9250,10 +9199,8 @@ msgstr "プロジェクトの Web サイトの URL エラー"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:288
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Unused screenshot"
-msgstr "スクリーンショットの追加"
+msgstr "スクリーンショットなし"
 
 #: weblate/trans/models/announcement.py:104
 msgid "Category"
@@ -9992,10 +9939,8 @@ msgstr ""
 "リソースを翻訳するためのコンポーネントを使用してください。"
 
 #: weblate/trans/models/component.py:1852
-#, fuzzy
-#| msgid "The language code \"%s\" is too long, please check the filemask."
 msgid "Could not find any matching language, please check the filemask."
-msgstr "言語コード \"%s\" は長すぎます。ファイルマスクを確認してください。"
+msgstr "一致する言語が見つかりません。ファイルマスクを確認してください。"
 
 #: weblate/trans/models/component.py:1871
 #, python-format
@@ -10008,10 +9953,8 @@ msgid "Unrecognized base file for new translations."
 msgstr "新しい翻訳用の、未使用の基本ファイル。"
 
 #: weblate/trans/models/component.py:1896
-#, fuzzy
-#| msgid "Unused base file for new translations."
 msgid "Base file for new translations not found."
-msgstr "新しい翻訳用の、未使用の基本ファイル。"
+msgstr "新しい翻訳のためのベース ファイルが見つかりません。"
 
 #: weblate/trans/models/component.py:1899
 msgid ""
