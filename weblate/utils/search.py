@@ -27,7 +27,16 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from jellyfish import damerau_levenshtein_distance
-from pyparsing import Optional, QuotedString, Regex, Word, infixNotation, oneOf, opAssoc
+from pyparsing import (
+    CaselessKeyword,
+    Optional,
+    QuotedString,
+    Regex,
+    Word,
+    infixNotation,
+    oneOf,
+    opAssoc,
+)
 
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.state import (
@@ -59,10 +68,13 @@ class Comparer:
 
 # Field type definitions
 PLAIN_FIELDS = ("source", "target", "context", "note", "location")
-NONTEXT_FIELDS = {"priority", "state", "timestamp", "change__timestamp"}
+NONTEXT_FIELDS = {"priority", "state", "timestamp", "change__timestamp", "pending"}
 FIELD_MAP = {"changed": "change__timestamp", "added": "timestamp"}
-STRING_FIELD_MAP = {"suggestion": "suggestion__target", "comment": "comment__comment"}
-STRING_FIELD_MAP = {"key": "context"}
+STRING_FIELD_MAP = {
+    "suggestion": "suggestion__target",
+    "comment": "comment__comment",
+    "key": "context",
+}
 EXACT_FIELD_MAP = {
     "check": "check__check",
     "dismissed_check": "check__check",
@@ -83,9 +95,9 @@ OPERATOR_MAP = {
 
 # Parsing grammar
 
-AND = oneOf(["AND", "and"])
-OR = Optional(oneOf(["OR", "or"]))
-NOT = oneOf(["NOT", "not"])
+AND = CaselessKeyword("AND")
+OR = Optional(CaselessKeyword("OR"))
+NOT = CaselessKeyword("NOT")
 
 # Search operator
 OPERATOR = oneOf(OPERATOR_MAP.keys())
@@ -107,7 +119,7 @@ STRING = (
 )
 
 # Single term, either field specific or not
-TERM = STRING + Optional(OPERATOR + (RANGE | STRING))
+TERM = (WORD + OPERATOR + (RANGE | STRING)) | STRING
 
 # Multi term with or without operator
 QUERY = Optional(
@@ -317,9 +329,11 @@ class TermExpr:
             if suffix == "substring":
                 suffix = "iexact"
             return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
-        if field in NONTEXT_FIELDS and suffix not in ("substring", "iexact"):
-            return "{}__{}".format(field, suffix)
-        return field
+        if field in NONTEXT_FIELDS:
+            if suffix not in ("substring", "iexact"):
+                return "{}__{}".format(field, suffix)
+            return field
+        raise ValueError(f"Unsupported field: {field}")
 
     def as_sql(self):
         field = self.field

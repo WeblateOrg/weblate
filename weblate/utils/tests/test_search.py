@@ -87,6 +87,16 @@ class QueryParserTest(TestCase):
         self.assert_query('key:"hello world"', expected)
         self.assert_query("context:'hello world'", expected)
 
+    def test_text(self):
+        self.assert_query("note:TEXT", Q(note__substring="TEXT"))
+        self.assert_query("location:TEXT", Q(location__substring="TEXT"))
+
+    def test_comment(self):
+        self.assert_query("comment:TEXT", Q(comment__comment__substring="TEXT"))
+        self.assert_query(
+            "comment_author:nijel", Q(comment__user__username__iexact="nijel")
+        )
+
     def test_field(self):
         self.assert_query(
             "source:hello target:world",
@@ -182,6 +192,10 @@ class QueryParserTest(TestCase):
     def test_bool(self):
         self.assert_query("pending:true", Q(pending=True))
 
+    def test_nonexisting(self):
+        with self.assertRaises(ValueError):
+            self.assert_query("nonexisting:true", Q())
+
     def test_state(self):
         self.assert_query("state:>=empty", Q(state__gte=STATE_EMPTY))
         self.assert_query("state:>=translated", Q(state__gte=STATE_TRANSLATED))
@@ -239,7 +253,15 @@ class QueryParserTest(TestCase):
         self.assert_query("is:read-only", Q(state=STATE_READONLY))
         self.assert_query("is:fuzzy", Q(state=STATE_FUZZY))
 
+    def test_changed_by(self):
+        self.assert_query(
+            "changed_by:nijel",
+            Q(change__author__username__iexact="nijel")
+            & Q(change__action__in=Change.ACTIONS_CONTENT),
+        )
+
     def test_suggestions(self):
+        self.assert_query("suggestion:text", Q(suggestion__target__substring="text"))
         self.assert_query(
             "suggestion_author:nijel", Q(suggestion__user__username__iexact="nijel")
         )
