@@ -25,7 +25,7 @@ import tempfile
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Max, Q
+from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -470,6 +470,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return User.objects.get(pk=self.stats.last_author).get_author_name(email)
 
+    @transaction.atomic
     def commit_pending(self, reason, user, skip_push=False, force=False, signals=True):
         """Commit any pending changes."""
         if not force and not self.needs_commit():
@@ -484,17 +485,17 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             self.log_error("skipping commit due to error: %s", error)
             return False
 
-        with self.component.repository.lock, transaction.atomic():
-            while True:
-                # Find oldest change break loop if there is none left
-                try:
-                    unit = (
-                        self.unit_set.filter(pending=True)
-                        .annotate(Max("change__timestamp"))
-                        .order_by("change__timestamp__max")[0]
-                    )
-                except IndexError:
-                    break
+        with self.component.repository.lock:
+            units = (
+                self.unit_set.filter(pending=True)
+                .prefetch_recent_content_changes()
+                .select_for_update()
+            )
+
+            for unit in units:
+                # We reuse the queryset, so pending units might reappear here
+                if not unit.pending:
+                    continue
 
                 # Get last change metadata
                 author, timestamp = unit.get_last_content_change()
@@ -502,12 +503,17 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 author_name = author.get_author_name()
 
                 # Flush pending units for this author
-                self.update_units(store, author_name, author.id)
+                self.update_units(units, store, author_name, author.id)
 
                 # Commit changes
                 self.git_commit(
                     user, author_name, timestamp, skip_push=skip_push, signals=signals
                 )
+
+            # Remove the pending flag
+            Unit.objects.filter(pk__in=[unit.id for unit in units]).update(
+                pending=False
+            )
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -597,15 +603,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return True
 
-    @transaction.atomic
-    def update_units(self, store, author_name, author_id):
+    def update_units(self, units, store, author_name, author_id):
         """Update backend file and unit."""
         updated = False
-        for unit in (
-            self.unit_set.filter(pending=True)
-            .prefetch_recent_content_changes()
-            .select_for_update()
-        ):
+        for unit in units:
+            # We reuse the queryset, so pending units might reappear here
+            if not unit.pending:
+                continue
             # Skip changes by other authors
             change_author = unit.get_last_content_change()[0]
             if change_author.id != author_id:
@@ -620,7 +624,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # Bail out if we have not found anything
                 report_error(cause="String disappeared")
                 self.log_error("disappeared string: %s", unit)
-                unit.save(update_fields=["pending"], same_content=True, same_state=True)
                 continue
 
             # Check for changes
@@ -630,7 +633,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 and unit.approved == pounit.is_approved(unit.approved)
                 and unit.fuzzy == pounit.is_fuzzy()
             ):
-                unit.save(update_fields=["pending"], same_content=True, same_state=True)
                 continue
 
             updated = True
@@ -659,11 +661,11 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 unit.state = state
                 unit.flags = flags
                 same_state = False
-            unit.save(
-                update_fields=["state", "flags", "pending"],
-                same_content=True,
-                same_state=same_state,
-            )
+                unit.save(
+                    update_fields=["state", "flags", "pending"],
+                    same_content=True,
+                    same_state=same_state,
+                )
 
         # Did we do any updates?
         if not updated:
