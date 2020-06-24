@@ -31,6 +31,7 @@ class FilterRegistry:
     def full_list(self):
         result = [
             ("all", _("All strings"), ""),
+            ("readonly", _("Read only strings"), "state:read-only"),
             ("nottranslated", _("Not translated strings"), "state:empty"),
             ("todo", _("Strings needing action"), "state:<translated"),
             ("translated", _("Translated strings"), "state:>=translated"),

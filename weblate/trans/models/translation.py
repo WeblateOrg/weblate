@@ -709,6 +709,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         # All strings
         result.add(self.stats, "all", "success")
 
+        result.add_if(self.stats, "readonly", "")
+
         if not self.is_readonly:
             if self.enable_review:
                 result.add_if(self.stats, "approved", "success")

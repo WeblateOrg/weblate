@@ -40,6 +40,7 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_READONLY,
     STATE_TRANSLATED,
 )
 
@@ -47,6 +48,7 @@ BASICS = {
     "all",
     "fuzzy",
     "todo",
+    "readonly",
     "nottranslated",
     "translated",
     "approved",
@@ -65,11 +67,13 @@ BASIC_KEYS = frozenset(
         "translated_percent",
         "approved_percent",
         "fuzzy_percent",
+        "readonly_percent",
         "allchecks_percent",
         "translated_checks_percent",
         "translated_words_percent",
         "approved_words_percent",
         "fuzzy_words_percent",
+        "readonly_words_percent",
         "allchecks_words_percent",
         "translated_checks_words_percent",
     ]
@@ -283,12 +287,14 @@ class BaseStats:
         self.store_percents("translated_percent")
         self.store_percents("approved_percent")
         self.store_percents("fuzzy_percent")
+        self.store_percents("readonly_percent")
         self.store_percents("allchecks_percent")
         self.store_percents("translated_checks_percent")
 
         self.store_percents("translated_words_percent")
         self.store_percents("approved_words_percent")
         self.store_percents("fuzzy_words_percent")
+        self.store_percents("readonly_words_percent")
         self.store_percents("allchecks_words_percent")
         self.store_percents("translated_checks_words_percent")
 
@@ -351,6 +357,9 @@ class TranslationStats(BaseStats):
             fuzzy=conditional_sum(1, state=STATE_FUZZY),
             fuzzy_words=conditional_sum("num_words", state=STATE_FUZZY),
             fuzzy_chars=conditional_sum(Length("source"), state=STATE_FUZZY),
+            readonly=conditional_sum(1, state=STATE_READONLY),
+            readonly_words=conditional_sum("num_words", state=STATE_READONLY),
+            readonly_chars=conditional_sum(Length("source"), state=STATE_READONLY),
             translated=conditional_sum(1, state__gte=STATE_TRANSLATED),
             translated_words=conditional_sum("num_words", state__gte=STATE_TRANSLATED),
             translated_chars=conditional_sum(
@@ -362,9 +371,9 @@ class TranslationStats(BaseStats):
             nottranslated=conditional_sum(1, state=STATE_EMPTY),
             nottranslated_words=conditional_sum("num_words", state=STATE_EMPTY),
             nottranslated_chars=conditional_sum(Length("source"), state=STATE_EMPTY),
-            approved=conditional_sum(1, state__gte=STATE_APPROVED),
-            approved_words=conditional_sum("num_words", state__gte=STATE_APPROVED),
-            approved_chars=conditional_sum(Length("source"), state__gte=STATE_APPROVED),
+            approved=conditional_sum(1, state=STATE_APPROVED),
+            approved_words=conditional_sum("num_words", state=STATE_APPROVED),
+            approved_chars=conditional_sum(Length("source"), state=STATE_APPROVED),
             unlabeled=conditional_sum(1, labels__isnull=True),
             unlabeled_words=conditional_sum("num_words", labels__isnull=True),
             unlabeled_chars=conditional_sum(Length("source"), labels__isnull=True),

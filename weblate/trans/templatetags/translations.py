@@ -425,16 +425,6 @@ def naturaltime(value, now=None):
     )
 
 
-def translation_progress_data(approved, translated, fuzzy, checks):
-    return {
-        "approved": "{0:.1f}".format(approved),
-        "good": "{0:.1f}".format(max(translated - checks - approved, 0)),
-        "checks": "{0:.1f}".format(checks),
-        "fuzzy": "{0:.1f}".format(fuzzy),
-        "percent": "{0:.1f}".format(translated),
-    }
-
-
 def get_stats_parent(obj, parent):
     if not isinstance(obj, BaseStats):
         obj = obj.stats
@@ -458,10 +448,22 @@ def get_stats(obj, attr):
     return getattr(obj, attr)
 
 
+def translation_progress_data(readonly, approved, translated, fuzzy, checks):
+    return {
+        "readonly": "{0:.1f}".format(readonly),
+        "approved": "{0:.1f}".format(approved),
+        "good": "{0:.1f}".format(max(translated - checks - approved - readonly, 0)),
+        "checks": "{0:.1f}".format(checks),
+        "fuzzy": "{0:.1f}".format(fuzzy),
+        "percent": "{0:.1f}".format(translated),
+    }
+
+
 @register.inclusion_tag("progress.html")
 def translation_progress(obj, parent=None):
     stats = get_stats_parent(obj, parent)
     return translation_progress_data(
+        stats.readonly_percent,
         stats.approved_percent,
         stats.translated_percent,
         stats.fuzzy_percent,
@@ -473,6 +475,7 @@ def translation_progress(obj, parent=None):
 def words_progress(obj, parent=None):
     stats = get_stats_parent(obj, parent)
     return translation_progress_data(
+        stats.readonly_words_percent,
         stats.approved_words_percent,
         stats.translated_words_percent,
         stats.fuzzy_words_percent,

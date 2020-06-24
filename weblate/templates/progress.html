@@ -1,6 +1,9 @@
 {% load i18n %}
 
 <div class="progress">
+  {% if readonly %}
+  <div class="progress-bar" role="progressbar" aria-valuenow="{{ readonly }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ readonly }}%;" title="{% trans "Read only" %}"></div>
+  {% endif %}
   {% if approved %}
   <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ approved }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ approved }}%;" title="{% trans "Approved" %}"></div>
   {% endif %}
