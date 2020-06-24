@@ -18,6 +18,7 @@ def set_permissions(strategy, backend, user, details, **kwargs):
         groups_to_add.append(Group.objects.get(name="Vendasta Developers"))
     elif "partner" in roles:
         groups_to_add.append(Group.objects.get(name="Partner Users"))
+        groups_to_add.append(Group.objects.get(name="Public Languages"))
 
     namespace = details.get("namespace")
     if namespace:
