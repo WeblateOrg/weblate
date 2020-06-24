@@ -314,7 +314,7 @@ class BaseFormatCheck(TargetCheck):
         return ret
 
     def format_result(self, result):
-        return _("Following format strings are wrong: %s") % ", ".join(
+        return _("Following format strings are missing: %s") % ", ".join(
             self.format_string(x) for x in result
         )
 
