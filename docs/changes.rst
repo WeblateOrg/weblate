@@ -14,6 +14,7 @@ Not yet released.
 * The Git squash addon can generate ``Co-authored-by:`` trailers.
 * Improved query search parser.
 * Improved user feedback from format strings checks.
+* Improved performance of bulk state changes.
 
 Weblate 4.1.1
 -------------

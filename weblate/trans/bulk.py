@@ -21,7 +21,7 @@
 from django.db import transaction
 
 from weblate.checks.flags import Flags
-from weblate.trans.models import Change, Component
+from weblate.trans.models import Change, Component, Unit
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY
 
 
@@ -47,7 +47,9 @@ def bulk_perform(
     updated = 0
     for component in components:
         component.preload_sources()
+        component.commit_pending("bulk edit", user)
         with transaction.atomic(), component.lock():
+            state_updates = []
             for unit in matching.filter(
                 translation__component=component
             ).select_for_update():
@@ -56,16 +58,12 @@ def bulk_perform(
                 updated += 1
                 if (
                     target_state != -1
+                    and target_state != unit.state
                     and unit.state > STATE_EMPTY
                     and unit.state < STATE_READONLY
                 ):
-                    unit.translate(
-                        user,
-                        unit.target,
-                        target_state,
-                        change_action=Change.ACTION_BULK_EDIT,
-                        propagate=False,
-                    )
+                    state_updates.append(unit.pk)
+                    unit.generate_change(user, user, Change.ACTION_BULK_EDIT)
                 if add_flags or remove_flags:
                     flags = Flags(unit.source_info.extra_flags)
                     flags.merge(add_flags)
@@ -80,6 +78,9 @@ def bulk_perform(
                     unit.source_info.is_bulk_edit = True
                     unit.source_info.labels.remove(*remove_labels)
 
+        Unit.objects.filter(pk__in=state_updates).update(
+            pending=True, state=target_state
+        )
         component.invalidate_stats_deep()
 
     return updated
