@@ -363,9 +363,7 @@
 <div class="tab-pane" id="comments">
 
 {% if unit.all_comments %}
-  {% with this_unit_url as next_url %}
-    {% include "list-comments.html" with object=unit.translation comments=unit.all_comments %}
-  {% endwith %}
+    {% include "list-comments.html" with object=unit.translation comments=unit.all_comments next_url=this_unit_url %}
 {% endif %}
 
 {% if user_can_add_comment %}
