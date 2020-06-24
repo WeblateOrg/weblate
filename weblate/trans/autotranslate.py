@@ -100,9 +100,13 @@ class AutoTranslate:
             Unit.objects.filter(id__in=units).select_for_update()
         ):
             # Get first matching entry
-            update = sources.filter(source=unit.source)[0]
+            update = sources.filter(source=unit.source).first()
             # No save if translation is same
-            if unit.state == update.state and unit.target == update.target:
+            if (
+                update is None
+                or unit.state == update.state
+                and unit.target == update.target
+            ):
                 continue
             # Copy translation
             self.update(unit, update.state, update.target)
