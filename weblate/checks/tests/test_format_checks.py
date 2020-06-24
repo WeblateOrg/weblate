@@ -113,6 +113,46 @@ class PythonFormatCheckTest(CheckTestCase):
             )
         )
 
+    def test_feedback(self):
+        self.assertEqual(
+            self.check.check_format("%(count)d", "%(languages)d", False),
+            {"missing": ["(count)d"], "extra": ["(languages)d"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%(count)d", "count", False),
+            {"missing": ["(count)d"], "extra": []},
+        )
+        self.assertEqual(
+            self.check.check_format("%(count)d", "%(count)d %(languages)d", False),
+            {"missing": [], "extra": ["(languages)d"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%d", "%s", False),
+            {"missing": ["d"], "extra": ["s"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%d", "ds", False), {"missing": ["d"], "extra": []}
+        )
+        self.assertEqual(
+            self.check.check_format("%d", "%d %s", False),
+            {"missing": [], "extra": ["s"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%d %d", "%d", False),
+            {"missing": ["d"], "extra": []},
+        )
+
+    def test_description(self):
+        unit = Unit(
+            source="%(count)d", target="%(languages)d", extra_flags="python-format",
+        )
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Following format strings are missing: %(count)d<br />"
+            "Following format strings are extra: %(languages)d",
+        )
+
 
 class PHPFormatCheckTest(CheckTestCase):
     check = PHPFormatCheck()

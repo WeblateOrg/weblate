@@ -20,6 +20,9 @@
 import re
 
 from django.utils.functional import SimpleLazyObject
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from methodtools import lru_cache
 
@@ -287,14 +290,18 @@ class BaseFormatCheck(TargetCheck):
             if ignore_missing and tgt_matches < src_matches:
                 return False
             if not uses_position:
-                return src_matches - tgt_matches
-            result = []
-            for i in range(min(len(src_matches), len(tgt_matches))):
-                if src_matches[i] != tgt_matches[i]:
-                    result.append(src_matches[i])
-            result.extend(src_matches[len(tgt_matches) :])
-            result.extend(tgt_matches[len(src_matches) :])
-            return result
+                missing = sorted(src_matches - tgt_matches)
+                extra = sorted(tgt_matches - src_matches)
+            else:
+                missing = []
+                extra = []
+                for i in range(min(len(src_matches), len(tgt_matches))):
+                    if src_matches[i] != tgt_matches[i]:
+                        missing.append(src_matches[i])
+                        extra.append(tgt_matches[i])
+                missing.extend(src_matches[len(tgt_matches) :])
+                extra.extend(tgt_matches[len(src_matches) :])
+            return {"missing": missing, "extra": extra}
         return False
 
     def is_position_based(self, string):
@@ -314,18 +321,26 @@ class BaseFormatCheck(TargetCheck):
         return ret
 
     def format_result(self, result):
-        return _("Following format strings are missing: %s") % ", ".join(
-            self.format_string(x) for x in result
-        )
+        if result["missing"]:
+            yield gettext("Following format strings are missing: %s") % ", ".join(
+                self.format_string(x) for x in result["missing"]
+            )
+        if result["extra"]:
+            yield gettext("Following format strings are extra: %s") % ", ".join(
+                self.format_string(x) for x in result["extra"]
+            )
 
     def get_description(self, check_obj):
         unit = check_obj.unit
         checks = self.check_generator(
             unit.get_source_plurals(), unit.get_target_plurals(), unit
         )
+        errors = []
         for result in checks:
             if result:
-                return self.format_result(result)
+                errors.extend(self.format_result(result))
+        if errors:
+            return mark_safe("<br />".join(escape(error) for error in errors))
         return super().get_description(check_obj)
 
 
@@ -452,16 +467,21 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         if not target or not source:
             return False
 
+        result = super().check_format(source, target, ignore_missing)
+
         # Even number of quotes
         if target.count("'") % 2 != 0:
-            return ["'"]
+            if not result:
+                result = {"missing": [], "extra": []}
+            result["missing"].append("'")
 
-        return super().check_format(source, target, ignore_missing)
+        return result
 
     def format_result(self, result):
-        if "'" in result:
-            return _("You need to pair up an apostrophe with another one.")
-        return super().format_result(result)
+        if "'" in result["missing"]:
+            result["missing"].remove("'")
+            yield gettext("You need to pair up an apostrophe with another one.")
+        yield from super().format_result(result)
 
 
 class I18NextInterpolationCheck(BaseFormatCheck):

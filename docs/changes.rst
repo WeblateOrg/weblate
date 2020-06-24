@@ -13,6 +13,7 @@ Not yet released.
 * Improved language codes handling in Google Translate integration.
 * The Git squash addon can generate ``Co-authored-by:`` trailers.
 * Improved query search parser.
+* Improved user feedback from format strings checks.
 
 Weblate 4.1.1
 -------------
