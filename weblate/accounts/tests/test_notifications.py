@@ -265,7 +265,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.edit_unit("Hello, world!\n", "Ahoj svete!\n")
         # No notification for own edit
         self.assertEqual(len(mail.outbox), 0)
-        change = self.get_unit().change_set.content().order_by("-timestamp")[0]
+        change = self.get_unit().recent_content_changes[0]
         change.user = self.anotheruser
         change.save()
         # Notification for other user edit

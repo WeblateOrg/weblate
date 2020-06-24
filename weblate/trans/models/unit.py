@@ -108,6 +108,21 @@ class UnitQuerySet(models.QuerySet):
             ),
         )
 
+    def prefetch_recent_content_changes(self):
+        """
+        Prefetch recent content changes.
+
+        This is used in commit pending, where we need this
+        for all pending units.
+        """
+        return self.prefetch_related(
+            models.Prefetch(
+                "change_set",
+                queryset=Change.objects.content().order().prefetch_related("author"),
+                to_attr="recent_content_changes",
+            )
+        )
+
     def search(self, query):
         """High level wrapper for searching."""
         return self.prefetch().filter(parse_query(query))
@@ -1010,6 +1025,15 @@ class Unit(models.Model, LoggerMixin):
     def get_target_hash(self):
         return calculate_hash(None, self.target)
 
+    @cached_property
+    def recent_content_changes(self):
+        """
+        Content changes for a unit ordered by timestamp.
+
+        Can be prefetched using prefetch_recent_content_changes.
+        """
+        return self.change_set.content().select_related("author").order_by("-timestamp")
+
     def get_last_content_change(self, silent=False):
         """Wrapper to get last content change metadata.
 
@@ -1019,11 +1043,7 @@ class Unit(models.Model, LoggerMixin):
         from weblate.auth.models import get_anonymous
 
         try:
-            change = (
-                self.change_set.content()
-                .select_related("author")
-                .order_by("-timestamp")[0]
-            )
+            change = self.recent_content_changes[0]
             return change.author or get_anonymous(), change.timestamp
         except IndexError:
             if not silent:

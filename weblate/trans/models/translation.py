@@ -601,7 +601,11 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def update_units(self, store, author_name, author_id):
         """Update backend file and unit."""
         updated = False
-        for unit in self.unit_set.filter(pending=True).select_for_update():
+        for unit in (
+            self.unit_set.filter(pending=True)
+            .prefetch_recent_content_changes()
+            .select_for_update()
+        ):
             # Skip changes by other authors
             change_author = unit.get_last_content_change()[0]
             if change_author.id != author_id:
