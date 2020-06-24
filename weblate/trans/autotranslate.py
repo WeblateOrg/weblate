@@ -101,11 +101,9 @@ class AutoTranslate:
         ):
             # Get first matching entry
             update = sources.filter(source=unit.source).first()
-            # No save if translation is same
-            if (
-                update is None
-                or unit.state == update.state
-                and unit.target == update.target
+            # No save if translation is same or unit does not exist
+            if update is None or (
+                unit.state == update.state and unit.target == update.target
             ):
                 continue
             # Copy translation
