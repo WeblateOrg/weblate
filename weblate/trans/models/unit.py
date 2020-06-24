@@ -1019,7 +1019,11 @@ class Unit(models.Model, LoggerMixin):
         from weblate.auth.models import get_anonymous
 
         try:
-            change = self.change_set.content().order_by("-timestamp")[0]
+            change = (
+                self.change_set.content()
+                .select_related("author")
+                .order_by("-timestamp")[0]
+            )
             return change.author or get_anonymous(), change.timestamp
         except IndexError:
             if not silent:
