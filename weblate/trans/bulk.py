@@ -48,9 +48,9 @@ def bulk_perform(
 
     updated = 0
     for component in components:
-        component.preload_sources()
-        component.commit_pending("bulk edit", user)
         with transaction.atomic(), component.lock():
+            component.preload_sources()
+            component.commit_pending("bulk edit", user)
             component_units = matching.filter(
                 translation__component=component
             ).select_for_update()
