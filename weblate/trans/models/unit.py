@@ -731,11 +731,15 @@ class Unit(models.Model, LoggerMixin):
             # Invalidate stats
             unit.translation.invalidate_cache()
 
-    def generate_change(self, user, author, change_action):
+    def generate_change(self, user, author, change_action, check_new=True):
         """Create Change entry for saving unit."""
         # Notify about new contributor
-        user_changes = Change.objects.filter(translation=self.translation, user=user)
-        if not user_changes.exists():
+        if (
+            check_new
+            and not Change.objects.filter(
+                translation=self.translation, user=user
+            ).exists()
+        ):
             Change.objects.create(
                 unit=self,
                 action=Change.ACTION_NEW_CONTRIBUTOR,

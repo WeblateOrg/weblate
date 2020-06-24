@@ -21,8 +21,10 @@
 from django.db import transaction
 
 from weblate.checks.flags import Flags
-from weblate.trans.models import Change, Component, Unit
-from weblate.utils.state import STATE_EMPTY, STATE_READONLY
+from weblate.trans.models import Change, Component
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+
+EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
 
 
 def bulk_perform(
@@ -49,21 +51,24 @@ def bulk_perform(
         component.preload_sources()
         component.commit_pending("bulk edit", user)
         with transaction.atomic(), component.lock():
-            state_updates = []
-            for unit in matching.filter(
+            component_units = matching.filter(
                 translation__component=component
-            ).select_for_update():
+            ).select_for_update()
+
+            for unit in component_units:
                 if user is not None and not user.has_perm("unit.edit", unit):
                     continue
                 updated += 1
                 if (
                     target_state != -1
                     and target_state != unit.state
-                    and unit.state > STATE_EMPTY
-                    and unit.state < STATE_READONLY
+                    and unit.state in EDITABLE_STATES
                 ):
-                    state_updates.append(unit.pk)
-                    unit.generate_change(user, user, Change.ACTION_BULK_EDIT)
+                    # Create change object for edit, update is done outside the looop
+                    unit.generate_change(
+                        user, user, Change.ACTION_BULK_EDIT, check_new=False
+                    )
+
                 if add_flags or remove_flags:
                     flags = Flags(unit.source_info.extra_flags)
                     flags.merge(add_flags)
@@ -71,16 +76,20 @@ def bulk_perform(
                     unit.source_info.is_bulk_edit = True
                     unit.source_info.extra_flags = flags.format()
                     unit.source_info.save(update_fields=["extra_flags"])
+
                 if add_labels:
                     unit.source_info.is_bulk_edit = True
                     unit.source_info.labels.add(*add_labels)
+
                 if remove_labels:
                     unit.source_info.is_bulk_edit = True
                     unit.source_info.labels.remove(*remove_labels)
 
-        Unit.objects.filter(pk__in=state_updates).update(
-            pending=True, state=target_state
-        )
+            if target_state != -1:
+                component_units.filter(state__in=EDITABLE_STATES).exclude(
+                    state=target_state
+                ).update(pending=True, state=target_state)
+
         component.invalidate_stats_deep()
 
     return updated
