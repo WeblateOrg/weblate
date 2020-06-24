@@ -162,18 +162,20 @@
 </h4>
 </div>
 <table class="table table-autowidth">
-{% for c in object.list_translation_checks %}
-<tr data-href="{{ translate_url }}?q={{ c.0 }}" class="clickable-row">
-<th class="number">{{ c.2|intcomma }}</th>
+{% for query, name, count, color, words in object.list_translation_checks %}
+<tr data-href="{{ translate_url }}?q={{ query }}" class="clickable-row">
+<th class="number">{{ count|intcomma }}</th>
 <td class="legend">
-<div class="progress">
-  <div class="progress-bar progress-bar-{{ c.3 }}" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-</div>
+    <div class="progress">
+      {% if color %}
+        <div class="progress-bar progress-bar-{{ color }}" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+      {% endif %}
+    </div>
 </td>
 <td class="full-cell">
-<a href="{{ translate_url }}?q={{ c.0 }}">
-{{ c.1 }} — {% blocktrans with count=c.4|intcomma count cnt=c.4 %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
-</a>
+    <a href="{{ translate_url }}?q={{ query }}">
+        {{ name }} — {% blocktrans with count=words|intcomma count cnt=words %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
+    </a>
 </td>
 {% endfor %}
 </table>

@@ -707,23 +707,23 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         result = TranslationChecklist()
 
         # All strings
-        result.add(self.stats, "all", "success")
+        result.add(self.stats, "all", "")
 
-        result.add_if(self.stats, "readonly", "")
+        result.add_if(self.stats, "readonly", "default")
 
         if not self.is_readonly:
             if self.enable_review:
-                result.add_if(self.stats, "approved", "success")
+                result.add_if(self.stats, "approved", "info")
 
             # Count of translated strings
             result.add_if(self.stats, "translated", "success")
 
             # To approve
             if self.enable_review:
-                result.add_if(self.stats, "unapproved", "warning")
+                result.add_if(self.stats, "unapproved", "dark")
 
                 # Approved with suggestions
-                result.add_if(self.stats, "approved_suggestions", "danger")
+                result.add_if(self.stats, "approved_suggestions", "info")
 
             # Untranslated strings
             result.add_if(self.stats, "todo", "danger")
@@ -735,15 +735,15 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             result.add_if(self.stats, "fuzzy", "danger")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "info")
-            result.add_if(self.stats, "nosuggestions", "info")
+            result.add_if(self.stats, "suggestions", "dark")
+            result.add_if(self.stats, "nosuggestions", "dark")
 
         # All checks
-        result.add_if(self.stats, "allchecks", "danger")
+        result.add_if(self.stats, "allchecks", "warning")
 
         # Translated strings with checks
         if not self.is_source:
-            result.add_if(self.stats, "translated_checks", "danger")
+            result.add_if(self.stats, "translated_checks", "warning")
 
         # Process specific checks
         for check in CHECKS:
@@ -751,14 +751,18 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             result.add_if(self.stats, check_obj.url_id, "warning")
 
         # Grab comments
-        result.add_if(self.stats, "comments", "info")
+        result.add_if(self.stats, "comments", "dark")
 
         # Include labels
         labels = self.component.project.label_set.order_by("name")
         if labels:
             for label in labels:
-                result.add_if(self.stats, "label:{}".format(label.name), "info")
-            result.add_if(self.stats, "unlabeled", "info")
+                result.add_if(
+                    self.stats,
+                    "label:{}".format(label.name),
+                    f"label label-{label.color}",
+                )
+            result.add_if(self.stats, "unlabeled", "")
 
         return result
 
