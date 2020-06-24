@@ -132,7 +132,7 @@ class SearchViewTest(ViewTestCase):
         self.do_search({"q": "changed:>2010-01-10 AND changed_by:testuser"}, None)
         self.do_search({"q": "changed_by:testuser"}, None)
         # Review, partial date
-        self.do_search({"q": "changed:>=2010-01-"}, None)
+        self.do_search({"q": "changed:>=2010-01-"}, "Unknown string format: 2010-01-")
 
     def extract_params(self, response):
         search_url = re.findall(r'data-params="([^"]*)"', response.content.decode())[0]

@@ -158,6 +158,8 @@ class QueryParserTest(TestCase):
             )
             & action_change,
         )
+        with self.assertRaises(ValueError):
+            self.assert_query("changed:>=2010-01-", Q())
 
     def test_date_range(self):
         self.assert_query(
