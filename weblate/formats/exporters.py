@@ -18,6 +18,7 @@
 #
 """Exporter using translate-toolkit."""
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -44,11 +45,12 @@ from weblate.utils.site import get_site_url
 _CHARMAP = dict.fromkeys(x for x in range(32) if x not in (9, 10, 13))
 
 EXPORTERS = {}
-
+WEBLATE_EXPORTERS = settings.WEBLATE_EXPORTERS
 
 def register_exporter(exporter):
     """Register an exporter."""
-    EXPORTERS[exporter.name] = exporter
+    if exporter.__name__ in WEBLATE_EXPORTERS:
+        EXPORTERS[exporter.name] = exporter
     return exporter
 
 

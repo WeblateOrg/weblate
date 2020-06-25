@@ -100,3 +100,21 @@ class FormatsConf(AppConf):
 
     class Meta:
         prefix = "WEBLATE"
+
+class ExportersConf(AppConf):
+    EXPORTERS = (
+        "PoExporter",
+        "PoXliffExporter",
+        "XliffExporter",
+        "TBXExporter",
+        "TMXExporter",
+        "MoExporter",
+        "CSVExporter",
+        "XlsxExporter",
+        "JSONExporter",
+        "AndroidResourceExporter",
+        "StringsExporter",
+    )
+
+    class Meta:
+        prefix = "WEBLATE"
