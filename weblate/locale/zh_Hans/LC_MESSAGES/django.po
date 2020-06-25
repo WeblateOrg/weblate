@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-22 08:54+0000\n"
-"PO-Revision-Date: 2020-06-16 15:41+0000\n"
-"Last-Translator: Changpeng Sun <zzjbcn@gmail.com>\n"
+"PO-Revision-Date: 2020-06-26 19:42+0000\n"
+"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/master/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.1.1-dev\n"
+"X-Generator: Weblate 4.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -45,10 +45,8 @@ msgstr "无"
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:193
 #: weblate/templates/accounts/user.html:13 weblate/templates/base.html:222
 #: weblate/templates/weblate_auth/user_list.html:18
-#, fuzzy
-#| msgid "User data"
 msgid "User avatar"
-msgstr "用户数据"
+msgstr "用户头像"
 
 #: weblate/accounts/forms.py:84
 msgid ""
@@ -303,10 +301,8 @@ msgid "Translations made"
 msgstr "完成翻译"
 
 #: weblate/accounts/forms.py:783
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid ordering"
-msgstr "搜索的字符无效！"
+msgstr "无效的排序方式"
 
 #: weblate/accounts/models.py:80
 msgid "Password changed."
@@ -4158,7 +4154,7 @@ msgstr "用户"
 #: weblate/templates/accounts/user.html:17
 #, python-format
 msgid "Joined on %(date)s"
-msgstr ""
+msgstr "于 %(date)s 加入"
 
 #: weblate/templates/accounts/user.html:23 weblate/templates/language.html:72
 #, python-format
@@ -4167,12 +4163,10 @@ msgid_plural "%(count)s translations"
 msgstr[0] "%(count)s 个翻译"
 
 #: weblate/templates/accounts/user.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending suggestion"
-#| msgid_plural "%(count)s pending suggestions"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "%(count)s 个待处理的建议"
+msgstr[0] "%(count)s 个建议"
 
 #: weblate/templates/accounts/user.html:35
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
@@ -4182,18 +4176,14 @@ msgid_plural "%(count)s pending suggestions"
 msgstr[0] "%(count)s 个待处理的建议"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s 票"
+msgstr[0] "%(count)s 个屏幕截图"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project contributions"
-msgstr "项目信息"
+msgstr "项目贡献"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4214,17 +4204,13 @@ msgid "Browse all changes for user"
 msgstr "浏览该用户的所有变更"
 
 #: weblate/templates/activity-tab.html:5 weblate/templates/activity-tab.html:7
-#, fuzzy
-#| msgid "Last activity"
 msgid "Daily activity"
-msgstr "最后活动"
+msgstr "每日活动"
 
 #: weblate/templates/activity-tab.html:10
 #: weblate/templates/activity-tab.html:12
-#, fuzzy
-#| msgid "Last activity"
 msgid "Weekly activity"
-msgstr "最后活动"
+msgstr "每周活动"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
@@ -6263,7 +6249,7 @@ msgstr "截图上下文"
 #, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "在 %(component)s 中还有 %(count)s 个字符串需要操作。"
+msgstr[0] "在 %(component)s 中还有 %(count)s 个字符串需要操作"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
 #, python-format
@@ -8819,10 +8805,8 @@ msgid "Please type in the slug of the project to confirm."
 msgstr "请输入项目标识串以确认。"
 
 #: weblate/trans/forms.py:1915
-#, fuzzy
-#| msgid "Author name"
 msgid "Author username"
-msgstr "作者姓名"
+msgstr "作者用户名"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:145
