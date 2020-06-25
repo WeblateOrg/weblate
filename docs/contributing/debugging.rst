@@ -5,6 +5,17 @@ Bugs can behave as application crashes or as a misbehavior.
 You are welcome to collect info on any such issue and submit it to our `issue tracker
 <https://github.com/WeblateOrg/weblate/issues>`_.
 
+Debug mode
+----------
+
+Enabling debug mode will make the exceptions show in browser. This is useful to
+debug issues in the web interface, but not suitable for production environment
+as it has performance consequences and might leak private data.
+
+.. seealso::
+
+    :ref:`production-debug`
+
 Weblate logs
 ------------
 
