@@ -366,12 +366,12 @@ $(function () {
         /* From URL hash */
         var separator = location.hash.indexOf('__');
         if (separator != -1) {
-            activeTab = $('[data-toggle=tab][href="' + location.hash.substr(0, separator) + '"]');
+            activeTab = $('.nav [data-toggle=tab][href="' + location.hash.substr(0, separator) + '"]');
             if (activeTab.length) {
                 activeTab.tab('show');
             }
         }
-        activeTab = $('[data-toggle=tab][href="' + location.hash + '"]');
+        activeTab = $('.nav [data-toggle=tab][href="' + location.hash + '"]');
         if (activeTab.length) {
             activeTab.tab('show');
             window.scrollTo(0, 0);
