@@ -348,10 +348,16 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
         """
         # Invalidate cache, we might change languages
         self.flush_object_cache()
+        languages = {
+            language.code: language for language in self.prefetch_related("plural_set")
+        }
+        plurals = {}
         # Create Weblate languages
         for code, name, nplurals, plural_formula in LANGUAGES:
-            lang, created = self.get_or_create(code=code, defaults={"name": name})
-            if created:
+            if code in languages:
+                lang = languages[code]
+            else:
+                languages[code] = lang = self.create(code=code, name=name)
                 logger("Created language {}".format(code))
 
             # Get plural type
@@ -368,50 +374,14 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                 "number": nplurals,
                 "formula": plural_formula,
             }
-            try:
-                plural, created = lang.plural_set.get_or_create(
-                    source=Plural.SOURCE_DEFAULT, language=lang, defaults=plural_data
-                )
-                if created:
-                    logger(
-                        "Created default plural {} for language {}".format(
-                            plural_formula, code
-                        )
-                    )
-                else:
-                    modified = False
-                    for item in plural_data:
-                        if getattr(plural, item) != plural_data[item]:
-                            modified = True
-                            setattr(plural, item, plural_data[item])
-                    if modified:
-                        logger(
-                            "Updated default plural {} for language {}".format(
-                                plural_formula, code
-                            )
-                        )
-                        plural.save()
-            except Plural.MultipleObjectsReturned:
-                continue
 
-        # Create addditiona plurals
-        for code, _unused, nplurals, plural_formula in EXTRAPLURALS:
-            lang = self.get(code=code)
+            # Fetch existing plurals
+            plurals[code] = defaultdict(list)
+            for plural in lang.plural_set.all():
+                plurals[code][plural.source].append(plural)
 
-            # Get plural type
-            plural_type = get_plural_type(lang.base_code, plural_formula)
-
-            plural_data = {"type": plural_type}
-            plural, created = lang.plural_set.get_or_create(
-                source=Plural.SOURCE_GETTEXT,
-                language=lang,
-                number=nplurals,
-                formula=plural_formula,
-                defaults=plural_data,
-            )
-            if created:
-                logger("Created plural {} for language {}".format(plural_formula, code))
-            else:
+            if Plural.SOURCE_DEFAULT in plurals[code]:
+                plural = plurals[code][Plural.SOURCE_DEFAULT][0]
                 modified = False
                 for item in plural_data:
                     if getattr(plural, item) != plural_data[item]:
@@ -419,9 +389,50 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                         setattr(plural, item, plural_data[item])
                 if modified:
                     logger(
-                        "Updated plural {} for language {}".format(plural_formula, code)
+                        "Updated default plural {} for language {}".format(
+                            plural_formula, code
+                        )
                     )
                     plural.save()
+            else:
+                plural, created = lang.plural_set.get_or_create(
+                    source=Plural.SOURCE_DEFAULT, language=lang, defaults=plural_data
+                )
+                plurals[code][Plural.SOURCE_DEFAULT].append(plural)
+                logger(
+                    "Created default plural {} for language {}".format(
+                        plural_formula, code
+                    )
+                )
+
+        # Create addditiona plurals
+        for code, _unused, nplurals, plural_formula in EXTRAPLURALS:
+            lang = languages[code]
+
+            # Get plural type
+            plural_type = get_plural_type(lang.base_code, plural_formula)
+            plural_data = {"type": plural_type}
+
+            for plural in plurals[code][Plural.SOURCE_GETTEXT]:
+                if plural.number == nplurals and plural.formula == plural_formula:
+                    break
+            else:
+                plural = lang.plural_set.create(
+                    source=Plural.SOURCE_GETTEXT,
+                    number=nplurals,
+                    formula=plural_formula,
+                    **plural_data,
+                )
+                logger("Created plural {} for language {}".format(plural_formula, code))
+
+            modified = False
+            for item in plural_data:
+                if getattr(plural, item) != plural_data[item]:
+                    modified = True
+                    setattr(plural, item, plural_data[item])
+            if modified:
+                logger("Updated plural {} for language {}".format(plural_formula, code))
+                plural.save()
 
 
 def setup_lang(sender, **kwargs):
