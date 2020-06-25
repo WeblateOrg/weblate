@@ -23,6 +23,7 @@ import os
 import responses
 from django.conf import settings
 from django.core import mail
+from django.core.checks import Critical
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -112,10 +113,10 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "weblate.E005")
 
     def test_error(self):
-        ConfigurationError.objects.add("Test error", "FOOOOOOOOOOOOOO")
+        ConfigurationError.objects.create(name="Test error", message="FOOOOOOOOOOOOOO")
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "FOOOOOOOOOOOOOO")
-        ConfigurationError.objects.remove("Test error")
+        ConfigurationError.objects.filter(name="Test error").delete()
         response = self.client.get(reverse("manage-performance"))
         self.assertNotContains(response, "FOOOOOOOOOOOOOO")
 
@@ -150,7 +151,22 @@ class AdminTest(ViewTestCase):
             self.assertRedirects(response, url)
 
     def test_configuration_health_check(self):
+        # Run checks internally
         configuration_health_check()
+        # List of triggered checks remotely
+        configuration_health_check(
+            [
+                Critical(msg="Error", id="weblate.E001"),
+                Critical(msg="Test Error", id="weblate.E002"),
+            ]
+        )
+        all_errors = ConfigurationError.objects.all()
+        self.assertEqual(len(all_errors), 1)
+        self.assertEqual(all_errors[0].name, "weblate.E002")
+        self.assertEqual(all_errors[0].message, "Test Error")
+        # No triggered checks
+        configuration_health_check([])
+        self.assertEqual(ConfigurationError.objects.count(), 0)
 
     def test_post_announcenement(self):
         response = self.client.get(reverse("manage-tools"))
