@@ -349,6 +349,16 @@
     };
 
     FullEditor.prototype.initChecks = function () {
+        /* Clicking links (e.g. comments, suggestions)
+         * This is inside things to checks, but not a check-item */
+        this.$editor.on('click', '.check [data-toggle="tab"]', function (e) {
+            var href = $(this).attr('href');
+
+            e.preventDefault();
+            $('.nav [href="' + href + '"]').click();
+            $window.scrollTop($(".translation-tabs").offset().top);
+        });
+
         var $checks = $('.check-item');
         if (!$checks.length) {
             return;
@@ -425,15 +435,6 @@
             } else {
                 $(this).find('.check-number').html('');
             }
-        });
-
-        /* Clicking links (e.g. comments, suggestions) */
-        this.$editor.on('click', '.check [data-toggle="tab"]', function (e) {
-            var href = $(this).attr('href');
-
-            e.preventDefault();
-            $('.nav [href="' + href + '"]').click();
-            $window.scrollTop($(href).offset().top);
         });
     };
 
