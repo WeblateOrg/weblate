@@ -1713,6 +1713,11 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                 "Uses and contributes to the pool of shared translations "
                 "between projects."
             )
+            self.fields["access_control"].choices = [
+                choice
+                for choice in self.fields["access_control"].choices
+                if choice[0] != Project.ACCESS_CUSTOM
+            ]
 
 
 class ProjectRenameForm(SettingsBaseForm):
