@@ -1181,6 +1181,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "language_regex",
             "variant_regex",
             "restricted",
+            "auto_lock_error",
         )
         widgets = {"enforced_checks": SelectChecksWidget()}
 
@@ -1233,6 +1234,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "push_on_commit",
                         "commit_pending_age",
                         "merge_style",
+                        "auto_lock_error",
                     ),
                     css_id="vcs",
                 ),
