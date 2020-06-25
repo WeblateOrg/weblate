@@ -1865,7 +1865,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 )
                 raise ValidationError({"filemask": message})
             langs.add(code)
-            if "(generated)" not in lang.name:
+            if lang.id:
                 existing_langs.add(lang.code)
 
         # No languages matched our definition
