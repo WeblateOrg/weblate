@@ -211,15 +211,11 @@ def performance(request):
     """Show performance tuning tips."""
     if request.method == "POST":
         return handle_dismiss(request)
-
-    configuration_health_check()
+    checks = run_checks(include_deployment_checks=True)
+    configuration_health_check(checks)
 
     context = {
-        "checks": [
-            check
-            for check in run_checks(include_deployment_checks=True)
-            if not check.is_silenced()
-        ],
+        "checks": [check for check in checks if not check.is_silenced()],
         "errors": ConfigurationError.objects.filter(ignored=False),
         "queues": get_queue_stats().items(),
         "menu_items": MENU,

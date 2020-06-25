@@ -26,9 +26,10 @@ from weblate.wladmin.models import BackupService, ConfigurationError, SupportSta
 
 
 @app.task(trail=False)
-def configuration_health_check():
-    # Run deployment checks
-    checks = {check.id: check for check in run_checks(include_deployment_checks=True)}
+def configuration_health_check(checks=None):
+    # Run deployment checks if needed
+    checks = checks or run_checks(include_deployment_checks=True)
+    checks_dict = {check.id: check for check in checks}
     criticals = {
         "weblate.E002",
         "weblate.E003",
@@ -51,8 +52,8 @@ def configuration_health_check():
         "weblate.C036",
     }
     for check_id in criticals:
-        if check_id in checks:
-            ConfigurationError.objects.add(check_id, checks[check_id].msg)
+        if check_id in checks_dict:
+            ConfigurationError.objects.add(check_id, checks_dict[check_id].msg)
         else:
             ConfigurationError.objects.remove(check_id)
 
