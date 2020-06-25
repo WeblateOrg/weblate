@@ -2429,7 +2429,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         """Lock or unlock component."""
         if self.locked != lock:
             self.locked = lock
-            self.save(update_fields=["locked"])
+            # We avoid save here because it has unwanted side effects
+            Component.objects.filter(pk=self.pk).update(locked=lock)
             Change.objects.create(
                 component=self,
                 user=user,
