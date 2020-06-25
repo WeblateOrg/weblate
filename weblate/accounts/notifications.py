@@ -131,7 +131,7 @@ class Notification:
         return (
             result.filter(query)
             .order_by("user", "-scope")
-            .prefetch_related("user__profile")
+            .prefetch_related("user__profile__watched")
         )
 
     def get_subscriptions(self, change, project, component, translation, users):
@@ -206,7 +206,7 @@ class Notification:
                     subscription.scope == SCOPE_DEFAULT
                     and not self.ignore_watched
                     and project is not None
-                    and not user.profile.watched.filter(pk=project.id).exists()
+                    and not user.profile.watches_project(project)
                 )
             ):
                 continue

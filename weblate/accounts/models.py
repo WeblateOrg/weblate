@@ -513,6 +513,14 @@ class Profile(models.Model):
             return 1
         return 2
 
+    @cached_property
+    def watched_project_ids(self):
+        # We do not use values_list, because we prefetch this
+        return {watched.id for watched in self.watched.all()}
+
+    def watches_project(self, project):
+        return project.id in self.watched_project_ids
+
 
 def set_lang(response, profile):
     """Set session language based on user preferences."""
