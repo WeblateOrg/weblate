@@ -93,6 +93,7 @@ DOC_LINKS = {
     "weblate.C032": ("admin/install",),
     "weblate.W033": ("vcs",),
     "weblate.E034": ("admin/install", "celery"),
+    "weblate.C035": ("vcs",),
 }
 
 
