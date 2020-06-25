@@ -101,6 +101,7 @@ class FormatsConf(AppConf):
     class Meta:
         prefix = "WEBLATE"
 
+
 class ExportersConf(AppConf):
     EXPORTERS = (
         "PoExporter",

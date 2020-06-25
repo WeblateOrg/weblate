@@ -47,6 +47,7 @@ _CHARMAP = dict.fromkeys(x for x in range(32) if x not in (9, 10, 13))
 EXPORTERS = {}
 WEBLATE_EXPORTERS = settings.WEBLATE_EXPORTERS
 
+
 def register_exporter(exporter):
     """Register an exporter."""
     if exporter.__name__ in WEBLATE_EXPORTERS:
