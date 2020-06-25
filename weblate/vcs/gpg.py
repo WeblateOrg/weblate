@@ -25,22 +25,28 @@ from django.conf import settings
 from django.core.cache import cache
 from siphashc import siphash
 
-from weblate.trans.util import (
-    add_configuration_error,
-    delete_configuration_error,
-    get_clean_env,
-)
+from weblate.trans.util import get_clean_env
+from weblate.utils.checks import weblate_check
 from weblate.utils.errors import report_error
+
+GPG_ERRORS = {}
+
+
+def check_gpg(app_configs, **kwargs):
+    get_gpg_public_key()
+    template = "{}: {}"
+    return [
+        weblate_check("weblate.C036", template.format(key, message))
+        for key, message in GPG_ERRORS.items()
+    ]
 
 
 def gpg_error(name: str, error: Exception, silent: bool = False):
     report_error(cause=name)
+
     if not silent:
-        add_configuration_error(
-            name,
-            "{}\n{}\n{}".format(
-                error, getattr(error, "stderr", ""), getattr(error, "stdout", "")
-            ),
+        GPG_ERRORS[name] = "{}\n{}\n{}".format(
+            error, getattr(error, "stderr", ""), getattr(error, "stdout", "")
         )
 
 
@@ -66,7 +72,6 @@ def generate_gpg_key() -> Optional[str]:
             universal_newlines=True,
             check=True,
         )
-        delete_configuration_error("GPG key generating")
         return get_gpg_key()
     except (subprocess.CalledProcessError, OSError) as error:
         gpg_error("GPG key generating", error)
@@ -74,6 +79,7 @@ def generate_gpg_key() -> Optional[str]:
 
 
 def get_gpg_key(silent=False) -> Optional[str]:
+    print("GET")
     try:
         result = subprocess.run(
             [
@@ -92,7 +98,6 @@ def get_gpg_key(silent=False) -> Optional[str]:
         for line in result.stdout.splitlines():
             if not line.startswith("fpr:"):
                 continue
-            delete_configuration_error("GPG key listing")
             return line.split(":")[9]
         return None
     except (subprocess.CalledProcessError, OSError) as error:
@@ -139,7 +144,6 @@ def get_gpg_public_key() -> Optional[str]:
             )
             data = result.stdout
             cache.set(cache_key, data, 7 * 86400)
-            delete_configuration_error("GPG key public")
         except (subprocess.CalledProcessError, OSError) as error:
             gpg_error("GPG key public", error)
             return None

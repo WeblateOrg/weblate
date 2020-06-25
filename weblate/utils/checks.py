@@ -94,6 +94,7 @@ DOC_LINKS = {
     "weblate.W033": ("vcs",),
     "weblate.E034": ("admin/install", "celery"),
     "weblate.C035": ("vcs",),
+    "weblate.C036": ("admin/optionals", "gpg-sign"),
 }
 
 

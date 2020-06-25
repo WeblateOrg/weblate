@@ -27,6 +27,7 @@ from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
+from weblate.vcs.gpg import check_gpg
 
 GIT_ERRORS = []
 
@@ -60,6 +61,7 @@ class VCSConfig(AppConfig):
         super().ready()
         register(check_vcs)
         register(check_git, deploy=True)
+        register(check_gpg, deploy=True)
 
         home = data_dir("home")
         if not os.path.exists(home):
