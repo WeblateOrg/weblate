@@ -21,7 +21,7 @@
 from django.db import transaction
 
 from weblate.checks.flags import Flags
-from weblate.trans.models import Change, Component
+from weblate.trans.models import Change, Component, Unit, update_source
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
@@ -89,6 +89,10 @@ def bulk_perform(
                 component_units.filter(state__in=EDITABLE_STATES).exclude(
                     state=target_state
                 ).update(pending=True, state=target_state)
+                for unit in component_units:
+                    if unit.translation.is_source:
+                        unit.is_bulk_edit = True
+                        update_source(Unit, unit)
 
         component.invalidate_stats_deep()
 
