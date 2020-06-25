@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-06-22 08:54+0000\n"
-"PO-Revision-Date: 2020-06-22 08:54+0000\n"
+"PO-Revision-Date: 2020-06-26 19:42+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/master/"
 "hr/>\n"
@@ -224,7 +224,7 @@ msgstr "Projekti koje pratiš"
 
 #: weblate/accounts/forms.py:675 weblate/templates/accounts/user.html:60
 msgid "Managed projects"
-msgstr "Upravljeni projekti"
+msgstr "Projekti kojima upravljaš"
 
 #: weblate/accounts/forms.py:677
 msgid "Project: {}"
@@ -263,7 +263,7 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Ove ćeš obavijesti primati samo za jezike koje prevodiš u projektima koje "
+"Ove ćeš obavijesti primati samo za jezike koje prevodiš, u projektima koje "
 "pratiš."
 
 #: weblate/accounts/forms.py:709
@@ -271,8 +271,8 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
-"Ove ćeš obavijesti primati samo za jezike koje prevodiš u projektima za koje "
-"imaš administratorske dozvole."
+"Ove ćeš obavijesti primati samo za jezike koje prevodiš, u projektima za "
+"koje imaš administratorske dozvole."
 
 #: weblate/accounts/forms.py:714
 #, python-format
@@ -280,7 +280,7 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Ove ćeš obavijesti primati samo za jezike koje prevodiš u projektu "
+"Ove ćeš obavijesti primati samo za jezike koje prevodiš, u projektu "
 "%(project)s."
 
 #: weblate/accounts/forms.py:718
@@ -289,7 +289,7 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Ove ćeš obavijesti primati samo za jezike koje prevodiš u komponenti "
+"Ove ćeš obavijesti primati samo za jezike koje prevodiš, u komponenti "
 "%(component)s."
 
 #: weblate/accounts/forms.py:760 weblate/auth/models.py:312
@@ -412,15 +412,15 @@ msgstr "Jezik korisničkog sučelja"
 
 #: weblate/accounts/models.py:287
 msgid "Translated languages"
-msgstr "Prevedeni jezici"
+msgstr "Jezici prevođenja"
 
 #: weblate/accounts/models.py:290
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
-"Odaberi jezike koje znaš prevoditi. Bit će ti ponuđeni na preglednoj ploči, "
-"radi lakšeg pristupa tvojim odabranim prijevodima."
+"Odaberi jezike koje znaš prevoditi. Ti jezici će se prikazati na preglednoj "
+"ploči, što omogućuje lakši pristup tvojim odabranim prijevodima."
 
 #: weblate/accounts/models.py:297
 msgid "Secondary languages"
@@ -431,8 +431,8 @@ msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
 msgstr ""
-"Odaberi jezike koje razumiješ. Izrazi na tim jezicima će se prikazati "
-"dodatno izvornom izrazu."
+"Odaberi jezike koje razumiješ. Izrazi na tim jezicima prikazat će se zajedno "
+"s izvornim izrazom."
 
 #: weblate/accounts/models.py:310
 msgid "Hide completed translations on the dashboard"
@@ -1406,17 +1406,17 @@ msgstr "Koristi usluge za strojno prevođenje"
 #. Translators: Permission name
 #: weblate/auth/data.py:56
 msgid "Edit translation memory"
-msgstr "Uredi spremište prijevoda"
+msgstr "Uredi prevodilačku memoriju"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:58
 msgid "Delete translation memory"
-msgstr "Izbriši spremište prijevoda"
+msgstr "Izbriši prevodilačku memoriju"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:60
 msgid "Use translation memory"
-msgstr "Koristi spremište prijevoda"
+msgstr "Koristi prevodilačku memoriju"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:62
@@ -1872,7 +1872,7 @@ msgstr "Korisnik ima sve moguće dozvole."
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
 #: weblate/templates/check_project.html:23 weblate/templates/checks.html:21
 msgid "Active"
-msgstr "Aktivan"
+msgstr "Aktivno"
 
 #: weblate/auth/models.py:310
 msgid "Mark user as inactive instead of removing."
@@ -3624,9 +3624,8 @@ msgid ""
 "Weblate uses SSH key to access remote repositories. The corresponding public "
 "key is found below, you can use it to grant Weblate access to a repository."
 msgstr ""
-"Weblate koristi SSH ključ za pristup udaljenom repozitoriju. Odgovarajući "
-"ključ se nalazi niže dolje, možeš ga koristiti za dozvoljavanje Weblateu "
-"pristup repozitoriju."
+"Weblate koristi SSH ključ za pristup udaljenom repozitoriju. Dolje naveden "
+"javni ključ možeš koristiti za dozvoljavanje Weblateu pristup repozitoriju."
 
 #: weblate/templates/about/keys.html:27
 msgid "SSH key not available."
@@ -3642,8 +3641,8 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Sve izmjene napravljene s Weblateom potpisuju se s GPG ključem "
-"%(gpg_key_id)s, za koji se odgovarajući javni ključ nalazi niže dolje."
+"Sve izmjene napravljene s Weblateom potpisuju se s GPG ključem %(gpg_key_id)"
+"s, čiji se odgovarajući javni ključ nalazi ispod."
 
 #: weblate/templates/about/keys.html:47
 msgid "Commit signing is not configured."
@@ -3662,7 +3661,7 @@ msgstr "Najaktivniji prevodioci"
 
 #: weblate/templates/about/stats.html:32
 msgid "Most active suggesters"
-msgstr "Najaktivniji predlagaoci"
+msgstr "Najaktivniji predlagači"
 
 #: weblate/templates/about/stats.html:48
 msgid "Most active screenshot uploaders"
@@ -3690,7 +3689,7 @@ msgstr "Prijedlozi"
 
 #: weblate/templates/about/stats.html:100
 msgid "Failing checks found"
-msgstr "Pronađene su neuspjele provjere"
+msgstr "Pronađene neuspjele provjere"
 
 #: weblate/templates/about/stats.html:104
 msgid "Dismissed checks"
@@ -3969,7 +3968,7 @@ msgid ""
 "Send a request to the project you want to translate to add a missing "
 "language."
 msgstr ""
-"Pošalji zahtjev za dodavanje nedostajućeg jezika projektu kojeg želiš "
+"Za dodavanje nedostajućeg jezika, pošalji zahtjev projektu koji želiš "
 "prevoditi."
 
 #: weblate/templates/accounts/profile.html:48
@@ -4178,22 +4177,21 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Registriranjem pristaješ koristiti svoje ime i e-adresu u izmjenama i "
-"pružiti svoj doprinos pod licencom koja je definirana za svaki "
-"lokalizacijski projekt."
+"Registriranjem pristaješ na upotrebu tvog imena i e-adrese u izmjenama, kao "
+"i na doprinošenju pod licencama koje definiraju lokalizacijski projekti."
 
 #: weblate/templates/accounts/profile.html:315
 msgid "You have agreed to the following as a contributor:"
-msgstr "Kao doprinositelj/ica se slažeš sa sljedećim:"
+msgstr "Prihvatio/la si sljedeće licence:"
 
 #: weblate/templates/accounts/profile.html:330
 msgid "Licenses for individual translations"
-msgstr "Licence za pojedinačne prijevode"
+msgstr "Licence pojedinačnih prijevoda"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
 msgid "Redirecting you to the authentication provider."
-msgstr "Preusmjeravamo te na davatelja autentifikacije."
+msgstr "Preusmjeravamo te na davatelja usluge autentifikacije."
 
 #: weblate/templates/accounts/register.html:32
 msgid "Register using e-mail"
@@ -4295,20 +4293,16 @@ msgstr[1] "%(count)s prijedloga na čekanju"
 msgstr[2] "%(count)s prijedloga na čekanju"
 
 #: weblate/templates/accounts/user.html:42
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s glas"
-msgstr[1] "%(count)s glas"
-msgstr[2] "%(count)s glasova"
+msgstr[0] "%(count)s snimka ekrana"
+msgstr[1] "%(count)s snimke ekrana"
+msgstr[2] "%(count)s snimki ekrana"
 
 #: weblate/templates/accounts/user.html:59
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project contributions"
-msgstr "Podaci projekta"
+msgstr "Doprinosi projektima"
 
 #: weblate/templates/accounts/user.html:62 weblate/templates/component.html:45
 #: weblate/templates/dashboard/user.html:36
@@ -4629,7 +4623,7 @@ msgstr "Pregled naplaćivanja"
 #: weblate/wladmin/templates/admin/weblate-index.html:43
 #: weblate/wladmin/views.py:54
 msgid "Translation memory"
-msgstr "Spremište prijevoda"
+msgstr "Prevodilačka memorija"
 
 #: weblate/templates/base.html:237 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
@@ -5408,16 +5402,16 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
-"Odaberi jezike koje želiš u postavkama, za prikaz pregleda dostupnih "
-"prijevoda za te jezike u projektima koje pratiš."
+"U postavkama odaberi jezike, koje želiš prikazati u pregledu dostupnih "
+"prijevoda za te jezike, u projektima koje pratiš."
 
 #: weblate/templates/dashboard/user.html:75
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
 msgstr ""
-"Nije moguće naći prijedloge. Odaberi svoje jezike u postavkama, kako bi "
-"dobio/la neke prijedloge."
+"Nije moguće pronaći prijedloge. Za dobivanje prijedloga, odaberi svoje "
+"jezike u postavkama."
 
 #: weblate/templates/dashboard/user.html:114
 msgid ""
@@ -5602,15 +5596,15 @@ msgid_plural ""
 "%(languages)s languages</strong>. Overall, these translations are <strong>"
 "%(percent)s%% complete</strong>."
 msgstr[0] ""
-"Projekt prevođenja %(project)sa trenutačno sadržava <strong>%(total)s "
-"prevodiv izraz</strong> i prevodi se na <strong>%(languages)s jezika</"
+"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(total)s "
+"prevodiv izraz</strong> i prevodi se na <strong>%(languages)s jezik</"
 "strong>. Sveukupno je prevedeno <strong>%(percent)s %%</strong>."
 msgstr[1] ""
-"Projekt prevođenja %(project)sa trenutačno sadržava <strong>%(total)s "
+"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(total)s "
 "prevodiva izraza</strong> i prevodi se na <strong>%(languages)s jezika</"
 "strong>. Sveukupno je prevedeno <strong>%(percent)s %%</strong>."
 msgstr[2] ""
-"Projekt prevođenja %(project)sa trenutačno sadržava <strong>%(total)s "
+"Prevodilački projekt za %(project)s trenutačno sadržava <strong>%(total)s "
 "prevodivih izraza</strong> i prevodi se na <strong>%(languages)s jezika</"
 "strong>. Sveukupno je prevedeno <strong>%(percent)s %%</strong>."
 
@@ -6808,7 +6802,7 @@ msgstr "Stanje spremišta prijevoda"
 
 #: weblate/templates/memory/index.html:34
 msgid "Shared translation memory"
-msgstr "Dijeljeno spremište prijevoda"
+msgstr "Dijeljena prevodilačka memorija"
 
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:39
@@ -6867,7 +6861,7 @@ msgstr "Broj zajedničkih unosa"
 
 #: weblate/templates/memory/index.html:143
 msgid "Total number of entries"
-msgstr "Ukupni broj zapisa"
+msgstr "Broj zapisa ukupno"
 
 #: weblate/templates/memory/index.html:160
 msgid "Import translation memory"
@@ -7170,7 +7164,7 @@ msgstr ""
 #: weblate/templates/snippets/about.html:5
 #, python-format
 msgid "More information about Weblate can be found on %(weblate_link)s."
-msgstr "Nađi daljnje informacije o Weblateu na %(weblate_link)s."
+msgstr "Daljnje informacije o Weblateu nađi na %(weblate_link)s."
 
 #: weblate/templates/snippets/about.html:7
 msgid "Weblate is libre software created by volunteers, and accepts donations."
@@ -7473,11 +7467,11 @@ msgstr "Razvrstaj prema"
 #: weblate/templates/snippets/query-field.html:35 weblate/utils/views.py:103
 #: weblate/utils/views.py:106
 msgid "Position and priority"
-msgstr "Pozicija i prioritet"
+msgstr "Mjesto i prioritet"
 
 #: weblate/templates/snippets/query-field.html:36 weblate/utils/views.py:95
 msgid "Position"
-msgstr "Pozicija"
+msgstr "Mjesto"
 
 #: weblate/templates/snippets/query-field.html:39 weblate/utils/views.py:98
 msgid "Age of string"
@@ -7735,8 +7729,8 @@ msgid ""
 "Any publicly available project should have defined license to indicate what "
 "terms apply to contributions."
 msgstr ""
-"Svaki javno dostupan projekt trebao bi imati definiranu licencu s navedenim "
-"uvjetima koji vrijede za doprinose."
+"Svaki javno dostupan projekt trebao bi imati definiranu licencu za "
+"određivanje uvjeta pod kojima je moguće doprinositi."
 
 #: weblate/templates/trans/alert/monolingualtranslation.html:2
 msgid ""
@@ -7969,7 +7963,7 @@ msgid ""
 "This includes, but is not limited to, translation memory, glossaries, or "
 "user permissions."
 msgstr ""
-"To uključuje, ali nije ograničeno na, spremište prijevoda, glosare ili "
+"To uključuje, ali nije ograničeno na, prevodilačku memoriju, glosare ili "
 "korisničke dozvole."
 
 #: weblate/templates/trans/delete-project.html:21
@@ -8238,8 +8232,7 @@ msgstr "Sličnost"
 
 #: weblate/templates/translate.html:378
 msgid "Comment on this string for fellow translators and developers to read."
-msgstr ""
-"Napiši komentar za ovaj izraz, namijenjen prevodiocima i razvijateljima."
+msgstr "Napiši komentar za ovaj izraz, namijenjen prevodiocima i programerima."
 
 #: weblate/templates/translate.html:400
 msgid "Things to check"
@@ -8861,8 +8854,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Uključi slanje doprinosa u zajedničko spremište prijevoda za projekt, za "
-"pristup dodatnim komponentama."
+"Za pristup dodatnim komponentama, uključi slanje doprinosa u zajedničku "
+"prevodilačku memoriju projekta."
 
 #: weblate/trans/forms.py:805
 msgid "Machine translation engines"
@@ -9594,12 +9587,11 @@ msgstr "BCP stil koristeći crticu kao znak razdvajanja"
 #: weblate/trans/models/component.py:128
 msgid "POSIX style using underscore as a separator, including country code"
 msgstr ""
-"POSIX stil koristeći podvlaku kao znak razdvajanja, uključujući kodove država"
+"POSIX stil koristeći podvlaku kao znak razdvajanja, uključujući kôd zemlje"
 
 #: weblate/trans/models/component.py:133
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr ""
-"BCP stil koristeći crticu kao znak razdvajanja, uključujući kodove država"
+msgstr "BCP stil koristeći crticu kao znak razdvajanja, uključujući kôd zemlje"
 
 #: weblate/trans/models/component.py:135
 msgid "Android style"
@@ -10193,7 +10185,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:112
 msgid "Use shared translation memory"
-msgstr "Koristi dijeljeno spremište prijevoda"
+msgstr "Koristi dijeljenu prevodilačku memoriju"
 
 #: weblate/trans/models/project.py:115
 msgid "Uses the pool of shared translations between projects."
