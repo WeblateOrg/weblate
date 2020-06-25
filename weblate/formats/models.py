@@ -21,7 +21,6 @@
 from appconf import AppConf
 from django.utils.functional import cached_property
 
-from weblate.trans.util import delete_configuration_error
 from weblate.utils.classloader import ClassLoader
 
 
@@ -42,8 +41,6 @@ class FileFormatLoader(ClassLoader):
         result = super().load_data()
 
         for fileformat in list(result.values()):
-            error_name = "File format: {0}".format(fileformat.format_id)
-            delete_configuration_error(error_name)
             try:
                 fileformat.get_class()
             except (AttributeError, ImportError) as error:

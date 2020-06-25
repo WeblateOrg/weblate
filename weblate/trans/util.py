@@ -23,14 +23,11 @@ import os
 import sys
 from urllib.parse import urlparse
 
-from django.apps import apps
 from django.core.cache import cache
-from django.db.utils import OperationalError, ProgrammingError
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render as django_render
 from django.shortcuts import resolve_url
-from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
@@ -120,46 +117,6 @@ def translation_percent(translated, total, zero_complete=True):
     if perc == 100.0 and translated < total:
         return 99.9
     return perc
-
-
-def add_configuration_error(name, message, force_cache=False):
-    """Log configuration error.
-
-    Uses cache in case database is not yet ready.
-    """
-    if apps.models_ready and not force_cache:
-        from weblate.wladmin.models import ConfigurationError
-
-        try:
-            ConfigurationError.objects.add(name, message)
-            return
-        except (OperationalError, ProgrammingError):
-            # The table does not have to be created yet (for example migration
-            # is about to be executed)
-            pass
-    errors = cache.get("configuration-errors", [])
-    errors.append({"name": name, "message": message, "timestamp": timezone.now()})
-    cache.set("configuration-errors", errors)
-
-
-def delete_configuration_error(name, force_cache=False):
-    """Delete configuration error.
-
-    Uses cache in case database is not yet ready.
-    """
-    if apps.models_ready and not force_cache:
-        from weblate.wladmin.models import ConfigurationError
-
-        try:
-            ConfigurationError.objects.remove(name)
-            return
-        except (OperationalError, ProgrammingError):
-            # The table does not have to be created yet (for example migration
-            # is about to be executed)
-            pass
-    errors = cache.get("configuration-errors", [])
-    errors.append({"name": name, "delete": True})
-    cache.set("configuration-errors", errors)
 
 
 def get_clean_env(extra=None):

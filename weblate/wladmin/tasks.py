@@ -19,32 +19,15 @@
 
 
 from celery.schedules import crontab
-from django.core.cache import cache
 from django.core.checks import run_checks
-from django.utils.timezone import now
 
 from weblate.utils.celery import app
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
 
 @app.task(trail=False)
-def configuration_health_check(include_deployment_checks=True):
-    # Fetch errors from cache, these are created from
-    # code executed without apps ready
-    for error in cache.get("configuration-errors", []):
-        if "delete" in error:
-            ConfigurationError.objects.remove(error["name"])
-        else:
-            ConfigurationError.objects.add(
-                error["name"],
-                error["message"],
-                error["timestamp"] if "timestamp" in error else now(),
-            )
-    cache.delete("configuration-errors")
-
+def configuration_health_check():
     # Run deployment checks
-    if not include_deployment_checks:
-        return
     checks = {check.id: check for check in run_checks(include_deployment_checks=True)}
     criticals = {
         "weblate.E002",

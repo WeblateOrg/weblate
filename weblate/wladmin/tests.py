@@ -32,7 +32,6 @@ from weblate.auth.models import Group
 from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.util import add_configuration_error, delete_configuration_error
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -113,10 +112,10 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "weblate.E005")
 
     def test_error(self):
-        add_configuration_error("Test error", "FOOOOOOOOOOOOOO")
+        ConfigurationError.objects.add("Test error", "FOOOOOOOOOOOOOO")
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "FOOOOOOOOOOOOOO")
-        delete_configuration_error("Test error")
+        ConfigurationError.objects.remove("Test error")
         response = self.client.get(reverse("manage-performance"))
         self.assertNotContains(response, "FOOOOOOOOOOOOOO")
 
@@ -151,13 +150,6 @@ class AdminTest(ViewTestCase):
             self.assertRedirects(response, url)
 
     def test_configuration_health_check(self):
-        add_configuration_error("TEST", "Message", True)
-        add_configuration_error("TEST2", "Message", True)
-        configuration_health_check(False)
-        self.assertEqual(ConfigurationError.objects.count(), 2)
-        delete_configuration_error("TEST2", True)
-        configuration_health_check(False)
-        self.assertEqual(ConfigurationError.objects.count(), 1)
         configuration_health_check()
 
     def test_post_announcenement(self):
