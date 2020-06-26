@@ -199,7 +199,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         # Reload components after source language change
         if old is not None and old.source_language != self.source_language:
             for component in self.component_set.iterator():
-                perform_load.delay(component.pk, changed_template=True)
+                perform_load.delay(component.pk, force=True, changed_template=True)
 
         # Update alerts if needed
         if old is not None and old.web != self.web:

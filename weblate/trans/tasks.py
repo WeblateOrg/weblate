@@ -77,9 +77,9 @@ def perform_update(cls, pk, auto=False):
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
 )
-def perform_load(pk, *args):
+def perform_load(pk, **kwargs):
     component = Component.objects.get(pk=pk)
-    component.create_translations(*args)
+    component.create_translations(**kwargs)
 
 
 @app.task(

@@ -184,6 +184,11 @@ class ProjectTest(RepoTestCase):
         # We now should have access
         self.assertTrue(user.can_access_project(project))
 
+    def test_change_source_language(self):
+        component = self.create_component()
+        component.project.source_language = Language.objects.get(code="cs")
+        component.project.save()
+
 
 class TranslationTest(RepoTestCase):
     """Translation testing."""
