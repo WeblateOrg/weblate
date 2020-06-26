@@ -395,8 +395,8 @@ class LanguageManager(models.Manager.from_queryset(LanguageQuerySet)):
                     )
                     plural.save()
             else:
-                plural, created = lang.plural_set.get_or_create(
-                    source=Plural.SOURCE_DEFAULT, language=lang, defaults=plural_data
+                plural = lang.plural_set.create(
+                    source=Plural.SOURCE_DEFAULT, language=lang, **plural_data
                 )
                 plurals[code][Plural.SOURCE_DEFAULT].append(plural)
                 logger(
