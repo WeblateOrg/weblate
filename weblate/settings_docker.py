@@ -482,6 +482,7 @@ REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN", False)
 
 # Middleware
 MIDDLEWARE = [
+    "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -518,6 +519,7 @@ INSTALLED_APPS = [
     # Docker customization app, listed first to allow overriding static files
     "customize",
     # Weblate apps on top to override Django locales and templates
+    "weblate.vcs",
     "weblate.addons",
     "weblate.auth",
     "weblate.checks",
@@ -532,7 +534,6 @@ INSTALLED_APPS = [
     "weblate.fonts",
     "weblate.accounts",
     "weblate.utils",
-    "weblate.vcs",
     "weblate.wladmin",
     "weblate",
     # Optional: Git exporter

@@ -344,6 +344,7 @@ ROOT_URLCONF = "weblate.urls"
 # Django and Weblate apps
 INSTALLED_APPS = [
     # Weblate apps on top to override Django locales and templates
+    "weblate.vcs",
     "weblate.addons",
     "weblate.auth",
     "weblate.checks",
@@ -358,7 +359,6 @@ INSTALLED_APPS = [
     "weblate.fonts",
     "weblate.accounts",
     "weblate.utils",
-    "weblate.vcs",
     "weblate.wladmin",
     "weblate",
     # Optional: Git exporter

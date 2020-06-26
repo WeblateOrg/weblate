@@ -134,6 +134,7 @@ Notable configuration or dependencies changes:
 
 * Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or 4.1 first.
 * There are some new and updated requirements.
+* There are several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
