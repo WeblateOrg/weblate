@@ -38,4 +38,16 @@
 </div>
 </form>
 
+<form method="GET" action="{% url "manage-users-check" %}">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Check user access" %}</h4></div>
+  <div class="panel-body">
+  {{ search_form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Search" %}" />
+  </div>
+</div>
+</form>
+
 {% endblock %}

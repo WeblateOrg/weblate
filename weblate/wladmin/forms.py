@@ -63,3 +63,7 @@ class BackupForm(forms.ModelForm):
     class Meta:
         model = BackupService
         fields = ("repository",)
+
+
+class UserSearchForm(forms.Form):
+    email = forms.CharField(label=_("User e-mail"))

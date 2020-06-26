@@ -204,6 +204,12 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "User has been invited")
         self.assertEqual(len(mail.outbox), 1)
 
+    def test_check_user(self):
+        response = self.client.get(
+            reverse("manage-users-check"), {"email": self.user.email}
+        )
+        self.assertContains(response, "Last login")
+
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",
         EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend",

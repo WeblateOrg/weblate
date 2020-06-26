@@ -20,7 +20,7 @@
 
 from django.core.checks import run_checks
 from django.core.mail import send_mail
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -29,6 +29,7 @@ from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import InviteUserForm
+from weblate.auth.models import User
 from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.utils import messages
@@ -44,7 +45,13 @@ from weblate.vcs.ssh import (
     get_key_data,
     ssh_file,
 )
-from weblate.wladmin.forms import ActivateForm, BackupForm, SSHAddForm, TestMailForm
+from weblate.wladmin.forms import (
+    ActivateForm,
+    BackupForm,
+    SSHAddForm,
+    TestMailForm,
+    UserSearchForm,
+)
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, configuration_health_check
 
@@ -302,5 +309,28 @@ def users(request):
     return render(
         request,
         "manage/users.html",
-        {"menu_items": MENU, "menu_page": "users", "invite_form": invite_form},
+        {
+            "menu_items": MENU,
+            "menu_page": "users",
+            "invite_form": invite_form,
+            "search_form": UserSearchForm,
+        },
+    )
+
+
+@management_access
+def users_check(request):
+    form = UserSearchForm(request.GET if request.GET else None)
+
+    users = None
+    if form.is_valid():
+        email = form.cleaned_data["email"]
+        users = User.objects.filter(
+            Q(email__icontains=email) | Q(social_auth__verifiedemail__email=email)
+        )
+
+    return render(
+        request,
+        "manage/users_check.html",
+        {"menu_items": MENU, "menu_page": "users", "form": form, "users": users},
     )

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load permissions %}
+{% load crispy_forms_tags %}
+{% load authnames %}
+
+{% block breadcrumbs %}
+<li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
+<li><a href="{% url 'manage-users' %}">{% trans "Users" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% if users is not None %}
+{% for user in users %}
+<div class="panel panel-default">
+    <div class="panel-heading"><h4 class="panel-title">{{ user.username }} &mdash; {{ user.full_name }} &mdash; {{ user.email }}</h4></div>
+    <table class="table">
+    <tr><th>{% trans "Last login" %}</th><td colspan="3">{{ user.last_login|date:"DATETIME_FORMAT" }}</td></tr>
+    <tr><th>{% trans "Date joined" %}</th><td colspan="3">{{ user.date_joined|date:"DATETIME_FORMAT" }}</td></tr>
+    <tr><th colspan="4" class="active">{% trans "Current user identities" %}</th></tr>
+    <tr>
+        <th>{% trans "Identity" %}</th>
+        <th>{% trans "User ID" %}</th>
+        <th>{% trans "E-mail" %}</th>
+    </tr>
+    {% for social in user.social_auth.all %}
+    <tr>
+        <th>{% auth_name social.provider ' ' %}</th>
+        <td>{{ social.uid }}</td>
+        <td colspan="2">{% for verified in social.verifiedemail_set.all %}{{ verified.email }}{% endfor %}</td>
+    </tr>
+    {% endfor %}
+    <tr><th colspan="4" class="active">{% trans "Audit log" %}</th></tr>
+    <tr>
+        <th>{% trans "When" %}</th>
+        <th>{% trans "Account activity" %}</th>
+        <th>{% trans "IP address" %}</th>
+        <th>{% trans "User agent" %}</th>
+    </tr>
+    {% for log in user.auditlog_set.order %}
+    <tr>
+        <td>{{ log.timestamp|date:"DATETIME_FORMAT" }}</td>
+        <td>{{ log.get_message }}</td>
+        <td>{{ log.address }}</td>
+        <td>{{ log.user_agent }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <div class="panel-footer">
+        <a href="{% url "admin:weblate_auth_user_change" object_id=user.id %}" class="btn btn-primary">{% trans "Edit" %}</a>
+    </div>
+</div>
+{% empty %}
+{% trans "No matching user found." as msg %}
+{% show_message "warning" msg %}
+{% endfor %}
+{% endif %}
+
+<form method="GET" action="{% url "manage-users-check" %}">
+<div class="panel panel-default">
+<div class="panel-heading"><h4 class="panel-title">{% trans "Check user access" %}</h4></div>
+  <div class="panel-body">
+  {{ form|crispy }}
+  </div>
+  <div class="panel-footer">
+  <input type="submit" class="btn btn-primary" value="{% trans "Search" %}" />
+  </div>
+</div>
+</form>
+
+{% endblock %}
