@@ -307,11 +307,11 @@ def show_translation(request, project, component, lang):
     # Include ghost translations for other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(obj.component.slug)
-    for component in obj.component.project.component_set.filter_access(user).exclude(
-        slug__in=existing
-    ):
-        if component.can_add_new_language(user):
-            other_translations.append(GhostTranslation(component, obj.language))
+    for test_component in obj.component.project.component_set.filter_access(
+        user
+    ).exclude(slug__in=existing):
+        if test_component.can_add_new_language(user):
+            other_translations.append(GhostTranslation(test_component, obj.language))
 
     return render(
         request,
