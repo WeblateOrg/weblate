@@ -519,7 +519,6 @@ INSTALLED_APPS = [
     # Docker customization app, listed first to allow overriding static files
     "customize",
     # Weblate apps on top to override Django locales and templates
-    "weblate.vcs",
     "weblate.addons",
     "weblate.auth",
     "weblate.checks",
@@ -534,6 +533,7 @@ INSTALLED_APPS = [
     "weblate.fonts",
     "weblate.accounts",
     "weblate.utils",
+    "weblate.vcs",
     "weblate.wladmin",
     "weblate",
     # Optional: Git exporter
