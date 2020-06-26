@@ -125,6 +125,7 @@ jobs:
         run: |
           ./ci/prepare-database
           ./ci/run-test
+          ./ci/run-wsgi
       - name: Coverage
         run: |
           coverage combine
