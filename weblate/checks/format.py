@@ -349,10 +349,10 @@ class BasePrintfCheck(BaseFormatCheck):
 
     def __init__(self):
         super().__init__()
-        self.regexp, self.is_position_based = FLAG_RULES[self.enable_string]
+        self.regexp, self._is_position_based = FLAG_RULES[self.enable_string]
 
     def is_position_based(self, string):
-        raise NotImplementedError()
+        return self._is_position_based(string)
 
     def normalize(self, matches):
         return [m for m in matches if m != "%"]
