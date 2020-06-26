@@ -79,7 +79,6 @@ def generate_gpg_key() -> Optional[str]:
 
 
 def get_gpg_key(silent=False) -> Optional[str]:
-    print("GET")
     try:
         result = subprocess.run(
             [
