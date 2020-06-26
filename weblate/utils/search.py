@@ -107,8 +107,11 @@ NOT = CaselessKeyword("NOT")
 # Search operator
 OPERATOR = oneOf(OPERATOR_MAP.keys())
 
+# Field name, explicitely exlude URL like patters
+FIELD = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
+
 # Match token
-WORD = Regex(r"""[^: '"\(\)]([^: '"]*[^: '"\)])?""")
+WORD = Regex(r"""[^ '"\(\)]([^ '"]*[^ '"\)])?""")
 DATE = Word("0123456789:.-T")
 
 # Date range
@@ -124,7 +127,7 @@ STRING = (
 )
 
 # Single term, either field specific or not
-TERM = (WORD + OPERATOR + (RANGE | STRING)) | STRING
+TERM = (FIELD + OPERATOR + (RANGE | STRING)) | STRING
 
 # Multi term with or without operator
 QUERY = Optional(
@@ -163,6 +166,9 @@ class TermExpr:
         else:
             self.field, self.operator, self.match = tokens
             self.fixup()
+
+    def __repr__(self):
+        return f"<TermExpr: '{self.field}', '{self.operator}', '{self.match}'>"
 
     def fixup(self):
         # Avoid unwanted lt/gt searches on plain text fields

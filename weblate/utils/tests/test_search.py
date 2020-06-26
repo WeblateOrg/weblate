@@ -351,3 +351,6 @@ class QueryParserTest(TestCase):
                 | Q(context__substring="%{_topdir}")
             ),
         )
+
+    def test_url(self):
+        self.assert_query("https://weblate.org/", parse_query("'https://weblate.org/'"))
