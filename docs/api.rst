@@ -783,7 +783,7 @@ Projects
 .. http:get:: /api/projects/(string:project)/changes/
 
     Returns a list of project changes. This is essentially a project scoped
-    http:get:`/api/changes/` accepting same params.
+    :http:get:`/api/changes/` accepting same params.
 
     :param project: Project URL slug
     :type project: string
@@ -1190,7 +1190,7 @@ Components
 .. http:get::  /api/components/(string:project)/(string:component)/changes/
 
     Returns a list of component changes. This is essentially a component scoped
-    http:get:`/api/changes/` accepting same params.
+    :http:get:`/api/changes/` accepting same params.
 
     :param project: Project URL slug
     :type project: string
@@ -1597,7 +1597,7 @@ Translations
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/changes/
 
     Returns a list of translation changes. This is essentially a component scoped
-    http:get:`/api/changes/` accepting same params.
+    :http:get:`/api/changes/` accepting same params.
 
     :param project: Project URL slug
     :type project: string
