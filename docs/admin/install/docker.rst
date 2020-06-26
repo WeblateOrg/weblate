@@ -395,6 +395,23 @@ Generic settings
           WEBLATE_IP_PROXY_HEADER: HTTP_X_FORWARDED_FOR
 
 
+.. envvar:: WEBLATE_SECURE_PROXY_SSL_HEADER
+
+    A tuple representing a HTTP header/value combination that signifies a
+    request is secure. This is needed when Weblate is running behind a reverse
+    proxy doing SSL termination which does not pass standard HTTPS headers.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_SECURE_PROXY_SSL_HEADER: HTTP_X_FORWARDED_PROTO,https
+
+    .. seealso::
+
+        :setting:`django:SECURE_PROXY_SSL_HEADER`
+
 .. envvar:: WEBLATE_REQUIRE_LOGIN
 
     Configures login required for the whole of the Weblate installation using :setting:`LOGIN_REQUIRED_URLS`.

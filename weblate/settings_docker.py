@@ -167,7 +167,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-# You can generate it using examples/generate-secret-key
+# You can generate it using weblate/examples/generate-secret-key
 try:
     with open("/app/data/secret", "r") as handle:
         SECRET_KEY = handle.read()
@@ -462,10 +462,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "weblate.accounts.password_validation.PastPasswordsValidator"},
     # Optional password strength validation by django-zxcvbn-password
     # {
-    #     'NAME': 'zxcvbn_password.ZXCVBNValidator',
-    #     'OPTIONS': {
-    #         'min_score': 3,
-    #         'user_attributes': ('username', 'email', 'full_name')
+    #     "NAME": "zxcvbn_password.ZXCVBNValidator",
+    #     "OPTIONS": {
+    #         "min_score": 3,
+    #         "user_attributes": ("username", "email", "full_name")
     #     }
     # },
 ]
@@ -818,6 +818,11 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_HSTS_SECONDS = 31536000 if ENABLE_HTTPS else 0
 SECURE_HSTS_PRELOAD = ENABLE_HTTPS
 SECURE_HSTS_INCLUDE_SUBDOMAINS = ENABLE_HTTPS
+
+# HTTPS detection behind reverse proxy
+WEBLATE_SECURE_PROXY_SSL_HEADER = get_env_list("WEBLATE_SECURE_PROXY_SSL_HEADER")
+if WEBLATE_SECURE_PROXY_SSL_HEADER:
+    SECURE_PROXY_SSL_HEADER = WEBLATE_SECURE_PROXY_SSL_HEADER
 
 # URL of login
 LOGIN_URL = "{0}/accounts/login/".format(URL_PREFIX)

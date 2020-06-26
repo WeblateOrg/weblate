@@ -270,4 +270,5 @@ Change them if your Weblate instance is running behind a reverse proxy to make i
 
     :setting:`IP_BEHIND_REVERSE_PROXY`,
     :setting:`IP_PROXY_HEADER`,
-    :setting:`IP_PROXY_OFFSET`
+    :setting:`IP_PROXY_OFFSET`,
+    :setting:`django:SECURE_PROXY_SSL_HEADER`

@@ -633,7 +633,8 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 .. seealso::
 
     :ref:`rate-limit`,
-    :ref:`rate-ip`
+    :ref:`rate-ip`,
+    :setting:`django:SECURE_PROXY_SSL_HEADER`
 
 .. setting:: IP_PROXY_OFFSET
 
@@ -659,7 +660,8 @@ Defaults to 0.
 .. seealso::
 
     :ref:`rate-limit`,
-    :ref:`rate-ip`
+    :ref:`rate-ip`,
+    :setting:`django:SECURE_PROXY_SSL_HEADER`
 
 .. setting:: LEGAL_URL
 
