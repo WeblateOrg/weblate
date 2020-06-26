@@ -684,6 +684,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
         obj = self.get_object()
 
         queryset = Change.objects.prefetch().filter(project=obj).order_by("id")
+        queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -827,6 +828,7 @@ class ComponentViewSet(
         obj = self.get_object()
 
         queryset = Change.objects.prefetch().filter(component=obj).order_by("id")
+        queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -951,6 +953,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         obj = self.get_object()
 
         queryset = Change.objects.prefetch().filter(translation=obj).order_by("id")
+        queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -1181,13 +1184,17 @@ class ChangeFilter(filters.FilterSet):
         fields = ["action", "user", "timestamp"]
 
 
+class ChangesFilterBackend(filters.DjangoFilterBackend):
+    def get_filterset_class(self, view, queryset=None):
+        return ChangeFilter
+
+
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     """Changes API."""
 
     queryset = Change.objects.none()
     serializer_class = ChangeSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = ChangeFilter
+    filter_backends = (ChangesFilterBackend,)
 
     def get_queryset(self):
         return Change.objects.last_changes(self.request.user).order_by("id")
