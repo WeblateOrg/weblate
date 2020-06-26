@@ -414,7 +414,6 @@ def parser_to_query(obj):
         return Q()
 
     if operator == "NOT":
-        assert len(expressions) == 1
         return ~expressions[0]
     if operator == "AND":
         return reduce(lambda x, y: x & y, expressions)
