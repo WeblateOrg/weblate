@@ -25,6 +25,7 @@ from urllib.parse import urlsplit
 from xml.dom import minidom
 from zipfile import ZipFile
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -560,24 +561,28 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("project", kwargs=kwargs))
         self.assertEquals(response.status_code, 404)
 
-        # Different casing should redirect
+        # Different casing should redirect, MySQL always does case insensitive lookups
         kwargs["project"] = self.project.slug.upper()
-        response = self.client.get(reverse("project", kwargs=kwargs))
-        self.assertRedirects(
-            response, reverse("project", kwargs=self.kw_project), status_code=301
-        )
+        if settings.DATABASES["default"]["ENGINE"] != "django.db.backends.mysql":
+            response = self.client.get(reverse("project", kwargs=kwargs))
+            self.assertRedirects(
+                response, reverse("project", kwargs=self.kw_project), status_code=301
+            )
 
         # Non existing fails with 404
         kwargs["component"] = "invalid"
         response = self.client.get(reverse("component", kwargs=kwargs))
         self.assertEquals(response.status_code, 404)
 
-        # Different casing should redirect
+        # Different casing should redirect, MySQL always does case insensitive lookups
         kwargs["component"] = self.component.slug.upper()
-        response = self.client.get(reverse("component", kwargs=kwargs))
-        self.assertRedirects(
-            response, reverse("component", kwargs=self.kw_component), status_code=301
-        )
+        if settings.DATABASES["default"]["ENGINE"] != "django.db.backends.mysql":
+            response = self.client.get(reverse("component", kwargs=kwargs))
+            self.assertRedirects(
+                response,
+                reverse("component", kwargs=self.kw_component),
+                status_code=301,
+            )
 
         # Non existing fails with 404
         kwargs["lang"] = "cs-DE"
