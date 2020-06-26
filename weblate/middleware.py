@@ -17,13 +17,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
+from django.http import Http404
+from django.shortcuts import redirect
 
+from weblate.lang.models import Language
+from weblate.trans.models import Change, Component, Project
 from weblate.utils.errors import report_error
 
 CSP_TEMPLATE = (
@@ -60,6 +63,96 @@ class ProxyMiddleware:
                 report_error(cause="Invalid IP address")
 
         return self.get_response(request)
+
+
+class RedirectMiddleware:
+    """
+    Middleware that handles URL redirecting.
+
+    This used for fuzzy lookups of projects, for example case insensitive
+    or after renaming.
+    """
+
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        return self.get_response(request)
+
+    def fixup_language(self, lang):
+        return Language.objects.fuzzy_get(code=lang, strict=True)
+
+    def fixup_project(self, slug, request):
+        try:
+            project = Project.objects.get(slug__iexact=slug)
+        except Project.DoesNotExist:
+            try:
+                project = (
+                    Change.objects.filter(
+                        action=Change.ACTION_RENAME_PROJECT, target=slug,
+                    )
+                    .order()[0]
+                    .project
+                )
+            except IndexError:
+                return None
+
+        request.user.check_access(project)
+        return project
+
+    def fixup_component(self, slug, request, project):
+        try:
+            component = Component.objects.get(project=project, slug__iexact=slug)
+        except Component.DoesNotExist:
+            try:
+                component = (
+                    Change.objects.filter(
+                        action=Change.ACTION_RENAME_COMPONENT, target=slug
+                    )
+                    .order()[0]
+                    .component
+                )
+            except IndexError:
+                return None
+
+        request.user.check_access_component(component)
+        return component
+
+    def process_exception(self, request, exception):
+        if not isinstance(exception, Http404):
+            return None
+
+        try:
+            resolver_match = request.resolver_match
+        except AttributeError:
+            return None
+
+        resolver_match = request.resolver_match
+
+        kwargs = dict(resolver_match.kwargs)
+
+        if "lang" in kwargs:
+            language = self.fixup_language(kwargs["lang"])
+            if language is None:
+                return None
+            kwargs["lang"] = language.code
+
+        if "project" in kwargs:
+            project = self.fixup_project(kwargs["project"], request)
+            if project is None:
+                return None
+            kwargs["project"] = project.slug
+
+            if "component" in kwargs:
+                component = self.fixup_component(kwargs["component"], request, project)
+                if component is None:
+                    return None
+                kwargs["component"] = component.slug
+
+        if kwargs != resolver_match.kwargs:
+            return redirect(resolver_match.url_name, **kwargs, permanent=True)
+
+        return None
 
 
 class SecurityMiddleware:

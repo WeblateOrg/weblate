@@ -32,7 +32,6 @@ from django.utils.translation import pgettext
 from django.views.generic.edit import FormView
 
 from weblate.formats.exporters import get_exporter
-from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 
@@ -113,23 +112,12 @@ def get_sort_name(request):
 
 def get_translation(request, project, component, lang, skip_acl=False):
     """Return translation matching parameters."""
-    try:
-        translation = get_object_or_404(
-            Translation.objects.prefetch(),
-            language__code=lang,
-            component__slug__iexact=component,
-            component__project__slug__iexact=project,
-        )
-    except Http404:
-        language = Language.objects.fuzzy_get(code=lang, strict=True)
-        if language is None:
-            raise
-        translation = get_object_or_404(
-            Translation.objects.prefetch(),
-            language=language,
-            component__slug__iexact=component,
-            component__project__slug__iexact=project,
-        )
+    translation = get_object_or_404(
+        Translation.objects.prefetch(),
+        language__code=lang,
+        component__slug=component,
+        component__project__slug=project,
+    )
 
     if not skip_acl:
         request.user.check_access_component(translation.component)
@@ -139,9 +127,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
 def get_component(request, project, component, skip_acl=False):
     """Return component matching parameters."""
     component = get_object_or_404(
-        Component.objects.prefetch(),
-        project__slug__iexact=project,
-        slug__iexact=component,
+        Component.objects.prefetch(), project__slug=project, slug=component,
     )
     if not skip_acl:
         request.user.check_access_component(component)
@@ -150,7 +136,7 @@ def get_component(request, project, component, skip_acl=False):
 
 def get_project(request, project, skip_acl=False):
     """Return project matching parameters."""
-    project = get_object_or_404(Project, slug__iexact=project)
+    project = get_object_or_404(Project, slug=project)
     if not skip_acl:
         request.user.check_access(project)
     return project

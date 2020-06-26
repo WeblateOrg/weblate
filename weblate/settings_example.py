@@ -324,6 +324,7 @@ REQUIRE_LOGIN = False
 
 # Middleware
 MIDDLEWARE = [
+    "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",

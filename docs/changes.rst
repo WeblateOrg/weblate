@@ -15,6 +15,7 @@ Not yet released.
 * Improved query search parser.
 * Improved user feedback from format strings checks.
 * Improved performance of bulk state changes.
+* Added compatibility redirects after project or component renaming.
 
 Weblate 4.1.1
 -------------

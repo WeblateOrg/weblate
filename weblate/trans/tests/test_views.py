@@ -553,15 +553,45 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("translation", kwargs=kwargs))
         self.assertContains(response, other.name)
 
-    def test_view_translation_alias(self):
-        self.kw_translation["lang"] = "cs-CZ"
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
-        self.assertContains(response, "Test/Test")
+    def test_view_redirect(self):
+        """Test case insentivite lookups and aliases in middleware."""
+        # Non existing fails with 404
+        kwargs = {"project": "invalid"}
+        response = self.client.get(reverse("project", kwargs=kwargs))
+        self.assertEquals(response.status_code, 404)
 
-    def test_view_translation_invalid(self):
-        self.kw_translation["lang"] = "cs-DE"
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        # Different casing should redirect
+        kwargs["project"] = self.project.slug.upper()
+        response = self.client.get(reverse("project", kwargs=kwargs))
+        self.assertRedirects(
+            response, reverse("project", kwargs=self.kw_project), status_code=301
+        )
+
+        # Non existing fails with 404
+        kwargs["component"] = "invalid"
+        response = self.client.get(reverse("component", kwargs=kwargs))
+        self.assertEquals(response.status_code, 404)
+
+        # Different casing should redirect
+        kwargs["component"] = self.component.slug.upper()
+        response = self.client.get(reverse("component", kwargs=kwargs))
+        self.assertRedirects(
+            response, reverse("component", kwargs=self.kw_component), status_code=301
+        )
+
+        # Non existing fails with 404
+        kwargs["lang"] = "cs-DE"
+        response = self.client.get(reverse("translation", kwargs=kwargs))
         self.assertEqual(response.status_code, 404)
+
+        # Aliased language should redirect
+        kwargs["lang"] = "czech"
+        response = self.client.get(reverse("translation", kwargs=kwargs))
+        self.assertRedirects(
+            response,
+            reverse("translation", kwargs=self.kw_translation),
+            status_code=301,
+        )
 
     def test_view_unit(self):
         unit = self.get_unit()

@@ -120,6 +120,10 @@ class RenameTest(ViewTestCase):
         response = self.client.get(component.get_absolute_url())
         self.assertContains(response, "/projects/test/xxxx/")
 
+        # Test rename redirect in middleware
+        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        self.assertRedirects(response, component.get_absolute_url(), status_code=301)
+
     def test_rename_project(self):
         # Remove stale dir from previous tests
         target = os.path.join(data_dir("vcs"), "xxxx")
@@ -139,6 +143,10 @@ class RenameTest(ViewTestCase):
             self.assertIsNotNone(component.repository.last_remote_revision)
             response = self.client.get(component.get_absolute_url())
             self.assertContains(response, "/projects/xxxx/")
+
+        # Test rename redirect in middleware
+        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        self.assertRedirects(response, project.get_absolute_url(), status_code=301)
 
 
 class AnnouncementTest(ViewTestCase):
