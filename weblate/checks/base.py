@@ -79,10 +79,6 @@ class Check:
             return False
         return self.check_target_unit(sources, targets, unit)
 
-    def check_target_unit_with_flag(self, sources, targets, unit):
-        """Check flag value."""
-        raise NotImplementedError()
-
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
         # Check singular
@@ -178,10 +174,6 @@ class TargetCheck(Check):
 
     target = True
 
-    def check_target_unit_with_flag(self, sources, targets, unit):
-        """We don't check flag value here."""
-        return False
-
     def check_source_unit(self, source, unit):
         """We don't check source strings here."""
         return False
@@ -195,10 +187,6 @@ class SourceCheck(Check):
     """Basic class for source checks."""
 
     source = True
-
-    def check_target_unit_with_flag(self, sources, targets, unit):
-        """We don't check flag value here."""
-        return False
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
