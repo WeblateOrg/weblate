@@ -174,7 +174,7 @@ intersphinx_mapping = {
         "http://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
         None,
     ),
-    "virtaal": ("https://virtaal.readthedocs.io/en/latest/", None),
+    "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryproject.org/en/latest/", None),
     "sphinx": ("https://www.sphinx-doc.org/en/stable/", None),

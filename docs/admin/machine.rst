@@ -19,7 +19,7 @@ Turn on this service by adding ``weblate.machinery.tmserver.AmagamaTranslation``
 
 .. seealso::
 
-    :doc:`virtaal:amagama`,
+    :ref:`amagama:installation`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 .. _apertium:
@@ -294,7 +294,7 @@ amaGama server, which is an enhanced version of tmserver.
 
     :setting:`MT_TMSERVER`,
     :doc:`tt:commands/tmserver`
-    :doc:`virtaal:amagama`,
+    :ref:`amagama:installation`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 
 
