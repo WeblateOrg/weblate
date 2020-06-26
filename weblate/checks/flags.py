@@ -120,10 +120,7 @@ class Flags:
                 pass
             elif state == 0:
                 # Handle aliases
-                if token in FLAG_ALIASES:
-                    name = FLAG_ALIASES[token]
-                else:
-                    name = token
+                name = FLAG_ALIASES.get(token, token)
                 value = [name]
                 state = 1
             elif state == 1 and token == ",":
