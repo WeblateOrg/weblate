@@ -68,8 +68,13 @@ class Comparer:
 
 # Field type definitions
 PLAIN_FIELDS = ("source", "target", "context", "note", "location")
-NONTEXT_FIELDS = {"priority", "state", "timestamp", "change__timestamp", "pending"}
-FIELD_MAP = {"changed": "change__timestamp", "added": "timestamp"}
+NONTEXT_FIELDS = {
+    "priority": "priority",
+    "state": "state",
+    "pending": "pending",
+    "changed": "change__timestamp",
+    "added": "timestamp",
+}
 STRING_FIELD_MAP = {
     "suggestion": "suggestion__target",
     "comment": "comment__comment",
@@ -316,10 +321,6 @@ class TermExpr:
         if suffix is None:
             suffix = OPERATOR_MAP[self.operator]
 
-        # Name mapping
-        if field in FIELD_MAP:
-            field = FIELD_MAP[field]
-
         if field in PLAIN_FIELDS:
             return "{}__{}".format(field, suffix)
         if field in STRING_FIELD_MAP:
@@ -331,8 +332,8 @@ class TermExpr:
             return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
         if field in NONTEXT_FIELDS:
             if suffix not in ("substring", "iexact"):
-                return "{}__{}".format(field, suffix)
-            return field
+                return "{}__{}".format(NONTEXT_FIELDS[field], suffix)
+            return NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 
     def as_sql(self):
