@@ -38,17 +38,17 @@ from weblate.api.views import (
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = WeblateRouter()
-router.register(r"users", UserViewSet)
-router.register(r"groups", GroupViewSet)
-router.register(r"roles", RoleViewSet)
-router.register(r"projects", ProjectViewSet)
-router.register(r"components", ComponentViewSet, "component")
-router.register(r"translations", TranslationViewSet)
-router.register(r"languages", LanguageViewSet)
+router.register("users", UserViewSet)
+router.register("groups", GroupViewSet)
+router.register("roles", RoleViewSet)
+router.register("projects", ProjectViewSet)
+router.register("components", ComponentViewSet, "component")
+router.register("translations", TranslationViewSet)
+router.register("languages", LanguageViewSet)
 router.register("component-lists", ComponentListViewSet)
-router.register(r"changes", ChangeViewSet)
-router.register(r"units", UnitViewSet)
-router.register(r"screenshots", ScreenshotViewSet)
+router.register("changes", ChangeViewSet)
+router.register("units", UnitViewSet)
+router.register("screenshots", ScreenshotViewSet)
 
 
 # Wire up our API using automatic URL routing.
