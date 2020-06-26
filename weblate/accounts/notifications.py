@@ -20,7 +20,7 @@
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import Optional, Tuple
+from typing import Iterable, Optional
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -85,7 +85,7 @@ def register_notification(handler):
 
 
 class Notification:
-    actions: Tuple[int, ...] = ()
+    actions: Iterable[int] = ()
     verbose: str = ""
     template_name: str = ""
     digest_template: str = "digest"
