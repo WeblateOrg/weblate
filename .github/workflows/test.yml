@@ -89,7 +89,15 @@ jobs:
             requirements: edge
             database: postgresql
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
-
+    env:
+      CI_DATABASE: ${{ matrix.database }}
+      CI_REDIS_HOST: 127.0.0.1
+      CI_REDIS_PORT: '60001'
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
     steps:
       - uses: actions/checkout@v2
       - name: Start services
@@ -111,21 +119,12 @@ jobs:
         run: ./ci/print-versions
       - name: Install pip dependencies
         run: ./ci/pip-install ${{ matrix.requirements }}
+      - name: Prepare database
+        run: ./ci/prepare-database
       - name: Test with Django
-        env:
-          CI_DATABASE: ${{ matrix.database }}
-          CI_REDIS_HOST: 127.0.0.1
-          CI_REDIS_PORT: '60001'
-          CI_DB_PASSWORD: weblate
-          CI_DB_HOST: 127.0.0.1
-          CI_DB_PORT: '60000'
-          CI_SELENIUM: '1'
-          DJANGO_SETTINGS_MODULE: weblate.settings_test
-
-        run: |
-          ./ci/prepare-database
-          ./ci/run-test
-          ./ci/run-wsgi
+        run: ./ci/run-test
+      - name: Test wsgi startup
+        run: ./ci/run-wsgi
       - name: Coverage
         run: |
           coverage combine
