@@ -325,7 +325,7 @@ class CreateFromDoc(CreateComponent):
 
         # Create repository
         uploaded = form.cleaned_data["docfile"]
-        name, ext = os.path.splitext(os.path.basename(uploaded.name))
+        ext = os.path.splitext(os.path.basename(uploaded.name))[1]
         filename = "{}/{}{}".format(
             form.cleaned_data["slug"],
             form.cleaned_data["project"].source_language.code,
