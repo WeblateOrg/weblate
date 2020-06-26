@@ -35,7 +35,6 @@ from weblate import settings_example
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
 from weblate.utils.docs import get_doc_url
-from weblate.utils.tasks import ping
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
@@ -172,6 +171,9 @@ def is_celery_queue_long():
 
 
 def check_celery(app_configs, **kwargs):
+    # Import this lazily to avoid evaluating settings too early
+    from weblate.utils.tasks import ping
+
     errors = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
         errors.append(
