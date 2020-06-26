@@ -559,7 +559,7 @@ class BasicViewTest(ViewTestCase):
         # Non existing fails with 404
         kwargs = {"project": "invalid"}
         response = self.client.get(reverse("project", kwargs=kwargs))
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
         # Different casing should redirect, MySQL always does case insensitive lookups
         kwargs["project"] = self.project.slug.upper()
@@ -572,7 +572,7 @@ class BasicViewTest(ViewTestCase):
         # Non existing fails with 404
         kwargs["component"] = "invalid"
         response = self.client.get(reverse("component", kwargs=kwargs))
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
         # Different casing should redirect, MySQL always does case insensitive lookups
         kwargs["component"] = self.component.slug.upper()
