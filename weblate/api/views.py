@@ -18,6 +18,7 @@
 #
 
 import os.path
+from typing import Tuple
 
 from django.conf import settings
 from django.contrib.messages import get_messages
@@ -144,7 +145,7 @@ class MultipleFieldMixin:
 
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
-    raw_urls = ()
+    raw_urls: Tuple[str, ...] = ()
     raw_formats = {}
 
     def perform_content_negotiation(self, request, force=False):
