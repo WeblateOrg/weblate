@@ -1587,7 +1587,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             self.log_info("scheduling update in background, another update in progress")
             # We skip request here as it is not serializable
             perform_load.apply_async(
-                args=(self.pk, force, langs, None, changed_template, from_link),
+                args=(self.pk,),
+                kwargs={
+                    "force": force,
+                    "langs": langs,
+                    "changed_template": changed_template,
+                    "from_link": from_link,
+                },
                 countdown=60,
             )
             return False

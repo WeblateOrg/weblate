@@ -24,6 +24,7 @@ from datetime import date, timedelta
 from glob import glob
 from shutil import rmtree
 from time import time
+from typing import List, Optional
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -77,9 +78,17 @@ def perform_update(cls, pk, auto=False):
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
 )
-def perform_load(pk, **kwargs):
+def perform_load(
+    pk: int,
+    force: bool = False,
+    langs: Optional[List[str]] = None,
+    changed_template: bool = False,
+    from_link: bool = False,
+):
     component = Component.objects.get(pk=pk)
-    component.create_translations(**kwargs)
+    component.create_translations(
+        force=force, langs=langs, changed_template=changed_template, from_link=from_link
+    )
 
 
 @app.task(
