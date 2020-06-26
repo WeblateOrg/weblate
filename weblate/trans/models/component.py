@@ -637,6 +637,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 or (old.edit_template != self.edit_template)
                 or changed_template
             )
+            if changed_setup:
+                old.commit_pending("changed setup", None)
             changed_variant = old.variant_regex != self.variant_regex
             # Detect slug changes and rename git repo
             self.check_rename(old)

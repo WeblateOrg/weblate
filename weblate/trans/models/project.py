@@ -194,6 +194,10 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         self.create_path()
 
+        if old is not None and old.source_language != self.source_language:
+            for component in old.component_set.iterator():
+                component.commit_pending("language change", None)
+
         super().save(*args, **kwargs)
 
         # Reload components after source language change
