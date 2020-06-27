@@ -1229,7 +1229,6 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                             return self.push_repo(request, retry=False)
                         except RepositoryException:
                             report_error(cause="Could not unshallow the repo")
-                            pass
             messages.error(request, _("Could not push to remote branch on %s.") % self)
             self.add_alert("PushFailure", error=error_text)
             return False
