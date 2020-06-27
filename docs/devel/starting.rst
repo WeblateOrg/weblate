@@ -307,7 +307,7 @@ tool.
 If you are using Read the Docs service, you can start building translated
 documentation on the Read the Docs. Their :doc:`rtd:localization` covers pretty
 much everything you need - creating another project, set its language and link
-it from master project as a translation.
+it from main project as a translation.
 
 Now all you need is translating the documentation content. As Sphinx splits
 the translation files per source file, you might end up with dozen of files,

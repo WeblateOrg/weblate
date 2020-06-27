@@ -73,7 +73,7 @@ It is triggered on every VCS update, and otherwise similar to the :djadmin:`impo
 management command. This way you can track multiple translation
 components within one VCS.
 
-Create one master component least likely to disappear in the future, and others
+Create one main component least likely to disappear in the future, and others
 will employ :ref:`internal-urls` to it as a VCS configuration, and configure it
 to find all compoents in it.
 

@@ -167,7 +167,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
 .. code-block:: sh
 
-    # If PostgreSQL was not installed before, set the master password
+    # If PostgreSQL was not installed before, set the main password
     sudo -u postgres psql postgres -c "\password postgres"
 
     # Create a database user called "weblate"

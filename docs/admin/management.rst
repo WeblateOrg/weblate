@@ -96,7 +96,7 @@ Example:
 
 .. code-block:: sh
 
-    weblate --author michal@cihar.com add_suggestions weblate master cs /tmp/suggestions-cs.po
+    weblate --author michal@cihar.com add_suggestions weblate application cs /tmp/suggestions-cs.po
 
 
 auto_translate
@@ -143,7 +143,7 @@ Example:
 
 .. code-block:: sh
 
-    weblate auto_translate --user nijel --inconsistent --source phpmyadmin/master phpmyadmin 4-5 cs
+    weblate auto_translate --user nijel --inconsistent --source weblate/application weblate website cs
 
 .. seealso::
 
@@ -188,7 +188,7 @@ checkgit
 Prints current state of the back-end Git repository.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 commitgit
 ---------
@@ -198,7 +198,7 @@ commitgit
 Commits any possible pending changes to the back-end Git repository.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 commit_pending
 --------------
@@ -208,7 +208,7 @@ commit_pending
 Commits pending changes older than a given age.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 .. django-admin-option:: --age HOURS
 
@@ -559,7 +559,7 @@ Installs an addon to a set of components.
    Update the existing addon configuration.
 
 You can either define which project or component to install the addon in (for example
-``weblate/master``), or use ``--all`` to include all existing components.
+``weblate/application``), or use ``--all`` to include all existing components.
 
 To install :ref:`addon-weblate.gettext.customize` for all components:
 
@@ -598,7 +598,7 @@ Lists translators by contributed language for the given project::
     List names by language code instead of language name.
 
 You can either define which project or component to use (for example
-``weblate/master``), or use ``--all`` to list translators from all existing
+``weblate/application``), or use ``--all`` to list translators from all existing
 components.
 
 list_versions
@@ -625,7 +625,7 @@ repository).
     Limit processing to a single language.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 .. note::
 
@@ -645,7 +645,7 @@ Prevents further translation of a component.
     Useful in case you want to do some maintenance on the underlying repository.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 .. seealso::
 
@@ -685,7 +685,7 @@ Pushes committed changes to the upstream VCS repository.
     Force commits any pending changes, prior to pushing.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 .. note::
 
@@ -704,7 +704,7 @@ Unlocks a given component, making it available for translation.
     Useful in case you want to do some maintenance on the underlying repository.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 .. seealso::
 
@@ -753,7 +753,7 @@ Updates all checks for all strings.
     Useful for upgrades which do major changes to checks.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 updategit
 ---------
@@ -763,7 +763,7 @@ updategit
 Fetches remote VCS repositories and updates the internal cache.
 
 You can either define which project or component to update (for example
-``weblate/master``), or use ``--all`` to update all existing components.
+``weblate/application``), or use ``--all`` to update all existing components.
 
 .. note::
 
