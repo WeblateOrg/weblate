@@ -322,15 +322,15 @@ def users(request):
 def users_check(request):
     form = UserSearchForm(request.GET if request.GET else None)
 
-    users = None
+    user_list = None
     if form.is_valid():
         email = form.cleaned_data["email"]
-        users = User.objects.filter(
+        user_list = User.objects.filter(
             Q(email__icontains=email) | Q(social_auth__verifiedemail__email=email)
         ).distinct()
 
     return render(
         request,
         "manage/users_check.html",
-        {"menu_items": MENU, "menu_page": "users", "form": form, "users": users},
+        {"menu_items": MENU, "menu_page": "users", "form": form, "users": user_list},
     )
