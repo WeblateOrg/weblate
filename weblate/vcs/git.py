@@ -597,7 +597,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         # We don't use push URL at all
         super().configure_remote(pull_url, None, branch)
 
-    def create_pull_request(self, origin_branch, fork_branch):
+    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         raise NotImplementedError()
 
     def get_merge_message(self):
