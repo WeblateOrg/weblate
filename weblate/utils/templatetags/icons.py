@@ -17,8 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
+from typing import Dict
 
 from django import template
 from django.conf import settings
@@ -28,7 +28,7 @@ from weblate.utils.errors import report_error
 
 register = template.Library()
 
-CACHE = {}
+CACHE: Dict[str, str] = {}
 
 SPIN = '<span class="icon-spin" {} {}>{}</span>'
 
