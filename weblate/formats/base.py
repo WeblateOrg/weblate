@@ -47,6 +47,7 @@ class UnitNotFound(Exception):
 
 class UpdateError(Exception):
     def __init__(self, cmd, output):
+        super().__init__(output)
         self.cmd = cmd
         self.output = output
 
