@@ -272,7 +272,7 @@ class VerifyPluralsTest(TestCase):
 
     def test_valid(self):
         """Validate that we can name all plural formulas."""
-        for code, _unused, _unused, plural_formula in self.all_data():
+        for code, _name, _nplurals, plural_formula in self.all_data():
             self.assertNotEqual(
                 get_plural_type(code.replace("_", "-").split("-")[0], plural_formula),
                 data.PLURAL_UNKNOWN,
@@ -284,7 +284,7 @@ class VerifyPluralsTest(TestCase):
         # Verify we get an error on invalid syntax
         with self.assertRaises((SyntaxError, ValueError)):
             gettext.c2py("n==0 ? 1 2")
-        for code, _unused, nplurals, plural_formula in self.all_data():
+        for code, _name, nplurals, plural_formula in self.all_data():
             # Validate plurals can be parsed
             plural = gettext.c2py(plural_formula)
             # Get maximal plural
