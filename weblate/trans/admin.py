@@ -170,7 +170,6 @@ class ChangeAdmin(WeblateModelAdmin):
 
 class AnnouncementAdmin(WeblateModelAdmin):
     list_display = ["message", "project", "component", "language"]
-    prepopulated_fields = {}
     search_fields = ["message"]
     list_filter = ["project", "language"]
 
