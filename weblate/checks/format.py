@@ -18,6 +18,7 @@
 #
 
 import re
+from typing import Optional, Pattern
 
 from django.utils.functional import SimpleLazyObject
 from django.utils.html import escape
@@ -203,7 +204,7 @@ FLAG_RULES = {
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
 
-    regexp = None
+    regexp: Optional[Pattern[str]] = None
     default_disabled = True
 
     def check_target_unit(self, sources, targets, unit):

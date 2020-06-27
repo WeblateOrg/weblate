@@ -24,7 +24,7 @@ import os
 import os.path
 import subprocess
 from distutils.version import LooseVersion
-from typing import Optional
+from typing import List, Optional
 
 from dateutil import parser
 from django.conf import settings
@@ -60,14 +60,14 @@ class Repository:
     """Basic repository object."""
 
     _cmd = "false"
-    _cmd_last_revision = None
-    _cmd_last_remote_revision = None
+    _cmd_last_revision: Optional[List[str]] = None
+    _cmd_last_remote_revision: Optional[List[str]] = None
     _cmd_status = ["status"]
-    _cmd_list_changed_files = None
+    _cmd_list_changed_files: Optional[List[str]] = None
 
     name = None
     identifier: Optional[str] = None
-    req_version = None
+    req_version: Optional[str] = None
     default_branch = ""
     needs_push_url = True
 
@@ -147,7 +147,13 @@ class Repository:
 
     @classmethod
     def _popen(
-        cls, args, cwd=None, merge_err=True, fullcmd=False, raw=False, local=False
+        cls,
+        args: List[str],
+        cwd: Optional[str] = None,
+        merge_err: bool = True,
+        fullcmd: bool = False,
+        raw: bool = False,
+        local: bool = False,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -178,7 +184,13 @@ class Repository:
             )
         return process.stdout
 
-    def execute(self, args, needs_lock=True, fullcmd=False, merge_err=True):
+    def execute(
+        self,
+        args: List[str],
+        needs_lock: bool = True,
+        fullcmd: bool = False,
+        merge_err: bool = True,
+    ):
         """Execute command and caches its output."""
         if needs_lock:
             if not self.lock.is_locked:
