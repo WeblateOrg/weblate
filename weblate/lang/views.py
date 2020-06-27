@@ -26,7 +26,6 @@ from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.views.generic import CreateView, UpdateView
 
-from weblate.lang import data
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
 from weblate.trans.forms import SearchForm
@@ -162,8 +161,6 @@ class CreateLanguageView(CreateView):
         self.object = form[0].save()
         plural = form[1].instance
         plural.language = self.object
-        plural.type = data.PLURAL_UNKNOWN
-        plural.source = Plural.SOURCE_DEFAULT
         plural.save()
         return redirect(self.object)
 

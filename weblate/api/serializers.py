@@ -23,7 +23,6 @@ from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.lang import data
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import REPO_LENGTH
@@ -157,10 +156,7 @@ class LanguageSerializer(serializers.ModelSerializer):
                 "Language with this Language code already exists."
             )
         language = Language.objects.create(**validated_data)
-        plural = Plural(**plural_validated)
-        plural.language = language
-        plural.type = data.PLURAL_UNKNOWN
-        plural.source = Plural.SOURCE_DEFAULT
+        plural = Plural(language=language, **plural_validated)
         plural.save()
         return language
 

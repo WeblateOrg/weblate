@@ -562,11 +562,11 @@ class Plural(models.Model):
             data.PLURAL_ONE_TWO_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "One/two/few/many/other"),
         ),
-        (data.PLURAL_UNKNOWN, pgettext_lazy("Plural type", "Unknown")),
         (
             data.PLURAL_ZERO_ONE_TWO_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "Zero/one/two/few/many/other"),
         ),
+        (data.PLURAL_UNKNOWN, pgettext_lazy("Plural type", "Unknown")),
     )
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
@@ -592,7 +592,7 @@ class Plural(models.Model):
     )
     type = models.IntegerField(
         choices=PLURAL_CHOICES,
-        default=data.PLURAL_ONE_OTHER,
+        default=data.PLURAL_UNKNOWN,
         verbose_name=gettext_lazy("Plural type"),
         editable=False,
     )
