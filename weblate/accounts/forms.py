@@ -772,6 +772,7 @@ class UserSearchForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 Field("q", template="snippets/user-query-field.html"),
+                Field("sort_by", template="snippets/user-sort-field.html"),
                 css_class="btn-toolbar",
                 role="toolbar",
             ),

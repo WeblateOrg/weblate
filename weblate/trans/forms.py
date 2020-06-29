@@ -651,6 +651,7 @@ class SearchForm(forms.Form):
             Div(
                 Field("offset", **self.offset_kwargs),
                 SearchField("q", template="snippets/query-field.html"),
+                Field("sort_by", template="snippets/sort-field.html"),
                 css_class="btn-toolbar",
                 role="toolbar",
             ),
