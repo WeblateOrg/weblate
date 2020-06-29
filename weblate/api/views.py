@@ -66,7 +66,7 @@ from weblate.api.serializers import (
 )
 from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
-from weblate.formats.exporters import EXPORTERS
+from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import AutoForm

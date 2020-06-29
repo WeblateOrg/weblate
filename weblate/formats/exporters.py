@@ -40,19 +40,11 @@ from weblate.formats.external import XlsxFormat
 from weblate.formats.ttkit import TTKitFormat
 from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.site import get_site_url
+from weblate.formats.models import EXPORTERS
+
 
 # Map to remove control characters except newlines and tabs
 _CHARMAP = dict.fromkeys(x for x in range(32) if x not in (9, 10, 13))
-
-EXPORTERS = {}
-WEBLATE_EXPORTERS = settings.WEBLATE_EXPORTERS
-
-
-def register_exporter(exporter):
-    """Register an exporter."""
-    if exporter.__name__ in WEBLATE_EXPORTERS:
-        EXPORTERS[exporter.name] = exporter
-    return exporter
 
 
 def get_exporter(name):
@@ -108,6 +100,10 @@ class BaseExporter:
         if len(plurals) == 1:
             return self.string_filter(plurals[0])
         return multistring([self.string_filter(plural) for plural in plurals])
+
+    @classmethod
+    def get_identifier(cls):
+        return cls.name
 
     def get_storage(self):
         return self.storage_class()
@@ -203,7 +199,6 @@ class BaseExporter:
         return
 
 
-@register_exporter
 class PoExporter(BaseExporter):
     name = "po"
     content_type = "text/x-po"
@@ -243,7 +238,6 @@ class XMLExporter(BaseExporter):
         unit.settarget(word, self.language.code)
 
 
-@register_exporter
 class PoXliffExporter(XMLExporter):
     name = "xliff"
     content_type = "application/x-xliff+xml"
@@ -275,7 +269,6 @@ class PoXliffExporter(XMLExporter):
         return output
 
 
-@register_exporter
 class XliffExporter(PoXliffExporter):
     name = "xliff11"
     content_type = "application/x-xliff+xml"
@@ -285,7 +278,6 @@ class XliffExporter(PoXliffExporter):
     storage_class = xlifffile
 
 
-@register_exporter
 class TBXExporter(XMLExporter):
     name = "tbx"
     content_type = "application/x-tbx"
@@ -294,7 +286,6 @@ class TBXExporter(XMLExporter):
     storage_class = tbxfile
 
 
-@register_exporter
 class TMXExporter(XMLExporter):
     name = "tmx"
     content_type = "application/x-tmx"
@@ -303,7 +294,6 @@ class TMXExporter(XMLExporter):
     storage_class = tmxfile
 
 
-@register_exporter
 class MoExporter(PoExporter):
     name = "mo"
     content_type = "application/x-gettext-catalog"
@@ -363,7 +353,6 @@ class CVSBaseExporter(BaseExporter):
         return self.storage_class(fieldnames=self.fieldnames)
 
 
-@register_exporter
 class CSVExporter(CVSBaseExporter):
     name = "csv"
     content_type = "text/csv"
@@ -383,7 +372,6 @@ class CSVExporter(CVSBaseExporter):
         return text
 
 
-@register_exporter
 class XlsxExporter(CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -409,7 +397,6 @@ class MonolingualExporter(BaseExporter):
         return output
 
 
-@register_exporter
 class JSONExporter(MonolingualExporter):
     storage_class = JsonFile
     name = "json"
@@ -418,7 +405,6 @@ class JSONExporter(MonolingualExporter):
     verbose = _("JSON")
 
 
-@register_exporter
 class AndroidResourceExporter(MonolingualExporter):
     storage_class = AndroidResourceFile
     name = "aresource"
@@ -435,7 +421,6 @@ class AndroidResourceExporter(MonolingualExporter):
         return text.translate(_CHARMAP)
 
 
-@register_exporter
 class StringsExporter(MonolingualExporter):
     storage_class = stringsfile
     name = "strings"
