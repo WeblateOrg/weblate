@@ -555,9 +555,7 @@ class DownloadForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
-        self.helper.layout = Layout(
-            SearchField("q", template="snippets/query-field.html"), Field("format"),
-        )
+        self.helper.layout = Layout(SearchField("q"), Field("format"),)
 
 
 class SimpleUploadForm(forms.Form):
@@ -658,7 +656,7 @@ class SearchForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 Field("offset", **self.offset_kwargs),
-                SearchField("q", template="snippets/query-field.html"),
+                SearchField("q"),
                 Field("sort_by", template="snippets/sort-field.html"),
                 css_class="btn-toolbar",
                 role="toolbar",
@@ -1853,7 +1851,7 @@ class BulkEditForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q", template="snippets/query-field.html"),
+            SearchField("q"),
             Field("state"),
             Field("add_flags"),
             Field("remove_flags"),
