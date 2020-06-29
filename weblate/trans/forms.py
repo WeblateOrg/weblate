@@ -23,7 +23,7 @@ import json
 from datetime import date, datetime, timedelta
 from typing import Dict, List
 
-from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
+from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Fieldset, Layout
 from django import forms
@@ -1849,8 +1849,8 @@ class BulkEditForm(forms.Form):
             Field("state"),
             Field("add_flags"),
             Field("remove_flags"),
-            Field("add_labels"),
-            Field("remove_labels"),
+            InlineCheckboxes("add_labels"),
+            InlineCheckboxes("remove_labels"),
         )
 
 
