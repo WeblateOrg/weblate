@@ -517,6 +517,8 @@ Active directory integration
     AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
     AUTH_LDAP_FIND_GROUP_PERMS = True
 
+    # Optionally enable group mirroring from LDAP to Weblate
+    # AUTH_LDAP_MIRROR_GROUPS = True
 
 .. seealso::
 
