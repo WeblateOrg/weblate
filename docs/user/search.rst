@@ -16,8 +16,8 @@ Simple search
 
 Any phrase typed into the search box is split into words. Strings containing any
 of them are are shown. To look for an exact phrase, put "the searchphrase" into
-quotes (both single (') and double (") quotes will work): `"this is a quoted
-string"` or `'another quoted string'`.
+quotes (both single (') and double (") quotes will work): ``"this is a quoted
+string"`` or ``'another quoted string'``.
 
 Fields
 ------
