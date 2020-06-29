@@ -27,6 +27,7 @@ from rest_framework.test import APITestCase
 from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Role, User
 from weblate.lang.models import Language
+from weblate.langdata.languages import LANGUAGES
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import (
     Change,
@@ -1305,7 +1306,7 @@ class LanguageAPITest(APIBaseTest):
                 "plural": {"number": 2, "formula": "n != 1"},
             },
         )
-        self.assertEqual(Language.objects.count(), 366)
+        self.assertEqual(Language.objects.count(), len(LANGUAGES) + 1)
         self.assertEqual(response.data["code"], "new_lang")
         # Check that languages without translation are shown
         # only to super users
@@ -1314,7 +1315,7 @@ class LanguageAPITest(APIBaseTest):
         response = self.do_request(
             "api:language-list", method="get", superuser=True, code=200,
         )
-        self.assertEqual(response.data["count"], 366)
+        self.assertEqual(response.data["count"], len(LANGUAGES) + 1)
         self.do_request(
             "api:language-detail", kwargs={"code": "new_lang"}, method="get", code=404,
         )
@@ -1361,7 +1362,7 @@ class LanguageAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Language.objects.count(), 365)
+        self.assertEqual(Language.objects.count(), len(LANGUAGES))
 
     def test_put(self):
         self.do_request(
