@@ -51,6 +51,7 @@ from weblate.utils.views import get_paginator, get_project, import_message
 
 EXPORT_TYPES = ("csv", "po", "tbx", "xliff")
 
+
 def dict_title(prj, lang):
     """Return glossary title."""
     return _("%(language)s glossary for %(project)s") % {
@@ -396,7 +397,7 @@ def show_glossary(request, project, lang):
         .filter(project=prj, language=lang)
         .exclude(glossary_term=None)[:10]
     )
-    
+
     exporters = [EXPORTERS[exp] for exp in EXPORTERS if exp in EXPORT_TYPES]
 
     return render(

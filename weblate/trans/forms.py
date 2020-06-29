@@ -46,7 +46,7 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
-from weblate.formats.models import FILE_FORMATS, EXPORTERS
+from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
