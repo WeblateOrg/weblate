@@ -308,8 +308,7 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Customize download" %}</h4></div>
 <div class="panel-body">
-{% csrf_token %}
-{{ download_form|crispy }}
+{% crispy download_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Download" %}" class="btn btn-primary" />

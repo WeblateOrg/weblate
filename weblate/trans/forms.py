@@ -551,6 +551,14 @@ class DownloadForm(forms.Form):
         widget=forms.RadioSelect,
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            SearchField("q", template="snippets/query-field.html"), Field("format"),
+        )
+
 
 class SimpleUploadForm(forms.Form):
     """Base form for uploading a file."""
