@@ -536,7 +536,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click(self.driver.find_element_by_class_name("add-string"))
 
         # Unit should have screenshot assigned now
-        capture_unit("screenshot-context.png", "toggle-machine")
+        capture_unit("screenshot-context.png", "toggle-machinery")
 
     def test_admin(self):
         """Test admin interface."""

@@ -38,8 +38,7 @@
 {% perm 'suggestion.add' unit as user_can_suggest %}
 {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
-{% perm 'machinery.view' unit.translation as user_can_use_mt %}
-{% perm 'machinery.view' unit.translation as user_can_use_tm %}
+{% perm 'machinery.view' unit.translation as user_can_use_machinery %}
 {% perm 'source.edit' unit.translation as user_can_edit_source %}
 {% perm 'unit.check' unit.translation as user_can_ignore_check %}
 {% perm 'screenshot.add' project as user_can_add_screenshot %}
@@ -221,11 +220,8 @@
 {% if unit.all_comments or user_can_add_comment %}
 <li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if unit.all_comments %} <span class="badge">{{ unit.all_comments|length }}</span>{% endif %}</a></li>
 {% endif %}
-{% if user_can_use_mt %}
-<li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
-{% endif %}
-{% if user_can_use_tm %}
-<li><a href="#memory" data-toggle="tab" id="toggle-machine" data-load="memory">{% trans "Translation memory" %}</a></li>
+{% if user_can_use_machinery %}
+<li><a href="#machinery" data-toggle="tab" id="toggle-machinery" data-load="machinery" title="{% trans "Computer-aided translation suggestions" %}">{% trans "Machinery" %}</a></li>
 {% endif %}
 <li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
 <li><a href="#history" data-toggle="tab" id="toggle-history" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
@@ -311,51 +307,30 @@
 <a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all component changes" %}</a>
 </div>
 
-{% if user_can_use_mt %}
-<div class="tab-pane" id="machine">
-<table class="table table-compact table-striped">
-<thead>
-<tr>
-<th>{% trans "Translation" %}</th>
-<th>{% trans "Source" %}</th>
-<th>{% trans "Service" %}</th>
-<th>{% trans "Quality" %}</th>
-<th colspan="2">
-{% loading_icon "mt" %}
-</th>
-<tr>
-</thead>
-<tbody id="mt-translations">
-</tbody>
-</table>
-</div>
-{% endif %}
-
-{% if user_can_use_tm %}
-<div class="tab-pane" id="memory">
-<form class="form-inline" id="memory-search" action="{% url 'js-memory' unit_id=unit.id %}">
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="memory-search-input">{% trans "Translation memory" %}</label>
-    <input type="text" class="form-control" id="memory-search-input" name="q">
-  </div>
-  <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
-</form>
-<table class="table table-compact table-striped">
-<thead>
-<tr>
-<th>{% trans "Translation" %}</th>
-<th>{% trans "Source" %}</th>
-<th>{% trans "Origin" %}</th>
-<th>{% trans "Similarity" %}</th>
-<th colspan="2">
-{% loading_icon "memory" %}
-</th>
-<tr>
-</thead>
-<tbody id="memory-translations">
-</tbody>
-</table>
+{% if user_can_use_machinery %}
+<div class="tab-pane" id="machinery">
+  <form class="form-inline" id="memory-search" action="{% url 'js-memory' unit_id=unit.id %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="memory-search-input">{% trans "Translation memory" %}</label>
+      <input type="text" class="form-control" id="memory-search-input" name="q">
+    </div>
+    <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
+  </form>
+  <table class="table table-compact table-striped">
+    <thead>
+      <tr>
+        <th>{% trans "Translation" %}</th>
+        <th>{% trans "Source" %}</th>
+        <th>{% trans "Origin" %}</th>
+        <th>{% trans "Similarity" %}</th>
+        <th colspan="2">
+        {% loading_icon "machinery" %}
+      </th>
+      <tr>
+    </thead>
+    <tbody id="machinery-translations"></tbody>
+  </table>
 </div>
 {% endif %}
 
