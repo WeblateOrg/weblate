@@ -146,7 +146,7 @@ class MultipleFieldMixin:
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_urls: Tuple[str, ...] = ()
-    raw_formats = {}
+    raw_formats = EXPORTERS
 
     def perform_content_negotiation(self, request, force=False):
         """Custom content negotiation."""
@@ -868,7 +868,6 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     serializer_class = TranslationSerializer
     lookup_fields = ("component__project__slug", "component__slug", "language__code")
     raw_urls = ("translation-file",)
-    raw_formats = EXPORTERS
 
     def get_queryset(self):
         return (
