@@ -768,7 +768,7 @@ LICENSES = (
     (
         "WTFPL",
         "Do What The F*ck You Want To Public License",
-        "http://sam.zoy.org/wtfpl/COPYING",
+        "http://www.wtfpl.net/about/",
         True,
     ),
     ("DOC", "DOC License", "http://www.cs.wustl.edu/~schmidt/ACE-copying.html", False),
