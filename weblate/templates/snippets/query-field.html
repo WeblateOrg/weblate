@@ -12,7 +12,7 @@
     </button>
     <ul class="dropdown-menu">
       {% for _, name, query in custom_filter_list %}
-      <li><a href="#" data-field="{{ query }}">{{ name }}</a></li>
+      <li><a href="#" data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a></li>
       {% endfor %}
     </ul>
   </div><!-- /btn-group -->

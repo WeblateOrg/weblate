@@ -823,7 +823,12 @@ $(function () {
         var $group = $this.closest(".search-group");
 
         $button.attr('data-field', $this.data('field'));
-        $group.find('span.search-label').text($this.text());
+        var $title = $this.find("span.title");
+        var text = $this.text()
+        if ($title.length) {
+            text = $title.text();
+        }
+        $group.find('span.search-label').text(text);
 
         if ($group.hasClass("sort-field")) {
             $group.find("input[name=sort_by]").val($this.data('sort'));
