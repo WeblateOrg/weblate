@@ -190,7 +190,7 @@ class MarkdownLinkCheckMultipleOrderIndependentLinksTest(CheckTestCase):
     check = MarkdownLinkCheck()
 
     def setUp(self):
-        super(MarkdownLinkCheckMultipleOrderIndependentLinksTest, self).setUp()
+        super().setUp()
 
         self.test_good_matching = (
             "[Weblate](#weblate) has an [example]({{example}}) "
