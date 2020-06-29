@@ -31,7 +31,7 @@ from django.utils.translation import ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.formats.exporters import get_exporter
+from weblate.formats.models import get_exporter
 from weblate.glossary.forms import (
     GlossaryForm,
     GlossaryUploadForm,

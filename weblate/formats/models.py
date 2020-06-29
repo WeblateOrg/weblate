@@ -33,6 +33,19 @@ class ExporterLoader(ClassLoader):
 EXPORTERS = ExporterLoader()
 
 
+def get_exporter(name):
+    """Return registered exporter."""
+    return EXPORTERS[name]
+
+
+def list_exporters(translation):
+    return [
+        {"name": x.name, "verbose": x.verbose}
+        for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
+        if x.supports(translation)
+    ]
+
+
 class FileFormatLoader(ClassLoader):
     def __init__(self):
         super().__init__("WEBLATE_FORMATS", False)
@@ -69,7 +82,6 @@ class FormatsConf(AppConf):
         "weblate.formats.exporters.TBXExporter",
         "weblate.formats.exporters.TMXExporter",
         "weblate.formats.exporters.MoExporter",
-        "weblate.formats.exporters.CSVExporter",
         "weblate.formats.exporters.XlsxExporter",
         "weblate.formats.exporters.JSONExporter",
         "weblate.formats.exporters.AndroidResourceExporter",

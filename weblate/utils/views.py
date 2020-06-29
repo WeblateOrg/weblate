@@ -31,7 +31,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from django.views.generic.edit import FormView
 
-from weblate.formats.exporters import get_exporter
+from weblate.formats.models import get_exporter
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 

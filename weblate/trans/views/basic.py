@@ -27,7 +27,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
-from weblate.formats.exporters import list_exporters
+from weblate.formats.models import list_exporters
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     AnnouncementForm,
