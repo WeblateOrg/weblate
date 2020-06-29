@@ -202,8 +202,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
-{% csrf_token %}
-{{ bulk_state_form|crispy }}
+{% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />

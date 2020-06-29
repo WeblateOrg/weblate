@@ -1842,6 +1842,17 @@ class BulkEditForm(forms.Form):
             x for x in self.fields["state"].choices if x[0] not in excluded
         ]
 
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            SearchField("q", template="snippets/query-field.html"),
+            Field("state"),
+            Field("add_flags"),
+            Field("remove_flags"),
+            Field("add_labels"),
+            Field("remove_labels"),
+        )
+
 
 class ContributorAgreementForm(forms.Form):
     confirm = forms.BooleanField(
