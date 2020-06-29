@@ -820,28 +820,35 @@ $(function () {
     $('.search-group li a').click(function () {
         var $this = $(this);
         var $button = $this.closest('.input-group-btn').find('button');
+        var $group = $this.closest(".search-group");
+
         $button.attr('data-field', $this.data('field'));
-        $button.find('span.search-label').not('#query-sort-toggle span').text($this.text());
-        if ($this.data('sort')) {
-            $('#id_sort_by').val($this.data('sort'));
+        $group.find('span.search-label').text($this.text());
+
+        if ($group.hasClass("sort-field")) {
+            $group.find("input[name=sort_by]").val($this.data('sort'));
             if ($this.closest('.result-page-form').length) {
                 $this.closest('form').submit();
             }
         }
-        if ($this.closest('.query-field').length) {
-            $('#id_q').val($this.data('field'));
+
+        if ($group.hasClass("query-field")) {
+            $group.find("input[name=q]").val($this.data('field'));
             if ($this.closest('.result-page-form').length) {
                 var $form = $this.closest('form');
                 $form.find("input[name=offset]").val("1");
                 $form.submit();
             }
         }
+        $this.closest("ul").dropdown('toggle');
+        return false;
     });
-    $('#query-sort-toggle').click(function () {
+    $('.query-sort-toggle').click(function () {
         var $this = $(this);
-        var $label = $this.find('span.search-label');
+        var $label = $this.find('span.search-icon');
+        var $input = $this.closest(".search-group").find("input[name=sort_by]");
         $label.toggle();
-        var sort_params = $('#id_sort_by').val().split(",")
+        var sort_params = $input.val().split(",")
         sort_params.forEach(function(param, index) {
             if (param.indexOf("-") !== -1) {
                 sort_params[index] = param.replace("-", "");
@@ -849,7 +856,7 @@ $(function () {
                 sort_params[index] = `-${param}`;
             }
         });
-        $('#id_sort_by').val(sort_params.join(","));
+        $input.val(sort_params.join(","));
         if ($this.closest('.result-page-form').length) {
             $this.closest('form').submit();
         }
