@@ -1,6 +1,6 @@
 ---
 name: Support question
-about: Looking for help with configuration or deployment
+about: Help with Weblate configuration or deployment
 labels: question
 
 ---
