@@ -39,6 +39,15 @@ Depending on your setup and experience, choose appropriate installation method:
 Software requirements
 ---------------------
 
+Operating system
+++++++++++++++++
+
+Weblate is known to work on Linux, FreeBSD and OSX. Other Unix like systems
+will most likely work as well.
+
+Weblate is not supported on Windows. But it may still work and we are happy to
+accept patches.
+
 Other services
 ++++++++++++++
 
