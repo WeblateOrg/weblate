@@ -2277,13 +2277,17 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             self.add_alert("MergeFailure", error=self.error_text(error))
             return False
 
-    def repo_needs_push(self):
+    def repo_needs_push(self, retry: bool = True):
         """Check for something to push to remote repository."""
         try:
             return self.repository.needs_push()
         except RepositoryException as error:
+            error_text = self.error_text(error)
+            if retry and "Host key verification failed" in error_text:
+                self.add_ssh_host_key()
+                return self.repo_needs_push(retry=False)
             report_error(cause="Could check push needed")
-            self.add_alert("PushFailure", error=self.error_text(error))
+            self.add_alert("PushFailure", error=error_text)
             return False
 
     @property
