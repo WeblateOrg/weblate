@@ -82,6 +82,7 @@ class FormatsConf(AppConf):
         "weblate.formats.exporters.TBXExporter",
         "weblate.formats.exporters.TMXExporter",
         "weblate.formats.exporters.MoExporter",
+        "weblate.formats.exporters.CSVExporter",
         "weblate.formats.exporters.XlsxExporter",
         "weblate.formats.exporters.JSONExporter",
         "weblate.formats.exporters.AndroidResourceExporter",
