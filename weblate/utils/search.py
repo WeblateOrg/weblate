@@ -111,7 +111,7 @@ OPERATOR = oneOf(OPERATOR_MAP.keys())
 FIELD = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
 
 # Match token
-WORD = Regex(r"""[^ '"\(\)]([^ '"]*[^ '"\)])?""")
+WORD = Regex(r"""[^ \(\)]([^ '"]*[^ '"\)])?""")
 DATE = Word("0123456789:.-T")
 
 # Date range

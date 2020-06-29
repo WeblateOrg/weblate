@@ -354,3 +354,9 @@ class QueryParserTest(TestCase):
 
     def test_url(self):
         self.assert_query("https://weblate.org/", parse_query("'https://weblate.org/'"))
+
+    def test_quotes(self):
+        self.assert_query("'", parse_query('''"'"'''))
+        self.assert_query('"', parse_query("""'"'"""))
+        self.assert_query("source:'", parse_query('''source:"'"'''))
+        self.assert_query('source:"', parse_query("""source:'"'"""))
