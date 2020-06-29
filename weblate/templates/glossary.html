@@ -30,11 +30,10 @@
       {% trans "Export glossary" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=po">{% trans "gettext (PO)" %}</a></li>
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=xliff">{% trans "XML Localization Interchange File Format (XLIFF)" %}</a></li>
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
-</ul>
+	{% for exporter in exporters %}
+	<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format={{ exporter.name  }}">Export as {{ exporter.verbose  }}</a></li>
+	{% endfor  %}
+    </ul>
 </li>
 <li><a href="#changes" data-toggle="tab">{% trans "History" %}</a></li>
 </ul>
