@@ -39,6 +39,14 @@ repos:
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
+  - repo: https://github.com/awebdeveloper/pre-commit-stylelint
+    rev: 0.0.2
+    hooks:
+      - id: stylelint
+        args: ["--formatter=compact"]
+        additional_dependencies:
+          - stylelint@latest
+          - stylelint-config-standard@latest
 exclude: "^.*\\.(\
     csv|\
     svg|\
