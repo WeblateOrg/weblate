@@ -77,6 +77,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "NewCommentNotificaton",
             "NewComponentNotificaton",
             "LockNotification",
+            "LicenseNotification",
             "ChangedStringNotificaton",
             "TranslatedStringNotificaton",
             "ApprovedStringNotificaton",
@@ -118,6 +119,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             component=self.component, action=Change.ACTION_UNLOCK,
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
+
+    def test_notify_license(self):
+        self.component.license = "WTFPL"
+        self.component.save()
+        self.validate_notifications(
+            1, "[Weblate] Component Test/Test license changed to WTFPL"
+        )
 
     def test_notify_merge_failure(self):
         change = Change.objects.create(

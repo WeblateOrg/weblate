@@ -1,0 +1,8 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}
+
+
+{% block content %}
+<p>{% blocktrans %}License for component {{ component }} was changed from {{ old }} to {{ target }}.{% endblocktrans %}
+{% endblock %}
