@@ -9,8 +9,19 @@ Dependency management
 The yarn package manager is used to update third party libraries. The
 configuration lives in :file:`scripts/yarn` and there is a wrapper script
 :file:`scripts/yarn-update` to upgrade the libraries, build them and copy to
-correct locations in :file:`weblate/static`. It also runs :command:`pre-commit`
-to format the code, see :doc:`code` for instructions to set it up.
+correct locations in :file:`weblate/static/vendor`, where all third partly
+frontend code is located.
+
+Coding style
+------------
+
+Weblate relies on `Prettier`_ for the code formatting for both JavaScript and CSS files.
+
+We also use `ESLint`_ to check the JavaScript code.
+
+.. _ESLint: https://eslint.org/
+.. _Prettier: https://prettier.io/
+
 
 Localization
 ------------
