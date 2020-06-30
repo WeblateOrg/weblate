@@ -1653,8 +1653,8 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     }
                 )
 
-    def save(self):
-        super().save()
+    def save(self, commit: bool = True):
+        super().save(commit=commit)
         if self.changed_access:
             Change.objects.create(
                 project=self.instance,
