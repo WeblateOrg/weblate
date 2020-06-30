@@ -27,7 +27,6 @@ from weblate.utils.classloader import ClassLoader
 class ExporterLoader(ClassLoader):
     def __init__(self):
         super().__init__("WEBLATE_EXPORTERS", False)
-        self.errors = {}
 
     def list_exporters(self, translation):
         return [
