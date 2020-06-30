@@ -98,7 +98,7 @@ class TranslatedCheck(TargetCheck):
     description = ""
     ignore_untranslated = False
 
-    def get_description(self, check):
+    def get_description(self, check=None):
         unit = check.unit
         self.check_target_unit(unit.source, unit.target, unit)
         return self.description
