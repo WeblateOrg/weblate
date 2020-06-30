@@ -1,0 +1,34 @@
+# This file is maintained in https://github.com/WeblateOrg/meta/
+name: stylelint
+
+on:
+  push:
+    branches-ignore:
+      - "dependabot/**"
+  pull_request:
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v1
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.cache/pre-commit
+          key: ${{ runner.os }}-pip-lint-${{ hashFiles('**/requirements*.txt') }}-${{ hashFiles('.pre-commit-config.yaml') }}
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel
+          pip install -r requirements-lint.txt
+      - name: Run stylelint
+        run: |
+          echo "::add-matcher::.github/matchers/eslint-compact.json"
+          pre-commit run stylelint --all
+          echo "::remove-matcher owner=eslint-compact::"
