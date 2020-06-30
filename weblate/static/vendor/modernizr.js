@@ -26,7 +26,7 @@
 ;(function(scriptGlobalObject, window, document, undefined){
 
   var tests = [];
-
+  
 
   /**
    * ModernizrProto is the constructor for Modernizr
@@ -73,7 +73,7 @@
     }
   };
 
-
+  
 
   // Fake some of Object.create so we can force non test results to be non "own" properties.
   var Modernizr = function() {};
@@ -83,10 +83,10 @@
   // Overwrite name so constructor name is nicer :D
   Modernizr = new Modernizr();
 
-
+  
 
   var classes = [];
-
+  
 
   /**
    * is returns a boolean if the typeof an obj is exactly type.
@@ -179,7 +179,7 @@
    * @returns {HTMLElement|SVGElement} The root element of the document
    */
   var docElement = document.documentElement;
-
+  
 
   /**
    * A convenience helper to check if the document we are running in is an SVG document
@@ -189,7 +189,7 @@
    */
   var isSVG = docElement.nodeName.toLowerCase() === 'svg';
 
-
+  
 
   /**
    * createElement is a convenience wrapper around document.createElement. Since we
@@ -224,7 +224,7 @@
    * @returns {HTMLInputElement}
    */
   var inputElem = createElement('input');
-
+  
 /*!
 {
   "name": "Form input types",
