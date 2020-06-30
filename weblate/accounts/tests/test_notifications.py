@@ -357,7 +357,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_alert(self):
         self.component.project.add_user(self.user, "@Administration")
         self.component.add_alert("PushFailure", error="Some error")
-        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        self.validate_notifications(
+            2,
+            subjects=[
+                "[Weblate] New alert on Test/Test",
+                "[Weblate] Component Test/Test was locked",
+            ],
+        )
 
     def test_notify_alert_ignore(self):
         self.component.project.add_user(self.user, "@Administration")
@@ -365,7 +371,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.create_link_existing()
         mail.outbox = []
         self.component.add_alert("PushFailure", error="Some error")
-        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        self.validate_notifications(
+            3,
+            subjects=[
+                "[Weblate] New alert on Test/Test",
+                "[Weblate] Component Test/Test was locked",
+                "[Weblate] Component Test/Test2 was locked",
+            ],
+        )
 
     def test_notify_account(self):
         request = self.get_request()

@@ -437,13 +437,13 @@ class ProfileTest(FixtureTestCase):
         # Mute notifications for component
         self.client.post(reverse("mute", kwargs=self.kw_component))
         self.assertEqual(
-            self.user.subscription_set.filter(component=self.component).count(), 14
+            self.user.subscription_set.filter(component=self.component).count(), 18
         )
 
         # Mute notifications for project
         self.client.post(reverse("mute", kwargs=self.kw_project))
         self.assertEqual(
-            self.user.subscription_set.filter(project=self.project).count(), 14
+            self.user.subscription_set.filter(project=self.project).count(), 18
         )
 
         # Unwatch project
