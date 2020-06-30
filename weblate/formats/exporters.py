@@ -62,7 +62,7 @@ class BaseExporter:
         else:
             self.project = project
             self.language = language
-            self.plural = language.plural if language is not None else None
+            self.plural = language.plural
             self.url = url
         self.fieldnames = fieldnames
 
