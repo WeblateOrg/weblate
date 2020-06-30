@@ -2390,7 +2390,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         base_filename = self.get_new_base_filename()
 
-        filename = file_format.get_language_filename(self.filemask, code)
+        filename = file_format.get_language_filename(
+            self.filemask, code, self.language_code_style
+        )
         fullname = os.path.join(self.full_path, filename)
 
         # Ignore request if file exists (possibly race condition as
