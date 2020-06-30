@@ -773,7 +773,10 @@ class Unit(models.Model, LoggerMixin):
             else:
                 action = Change.ACTION_CHANGE
         else:
-            action = Change.ACTION_NEW
+            if self.state == STATE_APPROVED:
+                action = Change.ACTION_APPROVE
+            else:
+                action = Change.ACTION_NEW
 
         # Create change object
         Change.objects.create(
