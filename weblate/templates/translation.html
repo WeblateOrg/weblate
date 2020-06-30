@@ -18,7 +18,7 @@
 
 {% announcements component=object.component language=object.language %}
 
-{% include "show-component-state.html" with object=object.component %}
+{% include "snippets/component/state.html" with object=object.component %}
 
 {% include "watch-dropdown.html" with project=object.component.project component=object.component %}
 
