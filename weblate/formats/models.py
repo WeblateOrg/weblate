@@ -28,18 +28,19 @@ class ExporterLoader(ClassLoader):
     def __init__(self):
         super().__init__("WEBLATE_EXPORTERS", False)
 
-    def list_exporters(self, translation=None):
-        if translation is not None:
-            return [
-                {"name": x.name, "verbose": x.verbose}
-                for x in sorted(self.values(), key=lambda x: x.name)
-                if x.supports(translation)
-            ]
-        else:
-            return [
-                {"name": x.name, "verbose": x.verbose}
-                for x in sorted(self.values(), key=lambda x: x.name)
-            ]
+    def list_exporters(self, translation):
+        return [
+            {"name": x.name, "verbose": x.verbose}
+            for x in sorted(self.values(), key=lambda x: x.name)
+            if x.supports(translation)
+        ]
+
+    def list_exporters_filter(self, allowed):
+        return [
+            {"name": x.name, "verbose": x.verbose}
+            for x in sorted(self.values(), key=lambda x: x.name)
+            if x.name in allowed
+        ]
 
 
 EXPORTERS = ExporterLoader()
