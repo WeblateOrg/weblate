@@ -865,7 +865,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         time.sleep(0.5)
         self.screenshot("query-dropdown.png")
         with self.wait_for_page_load():
-            self.click("Not translated strings")
+            self.click(
+                self.driver.find_element_by_partial_link_text("Not translated strings")
+            )
         self.driver.find_element_by_id("id_34a4642999e44a2b_0")
 
         # Test sort dropdown
