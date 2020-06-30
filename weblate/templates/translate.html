@@ -10,12 +10,18 @@
 {% block extra_script %}
 {% compress js %}
 <script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
-<script defer data-cfasync="false" src="{% static 'editor/full.js' %}{{ cache_param }}"></script>
+<script defer data-cfasync="false" src="{% static 'editor/full.js' %}{{ cache_param }}"></script><script defer data-cfasync="false" src="{% static 'codemirror/lib/codemirror.js' %}{{ cache_param }}"></script>
+<script defer data-cfasync="false" src="{% static 'codemirror/addon/hint/show-hint.js' %}{{ cache_param }}"></script>
+<script defer data-cfasync="false" src="{% static 'codemirror/mode/javascript/javascript.js' %}{{ cache_param }}"></script>
+<script defer data-cfasync="false" src="{% static 'loader-codemirror.js' %}{{ cache_param }}"></script>
 {% endcompress %}
 {% endblock %}
 
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
+<link rel="stylesheet" type="text/css" href="{% static 'codemirror/lib/codemirror.css' %}{{ cache_param }}" />
+<link rel="stylesheet" type="text/css" href="{% static 'codemirror/addon/hint/show-hint.css' %}{{ cache_param }}" />
+
 {% endblock %}
 
 {% block breadcrumbs %}
