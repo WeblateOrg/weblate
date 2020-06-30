@@ -74,6 +74,7 @@ TEST_BACKENDS = (
 SOURCE_FONT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
     "static",
+    "vendor",
     "font-source",
     "TTF",
     "SourceSansPro-Bold.ttf",
