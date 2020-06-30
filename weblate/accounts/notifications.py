@@ -428,6 +428,17 @@ class RepositoryNotification(Notification):
 
 
 @register_notification
+class LockNotification(Notification):
+    actions = (
+        Change.ACTION_LOCK,
+        Change.ACTION_UNLOCK,
+    )
+    # Translators: Notification name
+    verbose = _("Component locking")
+    template_name = "component_lock"
+
+
+@register_notification
 class ParseErrorNotification(Notification):
     actions = (Change.ACTION_PARSE_ERROR,)
     # Translators: Notification name

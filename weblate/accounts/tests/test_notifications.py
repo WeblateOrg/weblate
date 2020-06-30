@@ -76,6 +76,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "NewSuggestionNotificaton",
             "NewCommentNotificaton",
             "NewComponentNotificaton",
+            "LockNotification",
             "ChangedStringNotificaton",
             "TranslatedStringNotificaton",
             "ApprovedStringNotificaton",
@@ -106,6 +107,17 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             if subjects:
                 self.assertEqual(message.subject, subjects[i])
         self.assertEqual(len(mail.outbox), count)
+
+    def test_notify_lock(self):
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_LOCK,
+        )
+        self.validate_notifications(1, "[Weblate] Component Test/Test was locked")
+        mail.outbox = []
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_UNLOCK,
+        )
+        self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
 
     def test_notify_merge_failure(self):
         change = Change.objects.create(
