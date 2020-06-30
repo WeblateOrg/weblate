@@ -574,6 +574,24 @@ class ChangedStringNotificaton(Notification):
 
 
 @register_notification
+class TranslatedStringNotificaton(Notification):
+    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW)
+    # Translators: Notification name
+    verbose = _("Translated string")
+    template_name = "translated_string"
+    filter_languages = True
+
+
+@register_notification
+class ApprovedStringNotificaton(Notification):
+    actions = (Change.ACTION_APPROVE,)
+    # Translators: Notification name
+    verbose = _("Approved string")
+    template_name = "approved_string"
+    filter_languages = True
+
+
+@register_notification
 class NewTranslationNotificaton(Notification):
     actions = (Change.ACTION_ADDED_LANGUAGE, Change.ACTION_REQUESTED_LANGUAGE)
     # Translators: Notification name

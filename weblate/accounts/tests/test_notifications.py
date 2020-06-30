@@ -19,8 +19,8 @@
 
 """Tests for notitifications."""
 
-
 from copy import deepcopy
+from typing import List, Optional
 
 from django.conf import settings
 from django.core import mail
@@ -77,6 +77,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "NewCommentNotificaton",
             "NewComponentNotificaton",
             "ChangedStringNotificaton",
+            "TranslatedStringNotificaton",
+            "ApprovedStringNotificaton",
             "NewTranslationNotificaton",
             "MentionCommentNotificaton",
             "LastAuthorCommentNotificaton",
@@ -92,13 +94,17 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "thirduser", "noreply+third@example.org", "testpassword"
         )
 
-    def validate_notifications(self, count, subject):
-        for message in mail.outbox:
+    def validate_notifications(
+        self, count, subject: Optional[str] = None, subjects: Optional[List[str]] = None
+    ):
+        for i, message in enumerate(mail.outbox):
             self.assertNotIn("TEMPLATE_BUG", message.subject)
             self.assertNotIn("TEMPLATE_BUG", message.body)
             self.assertNotIn("TEMPLATE_BUG", message.alternatives[0][0])
             if subject:
                 self.assertEqual(message.subject, subject)
+            if subjects:
+                self.assertEqual(message.subject, subjects[i])
         self.assertEqual(len(mail.outbox), count)
 
     def test_notify_merge_failure(self):
@@ -180,8 +186,25 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_CHANGE,
         )
 
-        # Check mail
-        self.validate_notifications(1, "[Weblate] New translation in Test/Test — Czech")
+        # Check mail - ChangedStringNotificaton and TranslatedStringNotificaton
+        self.validate_notifications(2, "[Weblate] New translation in Test/Test — Czech")
+
+    def test_notify_approved_translation(self):
+        Change.objects.create(
+            unit=self.get_unit(),
+            user=self.anotheruser,
+            old="",
+            action=Change.ACTION_APPROVE,
+        )
+
+        # Check mail - ChangedStringNotificaton and ApprovedStringNotificaton
+        self.validate_notifications(
+            2,
+            subjects=[
+                "[Weblate] New translation in Test/Test — Czech",
+                "[Weblate] Approved translation in Test/Test — Czech",
+            ],
+        )
 
     def test_notify_new_language(self):
         anotheruser = self.anotheruser
@@ -269,7 +292,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change.user = self.anotheruser
         change.save()
         # Notification for other user edit
-        self.assertEqual(len(mail.outbox), 1)
+        # ChangedStringNotificaton and TranslatedStringNotificaton
+        self.assertEqual(len(mail.outbox), 2)
         mail.outbox = []
 
     def test_notify_new_component(self):
