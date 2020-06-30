@@ -94,6 +94,7 @@ from weblate.accounts.forms import (
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
+    FREQ_INSTANT,
     FREQ_NONE,
     NOTIFICATIONS,
     SCOPE_ADMIN,
@@ -1094,6 +1095,27 @@ def social_complete(request, backend):
                 "e-mail address or username is already in use for another account."
             ),
         )
+
+
+@login_required
+@require_POST
+def subscribe(request):
+    if "onetime" in request.POST:
+        component = Component.objects.get(pk=request.POST["component"])
+        request.user.check_access_component(component)
+        subscription = Subscription(
+            user=request.user,
+            notification=request.POST["onetime"],
+            scope=SCOPE_COMPONENT,
+            frequency=FREQ_INSTANT,
+            component=component,
+            project=component.project,
+            onetime=True,
+        )
+        subscription.full_clean()
+        subscription.save()
+        messages.success(request, _("Notification settings adjusted."))
+    return redirect_profile("#notifications")
 
 
 def unsubscribe(request):

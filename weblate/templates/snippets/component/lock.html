@@ -1,0 +1,12 @@
+{% extends "message.html" %}
+{% load i18n %}
+
+{% block tags %}warning{% endblock %}
+
+{% block message %}
+{% if user.is_authenticated %}
+<a href="{% url 'subscribe' %}" data-params='{"onetime":"LockNotification","component":{{object.pk }}}' class="btn btn-primary pull-right flip link-post">{% trans "Get notified when this project is unlocked again" %}</a>
+{% endif %}
+{% trans "The translation is temporarily closed for contributions due to maintenance, please come back later." %}
+<div class="clearfix"></div>
+{% endblock %}
