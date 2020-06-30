@@ -120,6 +120,28 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
 
+    def test_notify_onetime(self):
+        Subscription.objects.filter(notification="LockNotification").delete()
+        Subscription.objects.create(
+            user=self.user,
+            scope=SCOPE_DEFAULT,
+            notification="LockNotification",
+            frequency=FREQ_INSTANT,
+            onetime=True,
+        )
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_UNLOCK,
+        )
+        self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
+        mail.outbox = []
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_LOCK,
+        )
+        self.validate_notifications(0)
+        self.assertFalse(
+            Subscription.objects.filter(notification="LockNotification").exists()
+        )
+
     def test_notify_license(self):
         self.component.license = "WTFPL"
         self.component.save()

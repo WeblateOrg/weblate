@@ -64,6 +64,7 @@ class Subscription(models.Model):
     component = models.ForeignKey(
         "trans.Component", on_delete=models.deletion.CASCADE, null=True
     )
+    onetime = models.BooleanField(default=False)
 
     class Meta:
         unique_together = [("notification", "scope", "project", "component", "user")]

@@ -339,6 +339,9 @@ class Notification:
                     change,
                     subscription=user.current_subscription,
                 )
+                # Delete onetime subscription
+                if user.current_subscription.onetime:
+                    user.current_subscription.delete()
 
     def send_digest(self, language, email, changes, subscription=None):
         with override("en" if language is None else language):
