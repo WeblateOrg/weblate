@@ -30,8 +30,6 @@ class ExporterLoader(ClassLoader):
         self.errors = {}
 
     def list_exporters(self, translation):
-        import pdb
-        pdb.set_trace()
         return [
             {"name": x.name, "verbose": x.verbose}
             for x in sorted(self.values(), key=lambda x: x.name)
