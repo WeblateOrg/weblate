@@ -29,10 +29,12 @@ class ExporterLoader(ClassLoader):
         super().__init__("WEBLATE_EXPORTERS", False)
         self.errors = {}
 
-    def list_exporters(translation):
+    def list_exporters(self, translation):
+        import pdb
+        pdb.set_trace()
         return [
             {"name": x.name, "verbose": x.verbose}
-            for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
+            for x in sorted(self.values(), key=lambda x: x.name)
             if x.supports(translation)
         ]
 
