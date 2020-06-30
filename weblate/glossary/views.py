@@ -398,7 +398,7 @@ def show_glossary(request, project, lang):
         .exclude(glossary_term=None)[:10]
     )
 
-    exporters = [exp for exp in EXPORTERS.list_exporters() if exp['name'] in EXPORT_TYPES]
+    exporters = EXPORTERS.list_exporters_filter(EXPORT_TYPES)
 
     return render(
         request,
