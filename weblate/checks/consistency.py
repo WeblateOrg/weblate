@@ -95,7 +95,13 @@ class TranslatedCheck(TargetCheck):
 
     check_id = "translated"
     name = _("Has been translated")
+    description = ""
     ignore_untranslated = False
+
+    def get_description(self, check):
+        unit = check.unit
+        self.check_target_unit(unit.source, unit.target, unit)
+        return self.description
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
