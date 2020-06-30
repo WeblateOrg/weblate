@@ -31,7 +31,7 @@ from django.utils.translation import ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.formats.models import EXPORTERS, get_exporter
+from weblate.formats.models import EXPORTERS
 from weblate.glossary.forms import (
     GlossaryForm,
     GlossaryUploadForm,
@@ -284,7 +284,7 @@ def download_glossary(request, project, lang):
     terms = Term.objects.for_project(prj).filter(language=lang).order()
 
     # Translate toolkit based export
-    exporter = get_exporter(export_format)(
+    exporter = EXPORTERS[export_format](
         prj,
         lang,
         get_site_url(

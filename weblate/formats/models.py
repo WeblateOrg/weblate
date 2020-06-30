@@ -29,21 +29,15 @@ class ExporterLoader(ClassLoader):
         super().__init__("WEBLATE_EXPORTERS", False)
         self.errors = {}
 
+    def list_exporters(translation):
+        return [
+            {"name": x.name, "verbose": x.verbose}
+            for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
+            if x.supports(translation)
+        ]
+
 
 EXPORTERS = ExporterLoader()
-
-
-def get_exporter(name):
-    """Return registered exporter."""
-    return EXPORTERS[name]
-
-
-def list_exporters(translation):
-    return [
-        {"name": x.name, "verbose": x.verbose}
-        for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
-        if x.supports(translation)
-    ]
 
 
 class FileFormatLoader(ClassLoader):
