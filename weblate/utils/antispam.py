@@ -20,7 +20,7 @@
 from django.conf import settings
 
 from weblate.utils.errors import report_error
-from weblate.utils.request import get_ip_address
+from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.site import get_site_url
 
 
@@ -33,7 +33,7 @@ def is_spam(text, request):
         try:
             return akismet.comment_check(
                 get_ip_address(request),
-                request.META.get("HTTP_USER_AGENT", ""),
+                get_user_agent_raw(request),
                 comment_content=text,
                 comment_type="comment",
             )
