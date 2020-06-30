@@ -112,7 +112,8 @@ class TranslatedCheck(TargetCheck):
             if action in Change.ACTIONS_CONTENT:
                 self.description = (
                     _(
-                        'This string has been translated in the past. Last Translation was "%s"'
+                        'This string has been translated in the past. \
+                                Last Translation was "%s"'
                     )
                     % changes.latest("timestamp").target
                 )
