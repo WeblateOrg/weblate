@@ -604,7 +604,7 @@ def show_contributor_agreement(context, component):
         return ""
 
     return render_to_string(
-        "show-contributor-agreement.html",
+        "snippets/component/contributor-agreement.html",
         {"object": component, "next": context["request"].get_full_path()},
     )
 
