@@ -24,6 +24,28 @@ from django.utils.functional import cached_property
 from weblate.utils.classloader import ClassLoader
 
 
+class ExporterLoader(ClassLoader):
+    def __init__(self):
+        super().__init__("WEBLATE_EXPORTERS", False)
+
+    def list_exporters(self, translation):
+        return [
+            {"name": x.name, "verbose": x.verbose}
+            for x in sorted(self.values(), key=lambda x: x.name)
+            if x.supports(translation)
+        ]
+
+    def list_exporters_filter(self, allowed):
+        return [
+            {"name": x.name, "verbose": x.verbose}
+            for x in sorted(self.values(), key=lambda x: x.name)
+            if x.name in allowed
+        ]
+
+
+EXPORTERS = ExporterLoader()
+
+
 class FileFormatLoader(ClassLoader):
     def __init__(self):
         super().__init__("WEBLATE_FORMATS", False)
@@ -39,7 +61,6 @@ class FileFormatLoader(ClassLoader):
 
     def load_data(self):
         result = super().load_data()
-
         for fileformat in list(result.values()):
             try:
                 fileformat.get_class()
@@ -54,6 +75,20 @@ FILE_FORMATS = FileFormatLoader()
 
 
 class FormatsConf(AppConf):
+    EXPORTERS = (
+        "weblate.formats.exporters.PoExporter",
+        "weblate.formats.exporters.PoXliffExporter",
+        "weblate.formats.exporters.XliffExporter",
+        "weblate.formats.exporters.TBXExporter",
+        "weblate.formats.exporters.TMXExporter",
+        "weblate.formats.exporters.MoExporter",
+        "weblate.formats.exporters.CSVExporter",
+        "weblate.formats.exporters.XlsxExporter",
+        "weblate.formats.exporters.JSONExporter",
+        "weblate.formats.exporters.AndroidResourceExporter",
+        "weblate.formats.exporters.StringsExporter",
+    )
+
     FORMATS = (
         "weblate.formats.ttkit.PoFormat",
         "weblate.formats.ttkit.PoMonoFormat",

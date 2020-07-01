@@ -27,7 +27,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
-from weblate.formats.exporters import list_exporters
+from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     AnnouncementForm,
@@ -349,7 +349,7 @@ def show_translation(request, project, component, lang):
             "last_changes": last_changes,
             "last_changes_url": urlencode(obj.get_reverse_url_kwargs()),
             "other_translations": other_translations,
-            "exporters": list_exporters(obj),
+            "exporters": EXPORTERS.list_exporters(obj),
         },
     )
 

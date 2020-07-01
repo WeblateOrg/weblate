@@ -66,7 +66,7 @@ from weblate.api.serializers import (
 )
 from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
-from weblate.formats.exporters import EXPORTERS
+from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import AutoForm
@@ -146,7 +146,7 @@ class MultipleFieldMixin:
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
     raw_urls: Tuple[str, ...] = ()
-    raw_formats = {}
+    raw_formats = EXPORTERS
 
     def perform_content_negotiation(self, request, force=False):
         """Custom content negotiation."""
@@ -868,7 +868,6 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     serializer_class = TranslationSerializer
     lookup_fields = ("component__project__slug", "component__slug", "language__code")
     raw_urls = ("translation-file",)
-    raw_formats = EXPORTERS
 
     def get_queryset(self):
         return (

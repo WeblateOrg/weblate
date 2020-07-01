@@ -31,7 +31,7 @@ from django.utils.translation import ngettext
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
-from weblate.formats.exporters import get_exporter
+from weblate.formats.models import EXPORTERS
 from weblate.glossary.forms import (
     GlossaryForm,
     GlossaryUploadForm,
@@ -48,6 +48,8 @@ from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.site import get_site_url
 from weblate.utils.views import get_paginator, get_project, import_message
+
+EXPORT_TYPES = ("csv", "po", "tbx", "xliff")
 
 
 def dict_title(prj, lang):
@@ -275,14 +277,14 @@ def download_glossary(request, project, lang):
     export_format = None
     if "format" in request.GET:
         export_format = request.GET["format"]
-    if export_format not in ("csv", "po", "tbx", "xliff"):
+    if export_format not in EXPORT_TYPES:
         export_format = "csv"
 
     # Grab all terms
     terms = Term.objects.for_project(prj).filter(language=lang).order()
 
     # Translate toolkit based export
-    exporter = get_exporter(export_format)(
+    exporter = EXPORTERS[export_format](
         prj,
         lang,
         get_site_url(
@@ -396,6 +398,8 @@ def show_glossary(request, project, lang):
         .exclude(glossary_term=None)[:10]
     )
 
+    exporters = EXPORTERS.list_exporters_filter(EXPORT_TYPES)
+
     return render(
         request,
         "glossary.html",
@@ -404,6 +408,7 @@ def show_glossary(request, project, lang):
             "project": prj,
             "language": lang,
             "page_obj": terms,
+            "exporters": exporters,
             "form": form,
             "query_string": urlencode({"term": search, "letter": letter}),
             "uploadform": uploadform,
