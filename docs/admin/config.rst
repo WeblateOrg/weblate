@@ -1579,6 +1579,20 @@ example:
 
     :ref:`addons`
 
+.. setting:: WEBLATE_EXPORTERS
+
+WEBLATE_EXPORTERS
+-----------------
+
+.. versionadded:: 4.2
+
+List of exporters available for use. These offer download of the translations
+or glossaries in various file formats.
+
+.. seealso::
+
+    :ref:`formats`
+
 .. setting:: WEBLATE_FORMATS
 
 WEBLATE_FORMATS
