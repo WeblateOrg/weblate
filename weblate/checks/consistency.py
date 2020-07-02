@@ -101,14 +101,14 @@ class TranslatedCheck(TargetCheck):
     def get_description(self, check=None):
         unit = check.unit
         target = self.check_target_unit(unit.source, unit.target, unit)
-        self.description = (
+        description = (
             _(
                 'This string has been translated in the past. \
                 Last Translation was "%s"'
             )
             % target
         )
-        return self.description
+        return description
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
