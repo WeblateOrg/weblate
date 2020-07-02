@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load static %}
 
 {% block extra_script %}
 {% if support.name != 'community' %}
 <script id="zammad_form_script" defer data-cfasync="false" src="https://weblate.zammad.com/assets/form/form.js"></script>
+<script defer data-cfasync="false" src="{% static 'zammad.js' %}{{ cache_param }}"></script>
 {% endif %}
 {% endblock %}
 
