@@ -95,12 +95,19 @@ class TranslatedCheck(TargetCheck):
 
     check_id = "translated"
     name = _("Has been translated")
-    description = ""
+    description = _("This string has been translated in the past")
     ignore_untranslated = False
 
     def get_description(self, check=None):
         unit = check.unit
-        self.check_target_unit(unit.source, unit.target, unit)
+        target = self.check_target_unit(unit.source, unit.target, unit)
+        self.description = (
+            _(
+                'This string has been translated in the past. \
+                Last Translation was "%s"'
+            )
+            % target
+        )
         return self.description
 
     def check_target_unit(self, sources, targets, unit):
@@ -114,16 +121,9 @@ class TranslatedCheck(TargetCheck):
 
         changes = unit.change_set.filter(action__in=states).order()
 
-        for action in changes.values_list("action", flat=True):
+        for action, target in changes.values_list("action", "target"):
             if action in Change.ACTIONS_CONTENT:
-                self.description = (
-                    _(
-                        'This string has been translated in the past. \
-                                Last Translation was "%s"'
-                    )
-                    % changes.latest("timestamp").target
-                )
-                return True
+                return target
             if action == Change.ACTION_SOURCE_CHANGE:
                 break
 
