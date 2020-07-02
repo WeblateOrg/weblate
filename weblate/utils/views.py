@@ -224,10 +224,11 @@ def download_translation_file(translation, fmt=None, units=None):
         filenames = translation.filenames
 
         if len(filenames) == 1:
-            extension = translation.store.extension()
+            extension = translation.component.file_format_cls.extension()
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"), content_type=translation.store.mimetype()
+                open(filenames[0], "rb"),
+                content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
             extension = "zip"
