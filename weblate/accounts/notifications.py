@@ -403,7 +403,10 @@ class MergeFailureNotification(Notification):
     # Translators: Notification name
     verbose = _("Repository failure")
     template_name = "repository_error"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         fake = copy(change)
@@ -493,7 +496,10 @@ class LastAuthorCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
@@ -529,7 +535,10 @@ class MentionCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
