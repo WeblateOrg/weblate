@@ -909,8 +909,8 @@ class SuggestionView(ListView):
             .order()
         )
 
-    def get_context_data(self, **kwargs):
-        result = super().get_context_data(**kwargs)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        result = super().get_context_data(object_list=object_list, **kwargs)
         if self.kwargs["user"] == "-":
             user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         else:
