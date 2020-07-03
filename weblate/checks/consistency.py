@@ -98,15 +98,12 @@ class TranslatedCheck(TargetCheck):
     description = _("This string has been translated in the past")
     ignore_untranslated = False
 
-    def get_description(self, check=None):
-        unit = check.unit
+    def get_description(self, check_obj):
+        unit = check_obj.unit
         target = self.check_target_unit(unit.source, unit.target, unit)
-        return (
-            _(
-                'This string has been translated in the past, last translation was "%s"'
-            )
-            % target
-        )
+        if not target:
+            return super().get_description(check_obj)
+        return _('Last translation was "%s".') % target
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
