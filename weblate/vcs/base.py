@@ -161,6 +161,7 @@ class Repository:
         if not fullcmd:
             args = [cls._cmd] + list(args)
         text_cmd = " ".join(args)
+        # pylint: disable=subprocess-run-check
         process = subprocess.run(
             args,
             cwd=cwd,
@@ -353,6 +354,7 @@ class Repository:
             except Exception as error:
                 cls._version = error
         if isinstance(cls._version, Exception):
+            # pylint: disable=raising-bad-type
             raise cls._version
         return cls._version
 
