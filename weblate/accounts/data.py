@@ -26,6 +26,7 @@ DEFAULT_NOTIFICATIONS = [
     (SCOPE_DEFAULT, FREQ_INSTANT, "NewAnnouncementNotificaton"),
     (SCOPE_ADMIN, FREQ_INSTANT, "MergeFailureNotification"),
     (SCOPE_ADMIN, FREQ_INSTANT, "ParseErrorNotification"),
+    (SCOPE_ADMIN, FREQ_INSTANT, "NewTranslationNotificaton"),
     (SCOPE_ADMIN, FREQ_INSTANT, "NewAlertNotificaton"),
     (SCOPE_ADMIN, FREQ_INSTANT, "NewAnnouncementNotificaton"),
 ]

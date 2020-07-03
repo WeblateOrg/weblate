@@ -364,7 +364,7 @@ class ProfileTest(FixtureTestCase):
     def test_subscription(self):
         # Get profile page
         response = self.client.get(reverse("profile"))
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
         # Extract current form data
         data = {}
@@ -382,20 +382,20 @@ class ProfileTest(FixtureTestCase):
         # Save unchanged data
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
         # Remove some subscriptions
         data["notifications__0-notify-LastAuthorCommentNotificaton"] = "0"
         data["notifications__0-notify-MentionCommentNotificaton"] = "0"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 7)
+        self.assertEqual(self.user.subscription_set.count(), 6)
 
         # Add some subscriptions
         data["notifications__1-notify-ChangedStringNotificaton"] = "1"
         response = self.client.post(reverse("profile"), data, follow=True)
         self.assertContains(response, "Your profile has been updated.")
-        self.assertEqual(self.user.subscription_set.count(), 8)
+        self.assertEqual(self.user.subscription_set.count(), 7)
 
     def test_subscription_customize(self):
         # Initial view
@@ -425,7 +425,7 @@ class ProfileTest(FixtureTestCase):
 
     def test_watch(self):
         self.assertEqual(self.user.profile.watched.count(), 0)
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
         # Watch project
         self.client.post(reverse("watch", kwargs=self.kw_project))
@@ -455,7 +455,7 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(
             self.user.subscription_set.filter(component=self.component).count(), 0
         )
-        self.assertEqual(self.user.subscription_set.count(), 9)
+        self.assertEqual(self.user.subscription_set.count(), 8)
 
     def test_unsubscribe(self):
         response = self.client.get(reverse("unsubscribe"), follow=True)
