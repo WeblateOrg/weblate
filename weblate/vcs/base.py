@@ -161,7 +161,6 @@ class Repository:
         if not fullcmd:
             args = [cls._cmd] + list(args)
         text_cmd = " ".join(args)
-        # pylint: disable=subprocess-run-check
         process = subprocess.run(
             args,
             cwd=cwd,
@@ -170,6 +169,7 @@ class Repository:
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
             stdin=subprocess.PIPE,
             universal_newlines=not raw,
+            check=False,
         )
         cls.add_breadcrumb(
             text_cmd,
