@@ -26,11 +26,6 @@
     CodeMirror.registerHelper('hint', 'userSuggestions', function (editor) {
         var cur = editor.getCursor();
         var curLine = editor.getLine(cur.line);
-        var tokenType = editor.getTokenTypeAt(cur);
-
-        // Disable user mention inside code
-        if(!!tokenType && tokenType.indexOf('comment') !== -1)
-            return;
 
         var end = cur.ch;
         var start = curLine.lastIndexOf('@') + 1;
@@ -48,26 +43,29 @@
     });
 
 
-    var commentArea = document.getElementById('id_comment')
-    var codemirror = CodeMirror.fromTextArea(
-        commentArea,
-        {
-            mode: 'text/javascript',
-            theme: 'weblate',
-            lineNumbers: false,
-        }
-    );
+    $('textarea.codemirror-markdown').each(function(idx) {
+        var codemirror = CodeMirror.fromTextArea(
+            this,
+            {
+                mode: 'text/javascript',
+                theme: 'weblate',
+                lineNumbers: false,
+            }
+        );
+        console.log(codemirror)
+
+        codemirror.on("keyup", function (cm, event) {
+            if(event.key === "@" || (event.shiftKey && event.keyCode === 50)) {
+            CodeMirror.showHint(cm, CodeMirror.hint.userSuggestions, {
+                completeSingle: false
+            });
+            }
+        });
+    });
 
     // Add weblate bootstrap styling on the textarea
     $('.CodeMirror').addClass('form-control');
     $('.CodeMirror textarea').addClass('form-control');
-    codemirror.on("keyup", function (cm, event) {
-        if(event.key === "@" || (event.shiftKey && event.keyCode === 50)) {
-          CodeMirror.showHint(cm, CodeMirror.hint.userSuggestions, {
-            completeSingle: false
-          });
-        }
-    });
 
     $('#comment-form input[type=submit').on('click', function(e) {
         e.preventDefault();
