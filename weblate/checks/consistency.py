@@ -103,8 +103,7 @@ class TranslatedCheck(TargetCheck):
         target = self.check_target_unit(unit.source, unit.target, unit)
         return (
             _(
-                'This string has been translated in the past. \
-                Last Translation was "%s"'
+                'This string has been translated in the past, last translation was "%s"'
             )
             % target
         )
