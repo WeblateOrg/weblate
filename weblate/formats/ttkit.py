@@ -1395,7 +1395,8 @@ class InnoSetupINIFormat(INIFormat):
 
 
 class XWikiUnit(PropertiesUnit):
-    """
+    """Dedicated unit for XWiki.
+
     Inspired from PropertiesUnit, allow to override the methods to use the right
     XWikiDialect methods for decoding properties.
     """
@@ -1420,17 +1421,17 @@ class XWikiUnit(PropertiesUnit):
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):
-    """
-    Represents an XWiki Java Properties translation file.
+    """Represents an XWiki Java Properties translation file.
+
     This format specification is detailed in
     https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiJavaProperties
     """
 
     unit_class = XWikiUnit
-    name = 'XWiki Java Properties'
-    format_id = 'xwiki-java-properties'
+    name = "XWiki Java Properties"
+    format_id = "xwiki-java-properties"
     loader = ("properties", "xwikifile")
-    language_format = 'java'
+    language_format = "java"
     autoload = ("*.properties",)
     new_translation = "\n"
 
@@ -1452,23 +1453,25 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
 
 
 class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
-    """
-    Represents an XWiki Page Properties translation file.
+    """Represents an XWiki Page Properties translation file.
+
     This format specification is detailed in
     https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiPageProperties
     """
 
-    name = 'XWiki Page Properties'
-    format_id = 'xwiki-page-properties'
+    name = "XWiki Page Properties"
+    format_id = "xwiki-page-properties"
     loader = ("properties", "XWikiPageProperties")
-    language_format = 'java'
+    language_format = "java"
 
     @classmethod
     def fixup(cls, store):
-        """Force encoding to UTF-8 since we inherit from XWikiProperties which force
+        """Fix encoding.
+
+        Force encoding to UTF-8 since we inherit from XWikiProperties which force
         for ISO-8859-1.
         """
-        store.encoding = 'utf-8'
+        store.encoding = "utf-8"
 
     def save_content(self, handle):
         if self.store.root is None:
@@ -1477,13 +1480,13 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
 
 
 class XWikiFullPageFormat(XWikiPagePropertiesFormat):
-    """
-    Represents an XWiki Full Page translation file.
+    """Represents an XWiki Full Page translation file.
+
     This format specification is detailed in
     https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiFullContentTranslation
     """
 
-    name = 'XWiki Full Page'
-    format_id = 'xwiki-fullpage'
+    name = "XWiki Full Page"
+    format_id = "xwiki-fullpage"
     loader = ("properties", "XWikiFullPage")
-    language_format = 'java'
+    language_format = "java"

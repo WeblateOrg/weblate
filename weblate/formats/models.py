@@ -101,7 +101,7 @@ class FormatsConf(AppConf):
         "weblate.formats.convert.WindowsRCFormat",
         "weblate.formats.ttkit.XWikiPropertiesFormat",
         "weblate.formats.ttkit.XWikiPagePropertiesFormat",
-        "weblate.formats.ttkit.XWikiFullPageFormat"
+        "weblate.formats.ttkit.XWikiFullPageFormat",
     )
 
     class Meta:
