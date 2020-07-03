@@ -117,7 +117,7 @@ class TranslatedCheck(TargetCheck):
         changes = unit.change_set.filter(action__in=states).order()
 
         for action, target in changes.values_list("action", "target"):
-            if action in Change.ACTIONS_CONTENT:
+            if action in Change.ACTIONS_CONTENT and target:
                 return target
             if action == Change.ACTION_SOURCE_CHANGE:
                 break
