@@ -99,9 +99,9 @@ class FormatsConf(AppConf):
         "weblate.formats.convert.IDMLFormat",
         "weblate.formats.convert.OpenDocumentFormat",
         "weblate.formats.convert.WindowsRCFormat",
-        "weblate.formats.xwiki.XWikiPropertiesFormat",
-        "weblate.formats.xwiki.XWikiPagePropertiesFormat",
-        "weblate.formats.xwiki.XWikiFullPageFormat"
+        "weblate.formats.ttkit.XWikiPropertiesFormat",
+        "weblate.formats.ttkit.XWikiPagePropertiesFormat",
+        "weblate.formats.ttkit.XWikiFullPageFormat"
     )
 
     class Meta:
