@@ -1419,7 +1419,7 @@ class XWikiUnit(PropertiesUnit):
         return value
 
 
-class XWikiPropertiesFormat(PropertiesFormat):
+class XWikiPropertiesFormat(PropertiesBaseFormat):
     """
     Represents an XWiki Java Properties translation file.
     This format specification is detailed in
@@ -1431,6 +1431,8 @@ class XWikiPropertiesFormat(PropertiesFormat):
     format_id = 'xwiki-java-properties'
     loader = ("properties", "xwikifile")
     language_format = 'java'
+    autoload = ("*.properties",)
+    new_translation = "\n"
 
     def save_content(self, handle):
         current_units = self.all_units
