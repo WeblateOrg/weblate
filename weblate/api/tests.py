@@ -123,10 +123,12 @@ class APIBaseTest(APITestCase, RepoTestMixin):
 class UserAPITest(APIBaseTest):
     def test_list(self):
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["count"], 2)
+        self.assertFalse("email" in response.data["results"][0])
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 2)
+        self.assertIsNotNone(response.data["results"][0]["email"])
 
     def test_get(self):
         response = self.do_request(
@@ -137,6 +139,10 @@ class UserAPITest(APIBaseTest):
             code=200,
         )
         self.assertEqual(response.data["username"], "apitest")
+
+    def test_filter(self):
+        response = self.client.get(reverse("api:user-list"), {"username": "api"})
+        self.assertEqual(response.data["count"], 1)
 
     def test_create(self):
         self.do_request(

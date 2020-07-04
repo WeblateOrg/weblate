@@ -277,7 +277,6 @@ class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
 
     queryset = User.objects.none()
-    serializer_class = FullUserSerializer
     lookup_field = "username"
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = UserFilter
@@ -327,7 +326,7 @@ class UserViewSet(viewsets.ModelViewSet):
             )
 
         obj.groups.add(group)
-        serializer = self.serializer_class(obj, context={"request": request})
+        serializer = self.get_serializer_class()(obj, context={"request": request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
