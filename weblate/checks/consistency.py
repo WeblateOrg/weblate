@@ -20,7 +20,6 @@
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
-from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheck(TargetCheck):
@@ -81,7 +80,7 @@ class ConsistencyCheck(TargetCheck):
         for other in unit.same_source_units:
             if unit.target == other.target:
                 continue
-            if unit.translated or other.state >= STATE_TRANSLATED:
+            if unit.translated or other.translated:
                 return True
         return False
 
