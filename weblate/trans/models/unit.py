@@ -829,6 +829,11 @@ class Unit(models.Model, LoggerMixin):
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
 
+        # Ensure we get a fresh copy of checks
+        # It might be modified meanwhile by propagating to other units
+        if "all_checks" in self.__dict__:
+            del self.__dict__["all_checks"]
+
         old_checks = self.all_checks_names
         create = []
 

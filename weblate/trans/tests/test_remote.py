@@ -130,6 +130,7 @@ class MultiRepoTest(ViewTestCase):
 
         # Propagate edit
         unit = self.get_unit()
+        self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(len(unit.same_source_units), 1)
         unit.translate(self.user, [new_text], STATE_TRANSLATED)
 
