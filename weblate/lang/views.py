@@ -119,7 +119,7 @@ def show_project(request, lang, project):
     translation_list = (
         obj.translation_set.prefetch()
         .filter(component__project=pobj)
-        .order_by("component__name")
+        .order_by("component__priority", "component__name")
     )
     translations = get_paginator(request, translation_list)
 
