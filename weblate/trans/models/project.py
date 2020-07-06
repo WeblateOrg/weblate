@@ -220,6 +220,9 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
 
+    def get_group(self, group):
+        return self.group_set.get(name="{0}{1}".format(self.name, group))
+
     def add_user(self, user, group=None):
         """Add user based on username or email address."""
         if group is None:
@@ -227,7 +230,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 group = "@Translate"
             else:
                 group = "@Administration"
-        group = self.group_set.get(name="{0}{1}".format(self.name, group))
+        group = self.get_group(group)
         user.groups.add(group)
         user.profile.watched.add(self)
 
@@ -237,7 +240,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             groups = self.group_set.filter(internal=True, name__contains="@")
             user.groups.remove(*groups)
         else:
-            group = self.group_set.get(name="{0}{1}".format(self.name, group))
+            group = self.get_group(group)
             user.groups.remove(group)
 
     def get_reverse_url_kwargs(self):
