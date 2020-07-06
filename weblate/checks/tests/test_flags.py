@@ -119,11 +119,12 @@ class FlagTest(SimpleTestCase):
             {("placeholder", "zkouška sirén")},
         )
 
-    def test_quoting(self):
+    def test_replacements(self):
+        flags = Flags(
+            """replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99"""
+        )
         self.assertEqual(
-            Flags(
-                """replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99"""
-            ).items(),
+            flags.items(),
             {
                 (
                     "replacements",
@@ -135,4 +136,8 @@ class FlagTest(SimpleTestCase):
                     "99",
                 )
             },
+        )
+        self.assertEqual(
+            flags.get_value("replacements"),
+            ["{COLOR-GREY}", "", "{COLOR-GARNET}", "", "{VARIABLE-01}", "99"],
         )
