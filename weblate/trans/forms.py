@@ -1066,9 +1066,9 @@ class ReportsForm(forms.Form):
             start = timezone.make_aware(datetime(year, 1, 1))
         else:
             # Validate custom period
-            if not self.cleaned_data["start_date"]:
+            if not self.cleaned_data.get("start_date"):
                 raise ValidationError({"start_date": _("Missing date!")})
-            if not self.cleaned_data["end_date"]:
+            if not self.cleaned_data.get("end_date"):
                 raise ValidationError({"end_date": _("Missing date!")})
             start = self.cleaned_data["start_date"]
             end = self.cleaned_data["end_date"]
