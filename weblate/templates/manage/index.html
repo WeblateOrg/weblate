@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load translations %}
+{% load static %}
+
+{% block extra_script %}
+{% if support.name != 'community' %}
+<script id="zammad_form_script" defer data-cfasync="false" src="https://weblate.zammad.com/assets/form/form.js"></script>
+<script defer data-cfasync="false" src="{% static 'zammad.js' %}{{ cache_param }}"></script>
+{% endif %}
+{% endblock %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
@@ -40,7 +48,7 @@
   <a href="https://weblate.org/donate/" class="btn btn-primary">{% trans "Donate to Weblate" %}</a>
   {% else %}
   <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage support package" %}</a>
-  <a href="mailto:support@weblate.org" class="btn btn-primary">{% trans "Get support" %}</a>
+  <a href="mailto:support@weblate.org" id="support-form" data-fullname="{{ user.full_name }}" data-email="{{ user.email }}" class="btn btn-primary">{% trans "Get help" %}</a>
   {% endif %}
   </div>
 </div>

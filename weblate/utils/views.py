@@ -31,7 +31,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import pgettext
 from django.views.generic.edit import FormView
 
-from weblate.formats.exporters import get_exporter
+from weblate.formats.models import EXPORTERS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 
@@ -203,7 +203,7 @@ def zip_download(root, filenames):
 def download_translation_file(translation, fmt=None, units=None):
     if fmt is not None:
         try:
-            exporter_cls = get_exporter(fmt)
+            exporter_cls = EXPORTERS[fmt]
         except KeyError:
             raise Http404("File format not supported")
         if not exporter_cls.supports(translation):
@@ -224,10 +224,11 @@ def download_translation_file(translation, fmt=None, units=None):
         filenames = translation.filenames
 
         if len(filenames) == 1:
-            extension = translation.store.extension()
+            extension = translation.component.file_format_cls.extension()
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"), content_type=translation.store.mimetype()
+                open(filenames[0], "rb"),
+                content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
             extension = "zip"

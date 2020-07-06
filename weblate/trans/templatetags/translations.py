@@ -109,6 +109,9 @@ def fmt_whitespace(value):
     # Highlight tabs
     value = value.replace("\t", SPACE_TAB.format(gettext("Tab character")))
 
+    # Highlight whitespace inside tags (ins/del)
+    value = value.replace("> <", ">{}<".format(SPACE_SPACE))
+
     return value
 
 
@@ -604,7 +607,7 @@ def show_contributor_agreement(context, component):
         return ""
 
     return render_to_string(
-        "show-contributor-agreement.html",
+        "snippets/component/contributor-agreement.html",
         {"object": component, "next": context["request"].get_full_path()},
     )
 

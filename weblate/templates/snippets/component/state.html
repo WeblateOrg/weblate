@@ -1,8 +1,8 @@
 {% load translations %}
 {% load i18n %}
+
 {% if object.locked %}
-{% trans "The translation is temporarily closed for contributions due to maintenance, please come back later." as msg %}
-{% show_message "warning" msg %}
+{% include "snippets/component/lock.html" %}
 {% endif %}
 
 {% show_contributor_agreement object %}

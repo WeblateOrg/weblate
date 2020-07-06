@@ -845,6 +845,7 @@ LICENSES = (
         "https://opensource.org/licenses/Entessa",
         True,
     ),
+    ("EPICS", "EPICS Open License", "https://epics.anl.gov/license/open.php", False),
     (
         "ErlPL-1.1",
         "Erlang Public License v1.1",
@@ -962,10 +963,34 @@ LICENSES = (
         True,
     ),
     (
+        "GFDL-1.1-invariants-only",
+        "GNU Free Documentation License v1.1 only - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
+    ),
+    (
+        "GFDL-1.1-no-invariants-only",
+        "GNU Free Documentation License v1.1 only - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
+    ),
+    (
         "GFDL-1.1-or-later",
         "GNU Free Documentation License v1.1 or later",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
         True,
+    ),
+    (
+        "GFDL-1.1-invariants-or-later",
+        "GNU Free Documentation License v1.1 or later - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
+    ),
+    (
+        "GFDL-1.1-no-invariants-or-later",
+        "GNU Free Documentation License v1.1 or later - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
     ),
     (
         "GFDL-1.2-only",
@@ -974,10 +999,34 @@ LICENSES = (
         True,
     ),
     (
+        "GFDL-1.2-invariants-only",
+        "GNU Free Documentation License v1.2 only - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
+    ),
+    (
+        "GFDL-1.2-no-invariants-only",
+        "GNU Free Documentation License v1.2 only - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
+    ),
+    (
         "GFDL-1.2-or-later",
         "GNU Free Documentation License v1.2 or later",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
         True,
+    ),
+    (
+        "GFDL-1.2-invariants-or-later",
+        "GNU Free Documentation License v1.2 or later - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
+    ),
+    (
+        "GFDL-1.2-no-invariants-or-later",
+        "GNU Free Documentation License v1.2 or later - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
     ),
     (
         "GFDL-1.3-only",
@@ -986,10 +1035,34 @@ LICENSES = (
         True,
     ),
     (
+        "GFDL-1.3-invariants-only",
+        "GNU Free Documentation License v1.3 only - invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
+    ),
+    (
+        "GFDL-1.3-no-invariants-only",
+        "GNU Free Documentation License v1.3 only - no invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
+    ),
+    (
         "GFDL-1.3-or-later",
         "GNU Free Documentation License v1.3 or later",
         "https://www.gnu.org/licenses/fdl-1.3.txt",
         True,
+    ),
+    (
+        "GFDL-1.3-invariants-or-later",
+        "GNU Free Documentation License v1.3 or later - invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
+    ),
+    (
+        "GFDL-1.3-no-invariants-or-later",
+        "GNU Free Documentation License v1.3 or later - no invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
     ),
     (
         "GPL-1.0-only",

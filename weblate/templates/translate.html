@@ -32,7 +32,7 @@
 
 {% block content %}
 
-{% include "show-component-state.html" with object=unit.translation.component %}
+{% include "snippets/component/state.html" with object=unit.translation.component %}
 
 {% perm 'unit.edit' unit as user_can_translate %}
 {% perm 'suggestion.add' unit as user_can_suggest %}

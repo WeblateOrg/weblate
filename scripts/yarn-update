@@ -9,46 +9,45 @@ yarn upgrade-interactive
 yarn run build --scripts-prepend-node-path
 
 # Bootstrap Datepicker
-cp node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ../../weblate/static/bootstrap/css/
-cp node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js ../../weblate/static/bootstrap/js/
+cp node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css ../../weblate/static/vendor/bootstrap/css/
+cp node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js ../../weblate/static/vendor/bootstrap/js/
 
 # Autosize
-cp node_modules/autosize/dist/autosize.js ../../weblate/static/js/
+cp node_modules/autosize/dist/autosize.js ../../weblate/static/vendor/
 
 # Mousetrap
-cp node_modules/mousetrap/mousetrap.js ../../weblate/static/js/
+cp node_modules/mousetrap/mousetrap.js ../../weblate/static/vendor/
 
 # Mousetrap global bind
-cp node_modules/mousetrap-global-bind/mousetrap-global-bind.js ../../weblate/static/js/
-dos2unix -q ../../weblate/static/js/mousetrap-global-bind.js
+cp node_modules/mousetrap-global-bind/mousetrap-global-bind.js ../../weblate/static/vendor/
 
 # js.cookie
-cp node_modules/js-cookie/src/js.cookie.js ../../weblate/static/js/
+cp node_modules/js-cookie/src/js.cookie.js ../../weblate/static/vendor/
 
 # jQuery
-cp node_modules/jquery/dist/jquery.js ../../weblate/static/js/
+cp node_modules/jquery/dist/jquery.js ../../weblate/static/vendor/
 
 # Clipboard
-cp node_modules/clipboard/dist/clipboard.js ../../weblate/static/js/
+cp node_modules/clipboard/dist/clipboard.js ../../weblate/static/vendor/
 
 # multi.js
-cp node_modules/multi.js/src/multi.js ../../weblate/static/js/
-cp node_modules/multi.js/src/multi.css ../../weblate/static/
+cp node_modules/multi.js/src/multi.js ../../weblate/static/vendor/
+cp node_modules/multi.js/src/multi.css ../../weblate/static/vendor/
 
 # Modernizr
-mv modernizr.js ../../weblate/static/js/
+mv modernizr.js ../../weblate/static/vendor/
 
 # Slugify
-cp node_modules/slugify/slugify.js ../../weblate/static/js/slugify.js
+cp node_modules/slugify/slugify.js ../../weblate/static/vendor/slugify.js
 
 # Sentry
-cp node_modules/@sentry/browser/build/bundle.js ../../weblate/static/js/sentry.js
+cp node_modules/@sentry/browser/build/bundle.js ../../weblate/static/vendor/sentry.js
 
 # Source Sans/Code Pro fonts
-sed '/font-family/ a font-display: swap;' < node_modules/source-sans-pro/source-sans-pro.css > ../../weblate/static/font-source/source-sans-pro.css
-sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/font-source/source-code-pro.css
+sed '/font-family/ a font-display: swap;' < node_modules/source-sans-pro/source-sans-pro.css > ../../weblate/static/vendor/font-source/source-sans-pro.css
+sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/vendor/font-source/source-code-pro.css
 find node_modules/source-sans-pro/ node_modules/source-code-pro/ -name SourceSansPro-ExtraLight.* -o  -name SourceSansPro-Light.* -o  -name SourceSansPro-Semibold.* -o -name SourceSansPro-Black.* -o -name SourceSansPro-Bold.* -o -name SourceSansPro-Regular.* -o -name SourceSansPro-It.* -o -name SourceSansPro-BoldIt.* -o -name SourceCodePro-Medium.* -o -name SourceCodePro-Regular.* -o -name SourceCodePro-Bold.* -o -name SourceCodePro-Semibold.* | while read name ; do
-    target=`echo $name | sed 's@node_modules/source-\(sans\|code\)-pro/@../../weblate/static/font-source/@'`
+    target=`echo $name | sed 's@node_modules/source-\(sans\|code\)-pro/@../../weblate/static/vendor/font-source/@'`
     dir=`dirname $target`
     if [ ! -d $dir ] ; then
         mkdir -p $dir
@@ -57,12 +56,8 @@ find node_modules/source-sans-pro/ node_modules/source-code-pro/ -name SourceSan
 done
 
 # DejaVu font
-cp node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf node_modules/dejavu-fonts-ttf/ttf/DejaVuSans-Bold.ttf ../../weblate/static/font-dejavu
+cp node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf node_modules/dejavu-fonts-ttf/ttf/DejaVuSans-Bold.ttf ../../weblate/static/vendor/font-dejavu
 
 # Not updated:
 # Bootstrap, use online customizer
 # bootstrap-rtl as the version in yarn is outdated
-
-# Fix line ends and others
-cd ../..
-pre-commit run --files $(git diff --name-only -- weblate/static)

@@ -144,9 +144,7 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(os.path.exists(project.full_path))
 
     def test_delete_votes(self):
-        component = self.create_component(
-            suggestion_voting=True, suggestion_autoaccept=True,
-        )
+        component = self.create_po(suggestion_voting=True, suggestion_autoaccept=True)
         user = create_test_user()
         translation = component.translation_set.get(language_code="cs")
         unit = translation.unit_set.first()

@@ -640,6 +640,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             if changed_setup:
                 old.commit_pending("changed setup", None)
             changed_variant = old.variant_regex != self.variant_regex
+            if old.license != self.license:
+                Change.objects.create(
+                    action=Change.ACTION_LICENSE_CHANGE,
+                    old=old.license,
+                    target=self.license,
+                    component=self,
+                )
             # Detect slug changes and rename git repo
             self.check_rename(old)
             # Rename linked repos
@@ -2390,7 +2397,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         base_filename = self.get_new_base_filename()
 
-        filename = file_format.get_language_filename(self.filemask, code)
+        filename = file_format.get_language_filename(
+            self.filemask, code, self.language_code_style
+        )
         fullname = os.path.join(self.full_path, filename)
 
         # Ignore request if file exists (possibly race condition as

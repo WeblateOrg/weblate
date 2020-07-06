@@ -118,3 +118,26 @@ class FlagTest(SimpleTestCase):
             Flags("placeholder:'zkouška sirén'").items(),
             {("placeholder", "zkouška sirén")},
         )
+
+    def test_replacements(self):
+        flags = Flags(
+            """replacements:{COLOR-GREY}:"":{COLOR-GARNET}:"":{VARIABLE-01}:99"""
+        )
+        self.assertEqual(
+            flags.items(),
+            {
+                (
+                    "replacements",
+                    "{COLOR-GREY}",
+                    "",
+                    "{COLOR-GARNET}",
+                    "",
+                    "{VARIABLE-01}",
+                    "99",
+                )
+            },
+        )
+        self.assertEqual(
+            flags.get_value("replacements"),
+            ["{COLOR-GREY}", "", "{COLOR-GARNET}", "", "{VARIABLE-01}", "99"],
+        )

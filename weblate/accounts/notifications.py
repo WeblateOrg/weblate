@@ -339,6 +339,9 @@ class Notification:
                     change,
                     subscription=user.current_subscription,
                 )
+                # Delete onetime subscription
+                if user.current_subscription.onetime:
+                    user.current_subscription.delete()
 
     def send_digest(self, language, email, changes, subscription=None):
         with override("en" if language is None else language):
@@ -400,7 +403,10 @@ class MergeFailureNotification(Notification):
     # Translators: Notification name
     verbose = _("Repository failure")
     template_name = "repository_error"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         fake = copy(change)
@@ -425,6 +431,25 @@ class RepositoryNotification(Notification):
     # Translators: Notification name
     verbose = _("Repository operation")
     template_name = "repository_operation"
+
+
+@register_notification
+class LockNotification(Notification):
+    actions = (
+        Change.ACTION_LOCK,
+        Change.ACTION_UNLOCK,
+    )
+    # Translators: Notification name
+    verbose = _("Component locking")
+    template_name = "component_lock"
+
+
+@register_notification
+class LicenseNotification(Notification):
+    actions = (Change.ACTION_LICENSE_CHANGE,)
+    # Translators: Notification name
+    verbose = _("Changed license")
+    template_name = "component_license"
 
 
 @register_notification
@@ -471,7 +496,10 @@ class LastAuthorCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
@@ -507,7 +535,10 @@ class MentionCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
@@ -570,6 +601,24 @@ class ChangedStringNotificaton(Notification):
     # Translators: Notification name
     verbose = _("Changed string")
     template_name = "changed_translation"
+    filter_languages = True
+
+
+@register_notification
+class TranslatedStringNotificaton(Notification):
+    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW)
+    # Translators: Notification name
+    verbose = _("Translated string")
+    template_name = "translated_string"
+    filter_languages = True
+
+
+@register_notification
+class ApprovedStringNotificaton(Notification):
+    actions = (Change.ACTION_APPROVE,)
+    # Translators: Notification name
+    verbose = _("Approved string")
+    template_name = "approved_string"
     filter_languages = True
 
 

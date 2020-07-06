@@ -20,7 +20,6 @@
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
-from weblate.utils.state import STATE_TRANSLATED
 
 
 class PluralsCheck(TargetCheck):
@@ -81,7 +80,7 @@ class ConsistencyCheck(TargetCheck):
         for other in unit.same_source_units:
             if unit.target == other.target:
                 continue
-            if unit.translated or other.state >= STATE_TRANSLATED:
+            if unit.translated or other.translated:
                 return True
         return False
 
@@ -98,6 +97,13 @@ class TranslatedCheck(TargetCheck):
     description = _("This string has been translated in the past")
     ignore_untranslated = False
 
+    def get_description(self, check_obj):
+        unit = check_obj.unit
+        target = self.check_target_unit(unit.source, unit.target, unit)
+        if not target:
+            return super().get_description(check_obj)
+        return _('Last translation was "%s".') % target
+
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:
             return False
@@ -109,9 +115,9 @@ class TranslatedCheck(TargetCheck):
 
         changes = unit.change_set.filter(action__in=states).order()
 
-        for action in changes.values_list("action", flat=True):
-            if action in Change.ACTIONS_CONTENT:
-                return True
+        for action, target in changes.values_list("action", "target"):
+            if action in Change.ACTIONS_CONTENT and target:
+                return target
             if action == Change.ACTION_SOURCE_CHANGE:
                 break
 

@@ -19,8 +19,8 @@
 
 """Tests for notitifications."""
 
-
 from copy import deepcopy
+from typing import List, Optional
 
 from django.conf import settings
 from django.core import mail
@@ -76,7 +76,11 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "NewSuggestionNotificaton",
             "NewCommentNotificaton",
             "NewComponentNotificaton",
+            "LockNotification",
+            "LicenseNotification",
             "ChangedStringNotificaton",
+            "TranslatedStringNotificaton",
+            "ApprovedStringNotificaton",
             "NewTranslationNotificaton",
             "MentionCommentNotificaton",
             "LastAuthorCommentNotificaton",
@@ -92,14 +96,58 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             "thirduser", "noreply+third@example.org", "testpassword"
         )
 
-    def validate_notifications(self, count, subject):
-        for message in mail.outbox:
+    def validate_notifications(
+        self, count, subject: Optional[str] = None, subjects: Optional[List[str]] = None
+    ):
+        for i, message in enumerate(mail.outbox):
             self.assertNotIn("TEMPLATE_BUG", message.subject)
             self.assertNotIn("TEMPLATE_BUG", message.body)
             self.assertNotIn("TEMPLATE_BUG", message.alternatives[0][0])
             if subject:
                 self.assertEqual(message.subject, subject)
+            if subjects:
+                self.assertEqual(message.subject, subjects[i])
         self.assertEqual(len(mail.outbox), count)
+
+    def test_notify_lock(self):
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_LOCK,
+        )
+        self.validate_notifications(1, "[Weblate] Component Test/Test was locked")
+        mail.outbox = []
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_UNLOCK,
+        )
+        self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
+
+    def test_notify_onetime(self):
+        Subscription.objects.filter(notification="LockNotification").delete()
+        Subscription.objects.create(
+            user=self.user,
+            scope=SCOPE_DEFAULT,
+            notification="LockNotification",
+            frequency=FREQ_INSTANT,
+            onetime=True,
+        )
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_UNLOCK,
+        )
+        self.validate_notifications(1, "[Weblate] Component Test/Test was unlocked")
+        mail.outbox = []
+        Change.objects.create(
+            component=self.component, action=Change.ACTION_LOCK,
+        )
+        self.validate_notifications(0)
+        self.assertFalse(
+            Subscription.objects.filter(notification="LockNotification").exists()
+        )
+
+    def test_notify_license(self):
+        self.component.license = "WTFPL"
+        self.component.save()
+        self.validate_notifications(
+            1, "[Weblate] Component Test/Test license changed to WTFPL"
+        )
 
     def test_notify_merge_failure(self):
         change = Change.objects.create(
@@ -180,8 +228,25 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             action=Change.ACTION_CHANGE,
         )
 
-        # Check mail
-        self.validate_notifications(1, "[Weblate] New translation in Test/Test — Czech")
+        # Check mail - ChangedStringNotificaton and TranslatedStringNotificaton
+        self.validate_notifications(2, "[Weblate] New translation in Test/Test — Czech")
+
+    def test_notify_approved_translation(self):
+        Change.objects.create(
+            unit=self.get_unit(),
+            user=self.anotheruser,
+            old="",
+            action=Change.ACTION_APPROVE,
+        )
+
+        # Check mail - ChangedStringNotificaton and ApprovedStringNotificaton
+        self.validate_notifications(
+            2,
+            subjects=[
+                "[Weblate] New translation in Test/Test — Czech",
+                "[Weblate] Approved translation in Test/Test — Czech",
+            ],
+        )
 
     def test_notify_new_language(self):
         anotheruser = self.anotheruser
@@ -269,7 +334,8 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         change.user = self.anotheruser
         change.save()
         # Notification for other user edit
-        self.assertEqual(len(mail.outbox), 1)
+        # ChangedStringNotificaton and TranslatedStringNotificaton
+        self.assertEqual(len(mail.outbox), 2)
         mail.outbox = []
 
     def test_notify_new_component(self):
@@ -291,7 +357,13 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_alert(self):
         self.component.project.add_user(self.user, "@Administration")
         self.component.add_alert("PushFailure", error="Some error")
-        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        self.validate_notifications(
+            2,
+            subjects=[
+                "[Weblate] New alert on Test/Test",
+                "[Weblate] Component Test/Test was locked",
+            ],
+        )
 
     def test_notify_alert_ignore(self):
         self.component.project.add_user(self.user, "@Administration")
@@ -299,7 +371,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         self.create_link_existing()
         mail.outbox = []
         self.component.add_alert("PushFailure", error="Some error")
-        self.validate_notifications(1, "[Weblate] New alert on Test/Test")
+        self.validate_notifications(
+            3,
+            subjects=[
+                "[Weblate] New alert on Test/Test",
+                "[Weblate] Component Test/Test was locked",
+                "[Weblate] Component Test/Test2 was locked",
+            ],
+        )
 
     def test_notify_account(self):
         request = self.get_request()

@@ -176,6 +176,10 @@ class SecurityMiddleware:
         if request.resolver_match and request.resolver_match.view_name in INLINE_PATHS:
             script.add("'unsafe-inline'")
 
+        # Support form
+        if request.resolver_match and request.resolver_match.view_name == "manage":
+            script.add("'weblate.zammad.com'")
+
         # Rollbar client errors reporting
         if (
             hasattr(settings, "ROLLBAR")

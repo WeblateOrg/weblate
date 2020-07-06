@@ -95,6 +95,8 @@ into the Weblate data volume (see :ref:`docker-volume`):
 * :file:`ssl/fullchain.pem` containing the certificate including any needed CA certificates
 * :file:`ssl/privkey.pem` containing the private key
 
+Both of these files must be owned by the same user as the one starting the docker container and have file mask set to ``600`` (readable and writeable only by the owning user).
+
 Additionally, Weblate container will now accept SSL connections on port 4443,
 you will want to include the port forwarding for HTTPS in docker compose override:
 
@@ -106,6 +108,30 @@ you will want to include the port forwarding for HTTPS in docker compose overrid
          ports:
            - 80:8080
            - 443:4443
+
+If you already host other sites on the same server, it is likely ports ``80`` and ``443`` are used by a reverse proxy, such as NGINX. To pass the HTTPS connection from NGINX to the docker container, you can use the following configuration:
+
+.. code-block:: nginx
+
+    server {
+        listen 443;
+        listen [::]:443;
+
+        server_name <SITE_URL>;
+        ssl_certificate /etc/letsencrypt/live/<SITE>/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/<SITE>/privkey.pem;
+
+        location / {
+                proxy_set_header HOST $host;
+                proxy_set_header X-Forwarded-Proto https;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Host $server_name;
+                proxy_pass https://127.0.0.1:<EXPOSED_DOCKER_PORT>;
+        }
+    }
+
+Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual values from your environment.
 
 Automatic SSL certificates using Let’s Encrypt
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -169,6 +169,7 @@ class Repository:
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
             stdin=subprocess.PIPE,
             universal_newlines=not raw,
+            check=False,
         )
         cls.add_breadcrumb(
             text_cmd,
@@ -353,6 +354,7 @@ class Repository:
             except Exception as error:
                 cls._version = error
         if isinstance(cls._version, Exception):
+            # pylint: disable=raising-bad-type
             raise cls._version
         return cls._version
 

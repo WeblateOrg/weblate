@@ -222,6 +222,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_INVITE_USER = 52
     ACTION_HOOK = 53
     ACTION_REPLACE_UPLOAD = 54
+    ACTION_LICENSE_CHANGE = 55
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -334,6 +335,8 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_HOOK, gettext_lazy("Received repository notification")),
         # Translators: Name of event in the history
         (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
+        # Translators: Name of event in the history
+        (ACTION_LICENSE_CHANGE, gettext_lazy("License changed")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
 

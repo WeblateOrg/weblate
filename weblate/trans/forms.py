@@ -46,8 +46,7 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
-from weblate.formats.exporters import EXPORTERS
-from weblate.formats.models import FILE_FORMATS
+from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
@@ -1067,9 +1066,9 @@ class ReportsForm(forms.Form):
             start = timezone.make_aware(datetime(year, 1, 1))
         else:
             # Validate custom period
-            if not self.cleaned_data["start_date"]:
+            if not self.cleaned_data.get("start_date"):
                 raise ValidationError({"start_date": _("Missing date!")})
-            if not self.cleaned_data["end_date"]:
+            if not self.cleaned_data.get("end_date"):
                 raise ValidationError({"end_date": _("Missing date!")})
             start = self.cleaned_data["start_date"]
             end = self.cleaned_data["end_date"]
@@ -1653,8 +1652,8 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     }
                 )
 
-    def save(self):
-        super().save()
+    def save(self, commit: bool = True):
+        super().save(commit=commit)
         if self.changed_access:
             Change.objects.create(
                 project=self.instance,

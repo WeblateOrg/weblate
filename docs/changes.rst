@@ -16,6 +16,7 @@ Not yet released.
 * Improved user feedback from format strings checks.
 * Improved performance of bulk state changes.
 * Added compatibility redirects after project or component renaming.
+* Added notifications for strings approval, component locking and license change.
 
 Weblate 4.1.1
 -------------

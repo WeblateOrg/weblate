@@ -31,7 +31,7 @@ from weblate.trans.models.change import Change
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
-from weblate.utils.request import get_ip_address
+from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -62,8 +62,8 @@ class SuggestionManager(models.Manager):
             unit=unit,
             user=user,
             userdetails={
-                "address": get_ip_address(request) if request else "",
-                "agent": request.META.get("HTTP_USER_AGENT", "") if request else "",
+                "address": get_ip_address(request),
+                "agent": get_user_agent_raw(request),
             },
         )
 

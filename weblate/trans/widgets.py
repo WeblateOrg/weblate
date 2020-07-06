@@ -39,6 +39,7 @@ from weblate.utils.views import get_percent_color
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
+# pylint:disable=wrong-import-position,wrong-import-order
 from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
 
 COLOR_DATA = {

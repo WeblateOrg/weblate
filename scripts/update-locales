@@ -8,7 +8,7 @@ set -e
 version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print(weblate.VERSION_BASE)'`
 
 # Lock Weblate
-wlc lock weblate/master
+wlc lock weblate/application
 wlc lock weblate/javascript
 wlc lock weblate/languages
 
@@ -64,6 +64,6 @@ git commit -m "i18n: Update PO files"
 git push
 
 # Unlock Weblate
-wlc unlock weblate/master
+wlc unlock weblate/application
 wlc unlock weblate/javascript
 wlc unlock weblate/languages

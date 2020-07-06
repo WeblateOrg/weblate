@@ -25,7 +25,7 @@ from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models.change import Change
 from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
-from weblate.utils.request import get_ip_address
+from weblate.utils.request import get_ip_address, get_user_agent_raw
 
 
 class CommentManager(models.Manager):
@@ -39,8 +39,8 @@ class CommentManager(models.Manager):
             unit=unit,
             comment=text,
             userdetails={
-                "address": get_ip_address(request) if request else "",
-                "agent": request.META.get("HTTP_USER_AGENT", "") if request else "",
+                "address": get_ip_address(request),
+                "agent": get_user_agent_raw(request),
             },
         )
         Change.objects.create(
