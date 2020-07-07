@@ -1007,15 +1007,21 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         This is essentailly a TOFU appproach.
         """
-        parsed = urlparse(self.repo)
-        if not parsed.hostname:
-            parsed = urlparse("ssh://{}".format(self.repo))
-        if parsed.hostname:
-            try:
-                port = parsed.port
-            except ValueError:
-                port = ""
-            add_host_key(None, parsed.hostname, port)
+
+        def add(repo):
+            parsed = urlparse(repo)
+            if not parsed.hostname:
+                parsed = urlparse("ssh://{}".format(repo))
+            if parsed.hostname:
+                try:
+                    port = parsed.port
+                except ValueError:
+                    port = ""
+                add_host_key(None, parsed.hostname, port)
+
+        add(self.repo)
+        if self.push:
+            add(self.push)
 
     def handle_update_error(self, error_text, retry):
         if "Host key verification failed" in error_text:
