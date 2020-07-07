@@ -61,7 +61,9 @@ def download_multi(translations, fmt=None):
             translation.component.intermediate,
         ):
             if name:
-                filenames.add(os.path.join(translation.component.full_path, name))
+                fullname = os.path.join(translation.component.full_path, name)
+                if os.path.exists(fullname):
+                    filenames.add(fullname)
 
     return zip_download(data_dir("vcs"), sorted(filenames))
 
