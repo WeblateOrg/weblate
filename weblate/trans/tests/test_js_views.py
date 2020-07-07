@@ -91,11 +91,3 @@ class JSViewsTest(FixtureTestCase):
             reverse("js-unit-translations", kwargs={"unit_id": unit.id})
         )
         self.assertContains(response, 'href="/translate/')
-
-    def test_mt_services(self):
-        self.ensure_dummy_mt()
-        response = self.client.get(reverse("js-mt-services"))
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content.decode())
-        # Check we have dummy service listed
-        self.assertIn("dummy", data)

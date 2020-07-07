@@ -236,14 +236,6 @@ def git_status_translation(request, project, component, lang):
     )
 
 
-def mt_services(request):
-    """Generate list of installed machine translation services in JSON."""
-    # Machine translation
-    machine_services = list(MACHINE_TRANSLATION_SERVICES.keys())
-
-    return JsonResponse(data=machine_services, safe=False)
-
-
 @login_required
 def task_progress(request, task_id):
     task = AsyncResult(task_id)

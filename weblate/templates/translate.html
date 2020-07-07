@@ -624,8 +624,7 @@
 
 </div>
 
-<a href="{% url 'js-translate' unit_id=unit.id service="__service__" %}" class="hidden" id="js-translate"></a>
-<a href="{% url 'js-mt-services' %}" class="hidden" id="js-mt-services"></a>
+<a href="{% url 'js-translate' unit_id=unit.id service="__service__" %}" class="hidden" id="js-translate" data-services="{{ machinery_services }}"></a>
 
 <form method="post" action="{% url 'edit_context' pk=unit.source_info.pk %}">
 {% csrf_token %}

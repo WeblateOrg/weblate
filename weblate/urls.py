@@ -957,9 +957,6 @@ real_patterns = [
     ),
     url(r"^js/matomo/$", weblate.trans.views.js.matomo, name="js-matomo"),
     url(
-        r"^js/mt-services/$", weblate.trans.views.js.mt_services, name="js-mt-services"
-    ),
-    url(
         r"^js/translate/(?P<service>[^/]+)/(?P<unit_id>[0-9]+)/$",
         weblate.trans.views.js.translate,
         name="js-translate",

@@ -151,22 +151,12 @@
     };
 
     FullEditor.prototype.initMachinery = function () {
+        this.isMachineryLoaded = true;
         this.machinery = new Machinery();
 
-        increaseLoading('machinery');
-        // TODO: inline list of services and skip this request
-        $.ajax({
-            url: $('#js-mt-services').attr('href'),
-            success: (servicesList) => {
-                decreaseLoading('machinery');
-                servicesList.forEach((serviceName) => {
-                    increaseLoading('machinery');
-                    this.fetchMachinery(serviceName);
-                });
-                this.isMachineryLoaded = true;
-            },
-            error: this.processMachineryError,
-            dataType: 'json'
+        $("#js-translate").data("services").forEach((serviceName) => {
+              increaseLoading('machinery');
+              this.fetchMachinery(serviceName);
         });
 
         this.$editor.on('submit', '#memory-search', (e) => {
