@@ -222,6 +222,7 @@
             lang: data.lang,
             dir: data.dir,
         })
+        this.machinery.render(data.translations);
 
         // Cancel out browser's `meta+m` and let Mousetrap handle the rest
         document.addEventListener('keydown', function (e) {
@@ -413,7 +414,6 @@
 
         setState(newState) {
             this.state = {...this.state, ...newState};
-            this.render();
         }
 
         renderTranslation(el, service) {
@@ -472,12 +472,9 @@
         render() {
             var $translations = $('#machinery-translations');
             this.state.translations.forEach((translation) => {
-                if (translation.done) {
-                    return;
-                }
                 var service = this.renderService(translation);
-                var newRow = this.renderTranslation(translation, service);
-                translation.done = false;
+                var insertBefore;
+                var done = false;
 
                 /* This is the merging and insert sort logic */
                 $translations.children('tr').each(function (idx) {
@@ -488,19 +485,21 @@
                         var current = $this.children('td:nth-child(3)');
                         current.append($("<br/>"));
                         current.append(service.html());
-                        translation.done = true;
+                        done = true;
                         return false;
                     } else if (base.quality <= translation.quality) {
                         // Insert match before lower quality one
-                        $this.before(newRow);
-                        translation.done = true;
-                        return false;
+                        insertBefore = $this;
                     }
                 });
 
-                if (! translation.done) {
-                    translation.done = true;
-                    $translations.append(newRow);
+                if (! done) {
+                    var newRow = this.renderTranslation(translation, service);
+                    if (insertBefore) {
+                        insertBefore.before(newRow);
+                    } else {
+                        $translations.append(newRow);
+                    }
                 }
           });
         }
