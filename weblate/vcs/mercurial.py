@@ -337,3 +337,12 @@ class HgRepository(Repository):
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
+
+    def list_changed_files(self, refspec):
+        try:
+            return super().list_changed_files(refspec)
+        except RepositoryException as error:
+            if error.retcode == 255:
+                # Empty revision set
+                return []
+            raise
