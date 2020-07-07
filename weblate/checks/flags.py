@@ -135,6 +135,9 @@ class Flags:
                 state = 0
                 value.append("")
                 yield tuple(value)
+            elif state == 2 and token == ":":
+                # Empty param
+                value.append("")
             elif state == 2:
                 # Value
                 value.append(token)
