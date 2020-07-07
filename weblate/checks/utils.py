@@ -29,6 +29,9 @@ def highlight_string(source, unit):
             continue
         highlights += CHECKS[check].check_highlight(source, unit)
 
+    # Remove empty strings
+    highlights = [highlight for highlight in highlights if highlight[2]]
+
     # Sort by order in string
     highlights.sort(key=lambda x: x[0])
 

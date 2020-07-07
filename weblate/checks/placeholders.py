@@ -84,6 +84,11 @@ class RegexCheck(TargetCheckParametrized):
     def check_target_params(self, sources, targets, unit, value):
         return any(not value.findall(target) for target in targets)
 
+    def should_skip(self, unit):
+        if super().should_skip(unit):
+            return True
+        return bool(self.get_value(unit))
+
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
             return []
