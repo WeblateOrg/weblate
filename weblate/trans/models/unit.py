@@ -479,7 +479,12 @@ class Unit(models.Model, LoggerMixin):
         same_source = source == self.source and context == self.context
 
         # Monolingual files handling (without target change)
-        if not created and unit.template is not None and target == self.target:
+        if (
+            not created
+            and state != STATE_READONLY
+            and unit.template is not None
+            and target == self.target
+        ):
             if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
                 if self.previous_source == self.source and self.fuzzy:
                     # Source change was reverted
