@@ -161,8 +161,7 @@
                 decreaseLoading('machinery');
                 servicesList.forEach((serviceName) => {
                     increaseLoading('machinery');
-                    // TODO: get rid of 'mt'
-                    this.fetchMachinery(serviceName, 'mt');
+                    this.fetchMachinery(serviceName);
                 });
                 this.isMachineryLoaded = true;
             },
@@ -174,32 +173,33 @@
             var $form = $(e.currentTarget);
 
             increaseLoading('machinery');
-            $('#memory-translations').empty();
+            this.machinery.setState({translations: []});
+            $('#machinery-translations').empty();
             $.ajax({
                 type: 'POST',
                 url: $form.attr('action'),
                 data: $form.serialize(),
                 dataType: 'json',
                 success: (data) => {
-                    this.processMachineryResults(data, 'memory');
+                    this.processMachineryResults(data);
                 },
                 error: (jqXHR, textStatus, errorThrown) => {
-                    this.processMachineryError(jqXHR, textStatus, errorThrown, 'memory');
+                    this.processMachineryError(jqXHR, textStatus, errorThrown);
                 },
             });
             return false;
         });
     };
 
-    FullEditor.prototype.fetchMachinery = function (serviceName, serviceType) {
+    FullEditor.prototype.fetchMachinery = function (serviceName) {
         $.ajax({
             type: 'POST',
             url: $('#js-translate').attr('href').replace('__service__', serviceName),
             success: (data) => {
-                this.processMachineryResults(data, serviceType);
+                this.processMachineryResults(data);
             },
             error: (jqXHR, textStatus, errorThrown) => {
-                this.processMachineryError(jqXHR, textStatus, errorThrown, serviceType);
+                this.processMachineryError(jqXHR, textStatus, errorThrown);
             },
             dataType: 'json',
             data: {
@@ -215,7 +215,7 @@
         }
     };
 
-    FullEditor.prototype.processMachineryResults = function (data, scope) {
+    FullEditor.prototype.processMachineryResults = function (data) {
         decreaseLoading('machinery');
         if (data.responseStatus !== 200) {
             var msg = interpolate(
@@ -426,41 +426,93 @@
             this.render();
         }
 
-        renderTranslation(el) {
-            console.log(el);
+        renderTranslation(el, service) {
             var row = $('<tr/>').attr('class', 'js-copy-machinery').data('raw', el);
             row.append($('<td/>').attr('class', 'target machinery-text').attr('lang', this.state.lang).attr('dir', this.state.dir).text(el.text));
             row.append($('<td/>').attr('class', 'machinery-text').text(el.source));
+            row.append(service);
+
+            /* Quality score as bar with the text */
+            row.append($(
+                '<td>' +
+                '<div class="progress" title="' + el.quality + ' / 100">' +
+                '<div class="progress-bar ' +
+                (el.quality >= 70 ? 'progress-bar-success' : el.quality >= 50 ? 'progress-bar-warning' : 'progress-bar-danger') + '"' +
+                ' role="progressbar" aria-valuenow="' + el.quality + '"' +
+                ' aria-valuemin="0" aria-valuemax="100" style="width: ' + el.quality + '%;"></div>' +
+                '</div>' +
+                '</td>'
+            ));
+            /* Translators: Verb for copy operation */
+            row.append($(
+                '<td>' +
+                '<a class="js-copy-machinery btn btn-warning">' +
+                gettext('Copy') +
+                '<span class="mt-number text-info"></span>' +
+                '</a>' +
+                '</td>' +
+                '<td>' +
+                '<a class="js-copy-save-machinery btn btn-primary">' +
+                gettext('Copy and save') +
+                '</a>' +
+                '</td>'
+            ));
 
             return row;
         }
 
+        renderService(el) {
+            var service = $('<td/>').text(el.service);
+            if (typeof el.origin !== 'undefined') {
+                service.append(' (');
+                var origin;
+                if (typeof el.origin_detail !== 'undefined') {
+                    origin = $('<abbr/>').text(el.origin).attr('title', el.origin_detail);
+                } else if (typeof el.origin_url !== 'undefined') {
+                    origin = $('<a/>').text(el.origin).attr('href', el.origin_url);
+                } else {
+                    origin = el.origin;
+                }
+                service.append(origin);
+                service.append(')');
+            }
+            return service;
+        }
+
         render() {
-            var $renderedTranslations = this.state.translations.forEach((translation) => {
-                this.renderTranslation(translation)
-            });
-            $('#machinery-translations').append($renderedTranslations);
+            var $translations = $('#machinery-translations');
+            this.state.translations.forEach((translation) => {
+                if (translation.done) {
+                    return;
+                }
+                var service = this.renderService(translation);
+                var newRow = this.renderTranslation(translation, service);
+                translation.done = false;
 
+                /* This is the merging and insert sort logic */
+                $translations.children('tr').each(function (idx) {
+                    var $this = $(this);
+                    var base = $this.data('raw');
+                    if (base.text == translation.text && base.source == translation.source) {
+                        // Add origin to current ones
+                        var current = $this.children('td:nth-child(3)');
+                        current.append($("<br/>"));
+                        current.append(service.html());
+                        translation.done = true;
+                        return false;
+                    } else if (base.quality <= translation.quality) {
+                        // Insert match before lower quality one
+                        $this.before(newRow);
+                        translation.done = true;
+                        return false;
+                    }
+                });
 
-                /* This is the merging logic */
-                // $translations.children('tr').each(function (idx) {
-                //     var $this = $(this);
-                //     var base = $this.data('raw');
-                //     if (base.text == el.text && base.source == el.source) {
-                //         // Add origin to current ones
-                //         var current = $this.children('td:nth-child(3)');
-                //         current.append($("<br/>"));
-                //         current.append(service.html());
-                //         done = true;
-                //         return false;
-                //     } else if (base.quality <= el.quality) {
-                //         // Insert match before lower quality one
-                //         $this.before(newRow);
-                //         done = true;
-                //         return false;
-                //     }
-                // });
-            // });
+                if (! translation.done) {
+                    translation.done = true;
+                    $translations.append(newRow);
+                }
+          });
         }
     }
 
