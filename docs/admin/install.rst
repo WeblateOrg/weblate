@@ -989,6 +989,43 @@ snippet to :file:`settings.py` (the path is Debian specific):
     import os
     os.environ["REQUESTS_CA_BUNDLE"] = "/etc/ssl/certs/ca-certificates.crt"
 
+
+.. _production-compress:
+
+Compressing client assets
++++++++++++++++++++++++++
+
+Weblate comes with a bunch of JavaScript and CSS files. For performance reasons
+it is good to compress them before sending to a client. In default
+configuration this is done on the fly at cost of little overhead. On big
+installations, it is recommended to enable offline compression mode. This needs
+to be done in the configuration and the compression has to be triggered on
+every Weblate upgrade.
+
+The configuration switch is simple by enabling
+:attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` and configuring
+:attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` (the latter is
+already included in the example configuration):
+
+.. code-block:: python
+
+    COMPRESS_OFFLINE = True
+
+On each deploy you need to compress the files to match current version:
+
+.. code-block:: sh
+
+    weblate compress
+
+.. hint::
+
+   The official Docker image has this feature already enabled.
+
+.. seealso::
+
+   :ref:`compressor:scenarios`,
+   :ref:`static-files`
+
 .. _server:
 
 Running server
@@ -1066,6 +1103,7 @@ use that for the following paths:
 
 .. seealso::
 
+    :ref:`production-compress`,
     :doc:`django:howto/deployment/index`,
     :doc:`django:howto/static-files/deployment`
 
