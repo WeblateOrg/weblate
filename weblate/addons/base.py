@@ -44,7 +44,7 @@ from weblate.utils.validators import validate_filename
 
 
 class BaseAddon:
-    events: Tuple[str, ...] = ()
+    events: Tuple[int, ...] = ()
     settings_form = None
     name = ""
     compat = {}
