@@ -63,7 +63,22 @@ After creating the project, you are taken directly to the project page:
 
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
-translation parameters.
+translation parameters. There are several approaches to creating component:
+
+From version control
+    Creates component from remote version control repository.
+From existing component
+    Creates additional component to existing one by choosing different files.
+Additional branch
+    Creates additional component to existing one, just for different branch.
+Upload translations files
+    Upload translation files to Weblate in case you do not have version control
+    or do not want to intergrate it with Weblate. You can later update the
+    content using the web interface or :ref:`api`.
+Translate document
+    Upload single document and translate that.
+Start from scratch
+    Create blank translation project and add strings manually.
 
 Once you have existing translation components, you can also easily add new ones
 for additional files or branches using same repository.
