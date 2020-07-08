@@ -991,6 +991,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         if self.is_repo_link:
             return self.linked_component.get_repoweb_link(filename, line, template)
         if not template:
+            if filename.startswith("https://"):
+                return filename
             return None
 
         return render_template(
