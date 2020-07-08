@@ -1186,5 +1186,5 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png", scroll=False)
 
         # Close modal dialog
-        self.driver.find_element_by_id("id_explanation").send_keys(Keys.ESCAPE)
+        self.driver.find_element_by_id("id_extra_flags").send_keys(Keys.ESCAPE)
         time.sleep(0.5)
