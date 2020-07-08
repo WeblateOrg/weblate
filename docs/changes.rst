@@ -18,6 +18,7 @@ Not yet released.
 * Added compatibility redirects after project or component renaming.
 * Added notifications for strings approval, component locking and license change.
 * Added support for ModernMT.
+* Allow to avoid overwriting approved translations on file upload.
 
 Weblate 4.1.1
 -------------

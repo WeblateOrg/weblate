@@ -916,7 +916,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             not_found, skipped, accepted, total = obj.merge_upload(
                 request,
                 data["file"],
-                data["overwrite"],
+                data["conflicts"],
                 author_name,
                 author_email,
                 data["method"],

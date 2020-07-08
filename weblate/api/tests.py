@@ -1486,7 +1486,7 @@ class TranslationAPITest(APIBaseTest):
         with open(TEST_PO, "rb") as handle:
             response = self.client.put(
                 reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle, "overwrite": 1},
+                {"file": handle, "conflicts": "replace-translated"},
             )
         self.assertEqual(
             response.data,

@@ -17,10 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import codecs
 import os
 import tempfile
+from typing import BinaryIO, Optional
 
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -770,7 +770,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return result
 
-    def merge_translations(self, request, store2, overwrite, method, fuzzy):
+    def merge_translations(
+        self, request, store2, conflicts: str, method: str, fuzzy: str
+    ):
         """Merge translation unit wise.
 
         Needed for template based translations to add new strings.
@@ -795,7 +797,8 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 state = STATE_APPROVED
 
             if (
-                (unit.translated and not overwrite)
+                (unit.translated and not conflicts)
+                or (unit.approved and conflicts != "replace-approved")
                 or unit.readonly
                 or (not request.user.has_perm("unit.edit", unit))
                 or (unit.target == unit2.target and unit.state == state)
@@ -946,12 +949,12 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def merge_upload(
         self,
         request,
-        fileobj,
-        overwrite,
-        author_name=None,
-        author_email=None,
-        method="translate",
-        fuzzy="",
+        fileobj: BinaryIO,
+        conflicts: str,
+        author_name: Optional[str] = None,
+        author_email: Optional[str] = None,
+        method: str = "translate",
+        fuzzy: str = "",
     ):
         """Top level handler for file uploads."""
         # Optionally set authorship
@@ -1006,7 +1009,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                 # Merge on units level
                 with self.component.repository.lock:
                     return self.merge_translations(
-                        request, store, overwrite, method, fuzzy
+                        request, store, conflicts, method, fuzzy
                     )
 
             # Add as sugestions

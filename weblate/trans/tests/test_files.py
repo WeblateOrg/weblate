@@ -122,7 +122,7 @@ class ImportTest(ImportBaseTest):
         # Translate one unit
         self.change_unit(TRANSLATION_OURS)
 
-        response = self.do_import(upload_overwrite="yes")
+        response = self.do_import(conflicts="replace-translated")
         self.assertRedirects(response, self.translation_url)
 
         # Verify unit
