@@ -3,6 +3,8 @@
 
 {% compress css %}
   <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror/lib/codemirror.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror/addon/hint/show-hint.css' %}{{ cache_param }}" />
 {% if LANGUAGE_BIDI %}
   <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap-rtl.css' %}{{ cache_param }}" />
 {% endif %}

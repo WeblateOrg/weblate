@@ -161,7 +161,7 @@ class LanguageSerializer(serializers.ModelSerializer):
         return language
 
 
-class UserSerializer(serializers.ModelSerializer):
+class FullUserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
     )
@@ -187,6 +187,15 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
+
+
+class BasicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "full_name",
+            "username",
+        )
 
 
 class PermissionSerializer(serializers.RelatedField):

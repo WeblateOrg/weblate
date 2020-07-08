@@ -889,7 +889,7 @@ class CommentForm(forms.Form):
         ),
     )
     comment = forms.CharField(
-        widget=forms.Textarea(attrs={"dir": "auto"}),
+        widget=forms.Textarea(attrs={"dir": "auto", "class": "codemirror-markdown"}),
         label=_("New comment"),
         help_text=_("You can use Markdown and mention users by @username."),
         max_length=1000,
@@ -987,7 +987,7 @@ class ContextForm(forms.ModelForm):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("explanation"),
+            Field("explanation", css_class="codemirror-markdown"),
             Field("labels"),
             ContextDiv(
                 template="snippets/labels_description.html",
@@ -1624,6 +1624,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
         widgets = {
             "access_control": forms.RadioSelect(),
             "source_language": SortedSelect,
+            "instructions": forms.Textarea(attrs={"class": "codemirror-markdown"}),
         }
 
     def clean(self):
@@ -1936,7 +1937,10 @@ class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
         fields = ["message", "category", "expiry", "notify"]
-        widgets = {"expiry": WeblateDateInput()}
+        widgets = {
+            "expiry": WeblateDateInput(),
+            "message": forms.Textarea(attrs={"class": "codemirror-markdown"}),
+        }
 
 
 class ChangesForm(forms.Form):

@@ -44,9 +44,11 @@ from rest_framework.views import APIView
 from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.api.serializers import (
+    BasicUserSerializer,
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
+    FullUserSerializer,
     GroupSerializer,
     LanguageSerializer,
     LockRequestSerializer,
@@ -62,7 +64,6 @@ from weblate.api.serializers import (
     TranslationSerializer,
     UnitSerializer,
     UploadRequestSerializer,
-    UserSerializer,
 )
 from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
@@ -264,17 +265,29 @@ class WeblateViewSet(DownloadViewSet):
         return Response(data)
 
 
+class UserFilter(filters.FilterSet):
+    username = filters.CharFilter(field_name="username", lookup_expr="startswith")
+
+    class Meta:
+        model = User
+        fields = ["username"]
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
 
     queryset = User.objects.none()
-    serializer_class = UserSerializer
     lookup_field = "username"
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = UserFilter
+
+    def get_serializer_class(self):
+        if self.request.user.has_perm("user.edit"):
+            return FullUserSerializer
+        return BasicUserSerializer
 
     def get_queryset(self):
-        if self.request.user.has_perm("user.edit"):
-            return User.objects.order_by("id")
-        return User.objects.filter(pk=self.request.user.pk).order_by("id")
+        return User.objects.order_by("id")
 
     def perm_check(self, request):
         if not request.user.has_perm("user.edit"):
@@ -313,7 +326,7 @@ class UserViewSet(viewsets.ModelViewSet):
             )
 
         obj.groups.add(group)
-        serializer = self.serializer_class(obj, context={"request": request})
+        serializer = self.get_serializer_class()(obj, context={"request": request})
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
