@@ -1641,6 +1641,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 self.log_warning(
                     "skipping update due to error in parsing template: %s", exc
                 )
+                self.update_import_alerts()
                 raise
         else:
             translation = self.source_translation
