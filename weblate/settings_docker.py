@@ -721,6 +721,11 @@ if ms_base_url is not None:
 if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
 
+# ModernMT
+MT_MODERNMT_KEY = os.environ.get("WEBLATE_MT_MODERNMT_KEY", None)
+if MT_MODERNMT_KEY:
+    MT_SERVICES += ("weblate.machinery.modernmt.ModernMTTranslation",)
+
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
 MT_MYMEMORY_EMAIL = os.environ["WEBLATE_ADMIN_EMAIL"]

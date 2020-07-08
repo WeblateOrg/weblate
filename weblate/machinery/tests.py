@@ -48,6 +48,7 @@ from weblate.machinery.microsoftterminology import (
     MST_API_URL,
     MicrosoftTerminologyService,
 )
+from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
@@ -867,6 +868,55 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
             responses.POST,
             "http://sth.example.com/translate",
             json=SAPTRANSLATIONHUB_JSON,
+            status=200,
+            content_type="text/json",
+        )
+
+
+@override_settings(MT_MODERNMT_KEY="key")
+class ModernMTHubTest(BaseMachineTranslationTest):
+    MACHINE_CLS = ModernMTTranslation
+    EXPECTED_LEN = 1
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(
+            responses.GET, "https://api.modernmt.com/languages", body="", status=500
+        )
+        responses.add(
+            responses.GET, "https://api.modernmt.com/translate", body="", status=500
+        )
+
+    def mock_response(self):
+        responses.add(
+            responses.GET,
+            "https://api.modernmt.com/languages",
+            json={
+                "data": {"en": ["cs", "it", "ja"], "fr": ["en", "it", "ja"]},
+                "status": 200,
+            },
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.modernmt.com/translate",
+            json={
+                "data": {
+                    "contextVector": {
+                        "entries": [
+                            {
+                                "memory": {"id": 1, "name": "europarl"},
+                                "score": 0.20658109,
+                            },
+                            {"memory": {"id": 2, "name": "ibm"}, "score": 0.0017772929},
+                        ]
+                    },
+                    "translation": "Ciao",
+                },
+                "status": 200,
+            },
             status=200,
             content_type="text/json",
         )

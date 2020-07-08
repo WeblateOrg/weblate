@@ -1064,6 +1064,33 @@ Defaults to ``api.cognitive.microsoft.com`` for Azure Global.
 
 For Azure China, please use your endpoint from Azure Portal.
 
+
+.. setting:: MT_MODERNMT_KEY
+
+MT_MODERNMT_KEY
+---------------
+
+API key for ModernMT machine translation engine.
+
+.. seealso::
+
+    :ref:`modernmt`
+    :setting:`MT_MODERNMT_URL`
+
+.. setting:: MT_MODERNMT_URL
+
+MT_MODERNMT_URL
+---------------
+
+URL of ModernMT. It defaults to ``https://api.modernmt.com/`` for the cloud
+service.
+
+.. seealso::
+
+    :ref:`modernmt`
+    :setting:`MT_MODERNMT_KEY`
+
+
 .. setting:: MT_MYMEMORY_EMAIL
 
 MT_MYMEMORY_EMAIL

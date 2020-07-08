@@ -577,6 +577,10 @@ Machine translation settings
 
     Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_BASE_URL`
 
+.. envvar:: WEBLATE_MT_MODERNMT_KEY
+
+    Enables :ref:`modernmt` adn sets :setting:`MT_MODERNMT_KEY`.
+
 .. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
 
     Enables :ref:`mymemory` machine translation and sets

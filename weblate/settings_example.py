@@ -504,6 +504,7 @@ if not HAVE_SYSLOG:
 #     "weblate.machinery.googlev3.GoogleV3Translation",
 #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
 #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+#     "weblate.machinery.modernmt.ModernMTTranslation",
 #     "weblate.machinery.mymemory.MyMemoryTranslation",
 #     "weblate.machinery.netease.NeteaseSightTranslation",
 #     "weblate.machinery.tmserver.AmagamaTranslation",
@@ -527,6 +528,9 @@ MT_DEEPL_KEY = None
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = None
 MT_MICROSOFT_REGION = None
+
+# ModernMt
+MT_MODERNMT_KEY = None
 
 # MyMemory identification email, see
 # https://mymemory.translated.net/doc/spec.php
