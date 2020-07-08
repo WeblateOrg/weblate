@@ -859,9 +859,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("format-highlight.png")
         self.click("Comments")
         self.screenshot("plurals.png")
-        element = self.driver.find_element_by_id("id_comment")
-        element.send_keys("@test")
-        self.screenshot("user-mentions.png")
 
         # Test search dropdown
         dropdown = self.driver.find_element_by_id("query-dropdown")
