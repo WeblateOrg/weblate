@@ -39,6 +39,34 @@ repos:
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
+  - repo: https://github.com/prettier/prettier
+    rev: 2.0.5
+    hooks:
+      - id: prettier
+        files: "\\.(\
+          css|less|scss\
+          |graphql|gql\
+          |js|jsx\
+          |json\
+          |md|markdown|mdown|mkdn\
+          |mdx\
+          |vue\
+          |yaml|yml\
+          )$"
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v7.3.1
+    hooks:
+      - id: eslint
+        args: ["--format=compact"]
+        additional_dependencies:
+          - prettier@latest
+          - eslint@>=6.2.2
+          - eslint-plugin-import@>=2.18.0
+          - eslint-plugin-node@>=9.1.0
+          - eslint-plugin-promise@>=4.2.1
+          - eslint-plugin-standard@>=4.0.0
+          - eslint-config-prettier@latest
+          - eslint-plugin-prettier@latest
   - repo: https://github.com/awebdeveloper/pre-commit-stylelint
     rev: 0.0.2
     hooks:
@@ -51,9 +79,9 @@ repos:
           - prettier@latest
 
 exclude: "^.*\\.(\
-    csv|\
-    svg|\
-    wsdl(\\.[^.]*)?\
+  csv|\
+  svg|\
+  wsdl(\\.[^.]*)?\
   )|\
   weblate/trans/tests/data/memory-broken\\.json|\
   weblate/templates/browserconfig\\.xml|\
