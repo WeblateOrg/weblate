@@ -16,13 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Mericurial version control system abstraction for Weblate needs."""
-
+"""Mercurial version control system abstraction for Weblate needs."""
 
 import os
 import os.path
 import re
 from configparser import RawConfigParser
+from datetime import datetime
+from typing import List, Optional
 
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
@@ -240,7 +241,13 @@ class HgRepository(Repository):
             raise OSError("Failed to parse version string: {0}".format(output))
         return matches.group(1)
 
-    def commit(self, message, author=None, timestamp=None, files=None):
+    def commit(
+        self,
+        message: str,
+        author: Optional[str] = None,
+        timestamp: datetime = None,
+        files: Optional[List[str]] = None,
+    ):
         """Create new revision."""
         # Build the commit command
         cmd = ["commit", "--message", message]
@@ -259,7 +266,7 @@ class HgRepository(Repository):
         # Clean cache
         self.clean_revision_cache()
 
-    def remove(self, files, message, author=None):
+    def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
         self.execute(["remove", "--force", "--"] + files)
         self.commit(message, author)

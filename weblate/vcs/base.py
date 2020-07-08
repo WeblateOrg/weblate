@@ -23,6 +23,7 @@ import logging
 import os
 import os.path
 import subprocess
+from datetime import datetime
 from distutils.version import LooseVersion
 from typing import List, Optional
 
@@ -367,11 +368,17 @@ class Repository:
         """Configure commiter name."""
         raise NotImplementedError()
 
-    def commit(self, message, author=None, timestamp=None, files=None):
+    def commit(
+        self,
+        message: str,
+        author: Optional[str] = None,
+        timestamp: datetime = None,
+        files: Optional[List[str]] = None,
+    ):
         """Create new revision."""
         raise NotImplementedError()
 
-    def remove(self, files, message, author=None):
+    def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
         raise NotImplementedError()
 
