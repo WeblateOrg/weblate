@@ -1,8 +1,7 @@
 (function (CodeMirror) {
-    var userMentionList = [];
     var currentRequest = null;
 
-    function getUserList(usernameSearch) {
+    function getUserList(usernameSearch, from, to, callback) {
         currentRequest = $.ajax({
             type: 'GET',
             url: `/api/users/?username=${usernameSearch}`,
@@ -13,11 +12,16 @@
                 }
             },
             success: function (data) {
-                userMentionList = data.results.map(function(user) {
+                var userMentionList = data.results.map(function(user) {
                     return {
                         text: user.username,
                         displayText: `${user.full_name} (${user.username})`
                     }
+                });
+                callback({
+                    list: userMentionList,
+                    from: from,
+                    to: to
                 });
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -26,7 +30,7 @@
         });
     }
 
-    CodeMirror.registerHelper('hint', 'userSuggestions', function (editor) {
+    CodeMirror.registerHelper('hint', 'userSuggestions', function (editor, callback) {
         var cur = editor.getCursor();
         var curLine = editor.getLine(cur.line);
 
@@ -38,11 +42,16 @@
         if(curWord && curWord.length > 2) {
             // If there is current word set, We can filter out users from the
             // main list and display them
-            getUserList(curWord);
+            getUserList(
+                curWord,
+                CodeMirror.Pos(cur.line, start),
+                CodeMirror.Pos(cur.line, end),
+                callback
+            );
         }
-
-        return { list: userMentionList, from: CodeMirror.Pos(cur.line, start), to: CodeMirror.Pos(cur.line, end) };
     });
+
+    CodeMirror.hint.userSuggestions.async = true;
 
 
     $('textarea.codemirror-markdown').each(function(idx) {
@@ -56,19 +65,16 @@
             }
         );
 
-        codemirror.on('keyup', function (cm, event) {
+        codemirror.on('change', function (cm, event) {
+            cm.save()
+        });
+
+        codemirror.on('keydown', function (cm, event) {
             if(event.key === '@') {
                 CodeMirror.showHint(cm, CodeMirror.hint.userSuggestions, {
                     completeSingle: false
                 });
             }
-        });
-    });
-
-    $('textarea.codemirror-markdown').each(function(idx) {
-        $(this).closest('form').find('input[type=submit]').on('click', function(e) {
-            e.preventDefault();
-            $(this).closest('form').submit();
         });
     });
 
