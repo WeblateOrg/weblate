@@ -552,9 +552,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Post commit hook
         if signals:
-            vcs_post_commit.send(
-                sender=self.__class__, component=self.component, translation=self
-            )
+            vcs_post_commit.send(sender=self.__class__, component=self.component)
 
         # Store updated hash
         self.store_hash()

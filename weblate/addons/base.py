@@ -186,7 +186,7 @@ class BaseAddon:
     def post_update(self, component, previous_head):
         return
 
-    def post_commit(self, component, translation=None):
+    def post_commit(self, component):
         return
 
     def pre_commit(self, translation, author):
