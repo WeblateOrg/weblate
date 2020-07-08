@@ -245,7 +245,7 @@ class HgRepository(Repository):
         self,
         message: str,
         author: Optional[str] = None,
-        timestamp: datetime = None,
+        timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
     ):
         """Create new revision."""
