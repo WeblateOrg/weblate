@@ -64,6 +64,18 @@ class DiffTest(TestCase):
             "Hello wor<del>l</del>d!",
         )
 
+    def test_format_diff_whitespace(self):
+        unit = MockUnit(source="Hello world!")
+        self.assertEqual(
+            format_translation(
+                unit.source,
+                unit.translation.component.project.source_language,
+                diff="Hello world! ",
+            )["items"][0]["content"],
+            'Hello world!<del><span class="space-space">'
+            '<span class="sr-only"> </span></span></del>',
+        )
+
     def test_format_entities(self):
         unit = MockUnit(source="'word'")
         self.assertEqual(

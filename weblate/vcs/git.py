@@ -18,9 +18,10 @@
 #
 """Git based version control system abstraction for Weblate needs."""
 
-
 import os
 import os.path
+from datetime import datetime
+from typing import List, Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -225,7 +226,13 @@ class GitRepository(Repository):
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False).split()[2]
 
-    def commit(self, message, author=None, timestamp=None, files=None):
+    def commit(
+        self,
+        message: str,
+        author: Optional[str] = None,
+        timestamp: Optional[datetime] = None,
+        files: Optional[List[str]] = None,
+    ):
         """Create new revision."""
         # Add files (some of them might not be in the index)
         if files:
@@ -246,7 +253,7 @@ class GitRepository(Repository):
         # Clean cache
         self.clean_revision_cache()
 
-    def remove(self, files, message, author=None):
+    def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
         self.execute(["rm", "--force", "--"] + files)
         self.commit(message, author)

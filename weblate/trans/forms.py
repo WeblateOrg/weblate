@@ -598,14 +598,19 @@ class SimpleUploadForm(forms.Form):
 class UploadForm(SimpleUploadForm):
     """Upload form with option to overwrite current messages."""
 
-    upload_overwrite = forms.BooleanField(
-        label=_("Overwrite existing translations"),
+    conflicts = forms.ChoiceField(
+        label=_("Conflicts handling"),
         help_text=_(
             "Whether to overwrite existing translations if the string is "
             "already translated."
         ),
+        choices=(
+            ("", _("Update only non translated strings")),
+            ("replace-translated", _("Update translated strings")),
+            ("replace-approved", _("Update translated and approved strings")),
+        ),
         required=False,
-        initial=True,
+        initial="replace-translated",
     )
 
 
@@ -630,6 +635,13 @@ def get_upload_form(user, translation, *args, **kwargs):
     for method in [x[0] for x in result.fields["method"].choices]:
         if not check_upload_method_permissions(user, translation, method):
             result.remove_translation_choice(method)
+    # Remove approved choice for non review projects
+    if not user.has_perm("unit.review", translation) and not form == SimpleUploadForm:
+        result.fields["conflicts"].choices = [
+            choice
+            for choice in result.fields["conflicts"].choices
+            if choice[0] != "approved"
+        ]
     return result
 
 
@@ -1066,9 +1078,9 @@ class ReportsForm(forms.Form):
             start = timezone.make_aware(datetime(year, 1, 1))
         else:
             # Validate custom period
-            if not self.cleaned_data["start_date"]:
+            if not self.cleaned_data.get("start_date"):
                 raise ValidationError({"start_date": _("Missing date!")})
-            if not self.cleaned_data["end_date"]:
+            if not self.cleaned_data.get("end_date"):
                 raise ValidationError({"end_date": _("Missing date!")})
             start = self.cleaned_data["start_date"]
             end = self.cleaned_data["end_date"]

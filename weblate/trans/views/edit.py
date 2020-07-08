@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+import json
 import time
 
 from django.conf import settings
@@ -36,6 +36,7 @@ from django.views.decorators.http import require_POST
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import Term
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     AntispamForm,
@@ -533,6 +534,7 @@ def translate(request, project, component, lang):
             "last_changes": unit.change_set.prefetch().order()[:10],
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
+            "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
         },
     )
 

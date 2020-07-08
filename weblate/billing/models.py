@@ -181,10 +181,22 @@ class Billing(models.Model):
             base = "Unassigned"
         return "{0} ({1})".format(base, self.plan)
 
-    def save(self, *args, **kwargs):
-        if not kwargs.pop("skip_limits", False) and self.pk:
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+        skip_limits=False,
+    ):
+        if not skip_limits and self.pk:
             self.check_limits(save=False)
-        super().save(*args, **kwargs)
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
 
     def get_absolute_url(self):
         return "{}#billing-{}".format(reverse("billing"), self.pk)

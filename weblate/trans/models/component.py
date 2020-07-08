@@ -163,6 +163,8 @@ def prefetch_tasks(components):
     lookup = {component.update_key: component for component in components}
     if lookup:
         for item, value in cache.get_many(lookup.keys()).items():
+            if not value:
+                continue
             lookup[item].__dict__["background_task"] = AsyncResult(value)
             lookup.pop(item)
         for component in lookup.values():
@@ -989,6 +991,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         if self.is_repo_link:
             return self.linked_component.get_repoweb_link(filename, line, template)
         if not template:
+            if filename.startswith("https://"):
+                return filename
             return None
 
         return render_template(
@@ -1007,15 +1011,21 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         This is essentailly a TOFU appproach.
         """
-        parsed = urlparse(self.repo)
-        if not parsed.hostname:
-            parsed = urlparse("ssh://{}".format(self.repo))
-        if parsed.hostname:
-            try:
-                port = parsed.port
-            except ValueError:
-                port = ""
-            add_host_key(None, parsed.hostname, port)
+
+        def add(repo):
+            parsed = urlparse(repo)
+            if not parsed.hostname:
+                parsed = urlparse("ssh://{}".format(repo))
+            if parsed.hostname:
+                try:
+                    port = parsed.port
+                except ValueError:
+                    port = ""
+                add_host_key(None, parsed.hostname, port)
+
+        add(self.repo)
+        if self.push:
+            add(self.push)
 
     def handle_update_error(self, error_text, retry):
         if "Host key verification failed" in error_text:
@@ -1633,6 +1643,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 self.log_warning(
                     "skipping update due to error in parsing template: %s", exc
                 )
+                self.update_import_alerts()
                 raise
         else:
             translation = self.source_translation

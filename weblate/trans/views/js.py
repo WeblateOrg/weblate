@@ -40,10 +40,7 @@ from weblate.utils.views import get_component, get_project, get_translation
 
 def handle_machinery(request, service, unit, search=None):
     request.user.check_access_component(unit.translation.component)
-    if not request.user.has_perm(
-        "memory.view" if service == "weblate-translation-memory" else "machinery.view",
-        unit.translation,
-    ):
+    if not request.user.has_perm("machinery.view", unit.translation):
         raise PermissionDenied()
 
     # Error response
@@ -237,14 +234,6 @@ def git_status_translation(request, project, component, lang):
             "component": obj.component,
         },
     )
-
-
-def mt_services(request):
-    """Generate list of installed machine translation services in JSON."""
-    # Machine translation
-    machine_services = list(MACHINE_TRANSLATION_SERVICES.keys())
-
-    return JsonResponse(data=machine_services, safe=False)
 
 
 @login_required

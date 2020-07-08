@@ -593,7 +593,6 @@ class LockRequestSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
-    overwrite = serializers.BooleanField()
     file = serializers.FileField()
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
@@ -605,10 +604,19 @@ class UploadRequestSerializer(ReadOnlySerializer):
     fuzzy = serializers.ChoiceField(
         choices=("", "process", "approve"), required=False, default=""
     )
+    conflicts = serializers.ChoiceField(
+        choices=("", "replace-translated", "replace-approved"),
+        required=False,
+        default="",
+    )
 
     def check_perms(self, user, obj):
         data = self.validated_data
-        if data["overwrite"] and not user.has_perm("upload.overwrite", obj):
+        if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
+            raise PermissionDenied()
+        if data["conflicts"] == "replace-approved" and not user.has_perm(
+            "unit.review", obj
+        ):
             raise PermissionDenied()
 
         if not check_upload_method_permissions(user, obj, data["method"]):

@@ -17,10 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
 import subprocess
 from itertools import chain
+from typing import Optional, Tuple
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -44,9 +44,9 @@ from weblate.utils.validators import validate_filename
 
 
 class BaseAddon:
-    events = ()
+    events: Tuple[int, ...] = ()
     settings_form = None
-    name = None
+    name = ""
     compat = {}
     multiple = False
     verbose = "Base addon"
@@ -55,7 +55,7 @@ class BaseAddon:
     project_scope = False
     repo_scope = False
     has_summary = False
-    alert = None
+    alert: Optional[str] = None
     trigger_update = False
 
     """Base class for Weblate addons."""
@@ -186,7 +186,7 @@ class BaseAddon:
     def post_update(self, component, previous_head):
         return
 
-    def post_commit(self, component, translation=None):
+    def post_commit(self, component):
         return
 
     def pre_commit(self, translation, author):

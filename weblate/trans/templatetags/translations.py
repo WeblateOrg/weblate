@@ -109,6 +109,9 @@ def fmt_whitespace(value):
     # Highlight tabs
     value = value.replace("\t", SPACE_TAB.format(gettext("Tab character")))
 
+    # Highlight whitespace inside tags (ins/del)
+    value = value.replace("> <", ">{}<".format(SPACE_SPACE))
+
     return value
 
 

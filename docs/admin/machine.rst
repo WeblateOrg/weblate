@@ -217,6 +217,23 @@ Turn this service on by adding ``weblate.machinery.microsoftterminology.Microsof
 
     `Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/Microsoft-Terminology-API>`_
 
+.. _modernmt:
+
+ModernMT
+--------
+
+.. versionadded:: 4.2
+
+
+Turn this service on by adding ``weblate.machinery.modernmt.ModernMTTranslation`` to
+:setting:`MT_SERVICES` and configure :setting:`MT_MODERNMT_KEY`.
+
+.. seealso::
+
+    `ModernMT API <https://www.modernmt.com/api/translate/>`_,
+    :setting:`MT_MODERNMT_KEY`,
+    :setting:`MT_MODERNMT_URL`
+
 .. _mymemory:
 
 MyMemory

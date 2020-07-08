@@ -495,25 +495,26 @@ if not HAVE_SYSLOG:
     del LOGGING["handlers"]["syslog"]
 
 # List of machine translations
-# MT_SERVICES = (
-#     "weblate.machinery.apertium.ApertiumAPYTranslation",
-#     "weblate.machinery.baidu.BaiduTranslation",
-#     "weblate.machinery.deepl.DeepLTranslation",
-#     "weblate.machinery.glosbe.GlosbeTranslation",
-#     "weblate.machinery.google.GoogleTranslation",
-#     "weblate.machinery.googlev3.GoogleV3Translation",
-#     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-#     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
-#     "weblate.machinery.mymemory.MyMemoryTranslation",
-#     "weblate.machinery.netease.NeteaseSightTranslation",
-#     "weblate.machinery.tmserver.AmagamaTranslation",
-#     "weblate.machinery.tmserver.TMServerTranslation",
-#     "weblate.machinery.yandex.YandexTranslation",
-#     "weblate.machinery.saptranslationhub.SAPTranslationHub",
-#     "weblate.machinery.youdao.YoudaoTranslation",
-#     "weblate.machinery.weblatetm.WeblateTranslation",
-#     "weblate.memory.machine.WeblateMemory",
-# )
+MT_SERVICES = (
+    #     "weblate.machinery.apertium.ApertiumAPYTranslation",
+    #     "weblate.machinery.baidu.BaiduTranslation",
+    #     "weblate.machinery.deepl.DeepLTranslation",
+    #     "weblate.machinery.glosbe.GlosbeTranslation",
+    #     "weblate.machinery.google.GoogleTranslation",
+    #     "weblate.machinery.googlev3.GoogleV3Translation",
+    #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+    #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+    #     "weblate.machinery.modernmt.ModernMTTranslation",
+    #     "weblate.machinery.mymemory.MyMemoryTranslation",
+    #     "weblate.machinery.netease.NeteaseSightTranslation",
+    #     "weblate.machinery.tmserver.AmagamaTranslation",
+    #     "weblate.machinery.tmserver.TMServerTranslation",
+    #     "weblate.machinery.yandex.YandexTranslation",
+    #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
+    #     "weblate.machinery.youdao.YoudaoTranslation",
+    "weblate.machinery.weblatetm.WeblateTranslation",
+    "weblate.memory.machine.WeblateMemory",
+)
 
 # Machine translation API keys
 
@@ -527,6 +528,9 @@ MT_DEEPL_KEY = None
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = None
 MT_MICROSOFT_REGION = None
+
+# ModernMT
+MT_MODERNMT_KEY = None
 
 # MyMemory identification email, see
 # https://mymemory.translated.net/doc/spec.php
@@ -811,6 +815,16 @@ REST_FRAMEWORK = {
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
+
+# Fonts CDN URL
+FONTS_CDN_URL = None
+
+# Django compressor offline mode
+COMPRESS_OFFLINE = False
+COMPRESS_OFFLINE_CONTEXT = [
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": True},
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": False},
+]
 
 # Require login for all URLs
 if REQUIRE_LOGIN:

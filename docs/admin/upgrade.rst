@@ -28,10 +28,10 @@ work, but is not as well tested as single version upgrades.
     It is recommended to perform a full database backup prior to upgrade so that you
     can roll back the database in case upgrade fails, see :doc:`backup`.
 
-1. Stop wsgi and Celery processes. The upgrade can perform incompatible changes in the
+#. Stop wsgi and Celery processes. The upgrade can perform incompatible changes in the
    database, so it is always safer to avoid old processes running while upgrading.
 
-2. Upgrade Weblate code.
+#. Upgrade Weblate code.
 
    For pip installs it can be achieved by:
 
@@ -50,35 +50,41 @@ work, but is not as well tested as single version upgrades.
         # Install dependecies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
 
-3. Upgrade configuration file, refer to :file:`settings_example.py` or
+#. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
 
-4. Upgrade database structure:
+#. Upgrade database structure:
 
    .. code-block:: sh
 
         weblate migrate --noinput
 
-5. Collect updated static files (mostly javascript and CSS):
+#. Collect updated static files (see :ref:`server` and :ref:`static-files`):
 
    .. code-block:: sh
 
         weblate collectstatic --noinput
 
-6. If you are running version from Git, you should also regenerate locale files
+#. Compress JavaScript and CSS files (optional, see :ref:`production-compress`):
+
+   .. code-block:: sh
+
+        weblate compress
+
+#. If you are running version from Git, you should also regenerate locale files
    every time you are upgrading. You can do this by invoking:
 
    .. code-block:: sh
 
         weblate compilemessages
 
-7. Verify that your setup is sane (see also :ref:`production`):
+#. Verify that your setup is sane (see also :ref:`production`):
 
    .. code-block:: sh
 
         weblate check --deploy
 
-8. Restart celery worker (see :ref:`celery`).
+#. Restart celery worker (see :ref:`celery`).
 
 
 .. _version-specific-instructions:

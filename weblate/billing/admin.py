@@ -82,6 +82,15 @@ class BillingAdmin(WeblateModelAdmin):
         form.base_fields["owners"].label_from_instance = format_user
         return form
 
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        obj = form.instance
+        # Add owners as admin if there is none
+        for project in obj.projects.all():
+            group = project.get_group("@Administration")
+            if not group.user_set.exists():
+                group.user_set.add(*obj.owners.all())
+
 
 class InvoiceAdmin(WeblateModelAdmin):
     list_display = ("billing", "start", "end", "amount", "currency", "ref")

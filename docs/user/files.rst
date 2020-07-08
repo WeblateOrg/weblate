@@ -71,6 +71,12 @@ Update source strings
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.
 
+.. _upload-conflicts:
+
+Conflicts handling
+++++++++++++++++++
+
+Defines how to deal with uploaded strings which are already translated.
 
 .. _upload-fuzzy:
 

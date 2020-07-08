@@ -669,21 +669,6 @@ if not HAVE_SYSLOG:
 
 # List of machine translations
 MT_SERVICES = (
-    #     "weblate.machinery.apertium.ApertiumAPYTranslation",
-    #     "weblate.machinery.baidu.BaiduTranslation",
-    #     "weblate.machinery.deepl.DeepLTranslation",
-    #     "weblate.machinery.glosbe.GlosbeTranslation",
-    #     "weblate.machinery.google.GoogleTranslation",
-    #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-    #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
-    #     "weblate.machinery.mymemory.MyMemoryTranslation",
-    #     "weblate.machinery.netease.NeteaseSightTranslation",
-    #     "weblate.machinery.tmserver.AmagamaTranslation",
-    #     "weblate.machinery.tmserver.TMServerTranslation",
-    #     "weblate.machinery.yandex.YandexTranslation",
-    #      "weblate.machinery.weblatetm.WeblateTranslation",
-    #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
-    #     "weblate.machinery.youdao.YoudaoTranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
 )
@@ -709,6 +694,7 @@ if MT_DEEPL_KEY:
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
+MT_MICROSOFT_REGION = None
 
 ms_endpoint_url = os.environ.get("WEBLATE_MT_MICROSOFT_ENDPOINT_URL", None)
 if ms_endpoint_url is not None:
@@ -720,6 +706,11 @@ if ms_base_url is not None:
 
 if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
+
+# ModernMT
+MT_MODERNMT_KEY = os.environ.get("WEBLATE_MT_MODERNMT_KEY", None)
+if MT_MODERNMT_KEY:
+    MT_SERVICES += ("weblate.machinery.modernmt.ModernMTTranslation",)
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
@@ -1033,6 +1024,16 @@ REST_FRAMEWORK = {
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
+
+# Fonts CDN URL
+FONTS_CDN_URL = None
+
+# Django compressor offline mode
+COMPRESS_OFFLINE = True
+COMPRESS_OFFLINE_CONTEXT = [
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": True},
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": False},
+]
 
 # Require login for all URLs
 if REQUIRE_LOGIN:

@@ -479,8 +479,13 @@ class Unit(models.Model, LoggerMixin):
         same_source = source == self.source and context == self.context
 
         # Monolingual files handling (without target change)
-        if not created and unit.template is not None and target == self.target:
-            if not same_source and state >= STATE_TRANSLATED:
+        if (
+            not created
+            and state != STATE_READONLY
+            and unit.template is not None
+            and target == self.target
+        ):
+            if not same_source and state in (STATE_TRANSLATED, STATE_APPROVED):
                 if self.previous_source == self.source and self.fuzzy:
                     # Source change was reverted
                     previous_source = ""
@@ -828,6 +833,11 @@ class Unit(models.Model, LoggerMixin):
 
         src = self.get_source_plurals()
         tgt = self.get_target_plurals()
+
+        # Ensure we get a fresh copy of checks
+        # It might be modified meanwhile by propagating to other units
+        if "all_checks" in self.__dict__:
+            del self.__dict__["all_checks"]
 
         old_checks = self.all_checks_names
         create = []
