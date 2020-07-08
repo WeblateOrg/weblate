@@ -910,7 +910,7 @@ $(function () {
     });
 
     /* ZIP import - autofill name and slug */
-    $('#id_zipcreate_zipfile,#id_doccreate_docfile').change(function () {
+    $('#id_zipcreate_zipfile,#id_doccreate_docfile,#id_image').change(function () {
         var $form = $(this).closest('form');
         var target = $form.find('input[name=name]');
         if (this.files.length > 0 && target.val() === '') {
