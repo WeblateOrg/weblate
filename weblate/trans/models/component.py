@@ -25,9 +25,10 @@ import time
 from collections import Counter
 from contextlib import contextmanager
 from copy import copy
+from datetime import datetime
 from glob import glob
 from itertools import chain
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from urllib.parse import urlparse
 
 from celery import current_task
@@ -38,7 +39,6 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
@@ -1392,6 +1392,42 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
 
         return True
 
+    def commit_files(
+        self,
+        template: str,
+        author: Optional[str] = None,
+        timestamp: Optional[datetime] = None,
+        files: Optional[List[str]] = None,
+        signals: bool = True,
+        skip_push: bool = False,
+        extra_context: Optional[Dict[str, Any]] = None,
+    ):
+        """Commits files to the repository."""
+        # Is there something to commit?
+        if not self.repository.needs_commit(*files or []):
+            return False
+
+        # Handle context
+        context = {"component": self, "author": author}
+        if extra_context:
+            context.update(extra_context)
+
+        # Generate commit message
+        message = render_template(template, **context)
+
+        # Actual commit
+        self.repository.commit(message, author, timestamp, files)
+
+        # Send post commit signal
+        if signals:
+            vcs_post_commit.send(sender=self.__class__, component=self)
+
+        # Push if we should
+        if not skip_push:
+            self.push_if_needed()
+
+        return True
+
     def handle_parse_error(self, error, translation=None):
         """Handler for parse errors."""
         error_message = getattr(error, "strerror", "")
@@ -2119,18 +2155,19 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             fullname, self.project.source_language, self.get_new_base_filename()
         )
 
-        message = render_template(
-            self.add_message,
-            translation=Translation(
-                filename=self.template,
-                language_code=self.project.source_language.code,
-                language=self.project.source_language,
-                component=self,
-            ),
-        )
         with self.repository.lock:
-            self.repository.commit(
-                message, "Weblate <noreply@weblate.org>", timezone.now(), [fullname]
+            self.commit_files(
+                template=self.add_message,
+                author="Weblate <noreply@weblate.org>",
+                extra_context={
+                    "translation": Translation(
+                        filename=self.template,
+                        language_code=self.project.source_language.code,
+                        language=self.project.source_language,
+                        component=self,
+                    )
+                },
+                files=[fullname],
             )
 
     def after_save(
@@ -2443,13 +2480,12 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                     sender=self.__class__, translation=translation
                 )
             translation.check_sync(force=True, request=request)
-            translation.commit_template = "add"
             translation.git_commit(
                 request.user if request else None,
                 request.user.get_author_name()
                 if request
                 else "Weblate <noreply@weblate.org>",
-                timezone.now(),
+                template=self.add_message,
             )
             self.update_source_checks()
             translation.invalidate_cache()

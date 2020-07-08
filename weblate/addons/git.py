@@ -216,5 +216,8 @@ class GitSquashAddon(BaseAddon):
             method(component, repository)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
-            if repository.needs_commit():
-                repository.commit(self.get_commit_message(component))
+            component.commit_files(
+                template=component.addon_message,
+                extra_context={"addon_name": self.verbose},
+                signals=False,
+            )

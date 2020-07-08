@@ -239,15 +239,6 @@ class BaseAddon:
         else:
             component.delete_alert(self.alert)
 
-    def get_commit_message(self, component):
-        return render_template(
-            component.addon_message,
-            # Compatibility with older
-            hook_name=self.verbose,
-            addon_name=self.verbose,
-            component=component,
-        )
-
     def commit_and_push(self, component, files=None):
         if files is None:
             files = list(
@@ -259,9 +250,11 @@ class BaseAddon:
             files += self.extra_files
         repository = component.repository
         with repository.lock:
-            if repository.needs_commit():
-                repository.commit(self.get_commit_message(component), files=files)
-                component.push_if_needed(None)
+            component.commit_files(
+                template=component.addon_message,
+                extra_context={"addon_name": self.verbose},
+                files=files,
+            )
 
     def render_repo_filename(self, template, translation):
         component = translation.component

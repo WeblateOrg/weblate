@@ -20,6 +20,7 @@
 import codecs
 import os
 import tempfile
+from datetime import datetime
 from typing import BinaryIO, Optional
 
 from django.core.cache import cache
@@ -49,7 +50,7 @@ from weblate.trans.models.unit import (
     STATE_TRANSLATED,
     Unit,
 )
-from weblate.trans.signals import store_post_load, vcs_post_commit, vcs_pre_commit
+from weblate.trans.signals import store_post_load, vcs_pre_commit
 from weblate.trans.util import split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.errors import report_error
@@ -144,7 +145,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         super().__init__(*args, **kwargs)
         self.stats = TranslationStats(self)
         self.addon_commit_files = []
-        self.commit_template = ""
         self.was_new = 0
         self.reason = ""
 
@@ -518,44 +518,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         return True
 
-    def get_commit_message(self, author, template=None, **kwargs):
+    def get_commit_message(self, author: str, template: str, **kwargs):
         """Format commit message based on project configuration."""
-        if template is None:
-            if self.commit_template == "add":
-                template = self.component.add_message
-                self.commit_template = ""
-            elif self.commit_template == "delete":
-                template = self.component.delete_message
-                self.commit_template = ""
-            else:
-                template = self.component.commit_message
-
         return render_template(template, translation=self, author=author, **kwargs)
-
-    def __git_commit(self, author, timestamp, signals=True):
-        """Commit translation to git."""
-        # Format commit message
-        msg = self.get_commit_message(author)
-
-        # Pre commit hook
-        vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
-
-        # Create list of files to commit
-        files = self.filenames
-
-        # Do actual commit
-        if self.repo_needs_commit():
-            self.component.repository.commit(
-                msg, author, timestamp, files + self.addon_commit_files
-            )
-        self.addon_commit_files = []
-
-        # Post commit hook
-        if signals:
-            vcs_post_commit.send(sender=self.__class__, component=self.component)
-
-        # Store updated hash
-        self.store_hash()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -578,24 +543,41 @@ class Translation(models.Model, URLMixin, LoggerMixin):
     def repo_needs_commit(self):
         return self.component.repository.needs_commit(*self.filenames)
 
-    def git_commit(self, user, author, timestamp, skip_push=False, signals=True):
+    def git_commit(
+        self,
+        user,
+        author: str,
+        timestamp: Optional[datetime] = None,
+        skip_push=False,
+        signals=True,
+        template: Optional[str] = None,
+    ):
         """Wrapper for committing translation to git."""
         repository = self.component.repository
+        if template is None:
+            template = self.component.commit_message
         with repository.lock:
-            # Is there something for commit?
-            if not self.repo_needs_commit():
-                return False
+            # Pre commit hook
+            vcs_pre_commit.send(sender=self.__class__, translation=self, author=author)
 
             # Do actual commit with git lock
-            self.log_info("committing %s as %s", self.filenames, author)
-            Change.objects.create(
-                action=Change.ACTION_COMMIT, translation=self, user=user
-            )
-            self.__git_commit(author, timestamp, signals=signals)
+            if not self.component.commit_files(
+                template=template,
+                author=author,
+                timestamp=timestamp,
+                skip_push=skip_push,
+                signals=signals,
+                files=self.filenames + self.addon_commit_files,
+                extra_context={"translation": self},
+            ):
+                self.log_info("committed %s as %s", self.filenames, author)
+                Change.objects.create(
+                    action=Change.ACTION_COMMIT, translation=self, user=user
+                )
 
-            # Push if we should
-            if not skip_push:
-                self.component.push_if_needed()
+            # Store updated hash
+            self.store_hash()
+            self.addon_commit_files = []
 
         return True
 
@@ -894,17 +876,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
                         os.unlink(temp.name)
 
             # Commit changes
-            if component.repository.needs_commit(*filenames):
-                component.repository.commit(
-                    self.get_commit_message(
-                        request.user.get_author_name(),
-                        template=component.addon_message,
-                        addon_name="Source update",
-                    ),
-                    files=filenames,
-                )
+            if component.commit_files(
+                template=component.addon_message,
+                files=filenames,
+                author=request.user.get_author_name(),
+                extra_context={"addon_name": "Source update"},
+            ):
                 component.create_translations(request=request, force=True)
-                component.push_if_needed(None)
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
     def handle_replace(self, request, fileobj):
@@ -924,8 +902,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             )
 
             # Commit to VCS
-            if self.repo_needs_commit():
-                self.__git_commit(request.user.get_author_name(), timezone.now())
+            if self.git_commit(request.user, request.user.get_author_name()):
 
                 # Drop store cache
                 self.drop_store_cache()
@@ -1040,10 +1017,13 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
         # Remove file from VCS
         if any((os.path.exists(name) for name in self.filenames)):
-            self.commit_template = "delete"
             with self.component.repository.lock:
                 self.component.repository.remove(
-                    self.filenames, self.get_commit_message(author), author
+                    self.filenames,
+                    self.get_commit_message(
+                        author, template=self.component.delete_message
+                    ),
+                    author,
                 )
 
         # Delete from the database
@@ -1071,8 +1051,7 @@ class Translation(models.Model, URLMixin, LoggerMixin):
             )
             self.store.new_unit(key, value)
             self.component.create_translations(request=request)
-            self.__git_commit(request.user.get_author_name(), timezone.now())
-            self.component.push_if_needed()
+            self.git_commit(request.user, request.user.get_author_name())
 
 
 class GhostTranslation:
