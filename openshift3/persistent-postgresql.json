@@ -1,672 +1,666 @@
 {
-    "kind": "Template",
-    "apiVersion": "v1",
-    "metadata": {
-        "name": "weblate-persistent-postgresql",
-        "annotations": {
-            "openshift.io/display-name": "Weblate (Persistent / PostgreSQL)",
-            "description": "Creates a Weblate installation with separate PostgreSQL database instance. Requires that two persistent volumes be available. If a ReadWriteMany persistent volume type is available and used, Weblate can be scaled to multiple replicas and the deployment strategy switched to Rolling to permit rolling deployments on restarts.",
-            "tags": "quickstart,python,weblate",
-            "iconClass": "icon-python"
-        }
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "weblate-persistent-postgresql",
+    "annotations": {
+      "openshift.io/display-name": "Weblate (Persistent / PostgreSQL)",
+      "description": "Creates a Weblate installation with separate PostgreSQL database instance. Requires that two persistent volumes be available. If a ReadWriteMany persistent volume type is available and used, Weblate can be scaled to multiple replicas and the deployment strategy switched to Rolling to permit rolling deployments on restarts.",
+      "tags": "quickstart,python,weblate",
+      "iconClass": "icon-python"
+    }
+  },
+  "parameters": [
+    {
+      "name": "APPLICATION_NAME",
+      "description": "The name of the Weblate instance.",
+      "value": "weblate-site",
+      "from": "[a-zA-Z0-9]",
+      "required": true
     },
-    "parameters": [
-        {
-            "name": "APPLICATION_NAME",
-            "description": "The name of the Weblate instance.",
-            "value": "weblate-site",
-            "from": "[a-zA-Z0-9]",
-            "required": true
-        },
-        {
-            "name": "WEBLATE_REPOSITORY_URL",
-            "description": "The URL of the Weblate Git repository.",
-            "value": "https://github.com/WeblateOrg/weblate",
-            "required": true
-        },
-        {
-          "name": "WEBLATE_VERSION",
-          "description": "Weblate docker image version (see: https://hub.docker.com/r/weblate/weblate/tags)",
-          "value": "latest",
-          "required": true
-        },
-        {
-            "name": "WEBLATE_VOLUME_SIZE",
-            "description": "Size of the persistent volume for Weblate.",
-            "value": "10Gi",
-            "required": true
-        },
-        {
-            "name": "WEBLATE_VOLUME_TYPE",
-            "description": "Type of the persistent volume for Weblate.",
-            "value": "ReadWriteOnce",
-            "required": true
-        },
-        {
-            "name": "WEBLATE_DEPLOYMENT_STRATEGY",
-            "description": "Type of the deployment strategy for Weblate.",
-            "value": "Recreate",
-            "required": true
-        },
-        {
-            "name": "WEBLATE_MEMORY_LIMIT",
-            "description": "Amount of memory available to Weblate.",
-            "value": "8Gi",
-            "required": true
-        },
-        {
-            "name": "WEBLATE_ADMIN_PASSWORD",
-            "description": "Password of the initial admin user.",
-            "from": "[a-zA-Z0-9]{12}",
-            "generate": "expression"
-        },
-        {
-            "name": "WEBLATE_ADMIN_EMAIL",
-            "description": "Email address of the initial admin user.",
-            "value": "noreply@example.com",
-            "required": true
-        },
-        {
-            "name": "WEBLATE_SERVER_EMAIL",
-            "description": "Email address for outgoing emails.",
-            "value": "noreply@example.com",
-            "required": true
-        },
-        {
-          "name": "CACHE_VOLUME_SIZE",
-          "description": "Size of the persistent volume for Redis Cache.",
-          "value": "10Gi",
-          "required": true
-        },
-        {
-            "name": "DATABASE_VOLUME_SIZE",
-            "description": "Size of the persistent volume for the database.",
-            "value": "10Gi",
-            "required": true
-        },
-        {
-            "name": "DATABASE_MEMORY_LIMIT",
-            "description": "Amount of memory available to the database.",
-            "value": "8Gi",
-            "required": true
-        },
-        {
-            "description": "The name of the database user.",
-            "name": "DATABASE_USERNAME",
-            "from": "user[0-9]{6}",
-            "generate": "expression"
-        },
-        {
-            "description": "The password for the database user.",
-            "name": "DATABASE_PASSWORD",
-            "from": "[a-zA-Z0-9]{12}",
-            "generate": "expression"
-        },
-        {
-            "name": "POSTGRESQL_VERSION",
-            "description": "The version of the PostgreSQL database.",
-            "value": "9.5",
-            "required": true
-        },
-        {
-            "name": "PYTHON_VERSION",
-            "description": "The version of the Python builder.",
-            "value": "3.5",
-            "required": true
-        },
-        {
-          "name": "REDIS_VERSION",
-          "description": "The version of the Redis cache.",
-          "value": "3.2",
-          "required": true
-        },
-        {
-          "name": "REDIS_PASSWORD",
-          "description": "Password for the Redis connection user.",
-          "from": "[a-zA-Z0-9]{16}",
-          "generate": "expression",
-          "required": true
+    {
+      "name": "WEBLATE_REPOSITORY_URL",
+      "description": "The URL of the Weblate Git repository.",
+      "value": "https://github.com/WeblateOrg/weblate",
+      "required": true
+    },
+    {
+      "name": "WEBLATE_VERSION",
+      "description": "Weblate docker image version (see: https://hub.docker.com/r/weblate/weblate/tags)",
+      "value": "latest",
+      "required": true
+    },
+    {
+      "name": "WEBLATE_VOLUME_SIZE",
+      "description": "Size of the persistent volume for Weblate.",
+      "value": "10Gi",
+      "required": true
+    },
+    {
+      "name": "WEBLATE_VOLUME_TYPE",
+      "description": "Type of the persistent volume for Weblate.",
+      "value": "ReadWriteOnce",
+      "required": true
+    },
+    {
+      "name": "WEBLATE_DEPLOYMENT_STRATEGY",
+      "description": "Type of the deployment strategy for Weblate.",
+      "value": "Recreate",
+      "required": true
+    },
+    {
+      "name": "WEBLATE_MEMORY_LIMIT",
+      "description": "Amount of memory available to Weblate.",
+      "value": "8Gi",
+      "required": true
+    },
+    {
+      "name": "WEBLATE_ADMIN_PASSWORD",
+      "description": "Password of the initial admin user.",
+      "from": "[a-zA-Z0-9]{12}",
+      "generate": "expression"
+    },
+    {
+      "name": "WEBLATE_ADMIN_EMAIL",
+      "description": "Email address of the initial admin user.",
+      "value": "noreply@example.com",
+      "required": true
+    },
+    {
+      "name": "WEBLATE_SERVER_EMAIL",
+      "description": "Email address for outgoing emails.",
+      "value": "noreply@example.com",
+      "required": true
+    },
+    {
+      "name": "CACHE_VOLUME_SIZE",
+      "description": "Size of the persistent volume for Redis Cache.",
+      "value": "10Gi",
+      "required": true
+    },
+    {
+      "name": "DATABASE_VOLUME_SIZE",
+      "description": "Size of the persistent volume for the database.",
+      "value": "10Gi",
+      "required": true
+    },
+    {
+      "name": "DATABASE_MEMORY_LIMIT",
+      "description": "Amount of memory available to the database.",
+      "value": "8Gi",
+      "required": true
+    },
+    {
+      "description": "The name of the database user.",
+      "name": "DATABASE_USERNAME",
+      "from": "user[0-9]{6}",
+      "generate": "expression"
+    },
+    {
+      "description": "The password for the database user.",
+      "name": "DATABASE_PASSWORD",
+      "from": "[a-zA-Z0-9]{12}",
+      "generate": "expression"
+    },
+    {
+      "name": "POSTGRESQL_VERSION",
+      "description": "The version of the PostgreSQL database.",
+      "value": "9.5",
+      "required": true
+    },
+    {
+      "name": "PYTHON_VERSION",
+      "description": "The version of the Python builder.",
+      "value": "3.5",
+      "required": true
+    },
+    {
+      "name": "REDIS_VERSION",
+      "description": "The version of the Redis cache.",
+      "value": "3.2",
+      "required": true
+    },
+    {
+      "name": "REDIS_PASSWORD",
+      "description": "Password for the Redis connection user.",
+      "from": "[a-zA-Z0-9]{16}",
+      "generate": "expression",
+      "required": true
+    }
+  ],
+  "objects": [
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
         }
-    ],
-    "objects": [
-        {
-            "kind": "DeploymentConfig",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "strategy": {
-                    "type": "${WEBLATE_DEPLOYMENT_STRATEGY}"
-                },
-                "triggers": [
-                    {
-                        "type": "ConfigChange"
-                    }
-                ],
-                "replicas": 1,
-                "selector": {
-                    "app": "${APPLICATION_NAME}",
-                    "deploymentconfig": "${APPLICATION_NAME}"
-                },
-                "template": {
-                    "metadata": {
-                        "labels": {
-                            "app": "${APPLICATION_NAME}",
-                            "deploymentconfig": "${APPLICATION_NAME}"
-                        }
-                    },
-                    "spec": {
-                        "volumes": [
-                            {
-                                "name": "data",
-                                "persistentVolumeClaim": {
-                                    "claimName": "${APPLICATION_NAME}-weblate-data"
-                                }
-                            }
-                        ],
-                        "containers": [
-                            {
-                                "name": "weblate",
-                                "image": "weblate/weblate:${WEBLATE_VERSION}",
-                                "imagePullPolicy": "Always",
-                                "ports": [
-                                    {
-                                        "containerPort": 8080,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "resources": {
-                                    "limits": {
-                                        "memory": "${WEBLATE_MEMORY_LIMIT}"
-                                    }
-                                },
-                                "env": [
-                                    {
-                                        "name": "WEBLATE_ADMIN_PASSWORD",
-                                        "valueFrom": {
-                                          "secretKeyRef": {
-                                              "key": "weblate-admin-password",
-                                              "name": "weblate"
-                                          }
-                                        }
-                                    },
-                                    {
-                                        "name": "WEBLATE_ADMIN_EMAIL",
-                                        "value": "${WEBLATE_ADMIN_EMAIL}"
-                                    },
-                                    {
-                                        "name": "WEBLATE_ADMIN_NAME",
-                                        "value": "${WEBLATE_ADMIN_EMAIL}"
-                                    },
-                                    {
-                                        "name": "POSTGRES_DATABASE",
-                                        "value": "weblate"
-                                    },
-                                    {
-                                        "name": "POSTGRES_USER",
-                                        "value": "${DATABASE_USERNAME}"
-                                    },
-                                    {
-                                        "name": "POSTGRES_PASSWORD",
-                                        "valueFrom": {
-                                            "secretKeyRef": {
-                                                "key": "db-password",
-                                                "name": "weblate"
-                                            }
-                                        }
-                                    },
-                                    {
-                                        "name": "POSTGRES_HOST",
-                                        "value": "${APPLICATION_NAME}-db"
-                                    },
-                                    {
-                                        "name": "POSTGRES_PORT",
-                                        "value": "5432"
-                                    },
-                                    {
-                                      "name": "REDIS_HOST",
-                                      "value": "${APPLICATION_NAME}-cache"
-                                    },
-                                    {
-                                      "name": "REDIS_PORT",
-                                      "value": "6379"
-                                    },
-                                    {
-                                      "name": "REDIS_PASSWORD",
-                                      "valueFrom": {
-                                          "secretKeyRef": {
-                                              "key": "redis-password",
-                                              "name": "weblate"
-                                          }
-                                      }
-                                    },
-                                    {
-                                      "name": "WEBLATE_DEBUG",
-                                      "value": "0"
-                                    },
-                                    {
-                                      "name": "WEBLATE_SERVER_EMAIL",
-                                      "value": "${WEBLATE_SERVER_EMAIL}"
-                                    },
-                                    {
-                                      "name": "WEBLATE_DEFAULT_FROM_EMAIL",
-                                      "value": "${WEBLATE_SERVER_EMAIL}"
-                                    }
-                                ],
-                                "volumeMounts": [
-                                    {
-                                        "name": "data",
-                                        "mountPath": "/app/data"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            }
+      },
+      "spec": {
+        "strategy": {
+          "type": "${WEBLATE_DEPLOYMENT_STRATEGY}"
         },
-        {
-            "kind": "DeploymentConfig",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-db",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "strategy": {
-                    "type": "Recreate"
-                },
-                "triggers": [
-                    {
-                        "type": "ConfigChange"
-                    },
-                    {
-                        "type": "ImageChange",
-                        "imageChangeParams": {
-                            "automatic": true,
-                            "containerNames": [
-                                "postgresql"
-                            ],
-                            "from": {
-                                "kind": "ImageStreamTag",
-                                "namespace": "openshift",
-                                "name": "postgresql:${POSTGRESQL_VERSION}"
-                            }
-                        }
-                    }
-                ],
-                "replicas": 1,
-                "selector": {
-                    "app": "${APPLICATION_NAME}",
-                    "deploymentconfig": "${APPLICATION_NAME}-db"
-                },
-                "template": {
-                    "metadata": {
-                        "labels": {
-                            "app": "${APPLICATION_NAME}",
-                            "deploymentconfig": "${APPLICATION_NAME}-db"
-                        }
-                    },
-                    "spec": {
-                        "volumes": [
-                            {
-                                "name": "data",
-                                "persistentVolumeClaim": {
-                                    "claimName": "${APPLICATION_NAME}-postgresql-data"
-                                }
-                            }
-                        ],
-                        "containers": [
-                            {
-                                "name": "postgresql",
-                                "image": "postgresql",
-                                "ports": [
-                                    {
-                                        "containerPort": 5432,
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "resources": {
-                                    "limits": {
-                                        "memory": "${DATABASE_MEMORY_LIMIT}"
-                                    }
-                                },
-                                "readinessProbe": {
-                                  "timeoutSeconds": 1,
-                                  "initialDelaySeconds": 5,
-                                  "exec": {
-                                    "command": [ "/bin/sh", "-i", "-c", "psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c 'SELECT 1'"]
-
-                                  }
-                                },
-                                "livenessProbe": {
-                                  "timeoutSeconds": 1,
-                                  "initialDelaySeconds": 30,
-                                  "tcpSocket": {
-                                    "port": 5432
-                                  }
-                                },
-                                "env": [
-                                    {
-                                        "name": "POSTGRESQL_DATABASE",
-                                        "value": "weblate"
-                                    },
-                                    {
-                                        "name": "POSTGRESQL_USER",
-                                        "value": "${DATABASE_USERNAME}"
-                                    },
-                                    {
-                                        "name": "POSTGRESQL_PASSWORD",
-                                        "valueFrom": {
-                                          "secretKeyRef": {
-                                              "key": "db-password",
-                                              "name": "weblate"
-                                          }
-                                        }
-                                    }
-                                ],
-                                "volumeMounts": [
-                                    {
-                                        "name": "data",
-                                        "mountPath": "/var/lib/pgsql/data"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            }
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "app": "${APPLICATION_NAME}",
+          "deploymentconfig": "${APPLICATION_NAME}"
         },
-        {
-          "kind": "DeploymentConfig",
-          "apiVersion": "v1",
+        "template": {
           "metadata": {
-            "name": "${APPLICATION_NAME}-cache",
             "labels": {
-              "app": "${APPLICATION_NAME}"
+              "app": "${APPLICATION_NAME}",
+              "deploymentconfig": "${APPLICATION_NAME}"
             }
           },
           "spec": {
-            "strategy": {
-              "type": "Recreate"
-            },
-            "triggers": [
+            "volumes": [
               {
-                "type": "ConfigChange"
-              },
-              {
-                "type": "ImageChange",
-                "imageChangeParams": {
-                  "automatic": true,
-                  "containerNames": [
-                    "redis"
-                  ],
-                  "from": {
-                    "kind": "ImageStreamTag",
-                    "namespace": "openshift",
-                    "name": "redis:${REDIS_VERSION}"
-                  }
+                "name": "data",
+                "persistentVolumeClaim": {
+                  "claimName": "${APPLICATION_NAME}-weblate-data"
                 }
               }
             ],
-            "replicas": 1,
-            "selector": {
-              "app": "${APPLICATION_NAME}",
-              "deploymentconfig": "${APPLICATION_NAME}-cache"
-            },
-            "template": {
-              "metadata": {
-                "labels": {
-                  "app": "${APPLICATION_NAME}",
-                  "deploymentconfig": "${APPLICATION_NAME}-cache"
-                }
-              },
-              "spec": {
-                "volumes": [
+            "containers": [
+              {
+                "name": "weblate",
+                "image": "weblate/weblate:${WEBLATE_VERSION}",
+                "imagePullPolicy": "Always",
+                "ports": [
                   {
-                    "name": "data",
-                    "persistentVolumeClaim": {
-                      "claimName": "${APPLICATION_NAME}-redis-data"
-                    }
+                    "containerPort": 8080,
+                    "protocol": "TCP"
                   }
                 ],
-                "containers": [
+                "resources": {
+                  "limits": {
+                    "memory": "${WEBLATE_MEMORY_LIMIT}"
+                  }
+                },
+                "env": [
                   {
-                    "name": "redis",
-                    "image": " ",
-                    "imagePullPolicy": "IfNotPresent",
-                    "ports": [
-                      {
-                        "containerPort": 6379,
-                        "protocol": "TCP"
+                    "name": "WEBLATE_ADMIN_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "weblate-admin-password",
+                        "name": "weblate"
                       }
-                    ],
-                    "livenessProbe": {
-                      "timeoutSeconds": 1,
-                      "initialDelaySeconds": 30,
-                      "tcpSocket": {
-                        "port": 6379
+                    }
+                  },
+                  {
+                    "name": "WEBLATE_ADMIN_EMAIL",
+                    "value": "${WEBLATE_ADMIN_EMAIL}"
+                  },
+                  {
+                    "name": "WEBLATE_ADMIN_NAME",
+                    "value": "${WEBLATE_ADMIN_EMAIL}"
+                  },
+                  {
+                    "name": "POSTGRES_DATABASE",
+                    "value": "weblate"
+                  },
+                  {
+                    "name": "POSTGRES_USER",
+                    "value": "${DATABASE_USERNAME}"
+                  },
+                  {
+                    "name": "POSTGRES_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "db-password",
+                        "name": "weblate"
                       }
-                    },
-                    "readinessProbe": {
-                      "exec": {
-                        "command": [
-                          "/bin/sh",
-                          "-i",
-                          "-c",
-                          "test \"$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)\" == \"PONG\""
-                        ]
-                      },
-                      "failureThreshold": 3,
-                      "initialDelaySeconds": 5,
-                      "periodSeconds": 10,
-                      "successThreshold": 1,
-                      "timeoutSeconds": 1
-                    },
-                    "volumeMounts": [
-                      {
-                        "name": "data",
-                        "mountPath": "/var/lib/redis/data"
+                    }
+                  },
+                  {
+                    "name": "POSTGRES_HOST",
+                    "value": "${APPLICATION_NAME}-db"
+                  },
+                  {
+                    "name": "POSTGRES_PORT",
+                    "value": "5432"
+                  },
+                  {
+                    "name": "REDIS_HOST",
+                    "value": "${APPLICATION_NAME}-cache"
+                  },
+                  {
+                    "name": "REDIS_PORT",
+                    "value": "6379"
+                  },
+                  {
+                    "name": "REDIS_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "redis-password",
+                        "name": "weblate"
                       }
-                    ],
-                    "capabilities": {},
-                    "env": [
-                        {
-                            "name": "REDIS_PASSWORD",
-                            "valueFrom": {
-                                "secretKeyRef": {
-                                    "key": "redis-password",
-                                    "name": "weblate"
-                                }
-                            }
-                        }
-                    ]
+                    }
+                  },
+                  {
+                    "name": "WEBLATE_DEBUG",
+                    "value": "0"
+                  },
+                  {
+                    "name": "WEBLATE_SERVER_EMAIL",
+                    "value": "${WEBLATE_SERVER_EMAIL}"
+                  },
+                  {
+                    "name": "WEBLATE_DEFAULT_FROM_EMAIL",
+                    "value": "${WEBLATE_SERVER_EMAIL}"
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/app/data"
                   }
                 ]
               }
-            }
+            ]
           }
-        },
-        {
-          "apiVersion": "v1",
-          "kind": "Secret",
-          "metadata": {
-              "annotations": {
-                  "template.openshift.io/expose-password": "{.data['redis-password']}"
-              },
-              "name": "weblate"
-          },
-          "stringData": {
-              "weblate-admin-password": "${WEBLATE_ADMIN_PASSWORD}",
-              "db-password": "${DATABASE_PASSWORD}",
-              "redis-password": "${REDIS_PASSWORD}"
-          }
-        },
-        {
-            "kind": "Service",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "ports": [
-                    {
-                        "name": "8080-tcp",
-                        "protocol": "TCP",
-                        "port": 8080,
-                        "targetPort": 8080
-                    }
-                ],
-                "selector": {
-                    "app": "${APPLICATION_NAME}",
-                    "deploymentconfig": "${APPLICATION_NAME}"
-                }
-            }
-        },
-        {
-            "kind": "Service",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-db",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "ports": [
-                    {
-                        "name": "5432-tcp",
-                        "protocol": "TCP",
-                        "port": 5432,
-                        "targetPort": 5432
-                    }
-                ],
-                "selector": {
-                    "app": "${APPLICATION_NAME}",
-                    "deploymentconfig": "${APPLICATION_NAME}-db"
-                }
-            }
-        },
-        {
-            "kind": "Service",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-cache",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "ports": [
-                    {
-                        "name": "6379-tcp",
-                        "protocol": "TCP",
-                        "port": 6379,
-                        "targetPort": 6379
-                    }
-                ],
-                "selector": {
-                    "app": "${APPLICATION_NAME}",
-                    "deploymentconfig": "${APPLICATION_NAME}-cache"
-                }
-            }
-        },
-        {
-            "kind": "Route",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "spec": {
-                "host": "",
-                "to": {
-                    "kind": "Service",
-                    "name": "${APPLICATION_NAME}",
-                    "weight": 100
-                },
-                "port": {
-                    "targetPort": 8080
-                },
-                "tls": {
-                    "termination": "edge",
-                    "insecureEdgeTerminationPolicy": "Allow"
-                }
-            }
-        },
-        {
-            "kind": "PersistentVolumeClaim",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-postgresql-data",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "allowVolumeExpansion": true,
-            "spec": {
-                "accessModes": [
-                    "ReadWriteOnce"
-                ],
-                "resources": {
-                    "requests": {
-                        "storage": "${DATABASE_VOLUME_SIZE}"
-                    }
-                }
-            }
-        },
-        {
-            "kind": "PersistentVolumeClaim",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-redis-data",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "allowVolumeExpansion": true,
-            "spec": {
-                "accessModes": [
-                    "ReadWriteOnce"
-                ],
-                "resources": {
-                    "requests": {
-                        "storage": "${CACHE_VOLUME_SIZE}"
-                    }
-                }
-            }
-        },
-        {
-            "kind": "PersistentVolumeClaim",
-            "apiVersion": "v1",
-            "metadata": {
-                "name": "${APPLICATION_NAME}-weblate-data",
-                "labels": {
-                    "app": "${APPLICATION_NAME}"
-                }
-            },
-            "allowVolumeExpansion": true,
-            "spec": {
-                "accessModes": [
-                    "${WEBLATE_VOLUME_TYPE}"
-                ],
-                "resources": {
-                    "requests": {
-                        "storage": "${WEBLATE_VOLUME_SIZE}"
-                    }
-                }
-            }
         }
-    ]
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-db",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": ["postgresql"],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "openshift",
+                "name": "postgresql:${POSTGRESQL_VERSION}"
+              }
+            }
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "app": "${APPLICATION_NAME}",
+          "deploymentconfig": "${APPLICATION_NAME}-db"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "${APPLICATION_NAME}",
+              "deploymentconfig": "${APPLICATION_NAME}-db"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "data",
+                "persistentVolumeClaim": {
+                  "claimName": "${APPLICATION_NAME}-postgresql-data"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "postgresql",
+                "image": "postgresql",
+                "ports": [
+                  {
+                    "containerPort": 5432,
+                    "protocol": "TCP"
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "memory": "${DATABASE_MEMORY_LIMIT}"
+                  }
+                },
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 5,
+                  "exec": {
+                    "command": [
+                      "/bin/sh",
+                      "-i",
+                      "-c",
+                      "psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c 'SELECT 1'"
+                    ]
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 5432
+                  }
+                },
+                "env": [
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "value": "weblate"
+                  },
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "value": "${DATABASE_USERNAME}"
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "db-password",
+                        "name": "weblate"
+                      }
+                    }
+                  }
+                ],
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/var/lib/pgsql/data"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-cache",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ConfigChange"
+          },
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": ["redis"],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "openshift",
+                "name": "redis:${REDIS_VERSION}"
+              }
+            }
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "app": "${APPLICATION_NAME}",
+          "deploymentconfig": "${APPLICATION_NAME}-cache"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "${APPLICATION_NAME}",
+              "deploymentconfig": "${APPLICATION_NAME}-cache"
+            }
+          },
+          "spec": {
+            "volumes": [
+              {
+                "name": "data",
+                "persistentVolumeClaim": {
+                  "claimName": "${APPLICATION_NAME}-redis-data"
+                }
+              }
+            ],
+            "containers": [
+              {
+                "name": "redis",
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "ports": [
+                  {
+                    "containerPort": 6379,
+                    "protocol": "TCP"
+                  }
+                ],
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 6379
+                  }
+                },
+                "readinessProbe": {
+                  "exec": {
+                    "command": [
+                      "/bin/sh",
+                      "-i",
+                      "-c",
+                      "test \"$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)\" == \"PONG\""
+                    ]
+                  },
+                  "failureThreshold": 3,
+                  "initialDelaySeconds": 5,
+                  "periodSeconds": 10,
+                  "successThreshold": 1,
+                  "timeoutSeconds": 1
+                },
+                "volumeMounts": [
+                  {
+                    "name": "data",
+                    "mountPath": "/var/lib/redis/data"
+                  }
+                ],
+                "capabilities": {},
+                "env": [
+                  {
+                    "name": "REDIS_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "redis-password",
+                        "name": "weblate"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-password": "{.data['redis-password']}"
+        },
+        "name": "weblate"
+      },
+      "stringData": {
+        "weblate-admin-password": "${WEBLATE_ADMIN_PASSWORD}",
+        "db-password": "${DATABASE_PASSWORD}",
+        "redis-password": "${REDIS_PASSWORD}"
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "8080-tcp",
+            "protocol": "TCP",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "app": "${APPLICATION_NAME}",
+          "deploymentconfig": "${APPLICATION_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-db",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "5432-tcp",
+            "protocol": "TCP",
+            "port": 5432,
+            "targetPort": 5432
+          }
+        ],
+        "selector": {
+          "app": "${APPLICATION_NAME}",
+          "deploymentconfig": "${APPLICATION_NAME}-db"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-cache",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "6379-tcp",
+            "protocol": "TCP",
+            "port": 6379,
+            "targetPort": 6379
+          }
+        ],
+        "selector": {
+          "app": "${APPLICATION_NAME}",
+          "deploymentconfig": "${APPLICATION_NAME}-cache"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "spec": {
+        "host": "",
+        "to": {
+          "kind": "Service",
+          "name": "${APPLICATION_NAME}",
+          "weight": 100
+        },
+        "port": {
+          "targetPort": 8080
+        },
+        "tls": {
+          "termination": "edge",
+          "insecureEdgeTerminationPolicy": "Allow"
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-postgresql-data",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "allowVolumeExpansion": true,
+      "spec": {
+        "accessModes": ["ReadWriteOnce"],
+        "resources": {
+          "requests": {
+            "storage": "${DATABASE_VOLUME_SIZE}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-redis-data",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "allowVolumeExpansion": true,
+      "spec": {
+        "accessModes": ["ReadWriteOnce"],
+        "resources": {
+          "requests": {
+            "storage": "${CACHE_VOLUME_SIZE}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APPLICATION_NAME}-weblate-data",
+        "labels": {
+          "app": "${APPLICATION_NAME}"
+        }
+      },
+      "allowVolumeExpansion": true,
+      "spec": {
+        "accessModes": ["${WEBLATE_VOLUME_TYPE}"],
+        "resources": {
+          "requests": {
+            "storage": "${WEBLATE_VOLUME_SIZE}"
+          }
+        }
+      }
+    }
+  ]
 }

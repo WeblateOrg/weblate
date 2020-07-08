@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - weblate/**
-      - '*.py'
+      - "*.py"
       - requirements*.txt
       - ci/*
       - .github/workflows/test.yml
@@ -13,14 +13,13 @@ on:
   pull_request:
     paths:
       - weblate/**
-      - '*.py'
+      - "*.py"
       - requirements*.txt
       - ci/*
       - .github/workflows/test.yml
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -92,11 +91,11 @@ jobs:
     env:
       CI_DATABASE: ${{ matrix.database }}
       CI_REDIS_HOST: 127.0.0.1
-      CI_REDIS_PORT: '60001'
+      CI_REDIS_PORT: "60001"
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '60000'
-      CI_SELENIUM: '1'
+      CI_DB_PORT: "60000"
+      CI_SELENIUM: "1"
       DJANGO_SETTINGS_MODULE: weblate.settings_test
     steps:
       - uses: actions/checkout@v2

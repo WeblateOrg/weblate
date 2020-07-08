@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - weblate/**
-      - '*.py'
+      - "*.py"
       - MANIFEST.in
       - requirements*.txt
       - ci/*
@@ -14,7 +14,7 @@ on:
   pull_request:
     paths:
       - weblate/**
-      - '*.py'
+      - "*.py"
       - MANIFEST.in
       - requirements*.txt
       - ci/*
@@ -22,7 +22,6 @@ on:
 
 jobs:
   setup:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -32,8 +31,8 @@ jobs:
       CI_DATABASE: ${{ matrix.database }}
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '60000'
-      CI_SELENIUM: '1'
+      CI_DB_PORT: "60000"
+      CI_SELENIUM: "1"
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
@@ -72,7 +71,6 @@ jobs:
         run: ./ci/services-down ${{ matrix.database }}
 
   dist:
-
     runs-on: ubuntu-latest
     env:
       DJANGO_SETTINGS_MODULE: weblate.settings_test

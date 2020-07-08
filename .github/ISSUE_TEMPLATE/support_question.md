@@ -2,7 +2,6 @@
 name: Support question
 about: Help with Weblate configuration or deployment
 labels: question
-
 ---
 
 <!--
