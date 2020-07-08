@@ -495,26 +495,26 @@ if not HAVE_SYSLOG:
     del LOGGING["handlers"]["syslog"]
 
 # List of machine translations
-# MT_SERVICES = (
-#     "weblate.machinery.apertium.ApertiumAPYTranslation",
-#     "weblate.machinery.baidu.BaiduTranslation",
-#     "weblate.machinery.deepl.DeepLTranslation",
-#     "weblate.machinery.glosbe.GlosbeTranslation",
-#     "weblate.machinery.google.GoogleTranslation",
-#     "weblate.machinery.googlev3.GoogleV3Translation",
-#     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-#     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
-#     "weblate.machinery.modernmt.ModernMTTranslation",
-#     "weblate.machinery.mymemory.MyMemoryTranslation",
-#     "weblate.machinery.netease.NeteaseSightTranslation",
-#     "weblate.machinery.tmserver.AmagamaTranslation",
-#     "weblate.machinery.tmserver.TMServerTranslation",
-#     "weblate.machinery.yandex.YandexTranslation",
-#     "weblate.machinery.saptranslationhub.SAPTranslationHub",
-#     "weblate.machinery.youdao.YoudaoTranslation",
-#     "weblate.machinery.weblatetm.WeblateTranslation",
-#     "weblate.memory.machine.WeblateMemory",
-# )
+MT_SERVICES = (
+    #     "weblate.machinery.apertium.ApertiumAPYTranslation",
+    #     "weblate.machinery.baidu.BaiduTranslation",
+    #     "weblate.machinery.deepl.DeepLTranslation",
+    #     "weblate.machinery.glosbe.GlosbeTranslation",
+    #     "weblate.machinery.google.GoogleTranslation",
+    #     "weblate.machinery.googlev3.GoogleV3Translation",
+    #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+    #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+    #     "weblate.machinery.modernmt.ModernMTTranslation",
+    #     "weblate.machinery.mymemory.MyMemoryTranslation",
+    #     "weblate.machinery.netease.NeteaseSightTranslation",
+    #     "weblate.machinery.tmserver.AmagamaTranslation",
+    #     "weblate.machinery.tmserver.TMServerTranslation",
+    #     "weblate.machinery.yandex.YandexTranslation",
+    #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
+    #     "weblate.machinery.youdao.YoudaoTranslation",
+    "weblate.machinery.weblatetm.WeblateTranslation",
+    "weblate.memory.machine.WeblateMemory",
+)
 
 # Machine translation API keys
 
@@ -529,7 +529,7 @@ MT_DEEPL_KEY = None
 MT_MICROSOFT_COGNITIVE_KEY = None
 MT_MICROSOFT_REGION = None
 
-# ModernMt
+# ModernMT
 MT_MODERNMT_KEY = None
 
 # MyMemory identification email, see
