@@ -22,8 +22,8 @@ from urllib.parse import urlparse
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
-from django.http import Http404
-from django.shortcuts import redirect
+from django.http import Http404, HttpResponsePermanentRedirect
+from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.trans.models import Change, Component, Project
@@ -150,7 +150,12 @@ class RedirectMiddleware:
                 kwargs["component"] = component.slug
 
         if kwargs != resolver_match.kwargs:
-            return redirect(resolver_match.url_name, **kwargs, permanent=True)
+            query = request.META["QUERY_STRING"]
+            if query:
+                query = f"?{query}"
+            return HttpResponsePermanentRedirect(
+                reverse(resolver_match.url_name, kwargs=kwargs) + query
+            )
 
         return None
 
