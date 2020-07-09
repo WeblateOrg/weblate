@@ -1048,6 +1048,22 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["push"], "https://github.com/example/push.git")
 
+    def test_create_component_no_format(self):
+        repo_url = self.format_local_path(self.git_repo_path)
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "API project",
+                "slug": "api-project",
+                "repo": repo_url,
+                "filemask": "po/*.po",
+            },
+        )
+
     def test_create_component_no_push(self):
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(

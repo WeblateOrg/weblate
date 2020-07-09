@@ -372,8 +372,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     file_format = models.CharField(
         verbose_name=gettext_lazy("File format"),
         max_length=50,
-        default="",
-        choices=FILE_FORMATS.get_choices(empty=True),
+        choices=FILE_FORMATS.get_choices(),
+        blank=False,
     )
 
     locked = models.BooleanField(

@@ -422,8 +422,7 @@ class Migration(migrations.Migration):
                 (
                     "file_format",
                     models.CharField(
-                        choices=FILE_FORMATS.get_choices(empty=True),
-                        default="",
+                        choices=FILE_FORMATS.get_choices(),
                         max_length=50,
                         verbose_name="File format",
                     ),
