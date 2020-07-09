@@ -27,7 +27,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.mail.message import EmailMultiAlternatives
 from django.core.signing import (
     BadSignature,
@@ -1112,8 +1112,11 @@ def subscribe(request):
             project=component.project,
             onetime=True,
         )
-        subscription.full_clean()
-        subscription.save()
+        try:
+            subscription.full_clean()
+            subscription.save()
+        except ValidationError:
+            pass
         messages.success(request, _("Notification settings adjusted."))
     return redirect_profile("#notifications")
 
