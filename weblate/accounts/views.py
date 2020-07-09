@@ -564,6 +564,19 @@ def user_page(request, user):
 
 def user_avatar(request, user, size):
     """User avatar view."""
+    allowed_sizes = (
+        # Used in top navigation
+        24,
+        # In text avatars
+        32,
+        # 80 pixes used when linked with weblate.org
+        80,
+        # Public profile
+        128,
+    )
+    if size not in allowed_sizes:
+        raise Http404(f"Not supported size: {size}")
+
     user = get_object_or_404(User, username=user)
 
     if user.email == "noreply@weblate.org":
@@ -881,7 +894,7 @@ def mute_real(user, **kwargs):
         subscription = user.subscription_set.get_or_create(
             notification=notification_cls.get_name(),
             defaults={"frequency": FREQ_NONE},
-            **kwargs
+            **kwargs,
         )[0]
         if subscription.frequency != FREQ_NONE:
             subscription.frequency = FREQ_NONE

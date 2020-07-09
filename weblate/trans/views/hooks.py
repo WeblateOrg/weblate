@@ -24,7 +24,12 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.db.models import Q
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from django.http import (
+    Http404,
+    HttpResponseBadRequest,
+    HttpResponseNotAllowed,
+    JsonResponse,
+)
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -127,6 +132,12 @@ def vcs_service_hook(request, service):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed(())
 
+    # Get service helper
+    try:
+        hook_helper = HOOK_HANDLERS[service]
+    except KeyError:
+        raise Http404(f"Hook {service} not supported")
+
     # Check if we got payload
     try:
         data = parse_hook_payload(request)
@@ -135,9 +146,6 @@ def vcs_service_hook(request, service):
 
     if not data:
         return HttpResponseBadRequest("Invalid data in json payload!")
-
-    # Get service helper
-    hook_helper = HOOK_HANDLERS[service]
 
     # Send the request data to the service handler.
     try:

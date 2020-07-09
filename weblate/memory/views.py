@@ -60,6 +60,8 @@ def check_perm(user, permission, objects):
 @method_decorator(login_required, name="dispatch")
 class MemoryFormView(ErrorFormView):
     def get_success_url(self):
+        if "manage" in self.kwargs:
+            return reverse("manage-memory")
         return reverse("memory", kwargs=self.kwargs)
 
     def dispatch(self, request, *args, **kwargs):
@@ -109,6 +111,8 @@ class MemoryView(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_url(self, name):
+        if "manage" in self.kwargs:
+            return reverse(f"manage-{name}")
         return reverse(name, kwargs=self.kwargs)
 
     def get_context_data(self, **kwargs):

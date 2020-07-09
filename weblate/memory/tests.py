@@ -130,54 +130,58 @@ class MemoryModelTest(FixtureTestCase):
 
 
 class MemoryViewTest(FixtureTestCase):
-    def upload_file(self, name, **kwargs):
+    def upload_file(self, name, prefix: str = "", **kwargs):
         with open(get_test_file(name), "rb") as handle:
             return self.client.post(
-                reverse("memory-upload", **kwargs), {"file": handle}, follow=True
+                reverse(f"{prefix}memory-upload", **kwargs),
+                {"file": handle},
+                follow=True,
             )
 
-    def test_memory(self, match="Number of your entries", fail=False, **kwargs):
+    def test_memory(
+        self, match="Number of your entries", fail=False, prefix: str = "", **kwargs
+    ):
         # Test wipe without confirmation
-        response = self.client.get(reverse("memory-delete", **kwargs))
-        self.assertRedirects(response, reverse("memory", **kwargs))
+        response = self.client.get(reverse(f"{prefix}memory-delete", **kwargs))
+        self.assertRedirects(response, reverse(f"{prefix}memory", **kwargs))
 
-        response = self.client.post(reverse("memory-delete", **kwargs))
-        self.assertRedirects(response, reverse("memory", **kwargs))
+        response = self.client.post(reverse(f"{prefix}memory-delete", **kwargs))
+        self.assertRedirects(response, reverse(f"{prefix}memory", **kwargs))
 
         # Test list
-        response = self.client.get(reverse("memory", **kwargs))
+        response = self.client.get(reverse(f"{prefix}memory", **kwargs))
         self.assertContains(response, match)
 
         # Test upload
-        response = self.upload_file("memory.tmx", **kwargs)
+        response = self.upload_file("memory.tmx", prefix=prefix, **kwargs)
         if fail:
             self.assertContains(response, "Permission Denied", status_code=403)
         else:
             self.assertContains(response, "File processed")
 
         # Test download
-        response = self.client.get(reverse("memory-download", **kwargs))
+        response = self.client.get(reverse(f"{prefix}memory-download", **kwargs))
         validate(response.json(), load_schema("weblate-memory.schema.json"))
 
         # Test download
         response = self.client.get(
-            reverse("memory-download", **kwargs), {"format": "tmx"}
+            reverse(f"{prefix}memory-download", **kwargs), {"format": "tmx"}
         )
         self.assertContains(response, "<tmx")
         response = self.client.get(
-            reverse("memory-download", **kwargs),
+            reverse(f"{prefix}memory-download", **kwargs),
             {"format": "tmx", "origin": "memory.tmx"},
         )
         self.assertContains(response, "<tmx")
         response = self.client.get(
-            reverse("memory-download", **kwargs), {"format": "json"}
+            reverse(f"{prefix}memory-download", **kwargs), {"format": "json"}
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))
 
         # Test wipe
         count = Memory.objects.count()
         response = self.client.post(
-            reverse("memory-delete", **kwargs),
+            reverse(f"{prefix}memory-delete", **kwargs),
             {"confirm": "1", "origin": "invalid"},
             follow=True,
         )
@@ -187,7 +191,9 @@ class MemoryViewTest(FixtureTestCase):
             self.assertContains(response, "Entries deleted")
             self.assertEqual(count, Memory.objects.count())
             response = self.client.post(
-                reverse("memory-delete", **kwargs), {"confirm": "1"}, follow=True
+                reverse(f"{prefix}memory-delete", **kwargs),
+                {"confirm": "1"},
+                follow=True,
             )
             self.assertContains(response, "Entries deleted")
             self.assertGreater(count, Memory.objects.count())
@@ -224,18 +230,14 @@ class MemoryViewTest(FixtureTestCase):
     def test_global_memory_superuser(self):
         self.user.is_superuser = True
         self.user.save()
-        self.test_memory(
-            "Number of uploaded shared entries", False, kwargs={"manage": "manage"},
-        )
+        self.test_memory("Number of uploaded shared entries", False, prefix="manage-")
         # Download all entries
         response = self.client.get(
-            reverse("memory-download", kwargs={"manage": "manage"}),
-            {"format": "json", "kind": "all"},
+            reverse("manage-memory-download"), {"format": "json", "kind": "all"},
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))
         # Download shared entries
         response = self.client.get(
-            reverse("memory-download", kwargs={"manage": "manage"}),
-            {"format": "json", "kind": "shared"},
+            reverse("manage-memory-download"), {"format": "json", "kind": "shared"},
         )
         validate(response.json(), load_schema("weblate-memory.schema.json"))

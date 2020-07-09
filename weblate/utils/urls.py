@@ -17,22 +17,32 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.urls import path
+from django.urls import register_converter
+from django.urls.converters import StringConverter
 
-from weblate.legal.views import (
-    CookiesView,
-    LegalView,
-    PrivacyView,
-    SecurityView,
-    TermsView,
-    tos_confirm,
-)
 
-urlpatterns = [
-    path("", LegalView.as_view(), name="index"),
-    path("terms/", TermsView.as_view(), name="terms"),
-    path("cookies/", CookiesView.as_view(), name="cookies"),
-    path("security/", SecurityView.as_view(), name="security"),
-    path("privacy/", PrivacyView.as_view(), name="privacy"),
-    path("confirm/", tos_confirm, name="confirm"),
-]
+class WeblateSlugConverter(StringConverter):
+    regex = "[^/]+"
+
+
+class GitPathConverter(StringConverter):
+    regex = "(info/|git-upload-pack)[a-z0-9_/-]*"
+
+
+class WordConverter(StringConverter):
+    regex = "[^/-]+"
+
+
+class WidgetExtensionConverter(StringConverter):
+    regex = "(png|svg)"
+
+
+class OptionalPathConverter(StringConverter):
+    regex = ".*"
+
+
+register_converter(WeblateSlugConverter, "name")
+register_converter(GitPathConverter, "gitpath")
+register_converter(WordConverter, "word")
+register_converter(WidgetExtensionConverter, "extension")
+register_converter(OptionalPathConverter, "optionalpath")

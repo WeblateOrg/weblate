@@ -18,7 +18,7 @@
 #
 
 
-from django.conf.urls import include, url
+from django.urls import include, path
 
 from weblate.api.routers import WeblateRouter
 from weblate.api.views import (
@@ -54,6 +54,6 @@ router.register("screenshots", ScreenshotViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r"^metrics/$", Metrics.as_view(), name="metrics"),
-    url(r"^", include(router.urls)),
+    path("metrics/", Metrics.as_view(), name="metrics"),
+    path("", include(router.urls)),
 ]
