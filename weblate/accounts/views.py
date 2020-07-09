@@ -158,6 +158,10 @@ ANCHOR_RE = re.compile(r"^#[a-z]+$")
 NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
 
+def get_auth_keys():
+    return set(load_backends(social_django.utils.BACKENDS).keys())
+
+
 class EmailSentView(TemplateView):
     r"""Class for rendering "E-mail sent" page."""
 
@@ -330,7 +334,7 @@ def user_profile(request):
     ]
     forms = [form.from_request(request) for form in form_classes]
     forms.extend(get_notification_forms(request))
-    all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
+    all_backends = get_auth_keys()
 
     if request.method == "POST":
         if all(form.is_valid() for form in forms):
@@ -352,7 +356,9 @@ def user_profile(request):
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
-    new_backends = [x for x in all_backends if x == "email" or x not in social_names]
+    new_backends = [
+        x for x in sorted(all_backends) if x == "email" or x not in social_names
+    ]
     license_projects = (
         Component.objects.filter_access(request.user)
         .exclude(license="")
@@ -376,6 +382,7 @@ def user_profile(request):
             "licenses": license_projects,
             "associated": social,
             "new_backends": new_backends,
+            "has_email_auth": "email" in all_backends,
             "auditlog": request.user.auditlog_set.order()[:20],
         },
     )
@@ -587,8 +594,8 @@ class WeblateLoginView(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
-        context["login_backends"] = [x for x in auth_backends if x != "email"]
+        auth_backends = get_auth_keys()
+        context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
         context["can_reset"] = "email" in auth_backends
         context["title"] = _("Sign in")
         return context
@@ -600,8 +607,8 @@ class WeblateLoginView(LoginView):
             return redirect_profile()
 
         # Redirect if there is only one backend
-        auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
-        if len(auth_backends) == 1 and auth_backends[0] != "email":
+        auth_backends = get_auth_keys()
+        if len(auth_backends) == 1 and "email" not in auth_backends:
             return redirect_single(request, auth_backends[0])
 
         return super().dispatch(request, *args, **kwargs)
@@ -656,7 +663,7 @@ def register(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request)
 
-    backends = set(load_backends(social_django.utils.BACKENDS).keys())
+    backends = get_auth_keys()
 
     # Redirect if there is only one backend
     if len(backends) == 1 and "email" not in backends:
@@ -713,8 +720,15 @@ def password(request):
     """Password change / set form."""
     do_change = True
     change_form = None
+    usable = request.user.has_usable_password()
 
-    if request.user.has_usable_password():
+    if "email" not in get_auth_keys() and not usable:
+        messages.error(
+            request, _("Cannot reset password, e-mail authentication is turned off.")
+        )
+        return redirect("profile")
+
+    if usable:
         if request.method == "POST":
             change_form = PasswordConfirmForm(request, request.POST)
             do_change = change_form.is_valid()
@@ -778,7 +792,7 @@ def reset_password(request):
     """Password reset handling."""
     if request.user.is_authenticated:
         return redirect_profile()
-    if "email" not in load_backends(social_django.utils.BACKENDS).keys():
+    if "email" not in get_auth_keys():
         messages.error(
             request, _("Cannot reset password, e-mail authentication is turned off.")
         )

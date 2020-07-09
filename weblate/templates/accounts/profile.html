@@ -127,6 +127,7 @@
 <th>{% trans "Action" %}</th>
 </tr>
 <tbody>
+{% if request.user.has_usable_password or has_email_auth %}
 <tr>
 <th>{% auth_name 'password' ' ' %}</th>
 <td>{{ request.user.username }}</td>
@@ -134,6 +135,7 @@
 <a href="{% url 'password' %}" class="btn btn-primary">{% if request.user.has_usable_password %}{% trans "Change password" %}{% else %}{% trans "Set password" %}{% endif %}</a>
 </td>
 </tr>
+{% endif %}
 {% for assoc in associated %}
 <tr>
 <th>{% auth_name assoc.provider ' ' %}</th>
