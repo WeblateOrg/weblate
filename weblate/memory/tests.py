@@ -190,7 +190,7 @@ class MemoryViewTest(FixtureTestCase):
                 reverse("memory-delete", **kwargs), {"confirm": "1"}, follow=True
             )
             self.assertContains(response, "Entries deleted")
-            self.assertTrue(count > Memory.objects.count())
+            self.assertGreater(count, Memory.objects.count())
 
         # Test invalid upload
         response = self.upload_file("cs.json", **kwargs)
