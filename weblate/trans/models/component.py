@@ -1998,12 +1998,12 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         # Prohibit intermediate usage without template
         if self.intermediate and not self.template:
             msg = _(
-                "Intermediate language file can not be used without editing template."
+                "An intermediate language file can not be used without an editing template."
             )
             raise ValidationError({"template": msg, "intermediate": msg})
         if self.intermediate and not self.edit_template:
             msg = _(
-                "Intermediate language file can not be used without editing template."
+                "An intermediate language file can not be used without an editing template."
             )
             raise ValidationError({"edit_template": msg, "intermediate": msg})
 
@@ -2066,8 +2066,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         """
         if self.new_lang == "url" and self.project.instructions == "":
             msg = _(
-                "Please either fill in instruction URL "
-                "or use different option for adding a new language."
+                "Please either fill in an instruction URL "
+                "or use a different option for adding a new language."
             )
             raise ValidationError({"new_lang": msg})
 
