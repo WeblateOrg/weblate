@@ -317,6 +317,7 @@ Generic settings
 
     .. seealso::
 
+        :setting:`ALLOWED_HOSTS`,
         :ref:`production-hosts`,
         :ref:`production-site`
 

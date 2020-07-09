@@ -496,7 +496,9 @@ options:
 
     .. seealso::
 
-        :setting:`django:ALLOWED_HOSTS`
+        :setting:`django:ALLOWED_HOSTS`,
+        :envvar:`WEBLATE_ALLOWED_HOSTS`,
+        :ref:`production-hosts`
 
 .. setting:: SESSION_ENGINE
 
@@ -545,7 +547,7 @@ options:
 
     .. seealso::
 
-        :setting:`django:DEBUG`,
+        :setting:`django:DEBUG`
 
 .. setting:: DEFAULT_FROM_EMAIL
 
@@ -555,7 +557,7 @@ options:
 
     .. seealso::
 
-        :std:setting:`django:DEFAULT_FROM_EMAIL`,
+        :setting:`django:DEFAULT_FROM_EMAIL`
 
 .. setting:: SECRET_KEY
 
@@ -563,6 +565,10 @@ options:
 
     Key used by Django to sign some info in cookies, see
     :ref:`production-secret` for more info.
+
+    .. seealso::
+
+        :setting:`django:SECRET_KEY`
 
 .. setting:: SERVER_EMAIL
 
@@ -573,7 +579,7 @@ options:
 
     .. seealso::
 
-        :std:setting:`django:SERVER_EMAIL`
+        :setting:`django:SERVER_EMAIL`
 
 .. _tables-setup:
 
@@ -698,6 +704,7 @@ For a production site, you want something like:
 .. seealso::
 
    :ref:`faq-site`,
+   :ref:`production-hosts`,
    :ref:`production-ssl`
    :setting:`ENABLE_HTTPS`,
    :djadmin:`changesite`,
@@ -723,6 +730,7 @@ After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings:
 .. seealso::
 
    :setting:`ENABLE_HTTPS`,
+   :ref:`production-hosts`,
    :ref:`production-site`
 
 
@@ -867,9 +875,19 @@ Allowed hosts setup
 Django requires :setting:`ALLOWED_HOSTS` to hold a list of domain names
 your site is allowed to serve, leaving it empty will block any requests.
 
+In case this is not configured to match your HTTP server, you will get errors
+like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add '1.1.1.1'
+to ALLOWED_HOSTS.`
+
+.. hint::
+
+   On Docker container, this is available as :envvar:`WEBLATE_ALLOWED_HOSTS`.
+
 .. seealso::
 
-    :std:setting:`django:ALLOWED_HOSTS`
+    :setting:`ALLOWED_HOSTS`,
+    :envvar:`WEBLATE_ALLOWED_HOSTS`,
+    :ref:`production-site`
 
 .. _production-secret:
 
@@ -884,7 +902,7 @@ with Weblate.
 
 .. seealso::
 
-    :std:setting:`django:SECRET_KEY`
+    :setting:`SECRET_KEY`
 
 .. _production-home:
 
