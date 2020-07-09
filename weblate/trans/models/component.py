@@ -588,7 +588,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_RESTRICTED_COMPONENT,
         db_index=True,
         help_text=gettext_lazy(
-            "Restrict access to the component only to explicitly given permissions."
+            "Restrict access to the component to only those explicitly given permission."
         ),
     )
 
@@ -609,7 +609,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     def save(self, *args, **kwargs):
         """Save wrapper.
 
-        It updates backend repository and regenerates translation data.
+        It updates the back-end repository and regenerates translation data.
         """
         self.set_default_branch()
 
@@ -649,7 +649,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                     target=self.license,
                     component=self,
                 )
-            # Detect slug changes and rename git repo
+            # Detect slug changes and rename Git repo
             self.check_rename(old)
             # Rename linked repos
             if old.slug != self.slug:
