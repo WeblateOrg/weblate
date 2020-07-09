@@ -77,7 +77,7 @@ class MultipleFailingCheck(SourceCheck):
 class LongUntranslatedCheck(SourceCheck):
     check_id = "long_untranslated"
     name = _("Long untranslated")
-    description = _("The string was not translated for a long time")
+    description = _("The string has not been translated for a long time")
 
     def check_source_unit(self, source, unit):
         from weblate.trans.models import Unit

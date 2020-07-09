@@ -932,11 +932,11 @@ rendered, and may sound better with text-to-speech.
 Long untranslated
 ~~~~~~~~~~~~~~~~~
 
-*The string was not translated for a long time*
+*The string has not been translated for a long time*
 
 .. versionadded:: 4.1
 
-The string was not translated for a long time. This can indicate problem in a
+When the string has not been translated for a long time, it is can indicate problem in a
 source string making it hard to translate.
 
 
