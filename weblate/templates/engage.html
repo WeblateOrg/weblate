@@ -37,10 +37,7 @@
 
 <p>
 {% if language %}
-  {% filter replace_english:language %}
-  {% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
-  {% blocktrans with total=total|intcomma %}The translation project for {{ project }} into English currently contains <strong>{{ total }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
-  {% endfilter %}
+  {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% else %}
   {% comment %}This is split into sentectes to allow proper localization of plurals.{% endcomment %}
   {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% endblocktrans %}

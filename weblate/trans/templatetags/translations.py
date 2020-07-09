@@ -756,11 +756,6 @@ def indicate_alerts(context, obj):
 
 
 @register.filter
-def replace_english(value, language):
-    return value.replace("English", force_str(language))
-
-
-@register.filter
 def markdown(text):
     return render_markdown(text)
 
