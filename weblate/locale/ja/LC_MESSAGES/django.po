@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-09 12:31+0000\n"
-"PO-Revision-Date: 2020-07-09 11:03+0000\n"
+"PO-Revision-Date: 2020-07-09 18:19+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -113,10 +113,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "このアドレスに承認メールを送信します。"
 
 #: weblate/accounts/forms.py:360
-#, fuzzy
-#| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "現在地からの登録の失敗が多すぎます！"
+msgstr "現在地からの登録作業が多すぎます。"
 
 #: weblate/accounts/forms.py:367
 msgid "New password"
@@ -172,10 +170,8 @@ msgid "This account is inactive."
 msgstr "無効化されたアカウントです。"
 
 #: weblate/accounts/forms.py:502
-#, fuzzy
-#| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
-msgstr "同じ場所から認証を試行しすぎています！"
+msgstr "現在地からの認証作業が多すぎます。"
 
 #: weblate/accounts/forms.py:558 weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:77
@@ -516,14 +512,12 @@ msgstr ""
 "るが、キーボードでの入力が難しい文字に便利です。"
 
 #: weblate/accounts/models.py:361
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of nearby strings"
-msgstr "文字列の数"
+msgstr "前後の文字列数"
 
 #: weblate/accounts/models.py:365
 msgid "Number of nearby strings to show in each direction in the full editor."
-msgstr ""
+msgstr "フル エディタ使用時に表示する「前後の文字列」の数。"
 
 #: weblate/accounts/models.py:375 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -609,17 +603,13 @@ msgstr "リポジトリ操作"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:443
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component locking"
 msgstr "コンポーネントのロック"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed license"
-msgstr "変更日時"
+msgstr "ライセンスの変更"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -666,15 +656,11 @@ msgstr "文字列変更"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:611
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Translated string"
 msgstr "翻訳済みの文字列"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:620
-#, fuzzy
-#| msgid "Approved strings"
 msgid "Approved string"
 msgstr "承認済みの文字列"
 
@@ -725,36 +711,28 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "パスワードは、単一の文字または空白だけを使用して設定できません。"
 
 #: weblate/accounts/password_validation.py:68
-#, fuzzy
-#| msgid "Can not reuse previously used password!"
 msgid "Can not reuse previously used password."
-msgstr "今までに使用したパスワードは再利用できません！"
+msgstr "今までに使用したパスワードは再利用できません。"
 
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
 msgstr "過去に使用したパスワードと一致してはいけません。"
 
 #: weblate/accounts/pipeline.py:294
-#, fuzzy
-#| msgid "You can not complete password reset while signed in!"
 msgid "You can not complete password reset while signed in."
-msgstr "ログイン中はパスワードをリセットできません！"
+msgstr "ログイン中はパスワードをリセットできません。"
 
 #: weblate/accounts/pipeline.py:297 weblate/accounts/pipeline.py:320
 msgid "The registration link has been invalidated."
 msgstr "登録リンクを取り消しました。"
 
 #: weblate/accounts/pipeline.py:312
-#, fuzzy
-#| msgid "You can not complete registration while signed in!"
 msgid "You can not complete registration while signed in."
-msgstr "サインイン中は登録できません！"
+msgstr "サインイン中は登録できません。"
 
 #: weblate/accounts/pipeline.py:317
-#, fuzzy
-#| msgid "You can confirm your registration only while signed in!"
 msgid "You can confirm your registration only while signed in."
-msgstr "サインイン中のみ登録を確認できます!"
+msgstr "サインイン中のみ登録を確認できます。"
 
 #: weblate/accounts/pipeline.py:444
 #, python-brace-format
@@ -780,10 +758,8 @@ msgid "User registration"
 msgstr "ユーザー登録"
 
 #: weblate/accounts/views.py:215
-#, fuzzy
-#| msgid "Could not send message to administrator!"
 msgid "Could not send message to administrator."
-msgstr "管理者にメッセージを送信できませんでした！"
+msgstr "管理者にメッセージを送信できませんでした。"
 
 #: weblate/accounts/views.py:235
 msgid "Message has been sent to administrator."
@@ -802,10 +778,8 @@ msgid "Your account has been removed."
 msgstr "アカウントを削除しました。"
 
 #: weblate/accounts/views.py:468
-#, fuzzy
-#| msgid "Too many messages sent, please try again later!"
 msgid "Too many messages sent, please try again later."
-msgstr "メッセージを送りすぎです。しばらくしてから再送信してください！"
+msgstr "メッセージを送りすぎです。しばらくしてから再送信してください。"
 
 #: weblate/accounts/views.py:491 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:256
@@ -844,10 +818,8 @@ msgid "Change password"
 msgstr "パスワードの変更"
 
 #: weblate/accounts/views.py:781
-#, fuzzy
-#| msgid "Password reset has been already completed!"
 msgid "Password reset has been already completed."
-msgstr "パスワードのリセットはすでに完了しています！"
+msgstr "パスワードのリセットはすでに完了しています。"
 
 #: weblate/accounts/views.py:968
 msgid "Could not remove user identity"
@@ -2248,10 +2220,9 @@ msgid "This string has been translated in the past"
 msgstr "過去に翻訳済みのもの"
 
 #: weblate/checks/consistency.py:105
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Last translation was \"%s\"."
-msgstr "翻訳フラグが正しくありません: \"%s\""
+msgstr "最後の翻訳は \"%s\" です。"
 
 #: weblate/checks/duplicate.py:43
 msgid "Consecutive duplicated words"
@@ -2345,16 +2316,14 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "翻訳フラグにパラメータがありません: \"%s\""
 
 #: weblate/checks/format.py:327
-#, fuzzy, python-format
-#| msgid "Following format strings are wrong: %s"
+#, python-format
 msgid "Following format strings are missing: %s"
 msgstr "次のフォーマット文字列が間違っています: %s"
 
 #: weblate/checks/format.py:331
-#, fuzzy, python-format
-#| msgid "Following format strings are wrong: %s"
+#, python-format
 msgid "Following format strings are extra: %s"
-msgstr "次のフォーマット文字列が間違っています: %s"
+msgstr "次のフォーマット文字列は追加です: %s"
 
 #: weblate/checks/format.py:382
 msgid "Python format"
@@ -2604,10 +2573,8 @@ msgid "Long untranslated"
 msgstr "長期間未翻訳"
 
 #: weblate/checks/source.py:80
-#, fuzzy
-#| msgid "The string was not translated for a long time"
 msgid "The string has not been translated for a long time"
-msgstr "文字列は長い間翻訳されていません"
+msgstr "長い間翻訳されていない文字列"
 
 #: weblate/checks/views.py:86 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -5633,11 +5600,7 @@ msgid "%(percent)s%%"
 msgstr "%(percent)s%%"
 
 #: weblate/templates/engage.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is <strong>"
-#| "%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation and is <strong>%(percent)s%% complete</"
@@ -5647,38 +5610,31 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"%(project)s の日本語翻訳プロジェクトには、現時点で <strong> 原文は %(total)s "
-"個 </strong>あり、翻訳は <strong>%(percent)s%% 完了</strong>しています。"
+"%(project)s の翻訳プロジェクトには、現時点で <strong> 原文は %(count)s 個 </strong>あり、翻訳は "
+"<strong>%(percent)s%% 完了</strong>しています。"
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is <strong>"
-#| "%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
 msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
-msgstr[0] ""
-"%(project)s の日本語翻訳プロジェクトには、現時点で <strong> 原文は %(total)s "
-"個 </strong>あり、翻訳は <strong>%(percent)s%% 完了</strong>しています。"
+msgstr[0] "%(project)s の翻訳プロジェクトには、現時点で <strong> 原文は %(count)s 個 </strong>あります。"
 
 #: weblate/templates/engage.html:46
-#, fuzzy, python-format
-#| msgid "Get involved in <strong>%(project)s</strong>"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "<strong>%(project)s</strong> にご参加ください"
+msgstr[0] "<strong>%(count)s 言語</strong> に翻訳されています。"
 
 #: weblate/templates/engage.html:48
 #, python-format
 msgid ""
 "Overall, these translations are <strong>%(percent)s%% complete</strong>."
-msgstr ""
+msgstr "全体の翻訳は<strong> %(percent)s%% 完了済み</strong>です。"
 
 #: weblate/templates/engage.html:51
 #, python-format
@@ -6206,10 +6162,9 @@ msgid "Your registration on %(site_title)s"
 msgstr "[%(site_title)s] ユーザー登録"
 
 #: weblate/templates/mail/approved_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New translation in %(translation)s"
+#, python-format
 msgid "Approved translation in %(translation)s"
-msgstr "%(translation)s 内での新しい翻訳"
+msgstr "%(translation)s で承認された翻訳"
 
 #: weblate/templates/mail/base.html:258
 msgid "Translation Info"
@@ -6299,39 +6254,25 @@ msgid "New translation in %(translation)s"
 msgstr "%(translation)s 内での新しい翻訳"
 
 #: weblate/templates/mail/component_license.html:7
-#, fuzzy, python-format
-#| msgid ""
-#| "New component %(component)s has been added to %(project)s at "
-#| "%(site_title)s."
+#, python-format
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
-msgstr ""
-"%(site_title)s の %(project)s に、新しいコンポーネントを追加しました。\n"
-"新しいコンポーネント %(component)s が %(project)s の %(site_title)s に追加さ"
-"れました。"
+msgstr "コンポーネント %(component)s のライセンスは %(old)s から %(target)s に変更されました。"
 
 #: weblate/templates/mail/component_license_subject.txt:3
-#, fuzzy, python-format
-#| msgid ""
-#| "New component %(component)s has been added to %(project)s at "
-#| "%(site_title)s."
+#, python-format
 msgid "Component %(component)s license changed to %(target)s"
-msgstr ""
-"%(site_title)s の %(project)s に、新しいコンポーネントを追加しました。\n"
-"新しいコンポーネント %(component)s が %(project)s の %(site_title)s に追加さ"
-"れました。"
+msgstr "コンポーネント %(component)s のライセンスは %(target)s に変更されました"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Component unlocked"
+#, python-format
 msgid "Component %(component)s was locked"
-msgstr "コンポーネントのアンロック"
+msgstr "コンポーネント %(component)s はロックされました"
 
 #: weblate/templates/mail/component_lock_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component unlocked"
+#, python-format
 msgid "Component %(component)s was unlocked"
-msgstr "コンポーネントのアンロック"
+msgstr "コンポーネント %(component)s のロックは解除されました"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -6715,7 +6656,7 @@ msgstr "サポート パッケージの管理"
 
 #: weblate/templates/manage/index.html:51
 msgid "Get help"
-msgstr ""
+msgstr "サポート依頼"
 
 #: weblate/templates/manage/performance.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:36
@@ -6887,10 +6828,8 @@ msgstr "Sentry の統合を試験するためにテスト イベントを生成�
 
 #: weblate/templates/manage/users.html:43
 #: weblate/templates/manage/users_check.html:63
-#, fuzzy
-#| msgid "Check details"
 msgid "Check user access"
-msgstr "チェック詳細"
+msgstr "ユーザー アクセスの確認"
 
 #: weblate/templates/manage/users_check.html:56 weblate/trans/forms.py:157
 msgid "No matching user found."
@@ -7267,7 +7206,7 @@ msgstr "この翻訳に貢献するにあたっては、貢献者同意条項へ
 
 #: weblate/templates/snippets/component/lock.html:8
 msgid "Get notified when this project is unlocked again"
-msgstr ""
+msgstr "このプロジェクトが再びロック解除されたときに通知する"
 
 #: weblate/templates/snippets/component/lock.html:10
 msgid ""
@@ -7759,14 +7698,8 @@ msgid "The following filemasks were found multiple times:"
 msgstr "複数回検出されたファイルマスク:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to a single "
-#| "language in Weblate."
 msgid "The component contains translation file for the source language."
-msgstr ""
-"コンポーネントには、Weblate の1つの言語に関連した複数の翻訳ファイルを含みま"
-"す。"
+msgstr "コンポーネントには、原語の翻訳ファイルが含まれています。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatelanguage.html:25
@@ -8284,16 +8217,12 @@ msgid "Other occurrences"
 msgstr "その他の出現箇所"
 
 #: weblate/templates/translate.html:224
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
 msgstr "機械翻訳による提案"
 
 #: weblate/templates/translate.html:224
-#, fuzzy
-#| msgid "Machame"
 msgid "Machinery"
-msgstr "マチャメ語"
+msgstr "機械"
 
 #: weblate/templates/translate.html:226
 msgid "Translations of this string in the other languages"
@@ -8734,10 +8663,8 @@ msgid "All strings"
 msgstr "すべての文字列"
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Read only strings"
-msgstr "前後の文字列"
+msgstr "読み取り専用文字列"
 
 #: weblate/trans/filter.py:35 weblate/trans/filter.py:116
 msgid "Not translated strings"
@@ -8907,7 +8834,7 @@ msgstr "翻訳済みとしてインポート"
 
 #: weblate/trans/forms.py:602
 msgid "Conflict handling"
-msgstr ""
+msgstr "コンフリクト処理"
 
 #: weblate/trans/forms.py:604
 msgid ""
@@ -8916,22 +8843,16 @@ msgid ""
 msgstr "文字列がすでに翻訳済みの場合、既存の翻訳を上書きするかどうか。"
 
 #: weblate/trans/forms.py:608
-#, fuzzy
-#| msgid "Untranslated strings:"
 msgid "Update only non translated strings"
-msgstr "未翻訳の文字列:"
+msgstr "翻訳されていない文字列のみ更新"
 
 #: weblate/trans/forms.py:609
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Update translated strings"
-msgstr "未翻訳の文字列"
+msgstr "翻訳済みの文字列の更新"
 
 #: weblate/trans/forms.py:610
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Update translated and approved strings"
-msgstr "未翻訳の文字列"
+msgstr "翻訳済みと承認済みの文字列の更新"
 
 #: weblate/trans/forms.py:620
 msgid "Author name"
@@ -9662,10 +9583,8 @@ msgstr "アップロードでファイルの置き換え"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:339
-#, fuzzy
-#| msgid "Last change"
 msgid "License changed"
-msgstr "直前の変更"
+msgstr "ライセンスの変更"
 
 #: weblate/trans/models/change.py:473
 #, python-format
@@ -9997,13 +9916,11 @@ msgstr "変更点を VCS にコミットするまでの時間。"
 
 #: weblate/trans/models/component.py:551
 msgid "Lock on error"
-msgstr ""
+msgstr "エラー時にロック"
 
 #: weblate/trans/models/component.py:554
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "Whether the component should be locked on repository errors."
-msgstr "翻訳の更新時にコンポーネントをロックするかどうか。"
+msgstr "リポジトリのエラー時にコンポーネントをロックするかどうか。"
 
 #: weblate/trans/models/component.py:563
 msgid ""
@@ -10028,9 +9945,6 @@ msgid "Restricted component"
 msgstr "制限付きコンポーネント"
 
 #: weblate/trans/models/component.py:591
-#, fuzzy
-#| msgid ""
-#| "Restrict access to the component only to explicitly given permissions."
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr "コンポーネントへのアクセスを、明示的に与えられた権限のみに制限します。"
@@ -10164,11 +10078,9 @@ msgstr "バイリンガル翻訳では基本ファイルを使用できません
 
 #: weblate/trans/models/component.py:2002
 #: weblate/trans/models/component.py:2008
-#, fuzzy
-#| msgid "Intermediate language file can not be used without editing template."
 msgid ""
 "An intermediate language file can not be used without an editing template."
-msgstr "中間言語ファイルはテンプレートを編集しないと使用できません。"
+msgstr "編集テンプレートなしでは、中間言語ファイルを使用できません。"
 
 #: weblate/trans/models/component.py:2015
 msgid "Using a .pot file as base file is unsupported."
@@ -10199,16 +10111,10 @@ msgid "Could not update repository: %s"
 msgstr "リポジトリを更新できません: %s"
 
 #: weblate/trans/models/component.py:2072
-#, fuzzy
-#| msgid ""
-#| "Please either fill in instruction URL or use different option for adding "
-#| "a new language."
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
-msgstr ""
-"新しい言語を追加するには、手順の URL を指定するか、異なるオプションを使用して"
-"ください。"
+msgstr "新しい言語を追加するには、手順の URL を指定するか、異なるオプションを使用してください。"
 
 #: weblate/trans/models/component.py:2116
 msgid "Can not validate file matches due to invalid regular expression."
@@ -11250,10 +11156,8 @@ msgid "Unsupported state: {}"
 msgstr "未対応の状態: {}"
 
 #: weblate/utils/search.py:312
-#, fuzzy
-#| msgid "Invalid image!"
 msgid "Invalid timestamp: {}"
-msgstr "画像が正しくありません！"
+msgstr "無効なタイムスタンプ: {}"
 
 #: weblate/utils/search.py:371
 msgid "Invalid regular expression: {}"
@@ -11400,10 +11304,8 @@ msgid "The test e-mail will be sent to this address."
 msgstr "テスト用のメールは、このアドレスに送信されます。"
 
 #: weblate/wladmin/forms.py:69
-#, fuzzy
-#| msgid "Register e-mail"
 msgid "User e-mail"
-msgstr "メールアドレスの登録"
+msgstr "ユーザーのメールアドレス"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
