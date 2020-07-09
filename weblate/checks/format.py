@@ -18,6 +18,7 @@
 #
 
 import re
+from collections import defaultdict
 from typing import Optional, Pattern
 
 from django.utils.functional import SimpleLazyObject
@@ -324,11 +325,11 @@ class BaseFormatCheck(TargetCheck):
     def format_result(self, result):
         if result["missing"]:
             yield gettext("Following format strings are missing: %s") % ", ".join(
-                self.format_string(x) for x in result["missing"]
+                self.format_string(x) for x in sorted(set(result["missing"]))
             )
         if result["extra"]:
             yield gettext("Following format strings are extra: %s") % ", ".join(
-                self.format_string(x) for x in result["extra"]
+                self.format_string(x) for x in sorted(set(result["extra"]))
             )
 
     def get_description(self, check_obj):
@@ -337,9 +338,15 @@ class BaseFormatCheck(TargetCheck):
             unit.get_source_plurals(), unit.get_target_plurals(), unit
         )
         errors = []
+
+        # Merge plurals
+        results = defaultdict(list)
         for result in checks:
             if result:
-                errors.extend(self.format_result(result))
+                for key, value in result.items():
+                    results[key].extend(value)
+        if results:
+            errors.extend(self.format_result(results))
         if errors:
             return mark_safe("<br />".join(escape(error) for error in errors))
         return super().get_description(check_obj)
