@@ -616,7 +616,9 @@ otherwise users will be able to fake the IP address.
 .. seealso::
 
     :ref:`rate-limit`,
-    :ref:`rate-ip`
+    :ref:`rate-ip`,
+    :setting:`IP_PROXY_HEADER`,
+    :setting:`IP_PROXY_OFFSET`
 
 .. setting:: IP_PROXY_HEADER
 
@@ -634,7 +636,9 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 
     :ref:`rate-limit`,
     :ref:`rate-ip`,
-    :setting:`django:SECURE_PROXY_SSL_HEADER`
+    :setting:`django:SECURE_PROXY_SSL_HEADER`,
+    :setting:`IP_BEHIND_REVERSE_PROXY`,
+    :setting:`IP_PROXY_OFFSET`
 
 .. setting:: IP_PROXY_OFFSET
 
@@ -661,7 +665,9 @@ Defaults to 0.
 
     :ref:`rate-limit`,
     :ref:`rate-ip`,
-    :setting:`django:SECURE_PROXY_SSL_HEADER`
+    :setting:`django:SECURE_PROXY_SSL_HEADER`,
+    :setting:`IP_BEHIND_REVERSE_PROXY`,
+    :setting:`IP_PROXY_HEADER`
 
 .. setting:: LEGAL_URL
 
