@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-09 12:13+0000\n"
+"POT-Creation-Date: 2020-07-09 12:31+0000\n"
 "PO-Revision-Date: 2019-11-28 09:58+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Central Khmer <https://hosted.weblate.org/projects/weblate/"
@@ -1915,7 +1915,7 @@ msgstr ""
 #: weblate/templates/mail/base.html:287
 #: weblate/templates/snippets/project-nav.html:14
 #: weblate/templates/snippets/project-nav.html:19 weblate/trans/forms.py:814
-#: weblate/trans/forms.py:1718 weblate/trans/models/component.py:604
+#: weblate/trans/forms.py:1718 weblate/trans/models/component.py:605
 msgid "Components"
 msgstr ""
 
@@ -4567,7 +4567,7 @@ msgstr ""
 #: weblate/templates/language-project.html:51 weblate/templates/project.html:32
 #: weblate/templates/translate.html:263 weblate/templates/translation.html:187
 #: weblate/trans/forms.py:1354 weblate/trans/models/announcement.py:90
-#: weblate/trans/models/component.py:603
+#: weblate/trans/models/component.py:604
 msgid "Component"
 msgstr ""
 
@@ -7695,7 +7695,7 @@ msgstr "បកប្រែ"
 
 #. Translators: Translation key for monolingual translations
 #: weblate/templates/snippets/sort-field.html:23
-#: weblate/trans/models/component.py:2534 weblate/utils/views.py:101
+#: weblate/trans/models/component.py:2537 weblate/utils/views.py:101
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
@@ -9015,7 +9015,7 @@ msgid "Import as translated"
 msgstr ""
 
 #: weblate/trans/forms.py:602
-msgid "Conflicts handling"
+msgid "Conflict handling"
 msgstr ""
 
 #: weblate/trans/forms.py:604
@@ -10205,199 +10205,201 @@ msgid "Restricted component"
 msgstr "បកប្រែ"
 
 #: weblate/trans/models/component.py:591
-msgid "Restrict access to the component only to explicitly given permissions."
+msgid ""
+"Restrict access to the component to only those explicitly given permission."
 msgstr ""
 
-#: weblate/trans/models/component.py:1039
+#: weblate/trans/models/component.py:1040
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
 
-#: weblate/trans/models/component.py:1048
+#: weblate/trans/models/component.py:1049
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
 msgstr ""
 
-#: weblate/trans/models/component.py:1054
+#: weblate/trans/models/component.py:1055
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr ""
 
-#: weblate/trans/models/component.py:1249
+#: weblate/trans/models/component.py:1250
 #, fuzzy, python-format
 #| msgid "Translate"
 msgid "Could not push to remote branch on %s."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:1258
+#: weblate/trans/models/component.py:1259
 #, python-format
 msgid "Push is turned off for %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1316
+#: weblate/trans/models/component.py:1317
 #, fuzzy, python-format
 #| msgid "Translate"
 msgid "Could not reset to remote branch on %s."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:1346
+#: weblate/trans/models/component.py:1347
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1462
+#: weblate/trans/models/component.py:1463
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr ""
 
-#: weblate/trans/models/component.py:1468
+#: weblate/trans/models/component.py:1469
 #, fuzzy, python-format
 #| msgid "Translate"
 msgid "Could not merge remote branch into %s."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:1862
+#: weblate/trans/models/component.py:1863
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1871
+#: weblate/trans/models/component.py:1872
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 
-#: weblate/trans/models/component.py:1880
+#: weblate/trans/models/component.py:1881
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 
-#: weblate/trans/models/component.py:1889
+#: weblate/trans/models/component.py:1890
 msgid "Option is not available for linked repositories."
 msgstr ""
 
-#: weblate/trans/models/component.py:1898
+#: weblate/trans/models/component.py:1899
 msgid "The filemask did not match any files."
 msgstr ""
 
-#: weblate/trans/models/component.py:1907
+#: weblate/trans/models/component.py:1908
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr ""
 
-#: weblate/trans/models/component.py:1914
+#: weblate/trans/models/component.py:1915
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
 
-#: weblate/trans/models/component.py:1921
+#: weblate/trans/models/component.py:1922
 #, python-format
 msgid ""
 "There are more files for the single language (%s), please adjust the "
 "filemask and use components for translating different resources."
 msgstr ""
 
-#: weblate/trans/models/component.py:1935
+#: weblate/trans/models/component.py:1936
 #, fuzzy
 #| msgid "Translate"
 msgid "Could not find any matching language, please check the filemask."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:1954
+#: weblate/trans/models/component.py:1955
 #, fuzzy, python-format
 #| msgid "Translate"
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "បកប្រែ"
 
-#: weblate/trans/models/component.py:1977
+#: weblate/trans/models/component.py:1978
 #, fuzzy
 #| msgid "Translate"
 msgid "Unrecognized base file for new translations."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:1979
+#: weblate/trans/models/component.py:1980
 #, fuzzy
 #| msgid "Translate"
 msgid "Base file for new translations not found."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:1982
+#: weblate/trans/models/component.py:1983
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
 
-#: weblate/trans/models/component.py:1995
+#: weblate/trans/models/component.py:1996
 #, fuzzy
 #| msgid "Translate"
 msgid "You can not use a base file for bilingual translation."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:2001
-#: weblate/trans/models/component.py:2006
-msgid "Intermediate language file can not be used without editing template."
+#: weblate/trans/models/component.py:2002
+#: weblate/trans/models/component.py:2008
+msgid ""
+"An intermediate language file can not be used without an editing template."
 msgstr ""
 
-#: weblate/trans/models/component.py:2012
+#: weblate/trans/models/component.py:2015
 msgid "Using a .pot file as base file is unsupported."
 msgstr ""
 
-#: weblate/trans/models/component.py:2023
+#: weblate/trans/models/component.py:2026
 #, fuzzy
 #| msgid "Translate"
 msgid "Could not find template file."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:2029
+#: weblate/trans/models/component.py:2032
 #, fuzzy, python-format
 #| msgid "Translate"
 msgid "Could not parse translation base file: %s"
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:2037
+#: weblate/trans/models/component.py:2040
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:2043
+#: weblate/trans/models/component.py:2046
 msgid "You can not use a monolingual translation without a base file."
 msgstr ""
 
-#: weblate/trans/models/component.py:2059
+#: weblate/trans/models/component.py:2062
 #, fuzzy, python-format
 #| msgid "Translate"
 msgid "Could not update repository: %s"
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:2069
+#: weblate/trans/models/component.py:2072
 msgid ""
-"Please either fill in instruction URL or use different option for adding a "
-"new language."
+"Please either fill in an instruction URL or use a different option for "
+"adding a new language."
 msgstr ""
 
-#: weblate/trans/models/component.py:2113
+#: weblate/trans/models/component.py:2116
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/component.py:2123
+#: weblate/trans/models/component.py:2126
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 
-#: weblate/trans/models/component.py:2431
+#: weblate/trans/models/component.py:2434
 #, fuzzy
 #| msgid "Translate"
 msgid "Could not add new translation file."
 msgstr "បកប្រែ"
 
-#: weblate/trans/models/component.py:2442
+#: weblate/trans/models/component.py:2445
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:2464
+#: weblate/trans/models/component.py:2467
 msgid "Translation file already exists!"
 msgstr ""
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2532
+#: weblate/trans/models/component.py:2535
 msgid "Context"
 msgstr ""
 
