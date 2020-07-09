@@ -596,10 +596,10 @@ class SimpleUploadForm(forms.Form):
 
 
 class UploadForm(SimpleUploadForm):
-    """Upload form with option to overwrite current messages."""
+    """Upload form with the option to overwrite current messages."""
 
     conflicts = forms.ChoiceField(
-        label=_("Conflicts handling"),
+        label=_("Conflict handling"),
         help_text=_(
             "Whether to overwrite existing translations if the string is "
             "already translated."
