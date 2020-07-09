@@ -37,19 +37,25 @@
 
 <p>
 {% if language %}
-{% filter replace_english:language %}
-{% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
-{% blocktrans with total=total|intcomma %}The translation project for {{ project }} into English currently contains <strong>{{ total }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
-{% endfilter %}
+  {% filter replace_english:language %}
+  {% comment %}Translators: line of text in engagement page, please use your language name instead of English{% endcomment %}
+  {% blocktrans with total=total|intcomma %}The translation project for {{ project }} into English currently contains <strong>{{ total }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
+  {% endfilter %}
 {% else %}
-{% blocktrans count count=full_stats.languages with total=total|intcomma languages=languages|intcomma %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} language</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ total }} strings</strong> for translation and is being translated into <strong>{{ languages }} languages</strong>. Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
+  {% comment %}This is split into sentectes to allow proper localization of plurals.{% endcomment %}
+  {% blocktrans count cnt=total with count=total|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% endblocktrans %}
+
+  {% blocktrans count cnt=languages with count=languages|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktrans %}
+
+  {% blocktrans %}Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktrans %}
 {% endif %}
+
 {% blocktrans %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktrans %}
 {% if object.access_control %}
-{% trans "This translation is open only to a limited group of translators, if you want to contribute please get in touch with the project maintainers." %}
+  {% trans "This translation is open only to a limited group of translators, if you want to contribute please get in touch with the project maintainers." %}
 {% endif %}
 {% if not user.is_authenticated %}
-{% blocktrans %}Once you have activated your account, proceed to the translation section.{% endblocktrans %}
+  {% blocktrans %}Once you have activated your account, proceed to the translation section.{% endblocktrans %}
 {% endif %}
 </p>
 
