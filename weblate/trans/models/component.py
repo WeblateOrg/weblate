@@ -588,7 +588,8 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         default=settings.DEFAULT_RESTRICTED_COMPONENT,
         db_index=True,
         help_text=gettext_lazy(
-            "Restrict access to the component to only those explicitly given permission."
+            "Restrict access to the component to only "
+            "those explicitly given permission."
         ),
     )
 
@@ -1998,12 +1999,14 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         # Prohibit intermediate usage without template
         if self.intermediate and not self.template:
             msg = _(
-                "An intermediate language file can not be used without an editing template."
+                "An intermediate language file can not be used "
+                "without an editing template."
             )
             raise ValidationError({"template": msg, "intermediate": msg})
         if self.intermediate and not self.edit_template:
             msg = _(
-                "An intermediate language file can not be used without an editing template."
+                "An intermediate language file can not be used "
+                "without an editing template."
             )
             raise ValidationError({"edit_template": msg, "intermediate": msg})
 
