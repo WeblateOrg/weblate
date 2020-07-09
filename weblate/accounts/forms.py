@@ -537,6 +537,16 @@ class LoginForm(forms.Form):
         return self.user_cache
 
 
+class AdminLoginForm(LoginForm):
+    def clean(self):
+        data = super().clean()
+        if not self.user_cache.is_superuser:
+            raise forms.ValidationError(
+                self.error_messages["inactive"], code="inactive"
+            )
+        return data
+
+
 class HostingForm(forms.Form):
     """Form for asking for hosting."""
 

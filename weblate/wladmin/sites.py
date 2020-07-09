@@ -33,7 +33,7 @@ from social_django.admin import AssociationOption, NonceOption, UserSocialAuthOp
 from social_django.models import Association, Nonce, UserSocialAuth
 
 from weblate.accounts.admin import AuditLogAdmin, ProfileAdmin, VerifiedEmailAdmin
-from weblate.accounts.forms import LoginForm
+from weblate.accounts.forms import AdminLoginForm
 from weblate.accounts.models import AuditLog, Profile, VerifiedEmail
 from weblate.auth.admin import RoleAdmin, WeblateGroupAdmin, WeblateUserAdmin
 from weblate.auth.models import Group, Role, User
@@ -78,7 +78,7 @@ from weblate.wladmin.models import ConfigurationError
 
 
 class WeblateAdminSite(AdminSite):
-    login_form = LoginForm
+    login_form = AdminLoginForm
     site_header = _("Weblate administration")
     site_title = _("Weblate administration")
     index_template = "admin/weblate-index.html"
