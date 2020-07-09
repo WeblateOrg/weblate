@@ -181,6 +181,8 @@ Weblate currently supports:
    :setting:`AVATAR_URL_PREFIX`,
    :setting:`ENABLE_AVATARS`
 
+.. _spam-protection:
+
 Spam protection
 ---------------
 
@@ -190,8 +192,14 @@ the `akismet.com <https://akismet.com/>`_ service.
 1. Install the `akismet` Python module
 2. Configure the Akismet API key.
 
+.. note::
+
+   This (among other things) relies on IP address of the client, please see
+   :ref:`reverse-proxy` for properly configuring that.
+
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :setting:`AKISMET_API_KEY`
 
 
@@ -256,19 +264,5 @@ If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authenti
 
 .. seealso::
 
-   :ref:`user-rate`
-
-.. _rate-ip:
-
-IP address for rate limiting
-++++++++++++++++++++++++++++
-
-The rate limiting is based on the client IP address, obtained from HTTP headers.
-Change them if your Weblate instance is running behind a reverse proxy to make it work.
-
-.. seealso::
-
-    :setting:`IP_BEHIND_REVERSE_PROXY`,
-    :setting:`IP_PROXY_HEADER`,
-    :setting:`IP_PROXY_OFFSET`,
-    :setting:`django:SECURE_PROXY_SSL_HEADER`
+   :ref:`user-rate`,
+   :ref:`reverse-proxy`

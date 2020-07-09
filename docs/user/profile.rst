@@ -168,3 +168,16 @@ remove your account, or download your user data.
    OAuth 2.0 providers.
 
 .. image:: /images/authentication.png
+
+.. _audit-log:
+
+Audit log
+---------
+
+Audit log keeps track of the actions performed with your account. It logs IP
+address and browser for every important action with your account. The critical
+actions also trigger a notification to a primary e-mail address.
+
+.. seealso::
+
+   :ref:`reverse-proxy`

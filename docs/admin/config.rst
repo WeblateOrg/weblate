@@ -605,9 +605,13 @@ IP_BEHIND_REVERSE_PROXY
 
 Indicates whether Weblate is running behind a reverse proxy.
 
-If set to "True", Weblate gets IP address from a header defined by :setting:`IP_BEHIND_REVERSE_PROXY`.
-Ensure you are actually using a reverse proxy and that it sets this header,
-otherwise users will be able to fake the IP address.
+If set to "True", Weblate gets IP address from a header defined by
+:setting:`IP_PROXY_HEADER`.
+
+.. warning::
+
+   Ensure you are actually using a reverse proxy and that it sets this header,
+   otherwise users will be able to fake the IP address.
 
 .. note::
 
@@ -615,8 +619,8 @@ otherwise users will be able to fake the IP address.
 
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :ref:`rate-limit`,
-    :ref:`rate-ip`,
     :setting:`IP_PROXY_HEADER`,
     :setting:`IP_PROXY_OFFSET`
 
@@ -634,8 +638,8 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :ref:`rate-limit`,
-    :ref:`rate-ip`,
     :setting:`django:SECURE_PROXY_SSL_HEADER`,
     :setting:`IP_BEHIND_REVERSE_PROXY`,
     :setting:`IP_PROXY_OFFSET`
@@ -647,7 +651,7 @@ IP_PROXY_OFFSET
 
 .. versionadded:: 2.14
 
-Indicates which part of :setting:`IP_BEHIND_REVERSE_PROXY` is used as client IP
+Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP
 address.
 
 Depending on your setup, this header might consist of several IP addresses,
@@ -663,8 +667,8 @@ Defaults to 0.
 
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :ref:`rate-limit`,
-    :ref:`rate-ip`,
     :setting:`django:SECURE_PROXY_SSL_HEADER`,
     :setting:`IP_BEHIND_REVERSE_PROXY`,
     :setting:`IP_PROXY_HEADER`

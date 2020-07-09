@@ -407,6 +407,35 @@ Django documentation.
    :djadmin:`django:sendtestemail` management command (see :ref:`invoke-manage`
    for instructions on how to invoke it in different environments).
 
+.. _reverse-proxy:
+
+Running behind reverse proxy
+++++++++++++++++++++++++++++
+
+Several features in Weblate rely on being able to get client IP address. This
+includes :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`.
+
+In default configuration Weblate parses IP address from ``REMOTE_ADDR`` which
+is set by the WSGI handler.
+
+In case you are running a reverse proxy, this field will most likely contain
+its address. You need to configure Weblate to trust additional HTTP headers and
+parse the IP address from these. This can not be enabled by default as it would
+allow IP address spoofing for installations not using a reverse proxy. Enabling
+:setting:`IP_BEHIND_REVERSE_PROXY` might be enough for the most usual setups,
+but you might need to adjust :setting:`IP_PROXY_HEADER` and
+:setting:`IP_PROXY_OFFSET` as well.
+
+.. seealso::
+
+    :ref:`spam-protection`,
+    :ref:`rate-limit`,
+    :ref:`audit-log`,
+    :setting:`IP_BEHIND_REVERSE_PROXY`,
+    :setting:`IP_PROXY_HEADER`,
+    :setting:`IP_PROXY_OFFSET`,
+    :setting:`django:SECURE_PROXY_SSL_HEADER`
+
 HTTP proxy
 ++++++++++
 
