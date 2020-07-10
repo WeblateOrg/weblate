@@ -118,7 +118,7 @@ The following services are known to work:
 Gravatar (default), see https://gravatar.com/
     ``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``
 Libravatar, see https://www.libravatar.org/
-   ``AVATAR_URL_PREFIX = 'https://seccdn.libravatar.org/'``
+   ``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``
 
 .. seealso::
 
