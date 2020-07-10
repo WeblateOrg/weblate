@@ -477,12 +477,12 @@ LOGGING = {
         # },
         "weblate": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "INFO"},
         # Logging VCS operations
-        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "WARNING"},
+        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "INFO"},
         # Python Social Auth
-        "social": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "WARNING"},
+        "social": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "INFO"},
         # Django Authentication Using LDAP
         "django_auth_ldap": {
-            "level": "DEBUG" if DEBUG else "WARNING",
+            "level": "DEBUG" if DEBUG else "INFO",
             "handlers": [DEFAULT_LOG],
         },
     },
