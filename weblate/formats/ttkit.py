@@ -317,8 +317,11 @@ class TTKitFormat(TranslationFormat):
 
         return True
 
+    def construct_unit(self, source):
+        return self.store.UnitClass(source)
+
     def create_unit(self, key, source):
-        unit = self.store.UnitClass(source)
+        unit = self.construct_unit(source)
         unit.setid(key)
         unit.source = key
         unit.target = source
@@ -951,6 +954,9 @@ class PropertiesBaseFormat(TTKitFormat):
         """Return most common media type for format."""
         # Properties files do not expose mimetype
         return "text/plain"
+
+    def construct_unit(self, source):
+        return self.store.UnitClass(source, personality=self.store.personality.name)
 
 
 class StringsFormat(PropertiesBaseFormat):
