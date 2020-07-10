@@ -58,7 +58,7 @@ from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.state import STATE_FUZZY
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.views import get_sort_name, get_translation, show_form_errors
 
 
@@ -232,7 +232,11 @@ def perform_translation(unit, form, request):
     newchecks = unit.all_checks_names
 
     # Did we introduce any new failures?
-    if saved and unit.translated and newchecks > oldchecks:
+    if (
+        saved
+        and form.cleaned_data["state"] >= STATE_TRANSLATED
+        and newchecks > oldchecks
+    ):
         # Show message to user
         messages.error(
             request,
