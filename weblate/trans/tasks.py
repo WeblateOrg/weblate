@@ -17,8 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-import logging
 import os
 from datetime import date, timedelta
 from glob import glob
@@ -53,8 +51,6 @@ from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_readonly
 from weblate.vcs.base import RepositoryException
-
-SEARCH_LOGGER = logging.getLogger("weblate.search")
 
 
 @app.task(

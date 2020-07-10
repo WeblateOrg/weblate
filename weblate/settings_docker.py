@@ -649,8 +649,6 @@ LOGGING = {
             "handlers": [DEFAULT_LOG],
             "level": os.environ.get("WEBLATE_LOGLEVEL", "DEBUG"),
         },
-        # Logging search operations
-        "weblate.search": {"handlers": [DEFAULT_LOG], "level": "INFO"},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "WARNING"},
         # Python Social Auth
