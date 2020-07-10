@@ -193,7 +193,7 @@
   <div class="panel-heading"><h4 class="panel-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% trans "Your avatar" %}</h4></div>
   <div class="panel-body">
 <p class="border"><img class="avatar w128" alt="{% trans "User avatar" %}" src="{% url 'user_avatar' user=request.user.username size=128 %}" /></p>
-<p><a href="https://www.gravatar.com/">{% trans "Avatars are provided using Gravatar." %}</a></p>
+<p><a href="{{ avatar_url_prefix }}">{% blocktrans %}Avatars are provided using {{ avatar_url_prefix }}.{% endblocktrans %}</a></p>
 </div>
 </div>
 
