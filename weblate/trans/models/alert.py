@@ -43,6 +43,7 @@ def register(cls):
 class Alert(models.Model):
     component = models.ForeignKey("Component", on_delete=models.deletion.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=150)
     details = JSONField(default={})
 
