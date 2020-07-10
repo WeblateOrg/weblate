@@ -247,7 +247,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 component.repository.ref_to_remote.format(previous_head)
             )
             if component.new_base not in changes:
-                component.log_debug(
+                component.log_info(
                     "%s addon skipped, new base was not updated", self.name
                 )
                 return

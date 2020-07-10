@@ -1199,13 +1199,13 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         * Whether there is something to push
         """
         if not self.push_on_commit:
-            self.log_debug("skipped push: push on commit disabled")
+            self.log_info("skipped push: push on commit disabled")
             return
         if not self.can_push():
-            self.log_debug("skipped push: upstream not configured")
+            self.log_info("skipped push: upstream not configured")
             return
         if not self.repo_needs_push():
-            self.log_debug("skipped push: nothing to push")
+            self.log_info("skipped push: nothing to push")
             return
         if settings.CELERY_TASK_ALWAYS_EAGER:
             self.do_push(None, force_commit=False, do_update=do_update)
