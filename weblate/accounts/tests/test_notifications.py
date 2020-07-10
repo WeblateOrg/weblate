@@ -145,9 +145,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
     def test_notify_license(self):
         self.component.license = "WTFPL"
         self.component.save()
-        self.validate_notifications(
-            1, "[Weblate] Component Test/Test license changed to WTFPL"
-        )
+        self.validate_notifications(1, "[Weblate] Test/Test was re-licensed to WTFPL")
 
     def test_notify_merge_failure(self):
         change = Change.objects.create(
