@@ -232,7 +232,7 @@ def perform_translation(unit, form, request):
     newchecks = unit.all_checks_names
 
     # Did we introduce any new failures?
-    if saved and newchecks > oldchecks:
+    if saved and unit.translated and newchecks > oldchecks:
         # Show message to user
         messages.error(
             request,
