@@ -475,7 +475,7 @@ LOGGING = {
         #     "handlers": [DEFAULT_LOG],
         #     "level": "DEBUG",
         # },
-        "weblate": {"handlers": [DEFAULT_LOG], "level": "DEBUG"},
+        "weblate": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "INFO"},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "WARNING"},
         # Python Social Auth

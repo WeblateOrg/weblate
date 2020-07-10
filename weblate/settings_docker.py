@@ -647,7 +647,7 @@ LOGGING = {
         # },
         "weblate": {
             "handlers": [DEFAULT_LOG],
-            "level": os.environ.get("WEBLATE_LOGLEVEL", "DEBUG"),
+            "level": os.environ.get("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO"),
         },
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "WARNING"},
