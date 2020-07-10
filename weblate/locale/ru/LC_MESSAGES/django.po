@@ -31,7 +31,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-09 12:31+0000\n"
 "PO-Revision-Date: 2020-07-10 08:02+0000\n"
-"Last-Translator: Michal Čihař <michal@cihar.com>\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -527,14 +527,13 @@ msgstr ""
 "набирать на клавиатуре."
 
 #: weblate/accounts/models.py:361
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of nearby strings"
-msgstr "Количество строк"
+msgstr "Количество соседних строк"
 
 #: weblate/accounts/models.py:365
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
+"Количество соседних строк сверху и снизу, показываемых в полном редакторе."
 
 #: weblate/accounts/models.py:375 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -622,17 +621,13 @@ msgstr "Работа с репозиторием"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:443
-#, fuzzy
-#| msgid "Component locked"
 msgid "Component locking"
-msgstr "Компонент заблокирован"
+msgstr "Блокировка компонента"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:451
-#, fuzzy
-#| msgid "Changed since"
 msgid "Changed license"
-msgstr "Изменено с"
+msgstr "Изменение лицензии"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -2281,10 +2276,9 @@ msgid "This string has been translated in the past"
 msgstr "Эта строка уже переводилась"
 
 #: weblate/checks/consistency.py:105
-#, fuzzy, python-format
-#| msgid "Invalid translation flag: \"%s\""
+#, python-format
 msgid "Last translation was \"%s\"."
-msgstr "Недопустимый флаг перевода: \"%s\""
+msgstr "Последний перевод был «%s»."
 
 #: weblate/checks/duplicate.py:43
 msgid "Consecutive duplicated words"
@@ -2378,16 +2372,14 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Отсутствующие параметры для флага перевода: \"%s\""
 
 #: weblate/checks/format.py:327
-#, fuzzy, python-format
-#| msgid "Following format strings are wrong: %s"
+#, python-format
 msgid "Following format strings are missing: %s"
-msgstr "Следующие строки форматирования не корректны: %s"
+msgstr "Следующие строки форматирования отсутствуют: %s"
 
 #: weblate/checks/format.py:331
-#, fuzzy, python-format
-#| msgid "Following format strings are wrong: %s"
+#, python-format
 msgid "Following format strings are extra: %s"
-msgstr "Следующие строки форматирования не корректны: %s"
+msgstr "Следующие строки форматирования лишние: %s"
 
 #: weblate/checks/format.py:382
 msgid "Python format"
@@ -2642,10 +2634,8 @@ msgid "Long untranslated"
 msgstr "Давно не переводилась"
 
 #: weblate/checks/source.py:80
-#, fuzzy
-#| msgid "The string was not translated for a long time"
 msgid "The string has not been translated for a long time"
-msgstr "Эта строка давно не переводилась"
+msgstr "Строка давно не переводилась"
 
 #: weblate/checks/views.py:86 weblate/templates/component.html:74
 #: weblate/templates/language-project.html:42
@@ -3494,7 +3484,7 @@ msgstr "Не удалось разобрать TMX-файл!"
 
 #: weblate/memory/models.py:161
 msgid "Failed to find source language!"
-msgstr "Не удалось найти язык источника!"
+msgstr "Не удалось найти исходный язык!"
 
 #: weblate/memory/models.py:238
 msgctxt "Translation memory category"
@@ -5714,11 +5704,7 @@ msgid "%(percent)s%%"
 msgstr "%(percent)s%%"
 
 #: weblate/templates/engage.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is <strong>"
-#| "%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation and is <strong>%(percent)s%% complete</"
@@ -5728,24 +5714,17 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"Проект по переводу %(project)s на русский язык в настоящее время момент "
-"содержит <strong>%(total)s строк для перевода</strong> и <strong>готов на "
-"%(percent)s %%</strong>."
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
+"строку</strong> для перевода и <strong>готов на %(percent)s %%</strong>."
 msgstr[1] ""
-"Проект по переводу %(project)s на русский язык в настоящее время момент "
-"содержит <strong>%(total)s строк для перевода</strong> и <strong>готов на "
-"%(percent)s %%</strong>."
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
+"строки</strong> для перевода и <strong>готов на %(percent)s %%</strong>."
 msgstr[2] ""
-"Проект по переводу %(project)s на русский язык в настоящее время момент "
-"содержит <strong>%(total)s строк для перевода</strong> и <strong>готов на "
-"%(percent)s %%</strong>."
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
+"строк</strong> для перевода и <strong>готов на %(percent)s %%</strong>."
 
 #: weblate/templates/engage.html:44
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is <strong>"
-#| "%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
@@ -5753,33 +5732,29 @@ msgid_plural ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation."
 msgstr[0] ""
-"Проект по переводу %(project)s на русский язык в настоящее время момент "
-"содержит <strong>%(total)s строк для перевода</strong> и <strong>готов на "
-"%(percent)s %%</strong>."
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
+"строку</strong> для перевода."
 msgstr[1] ""
-"Проект по переводу %(project)s на русский язык в настоящее время момент "
-"содержит <strong>%(total)s строк для перевода</strong> и <strong>готов на "
-"%(percent)s %%</strong>."
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
+"строки</strong> для перевода."
 msgstr[2] ""
-"Проект по переводу %(project)s на русский язык в настоящее время момент "
-"содержит <strong>%(total)s строк для перевода</strong> и <strong>готов на "
-"%(percent)s %%</strong>."
+"Проект по переводу %(project)s в настоящее время содержит <strong>%(count)s "
+"строк</strong> для перевода."
 
 #: weblate/templates/engage.html:46
-#, fuzzy, python-format
-#| msgid "Get involved in <strong>%(project)s</strong>"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "Примите участие в проекте <strong>%(project)s</strong>"
-msgstr[1] "Примите участие в проекте <strong>%(project)s</strong>"
-msgstr[2] "Примите участие в проекте <strong>%(project)s</strong>"
+msgstr[0] "Он переводится на <strong>%(count)s язык</strong>."
+msgstr[1] "Он переводится на <strong>%(count)s языка</strong>."
+msgstr[2] "Он переводится на <strong>%(count)s языков</strong>."
 
 #: weblate/templates/engage.html:48
 #, python-format
 msgid ""
 "Overall, these translations are <strong>%(percent)s%% complete</strong>."
-msgstr ""
+msgstr "В целом эти переводы <strong>готовы на %(percent)s%%</strong>."
 
 #: weblate/templates/engage.html:51
 #, python-format
@@ -6300,10 +6275,9 @@ msgid "Your registration on %(site_title)s"
 msgstr "Ваша регистрация на %(site_title)s"
 
 #: weblate/templates/mail/approved_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New translation in %(translation)s"
+#, python-format
 msgid "Approved translation in %(translation)s"
-msgstr "Новый перевод в %(translation)s"
+msgstr "Одобренный перевод в %(translation)s"
 
 #: weblate/templates/mail/base.html:258
 msgid "Translation Info"
@@ -6394,29 +6368,26 @@ msgid "New translation in %(translation)s"
 msgstr "Новый перевод в %(translation)s"
 
 #: weblate/templates/mail/component_license.html:7
-#, fuzzy, python-format
-#| msgid "New component has been added to %(project)s at %(site_title)s."
+#, python-format
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
-msgstr "Новый компонент был добавлен в %(project)s на %(site_title)s."
+msgstr ""
+"Лицензия компонента %(component)s была изменена с %(old)s на %(target)s."
 
 #: weblate/templates/mail/component_license_subject.txt:3
-#, fuzzy, python-format
-#| msgid "New component has been added to %(project)s at %(site_title)s."
+#, python-format
 msgid "Component %(component)s license changed to %(target)s"
-msgstr "Новый компонент был добавлен в %(project)s на %(site_title)s."
+msgstr "Лицензия компонента %(component)s изменена на %(target)s"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Component unlocked"
+#, python-format
 msgid "Component %(component)s was locked"
-msgstr "Компонент разблокирован"
+msgstr "Компонент %(component)s был заблокирован"
 
 #: weblate/templates/mail/component_lock_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Component unlocked"
+#, python-format
 msgid "Component %(component)s was unlocked"
-msgstr "Компонент разблокирован"
+msgstr "Компонент %(component)s был разблокирован"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -6816,7 +6787,7 @@ msgstr "Управление пакетом поддержки"
 
 #: weblate/templates/manage/index.html:51
 msgid "Get help"
-msgstr ""
+msgstr "Поддержка"
 
 #: weblate/templates/manage/performance.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:36
@@ -6991,10 +6962,8 @@ msgstr "Сгенерировать тестовое событие для про
 
 #: weblate/templates/manage/users.html:43
 #: weblate/templates/manage/users_check.html:63
-#, fuzzy
-#| msgid "Check details"
 msgid "Check user access"
-msgstr "Подробности проверки"
+msgstr "Проверка доступа пользователя"
 
 #: weblate/templates/manage/users_check.html:56 weblate/trans/forms.py:157
 msgid "No matching user found."
@@ -7377,7 +7346,7 @@ msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:8
 msgid "Get notified when this project is unlocked again"
-msgstr ""
+msgstr "Получить уведомление, когда этот проект снова будет разблокирован"
 
 #: weblate/templates/snippets/component/lock.html:10
 msgid ""
@@ -7876,14 +7845,8 @@ msgid "The following filemasks were found multiple times:"
 msgstr "Следующие маски файлов встречаются несколько раз:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "The component contains several translation files mapped to a single "
-#| "language in Weblate."
 msgid "The component contains translation file for the source language."
-msgstr ""
-"Компонент содержит несколько файлов перевода, сопоставленных единственному "
-"языку в Weblate."
+msgstr "Компонент содержит файл перевода для исходного языка."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatelanguage.html:25
@@ -8344,14 +8307,14 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Только рецензенты могут изменять утверждённые строки, добавьте предложение, "
-"если считаете, что строка должна быть изменена."
+"Одобренные строки могут изменять только рецензенты, если вы считаете, что "
+"строка должна быть изменена, добавьте предложение."
 
 #: weblate/templates/translate.html:178
 msgid ""
 "This translation only accepts suggestions and these are approved by voting."
 msgstr ""
-"Этот перевод принимает только предложения, и когда они одобрены голосованием."
+"Этот перевод принимает только предложения, и они одобряются голосованием."
 
 #: weblate/templates/translate.html:184
 msgid "Insufficient privileges for editing source strings."
@@ -8404,16 +8367,12 @@ msgid "Other occurrences"
 msgstr "Другие вхождения"
 
 #: weblate/templates/translate.html:224
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
-msgstr "Предложения машинного перевода"
+msgstr "Предложения автоматизированного перевода"
 
 #: weblate/templates/translate.html:224
-#, fuzzy
-#| msgid "Machame"
 msgid "Machinery"
-msgstr "Мачаме"
+msgstr "Автоматизированный перевод"
 
 #: weblate/templates/translate.html:226
 msgid "Translations of this string in the other languages"
@@ -8866,10 +8825,8 @@ msgid "All strings"
 msgstr "Все строки"
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Read only strings"
-msgstr "Соседние строки"
+msgstr "Строки только для чтения"
 
 #: weblate/trans/filter.py:35 weblate/trans/filter.py:116
 msgid "Not translated strings"
@@ -9003,7 +8960,7 @@ msgstr "Добавить как перевод"
 
 #: weblate/trans/forms.py:568
 msgid "Add as approved translation"
-msgstr "Пометить перевод как одобренный"
+msgstr "Добавить как одобренный перевод"
 
 #: weblate/trans/forms.py:569 weblate/trans/forms.py:798
 msgid "Add as suggestion"
@@ -9039,7 +8996,7 @@ msgstr "Импортировать как переведённое"
 
 #: weblate/trans/forms.py:602
 msgid "Conflict handling"
-msgstr ""
+msgstr "Разрешение конфликтов"
 
 #: weblate/trans/forms.py:604
 msgid ""
@@ -9048,22 +9005,16 @@ msgid ""
 msgstr "Перезаписывать ли существующие переводы, если строка уже переведена."
 
 #: weblate/trans/forms.py:608
-#, fuzzy
-#| msgid "Untranslated strings:"
 msgid "Update only non translated strings"
-msgstr "Строк без перевода:"
+msgstr "Обновлять только непереведённые строки"
 
 #: weblate/trans/forms.py:609
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Update translated strings"
-msgstr "Непереведённые строки"
+msgstr "Обновлять переведённые строки"
 
 #: weblate/trans/forms.py:610
-#, fuzzy
-#| msgid "Not translated strings"
 msgid "Update translated and approved strings"
-msgstr "Непереведённые строки"
+msgstr "Обновлять переведённые и одобренные строки"
 
 #: weblate/trans/forms.py:620
 msgid "Author name"
@@ -9802,10 +9753,8 @@ msgstr "Файл заменён при загрузке"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:339
-#, fuzzy
-#| msgid "Last change"
 msgid "License changed"
-msgstr "Последнее изменение"
+msgstr "Изменение лицензии"
 
 #: weblate/trans/models/change.py:473
 #, python-format
@@ -10150,13 +10099,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:551
 msgid "Lock on error"
-msgstr ""
+msgstr "Блокировать при ошибке"
 
 #: weblate/trans/models/component.py:554
-#, fuzzy
-#| msgid "Whether component is locked for translation updates."
 msgid "Whether the component should be locked on repository errors."
-msgstr "Заблокирован ли компонент от обновлений переводов."
+msgstr "Должен ли компонент блокироваться при ошибках в репозитории."
 
 #: weblate/trans/models/component.py:563
 msgid ""
@@ -10182,9 +10129,6 @@ msgid "Restricted component"
 msgstr "Ограниченный компонент"
 
 #: weblate/trans/models/component.py:591
-#, fuzzy
-#| msgid ""
-#| "Restrict access to the component only to explicitly given permissions."
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr ""
@@ -10319,8 +10263,6 @@ msgstr "Вы не можете использовать базовый файл 
 
 #: weblate/trans/models/component.py:2002
 #: weblate/trans/models/component.py:2008
-#, fuzzy
-#| msgid "Intermediate language file can not be used without editing template."
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
@@ -10343,7 +10285,7 @@ msgstr "Не удалось разобрать базовый файл пере�
 #: weblate/trans/models/component.py:2040
 #, python-brace-format
 msgid "Template language ({0}) does not match project source language ({1})!"
-msgstr "Язык шаблона {0} не сооответствует исходному языку проекта {1}!"
+msgstr "Язык шаблона ({0}) не соответствует исходному языку проекта ({1})!"
 
 #: weblate/trans/models/component.py:2046
 msgid "You can not use a monolingual translation without a base file."
@@ -10355,16 +10297,12 @@ msgid "Could not update repository: %s"
 msgstr "Не удалось обновить репозиторий: %s"
 
 #: weblate/trans/models/component.py:2072
-#, fuzzy
-#| msgid ""
-#| "Please either fill in instruction URL or use different option for adding "
-#| "a new language."
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr ""
-"Либо заполните в URL инструкции, либо используйте другую опцию для "
-"добавления нового языка."
+"Пожалуйста, либо заполните адрес инструкции, либо используйте другой вариант "
+"для добавления нового языка."
 
 #: weblate/trans/models/component.py:2116
 msgid "Can not validate file matches due to invalid regular expression."
@@ -10532,7 +10470,7 @@ msgstr ""
 
 #: weblate/trans/models/project.py:155
 msgid "Source language"
-msgstr "Язык источника"
+msgstr "Исходный язык"
 
 #: weblate/trans/models/project.py:156
 msgid "Language used for source strings in all components"
@@ -11463,10 +11401,8 @@ msgid "Unsupported state: {}"
 msgstr "Неподдерживаемое состояние: {0}"
 
 #: weblate/utils/search.py:312
-#, fuzzy
-#| msgid "Invalid image!"
 msgid "Invalid timestamp: {}"
-msgstr "Недопустимое изображение!"
+msgstr "Недопустимая метка времени: {}"
 
 #: weblate/utils/search.py:371
 msgid "Invalid regular expression: {}"
@@ -11617,10 +11553,8 @@ msgid "The test e-mail will be sent to this address."
 msgstr "Тестовое письмо будет отправлено по этому адресу электронной почты."
 
 #: weblate/wladmin/forms.py:69
-#, fuzzy
-#| msgid "Register e-mail"
 msgid "User e-mail"
-msgstr "Регистрация e-mail"
+msgstr "Адрес электронной почты пользователя"
 
 #: weblate/wladmin/models.py:65
 msgid "Community support"
