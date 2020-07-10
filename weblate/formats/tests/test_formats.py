@@ -420,7 +420,7 @@ class JoomlaFormatTest(AutoFormatTest):
     FIND = "HELLO"
     FIND_CONTEXT = "HELLO"
     FIND_MATCH = 'Ahoj "světe"!\n'
-    NEW_UNIT_MATCH = b"\nkey=Source string\n"
+    NEW_UNIT_MATCH = b'\nkey="Source string"\n'
     EXPECTED_FLAGS = ""
 
 
