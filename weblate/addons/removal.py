@@ -40,8 +40,10 @@ class RemovalAddon(BaseAddon):
         age = self.instance.configuration["age"]
         return timezone.now() - timedelta(days=age)
 
-    def delete_older(self, objects):
-        objects.filter(timestamp__lt=self.get_cutoff()).delete()
+    def delete_older(self, objects, component):
+        count = objects.filter(timestamp__lt=self.get_cutoff()).delete()[0]
+        if count:
+            component.invalidate_stats_deep()
 
 
 class RemoveComments(RemovalAddon):
@@ -53,7 +55,8 @@ class RemoveComments(RemovalAddon):
         self.delete_older(
             Comment.objects.filter(
                 unit__translation__component__project=component.project
-            )
+            ),
+            component,
         )
 
 
@@ -72,5 +75,6 @@ class RemoveSuggestions(RemovalAddon):
             .filter(
                 Q(vote__value__sum__lte=self.instance.configuration.get("votes", 0))
                 | Q(vote__value__sum=None)
-            )
+            ),
+            component,
         )
