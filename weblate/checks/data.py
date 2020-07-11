@@ -353,6 +353,7 @@ SAME_BLACKLIST = {
     "infrastructure",
     "inline",
     "innodb",
+    "innosetup",
     "input",
     "ins",
     "insert",
