@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Rhoslyn Prys <rprys@posteo.net>, 2019, 2020.
 # anonymous <noreply@weblate.org>, 2019.
+# Adam John Richards <adamjmrichards@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-11 06:00+0000\n"
-"PO-Revision-Date: 2020-02-19 15:06+0000\n"
-"Last-Translator: Rhoslyn Prys <rprys@posteo.net>\n"
-"Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/master/cy/"
-">\n"
+"PO-Revision-Date: 2020-07-12 05:05+0000\n"
+"Last-Translator: Adam John Richards <adamjmrichards@gmail.com>\n"
+"Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
+"application/cy/>\n"
 "Language: cy\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=(n==0) ? 0 : (n==1) ? 1 : (n==2) ? 2 : "
 "(n==3) ? 3 :(n==6) ? 4 : 5;\n"
-"X-Generator: Weblate 3.11\n"
+"X-Generator: Weblate 4.2-dev\n"
 
 #: weblate/accounts/avatar.py:102
 msgctxt "No known user"
@@ -104,10 +105,8 @@ msgid "Activation e-mail will be sent here."
 msgstr "Bydd e-bost ysgogi yn cael ei anfon yma."
 
 #: weblate/accounts/forms.py:360
-#, fuzzy
-#| msgid "Too many failed registration attempts from this location!"
 msgid "Too many failed registration attempts from this location."
-msgstr "Gormod o ymdrechion cofrestru wedi methu o'r lleoliad hwn!"
+msgstr "Gormod o ymdrechion cofrestru wedi methu o'r lleoliad hwn."
 
 #: weblate/accounts/forms.py:367
 msgid "New password"
@@ -154,10 +153,6 @@ msgid "Password"
 msgstr "Cyfrinair"
 
 #: weblate/accounts/forms.py:484
-#, fuzzy
-#| msgid ""
-#| "Please enter the correct username and password. Note that both fields may "
-#| "be case-sensitive."
 msgid "Please enter the correct username and password."
 msgstr ""
 "Rhowch yr enw defnyddiwr a'r cyfrinair cywir. Sylwch y gall y ddau faes fod "
@@ -168,10 +163,8 @@ msgid "This account is inactive."
 msgstr "Mae'r cyfrif hwn yn anweithredol."
 
 #: weblate/accounts/forms.py:502
-#, fuzzy
-#| msgid "Too many authentication attempts from this location!"
 msgid "Too many authentication attempts from this location."
-msgstr "Gormod o geisiadau dilysu o'r lleoliad hwn!"
+msgstr "Gormod o geisiadau dilysu o'r lleoliad hwn."
 
 #: weblate/accounts/forms.py:558 weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:77
@@ -233,10 +226,8 @@ msgid "Watched projects"
 msgstr "Prosiectau sy'n cael eu gwylio"
 
 #: weblate/accounts/forms.py:686 weblate/templates/accounts/user.html:60
-#, fuzzy
-#| msgid "Manage project access"
 msgid "Managed projects"
-msgstr "Rheoli mynediad i'r project"
+msgstr "Prosiectau a reolir"
 
 #: weblate/accounts/forms.py:688
 msgid "Project: {}"
@@ -255,36 +246,24 @@ msgstr ""
 "projectau a wyliwyd gennych."
 
 #: weblate/accounts/forms.py:700
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
-"Byddwch yn derbyn hysbysiad ar gyfer pob digwyddiad o'r fath yn eich "
-"projectau a wyliwyd gennych."
+"Byddwch yn rhoi neges ar gyfer pob digwyddiad o'r fath ym mhob man lle mae "
+"gennych hawliau gweinyddwr."
 
 #: weblate/accounts/forms.py:705
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr ""
-"Byddwch yn derbyn hysbysiad ar gyfer pob digwyddiad o'r fath yn eich "
-"projectau a wyliwyd gennych."
+"Byddwch yn derbyn hysbysiad ar gyfer pob digwyddiad o'r fath yn "
+"%(prosiect)au."
 
 #: weblate/accounts/forms.py:708
-#, fuzzy, python-format
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
+#, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
-"Byddwch yn derbyn hysbysiad ar gyfer pob digwyddiad o'r fath yn eich "
-"projectau a wyliwyd gennych."
+msgstr "Byddwch yn derbyn hysbysiad am bob digwyddiad o'r fath yn y %(gydran)."
 
 #: weblate/accounts/forms.py:715
 msgid ""
@@ -295,10 +274,6 @@ msgstr ""
 "hysbysiadau hyn yn eich prosiectau a wyliwyd."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
@@ -307,28 +282,22 @@ msgstr ""
 "hysbysiadau hyn yn eich prosiectau a wyliwyd."
 
 #: weblate/accounts/forms.py:725
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Dim ond ar gyfer eich ieithoedd wedi'u cyfieithu y byddwch yn derbyn yr "
-"hysbysiadau hyn yn eich prosiectau a wyliwyd."
+"Dim ond ar gyfer eich ieithoedd wedi'u cyfieithu y byddwch chi'n eu derbyn "
+"yn y %(prosiect)."
 
 #: weblate/accounts/forms.py:729
-#, fuzzy, python-format
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
+#, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Dim ond ar gyfer eich ieithoedd wedi'u cyfieithu y byddwch yn derbyn yr "
-"hysbysiadau hyn yn eich prosiectau a wyliwyd."
+"Dim ond ar gyfer eich %(ieithoedd) wedi'u cyfieithu y byddwch yn derbyn yr "
+"hysbysiadau hyn."
 
 #: weblate/accounts/forms.py:771 weblate/auth/models.py:312
 #: weblate/templates/manage/users_check.html:21
@@ -337,11 +306,11 @@ msgstr "Dyddiad ymuno"
 
 #: weblate/accounts/forms.py:772 weblate/templates/about/stats.html:96
 msgid "Translations made"
-msgstr ""
+msgstr "Cyfieithiadau wedi'u gwneud"
 
 #: weblate/accounts/forms.py:795
 msgid "Invalid ordering"
-msgstr ""
+msgstr "Gorchymyn annilys"
 
 #: weblate/accounts/models.py:82
 msgid "Password changed."
@@ -371,10 +340,9 @@ msgid "Password reset confirmed, password turned off."
 msgstr "Wedi cadarnhau ailosod y cyfrinair, mae'r cyfrinair wedi'i ddiffodd."
 
 #: weblate/accounts/models.py:88
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Configured sign in using {method} ({name})."
-msgstr "Wedi mewngofnodi gan ddefnyddio {method} ({name})."
+msgstr "Mewngofnodi wedi'i ffurfweddu gan ddefnyddio'r {dull}, ({enw})."
 
 #: weblate/accounts/models.py:89
 #, fuzzy, python-brace-format
@@ -383,16 +351,14 @@ msgid "Removed sign in using {method} ({name})."
 msgstr "Wedi mewngofnodi gan ddefnyddio {method} ({name})."
 
 #: weblate/accounts/models.py:90
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name})."
+#, python-brace-format
 msgid "Signed in using {method} ({name})."
-msgstr "Wedi mewngofnodi gan ddefnyddio {method} ({name})."
+msgstr "Llofnodwyd wrth ddefnyddio {method} ({name})."
 
 #: weblate/accounts/models.py:91
-#, fuzzy, python-brace-format
-#| msgid "Logged on using {method} ({name}) from a new device."
+#, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
-msgstr "Wedi mewngofnodi gan ddefnyddio {method} ({name}) o ddyfais newydd."
+msgstr "Llofnodwyd wrth ddefnyddio {method} ({name}) o ddyfais newydd."
 
 #: weblate/accounts/models.py:92
 msgid "Somebody has attempted to register with your e-mail."
@@ -403,16 +369,15 @@ msgid "Somebody has attempted to register using your e-mail address."
 msgstr "Mae rhywun wedi ceisio cofrestru gan ddefnyddio'ch cyfeiriad e-bost."
 
 #: weblate/accounts/models.py:94
-#, fuzzy, python-brace-format
-#| msgid "Could not log in using {method} ({name})."
+#, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Methu mewngofnodi gan ddefnyddio {method} ({name})."
+msgstr "Ni allai na llofnodi i mewn gan ddefnyddio {method} ({name})."
 
 #: weblate/accounts/models.py:95
-#, fuzzy
-#| msgid "Account locked due to many failed logins."
 msgid "Account locked due to many failed sign in attempts."
-msgstr "Cyfrif wedi'i gloi oherwydd bod llawer o fewngofnodion wedi methu."
+msgstr ""
+"Cyfrif wedi'i gloi oherwydd nifer gormodol o ymdrechion mewngofnodi a "
+"fethwyd."
 
 #: weblate/accounts/models.py:96
 msgid "Account and all private data removed."
@@ -426,25 +391,19 @@ msgstr "Cytundeb â'r Telerau Gwasanaeth {date}."
 #: weblate/accounts/models.py:98
 #, python-brace-format
 msgid "Invited to Weblate by {username}."
-msgstr ""
+msgstr "Gwahoddwyd i Weblate gan {username}."
 
 #: weblate/accounts/models.py:103
-#, fuzzy
-#| msgid "Password reset"
 msgid "Configured password to sign in."
-msgstr "Ailosod cyfrinair"
+msgstr "Cyfrinair wedi'i ffurfweddu i fewngofnodi."
 
 #: weblate/accounts/models.py:104
-#, fuzzy
-#| msgid "Logged on using password."
 msgid "Signed in using password."
-msgstr "Wedi mewngofnodi gan ddefnyddio cyfrinair."
+msgstr "Llofnodwyd gan ddefnyddio cyfrinair."
 
 #: weblate/accounts/models.py:105
-#, fuzzy
-#| msgid "Logged on using password from a new device."
 msgid "Signed in using password from a new device."
-msgstr "Wedi mewngofnodi gan ddefnyddio cyfrinair o ddyfais newydd."
+msgstr "Llofnodwyd gan ddefnyddio cyfrinair o ddyfais newydd."
 
 #: weblate/accounts/models.py:106
 #, fuzzy
