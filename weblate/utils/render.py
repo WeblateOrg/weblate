@@ -64,6 +64,10 @@ def render_template(template, **kwargs):
     component = kwargs.get("component")
     project = kwargs.get("project")
 
+    # Comppatibility with older templates
+    if "addon_name" in kwargs:
+        kwargs["hook_name"] = kwargs["addon_name"]
+
     if isinstance(translation, Translation):
         translation.stats.ensure_basic()
         kwargs["language_code"] = translation.language_code
