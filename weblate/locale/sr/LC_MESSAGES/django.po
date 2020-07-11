@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-10 10:09+0000\n"
+"POT-Creation-Date: 2020-07-11 06:00+0000\n"
 "PO-Revision-Date: 2019-11-28 09:58+0000\n"
 "Last-Translator: anonymous <noreply@weblate.org>\n"
 "Language-Team: Serbian <https://hosted.weblate.org/projects/weblate/master/"
@@ -43,7 +43,7 @@ msgid ""
 msgstr "Ова е-адреса се већ користи. Дајте другу адресу е-поште."
 
 #: weblate/accounts/forms.py:121 weblate/auth/models.py:282
-#: weblate/utils/validators.py:166
+#: weblate/utils/validators.py:173
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -3138,7 +3138,7 @@ msgid "Language"
 msgstr "Језик"
 
 #: weblate/fonts/validators.py:32 weblate/fonts/validators.py:36
-#: weblate/utils/validators.py:156
+#: weblate/utils/validators.py:163
 msgid "Unsupported file format."
 msgstr ""
 
@@ -12802,72 +12802,76 @@ msgctxt "String state"
 msgid "Empty"
 msgstr ""
 
-#: weblate/utils/validators.py:63
+#: weblate/utils/validators.py:66
 #, fuzzy, python-brace-format
 #| msgid "Components"
 msgid "Compilation failed: {0}"
 msgstr "Компоненте"
 
-#: weblate/utils/validators.py:66
+#: weblate/utils/validators.py:69
 #, fuzzy
 #| msgid "Regular expression which is used to match user email."
 msgid "The regular expression can not match an empty string."
 msgstr "Регуларни израз који се користи за поклапање корисникове е-адресе."
 
-#: weblate/utils/validators.py:74
+#: weblate/utils/validators.py:77
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
 
-#: weblate/utils/validators.py:114
+#: weblate/utils/validators.py:117
 msgid "Invalid image!"
 msgstr "Неисправна слика!"
 
-#: weblate/utils/validators.py:123
+#: weblate/utils/validators.py:126
 #, fuzzy, python-format
 #| msgid "About Weblate"
 msgid "Unsupported image type: %s"
 msgstr "О Веблејту"
 
-#: weblate/utils/validators.py:129
+#: weblate/utils/validators.py:132
 msgid "The image is too big, please crop or scale it down."
 msgstr ""
 
-#: weblate/utils/validators.py:147
+#: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
 msgstr ""
 
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:154
+msgid "Name consists only of disallowed characters."
+msgstr ""
+
+#: weblate/utils/validators.py:169
 msgid "The username can not start with a full stop."
 msgstr ""
 
-#: weblate/utils/validators.py:176 weblate/utils/validators.py:179
+#: weblate/utils/validators.py:183 weblate/utils/validators.py:186
 msgid "Enter a valid e-mail address."
 msgstr "Унесите важећу е-адресу."
 
-#: weblate/utils/validators.py:181
+#: weblate/utils/validators.py:188
 #, fuzzy
 #| msgid "User with this email address was not found."
 msgid "This e-mail address is disallowed."
 msgstr "Корисник са овом е-адресом није нађен."
 
-#: weblate/utils/validators.py:188
+#: weblate/utils/validators.py:195
 #, fuzzy
 #| msgid "Failed to save translation!"
 msgid "Could not evaluate plural formula: {}"
 msgstr "Неуспело снимање превода!"
 
-#: weblate/utils/validators.py:194
+#: weblate/utils/validators.py:201
 msgid "The filename can not contain reference to a parent directory."
 msgstr ""
 
-#: weblate/utils/validators.py:197
+#: weblate/utils/validators.py:204
 msgid "The filename can not be an absolute path."
 msgstr ""
 
-#: weblate/utils/validators.py:203
+#: weblate/utils/validators.py:210
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 
