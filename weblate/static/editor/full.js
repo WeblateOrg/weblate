@@ -18,7 +18,7 @@
     /* Copy machinery results */
     this.$editor.on("click", ".js-copy-machinery", (e) => {
       var $el = $(e.currentTarget);
-      var text = $el.parent().parent().find(".target").text();
+      var text = $el.parent().find(".target").text();
 
       this.$translationArea.val(text).change();
       autosize.update(this.$translationArea);
@@ -28,7 +28,7 @@
     /* Copy and save machinery results */
     this.$editor.on("click", ".js-copy-save-machinery", (e) => {
       var $el = $(e.currentTarget);
-      var text = $el.parent().parent().find(".target").text();
+      var text = $el.parent().find(".target").text();
 
       this.$translationArea.val(text).change();
       autosize.update(this.$translationArea);
