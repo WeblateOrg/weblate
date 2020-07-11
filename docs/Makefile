@@ -12,7 +12,7 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile
+.PHONY: help Makefile update-po
 
 update-screenshots:
 	@rm -rf ../data-test ../test-images
@@ -32,6 +32,14 @@ update-screenshots:
 
 update-schemas:
 	@cp ../.venv/lib/python*/site-packages/weblate_schemas/schemas/* schemas/
+
+update-po: $(wildcard locales/*/LC_MESSAGES/docs.po)
+
+locales/%/LC_MESSAGES/docs.po: locales/docs.pot
+	@msgmerge -U $@ -C ../weblate/locale/$*/LC_MESSAGES/django.po --previous $<
+
+locales/docs.pot: gettext
+	@cp _build/gettext/docs.pot $@
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).

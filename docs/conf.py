@@ -13,10 +13,18 @@
 import os
 import sys
 
+import sphinx.transforms.i18n
+import sphinx.util.i18n
+
 # -- Path setup --------------------------------------------------------------
 
 # sys.path.insert(0, os.path.abspath('.'))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
+
+# Hacky way to have all localized content in single domain
+sphinx.transforms.i18n.docname_to_domain = (
+    sphinx.util.i18n.docname_to_domain
+) = lambda docname, compact: "docs"
 
 
 def setup(app):
