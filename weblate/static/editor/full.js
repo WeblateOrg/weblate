@@ -511,9 +511,9 @@
       return service;
     }
 
-    render() {
+    render(translations) {
       var $translations = $("#machinery-translations");
-      this.state.translations.forEach((translation) => {
+      translations.forEach((translation) => {
         var service = this.renderService(translation);
         var insertBefore;
         var done = false;
