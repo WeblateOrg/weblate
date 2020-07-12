@@ -67,7 +67,7 @@ using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and 
 built on :mod:`wlc`.
 
 Site wide options
----------------------
+-----------------
 
 The program accepts the following options for a whole instance, which must be entered before any subcommand.
 
