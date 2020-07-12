@@ -275,7 +275,7 @@ class GroupManyToManyField(models.ManyToManyField):
 
 class User(AbstractBaseUser):
     username = models.CharField(
-        _("username"),
+        _("Username"),
         max_length=USERNAME_LENGTH,
         unique=True,
         help_text=_(

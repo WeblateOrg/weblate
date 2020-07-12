@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
-<li><a href="{% url 'data_project' project=object.slug %}">{% trans "data exports" %}</a></li>
+<li><a href="{% url 'data_project' project=object.slug %}">{% trans "Data exports" %}</a></li>
 {% endblock %}
 
 {% block content %}

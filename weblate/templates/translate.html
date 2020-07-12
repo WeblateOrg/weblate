@@ -22,7 +22,7 @@
 <li><a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project }}</a></li>
 <li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
 <li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
-<li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
+<li><a href="{{ unit.translation.get_translate_url }}">{% trans "Translate" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' project=object.component.project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
 </a>

@@ -21,7 +21,7 @@
 <li><a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project }}</a></li>
 <li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
-<li><a href="{% url 'zen' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "zen" %}</a></li>
+<li><a href="{% url 'zen' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Zen" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
 <img src="{% url 'widget-image' project=object.component.project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
 </a>
