@@ -314,7 +314,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Email and password authentication can be disabled by removing
+E-mail and password authentication can be turned off by removing
 ``social_core.backends.email.EmailAuth`` from
 :setting:`django:AUTHENTICATION_BACKENDS`. Always keep
 ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core
