@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-12 05:08+0000\n"
-"PO-Revision-Date: 2020-07-12 05:05+0000\n"
+"PO-Revision-Date: 2020-07-12 14:30+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -2318,12 +2318,12 @@ msgstr "翻訳フラグにパラメータがありません: \"%s\""
 #: weblate/checks/format.py:327
 #, python-format
 msgid "Following format strings are missing: %s"
-msgstr "次のフォーマット文字列が間違っています: %s"
+msgstr "次のフォーマット文字列が足りません: %s"
 
 #: weblate/checks/format.py:331
 #, python-format
 msgid "Following format strings are extra: %s"
-msgstr "次のフォーマット文字列は追加です: %s"
+msgstr "次のフォーマット文字列は余分です: %s"
 
 #: weblate/checks/format.py:382
 msgid "Python format"
@@ -3188,7 +3188,7 @@ msgstr "複数形の数"
 #: weblate/lang/models.py:591 weblate/templates/language.html:99
 #: weblate/templates/snippets/plural-formula.html:4
 msgid "Plural formula"
-msgstr "複数形"
+msgstr "複数形判別式"
 
 #: weblate/lang/models.py:596 weblate/templates/language.html:80
 msgid "Plural type"
@@ -4126,10 +4126,9 @@ msgid "Your avatar"
 msgstr "アバター"
 
 #: weblate/templates/accounts/profile.html:196
-#, fuzzy, python-format
-#| msgid "Avatars are provided using Gravatar."
+#, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "アバターは Gravatar を使用して提供されています。"
+msgstr "アバターは %(avatar_url_prefix)s を使用して提供されています。"
 
 #: weblate/templates/accounts/profile.html:205
 #: weblate/templates/addons/discovery_help.html:10
@@ -7220,7 +7219,7 @@ msgstr "この翻訳に貢献するにあたっては、貢献者同意条項へ
 
 #: weblate/templates/snippets/component/lock.html:8
 msgid "Get notified when this project is unlocked again"
-msgstr "このプロジェクトが再びロック解除されたときに通知する"
+msgstr "このプロジェクトがロック解除されたときに通知を受け取る"
 
 #: weblate/templates/snippets/component/lock.html:10
 msgid ""
@@ -7454,7 +7453,7 @@ msgstr "複数形がある文字列"
 
 #: weblate/templates/snippets/query-builder.html:41
 msgid "String has context"
-msgstr "複数の情報（コンテキスト）がある文字列"
+msgstr "コンテキストがある文字列"
 
 #: weblate/templates/snippets/query-builder.html:50
 #: weblate/templates/snippets/query-builder.html:52
@@ -8026,7 +8025,7 @@ msgstr ""
 
 #: weblate/templates/trans/delete-project.html:21
 msgid "Project to remove"
-msgstr "プロジェクトの除外"
+msgstr "削除するプロジェクト"
 
 #: weblate/templates/trans/delete-translation.html:5
 #, python-format
@@ -10885,8 +10884,7 @@ msgstr[0] ""
 
 #: weblate/trans/views/files.py:184
 msgid "Plural forms in the uploaded file do not match current translation."
-msgstr ""
-"アップロードしたファイル内の複数形フォームは、現在の翻訳と一致しません。"
+msgstr "アップロードしたファイル内の複数形は、現在の翻訳と合っていません。"
 
 #: weblate/trans/views/git.py:42
 msgid "Failed to lock the repository, another operation is in progress."
@@ -11191,7 +11189,7 @@ msgstr "失敗したコンパイル: {0}"
 
 #: weblate/utils/validators.py:69
 msgid "The regular expression can not match an empty string."
-msgstr "正規表現は空白文字列と一致しません。"
+msgstr "この正規表現は空白文字列と一致してはいけません。"
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
@@ -11225,7 +11223,7 @@ msgstr ""
 
 #: weblate/utils/validators.py:169
 msgid "The username can not start with a full stop."
-msgstr "ユーザー名の先頭は終止符にしないでください。"
+msgstr "ユーザー名の先頭は終止符にはできません。"
 
 #: weblate/utils/validators.py:183 weblate/utils/validators.py:186
 msgid "Enter a valid e-mail address."
