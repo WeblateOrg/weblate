@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate \n"
+"Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 07:08+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-07-12 14:30+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
+"documentation/nb_NO/>\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -29,6 +31,9 @@ msgid ""
 "the consult documentation for that version, the information here will not "
 "apply."
 msgstr ""
+"Før Weblate 3.0, var rettighetssystemet basert på Django, men nå er det "
+"spesialbygd for Weblate. Hvis du bruker en eldre versjon, henvend dem til "
+"dokumentasjonen for den versjonen, det som står her vil være misvisende."
 
 #: ../../admin/access.rst:12
 msgid ""
@@ -57,8 +62,9 @@ msgid "Common setups"
 msgstr ""
 
 #: ../../admin/access.rst:28
+#, fuzzy
 msgid "Locking down Weblate"
-msgstr ""
+msgstr "Nedlåsing av Weblate"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -69,7 +75,7 @@ msgstr ""
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
-msgstr ""
+msgstr "Tilganger for hele siden"
 
 #: ../../admin/access.rst:37
 msgid ""
@@ -80,17 +86,19 @@ msgstr ""
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr ""
+msgstr "Tilgang per prosjekt"
 
 #: ../../admin/access.rst:44
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
 msgstr ""
+"Sett prosjektet ditt til `Beskyttet` eller `Privat`, og håndter brukere per "
+"prosjekt i Weblate-grensesnittet."
 
 #: ../../admin/access.rst:48
 msgid "Adding permissions to languages, components or projects"
-msgstr ""
+msgstr "Tillegg av tilganger for språk, komponenter eller prosjekter"
 
 #: ../../admin/access.rst:50
 msgid ""
@@ -114,7 +122,7 @@ msgstr ""
 
 #: ../../admin/access.rst:67
 msgid "Per project access control"
-msgstr ""
+msgstr "Tilgang per prosjekt"
 
 #: ../../admin/access.rst:71
 msgid ""
@@ -314,37 +322,50 @@ msgstr ""
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
-msgstr ""
+msgstr "Sjekking av tilgang til et prosjekt"
 
 #: ../../admin/access.rst:189
+#, fuzzy
 msgid ""
 "A user has to be a member of a group linked to the project or any component "
 "inside it. Only membership is enough, no specific permissions are needed to "
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"En bruker må være medlem av en gruppe lenket til prosjektet eller en "
+"komponent i det. Kun medlemskap er nok, ingen spesielle tilganger kreves for "
+"å ha tilgang til et prosjekt (dette brukes i forvalgt `Seere` gruppe, se :ref"
+"`forvalgte-grupper`)."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
-msgstr ""
+msgstr "Sjekking av tilgang til en komponent"
 
 #: ../../admin/access.rst:197
+#, fuzzy
 msgid ""
 "A user can access the unrestricted component once he can access the "
 "containing project. With enabled :ref:`component-restricted` the access to "
 "the component requires explicit permission on the component (or containing "
 "component list)."
 msgstr ""
+"En bruker kan nå hele komponenten uten begrensninger når vedkommende har "
+"tilgang til prosjektet som inneholder den. Med påskrudd :ref:`component-"
+"restricted:ref:` kreves eksplisitt gitt tilgang for komponenten (eller "
+"inneholdende komponentliste)."
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr ""
+msgstr "Håndtering av brukere og grupper"
 
 #: ../../admin/access.rst:206
+#, fuzzy
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
 msgstr ""
+"Alle brukere og grupper kan håndteres ved bruk av Django-"
+"administratorgrensesnittet, tilgjengelig under :file:`/admin/`-nettadressen."
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
@@ -367,7 +388,7 @@ msgstr ""
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "Inviter nye brukere til prosjektet"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
@@ -458,7 +479,7 @@ msgstr ""
 
 #: ../../admin/access.rst:303
 msgid "Default groups and roles"
-msgstr ""
+msgstr "Forvalgte grupper og roller"
 
 #: ../../admin/access.rst:306
 msgid "List of privileges"
@@ -1577,6 +1598,8 @@ msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
 msgstr ""
+"Vil bli fjernet i fremtiden, siden det frarådes—de fleste funksjoner kan "
+"håndteres direkte i Weblate."
 
 #: ../../admin/admin.rst:23
 msgid ""
@@ -1606,7 +1629,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:39
 msgid "Adding a project"
-msgstr ""
+msgstr "Tillegg av prosjekt"
 
 #: ../../admin/admin.rst:41
 msgid ""
@@ -1997,7 +2020,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
-msgstr ""
+msgstr "Passordsidentitetsgekreftelse"
 
 #: ../../admin/auth.rst:342
 msgid ""
@@ -2011,23 +2034,23 @@ msgstr ""
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr ""
+msgstr "Passord må inneholde minst 10 tegn."
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
-msgstr ""
+msgstr "Passord kan ikke være ofte brukte passord."
 
 #: ../../admin/auth.rst:348
 msgid "Passwords can't be entirely numeric."
-msgstr ""
+msgstr "Passord kan ikke være kun tall."
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
-msgstr ""
+msgstr "Passord kan ikke bestå av ett tegn eller kun blanktegn."
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr ""
+msgstr "Passord kan ikke være et passord du har brukt tidligere."
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
@@ -2210,11 +2233,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Sikkerhetskopiering og flytting av Weblate"
 
 #: ../../admin/backup.rst:7
 msgid "Automated backup"
-msgstr ""
+msgstr "Automatisert sikkerhetskopiering"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2292,7 +2315,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:61
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Borg-krypteringsnøkkel"
 
 #: ../../admin/backup.rst:63
 msgid ""
@@ -2313,7 +2336,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:75
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Gjenoppretting fra BorgBackup"
 
 #: ../../admin/backup.rst:77
 msgid ""
@@ -2368,7 +2391,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:123
 msgid "Database"
-msgstr ""
+msgstr "Database"
 
 #: ../../admin/backup.rst:125
 msgid "The actual storage location depends on your database setup."
@@ -3333,7 +3356,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:258
 msgid "Defines font size."
-msgstr ""
+msgstr "Definerer skriftstørrelse."
 
 #: ../../admin/checks.rst:264
 msgid "Writing own checks"
@@ -3628,11 +3651,11 @@ msgstr ""
 
 #: ../../admin/config.rst:121
 msgid "Libravatar, see https://www.libravatar.org/"
-msgstr ""
+msgstr "Libravatar, som i https://www.libravatar.org/"
 
 #: ../../admin/config.rst:121
 msgid "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
-msgstr ""
+msgstr "``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``"
 
 #: ../../admin/config.rst:125
 msgid ""
@@ -4244,7 +4267,7 @@ msgstr ""
 
 #: ../../admin/config.rst:618
 msgid "This is not on by default."
-msgstr ""
+msgstr "Dette er ikke påslått som forvalg."
 
 #: ../../admin/config.rst:622
 msgid ""
@@ -4666,7 +4689,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1044
 msgid "For Azure China, please use ``api.translator.azure.cn``."
-msgstr ""
+msgstr "For Azure Kina, bruk ``api.translator.azure.cn``."
 
 #: ../../admin/config.rst:1049
 msgid "MT_MICROSOFT_COGNITIVE_KEY"
@@ -5139,7 +5162,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1449
 msgid "The default value is:"
-msgstr ""
+msgstr "Forvalgt verdi er:"
 
 #: ../../admin/config.rst:1458
 msgid "SINGLE_PROJECT"
@@ -5635,7 +5658,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:275
 msgid "Desired setup"
-msgstr ""
+msgstr "Ønskelig oppsett"
 
 #: ../../admin/continuous.rst:275
 msgid ":ref:`component-vcs`"
@@ -5900,7 +5923,7 @@ msgstr ""
 
 #: ../../admin/customize.rst:22
 msgid "Creating a Python module"
-msgstr ""
+msgstr "Opprettelse av en Python-modul"
 
 #: ../../admin/customize.rst:24
 msgid ""
@@ -6099,7 +6122,7 @@ msgstr ""
 
 #: ../../admin/deployments.rst:26
 msgid "Weblate in YunoHost"
-msgstr ""
+msgstr "Weblate i YunoHost"
 
 #: ../../admin/deployments.rst:28
 msgid ""
@@ -6130,7 +6153,7 @@ msgstr ""
 
 #: ../../admin/install.rst:7
 msgid "Installing Weblate"
-msgstr ""
+msgstr "Installasjon av Weblate"
 
 #: ../../admin/install.rst:22
 msgid ""
@@ -6192,7 +6215,7 @@ msgstr ""
 
 #: ../../admin/install.rst:52
 msgid "Other services"
-msgstr ""
+msgstr "Andre tjenester"
 
 #: ../../admin/install.rst:54
 msgid ""
@@ -6241,7 +6264,7 @@ msgstr ""
 
 #: ../../admin/install.rst:75
 msgid "https://docs.celeryproject.org/"
-msgstr ""
+msgstr "https://docs.celeryproject.org/"
 
 #: ../../admin/install.rst:76
 msgid "Translate Toolkit"
@@ -9328,8 +9351,6 @@ msgid "Number of plurals used in the language."
 msgstr ""
 
 #: ../../admin/languages.rst:91
-#, fuzzy
-#| msgid "Plural form"
 msgid "Plural formula"
 msgstr "Flertallsformel"
 
@@ -11409,10 +11430,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:78
-#, fuzzy
-#| msgid "Translation comment"
 msgid "Translate document"
-msgstr "Oversettelseskommentar"
+msgstr "Oversett dokument"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document and translate that."
@@ -11835,7 +11854,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Create new language file"
 msgid "Intermediate language file"
-msgstr "Opprett ny språkfil"
+msgstr "Mellomliggende språkfil"
 
 #: ../../admin/projects.rst:405
 msgid ""
@@ -12784,10 +12803,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/translating.rst:85
-#, fuzzy
-#| msgid "Translation"
 msgid "Explanation"
-msgstr "Oversettelse"
+msgstr "Forklaring"
 
 #: ../../admin/translating.rst:89
 msgid "In previous version this has been called extra context."
@@ -24982,10 +24999,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:438
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "Kashida i bruk"
+msgstr "Kashida-bokstav i bruk"
 
 #: ../../user/checks.rst:440
 msgid "*The decorative kashida letters should not be used*"
@@ -26464,10 +26479,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:71
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "Tyrolsk"
+msgstr "Varianter"
 
 #: ../../user/translating.rst:73
 msgid ""
@@ -27790,15 +27803,15 @@ msgstr ""
 
 #: ../../wlc.rst:281
 msgid "Examples"
-msgstr ""
+msgstr "Eksempler"
 
 #: ../../wlc.rst:283
 msgid "Print current program version:"
-msgstr ""
+msgstr "Skriv ut nåværende programversjon:"
 
 #: ../../wlc.rst:290
 msgid "List all projects:"
-msgstr ""
+msgstr "List opp alle prosjekter:"
 
 #: ../../wlc.rst:302
 msgid "You can also designate what project wlc should work on:"
@@ -27893,7 +27906,7 @@ msgstr ""
 
 #: ../../workflows.rst:47
 msgid "Direct translation"
-msgstr ""
+msgstr "Direkte oversettelse"
 
 #: ../../workflows.rst:48
 msgid ""
@@ -27903,7 +27916,7 @@ msgstr ""
 
 #: ../../workflows.rst:51
 msgid "*Any user* can edit translations."
-msgstr ""
+msgstr "*Enhver bruker* kan redigere oversettelser."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -27913,7 +27926,7 @@ msgstr ""
 
 #: ../../workflows.rst:56 ../../workflows.rst:86 ../../workflows.rst:121
 msgid "Setting"
-msgstr ""
+msgstr "Innstilling"
 
 #: ../../workflows.rst:56 ../../workflows.rst:86 ../../workflows.rst:121
 msgid "Note"
@@ -27921,15 +27934,15 @@ msgstr "Merknad"
 
 #: ../../workflows.rst:58 ../../workflows.rst:63
 msgid "Off"
-msgstr ""
+msgstr "Avslått"
 
 #: ../../workflows.rst:58 ../../workflows.rst:88 ../../workflows.rst:123
 msgid "Configured at project level."
-msgstr ""
+msgstr "Satt opp på prosjektnivå."
 
 #: ../../workflows.rst:60
 msgid "On"
-msgstr ""
+msgstr "På"
 
 #: ../../workflows.rst:60 ../../workflows.rst:125
 msgid "It is useful for users to be able to suggest when they are not sure."
