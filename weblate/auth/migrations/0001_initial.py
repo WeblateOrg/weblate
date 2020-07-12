@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                         max_length=150,
                         unique=True,
                         validators=[weblate.utils.validators.validate_username],
-                        verbose_name="username",
+                        verbose_name="Username",
                     ),
                 ),
                 (
