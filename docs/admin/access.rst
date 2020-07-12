@@ -89,7 +89,7 @@ Custom
 .. image:: /images/project-access.png
 
 To allow access to this project, you have to add the privilege either
-directly to the given user, or group of users in the Weblate admin interface,
+directly to the given user, or group of users in the Django admin interface,
 or by using user management on the project page, as described in :ref:`manage-acl`.
 
 .. note::
