@@ -313,16 +313,21 @@ Changes
 
 Comments
     Post comment [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Delete comment [`Administration`]
 
 Component
     Edit component settings [`Administration`]
+
     Lock component, preventing it from being translated [`Administration`]
 
 Glossary
     Add glossary entry [`Administration`, `Manage glossary`, `Power user`]
+
     Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]
+
     Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]
+
     Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
 Machinery
@@ -330,6 +335,7 @@ Machinery
 
 Projects
     Edit project settings [`Administration`]
+
     Manage project access [`Administration`]
 
 Reports
@@ -337,7 +343,9 @@ Reports
 
 Screenshots
     Add screenshot [`Administration`, `Manage screenshots`]
+
     Edit screenshot [`Administration`, `Manage screenshots`]
+
     Delete screenshot [`Administration`, `Manage screenshots`]
 
 Source strings
@@ -345,46 +353,72 @@ Source strings
 
 Strings
     Add new strings [`Administration`]
+
     Ignore failing checks [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Review strings [`Administration`, `Review strings`]
+
     Edit string when suggestions are enforced [`Administration`, `Review strings`]
+
     Edit source strings [`Administration`, `Edit source`, `Power user`]
 
 Suggestions
     Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Add suggestions [`Add suggestion`, `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Delete suggestions [`Administration`]
+
     Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translations
     Start new translation [`Administration`, `Manage languages`, `Power user`]
+
     Perform automatic translation [`Administration`, `Manage languages`]
+
     Delete existing translations [`Administration`, `Manage languages`]
+
     Start translation into a new language [`Administration`, `Manage languages`]
 
 Uploads
     Define author of translation upload [`Administration`]
+
     Overwrite existing strings with an upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Upload translation strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 VCS
     Access the internal repository [`Access repository`, `Administration`, `Manage repository`, `Power user`]
+
     Commit changes to the internal repository [`Administration`, `Manage repository`]
+
     Push change from the internal repository [`Administration`, `Manage repository`]
+
     Reset changes in the internal repository [`Administration`, `Manage repository`]
+
     View upstream repository location [`Access repository`, `Administration`, `Manage repository`, `Power user`]
+
     Update the internal repository [`Administration`, `Manage repository`]
 
 Global privileges
     Use management interface (global)
+
     Add language definitions (global)
+
     Manage language definitions (global)
+
     Add groups (global)
+
     Manage groups (global)
+
     Add users (global)
+
     Manage users (global)
+
     Manage announcements (global)
+
     Manage translation memory (global)
 
 .. note::
