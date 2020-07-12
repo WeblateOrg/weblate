@@ -694,7 +694,7 @@ GitHub
 
     Enables :ref:`github_auth`.
 
-BitBucket
+Bitbucket
 +++++++++
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_BITBUCKET_KEY
