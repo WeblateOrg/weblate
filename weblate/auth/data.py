@@ -121,25 +121,25 @@ PERMISSIONS = (
 # Permissions which are not scoped per project
 GLOBAL_PERMISSIONS = (
     # Translators: Permission name
-    ("management.use", _("Use management interface (on the entire platform)")),
+    ("management.use", _("Use management interface (site wide)")),
     # Translators: Permission name
-    ("project.add", _("Add new projects (on the entire platform)")),
+    ("project.add", _("Add new projects (site wide)")),
     # Translators: Permission name
-    ("language.add", _("Add language definitions (on the entire platform)")),
+    ("language.add", _("Add language definitions (site wide)")),
     # Translators: Permission name
-    ("language.edit", _("Manage language definitions (on the entire platform)")),
+    ("language.edit", _("Manage language definitions (site wide)")),
     # Translators: Permission name
-    ("group.edit", _("Manage groups (on the entire platform)")),
+    ("group.edit", _("Manage groups (site wide)")),
     # Translators: Permission name
-    ("user.edit", _("Manage users (on the entire platform)")),
+    ("user.edit", _("Manage users (site wide)")),
     # Translators: Permission name
-    ("role.edit", _("Manage roles (on the entire platform)")),
+    ("role.edit", _("Manage roles (site wide)")),
     # Translators: Permission name
-    ("announcement.edit", _("Manage announcements (on the entire platform)")),
+    ("announcement.edit", _("Manage announcements (site wide)")),
     # Translators: Permission name
-    ("memory.edit", _("Manage translation memory (on the entire platform)")),
+    ("memory.edit", _("Manage translation memory (site wide)")),
     # Translators: Permission name
-    ("componentlist.edit", _("Manage component lists (on the entire platform)")),
+    ("componentlist.edit", _("Manage component lists (site wide)")),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
