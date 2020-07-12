@@ -175,7 +175,7 @@ to a containing project as well.
 An additional step is performed if checking permission for the translation:
 
 
-4. :guilabel:`Languages` are matches against scope of translations, if not set, this
+4. :guilabel:`Languages` are matched against the scope of translations if set, if not set, this
 does not match any language.
 
 .. hint::
