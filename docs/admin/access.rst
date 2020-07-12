@@ -203,7 +203,7 @@ requires explicit permission on the component (or containing component list).
 Managing users and groups
 -------------------------
 
-All users and groups can be managed using the Weblate admin interface,
+All users and groups can be managed using the Django admin interface,
 available under :file:`/admin/` URL.
 
 .. _manage-acl:
