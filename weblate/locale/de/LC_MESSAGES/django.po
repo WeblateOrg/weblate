@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 05:08+0000\n"
+"POT-Creation-Date: 2020-07-12 18:45+0000\n"
 "PO-Revision-Date: 2020-07-12 18:42+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
@@ -45,7 +45,7 @@ msgid "None"
 msgstr "–"
 
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:195
-#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:226
+#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:217
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
 msgstr "Benutzer-Profilbild"
@@ -68,7 +68,7 @@ msgstr ""
 "enthalten: @ . + - _"
 
 #: weblate/accounts/forms.py:124 weblate/accounts/forms.py:769
-#: weblate/templates/manage-access.html:24
+#: weblate/auth/models.py:278 weblate/templates/manage-access.html:24
 msgid "Username"
 msgstr "Benutzername"
 
@@ -820,7 +820,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "Zu viele Nachrichten gesendet. Bitte später erneut versuchen."
 
 #: weblate/accounts/views.py:491 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:256
+#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:247
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "Kontakt"
@@ -833,7 +833,7 @@ msgstr "Hosting"
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:203
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:194
 msgid "Sign in"
 msgstr "Anmelden"
 
@@ -1670,52 +1670,73 @@ msgstr "Aktualisierung des internen Repositories"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-msgid "Use management interface (on the entire platform)"
+#, fuzzy
+#| msgid "Use management interface (on the entire platform)"
+msgid "Use management interface (site wide)"
 msgstr "Managementoberfläche nutzen (auf der gesamten Plattform)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-msgid "Add new projects (on the entire platform)"
+#, fuzzy
+#| msgid "Add new projects (on the entire platform)"
+msgid "Add new projects (site wide)"
 msgstr "Neue Projekte hinzufügen (auf der gesamten Plattform)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-msgid "Add language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Add language definitions (on the entire platform)"
+msgid "Add language definitions (site wide)"
 msgstr "Sprachdefinitionen hinzufügen (auf der gesamten Plattform)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-msgid "Manage language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Manage language definitions (on the entire platform)"
+msgid "Manage language definitions (site wide)"
 msgstr "Sprachdefinitionen verwalten (auf der gesamten Plattform)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-msgid "Manage groups (on the entire platform)"
+#, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage groups (site wide)"
 msgstr "Gruppen verwalten (auf der gesamten Plattform)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-msgid "Manage users (on the entire platform)"
-msgstr "Benutzerverwaltung (auf der gesamten Plattform)"
+#, fuzzy
+#| msgid "Manage users (global)"
+msgid "Manage users (site wide)"
+msgstr "Benutzer verwalten (global)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-msgid "Manage roles (on the entire platform)"
+#, fuzzy
+#| msgid "Manage roles (on the entire platform)"
+msgid "Manage roles (site wide)"
 msgstr "Rollen verwalten (auf der gesamten Plattform)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-msgid "Manage announcements (on the entire platform)"
+#, fuzzy
+#| msgid "Manage announcements (on the entire platform)"
+msgid "Manage announcements (site wide)"
 msgstr "Mitteilungen verwalten (auf der gesamten Plattform)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-msgid "Manage translation memory (on the entire platform)"
-msgstr "Übersetzungsspeicher verwalten (auf der gesamten Plattform)"
+#, fuzzy
+#| msgctxt "Access control role"
+#| msgid "Manage translation memory"
+msgid "Manage translation memory (site wide)"
+msgstr "Übersetzungsspeicher verwalten"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-msgid "Manage component lists (on the entire platform)"
+#, fuzzy
+#| msgid "Manage component lists (on the entire platform)"
+msgid "Manage component lists (site wide)"
 msgstr "Komponentenlisten verwalten (auf der gesamten Plattform)"
 
 #: weblate/auth/data.py:168
@@ -1906,7 +1927,7 @@ msgid "From component list"
 msgstr "Aus der Komponentenliste"
 
 #: weblate/auth/models.py:124 weblate/billing/admin.py:73
-#: weblate/billing/models.py:241 weblate/templates/base.html:132
+#: weblate/billing/models.py:241 weblate/templates/base.html:123
 #: weblate/templates/billing/status.html:66 weblate/templates/language.html:18
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:169
 #: weblate/trans/views/basic.py:83
@@ -1933,7 +1954,7 @@ msgstr "Alle Sprachen"
 #: weblate/auth/models.py:142 weblate/billing/models.py:276
 #: weblate/lang/models.py:468 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
-#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:148
+#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:139
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:7
@@ -1949,10 +1970,6 @@ msgstr "Sprachen"
 #: weblate/auth/models.py:146
 msgid "Weblate internal group"
 msgstr "Weblate interne Gruppe"
-
-#: weblate/auth/models.py:278
-msgid "username"
-msgstr "Benutzername"
 
 #: weblate/auth/models.py:286
 msgid "A user with that username already exists."
@@ -2974,7 +2991,8 @@ msgid "App store metadata files"
 msgstr "App-Store Metadatendateien"
 
 #: weblate/glossary/apps.py:27 weblate/glossary/views.py:151
-#: weblate/templates/component.html:38 weblate/templates/language.html:22
+#: weblate/templates/component.html:38 weblate/templates/edit_glossary.html:8
+#: weblate/templates/glossaries.html:9 weblate/templates/language.html:22
 #: weblate/templates/snippets/project-nav.html:25
 #: weblate/templates/snippets/project-nav.html:27
 msgid "Glossaries"
@@ -3620,12 +3638,12 @@ msgid "Insufficient privileges to display this page."
 msgstr "Ungenügende Berechtigungen, um diese Seite anzuzeigen."
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:130 weblate/templates/base.html:274
+#: weblate/templates/base.html:121 weblate/templates/base.html:265
 msgid "Dashboard"
 msgstr "Übersicht"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
-#: weblate/templates/base.html:144
+#: weblate/templates/base.html:135
 msgid "Browse all projects"
 msgstr "Alle Projekte auflisten"
 
@@ -3713,7 +3731,7 @@ msgstr ""
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:257 weblate/templates/footer.html:6
+#: weblate/templates/base.html:248 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "Über Weblate"
@@ -3760,7 +3778,7 @@ msgid "View hosting plans"
 msgstr "Hosting-Angebote anzeigen"
 
 #: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:215
+#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:206
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3866,8 +3884,8 @@ msgstr "Abgelehnte Qualitätsprüfungen"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:224
-#: weblate/templates/base.html:227 weblate/templates/billing/overview.html:5
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:215
+#: weblate/templates/base.html:218 weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Ihr Profil"
 
@@ -3996,7 +4014,7 @@ msgstr ""
 "werden."
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:201
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:192
 #: weblate/templates/engage.html:62
 msgid "Register"
 msgstr "Registrieren"
@@ -4734,48 +4752,48 @@ msgstr ""
 "Autorenschaft, es sei denn, \"Pro Autor\" ist ausgewählt oder die Commit-"
 "Nachricht wird angepasst, um sie einzubeziehen."
 
-#: weblate/templates/base.html:119
+#: weblate/templates/base.html:110
 msgid "Toggle navigation"
 msgstr "Navigation umschalten"
 
-#: weblate/templates/base.html:141
+#: weblate/templates/base.html:132
 msgid "Manage watched projects"
 msgstr "Beobachtete Projekte verwalten"
 
-#: weblate/templates/base.html:159
+#: weblate/templates/base.html:150
 msgid "Manage translated languages"
 msgstr "Übersetzte Sprachen verwalten"
 
-#: weblate/templates/base.html:162
+#: weblate/templates/base.html:153
 msgid "Browse all languages"
 msgstr "Alle Sprachen durchsuchen"
 
-#: weblate/templates/base.html:166 weblate/templates/check.html:7
+#: weblate/templates/base.html:157 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:21
 msgid "Checks"
 msgstr "Qualitätsprüfungen"
 
-#: weblate/templates/base.html:170
+#: weblate/templates/base.html:161
 #, python-format
 msgid "Failed checks in %(project)s"
 msgstr "Fehlgeschlagenen Prüfungen in %(project)s"
 
-#: weblate/templates/base.html:174
+#: weblate/templates/base.html:165
 msgid "Checks overview"
 msgstr "Prüfungsübersicht"
 
-#: weblate/templates/base.html:183 weblate/templates/base.html:185
+#: weblate/templates/base.html:174 weblate/templates/base.html:176
 msgid "Administration"
 msgstr "Verwaltung"
 
-#: weblate/templates/base.html:190 weblate/templates/base.html:192
+#: weblate/templates/base.html:181 weblate/templates/base.html:183
 #: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "Fehler in der Konfiguration"
 
-#: weblate/templates/base.html:209 weblate/templates/component.html:239
+#: weblate/templates/base.html:200 weblate/templates/component.html:239
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
@@ -4794,27 +4812,27 @@ msgstr "Fehler in der Konfiguration"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: weblate/templates/base.html:211 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:202 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Neues Übersetzungsprojekt hinzufügen"
 
-#: weblate/templates/base.html:212 weblate/templates/project.html:38
+#: weblate/templates/base.html:203 weblate/templates/project.html:38
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Neue Übersetzungskomponente hinzufügen"
 
-#: weblate/templates/base.html:236
+#: weblate/templates/base.html:227
 msgid "Profile"
 msgstr "Benutzerprofil"
 
-#: weblate/templates/base.html:238
+#: weblate/templates/base.html:229
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "Rechnungsübersicht"
 
-#: weblate/templates/base.html:240 weblate/templates/component.html:95
+#: weblate/templates/base.html:231 weblate/templates/component.html:95
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
@@ -4825,26 +4843,26 @@ msgstr "Rechnungsübersicht"
 msgid "Translation memory"
 msgstr "Übersetzungsspeicher"
 
-#: weblate/templates/base.html:241 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:232 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/snippets/project-nav.html:124
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: weblate/templates/base.html:243 weblate/wladmin/sites.py:195
+#: weblate/templates/base.html:234 weblate/wladmin/sites.py:195
 msgid "Sign out"
 msgstr "Abmelden"
 
-#: weblate/templates/base.html:250 weblate/templates/base.html:252
+#: weblate/templates/base.html:241 weblate/templates/base.html:243
 msgid "Help"
 msgstr "Hilfe"
 
-#: weblate/templates/base.html:255
+#: weblate/templates/base.html:246
 msgid "Support"
 msgstr "Unterstützung"
 
-#: weblate/templates/base.html:259 weblate/templates/check.html:50
+#: weblate/templates/base.html:250 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -4859,11 +4877,11 @@ msgstr "Unterstützung"
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: weblate/templates/base.html:260
+#: weblate/templates/base.html:251
 msgid "Contribute to Weblate"
 msgstr "Zu Weblate beitragen"
 
-#: weblate/templates/base.html:306 weblate/templates/base.html:314
+#: weblate/templates/base.html:297 weblate/templates/base.html:305
 #: weblate/templates/glossaries.html:53
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
@@ -4873,7 +4891,7 @@ msgstr "Zu Weblate beitragen"
 msgid "Close"
 msgstr "Schließen"
 
-#: weblate/templates/base.html:313 weblate/templates/fonts/font_list.html:40
+#: weblate/templates/base.html:304 weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82 weblate/templates/glossary.html:69
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/language.html:34
@@ -5253,7 +5271,7 @@ msgstr "Werkzeuge"
 msgid "Search and replace"
 msgstr "Suchen und Ersetzen"
 
-#: weblate/templates/component.html:73
+#: weblate/templates/component.html:73 weblate/templates/data.html:7
 #: weblate/templates/snippets/project-nav.html:79
 #: weblate/templates/snippets/project-nav.html:88
 #: weblate/templates/translation.html:61
@@ -5360,7 +5378,7 @@ msgstr "Sie haben keine Berechtigung, eine neue Übersetzung zu starten"
 msgid "Please sign in to start new translation"
 msgstr "Bitte melden Sie sich an, um eine neue Übersetzung zu starten"
 
-#. Translators: first and last contain localized human readable time span, for example 5 days ago
+#. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:154
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
@@ -5634,10 +5652,6 @@ msgstr ""
 "Nützlich für die Aufnahme in die Dokumentation oder die App selbst, um "
 "Übersetzern zu danken und ihnen Feedback zu geben."
 
-#: weblate/templates/data.html:7
-msgid "data exports"
-msgstr "Daten exportieren"
-
 #: weblate/templates/data.html:13
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
@@ -5735,10 +5749,6 @@ msgstr "Anmerkung"
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
 msgid "Browse the documentation for detailed instructions"
 msgstr "Durchsuchen Sie die Dokumentation nach detaillierten Anweisungen"
-
-#: weblate/templates/edit_glossary.html:8 weblate/templates/glossaries.html:9
-msgid "glossaries"
-msgstr "Glossare"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -5861,7 +5871,7 @@ msgstr ""
 
 #: weblate/templates/engage.html:64
 #: weblate/templates/snippets/list-objects.html:44
-#: weblate/templates/translation.html:137
+#: weblate/templates/translate.html:25 weblate/templates/translation.html:137
 msgid "Translate"
 msgstr "Übersetzen"
 
@@ -7075,7 +7085,9 @@ msgid "No matching user found."
 msgstr "Kein passender Nutzer gefunden."
 
 #: weblate/templates/matrix.html:9
-msgid "matrix"
+#, fuzzy
+#| msgid "matrix"
+msgid "Matrix"
 msgstr "Matrix"
 
 #: weblate/templates/matrix.html:35
@@ -8376,15 +8388,11 @@ msgstr ""
 "an einen anderen Ort verschoben wurde. Unterscheiden sich die Repository-"
 "Inhalte, kann es besser sein, eine neue Übersetzungskomponente zu erstellen."
 
-#: weblate/templates/translate.html:25
-msgid "translate"
-msgstr "übersetzen"
-
 #: weblate/templates/translate.html:50
 msgid "Edit in Zen mode"
 msgstr "Im Zen-Modus bearbeiten"
 
-#: weblate/templates/translate.html:50
+#: weblate/templates/translate.html:50 weblate/templates/zen.html:24
 msgid "Zen"
 msgstr "Zen"
 
@@ -8886,10 +8894,6 @@ msgstr "Im Volleditor öffnen"
 #: weblate/templates/zen-units.html:106 weblate/trans/views/edit.py:429
 msgid "The translation has come to an end."
 msgstr "Ende der Übersetzungseinheit erreicht."
-
-#: weblate/templates/zen.html:24
-msgid "zen"
-msgstr "zeilenweise"
 
 #: weblate/templates/zen.html:38
 msgid "Edit in single string mode"
@@ -11847,6 +11851,27 @@ msgstr "Backup-Prozess ausgelöst"
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigurationsfehler konnte nicht behoben werden!"
 
+#~ msgid "Manage users (on the entire platform)"
+#~ msgstr "Benutzerverwaltung (auf der gesamten Plattform)"
+
+#~ msgid "Manage translation memory (on the entire platform)"
+#~ msgstr "Übersetzungsspeicher verwalten (auf der gesamten Plattform)"
+
+#~ msgid "username"
+#~ msgstr "Benutzername"
+
+#~ msgid "data exports"
+#~ msgstr "Daten exportieren"
+
+#~ msgid "glossaries"
+#~ msgstr "Glossare"
+
+#~ msgid "translate"
+#~ msgstr "übersetzen"
+
+#~ msgid "zen"
+#~ msgstr "zeilenweise"
+
 #~ msgid "Use translation memory"
 #~ msgstr "Übersetzungsspeicher nutzen"
 
@@ -12764,9 +12789,6 @@ msgstr "Konfigurationsfehler konnte nicht behoben werden!"
 
 #~ msgid "Add users (global)"
 #~ msgstr "Benutzer hinzufügen (global)"
-
-#~ msgid "Manage users (global)"
-#~ msgstr "Benutzer verwalten (global)"
 
 #~ msgid "Gettext plural formula"
 #~ msgstr "Gettext-Pluralformel"

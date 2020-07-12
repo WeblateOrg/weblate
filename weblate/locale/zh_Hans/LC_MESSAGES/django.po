@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 05:08+0000\n"
+"POT-Creation-Date: 2020-07-12 18:45+0000\n"
 "PO-Revision-Date: 2020-07-12 14:30+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -45,7 +45,7 @@ msgid "None"
 msgstr "无"
 
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:195
-#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:226
+#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:217
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
 msgstr "用户头像"
@@ -64,7 +64,7 @@ msgid ""
 msgstr "用户名只能由字母、数字及下列字符组成：@ . + - _"
 
 #: weblate/accounts/forms.py:124 weblate/accounts/forms.py:769
-#: weblate/templates/manage-access.html:24
+#: weblate/auth/models.py:278 weblate/templates/manage-access.html:24
 msgid "Username"
 msgstr "用户名"
 
@@ -790,7 +790,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "发送了太多信息，请稍后重试！"
 
 #: weblate/accounts/views.py:491 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:256
+#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:247
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "联系"
@@ -803,7 +803,7 @@ msgstr "托管"
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:203
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:194
 msgid "Sign in"
 msgstr "登录"
 
@@ -1588,52 +1588,73 @@ msgstr "更新内部代码库"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-msgid "Use management interface (on the entire platform)"
+#, fuzzy
+#| msgid "Use management interface (on the entire platform)"
+msgid "Use management interface (site wide)"
 msgstr "使用管理界面（在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-msgid "Add new projects (on the entire platform)"
+#, fuzzy
+#| msgid "Add new projects (on the entire platform)"
+msgid "Add new projects (site wide)"
 msgstr "添加新项目（在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-msgid "Add language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Add language definitions (on the entire platform)"
+msgid "Add language definitions (site wide)"
 msgstr "添加语言定义（在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-msgid "Manage language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Manage language definitions (on the entire platform)"
+msgid "Manage language definitions (site wide)"
 msgstr "管理语言定义（在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-msgid "Manage groups (on the entire platform)"
+#, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage groups (site wide)"
 msgstr "管理群组（在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-msgid "Manage users (on the entire platform)"
-msgstr "管理用户 （在这个平台）"
+#, fuzzy
+#| msgid "Manage users (global)"
+msgid "Manage users (site wide)"
+msgstr "管理用户（全局）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-msgid "Manage roles (on the entire platform)"
+#, fuzzy
+#| msgid "Manage roles (on the entire platform)"
+msgid "Manage roles (site wide)"
 msgstr "管理角色（在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-msgid "Manage announcements (on the entire platform)"
+#, fuzzy
+#| msgid "Manage announcements (on the entire platform)"
+msgid "Manage announcements (site wide)"
 msgstr "管理公告 （在整个平台上）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-msgid "Manage translation memory (on the entire platform)"
-msgstr "管理翻译记忆库（在整个平台上）"
+#, fuzzy
+#| msgctxt "Access control role"
+#| msgid "Manage translation memory"
+msgid "Manage translation memory (site wide)"
+msgstr "管理翻译记忆库"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-msgid "Manage component lists (on the entire platform)"
+#, fuzzy
+#| msgid "Manage component lists (on the entire platform)"
+msgid "Manage component lists (site wide)"
 msgstr "管理组件列表（整个平台上）"
 
 #: weblate/auth/data.py:168
@@ -1824,7 +1845,7 @@ msgid "From component list"
 msgstr "取自组件列表"
 
 #: weblate/auth/models.py:124 weblate/billing/admin.py:73
-#: weblate/billing/models.py:241 weblate/templates/base.html:132
+#: weblate/billing/models.py:241 weblate/templates/base.html:123
 #: weblate/templates/billing/status.html:66 weblate/templates/language.html:18
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:169
 #: weblate/trans/views/basic.py:83
@@ -1851,7 +1872,7 @@ msgstr "所有语言"
 #: weblate/auth/models.py:142 weblate/billing/models.py:276
 #: weblate/lang/models.py:468 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
-#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:148
+#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:139
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:7
@@ -1867,10 +1888,6 @@ msgstr "语言"
 #: weblate/auth/models.py:146
 msgid "Weblate internal group"
 msgstr "Weblate 内部群组"
-
-#: weblate/auth/models.py:278
-msgid "username"
-msgstr "用户名"
 
 #: weblate/auth/models.py:286
 msgid "A user with that username already exists."
@@ -2851,7 +2868,8 @@ msgid "App store metadata files"
 msgstr "应用商店元数据文件"
 
 #: weblate/glossary/apps.py:27 weblate/glossary/views.py:151
-#: weblate/templates/component.html:38 weblate/templates/language.html:22
+#: weblate/templates/component.html:38 weblate/templates/edit_glossary.html:8
+#: weblate/templates/glossaries.html:9 weblate/templates/language.html:22
 #: weblate/templates/snippets/project-nav.html:25
 #: weblate/templates/snippets/project-nav.html:27
 msgid "Glossaries"
@@ -3466,12 +3484,12 @@ msgid "Insufficient privileges to display this page."
 msgstr "没有足够的权限以显示此页。"
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:130 weblate/templates/base.html:274
+#: weblate/templates/base.html:121 weblate/templates/base.html:265
 msgid "Dashboard"
 msgstr "控制面板"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
-#: weblate/templates/base.html:144
+#: weblate/templates/base.html:135
 msgid "Browse all projects"
 msgstr "浏览所有项目变更"
 
@@ -3548,7 +3566,7 @@ msgstr "如果您需要帮助，您可以在汇报错误时引用此错误代码
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:257 weblate/templates/footer.html:6
+#: weblate/templates/base.html:248 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "关于 Weblate"
@@ -3589,7 +3607,7 @@ msgid "View hosting plans"
 msgstr "查看托管套餐"
 
 #: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:215
+#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:206
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3693,8 +3711,8 @@ msgstr "略过的检查"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:224
-#: weblate/templates/base.html:227 weblate/templates/billing/overview.html:5
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:215
+#: weblate/templates/base.html:218 weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "您的个人资料"
 
@@ -3808,7 +3826,7 @@ msgstr ""
 "许可协议授权。"
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:201
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:192
 #: weblate/templates/engage.html:62
 msgid "Register"
 msgstr "注册"
@@ -4482,48 +4500,48 @@ msgstr ""
 "原始提交消息会保留，但是除非选择“每位作者”或自定义提交消息以包括它，否则作者"
 "身份将丢失。"
 
-#: weblate/templates/base.html:119
+#: weblate/templates/base.html:110
 msgid "Toggle navigation"
 msgstr "导航栏开关"
 
-#: weblate/templates/base.html:141
+#: weblate/templates/base.html:132
 msgid "Manage watched projects"
 msgstr "管理已关注项目"
 
-#: weblate/templates/base.html:159
+#: weblate/templates/base.html:150
 msgid "Manage translated languages"
 msgstr "管理已翻译的语言"
 
-#: weblate/templates/base.html:162
+#: weblate/templates/base.html:153
 msgid "Browse all languages"
 msgstr "查看所有语言"
 
-#: weblate/templates/base.html:166 weblate/templates/check.html:7
+#: weblate/templates/base.html:157 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:21
 msgid "Checks"
 msgstr "检查"
 
-#: weblate/templates/base.html:170
+#: weblate/templates/base.html:161
 #, python-format
 msgid "Failed checks in %(project)s"
 msgstr "检查 %(project)s 失败"
 
-#: weblate/templates/base.html:174
+#: weblate/templates/base.html:165
 msgid "Checks overview"
 msgstr "检查小结"
 
-#: weblate/templates/base.html:183 weblate/templates/base.html:185
+#: weblate/templates/base.html:174 weblate/templates/base.html:176
 msgid "Administration"
 msgstr "管理"
 
-#: weblate/templates/base.html:190 weblate/templates/base.html:192
+#: weblate/templates/base.html:181 weblate/templates/base.html:183
 #: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "配置错误"
 
-#: weblate/templates/base.html:209 weblate/templates/component.html:239
+#: weblate/templates/base.html:200 weblate/templates/component.html:239
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
@@ -4542,27 +4560,27 @@ msgstr "配置错误"
 msgid "Add"
 msgstr "添加"
 
-#: weblate/templates/base.html:211 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:202 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "添加新翻译项目"
 
-#: weblate/templates/base.html:212 weblate/templates/project.html:38
+#: weblate/templates/base.html:203 weblate/templates/project.html:38
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "添加新翻译组件"
 
-#: weblate/templates/base.html:236
+#: weblate/templates/base.html:227
 msgid "Profile"
 msgstr "用户资料"
 
-#: weblate/templates/base.html:238
+#: weblate/templates/base.html:229
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "账单概览"
 
-#: weblate/templates/base.html:240 weblate/templates/component.html:95
+#: weblate/templates/base.html:231 weblate/templates/component.html:95
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
@@ -4573,26 +4591,26 @@ msgstr "账单概览"
 msgid "Translation memory"
 msgstr "翻译记忆库"
 
-#: weblate/templates/base.html:241 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:232 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/snippets/project-nav.html:124
 msgid "Settings"
 msgstr "设置"
 
-#: weblate/templates/base.html:243 weblate/wladmin/sites.py:195
+#: weblate/templates/base.html:234 weblate/wladmin/sites.py:195
 msgid "Sign out"
 msgstr "登出"
 
-#: weblate/templates/base.html:250 weblate/templates/base.html:252
+#: weblate/templates/base.html:241 weblate/templates/base.html:243
 msgid "Help"
 msgstr "帮助"
 
-#: weblate/templates/base.html:255
+#: weblate/templates/base.html:246
 msgid "Support"
 msgstr "支持"
 
-#: weblate/templates/base.html:259 weblate/templates/check.html:50
+#: weblate/templates/base.html:250 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -4607,11 +4625,11 @@ msgstr "支持"
 msgid "Documentation"
 msgstr "文档"
 
-#: weblate/templates/base.html:260
+#: weblate/templates/base.html:251
 msgid "Contribute to Weblate"
 msgstr "为 Weblate 做出贡献"
 
-#: weblate/templates/base.html:306 weblate/templates/base.html:314
+#: weblate/templates/base.html:297 weblate/templates/base.html:305
 #: weblate/templates/glossaries.html:53
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
@@ -4621,7 +4639,7 @@ msgstr "为 Weblate 做出贡献"
 msgid "Close"
 msgstr "关闭"
 
-#: weblate/templates/base.html:313 weblate/templates/fonts/font_list.html:40
+#: weblate/templates/base.html:304 weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82 weblate/templates/glossary.html:69
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/language.html:34
@@ -4987,7 +5005,7 @@ msgstr "工具"
 msgid "Search and replace"
 msgstr "搜索并替换"
 
-#: weblate/templates/component.html:73
+#: weblate/templates/component.html:73 weblate/templates/data.html:7
 #: weblate/templates/snippets/project-nav.html:79
 #: weblate/templates/snippets/project-nav.html:88
 #: weblate/templates/translation.html:61
@@ -5094,7 +5112,7 @@ msgstr "您没有开始新翻译的权限"
 msgid "Please sign in to start new translation"
 msgstr "请登录以开始新翻译"
 
-#. Translators: first and last contain localized human readable time span, for example 5 days ago
+#. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:154
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
@@ -5345,10 +5363,6 @@ msgstr ""
 "列出指定时间段内为此组件的翻译作出贡献的翻译者名单。它很适合放在您的文档或应"
 "用程序中，以此感谢翻译者的努力。"
 
-#: weblate/templates/data.html:7
-msgid "data exports"
-msgstr "数据导出"
-
 #: weblate/templates/data.html:13
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr "您可以从 Weblate 获取多种能被其他应用程序读取的数据格式。"
@@ -5432,10 +5446,6 @@ msgstr "备注"
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
 msgid "Browse the documentation for detailed instructions"
 msgstr "查阅文档了解详细说明"
-
-#: weblate/templates/edit_glossary.html:8 weblate/templates/glossaries.html:9
-msgid "glossaries"
-msgstr "词汇表"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -5546,7 +5556,7 @@ msgstr "当您激活您的账户以后，请转到“翻译”部分。"
 
 #: weblate/templates/engage.html:64
 #: weblate/templates/snippets/list-objects.html:44
-#: weblate/templates/translation.html:137
+#: weblate/templates/translate.html:25 weblate/templates/translation.html:137
 msgid "Translate"
 msgstr "翻译"
 
@@ -6687,7 +6697,9 @@ msgid "No matching user found."
 msgstr "未找到匹配的用户。"
 
 #: weblate/templates/matrix.html:9
-msgid "matrix"
+#, fuzzy
+#| msgid "matrix"
+msgid "Matrix"
 msgstr "矩阵"
 
 #: weblate/templates/matrix.html:35
@@ -7883,15 +7895,11 @@ msgstr ""
 "当更改代码库 URL 时，现有内容将与新代码库合并。代码库将会在移动到不同的位置后"
 "依然正常工作。但如果代码库内容不同，最好创建新的翻译组件。"
 
-#: weblate/templates/translate.html:25
-msgid "translate"
-msgstr "翻译"
-
 #: weblate/templates/translate.html:50
 msgid "Edit in Zen mode"
 msgstr "在禅模式下编辑"
 
-#: weblate/templates/translate.html:50
+#: weblate/templates/translate.html:50 weblate/templates/zen.html:24
 msgid "Zen"
 msgstr "禅模式"
 
@@ -8359,10 +8367,6 @@ msgstr "在完全编辑器内打开"
 #: weblate/templates/zen-units.html:106 weblate/trans/views/edit.py:429
 msgid "The translation has come to an end."
 msgstr "翻译工作已告一段落。"
-
-#: weblate/templates/zen.html:24
-msgid "zen"
-msgstr "禅模式"
 
 #: weblate/templates/zen.html:38
 msgid "Edit in single string mode"
@@ -11148,6 +11152,27 @@ msgstr "已触发备份进程"
 msgid "Could not dismiss the configuration error!"
 msgstr "无法排除配置错误！"
 
+#~ msgid "Manage users (on the entire platform)"
+#~ msgstr "管理用户 （在这个平台）"
+
+#~ msgid "Manage translation memory (on the entire platform)"
+#~ msgstr "管理翻译记忆库（在整个平台上）"
+
+#~ msgid "username"
+#~ msgstr "用户名"
+
+#~ msgid "data exports"
+#~ msgstr "数据导出"
+
+#~ msgid "glossaries"
+#~ msgstr "词汇表"
+
+#~ msgid "translate"
+#~ msgstr "翻译"
+
+#~ msgid "zen"
+#~ msgstr "禅模式"
+
 #~ msgid "Use translation memory"
 #~ msgstr "使用翻译记忆库"
 
@@ -12022,9 +12047,6 @@ msgstr "无法排除配置错误！"
 
 #~ msgid "Add users (global)"
 #~ msgstr "添加用户（全局）"
-
-#~ msgid "Manage users (global)"
-#~ msgstr "管理用户（全局）"
 
 #~ msgid "Gettext plural formula"
 #~ msgstr "Gettext 复数形式"

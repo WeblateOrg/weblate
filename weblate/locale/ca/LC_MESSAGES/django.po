@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 05:08+0000\n"
+"POT-Creation-Date: 2020-07-12 18:45+0000\n"
 "PO-Revision-Date: 2020-07-12 05:05+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
@@ -32,7 +32,7 @@ msgid "None"
 msgstr "Cap"
 
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:195
-#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:226
+#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:217
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
 msgstr "Avatar de l'usuari"
@@ -54,7 +54,7 @@ msgstr ""
 "següents: @ . + - _"
 
 #: weblate/accounts/forms.py:124 weblate/accounts/forms.py:769
-#: weblate/templates/manage-access.html:24
+#: weblate/auth/models.py:278 weblate/templates/manage-access.html:24
 msgid "Username"
 msgstr "Nom d'usuari"
 
@@ -795,7 +795,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "S'han enviat massa missatges, torneu-ho a provar més tard."
 
 #: weblate/accounts/views.py:491 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:256
+#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:247
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "Contacte"
@@ -808,7 +808,7 @@ msgstr "Allotjament"
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:203
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:194
 msgid "Sign in"
 msgstr "Inicia la sessió"
 
@@ -1637,52 +1637,73 @@ msgstr "Actualitza el dipòsit intern"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-msgid "Use management interface (on the entire platform)"
+#, fuzzy
+#| msgid "Use management interface (on the entire platform)"
+msgid "Use management interface (site wide)"
 msgstr "Utilitza la interfície de gestió (en tota la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-msgid "Add new projects (on the entire platform)"
+#, fuzzy
+#| msgid "Add new projects (on the entire platform)"
+msgid "Add new projects (site wide)"
 msgstr "Afegeix projectes nous (en tota la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-msgid "Add language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Add language definitions (on the entire platform)"
+msgid "Add language definitions (site wide)"
 msgstr "Afegeix definicions de llengua (en tota la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-msgid "Manage language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Manage language definitions (on the entire platform)"
+msgid "Manage language definitions (site wide)"
 msgstr "Gestiona les definicions de llengües (en tota la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-msgid "Manage groups (on the entire platform)"
+#, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage groups (site wide)"
 msgstr "Gestiona els grups (en tota la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-msgid "Manage users (on the entire platform)"
-msgstr "Gestiona usuaris (en tota la plataforma)"
+#, fuzzy
+#| msgid "Manage users (global)"
+msgid "Manage users (site wide)"
+msgstr "Gestiona els usuaris (global)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-msgid "Manage roles (on the entire platform)"
+#, fuzzy
+#| msgid "Manage roles (on the entire platform)"
+msgid "Manage roles (site wide)"
 msgstr "Gestiona els rols (en tota la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-msgid "Manage announcements (on the entire platform)"
+#, fuzzy
+#| msgid "Manage announcements (on the entire platform)"
+msgid "Manage announcements (site wide)"
 msgstr "Gestiona anuncis (en tota la plataforma)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-msgid "Manage translation memory (on the entire platform)"
-msgstr "Gestiona la memòria de traducció (en tota la plataforma)"
+#, fuzzy
+#| msgctxt "Access control role"
+#| msgid "Manage translation memory"
+msgid "Manage translation memory (site wide)"
+msgstr "Gestiona la memòria de traducció"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-msgid "Manage component lists (on the entire platform)"
+#, fuzzy
+#| msgid "Manage component lists (on the entire platform)"
+msgid "Manage component lists (site wide)"
 msgstr "Gestiona llistes de components (en tota la plataforma)"
 
 #: weblate/auth/data.py:168
@@ -1873,7 +1894,7 @@ msgid "From component list"
 msgstr "De la llista de components"
 
 #: weblate/auth/models.py:124 weblate/billing/admin.py:73
-#: weblate/billing/models.py:241 weblate/templates/base.html:132
+#: weblate/billing/models.py:241 weblate/templates/base.html:123
 #: weblate/templates/billing/status.html:66 weblate/templates/language.html:18
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:169
 #: weblate/trans/views/basic.py:83
@@ -1900,7 +1921,7 @@ msgstr "Totes les llengües"
 #: weblate/auth/models.py:142 weblate/billing/models.py:276
 #: weblate/lang/models.py:468 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
-#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:148
+#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:139
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:7
@@ -1916,10 +1937,6 @@ msgstr "Llengües"
 #: weblate/auth/models.py:146
 msgid "Weblate internal group"
 msgstr "Grup intern del Weblate"
-
-#: weblate/auth/models.py:278
-msgid "username"
-msgstr "nom d'usuari"
 
 #: weblate/auth/models.py:286
 msgid "A user with that username already exists."
@@ -2916,7 +2933,8 @@ msgid "App store metadata files"
 msgstr "Fitxers de metadades de l'App Store"
 
 #: weblate/glossary/apps.py:27 weblate/glossary/views.py:151
-#: weblate/templates/component.html:38 weblate/templates/language.html:22
+#: weblate/templates/component.html:38 weblate/templates/edit_glossary.html:8
+#: weblate/templates/glossaries.html:9 weblate/templates/language.html:22
 #: weblate/templates/snippets/project-nav.html:25
 #: weblate/templates/snippets/project-nav.html:27
 msgid "Glossaries"
@@ -3556,12 +3574,12 @@ msgid "Insufficient privileges to display this page."
 msgstr "No teniu permisos per a veure aquesta pàgina."
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:130 weblate/templates/base.html:274
+#: weblate/templates/base.html:121 weblate/templates/base.html:265
 msgid "Dashboard"
 msgstr "Tauler principal"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
-#: weblate/templates/base.html:144
+#: weblate/templates/base.html:135
 msgid "Browse all projects"
 msgstr "Explora tots els projectes"
 
@@ -3646,7 +3664,7 @@ msgstr ""
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:257 weblate/templates/footer.html:6
+#: weblate/templates/base.html:248 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "Quant al Weblate"
@@ -3693,7 +3711,7 @@ msgid "View hosting plans"
 msgstr "Mostra els plans d'allotjament"
 
 #: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:215
+#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:206
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3798,8 +3816,8 @@ msgstr "Comprovacions ignorades"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:224
-#: weblate/templates/base.html:227 weblate/templates/billing/overview.html:5
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:215
+#: weblate/templates/base.html:218 weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "El vostre perfil"
 
@@ -3925,7 +3943,7 @@ msgstr ""
 "contribucions sota la llicència definida a cada projecte traduït."
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:201
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:192
 #: weblate/templates/engage.html:62
 msgid "Register"
 msgstr "Registra-m'hi"
@@ -4657,48 +4675,48 @@ msgstr ""
 "l'autoria, llevat que s'hagi seleccionat «Per autor» o que personalitzeu el "
 "missatge de publicació per a incloure-la."
 
-#: weblate/templates/base.html:119
+#: weblate/templates/base.html:110
 msgid "Toggle navigation"
 msgstr "Commuta la navegació"
 
-#: weblate/templates/base.html:141
+#: weblate/templates/base.html:132
 msgid "Manage watched projects"
 msgstr "Gestiona els projectes en seguiment"
 
-#: weblate/templates/base.html:159
+#: weblate/templates/base.html:150
 msgid "Manage translated languages"
 msgstr "Gestiona les llengües de traducció"
 
-#: weblate/templates/base.html:162
+#: weblate/templates/base.html:153
 msgid "Browse all languages"
 msgstr "Explora totes les llengües"
 
-#: weblate/templates/base.html:166 weblate/templates/check.html:7
+#: weblate/templates/base.html:157 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:21
 msgid "Checks"
 msgstr "Comprovacions"
 
-#: weblate/templates/base.html:170
+#: weblate/templates/base.html:161
 #, python-format
 msgid "Failed checks in %(project)s"
 msgstr "Comprovacions fallides a %(project)s"
 
-#: weblate/templates/base.html:174
+#: weblate/templates/base.html:165
 msgid "Checks overview"
 msgstr "Visió general de les comprovacions"
 
-#: weblate/templates/base.html:183 weblate/templates/base.html:185
+#: weblate/templates/base.html:174 weblate/templates/base.html:176
 msgid "Administration"
 msgstr "Administració"
 
-#: weblate/templates/base.html:190 weblate/templates/base.html:192
+#: weblate/templates/base.html:181 weblate/templates/base.html:183
 #: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "Errors de configuració"
 
-#: weblate/templates/base.html:209 weblate/templates/component.html:239
+#: weblate/templates/base.html:200 weblate/templates/component.html:239
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
@@ -4717,27 +4735,27 @@ msgstr "Errors de configuració"
 msgid "Add"
 msgstr "Afegeix"
 
-#: weblate/templates/base.html:211 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:202 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Afegeix un projecte de traducció nou"
 
-#: weblate/templates/base.html:212 weblate/templates/project.html:38
+#: weblate/templates/base.html:203 weblate/templates/project.html:38
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Afegeix un component nou"
 
-#: weblate/templates/base.html:236
+#: weblate/templates/base.html:227
 msgid "Profile"
 msgstr "Perfil"
 
-#: weblate/templates/base.html:238
+#: weblate/templates/base.html:229
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "Visió general de la facturació"
 
-#: weblate/templates/base.html:240 weblate/templates/component.html:95
+#: weblate/templates/base.html:231 weblate/templates/component.html:95
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
@@ -4748,26 +4766,26 @@ msgstr "Visió general de la facturació"
 msgid "Translation memory"
 msgstr "Memòria de traducció"
 
-#: weblate/templates/base.html:241 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:232 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/snippets/project-nav.html:124
 msgid "Settings"
 msgstr "Configuració"
 
-#: weblate/templates/base.html:243 weblate/wladmin/sites.py:195
+#: weblate/templates/base.html:234 weblate/wladmin/sites.py:195
 msgid "Sign out"
 msgstr "Tanca la sessió"
 
-#: weblate/templates/base.html:250 weblate/templates/base.html:252
+#: weblate/templates/base.html:241 weblate/templates/base.html:243
 msgid "Help"
 msgstr "Ajuda"
 
-#: weblate/templates/base.html:255
+#: weblate/templates/base.html:246
 msgid "Support"
 msgstr "Assistència"
 
-#: weblate/templates/base.html:259 weblate/templates/check.html:50
+#: weblate/templates/base.html:250 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -4782,11 +4800,11 @@ msgstr "Assistència"
 msgid "Documentation"
 msgstr "Documentació"
 
-#: weblate/templates/base.html:260
+#: weblate/templates/base.html:251
 msgid "Contribute to Weblate"
 msgstr "Contribuïu al Weblate"
 
-#: weblate/templates/base.html:306 weblate/templates/base.html:314
+#: weblate/templates/base.html:297 weblate/templates/base.html:305
 #: weblate/templates/glossaries.html:53
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
@@ -4796,7 +4814,7 @@ msgstr "Contribuïu al Weblate"
 msgid "Close"
 msgstr "Tanca"
 
-#: weblate/templates/base.html:313 weblate/templates/fonts/font_list.html:40
+#: weblate/templates/base.html:304 weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82 weblate/templates/glossary.html:69
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/language.html:34
@@ -5173,7 +5191,7 @@ msgstr "Eines"
 msgid "Search and replace"
 msgstr "Cerca i substitueix"
 
-#: weblate/templates/component.html:73
+#: weblate/templates/component.html:73 weblate/templates/data.html:7
 #: weblate/templates/snippets/project-nav.html:79
 #: weblate/templates/snippets/project-nav.html:88
 #: weblate/templates/translation.html:61
@@ -5280,7 +5298,7 @@ msgstr "No teniu permisos per a començar una traducció nova"
 msgid "Please sign in to start new translation"
 msgstr "Inicieu la sessió per a començar una traducció nova"
 
-#. Translators: first and last contain localized human readable time span, for example 5 days ago
+#. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:154
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
@@ -5555,10 +5573,6 @@ msgstr ""
 "concret. Útil per a incloure-ho a la documentació o a la mateixa aplicació, "
 "per a donar les gràcies als traductors i generar-los reaccions."
 
-#: weblate/templates/data.html:7
-msgid "data exports"
-msgstr "Exportacions de dades"
-
 #: weblate/templates/data.html:13
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
@@ -5655,10 +5669,6 @@ msgstr "Nota"
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
 msgid "Browse the documentation for detailed instructions"
 msgstr "Exploreu la documentació per a veure'n instruccions detallades"
-
-#: weblate/templates/edit_glossary.html:8 weblate/templates/glossaries.html:9
-msgid "glossaries"
-msgstr "Glossaris"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -5778,7 +5788,7 @@ msgstr "Quan hàgiu activat el vostre compte, aneu a la secció de traducció."
 
 #: weblate/templates/engage.html:64
 #: weblate/templates/snippets/list-objects.html:44
-#: weblate/templates/translation.html:137
+#: weblate/templates/translate.html:25 weblate/templates/translation.html:137
 msgid "Translate"
 msgstr "Tradueix"
 
@@ -6969,7 +6979,9 @@ msgid "No matching user found."
 msgstr "No s'ha trobat cap usuari coincident."
 
 #: weblate/templates/matrix.html:9
-msgid "matrix"
+#, fuzzy
+#| msgid "matrix"
+msgid "Matrix"
 msgstr "Matriu"
 
 #: weblate/templates/matrix.html:35
@@ -8256,15 +8268,11 @@ msgstr ""
 "ubicació diferent. Si el contingut del dipòsit és diferent, probablement "
 "seria millor crear un component nou."
 
-#: weblate/templates/translate.html:25
-msgid "translate"
-msgstr "Tradueix"
-
 #: weblate/templates/translate.html:50
 msgid "Edit in Zen mode"
 msgstr "Edita en mode zen"
 
-#: weblate/templates/translate.html:50
+#: weblate/templates/translate.html:50 weblate/templates/zen.html:24
 msgid "Zen"
 msgstr "Zen"
 
@@ -8754,10 +8762,6 @@ msgstr "Obre a l'editor complet"
 #: weblate/templates/zen-units.html:106 weblate/trans/views/edit.py:429
 msgid "The translation has come to an end."
 msgstr "La traducció ha finalitzat."
-
-#: weblate/templates/zen.html:24
-msgid "zen"
-msgstr "Zen"
 
 #: weblate/templates/zen.html:38
 msgid "Edit in single string mode"
@@ -11672,6 +11676,27 @@ msgstr "S'ha activat el procés de còpia de seguretat"
 msgid "Could not dismiss the configuration error!"
 msgstr "No s'ha pogut descartar l'error de configuració!"
 
+#~ msgid "Manage users (on the entire platform)"
+#~ msgstr "Gestiona usuaris (en tota la plataforma)"
+
+#~ msgid "Manage translation memory (on the entire platform)"
+#~ msgstr "Gestiona la memòria de traducció (en tota la plataforma)"
+
+#~ msgid "username"
+#~ msgstr "nom d'usuari"
+
+#~ msgid "data exports"
+#~ msgstr "Exportacions de dades"
+
+#~ msgid "glossaries"
+#~ msgstr "Glossaris"
+
+#~ msgid "translate"
+#~ msgstr "Tradueix"
+
+#~ msgid "zen"
+#~ msgstr "Zen"
+
 #~ msgid "Use translation memory"
 #~ msgstr "Utilitza la memòria de traducció"
 
@@ -12566,9 +12591,6 @@ msgstr "No s'ha pogut descartar l'error de configuració!"
 
 #~ msgid "Add users (global)"
 #~ msgstr "Afegeix usuaris (global)"
-
-#~ msgid "Manage users (global)"
-#~ msgstr "Gestiona els usuaris (global)"
 
 #~ msgid "Gettext plural formula"
 #~ msgstr "Fórmula de plurals del gettext"

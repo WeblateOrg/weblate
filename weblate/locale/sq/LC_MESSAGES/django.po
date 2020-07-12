@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 05:08+0000\n"
+"POT-Creation-Date: 2020-07-12 18:45+0000\n"
 "PO-Revision-Date: 2020-07-12 14:30+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -29,7 +29,7 @@ msgid "None"
 msgstr "Asnjë"
 
 #: weblate/accounts/avatar.py:123 weblate/templates/accounts/profile.html:195
-#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:226
+#: weblate/templates/accounts/user.html:13 weblate/templates/base.html:217
 #: weblate/templates/weblate_auth/user_list.html:18
 #, fuzzy
 #| msgid "User data"
@@ -54,7 +54,7 @@ msgstr ""
 "vijuese: @ . + - _"
 
 #: weblate/accounts/forms.py:124 weblate/accounts/forms.py:769
-#: weblate/templates/manage-access.html:24
+#: weblate/auth/models.py:278 weblate/templates/manage-access.html:24
 msgid "Username"
 msgstr "Emër përdoruesi"
 
@@ -817,7 +817,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "Shumë mesazhe të dërguar, ju lutemi, riprovoni më vonë!"
 
 #: weblate/accounts/views.py:491 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:256
+#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:247
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "Kontakt"
@@ -830,7 +830,7 @@ msgstr "Strehim"
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:203
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:194
 msgid "Sign in"
 msgstr "Hyni"
 
@@ -1710,52 +1710,73 @@ msgstr "Të përditësojë depon e brendshme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-msgid "Use management interface (on the entire platform)"
+#, fuzzy
+#| msgid "Use management interface (on the entire platform)"
+msgid "Use management interface (site wide)"
 msgstr "Të përdorë ndërfaqe administrimi (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-msgid "Add new projects (on the entire platform)"
+#, fuzzy
+#| msgid "Add new projects (on the entire platform)"
+msgid "Add new projects (site wide)"
 msgstr "Të shtojë projekte të rinj (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-msgid "Add language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Add language definitions (on the entire platform)"
+msgid "Add language definitions (site wide)"
 msgstr "Të shtojë përkufizime gjuhësh (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-msgid "Manage language definitions (on the entire platform)"
+#, fuzzy
+#| msgid "Manage language definitions (on the entire platform)"
+msgid "Manage language definitions (site wide)"
 msgstr "Të administrojë përkufizime gjuhësh (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-msgid "Manage groups (on the entire platform)"
+#, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage groups (site wide)"
 msgstr "Të administrojë grupe (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-msgid "Manage users (on the entire platform)"
-msgstr "Të administrojë përdorues (në krejt platformën)"
+#, fuzzy
+#| msgid "Glossary"
+msgid "Manage users (site wide)"
+msgstr "Fjalori"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-msgid "Manage roles (on the entire platform)"
+#, fuzzy
+#| msgid "Manage roles (on the entire platform)"
+msgid "Manage roles (site wide)"
 msgstr "Të administrojë role (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-msgid "Manage announcements (on the entire platform)"
+#, fuzzy
+#| msgid "Manage announcements (on the entire platform)"
+msgid "Manage announcements (site wide)"
 msgstr "Të administrojë tabelë (në krejt platformën)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-msgid "Manage translation memory (on the entire platform)"
-msgstr "Të administrojë kujtesë përkthimesh (në krejt platformën)"
+#, fuzzy
+#| msgctxt "Access control role"
+#| msgid "Manage translation memory"
+msgid "Manage translation memory (site wide)"
+msgstr "Të administrojë kujtesë përkthimesh"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-msgid "Manage component lists (on the entire platform)"
+#, fuzzy
+#| msgid "Manage component lists (on the entire platform)"
+msgid "Manage component lists (site wide)"
 msgstr "Të administrojë listë përbërësish (në krejt platformën)"
 
 #: weblate/auth/data.py:168
@@ -1946,7 +1967,7 @@ msgid "From component list"
 msgstr "Prej liste përbërësish"
 
 #: weblate/auth/models.py:124 weblate/billing/admin.py:73
-#: weblate/billing/models.py:241 weblate/templates/base.html:132
+#: weblate/billing/models.py:241 weblate/templates/base.html:123
 #: weblate/templates/billing/status.html:66 weblate/templates/language.html:18
 #: weblate/templates/projects.html:5 weblate/trans/models/project.py:169
 #: weblate/trans/views/basic.py:83
@@ -1973,7 +1994,7 @@ msgstr "Tërë gjuhët"
 #: weblate/auth/models.py:142 weblate/billing/models.py:276
 #: weblate/lang/models.py:468 weblate/lang/views.py:51
 #: weblate/templates/accounts/profile.html:24
-#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:148
+#: weblate/templates/accounts/profile.html:40 weblate/templates/base.html:139
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
 #: weblate/templates/lang/plural_form.html:6 weblate/templates/language.html:7
@@ -1989,10 +2010,6 @@ msgstr "Gjuhë"
 #: weblate/auth/models.py:146
 msgid "Weblate internal group"
 msgstr "Grup Weblate i brendshëm"
-
-#: weblate/auth/models.py:278
-msgid "username"
-msgstr "emër përdoruesi"
 
 #: weblate/auth/models.py:286
 msgid "A user with that username already exists."
@@ -3011,7 +3028,8 @@ msgid "App store metadata files"
 msgstr "Kartela tejtëdhënash shitoreje aplikacionesh"
 
 #: weblate/glossary/apps.py:27 weblate/glossary/views.py:151
-#: weblate/templates/component.html:38 weblate/templates/language.html:22
+#: weblate/templates/component.html:38 weblate/templates/edit_glossary.html:8
+#: weblate/templates/glossaries.html:9 weblate/templates/language.html:22
 #: weblate/templates/snippets/project-nav.html:25
 #: weblate/templates/snippets/project-nav.html:27
 msgid "Glossaries"
@@ -3659,12 +3677,12 @@ msgid "Insufficient privileges to display this page."
 msgstr "Privilegje të pamjaftueshme për të shfaqur këtë faqe."
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:130 weblate/templates/base.html:274
+#: weblate/templates/base.html:121 weblate/templates/base.html:265
 msgid "Dashboard"
 msgstr "Pult"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
-#: weblate/templates/base.html:144
+#: weblate/templates/base.html:135
 msgid "Browse all projects"
 msgstr "Shfletoni krejt projektet"
 
@@ -3750,7 +3768,7 @@ msgstr ""
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:257 weblate/templates/footer.html:6
+#: weblate/templates/base.html:248 weblate/templates/footer.html:6
 #: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "Rreth Weblate-it"
@@ -3796,7 +3814,7 @@ msgid "View hosting plans"
 msgstr "Shihni plane strehimi"
 
 #: weblate/templates/about/index.html:39
-#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:215
+#: weblate/templates/accounts/hosting.html:34 weblate/templates/base.html:206
 #: weblate/templates/billing-failure.html:8
 #: weblate/templates/billing/overview.html:24
 #: weblate/templates/projects.html:13
@@ -3901,8 +3919,8 @@ msgstr "Kontrolle të hedhur tej"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:224
-#: weblate/templates/base.html:227 weblate/templates/billing/overview.html:5
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:215
+#: weblate/templates/base.html:218 weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Profili juaj"
 
@@ -4027,7 +4045,7 @@ msgstr ""
 "secili projekt përkthimi."
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:201
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:192
 #: weblate/templates/engage.html:62
 msgid "Register"
 msgstr "Regjistrohuni"
@@ -4769,48 +4787,48 @@ msgstr ""
 "përzgjedhur “Për autor”, ose mesazhi i depozitimit është përshtatur për ta "
 "përmbajtur atë."
 
-#: weblate/templates/base.html:119
+#: weblate/templates/base.html:110
 msgid "Toggle navigation"
 msgstr "Shfaqni/Fshihni lëvizjen"
 
-#: weblate/templates/base.html:141
+#: weblate/templates/base.html:132
 msgid "Manage watched projects"
 msgstr "Administroni projekte të mbikëqyrur"
 
-#: weblate/templates/base.html:159
+#: weblate/templates/base.html:150
 msgid "Manage translated languages"
 msgstr "Administroni gjuhë përkthimi"
 
-#: weblate/templates/base.html:162
+#: weblate/templates/base.html:153
 msgid "Browse all languages"
 msgstr "Shfletoni tërë gjuhët"
 
-#: weblate/templates/base.html:166 weblate/templates/check.html:7
+#: weblate/templates/base.html:157 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
 #: weblate/templates/snippets/list-objects.html:21
 msgid "Checks"
 msgstr "Kontrolle"
 
-#: weblate/templates/base.html:170
+#: weblate/templates/base.html:161
 #, python-format
 msgid "Failed checks in %(project)s"
 msgstr "Kontrolle të dështuar te %(project)s"
 
-#: weblate/templates/base.html:174
+#: weblate/templates/base.html:165
 msgid "Checks overview"
 msgstr "Përmbledhje kontrollesh"
 
-#: weblate/templates/base.html:183 weblate/templates/base.html:185
+#: weblate/templates/base.html:174 weblate/templates/base.html:176
 msgid "Administration"
 msgstr "Administrim"
 
-#: weblate/templates/base.html:190 weblate/templates/base.html:192
+#: weblate/templates/base.html:181 weblate/templates/base.html:183
 #: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "Gabime formësimi"
 
-#: weblate/templates/base.html:209 weblate/templates/component.html:239
+#: weblate/templates/base.html:200 weblate/templates/component.html:239
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
@@ -4829,27 +4847,27 @@ msgstr "Gabime formësimi"
 msgid "Add"
 msgstr "Shtoje"
 
-#: weblate/templates/base.html:211 weblate/templates/billing/status.html:74
+#: weblate/templates/base.html:202 weblate/templates/billing/status.html:74
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Shtoni projekt të ri përkthimi"
 
-#: weblate/templates/base.html:212 weblate/templates/project.html:38
+#: weblate/templates/base.html:203 weblate/templates/project.html:38
 #: weblate/templates/snippets/project-component-settings.html:15
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Shtoni përbërës të ri përkthimi"
 
-#: weblate/templates/base.html:236
+#: weblate/templates/base.html:227
 msgid "Profile"
 msgstr "Profil"
 
-#: weblate/templates/base.html:238
+#: weblate/templates/base.html:229
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "Përmbledhje faturimi"
 
-#: weblate/templates/base.html:240 weblate/templates/component.html:95
+#: weblate/templates/base.html:231 weblate/templates/component.html:95
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18
@@ -4860,26 +4878,26 @@ msgstr "Përmbledhje faturimi"
 msgid "Translation memory"
 msgstr "Kujtesë përkthimesh"
 
-#: weblate/templates/base.html:241 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:232 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:104
 #: weblate/templates/project-settings.html:8
 #: weblate/templates/snippets/project-nav.html:124
 msgid "Settings"
 msgstr "Rregullime"
 
-#: weblate/templates/base.html:243 weblate/wladmin/sites.py:195
+#: weblate/templates/base.html:234 weblate/wladmin/sites.py:195
 msgid "Sign out"
 msgstr "Dilni"
 
-#: weblate/templates/base.html:250 weblate/templates/base.html:252
+#: weblate/templates/base.html:241 weblate/templates/base.html:243
 msgid "Help"
 msgstr "Ndihmë"
 
-#: weblate/templates/base.html:255
+#: weblate/templates/base.html:246
 msgid "Support"
 msgstr "Asistencë"
 
-#: weblate/templates/base.html:259 weblate/templates/check.html:50
+#: weblate/templates/base.html:250 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -4894,11 +4912,11 @@ msgstr "Asistencë"
 msgid "Documentation"
 msgstr "Dokumentim"
 
-#: weblate/templates/base.html:260
+#: weblate/templates/base.html:251
 msgid "Contribute to Weblate"
 msgstr "Kontribuoni te Weblate"
 
-#: weblate/templates/base.html:306 weblate/templates/base.html:314
+#: weblate/templates/base.html:297 weblate/templates/base.html:305
 #: weblate/templates/glossaries.html:53
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
@@ -4908,7 +4926,7 @@ msgstr "Kontribuoni te Weblate"
 msgid "Close"
 msgstr "Mbylle"
 
-#: weblate/templates/base.html:313 weblate/templates/fonts/font_list.html:40
+#: weblate/templates/base.html:304 weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82 weblate/templates/glossary.html:69
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/language.html:34
@@ -5288,7 +5306,7 @@ msgstr "Mjete"
 msgid "Search and replace"
 msgstr "Kërkoni dhe zëvendësoni"
 
-#: weblate/templates/component.html:73
+#: weblate/templates/component.html:73 weblate/templates/data.html:7
 #: weblate/templates/snippets/project-nav.html:79
 #: weblate/templates/snippets/project-nav.html:88
 #: weblate/templates/translation.html:61
@@ -5395,7 +5413,7 @@ msgstr "S’keni leje të nisni një përkthim të ri"
 msgid "Please sign in to start new translation"
 msgstr "Ju lutemi, që të filloni përkthim të ri, bëni hyrjen"
 
-#. Translators: first and last contain localized human readable time span, for example 5 days ago
+#. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
 #: weblate/templates/component.html:154
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
@@ -5666,10 +5684,6 @@ msgstr ""
 "dhënë. E dobishme për përfshirje në dokumentim ose në vetë aplikacionin, për "
 "të falënderuar përkthyesit dhe për të prodhuar përshtypje për ta."
 
-#: weblate/templates/data.html:7
-msgid "data exports"
-msgstr "eksportet e të dhënave"
-
 #: weblate/templates/data.html:13
 msgid "You can retrieve various data from Weblate in machine readable format."
 msgstr ""
@@ -5765,10 +5779,6 @@ msgstr "Shënim"
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
 msgid "Browse the documentation for detailed instructions"
 msgstr "Për udhëzime të hollësishme, shfletoni dokumentimin"
-
-#: weblate/templates/edit_glossary.html:8 weblate/templates/glossaries.html:9
-msgid "glossaries"
-msgstr "fjalorthë"
 
 #: weblate/templates/edit_glossary.html:21
 msgid "Change word"
@@ -5898,7 +5908,7 @@ msgstr ""
 
 #: weblate/templates/engage.html:64
 #: weblate/templates/snippets/list-objects.html:44
-#: weblate/templates/translation.html:137
+#: weblate/templates/translate.html:25 weblate/templates/translation.html:137
 msgid "Translate"
 msgstr "Përktheni"
 
@@ -7104,7 +7114,9 @@ msgid "No matching user found."
 msgstr "S’u gjet përdorues me përputhje."
 
 #: weblate/templates/matrix.html:9
-msgid "matrix"
+#, fuzzy
+#| msgid "matrix"
+msgid "Matrix"
 msgstr "matricë"
 
 #: weblate/templates/matrix.html:35
@@ -8403,15 +8415,11 @@ msgstr ""
 "tjetër. Nëse lënda e depos është e ndryshme, mund të ishte më mirë të "
 "krijohej një përkthim i ri."
 
-#: weblate/templates/translate.html:25
-msgid "translate"
-msgstr "përkthe"
-
 #: weblate/templates/translate.html:50
 msgid "Edit in Zen mode"
 msgstr "Përpunojeni nën mënyrën Zen"
 
-#: weblate/templates/translate.html:50
+#: weblate/templates/translate.html:50 weblate/templates/zen.html:24
 msgid "Zen"
 msgstr "Zen"
 
@@ -8921,10 +8929,6 @@ msgstr "Hape në përpunuesin eplotë"
 #: weblate/templates/zen-units.html:106 weblate/trans/views/edit.py:429
 msgid "The translation has come to an end."
 msgstr "Përkthimi mbërriti në fund."
-
-#: weblate/templates/zen.html:24
-msgid "zen"
-msgstr "zen"
 
 #: weblate/templates/zen.html:38
 msgid "Edit in single string mode"
@@ -11862,6 +11866,27 @@ msgstr "U shkaktua proces kopjeruajtjeje"
 msgid "Could not dismiss the configuration error!"
 msgstr "S’u hodh dot tej gabimi i formësimit!"
 
+#~ msgid "Manage users (on the entire platform)"
+#~ msgstr "Të administrojë përdorues (në krejt platformën)"
+
+#~ msgid "Manage translation memory (on the entire platform)"
+#~ msgstr "Të administrojë kujtesë përkthimesh (në krejt platformën)"
+
+#~ msgid "username"
+#~ msgstr "emër përdoruesi"
+
+#~ msgid "data exports"
+#~ msgstr "eksportet e të dhënave"
+
+#~ msgid "glossaries"
+#~ msgstr "fjalorthë"
+
+#~ msgid "translate"
+#~ msgstr "përkthe"
+
+#~ msgid "zen"
+#~ msgstr "zen"
+
 #~ msgid "Use translation memory"
 #~ msgstr "Të përdorë kujtesë përkthimesh"
 
@@ -12444,11 +12469,6 @@ msgstr "S’u hodh dot tej gabimi i formësimit!"
 #~| msgid "New password (again)"
 #~ msgid "Start new translation into more languages"
 #~ msgstr "Fjalëkalimi i ri (përsëritje)"
-
-#, fuzzy
-#~| msgid "Glossary"
-#~ msgid "Manage users (global)"
-#~ msgstr "Fjalori"
 
 #, fuzzy
 #~| msgid "Weblate translations"

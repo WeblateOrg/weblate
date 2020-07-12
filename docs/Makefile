@@ -36,7 +36,7 @@ update-schemas:
 update-po: $(wildcard locales/*/LC_MESSAGES/docs.po)
 
 locales/%/LC_MESSAGES/docs.po: locales/docs.pot
-	@msgmerge -U $@ -C ../weblate/locale/$*/LC_MESSAGES/django.po --previous $<
+	@if ! test -h locales/$* ; then msgmerge -U $@ -C ../weblate/locale/$*/LC_MESSAGES/django.po --previous $< ; fi
 
 locales/docs.pot: gettext
 	@cp _build/gettext/docs.pot $@
