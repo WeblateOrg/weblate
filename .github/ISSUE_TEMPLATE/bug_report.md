@@ -47,7 +47,7 @@ docker-compose exec weblate weblate list_versions
 **Weblate deploy checks**
 
 <!--
-Please paste the output of  check --deploy command over here. Depending on
+Please paste the output of check --deploy command over here. Depending on
 installation these can be executed in different way, please consult
 https://docs.weblate.org/en/latest/admin/management.html for more details.
 
@@ -67,7 +67,7 @@ docker-compose exec --user weblate weblate weblate check --deploy
 **Exception traceback**
 
 <!--
-In case you observed server erorr or crash, please see
+In case you observed server error or crash, please see
 <https://docs.weblate.org/en/latest/contributing/debugging.html>
 for information how to obtain that.
 -->
