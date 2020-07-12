@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-12 07:08+0200\n"
+"POT-Creation-Date: 2020-07-12 20:56+0200\n"
 "PO-Revision-Date: 2020-07-12 14:30+0000\n"
 "Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -292,20 +292,20 @@ msgstr ""
 
 #: ../../admin/access.rst:171
 msgid ""
-"Only first rule which is set is being used. So if you set all :guilabel:"
-"`Component list`, :guilabel:`Components` and :guilabel:`Project`, only :"
-"guilabel:`Component list` is being applied."
+"Only the first rule will be used. So if you set all of :guilabel:`Component "
+"list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
+"`Component list` is the only one applied."
 msgstr ""
 
 #: ../../admin/access.rst:175
 msgid ""
-"Additional step is performed if checking permission for the translation:"
+"An additional step is performed if checking permission for the translation:"
 msgstr ""
 
 #: ../../admin/access.rst:178
 msgid ""
-":guilabel:`Languages` are matches against scope of translations, if not set, "
-"this matches no language."
+"4. :guilabel:`Languages` are matched against the scope of translations if "
+"set, if not set, this does not match any language."
 msgstr ""
 
 #: ../../admin/access.rst:183
@@ -444,11 +444,11 @@ msgstr ""
 #: ../../admin/access.rst:287
 msgid ""
 "By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will "
-"stop managing access for a given project, and you can set up custom rules in "
-"the Django admin interface. This can be used to define more complex access "
-"control, or set up a shared access policy for all projects in a single "
-"Weblate instance. If you want to enable this for all projects by default, "
-"please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
+"stop managing access for a given project, and all users and groups can be "
+"managed using the Django``` admin interface. This can be used to define more "
+"complex access control, or set up a shared access policy for all projects in "
+"a single Weblate instance. If you want to turn this on for all projects by "
+"default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
 
 #: ../../admin/access.rst:296
@@ -542,8 +542,10 @@ msgid "Machinery"
 msgstr ""
 
 #: ../../admin/access.rst:334
-msgid "Use machine translation services [`Administration`, `Power user`]"
-msgstr ""
+#, fuzzy
+#| msgid "Start new translation into more languages"
+msgid "Use machinery [`Administration`, `Power user`]"
+msgstr "开始新翻译到更多语言"
 
 #: ../../admin/access.rst:339 ../../api.rst:726
 msgid "Projects"
@@ -755,63 +757,69 @@ msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr "更新内部代码库"
 
 #: ../../admin/access.rst:422
-msgid "Global privileges"
+msgid "Site wide privileges"
 msgstr ""
 
 #: ../../admin/access.rst:406
 #, fuzzy
 #| msgid "Use management interface (on the entire platform)"
-msgid "Use management interface (global)"
+msgid "Use management interface (site wide)"
 msgstr "使用管理界面（在整个平台上）"
 
 #: ../../admin/access.rst:408
 #, fuzzy
 #| msgid "Add language definitions (on the entire platform)"
-msgid "Add language definitions (global)"
+msgid "Add language definitions (site wide)"
 msgstr "添加语言定义（在整个平台上）"
 
 #: ../../admin/access.rst:410
 #, fuzzy
 #| msgid "Manage language definitions (on the entire platform)"
-msgid "Manage language definitions (global)"
+msgid "Manage language definitions (site wide)"
 msgstr "管理语言定义（在整个平台上）"
 
 #: ../../admin/access.rst:412
-msgid "Add groups (global)"
-msgstr "添加组（全局）"
+#, fuzzy
+#| msgid "Manage groups (on the entire platform)"
+msgid "Add groups (site wide)"
+msgstr "管理群组（在整个平台上）"
 
 #: ../../admin/access.rst:414
 #, fuzzy
-#| msgid "Manage users (global)"
-msgid "Manage groups (global)"
-msgstr "管理用户（全局）"
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage groups (site wide)"
+msgstr "管理群组（在整个平台上）"
 
 #: ../../admin/access.rst:416
-msgid "Add users (global)"
-msgstr "添加用户（全局）"
+#, fuzzy
+#| msgid "Manage users (global)"
+msgid "Add users (site wide)"
+msgstr "管理用户（全局）"
 
 #: ../../admin/access.rst:418
-msgid "Manage users (global)"
+#, fuzzy
+#| msgid "Manage users (global)"
+msgid "Manage users (site wide)"
 msgstr "管理用户（全局）"
 
 #: ../../admin/access.rst:420
 #, fuzzy
-#| msgid "Manage users (global)"
-msgid "Manage announcements (global)"
-msgstr "管理用户（全局）"
+#| msgid "Manage announcements (on the entire platform)"
+msgid "Manage announcements (site wide)"
+msgstr "管理公告 （在整个平台上）"
 
 #: ../../admin/access.rst:422
 #, fuzzy
 #| msgctxt "Access control role"
 #| msgid "Manage translation memory"
-msgid "Manage translation memory (global)"
+msgid "Manage translation memory (site wide)"
 msgstr "管理翻译记忆库"
 
 #: ../../admin/access.rst:426
 msgid ""
-"The global privileges are not granted to any default role. These are "
-"powerful and they are quite close to the superuser status - most of them can "
-"affect all projects on your Weblate installation."
+"The site wide privileges are not granted to any default role. These are "
+"powerful and quite close to the superuser status—most of them affect all the "
+"projects of your Weblate installation."
 msgstr ""
 
 #: ../../admin/access.rst:431
@@ -908,7 +916,7 @@ msgstr ""
 
 #: ../../admin/access.rst:473
 msgid ""
-"Never remove the predefined Weblate groups and users, this can lead to "
+"Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
 "all privileges from them."
 msgstr ""
@@ -1021,7 +1029,7 @@ msgstr ""
 msgid ""
 "The matching is done using regular expressions, where power is a tradeoff "
 "for complexity in configuration. Some examples for common use cases can be "
-"found in the addon help sectoin."
+"found in the addon help section."
 msgstr ""
 
 #: ../../admin/addons.rst:84
@@ -1525,7 +1533,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:35
 msgid ""
-":guilabel:`Weblate languages` holds language definitions, expained further "
+":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
 
@@ -1902,10 +1910,10 @@ msgstr ""
 
 #: ../../admin/auth.rst:317
 msgid ""
-"Email and password authentication can be disabled by removing ``social_core."
-"backends.email.EmailAuth`` from :setting:`django:AUTHENTICATION_BACKENDS`. "
-"Always keep ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed "
-"for core Weblate functionality."
+"E-mail and password authentication can be turned off by removing "
+"``social_core.backends.email.EmailAuth`` from :setting:`django:"
+"AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
+"WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
 
 #: ../../admin/auth.rst:325
@@ -3897,8 +3905,8 @@ msgstr ""
 
 #: ../../admin/config.rst:351
 msgid ""
-"Use :guilabel:`Custom` if you managing ACL manually, which means not "
-"realying on the internal Weblate management."
+"Use :guilabel:`Custom` if you managing ACL manually, which means not relying "
+"on the internal Weblate management."
 msgstr ""
 
 #: ../../admin/config.rst:356
@@ -3976,7 +3984,7 @@ msgstr ""
 
 #: ../../admin/config.rst:450
 msgid ""
-"Committer name for created translation components defualting to ``Weblate``."
+"Committer name for created translation components defaulting to ``Weblate``."
 msgstr ""
 
 #: ../../admin/config.rst:454
@@ -4484,7 +4492,7 @@ msgid "v1"
 msgstr ""
 
 #: ../../admin/config.rst:968
-msgid "Is meant for CAT tools and is usable with user based suscription."
+msgid "Is meant for CAT tools and is usable with user based subscription."
 msgstr ""
 
 #: ../../admin/config.rst:970
@@ -6059,16 +6067,16 @@ msgstr ""
 
 #: ../../admin/install.rst:22
 msgid ""
-"Depending on your setup and experience, choose appropriate installation "
-"method:"
+"Depending on your setup and experience, choose an appropriate installation "
+"method for you:"
 msgstr ""
 
 #: ../../admin/install.rst:24
-msgid ":ref:`quick-docker`, recommended for production setup."
+msgid ":ref:`quick-docker`, recommended for production setups."
 msgstr ""
 
 #: ../../admin/install.rst:26
-msgid "Virtualenv installation, recommended for production setup:"
+msgid "Virtualenv installation, recommended for production setups:"
 msgstr ""
 
 #: ../../admin/install.rst:28
@@ -6105,14 +6113,14 @@ msgstr ""
 
 #: ../../admin/install.rst:45
 msgid ""
-"Weblate is known to work on Linux, FreeBSD and OSX. Other Unix like systems "
-"will most likely work as well."
+"Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
+"systems will most likely work too."
 msgstr ""
 
 #: ../../admin/install.rst:48
 msgid ""
-"Weblate is not supported on Windows. But it may still work and we are happy "
-"to accept patches."
+"Weblate is not supported on Windows. But it may still work and patches are "
+"happily accepted."
 msgstr ""
 
 #: ../../admin/install.rst:52
@@ -6500,7 +6508,7 @@ msgstr ""
 #: ../../admin/install.rst:314
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
-"cases. Look for ``postgresql-contrib`` or similarly named package."
+"cases. Look for ``postgresql-contrib`` or a similarly named package."
 msgstr ""
 
 #: ../../admin/install.rst:319
@@ -6519,9 +6527,9 @@ msgstr ""
 
 #: ../../admin/install.rst:341
 msgid ""
-"If you don't want to make Weblate user a superuser in PostgreSQL, you can "
-"omit that. In that case you will have to perform some of the migration steps "
-"manually as a PostgreSQL superuser:"
+"If you don't want to make the Weblate user a superuser in PostgreSQL, you "
+"can omit that. In that case you will have to perform some of the migration "
+"steps manually as a PostgreSQL superuser:"
 msgstr ""
 
 #: ../../admin/install.rst:350
@@ -6761,7 +6769,7 @@ msgstr ""
 
 #: ../../admin/install.rst:556
 msgid ""
-"Email sender address for outgoing e-mail, for example registration e-mails."
+"E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
 
 #: ../../admin/install.rst:560
@@ -6788,7 +6796,7 @@ msgstr ""
 
 #: ../../admin/install.rst:577
 msgid ""
-"Email used as sender address for sending e-mails to the administrator, for "
+"E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
 
@@ -7214,7 +7222,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1010
 msgid ""
-"For examble by editing :file:`/etc/default/locale` and setting there ``LANG="
+"For example by editing :file:`/etc/default/locale` and setting there ``LANG="
 "\"C.UTF-8\"``."
 msgstr ""
 
@@ -7734,8 +7742,8 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
-"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate 实例。Weblate 的所有依赖项已包含在内。"
-"PostgreSQL 被设置为默认数据库。"
+"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate 实"
+"例。Weblate 的所有依赖项已包含在内。PostgreSQL 被设置为默认数据库。"
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -7747,7 +7755,8 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
-"Weblate 应该可以在所有现代硬件上正常运行，以下是在单个主机（Weblate，数据库和 Web 服务器）上运行 Weblate 所需的最低配置："
+"Weblate 应该可以在所有现代硬件上正常运行，以下是在单个主机（Weblate，数据库"
+"和 Web 服务器）上运行 Weblate 所需的最低配置："
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -7771,7 +7780,9 @@ msgstr "内存越多越好 —— 用于所有级别的缓存（文件系统，�
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
-msgstr "许多并发用户会增加所需的 CPU 内核数量。对于数百个翻译组件，建议至少有 4 GB 的内存。"
+msgstr ""
+"许多并发用户会增加所需的 CPU 内核数量。对于数百个翻译组件，建议至少有 4 GB 的"
+"内存。"
 
 #: ../../admin/install/steps/hw.rst:21
 msgid ""
@@ -7792,7 +7803,9 @@ msgid ""
 "The following examples assume you have a working Docker environment, with "
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
-msgstr "以下示例假设您拥有一个工作正常的 Docker 环境，并安装了 ``docker-compose``。请查看 Docker 文档以获取说明。"
+msgstr ""
+"以下示例假设您拥有一个工作正常的 Docker 环境，并安装了 ``docker-compose``。请"
+"查看 Docker 文档以获取说明。"
 
 #: ../../admin/install/docker.rst:20
 msgid "Clone the weblate-docker repo:"
@@ -7803,27 +7816,32 @@ msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
-"使用您的设置创建一个 :file:`docker-compose.override.yml` 文件。请参阅 :ref:`docker-"
-"environment` 以获取环境变量的完整列表。"
+"使用您的设置创建一个 :file:`docker-compose.override.yml` 文件。请参阅 :ref:"
+"`docker-environment` 以获取环境变量的完整列表。"
 
 #: ../../admin/install/docker.rst:49
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
-msgstr "如果未设置 :envvar:`WEBLATE_ADMIN_PASSWORD`，则使用首次启动时显示的随机密码创建管理员用户。"
+msgstr ""
+"如果未设置 :envvar:`WEBLATE_ADMIN_PASSWORD`，则使用首次启动时显示的随机密码创"
+"建管理员用户。"
 
 #: ../../admin/install/docker.rst:52
 msgid ""
 "Append ``,localhost`` to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to "
 "access locally for testing."
-msgstr "将 ``,localhost`` 附加到 :envvar:`WEBLATE_ALLOWED_HOSTS` 以便能够在本地访问以进行测试。"
+msgstr ""
+"将 ``,localhost`` 附加到 :envvar:`WEBLATE_ALLOWED_HOSTS` 以便能够在本地访问以"
+"进行测试。"
 
 #: ../../admin/install/docker.rst:55
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose-override.yml` file to change it."
 msgstr ""
-"提供的示例使 Weblate 侦听端口 80，在 :file:`docker-compose-override.yml` 文件中编辑端口映射以进行更改。"
+"提供的示例使 Weblate 侦听端口 80，在 :file:`docker-compose-override.yml` 文件"
+"中编辑端口映射以进行更改。"
 
 #: ../../admin/install/docker.rst:58
 msgid "Start Weblate containers:"
@@ -7839,13 +7857,17 @@ msgstr "享受您的 Weblate 部署，可以在 ``weblate`` 容器的端口 80 �
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
-msgstr "最近更改了设置，以前有单独的 web 服务器容器，因为 2.15-2 开始，web 服务器已嵌入 Weblate 容器中。"
+msgstr ""
+"最近更改了设置，以前有单独的 web 服务器容器，因为 2.15-2 开始，web 服务器已嵌"
+"入 Weblate 容器中。"
 
 #: ../../admin/install/docker.rst:74
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers is not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
-msgstr "在 2019 年 7 月（从 3.7.1-6 标签开始）中，容器未以 root 用户身份运行。这已将裸露端口从 80 更改为 8080。"
+msgstr ""
+"在 2019 年 7 月（从 3.7.1-6 标签开始）中，容器未以 root 用户身份运行。这已将"
+"裸露端口从 80 更改为 8080。"
 
 #: ../../admin/install/docker.rst:77
 msgid ":ref:`invoke-manage`"
@@ -7859,7 +7881,8 @@ msgstr "具有 HTTPS 支持的 Docker 容器"
 msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
-msgstr "请参阅 :ref:`docker-deploy` 以获取常规部署说明，本节仅提及与之相比的差异。"
+msgstr ""
+"请参阅 :ref:`docker-deploy` 以获取常规部署说明，本节仅提及与之相比的差异。"
 
 #: ../../admin/install/docker.rst:88
 msgid "Using own SSL certificates"
@@ -7939,14 +7962,16 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
-"通常，只更新 Weblate 容器并保持 PostgreSQL 容器为您的版本是一个好主意，因为升级 PostgreSQL "
-"会很痛苦，并且在大多数情况下不会带来很多好处。"
+"通常，只更新 Weblate 容器并保持 PostgreSQL 容器为您的版本是一个好主意，因为升"
+"级 PostgreSQL 会很痛苦，并且在大多数情况下不会带来很多好处。"
 
 #: ../../admin/install/docker.rst:176
 msgid ""
 "You can do this by sticking with the existing docker-compose and just pull "
 "the latest images and then restart:"
-msgstr "您可以通过坚持使用现有的 docker-compose 并仅提取最新镜像然后重新启动来执行此操作："
+msgstr ""
+"您可以通过坚持使用现有的 docker-compose 并仅提取最新镜像然后重新启动来执行此"
+"操作："
 
 #: ../../admin/install/docker.rst:185
 msgid ""
@@ -7961,8 +7986,9 @@ msgid ""
 "writing this it is the ``3.0.1-7``) image, which will do the migration and "
 "then continue upgrading to newer versions."
 msgstr ""
-"Weblate 不支持跨 3.0 的升级。如果您使用的是 2.x 系列，并且要升级到 3.x，请首先升级到最新的 3.0.1-x（在撰写本文时为 ``3."
-"0.1-7``）镜像，它将进行迁移和然后继续升级到较新版本。"
+"Weblate 不支持跨 3.0 的升级。如果您使用的是 2.x 系列，并且要升级到 3.x，请首"
+"先升级到最新的 3.0.1-x（在撰写本文时为 ``3.0.1-7``）镜像，它将进行迁移和然后"
+"继续升级到较新版本。"
 
 #: ../../admin/install/docker.rst:195
 msgid ""
@@ -7971,9 +7997,10 @@ msgid ""
 "case as it's not straightforward to upgrade the database, see `GitHub issue "
 "<https://github.com/docker-library/postgres/issues/37>`_ for more info."
 msgstr ""
-"您可能还想更新 ``docker-compose`` 仓库，尽管在大多数情况下并不需要。在这种情况下，请注意 PostgreSQL "
-"版本的更改，因为升级数据库并不容易，请参见 `GitHub issue <https://github.com/docker-library/"
-"postgres/issues/37>`_ 以获取更多信息。"
+"您可能还想更新 ``docker-compose`` 仓库，尽管在大多数情况下并不需要。在这种情"
+"况下，请注意 PostgreSQL 版本的更改，因为升级数据库并不容易，请参见 `GitHub "
+"issue <https://github.com/docker-library/postgres/issues/37>`_ 以获取更多信"
+"息。"
 
 #: ../../admin/install/docker.rst:202
 msgid "Admin login"
@@ -7985,22 +8012,24 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
-"设置容器之后，您可以使用 :envvar:`WEBLATE_ADMIN_PASSWORD` 中提供的密码以 `管理员` "
-"用户身份登录，或者如果未设置该密码，则在首次启动时生成随机密码。"
+"设置容器之后，您可以使用 :envvar:`WEBLATE_ADMIN_PASSWORD` 中提供的密码以 `管"
+"理员` 用户身份登录，或者如果未设置该密码，则在首次启动时生成随机密码。"
 
 #: ../../admin/install/docker.rst:208
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
-msgstr "要重置 `管理员` 密码，请在 :envvar:`WEBLATE_ADMIN_PASSWORD` 设置为新密码的情况下重启容器。"
+msgstr ""
+"要重置 `管理员` 密码，请在 :envvar:`WEBLATE_ADMIN_PASSWORD` 设置为新密码的情"
+"况下重启容器。"
 
 #: ../../admin/install/docker.rst:213
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
-":envvar:`WEBLATE_ADMIN_EMAIL`"
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
+"`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:220
 msgid "Docker environment variables"
@@ -8047,8 +8076,8 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
-"配置站点管理员的姓名和电子邮件。它用于 :setting:`ADMINS` 设置和创建 `管理员` 用户（有关此信息，请参阅 "
-":envvar:`WEBLATE_ADMIN_PASSWORD`）。"
+"配置站点管理员的姓名和电子邮件。它用于 :setting:`ADMINS` 设置和创建 `管理员` "
+"用户（有关此信息，请参阅 :envvar:`WEBLATE_ADMIN_PASSWORD`）。"
 
 #: ../../admin/install/docker.rst:268
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
@@ -8062,7 +8091,9 @@ msgstr "设置 `管理员` 用户的密码。"
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
-msgstr "如果未设置并且 `管理员` 用户不存在，则会使用首次启动容器时显示的随机密码来创建它。"
+msgstr ""
+"如果未设置并且 `管理员` 用户不存在，则会使用首次启动容器时显示的随机密码来创"
+"建它。"
 
 #: ../../admin/install/docker.rst:278
 msgid "If not set and `admin` user exists, no action is performed."
@@ -8074,24 +8105,26 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
-"如果设置，则在每次容器启动时都会对 `管理员` 用户进行调整，以匹配 "
-":envvar:`WEBLATE_ADMIN_PASSWORD`，:envvar:`WEBLATE_ADMIN_NAME` 和 "
-":envvar:`WEBLATE_ADMIN_EMAIL`。"
+"如果设置，则在每次容器启动时都会对 `管理员` 用户进行调整，以匹配 :envvar:"
+"`WEBLATE_ADMIN_PASSWORD`，:envvar:`WEBLATE_ADMIN_NAME` 和 :envvar:"
+"`WEBLATE_ADMIN_EMAIL`。"
 
 #: ../../admin/install/docker.rst:285
 msgid ""
 "It might be a security risk to store password in the configuration file. "
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
-msgstr "将密码存储在配置文件中可能会带来安全风险。考虑仅将此变量用于初始设置（或让Weblate在初始启动时生成随机密码）或用于密码恢复。"
+msgstr ""
+"将密码存储在配置文件中可能会带来安全风险。考虑仅将此变量用于初始设置（或让"
+"Weblate在初始启动时生成随机密码）或用于密码恢复。"
 
 #: ../../admin/install/docker.rst:292
 msgid ""
 ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
 "`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
-":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, "
-":envvar:`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
+":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
+"`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:300
 msgid "Configures the address for outgoing e-mails."
@@ -8105,7 +8138,9 @@ msgstr ":ref:`production-email`"
 msgid ""
 "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS` and sets "
 "sitename to the first one."
-msgstr "使用 :setting:`ALLOWED_HOSTS` 配置允许的 HTTP 主机名，并将站点名设置为第一个。"
+msgstr ""
+"使用 :setting:`ALLOWED_HOSTS` 配置允许的 HTTP 主机名，并将站点名设置为第一"
+"个。"
 
 #: ../../admin/install/docker.rst:320
 msgid ""
@@ -8137,7 +8172,9 @@ msgstr "通过切换 :std:setting:`REGISTRATION_OPEN` 配置是否打开注册�
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
-msgstr "配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` 创建新帐户的身份验证方法。"
+msgstr ""
+"配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` 创建新帐户的身份验证方"
+"法。"
 
 #: ../../admin/install/docker.rst:363
 msgid ""
@@ -8407,7 +8444,7 @@ msgid "Enables :ref:`github_auth`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:698
-msgid "BitBucket"
+msgid "Bitbucket"
 msgstr ""
 
 #: ../../admin/install/docker.rst:703
@@ -8748,13 +8785,16 @@ msgid ""
 "There is single data volume exported by the Weblate container. The other "
 "service containers (PostgreSQL or Redis) have their data volumes as well, "
 "but those are not covered by this document."
-msgstr "Weblate 容器导出单个数据卷。其他服务容器（PostgreSQL 或 Redis）也具有其数据卷，但本文档未涵盖这些数据卷。"
+msgstr ""
+"Weblate 容器导出单个数据卷。其他服务容器（PostgreSQL 或 Redis）也具有其数据"
+"卷，但本文档未涵盖这些数据卷。"
 
 #: ../../admin/install/docker.rst:1045
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
-msgstr "数据卷用于存储 Weblate 持久数据（例如克隆的仓库）或自定义 Weblate 安装。"
+msgstr ""
+"数据卷用于存储 Weblate 持久数据（例如克隆的仓库）或自定义 Weblate 安装。"
 
 #: ../../admin/install/docker.rst:1048
 msgid ""
@@ -8763,8 +8803,9 @@ msgid ""
 "weblate-docker_weblate-data/_data/`. In the container it is mounted as :file:"
 "`/app/data`."
 msgstr ""
-"Docker 卷在主机系统上的位置取决于您的 Docker 配置，但通常存储在 :file:`/var/lib/docker/volumes/"
-"weblate-docker_weblate-data/_data/` 中。在容器中，它挂载为 :file:`/app/data`。"
+"Docker 卷在主机系统上的位置取决于您的 Docker 配置，但通常存储在 :file:`/var/"
+"lib/docker/volumes/weblate-docker_weblate-data/_data/` 中。在容器中，它挂载"
+"为 :file:`/app/data`。"
 
 #: ../../admin/install/docker.rst:1055
 msgid ""
@@ -8779,7 +8820,8 @@ msgstr "进一步的配置定制"
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
-msgstr "您可以在数据卷中进一步自定义 Weblate 安装，请参阅 :ref:`docker-volume`。"
+msgstr ""
+"您可以在数据卷中进一步自定义 Weblate 安装，请参阅 :ref:`docker-volume`。"
 
 #: ../../admin/install/docker.rst:1066
 msgid "Custom configuration files"
@@ -8792,8 +8834,9 @@ msgid ""
 "environment settings are loaded, so it gets completely set up, and can be "
 "used to customize anything."
 msgstr ""
-"您还可以在 :file:`/app/data/settings-override.py` 中覆盖配置（请参阅 :ref:`docker-"
-"volume`）。加载所有环境设置后将执行此操作，因此将完全设置它，并可用于自定义任何内容。"
+"您还可以在 :file:`/app/data/settings-override.py` 中覆盖配置（请参阅 :ref:"
+"`docker-volume`）。加载所有环境设置后将执行此操作，因此将完全设置它，并可用于"
+"自定义任何内容。"
 
 #: ../../admin/install/docker.rst:1074
 msgid "Replacing logo and other static files"
@@ -8806,9 +8849,9 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
-"Weblate 附带的静态文件可以通过放置到 :file:`/app/data/python/customize/static` 中来覆盖（请参阅 "
-":ref:`docker-volume`）。例如，创建 :file:`/app/data/python/customize/static/favicon."
-"ico` 将替换 favicon。"
+"Weblate 附带的静态文件可以通过放置到 :file:`/app/data/python/customize/"
+"static` 中来覆盖（请参阅 :ref:`docker-volume`）。例如，创建 :file:`/app/data/"
+"python/customize/static/favicon.ico` 将替换 favicon。"
 
 #: ../../admin/install/docker.rst:1085
 msgid ""
@@ -8820,7 +8863,9 @@ msgstr "这些文件将在容器启动时复制到相应的位置，因此更改
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
-msgstr "或者，您也可以包括自己的模块（请参阅 :doc:`../customize`），并将其作为单独的卷添加到 Docker 容器中，例如："
+msgstr ""
+"或者，您也可以包括自己的模块（请参阅 :doc:`../customize`），并将其作为单独的"
+"卷添加到 Docker 容器中，例如："
 
 #: ../../admin/install/docker.rst:1101
 msgid "Adding own Python modules"
@@ -8832,8 +8877,9 @@ msgid ""
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
 "using :ref:`docker-custom-config`."
 msgstr ""
-"您可以将自己的 Python 模块放置在 :file:`/app/data/python/` 中（请参阅 :ref:`docker-volume`），"
-"然后可以由 Weblate 加载它们，很可能是使用 :ref:`docker-custom-config`。"
+"您可以将自己的 Python 模块放置在 :file:`/app/data/python/` 中（请参阅 :ref:"
+"`docker-volume`），然后可以由 Weblate 加载它们，很可能是使用 :ref:`docker-"
+"custom-config`。"
 
 #: ../../admin/install/docker.rst:1111
 msgid ":doc:`../customize`"
@@ -8849,7 +8895,8 @@ msgid ""
 "configuration by entering the Weblate container and executing an arbitrary "
 "Hub command. For example:"
 msgstr ""
-"为了使用 GitHub 的 pull-request 功能，您必须通过进入 Weblate 容器并执行任意 Hub 命令来初始化 Hub 配置。例如："
+"为了使用 GitHub 的 pull-request 功能，您必须通过进入 Weblate 容器并执行任意 "
+"Hub 命令来初始化 Hub 配置。例如："
 
 #: ../../admin/install/docker.rst:1124
 msgid ""
@@ -8867,8 +8914,8 @@ msgid ""
 "configuration by entering the weblate contained and executing ``lab`` "
 "command. For example:"
 msgstr ""
-"为了使用 GitLab 的 merge-request 功能，您必须通过进入 Weblate 容器并执行 ``lab`` 命令来初始化 ``lab`` "
-"配置。例如："
+"为了使用 GitLab 的 merge-request 功能，您必须通过进入 Weblate 容器并执行 "
+"``lab`` 命令来初始化 ``lab`` 配置。例如："
 
 #: ../../admin/install/docker.rst:1145
 msgid ""
@@ -8885,7 +8932,8 @@ msgstr ""
 msgid ""
 "The ``access_token`` passed for lab configuration must be same as :setting:"
 "`GITLAB_USERNAME`."
-msgstr "为 lab 配置传递的 ``access_token`` 必须与 :setting:`GITLAB_USERNAME` 相同。"
+msgstr ""
+"为 lab 配置传递的 ``access_token`` 必须与 :setting:`GITLAB_USERNAME` 相同。"
 
 #: ../../admin/install/docker.rst:1165
 msgid "Select your machine - local or cloud providers"
@@ -8897,8 +8945,8 @@ msgid ""
 "local machine, or on any large number of cloud-based deployments on e.g. "
 "Amazon AWS, Greenhost, and many other providers."
 msgstr ""
-"使用 docker-machine，您可以在本地计算机上或在任何数量的基于云的部署，例如 Amazon AWS，Greenhost "
-"和许多其他提供商上创建 Weblate 部署。"
+"使用 docker-machine，您可以在本地计算机上或在任何数量的基于云的部署，例如 "
+"Amazon AWS，Greenhost 和许多其他提供商上创建 Weblate 部署。"
 
 #: ../../admin/install/openshift.rst:4
 msgid "Installing on OpenShift"
@@ -8921,7 +8969,7 @@ msgid "Installing from sources"
 msgstr ""
 
 #: ../../admin/install/source.rst:6
-msgid "Please follow the installatin instructions for your system first:"
+msgid "Please follow the installation instructions for your system first:"
 msgstr ""
 
 #: ../../admin/install/source.rst:8
@@ -11369,7 +11417,7 @@ msgstr "上传翻译文件"
 #: ../../admin/projects.rst:75
 msgid ""
 "Upload translation files to Weblate in case you do not have version control "
-"or do not want to intergrate it with Weblate. You can later update the "
+"or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
 
@@ -16128,7 +16176,7 @@ msgstr ""
 
 #: ../../changes.rst:348
 msgid ""
-"Exteded API with project, component and translation removal and creation."
+"Extended API with project, component and translation removal and creation."
 msgstr ""
 
 #: ../../changes.rst:349
@@ -18354,7 +18402,7 @@ msgid "Added support for Bitbucket webhooks."
 msgstr ""
 
 #: ../../changes.rst:1061
-msgid "Tigher control on fuzzy strings on translation upload."
+msgid "Tighter control on fuzzy strings on translation upload."
 msgstr ""
 
 #: ../../changes.rst:1062
@@ -20665,7 +20713,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:66
 msgid ""
-"Prior to runinng tests you should collect static files as some tests rely on "
+"Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
 
@@ -23719,8 +23767,10 @@ msgid "Subtitle files"
 msgstr ""
 
 #: ../../formats.rst:1240
-msgid "Weblate can translate various subtile files:"
-msgstr ""
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Weblate can translate various subtitle files:"
+msgstr "清理翻译文件"
 
 #: ../../formats.rst:1242
 msgid "SubRip subtitle file (``*.srt``)"
@@ -23779,8 +23829,8 @@ msgstr ""
 
 #: ../../formats.rst:1291
 msgid ""
-"The translatable content is extacted from the HTML files and offered for the "
-"translation."
+"The translatable content is extracted from the HTML files and offered for "
+"the translation."
 msgstr ""
 
 #: ../../formats.rst:1295
@@ -23793,8 +23843,8 @@ msgstr ""
 
 #: ../../formats.rst:1308
 msgid ""
-"The translatable content is extacted from the OpenDocument files and offered "
-"for the translation."
+"The translatable content is extracted from the OpenDocument files and "
+"offered for the translation."
 msgstr ""
 
 #: ../../formats.rst:1312
@@ -23807,8 +23857,8 @@ msgstr ""
 
 #: ../../formats.rst:1325
 msgid ""
-"The translatable content is extacted from the Adobe InDesign Markup Language "
-"files and offered for the translation."
+"The translatable content is extracted from the Adobe InDesign Markup "
+"Language files and offered for the translation."
 msgstr ""
 
 #: ../../formats.rst:1329
@@ -23967,7 +24017,8 @@ msgid ""
 "system, used by over 1150 libre projects and companies in more than 115 "
 "countries.**"
 msgstr ""
-"**Weblate 是 Copylefted 的自由软件，是一个基于 Web 的持续本地化系统，来自 115+ 国家的 1150+ 开源项目正在使用。**"
+"**Weblate 是 Copylefted 的自由软件，是一个基于 Web 的持续本地化系统，来自 "
+"115+ 国家的 1150+ 开源项目正在使用。**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
@@ -23982,7 +24033,9 @@ msgid ""
 "Weblate is a libre software with optional professional support and cloud "
 "hosting offerings. Check out https://weblate.org/hosting/ for more "
 "information."
-msgstr "Weblate 是一款自由软件，具有可选的专业支持和云托管产品。查看 https://weblate.org/hosting/ 了解更多信息。"
+msgstr ""
+"Weblate 是一款自由软件，具有可选的专业支持和云托管产品。查看 https://weblate."
+"org/hosting/ 了解更多信息。"
 
 #: ../../../README.rst:40
 msgid "Documentation"
@@ -23992,7 +24045,8 @@ msgstr "文档"
 msgid ""
 "To be found in the ``docs`` directory of the source code, or viewed online "
 "on https://docs.weblate.org/"
-msgstr "可以在源代码的 ``docs`` 目录中找到，或在 https://docs.weblate.org/ 在线查看"
+msgstr ""
+"可以在源代码的 ``docs`` 目录中找到，或在 https://docs.weblate.org/ 在线查看"
 
 #: ../../../README.rst:48
 msgid "Setup instructions:"
@@ -26099,7 +26153,7 @@ msgid "``added:DATETIME``"
 msgstr ""
 
 #: ../../user/search.rst:40
-msgid "Timestamp when string was added to Weblate."
+msgid "Timestamp for when the string was added to Weblate."
 msgstr ""
 
 #: ../../user/search.rst:41
@@ -27477,7 +27531,7 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:70
-msgid "Instance wide options"
+msgid "Site wide options"
 msgstr ""
 
 #: ../../wlc.rst:72
@@ -28038,3 +28092,43 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Use management interface (on the entire platform)"
+#~ msgid "Use management interface (global)"
+#~ msgstr "使用管理界面（在整个平台上）"
+
+#, fuzzy
+#~| msgid "Add language definitions (on the entire platform)"
+#~ msgid "Add language definitions (global)"
+#~ msgstr "添加语言定义（在整个平台上）"
+
+#, fuzzy
+#~| msgid "Manage language definitions (on the entire platform)"
+#~ msgid "Manage language definitions (global)"
+#~ msgstr "管理语言定义（在整个平台上）"
+
+#~ msgid "Add groups (global)"
+#~ msgstr "添加组（全局）"
+
+#, fuzzy
+#~| msgid "Manage users (global)"
+#~ msgid "Manage groups (global)"
+#~ msgstr "管理用户（全局）"
+
+#~ msgid "Add users (global)"
+#~ msgstr "添加用户（全局）"
+
+#~ msgid "Manage users (global)"
+#~ msgstr "管理用户（全局）"
+
+#, fuzzy
+#~| msgid "Manage users (global)"
+#~ msgid "Manage announcements (global)"
+#~ msgstr "管理用户（全局）"
+
+#, fuzzy
+#~| msgctxt "Access control role"
+#~| msgid "Manage translation memory"
+#~ msgid "Manage translation memory (global)"
+#~ msgstr "管理翻译记忆库"

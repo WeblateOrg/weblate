@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-12 07:08+0200\n"
+"POT-Creation-Date: 2020-07-12 20:56+0200\n"
 "PO-Revision-Date: 2020-07-12 18:42+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -298,20 +298,20 @@ msgstr ""
 
 #: ../../admin/access.rst:171
 msgid ""
-"Only first rule which is set is being used. So if you set all :guilabel:"
-"`Component list`, :guilabel:`Components` and :guilabel:`Project`, only :"
-"guilabel:`Component list` is being applied."
+"Only the first rule will be used. So if you set all of :guilabel:`Component "
+"list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
+"`Component list` is the only one applied."
 msgstr ""
 
 #: ../../admin/access.rst:175
 msgid ""
-"Additional step is performed if checking permission for the translation:"
+"An additional step is performed if checking permission for the translation:"
 msgstr ""
 
 #: ../../admin/access.rst:178
 msgid ""
-":guilabel:`Languages` are matches against scope of translations, if not set, "
-"this matches no language."
+"4. :guilabel:`Languages` are matched against the scope of translations if "
+"set, if not set, this does not match any language."
 msgstr ""
 
 #: ../../admin/access.rst:183
@@ -334,8 +334,8 @@ msgid ""
 msgstr ""
 "En bruker må være medlem av en gruppe lenket til prosjektet eller en "
 "komponent i det. Kun medlemskap er nok, ingen spesielle tilganger kreves for "
-"å ha tilgang til et prosjekt (dette brukes i forvalgt `Seere` gruppe, se :ref"
-"`forvalgte-grupper`)."
+"å ha tilgang til et prosjekt (dette brukes i forvalgt `Seere` gruppe, se :"
+"ref`forvalgte-grupper`)."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
@@ -463,11 +463,11 @@ msgstr ""
 #: ../../admin/access.rst:287
 msgid ""
 "By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will "
-"stop managing access for a given project, and you can set up custom rules in "
-"the Django admin interface. This can be used to define more complex access "
-"control, or set up a shared access policy for all projects in a single "
-"Weblate instance. If you want to enable this for all projects by default, "
-"please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
+"stop managing access for a given project, and all users and groups can be "
+"managed using the Django``` admin interface. This can be used to define more "
+"complex access control, or set up a shared access policy for all projects in "
+"a single Weblate instance. If you want to turn this on for all projects by "
+"default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
 
 #: ../../admin/access.rst:296
@@ -563,8 +563,10 @@ msgid "Machinery"
 msgstr "machame"
 
 #: ../../admin/access.rst:334
-msgid "Use machine translation services [`Administration`, `Power user`]"
-msgstr ""
+#, fuzzy
+#| msgid "Start new translation into more languages"
+msgid "Use machinery [`Administration`, `Power user`]"
+msgstr "Start ny oversettelse til flere språk"
 
 #: ../../admin/access.rst:339 ../../api.rst:726
 msgid "Projects"
@@ -776,64 +778,71 @@ msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr "Oppdater det kodelageret"
 
 #: ../../admin/access.rst:422
-msgid "Global privileges"
-msgstr ""
+#, fuzzy
+#| msgid "Site wide permissions"
+msgid "Site wide privileges"
+msgstr "Tilganger for hele siden"
 
 #: ../../admin/access.rst:406
 #, fuzzy
 #| msgid "Use management interface (on the entire platform)"
-msgid "Use management interface (global)"
+msgid "Use management interface (site wide)"
 msgstr "Bruk håndteringsgrensesnitt (på hele plattformen)"
 
 #: ../../admin/access.rst:408
 #, fuzzy
 #| msgid "Add language definitions (on the entire platform)"
-msgid "Add language definitions (global)"
+msgid "Add language definitions (site wide)"
 msgstr "Legg til språkdefinisjoner (på hele plattformen)"
 
 #: ../../admin/access.rst:410
 #, fuzzy
 #| msgid "Manage language definitions (on the entire platform)"
-msgid "Manage language definitions (global)"
+msgid "Manage language definitions (site wide)"
 msgstr "Behandle språkdefinisjoner (på hele plattformen)"
 
 #: ../../admin/access.rst:412
 #, fuzzy
-msgid "Add groups (global)"
-msgstr "Legg til grupper (globalt)"
+#| msgid "Manage groups (on the entire platform)"
+msgid "Add groups (site wide)"
+msgstr "Behandle grupper (på hele plattformen)"
 
 #: ../../admin/access.rst:414
 #, fuzzy
-#| msgid "Manage users (global)"
-msgid "Manage groups (global)"
-msgstr "Administrer brukere (globalt)"
+#| msgid "Manage groups (on the entire platform)"
+msgid "Manage groups (site wide)"
+msgstr "Behandle grupper (på hele plattformen)"
 
 #: ../../admin/access.rst:416
-msgid "Add users (global)"
-msgstr "Legg til brukere (globalt)"
+#, fuzzy
+#| msgid "Manage users (global)"
+msgid "Add users (site wide)"
+msgstr "Administrer brukere (globalt)"
 
 #: ../../admin/access.rst:418
-msgid "Manage users (global)"
+#, fuzzy
+#| msgid "Manage users (global)"
+msgid "Manage users (site wide)"
 msgstr "Administrer brukere (globalt)"
 
 #: ../../admin/access.rst:420
 #, fuzzy
-#| msgid "Manage users (global)"
-msgid "Manage announcements (global)"
-msgstr "Administrer brukere (globalt)"
+#| msgid "Manage announcements (on the entire platform)"
+msgid "Manage announcements (site wide)"
+msgstr "Håndter kunngjøringer (på hele plattformen)"
 
 #: ../../admin/access.rst:422
 #, fuzzy
 #| msgctxt "Access control role"
 #| msgid "Manage translation memory"
-msgid "Manage translation memory (global)"
+msgid "Manage translation memory (site wide)"
 msgstr "Behandle oversettelsesminne"
 
 #: ../../admin/access.rst:426
 msgid ""
-"The global privileges are not granted to any default role. These are "
-"powerful and they are quite close to the superuser status - most of them can "
-"affect all projects on your Weblate installation."
+"The site wide privileges are not granted to any default role. These are "
+"powerful and quite close to the superuser status—most of them affect all the "
+"projects of your Weblate installation."
 msgstr ""
 
 #: ../../admin/access.rst:431
@@ -930,7 +939,7 @@ msgstr ""
 
 #: ../../admin/access.rst:473
 msgid ""
-"Never remove the predefined Weblate groups and users, this can lead to "
+"Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you do not want to use these features, just remove "
 "all privileges from them."
 msgstr ""
@@ -1062,7 +1071,7 @@ msgstr ""
 msgid ""
 "The matching is done using regular expressions, where power is a tradeoff "
 "for complexity in configuration. Some examples for common use cases can be "
-"found in the addon help sectoin."
+"found in the addon help section."
 msgstr ""
 
 #: ../../admin/addons.rst:84
@@ -1623,7 +1632,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:35
 msgid ""
-":guilabel:`Weblate languages` holds language definitions, expained further "
+":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
 
@@ -2000,10 +2009,10 @@ msgstr ""
 
 #: ../../admin/auth.rst:317
 msgid ""
-"Email and password authentication can be disabled by removing ``social_core."
-"backends.email.EmailAuth`` from :setting:`django:AUTHENTICATION_BACKENDS`. "
-"Always keep ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed "
-"for core Weblate functionality."
+"E-mail and password authentication can be turned off by removing "
+"``social_core.backends.email.EmailAuth`` from :setting:`django:"
+"AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
+"WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
 
 #: ../../admin/auth.rst:325
@@ -3995,8 +4004,8 @@ msgstr ""
 
 #: ../../admin/config.rst:351
 msgid ""
-"Use :guilabel:`Custom` if you managing ACL manually, which means not "
-"realying on the internal Weblate management."
+"Use :guilabel:`Custom` if you managing ACL manually, which means not relying "
+"on the internal Weblate management."
 msgstr ""
 
 #: ../../admin/config.rst:356
@@ -4074,7 +4083,7 @@ msgstr ""
 
 #: ../../admin/config.rst:450
 msgid ""
-"Committer name for created translation components defualting to ``Weblate``."
+"Committer name for created translation components defaulting to ``Weblate``."
 msgstr ""
 
 #: ../../admin/config.rst:454
@@ -4582,7 +4591,7 @@ msgid "v1"
 msgstr "v1"
 
 #: ../../admin/config.rst:968
-msgid "Is meant for CAT tools and is usable with user based suscription."
+msgid "Is meant for CAT tools and is usable with user based subscription."
 msgstr ""
 
 #: ../../admin/config.rst:970
@@ -6157,16 +6166,16 @@ msgstr "Installasjon av Weblate"
 
 #: ../../admin/install.rst:22
 msgid ""
-"Depending on your setup and experience, choose appropriate installation "
-"method:"
+"Depending on your setup and experience, choose an appropriate installation "
+"method for you:"
 msgstr ""
 
 #: ../../admin/install.rst:24
-msgid ":ref:`quick-docker`, recommended for production setup."
+msgid ":ref:`quick-docker`, recommended for production setups."
 msgstr ""
 
 #: ../../admin/install.rst:26
-msgid "Virtualenv installation, recommended for production setup:"
+msgid "Virtualenv installation, recommended for production setups:"
 msgstr ""
 
 #: ../../admin/install.rst:28
@@ -6203,14 +6212,14 @@ msgstr ""
 
 #: ../../admin/install.rst:45
 msgid ""
-"Weblate is known to work on Linux, FreeBSD and OSX. Other Unix like systems "
-"will most likely work as well."
+"Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
+"systems will most likely work too."
 msgstr ""
 
 #: ../../admin/install.rst:48
 msgid ""
-"Weblate is not supported on Windows. But it may still work and we are happy "
-"to accept patches."
+"Weblate is not supported on Windows. But it may still work and patches are "
+"happily accepted."
 msgstr ""
 
 #: ../../admin/install.rst:52
@@ -6598,7 +6607,7 @@ msgstr ""
 #: ../../admin/install.rst:314
 msgid ""
 "Weblate uses trigram extension which has to be installed separately in some "
-"cases. Look for ``postgresql-contrib`` or similarly named package."
+"cases. Look for ``postgresql-contrib`` or a similarly named package."
 msgstr ""
 
 #: ../../admin/install.rst:319
@@ -6617,9 +6626,9 @@ msgstr ""
 
 #: ../../admin/install.rst:341
 msgid ""
-"If you don't want to make Weblate user a superuser in PostgreSQL, you can "
-"omit that. In that case you will have to perform some of the migration steps "
-"manually as a PostgreSQL superuser:"
+"If you don't want to make the Weblate user a superuser in PostgreSQL, you "
+"can omit that. In that case you will have to perform some of the migration "
+"steps manually as a PostgreSQL superuser:"
 msgstr ""
 
 #: ../../admin/install.rst:350
@@ -6859,7 +6868,7 @@ msgstr ""
 
 #: ../../admin/install.rst:556
 msgid ""
-"Email sender address for outgoing e-mail, for example registration e-mails."
+"E-mail sender address for outgoing e-mail, for example registration e-mails."
 msgstr ""
 
 #: ../../admin/install.rst:560
@@ -6886,7 +6895,7 @@ msgstr ""
 
 #: ../../admin/install.rst:577
 msgid ""
-"Email used as sender address for sending e-mails to the administrator, for "
+"E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
 
@@ -7312,7 +7321,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1010
 msgid ""
-"For examble by editing :file:`/etc/default/locale` and setting there ``LANG="
+"For example by editing :file:`/etc/default/locale` and setting there ``LANG="
 "\"C.UTF-8\"``."
 msgstr ""
 
@@ -8480,7 +8489,9 @@ msgid "Enables :ref:`github_auth`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:698
-msgid "BitBucket"
+#, fuzzy
+#| msgid "BitBucket"
+msgid "Bitbucket"
 msgstr "BitBucket"
 
 #: ../../admin/install/docker.rst:703
@@ -8977,7 +8988,7 @@ msgid "Installing from sources"
 msgstr ""
 
 #: ../../admin/install/source.rst:6
-msgid "Please follow the installatin instructions for your system first:"
+msgid "Please follow the installation instructions for your system first:"
 msgstr ""
 
 #: ../../admin/install/source.rst:8
@@ -11425,7 +11436,7 @@ msgstr "Last opp oversettelsesfiler"
 #: ../../admin/projects.rst:75
 msgid ""
 "Upload translation files to Weblate in case you do not have version control "
-"or do not want to intergrate it with Weblate. You can later update the "
+"or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
 
@@ -16194,7 +16205,7 @@ msgstr ""
 
 #: ../../changes.rst:348
 msgid ""
-"Exteded API with project, component and translation removal and creation."
+"Extended API with project, component and translation removal and creation."
 msgstr ""
 
 #: ../../changes.rst:349
@@ -18420,7 +18431,7 @@ msgid "Added support for Bitbucket webhooks."
 msgstr ""
 
 #: ../../changes.rst:1061
-msgid "Tigher control on fuzzy strings on translation upload."
+msgid "Tighter control on fuzzy strings on translation upload."
 msgstr ""
 
 #: ../../changes.rst:1062
@@ -20731,7 +20742,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:66
 msgid ""
-"Prior to runinng tests you should collect static files as some tests rely on "
+"Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
 
@@ -23787,8 +23798,10 @@ msgid "Subtitle files"
 msgstr ""
 
 #: ../../formats.rst:1240
-msgid "Weblate can translate various subtile files:"
-msgstr ""
+#, fuzzy
+#| msgid "Cleanup translation files"
+msgid "Weblate can translate various subtitle files:"
+msgstr "Rydd opp i oversettelsesfiler"
 
 #: ../../formats.rst:1242
 msgid "SubRip subtitle file (``*.srt``)"
@@ -23847,8 +23860,8 @@ msgstr ""
 
 #: ../../formats.rst:1291
 msgid ""
-"The translatable content is extacted from the HTML files and offered for the "
-"translation."
+"The translatable content is extracted from the HTML files and offered for "
+"the translation."
 msgstr ""
 
 #: ../../formats.rst:1295
@@ -23861,8 +23874,8 @@ msgstr ""
 
 #: ../../formats.rst:1308
 msgid ""
-"The translatable content is extacted from the OpenDocument files and offered "
-"for the translation."
+"The translatable content is extracted from the OpenDocument files and "
+"offered for the translation."
 msgstr ""
 
 #: ../../formats.rst:1312
@@ -23875,8 +23888,8 @@ msgstr ""
 
 #: ../../formats.rst:1325
 msgid ""
-"The translatable content is extacted from the Adobe InDesign Markup Language "
-"files and offered for the translation."
+"The translatable content is extracted from the Adobe InDesign Markup "
+"Language files and offered for the translation."
 msgstr ""
 
 #: ../../formats.rst:1329
@@ -26182,7 +26195,9 @@ msgid "``added:DATETIME``"
 msgstr ""
 
 #: ../../user/search.rst:40
-msgid "Timestamp when string was added to Weblate."
+#, fuzzy
+#| msgid "Timestamp when string was added to Weblate."
+msgid "Timestamp for when the string was added to Weblate."
 msgstr "Tidsstemple når strengen ble lagt til i Weblate."
 
 #: ../../user/search.rst:41
@@ -27564,8 +27579,10 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:70
-msgid "Instance wide options"
-msgstr ""
+#, fuzzy
+#| msgid "Site wide permissions"
+msgid "Site wide options"
+msgstr "Tilganger for hele siden"
 
 #: ../../wlc.rst:72
 msgid ""
@@ -28126,3 +28143,44 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Use management interface (on the entire platform)"
+#~ msgid "Use management interface (global)"
+#~ msgstr "Bruk håndteringsgrensesnitt (på hele plattformen)"
+
+#, fuzzy
+#~| msgid "Add language definitions (on the entire platform)"
+#~ msgid "Add language definitions (global)"
+#~ msgstr "Legg til språkdefinisjoner (på hele plattformen)"
+
+#, fuzzy
+#~| msgid "Manage language definitions (on the entire platform)"
+#~ msgid "Manage language definitions (global)"
+#~ msgstr "Behandle språkdefinisjoner (på hele plattformen)"
+
+#, fuzzy
+#~ msgid "Add groups (global)"
+#~ msgstr "Legg til grupper (globalt)"
+
+#, fuzzy
+#~| msgid "Manage users (global)"
+#~ msgid "Manage groups (global)"
+#~ msgstr "Administrer brukere (globalt)"
+
+#~ msgid "Add users (global)"
+#~ msgstr "Legg til brukere (globalt)"
+
+#~ msgid "Manage users (global)"
+#~ msgstr "Administrer brukere (globalt)"
+
+#, fuzzy
+#~| msgid "Manage users (global)"
+#~ msgid "Manage announcements (global)"
+#~ msgstr "Administrer brukere (globalt)"
+
+#, fuzzy
+#~| msgctxt "Access control role"
+#~| msgid "Manage translation memory"
+#~ msgid "Manage translation memory (global)"
+#~ msgstr "Behandle oversettelsesminne"
