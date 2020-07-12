@@ -168,15 +168,15 @@ to a containing project as well.
 
 .. note::
 
-   Only first rule which is set is being used. So if you set all
+   Only the first rule will be used. So if you set all of
    :guilabel:`Component list`, :guilabel:`Components` and :guilabel:`Project`,
-   only :guilabel:`Component list` is being applied.
+   only :guilabel:`Component list` is the only one applied.
 
-Additional step is performed if checking permission for the translation:
+An additional step is performed if checking permission for the translation:
 
 
-4. :guilabel:`Languages` are matches against scope of translations, if not set, this matches no
-   language.
+4. :guilabel:`Languages` are matched against the scope of translations if set, if not set, this
+does not match any language.
 
 .. hint::
 
@@ -285,10 +285,10 @@ Custom access control
 ---------------------
 
 By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will stop
-managing access for a given project, and you can set up custom rules in the Django
+managing access for a given project, and all users and groups can be managed using the Django```
 admin interface. This can be used to define more complex access control, or
 set up a shared access policy for all projects in a single Weblate instance. If you
-want to enable this for all projects by default, please configure the
+want to turn this on for all projects by default, please configure the
 :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. warning::
@@ -402,30 +402,30 @@ VCS
 
     Update the internal repository [`Administration`, `Manage repository`]
 
-Global privileges
-    Use management interface (global)
+Site wide privileges
+    Use management interface
 
-    Add language definitions (global)
+    Add language definitions
 
-    Manage language definitions (global)
+    Manage language definitions
 
-    Add groups (global)
+    Add groups
 
-    Manage groups (global)
+    Manage groups
 
-    Add users (global)
+    Add users
 
-    Manage users (global)
+    Manage users
 
-    Manage announcements (global)
+    Manage announcements
 
-    Manage translation memory (global)
+    Manage translation memory
 
 .. note::
 
-   The global privileges are not granted to any default role. These are
-   powerful and they are quite close to the superuser status - most of them can
-   affect all projects on your Weblate installation.
+   The site wide privileges are not granted to any default role. These are
+   powerful and quite close to the superuser status—most of them
+   affect all the projects of your Weblate installation.
 
 List of groups
 ++++++++++++++
@@ -470,6 +470,6 @@ The following groups are created upon installation (or after executing
 
 .. warning::
 
-    Never remove the predefined Weblate groups and users, this can lead to
+    Never remove the predefined Weblate groups and users, as this can lead to
     unexpected problems. If you do not want to use these features, just remove
     all privileges from them.

@@ -37,7 +37,7 @@ Fields
 ``priority:NUMBER``
    String priority.
 ``added:DATETIME``
-   Timestamp when string was added to Weblate.
+   Timestamp for when the string was added to Weblate.
 ``state:TEXT``
    State search (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``

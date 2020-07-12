@@ -66,8 +66,8 @@ Weblate Client is a Python library and command-line utility to manage Weblate re
 using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and is
 built on :mod:`wlc`.
 
-Instance wide options
----------------------
+Site wide options
+-----------------
 
 The program accepts the following options for a whole instance, which must be entered before any subcommand.
 
