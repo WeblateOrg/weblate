@@ -107,7 +107,7 @@ Automatic group assignments
 You can set up Weblate to automatically add users to groups based on their
 e-mail addresses. This automatic assignment happens only at the time of account creation.
 
-This can be set up in the Weblate admin interface for each group (in the
+This can be set up in the Django admin interface for each group (in the
 :guilabel:`Authentication` section).
 
 .. note::
