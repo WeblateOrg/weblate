@@ -73,7 +73,7 @@ Additional branch
     Creates additional component to existing one, just for different branch.
 Upload translations files
     Upload translation files to Weblate in case you do not have version control
-    or do not want to intergrate it with Weblate. You can later update the
+    or do not want to integrate it with Weblate. You can later update the
     content using the web interface or :ref:`api`.
 Translate document
     Upload single document and translate that.

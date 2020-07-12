@@ -345,7 +345,7 @@ Released on October 15th 2019.
 * Added new generic check for placeholders.
 * Added support for WebExtension JSON placeholders.
 * Added support for flat XML format.
-* Exteded API with project, component and translation removal and creation.
+* Extended API with project, component and translation removal and creation.
 * Added support for Gitea and Gitee webhooks.
 * Added new custom regex based check.
 * Allow to configure contributing to shared translation memory.
@@ -1058,7 +1058,7 @@ Released on Sep 20th 2015.
 * Added CSV dump of history.
 * Avoid copy/paste errors with whitespace characters.
 * Added support for Bitbucket webhooks.
-* Tigher control on fuzzy strings on translation upload.
+* Tighter control on fuzzy strings on translation upload.
 * Several URLs have changed, you might have to update your bookmarks.
 * Hook scripts are executed with VCS root as current directory.
 * Hook scripts are executed with environment variables describing current component.

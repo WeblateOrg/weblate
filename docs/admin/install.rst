@@ -1007,7 +1007,7 @@ The system locales should be configured to UTF-8 capable ones. On most Linux
 distributions this is the default setting. In case it is not the case on your
 system, please change locales to UTF-8 variant.
 
-For examble by editing :file:`/etc/default/locale` and setting there
+For example by editing :file:`/etc/default/locale` and setting there
 ``LANG="C.UTF-8"``.
 
 .. _production-certs:
