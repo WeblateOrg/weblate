@@ -17,7 +17,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.utils.translation import get_language
+
 import weblate
+
+# Enabled languages in the docs
+LANGMAP = {
+    "zh-hans": "zh_CN",
+    "pt-br": "pt_BR",
+    "uk": "uk",
+}
 
 
 def get_doc_url(page, anchor=""):
@@ -27,8 +36,14 @@ def get_doc_url(page, anchor=""):
         version = "latest"
     else:
         version = "weblate-{0}".format(weblate.VERSION)
+    # Language variant
+    code = get_language()
+    if code in LANGMAP:
+        code = LANGMAP[code]
+    else:
+        code = "en"
     # Generate URL
-    url = "https://docs.weblate.org/en/{0}/{1}.html".format(version, page)
+    url = f"https://docs.weblate.org/{code}/{version}/{page}.html"
     # Optionally append anchor
     if anchor != "":
         url += "#{0}".format(anchor.replace("_", "-"))
