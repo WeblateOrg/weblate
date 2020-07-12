@@ -574,7 +574,7 @@ options:
 
 ``SERVER_EMAIL``
 
-    Email used as sender address for sending e-mails to the administrator, for
+    E-mail used as sender address for sending e-mails to the administrator, for
     example notifications on failed merges.
 
     .. seealso::
