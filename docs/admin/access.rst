@@ -172,7 +172,7 @@ to a containing project as well.
    :guilabel:`Component list`, :guilabel:`Components` and :guilabel:`Project`,
    only :guilabel:`Component list` is being applied.
 
-Additionally step is performed if checking permission for the translation:
+Additional step is performed if checking permission for the translation:
 
 
 4. :guilabel:`Languages` are matches against scope of translations, if not set, this matches no
@@ -196,7 +196,7 @@ Checking access to a component
 
 A user can access the unrestricted component once he can access the containing
 project. With enabled :ref:`component-restricted` the access to the component
-requires explicit perimission on the component (or containing component list).
+requires explicit permission on the component (or containing component list).
 
 .. _manage-users:
 

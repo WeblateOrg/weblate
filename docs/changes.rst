@@ -43,7 +43,7 @@ Weblate 4.1
 Released on June 15th 2020.
 
 * Added support for creating new translations with included country code.
-* Added support for seaching source strings with screenshot.
+* Added support for searching source strings with screenshot.
 * Extended information available in the stats insights.
 * Improved search editing on translate pages.
 * Improve handling of concurrent repository updates.
@@ -208,7 +208,7 @@ Released on February 20th 2020.
 
 * Documented Celery setup changes.
 * Improved filename validation on component creation.
-* Fixed minimal versions of some dependecies.
+* Fixed minimal versions of some dependencies.
 * Fixed adding groups with certain Django versions.
 * Fixed manual pushing to upstream repository.
 * Improved glossary matching.
@@ -363,7 +363,7 @@ Released on October 15th 2019.
 * Added advanced search capabilities.
 * Allow users to download their own reports.
 * Added localization guide to help configuring components.
-* Added suport for GitLab merge requests.
+* Added support for GitLab merge requests.
 * Improved display of repository status.
 * Perform automated translation in the background.
 
@@ -435,7 +435,7 @@ Released on June 21st 2019.
 * Allow custom location in MO generating addon.
 * Added addons to cleanup old suggestions or comments.
 * Added option to enable horizontal mode in the Zen editor.
-* Improved import perfomance with many linked components.
+* Improved import performance with many linked components.
 * Fixed examples installation in some cases.
 * Improved rendering of alerts in changes.
 * Added new horizontal stats widget.
@@ -694,7 +694,7 @@ Released on April 4th 2018.
 * Added componentlists overview to dashboard and per component list overview pages.
 * Added support for DeepL machine translation service.
 * Machine translation results are now cached inside Weblate.
-* Added support for reordering commited changes.
+* Added support for reordering committed changes.
 
 Weblate 2.19.1
 ~~~~~~~~~~~~~~

@@ -28,7 +28,7 @@ wheel by creating your own framework to handle localizations. Weblate supports
 most of the widely used frameworks, see :ref:`formats` for more information
 (especially :ref:`fmt_capabs`).
 
-Our personal recommendation for some plaforms is in the following table. This
+Our personal recommendation for some platforms is in the following table. This
 is based on our experience, but that can not cover all use cases, so always
 consider your environment when doing the choice.
 

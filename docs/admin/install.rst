@@ -84,8 +84,8 @@ Django REST Framework
 
 .. _optional-deps:
 
-Optional dependecies
-++++++++++++++++++++
+Optional dependencies
++++++++++++++++++++++
 
 Following modules are necessary for some Weblate features. You can find all
 of them in :file:`requirements-optional.txt`.
@@ -311,7 +311,7 @@ database used for implementing Django database layer.
 
 .. note::
 
-   Weblate uses trigram extension which has to be installe separately in some
+   Weblate uses trigram extension which has to be installed separately in some
    cases. Look for ``postgresql-contrib`` or similarly named package.
 
 .. seealso::
@@ -855,7 +855,7 @@ have a correct sender address, please configure :setting:`SERVER_EMAIL` and
    To disable sending e-mails by Weblate set :setting:`django:EMAIL_BACKEND`
    to ``django.core.mail.backends.dummy.EmailBackend``.
 
-   This will disable *all* e-mail delivery including registration or pasword
+   This will disable *all* e-mail delivery including registration or password
    reset e-mails.
 
 .. seealso::
@@ -991,7 +991,7 @@ background. This is now automatically done by :ref:`celery` and covers following
 * Updating component alerts (daily).
 * Update remote branches (nightly), see :setting:`AUTO_UPDATE`.
 * Translation memory backup to JSON (daily), see :djadmin:`dump_memory`.
-* Fulltext and database maintenance tasks (daily and weekly taks), see :djadmin:`cleanuptrans`.
+* Fulltext and database maintenance tasks (daily and weekly tasks), see :djadmin:`cleanuptrans`.
 
 .. versionchanged:: 3.2
 
@@ -1314,7 +1314,7 @@ Periodic tasks using Celery beat
 Weblate comes with built-in setup for scheduled tasks. You can however define
 additional tasks in :file:`settings.py`, for example see :ref:`lazy-commit`.
 
-The tasks are supposed to be executed by Celery beats deamon. In case it is not
+The tasks are supposed to be executed by Celery beats daemon. In case it is not
 working properly, it might not be running or its database was corrupted. Check
 the Celery startup logs in such case to figure out root cause.
 

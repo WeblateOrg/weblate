@@ -157,7 +157,7 @@ Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
-The status of rate limiting is reported in follwing headers:
+The status of rate limiting is reported in following headers:
 
 +---------------------------+---------------------------------------------------+
 | ``X-RateLimit-Limit``     | Rate limiting limit of requests to perform        |
@@ -1825,8 +1825,8 @@ Changes
 
     :query string user: Username of user to filters
     :query int action: Action to filter, can be used several times
-    :query timestamp timestamp_after: ISO 8601 formatted timestmap to list changes after
-    :query timestamp timestamp_before: ISO 8601 formatted timestmap to list changes before
+    :query timestamp timestamp_after: ISO 8601 formatted timestamp to list changes after
+    :query timestamp timestamp_before: ISO 8601 formatted timestamp to list changes before
 
 .. http:get:: /api/changes/(int:id)/
 

@@ -733,7 +733,7 @@ There following variables are available in the component templates:
 ``{{ url }}``
     Translation URL
 ``{{ filename }}``
-    Transaltion filename
+    Translation filename
 ``{{ stats }}``
     Translation stats, this has further attributes, examples below.
 ``{{ stats.all }}``

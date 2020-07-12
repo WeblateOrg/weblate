@@ -72,7 +72,7 @@ Installation
         'weblate.billing',
     )
 
-2. Run the database migration to optinally install additional database structures for the module:
+2. Run the database migration to optionally install additional database structures for the module:
 
 .. code-block:: sh
 
@@ -119,7 +119,7 @@ following templates in the documents:
 
 .. note::
 
-    Legal documents for the Hosted Weblate service is availalbe in this Git repository
+    Legal documents for the Hosted Weblate service is available in this Git repository
     <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/legal/templates/legal/documents>.
 
     Most likely these will not be directly usable to you, but might come in handy
@@ -149,7 +149,7 @@ Installation
         'weblate.legal.middleware.RequireTOSMiddleware',
     ]
 
-2. Run the database migration to optinally install additional database structures for the module:
+2. Run the database migration to optionally install additional database structures for the module:
 
 .. code-block:: sh
 

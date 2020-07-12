@@ -50,7 +50,7 @@ failures easier.
 Performance issues
 ------------------
 
-In case Weblate preforms badly in some situation, please collect relevant logs
+In case Weblate performs badly in some situation, please collect relevant logs
 showing the issue, and anything that might help figuring out where the code might be
 improved.
 

@@ -76,7 +76,7 @@ Here is a list of flags currently accepted:
     use case for this is to expand placeables to ensure that the text fits even
     with long names, for example: ``replacements:%s:"John Doe"``.
 ``regex:REGEX``
-    Regular expresion to match translation, see :ref:`check-regex`.
+    Regular expression to match translation, see :ref:`check-regex`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
