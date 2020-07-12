@@ -249,7 +249,7 @@ Once the key is trusted, the warning will not occur:
    gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
    gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
    gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
-   gpg:                 aka "[JPEG image of size 8848]" [ultimate]
+   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
    gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
 
 
