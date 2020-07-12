@@ -11,6 +11,7 @@ version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import webla
 wlc lock weblate/application
 wlc lock weblate/javascript
 wlc lock weblate/languages
+wlc lock weblate/documentation
 
 # Push changes from Weblate to GitHub
 wlc push weblate
@@ -52,11 +53,15 @@ for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
     fi
 done
 
+# Update PO files for documentation
+make -C docs update-po
+
 # Commit changes
 git add weblate/locale/*/*/*.po
 git add weblate/locale/*.pot
 git add weblate/langdata/locale/*/*/*.po
 git add weblate/langdata/locale/*.pot
+git add docs/locales/*/*/*.po
 
 git commit -m "i18n: Update PO files"
 
@@ -67,3 +72,4 @@ git push
 wlc unlock weblate/application
 wlc unlock weblate/javascript
 wlc unlock weblate/languages
+wlc unlock weblate/documentation
