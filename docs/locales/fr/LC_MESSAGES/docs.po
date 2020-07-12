@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate \n"
+"Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-11 19:57+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-07-12 05:05+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/weblate/"
+"documentation/fr/>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -29,12 +31,19 @@ msgid ""
 "the consult documentation for that version, the information here will not "
 "apply."
 msgstr ""
+"Avant Weblate 3.0, le système de privilèges était basé sur Django, mais il "
+"est maintenant spécifiquement conçu pour Weblate. Si vous utilisez une "
+"version plus ancienne, veuillez consulter la documentation de cette version, "
+"les informations ici ne s’appliquent pas."
 
 #: ../../admin/access.rst:12
 msgid ""
 "Weblate comes with a fine grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
+"Weblate est doté d’un système de privilèges précis permettant d’attribuer "
+"des autorisations d’accès à l’ensemble de l’instance ou à une partie limitée "
+"de celle-ci."
 
 #: ../../admin/access.rst:15
 msgid ""
@@ -42,6 +51,10 @@ msgid ""
 "permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
+"Le système de permission basé sur les groupes et les rôles, où les rôles "
+"définissent un ensemble de permissions, et les groupes les assignent aux "
+"utilisateurs et aux traductions, consultez :ref:`auth-model` pour plus de "
+"détails."
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -51,14 +64,20 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`"
 msgstr ""
+"Après l’installation, un ensemble de groupes par défaut est créé, et vous "
+"pouvez les utiliser pour attribuer des rôles aux utilisateurs pour l’"
+"ensemble de l’instance (consultez :ref:`default-groups`). De plus, lorsque "
+":ref:`acl` est activé, vous pouvez assigner des utilisateurs à des projets "
+"de traduction spécifiques. Une configuration plus fine peut être réalisée en "
+"utilisant :ref:`custom-acl`."
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
-msgstr ""
+msgstr "Configurations communes"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
-msgstr ""
+msgstr "Verrouiller Weblate"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -66,10 +85,14 @@ msgid ""
 "`LOGIN_REQUIRED_URLS` to force users to sign in and :setting:"
 "`REGISTRATION_OPEN` to prevent new registrations."
 msgstr ""
+"Pour verrouiller complètement votre installation Weblate, vous pouvez "
+"utiliser :setting:`LOGIN_REQUIRED_URLS` pour forcer les utilisateurs à se "
+"connecter et :setting:`REGISTRATION_OPEN` pour empêcher de nouvelles "
+"inscriptions."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
-msgstr ""
+msgstr "Autorisations pour l’ensemble du site"
 
 #: ../../admin/access.rst:37
 msgid ""
@@ -77,10 +100,14 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"Pour gérer les permissions pour une instance entière, il suffit d’ajouter "
+"des utilisateurs aux groupes `Utilisateurs` (ceci est fait par défaut en "
+"utilisant les groupes :ref:`autogroup`), `Réviseur` et `Managers`. Gardez "
+"tous les projets configurés comme `Publique` (voir :ref:`acl`)."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr ""
+msgstr "Autorisations par projet"
 
 #: ../../admin/access.rst:44
 msgid ""
