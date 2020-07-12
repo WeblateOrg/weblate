@@ -19,11 +19,11 @@ Installing Weblate
     install/source
     install/openshift
 
-Depending on your setup and experience, choose appropriate installation method:
+Depending on your setup and experience, choose an appropriate installation method for you:
 
-* :ref:`quick-docker`, recommended for production setup.
+* :ref:`quick-docker`, recommended for production setups.
 
-* Virtualenv installation, recommended for production setup:
+* Virtualenv installation, recommended for production setups:
 
    * :doc:`install/venv-debian`
    * :doc:`install/venv-suse`
@@ -42,11 +42,11 @@ Software requirements
 Operating system
 ++++++++++++++++
 
-Weblate is known to work on Linux, FreeBSD and OSX. Other Unix like systems
-will most likely work as well.
+Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like systems
+will most likely work too.
 
-Weblate is not supported on Windows. But it may still work and we are happy to
-accept patches.
+Weblate is not supported on Windows. But it may still work and patches are
+happily accepted.
 
 Other services
 ++++++++++++++
@@ -249,7 +249,7 @@ Once the key is trusted, the warning will not occur:
    gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
    gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
    gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
-   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
+   gpg:                 aka "[JPEG image of size 8848]" [ultimate]
    gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
 
 
@@ -312,7 +312,7 @@ database used for implementing Django database layer.
 .. note::
 
    Weblate uses trigram extension which has to be installed separately in some
-   cases. Look for ``postgresql-contrib`` or similarly named package.
+   cases. Look for ``postgresql-contrib`` or a similarly named package.
 
 .. seealso::
 
@@ -338,7 +338,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
 .. hint::
 
-   If you don't want to make Weblate user a superuser in PostgreSQL, you can
+   If you don't want to make the Weblate user a superuser in PostgreSQL, you can
    omit that. In that case you will have to perform some of the migration steps
    manually as a PostgreSQL superuser:
 
