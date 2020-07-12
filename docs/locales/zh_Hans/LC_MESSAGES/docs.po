@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate \n"
+"Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 07:08+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-07-12 14:30+0000\n"
+"Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"weblate/documentation/zh_Hans/>\n"
+"Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -7724,7 +7726,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:4
 msgid "Installing using Docker"
-msgstr ""
+msgstr "使用 Docker 安装"
 
 #: ../../admin/install/docker.rst:6
 msgid ""
@@ -7732,10 +7734,12 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
+"通过 dockerized Weblate 部署，您可以在几秒钟内启动并运行您的个人 Weblate 实例。Weblate 的所有依赖项已包含在内。"
+"PostgreSQL 被设置为默认数据库。"
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
-msgstr ""
+msgstr "硬件要求"
 
 #: ../../admin/install/steps/hw.rst:4
 msgid ""
@@ -7743,36 +7747,37 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
+"Weblate 应该可以在所有现代硬件上正常运行，以下是在单个主机（Weblate，数据库和 Web 服务器）上运行 Weblate 所需的最低配置："
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
-msgstr ""
+msgstr "2 GB 的内存"
 
 #: ../../admin/install/steps/hw.rst:9
 msgid "2 CPU cores"
-msgstr ""
+msgstr "2 个 CPU 核心"
 
 #: ../../admin/install/steps/hw.rst:10
 msgid "1 GB of storage space"
-msgstr ""
+msgstr "1 GB 的存储空间"
 
 #: ../../admin/install/steps/hw.rst:12
 msgid ""
 "The more memory the better - it is used for caching on all levels "
 "(filesystem, database and Weblate)."
-msgstr ""
+msgstr "内存越多越好 —— 用于所有级别的缓存（文件系统，数据库和 Weblate）。"
 
 #: ../../admin/install/steps/hw.rst:15
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
-msgstr ""
+msgstr "许多并发用户会增加所需的 CPU 内核数量。对于数百个翻译组件，建议至少有 4 GB 的内存。"
 
 #: ../../admin/install/steps/hw.rst:21
 msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
-msgstr ""
+msgstr "根据 Weblate 中管理的翻译大小，安装 Weblate 的实际要求差异很大。"
 
 #: ../../admin/install/docker.rst:15
 #: ../../admin/install/steps/install-system-devel.rst:2
@@ -7780,78 +7785,81 @@ msgstr ""
 #: ../../admin/optionals.rst:129 ../../../README.rst:46 ../../python.rst:11
 #: ../../wlc.rst:18
 msgid "Installation"
-msgstr ""
+msgstr "安装"
 
 #: ../../admin/install/docker.rst:17
 msgid ""
 "The following examples assume you have a working Docker environment, with "
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
-msgstr ""
+msgstr "以下示例假设您拥有一个工作正常的 Docker 环境，并安装了 ``docker-compose``。请查看 Docker 文档以获取说明。"
 
 #: ../../admin/install/docker.rst:20
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "克隆 weblate-docker 存储库："
 
 #: ../../admin/install/docker.rst:27
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"使用您的设置创建一个 :file:`docker-compose.override.yml` 文件。请参阅 :ref:`docker-"
+"environment` 以获取环境变量的完整列表。"
 
 #: ../../admin/install/docker.rst:49
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
-msgstr ""
+msgstr "如果未设置 :envvar:`WEBLATE_ADMIN_PASSWORD`，则使用首次启动时显示的随机密码创建管理员用户。"
 
 #: ../../admin/install/docker.rst:52
 msgid ""
 "Append ``,localhost`` to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to "
 "access locally for testing."
-msgstr ""
+msgstr "将 ``,localhost`` 附加到 :envvar:`WEBLATE_ALLOWED_HOSTS` 以便能够在本地访问以进行测试。"
 
 #: ../../admin/install/docker.rst:55
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose-override.yml` file to change it."
 msgstr ""
+"提供的示例使 Weblate 侦听端口 80，在 :file:`docker-compose-override.yml` 文件中编辑端口映射以进行更改。"
 
 #: ../../admin/install/docker.rst:58
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "启动 Weblate 容器："
 
 #: ../../admin/install/docker.rst:64
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
-msgstr ""
+msgstr "享受您的 Weblate 部署，可以在 ``weblate`` 容器的端口 80 上进行访问。"
 
 #: ../../admin/install/docker.rst:68
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
-msgstr ""
+msgstr "最近更改了设置，以前有单独的 web 服务器容器，因为 2.15-2 开始，web 服务器已嵌入 Weblate 容器中。"
 
 #: ../../admin/install/docker.rst:74
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers is not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
-msgstr ""
+msgstr "在 2019 年 7 月（从 3.7.1-6 标签开始）中，容器未以 root 用户身份运行。这已将裸露端口从 80 更改为 8080。"
 
 #: ../../admin/install/docker.rst:77
 msgid ":ref:`invoke-manage`"
-msgstr ""
+msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:82
 msgid "Docker container with HTTPS support"
-msgstr ""
+msgstr "具有 HTTPS 支持的 Docker 容器"
 
 #: ../../admin/install/docker.rst:84
 msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
-msgstr ""
+msgstr "请参阅 :ref:`docker-deploy` 以获取常规部署说明，本节仅提及与之相比的差异。"
 
 #: ../../admin/install/docker.rst:88
 msgid "Using own SSL certificates"
@@ -7923,7 +7931,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:170
 msgid "Upgrading the Docker container"
-msgstr ""
+msgstr "升级 Docker 容器"
 
 #: ../../admin/install/docker.rst:172
 msgid ""
@@ -7931,18 +7939,20 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
+"通常，只更新 Weblate 容器并保持 PostgreSQL 容器为您的版本是一个好主意，因为升级 PostgreSQL "
+"会很痛苦，并且在大多数情况下不会带来很多好处。"
 
 #: ../../admin/install/docker.rst:176
 msgid ""
 "You can do this by sticking with the existing docker-compose and just pull "
 "the latest images and then restart:"
-msgstr ""
+msgstr "您可以通过坚持使用现有的 docker-compose 并仅提取最新镜像然后重新启动来执行此操作："
 
 #: ../../admin/install/docker.rst:185
 msgid ""
 "The Weblate database should be automatically migrated on first startup, and "
 "there should be no need for additional manual actions."
-msgstr ""
+msgstr "Weblate 数据库应在首次启动时自动迁移，并且不需要其他手动操作。"
 
 #: ../../admin/install/docker.rst:190
 msgid ""
@@ -7951,6 +7961,8 @@ msgid ""
 "writing this it is the ``3.0.1-7``) image, which will do the migration and "
 "then continue upgrading to newer versions."
 msgstr ""
+"Weblate 不支持跨 3.0 的升级。如果您使用的是 2.x 系列，并且要升级到 3.x，请首先升级到最新的 3.0.1-x（在撰写本文时为 ``3."
+"0.1-7``）镜像，它将进行迁移和然后继续升级到较新版本。"
 
 #: ../../admin/install/docker.rst:195
 msgid ""
@@ -7959,10 +7971,13 @@ msgid ""
 "case as it's not straightforward to upgrade the database, see `GitHub issue "
 "<https://github.com/docker-library/postgres/issues/37>`_ for more info."
 msgstr ""
+"您可能还想更新 ``docker-compose`` 仓库，尽管在大多数情况下并不需要。在这种情况下，请注意 PostgreSQL "
+"版本的更改，因为升级数据库并不容易，请参见 `GitHub issue <https://github.com/docker-library/"
+"postgres/issues/37>`_ 以获取更多信息。"
 
 #: ../../admin/install/docker.rst:202
 msgid "Admin login"
-msgstr ""
+msgstr "管理员登录"
 
 #: ../../admin/install/docker.rst:204
 msgid ""
@@ -7970,36 +7985,40 @@ msgid ""
 "provided in :envvar:`WEBLATE_ADMIN_PASSWORD`, or a random password generated "
 "on first start if that was not set."
 msgstr ""
+"设置容器之后，您可以使用 :envvar:`WEBLATE_ADMIN_PASSWORD` 中提供的密码以 `管理员` "
+"用户身份登录，或者如果未设置该密码，则在首次启动时生成随机密码。"
 
 #: ../../admin/install/docker.rst:208
 msgid ""
 "To reset `admin` password, restart the container with :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` set to new password."
-msgstr ""
+msgstr "要重置 `管理员` 密码，请在 :envvar:`WEBLATE_ADMIN_PASSWORD` 设置为新密码的情况下重启容器。"
 
 #: ../../admin/install/docker.rst:213
 msgid ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, "
+":envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:220
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Docker 环境变量"
 
 #: ../../admin/install/docker.rst:222
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using "
 "environment variables:"
-msgstr ""
+msgstr "可以使用环境变量在 Docker 容器中设置许多 Weblate 的配置："
 
 #: ../../admin/install/docker.rst:225
 msgid "Generic settings"
-msgstr ""
+msgstr "通用设置"
 
 #: ../../admin/install/docker.rst:229
 msgid "Configures Django debug mode using :setting:`DEBUG`."
-msgstr ""
+msgstr "使用 :setting:`DEBUG` 配置 Django 调试模式。"
 
 #: ../../admin/install/docker.rst:231 ../../admin/install/docker.rst:258
 #: ../../admin/install/docker.rst:311 ../../admin/install/docker.rst:341
@@ -8008,19 +8027,19 @@ msgstr ""
 #: ../../admin/install/docker.rst:431 ../../admin/install/docker.rst:446
 #: ../../admin/install/docker.rst:590 ../../admin/install/docker.rst:1021
 msgid "**Example:**"
-msgstr ""
+msgstr "**示例：**"
 
 #: ../../admin/install/docker.rst:240
 msgid ":ref:`production-debug`."
-msgstr ""
+msgstr ":ref:`production-debug`."
 
 #: ../../admin/install/docker.rst:244
 msgid "Configures the logging verbosity."
-msgstr ""
+msgstr "配置日志记录的详细程度。"
 
 #: ../../admin/install/docker.rst:249
 msgid "Configures the site-title shown on the heading of all pages."
-msgstr ""
+msgstr "配置所有页面标题上显示的站点标题。"
 
 #: ../../admin/install/docker.rst:254
 msgid ""
@@ -8028,24 +8047,26 @@ msgid ""
 "`ADMINS` setting and creating `admin` user (see :envvar:"
 "`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
+"配置站点管理员的姓名和电子邮件。它用于 :setting:`ADMINS` 设置和创建 `管理员` 用户（有关此信息，请参阅 "
+":envvar:`WEBLATE_ADMIN_PASSWORD`）。"
 
 #: ../../admin/install/docker.rst:268
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
-msgstr ""
+msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
 #: ../../admin/install/docker.rst:274
 msgid "Sets the password for the `admin` user."
-msgstr ""
+msgstr "设置 `管理员` 用户的密码。"
 
 #: ../../admin/install/docker.rst:276
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
-msgstr ""
+msgstr "如果未设置并且 `管理员` 用户不存在，则会使用首次启动容器时显示的随机密码来创建它。"
 
 #: ../../admin/install/docker.rst:278
 msgid "If not set and `admin` user exists, no action is performed."
-msgstr ""
+msgstr "如果未设置并且 `管理员` 用户存在，则不执行任何操作。"
 
 #: ../../admin/install/docker.rst:279
 msgid ""
@@ -8053,70 +8074,76 @@ msgid ""
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
 "`WEBLATE_ADMIN_EMAIL`."
 msgstr ""
+"如果设置，则在每次容器启动时都会对 `管理员` 用户进行调整，以匹配 "
+":envvar:`WEBLATE_ADMIN_PASSWORD`，:envvar:`WEBLATE_ADMIN_NAME` 和 "
+":envvar:`WEBLATE_ADMIN_EMAIL`。"
 
 #: ../../admin/install/docker.rst:285
 msgid ""
 "It might be a security risk to store password in the configuration file. "
 "Consider using this variable only for initial setup (or let Weblate generate "
 "random password on initial startup) or for password recovery."
-msgstr ""
+msgstr "将密码存储在配置文件中可能会带来安全风险。考虑仅将此变量用于初始设置（或让Weblate在初始启动时生成随机密码）或用于密码恢复。"
 
 #: ../../admin/install/docker.rst:292
 msgid ""
 ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
 "`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
 msgstr ""
+":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, "
+":envvar:`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
 
 #: ../../admin/install/docker.rst:300
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "配置外发电子邮件的地址。"
 
 #: ../../admin/install/docker.rst:304
 msgid ":ref:`production-email`"
-msgstr ""
+msgstr ":ref:`production-email`"
 
 #: ../../admin/install/docker.rst:308
 msgid ""
 "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS` and sets "
 "sitename to the first one."
-msgstr ""
+msgstr "使用 :setting:`ALLOWED_HOSTS` 配置允许的 HTTP 主机名，并将站点名设置为第一个。"
 
 #: ../../admin/install/docker.rst:320
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
+":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
 #: ../../admin/install/docker.rst:326
 msgid "Configures the secret used by Django for cookie signing."
-msgstr ""
+msgstr "配置 Django 用于 cookie 签名的密钥。"
 
 #: ../../admin/install/docker.rst:330
 msgid ""
 "The secret is now generated automatically on first startup, there is no need "
 "to set it manually."
-msgstr ""
+msgstr "现在，该密钥会在首次启动时自动生成，无需手动设置。"
 
 #: ../../admin/install/docker.rst:335
 msgid ":ref:`production-secret`"
-msgstr ""
+msgstr ":ref:`production-secret`"
 
 #: ../../admin/install/docker.rst:339
 msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
-msgstr ""
+msgstr "通过切换 :std:setting:`REGISTRATION_OPEN` 配置是否打开注册。"
 
 #: ../../admin/install/docker.rst:350
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
-msgstr ""
+msgstr "配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` 创建新帐户的身份验证方法。"
 
 #: ../../admin/install/docker.rst:363
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
-msgstr ""
+msgstr "在 Weblate 中配置使用的时区，请参阅 :std:setting:`django:TIME_ZONE`。"
 
 #: ../../admin/install/docker.rst:367
 msgid ""
@@ -8714,20 +8741,20 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1039
 msgid "Docker container volumes"
-msgstr ""
+msgstr "Docker 容器卷"
 
 #: ../../admin/install/docker.rst:1041
 msgid ""
 "There is single data volume exported by the Weblate container. The other "
 "service containers (PostgreSQL or Redis) have their data volumes as well, "
 "but those are not covered by this document."
-msgstr ""
+msgstr "Weblate 容器导出单个数据卷。其他服务容器（PostgreSQL 或 Redis）也具有其数据卷，但本文档未涵盖这些数据卷。"
 
 #: ../../admin/install/docker.rst:1045
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
-msgstr ""
+msgstr "数据卷用于存储 Weblate 持久数据（例如克隆的仓库）或自定义 Weblate 安装。"
 
 #: ../../admin/install/docker.rst:1048
 msgid ""
@@ -8736,25 +8763,27 @@ msgid ""
 "weblate-docker_weblate-data/_data/`. In the container it is mounted as :file:"
 "`/app/data`."
 msgstr ""
+"Docker 卷在主机系统上的位置取决于您的 Docker 配置，但通常存储在 :file:`/var/lib/docker/volumes/"
+"weblate-docker_weblate-data/_data/` 中。在容器中，它挂载为 :file:`/app/data`。"
 
 #: ../../admin/install/docker.rst:1055
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
-msgstr ""
+msgstr "`Docker 卷文档 <https://docs.docker.com/storage/volumes/>`_"
 
 #: ../../admin/install/docker.rst:1058
 msgid "Further configuration customization"
-msgstr ""
+msgstr "进一步的配置定制"
 
 #: ../../admin/install/docker.rst:1060
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
-msgstr ""
+msgstr "您可以在数据卷中进一步自定义 Weblate 安装，请参阅 :ref:`docker-volume`。"
 
 #: ../../admin/install/docker.rst:1066
 msgid "Custom configuration files"
-msgstr ""
+msgstr "定制配置文件"
 
 #: ../../admin/install/docker.rst:1068
 msgid ""
@@ -8763,10 +8792,12 @@ msgid ""
 "environment settings are loaded, so it gets completely set up, and can be "
 "used to customize anything."
 msgstr ""
+"您还可以在 :file:`/app/data/settings-override.py` 中覆盖配置（请参阅 :ref:`docker-"
+"volume`）。加载所有环境设置后将执行此操作，因此将完全设置它，并可用于自定义任何内容。"
 
 #: ../../admin/install/docker.rst:1074
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "替换 logo 和其他静态文件"
 
 #: ../../admin/install/docker.rst:1078
 msgid ""
@@ -8775,22 +8806,25 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
+"Weblate 附带的静态文件可以通过放置到 :file:`/app/data/python/customize/static` 中来覆盖（请参阅 "
+":ref:`docker-volume`）。例如，创建 :file:`/app/data/python/customize/static/favicon."
+"ico` 将替换 favicon。"
 
 #: ../../admin/install/docker.rst:1085
 msgid ""
 "The files are copied to corresponding location on container startup, so "
 "restart is needed after changing the volume content."
-msgstr ""
+msgstr "这些文件将在容器启动时复制到相应的位置，因此更改卷内容后需要重新启动。"
 
 #: ../../admin/install/docker.rst:1088
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
-msgstr ""
+msgstr "或者，您也可以包括自己的模块（请参阅 :doc:`../customize`），并将其作为单独的卷添加到 Docker 容器中，例如："
 
 #: ../../admin/install/docker.rst:1101
 msgid "Adding own Python modules"
-msgstr ""
+msgstr "添加自己的 Python 模块"
 
 #: ../../admin/install/docker.rst:1105
 msgid ""
@@ -8798,14 +8832,16 @@ msgid ""
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
 "using :ref:`docker-custom-config`."
 msgstr ""
+"您可以将自己的 Python 模块放置在 :file:`/app/data/python/` 中（请参阅 :ref:`docker-volume`），"
+"然后可以由 Weblate 加载它们，很可能是使用 :ref:`docker-custom-config`。"
 
 #: ../../admin/install/docker.rst:1111
 msgid ":doc:`../customize`"
-msgstr ""
+msgstr ":doc:`../customize`"
 
 #: ../../admin/install/docker.rst:1114
 msgid "Hub setup"
-msgstr ""
+msgstr "Hub 设置"
 
 #: ../../admin/install/docker.rst:1116
 msgid ""
@@ -8813,16 +8849,17 @@ msgid ""
 "configuration by entering the Weblate container and executing an arbitrary "
 "Hub command. For example:"
 msgstr ""
+"为了使用 GitHub 的 pull-request 功能，您必须通过进入 Weblate 容器并执行任意 Hub 命令来初始化 Hub 配置。例如："
 
 #: ../../admin/install/docker.rst:1124
 msgid ""
 "The username passed for credentials must be the same as :setting:"
 "`GITHUB_USERNAME`."
-msgstr ""
+msgstr "为凭据传递的用户名必须与 :setting:`GITHUB_USERNAME` 相同。"
 
 #: ../../admin/install/docker.rst:1133
 msgid "Lab setup"
-msgstr ""
+msgstr "Lab 设置"
 
 #: ../../admin/install/docker.rst:1135
 msgid ""
@@ -8830,6 +8867,8 @@ msgid ""
 "configuration by entering the weblate contained and executing ``lab`` "
 "command. For example:"
 msgstr ""
+"为了使用 GitLab 的 merge-request 功能，您必须通过进入 Weblate 容器并执行 ``lab`` 命令来初始化 ``lab`` "
+"配置。例如："
 
 #: ../../admin/install/docker.rst:1145
 msgid ""
@@ -8838,16 +8877,19 @@ msgid ""
 "``WEBLATE_GITLAB_HOST``and ``WEBLATE_GITLAB_TOKEN`` to your env "
 "configuration."
 msgstr ""
+"您还可以使用环境变量在每个容器启动时配置 ``lab``。只需将 "
+"``WEBLATE_GITLAB_USERNAME``，``WEBLATE_GITLAB_HOST`` 和 "
+"``WEBLATE_GITLAB_TOKEN`` 添加到您的环境配置中即可。"
 
 #: ../../admin/install/docker.rst:1156
 msgid ""
 "The ``access_token`` passed for lab configuration must be same as :setting:"
 "`GITLAB_USERNAME`."
-msgstr ""
+msgstr "为 lab 配置传递的 ``access_token`` 必须与 :setting:`GITLAB_USERNAME` 相同。"
 
 #: ../../admin/install/docker.rst:1165
 msgid "Select your machine - local or cloud providers"
-msgstr ""
+msgstr "选择您的机器 —— 本地或云提供商"
 
 #: ../../admin/install/docker.rst:1167
 msgid ""
@@ -8855,6 +8897,8 @@ msgid ""
 "local machine, or on any large number of cloud-based deployments on e.g. "
 "Amazon AWS, Greenhost, and many other providers."
 msgstr ""
+"使用 docker-machine，您可以在本地计算机上或在任何数量的基于云的部署，例如 Amazon AWS，Greenhost "
+"和许多其他提供商上创建 Weblate 部署。"
 
 #: ../../admin/install/openshift.rst:4
 msgid "Installing on OpenShift"
@@ -23923,10 +23967,11 @@ msgid ""
 "system, used by over 1150 libre projects and companies in more than 115 "
 "countries.**"
 msgstr ""
+"**Weblate 是 Copylefted 的自由软件，是一个基于 Web 的持续本地化系统，来自 115+ 国家的 1150+ 开源项目正在使用。**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
-msgstr ""
+msgstr "安装它，或使用 `weblate.org`_ 上的 Hosted Weblate 服务。"
 
 #: ../../../README.rst:34
 msgid "Support"
@@ -23937,7 +23982,7 @@ msgid ""
 "Weblate is a libre software with optional professional support and cloud "
 "hosting offerings. Check out https://weblate.org/hosting/ for more "
 "information."
-msgstr ""
+msgstr "Weblate 是一款自由软件，具有可选的专业支持和云托管产品。查看 https://weblate.org/hosting/ 了解更多信息。"
 
 #: ../../../README.rst:40
 msgid "Documentation"
@@ -23947,27 +23992,27 @@ msgstr "文档"
 msgid ""
 "To be found in the ``docs`` directory of the source code, or viewed online "
 "on https://docs.weblate.org/"
-msgstr ""
+msgstr "可以在源代码的 ``docs`` 目录中找到，或在 https://docs.weblate.org/ 在线查看"
 
 #: ../../../README.rst:48
 msgid "Setup instructions:"
-msgstr ""
+msgstr "设置说明："
 
 #: ../../../README.rst:50
 msgid "https://docs.weblate.org/en/latest/admin/install.html"
-msgstr ""
+msgstr "https://docs.weblate.org/en/latest/admin/install.html"
 
 #: ../../../README.rst:53
 msgid "Bugs"
-msgstr ""
+msgstr "Bugs"
 
 #: ../../../README.rst:55
 msgid "Please report feature requests and problems to:"
-msgstr ""
+msgstr "请将功能请求和问题报告给："
 
 #: ../../../README.rst:57
 msgid "https://github.com/WeblateOrg/weblate/issues"
-msgstr ""
+msgstr "https://github.com/WeblateOrg/weblate/issues"
 
 #: ../../../README.rst:62
 msgid "Copyright © 2012–2020 Michal Čihař michal@cihar.com"
