@@ -32,7 +32,7 @@ Manage database objects in any of the sections below.
 The most interesting one is probably :guilabel:`Weblate translations`,
 where you can manage translatable projects, see :ref:`project` and :ref:`component`.
 
-:guilabel:`Weblate languages` holds language definitions, expained further in
+:guilabel:`Weblate languages` holds language definitions, explained further in
 :ref:`languages`.
 
 Adding a project

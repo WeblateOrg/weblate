@@ -1237,7 +1237,7 @@ Subtitle files
 
 .. versionadded:: 3.7
 
-Weblate can translate various subtile files:
+Weblate can translate various subtitle files:
 
 * SubRip subtitle file (``*.srt``)
 * MicroDVD subtitle file (``*.sub``)
@@ -1288,7 +1288,7 @@ HTML files
 
    Support for this format is currently in beta, feedback from testing is welcome.
 
-The translatable content is extacted from the HTML files and offered for the translation.
+The translatable content is extracted from the HTML files and offered for the translation.
 
 .. seealso::
 
@@ -1305,7 +1305,7 @@ OpenDocument Format
 
    Support for this format is currently in beta, feedback from testing is welcome.
 
-The translatable content is extacted from the OpenDocument files and offered for the translation.
+The translatable content is extracted from the OpenDocument files and offered for the translation.
 
 .. seealso::
 
@@ -1322,7 +1322,7 @@ IDML Format
 
    Support for this format is currently in beta, feedback from testing is welcome.
 
-The translatable content is extacted from the Adobe InDesign Markup Language files and offered for the translation.
+The translatable content is extracted from the Adobe InDesign Markup Language files and offered for the translation.
 
 
 Others

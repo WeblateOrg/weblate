@@ -348,7 +348,7 @@ The default access control setting for new projects:
 ``200``
    :guilabel:`Custom`
 
-Use :guilabel:`Custom` if you managing ACL manually, which means not realying
+Use :guilabel:`Custom` if you managing ACL manually, which means not relying
 on the internal Weblate management.
 
 .. seealso::
@@ -447,7 +447,7 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Committer name for created translation components defualting to ``Weblate``.
+Committer name for created translation components defaulting to ``Weblate``.
 
 .. seealso::
 
@@ -965,7 +965,7 @@ MT_DEEPL_API_VERSION
 API version to use with DeepL service. The version limits scope of usage:
 
 v1
-    Is meant for CAT tools and is usable with user based suscription.
+    Is meant for CAT tools and is usable with user based subscription.
 v2
     Is meant for API usage and the subscription is usage based.
 
