@@ -285,7 +285,7 @@ Custom access control
 ---------------------
 
 By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will stop
-managing access for a given project, and you can set up custom rules in the Weblate
+All users and groups can be managed using the Django admin interface,
 admin interface. This can be used to define more complex access control, or
 set up a shared access policy for all projects in a single Weblate instance. If you
 want to turn this on for all projects by default, please configure the
