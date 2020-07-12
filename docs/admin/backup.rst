@@ -136,7 +136,7 @@ better than Django backup and restores complete tables with all data.
 
 You can restore this backup in newer Weblate release, it will perform any
 necessary migrations when running in :djadmin:`django:migrate`. Please consult
-:doc:`upgrade` on more detailed information how to peform upgrade between
+:doc:`upgrade` on more detailed information how to perform upgrade between
 versions.
 
 Django database backup

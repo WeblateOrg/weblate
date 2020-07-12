@@ -75,7 +75,7 @@ components within one VCS.
 
 Create one main component least likely to disappear in the future, and others
 will employ :ref:`internal-urls` to it as a VCS configuration, and configure it
-to find all compoents in it.
+to find all components in it.
 
 The matching is done using regular expressions, where power is a tradeoff for
 complexity in configuration. Some examples for common use cases can be found in
@@ -414,13 +414,13 @@ Additionally, the following environment variables are available:
 
    .. versionadded:: 3.9
 
-   Component slug used to contruct URL.
+   Component slug used to construct URL.
 
 .. envvar:: WL_PROJECT_SLUG
 
    .. versionadded:: 3.9
 
-   Project slug used to contruct URL.
+   Project slug used to construct URL.
 
 .. envvar:: WL_COMPONENT_NAME
 

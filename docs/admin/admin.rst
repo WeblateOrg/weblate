@@ -5,7 +5,7 @@ Management interface
 
 The management interface offer administration settings under the
 :file:`/management/` URL. It is available for users signed in with admin
-privileges, accessable by using the wrench icon top right:
+privileges, accessible by using the wrench icon top right:
 
 .. image:: /images/support.png
 
@@ -68,7 +68,7 @@ Once you have added a project, translation components can be added to it.
 Monolingual components
 ----------------------
 
-For easier translation of these, provide a template file containg the
+For easier translation of these, provide a template file containing the
 mapping of message IDs to its respective source language (usually English).
 (See :ref:`component` for info regarding individual parameters):
 

@@ -580,7 +580,7 @@ Machine translation settings
 
 .. envvar:: WEBLATE_MT_MODERNMT_KEY
 
-    Enables :ref:`modernmt` adn sets :setting:`MT_MODERNMT_KEY`.
+    Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`.
 
 .. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
 
@@ -1082,7 +1082,7 @@ replace the favicon.
 
 .. hint::
 
-   The files are copied to correspoding location on container startup, so
+   The files are copied to corresponding location on container startup, so
    restart is needed after changing the volume content.
 
 Alternatively you can also include own module (see :doc:`../customize`) and add
@@ -1153,7 +1153,7 @@ Just add ``WEBLATE_GITLAB_USERNAME``, ``WEBLATE_GITLAB_HOST``and ``WEBLATE_GITLA
       WEBLATE_GITLAB_HOST: https://gitlab.example.com
       WEBLATE_GITLAB_TOKEN: personal_access_token_of_translations_bot
 
-The ``access_token`` passed for lab configuratoin must be same as :setting:`GITLAB_USERNAME`.
+The ``access_token`` passed for lab configuration must be same as :setting:`GITLAB_USERNAME`.
 
 .. seealso::
 

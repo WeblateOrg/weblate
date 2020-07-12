@@ -61,7 +61,7 @@ Comments
 
 The comments can be posted in two scopes - source string or translation. Choose
 the one which matches the topic you want to discuss. The source string comments are
-good for prividing feedback on the original string, for example that it should
+good for providing feedback on the original string, for example that it should
 be rephrased or it is confusing.
 
 You can use Markdown syntax in the comments and mention other users using
@@ -207,7 +207,7 @@ Screenshots
 Nearby strings
     Displays neighbouring messages from the translation file. These
     are usually also used in a similar context and prove useful in keeping the translation consistent.
-Other occurences
+Other occurrences
     In case a message appears in multiple places (e.g. multiple components),
     this tab shows all of them if they are found to be inconsistent (see
     :ref:`check-inconsistent`). You can choose which one to use.

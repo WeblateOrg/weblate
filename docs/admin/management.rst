@@ -217,7 +217,7 @@ You can either define which project or component to update (for example
 
 .. note::
 
-   This is automatically perfomed in the background by Weblate, so there no
+   This is automatically performed in the background by Weblate, so there no
    real need to invoke this manually, besides forcing an earlier commit than
    specified by :ref:`component`.
 
@@ -591,7 +591,7 @@ Lists translators by contributed language for the given project::
     [French]
     Jean Dupont <jean.dupont@example.com>
     [English]
-    John Doe <jd@exemple.com>
+    John Doe <jd@example.com>
 
 .. django-admin-option:: --language-code
 

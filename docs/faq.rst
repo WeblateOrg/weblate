@@ -424,7 +424,7 @@ The additional file for same language is not processed.
 
 * In case the translation to the source language is desired, please change the :ref:`project-source_language` in the project settings.
 * In case the translation file for the source language is not needed, please remove it from the repository.
-* In case the translation file for the source language is needed, but shoud be ignored by Weblate, please adjust the :ref:`component-language_regex` to exclude it.
+* In case the translation file for the source language is needed, but should be ignored by Weblate, please adjust the :ref:`component-language_regex` to exclude it.
 
 Features
 ++++++++

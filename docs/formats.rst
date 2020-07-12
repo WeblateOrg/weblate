@@ -128,7 +128,7 @@ Capabilities of all supported formats:
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The gettext type comments are used as flags.
-.. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
+.. [#xl] The flags are extracted from the non-standard attribute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
 .. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
 
 .. _gettext:
@@ -384,7 +384,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
 .. note::
 
    Loading escape sequences works in UTF-8 mode as well, so please be
-   careful choosing the correct enconding set to match your application needs.
+   careful choosing the correct encoding set to match your application needs.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
