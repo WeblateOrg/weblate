@@ -331,7 +331,7 @@ Glossary
     Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
 Machinery
-    Use machine translation services [`Administration`, `Power user`]
+    Use machinery [`Administration`, `Power user`]
 
 Projects
     Edit project settings [`Administration`]
@@ -403,23 +403,23 @@ VCS
     Update the internal repository [`Administration`, `Manage repository`]
 
 Site wide privileges
-    Use management interface
+    Use management interface (site wide)
 
-    Add language definitions
+    Add language definitions (site wide)
 
-    Manage language definitions
+    Manage language definitions (site wide)
 
-    Add groups
+    Add groups (site wide)
 
-    Manage groups
+    Manage groups (site wide)
 
-    Add users
+    Add users (site wide)
 
-    Manage users
+    Manage users (site wide)
 
-    Manage announcements
+    Manage announcements (site wide)
 
-    Manage translation memory
+    Manage translation memory (site wide)
 
 .. note::
 

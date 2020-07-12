@@ -31,7 +31,7 @@ SELECTION_ALL_PROTECTED = 4
 
 PERMISSIONS = (
     # Translators: Permission name
-    ("billing.view", _("View billing information")),
+    ("billing.view", _("View billing info")),
     # Translators: Permission name
     ("change.download", _("Download changes")),
     # Translators: Permission name
@@ -51,7 +51,7 @@ PERMISSIONS = (
     # Translators: Permission name
     ("glossary.upload", _("Upload glossary entries")),
     # Translators: Permission name
-    ("machinery.view", _("Use machine translation services")),
+    ("machinery.view", _("Use machinery")),
     # Translators: Permission name
     ("memory.edit", _("Edit translation memory")),
     # Translators: Permission name
