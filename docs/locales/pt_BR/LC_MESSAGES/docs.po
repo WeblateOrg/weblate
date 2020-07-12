@@ -3,19 +3,21 @@
 # This file is distributed under the same license as the Weblate package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate \n"
+"Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-11 19:57+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-07-12 05:05+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"weblate/documentation/pt_BR/>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:177
@@ -29,12 +31,18 @@ msgid ""
 "the consult documentation for that version, the information here will not "
 "apply."
 msgstr ""
+"Antes do Weblate 3.0, o sistema de privilégios era baseado no Django, mas "
+"agora é especificamente construído para Weblate. Se você estiver usando uma "
+"versão mais antiga, consulte a documentação para essa versão, as informações "
+"aqui não se aplicarão."
 
 #: ../../admin/access.rst:12
 msgid ""
 "Weblate comes with a fine grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
 msgstr ""
+"O Weblate vem com um sistema de privilégios fino para atribuir permissões ao "
+"usuário para toda a instância ou em um escopo limitado."
 
 #: ../../admin/access.rst:15
 msgid ""
@@ -42,6 +50,9 @@ msgid ""
 "permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
+"O sistema de autorização baseado nos grupos e funções, onde as funções de "
+"definir um conjunto de permissões, grupos e atribuir-lhes para os usuários e "
+"traduções, veja :ref:`auth-model` para mais detalhes."
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -51,14 +62,19 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`"
 msgstr ""
+"Após a instalação, um conjunto padrão de grupos é criado e você pode usá-los "
+"para atribuir funções de usuários para toda a instância (ver :ref:`default-"
+"groups`). Além disso, quando :ref:`acl`está ativado, você pode atribuir "
+"usuários a projetos de tradução específicos. Configurações mais refinadas "
+"pode ser alcançadas usando :ref:`custom-acl`"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
-msgstr ""
+msgstr "Configurações comuns"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
-msgstr ""
+msgstr "Bloqueando o Weblate"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -66,10 +82,13 @@ msgid ""
 "`LOGIN_REQUIRED_URLS` to force users to sign in and :setting:"
 "`REGISTRATION_OPEN` to prevent new registrations."
 msgstr ""
+"Para bloquear completamente o sua instalação de Weblate, você pode usar o "
+":setting:`LOGIN_REQUIRED_URLS` para forçar os usuários a entrar e o "
+":setting:`REGISTRATION_OPEN` para impedir novos registros."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
-msgstr ""
+msgstr "Permissões para todo o site"
 
 #: ../../admin/access.rst:37
 msgid ""
@@ -77,20 +96,26 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"Para gerenciar permissões para uma instância inteira, basta adicionar "
+"utilizadores aos grupos `Usuários` (isso é feito por padrão, usando o "
+":ref:`autogroup`), `Revisores` e `Gerenciadores`. Manter todos os projetos "
+"configurados como \"Público\" (veja :ref:`acl`)."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr ""
+msgstr "Permissões por projeto"
 
 #: ../../admin/access.rst:44
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
 msgstr ""
+"Defina seus projetos para o `Protegido` ou `Privado`, e gerencie usuários "
+"por projeto na interface do Weblate."
 
 #: ../../admin/access.rst:48
 msgid "Adding permissions to languages, components or projects"
-msgstr ""
+msgstr "Adicionando permissões a idiomas, componentes ou projetos"
 
 #: ../../admin/access.rst:50
 msgid ""
@@ -99,6 +124,11 @@ msgid ""
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
+"Além disso, você pode conceder permissões a qualquer usuário com base no "
+"projeto, componente ou conjunto de idiomas. Para conseguir isso, crie um "
+"novo grupo (por exemplo, `tradutores de tcheco`) e configure-o para um "
+"determinado recurso. Quaisquer permissões atribuídas serão concedidas aos "
+"membros desse grupo para os recursos selecionados."
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -107,20 +137,28 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
+"Isso funcionará muito bem sem configuração adicional, se usar por permissões "
+"de projeto. Para permissões em toda a instância, você provavelmente também "
+"vai querer remover essas permissões do grupo `Usuários` ou alterar a "
+"atribuição automática de todos os usuários para esse grupo (ver "
+":ref:`autogroup`)."
 
 #: ../../admin/access.rst:62
 msgid ":ref:`perm-check`"
-msgstr ""
+msgstr ":ref:`perm-check`"
 
 #: ../../admin/access.rst:67
 msgid "Per project access control"
-msgstr ""
+msgstr "Controle de acesso por projeto"
 
 #: ../../admin/access.rst:71
 msgid ""
 "By enabling ACL, all users are prohibited from accessing anything within a "
 "given project, unless you add the permissions for them to do just that."
 msgstr ""
+"Ao habilitar a ACL, todos os usuários são proibidos de acessar qualquer "
+"coisa dentro de um determinado projeto, a menos que você adicione as "
+"permissões para que eles façam exatamente isso."
 
 #: ../../admin/access.rst:74
 msgid ""
@@ -129,10 +167,14 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
+"Você pode limitar o acesso do usuário a projetos individuais. Este recurso é "
+"ligado por :guilabel:`Controle de acesso` na configuração de cada projeto. "
+"Isso cria automaticamente vários grupos para este projeto, consulte "
+":ref:`groups`."
 
 #: ../../admin/access.rst:78
 msgid "The following choices exist for :guilabel:`Access control`:"
-msgstr ""
+msgstr "Existem as seguintes opções para :guilabel:`Controle de acesso`:"
 
 #: ../../admin/access.rst:80
 msgid "Public"
@@ -148,7 +190,7 @@ msgstr "Protegido"
 
 #: ../../admin/access.rst:83
 msgid "Publicly visible, but translatable only for selected users"
-msgstr ""
+msgstr "Publicamente visível, mas somente traduzível por usuários selecionados"
 
 #: ../../admin/access.rst:84
 msgid "Private"
@@ -156,7 +198,7 @@ msgstr "Privado"
 
 #: ../../admin/access.rst:85
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Visível e traduzível apenas por usuários selecionados"
 
 #: ../../admin/access.rst:87
 msgid "Custom"
@@ -164,7 +206,7 @@ msgstr "Personalizado"
 
 #: ../../admin/access.rst:87
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
-msgstr ""
+msgstr "Weblate não gerencia usuários, consulte :ref:`custom-acl`."
 
 #: ../../admin/access.rst:91
 msgid ""
@@ -173,21 +215,30 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
+"Para permitir o acesso a este projeto, você tem que adicionar o privilégio "
+"diretamente ao usuário ou grupo de usuários na interface administrativa do "
+"Django, ou usando o gerenciamento do usuário na página do projeto, conforme "
+"descrito em :ref:`manage-acl`."
 
 #: ../../admin/access.rst:97
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
 msgstr ""
+"Mesmo com a ACL ativada, algumas informações de resumo estarão disponíveis "
+"sobre o seu projeto:"
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
 msgstr ""
+"Estatísticas para todo o caso, incluindo contagens para todos os projetos."
 
 #: ../../admin/access.rst:100
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
 msgstr ""
+"Resumo do idioma para toda a instância, incluindo contagens para todos os "
+"projetos."
 
 #: ../../admin/access.rst:105
 msgid "Automatic group assignments"
@@ -199,12 +250,17 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"Você pode configurar o Weblate para adicionar automaticamente usuários a "
+"grupos com base em seus endereços de e-mail. Essa atribuição automática "
+"acontece apenas no momento da criação da conta."
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
 msgstr ""
+"Isso pode ser configurado na interface administrativa do Django para cada "
+"grupo (na seção :guilabel:`Autenticação`)."
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -212,56 +268,67 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
+"A associação automática de grupo para os grupos `Usuários` e `Visualizadores`"
+" sempre será criada pelo Weblate após as migrações; caso você queira "
+"desativá-las, basta definir a expressão regular para ``^$``, que nunca "
+"corresponderá."
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
-msgstr ""
+msgstr "Usuários, funções, grupos e permissões"
 
 #: ../../admin/access.rst:124
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Os modelos de autenticação consistem em vários objetos:"
 
 #: ../../admin/access.rst:127
 msgid "`Permission`"
-msgstr ""
+msgstr "`Permissão`"
 
 #: ../../admin/access.rst:127
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
 msgstr ""
+"Permissões individuais definidos por Weblate. Você não pode atribuir "
+"permissões individuais, isso só pode ser feito através da atribuição de "
+"funções."
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
-msgstr ""
+msgstr "`Função`"
 
 #: ../../admin/access.rst:130
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
+"A função define um conjunto de permissões. Isso permite a reutilização "
+"desses conjuntos em vários lugares, e facilita a administração."
 
 #: ../../admin/access.rst:132
 msgid "`User`"
-msgstr ""
+msgstr "`Usuário`"
 
 #: ../../admin/access.rst:133
 msgid "Users can be members of several groups."
-msgstr ""
+msgstr "Os usuários podem ser membros de vários grupos."
 
 #: ../../admin/access.rst:136
 msgid "`Group`"
-msgstr ""
+msgstr "`Grupo`"
 
 #: ../../admin/access.rst:135
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
+"Grupos conectam funções, usuários e objetos de autenticação (projetos, "
+"idiomas e listas de componentes)."
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
-msgstr ""
+msgstr "Verificação de permissões"
 
 #: ../../admin/access.rst:156
 msgid ""
@@ -269,24 +336,30 @@ msgid ""
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
 msgstr ""
+"Sempre que uma permissão é verificada para decidir se alguém é capaz de "
+"realizar uma determinada ação, a verificação é realizada de acordo com o "
+"escopo, e as seguintes verificações são realizadas na ordem:"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` are matched against component or project."
 msgstr ""
+":guilabel:`Lista de componentes` são comparadas com componente ou projeto."
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
-msgstr ""
+msgstr ":guilabel:`Componentes` são comparados com componente ou projeto."
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
-msgstr ""
+msgstr ":guilabel:`Projetos` são comparados com o projeto."
 
 #: ../../admin/access.rst:166
 msgid ""
 "As you can see, grating access to a component automatically grants user "
 "access to a containing project as well."
 msgstr ""
+"Como se pode ver, conceder acesso a um componente concede automaticamente o "
+"acesso do usuário a um projeto que contém um componente."
 
 #: ../../admin/access.rst:171
 msgid ""
@@ -294,27 +367,37 @@ msgid ""
 "`Component list`, :guilabel:`Components` and :guilabel:`Project`, only :"
 "guilabel:`Component list` is being applied."
 msgstr ""
+"Apenas a primeira regra que é definida está sendo usado. Então, se você "
+"definir tudo :guilabel:`Lista de componentes`, :guilabel:`Componentes` e "
+":guilabel:`Projeto`, apenas :guilabel:`Lista de componentes` está sendo "
+"aplicada."
 
 #: ../../admin/access.rst:175
 msgid ""
 "Additionally step is performed if checking permission for the translation:"
 msgstr ""
+"Uma etapa adicional é executada se estiver verificando a permissão para a "
+"tradução:"
 
 #: ../../admin/access.rst:178
 msgid ""
 ":guilabel:`Languages` are matches against scope of translations, if not set, "
 "this matches no language."
 msgstr ""
+":guilabel:`Idiomas` são comparados com escopo de traduções; se não "
+"definidos, isso não compara com nenhum idioma."
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
+"Você pode usar :guilabel:`Seleção de idioma` ou :guilabel:`Seleção de "
+"projeto` para automatizar a inclusão de todos os idiomas ou projetos."
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
-msgstr ""
+msgstr "Verificando acesso a um projeto"
 
 #: ../../admin/access.rst:189
 msgid ""
@@ -323,10 +406,14 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"Um usuário tem que ser um membro de um grupo vinculado ao projeto ou "
+"qualquer componente dentro dele. Apenas a adesão é suficiente, não são "
+"necessárias permissões específicas para acessar um projeto (isso é usado no "
+"grupo padrão `Visualizadores`, consulte :ref:`default-groups`)."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
-msgstr ""
+msgstr "Verificando acesso a um componente"
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -335,24 +422,31 @@ msgid ""
 "the component requires explicit perimission on the component (or containing "
 "component list)."
 msgstr ""
+"Um usuário pode acessar o componente irrestrito assim que puder acessar o "
+"projeto de contenção. Com o :ref:`component-restricted` ativado, o acesso ao "
+"componente requer permissão explícita no componente (ou que contenha lista "
+"de componentes)."
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr ""
+msgstr "Gerenciando usuários e grupos"
 
 #: ../../admin/access.rst:206
 msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
 msgstr ""
+"Todos os usuários e grupos podem ser gerenciados usando-se a interface "
+"administrativa do Django, disponível na URL :file:`/admin/`."
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
-msgstr ""
+msgstr "Gerenciando controle de acesso por projeto"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgstr ""
+"Este recurso só funciona para projetos controlados por ACL, veja :ref:`acl`."
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -360,84 +454,96 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+"Os usuários com o privilégio :guilabel:`Pode gerenciar regras ACL para um "
+"projeto` (veja a :ref:`privileges`) também pode gerenciar usuários em "
+"projetos de controle de acesso ativado através da página do projeto. A "
+"interface permite que você:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "Adicionar usuários existentes ao projeto"
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "Convidar novos usuários para o projeto"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "Alterar permissões dos usuários"
 
 #: ../../admin/access.rst:225
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "Revogar acesso dos usuários"
 
 #: ../../admin/access.rst:227
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
 msgstr ""
+"O gerenciamento do usuário está disponível no menu :guilabel:`Gerenciar` de "
+"um projeto:"
 
 #: ../../admin/access.rst:233
 msgid ":ref:`acl`"
-msgstr ""
+msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:238
 msgid "Predefined groups"
-msgstr ""
+msgstr "Grupos predefinidos"
 
 #: ../../admin/access.rst:240
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
 msgstr ""
+"Weblate vem com um conjunto predefinido de grupos para um projeto, onde você "
+"pode atribuir usuários."
 
 #: ../../admin/access.rst:245
 msgid "Has all permissions available in the project."
-msgstr ""
+msgstr "Tem todas as permissões disponíveis no projeto."
 
 #: ../../admin/access.rst:249
 msgid "Can manage glossary (add or remove entries, or upload)."
-msgstr ""
+msgstr "Pode gerenciar glossário (adicionar ou remover entradas ou enviar)."
 
 #: ../../admin/access.rst:253
 msgid "Can manage translated languages - add or remove translations."
-msgstr ""
+msgstr "Pode gerenciar idiomas traduzidos - adicionar ou remover traduções."
 
 #: ../../admin/access.rst:257
 msgid ""
 "Can manage screenshots - add or remove them, and associate them to source "
 "strings."
 msgstr ""
+"Pode gerenciar capturas de tela - adicioná-las ou removê-las e associá-las a "
+"textos fonte."
 
 #: ../../admin/access.rst:262
 msgid ""
 "Can edit translation templates in :ref:`monolingual` and source string info."
 msgstr ""
+"Pode editar modelos de tradução em :ref:`monolingual` e informações de "
+"textos fonte."
 
 #: ../../admin/access.rst:267
 msgid "Can translate the project, and upload translations made offline."
-msgstr ""
+msgstr "Pode traduzir o projeto, e enviar traduções feitas offline."
 
 #: ../../admin/access.rst:271
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "Pode gerenciar VCS e acessar o repositório exportado."
 
 #: ../../admin/access.rst:275
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Pode aprovar traduções durante a revisão."
 
 #: ../../admin/access.rst:279
 msgid "Can access billing info (see :ref:`billing`)."
-msgstr ""
+msgstr "Pode acessar informações de cobrança (consulte :ref:`billing`)."
 
 #: ../../admin/access.rst:285
 msgid "Custom access control"
-msgstr ""
+msgstr "Controle de acesso personalizado"
 
 #: ../../admin/access.rst:287
 msgid ""
@@ -448,6 +554,13 @@ msgid ""
 "Weblate instance. If you want to enable this for all projects by default, "
 "please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Ao escolher :guilabel:`Personalizado` como :guilabel:`Controle de acesso`, o "
+"Weblate deixará de gerenciar o acesso para um determinado projeto e você "
+"pode configurar regras personalizadas na interface administrativa do Django. "
+"Isso pode ser usado para definir um controle de acesso mais complexo ou "
+"configurar uma política de acesso compartilhado para todos os projetos em "
+"uma única instância Weblate. Se você quiser habilitar isso para todos os "
+"projetos por padrão, configure :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:296
 msgid ""
@@ -455,30 +568,34 @@ msgid ""
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
 msgstr ""
+"Ao ativar isso, o Weblate removerá todos os :ref:`acl` que ele criou para "
+"este projeto. Se você estiver fazendo isso sem permissão administrativa da "
+"instância, você perderá instantaneamente o seu acesso para gerenciar o "
+"projeto."
 
 #: ../../admin/access.rst:303
 msgid "Default groups and roles"
-msgstr ""
+msgstr "Grupos e funções padrão"
 
 #: ../../admin/access.rst:306
 msgid "List of privileges"
-msgstr ""
+msgstr "Lista de privilégios"
 
 #: ../../admin/access.rst:309
 msgid "Billing (see :ref:`billing`)"
-msgstr ""
+msgstr "Cobrança (consulte :ref:`billing`)"
 
 #: ../../admin/access.rst:309
 msgid "View billing info [`Administration`, `Billing`]"
-msgstr ""
+msgstr "Visualizar informações de cobrança [`Administração`, `Cobrança`]"
 
 #: ../../admin/access.rst:312 ../../api.rst:1810
 msgid "Changes"
-msgstr "Modificações"
+msgstr "Alterações"
 
 #: ../../admin/access.rst:312
 msgid "Download changes [`Administration`]"
-msgstr ""
+msgstr "Baixar alterações [`Administração`]"
 
 #: ../../admin/access.rst:316 ../../user/translating.rst:60
 msgid "Comments"
@@ -489,6 +606,8 @@ msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`] Delete comment [`Administration`]"
 msgstr ""
+"Publicar comentário [`Administração`, `Editar fonte`, `Usuário avançado`, `"
+"Revisar textos`, `Traduzir`] Excluir comentário [`Administração`]"
 
 #: ../../admin/access.rst:320
 msgid "Component"
@@ -499,6 +618,8 @@ msgid ""
 "Edit component settings [`Administration`] Lock component, preventing it "
 "from being translated [`Administration`]"
 msgstr ""
+"Editar configurações de componente [`Administração`] Bloquear componente, "
+"evitando de ele ser traduzido [`Administração`]"
 
 #: ../../admin/access.rst:326 ../../user/translating.rst:216
 #: ../../user/translating.rst:253
@@ -512,6 +633,11 @@ msgid ""
 "glossary entry [`Administration`, `Manage glossary`, `Power user`] Upload "
 "glossary entries [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Adicionar entrada de glossário [`Administração`, `Gerenciar glossário`, `"
+"Usuário avançado`] Editar entrada de glossário [`Administração`, `Gerenciar "
+"glossário`, `Usuário avançado`] Excluir entrada de glossário [`Administração`"
+", `Gerenciar glossário`, `Usuário avançado`] Enviar entradas de glossário "
+"[`Administração`, `Gerenciar glossário`, `Usuário avançado`]"
 
 #: ../../admin/access.rst:329
 msgid "Machinery"
@@ -520,6 +646,7 @@ msgstr "Maquinaria"
 #: ../../admin/access.rst:329
 msgid "Use machine translation services [`Administration`, `Power user`]"
 msgstr ""
+"Usar serviços de tradução de máquina [`Administração`, `Usuário avançado`]"
 
 #: ../../admin/access.rst:333 ../../api.rst:726
 msgid "Projects"
@@ -530,6 +657,8 @@ msgid ""
 "Edit project settings [`Administration`] Manage project access "
 "[`Administration`]"
 msgstr ""
+"Editar configurações do projeto [`Administração`] Gerenciar acesso ao "
+"projeto [`Administração`]"
 
 #: ../../admin/access.rst:336
 msgid "Reports"
@@ -537,7 +666,7 @@ msgstr "Relatórios"
 
 #: ../../admin/access.rst:336
 msgid "Download reports [`Administration`]"
-msgstr ""
+msgstr "Baixar relatórios [`Administração`]"
 
 #: ../../admin/access.rst:341 ../../api.rst:1850 ../../user/translating.rst:205
 msgid "Screenshots"
@@ -549,6 +678,9 @@ msgid ""
 "[`Administration`, `Manage screenshots`] Delete screenshot "
 "[`Administration`, `Manage screenshots`]"
 msgstr ""
+"Adicionar captura de tela [`Administração`, `Gerenciar capturas de tela`] "
+"Editar captura de tela [`Administração`, `Gerenciar capturas de tela`] "
+"Excluir captura de tela [`Administração`, `Gerenciar capturas de tela`]"
 
 #: ../../admin/access.rst:344
 msgid "Source strings"
@@ -556,7 +688,7 @@ msgstr "Textos fonte"
 
 #: ../../admin/access.rst:344
 msgid "Edit source string info [`Administration`, `Edit source`]"
-msgstr ""
+msgstr "Editar informações de textos fonte [`Administração`, `Editar fonte`]"
 
 #: ../../admin/access.rst:352
 msgid "Strings"
@@ -600,7 +732,7 @@ msgstr ""
 
 #: ../../admin/access.rst:369
 msgid "Uploads"
-msgstr ""
+msgstr "Envios"
 
 #: ../../admin/access.rst:367
 msgid ""
@@ -612,7 +744,7 @@ msgstr ""
 
 #: ../../admin/access.rst:377
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: ../../admin/access.rst:372
 msgid ""
@@ -628,7 +760,7 @@ msgstr ""
 
 #: ../../admin/access.rst:388
 msgid "Global privileges"
-msgstr ""
+msgstr "Privilégios globais"
 
 #: ../../admin/access.rst:380
 msgid ""
@@ -644,98 +776,113 @@ msgid ""
 "powerful and they are quite close to the superuser status - most of them can "
 "affect all projects on your Weblate installation."
 msgstr ""
+"Os privilégios globais não são concedidos a nenhuma função padrão. Eles são "
+"poderosos e estão muito próximos do status de superusuário - a maioria deles "
+"pode afetar todos os projetos na sua instalação do Weblate."
 
 #: ../../admin/access.rst:397
 msgid "List of groups"
-msgstr ""
+msgstr "Lista de grupos"
 
 #: ../../admin/access.rst:399
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`):"
 msgstr ""
+"Os seguintes grupos são criados após a instalação (ou após a execução de "
+":djadmin:`setupgroups`):"
 
 #: ../../admin/access.rst:410
 msgid "`Guests`"
-msgstr ""
+msgstr "`Convidados`"
 
 #: ../../admin/access.rst:403
 msgid "Defines permissions for non authenticated users."
-msgstr ""
+msgstr "Define permissões para usuários não autenticados."
 
 #: ../../admin/access.rst:405
 msgid ""
 "This group contains only anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Este grupo contém apenas usuários anônimos (consulte "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:407
 msgid ""
 "You can remove roles from this group to limit permissions for non "
 "authenticated users."
 msgstr ""
+"Você pode remover funções deste grupo para limitar as permissões para "
+"usuários não autenticados."
 
 #: ../../admin/access.rst:410
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "Funções padrão: `Adicionar sugestão`, `Acessar repositório`"
 
 #: ../../admin/access.rst:418
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Visualizadores`"
 
 #: ../../admin/access.rst:413
 msgid ""
 "This role ensures visibility of public projects for all users. By default "
 "all users are members of this group."
 msgstr ""
+"Essa função garante a visibilidade de projetos públicos para todos os "
+"usuários. Por padrão, todos os usuários são membros deste grupo."
 
 #: ../../admin/access.rst:416
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr ""
+"Por padrão, todos os usuários são membros deste grupo, usando "
+":ref:`autogroup`."
 
 #: ../../admin/access.rst:418
 msgid "Default roles: none"
-msgstr ""
+msgstr "Funções padrão: nenhuma"
 
 #: ../../admin/access.rst:425
 msgid "`Users`"
-msgstr ""
+msgstr "`Usuários`"
 
 #: ../../admin/access.rst:421
 msgid "Default group for all users."
-msgstr ""
+msgstr "Grupo padrão para todos os usuários."
 
 #: ../../admin/access.rst:423
 msgid "By default all users are members of this group using :ref:`autogroup`."
 msgstr ""
+"Por padrão, todos os usuários são membros deste grupo usando "
+":ref:`autogroup`."
 
 #: ../../admin/access.rst:425
 msgid "Default roles: `Power user`"
-msgstr ""
+msgstr "Funções padrão: `Usuário avançado`"
 
 #: ../../admin/access.rst:430
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Revisores`"
 
 #: ../../admin/access.rst:428
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "Grupo para revisores (consulte :ref:`workflows`)."
 
 #: ../../admin/access.rst:430
 msgid "Default roles: `Review strings`"
-msgstr ""
+msgstr "Funções padrão: `Revisar textos`"
 
 #: ../../admin/access.rst:435
 msgid "`Managers`"
-msgstr ""
+msgstr "`Gerenciadores`"
 
 #: ../../admin/access.rst:433
 msgid "Group for administrators."
-msgstr ""
+msgstr "Grupo pra administradores."
 
 #: ../../admin/access.rst:435
 msgid "Default roles: `Administration`"
-msgstr ""
+msgstr "Funções padrão: `Administração`"
 
 #: ../../admin/access.rst:439
 msgid ""
@@ -743,6 +890,9 @@ msgid ""
 "unexpected problems. If you do not want to use these features, just remove "
 "all privileges from them."
 msgstr ""
+"Nunca remova os grupos e usuários predefinidos do Weblate, isso pode levar a "
+"problemas inesperados. Se você não quiser usar esses recursos, basta remover "
+"todos os privilégios deles."
 
 #: ../../admin/addons.rst:4
 msgid "Addons"
@@ -5087,7 +5237,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
-msgstr ""
+msgstr "Localização contínua"
 
 #: ../../admin/continuous.rst:6
 msgid ""
@@ -10508,7 +10658,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:4
 msgid "Translation Memory"
-msgstr ""
+msgstr "Memória de Tradução"
 
 #: ../../admin/memory.rst:8
 msgid ""
@@ -11048,7 +11198,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
-msgstr ""
+msgstr "Projetos de tradução"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
@@ -19674,7 +19824,7 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:27
 msgid "Localization"
-msgstr ""
+msgstr "Localização"
 
 #: ../../contributing/frontend.rst:29
 msgid ""
@@ -20039,7 +20189,7 @@ msgstr ""
 
 #: ../../contributing/issues.rst:15
 msgid "Security issues"
-msgstr ""
+msgstr "Problemas de segurança"
 
 #: ../../contributing/issues.rst:17
 msgid ""
@@ -21050,7 +21200,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:38
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 #: ../../devel/starting.rst:38 ../../formats.rst:75
 msgid ":ref:`aresource`"
@@ -21058,7 +21208,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:40
 msgid "iOS"
-msgstr ""
+msgstr "iOS"
 
 #: ../../devel/starting.rst:40 ../../formats.rst:77
 msgid ":ref:`apple`"
@@ -21066,7 +21216,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:42
 msgid "Qt"
-msgstr ""
+msgstr "Qt"
 
 #: ../../devel/starting.rst:42 ../../formats.rst:73
 msgid ":ref:`qtling`"
@@ -21083,7 +21233,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:46
 msgid "PHP"
-msgstr ""
+msgstr "PHP"
 
 #: ../../devel/starting.rst:46
 msgid ":ref:`gettext` [#php]_"
@@ -21107,7 +21257,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:54
 msgid "Ruby"
-msgstr ""
+msgstr "Ruby"
 
 #: ../../devel/starting.rst:54 ../../formats.rst:97
 msgid ":ref:`ryaml`"
@@ -21123,7 +21273,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:58
 msgid "Java"
-msgstr ""
+msgstr "Java"
 
 #: ../../devel/starting.rst:58
 msgid ":ref:`xliff` [#java]_"
@@ -22049,7 +22199,7 @@ msgstr ""
 
 #: ../../faq.rst:430
 msgid "Features"
-msgstr ""
+msgstr "Recursos"
 
 #: ../../faq.rst:435
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
@@ -22561,7 +22711,7 @@ msgstr ""
 
 #: ../../formats.rst:245
 msgid "XLIFF"
-msgstr ""
+msgstr "XLIFF"
 
 #: ../../formats.rst:250
 msgid ""
