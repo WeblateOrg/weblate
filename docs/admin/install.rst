@@ -553,7 +553,7 @@ options:
 
 ``DEFAULT_FROM_EMAIL``
 
-    Email sender address for outgoing e-mail, for example registration e-mails.
+    E-mail sender address for outgoing e-mail, for example registration e-mails.
 
     .. seealso::
 
