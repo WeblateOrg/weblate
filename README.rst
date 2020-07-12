@@ -39,7 +39,7 @@ hosting offerings. Check out https://weblate.org/hosting/ for more information.
 Documentation
 -------------
 
-To be found in the ``docs`` directory the source code, or
+To be found in the ``docs`` directory of the source code, or
 viewed online on https://docs.weblate.org/
 
 Installation
