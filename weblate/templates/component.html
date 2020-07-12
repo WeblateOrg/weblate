@@ -150,7 +150,7 @@
 <div class="panel panel-default">
 <div class="panel-heading">{{ alert }}</div>
 <div class="panel-body">{{ alert.render }}</div>
-{% comment %}Translators: first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
+{% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
 <div class="panel-footer">{% blocktrans with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktrans %}</div>
 </div>
 {% endfor %}
