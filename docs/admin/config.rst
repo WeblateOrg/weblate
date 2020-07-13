@@ -213,7 +213,7 @@ List of quality checks to perform on a translation.
     Provide a fully-qualified path to the Python class implementing the check
     interface.
 
-Adjust the list list of checks to include the ones you want to have performed.
+Adjust the list of checks to include the ones you want to have performed.
 
 All built-in quality :ref:`checks` are turned on by default, from
 where you can change these settings. They are also commented out in :ref:`sample-configuration`
