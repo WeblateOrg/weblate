@@ -95,7 +95,7 @@ into the Weblate data volume (see :ref:`docker-volume`):
 * :file:`ssl/fullchain.pem` containing the certificate including any needed CA certificates
 * :file:`ssl/privkey.pem` containing the private key
 
-Both of these files must be owned by the same user as the one starting the docker container and have file mask set to ``600`` (readable and writeable only by the owning user).
+Both of these files must be owned by the same user as the one starting the docker container and have file mask set to ``600`` (readable and writable only by the owning user).
 
 Additionally, Weblate container will now accept SSL connections on port 4443,
 you will want to include the port forwarding for HTTPS in docker compose override:
