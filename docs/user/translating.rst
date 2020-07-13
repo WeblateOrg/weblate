@@ -328,7 +328,7 @@ Rate limiting
 
 To avoid abuse of the interface, there is rate limiting applied to several
 operations like searching, sending contact form or translating. In case you are
-are hit by this, you are blocked for a certain period until you can perform the
+hit by this, you are blocked for a certain period until you can perform the
 operation again.
 
 The default limits are described in the administrative manual in
