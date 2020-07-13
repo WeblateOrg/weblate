@@ -1,14 +1,14 @@
 Debugging Weblate
 =================
 
-Bugs can behave as application crashes or as a misbehavior.
-You are welcome to collect info on any such issue and submit it to our `issue tracker
+Bugs can behave as application crashes or as misbehavior.
+You are welcome to collect info on any such issue and submit it to the `issue tracker
 <https://github.com/WeblateOrg/weblate/issues>`_.
 
 Debug mode
 ----------
 
-Enabling debug mode will make the exceptions show in browser. This is useful to
+Turning on debug mode will make the exceptions show in the browser. This is useful to
 debug issues in the web interface, but not suitable for production environment
 as it has performance consequences and might leak private data.
 
@@ -19,12 +19,12 @@ as it has performance consequences and might leak private data.
 Weblate logs
 ------------
 
-Weblate can produce detailed logs of what is going in in the background. In
-default configuration it uses syslog and that makes the log appear either in
+Weblate can produce detailed logs of what is going in the background. In
+the default configuration it uses syslog and that makes the log appear either in
 :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on your syslog
 daemon configuration).
 
-The Docker containers log (as usual in the Docker world) to their output, so
+Docker containers log to their output (as usual in the Docker world), so
 you can look at the logs using ``docker-compose logs``.
 
 .. seealso::
@@ -50,11 +50,11 @@ failures easier.
 Performance issues
 ------------------
 
-In case Weblate performs badly in some situation, please collect relevant logs
+In case Weblate performs badly in some situation, please collect the relevant logs
 showing the issue, and anything that might help figuring out where the code might be
 improved.
 
 In case some requests take too long without any indication, you might
 want to install `dogslow <https://pypi.org/project/dogslow/>` along with
-:ref:`collecting-errors` and get pinpointed detailed tracebacks in
+:ref:`collecting-errors` and get pinpointed and detailed tracebacks in
 the error collection tool.

@@ -6,7 +6,7 @@ Searching
 Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
 find the strings you want.
 
-When not defining any field, the lookup happens on :guilabel:`Source`,
+When no field is defined, the lookup happens on :guilabel:`Source`,
 :guilabel:`Target` and :guilabel:`Context` fields.
 
 .. image:: /images/search.png
@@ -15,7 +15,7 @@ Simple search
 -------------
 
 Any phrase typed into the search box is split into words. Strings containing any
-of them are are shown. To look for an exact phrase, put "the searchphrase" into
+of them are shown. To look for an exact phrase, put "the searchphrase" into
 quotes (both single (') and double (") quotes will work): ``"this is a quoted
 string"`` or ``'another quoted string'``.
 

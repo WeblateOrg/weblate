@@ -170,7 +170,7 @@ to a containing project as well.
 
    Only the first rule will be used. So if you set all of
    :guilabel:`Component list`, :guilabel:`Components` and :guilabel:`Project`,
-   only :guilabel:`Component list` is the only one applied.
+   only :guilabel:`Component list` will be applied.
 
 An additional step is performed if checking permission for the translation:
 

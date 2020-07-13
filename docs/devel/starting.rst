@@ -3,8 +3,8 @@
 Starting with internationalization
 ==================================
 
-You have a project and want to to translate it into several languages? This
-guide will help you to do so. We will showcase several typical situations, but
+Have a project and want to translate it into several languages? This
+guide will help you do so. Several typical situations are showcased, but
 most of the examples are generic and can be applied to other scenarios as
 well.
 

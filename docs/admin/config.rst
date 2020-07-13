@@ -213,7 +213,7 @@ List of quality checks to perform on a translation.
     Provide a fully-qualified path to the Python class implementing the check
     interface.
 
-Adjust the list list of checks to include the ones you want to have performed.
+Adjust the list of checks to include the ones you want to have performed.
 
 All built-in quality :ref:`checks` are turned on by default, from
 where you can change these settings. They are also commented out in :ref:`sample-configuration`
@@ -1376,7 +1376,7 @@ REGISTRATION_OPEN
 -----------------
 
 Whether registration of new accounts is currently permitted.
-This optional setting can be be the default``True`` or changed to ``False``.
+This optional setting can remain the default``True``, or changed to ``False``.
 
 This setting affects built-in authentication by e-mail address or through the
 Python Social Auth (you can white list certain backends using
@@ -1466,7 +1466,7 @@ the project slug, and it will redirect unconditionally to this project.
 
 .. versionchanged:: 3.11
 
-   The setting now also accepts a project slug, to force displaying that that
+   The setting now also accepts a project slug, to force displaying that
    single project.
 
 Example:

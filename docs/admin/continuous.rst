@@ -305,7 +305,7 @@ Protected branches
 
 If you are using Weblate on protected branch, you can configure it to use pull
 requests and perform actual review on the translations (what might be
-problematic for languages you do not know). Alternative approach is to to waive
+problematic for languages you do not know). An alternative approach is to waive
 this limitation for the Weblate push user.
 
 For example on GitHub this can be done in the repository configuration:
@@ -320,7 +320,7 @@ Merge or rebase
 By default, Weblate merges the upstream repository into its own. This is the safest way
 in case you also access the underlying repository by other means. In case you don't
 need this, you can enable rebasing of changes on upstream, which will produce
-history with fewer merge commits.
+a history with fewer merge commits.
 
 .. note::
 

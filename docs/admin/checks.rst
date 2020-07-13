@@ -227,7 +227,7 @@ needs font info to be selected, which can be done in the Weblate font management
 tool in :guilabel:`Fonts` under the :guilabel:`Manage` menu of your translation project.
 
 TrueType or OpenType fonts can be uploaded, set up font-groups and use those
-in the the check.
+in the check.
 
 The font-groups allow you to define different fonts for different languages,
 which is typically needed for non-latin languages:

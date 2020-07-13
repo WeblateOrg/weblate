@@ -224,7 +224,7 @@ Released on February 17th 2020.
 * Improved look of plaintext e-mails.
 * Display ignored checks and allow to make them active again.
 * Display nearby keys on monolingual translations.
-* Added support for groupping string shapings.
+* Added support for grouping string shapings.
 * Recommend upgrade to new Weblate versions in the system checks.
 * Provide more detailed analysis for duplicate language alert.
 * Include more detailed license info on the project pages.
