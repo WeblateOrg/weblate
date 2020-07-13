@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-12 18:58+0000\n"
-"PO-Revision-Date: 2020-07-09 18:19+0000\n"
+"PO-Revision-Date: 2020-07-13 17:55+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -1422,10 +1422,8 @@ msgstr "Date importanti"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
-#, fuzzy
-#| msgid "View billing information"
 msgid "View billing info"
-msgstr "Visualizza informazioni fatturazione"
+msgstr "Traduttori: nome permesso"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:36
@@ -1474,10 +1472,8 @@ msgstr "Carica voci di glossario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Machinery"
 msgid "Use machinery"
-msgstr "Macchina"
+msgstr "Usa traduzione automatica"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -1643,74 +1639,53 @@ msgstr "Aggiorna il repository interno"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-#, fuzzy
-#| msgid "Use management interface (on the entire platform)"
 msgid "Use management interface (site wide)"
-msgstr "Usa interfaccia di gestione (nell'intera piattaforma)"
+msgstr "Usa interfaccia di gestione (a livello sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-#, fuzzy
-#| msgid "Add new projects (on the entire platform)"
 msgid "Add new projects (site wide)"
-msgstr "Aggiungi nuovi progetti (in tutta la piattaforma)"
+msgstr "Aggiungi nuovi progetti (in tutto il sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-#, fuzzy
-#| msgid "Add language definitions (on the entire platform)"
 msgid "Add language definitions (site wide)"
-msgstr "Aggiungi definizioni lingua (nell'intera piattaforma)"
+msgstr "Aggiungi definizioni lingua (a livello sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-#, fuzzy
-#| msgid "Manage language definitions (on the entire platform)"
 msgid "Manage language definitions (site wide)"
-msgstr "Gestisci definizioni lingua (nell'intera piattaforma)"
+msgstr "Gestisci definizioni lingua (a livello sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage groups (site wide)"
-msgstr "Gestisci gruppi (nell'intera piattaforma)"
+msgstr "Gestisci gruppi (a livello sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-#, fuzzy
-#| msgid "Manage users (global)"
 msgid "Manage users (site wide)"
-msgstr "Gestione utenti (globale)"
+msgstr "Gestione utenti (a livello sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Manage roles (on the entire platform)"
 msgid "Manage roles (site wide)"
-msgstr "Gestisci ruoli (nell'intera piattaforma)"
+msgstr "Gestisci ruoli (nell'intero sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage announcements (site wide)"
-msgstr "Gestisci annunci (nell'intera piattaforma)"
+msgstr "Gestisci annunci (a livello sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (site wide)"
-msgstr "Gestisci memoria traduzione"
+msgstr "Gestisci memoria traduzione (a livello sito)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage component lists (on the entire platform)"
 msgid "Manage component lists (site wide)"
-msgstr "Gestisci elenchi componenti (nell'intera piattaforma)"
+msgstr "Gestisci elenchi componenti (nell'intero sito)"
 
 #: weblate/auth/data.py:168
 msgctxt "Access control role"
@@ -4198,10 +4173,9 @@ msgid "Your avatar"
 msgstr "Il tuo avatar"
 
 #: weblate/templates/accounts/profile.html:196
-#, fuzzy, python-format
-#| msgid "Avatars are provided using Gravatar."
+#, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Gli avatar sono forniti usando Gravatar."
+msgstr "Gli avatar sono forniti usando %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:205
 #: weblate/templates/addons/discovery_help.html:10
@@ -5293,7 +5267,7 @@ msgstr "Accedi per iniziare una nuova traduzione"
 #: weblate/templates/component.html:154
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
-msgstr ""
+msgstr "Visualizzato %(first)s, ultima visualizzazione %(last)s"
 
 #: weblate/templates/component.html:158
 msgid "Please sign in to see the alerts."
@@ -6370,10 +6344,9 @@ msgstr ""
 "Licenza per componente %(component)s modificata da %(old)s a %(target)s."
 
 #: weblate/templates/mail/component_license_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Component %(component)s license changed to %(target)s"
+#, python-format
 msgid "%(component)s was re-licensed to %(target)s"
-msgstr "Licenza componente %(component)s modificata in %(target)s"
+msgstr "%(component)s è stato ri-licenziato a %(target)s"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -6958,10 +6931,8 @@ msgid "No matching user found."
 msgstr "Nessun utente corrispondente trovato."
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "matrice"
+msgstr "Matrice"
 
 #: weblate/templates/matrix.html:35
 msgid "Displayed languages"
@@ -11437,7 +11408,7 @@ msgstr "Evita nel nome completo l'uso di caratteri speciali."
 
 #: weblate/utils/validators.py:154
 msgid "Name consists only of disallowed characters."
-msgstr ""
+msgstr "Il nome è composto solo da caratteri non consentiti."
 
 #: weblate/utils/validators.py:169
 msgid "The username can not start with a full stop."
