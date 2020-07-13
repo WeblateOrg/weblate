@@ -9,7 +9,7 @@ to their terms of use, so ensure you are allowed to use them how you want.
 
 The source language can be configured at :ref:`project`.
 
-Amagama
+amaGama
 -------
 
 Special installation of :ref:`tmserver` run by the authors of Virtaal.
@@ -21,7 +21,7 @@ Turn on this service by adding ``weblate.machinery.tmserver.AmagamaTranslation``
 
     :ref:`amagama:installation`,
     :doc:`virtaal:amagama`,
-    `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
+    `amaGama Translation Memory <https://amagama.translatehouse.org/>`_
 
 .. _apertium:
 

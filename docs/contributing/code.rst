@@ -32,7 +32,7 @@ placed in :file:`setup.cfg`.
 The easiest approach to enforce all this is to install `pre-commit`_. Weblate
 repository contains configuration for it to verify the committed files are sane.
 After installing it (it is already included in the
-:file:`requirements-lint.txt`) enable it by running ``pre-commit install`` in
+:file:`requirements-lint.txt`) turn it on by running ``pre-commit install`` in
 Weblate checkout. This way all your changes will be automatically checked.
 
 You can also trigger check manually, to check all files run:

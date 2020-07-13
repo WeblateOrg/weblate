@@ -95,7 +95,7 @@ into the Weblate data volume (see :ref:`docker-volume`):
 * :file:`ssl/fullchain.pem` containing the certificate including any needed CA certificates
 * :file:`ssl/privkey.pem` containing the private key
 
-Both of these files must be owned by the same user as the one starting the docker container and have file mask set to ``600`` (readable and writeable only by the owning user).
+Both of these files must be owned by the same user as the one starting the docker container and have file mask set to ``600`` (readable and writable only by the owning user).
 
 Additionally, Weblate container will now accept SSL connections on port 4443,
 you will want to include the port forwarding for HTTPS in docker compose override:
@@ -1005,7 +1005,7 @@ Changing enabled apps, checks, addons or autofixes
 .. versionadded:: 3.8-5
 
 The built in configuration of enabled checks, addons or autofixes can be
-adjusted by following variables:
+adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS
 .. envvar:: WEBLATE_REMOVE_APPS
@@ -1082,8 +1082,8 @@ replace the favicon.
 
 .. hint::
 
-   The files are copied to corresponding location on container startup, so
-   restart is needed after changing the volume content.
+   The files are copied to the corresponding location upon container startup, so
+   a restart of Weblate is needed after changing the content of the volume.
 
 Alternatively you can also include own module (see :doc:`../customize`) and add
 it as separate volume to the Docker container, for example:
