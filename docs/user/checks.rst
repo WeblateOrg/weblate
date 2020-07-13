@@ -413,7 +413,7 @@ project to help you keep consistent translations.
 
 The check fails on differing translations of one string within a project. This
 can also lead to inconsistencies in displayed checks. You can find other
-translations of this string on the :guilabel:`Other occurences` tab.
+translations of this string on the :guilabel:`Other occurrences` tab.
 
 .. note::
 
