@@ -1005,7 +1005,7 @@ Changing enabled apps, checks, addons or autofixes
 .. versionadded:: 3.8-5
 
 The built in configuration of enabled checks, addons or autofixes can be
-adjusted by following variables:
+adjusted by the following variables:
 
 .. envvar:: WEBLATE_ADD_APPS
 .. envvar:: WEBLATE_REMOVE_APPS
@@ -1082,8 +1082,8 @@ replace the favicon.
 
 .. hint::
 
-   The files are copied to corresponding location on container startup, so
-   restart is needed after changing the volume content.
+   The files are copied to the corresponding location upon container startup, so
+   a restart of Weblate is needed after changing the content of the volume.
 
 Alternatively you can also include own module (see :doc:`../customize`) and add
 it as separate volume to the Docker container, for example:
