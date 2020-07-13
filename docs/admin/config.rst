@@ -1466,7 +1466,7 @@ the project slug, and it will redirect unconditionally to this project.
 
 .. versionchanged:: 3.11
 
-   The setting now also accepts a project slug, to force displaying that that
+   The setting now also accepts a project slug, to force displaying that
    single project.
 
 Example:
