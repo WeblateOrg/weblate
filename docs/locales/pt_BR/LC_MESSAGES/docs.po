@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 20:56+0200\n"
-"PO-Revision-Date: 2020-07-13 17:56+0000\n"
+"PO-Revision-Date: 2020-07-13 23:04+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -1882,51 +1882,54 @@ msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
+"Os anúncios podem ser publicados em cada nível no menu :guilabel:`Manage`, "
+"usando :guilabel:'Publicar anúncio':"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "Ele também pode ser adicionado usando a interface administrativa:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr ""
+msgstr "Os anúncios são então mostrados com base no seu contexto específico:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "Nenhum contexto especificado"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Mostrado no painel (página de chegada)."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "Projeto especificado"
 
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
 msgstr ""
+"Mostrado dentro do projeto, incluindo todos os seus componentes e traduções."
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "Componente especificado"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr ""
+msgstr "Mostrado para um determinado componente e todas as suas traduções."
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "Idioma especificado"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
-msgstr ""
+msgstr "Mostrado na visão geral do idioma e todas as traduções nesse idioma."
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr ""
+msgstr "Esta é a aparência na página de visão geral do idioma:"
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -1943,20 +1946,26 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"A configuração padrão para Weblate é usar python-social-auth, um formulário "
+"no site para lidar com o registro de novos usuários. Depois de confirmar seu "
+"e-mail, um novo usuário pode contribuir ou autenticar usando um dos serviços "
+"de terceiros."
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Você também pode desativar o registro de novos usuários usando "
+":setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr ""
+msgstr "As tentativas de autenticação estão sujeitas a :ref:`rate-limit`."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr ""
+msgstr "Backends de autenticação"
 
 #: ../../admin/auth.rst:20
 msgid ""
@@ -1964,33 +1973,45 @@ msgid ""
 "social options to do so. Using it means you can import the user database of "
 "other Django based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"A solução embutida do Django é utilizada para autenticação, incluindo várias "
+"opções sociais para o fazer. Utilizando-a, você pode importar o banco de "
+"dados de usuários de outros projetos baseados no Django (veja :ref:`pootle-"
+"migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
 msgstr ""
+"Django pode, adicionalmente, ser configurado para autenticar em outros meios "
+"também."
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+"ref:`docker-auth` descreve como configurar a autenticação na imagem oficial "
+"do Docker."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "Autenticação social"
 
 #: ../../admin/auth.rst:35
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
+"Graças ao :doc:`psa:index`, o Weblate tem suporte a autenticação utilizando "
+"muitos serviços de terceiros, tais como GitLab, Ubuntu, Fedora, etc."
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
 msgstr ""
+"Por favor, verifique sua documentação para as instruções de configuração "
+"genéricas em :doc:`psa:configuration/django`."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -1999,10 +2020,14 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"Por padrão, o Weblate conta com serviços de autenticação de terceiros para "
+"fornecer um endereço de e-mail validado. Se alguns dos serviços que você "
+"deseja usar não suportarem isso, por favor, aplique a validação de e-mail no "
+"lado Weblate configurando FORCE_EMAIL_VALIDATION para eles. Por exemplo:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
-msgstr ""
+msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
 msgid ""
@@ -2013,14 +2038,21 @@ msgid ""
 "otherwise Weblate will not be able to properly credit contributions users "
 "make."
 msgstr ""
+"Permitir backends individuais é bastante fácil, é apenas uma questão de "
+"adicionar uma entrada à configuração ``AUTHENTICATION_BACKENDS`` e "
+"possivelmente adicionar chaves necessárias para um determinado método de "
+"autenticação. Por favor, note que alguns backends não fornecem e-mails do "
+"usuário por padrão, você tem que solicitá-lo explicitamente, caso contrário "
+"o Weblate não será capaz de pagar corretamente as contribuições que os "
+"usuários fazem."
 
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc:`Backend de Python Social Auth <psa:backends/index>`"
 
 #: ../../admin/auth.rst:65
 msgid "OpenID authentication"
-msgstr ""
+msgstr "Autenticação por OpenID"
 
 #: ../../admin/auth.rst:67
 msgid ""
@@ -2028,26 +2060,33 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
+"Para serviços baseados em OpenID, geralmente é apenas uma questão de "
+"habilitá-los. A seção a seguir permite a autenticação OpenID para OpenSUSE, "
+"Fedora e Ubuntu:"
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
-msgstr ""
+msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:88
 msgid "GitHub authentication"
-msgstr ""
+msgstr "Autenticação por GitHub"
 
 #: ../../admin/auth.rst:90
 msgid ""
 "You need to register an application on GitHub and then tell Weblate all its "
 "secrets:"
 msgstr ""
+"Você precisa registrar um aplicativo no GitHub e, em seguida, dizer ao "
+"Weblate todos os seus segredos:"
 
 #: ../../admin/auth.rst:106
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
+"O GitHub deve ser configurado para ter URL de um retorno de chamada como "
+"``https://example.com/accounts/complete/github/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -2055,93 +2094,113 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"O Weblate fornecia URL de retorno de chamada durante a autenticação inclui "
+"domínio configurado. No caso de você obter erros sobre incompatibilidade de "
+"URL, você pode querer corrigir isso, consulte :ref:`production-site`."
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
-msgstr ""
+msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:118
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Autenticação por Bitbucket"
 
 #: ../../admin/auth.rst:120
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
+"Você precisa registrar um aplicativo no Bitbucket e, em seguida, dizer ao "
+"Weblate todos os seus segredos:"
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
-msgstr ""
+msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:145
 msgid "Google OAuth 2"
-msgstr ""
+msgstr "OAuth 2 do Google"
 
 #: ../../admin/auth.rst:147
 msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
+"Para usar o OAuth 2 do Google, você precisa se registrar em um aplicativo em "
+"<https://console.developers.google.com/> e ativar a API do Google+."
 
 #: ../../admin/auth.rst:150
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
 msgstr ""
+"A URL de redirecionamento é ``https://SERVIDOR WEBLATE/accounts/complete/"
+"google-oauth2/``"
 
 #: ../../admin/auth.rst:169
 msgid ":doc:`psa:backends/google`"
-msgstr ""
+msgstr ":doc:`psa:backends/google`"
 
 #: ../../admin/auth.rst:174
 msgid "Facebook OAuth 2"
-msgstr ""
+msgstr "OAuth 2 do Facebook"
 
 #: ../../admin/auth.rst:176
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"Como de costume com os serviços OAuth 2, você precisa registrar seu "
+"aplicativo no Facebook. Uma vez feito isso, você pode configurar o Weblate "
+"para usá-lo:"
 
 #: ../../admin/auth.rst:179
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgstr ""
+"A URL de redirecionamento é ``https://SERVIDOR WEBLATE/accounts/complete/"
+"facebook/``"
 
 #: ../../admin/auth.rst:199
 msgid ":doc:`psa:backends/facebook`"
-msgstr ""
+msgstr ":doc:`psa:backends/facebook`"
 
 #: ../../admin/auth.rst:205
 msgid "GitLab OAuth 2"
-msgstr ""
+msgstr "OAuth 2 do GitLab"
 
 #: ../../admin/auth.rst:207
 msgid ""
 "For using GitLab OAuth 2, you need to register an application on <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
+"Para usar o OAuth 2 do GitLab, você precisa registrar um aplicativo em "
+"<https://gitlab.com/profile/applications>."
 
 #: ../../admin/auth.rst:210
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
+"A URL de redirecionamento é ``https://SERVIDOR WEBLATE/accounts/complete/"
+"gitlab/`` e garantir que você marque o escopo `read_user`."
 
 #: ../../admin/auth.rst:234
 msgid ":doc:`psa:backends/gitlab`"
-msgstr ""
+msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:239
 msgid "Microsoft Azure Active Directory"
-msgstr ""
+msgstr "Active Directory do Microsoft Azure"
 
 #: ../../admin/auth.rst:241
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
 msgstr ""
+"Weblate pode ser configurado para usar inquilinos comuns ou específicos para "
+"autenticação."
 
 #: ../../admin/auth.rst:243
 msgid ""
@@ -2149,33 +2208,41 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant specific authentication."
 msgstr ""
+"A URL de redirecionamento é ``https://SERVIDOR WEBLATE/accounts/complete/"
+"azuread-oauth2/`` para autenticação comum e ``https://SERVIDOR WEBLATE/"
+"accounts/complete/azuread-tenant-oauth2/`` para autenticação específica do "
+"inquilino."
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
-msgstr ""
+msgstr ":doc:`psa:backends/azuread`"
 
 #: ../../admin/auth.rst:288 ../../admin/install/docker.rst:774
 msgid "Slack"
-msgstr ""
+msgstr "Slack"
 
 #: ../../admin/auth.rst:290
 msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
+"Para usar o OAuth 2 do Slack, você precisa cadastrar um aplicativo em "
+"<https://api.slack.com/apps>."
 
 #: ../../admin/auth.rst:293
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgstr ""
+"A URL de redirecionamento é ``https://SERVIDOR WEBLATE/accounts/complete/"
+"slack/``."
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
-msgstr ""
+msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:315
 msgid "Turning off password authentication"
-msgstr ""
+msgstr "Desativando autenticação por senha"
 
 #: ../../admin/auth.rst:317
 msgid ""
@@ -2184,56 +2251,72 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"Autenticação por e-mail e senha pode ser desativada através da remoção de "
+"``social_core.backends.email.EmailAuth`` de "
+":setting:`django:AUTHENTICATION_BACKENDS`. Mantenha sempre ``weblate.accounts"
+".auth.WeblateUserBackend`` lá, ele é necessário para a funcionalidade "
+"central do Weblate."
 
 #: ../../admin/auth.rst:325
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
 msgstr ""
+"Você ainda pode usar autenticação por senha para a interface administrativa, "
+"para usuários que você cria manualmente lá. Basta navegar para ``/admin/``."
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
+"Por exemplo, a autenticação usando apenas o provedor Open ID do openSUSE "
+"pode ser alcançada usando o seguinte:"
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
-msgstr ""
+msgstr "Autenticação por senha"
 
 #: ../../admin/auth.rst:342
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"O :file:`settings.py` padrão vem com um razoável conjunto de "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:345
 msgid "Passwords can't be too similar to your other personal info."
 msgstr ""
+"As senhas não podem ser muito similares às suas outras informações pessoais."
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr ""
+msgstr "As senhas devem conter no mínimo 10 caracteres."
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
-msgstr ""
+msgstr "As senhas não podem ser uma senha comumente usada."
 
 #: ../../admin/auth.rst:348
 msgid "Passwords can't be entirely numeric."
-msgstr ""
+msgstr "As senhas não podem ser inteiramente numéricas."
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
 msgstr ""
+"As senhas não podem consistir em um único caractere ou apenas espaço em "
+"branco."
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr ""
+msgstr "Senhas não podem corresponder a uma senha que você usou no passado."
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
 msgstr ""
+"Você pode personalizar esta configuração para corresponder à sua política de "
+"senha."
 
 #: ../../admin/auth.rst:354
 msgid ""
@@ -2241,26 +2324,34 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"Além disso, você também pode instalar o `django-zxcvbn-password <https://pypi"
+".org/project/django-zxcvbn-password/>`_ o que dá bastante estimativas "
+"realistas de senha dificuldade e permite rejeitar senhas abaixo de um "
+"determinado limite."
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
-msgstr ""
+msgstr "Autenticação por SAML"
 
 #: ../../admin/auth.rst:366
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
 msgstr ""
+"Siga as instruções do Python Social Auth para configuração. Diferenças "
+"notáveis:"
 
 #: ../../admin/auth.rst:368
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate tem suporte a único IDP que tem de ser chamado de ``weblate`` em "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: ../../admin/auth.rst:370
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "A URL de metadados XML de SAML é ``/accounts/metadata/saml/``."
 
 #: ../../admin/auth.rst:371
 msgid ""
@@ -2268,31 +2359,39 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"As configurações a seguir são preenchidas automaticamente: "
+"``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
+"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:375
 msgid "Example configuration:"
-msgstr ""
+msgstr "Exemplo de configuração:"
 
 #: ../../admin/auth.rst:402
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgstr ""
+":ref:`Configurando SAML no Docker <docker-saml>`, :doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:408
 msgid "LDAP authentication"
-msgstr ""
+msgstr "Autenticação por LDAP"
 
 #: ../../admin/auth.rst:410
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"A autenticação por LDAP pode ser melhor alcançada utilizando o pacote "
+"`django-auth-ldap`. Você pode instalá-lo através dos meios habituais:"
 
 #: ../../admin/auth.rst:423
 msgid ""
 "With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work "
 "properly for newly created users."
 msgstr ""
+"Com django-auth-ldap anterior a 1.3.0, o :ref:`autogroup` não funcionará "
+"corretamente para usuários recém-criados."
 
 #: ../../admin/auth.rst:428
 msgid ""
@@ -2301,12 +2400,19 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"Existem algumas incompatibilidades no módulo Python LDAP 3.1.0, o que pode "
+"impedir você de usar essa versão. Se você obter o erro `AttributeError: "
+"'module' object has no attribute '_trace_level' <https://github.com/"
+"python-ldap/python-ldap/issues/226>`_, fazer o downgrade para python-ldap "
+"3.0.0 pode ajudar."
 
 #: ../../admin/auth.rst:434
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
+"Uma vez que você tenha o pacote instalado, você pode conectá-lo à "
+"autenticação do Django:"
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -2318,33 +2424,44 @@ msgid ""
 "in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+"Você deve remover ``'social_core.backends.email.EmailAuth'`` da configuração "
+"``AUTHENTICATION_BACKENDS``; caso contrário, os usuários poderão definir sua "
+"senha no Weblate e autenticar usando isso. Manter ``'weblate.accounts.auth."
+"WeblateUserBackend'`` ainda é necessário para fazer permissões e facilitar "
+"usuários anônimos. Ele também permitirá que você faça login usando uma conta "
+"administrativa local, se você a criou (por exemplo, usando : "
+"djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
-msgstr ""
+msgstr "Usando senha associada"
 
 #: ../../admin/auth.rst:482
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Se você não puder usar associação direta para autenticação, você precisará "
+"usar a pesquisa e fornecer um usuário para associar à pesquisa. Por exemplo:"
 
 #: ../../admin/auth.rst:496
 msgid "Active directory integration"
-msgstr ""
+msgstr "Integração com o Active Directory"
 
 #: ../../admin/auth.rst:525
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
-msgstr ""
+msgstr ":doc:`ldap:index`, :doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:532
 msgid "CAS authentication"
-msgstr ""
+msgstr "Autenticação por CAS"
 
 #: ../../admin/auth.rst:534
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
 msgstr ""
+"A autenticação por CAS pode ser alcançada usando um pacote como o `django-"
+"cas-ng`."
 
 #: ../../admin/auth.rst:536
 msgid ""
@@ -2352,20 +2469,27 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"O primeiro passo é divulgar o campo de e-mail do usuário via CAS. Isso tem "
+"que ser configurado no próprio servidor CAS, e requer que você execute pelo "
+"menos CAS v2, já que o CAS v1 não tem suporte a atributos."
 
 #: ../../admin/auth.rst:540
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
+"O segundo passo é atualizar a Weblate para utilizar o seu servidor CAS e os "
+"seus atributos."
 
 #: ../../admin/auth.rst:542
 msgid "To install `django-cas-ng`:"
-msgstr ""
+msgstr "Para instalar `django-cas-ng`:"
 
 #: ../../admin/auth.rst:548
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
+"Uma vez que o pacote instalado, você pode conectá-lo ao sistema de "
+"autenticação do Django modificando o arquivo :file:`settings.py`:"
 
 #: ../../admin/auth.rst:569
 msgid ""
@@ -2374,23 +2498,30 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"Finalmente, um sinal pode ser usado para mapear o campo de e-mail para o "
+"objeto do usuário. Para que isso funcione, você tem que importar o sinal do "
+"pacote `django-cas-ng` e conectar seu código com este sinal. Fazer isso em "
+"configurações de arquivo pode causar problemas, portanto, é sugerido "
+"colocá-lo:"
 
 #: ../../admin/auth.rst:574
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
+"No método :py:meth:`django:django.apps.AppConfig.ready`da configuração do "
+"seu aplicativo"
 
 #: ../../admin/auth.rst:575
 msgid "In the project's :file:`urls.py` file (when no models exist)"
-msgstr ""
+msgstr "No arquivo :file:`urls.py` do projeto (quando não há modelos)"
 
 #: ../../admin/auth.rst:590
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr ""
+msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:593
 msgid "Configuring third party Django authentication"
-msgstr ""
+msgstr "Configurando autenticação por Django de terceiros"
 
 #: ../../admin/auth.rst:595
 msgid ""
@@ -2398,10 +2529,13 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"Geralmente, qualquer plugin de autenticação Django deve funcionar com "
+"Weblate. Basta seguir as instruções do plugin, lembrando de manter o backend "
+"do usuário Weblate instalado."
 
 #: ../../admin/auth.rst:601
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
 
 #: ../../admin/auth.rst:604
 msgid ""
@@ -2409,14 +2543,17 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"Normalmente, a instalação consiste em adicionar uma autenticação de backend "
+"a :setting:`django:AUTHENTICATION_BACKENDS`e a instalar um aplicativo de "
+"autenticação (se houver) no :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Fazendo backup e movendo o Weblate"
 
 #: ../../admin/backup.rst:7
 msgid "Automated backup"
-msgstr ""
+msgstr "Backup automatizado"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2425,6 +2562,10 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface on the :guilabel:`Backups` tab."
 msgstr ""
+"O Weblate foi suporte embutido para criação de backups de serviços usando "
+"`BorgBackup`_. Borg cria backups criptografados eficazes em termos de espaço "
+"que podem ser armazenados com segurança na nuvem. Os backups podem ser "
+"controlados na interface de gerenciamento na aba :guilabel:`Backups`."
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -2433,10 +2574,14 @@ msgid ""
 "migrate to PostgreSQL as that will be the only supported database in the 4.0 "
 "release. See :ref:`database-migration`."
 msgstr ""
+"Apenas o banco de dados PostgreSQL está incluído nos backups automatizados. "
+"Outros mecanismos de banco de dados devem ter seus backups feitos "
+"manualmente. Recomenda-se migrar para o PostgreSQL, pois esse será o único "
+"banco de dados suportado na versão 4.0. Consulte :ref:`database-migration`."
 
 #: ../../admin/backup.rst:28
 msgid "Using Weblate provisioned backup storage"
-msgstr ""
+msgstr "Usando armazenamento de backup provisionado do Weblate"
 
 #: ../../admin/backup.rst:30
 msgid ""
@@ -2444,31 +2589,40 @@ msgid ""
 "service at weblate.org <https://weblate.org/support/#backup>`_. The process "
 "of activating can be performed in few steps:"
 msgstr ""
+"A abordagem mais fácil para fazer backup da sua instância do Weblate é "
+"comprar o `serviço de backup em weblate.org <https://weblate.org/support/"
+"#backup>`_. O processo de ativação pode ser realizado em poucas etapas:"
 
 #: ../../admin/backup.rst:34
 msgid "Purchase backup service on https://weblate.org/support/#backup."
-msgstr ""
+msgstr "Compre o serviço de backup em https://weblate.org/support/#backup."
 
 #: ../../admin/backup.rst:35
 msgid ""
 "Enter obtained key in the management interface, see :ref:`activate-support`."
 msgstr ""
+"Insira a chave obtida na interface de gerenciamento, veja :ref:`activate-"
+"support`."
 
 #: ../../admin/backup.rst:36
 msgid ""
 "Weblate will connect to the cloud service and obtain access information for "
 "the backups."
 msgstr ""
+"Weblate vai se conectar ao serviço de nuvem e obter informações de acesso "
+"para os backups."
 
 #: ../../admin/backup.rst:37
 msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
-msgstr ""
+msgstr "Ative a nova configuração de backup na aba :guilabel:`Backups`."
 
 #: ../../admin/backup.rst:38
 msgid ""
 "Backup Borg credentials in order to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
+"Faça backup das credenciais do Borg para conseguir restaurar os backups, "
+"veja :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:42
 msgid ""
@@ -2476,10 +2630,13 @@ msgid ""
 "no data is sent to the backup repository obtained through the registration "
 "process."
 msgstr ""
+"O passo manual de ativar está lá para sua segurança. Sem o seu "
+"consentimento, nenhum dado é enviado ao repositório de backup obtido através "
+"do processo de registro."
 
 #: ../../admin/backup.rst:48
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "Usando armazenamento de backup personalizado"
 
 #: ../../admin/backup.rst:50
 msgid ""
@@ -2487,14 +2644,17 @@ msgid ""
 "backups on the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"Você também pode usar seu próprio armazenamento para backups. SSH pode ser "
+"usado para armazenar cópias de segurança no destino remoto, o servidor de "
+"destino precisa do `BorgBackup`_ instalado."
 
 #: ../../admin/backup.rst:56
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` na documentação do Borg"
 
 #: ../../admin/backup.rst:61
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Chave de criptografia do Borg"
 
 #: ../../admin/backup.rst:63
 msgid ""
@@ -2502,53 +2662,64 @@ msgid ""
 "not be able to restore the backup. The passphrase is generated when adding "
 "new backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ cria backups criptografados e sem uma senha você não será "
+"capaz de restaurar o backup. A senha é gerada ao adicionar novo serviço de "
+"backup e você deve copiá-lo e mantê-lo em um lugar seguro."
 
 #: ../../admin/backup.rst:67
 msgid ""
 "In case you are using :ref:`cloudbackup`, please backup your private SSH key "
 "as well — it is used to access your backups."
 msgstr ""
+"No caso de você estar usando :ref:`cloudbackup`, faça backup da sua chave "
+"SSH privada também — ela é usada para acessar seus backups."
 
 #: ../../admin/backup.rst:72
 msgid ":doc:`borg:usage/init`"
-msgstr ""
+msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:75
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Restaurando do BorgBackup"
 
 #: ../../admin/backup.rst:77
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Restaure o acesso ao repositório de backup e prepare sua senha de backup."
 
 #: ../../admin/backup.rst:79
 msgid "List backup existing on the server using ``borg list REPOSITORY``."
-msgstr ""
+msgstr "Liste o backup existente no servidor usando ``borg list REPOSITÓRIO``."
 
 #: ../../admin/backup.rst:81
 msgid ""
 "Restore the desired backup to current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Restaure o backup desejado para o diretório atual usando ``borg extract "
+"REPOSITÓRIO::PACOTE``."
 
 #: ../../admin/backup.rst:83
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Restaure o banco de dados a partir do despejo de SQL colocado no diretório "
+"``backup`` no diretório de dados do Weblate (veja :ref:'backup-dumps')."
 
 #: ../../admin/backup.rst:85
 msgid "Copy Weblate configuration and data dir to the correct location."
 msgstr ""
+"Copie a configuração do Weblate e o diretório de dados para o local correto."
 
 #: ../../admin/backup.rst:87
 msgid "The Borg session might look like:"
-msgstr ""
+msgstr "A sessão dos Borg pode parecer com isso:"
 
 #: ../../admin/backup.rst:99
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:107
 msgid "Manual backup"
