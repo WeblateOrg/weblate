@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-12 18:58+0000\n"
-"PO-Revision-Date: 2020-07-12 14:30+0000\n"
+"PO-Revision-Date: 2020-07-13 17:56+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1270,7 +1270,7 @@ msgid ""
 "whenever new changes are pulled from the upstream repository."
 msgstr ""
 "Aktualizira PO datoteke za izjednačavanje s POT datotekom pomoću msgmerge. "
-"Pokreće se svaki put, kad se nove promjene preuzmu iz matičnog repozitorija."
+"Pokreće se svaki put, kad se nove promjene preuzmu iz izvornog repozitorija."
 
 #: weblate/addons/gettext.py:292
 msgid "Customize gettext output"
@@ -1346,8 +1346,8 @@ msgid ""
 "string."
 msgstr ""
 "Aktualiziraj sve prevodilačke datoteke kako bi se podudarale s jednojezičnom "
-"osnovnom datotekom. Nekorišteni izrazi se uklanjaju, a novi se dodaju kao "
-"kopije izvornog izraza."
+"osnovnom datotekom izvornog repozitorija. Nekorišteni izrazi se uklanjaju, a "
+"novi se dodaju kao kopije izvornog izraza."
 
 #: weblate/addons/views.py:84
 msgid "Invalid addon name specified!"
@@ -1382,8 +1382,6 @@ msgstr "Važni datumi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
-#, fuzzy
-#| msgid "View billing information"
 msgid "View billing info"
 msgstr "Pogledaj podatke naplate"
 
@@ -1434,10 +1432,8 @@ msgstr "Aktualiziraj zapise u glosaru"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Machinery"
 msgid "Use machinery"
-msgstr "Strojno prevođenje"
+msgstr "Koristi strojno prevođenje"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -1594,7 +1590,7 @@ msgstr "Vrati promjene u unutarnjem repozitoriju"
 #. Translators: Permission name
 #: weblate/auth/data.py:116
 msgid "View upstream repository location"
-msgstr "Pogledaj lokaciju uzvodnog repozitorija"
+msgstr "Pogledaj mjesto izvornog repozitorija"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:118
@@ -1603,74 +1599,53 @@ msgstr "Aktualiziraj unutarnji repozitorij"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-#, fuzzy
-#| msgid "Use management interface (on the entire platform)"
 msgid "Use management interface (site wide)"
-msgstr "Koristi upravljačko sučelje (na cijeloj platformi)"
+msgstr "Koristi upravljačko sučelje (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-#, fuzzy
-#| msgid "Add new projects (on the entire platform)"
 msgid "Add new projects (site wide)"
-msgstr "Dodaj nove projekte (na cijeloj platformi)"
+msgstr "Dodaj nove projekte (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-#, fuzzy
-#| msgid "Add language definitions (on the entire platform)"
 msgid "Add language definitions (site wide)"
-msgstr "Dodaj definicije za jezike (na cijeloj platformi)"
+msgstr "Dodaj definicije za jezike (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-#, fuzzy
-#| msgid "Manage language definitions (on the entire platform)"
 msgid "Manage language definitions (site wide)"
-msgstr "Upravljaj definicijama za jezike (na cijeloj platformi)"
+msgstr "Upravljaj definicijama jezika (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage groups (site wide)"
-msgstr "Upravljaj grupama (na cijeloj platformi)"
+msgstr "Upravljaj grupama (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-#, fuzzy
-#| msgid "Manage users"
 msgid "Manage users (site wide)"
-msgstr "Upravljaj korisnicima"
+msgstr "Upravljaj korisnicima (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Manage roles (on the entire platform)"
 msgid "Manage roles (site wide)"
-msgstr "Upravljaj ulogama (na cijeloj platformi)"
+msgstr "Upravljaj ulogama (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage announcements (site wide)"
-msgstr "Upravljaj obavijestima (na cijeloj platformi)"
+msgstr "Upravljaj obavijestima (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (site wide)"
-msgstr "Upravljaj prevodilačkom memorijom"
+msgstr "Upravljaj prevodilačkom memorijom (globalno)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage component lists (on the entire platform)"
 msgid "Manage component lists (site wide)"
-msgstr "Upravljaj popisom komponenata (na cijeloj platformi)"
+msgstr "Upravljaj popisom komponenata (globalno)"
 
 #: weblate/auth/data.py:168
 msgctxt "Access control role"
@@ -3621,18 +3596,18 @@ msgstr "Doniraj Weblateu"
 
 #: weblate/templates/about/index.html:25
 msgid "Hosting translations"
-msgstr "Hosting za prijevode"
+msgstr "Hosting prijevoda"
 
 #: weblate/templates/about/index.html:28
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
 msgstr ""
-"Ova Weblate instanca udomljuje prijevode za razne projekte slobodnog "
+"Ova Weblate instanca sadrži hosting prijevoda raznih projekata slobodnog "
 "softvera."
 
 #: weblate/templates/about/index.html:29
 msgid "Weblate can host your project as well, please get in touch."
-msgstr "Weblate može udomiti i tvoj projekt. Javi se."
+msgstr "Weblate može preuzeti hosting i za tvoj projekt. Slobodno nam se javi."
 
 #: weblate/templates/about/index.html:32
 msgid ""
@@ -3646,7 +3621,7 @@ msgstr ""
 #: weblate/templates/accounts/hosting.html:44
 #: weblate/templates/projects.html:15
 msgid "Ask for project hosting"
-msgstr "Zatraži hosting za projekt"
+msgstr "Pitaj za hosting projekta"
 
 #: weblate/templates/about/index.html:37
 #: weblate/templates/billing/overview.html:20
@@ -5545,8 +5520,8 @@ msgid ""
 "As an example, fetching stats for all translations in one component can be "
 "done thusly:"
 msgstr ""
-"Na primjer, dohvaćanje statistike za sve prijevode u jednoj komponenti, može "
-"se obaviti na sljedeći način:"
+"Na primjer, preuzimanje statistike za sve prijevode u jednoj komponenti, "
+"može se obaviti na sljedeći način:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
@@ -6831,11 +6806,11 @@ msgstr ""
 
 #: weblate/templates/manage/ssh.html:60
 msgid "Known host keys"
-msgstr "Poznati ključevi servera"
+msgstr "Poznati ključevi računala"
 
 #: weblate/templates/manage/ssh.html:67 weblate/wladmin/forms.py:41
 msgid "Hostname"
-msgstr "Ime servera"
+msgstr "Ime računala"
 
 #: weblate/templates/manage/ssh.html:68
 msgid "Key type"
@@ -6847,15 +6822,15 @@ msgstr "Otisak prsta"
 
 #: weblate/templates/manage/ssh.html:86
 msgid "Add host key"
-msgstr "Dodaj ključ za server"
+msgstr "Dodaj ključ računala"
 
 #: weblate/templates/manage/ssh.html:90
 msgid ""
 "To access SSH hosts, its host key needs to be verified. You can get the host "
 "key by entering a domain name or IP for the host in the form below."
 msgstr ""
-"Za pristup SSH serverima moraju se provjeriti njihovi ključevi. Ključ "
-"servera možeš dobiti upisom imena domene ili IP-a servera u donjem obrascu."
+"Za pristup SSH računalima moraju se provjeriti njihovi ključevi. Ključ "
+"računala možeš dobiti upisom imena domene ili IP-a računala u donjem obrascu."
 
 #: weblate/templates/manage/tools.html:35
 #: weblate/templates/manage/tools.html:42
@@ -6894,10 +6869,8 @@ msgid "No matching user found."
 msgstr "Nema odgovarajućeg korisnika."
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "matrica"
+msgstr "Tablica"
 
 #: weblate/templates/matrix.html:35
 msgid "Displayed languages"
@@ -7377,7 +7350,7 @@ msgstr "Stvori prijevodi"
 
 #: weblate/templates/snippets/list-objects.html:103
 msgid "Nothing to list here."
-msgstr "Nema se što nabrojiti."
+msgstr "Ovdje nema ničega."
 
 #: weblate/templates/snippets/login-info.html:4
 msgid "Web-based <strong>continuous</strong> localization"
@@ -7843,8 +7816,8 @@ msgstr ""
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
-"Weblate nije mogao sjediniti promjene u izvoru tijekom aktualiziranja "
-"repozitorija."
+"Weblate nije mogao sjediniti promjene u izvornom repozitoriju tijekom "
+"aktualiziranja repozitorija."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -7879,7 +7852,7 @@ msgstr "Ime datoteke"
 
 #: weblate/templates/trans/alert/pushfailure.html:4
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate nije mogao prenijeti promjene u uzvodni repozitorij."
+msgstr "Weblate nije mogao prenijeti promjene u izvorni repozitorij."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -7887,16 +7860,17 @@ msgid ""
 "the changes manually or set up push to automate this."
 msgstr ""
 "Repozitorij sa sustavom za kontrolu verzija sadrži mnoge promjene u "
-"usporedbi s izvorom. Sjedini promjene ili postavi prijenos za "
-"automatiziranje sjedinjavanja."
+"usporedbi s izvornim repozitorijem. Sjedini promjene ručno ili postavi "
+"prijenos za automatizirano sjedinjavanje."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Repozitorij sa sustavom za kontrolu verzija nije aktualiziran s izvorom. "
-"Sjedini promjene ili postavi petlje za automatiziranje sjedinjavanja."
+"Repozitorij sa sustavom za kontrolu verzija nije aktualiziran s izvornim "
+"repozitorijem. Sjedini promjene ručno ili postavi petlje za automatizirano "
+"sjedinjavanje."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
 #: weblate/trans/forms.py:1483 weblate/trans/models/component.py:245
@@ -7923,8 +7897,8 @@ msgstr "Upravljaj snimkama ekrana"
 #: weblate/templates/trans/alert/updatefailure.html:4
 msgid "Weblate could not fetch upstream changes when updating the repository."
 msgstr ""
-"Weblate nije mogao dohvatiti promjene iz izvora tijekom aktualiziranja "
-"repozitorija."
+"Weblate nije mogao preuzeti promjene izvornog repozitorija tijekom "
+"aktualiziranja repozitorija."
 
 #: weblate/templates/trans/change_list.html:23
 msgid "Changes"
@@ -8130,7 +8104,7 @@ msgstr "Sjedini Weblate promjene i riješi moguće sukobe."
 
 #: weblate/templates/trans/merge_instructions.html:22
 msgid "Push changes into upstream repository."
-msgstr "Prenesi promjene u uzvodni repozitorij."
+msgstr "Prenesi promjene u izvorni repozitorij."
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid ""
@@ -9105,7 +9079,7 @@ msgstr "Licenca"
 
 #: weblate/trans/forms.py:1216
 msgid "Upstream links"
-msgstr "Poveznice na izvornu granu"
+msgstr "Poveznice izvornog repozitorija"
 
 #: weblate/trans/forms.py:1228
 msgid "Translation settings"
@@ -9948,8 +9922,8 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Odredi, hoće li Weblate sjediniti izvorni repozitorij ili presložiti "
-"promjene na repozitorij."
+"Odredi, treba li Weblate sjediniti izvorni repozitorij ili u njemu "
+"presložiti promjene."
 
 #: weblate/trans/models/component.py:481
 msgid "Commit message when translating"
@@ -9995,7 +9969,8 @@ msgstr "Prenesi pri spremanju izmjene"
 
 #: weblate/trans/models/component.py:539
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Treba li se repozitorij prenijeti uzlazno pri svakom spremanju."
+msgstr ""
+"Treba li se repozitorij prenijeti u izvorni repozitorij pri svakoj izmjeni."
 
 #: weblate/trans/models/component.py:543
 msgid "Age of changes to commit"
@@ -10051,8 +10026,8 @@ msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
 msgstr ""
-"Nije moguće provjeriti SSH ključ glavnog računala, dodaj ih na SSH stranici "
-"u administratorskom sučelju."
+"Nije moguće provjeriti SSH ključ računala, dodaj ih na SSH stranici u "
+"administratorskom sučelju."
 
 #: weblate/trans/models/component.py:1049
 msgid ""
@@ -10065,7 +10040,7 @@ msgstr ""
 #: weblate/trans/models/component.py:1055
 #, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Nije bilo moguće dohvatiti repozitorij: %s"
+msgstr "Nije bilo moguće preuzeti repozitorij: %s"
 
 #: weblate/trans/models/component.py:1250
 #, python-format
@@ -11413,7 +11388,7 @@ msgstr "Neuspjelo generiranje ključa: %s"
 
 #: weblate/vcs/ssh.py:136
 msgid "Invalid host name given!"
-msgstr "Neispravno ime glavnog računala zadano!"
+msgstr "Zadano je neispravno ime računala!"
 
 #: weblate/vcs/ssh.py:161
 #, python-format
@@ -11421,17 +11396,17 @@ msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
-"Dodan je ključ glavnog računala za %(host)s s otiskom prsta %(fingerprint)s "
+"Dodan je ključ računala za %(host)s s digitalnim otiskom %(fingerprint)s "
 "%(keytype)s. Provjeri njegovu točnost."
 
 #: weblate/vcs/ssh.py:168
 msgid "Failed to fetch public key for a host!"
-msgstr "Neuspjelo dohvaćanje javnog ključa za poslužitelja!"
+msgstr "Neuspjelo preuzimanje javnog ključa računala!"
 
 #: weblate/vcs/ssh.py:174 weblate/vcs/ssh.py:177
 #, python-format
 msgid "Failed to get host key: %s"
-msgstr "Neuspjelo dohvaćanje ključa poslužitelja: %s"
+msgstr "Neuspjelo dohvaćanje ključa računala: %s"
 
 #: weblate/wladmin/forms.py:31
 msgid "Activation token"
