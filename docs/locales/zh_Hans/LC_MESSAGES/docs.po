@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 20:56+0200\n"
-"PO-Revision-Date: 2020-07-12 14:30+0000\n"
+"PO-Revision-Date: 2020-07-13 17:56+0000\n"
 "Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -31,19 +31,21 @@ msgid ""
 "the consult documentation for that version, the information here will not "
 "apply."
 msgstr ""
+"在 Weblate 3.0 之前，特权系统基于 Django，但现在是专门为 Weblate "
+"构建的。如果您使用的是旧版本，请查阅该版本的文档，此处的信息将不适用。"
 
 #: ../../admin/access.rst:12
 msgid ""
 "Weblate comes with a fine grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
-msgstr ""
+msgstr "Weblate 带有细粒度的特权系统，可以为整个实例或在有限范围内分配用户权限。"
 
 #: ../../admin/access.rst:15
 msgid ""
 "The permission system based on groups and roles, where roles define a set of "
 "permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
-msgstr ""
+msgstr "基于组和角色的权限系统，其中角色定义了一组权限，组将它们分配给用户和翻译，请参阅 :ref:`auth-model` 以获取更多详细信息。"
 
 #: ../../admin/access.rst:19
 msgid ""
@@ -53,14 +55,16 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`"
 msgstr ""
+"安装后，将创建一组默认的组，您可以使用这些组为整个实例分配用户角色（请参阅 :ref:`default-groups`）。此外，启用 :ref:`acl`"
+" 后，您可以将用户分配给特定的翻译项目。使用 :ref:`custom-acl` 可以实现更细粒度的配置"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
-msgstr ""
+msgstr "通用设置"
 
 #: ../../admin/access.rst:28
 msgid "Locking down Weblate"
-msgstr ""
+msgstr "锁定 Weblate"
 
 #: ../../admin/access.rst:30
 msgid ""
@@ -8637,57 +8641,59 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:883
 msgid "Email server setup"
-msgstr ""
+msgstr "电子邮件服务器设置"
 
 #: ../../admin/install/docker.rst:885
 msgid "To make outgoing e-mail work, you need to provide a mail server."
-msgstr ""
+msgstr "要使外发电子邮件正常工作，您需要提供一个邮件服务器。"
 
 #: ../../admin/install/docker.rst:887
 msgid "Example TLS configuration:"
-msgstr ""
+msgstr "TLS 配置示例："
 
 #: ../../admin/install/docker.rst:896
 msgid "Example SSL configuration:"
-msgstr ""
+msgstr "SSL 配置示例："
 
 #: ../../admin/install/docker.rst:909
 msgid ":ref:`out-mail`"
-msgstr ""
+msgstr ":ref:`out-mail`"
 
 #: ../../admin/install/docker.rst:913
 msgid "Mail server hostname or IP address."
-msgstr ""
+msgstr "邮件服务器主机名或IP地址。"
 
 #: ../../admin/install/docker.rst:917
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
 #: ../../admin/install/docker.rst:924
 msgid "Mail server port, defaults to 25."
-msgstr ""
+msgstr "邮件服务器端口，默认为 25。"
 
 #: ../../admin/install/docker.rst:926
 msgid ":setting:`django:EMAIL_PORT`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_PORT`"
 
 #: ../../admin/install/docker.rst:930
 msgid "Email authentication user."
-msgstr ""
+msgstr "电子邮件身份验证用户。"
 
 #: ../../admin/install/docker.rst:932
 msgid ":setting:`django:EMAIL_HOST_USER`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_USER`"
 
 #: ../../admin/install/docker.rst:936
 msgid "Email authentication password."
-msgstr ""
+msgstr "电子邮件验证密码。"
 
 #: ../../admin/install/docker.rst:938
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
-msgstr ""
+msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
 #: ../../admin/install/docker.rst:942
 msgid ""
@@ -8697,12 +8703,16 @@ msgid ""
 "experiencing problems, see the explicit TLS setting :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`."
 msgstr ""
+"与 SMTP 服务器通信时是否使用隐式 TLS（安全）连接。在大多数电子邮件文档中，这种 TLS 连接类型称为 SSL。通常在端口 465 "
+"上使用。如果遇到问题，请参阅显式 TLS 设置 :envvar:`WEBLATE_EMAIL_USE_TLS`。"
 
 #: ../../admin/install/docker.rst:949
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, "
+":setting:`django:EMAIL_USE_SSL`"
 
 #: ../../admin/install/docker.rst:955
 msgid ""
@@ -8711,24 +8721,28 @@ msgid ""
 "you are experiencing connections that hang, see the implicit TLS setting :"
 "envvar:`WEBLATE_EMAIL_USE_SSL`."
 msgstr ""
+"与 SMTP 服务器通讯时是否使用 TLS（安全）连接。这用于显式 TLS 连接，通常在端口 587 或 25 上。如果您遇到挂起的连接，请参见隐式 "
+"TLS 设置 :envvar:`WEBLATE_EMAIL_USE_SSL`。"
 
 #: ../../admin/install/docker.rst:962
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 msgstr ""
+":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_USE_TLS`"
 
 #: ../../admin/install/docker.rst:968
 msgid "Configures Django backend to use for sending e-mails."
-msgstr ""
+msgstr "将 Django 后端配置为用于发送电子邮件。"
 
 #: ../../admin/install/docker.rst:973
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
-msgstr ""
+msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:977
 msgid "Error reporting"
-msgstr ""
+msgstr "错误报告"
 
 #: ../../admin/install/docker.rst:979
 msgid ""
@@ -21793,36 +21807,38 @@ msgstr ""
 
 #: ../../faq.rst:10
 msgid "How to create an automated workflow?"
-msgstr ""
+msgstr "如何创建自动化工作流？"
 
 #: ../../faq.rst:12
 msgid ""
 "Weblate can handle all the translation things semi-automatically for you. If "
 "you give it push access to your repository, the translations can happen "
 "without interaction, unless some merge conflict occurs."
-msgstr ""
+msgstr "Weblate 可以为您半自动处理所有翻译工作。如果授予它对仓库的推送访问权限，则翻译可以在没有交互的情况下进行，除非发生某些合并冲突。"
 
 #: ../../faq.rst:16
 msgid ""
 "Set up your Git repository to tell Weblate when there is any change, see :"
 "ref:`hooks` for info on how to do it."
-msgstr ""
+msgstr "设置您的 Git 仓库以告知 Weblate 何时有任何更改，请参阅 :ref:`hooks` 以获取有关如何执行此操作的信息。"
 
 #: ../../faq.rst:18
 msgid ""
 "Set a push URL at your :ref:`component` in Weblate, this allows Weblate to "
 "push changes to your repository."
-msgstr ""
+msgstr "在 Weblate 中的 :ref:`component` 配置中设置推送 URL，这使 Weblate 可以将更改推送到仓库。"
 
 #: ../../faq.rst:20
 msgid ""
 "Turn on push-on-commit on your :ref:`project` in Weblate, this will make "
 "Weblate push changes to your repository whenever they happen at Weblate."
 msgstr ""
+"在 Weblate 中打开 :ref:`project` 配置上的 push-on-commit，这将使 Weblate 在 Weblate "
+"发生更改时将更改推送到仓库。"
 
 #: ../../faq.rst:25
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
-msgstr ""
+msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 
 #: ../../faq.rst:28
 msgid "How to access repositories over SSH?"
@@ -22322,7 +22338,7 @@ msgstr ""
 
 #: ../../faq.rst:455
 msgid "How does Weblate credit translators?"
-msgstr ""
+msgstr "Weblate 如何记录翻译者？"
 
 #: ../../faq.rst:457
 msgid ""
@@ -22330,16 +22346,18 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
+"Weblate 中所做的每个更改都将以翻译者的名称提交到 VCS 中。这样，每个更改都具有适当的作者身份，您可以使用用于代码的标准 VCS "
+"工具来进行跟踪。"
 
 #: ../../faq.rst:461
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
-msgstr ""
+msgstr "此外，如果翻译文件格式支持，则文件头会更新为包含翻译者的名称。"
 
 #: ../../faq.rst:466
 msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ""
+msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:470
 msgid "Why does Weblate force showing all PO files in a single tree?"
@@ -24388,77 +24406,77 @@ msgid ""
 "The quality checks help catch common translator errors, ensuring the "
 "translation is in good shape. The checks can be ignored in case of false "
 "positives."
-msgstr ""
+msgstr "质量检查有助于发现常见的翻译错误，确保翻译质量良好。如果出现误报，则可以忽略这些检查。"
 
 #: ../../user/checks.rst:7
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
-msgstr ""
+msgstr "提交未通过检查的翻译后，将立即向用户显示："
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
-msgstr ""
+msgstr "自动修正"
 
 #: ../../user/checks.rst:18
 msgid ""
 "In addition to :ref:`checks`, Weblate can also fix some common errors in "
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
-msgstr ""
+msgstr "除了 :ref:`checks` 外，Weblate 还可以自动修复翻译字符串中的一些常见错误。谨慎使用它，不要使其增加错误。"
 
 #: ../../user/checks.rst:24
 msgid ":setting:`AUTOFIX_LIST`"
-msgstr ""
+msgstr ":setting:`AUTOFIX_LIST`"
 
 #: ../../user/checks.rst:29
 msgid "Quality checks"
-msgstr ""
+msgstr "质量检查"
 
 #: ../../user/checks.rst:31
 msgid ""
 "Weblate employs a wide range of quality checks on strings. The following "
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
-msgstr ""
+msgstr "Weblate 对字符串进行了广泛的质量检查。以下部分将对它们进行更详细的描述。还有针对特定语言的检查。如果有错误报告，请提交错误。"
 
 #: ../../user/checks.rst:37
 msgid ":setting:`CHECK_LIST`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":setting:`CHECK_LIST`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:40
 msgid "Translation checks"
-msgstr ""
+msgstr "翻译检查"
 
 #: ../../user/checks.rst:42
 msgid ""
 "Executed upon every translation change, helping translators maintain good "
 "quality translations."
-msgstr ""
+msgstr "在每次翻译更改时执行，帮助翻译人员保持高质量的翻译。"
 
 #: ../../user/checks.rst:48
 msgid "BBcode markup"
-msgstr "BB 代码标记"
+msgstr "BBcode 标记"
 
 #: ../../user/checks.rst:50
 msgid "*BBcode in translation does not match source*"
-msgstr ""
+msgstr "*翻译中的 BBcode 与来源不符*"
 
 #: ../../user/checks.rst:52
 msgid ""
 "BBCode represents simple markup, like for example highlighting important "
 "parts of a message in bold font, or italics."
-msgstr ""
+msgstr "BBCode 表示简单的标记，例如以粗体或斜体突出显示消息的重要部分。"
 
 #: ../../user/checks.rst:55
 msgid "This check ensures they are also found in translation."
-msgstr ""
+msgstr "此检查确保在翻译中也找到它们。"
 
 #: ../../user/checks.rst:59
 msgid ""
 "The method for detecting BBcode is currently quite simple so this check "
 "might produce false positives."
-msgstr ""
+msgstr "当前检测 BBcode 的方法非常简单，因此此检查可能会产生误报。"
 
 #: ../../user/checks.rst:65
 msgid "Consecutive duplicated words"
@@ -24466,19 +24484,19 @@ msgstr "连续重复的单词"
 
 #: ../../user/checks.rst:67
 msgid "*Text contains the same word twice in a row:*"
-msgstr ""
+msgstr "*文本连续两次包含相同的单词：*"
 
 #: ../../user/checks.rst:71
 msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
-msgstr ""
+msgstr "检查翻译中是否没有连续重复的单词。这通常表示翻译错误。"
 
 #: ../../user/checks.rst:76
 msgid ""
 "This check includes language specific rules to avoid false positives. In "
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
-msgstr ""
+msgstr "此检查包括特定于语言的规则，以避免误报。如果在您的情况下错误触发，请告诉我们。请参阅 :ref:`report-issue`。"
 
 #: ../../user/checks.rst:83
 msgid "Double space"
@@ -24486,30 +24504,30 @@ msgstr "双空格"
 
 #: ../../user/checks.rst:85
 msgid "*Translation contains double space*"
-msgstr ""
+msgstr "*翻译包含双空格*"
 
 #: ../../user/checks.rst:87
 msgid ""
 "Checks that double space is present in translation to avoid false positives "
 "on other space-related checks."
-msgstr ""
+msgstr "检查翻译中是否存在双空格，以避免其他与空格相关的检查出现误报。"
 
 #: ../../user/checks.rst:89
 msgid ""
 "Check is false when double space is found in source meaning double space is "
 "intentional."
-msgstr ""
+msgstr "当在源中找到双空格时，检查为假，这意味着故意使用双空格。"
 
 #: ../../user/checks.rst:109
 msgid "Formatted strings"
-msgstr ""
+msgstr "格式化字符串"
 
 #: ../../user/checks.rst:111
 msgid ""
 "Checks that formatting in strings are replicated between both source and "
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
-msgstr ""
+msgstr "检查字符串格式是否在源和翻译之间复制。在翻译中省略格式字符串通常会导致严重的问题，因此字符串中的格式通常应与源匹配。"
 
 #: ../../user/checks.rst:115
 msgid ""
@@ -24519,6 +24537,8 @@ msgid ""
 "probably have to add it manually for other file formats or if your PO files "
 "are not generated by :program:`xgettext`."
 msgstr ""
+"Weblate 支持检查几种语言的格式字符串。仅当适当地标记了字符串时（例如，C 格式为 `c-format`），才会自动启用该检查。Gettext "
+"会自动添加它，但是对于其他文件格式，或者如果您的 PO 文件不是由 :program:`xgettext` 生成的，您可能必须手动添加它。"
 
 #: ../../user/checks.rst:121
 msgid ""
@@ -24527,18 +24547,20 @@ msgid ""
 "in case the string is not interpreted as a formatting string, but format "
 "string syntax happens to be used."
 msgstr ""
+"可以按单位（请参阅 :ref:`additional`）或在 :ref:`component` "
+"中完成此操作。为每个组件定义它比较简单，但是如果该字符串未解释为格式化字符串，而碰巧使用了格式化字符串语法，则可能导致误报。"
 
 #: ../../user/checks.rst:128
 msgid ""
 "In case specific format check is not available in Weblate, you can use "
 "generic :ref:`check-placeholders`."
-msgstr ""
+msgstr "如果 Weblate 中不提供特定格式的检查，则可以使用通用 :ref:`check-placeholders`。"
 
 #: ../../user/checks.rst:131
 msgid ""
 "Besides checking, this will also highligh the formatting strings to easily "
 "insert them into translated strings:"
-msgstr ""
+msgstr "除了检查之外，这还将使格式化字符串高亮，以便轻松地将其插入转换后的字符串中："
 
 #: ../../user/checks.rst:137
 msgid "AngularJS interpolation string"
