@@ -34,11 +34,11 @@
               <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "String has suggestion" %}</span> <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                  <li><a href="#" data-field="has:suggestion">{% trans "String has suggestion" %}</a></li>
-                  <li><a href="#" data-field="has:comment">{% trans "String has comment" %}</a></li>
-                  <li><a href="#" data-field="has:failing_check">{% trans "String has failing check" %}</a></li>
-                  <li><a href="#" data-field="has:plural">{% trans "String has plural" %}</a></li>
-                  <li><a href="#" data-field="has:context">{% trans "String has context" %}</a></li>
+                  <li><a href="#" data-field="has:suggestion">{% trans "String suggestion exists" %}</a></li>
+                  <li><a href="#" data-field="has:comment">{% trans "Commented string" %}</a></li>
+                  <li><a href="#" data-field="has:failing_check">{% trans "Failing checks for string" %}</a></li>
+                  <li><a href="#" data-field="has:plural">{% trans "Pluralized string" %}</a></li>
+                  <li><a href="#" data-field="has:context">{% trans "Contextualized string" %}</a></li>
                 </ul>
               </div><!-- /btn-group -->
               <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
@@ -96,7 +96,7 @@
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
     <tr>
-        <th>{% trans "All untranslated strings added in the past month" %}</th>
+        <th>{% trans "All untranslated strings added the past month" %}</th>
         <td><code>added:&gt;={{ month_ago|date:"Y-m-d" }} AND state:&lt;=needs-editing</code>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
