@@ -144,15 +144,15 @@ Keyboard shortcuts
 The following keyboard shortcuts can be utilized during translation:
 
 :kbd:`Alt+Home`
-    Navigates to first translation in current search.
+    Navigate to first translation in current search.
 :kbd:`Alt+End`
-    Navigates to last translation in current search.
+    Navigate to last translation in current search.
 :kbd:`Alt+PageUp`
-    Navigates to previous translation in current search.
+    Navigate to previous translation in current search.
 :kbd:`Alt+PageDown`
-    Navigates to next translation in current search.
+    Navigate to next translation in current search.
 :kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`
-    Saves current translation.
+    Save current translation.
 :kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`
     Unmarks translation as fuzzy and submits it.
 :kbd:`Ctrl+E` or :kbd:`Cmd+E`
@@ -164,9 +164,9 @@ The following keyboard shortcuts can be utilized during translation:
 :kbd:`Ctrl+<NUMBER>` or :kbd:`Cmd+<NUMBER>`
     Copies placeable of given number from source string.
 :kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`
-    Copy machine translation of given number to current translation.
+    Copy the machine translation of given number to current translation.
 :kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`
-    Ignore failing check of given number.
+    Ignore failing checks beyond a given number.
 :kbd:`Ctrl+J` or :kbd:`Cmd+J`
     Shows nearby strings tab.
 :kbd:`Ctrl+S` or :kbd:`Cmd+S`
