@@ -148,7 +148,7 @@ Released on April 16th 2020.
 * Project access control and workflow configuration integrated to project settings.
 * Added check and highlighter for i18next interpolation and nesting.
 * Added check and highlighter for percent placeholders.
-* Display failing checks for suggestions.
+* Display suggestions failing checks.
 * Record source string changes in history.
 * Upgraded Microsoft Translator to version 3 API.
 * Reimplemented translation memory backend.
@@ -785,7 +785,7 @@ Released on August 11th 2017.
 * The max-length checks is now enforcing length of text in form.
 * Make the commit_pending age configurable per component.
 * Various user interface cleanups.
-* Fixed component/project/sitewide search for translations.
+* Fixed component/project/site wide search for translations.
 
 Weblate 2.15
 ~~~~~~~~~~~~
@@ -874,7 +874,7 @@ Released on Mar 3rd 2017.
 
 * Improved admin interface for groups.
 * Added support for Yandex Translate API.
-* Improved speed of sitewide search.
+* Improved speed of site wide search.
 * Added project and component wide search.
 * Added project and component wide search and replace.
 * Improved rendering of inconsistent translations.
@@ -1019,7 +1019,7 @@ Released on Mar 10th 2016.
 * Support for adding new translations in Qt TS.
 * Improved support for translating PHP files.
 * Performance improvements for quality checks.
-* Fixed sitewide search for failing checks.
+* Fixed site wide search for failing checks.
 * Added option to specify source language.
 * Improved support for XLIFF files.
 * Extended list of options for import_project.
