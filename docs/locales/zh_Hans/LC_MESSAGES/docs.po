@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 20:56+0200\n"
-"PO-Revision-Date: 2020-07-13 17:56+0000\n"
+"PO-Revision-Date: 2020-07-15 02:38+0000\n"
 "Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -2147,11 +2147,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "备份和移动 Weblate"
 
 #: ../../admin/backup.rst:7
 msgid "Automated backup"
-msgstr ""
+msgstr "自动备份"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2160,6 +2160,8 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface on the :guilabel:`Backups` tab."
 msgstr ""
+"Weblate 内置了对使用 `BorgBackup`_ 创建服务备份的支持。Borg 创建了节省空间的加密备份，可以安全地存储在云中。"
+"可以在管理界面中的 :guilabel:`Backups` 选项卡上控制备份。"
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -2168,10 +2170,12 @@ msgid ""
 "migrate to PostgreSQL as that will be the only supported database in the 4.0 "
 "release. See :ref:`database-migration`."
 msgstr ""
+"自动备份仅包含 PostgreSQL 数据库。其他数据库引擎必须手动备份。建议您迁移到 PostgreSQL，因为它将是 4.0 "
+"版本中唯一受支持的数据库。请参阅 :ref:`database-migration`。"
 
 #: ../../admin/backup.rst:28
 msgid "Using Weblate provisioned backup storage"
-msgstr ""
+msgstr "使用 Weblate 配置的备份存储"
 
 #: ../../admin/backup.rst:30
 msgid ""
@@ -7642,7 +7646,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1352
 msgid "Collecting error reports"
-msgstr ""
+msgstr "收集错误报告"
 
 #: ../../admin/install.rst:1354
 msgid ""
@@ -7652,20 +7656,24 @@ msgid ""
 "otherwise only report error to the logs and you won't get notified on them. "
 "Weblate has support for the following services:"
 msgstr ""
+"与其他任何软件一样，Weblate 可能会失败。为了收集有用的故障状态，我们建议使用第三方服务来收集此类信息。这在 Celery "
+"任务失败的情况下尤其有用，否则将只会向日志报告错误，而您不会收到有关它们的通知。Weblate 支持以下服务："
 
 #: ../../admin/install.rst:1361
 msgid "Sentry"
-msgstr ""
+msgstr "Sentry"
 
 #: ../../admin/install.rst:1363
 msgid ""
 "Weblate has built in support for `Sentry <https://sentry.io/>`_. To use it, "
 "it's enough to set :setting:`SENTRY_DSN` in the :file:`settings.py`:"
 msgstr ""
+"Weblate 内置了对 `Sentry <https://sentry.io/>`_ 的支持。要使用它，只需在 :file:`settings.py` "
+"中设置 :setting:`SENTRY_DSN`："
 
 #: ../../admin/install.rst:1371
 msgid "Rollbar"
-msgstr ""
+msgstr "Rollbar"
 
 #: ../../admin/install.rst:1373
 msgid ""
@@ -7673,16 +7681,18 @@ msgid ""
 "it, it's enough to follow instructions for `Rollbar notifier for Python "
 "<https://docs.rollbar.com/docs/python/>`_."
 msgstr ""
+"Weblate 具有对 `Rollbar <https://rollbar.com/>`_ 的内置支持。要使用它，只需遵循 `Rollbar "
+"notifier for Python <https://docs.rollbar.com/docs/python/>`_ 的说明即可。"
 
 #: ../../admin/install.rst:1376
 msgid "In short, you need to adjust :file:`settings.py`:"
-msgstr ""
+msgstr "简而言之，您需要调整 :file:`settings.py`："
 
 #: ../../admin/install.rst:1395
 msgid ""
 "Everything else is integrated automatically, you will now collect both "
 "server and client side errors."
-msgstr ""
+msgstr "其他所有内容都是自动集成的，您现在将同时收集服务器和客户端错误。"
 
 #: ../../admin/install.rst:1404
 msgid "Migrating Weblate to another server"
@@ -8748,31 +8758,31 @@ msgstr "错误报告"
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
-msgstr ""
+msgstr "建议系统地从安装中收集错误，请参阅 :ref:`collecting-errors`。"
 
 #: ../../admin/install/docker.rst:982
 msgid "To enable support for Rollbar, set the following:"
-msgstr ""
+msgstr "要启用对 Rollbar 的支持，请进行以下设置："
 
 #: ../../admin/install/docker.rst:986
 msgid "Your Rollbar post server access token."
-msgstr ""
+msgstr "您的 Rollbar 发布服务器访问令牌。"
 
 #: ../../admin/install/docker.rst:990
 msgid "Your Rollbar environment, defaults to ``production``."
-msgstr ""
+msgstr "您的 Rollbar 环境，默认为 ``production``。"
 
 #: ../../admin/install/docker.rst:992
 msgid "To enable support for Sentry, set following:"
-msgstr ""
+msgstr "要启用对 Sentry 的支持，请进行以下设置："
 
 #: ../../admin/install/docker.rst:996
 msgid "Your Sentry DSN."
-msgstr ""
+msgstr "您的 Sentry DSN。"
 
 #: ../../admin/install/docker.rst:1000
 msgid "Your Sentry Environment (optional)."
-msgstr ""
+msgstr "您的 Sentry 环境（可选）。"
 
 #: ../../admin/install/docker.rst:1003
 msgid "Changing enabled apps, checks, addons or autofixes"
