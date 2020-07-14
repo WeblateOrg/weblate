@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-12 18:58+0000\n"
 "PO-Revision-Date: 2020-07-14 12:35+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1382,10 +1382,8 @@ msgstr "重要な日時情報"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
-#, fuzzy
-#| msgid "View billing information"
 msgid "View billing info"
-msgstr "お支払い情報を表示"
+msgstr "請求情報の表示"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:36
@@ -1434,10 +1432,8 @@ msgstr "用語集の項目のアップロード"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Machinery"
 msgid "Use machinery"
-msgstr "機械翻訳"
+msgstr "機械翻訳の使用"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -1603,72 +1599,51 @@ msgstr "内部リポジトリの更新"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-#, fuzzy
-#| msgid "Use management interface (on the entire platform)"
 msgid "Use management interface (site wide)"
-msgstr "管理インターフェースの使用（プラットフォーム全体）"
+msgstr "管理画面の使用（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-#, fuzzy
-#| msgid "Add new projects (on the entire platform)"
 msgid "Add new projects (site wide)"
 msgstr "新しいプロジェクトの追加（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-#, fuzzy
-#| msgid "Add language definitions (on the entire platform)"
 msgid "Add language definitions (site wide)"
 msgstr "言語定義の追加（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-#, fuzzy
-#| msgid "Manage language definitions (on the entire platform)"
 msgid "Manage language definitions (site wide)"
 msgstr "言語定義の管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage groups (site wide)"
 msgstr "グループの管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-#, fuzzy
-#| msgid "Manage users (global)"
 msgid "Manage users (site wide)"
-msgstr "ユーザの管理（全体）"
+msgstr "ユーザーの管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Manage roles (on the entire platform)"
 msgid "Manage roles (site wide)"
 msgstr "権限の管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage announcements (site wide)"
 msgstr "お知らせの管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (site wide)"
-msgstr "翻訳メモリの管理"
+msgstr "翻訳メモリの管理（プラットフォーム全体）"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage component lists (on the entire platform)"
 msgid "Manage component lists (site wide)"
 msgstr "コンポーネント リストの管理（プラットフォーム全体）"
 
@@ -5226,7 +5201,7 @@ msgstr "新しい翻訳を始めるには、サインインをしてください
 #: weblate/templates/component.html:154
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
-msgstr ""
+msgstr "出現 %(first)s、期限 %(last)s"
 
 #: weblate/templates/component.html:158
 msgid "Please sign in to see the alerts."
@@ -6285,11 +6260,9 @@ msgstr ""
 "れました。"
 
 #: weblate/templates/mail/component_license_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Component %(component)s license changed to %(target)s"
+#, python-format
 msgid "%(component)s was re-licensed to %(target)s"
-msgstr ""
-"コンポーネント %(component)s のライセンスは %(target)s に変更されました"
+msgstr "%(component)s のライセンスは %(target)s のライセンスに変更されました"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
@@ -6863,10 +6836,8 @@ msgid "No matching user found."
 msgstr "該当するユーザーは見つかりませんでした。"
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "マトリックス"
+msgstr "表"
 
 #: weblate/templates/matrix.html:35
 msgid "Displayed languages"
@@ -11227,7 +11198,7 @@ msgstr "フルネームには特殊な文字を使用しないでください。
 
 #: weblate/utils/validators.py:154
 msgid "Name consists only of disallowed characters."
-msgstr ""
+msgstr "名前は禁止されている文字のみで構成されています。"
 
 #: weblate/utils/validators.py:169
 msgid "The username can not start with a full stop."
