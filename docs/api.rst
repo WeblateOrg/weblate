@@ -1496,22 +1496,22 @@ Translations
     :param language: Translation language code
     :type language: string
     :>json object component: component object; see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json int failing_checks: number of strings failing check
-    :>json float failing_checks_percent: percentage of strings failing check
-    :>json int failing_checks_words: number of words with failing check
+    :>json int failing_checks: number of strings failing checks
+    :>json float failing_checks_percent: percentage of strings failing checks
+    :>json int failing_checks_words: number of words with failing checks
     :>json string filename: translation filename
     :>json int fuzzy: number of strings marked for review
     :>json float fuzzy_percent: percentage of strings marked for review
     :>json int fuzzy_words: number of words marked for review
     :>json int have_comment: number of strings with comment
     :>json int have_suggestion: number of strings with suggestion
-    :>json boolean is_template: whether translation is monolingual base
+    :>json boolean is_template: whether the translation has a monolingual base
     :>json object language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string language_code: language code used in the repository; this can be different from language code in the language object
     :>json string last_author: name of last author
     :>json timestamp last_change: last change timestamp
-    :>json string revision: hash revision of the file
-    :>json string share_url: URL for sharing leading to engage page
+    :>json string revision: revision hash for the file
+    :>json string share_url: URL for sharing leading to engagement page
     :>json int total: total number of strings
     :>json int total_words: total number of words
     :>json string translate_url: URL for translating
@@ -1793,17 +1793,17 @@ Units
     :>json string context: translation unit context
     :>json string note: translation unit note
     :>json string flags: translation unit flags
-    :>json boolean fuzzy: whether unit is fuzzy or marked for review
-    :>json boolean translated: whether unit is translated
-    :>json boolean approved: whether translation is approved
+    :>json boolean fuzzy: whether the unit is fuzzy or marked for review
+    :>json boolean translated: whether the unit is translated
+    :>json boolean approved: whether the translation is approved
     :>json int position: unit position in translation file
-    :>json boolean has_suggestion: whether unit has suggestions
-    :>json boolean has_comment: whether unit has comments
-    :>json boolean has_failing_check: whether unit has failing checks
+    :>json boolean has_suggestion: whether the unit has suggestions
+    :>json boolean has_comment: whether the unit has comments
+    :>json boolean has_failing_check: whether the unit has failing checks
     :>json int num_words: number of source words
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
-    :>json string web_url: URL where unit can be edited
+    :>json string web_url: URL where the unit can be edited
     :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:id)/`
 
 Changes
