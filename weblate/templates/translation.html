@@ -256,7 +256,7 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
+<p>{% trans "You can substitute all instances of a string. The search is a simple case sensitive substring search." %}</p>
 {% csrf_token %}
 {{ replace_form|crispy }}
 </div>
@@ -274,7 +274,7 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change the state of all strings matching given type at once." %}</p>
+<p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
 {% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">
@@ -351,7 +351,7 @@
 <div class="panel-body">
 {% csrf_token %}
 {{ announcement_form|crispy }}
-<p class="help-block">{% trans "The message is shown on the translation page, until its given expiry, or permanently until it is deleted." %}</p>
+<p class="help-block">{% trans "The message is shown on the translation page, until its given expiry, or deletion." %}</p>
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Add" %}" class="btn btn-primary" />
@@ -419,7 +419,7 @@
 <td class="number"></td>
 </tr>
 <tr>
-<th>{% trans "Failing check" %}</th>
+<th>{% trans "Failing checks" %}</th>
 <td class="percent">{{ object.stats.allchecks_percent|percent_format }}</td>
 <td class="number">{{ object.stats.allchecks|intcomma }}</td>
 <td class="number">{{ object.stats.allchecks_words|intcomma }}</td>
