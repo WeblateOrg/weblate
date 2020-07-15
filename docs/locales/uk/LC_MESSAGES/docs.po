@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 20:56+0200\n"
-"PO-Revision-Date: 2020-07-15 02:38+0000\n"
+"PO-Revision-Date: 2020-07-15 22:30+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -64,6 +64,12 @@ msgid ""
 "translation projects. More fine-grained configuration can be achieved using :"
 "ref:`custom-acl`"
 msgstr ""
+"Після встановлення буде створено типовий набір груп, і ви зможете "
+"скористатися ними для визначення ролей користувачів для усього встановленого "
+"екземпляра (див. :ref:`default-groups`). Крім того, якщо увімкнено :ref:`acl`"
+", ви зможете пов'язувати користувачів із специфічними проєктами перекладу. "
+"Прискіпливіше налаштовування можна виконати за допомогою розділу :ref"
+":`custom-acl`"
 
 #: ../../admin/access.rst:25
 msgid "Common setups"
@@ -79,6 +85,9 @@ msgid ""
 "`LOGIN_REQUIRED_URLS` to force users to sign in and :setting:"
 "`REGISTRATION_OPEN` to prevent new registrations."
 msgstr ""
+"Щоб повністю заблокувати встановлений Weblate, ви можете скористатися "
+":setting:`LOGIN_REQUIRED_URLS`, щоб змусити користувачів входити до системи, "
+"і :setting:`REGISTRATION_OPEN`, щоб запобігти новим реєстраціям користувачів."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -90,20 +99,26 @@ msgid ""
 "is done by default using the :ref:`autogroup`), `Reviewers` and `Managers` "
 "groups. Keep all projects configured as `Public` (see :ref:`acl`)."
 msgstr ""
+"Щоб виконати керування правами доступу для усього екземпляра, просто додайте "
+"користувачів до груп `Users` (ця дія виконується типово за допомогою "
+":ref:`autogroup`), `Reviewers` та `Managers`. Усі проєкти налаштуйте як "
+"`Public` (див. :ref:`acl`)."
 
 #: ../../admin/access.rst:42
 msgid "Per project permissions"
-msgstr ""
+msgstr "Права доступу на рівні проєктів"
 
 #: ../../admin/access.rst:44
 msgid ""
 "Set your projects to `Protected` or `Private`, and manage users per project "
 "in the Weblate interface."
 msgstr ""
+"Налаштуйте ваші проєкти як `Protected` або `Private` і керуйте користувачами "
+"окремих проєктів за допомогою інтерфейсу Weblate."
 
 #: ../../admin/access.rst:48
 msgid "Adding permissions to languages, components or projects"
-msgstr ""
+msgstr "Додавання прав доступу до мов, компонентів або проєктів"
 
 #: ../../admin/access.rst:50
 msgid ""
@@ -112,6 +127,10 @@ msgid ""
 "translators`) and configure it for a given resource. Any assigned "
 "permissions will be granted to members of that group for selected resources."
 msgstr ""
+"Крім того, ви можете надати будь-якому користувачу права доступу на основі "
+"проєкту, складника або мови. Для цього створіть групу (наприклад, `Czech "
+"translators`) і налаштуйте її для заданого ресурсу. Усі призначені права "
+"доступу для вибраних ресурсів буде пов'язано із учасниками цієї групи."
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -120,20 +139,27 @@ msgid ""
 "want to remove these permissions from the `Users` group, or change automatic "
 "assignment of all users to that group (see :ref:`autogroup`)."
 msgstr ""
+"Це працюватиме без додаткових налаштувань, якщо використовується обмеження "
+"прав доступу на рівні проєкту. Щоб визначити права доступу на рівні усього "
+"екземпляра Weblate, вам, ймовірно, слід вилучити ці права доступу з групи "
+"`Users` або змінити автоматичне пов'язування усіх користувачів із цією "
+"групою (див. :ref:`autogroup`)."
 
 #: ../../admin/access.rst:62
 msgid ":ref:`perm-check`"
-msgstr ""
+msgstr ":ref:`perm-check`"
 
 #: ../../admin/access.rst:67
 msgid "Per project access control"
-msgstr ""
+msgstr "Керування доступом на рівні проєкту"
 
 #: ../../admin/access.rst:71
 msgid ""
 "By enabling ACL, all users are prohibited from accessing anything within a "
 "given project, unless you add the permissions for them to do just that."
 msgstr ""
+"Якщо увімкнено ACL, усім користувачам буде заборонено доступ до усіх даних у "
+"вказаному проєкті, якщо ви явним чином не дозволите такий доступ."
 
 #: ../../admin/access.rst:74
 msgid ""
@@ -142,10 +168,14 @@ msgid ""
 "project. This automatically creates several groups for this project, see :"
 "ref:`groups`."
 msgstr ""
+"Ви можете обмежити доступ користувача до окремих проєктів. Ця можливість "
+"вмикається пунктом :guilabel:`Керування доступом` у налаштуваннях "
+"відповідного проєкту. У відповідь буде автоматично створено декілька груп "
+"для цього проєкту, див. :ref:`groups`."
 
 #: ../../admin/access.rst:78
 msgid "The following choices exist for :guilabel:`Access control`:"
-msgstr ""
+msgstr "Для :guilabel:`Керування доступом` передбачено такі варіанти:"
 
 #: ../../admin/access.rst:80
 msgid "Public"
@@ -188,21 +218,31 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
+"Щоб дозволити доступ до цього проєкту, вам слід додати права доступу або "
+"безпосередньо для запису певного користувача або групи користувачів у "
+"адміністративному інтерфейсі Django або за допомогою керування записами "
+"користувачів на сторінці проєкту, як це описано у розділі :ref:`manage-acl`."
 
 #: ../../admin/access.rst:97
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
 msgstr ""
+"Навіть якщо ACL увімкнено, буде доступною деяка загальна інформація щодо "
+"вашого проєкту:"
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
 msgstr ""
+"Статистика щодо усього екземпляра Weblate включено із обліковими даними для "
+"усіх проєктів."
 
 #: ../../admin/access.rst:100
 msgid ""
 "Language summary for the whole instance, including counts for all projects."
 msgstr ""
+"Резюме щодо мов для усього екземпляра Weblate, включно із числовими даними "
+"для усіх проєктів."
 
 #: ../../admin/access.rst:105
 msgid "Automatic group assignments"
@@ -214,12 +254,17 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"Ви можете налаштувати Weblate на автоматичне додавання користувачів до груп "
+"на основі їхніх адрес електронної пошти. Ця автоматичне прив'язка "
+"виконуватиметься лише під час створення облікових записів."
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
 msgstr ""
+"Виконати налаштування можна за допомогою адміністративного інтерфейсу Django "
+"для кожної з груп (у розділі :guilabel:`Authentication`)."
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -227,6 +272,10 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
+"Автоматична прив'язка до груп для груп `Users` і `Viewers` виконуватиметься "
+"Weblate завжди при перенесенні даних. Якщо ви хочете вимкнути її, просто "
+"встановіть для формального виразу прив'язки значення ``^$``, якому не "
+"відповідає жоден рядок."
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
@@ -245,6 +294,9 @@ msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
 msgstr ""
+"Персональні права доступу, які визначаються Weblate. Ви не можете визначати "
+"персональні права доступу — це завдання може бути виконане лише за допомогою "
+"призначення ролей."
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
@@ -255,6 +307,9 @@ msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
+"Роль визначає набір прав доступу. За допомогою ролі ви можете "
+"використовувати однакові набори прав доступу у декількох місцях. Ролі також "
+"спрощують адміністрування."
 
 #: ../../admin/access.rst:132
 msgid "`User`"
@@ -273,6 +328,8 @@ msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
+"Групи поєднують об'єкти ролей, користувачів та розпізнавання (проєкти, мови "
+"і списки складників)."
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
