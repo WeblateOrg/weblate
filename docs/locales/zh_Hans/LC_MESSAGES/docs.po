@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 20:56+0200\n"
-"PO-Revision-Date: 2020-07-15 02:38+0000\n"
+"PO-Revision-Date: 2020-07-15 22:30+0000\n"
 "Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -7900,30 +7900,30 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:88
 msgid "Using own SSL certificates"
-msgstr ""
+msgstr "使用自己的 SSL 证书"
 
 #: ../../admin/install/docker.rst:92
 msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
-msgstr ""
+msgstr "如果您要使用自己的 SSL 证书，只需将文件放入 Weblate 数据卷中（请参阅 :ref:`docker-volume`）："
 
 #: ../../admin/install/docker.rst:95
 msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
-msgstr ""
+msgstr ":file:`ssl/fullchain.pem` 包含证书，包括任何需要的 CA 证书"
 
 #: ../../admin/install/docker.rst:96
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ""
+msgstr ":file:`ssl/privkey.pem` 包含有私钥"
 
 #: ../../admin/install/docker.rst:98
 msgid ""
 "Both of these files must be owned by the same user as the one starting the "
 "docker container and have file mask set to ``600`` (readable and writeable "
 "only by the owning user)."
-msgstr ""
+msgstr "这两个文件都必须与启动 Docker 容器的用户由同一用户拥有，并且文件掩码设置为 ``600``（仅拥有用户可读写）。"
 
 #: ../../admin/install/docker.rst:100
 msgid ""
@@ -7931,6 +7931,8 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
+"此外，Weblate 容器现在将在端口 4443 上接受 SSL 连接，您将要在 docker compose override 中包括 HTTPS "
+"的端口转发："
 
 #: ../../admin/install/docker.rst:112
 msgid ""
@@ -7939,16 +7941,18 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"如果您已经在同一服务器上托管其他站点，则反向代理（例如 NGINX）可能会使用端口 ``80`` 和 ``443``。要将 HTTPS 连接从 "
+"NGINX 传递到 docker 容器，可以使用以下配置："
 
 #: ../../admin/install/docker.rst:134
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
-msgstr ""
+msgstr "将 ``<SITE_URL>``，``<SITE>`` 和 ``<EXPOSED_DOCKER_PORT>`` 替换为您环境中的实际值。"
 
 #: ../../admin/install/docker.rst:137
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "使用 Let’s Encrypt 自动生成 SSL 证书"
 
 #: ../../admin/install/docker.rst:139
 msgid ""
@@ -7959,12 +7963,16 @@ msgid ""
 "This is made use of in the :file:`docker-compose-https.yml` file.  Then "
 "create a :file:`docker-compose-https.override.yml` file with your settings:"
 msgstr ""
+"如果要在公共安装中使用 `Let’s Encrypt <https://letsencrypt.org/>`_ 自动生成的 SSL 证书，则需要在其他 "
+"Docker 容器中添加反向 HTTPS 代理，这将使用 `https-portal <https://hub.docker.com/r/"
+"steveltn/https-portal/>`_。这是在 :file:`docker-compose-https.yml` 文件中使用的。"
+"然后使用您的设置创建一个 :file:`docker-compose-https.override.yml` 文件："
 
 #: ../../admin/install/docker.rst:161
 msgid ""
 "Whenever invoking :program:`docker-compose` you need to pass both files to "
 "it, and then do:"
-msgstr ""
+msgstr "每当调用 :program:`docker-compose` 时，您都需要将两个文件都传递给它，然后执行以下操作："
 
 #: ../../admin/install/docker.rst:170
 msgid "Upgrading the Docker container"
@@ -27017,7 +27025,7 @@ msgstr ""
 
 #: ../../vcs.rst:44
 msgid "SSH repositories"
-msgstr ""
+msgstr "SSH 仓库"
 
 #: ../../vcs.rst:46
 msgid ""
@@ -27025,59 +27033,62 @@ msgid ""
 "SSH. Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to "
 "access the upstream repository this way."
 msgstr ""
+"访问私有仓库的最常用方法是基于 SSH。授权公共 Weblate SSH 密钥（请参阅 :ref:`weblate-ssh-"
+"key`）以这种方式访问上游仓库。"
 
 #: ../../vcs.rst:52
 msgid ""
 "On GitHub, each key can be added to only one repository, see :ref:`vcs-repos-"
 "github` and :ref:`hosted-push`."
 msgstr ""
+"在 GitHub 上，每个密钥只能添加到一个存储库中，请参阅 :ref:`vcs-repos-github` 和 :ref:`hosted-push`。"
 
 #: ../../vcs.rst:55
 msgid ""
 "Weblate also stores the host key fingerprint upon first connection, and "
 "fails to connect to the host should it be changed later (see :ref:`verify-"
 "ssh`)."
-msgstr ""
+msgstr "Weblate 还会在首次连接时存储主机密钥指纹，并且在以后进行更改时将无法连接到主机（请参阅 :ref:`verify-ssh`）。"
 
 #: ../../vcs.rst:58
 msgid "In case adjustment is needed, do so from the Weblate admin interface:"
-msgstr ""
+msgstr "如果需要调整，请从 Weblate 管理界面进行："
 
 #: ../../vcs.rst:66
 msgid "Weblate SSH key"
-msgstr ""
+msgstr "Weblate SSH 密钥"
 
 #: ../../vcs.rst:68
 msgid ""
 "The Weblate public key is visible to all users browsing the :guilabel:"
 "`About` page."
-msgstr ""
+msgstr "Weblate 公钥对浏览 :guilabel:`About` 页面的所有用户可见。"
 
 #: ../../vcs.rst:70
 msgid ""
 "Admins can generate or display the public key currently used by Weblate in "
 "the (from :guilabel:`SSH keys`) on the admin interface landing page."
-msgstr ""
+msgstr "管理员可以在管理界面登录页面的（通过 :guilabel:`SSH keys`）生成或显示 Weblate 当前使用的公共密钥。"
 
 #: ../../vcs.rst:75
 msgid ""
 "The corresponding private SSH key can not currently have a password, so make "
 "sure it is well protected."
-msgstr ""
+msgstr "相应的私有 SSH 密钥当前无法使用密码，因此请确保已受到良好的保护。"
 
 #: ../../vcs.rst:80
 msgid "Make a backup of the generated private Weblate SSH key."
-msgstr ""
+msgstr "对生成的私有 Weblate SSH 密钥进行备份。"
 
 #: ../../vcs.rst:85
 msgid "Verifying SSH host keys"
-msgstr ""
+msgstr "验证 SSH 主机密钥"
 
 #: ../../vcs.rst:87
 msgid ""
 "Weblate automatically remembers the SSH host keys on first access and "
 "remembers them for further use."
-msgstr ""
+msgstr "Weblate 会在第一次访问时自动记住 SSH 主机密钥，并记住它们以备将来使用。"
 
 #: ../../vcs.rst:90
 msgid ""
@@ -27088,6 +27099,9 @@ msgid ""
 "`Submit`.  Verify its fingerprint matches the server you added. They are "
 "shown in the confirmation message:"
 msgstr ""
+"如果要在连接到仓库之前对其进行验证，请在管理界面的同一部分中的 :guilabel:`Add host key` 中验证要访问的服务器的 SSH "
+"主机密钥。输入您要访问的主机名（例如 ``gitlab.com``），然后按 "
+":guilabel:`Submit`。验证其指纹与您添加的服务器匹配。它们显示在确认消息中："
 
 #: ../../vcs.rst:102
 msgid "GitHub repositories"
