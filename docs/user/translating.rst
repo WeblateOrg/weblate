@@ -166,7 +166,7 @@ The following keyboard shortcuts can be utilized during translation:
 :kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`
     Copy the machine translation of given number to current translation.
 :kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`
-    Ignore failing checks beyond a given number.
+    Ignore one item in the list of failing checks.
 :kbd:`Ctrl+J` or :kbd:`Cmd+J`
     Shows nearby strings tab.
 :kbd:`Ctrl+S` or :kbd:`Cmd+S`
