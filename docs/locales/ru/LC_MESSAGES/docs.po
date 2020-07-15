@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 20:56+0200\n"
-"PO-Revision-Date: 2020-07-13 17:56+0000\n"
+"PO-Revision-Date: 2020-07-15 22:30+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -260,12 +260,17 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
+"Вы можете настроить Weblate для автоматического добавления пользователей в "
+"группы на основе их адреса электронной почты. Это автоматическое назначение "
+"происходит только в момент создания учётной записи."
 
 #: ../../admin/access.rst:110
 msgid ""
 "This can be set up in the Django admin interface for each group (in the :"
 "guilabel:`Authentication` section)."
 msgstr ""
+"Оно может быть настроено в административном интерфейсе Django отдельно для "
+"каждой группы (в разделе :guilabel:`Аутентификация`)."
 
 #: ../../admin/access.rst:115
 msgid ""
@@ -273,56 +278,66 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
+"Weblate при миграциях всегда настраивает автоматическое назначение групп "
+"`Пользователи` и `Просматривающие`. В случае, если вы хотите его отключить, "
+"просто задайте для них регулярное выражение ``^$``, которое никогда ничего "
+"не найдёт."
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
-msgstr ""
+msgstr "Пользователи, роли, группы и разрешения"
 
 #: ../../admin/access.rst:124
 msgid "The authentication models consist of several objects:"
-msgstr ""
+msgstr "Модели аутентификации состоят из нескольких объектов:"
 
 #: ../../admin/access.rst:127
 msgid "`Permission`"
-msgstr ""
+msgstr "`Разрешение`"
 
 #: ../../admin/access.rst:127
 msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
 msgstr ""
+"Индивидуальные разрешения, определённые Weblate. Вы не можете назначать "
+"отдельные разрешения, назначить их можно только через назначение ролей."
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
-msgstr ""
+msgstr "`Роль`"
 
 #: ../../admin/access.rst:130
 msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
+"Роль определяет набор разрешений. Она позволяет повторно использовать эти "
+"наборы в нескольких местах, и упрощает их администрирование."
 
 #: ../../admin/access.rst:132
 msgid "`User`"
-msgstr ""
+msgstr "`Пользователь`"
 
 #: ../../admin/access.rst:133
 msgid "Users can be members of several groups."
-msgstr ""
+msgstr "Пользователи могут состоять в нескольких группах."
 
 #: ../../admin/access.rst:136
 msgid "`Group`"
-msgstr ""
+msgstr "`Группа`"
 
 #: ../../admin/access.rst:135
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
+"Группы соединяют роли, пользователей и объекты аутентификации (проекты, "
+"языки и списки компонентов)."
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
-msgstr ""
+msgstr "Проверка разрешений"
 
 #: ../../admin/access.rst:156
 msgid ""
@@ -330,24 +345,33 @@ msgid ""
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
 msgstr ""
+"Всякий раз, когда происходит проверка разрешения для выяснения того, может "
+"ли пользователь выполнить данное действие, она производится в "
+"соответствующей области, и проверяет следующие вещи в указанном порядке:"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` are matched against component or project."
 msgstr ""
+"С компонентом или проектом сравнивается :guilabel:`Список компонентов` в "
+"поиске соответствия."
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
 msgstr ""
+"С компонентом или проектом сравниваются :guilabel:`Компоненты` в поиске "
+"соответствия."
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
-msgstr ""
+msgstr "С проектом сравниваются :guilabel:`Проекты` в поиске соответствия."
 
 #: ../../admin/access.rst:166
 msgid ""
 "As you can see, grating access to a component automatically grants user "
 "access to a containing project as well."
 msgstr ""
+"Как вы можете видеть, предоставление пользователю доступа к компоненту "
+"автоматически предоставляет ему доступ и к содержащему компонент проекту."
 
 #: ../../admin/access.rst:171
 msgid ""
@@ -355,27 +379,38 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` is the only one applied."
 msgstr ""
+"Используется только первое сработавшее правило. Таким образом, если задать "
+":guilabel:`Список компонентов`, :guilabel:`Компоненты` и :guilabel:`Проект`, "
+"то применится только :guilabel:`Список компонентов`."
 
 #: ../../admin/access.rst:175
 msgid ""
 "An additional step is performed if checking permission for the translation:"
 msgstr ""
+"Если производится проверка разрешения на перевод, выполняется дополнительный "
+"шаг:"
 
 #: ../../admin/access.rst:178
 msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
 msgstr ""
+"4. С областью переводов, если она установлена, сравниваются :guilabel:`Языки`"
+" в поиске соответствия. Если область не установлена, она не соответствует "
+"никакому языку."
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
+"Для автоматического включения всех языков или проектов вы можете "
+"использовать переключатели :guilabel:`Выбор языка` или :guilabel:`Выбор "
+"проекта`."
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
-msgstr ""
+msgstr "Проверка доступа к проекту"
 
 #: ../../admin/access.rst:189
 msgid ""
@@ -387,7 +422,7 @@ msgstr ""
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
-msgstr ""
+msgstr "Проверка доступа к компоненту"
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -399,7 +434,7 @@ msgstr ""
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
-msgstr ""
+msgstr "Управление пользователями и группами"
 
 #: ../../admin/access.rst:206
 msgid ""
@@ -409,11 +444,13 @@ msgstr ""
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
-msgstr ""
+msgstr "По-проектная настройка доступа"
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgstr ""
+"Эта возможность работает только для проектов под управлением списка контроля "
+"доступа, смотрите раздел :ref:`acl`."
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -421,59 +458,70 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+"Пользователи с привилегией :guilabel:`Может управлять списками контроля "
+"доступа для проекта` (смотрите раздел :ref:`privileges`) также могут "
+"управлять пользователями в проектах с включённым на странице проекта "
+"контролем доступа. Интерфейс позволяет вам:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
-msgstr ""
+msgstr "Добавлять существующих пользователей в проект"
 
 #: ../../admin/access.rst:223
 msgid "Invite new users to the project"
-msgstr ""
+msgstr "Приглашать новых пользователей в проект"
 
 #: ../../admin/access.rst:224
 msgid "Change permissions of the users"
-msgstr ""
+msgstr "Изменять разрешения пользователей"
 
 #: ../../admin/access.rst:225
 msgid "Revoke access to the users"
-msgstr ""
+msgstr "Отзывать доступы пользователей"
 
 #: ../../admin/access.rst:227
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
 msgstr ""
+"Управление пользователями доступно через меню :guilabel:`Управлять` проекта:"
 
 #: ../../admin/access.rst:233
 msgid ":ref:`acl`"
-msgstr ""
+msgstr ":ref:`acl`"
 
 #: ../../admin/access.rst:238
 msgid "Predefined groups"
-msgstr ""
+msgstr "Предопределённые группы"
 
 #: ../../admin/access.rst:240
 msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
 msgstr ""
+"Weblate поставляется с предопределённым набором групп для проекта, которые "
+"вы можете назначить пользователям."
 
 #: ../../admin/access.rst:245
 msgid "Has all permissions available in the project."
-msgstr ""
+msgstr "Даёт все разрешения, доступные в проекте."
 
 #: ../../admin/access.rst:249
 msgid "Can manage glossary (add or remove entries, or upload)."
 msgstr ""
+"Может управлять глоссарием (добавлять, удалять или загружать записи в "
+"глоссарий)."
 
 #: ../../admin/access.rst:253
 msgid "Can manage translated languages - add or remove translations."
-msgstr ""
+msgstr "Может управлять языками перевода — добавлять или удалять переводы."
 
 #: ../../admin/access.rst:257
 msgid ""
 "Can manage screenshots - add or remove them, and associate them to source "
 "strings."
 msgstr ""
+"Может управлять снимками экрана — добавлять или удалять их, а также "
+"связывать их с исходными строками."
 
 #: ../../admin/access.rst:262
 msgid ""
