@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-16 14:25+0000\n"
-"PO-Revision-Date: 2020-07-10 18:39+0000\n"
+"PO-Revision-Date: 2020-07-17 08:38+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -1391,8 +1391,6 @@ msgstr "Viktiga datum"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
-#, fuzzy
-#| msgid "View billing information"
 msgid "View billing info"
 msgstr "Visa faktureringsinformation"
 
@@ -1443,10 +1441,8 @@ msgstr "Ladda upp poster till ordlista"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Machinery"
 msgid "Use machinery"
-msgstr "Maskineri"
+msgstr "Använd maskinöversättning"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -1612,74 +1608,53 @@ msgstr "Uppdatera det interna arkivet"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:124
-#, fuzzy
-#| msgid "Use management interface (on the entire platform)"
 msgid "Use management interface (site wide)"
-msgstr "Använd hanteringsgränssnittet (på hela plattformen)"
+msgstr "Använd administrationsgränssnittet (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:126
-#, fuzzy
-#| msgid "Add new projects (on the entire platform)"
 msgid "Add new projects (site wide)"
-msgstr "Lägg till nya projekt (på hela plattformen)"
+msgstr "Lägg till nya projekt (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:128
-#, fuzzy
-#| msgid "Add language definitions (on the entire platform)"
 msgid "Add language definitions (site wide)"
-msgstr "Lägg till språkdefinitioner (på hela plattformen)"
+msgstr "Lägg till språkdefinitioner (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-#, fuzzy
-#| msgid "Manage language definitions (on the entire platform)"
 msgid "Manage language definitions (site wide)"
-msgstr "Hantera språkdefinitioner (på hela plattformen)"
+msgstr "Hantera språkdefinitioner (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Manage groups (on the entire platform)"
 msgid "Manage groups (site wide)"
-msgstr "Hantera grupper (på hela plattformen)"
+msgstr "Hantera grupper (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-#, fuzzy
-#| msgid "Manage users (global)"
 msgid "Manage users (site wide)"
-msgstr "Hantera användare (globalt)"
+msgstr "Hantera användare (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgid "Manage roles (on the entire platform)"
 msgid "Manage roles (site wide)"
-msgstr "Hantera roller (på hela plattformen)"
+msgstr "Hantera roller (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
-#, fuzzy
-#| msgid "Manage announcements (on the entire platform)"
 msgid "Manage announcements (site wide)"
-msgstr "Hantera meddelanden (på hela plattformen)"
+msgstr "Hantera meddelanden (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgctxt "Access control role"
-#| msgid "Manage translation memory"
 msgid "Manage translation memory (site wide)"
-msgstr "Hantera översättningsminne"
+msgstr "Hantera översättningsminne (hela webbplatsen)"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "Manage component lists (on the entire platform)"
 msgid "Manage component lists (site wide)"
-msgstr "Hantera komponentlistor (på hela plattformen)"
+msgstr "Hantera komponentlistor (hela webbplatsen)"
 
 #: weblate/auth/data.py:168
 msgctxt "Access control role"
@@ -6900,10 +6875,8 @@ msgid "No matching user found."
 msgstr "Inga matchande användare hittades."
 
 #: weblate/templates/matrix.html:9
-#, fuzzy
-#| msgid "matrix"
 msgid "Matrix"
-msgstr "matris"
+msgstr "Matris"
 
 #: weblate/templates/matrix.html:35
 msgid "Displayed languages"
@@ -7549,10 +7522,8 @@ msgid "Approved strings with suggestions"
 msgstr "Godkända strängar med förslag"
 
 #: weblate/templates/snippets/query-builder.html:100
-#, fuzzy
-#| msgid "All untranslated strings added in the past month"
 msgid "All untranslated strings added the past month"
-msgstr "Alla oöversatta strängar tillagda under den senaste månaden"
+msgstr "Alla oöversatta strängar tillagda den senaste månaden"
 
 #: weblate/templates/snippets/query-field.html:9
 msgid "Custom Search"
@@ -8279,7 +8250,7 @@ msgstr "Datorstött översättningsförslag"
 
 #: weblate/templates/translate.html:224
 msgid "Machinery"
-msgstr "Maskineri"
+msgstr "Autoöversatt"
 
 #: weblate/templates/translate.html:226
 msgid "Translations of this string in the other languages"
@@ -8500,16 +8471,12 @@ msgstr ""
 "i projektet."
 
 #: weblate/templates/translation.html:259
-#, fuzzy
-#| msgid ""
-#| "You can substitute all instances of a string. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can substitute all instances of a string. The search is a simple case "
 "sensitive substring search."
 msgstr ""
-"Du kan ersätta en sträng i alla strängar på en gång. Sökningen är en enkel "
-"delsträngssökning som är skiftlägeskänslig."
+"Du kan ersätta alla förekomster av en sträng. Sökningen är en enkel "
+"skiftlägeskänslig delsträngssökning."
 
 #: weblate/templates/translation.html:294
 msgid ""
@@ -8533,16 +8500,12 @@ msgstr ""
 "Den uppladdade filen kommer att sammanfogas med nuvarande översättningen."
 
 #: weblate/templates/translation.html:354
-#, fuzzy
-#| msgid ""
-#| "The message is shown on the translation page, until its given expiry, or "
-#| "permanently until it is deleted."
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
 msgstr ""
-"Meddelandet visas på översättningssidan, så länge det är giltigt eller "
-"permanent tills det tas bort."
+"Meddelandet visas på översättningssidan, så länge det är giltigt eller tills "
+"det tas bort."
 
 #: weblate/templates/translation.html:392
 msgid "Percent"
@@ -8776,10 +8739,8 @@ msgid "Strings without a label"
 msgstr "Strängar utan etikett"
 
 #: weblate/trans/filter.py:63
-#, fuzzy
-#| msgid "Translated string"
 msgid "Pluralized string"
-msgstr "Översatt sträng"
+msgstr "Pluraliserad sträng"
 
 #: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 msgid "Failed check: {}"
@@ -11321,7 +11282,7 @@ msgstr "Undvik att använda specialtecken i fullständigt namn."
 
 #: weblate/utils/validators.py:154
 msgid "Name consists only of disallowed characters."
-msgstr ""
+msgstr "Namnet består endast av otillåtna tecken."
 
 #: weblate/utils/validators.py:169
 msgid "The username can not start with a full stop."
