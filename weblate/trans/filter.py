@@ -60,6 +60,7 @@ class FilterRegistry:
             ),
             ("unapproved", _("Strings waiting for review"), "state:translated"),
             ("unlabeled", _("Strings without a label"), "NOT has:label"),
+            ("pluralized", _("Pluralized string"), "has:plural"),
         ]
         result.extend(
             (
