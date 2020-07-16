@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load translations %}
 
 {% if show_builder %}
 <div class="form-group">
@@ -34,11 +35,11 @@
               <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "String has suggestion" %}</span> <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                  <li><a href="#" data-field="has:suggestion">{% trans "String suggestion exists" %}</a></li>
-                  <li><a href="#" data-field="has:comment">{% trans "Commented string" %}</a></li>
-                  <li><a href="#" data-field="has:failing_check">{% trans "Failing checks for string" %}</a></li>
-                  <li><a href="#" data-field="has:plural">{% trans "Pluralized string" %}</a></li>
-                  <li><a href="#" data-field="has:context">{% trans "Contextualized string" %}</a></li>
+                  <li><a href="#" data-field="has:suggestion">{% search_name "has:suggestion" %}</a></li>
+                  <li><a href="#" data-field="has:comment">{% search_name "has:comment" %}</a></li>
+                  <li><a href="#" data-field="has:check">{% search_name "has:check" %}</a></li>
+                  <li><a href="#" data-field="has:plural">{% search_name "has:plural" %}</a></li>
+                  <li><a href="#" data-field="has:context">{% search_name "has:context" %}</a></li>
                 </ul>
               </div><!-- /btn-group -->
               <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>

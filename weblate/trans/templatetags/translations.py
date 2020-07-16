@@ -37,7 +37,7 @@ from weblate.accounts.models import Profile
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
-from weblate.trans.filter import get_filter_choice
+from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import (
     Announcement,
     Component,
@@ -239,6 +239,12 @@ def format_translation(
         "unit": unit,
         "has_content": has_content,
     }
+
+
+@register.simple_tag
+def search_name(query):
+    """Returns name for a query string."""
+    return FILTERS.get_search_name(query)
 
 
 @register.simple_tag
