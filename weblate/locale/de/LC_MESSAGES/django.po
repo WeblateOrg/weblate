@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 18:58+0000\n"
+"POT-Creation-Date: 2020-07-16 14:25+0000\n"
 "PO-Revision-Date: 2020-07-15 22:30+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
@@ -724,7 +724,7 @@ msgstr "Ausstehende Vorschläge"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:747
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
-#: weblate/trans/filter.py:117
+#: weblate/trans/filter.py:118
 msgid "Strings needing action"
 msgstr "Zeichenketten mit Handlungsbedarf"
 
@@ -2096,8 +2096,8 @@ msgid "Changes in last year"
 msgstr "Änderungen im letzten Jahr"
 
 #: weblate/billing/models.py:250 weblate/templates/about/stats.html:68
-#: weblate/templates/snippets/query-builder.html:12
-#: weblate/templates/snippets/query-builder.html:14
+#: weblate/templates/snippets/query-builder.html:13
+#: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Ausgangszeichenketten"
@@ -2707,6 +2707,7 @@ msgstr "Die Zeichenkette wurde lange Zeit nicht übersetzt"
 #: weblate/templates/language.html:28 weblate/templates/progress.html:14
 #: weblate/templates/snippets/project-nav.html:80
 #: weblate/templates/snippets/project-nav.html:89
+#: weblate/templates/translation.html:422
 msgid "Failing checks"
 msgstr "Fehlgeschlagene Qualitätsprüfungen"
 
@@ -4801,16 +4802,16 @@ msgstr "Fehler in der Konfiguration"
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
-#: weblate/templates/snippets/query-builder.html:28
-#: weblate/templates/snippets/query-builder.html:44
-#: weblate/templates/snippets/query-builder.html:58
-#: weblate/templates/snippets/query-builder.html:71
-#: weblate/templates/snippets/query-builder.html:76
-#: weblate/templates/snippets/query-builder.html:81
-#: weblate/templates/snippets/query-builder.html:86
-#: weblate/templates/snippets/query-builder.html:91
-#: weblate/templates/snippets/query-builder.html:96
-#: weblate/templates/snippets/query-builder.html:101
+#: weblate/templates/snippets/query-builder.html:29
+#: weblate/templates/snippets/query-builder.html:45
+#: weblate/templates/snippets/query-builder.html:59
+#: weblate/templates/snippets/query-builder.html:72
+#: weblate/templates/snippets/query-builder.html:77
+#: weblate/templates/snippets/query-builder.html:82
+#: weblate/templates/snippets/query-builder.html:87
+#: weblate/templates/snippets/query-builder.html:92
+#: weblate/templates/snippets/query-builder.html:97
+#: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/translation.html:299
 #: weblate/templates/translation.html:357
 msgid "Add"
@@ -5393,7 +5394,6 @@ msgid "Please sign in to see the alerts."
 msgstr "Bitte melden Sie sich an, um die Benachrichtigungen zu sehen."
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:89
-#: weblate/templates/translation.html:259
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
@@ -5406,7 +5406,7 @@ msgstr ""
 msgid "Replace"
 msgstr "Ersetzen"
 
-#: weblate/templates/component.html:205
+#: weblate/templates/component.html:205 weblate/templates/translation.html:277
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 "Sie können den Zustand aller Zeichenketten, die auf einen bestimmten Typ "
@@ -5792,7 +5792,7 @@ msgstr[0] "Sprache"
 msgstr[1] "Sprachen"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:800 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:806 weblate/trans/widgets.py:100
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -6662,7 +6662,7 @@ msgid "Parse error in %(component)s"
 msgstr "Parse-Fehler in %(component)s"
 
 #: weblate/templates/mail/pending_suggestions.html:8 weblate/trans/filter.py:39
-#: weblate/trans/filter.py:120
+#: weblate/trans/filter.py:121
 msgid "Strings with suggestions"
 msgstr "Zeichenketten mit Übersetzungsvorschlägen"
 
@@ -7263,7 +7263,7 @@ msgstr "Label hinzufügen"
 msgid "Browse all project changes"
 msgstr "Alle Änderungen im Projekt auflisten"
 
-#: weblate/templates/project.html:107 weblate/templates/translation.html:277
+#: weblate/templates/project.html:107
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Sie können den Zustand aller Zeichenketten eines bestimmten Typs auf einmal "
@@ -7651,119 +7651,104 @@ msgstr "Ankündigungen"
 msgid "Tweet this translation"
 msgstr "Diese Übersetzung twittern"
 
-#: weblate/templates/snippets/query-builder.html:5
+#: weblate/templates/snippets/query-builder.html:6
 msgid "Advanced query builder"
 msgstr "Erweiterter Abfrage-Generator"
 
-#: weblate/templates/snippets/query-builder.html:15
+#: weblate/templates/snippets/query-builder.html:16
 msgid "Target strings"
 msgstr "Zielzeichenketten"
 
-#: weblate/templates/snippets/query-builder.html:16
+#: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Schlüssel/Kontextzeichenketten"
 
-#: weblate/templates/snippets/query-builder.html:17
+#: weblate/templates/snippets/query-builder.html:18
 msgid "Comment strings"
 msgstr "Kommentarzeichenketten"
 
-#: weblate/templates/snippets/query-builder.html:18
+#: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
 msgstr "Standortzeichenketten"
 
-#: weblate/templates/snippets/query-builder.html:19
+#: weblate/templates/snippets/query-builder.html:20
 msgid "String state"
 msgstr "Zeichenkettenstatus"
 
-#: weblate/templates/snippets/query-builder.html:20
+#: weblate/templates/snippets/query-builder.html:21
 msgid "Pending string"
 msgstr "Ausstehende Zeichenkette"
 
-#: weblate/templates/snippets/query-builder.html:21
+#: weblate/templates/snippets/query-builder.html:22
 msgid "String target language"
 msgstr "Zeichenketten-Zielsprache"
 
-#: weblate/templates/snippets/query-builder.html:22
+#: weblate/templates/snippets/query-builder.html:23
 msgid "String changed by"
 msgstr "Zeichenkette geändert durch"
 
-#: weblate/templates/snippets/query-builder.html:25
+#: weblate/templates/snippets/query-builder.html:26
 msgid "Search for…"
 msgstr "Suche nach…"
 
-#: weblate/templates/snippets/query-builder.html:26
+#: weblate/templates/snippets/query-builder.html:27
 msgctxt "Exact search toggle"
 msgid "Exact"
 msgstr "Genau"
 
-#: weblate/templates/snippets/query-builder.html:35
-#: weblate/templates/snippets/query-builder.html:37
+#: weblate/templates/snippets/query-builder.html:36
 msgid "String has suggestion"
 msgstr "Zeichenkette mit Vorschlag"
 
-#: weblate/templates/snippets/query-builder.html:38
-msgid "String has comment"
-msgstr "Zeichenkette mit Kommentar"
-
-#: weblate/templates/snippets/query-builder.html:39
-msgid "String has failing check"
-msgstr "Zeichenkette mit fehlgeschlagener Qualitätsprüfung"
-
-#: weblate/templates/snippets/query-builder.html:40
-msgid "String has plural"
-msgstr "Zeichenkette hat Plural"
-
-#: weblate/templates/snippets/query-builder.html:41
-msgid "String has context"
-msgstr "Zeichenkette hat einen Kontext"
-
-#: weblate/templates/snippets/query-builder.html:50
-#: weblate/templates/snippets/query-builder.html:52
+#: weblate/templates/snippets/query-builder.html:51
+#: weblate/templates/snippets/query-builder.html:53
 msgid "String changed after"
 msgstr "Zeichenkette geändert nach"
 
-#: weblate/templates/snippets/query-builder.html:53
+#: weblate/templates/snippets/query-builder.html:54
 msgid "String changed before"
 msgstr "Zeichenkette geändert vor"
 
-#: weblate/templates/snippets/query-builder.html:56
+#: weblate/templates/snippets/query-builder.html:57
 msgid "Date"
 msgstr "Datum"
 
-#: weblate/templates/snippets/query-builder.html:66
+#: weblate/templates/snippets/query-builder.html:67
 msgid "Query examples"
 msgstr "Abfragebeispiele"
 
-#: weblate/templates/snippets/query-builder.html:69
+#: weblate/templates/snippets/query-builder.html:70
 msgid "Review strings changed by other users"
 msgstr "Von anderen Benutzern geänderte Zeichenketten überprüfen"
 
-#: weblate/templates/snippets/query-builder.html:74 weblate/trans/filter.py:37
-#: weblate/trans/filter.py:118
+#: weblate/templates/snippets/query-builder.html:75 weblate/trans/filter.py:37
+#: weblate/trans/filter.py:119
 msgid "Translated strings"
 msgstr "Übersetzte Zeichenketten"
 
-#: weblate/templates/snippets/query-builder.html:79 weblate/trans/filter.py:48
-#: weblate/trans/filter.py:122
+#: weblate/templates/snippets/query-builder.html:80 weblate/trans/filter.py:48
+#: weblate/trans/filter.py:123
 msgid "Strings with comments"
 msgstr "Zeichenketten mit Kommentaren"
 
-#: weblate/templates/snippets/query-builder.html:84 weblate/trans/filter.py:49
-#: weblate/trans/filter.py:123
+#: weblate/templates/snippets/query-builder.html:85 weblate/trans/filter.py:49
+#: weblate/trans/filter.py:124
 msgid "Strings with any failing checks"
 msgstr "Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
 
-#: weblate/templates/snippets/query-builder.html:89
+#: weblate/templates/snippets/query-builder.html:90
 msgid "Strings with suggestions from others"
 msgstr "Zeichenketten mit Übersetzungsvorschlägen von anderen"
 
-#: weblate/templates/snippets/query-builder.html:94 weblate/trans/filter.py:58
-#: weblate/trans/filter.py:125
+#: weblate/templates/snippets/query-builder.html:95 weblate/trans/filter.py:58
+#: weblate/trans/filter.py:126
 msgid "Approved strings with suggestions"
 msgstr "Anerkannte Zeichenketten mit Vorschlägen"
 
-#: weblate/templates/snippets/query-builder.html:99
-msgid "All untranslated strings added in the past month"
+#: weblate/templates/snippets/query-builder.html:100
+#, fuzzy
+#| msgid "All untranslated strings added in the past month"
+msgid "All untranslated strings added the past month"
 msgstr ""
 "Alle unübersetzten Zeichenketten, die im letzten Monat hinzugefügt wurden"
 
@@ -7854,7 +7839,7 @@ msgid "Source in review"
 msgstr "Quelle wird überprüft"
 
 #: weblate/templates/snippets/unit-state.html:5
-#: weblate/trans/templatetags/translations.py:495 weblate/utils/state.py:31
+#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:31
 msgctxt "String state"
 msgid "Needs editing"
 msgstr "Bearbeitung erforderlich"
@@ -7865,13 +7850,13 @@ msgid "Read only"
 msgstr "Schreibgeschützt"
 
 #: weblate/templates/snippets/unit-state.html:7
-#: weblate/trans/templatetags/translations.py:499 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:505 weblate/utils/state.py:33
 msgctxt "String state"
 msgid "Approved"
 msgstr "Bestätigt"
 
 #: weblate/templates/snippets/unit-state.html:8
-#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:32
+#: weblate/trans/templatetags/translations.py:507 weblate/utils/state.py:32
 msgctxt "String state"
 msgid "Translated"
 msgstr "Übersetzt"
@@ -8743,6 +8728,18 @@ msgstr ""
 "Maschinen zur automatisierten Übersetzung, um die bestmöglichen Ergebnisse "
 "zu erzielen und sie in diesem Projekt anzuwenden."
 
+#: weblate/templates/translation.html:259
+#, fuzzy
+#| msgid ""
+#| "You can substitute all instances of a string. The search is a simple "
+#| "substring case sensitive search."
+msgid ""
+"You can substitute all instances of a string. The search is a simple case "
+"sensitive substring search."
+msgstr ""
+"Sie können alle Vorkommen einer Zeichenkette ersetzen. Die Suche ist eine "
+"einfache Teilzeichenkettensuche, die Groß-/Kleinschreibung berücksichtigt."
+
 #: weblate/templates/translation.html:294
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
@@ -8766,9 +8763,13 @@ msgstr ""
 "Die hochgeladene Datei wird mit den aktuellen Übersetzungen zusammengeführt."
 
 #: weblate/templates/translation.html:354
+#, fuzzy
+#| msgid ""
+#| "The message is shown on the translation page, until its given expiry, or "
+#| "permanently until it is deleted."
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
-"permanently until it is deleted."
+"deletion."
 msgstr ""
 "Die Nachricht wird auf der Übersetzungsseite bis zum eingestellten Ablauf "
 "oder dauerhaft bis zum Löschen angezeigt."
@@ -8780,10 +8781,6 @@ msgstr "Prozent"
 #: weblate/templates/translation.html:395
 msgid "Chars"
 msgstr "Zeichen"
-
-#: weblate/templates/translation.html:422
-msgid "Failing check"
-msgstr "Fehlgeschlagene Qualitätsprüfung"
 
 #: weblate/templates/translation.html:439
 msgid "Last activity"
@@ -8963,7 +8960,7 @@ msgstr "Letzte Änderungen in %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Liste der letzten mit Weblate gemachten Änderungen in %s."
 
-#: weblate/trans/filter.py:33 weblate/trans/filter.py:115
+#: weblate/trans/filter.py:33 weblate/trans/filter.py:116
 msgid "All strings"
 msgstr "Alle Zeichenketten"
 
@@ -8971,11 +8968,11 @@ msgstr "Alle Zeichenketten"
 msgid "Read only strings"
 msgstr "Schreibgeschützte Zeichenketten"
 
-#: weblate/trans/filter.py:35 weblate/trans/filter.py:116
+#: weblate/trans/filter.py:35 weblate/trans/filter.py:117
 msgid "Not translated strings"
 msgstr "Nicht übersetzte Zeichenketten"
 
-#: weblate/trans/filter.py:38 weblate/trans/filter.py:119
+#: weblate/trans/filter.py:38 weblate/trans/filter.py:120
 msgid "Strings marked for edit"
 msgstr "Zur Bearbeitung markierte Zeichenketten"
 
@@ -8991,7 +8988,7 @@ msgstr "Zeichenketten mit Labels"
 msgid "Strings with context"
 msgstr "Zeichenketten mit Kontext"
 
-#: weblate/trans/filter.py:45 weblate/trans/filter.py:121
+#: weblate/trans/filter.py:45 weblate/trans/filter.py:122
 msgid "Strings needing action without suggestions"
 msgstr "Behandlungsbedürftige Zeichenketten ohne Übersetzungsvorschläge"
 
@@ -8999,11 +8996,11 @@ msgstr "Behandlungsbedürftige Zeichenketten ohne Übersetzungsvorschläge"
 msgid "Translated strings with any failing checks"
 msgstr "Übersetzte Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
 
-#: weblate/trans/filter.py:55 weblate/trans/filter.py:124
+#: weblate/trans/filter.py:55 weblate/trans/filter.py:125
 msgid "Approved strings"
 msgstr "Anerkannte Zeichenketten"
 
-#: weblate/trans/filter.py:61 weblate/trans/filter.py:126
+#: weblate/trans/filter.py:61 weblate/trans/filter.py:127
 msgid "Strings waiting for review"
 msgstr "Zeichenketten warten auf Überprüfung"
 
@@ -9011,11 +9008,17 @@ msgstr "Zeichenketten warten auf Überprüfung"
 msgid "Strings without a label"
 msgstr "Zeichenketten ohne Label"
 
-#: weblate/trans/filter.py:67 weblate/trans/filter.py:129
+#: weblate/trans/filter.py:63
+#, fuzzy
+#| msgid "Translated string"
+msgid "Pluralized string"
+msgstr "Übersetzte Zeichenkette"
+
+#: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 msgid "Failed check: {}"
 msgstr "Fehlgeschlagene Überprüfung: {}"
 
-#: weblate/trans/filter.py:93 weblate/trans/filter.py:134
+#: weblate/trans/filter.py:94 weblate/trans/filter.py:135
 msgid "Labeled: {}"
 msgstr "Gelabelt: {}"
 
@@ -10660,7 +10663,7 @@ msgid "source"
 msgstr "Ausgangszeichenkette"
 
 #: weblate/trans/models/translation.py:153
-#: weblate/trans/templatetags/translations.py:693
+#: weblate/trans/templatetags/translations.py:699
 msgid "This translation is used for source strings."
 msgstr "Diese Übersetzung wird für Ausgangszeichenketten verwendet."
 
@@ -10773,207 +10776,207 @@ msgstr "Tabulatorzeichen"
 msgid "New line"
 msgstr "Zeilenumbruch"
 
-#: weblate/trans/templatetags/translations.py:303
+#: weblate/trans/templatetags/translations.py:309
 msgid "a year ago"
 msgstr "vor einem Jahr"
 
-#: weblate/trans/templatetags/translations.py:304
+#: weblate/trans/templatetags/translations.py:310
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "vor einem Jahr"
 msgstr[1] "vor %(count)s Jahren"
 
-#: weblate/trans/templatetags/translations.py:310
+#: weblate/trans/templatetags/translations.py:316
 msgid "a month ago"
 msgstr "vor einem Monat"
 
-#: weblate/trans/templatetags/translations.py:311
+#: weblate/trans/templatetags/translations.py:317
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "vor einem Monat"
 msgstr[1] "vor %(count)s Monaten"
 
-#: weblate/trans/templatetags/translations.py:316
+#: weblate/trans/templatetags/translations.py:322
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "vor einer Woche"
 msgstr[1] "vor %(count)s Wochen"
 
-#: weblate/trans/templatetags/translations.py:321
+#: weblate/trans/templatetags/translations.py:327
 msgid "a week ago"
 msgstr "vor einer Woche"
 
-#: weblate/trans/templatetags/translations.py:323
+#: weblate/trans/templatetags/translations.py:329
 msgid "yesterday"
 msgstr "gestern"
 
-#: weblate/trans/templatetags/translations.py:324
+#: weblate/trans/templatetags/translations.py:330
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "vor einem Tag"
 msgstr[1] "vor %(count)s Tagen"
 
-#: weblate/trans/templatetags/translations.py:328
-#: weblate/trans/templatetags/translations.py:385
+#: weblate/trans/templatetags/translations.py:334
+#: weblate/trans/templatetags/translations.py:391
 msgid "now"
 msgstr "jetzt"
 
-#: weblate/trans/templatetags/translations.py:331
+#: weblate/trans/templatetags/translations.py:337
 msgid "a second ago"
 msgstr "vor einer Sekunde"
 
-#: weblate/trans/templatetags/translations.py:333
+#: weblate/trans/templatetags/translations.py:339
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "vor einer Sekunde"
 msgstr[1] "vor %(count)s Sekunden"
 
-#: weblate/trans/templatetags/translations.py:338
+#: weblate/trans/templatetags/translations.py:344
 msgid "a minute ago"
 msgstr "vor einer Minute"
 
-#: weblate/trans/templatetags/translations.py:339
+#: weblate/trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "vor einer Minute"
 msgstr[1] "vor %(count)s Minuten"
 
-#: weblate/trans/templatetags/translations.py:344
+#: weblate/trans/templatetags/translations.py:350
 msgid "an hour ago"
 msgstr "vor einer Stunde"
 
-#: weblate/trans/templatetags/translations.py:345
+#: weblate/trans/templatetags/translations.py:351
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "vor einer Stunde"
 msgstr[1] "vor %(count)s Stunden"
 
-#: weblate/trans/templatetags/translations.py:360
+#: weblate/trans/templatetags/translations.py:366
 msgid "a year from now"
 msgstr "in einem Jahr"
 
-#: weblate/trans/templatetags/translations.py:362
+#: weblate/trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "in einem Jahr"
 msgstr[1] "in %(count)s Jahren"
 
-#: weblate/trans/templatetags/translations.py:367
+#: weblate/trans/templatetags/translations.py:373
 msgid "a month from now"
 msgstr "in einem Monat"
 
-#: weblate/trans/templatetags/translations.py:369
+#: weblate/trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "in einem Monat"
 msgstr[1] "in %(count)s Monaten"
 
-#: weblate/trans/templatetags/translations.py:374
+#: weblate/trans/templatetags/translations.py:380
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "in einer Woche"
 msgstr[1] "in %(count)s Wochen"
 
-#: weblate/trans/templatetags/translations.py:378
+#: weblate/trans/templatetags/translations.py:384
 msgid "tomorrow"
 msgstr "Morgen"
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:386
 msgid "a week from now"
 msgstr "in einer Woche"
 
-#: weblate/trans/templatetags/translations.py:382
+#: weblate/trans/templatetags/translations.py:388
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "in einer Sekunde"
 msgstr[1] "in %(count)s Sekunden"
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:394
 msgid "a second from now"
 msgstr "in einer Sekunde"
 
-#: weblate/trans/templatetags/translations.py:390
+#: weblate/trans/templatetags/translations.py:396
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "in einer Sekunde"
 msgstr[1] "in %(count)s Sekunden"
 
-#: weblate/trans/templatetags/translations.py:395
+#: weblate/trans/templatetags/translations.py:401
 msgid "a minute from now"
 msgstr "in einer Minute"
 
-#: weblate/trans/templatetags/translations.py:397
+#: weblate/trans/templatetags/translations.py:403
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "in einer Minute"
 msgstr[1] "in %(count)s Minuten"
 
-#: weblate/trans/templatetags/translations.py:401
+#: weblate/trans/templatetags/translations.py:407
 msgid "an hour from now"
 msgstr "in einer Stunde"
 
-#: weblate/trans/templatetags/translations.py:402
+#: weblate/trans/templatetags/translations.py:408
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "in einer Stunde"
 msgstr[1] "in %(count)s Stunden"
 
-#: weblate/trans/templatetags/translations.py:497
+#: weblate/trans/templatetags/translations.py:503
 msgctxt "String state"
 msgid "Not translated"
 msgstr "Nicht übersetzt"
 
-#: weblate/trans/templatetags/translations.py:530
+#: weblate/trans/templatetags/translations.py:536
 #, python-format
 msgid "string ID %s"
 msgstr "Eineitenkennung %s"
 
-#: weblate/trans/templatetags/translations.py:685
+#: weblate/trans/templatetags/translations.py:691
 msgid "You administrate this project."
 msgstr "Sie verwalten dieses Projekt."
 
-#: weblate/trans/templatetags/translations.py:705
+#: weblate/trans/templatetags/translations.py:711
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr "Diese Komponente ist mit dem %(target)s-Repository verknüpft."
 
-#: weblate/trans/templatetags/translations.py:715
+#: weblate/trans/templatetags/translations.py:721
 #: weblate/trans/views/guide.py:157
 msgid "Fix this component to clear its alerts."
 msgstr "Korrigieren Sie diese Komponente, um ihre Warnungen zu löschen."
 
-#: weblate/trans/templatetags/translations.py:722
-#: weblate/trans/templatetags/translations.py:748
+#: weblate/trans/templatetags/translations.py:728
+#: weblate/trans/templatetags/translations.py:754
 msgid "This translation is locked."
 msgstr "Diese Übersetzung ist gesperrt."
 
-#: weblate/trans/templatetags/translations.py:729
+#: weblate/trans/templatetags/translations.py:735
 msgid "Updating translation component…"
 msgstr "Aktualisieren der Übersetzungskomponente…"
 
-#: weblate/trans/templatetags/translations.py:741
+#: weblate/trans/templatetags/translations.py:747
 msgid "Some of the components within this project have alerts."
 msgstr "Einige Komponenten in diesem Projekt enthalten Warnungen."
 
-#: weblate/trans/templatetags/translations.py:752
+#: weblate/trans/templatetags/translations.py:758
 msgid "This translation does not yet exist."
 msgstr "Diese Übersetzung existiert noch nicht."
 
-#: weblate/trans/templatetags/translations.py:773
+#: weblate/trans/templatetags/translations.py:779
 msgid "enabled"
 msgstr "aktiviert"
 
@@ -11854,6 +11857,21 @@ msgstr "Backup-Prozess ausgelöst"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigurationsfehler konnte nicht behoben werden!"
+
+#~ msgid "String has comment"
+#~ msgstr "Zeichenkette mit Kommentar"
+
+#~ msgid "String has failing check"
+#~ msgstr "Zeichenkette mit fehlgeschlagener Qualitätsprüfung"
+
+#~ msgid "String has plural"
+#~ msgstr "Zeichenkette hat Plural"
+
+#~ msgid "String has context"
+#~ msgstr "Zeichenkette hat einen Kontext"
+
+#~ msgid "Failing check"
+#~ msgstr "Fehlgeschlagene Qualitätsprüfung"
 
 #~ msgid "Use machine translation services"
 #~ msgstr "Maschinelle Übersetzung verwenden"

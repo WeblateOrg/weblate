@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 18:58+0000\n"
+"POT-Creation-Date: 2020-07-16 14:25+0000\n"
 "PO-Revision-Date: 2020-07-13 17:56+0000\n"
 "Last-Translator: Howie Zhao <howiezhaohr@hotmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -693,7 +693,7 @@ msgstr "待处理的建议"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:747
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
-#: weblate/trans/filter.py:117
+#: weblate/trans/filter.py:118
 msgid "Strings needing action"
 msgstr "需要处理的字符串"
 
@@ -2011,8 +2011,8 @@ msgid "Changes in last year"
 msgstr "最近一年的变化"
 
 #: weblate/billing/models.py:250 weblate/templates/about/stats.html:68
-#: weblate/templates/snippets/query-builder.html:12
-#: weblate/templates/snippets/query-builder.html:14
+#: weblate/templates/snippets/query-builder.html:13
+#: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "源字符串"
@@ -2591,6 +2591,7 @@ msgstr "字符串很长时间未翻译"
 #: weblate/templates/language.html:28 weblate/templates/progress.html:14
 #: weblate/templates/snippets/project-nav.html:80
 #: weblate/templates/snippets/project-nav.html:89
+#: weblate/templates/translation.html:422
 msgid "Failing checks"
 msgstr "未通过检查"
 
@@ -4550,16 +4551,16 @@ msgstr "配置错误"
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
-#: weblate/templates/snippets/query-builder.html:28
-#: weblate/templates/snippets/query-builder.html:44
-#: weblate/templates/snippets/query-builder.html:58
-#: weblate/templates/snippets/query-builder.html:71
-#: weblate/templates/snippets/query-builder.html:76
-#: weblate/templates/snippets/query-builder.html:81
-#: weblate/templates/snippets/query-builder.html:86
-#: weblate/templates/snippets/query-builder.html:91
-#: weblate/templates/snippets/query-builder.html:96
-#: weblate/templates/snippets/query-builder.html:101
+#: weblate/templates/snippets/query-builder.html:29
+#: weblate/templates/snippets/query-builder.html:45
+#: weblate/templates/snippets/query-builder.html:59
+#: weblate/templates/snippets/query-builder.html:72
+#: weblate/templates/snippets/query-builder.html:77
+#: weblate/templates/snippets/query-builder.html:82
+#: weblate/templates/snippets/query-builder.html:87
+#: weblate/templates/snippets/query-builder.html:92
+#: weblate/templates/snippets/query-builder.html:97
+#: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/translation.html:299
 #: weblate/templates/translation.html:357
 msgid "Add"
@@ -5128,7 +5129,6 @@ msgid "Please sign in to see the alerts."
 msgstr "请登录以查看警告。"
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:89
-#: weblate/templates/translation.html:259
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
@@ -5141,7 +5141,7 @@ msgstr ""
 msgid "Replace"
 msgstr "替换"
 
-#: weblate/templates/component.html:205
+#: weblate/templates/component.html:205 weblate/templates/translation.html:277
 msgid "You can change the state of all strings matching a given type at once."
 msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
 
@@ -5487,7 +5487,7 @@ msgid_plural "Languages"
 msgstr[0] "语言"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:800 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:806 weblate/trans/widgets.py:100
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -6304,7 +6304,7 @@ msgid "Parse error in %(component)s"
 msgstr "%(component)s 发生解析错误"
 
 #: weblate/templates/mail/pending_suggestions.html:8 weblate/trans/filter.py:39
-#: weblate/trans/filter.py:120
+#: weblate/trans/filter.py:121
 msgid "Strings with suggestions"
 msgstr "有建议的字符串"
 
@@ -6869,7 +6869,7 @@ msgstr "添加标签"
 msgid "Browse all project changes"
 msgstr "浏览所有项目变更"
 
-#: weblate/templates/project.html:107 weblate/templates/translation.html:277
+#: weblate/templates/project.html:107
 msgid "You can change the state of all strings matching given type at once."
 msgstr "您可以一次性更改所有匹配给定类型的字符串的状态。"
 
@@ -7223,119 +7223,104 @@ msgstr "公告"
 msgid "Tweet this translation"
 msgstr "将此翻译分享到 Twitter"
 
-#: weblate/templates/snippets/query-builder.html:5
+#: weblate/templates/snippets/query-builder.html:6
 msgid "Advanced query builder"
 msgstr "高级查询构建工具"
 
-#: weblate/templates/snippets/query-builder.html:15
+#: weblate/templates/snippets/query-builder.html:16
 msgid "Target strings"
 msgstr "目标字符串"
 
-#: weblate/templates/snippets/query-builder.html:16
+#: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "键/上下文字符串"
 
-#: weblate/templates/snippets/query-builder.html:17
+#: weblate/templates/snippets/query-builder.html:18
 msgid "Comment strings"
 msgstr "注释格式串"
 
-#: weblate/templates/snippets/query-builder.html:18
+#: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
 msgstr "位置字符串"
 
-#: weblate/templates/snippets/query-builder.html:19
+#: weblate/templates/snippets/query-builder.html:20
 msgid "String state"
 msgstr "字符串状态"
 
-#: weblate/templates/snippets/query-builder.html:20
+#: weblate/templates/snippets/query-builder.html:21
 msgid "Pending string"
 msgstr "待处理的字符串"
 
-#: weblate/templates/snippets/query-builder.html:21
+#: weblate/templates/snippets/query-builder.html:22
 msgid "String target language"
 msgstr "字符串目标语言"
 
-#: weblate/templates/snippets/query-builder.html:22
+#: weblate/templates/snippets/query-builder.html:23
 msgid "String changed by"
 msgstr "字符串更改者"
 
-#: weblate/templates/snippets/query-builder.html:25
+#: weblate/templates/snippets/query-builder.html:26
 msgid "Search for…"
 msgstr "搜索…"
 
-#: weblate/templates/snippets/query-builder.html:26
+#: weblate/templates/snippets/query-builder.html:27
 msgctxt "Exact search toggle"
 msgid "Exact"
 msgstr "精确"
 
-#: weblate/templates/snippets/query-builder.html:35
-#: weblate/templates/snippets/query-builder.html:37
+#: weblate/templates/snippets/query-builder.html:36
 msgid "String has suggestion"
 msgstr "有建议的字符串"
 
-#: weblate/templates/snippets/query-builder.html:38
-msgid "String has comment"
-msgstr "带有注释的字符串"
-
-#: weblate/templates/snippets/query-builder.html:39
-msgid "String has failing check"
-msgstr "未通过检查的字符串"
-
-#: weblate/templates/snippets/query-builder.html:40
-msgid "String has plural"
-msgstr "有复数形式的字符串"
-
-#: weblate/templates/snippets/query-builder.html:41
-msgid "String has context"
-msgstr "字符串具有上下文"
-
-#: weblate/templates/snippets/query-builder.html:50
-#: weblate/templates/snippets/query-builder.html:52
+#: weblate/templates/snippets/query-builder.html:51
+#: weblate/templates/snippets/query-builder.html:53
 msgid "String changed after"
 msgstr "时间点之后的字符串更改"
 
-#: weblate/templates/snippets/query-builder.html:53
+#: weblate/templates/snippets/query-builder.html:54
 msgid "String changed before"
 msgstr "时间点之前的字符串更改"
 
-#: weblate/templates/snippets/query-builder.html:56
+#: weblate/templates/snippets/query-builder.html:57
 msgid "Date"
 msgstr "日期"
 
-#: weblate/templates/snippets/query-builder.html:66
+#: weblate/templates/snippets/query-builder.html:67
 msgid "Query examples"
 msgstr "查询范例"
 
-#: weblate/templates/snippets/query-builder.html:69
+#: weblate/templates/snippets/query-builder.html:70
 msgid "Review strings changed by other users"
 msgstr "查看其他用户更改的字符串"
 
-#: weblate/templates/snippets/query-builder.html:74 weblate/trans/filter.py:37
-#: weblate/trans/filter.py:118
+#: weblate/templates/snippets/query-builder.html:75 weblate/trans/filter.py:37
+#: weblate/trans/filter.py:119
 msgid "Translated strings"
 msgstr "已翻译字符串"
 
-#: weblate/templates/snippets/query-builder.html:79 weblate/trans/filter.py:48
-#: weblate/trans/filter.py:122
+#: weblate/templates/snippets/query-builder.html:80 weblate/trans/filter.py:48
+#: weblate/trans/filter.py:123
 msgid "Strings with comments"
 msgstr "带有注释的字符串"
 
-#: weblate/templates/snippets/query-builder.html:84 weblate/trans/filter.py:49
-#: weblate/trans/filter.py:123
+#: weblate/templates/snippets/query-builder.html:85 weblate/trans/filter.py:49
+#: weblate/trans/filter.py:124
 msgid "Strings with any failing checks"
 msgstr "任何未通过检查的字符串"
 
-#: weblate/templates/snippets/query-builder.html:89
+#: weblate/templates/snippets/query-builder.html:90
 msgid "Strings with suggestions from others"
 msgstr "有来自他人的建议的字符串"
 
-#: weblate/templates/snippets/query-builder.html:94 weblate/trans/filter.py:58
-#: weblate/trans/filter.py:125
+#: weblate/templates/snippets/query-builder.html:95 weblate/trans/filter.py:58
+#: weblate/trans/filter.py:126
 msgid "Approved strings with suggestions"
 msgstr "带建议，已复核批准的字符串"
 
-#: weblate/templates/snippets/query-builder.html:99
-msgid "All untranslated strings added in the past month"
+#: weblate/templates/snippets/query-builder.html:100
+#, fuzzy
+#| msgid "All untranslated strings added in the past month"
+msgid "All untranslated strings added the past month"
 msgstr "过去一个月添加的所有未翻译字符串"
 
 #: weblate/templates/snippets/query-field.html:9
@@ -7424,7 +7409,7 @@ msgid "Source in review"
 msgstr "正在审查的源"
 
 #: weblate/templates/snippets/unit-state.html:5
-#: weblate/trans/templatetags/translations.py:495 weblate/utils/state.py:31
+#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:31
 msgctxt "String state"
 msgid "Needs editing"
 msgstr "需要编辑"
@@ -7435,13 +7420,13 @@ msgid "Read only"
 msgstr "只读"
 
 #: weblate/templates/snippets/unit-state.html:7
-#: weblate/trans/templatetags/translations.py:499 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:505 weblate/utils/state.py:33
 msgctxt "String state"
 msgid "Approved"
 msgstr "已批准"
 
 #: weblate/templates/snippets/unit-state.html:8
-#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:32
+#: weblate/trans/templatetags/translations.py:507 weblate/utils/state.py:32
 msgctxt "String state"
 msgid "Translated"
 msgstr "已翻译"
@@ -8227,6 +8212,18 @@ msgid ""
 msgstr ""
 "自动翻译启用机器翻译引擎以尽可能获得最佳的翻译结果，并将译文应用于此项目中。"
 
+#: weblate/templates/translation.html:259
+#, fuzzy
+#| msgid ""
+#| "You can substitute all instances of a string. The search is a simple "
+#| "substring case sensitive search."
+msgid ""
+"You can substitute all instances of a string. The search is a simple case "
+"sensitive substring search."
+msgstr ""
+"您可以在所有字符串中替换特定字符串。搜索功能处理简单的子字符串搜索，区分大小"
+"写。"
+
 #: weblate/templates/translation.html:294
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
@@ -8246,9 +8243,13 @@ msgid "The uploaded file will be merged with the current translation."
 msgstr "已上传的文件将与当前译文合并。"
 
 #: weblate/templates/translation.html:354
+#, fuzzy
+#| msgid ""
+#| "The message is shown on the translation page, until its given expiry, or "
+#| "permanently until it is deleted."
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
-"permanently until it is deleted."
+"deletion."
 msgstr ""
 "该消息显示在翻译页面上，将显示该消息直至到期日，或永久显示直至将其删除。"
 
@@ -8259,10 +8260,6 @@ msgstr "百分比"
 #: weblate/templates/translation.html:395
 msgid "Chars"
 msgstr "字符"
-
-#: weblate/templates/translation.html:422
-msgid "Failing check"
-msgstr "未通过检查"
 
 #: weblate/templates/translation.html:439
 msgid "Last activity"
@@ -8435,7 +8432,7 @@ msgstr "%s 的最近变化"
 msgid "All recent changes made using Weblate in %s."
 msgstr "所有最近通过 Weblate 对 %s 作出的修改。"
 
-#: weblate/trans/filter.py:33 weblate/trans/filter.py:115
+#: weblate/trans/filter.py:33 weblate/trans/filter.py:116
 msgid "All strings"
 msgstr "所有字符串"
 
@@ -8445,11 +8442,11 @@ msgstr "所有字符串"
 msgid "Read only strings"
 msgstr "附近字符串"
 
-#: weblate/trans/filter.py:35 weblate/trans/filter.py:116
+#: weblate/trans/filter.py:35 weblate/trans/filter.py:117
 msgid "Not translated strings"
 msgstr "未翻译字符串"
 
-#: weblate/trans/filter.py:38 weblate/trans/filter.py:119
+#: weblate/trans/filter.py:38 weblate/trans/filter.py:120
 msgid "Strings marked for edit"
 msgstr "标记为需要编辑的字符串"
 
@@ -8465,7 +8462,7 @@ msgstr "带标签的字符串"
 msgid "Strings with context"
 msgstr "带上下文的字符串"
 
-#: weblate/trans/filter.py:45 weblate/trans/filter.py:121
+#: weblate/trans/filter.py:45 weblate/trans/filter.py:122
 msgid "Strings needing action without suggestions"
 msgstr "没有建议的需处理字符串"
 
@@ -8473,11 +8470,11 @@ msgstr "没有建议的需处理字符串"
 msgid "Translated strings with any failing checks"
 msgstr "任何未通过检查的已翻译字符串"
 
-#: weblate/trans/filter.py:55 weblate/trans/filter.py:124
+#: weblate/trans/filter.py:55 weblate/trans/filter.py:125
 msgid "Approved strings"
 msgstr "复核批准的字符串"
 
-#: weblate/trans/filter.py:61 weblate/trans/filter.py:126
+#: weblate/trans/filter.py:61 weblate/trans/filter.py:127
 msgid "Strings waiting for review"
 msgstr "等待复查的字符串"
 
@@ -8485,11 +8482,17 @@ msgstr "等待复查的字符串"
 msgid "Strings without a label"
 msgstr "没有标签的字符串"
 
-#: weblate/trans/filter.py:67 weblate/trans/filter.py:129
+#: weblate/trans/filter.py:63
+#, fuzzy
+#| msgid "Translated strings"
+msgid "Pluralized string"
+msgstr "已翻译字符串"
+
+#: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 msgid "Failed check: {}"
 msgstr "未通过的检查：{}"
 
-#: weblate/trans/filter.py:93 weblate/trans/filter.py:134
+#: weblate/trans/filter.py:94 weblate/trans/filter.py:135
 msgid "Labeled: {}"
 msgstr "有标签：{}"
 
@@ -10039,7 +10042,7 @@ msgid "source"
 msgstr "源字符串"
 
 #: weblate/trans/models/translation.py:153
-#: weblate/trans/templatetags/translations.py:693
+#: weblate/trans/templatetags/translations.py:699
 msgid "This translation is used for source strings."
 msgstr "此翻译用于源字符串。"
 
@@ -10143,193 +10146,193 @@ msgstr "Tab 制表符"
 msgid "New line"
 msgstr "换行符"
 
-#: weblate/trans/templatetags/translations.py:303
+#: weblate/trans/templatetags/translations.py:309
 msgid "a year ago"
 msgstr "去年"
 
-#: weblate/trans/templatetags/translations.py:304
+#: weblate/trans/templatetags/translations.py:310
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] "%(count)s 年前"
 
-#: weblate/trans/templatetags/translations.py:310
+#: weblate/trans/templatetags/translations.py:316
 msgid "a month ago"
 msgstr "上个月"
 
-#: weblate/trans/templatetags/translations.py:311
+#: weblate/trans/templatetags/translations.py:317
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] "%(count)s 个月前"
 
-#: weblate/trans/templatetags/translations.py:316
+#: weblate/trans/templatetags/translations.py:322
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] "%(count)s 周前"
 
-#: weblate/trans/templatetags/translations.py:321
+#: weblate/trans/templatetags/translations.py:327
 msgid "a week ago"
 msgstr "上周"
 
-#: weblate/trans/templatetags/translations.py:323
+#: weblate/trans/templatetags/translations.py:329
 msgid "yesterday"
 msgstr "昨天"
 
-#: weblate/trans/templatetags/translations.py:324
+#: weblate/trans/templatetags/translations.py:330
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] "%(count)s 天前"
 
-#: weblate/trans/templatetags/translations.py:328
-#: weblate/trans/templatetags/translations.py:385
+#: weblate/trans/templatetags/translations.py:334
+#: weblate/trans/templatetags/translations.py:391
 msgid "now"
 msgstr "现在"
 
-#: weblate/trans/templatetags/translations.py:331
+#: weblate/trans/templatetags/translations.py:337
 msgid "a second ago"
 msgstr "上一秒"
 
-#: weblate/trans/templatetags/translations.py:333
+#: weblate/trans/templatetags/translations.py:339
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] "%(count)s 秒前"
 
-#: weblate/trans/templatetags/translations.py:338
+#: weblate/trans/templatetags/translations.py:344
 msgid "a minute ago"
 msgstr "上一分钟"
 
-#: weblate/trans/templatetags/translations.py:339
+#: weblate/trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] "%(count)s 分钟前"
 
-#: weblate/trans/templatetags/translations.py:344
+#: weblate/trans/templatetags/translations.py:350
 msgid "an hour ago"
 msgstr "上个小时"
 
-#: weblate/trans/templatetags/translations.py:345
+#: weblate/trans/templatetags/translations.py:351
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] "%(count)s 小时前"
 
-#: weblate/trans/templatetags/translations.py:360
+#: weblate/trans/templatetags/translations.py:366
 msgid "a year from now"
 msgstr "现在起一年后"
 
-#: weblate/trans/templatetags/translations.py:362
+#: weblate/trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] "%(count)s 年后"
 
-#: weblate/trans/templatetags/translations.py:367
+#: weblate/trans/templatetags/translations.py:373
 msgid "a month from now"
 msgstr "下个月"
 
-#: weblate/trans/templatetags/translations.py:369
+#: weblate/trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] "%(count)s 个月后"
 
-#: weblate/trans/templatetags/translations.py:374
+#: weblate/trans/templatetags/translations.py:380
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] "%(count)s 周后"
 
-#: weblate/trans/templatetags/translations.py:378
+#: weblate/trans/templatetags/translations.py:384
 msgid "tomorrow"
 msgstr "明天"
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:386
 msgid "a week from now"
 msgstr "下周"
 
-#: weblate/trans/templatetags/translations.py:382
+#: weblate/trans/templatetags/translations.py:388
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] "%(count)s 天后"
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:394
 msgid "a second from now"
 msgstr "下一秒"
 
-#: weblate/trans/templatetags/translations.py:390
+#: weblate/trans/templatetags/translations.py:396
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] "%(count)s 秒后"
 
-#: weblate/trans/templatetags/translations.py:395
+#: weblate/trans/templatetags/translations.py:401
 msgid "a minute from now"
 msgstr "下一分钟"
 
-#: weblate/trans/templatetags/translations.py:397
+#: weblate/trans/templatetags/translations.py:403
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] "%(count)s 分钟后"
 
-#: weblate/trans/templatetags/translations.py:401
+#: weblate/trans/templatetags/translations.py:407
 msgid "an hour from now"
 msgstr "下个小时"
 
-#: weblate/trans/templatetags/translations.py:402
+#: weblate/trans/templatetags/translations.py:408
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] "%(count)s 小时后"
 
-#: weblate/trans/templatetags/translations.py:497
+#: weblate/trans/templatetags/translations.py:503
 msgctxt "String state"
 msgid "Not translated"
 msgstr "未翻译"
 
-#: weblate/trans/templatetags/translations.py:530
+#: weblate/trans/templatetags/translations.py:536
 #, python-format
 msgid "string ID %s"
 msgstr "字符串 ID %s"
 
-#: weblate/trans/templatetags/translations.py:685
+#: weblate/trans/templatetags/translations.py:691
 msgid "You administrate this project."
 msgstr "你管理这个项目。"
 
-#: weblate/trans/templatetags/translations.py:705
+#: weblate/trans/templatetags/translations.py:711
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr "此组件链接到 %(target)s 的仓库。"
 
-#: weblate/trans/templatetags/translations.py:715
+#: weblate/trans/templatetags/translations.py:721
 #: weblate/trans/views/guide.py:157
 msgid "Fix this component to clear its alerts."
 msgstr "修复此组件以清除其警报。"
 
-#: weblate/trans/templatetags/translations.py:722
-#: weblate/trans/templatetags/translations.py:748
+#: weblate/trans/templatetags/translations.py:728
+#: weblate/trans/templatetags/translations.py:754
 msgid "This translation is locked."
 msgstr "此翻译已锁定。"
 
-#: weblate/trans/templatetags/translations.py:729
+#: weblate/trans/templatetags/translations.py:735
 msgid "Updating translation component…"
 msgstr "正在更新翻译组件…"
 
-#: weblate/trans/templatetags/translations.py:741
+#: weblate/trans/templatetags/translations.py:747
 msgid "Some of the components within this project have alerts."
 msgstr "此项目中的某些组件有警报。"
 
-#: weblate/trans/templatetags/translations.py:752
+#: weblate/trans/templatetags/translations.py:758
 msgid "This translation does not yet exist."
 msgstr "此翻译尚不存在。"
 
-#: weblate/trans/templatetags/translations.py:773
+#: weblate/trans/templatetags/translations.py:779
 msgid "enabled"
 msgstr "已启用"
 
@@ -11156,6 +11159,21 @@ msgstr "已触发备份进程"
 #: weblate/wladmin/views.py:212
 msgid "Could not dismiss the configuration error!"
 msgstr "无法排除配置错误！"
+
+#~ msgid "String has comment"
+#~ msgstr "带有注释的字符串"
+
+#~ msgid "String has failing check"
+#~ msgstr "未通过检查的字符串"
+
+#~ msgid "String has plural"
+#~ msgstr "有复数形式的字符串"
+
+#~ msgid "String has context"
+#~ msgstr "字符串具有上下文"
+
+#~ msgid "Failing check"
+#~ msgstr "未通过检查"
 
 #~ msgid "Use machine translation services"
 #~ msgstr "使用机器翻译服务"

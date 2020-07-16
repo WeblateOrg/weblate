@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 18:58+0000\n"
+"POT-Creation-Date: 2020-07-16 14:25+0000\n"
 "PO-Revision-Date: 2020-07-12 14:30+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -733,7 +733,7 @@ msgstr "الإقتراحات المعلقة"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:747
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
-#: weblate/trans/filter.py:117
+#: weblate/trans/filter.py:118
 msgid "Strings needing action"
 msgstr "سلاسل تتطلب اتخاذ إجراء"
 
@@ -2154,8 +2154,8 @@ msgid "Changes in last year"
 msgstr "التغييرات في السنة الأخيرة"
 
 #: weblate/billing/models.py:250 weblate/templates/about/stats.html:68
-#: weblate/templates/snippets/query-builder.html:12
-#: weblate/templates/snippets/query-builder.html:14
+#: weblate/templates/snippets/query-builder.html:13
+#: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "السلاسل المصدرية"
@@ -2797,6 +2797,7 @@ msgstr "لقد تم ترجمة هذه السلسة من قبلُ"
 #: weblate/templates/language.html:28 weblate/templates/progress.html:14
 #: weblate/templates/snippets/project-nav.html:80
 #: weblate/templates/snippets/project-nav.html:89
+#: weblate/templates/translation.html:422
 msgid "Failing checks"
 msgstr "الفحوص الفاشلة"
 
@@ -4909,16 +4910,16 @@ msgstr "خطأ في التكوين"
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
-#: weblate/templates/snippets/query-builder.html:28
-#: weblate/templates/snippets/query-builder.html:44
-#: weblate/templates/snippets/query-builder.html:58
-#: weblate/templates/snippets/query-builder.html:71
-#: weblate/templates/snippets/query-builder.html:76
-#: weblate/templates/snippets/query-builder.html:81
-#: weblate/templates/snippets/query-builder.html:86
-#: weblate/templates/snippets/query-builder.html:91
-#: weblate/templates/snippets/query-builder.html:96
-#: weblate/templates/snippets/query-builder.html:101
+#: weblate/templates/snippets/query-builder.html:29
+#: weblate/templates/snippets/query-builder.html:45
+#: weblate/templates/snippets/query-builder.html:59
+#: weblate/templates/snippets/query-builder.html:72
+#: weblate/templates/snippets/query-builder.html:77
+#: weblate/templates/snippets/query-builder.html:82
+#: weblate/templates/snippets/query-builder.html:87
+#: weblate/templates/snippets/query-builder.html:92
+#: weblate/templates/snippets/query-builder.html:97
+#: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/translation.html:299
 #: weblate/templates/translation.html:357
 msgid "Add"
@@ -5515,7 +5516,6 @@ msgid "Please sign in to see the alerts."
 msgstr "سجل الدخول رجاءً لرؤية التنبيهات."
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:89
-#: weblate/templates/translation.html:259
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
@@ -5527,7 +5527,7 @@ msgstr ""
 msgid "Replace"
 msgstr "استبدل"
 
-#: weblate/templates/component.html:205
+#: weblate/templates/component.html:205 weblate/templates/translation.html:277
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 
@@ -5926,7 +5926,7 @@ msgstr[4] "لغات"
 msgstr[5] "لغات"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:800 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:806 weblate/trans/widgets.py:100
 #, fuzzy, python-format
 #| msgid "Percent"
 msgctxt "Translated percents"
@@ -6878,7 +6878,7 @@ msgid "Parse error in %(component)s"
 msgstr "خطأ قراءة على %(component)s"
 
 #: weblate/templates/mail/pending_suggestions.html:8 weblate/trans/filter.py:39
-#: weblate/trans/filter.py:120
+#: weblate/trans/filter.py:121
 msgid "Strings with suggestions"
 msgstr "سلاسل لها اقتراحات"
 
@@ -7533,7 +7533,7 @@ msgstr "إضافة لغة"
 msgid "Browse all project changes"
 msgstr "إكتشاف كافة التغييرات في المشروع"
 
-#: weblate/templates/project.html:107 weblate/templates/translation.html:277
+#: weblate/templates/project.html:107
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 
@@ -7918,154 +7918,131 @@ msgstr ""
 msgid "Tweet this translation"
 msgstr "غرد هذه الترجمة"
 
-#: weblate/templates/snippets/query-builder.html:5
+#: weblate/templates/snippets/query-builder.html:6
 msgid "Advanced query builder"
 msgstr ""
 
-#: weblate/templates/snippets/query-builder.html:15
+#: weblate/templates/snippets/query-builder.html:16
 msgid "Target strings"
 msgstr "السلاسل الهدف"
 
-#: weblate/templates/snippets/query-builder.html:16
+#: weblate/templates/snippets/query-builder.html:17
 #, fuzzy
 #| msgid "Context strings"
 msgid "Key/Context strings"
 msgstr "سياق السلاسل"
 
-#: weblate/templates/snippets/query-builder.html:17
+#: weblate/templates/snippets/query-builder.html:18
 msgid "Comment strings"
 msgstr "سلاسل التعليقات"
 
-#: weblate/templates/snippets/query-builder.html:18
+#: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
 msgstr "موقع السلاسل"
 
-#: weblate/templates/snippets/query-builder.html:19
+#: weblate/templates/snippets/query-builder.html:20
 #, fuzzy
 #| msgid "Service status"
 msgid "String state"
 msgstr "حالة الخدمة"
 
-#: weblate/templates/snippets/query-builder.html:20
+#: weblate/templates/snippets/query-builder.html:21
 #, fuzzy
 #| msgid "Pending suggestions"
 msgid "Pending string"
 msgstr "الإقتراحات المعلقة"
 
-#: weblate/templates/snippets/query-builder.html:21
+#: weblate/templates/snippets/query-builder.html:22
 #, fuzzy
 #| msgctxt "Access control role"
 #| msgid "Manage languages"
 msgid "String target language"
 msgstr "إدارة اللغات"
 
-#: weblate/templates/snippets/query-builder.html:22
+#: weblate/templates/snippets/query-builder.html:23
 #, fuzzy
 #| msgid "Source string changed"
 msgid "String changed by"
 msgstr "الترجمة الأصل قد تم تغيرها"
 
-#: weblate/templates/snippets/query-builder.html:25
+#: weblate/templates/snippets/query-builder.html:26
 #, fuzzy
 #| msgid "Search for %s"
 msgid "Search for…"
 msgstr "البحث عن %s"
 
-#: weblate/templates/snippets/query-builder.html:26
+#: weblate/templates/snippets/query-builder.html:27
 #, fuzzy
 #| msgid "Exact match"
 msgctxt "Exact search toggle"
 msgid "Exact"
 msgstr "مطابقة تامة"
 
-#: weblate/templates/snippets/query-builder.html:35
-#: weblate/templates/snippets/query-builder.html:37
+#: weblate/templates/snippets/query-builder.html:36
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "String has suggestion"
 msgstr "سلاسل لها اقتراحات"
 
-#: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "Strings with comments"
-msgid "String has comment"
-msgstr "سلاسل تحتوي على تعليقات"
-
-#: weblate/templates/snippets/query-builder.html:39
-#, fuzzy
-#| msgid "Strings with any failing checks"
-msgid "String has failing check"
-msgstr "سلاسل ذات فحوص مُخفَقة"
-
-#: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "Optional plural"
-msgid "String has plural"
-msgstr "صيغة الجمع اختيارية"
-
-#: weblate/templates/snippets/query-builder.html:41
-#, fuzzy
-#| msgid "Strings with comments"
-msgid "String has context"
-msgstr "سلاسل تحتوي على تعليقات"
-
-#: weblate/templates/snippets/query-builder.html:50
-#: weblate/templates/snippets/query-builder.html:52
+#: weblate/templates/snippets/query-builder.html:51
+#: weblate/templates/snippets/query-builder.html:53
 #, fuzzy
 #| msgid "Source string changed"
 msgid "String changed after"
 msgstr "الترجمة الأصل قد تم تغيرها"
 
-#: weblate/templates/snippets/query-builder.html:53
+#: weblate/templates/snippets/query-builder.html:54
 #, fuzzy
 #| msgid "Strings marked for edit"
 msgid "String changed before"
 msgstr "السلاسل المُعلّمة أنها تحتاج إلى تعديل"
 
-#: weblate/templates/snippets/query-builder.html:56
+#: weblate/templates/snippets/query-builder.html:57
 msgid "Date"
 msgstr "التاريخ"
 
-#: weblate/templates/snippets/query-builder.html:66
+#: weblate/templates/snippets/query-builder.html:67
 #, fuzzy
 #| msgid "API usage example:"
 msgid "Query examples"
 msgstr "أمثلة استخدام الAPI:"
 
-#: weblate/templates/snippets/query-builder.html:69
+#: weblate/templates/snippets/query-builder.html:70
 #, fuzzy
 #| msgid "Review translations touched by other users."
 msgid "Review strings changed by other users"
 msgstr "مراجعة الترجمة الملموسة من المستخدمين الأخرين."
 
-#: weblate/templates/snippets/query-builder.html:74 weblate/trans/filter.py:37
-#: weblate/trans/filter.py:118
+#: weblate/templates/snippets/query-builder.html:75 weblate/trans/filter.py:37
+#: weblate/trans/filter.py:119
 msgid "Translated strings"
 msgstr "السلاسل المُترجمة"
 
-#: weblate/templates/snippets/query-builder.html:79 weblate/trans/filter.py:48
-#: weblate/trans/filter.py:122
+#: weblate/templates/snippets/query-builder.html:80 weblate/trans/filter.py:48
+#: weblate/trans/filter.py:123
 msgid "Strings with comments"
 msgstr "سلاسل تحتوي على تعليقات"
 
-#: weblate/templates/snippets/query-builder.html:84 weblate/trans/filter.py:49
-#: weblate/trans/filter.py:123
+#: weblate/templates/snippets/query-builder.html:85 weblate/trans/filter.py:49
+#: weblate/trans/filter.py:124
 msgid "Strings with any failing checks"
 msgstr "سلاسل ذات فحوص مُخفَقة"
 
-#: weblate/templates/snippets/query-builder.html:89
+#: weblate/templates/snippets/query-builder.html:90
 #, fuzzy
 #| msgid "Strings with suggestions"
 msgid "Strings with suggestions from others"
 msgstr "سلاسل لها اقتراحات"
 
-#: weblate/templates/snippets/query-builder.html:94 weblate/trans/filter.py:58
-#: weblate/trans/filter.py:125
+#: weblate/templates/snippets/query-builder.html:95 weblate/trans/filter.py:58
+#: weblate/trans/filter.py:126
 msgid "Approved strings with suggestions"
 msgstr "الكلمات الموثقة مع الإقتراحات"
 
-#: weblate/templates/snippets/query-builder.html:99
-msgid "All untranslated strings added in the past month"
+#: weblate/templates/snippets/query-builder.html:100
+#, fuzzy
+#| msgid "All untranslated strings added in the past month"
+msgid "All untranslated strings added the past month"
 msgstr "كل السلاسل غير المترجمة المضافة في الشهر الماضي"
 
 #: weblate/templates/snippets/query-field.html:9
@@ -8177,7 +8154,7 @@ msgid "Source in review"
 msgstr "مراجعة سلاسل المصدر"
 
 #: weblate/templates/snippets/unit-state.html:5
-#: weblate/trans/templatetags/translations.py:495 weblate/utils/state.py:31
+#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:31
 msgctxt "String state"
 msgid "Needs editing"
 msgstr "تحتاج إلى تعديل"
@@ -8190,13 +8167,13 @@ msgid "Read only"
 msgstr "تم إنشاؤه في"
 
 #: weblate/templates/snippets/unit-state.html:7
-#: weblate/trans/templatetags/translations.py:499 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:505 weblate/utils/state.py:33
 msgctxt "String state"
 msgid "Approved"
 msgstr "موافق عليها"
 
 #: weblate/templates/snippets/unit-state.html:8
-#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:32
+#: weblate/trans/templatetags/translations.py:507 weblate/utils/state.py:32
 #, fuzzy
 #| msgid "Translated"
 msgctxt "String state"
@@ -9112,6 +9089,17 @@ msgid ""
 "in this project."
 msgstr ""
 
+#: weblate/templates/translation.html:259
+#, fuzzy
+#| msgid ""
+#| "You can substitute all instances of a string. The search is a simple "
+#| "substring case sensitive search."
+msgid ""
+"You can substitute all instances of a string. The search is a simple case "
+"sensitive substring search."
+msgstr ""
+"يمكنك استبدال كافة الامثلة  في سلسلة. البحث هو بحث فرعي حساس لحالة الأحرف."
+
 #: weblate/templates/translation.html:294
 #, fuzzy
 #| msgid ""
@@ -9135,7 +9123,7 @@ msgstr "سيتم دمج الملف الذي تم إرساله مع الترجم�
 #: weblate/templates/translation.html:354
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
-"permanently until it is deleted."
+"deletion."
 msgstr ""
 
 #: weblate/templates/translation.html:392
@@ -9145,10 +9133,6 @@ msgstr "من مئة"
 #: weblate/templates/translation.html:395
 msgid "Chars"
 msgstr "حروف"
-
-#: weblate/templates/translation.html:422
-msgid "Failing check"
-msgstr "الفحوص الفاشلة"
 
 #: weblate/templates/translation.html:439
 msgid "Last activity"
@@ -9335,7 +9319,7 @@ msgstr "آخر التغييرات في %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "كافة التغييرات الحديثة التي طرأت على %s باستخدام ويب بلايت."
 
-#: weblate/trans/filter.py:33 weblate/trans/filter.py:115
+#: weblate/trans/filter.py:33 weblate/trans/filter.py:116
 msgid "All strings"
 msgstr "كل السلاسل"
 
@@ -9345,11 +9329,11 @@ msgstr "كل السلاسل"
 msgid "Read only strings"
 msgstr "السلاسل القريبة"
 
-#: weblate/trans/filter.py:35 weblate/trans/filter.py:116
+#: weblate/trans/filter.py:35 weblate/trans/filter.py:117
 msgid "Not translated strings"
 msgstr "سلاسل غير مترجَمة"
 
-#: weblate/trans/filter.py:38 weblate/trans/filter.py:119
+#: weblate/trans/filter.py:38 weblate/trans/filter.py:120
 msgid "Strings marked for edit"
 msgstr "السلاسل المُعلّمة أنها تحتاج إلى تعديل"
 
@@ -9371,7 +9355,7 @@ msgstr "سلاسل تحتوي على تعليقات"
 msgid "Strings with context"
 msgstr "سلاسل تحتوي على تعليقات"
 
-#: weblate/trans/filter.py:45 weblate/trans/filter.py:121
+#: weblate/trans/filter.py:45 weblate/trans/filter.py:122
 msgid "Strings needing action without suggestions"
 msgstr "سلاسل بدون اقتراحات تحتاج إلى اتخاذ إجراء"
 
@@ -9381,11 +9365,11 @@ msgstr "سلاسل بدون اقتراحات تحتاج إلى اتخاذ إجر
 msgid "Translated strings with any failing checks"
 msgstr "سلاسل ذات فحوص مُخفَقة"
 
-#: weblate/trans/filter.py:55 weblate/trans/filter.py:124
+#: weblate/trans/filter.py:55 weblate/trans/filter.py:125
 msgid "Approved strings"
 msgstr "السلاسل المعتمدة"
 
-#: weblate/trans/filter.py:61 weblate/trans/filter.py:126
+#: weblate/trans/filter.py:61 weblate/trans/filter.py:127
 msgid "Strings waiting for review"
 msgstr "سلاسل تنتظر المراجعة"
 
@@ -9395,11 +9379,17 @@ msgstr "سلاسل تنتظر المراجعة"
 msgid "Strings without a label"
 msgstr "سلاسل تحتوي على تعليقات"
 
-#: weblate/trans/filter.py:67 weblate/trans/filter.py:129
+#: weblate/trans/filter.py:63
+#, fuzzy
+#| msgid "Translated strings"
+msgid "Pluralized string"
+msgstr "السلاسل المُترجمة"
+
+#: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 msgid "Failed check: {}"
 msgstr "فحوص فاشلة: {}"
 
-#: weblate/trans/filter.py:93 weblate/trans/filter.py:134
+#: weblate/trans/filter.py:94 weblate/trans/filter.py:135
 #, fuzzy
 #| msgctxt "Translation memory category"
 #| msgid "Shared: {}"
@@ -11130,7 +11120,7 @@ msgid "source"
 msgstr "المصدر"
 
 #: weblate/trans/models/translation.py:153
-#: weblate/trans/templatetags/translations.py:693
+#: weblate/trans/templatetags/translations.py:699
 #, fuzzy
 #| msgid ""
 #| "This translation is being used as source strings within this component."
@@ -11242,11 +11232,11 @@ msgstr "رمز علامة التبويب"
 msgid "New line"
 msgstr "سطر جديد"
 
-#: weblate/trans/templatetags/translations.py:303
+#: weblate/trans/templatetags/translations.py:309
 msgid "a year ago"
 msgstr "منذ سنة"
 
-#: weblate/trans/templatetags/translations.py:304
+#: weblate/trans/templatetags/translations.py:310
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
@@ -11257,11 +11247,11 @@ msgstr[3] "%(count)s سنوات"
 msgstr[4] "%(count)s سنة"
 msgstr[5] "%(count)s سنة"
 
-#: weblate/trans/templatetags/translations.py:310
+#: weblate/trans/templatetags/translations.py:316
 msgid "a month ago"
 msgstr "منذ شهر"
 
-#: weblate/trans/templatetags/translations.py:311
+#: weblate/trans/templatetags/translations.py:317
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
@@ -11272,7 +11262,7 @@ msgstr[3] "منذ %(count)s شهور"
 msgstr[4] "منذ %(count)s شهرًا"
 msgstr[5] "منذ %(count)s شهر"
 
-#: weblate/trans/templatetags/translations.py:316
+#: weblate/trans/templatetags/translations.py:322
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
@@ -11283,15 +11273,15 @@ msgstr[3] "%(count)s أسابيع"
 msgstr[4] "%(count)s أسبوعًا"
 msgstr[5] "%(count)s أسبوع"
 
-#: weblate/trans/templatetags/translations.py:321
+#: weblate/trans/templatetags/translations.py:327
 msgid "a week ago"
 msgstr "منذ أسبوع"
 
-#: weblate/trans/templatetags/translations.py:323
+#: weblate/trans/templatetags/translations.py:329
 msgid "yesterday"
 msgstr "البارحة"
 
-#: weblate/trans/templatetags/translations.py:324
+#: weblate/trans/templatetags/translations.py:330
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
@@ -11302,16 +11292,16 @@ msgstr[3] "%(count)s أيام"
 msgstr[4] "%(count)s يومًا"
 msgstr[5] "%(count)s يوم"
 
-#: weblate/trans/templatetags/translations.py:328
-#: weblate/trans/templatetags/translations.py:385
+#: weblate/trans/templatetags/translations.py:334
+#: weblate/trans/templatetags/translations.py:391
 msgid "now"
 msgstr "الآن"
 
-#: weblate/trans/templatetags/translations.py:331
+#: weblate/trans/templatetags/translations.py:337
 msgid "a second ago"
 msgstr "منذ ثانية"
 
-#: weblate/trans/templatetags/translations.py:333
+#: weblate/trans/templatetags/translations.py:339
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
@@ -11322,11 +11312,11 @@ msgstr[3] "%(count)s ثوانٍ"
 msgstr[4] "%(count)s ثانية"
 msgstr[5] "%(count)s ثانية"
 
-#: weblate/trans/templatetags/translations.py:338
+#: weblate/trans/templatetags/translations.py:344
 msgid "a minute ago"
 msgstr "منذ دقيقة"
 
-#: weblate/trans/templatetags/translations.py:339
+#: weblate/trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
@@ -11337,11 +11327,11 @@ msgstr[3] "%(count)s دقائق"
 msgstr[4] "%(count)s دقيقة"
 msgstr[5] "%(count)s دقيقة"
 
-#: weblate/trans/templatetags/translations.py:344
+#: weblate/trans/templatetags/translations.py:350
 msgid "an hour ago"
 msgstr "منذ ساعة"
 
-#: weblate/trans/templatetags/translations.py:345
+#: weblate/trans/templatetags/translations.py:351
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
@@ -11352,11 +11342,11 @@ msgstr[3] "%(count)s ساعات"
 msgstr[4] "%(count)s ساعة"
 msgstr[5] "%(count)s ساعة"
 
-#: weblate/trans/templatetags/translations.py:360
+#: weblate/trans/templatetags/translations.py:366
 msgid "a year from now"
 msgstr "قبل عام من الآن"
 
-#: weblate/trans/templatetags/translations.py:362
+#: weblate/trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
@@ -11367,11 +11357,11 @@ msgstr[3] "%(count)s سنوات من الآن"
 msgstr[4] "%(count)s سنة من الآن"
 msgstr[5] "%(count)s سنة من الآن"
 
-#: weblate/trans/templatetags/translations.py:367
+#: weblate/trans/templatetags/translations.py:373
 msgid "a month from now"
 msgstr "قبل شهر من الآن"
 
-#: weblate/trans/templatetags/translations.py:369
+#: weblate/trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
@@ -11382,114 +11372,114 @@ msgstr[3] "%(count)s أشهر من الآن"
 msgstr[4] "%(count)s شهرًا من الآن"
 msgstr[5] "%(count)s شهر من الآن"
 
-#: weblate/trans/templatetags/translations.py:374
+#: weblate/trans/templatetags/translations.py:380
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:378
+#: weblate/trans/templatetags/translations.py:384
 msgid "tomorrow"
 msgstr "غدًا"
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:386
 msgid "a week from now"
 msgstr "بعد أسبوع من الآن"
 
-#: weblate/trans/templatetags/translations.py:382
+#: weblate/trans/templatetags/translations.py:388
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:394
 msgid "a second from now"
 msgstr "منذ ثانية"
 
-#: weblate/trans/templatetags/translations.py:390
+#: weblate/trans/templatetags/translations.py:396
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:395
+#: weblate/trans/templatetags/translations.py:401
 msgid "a minute from now"
 msgstr "منذ دقيقة"
 
-#: weblate/trans/templatetags/translations.py:397
+#: weblate/trans/templatetags/translations.py:403
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:401
+#: weblate/trans/templatetags/translations.py:407
 msgid "an hour from now"
 msgstr "منذ ساعة"
 
-#: weblate/trans/templatetags/translations.py:402
+#: weblate/trans/templatetags/translations.py:408
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:497
+#: weblate/trans/templatetags/translations.py:503
 #, fuzzy
 #| msgid "Not translated"
 msgctxt "String state"
 msgid "Not translated"
 msgstr "ليست مترجَمة"
 
-#: weblate/trans/templatetags/translations.py:530
+#: weblate/trans/templatetags/translations.py:536
 #, python-format
 msgid "string ID %s"
 msgstr "معرّف السلسة %s"
 
-#: weblate/trans/templatetags/translations.py:685
+#: weblate/trans/templatetags/translations.py:691
 #, fuzzy
 #| msgid "Billed projects"
 msgid "You administrate this project."
 msgstr "المشاريع المُفَوتَرة"
 
-#: weblate/trans/templatetags/translations.py:705
+#: weblate/trans/templatetags/translations.py:711
 #, fuzzy, python-format
 #| msgid "Push changes to the remote repository"
 msgid "This component is linked to the %(target)s repository."
 msgstr "دفع التغييرات إلى مستودعك البعيد"
 
-#: weblate/trans/templatetags/translations.py:715
+#: weblate/trans/templatetags/translations.py:721
 #: weblate/trans/views/guide.py:157
 msgid "Fix this component to clear its alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:722
-#: weblate/trans/templatetags/translations.py:748
+#: weblate/trans/templatetags/translations.py:728
+#: weblate/trans/templatetags/translations.py:754
 #, fuzzy
 #| msgid "This translation is currently locked."
 msgid "This translation is locked."
 msgstr "الترجمة حالياً مغلقة."
 
-#: weblate/trans/templatetags/translations.py:729
+#: weblate/trans/templatetags/translations.py:735
 #, fuzzy
 #| msgid "New translation component"
 msgid "Updating translation component…"
 msgstr "عنصر ترجمة جديد"
 
-#: weblate/trans/templatetags/translations.py:741
+#: weblate/trans/templatetags/translations.py:747
 msgid "Some of the components within this project have alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:752
+#: weblate/trans/templatetags/translations.py:758
 #, fuzzy
 #| msgid "This translation is currently locked."
 msgid "This translation does not yet exist."
 msgstr "الترجمة حالياً مغلقة."
 
-#: weblate/trans/templatetags/translations.py:773
+#: weblate/trans/templatetags/translations.py:779
 msgid "enabled"
 msgstr "مفعّل"
 
@@ -12420,6 +12410,29 @@ msgstr "لقد تم حذف حسابك."
 #| msgid "Configuration errors"
 msgid "Could not dismiss the configuration error!"
 msgstr "خطأ في التكوين"
+
+#, fuzzy
+#~| msgid "Strings with comments"
+#~ msgid "String has comment"
+#~ msgstr "سلاسل تحتوي على تعليقات"
+
+#, fuzzy
+#~| msgid "Strings with any failing checks"
+#~ msgid "String has failing check"
+#~ msgstr "سلاسل ذات فحوص مُخفَقة"
+
+#, fuzzy
+#~| msgid "Optional plural"
+#~ msgid "String has plural"
+#~ msgstr "صيغة الجمع اختيارية"
+
+#, fuzzy
+#~| msgid "Strings with comments"
+#~ msgid "String has context"
+#~ msgstr "سلاسل تحتوي على تعليقات"
+
+#~ msgid "Failing check"
+#~ msgstr "الفحوص الفاشلة"
 
 #~ msgid "Use machine translation services"
 #~ msgstr "استخدام خدمات الترجمة الآليّة"

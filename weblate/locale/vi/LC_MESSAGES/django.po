@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
-"POT-Creation-Date: 2020-07-12 18:58+0000\n"
+"POT-Creation-Date: 2020-07-16 14:25+0000\n"
 "PO-Revision-Date: 2020-04-12 20:11+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
@@ -804,7 +804,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:747
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
-#: weblate/trans/filter.py:117
+#: weblate/trans/filter.py:118
 msgid "Strings needing action"
 msgstr ""
 
@@ -2299,8 +2299,8 @@ msgid "Changes in last year"
 msgstr ""
 
 #: weblate/billing/models.py:250 weblate/templates/about/stats.html:68
-#: weblate/templates/snippets/query-builder.html:12
-#: weblate/templates/snippets/query-builder.html:14
+#: weblate/templates/snippets/query-builder.html:13
+#: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:124 weblate/trans/admin.py:95
 #, fuzzy
 #| msgid "PHP strings"
@@ -2985,6 +2985,7 @@ msgstr ""
 #: weblate/templates/language.html:28 weblate/templates/progress.html:14
 #: weblate/templates/snippets/project-nav.html:80
 #: weblate/templates/snippets/project-nav.html:89
+#: weblate/templates/translation.html:422
 msgid "Failing checks"
 msgstr ""
 
@@ -5132,16 +5133,16 @@ msgstr ""
 #: weblate/templates/glossary.html:100 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:84
 #: weblate/templates/manage/backups.html:110 weblate/templates/project.html:133
-#: weblate/templates/snippets/query-builder.html:28
-#: weblate/templates/snippets/query-builder.html:44
-#: weblate/templates/snippets/query-builder.html:58
-#: weblate/templates/snippets/query-builder.html:71
-#: weblate/templates/snippets/query-builder.html:76
-#: weblate/templates/snippets/query-builder.html:81
-#: weblate/templates/snippets/query-builder.html:86
-#: weblate/templates/snippets/query-builder.html:91
-#: weblate/templates/snippets/query-builder.html:96
-#: weblate/templates/snippets/query-builder.html:101
+#: weblate/templates/snippets/query-builder.html:29
+#: weblate/templates/snippets/query-builder.html:45
+#: weblate/templates/snippets/query-builder.html:59
+#: weblate/templates/snippets/query-builder.html:72
+#: weblate/templates/snippets/query-builder.html:77
+#: weblate/templates/snippets/query-builder.html:82
+#: weblate/templates/snippets/query-builder.html:87
+#: weblate/templates/snippets/query-builder.html:92
+#: weblate/templates/snippets/query-builder.html:97
+#: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/translation.html:299
 #: weblate/templates/translation.html:357
 msgid "Add"
@@ -5772,7 +5773,6 @@ msgid "Please sign in to see the alerts."
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/component.html:187 weblate/templates/project.html:89
-#: weblate/templates/translation.html:259
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
@@ -5783,7 +5783,7 @@ msgstr ""
 msgid "Replace"
 msgstr ""
 
-#: weblate/templates/component.html:205
+#: weblate/templates/component.html:205 weblate/templates/translation.html:277
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 
@@ -6147,7 +6147,7 @@ msgid_plural "Languages"
 msgstr[0] "Ngôn ngữ"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:800 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:806 weblate/trans/widgets.py:100
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -7024,7 +7024,7 @@ msgid "Parse error in %(component)s"
 msgstr ""
 
 #: weblate/templates/mail/pending_suggestions.html:8 weblate/trans/filter.py:39
-#: weblate/trans/filter.py:120
+#: weblate/trans/filter.py:121
 msgid "Strings with suggestions"
 msgstr ""
 
@@ -7658,7 +7658,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 msgid "Browse all project changes"
 msgstr ""
 
-#: weblate/templates/project.html:107 weblate/templates/translation.html:277
+#: weblate/templates/project.html:107
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 
@@ -8058,157 +8058,134 @@ msgstr ""
 msgid "Tweet this translation"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:5
+#: weblate/templates/snippets/query-builder.html:6
 msgid "Advanced query builder"
 msgstr ""
 
-#: weblate/templates/snippets/query-builder.html:15
+#: weblate/templates/snippets/query-builder.html:16
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Target strings"
 msgstr "PHP strings"
 
-#: weblate/templates/snippets/query-builder.html:16
+#: weblate/templates/snippets/query-builder.html:17
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Key/Context strings"
 msgstr "PHP strings"
 
-#: weblate/templates/snippets/query-builder.html:17
+#: weblate/templates/snippets/query-builder.html:18
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Comment strings"
 msgstr "PHP strings"
 
-#: weblate/templates/snippets/query-builder.html:18
+#: weblate/templates/snippets/query-builder.html:19
 #, fuzzy
 #| msgid "Action"
 msgid "Location strings"
 msgstr "Hành động"
 
-#: weblate/templates/snippets/query-builder.html:19
+#: weblate/templates/snippets/query-builder.html:20
 #, fuzzy
 #| msgid "Status"
 msgid "String state"
 msgstr "Tình trạng"
 
-#: weblate/templates/snippets/query-builder.html:20
+#: weblate/templates/snippets/query-builder.html:21
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Pending string"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:21
+#: weblate/templates/snippets/query-builder.html:22
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "String target language"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:22
+#: weblate/templates/snippets/query-builder.html:23
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "String changed by"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:25
+#: weblate/templates/snippets/query-builder.html:26
 #, fuzzy
 #| msgid "Search"
 msgid "Search for…"
 msgstr "Tìm kiếm"
 
-#: weblate/templates/snippets/query-builder.html:26
+#: weblate/templates/snippets/query-builder.html:27
 msgctxt "Exact search toggle"
 msgid "Exact"
 msgstr ""
 
-#: weblate/templates/snippets/query-builder.html:35
-#: weblate/templates/snippets/query-builder.html:37
+#: weblate/templates/snippets/query-builder.html:36
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "String has suggestion"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:38
-#, fuzzy
-#| msgid "iOS Strings"
-msgid "String has comment"
-msgstr "Chuỗi hệ điều hành iOS"
-
-#: weblate/templates/snippets/query-builder.html:39
-msgid "String has failing check"
-msgstr ""
-
-#: weblate/templates/snippets/query-builder.html:40
-#, fuzzy
-#| msgid "Notification on any translation"
-msgid "String has plural"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
-
-#: weblate/templates/snippets/query-builder.html:41
-#, fuzzy
-#| msgid "iOS Strings"
-msgid "String has context"
-msgstr "Chuỗi hệ điều hành iOS"
-
-#: weblate/templates/snippets/query-builder.html:50
-#: weblate/templates/snippets/query-builder.html:52
+#: weblate/templates/snippets/query-builder.html:51
+#: weblate/templates/snippets/query-builder.html:53
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "String changed after"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:53
+#: weblate/templates/snippets/query-builder.html:54
 #, fuzzy
 #| msgid "iOS Strings"
 msgid "String changed before"
 msgstr "Chuỗi hệ điều hành iOS"
 
-#: weblate/templates/snippets/query-builder.html:56
+#: weblate/templates/snippets/query-builder.html:57
 msgid "Date"
 msgstr ""
 
-#: weblate/templates/snippets/query-builder.html:66
+#: weblate/templates/snippets/query-builder.html:67
 msgid "Query examples"
 msgstr ""
 
-#: weblate/templates/snippets/query-builder.html:69
+#: weblate/templates/snippets/query-builder.html:70
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "Review strings changed by other users"
 msgstr "Tập tin dịch kiểu XLIFF"
 
-#: weblate/templates/snippets/query-builder.html:74 weblate/trans/filter.py:37
-#: weblate/trans/filter.py:118
+#: weblate/templates/snippets/query-builder.html:75 weblate/trans/filter.py:37
+#: weblate/trans/filter.py:119
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Translated strings"
 msgstr "PHP strings"
 
-#: weblate/templates/snippets/query-builder.html:79 weblate/trans/filter.py:48
-#: weblate/trans/filter.py:122
+#: weblate/templates/snippets/query-builder.html:80 weblate/trans/filter.py:48
+#: weblate/trans/filter.py:123
 msgid "Strings with comments"
 msgstr ""
 
-#: weblate/templates/snippets/query-builder.html:84 weblate/trans/filter.py:49
-#: weblate/trans/filter.py:123
+#: weblate/templates/snippets/query-builder.html:85 weblate/trans/filter.py:49
+#: weblate/trans/filter.py:124
 msgid "Strings with any failing checks"
 msgstr ""
 
-#: weblate/templates/snippets/query-builder.html:89
+#: weblate/templates/snippets/query-builder.html:90
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Strings with suggestions from others"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:94 weblate/trans/filter.py:58
-#: weblate/trans/filter.py:125
+#: weblate/templates/snippets/query-builder.html:95 weblate/trans/filter.py:58
+#: weblate/trans/filter.py:126
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Approved strings with suggestions"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/templates/snippets/query-builder.html:99
-msgid "All untranslated strings added in the past month"
+#: weblate/templates/snippets/query-builder.html:100
+msgid "All untranslated strings added the past month"
 msgstr ""
 
 #: weblate/templates/snippets/query-field.html:9
@@ -8315,7 +8292,7 @@ msgid "Source in review"
 msgstr "Hồ sơ của bạn đã được cập nhật."
 
 #: weblate/templates/snippets/unit-state.html:5
-#: weblate/trans/templatetags/translations.py:495 weblate/utils/state.py:31
+#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:31
 #, fuzzy
 #| msgid "Overview"
 msgctxt "String state"
@@ -8330,7 +8307,7 @@ msgid "Read only"
 msgstr "Đã tạo mới khóa SSH."
 
 #: weblate/templates/snippets/unit-state.html:7
-#: weblate/trans/templatetags/translations.py:499 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:505 weblate/utils/state.py:33
 #, fuzzy
 #| msgid "PHP strings"
 msgctxt "String state"
@@ -8338,7 +8315,7 @@ msgid "Approved"
 msgstr "PHP strings"
 
 #: weblate/templates/snippets/unit-state.html:8
-#: weblate/trans/templatetags/translations.py:501 weblate/utils/state.py:32
+#: weblate/trans/templatetags/translations.py:507 weblate/utils/state.py:32
 #, fuzzy
 #| msgid "PHP strings"
 msgctxt "String state"
@@ -9236,6 +9213,12 @@ msgid ""
 "in this project."
 msgstr ""
 
+#: weblate/templates/translation.html:259
+msgid ""
+"You can substitute all instances of a string. The search is a simple case "
+"sensitive substring search."
+msgstr ""
+
 #: weblate/templates/translation.html:294
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
@@ -9255,7 +9238,7 @@ msgstr ""
 #: weblate/templates/translation.html:354
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
-"permanently until it is deleted."
+"deletion."
 msgstr ""
 
 #: weblate/templates/translation.html:392
@@ -9264,10 +9247,6 @@ msgstr ""
 
 #: weblate/templates/translation.html:395
 msgid "Chars"
-msgstr ""
-
-#: weblate/templates/translation.html:422
-msgid "Failing check"
 msgstr ""
 
 #: weblate/templates/translation.html:439
@@ -9460,7 +9439,7 @@ msgstr "Các thay đổi gần đây trong %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Tất cả các thay đổi gần đây sử dụng Weblate trong %s."
 
-#: weblate/trans/filter.py:33 weblate/trans/filter.py:115
+#: weblate/trans/filter.py:33 weblate/trans/filter.py:116
 msgid "All strings"
 msgstr ""
 
@@ -9470,13 +9449,13 @@ msgstr ""
 msgid "Read only strings"
 msgstr "PHP strings"
 
-#: weblate/trans/filter.py:35 weblate/trans/filter.py:116
+#: weblate/trans/filter.py:35 weblate/trans/filter.py:117
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Not translated strings"
 msgstr "PHP strings"
 
-#: weblate/trans/filter.py:38 weblate/trans/filter.py:119
+#: weblate/trans/filter.py:38 weblate/trans/filter.py:120
 #, fuzzy
 #| msgid "iOS Strings"
 msgid "Strings marked for edit"
@@ -9500,7 +9479,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 msgid "Strings with context"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/trans/filter.py:45 weblate/trans/filter.py:121
+#: weblate/trans/filter.py:45 weblate/trans/filter.py:122
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Strings needing action without suggestions"
@@ -9512,13 +9491,13 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 msgid "Translated strings with any failing checks"
 msgstr "PHP strings"
 
-#: weblate/trans/filter.py:55 weblate/trans/filter.py:124
+#: weblate/trans/filter.py:55 weblate/trans/filter.py:125
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Approved strings"
 msgstr "PHP strings"
 
-#: weblate/trans/filter.py:61 weblate/trans/filter.py:126
+#: weblate/trans/filter.py:61 weblate/trans/filter.py:127
 msgid "Strings waiting for review"
 msgstr ""
 
@@ -9528,13 +9507,19 @@ msgstr ""
 msgid "Strings without a label"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/trans/filter.py:67 weblate/trans/filter.py:129
+#: weblate/trans/filter.py:63
+#, fuzzy
+#| msgid "PHP strings"
+msgid "Pluralized string"
+msgstr "PHP strings"
+
+#: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 #, fuzzy
 #| msgid "Notification on any translation"
 msgid "Failed check: {}"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
-#: weblate/trans/filter.py:93 weblate/trans/filter.py:134
+#: weblate/trans/filter.py:94 weblate/trans/filter.py:135
 #, fuzzy
 #| msgid "Files"
 msgid "Labeled: {}"
@@ -11332,7 +11317,7 @@ msgid "source"
 msgstr "Tên của bạn"
 
 #: weblate/trans/models/translation.py:153
-#: weblate/trans/templatetags/translations.py:693
+#: weblate/trans/templatetags/translations.py:699
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "This translation is used for source strings."
@@ -11438,204 +11423,204 @@ msgstr ""
 msgid "New line"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:303
+#: weblate/trans/templatetags/translations.py:309
 msgid "a year ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:304
+#: weblate/trans/templatetags/translations.py:310
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:310
+#: weblate/trans/templatetags/translations.py:316
 msgid "a month ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:311
+#: weblate/trans/templatetags/translations.py:317
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:316
+#: weblate/trans/templatetags/translations.py:322
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:321
+#: weblate/trans/templatetags/translations.py:327
 msgid "a week ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:323
+#: weblate/trans/templatetags/translations.py:329
 msgid "yesterday"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:324
+#: weblate/trans/templatetags/translations.py:330
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:328
-#: weblate/trans/templatetags/translations.py:385
+#: weblate/trans/templatetags/translations.py:334
+#: weblate/trans/templatetags/translations.py:391
 msgid "now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:331
+#: weblate/trans/templatetags/translations.py:337
 msgid "a second ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:333
+#: weblate/trans/templatetags/translations.py:339
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:338
+#: weblate/trans/templatetags/translations.py:344
 msgid "a minute ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:339
+#: weblate/trans/templatetags/translations.py:345
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:344
+#: weblate/trans/templatetags/translations.py:350
 msgid "an hour ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:345
+#: weblate/trans/templatetags/translations.py:351
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:360
+#: weblate/trans/templatetags/translations.py:366
 msgid "a year from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:362
+#: weblate/trans/templatetags/translations.py:368
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:367
+#: weblate/trans/templatetags/translations.py:373
 msgid "a month from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:369
+#: weblate/trans/templatetags/translations.py:375
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:374
+#: weblate/trans/templatetags/translations.py:380
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:378
+#: weblate/trans/templatetags/translations.py:384
 msgid "tomorrow"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:386
 msgid "a week from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:382
+#: weblate/trans/templatetags/translations.py:388
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:394
 msgid "a second from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:390
+#: weblate/trans/templatetags/translations.py:396
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:395
+#: weblate/trans/templatetags/translations.py:401
 msgid "a minute from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:397
+#: weblate/trans/templatetags/translations.py:403
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:401
+#: weblate/trans/templatetags/translations.py:407
 msgid "an hour from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:402
+#: weblate/trans/templatetags/translations.py:408
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] ""
 
-#: weblate/trans/templatetags/translations.py:497
+#: weblate/trans/templatetags/translations.py:503
 #, fuzzy
 #| msgid "PHP strings"
 msgctxt "String state"
 msgid "Not translated"
 msgstr "PHP strings"
 
-#: weblate/trans/templatetags/translations.py:530
+#: weblate/trans/templatetags/translations.py:536
 #, fuzzy, python-format
 #| msgid "iOS Strings"
 msgid "string ID %s"
 msgstr "Chuỗi hệ điều hành iOS"
 
-#: weblate/trans/templatetags/translations.py:685
+#: weblate/trans/templatetags/translations.py:691
 #, fuzzy
 #| msgid "Subscribed projects"
 msgid "You administrate this project."
 msgstr "Chủ đề đã đăng ký theo dõi"
 
-#: weblate/trans/templatetags/translations.py:705
+#: weblate/trans/templatetags/translations.py:711
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:715
+#: weblate/trans/templatetags/translations.py:721
 #: weblate/trans/views/guide.py:157
 msgid "Fix this component to clear its alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:722
-#: weblate/trans/templatetags/translations.py:748
+#: weblate/trans/templatetags/translations.py:728
+#: weblate/trans/templatetags/translations.py:754
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "This translation is locked."
 msgstr "Tập tin dịch kiểu XLIFF"
 
-#: weblate/trans/templatetags/translations.py:729
+#: weblate/trans/templatetags/translations.py:735
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "Updating translation component…"
 msgstr "Tập tin dịch kiểu XLIFF"
 
-#: weblate/trans/templatetags/translations.py:741
+#: weblate/trans/templatetags/translations.py:747
 msgid "Some of the components within this project have alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:752
+#: weblate/trans/templatetags/translations.py:758
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "This translation does not yet exist."
 msgstr "Tập tin dịch kiểu XLIFF"
 
-#: weblate/trans/templatetags/translations.py:773
+#: weblate/trans/templatetags/translations.py:779
 msgid "enabled"
 msgstr ""
 
@@ -12564,6 +12549,21 @@ msgstr "Hồ sơ của bạn đã được cập nhật."
 #| msgid "Notification on any translation"
 msgid "Could not dismiss the configuration error!"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+
+#, fuzzy
+#~| msgid "iOS Strings"
+#~ msgid "String has comment"
+#~ msgstr "Chuỗi hệ điều hành iOS"
+
+#, fuzzy
+#~| msgid "Notification on any translation"
+#~ msgid "String has plural"
+#~ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+
+#, fuzzy
+#~| msgid "iOS Strings"
+#~ msgid "String has context"
+#~ msgstr "Chuỗi hệ điều hành iOS"
 
 #, fuzzy
 #~| msgid "Notification on any translation"

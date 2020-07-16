@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-12 20:56+0200\n"
+"POT-Creation-Date: 2020-07-16 16:25+0200\n"
 "PO-Revision-Date: 2020-07-15 02:37+0000\n"
 "Last-Translator: Jaimie85 <alsemgeest@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -294,7 +294,7 @@ msgstr ""
 msgid ""
 "Only the first rule will be used. So if you set all of :guilabel:`Component "
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
-"`Component list` is the only one applied."
+"`Component list` will be applied."
 msgstr ""
 
 #: ../../admin/access.rst:175
@@ -334,7 +334,7 @@ msgstr ""
 msgid ""
 "A user can access the unrestricted component once he can access the "
 "containing project. With enabled :ref:`component-restricted` the access to "
-"the component requires explicit permission on the component (or containing "
+"the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
 
@@ -3226,7 +3226,7 @@ msgstr ""
 #: ../../admin/checks.rst:229
 msgid ""
 "TrueType or OpenType fonts can be uploaded, set up font-groups and use those "
-"in the the check."
+"in the check."
 msgstr ""
 
 #: ../../admin/checks.rst:232
@@ -3454,7 +3454,7 @@ msgid ""
 "account activity."
 msgstr ""
 
-#: ../../admin/config.rst:51 ../../admin/config.rst:152
+#: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
 msgstr ""
 
@@ -3474,7 +3474,7 @@ msgstr ""
 
 #: ../../admin/config.rst:64
 msgid ""
-"Logins. Deletes the account password, preventing the user from login in "
+"Logins. Deletes the account password, preventing the user from signing in "
 "without requesting a new password."
 msgstr ""
 
@@ -3522,7 +3522,7 @@ msgstr ""
 msgid "Options are:"
 msgstr ""
 
-#: ../../admin/config.rst:98 ../../admin/config.rst:327
+#: ../../admin/config.rst:98 ../../admin/config.rst:326
 msgid "``\"none\"``"
 msgstr ""
 
@@ -3563,7 +3563,7 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:118
-msgid "Gravatar (default), see https://gravatar.com/"
+msgid "Gravatar (default), as per https://gravatar.com/"
 msgstr ""
 
 #: ../../admin/config.rst:119
@@ -3571,7 +3571,7 @@ msgid "``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``"
 msgstr ""
 
 #: ../../admin/config.rst:121
-msgid "Libravatar, see https://www.libravatar.org/"
+msgid "Libravatar, as per https://www.libravatar.org/"
 msgstr ""
 
 #: ../../admin/config.rst:121
@@ -3589,1038 +3589,1036 @@ msgstr ""
 
 #: ../../admin/config.rst:136
 msgid ""
-"How long the authentication token and temporary password from password reset "
-"e-mails is valid for."
+"How long the the authentication token and temporary password from password "
+"reset e-mails is valid for. Set in number of seconds, defaulting to 172800 "
+"(2 days)."
 msgstr ""
 
-#: ../../admin/config.rst:138
-msgid "An amount of seconds defaulting to 172800 (2 days)."
-msgstr ""
-
-#: ../../admin/config.rst:142
+#: ../../admin/config.rst:141
 msgid "AUTH_PASSWORD_DAYS"
 msgstr ""
 
-#: ../../admin/config.rst:146
+#: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
 msgstr ""
 
-#: ../../admin/config.rst:150
+#: ../../admin/config.rst:149
 msgid ""
 "Password changes made prior to Weblate 2.15 will not be accounted for in "
 "this policy."
 msgstr ""
 
-#: ../../admin/config.rst:157
+#: ../../admin/config.rst:156
 msgid "AUTOFIX_LIST"
 msgstr ""
 
-#: ../../admin/config.rst:159
+#: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
 msgstr ""
 
-#: ../../admin/config.rst:163
+#: ../../admin/config.rst:162
 msgid ""
 "Provide a fully-qualified path to the Python class that implementing the "
 "autofixer interface."
 msgstr ""
 
-#: ../../admin/config.rst:166
+#: ../../admin/config.rst:165
 msgid "Available fixes:"
 msgstr ""
 
-#: ../../admin/config.rst:168
+#: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 msgstr ""
 
-#: ../../admin/config.rst:169
+#: ../../admin/config.rst:168
 msgid "Matches whitespace at the strt and end of the string to the source."
 msgstr ""
 
-#: ../../admin/config.rst:170
+#: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
 msgstr ""
 
-#: ../../admin/config.rst:171
+#: ../../admin/config.rst:170
 msgid "Replaces trailing dots (...) if the source string has ellipsis (…)."
 msgstr ""
 
-#: ../../admin/config.rst:172
+#: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgstr ""
 
-#: ../../admin/config.rst:173
+#: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
 
-#: ../../admin/config.rst:174
+#: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
 msgstr ""
 
-#: ../../admin/config.rst:175
+#: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
 msgstr ""
 
-#: ../../admin/config.rst:177
+#: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
 msgstr ""
 
-#: ../../admin/config.rst:177
+#: ../../admin/config.rst:176
 msgid ""
 "Removes unsafe HTML markup from strings flagged as ``safe-html`` (see :ref:"
 "`check-safe-html`)."
 msgstr ""
 
-#: ../../admin/config.rst:179
+#: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
 msgstr ""
 
-#: ../../admin/config.rst:190
+#: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
 msgstr ""
 
-#: ../../admin/config.rst:195
+#: ../../admin/config.rst:194
 msgid "BASE_DIR"
 msgstr ""
 
-#: ../../admin/config.rst:197
+#: ../../admin/config.rst:196
 msgid ""
 "Base directory where Weblate sources are located. Used to derive several "
 "other paths by default:"
 msgstr ""
 
-#: ../../admin/config.rst:200 ../../faq.rst:399 ../../vcs.rst:455
+#: ../../admin/config.rst:199 ../../faq.rst:399 ../../vcs.rst:455
 msgid ":setting:`DATA_DIR`"
 msgstr ""
 
-#: ../../admin/config.rst:202
+#: ../../admin/config.rst:201
 msgid "Default value: Top level directory of Weblate sources."
 msgstr ""
 
-#: ../../admin/config.rst:207
+#: ../../admin/config.rst:206
 msgid "CHECK_LIST"
 msgstr ""
 
-#: ../../admin/config.rst:209
+#: ../../admin/config.rst:208
 msgid "List of quality checks to perform on a translation."
 msgstr ""
 
-#: ../../admin/config.rst:213
+#: ../../admin/config.rst:212
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
 msgstr ""
 
-#: ../../admin/config.rst:216
-msgid ""
-"Adjust the list list of checks to include the ones you want to have "
-"performed."
+#: ../../admin/config.rst:215
+msgid "Adjust the list of checks to include ones relevant to you."
 msgstr ""
 
-#: ../../admin/config.rst:218
+#: ../../admin/config.rst:217
 msgid ""
 "All built-in quality :ref:`checks` are turned on by default, from where you "
-"can change these settings. They are also commented out in :ref:`sample-"
-"configuration` to use default values, which is to have new checks carried "
-"out when going to a new Weblate version."
+"can change these settings. By default they arecommented out in :ref:`sample-"
+"configuration` so that default values are used. New checks then carried out "
+"for each new Weblate version."
 msgstr ""
 
-#: ../../admin/config.rst:222
+#: ../../admin/config.rst:221
 msgid "You can turn off all checks:"
 msgstr ""
 
-#: ../../admin/config.rst:228
+#: ../../admin/config.rst:227
 msgid "You can turn on only a few:"
 msgstr ""
 
-#: ../../admin/config.rst:240
+#: ../../admin/config.rst:239
 msgid ""
 "Changing this setting only affects newly changed translations, existing "
 "checks will still be stored in the database. To also apply changes to the "
 "stored translations, run :djadmin:`updatechecks`."
 msgstr ""
 
-#: ../../admin/config.rst:246
+#: ../../admin/config.rst:245
 msgid ":ref:`checks`, :ref:`custom-checks`"
 msgstr ""
 
-#: ../../admin/config.rst:251
+#: ../../admin/config.rst:250
 msgid "COMMENT_CLEANUP_DAYS"
 msgstr ""
 
-#: ../../admin/config.rst:255
+#: ../../admin/config.rst:254
 msgid ""
 "Delete comments after a given number of days. Defaults to ``None``, meaning "
 "no deletion at all."
 msgstr ""
 
-#: ../../admin/config.rst:261
+#: ../../admin/config.rst:260
 msgid "COMMIT_PENDING_HOURS"
 msgstr ""
 
-#: ../../admin/config.rst:265
+#: ../../admin/config.rst:264
 msgid ""
-"Number of hours between committing pending changes with background task."
+"Number of hours between committing pending changes by way of the background "
+"task."
 msgstr ""
 
-#: ../../admin/config.rst:269
+#: ../../admin/config.rst:268
 msgid ""
 ":ref:`component`, :ref:`component-commit_pending_age`, :ref:`production-"
 "cron`, :djadmin:`commit_pending`"
 msgstr ""
 
-#: ../../admin/config.rst:277
+#: ../../admin/config.rst:276
 msgid "DATA_DIR"
 msgstr ""
 
-#: ../../admin/config.rst:279
+#: ../../admin/config.rst:278
 msgid ""
 "The folder Weblate stores all data in. it contains links to VCS "
 "repositories, a fulltext index and various configuration files for external "
 "tools."
 msgstr ""
 
-#: ../../admin/config.rst:282
+#: ../../admin/config.rst:281
 msgid "The following subdirectories usually exist:"
 msgstr ""
 
-#: ../../admin/config.rst:284
+#: ../../admin/config.rst:283
 msgid ":file:`home`"
 msgstr ""
 
-#: ../../admin/config.rst:285
+#: ../../admin/config.rst:284
 msgid "Home directory used for invoking scripts."
 msgstr ""
 
-#: ../../admin/config.rst:286
+#: ../../admin/config.rst:285
 msgid ":file:`ssh`"
 msgstr ""
 
-#: ../../admin/config.rst:287
+#: ../../admin/config.rst:286
 msgid "SSH keys and configuration."
 msgstr ""
 
-#: ../../admin/config.rst:288
+#: ../../admin/config.rst:287
 msgid ":file:`static`"
 msgstr ""
 
-#: ../../admin/config.rst:289
+#: ../../admin/config.rst:288
 msgid "Default location for static Django files, specified by ``STATIC_ROOT``."
 msgstr ""
 
-#: ../../admin/config.rst:290
+#: ../../admin/config.rst:289
 msgid ":file:`media`"
 msgstr ""
 
-#: ../../admin/config.rst:291
+#: ../../admin/config.rst:290
 msgid "Default location for Django media files, specified by ``MEDIA_ROOT``."
 msgstr ""
 
-#: ../../admin/config.rst:292
+#: ../../admin/config.rst:291
 msgid ":file:`vcs`"
 msgstr ""
 
-#: ../../admin/config.rst:293
+#: ../../admin/config.rst:292
 msgid "Version control repositories."
 msgstr ""
 
-#: ../../admin/config.rst:295
+#: ../../admin/config.rst:294
 msgid ":file:`backups`"
 msgstr ""
 
-#: ../../admin/config.rst:295
-msgid "Daily backup data, see :ref:`backup-dumps`."
+#: ../../admin/config.rst:294
+msgid "Daily backup data, please check :ref:`backup-dumps` for details."
 msgstr ""
 
-#: ../../admin/config.rst:299
+#: ../../admin/config.rst:298
 msgid ""
 "This directory has to be writable by Weblate. If if running it as uWSGI "
 "means the ``www-data`` user should have write access to it."
 msgstr ""
 
-#: ../../admin/config.rst:302
+#: ../../admin/config.rst:301
 msgid ""
 "The easiest way to achieve this is to make the user the owner of the "
 "directory:"
 msgstr ""
 
-#: ../../admin/config.rst:308
+#: ../../admin/config.rst:307
 msgid "Defaults to ``$BASE_DIR/data``."
 msgstr ""
 
-#: ../../admin/config.rst:312
+#: ../../admin/config.rst:311
 msgid ":setting:`BASE_DIR`, :doc:`backup`"
 msgstr ""
 
-#: ../../admin/config.rst:318
+#: ../../admin/config.rst:317
 msgid "DATABASE_BACKUP"
 msgstr ""
 
-#: ../../admin/config.rst:322
+#: ../../admin/config.rst:321
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
 msgstr ""
 
-#: ../../admin/config.rst:325
+#: ../../admin/config.rst:324
 msgid "``\"plain\"``"
 msgstr ""
 
-#: ../../admin/config.rst:326
+#: ../../admin/config.rst:325
 msgid "``\"compressed\"``"
 msgstr ""
 
-#: ../../admin/config.rst:331
+#: ../../admin/config.rst:330
 msgid ":ref:`backup`"
 msgstr ""
 
-#: ../../admin/config.rst:336
+#: ../../admin/config.rst:335
 msgid "DEFAULT_ACCESS_CONTROL"
 msgstr ""
 
-#: ../../admin/config.rst:340
+#: ../../admin/config.rst:339
 msgid "The default access control setting for new projects:"
 msgstr ""
 
-#: ../../admin/config.rst:342
+#: ../../admin/config.rst:341
 msgid "``0``"
 msgstr ""
 
-#: ../../admin/config.rst:343
+#: ../../admin/config.rst:342
 msgid ":guilabel:`Public`"
 msgstr ""
 
-#: ../../admin/config.rst:344
+#: ../../admin/config.rst:343
 msgid "``1``"
 msgstr ""
 
-#: ../../admin/config.rst:345
+#: ../../admin/config.rst:344
 msgid ":guilabel:`Protected`"
 msgstr ""
 
-#: ../../admin/config.rst:346
+#: ../../admin/config.rst:345
 msgid "``100``"
 msgstr ""
 
-#: ../../admin/config.rst:347
+#: ../../admin/config.rst:346
 msgid ":guilabel:`Private`"
 msgstr ""
 
-#: ../../admin/config.rst:349
+#: ../../admin/config.rst:348
 msgid "``200``"
 msgstr ""
 
-#: ../../admin/config.rst:349
+#: ../../admin/config.rst:348
 msgid ":guilabel:`Custom`"
 msgstr ""
 
-#: ../../admin/config.rst:351
+#: ../../admin/config.rst:350
 msgid ""
 "Use :guilabel:`Custom` if you managing ACL manually, which means not relying "
 "on the internal Weblate management."
 msgstr ""
 
-#: ../../admin/config.rst:356
+#: ../../admin/config.rst:355
 msgid ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
 msgstr ""
 
-#: ../../admin/config.rst:363
+#: ../../admin/config.rst:362
 msgid "DEFAULT_RESTRICTED_COMPONENT"
 msgstr ""
 
-#: ../../admin/config.rst:367
+#: ../../admin/config.rst:366
 msgid "The default value for component restriction."
 msgstr ""
 
-#: ../../admin/config.rst:371
+#: ../../admin/config.rst:370
 msgid ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
 msgstr ""
 
-#: ../../admin/config.rst:382
+#: ../../admin/config.rst:381
 msgid ""
 "DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, "
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 msgstr ""
 
-#: ../../admin/config.rst:384
-msgid "Default commit messages for different operations, see :ref:`component`."
+#: ../../admin/config.rst:383
+msgid ""
+"Default commit messages for different operations, please check :ref:"
+"`component` for details."
 msgstr ""
 
-#: ../../admin/config.rst:389
+#: ../../admin/config.rst:388
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
 msgstr ""
 
-#: ../../admin/config.rst:397
+#: ../../admin/config.rst:396
 msgid "DEFAULT_ADDONS"
 msgstr ""
 
-#: ../../admin/config.rst:399
+#: ../../admin/config.rst:398
 msgid "Default addons to install on every created component."
 msgstr ""
 
-#: ../../admin/config.rst:403
+#: ../../admin/config.rst:402
 msgid "This setting affects only newly created components."
 msgstr ""
 
-#: ../../admin/config.rst:405 ../../admin/config.rst:690
-#: ../../admin/config.rst:1326 ../../admin/config.rst:1472
-#: ../../admin/config.rst:1512 ../../admin/management.rst:95
+#: ../../admin/config.rst:404 ../../admin/config.rst:689
+#: ../../admin/config.rst:1324 ../../admin/config.rst:1470
+#: ../../admin/config.rst:1510 ../../admin/management.rst:95
 #: ../../admin/management.rst:142 ../../admin/management.rst:666
 msgid "Example:"
 msgstr ""
 
-#: ../../admin/config.rst:426
+#: ../../admin/config.rst:425
 msgid ":djadmin:`install_addon`"
 msgstr ""
 
-#: ../../admin/config.rst:431
+#: ../../admin/config.rst:430
 msgid "DEFAULT_COMMITER_EMAIL"
 msgstr ""
 
-#: ../../admin/config.rst:435
+#: ../../admin/config.rst:434
 msgid ""
 "Committer e-mail address for created translation components defaulting to "
 "``noreply@weblate.org``."
 msgstr ""
 
-#: ../../admin/config.rst:439
+#: ../../admin/config.rst:438
 msgid ""
 ":setting:`DEFAULT_COMMITER_NAME`, :ref:`component`, :ref:`component-"
 "committer_email`"
 msgstr ""
 
-#: ../../admin/config.rst:446
+#: ../../admin/config.rst:445
 msgid "DEFAULT_COMMITER_NAME"
 msgstr ""
 
-#: ../../admin/config.rst:450
+#: ../../admin/config.rst:449
 msgid ""
 "Committer name for created translation components defaulting to ``Weblate``."
 msgstr ""
 
-#: ../../admin/config.rst:454
+#: ../../admin/config.rst:453
 msgid ""
 ":setting:`DEFAULT_COMMITER_EMAIL`, :ref:`component`, :ref:`component-"
 "committer_name`"
 msgstr ""
 
-#: ../../admin/config.rst:461
+#: ../../admin/config.rst:460
 msgid "DEFAULT_MERGE_STYLE"
 msgstr ""
 
-#: ../../admin/config.rst:465
+#: ../../admin/config.rst:464
 msgid "Merge style for any new components."
 msgstr ""
 
-#: ../../admin/config.rst:467
+#: ../../admin/config.rst:466
 msgid "`rebase` - default"
 msgstr ""
 
-#: ../../admin/config.rst:468
+#: ../../admin/config.rst:467
 msgid "`merge`"
 msgstr ""
 
-#: ../../admin/config.rst:472
+#: ../../admin/config.rst:471
 msgid ":ref:`component`, :ref:`component-merge_style`"
 msgstr ""
 
-#: ../../admin/config.rst:478
+#: ../../admin/config.rst:477
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
 msgstr ""
 
-#: ../../admin/config.rst:482
+#: ../../admin/config.rst:481
 msgid "Default setting for translation propagation, defaults to ``True``."
 msgstr ""
 
-#: ../../admin/config.rst:486
+#: ../../admin/config.rst:485
 msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgstr ""
 
-#: ../../admin/config.rst:492
+#: ../../admin/config.rst:491
 msgid "DEFAULT_PULL_MESSAGE"
 msgstr ""
 
-#: ../../admin/config.rst:494
+#: ../../admin/config.rst:493
 msgid "Title for new pull requests, defaulting to ``'Update from Weblate'``."
 msgstr ""
 
-#: ../../admin/config.rst:500
+#: ../../admin/config.rst:499
 msgid "ENABLE_AVATARS"
 msgstr ""
 
-#: ../../admin/config.rst:502
+#: ../../admin/config.rst:501
 msgid ""
-"Whether to enable Gravatar based avatars for users. By default this is "
-"enabled."
+"Whether to turn on Gravatar based avatars for users. By default this is on."
 msgstr ""
 
-#: ../../admin/config.rst:504
+#: ../../admin/config.rst:503
 msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
 
-#: ../../admin/config.rst:509
+#: ../../admin/config.rst:508
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :ref:`avatars`"
 msgstr ""
 
-#: ../../admin/config.rst:516
+#: ../../admin/config.rst:515
 msgid "ENABLE_HOOKS"
 msgstr ""
 
-#: ../../admin/config.rst:518
+#: ../../admin/config.rst:517
 msgid "Whether to enable anonymous remote hooks."
 msgstr ""
 
-#: ../../admin/config.rst:522
+#: ../../admin/config.rst:521
 msgid ":ref:`hooks`"
 msgstr ""
 
-#: ../../admin/config.rst:527
+#: ../../admin/config.rst:526
 msgid "ENABLE_HTTPS"
 msgstr ""
 
-#: ../../admin/config.rst:529
+#: ../../admin/config.rst:528
 msgid ""
 "Whether to send links to Weblate as HTTPS or HTTP. This setting affects sent "
 "e-mails and generated absolute URLs."
 msgstr ""
 
-#: ../../admin/config.rst:534
+#: ../../admin/config.rst:533
 msgid ""
 "In the default configuration this is also used for several Django settings "
 "related to HTTPS."
 msgstr ""
 
-#: ../../admin/config.rst:539
+#: ../../admin/config.rst:538
 msgid ""
 ":setting:`django:SESSION_COOKIE_SECURE`, :setting:`django:"
 "CSRF_COOKIE_SECURE`, :setting:`django:SECURE_SSL_REDIRECT`, :ref:`production-"
 "site`"
 msgstr ""
 
-#: ../../admin/config.rst:547
+#: ../../admin/config.rst:546
 msgid "ENABLE_SHARING"
 msgstr ""
 
-#: ../../admin/config.rst:549
+#: ../../admin/config.rst:548
 msgid ""
-"Enable/disable the Share menu so users can share translation progress on "
+"Turn on/off the \"Share\" menu so users can share translation progress on "
 "social networks."
 msgstr ""
 
-#: ../../admin/config.rst:554
+#: ../../admin/config.rst:553
 msgid "GITLAB_USERNAME"
 msgstr ""
 
-#: ../../admin/config.rst:556
+#: ../../admin/config.rst:555
 msgid "GitLab username used to send merge requests for translation updates."
 msgstr ""
 
-#: ../../admin/config.rst:560
+#: ../../admin/config.rst:559
 msgid ":ref:`vcs-gitlab`, :ref:`lab-setup`"
 msgstr ""
 
-#: ../../admin/config.rst:566
+#: ../../admin/config.rst:565
 msgid "GITHUB_USERNAME"
 msgstr ""
 
-#: ../../admin/config.rst:568
+#: ../../admin/config.rst:567
 msgid "GitHub username used to send pull requests for translation updates."
 msgstr ""
 
-#: ../../admin/config.rst:572 ../../admin/install/docker.rst:472
+#: ../../admin/config.rst:571 ../../admin/install/docker.rst:472
 #: ../../admin/install/docker.rst:1128
 msgid ":ref:`vcs-github`, :ref:`hub-setup`"
 msgstr ""
 
-#: ../../admin/config.rst:578
+#: ../../admin/config.rst:577
 msgid "GOOGLE_ANALYTICS_ID"
 msgstr ""
 
-#: ../../admin/config.rst:580
+#: ../../admin/config.rst:579
 msgid ""
 "Google Analytics ID to turn on monitoring of Weblate using Google Analytics."
 msgstr ""
 
-#: ../../admin/config.rst:585
+#: ../../admin/config.rst:584
 msgid "HIDE_REPO_CREDENTIALS"
 msgstr ""
 
-#: ../../admin/config.rst:587
+#: ../../admin/config.rst:586
 msgid ""
 "Hide repository credentials from appearing in the web interface. In case you "
 "have repository URL with user and password, Weblate will hide it when "
 "related info is shown to users."
 msgstr ""
 
-#: ../../admin/config.rst:591
+#: ../../admin/config.rst:590
 msgid ""
 "For example instead of ``https://user:password@git.example.com/repo.git`` it "
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
 
-#: ../../admin/config.rst:597
+#: ../../admin/config.rst:596
 msgid "This is turned on by default."
 msgstr ""
 
-#: ../../admin/config.rst:602
+#: ../../admin/config.rst:601
 msgid "IP_BEHIND_REVERSE_PROXY"
 msgstr ""
 
-#: ../../admin/config.rst:606
+#: ../../admin/config.rst:605
 msgid "Indicates whether Weblate is running behind a reverse proxy."
 msgstr ""
 
-#: ../../admin/config.rst:608
+#: ../../admin/config.rst:607
 msgid ""
 "If set to \"True\", Weblate gets IP address from a header defined by :"
 "setting:`IP_PROXY_HEADER`."
 msgstr ""
 
-#: ../../admin/config.rst:613
+#: ../../admin/config.rst:612
 msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
 
-#: ../../admin/config.rst:618
+#: ../../admin/config.rst:617
 msgid "This is not on by default."
 msgstr ""
 
-#: ../../admin/config.rst:622
+#: ../../admin/config.rst:621
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`IP_PROXY_HEADER`, :"
 "setting:`IP_PROXY_OFFSET`"
 msgstr ""
 
-#: ../../admin/config.rst:630
+#: ../../admin/config.rst:629
 msgid "IP_PROXY_HEADER"
 msgstr ""
 
-#: ../../admin/config.rst:634
+#: ../../admin/config.rst:633
 msgid ""
 "Indicates which header Weblate should obtain the IP address from when :"
 "setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
 
-#: ../../admin/config.rst:637
+#: ../../admin/config.rst:636
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
 
-#: ../../admin/config.rst:641
+#: ../../admin/config.rst:640
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_OFFSET`"
 msgstr ""
 
-#: ../../admin/config.rst:650
+#: ../../admin/config.rst:649
 msgid "IP_PROXY_OFFSET"
 msgstr ""
 
-#: ../../admin/config.rst:654
+#: ../../admin/config.rst:653
 msgid ""
 "Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP "
 "address."
 msgstr ""
 
-#: ../../admin/config.rst:657
+#: ../../admin/config.rst:656
 msgid ""
 "Depending on your setup, this header might consist of several IP addresses, "
 "(for example ``X-Forwarded-For: a, b, client-ip``) and you can configure "
 "which address from the header is used as client IP address here."
 msgstr ""
 
-#: ../../admin/config.rst:663
+#: ../../admin/config.rst:662
 msgid ""
 "Setting this affects the security of your installation, you should only "
 "configure it to use trusted proxies for determining IP address."
 msgstr ""
 
-#: ../../admin/config.rst:666
+#: ../../admin/config.rst:665
 msgid "Defaults to 0."
 msgstr ""
 
-#: ../../admin/config.rst:670
+#: ../../admin/config.rst:669
 msgid ""
 ":ref:`reverse-proxy`, :ref:`rate-limit`, :setting:`django:"
 "SECURE_PROXY_SSL_HEADER`, :setting:`IP_BEHIND_REVERSE_PROXY`, :setting:"
 "`IP_PROXY_HEADER`"
 msgstr ""
 
-#: ../../admin/config.rst:679
+#: ../../admin/config.rst:678
 msgid "LEGAL_URL"
 msgstr ""
 
-#: ../../admin/config.rst:683
+#: ../../admin/config.rst:682
 msgid "URL where your Weblate instance shows its legal documents."
 msgstr ""
 
-#: ../../admin/config.rst:687
+#: ../../admin/config.rst:686
 msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
-"inside Weblate, please see :ref:`legal`."
+"inside Weblate, please check :ref:`legal` for details."
 msgstr ""
 
-#: ../../admin/config.rst:699
+#: ../../admin/config.rst:698
 msgid "LICENSE_EXTRA"
 msgstr ""
 
-#: ../../admin/config.rst:701
+#: ../../admin/config.rst:700
 msgid "Additional licenses to include in the license choices."
 msgstr ""
 
-#: ../../admin/config.rst:705
+#: ../../admin/config.rst:704
 msgid ""
 "Each license definition should be tuple of its short name, a long name and "
 "an URL."
 msgstr ""
 
-#: ../../admin/config.rst:707 ../../admin/config.rst:730
-#: ../../admin/config.rst:839 ../../admin/install/docker.rst:1019
+#: ../../admin/config.rst:706 ../../admin/config.rst:729
+#: ../../admin/config.rst:837 ../../admin/install/docker.rst:1019
 #: ../../formats.rst:302
 msgid "For example:"
 msgstr ""
 
-#: ../../admin/config.rst:722
+#: ../../admin/config.rst:721
 msgid "LICENSE_FILTER"
 msgstr ""
 
-#: ../../admin/config.rst:724
+#: ../../admin/config.rst:723
 msgid "Optional addition of licenses to show."
 msgstr ""
 
-#: ../../admin/config.rst:728
+#: ../../admin/config.rst:727
 msgid "This filter uses the short license names."
 msgstr ""
 
-#: ../../admin/config.rst:739
+#: ../../admin/config.rst:738
 msgid "LICENSE_REQUIRED"
 msgstr ""
 
-#: ../../admin/config.rst:741
+#: ../../admin/config.rst:740
 msgid "Defines whether the license attribute in :ref:`component` is required."
 msgstr ""
 
-#: ../../admin/config.rst:745
+#: ../../admin/config.rst:744
 msgid "This is off by default."
 msgstr ""
 
-#: ../../admin/config.rst:750
+#: ../../admin/config.rst:749
 msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 msgstr ""
 
-#: ../../admin/config.rst:752
+#: ../../admin/config.rst:751
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string * 10 characters."
 msgstr ""
 
-#: ../../admin/config.rst:757
+#: ../../admin/config.rst:756
 msgid ""
 "Set this to ``False`` to allow longer translations (up to 10.000 characters) "
 "irrespective of source string length."
 msgstr ""
 
-#: ../../admin/config.rst:761
+#: ../../admin/config.rst:760
 msgid "Defaults to ``True``."
 msgstr ""
 
-#: ../../admin/config.rst:766
+#: ../../admin/config.rst:765
 msgid "LOGIN_REQUIRED_URLS"
 msgstr ""
 
-#: ../../admin/config.rst:768
+#: ../../admin/config.rst:767
 msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
 msgstr ""
 
-#: ../../admin/config.rst:772
+#: ../../admin/config.rst:771
 msgid "This allows you to password protect a whole installation using:"
 msgstr ""
 
-#: ../../admin/config.rst:785
+#: ../../admin/config.rst:784
 msgid ""
 "It is desirable to lock down API access as well, as shown in the above "
 "example."
 msgstr ""
 
-#: ../../admin/config.rst:790
+#: ../../admin/config.rst:789
 msgid "LOGIN_REQUIRED_URLS_EXCEPTIONS"
 msgstr ""
 
-#: ../../admin/config.rst:792
+#: ../../admin/config.rst:791
 msgid ""
 "List of exceptions for :setting:`LOGIN_REQUIRED_URLS`. If not specified, "
 "users are allowed to access the login page."
 msgstr ""
 
-#: ../../admin/config.rst:795
+#: ../../admin/config.rst:794
 msgid "Some of exceptions you might want to include:"
 msgstr ""
 
-#: ../../admin/config.rst:813
+#: ../../admin/config.rst:812
 msgid "MATOMO_SITE_ID"
 msgstr ""
 
-#: ../../admin/config.rst:815
+#: ../../admin/config.rst:814
 msgid "ID of a site in Matomo (formerly Piwik) you want to track."
 msgstr ""
 
-#: ../../admin/config.rst:819 ../../admin/config.rst:837
+#: ../../admin/config.rst:818 ../../admin/config.rst:835
 msgid "This integration does not support the Matomo Tag Manager."
 msgstr ""
 
-#: ../../admin/config.rst:823
+#: ../../admin/config.rst:822
 msgid ":setting:`MATOMO_URL`"
 msgstr ""
 
-#: ../../admin/config.rst:829
+#: ../../admin/config.rst:828
 msgid "MATOMO_URL"
 msgstr ""
 
-#: ../../admin/config.rst:831
+#: ../../admin/config.rst:830
 msgid ""
 "Full URL (including trailing slash) of a Matomo (formerly Piwik) "
-"installation you want to use to track Weblate use. For more info about "
-"Matomo, see <https://matomo.org/>."
+"installation you want to use to track Weblate use. Please check <https://"
+"matomo.org/> for more deails."
 msgstr ""
 
-#: ../../admin/config.rst:848
+#: ../../admin/config.rst:846
 msgid ":setting:`MATOMO_SITE_ID`"
 msgstr ""
 
-#: ../../admin/config.rst:855
+#: ../../admin/config.rst:853
 msgid "MT_SERVICES"
 msgstr ""
 
-#: ../../admin/config.rst:859
+#: ../../admin/config.rst:857
 msgid ""
 "The setting was renamed from ``MACHINE_TRANSLATION_SERVICES`` to "
 "``MT_SERVICES`` to be consistent with other machine translation settings."
 msgstr ""
 
-#: ../../admin/config.rst:862
+#: ../../admin/config.rst:860
 msgid "List of enabled machine translation services to use."
 msgstr ""
 
-#: ../../admin/config.rst:866
+#: ../../admin/config.rst:864
 msgid ""
 "Many of the services need additional configuration like API keys, please "
 "check their documentation ref: `machine` for more details."
 msgstr ""
 
-#: ../../admin/config.rst:889 ../../faq.rst:299
+#: ../../admin/config.rst:887 ../../faq.rst:299
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:895
+#: ../../admin/config.rst:893
 msgid "MT_APERTIUM_APY"
 msgstr ""
 
-#: ../../admin/config.rst:897
+#: ../../admin/config.rst:895
 msgid ""
-"URL of the Apertium-APy server, see http://wiki.apertium.org/wiki/Apertium-"
-"apy"
+"URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy"
 msgstr ""
 
-#: ../../admin/config.rst:901
+#: ../../admin/config.rst:899
 msgid ""
 ":ref:`apertium`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:906
+#: ../../admin/config.rst:904
 msgid "MT_AWS_ACCESS_KEY_ID"
 msgstr ""
 
-#: ../../admin/config.rst:908
+#: ../../admin/config.rst:906
 msgid "Access key ID for Amazon Translate."
 msgstr ""
 
-#: ../../admin/config.rst:912 ../../admin/config.rst:923
-#: ../../admin/config.rst:934
+#: ../../admin/config.rst:910 ../../admin/config.rst:921
+#: ../../admin/config.rst:932
 msgid ""
 ":ref:`aws`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:917
+#: ../../admin/config.rst:915
 msgid "MT_AWS_SECRET_ACCESS_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:919
+#: ../../admin/config.rst:917
 msgid "API secret key for Amazon Translate."
 msgstr ""
 
-#: ../../admin/config.rst:928
+#: ../../admin/config.rst:926
 msgid "MT_AWS_REGION"
 msgstr ""
 
-#: ../../admin/config.rst:930
+#: ../../admin/config.rst:928
 msgid "Region name to use for Amazon Translate."
 msgstr ""
 
-#: ../../admin/config.rst:939
+#: ../../admin/config.rst:937
 msgid "MT_BAIDU_ID"
 msgstr ""
 
-#: ../../admin/config.rst:941
+#: ../../admin/config.rst:939
 msgid ""
 "Client ID for the Baidu Zhiyun API, you can register at https://api.fanyi."
 "baidu.com/api/trans/product/index"
 msgstr ""
 
-#: ../../admin/config.rst:945 ../../admin/config.rst:956
+#: ../../admin/config.rst:943 ../../admin/config.rst:954
 msgid ""
 ":ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:950
+#: ../../admin/config.rst:948
 msgid "MT_BAIDU_SECRET"
 msgstr ""
 
-#: ../../admin/config.rst:952
+#: ../../admin/config.rst:950
 msgid ""
 "Client secret for the Baidu Zhiyun API, you can register at https://api."
 "fanyi.baidu.com/api/trans/product/index"
 msgstr ""
 
-#: ../../admin/config.rst:961
+#: ../../admin/config.rst:959
 msgid "MT_DEEPL_API_VERSION"
 msgstr ""
 
-#: ../../admin/config.rst:965
+#: ../../admin/config.rst:963
 msgid ""
 "API version to use with DeepL service. The version limits scope of usage:"
 msgstr ""
 
-#: ../../admin/config.rst:967
+#: ../../admin/config.rst:965
 msgid "v1"
 msgstr ""
 
-#: ../../admin/config.rst:968
+#: ../../admin/config.rst:966
 msgid "Is meant for CAT tools and is usable with user based subscription."
 msgstr ""
 
-#: ../../admin/config.rst:970
+#: ../../admin/config.rst:968
 msgid "v2"
 msgstr ""
 
-#: ../../admin/config.rst:970
+#: ../../admin/config.rst:968
 msgid "Is meant for API usage and the subscription is usage based."
 msgstr ""
 
-#: ../../admin/config.rst:972
+#: ../../admin/config.rst:970
 msgid ""
 "Previously Weblate was classified as a CAT tool by DeepL, so it was supposed "
-"to use v1 API, but now it is not classified that way and is supposed to use "
-"v2 API. Therefore it defaults to v2, you can change it to v1 in case you "
-"have existing CAT subscription and want Weblate to use that."
+"to use the v1 API, but now is supposed to use the v2 API. Therefore it "
+"defaults to v2, and you can change it to v1 in case you have an existing CAT "
+"subscription and want Weblate to use that."
 msgstr ""
 
-#: ../../admin/config.rst:979 ../../admin/config.rst:990
+#: ../../admin/config.rst:977 ../../admin/config.rst:988
 msgid ""
 ":ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgstr ""
 
-#: ../../admin/config.rst:984
+#: ../../admin/config.rst:982
 msgid "MT_DEEPL_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:986
+#: ../../admin/config.rst:984
 msgid ""
 "API key for the DeepL API, you can register at https://www.deepl.com/pro.html"
 msgstr ""
 
-#: ../../admin/config.rst:995
+#: ../../admin/config.rst:993
 msgid "MT_GOOGLE_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:997
+#: ../../admin/config.rst:995
 msgid ""
 "API key for Google Translate API v2, you can register at https://cloud."
 "google.com/translate/docs"
 msgstr ""
 
-#: ../../admin/config.rst:1001
+#: ../../admin/config.rst:999
 msgid ""
 ":ref:`google-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1006
+#: ../../admin/config.rst:1004
 msgid "MT_GOOGLE_CREDENTIALS"
 msgstr ""
 
-#: ../../admin/config.rst:1008
+#: ../../admin/config.rst:1006
 msgid ""
-"API v3 json credentials file obtained in Google cloud console. Please "
-"provide full OS path. Credentials are per service-account affiliated with "
-"certain project. See https://cloud.google.com/docs/authentication/getting-"
-"started"
+"API v3 JSON credentials file obtained in the Google cloud console. Please "
+"provide a full OS path. Credentials are per service-account affiliated with "
+"certain project. Please check https://cloud.google.com/docs/authentication/"
+"getting-started for more details."
 msgstr ""
 
-#: ../../admin/config.rst:1015
+#: ../../admin/config.rst:1013
 msgid "MT_GOOGLE_PROJECT"
 msgstr ""
 
-#: ../../admin/config.rst:1017
+#: ../../admin/config.rst:1015
 msgid ""
-"API v3 Google cloud `project id` with activated Translation service having "
-"billing activated. See https://cloud.google.com/appengine/docs/standard/"
-"nodejs/building-app/creating-project"
+"API v3 Google cloud `project id` with activated translation service and "
+"billing activated. Please check https://cloud.google.com/appengine/docs/"
+"standard/nodejs/building-app/creating-project for more details"
 msgstr ""
 
-#: ../../admin/config.rst:1023
+#: ../../admin/config.rst:1021
 msgid "MT_GOOGLE_LOCATION"
 msgstr ""
 
-#: ../../admin/config.rst:1025
+#: ../../admin/config.rst:1023
 msgid ""
 "API v3 Google Cloud Application Engine may be specific to a location. Change "
-"accordingly if default ``global`` fallback does not work for you."
+"accordingly if the default ``global`` fallback does not work for you."
 msgstr ""
 
-#: ../../admin/config.rst:1028
-msgid "See https://cloud.google.com/appengine/docs/locations"
+#: ../../admin/config.rst:1026
+msgid ""
+"Please check https://cloud.google.com/appengine/docs/locations for more "
+"details"
 msgstr ""
 
-#: ../../admin/config.rst:1032
+#: ../../admin/config.rst:1030
 msgid ":ref:`google-translate-api3`"
 msgstr ""
 
-#: ../../admin/config.rst:1037
+#: ../../admin/config.rst:1035
 msgid "MT_MICROSOFT_BASE_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1039
+#: ../../admin/config.rst:1037
 msgid ""
-"Region base url domain as defined in the `Base URLs section <https://docs."
-"microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
+"Region base URL domain as defined in the `\"Base URLs\" section <https://"
+"docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
 "reference#base-urls>`_."
 msgstr ""
 
-#: ../../admin/config.rst:1042
+#: ../../admin/config.rst:1040
 msgid "Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global."
 msgstr ""
 
-#: ../../admin/config.rst:1044
+#: ../../admin/config.rst:1042
 msgid "For Azure China, please use ``api.translator.azure.cn``."
 msgstr ""
 
-#: ../../admin/config.rst:1049
+#: ../../admin/config.rst:1047
 msgid "MT_MICROSOFT_COGNITIVE_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1051
+#: ../../admin/config.rst:1049
 msgid "Client key for the Microsoft Cognitive Services Translator API."
 msgstr ""
 
-#: ../../admin/config.rst:1054
+#: ../../admin/config.rst:1052
 msgid ""
 ":ref:`ms-cognitive-translate`, :ref:`machine-translation-setup`, :ref:"
 "`machine-translation`, `Cognitive Services - Text Translation API <https://"
@@ -4628,430 +4626,431 @@ msgid ""
 "`Microsoft Azure Portal <https://portal.azure.com/>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1061
+#: ../../admin/config.rst:1059
 msgid "MT_MICROSOFT_REGION"
 msgstr ""
 
-#: ../../admin/config.rst:1063
+#: ../../admin/config.rst:1061
 msgid ""
-"Region prefix as defined in `Multi service subscription <https://docs."
+"Region prefix as defined in `\"Multi service subscription\" <https://docs."
 "microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-"
 "reference#authenticating-with-a-multi-service-resource>`_."
 msgstr ""
 
-#: ../../admin/config.rst:1068
+#: ../../admin/config.rst:1066
 msgid "MT_MICROSOFT_ENDPOINT_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1070
+#: ../../admin/config.rst:1068
 msgid ""
-"Region endpoint url domain for access token as defined in the "
-"`Authenticating with an access token section <https://docs.microsoft.com/en-"
-"us/azure/cognitive-services/translator/reference/v3-0-"
+"Region endpoint URL domain for access token as defined in the `"
+"\"Authenticating with an access token\" section <https://docs.microsoft.com/"
+"en-us/azure/cognitive-services/translator/reference/v3-0-"
 "reference#authenticating-with-an-access-token>`_."
 msgstr ""
 
-#: ../../admin/config.rst:1073
+#: ../../admin/config.rst:1071
 msgid "Defaults to ``api.cognitive.microsoft.com`` for Azure Global."
 msgstr ""
 
-#: ../../admin/config.rst:1075
-msgid "For Azure China, please use your endpoint from Azure Portal."
+#: ../../admin/config.rst:1073
+msgid "For Azure China, please use your endpoint from the Azure Portal."
 msgstr ""
 
-#: ../../admin/config.rst:1081
+#: ../../admin/config.rst:1079
 msgid "MT_MODERNMT_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1083
-msgid "API key for ModernMT machine translation engine."
-msgstr ""
+#: ../../admin/config.rst:1081
+#, fuzzy
+#| msgid "Machine translation engines"
+msgid "API key for the ModernMT machine translation engine."
+msgstr "Machinevertaling-engines"
 
-#: ../../admin/config.rst:1087
+#: ../../admin/config.rst:1085
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
 msgstr ""
 
-#: ../../admin/config.rst:1093
+#: ../../admin/config.rst:1091
 msgid "MT_MODERNMT_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1095
+#: ../../admin/config.rst:1093
 msgid ""
 "URL of ModernMT. It defaults to ``https://api.modernmt.com/`` for the cloud "
 "service."
 msgstr ""
 
-#: ../../admin/config.rst:1100
+#: ../../admin/config.rst:1098
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_KEY`"
 msgstr ""
 
-#: ../../admin/config.rst:1107
+#: ../../admin/config.rst:1105
 msgid "MT_MYMEMORY_EMAIL"
 msgstr ""
 
-#: ../../admin/config.rst:1109
+#: ../../admin/config.rst:1107
 msgid ""
-"MyMemory identification e-mail address, you can get 1000 requests per day "
-"with this."
+"MyMemory identification e-mail address. It permits 1000 requests per day."
 msgstr ""
 
-#: ../../admin/config.rst:1113
+#: ../../admin/config.rst:1111
 msgid ""
 ":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`, `MyMemory: API technical specifications <https://mymemory."
 "translated.net/doc/spec.php>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1119
+#: ../../admin/config.rst:1117
 msgid "MT_MYMEMORY_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1121
+#: ../../admin/config.rst:1119
 msgid ""
-"MyMemory access key for private translation memory, use together with :"
-"setting:`MT_MYMEMORY_USER`."
+"MyMemory access key for private translation memory, use it with :setting:"
+"`MT_MYMEMORY_USER`."
 msgstr ""
 
-#: ../../admin/config.rst:1125 ../../admin/config.rst:1137
+#: ../../admin/config.rst:1123 ../../admin/config.rst:1135
 msgid ""
 ":ref:`mymemory`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`, `MyMemory: API key generator <https://mymemory.translated.net/"
 "doc/keygen.php>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1131
+#: ../../admin/config.rst:1129
 msgid "MT_MYMEMORY_USER"
 msgstr ""
 
-#: ../../admin/config.rst:1133
+#: ../../admin/config.rst:1131
 msgid ""
-"MyMemory user ID for private translation memory, use together with :setting:"
+"MyMemory user ID for private translation memory, use it with :setting:"
 "`MT_MYMEMORY_KEY`."
 msgstr ""
 
-#: ../../admin/config.rst:1143
+#: ../../admin/config.rst:1141
 msgid "MT_NETEASE_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1145
+#: ../../admin/config.rst:1143
 msgid ""
 "App key for NetEase Sight API, you can register at https://sight.netease.com/"
 msgstr ""
 
-#: ../../admin/config.rst:1149 ../../admin/config.rst:1160
+#: ../../admin/config.rst:1147 ../../admin/config.rst:1158
 msgid ""
 ":ref:`netease-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1154
+#: ../../admin/config.rst:1152
 msgid "MT_NETEASE_SECRET"
 msgstr ""
 
-#: ../../admin/config.rst:1156
+#: ../../admin/config.rst:1154
 msgid ""
 "App secret for the NetEase Sight API, you can register at https://sight."
 "netease.com/"
 msgstr ""
 
-#: ../../admin/config.rst:1165
+#: ../../admin/config.rst:1163
 msgid "MT_TMSERVER"
 msgstr ""
 
-#: ../../admin/config.rst:1167
+#: ../../admin/config.rst:1165
 msgid "URL where tmserver is running."
 msgstr ""
 
-#: ../../admin/config.rst:1171
+#: ../../admin/config.rst:1169
 msgid ""
 ":ref:`tmserver`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`, :doc:`tt:commands/tmserver`"
 msgstr ""
 
-#: ../../admin/config.rst:1177
+#: ../../admin/config.rst:1175
 msgid "MT_YANDEX_KEY"
 msgstr ""
 
-#: ../../admin/config.rst:1179
+#: ../../admin/config.rst:1177
 msgid ""
 "API key for the Yandex Translate API, you can register at https://tech."
 "yandex.com/translate/"
 msgstr ""
 
-#: ../../admin/config.rst:1183
+#: ../../admin/config.rst:1181
 msgid ""
 ":ref:`yandex-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1188
+#: ../../admin/config.rst:1186
 msgid "MT_YOUDAO_ID"
 msgstr ""
 
-#: ../../admin/config.rst:1190
+#: ../../admin/config.rst:1188
 msgid ""
 "Client ID for the Youdao Zhiyun API, you can register at https://ai.youdao."
 "com/product-fanyi-text.s."
 msgstr ""
 
-#: ../../admin/config.rst:1194 ../../admin/config.rst:1205
+#: ../../admin/config.rst:1192 ../../admin/config.rst:1203
 msgid ""
 ":ref:`youdao-translate`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1199
+#: ../../admin/config.rst:1197
 msgid "MT_YOUDAO_SECRET"
 msgstr ""
 
-#: ../../admin/config.rst:1201
+#: ../../admin/config.rst:1199
 msgid ""
 "Client secret for the Youdao Zhiyun API, you can register at https://ai."
 "youdao.com/product-fanyi-text.s."
 msgstr ""
 
-#: ../../admin/config.rst:1210
+#: ../../admin/config.rst:1208
 msgid "MT_SAP_BASE_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1212
+#: ../../admin/config.rst:1210
 msgid "API URL to the SAP Translation Hub service."
 msgstr ""
 
-#: ../../admin/config.rst:1215 ../../admin/config.rst:1225
-#: ../../admin/config.rst:1235 ../../admin/config.rst:1245
-#: ../../admin/config.rst:1256
+#: ../../admin/config.rst:1213 ../../admin/config.rst:1223
+#: ../../admin/config.rst:1233 ../../admin/config.rst:1243
+#: ../../admin/config.rst:1254
 msgid ""
 ":ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-"
 "translation`"
 msgstr ""
 
-#: ../../admin/config.rst:1220
+#: ../../admin/config.rst:1218
 msgid "MT_SAP_SANDBOX_APIKEY"
 msgstr ""
 
-#: ../../admin/config.rst:1222
+#: ../../admin/config.rst:1220
 msgid "API key for sandbox API usage"
 msgstr ""
 
-#: ../../admin/config.rst:1230
+#: ../../admin/config.rst:1228
 msgid "MT_SAP_USERNAME"
 msgstr ""
 
-#: ../../admin/config.rst:1232
+#: ../../admin/config.rst:1230
 msgid "Your SAP username"
 msgstr ""
 
-#: ../../admin/config.rst:1240
+#: ../../admin/config.rst:1238
 msgid "MT_SAP_PASSWORD"
 msgstr ""
 
-#: ../../admin/config.rst:1242
+#: ../../admin/config.rst:1240
 msgid "Your SAP password"
 msgstr ""
 
-#: ../../admin/config.rst:1250
+#: ../../admin/config.rst:1248
 msgid "MT_SAP_USE_MT"
 msgstr ""
 
-#: ../../admin/config.rst:1252
+#: ../../admin/config.rst:1250
 msgid ""
 "Whether to also use machine translation services, in addition to the term "
 "database. Possible values: True / False"
 msgstr ""
 
-#: ../../admin/config.rst:1261
+#: ../../admin/config.rst:1259
 msgid "NEARBY_MESSAGES"
 msgstr ""
 
-#: ../../admin/config.rst:1263
+#: ../../admin/config.rst:1261
 msgid ""
 "How many strings to show around the currently translated string. This is "
 "just a default value, users can adjust this in :ref:`user-profile`."
 msgstr ""
 
-#: ../../admin/config.rst:1268
+#: ../../admin/config.rst:1266
 msgid "RATELIMIT_ATTEMPTS"
 msgstr ""
 
-#: ../../admin/config.rst:1272
+#: ../../admin/config.rst:1270
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
 
-#: ../../admin/config.rst:1274
+#: ../../admin/config.rst:1272
 msgid "Defaults to 5."
 msgstr ""
 
-#: ../../admin/config.rst:1278
+#: ../../admin/config.rst:1276
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
 
-#: ../../admin/config.rst:1285
+#: ../../admin/config.rst:1283
 msgid "RATELIMIT_WINDOW"
 msgstr ""
 
-#: ../../admin/config.rst:1289
+#: ../../admin/config.rst:1287
 msgid "How long authentication is accepted after rate limiting applies."
 msgstr ""
 
-#: ../../admin/config.rst:1291
+#: ../../admin/config.rst:1289
 msgid "An amount of seconds defaulting to 300 (5 minutes)."
 msgstr ""
 
-#: ../../admin/config.rst:1295
+#: ../../admin/config.rst:1293
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_LOCKOUT`"
 msgstr ""
 
-#: ../../admin/config.rst:1302
+#: ../../admin/config.rst:1300
 msgid "RATELIMIT_LOCKOUT"
 msgstr ""
 
-#: ../../admin/config.rst:1306
+#: ../../admin/config.rst:1304
 msgid "How long authentication is locked after rate limiting applies."
 msgstr ""
 
-#: ../../admin/config.rst:1308
+#: ../../admin/config.rst:1306
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
 msgstr ""
 
-#: ../../admin/config.rst:1312
+#: ../../admin/config.rst:1310
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
 msgstr ""
 
-#: ../../admin/config.rst:1319
+#: ../../admin/config.rst:1317
 msgid "REGISTRATION_ALLOW_BACKENDS"
 msgstr ""
 
-#: ../../admin/config.rst:1323
+#: ../../admin/config.rst:1321
 msgid ""
 "List of authentication backends to allow registration from in case it is "
 "otherwise disabled by :setting:`REGISTRATION_OPEN`."
 msgstr ""
 
-#: ../../admin/config.rst:1334
+#: ../../admin/config.rst:1332
 msgid "The backend names match names used in URL for authentication."
 msgstr ""
 
-#: ../../admin/config.rst:1338
+#: ../../admin/config.rst:1336
 msgid ":setting:`REGISTRATION_OPEN`"
 msgstr ""
 
-#: ../../admin/config.rst:1343
+#: ../../admin/config.rst:1341
 msgid "REGISTRATION_CAPTCHA"
 msgstr ""
 
-#: ../../admin/config.rst:1345
+#: ../../admin/config.rst:1343
 msgid ""
 "A value of either ``True`` or ``False`` indicating whether registration of "
 "new accounts is protected by CAPTCHA. This setting is optional, and a "
 "default of ``True`` will be assumed if it is not supplied."
 msgstr ""
 
-#: ../../admin/config.rst:1349
+#: ../../admin/config.rst:1347
 msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
 
-#: ../../admin/config.rst:1351
+#: ../../admin/config.rst:1349
 msgid "New account registration."
 msgstr ""
 
-#: ../../admin/config.rst:1352
+#: ../../admin/config.rst:1350
 msgid "Password recovery."
 msgstr ""
 
-#: ../../admin/config.rst:1353
+#: ../../admin/config.rst:1351
 msgid "Adding e-mail to an account."
 msgstr ""
 
-#: ../../admin/config.rst:1354
+#: ../../admin/config.rst:1352
 msgid "Contact form for users that are not signed in."
 msgstr ""
 
-#: ../../admin/config.rst:1359
+#: ../../admin/config.rst:1357
 msgid "REGISTRATION_EMAIL_MATCH"
 msgstr ""
 
-#: ../../admin/config.rst:1363
+#: ../../admin/config.rst:1361
 msgid "Allows you to filter which e-mail addresses can register."
 msgstr ""
 
-#: ../../admin/config.rst:1365
+#: ../../admin/config.rst:1363
 msgid "Defaults to ``.*``, which allows any e-mail address to be registered."
 msgstr ""
 
-#: ../../admin/config.rst:1367
+#: ../../admin/config.rst:1365
 msgid "You can use it to restrict registration to a single e-mail domain:"
 msgstr ""
 
-#: ../../admin/config.rst:1376
+#: ../../admin/config.rst:1374
 msgid "REGISTRATION_OPEN"
 msgstr ""
 
-#: ../../admin/config.rst:1378
+#: ../../admin/config.rst:1376
 msgid ""
 "Whether registration of new accounts is currently permitted. This optional "
-"setting can be be the default``True`` or changed to ``False``."
+"setting can remain the default``True``, or changed to ``False``."
 msgstr ""
 
-#: ../../admin/config.rst:1381
+#: ../../admin/config.rst:1379
 msgid ""
 "This setting affects built-in authentication by e-mail address or through "
-"the Python Social Auth (you can white list certain backends using :setting:"
+"the Python Social Auth (you can whitelist certain back-ends using :setting:"
 "`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
 
-#: ../../admin/config.rst:1387
+#: ../../admin/config.rst:1385
 msgid ""
 "If using third-party authentication methods such as :ref:`ldap-auth`, it "
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
 msgstr ""
 
-#: ../../admin/config.rst:1393
+#: ../../admin/config.rst:1391
 msgid ""
 ":setting:`REGISTRATION_ALLOW_BACKENDS`, :setting:`REGISTRATION_EMAIL_MATCH`"
 msgstr ""
 
-#: ../../admin/config.rst:1399
+#: ../../admin/config.rst:1397
 msgid "REPOSITORY_ALERT_THRESHOLD"
 msgstr ""
 
-#: ../../admin/config.rst:1403
+#: ../../admin/config.rst:1401
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
 msgstr ""
 
-#: ../../admin/config.rst:1408
+#: ../../admin/config.rst:1406
 msgid ":ref:`alerts`"
 msgstr ""
 
-#: ../../admin/config.rst:1413
+#: ../../admin/config.rst:1411
 msgid "SENTRY_DSN"
 msgstr ""
 
-#: ../../admin/config.rst:1417
+#: ../../admin/config.rst:1415
 msgid "Sentry DSN to use for :ref:`collecting-errors`."
 msgstr ""
 
-#: ../../admin/config.rst:1421
+#: ../../admin/config.rst:1419
 msgid ""
 "`Django integration for Sentry <https://docs.sentry.io/platforms/python/"
 "django/>`_"
 msgstr ""
 
-#: ../../admin/config.rst:1426
+#: ../../admin/config.rst:1424
 msgid "SIMPLIFY_LANGUAGES"
 msgstr ""
 
-#: ../../admin/config.rst:1428
+#: ../../admin/config.rst:1426
 msgid ""
 "Use simple language codes for default language/country combinations. For "
 "example an ``fr_FR`` translation will use the ``fr`` language code. This is "
@@ -5059,37 +5058,37 @@ msgid ""
 "default combinations."
 msgstr ""
 
-#: ../../admin/config.rst:1433
+#: ../../admin/config.rst:1431
 msgid "Turn this off if you want to different translations for each variant."
 msgstr ""
 
-#: ../../admin/config.rst:1438
+#: ../../admin/config.rst:1436
 msgid "SITE_TITLE"
 msgstr ""
 
-#: ../../admin/config.rst:1440
+#: ../../admin/config.rst:1438
 msgid "Site title to be used for the website and sent e-mails."
 msgstr ""
 
-#: ../../admin/config.rst:1445
+#: ../../admin/config.rst:1443
 msgid "SPECIAL_CHARS"
 msgstr ""
 
-#: ../../admin/config.rst:1447
+#: ../../admin/config.rst:1445
 msgid ""
-"Additional characters to include in the visual keyboard, see :ref:`visual-"
+"Additional characters to include in the visual keyboard, :ref:`visual-"
 "keyboard`."
 msgstr ""
 
-#: ../../admin/config.rst:1449
+#: ../../admin/config.rst:1447
 msgid "The default value is:"
 msgstr ""
 
-#: ../../admin/config.rst:1458
+#: ../../admin/config.rst:1456
 msgid "SINGLE_PROJECT"
 msgstr ""
 
-#: ../../admin/config.rst:1462
+#: ../../admin/config.rst:1460
 msgid ""
 "Redirects users directly to a project or component instead of showing the "
 "dashboard. You can either set it to ``True`` and in this case it only works "
@@ -5097,86 +5096,86 @@ msgid ""
 "the project slug, and it will redirect unconditionally to this project."
 msgstr ""
 
-#: ../../admin/config.rst:1469
+#: ../../admin/config.rst:1467
 msgid ""
-"The setting now also accepts a project slug, to force displaying that that "
-"single project."
+"The setting now also accepts a project slug, to force displaying that single "
+"project."
 msgstr ""
 
-#: ../../admin/config.rst:1481
+#: ../../admin/config.rst:1479
 msgid "STATUS_URL"
 msgstr ""
 
-#: ../../admin/config.rst:1483
+#: ../../admin/config.rst:1481
 msgid "The URL where your Weblate instance reports it's status."
 msgstr ""
 
-#: ../../admin/config.rst:1488
+#: ../../admin/config.rst:1486
 msgid "SUGGESTION_CLEANUP_DAYS"
 msgstr ""
 
-#: ../../admin/config.rst:1492
+#: ../../admin/config.rst:1490
 msgid ""
 "Automatically deletes suggestions after a given number of days. Defaults to "
 "``None``, meaning no deletions."
 msgstr ""
 
-#: ../../admin/config.rst:1498
+#: ../../admin/config.rst:1496
 msgid "URL_PREFIX"
 msgstr ""
 
-#: ../../admin/config.rst:1500
+#: ../../admin/config.rst:1498
 msgid ""
 "This settings allows you to run Weblate under some path (otherwise it relies "
 "on being run from the webserver root)."
 msgstr ""
 
-#: ../../admin/config.rst:1505
+#: ../../admin/config.rst:1503
 msgid ""
 "To use this setting, you also need to configure your server to strip this "
 "prefix. For example with WSGI, this can be achieved by setting "
 "``WSGIScriptAlias``."
 msgstr ""
 
-#: ../../admin/config.rst:1510
+#: ../../admin/config.rst:1508
 msgid "The prefix should start with a ``/``."
 msgstr ""
 
-#: ../../admin/config.rst:1520
+#: ../../admin/config.rst:1518
 msgid ""
 "This setting does not work with Django's built-in server, you would have to "
 "adjust :file:`urls.py` to contain this prefix."
 msgstr ""
 
-#: ../../admin/config.rst:1526
+#: ../../admin/config.rst:1524
 msgid "VCS_BACKENDS"
 msgstr ""
 
-#: ../../admin/config.rst:1528
+#: ../../admin/config.rst:1526
 msgid "Configuration of available VCS backends."
 msgstr ""
 
-#: ../../admin/config.rst:1532
-msgid "Weblate tries to use all supported backends you have the tools for."
+#: ../../admin/config.rst:1530
+msgid "Weblate tries to use all supported back-ends you have the tools for."
 msgstr ""
 
-#: ../../admin/config.rst:1536
+#: ../../admin/config.rst:1534
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
 
-#: ../../admin/config.rst:1546 ../../faq.rst:452
+#: ../../admin/config.rst:1544 ../../faq.rst:452
 msgid ":ref:`vcs`"
 msgstr ""
 
-#: ../../admin/config.rst:1551
+#: ../../admin/config.rst:1549
 msgid "VCS_CLONE_DEPTH"
 msgstr ""
 
-#: ../../admin/config.rst:1555
+#: ../../admin/config.rst:1553
 msgid "Configures how deep cloning of repositories Weblate should do."
 msgstr ""
 
-#: ../../admin/config.rst:1559
+#: ../../admin/config.rst:1557
 msgid ""
 "Currently this is only supported in :ref:`vcs-git`. By default Weblate does "
 "shallow clones of the repositories to make cloning faster and save disk "
@@ -5185,18 +5184,18 @@ msgid ""
 "completely by setting this to 0."
 msgstr ""
 
-#: ../../admin/config.rst:1566
+#: ../../admin/config.rst:1564
 msgid ""
 "In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow "
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
 
-#: ../../admin/config.rst:1576
+#: ../../admin/config.rst:1574
 msgid "WEBLATE_ADDONS"
 msgstr ""
 
-#: ../../admin/config.rst:1578
+#: ../../admin/config.rst:1576
 msgid ""
 "List of addons available for use. To use them, they have to be enabled for a "
 "given translation component. By default this includes all built-in addons, "
@@ -5204,53 +5203,53 @@ msgid ""
 "enabled, for example:"
 msgstr ""
 
-#: ../../admin/config.rst:1617 ../../admin/management.rst:572
+#: ../../admin/config.rst:1615 ../../admin/management.rst:572
 msgid ":ref:`addons`"
 msgstr ""
 
-#: ../../admin/config.rst:1622
+#: ../../admin/config.rst:1620
 msgid "WEBLATE_EXPORTERS"
 msgstr ""
 
-#: ../../admin/config.rst:1626
+#: ../../admin/config.rst:1624
 msgid ""
-"List of exporters available for use. These offer download of the "
-"translations or glossaries in various file formats."
+"List of a available exporters offering downloading translations or "
+"glossaries in various file formats."
 msgstr ""
 
-#: ../../admin/config.rst:1631 ../../admin/config.rst:1648
+#: ../../admin/config.rst:1629 ../../admin/config.rst:1646
 #: ../../user/files.rst:46
 msgid ":ref:`formats`"
 msgstr ""
 
-#: ../../admin/config.rst:1636
+#: ../../admin/config.rst:1634
 msgid "WEBLATE_FORMATS"
 msgstr ""
 
-#: ../../admin/config.rst:1640
+#: ../../admin/config.rst:1638
 msgid "List of file formats available for use."
 msgstr ""
 
-#: ../../admin/config.rst:1644
+#: ../../admin/config.rst:1642
 msgid "The default list already has the common formats."
 msgstr ""
 
-#: ../../admin/config.rst:1653
+#: ../../admin/config.rst:1651
 msgid "WEBLATE_GPG_IDENTITY"
 msgstr ""
 
-#: ../../admin/config.rst:1657
+#: ../../admin/config.rst:1655
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
 
-#: ../../admin/config.rst:1663
+#: ../../admin/config.rst:1661
 msgid ""
-"The matching key is searched in Weblate GPG keyring (:file:`home/.gnupg` "
-"under :setting:`DATA_DIR`), if it is not found the key is generated, see :"
+"The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` "
+"under :setting:`DATA_DIR`). If not found, a key is generated, please check :"
 "ref:`gpg-sign` for more details."
 msgstr ""
 
-#: ../../admin/config.rst:1669 ../../admin/install/docker.rst:529
+#: ../../admin/config.rst:1667 ../../admin/install/docker.rst:529
 msgid ":ref:`gpg-sign`"
 msgstr ""
 
@@ -5671,7 +5670,7 @@ msgstr ""
 msgid ""
 "If you are using Weblate on protected branch, you can configure it to use "
 "pull requests and perform actual review on the translations (what might be "
-"problematic for languages you do not know). Alternative approach is to to "
+"problematic for languages you do not know). An alternative approach is to "
 "waive this limitation for the Weblate push user."
 msgstr ""
 
@@ -5688,7 +5687,7 @@ msgid ""
 "By default, Weblate merges the upstream repository into its own. This is the "
 "safest way in case you also access the underlying repository by other means. "
 "In case you don't need this, you can enable rebasing of changes on upstream, "
-"which will produce history with fewer merge commits."
+"which will produce a history with fewer merge commits."
 msgstr ""
 
 #: ../../admin/continuous.rst:327
@@ -6568,7 +6567,7 @@ msgstr ""
 
 #: ../../admin/install.rst:381
 msgid ""
-"Use ``utf8mb4`` charset to allow representation of higher Unicode planes "
+"Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
 msgstr ""
 
@@ -6579,7 +6578,7 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:383
-msgid "Set isolcation level to ``READ COMMITTED``."
+msgid "Set the isolation level to ``READ COMMITTED``."
 msgstr ""
 
 #: ../../admin/install.rst:384
@@ -7897,7 +7896,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:98
 msgid ""
 "Both of these files must be owned by the same user as the one starting the "
-"docker container and have file mask set to ``600`` (readable and writeable "
+"docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
 
@@ -8724,7 +8723,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:1007
 msgid ""
 "The built in configuration of enabled checks, addons or autofixes can be "
-"adjusted by following variables:"
+"adjusted by the following variables:"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1031
@@ -8799,8 +8798,8 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1085
 msgid ""
-"The files are copied to corresponding location on container startup, so "
-"restart is needed after changing the volume content."
+"The files are copied to the corresponding location upon container startup, "
+"so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1088
@@ -9367,7 +9366,7 @@ msgid "The source language can be configured at :ref:`project`."
 msgstr ""
 
 #: ../../admin/machine.rst:13
-msgid "Amagama"
+msgid "amaGama"
 msgstr ""
 
 #: ../../admin/machine.rst:15
@@ -9382,7 +9381,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:22
 msgid ""
-":ref:`amagama:installation`, :doc:`virtaal:amagama`, `Amagama Translation "
+":ref:`amagama:installation`, :doc:`virtaal:amagama`, `amaGama Translation "
 "Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
 
@@ -10779,8 +10778,8 @@ msgstr ""
 
 #: ../../admin/memory.rst:62
 msgid ""
-"Please consider carefully whether to turn this this feature on for shared "
-"Weblate installations, as it can have severe implications:"
+"Please consider carefully whether to turn this feature on for shared Weblate "
+"installations, as it can have severe implications:"
 msgstr ""
 
 #: ../../admin/memory.rst:65
@@ -14171,16 +14170,22 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1499
-msgid "number of strings failing check"
-msgstr ""
+#, fuzzy
+#| msgid "Number of failing checks"
+msgid "number of strings failing checks"
+msgstr "Aantal mislukte controles"
 
 #: ../../api.rst:1500
-msgid "percentage of strings failing check"
-msgstr ""
+#, fuzzy
+#| msgid "Translated strings with any failing checks"
+msgid "percentage of strings failing checks"
+msgstr "Vertaalde tekenreeksen met mislukte controles"
 
 #: ../../api.rst:1501
-msgid "number of words with failing check"
-msgstr ""
+#, fuzzy
+#| msgid "Number of failing checks"
+msgid "number of words with failing checks"
+msgstr "Aantal mislukte controles"
 
 #: ../../api.rst:1502
 msgid "translation filename"
@@ -14207,8 +14212,10 @@ msgid "number of strings with suggestion"
 msgstr ""
 
 #: ../../api.rst:1508
-msgid "whether translation is monolingual base"
-msgstr ""
+#, fuzzy
+#| msgid "The translation uses monolingual files."
+msgid "whether the translation has a monolingual base"
+msgstr "De vertaling gebruikt enkeltalige bestanden."
 
 #: ../../api.rst:1510
 msgid ""
@@ -14225,11 +14232,11 @@ msgid "last change timestamp"
 msgstr ""
 
 #: ../../api.rst:1513
-msgid "hash revision of the file"
+msgid "revision hash for the file"
 msgstr ""
 
 #: ../../api.rst:1514
-msgid "URL for sharing leading to engage page"
+msgid "URL for sharing leading to engagement page"
 msgstr ""
 
 #: ../../api.rst:1517
@@ -14476,32 +14483,44 @@ msgid "translation unit flags"
 msgstr ""
 
 #: ../../api.rst:1796
-msgid "whether unit is fuzzy or marked for review"
-msgstr ""
+#, fuzzy
+#| msgid "Strings marked for review:"
+msgid "whether the unit is fuzzy or marked for review"
+msgstr "Tekenreeksen om te beoordelen:"
 
 #: ../../api.rst:1797
-msgid "whether unit is translated"
-msgstr ""
+#, fuzzy
+#| msgid "Percents translated"
+msgid "whether the unit is translated"
+msgstr "Procent vertaald"
 
 #: ../../api.rst:1798
-msgid "whether translation is approved"
-msgstr ""
+#, fuzzy
+#| msgid "Translation approved"
+msgid "whether the translation is approved"
+msgstr "Vertaling goedgekeurd"
 
 #: ../../api.rst:1799
 msgid "unit position in translation file"
 msgstr ""
 
 #: ../../api.rst:1800
-msgid "whether unit has suggestions"
-msgstr ""
+#, fuzzy
+#| msgid "String has suggestion"
+msgid "whether the unit has suggestions"
+msgstr "Tekenreeks met suggestie"
 
 #: ../../api.rst:1801
-msgid "whether unit has comments"
-msgstr ""
+#, fuzzy
+#| msgid "String has comment"
+msgid "whether the unit has comments"
+msgstr "Tekenreeks met opmerking"
 
 #: ../../api.rst:1802
-msgid "whether unit has failing checks"
-msgstr ""
+#, fuzzy
+#| msgid "String has failing check"
+msgid "whether the unit has failing checks"
+msgstr "Tekenreeks met mislukte controle"
 
 #: ../../api.rst:1803
 msgid "number of source words"
@@ -14516,7 +14535,7 @@ msgid "unit identifier"
 msgstr ""
 
 #: ../../api.rst:1806
-msgid "URL where unit can be edited"
+msgid "URL where the unit can be edited"
 msgstr ""
 
 #: ../../api.rst:1807
@@ -15490,8 +15509,10 @@ msgid "Added check and highlighter for percent placeholders."
 msgstr ""
 
 #: ../../changes.rst:151
-msgid "Display failing checks for suggestions."
-msgstr ""
+#, fuzzy
+#| msgid "Message has failing checks"
+msgid "Display suggestions failing checks."
+msgstr "Bericht heeft mislukte controles"
 
 #: ../../changes.rst:152
 msgid "Record source string changes in history."
@@ -15724,8 +15745,12 @@ msgid "Display nearby keys on monolingual translations."
 msgstr ""
 
 #: ../../changes.rst:227
-msgid "Added support for groupping string shapings."
+#, fuzzy
+#| msgid "Added support for reordering committed changes."
+msgid "Added support for grouping string shapings."
 msgstr ""
+"Ondersteuning toegevoegd voor het opnieuw ordenen van vastgelegde "
+"wijzigingen."
 
 #: ../../changes.rst:228
 msgid "Recommend upgrade to new Weblate versions in the system checks."
@@ -17486,7 +17511,7 @@ msgid "Various user interface cleanups."
 msgstr ""
 
 #: ../../changes.rst:788
-msgid "Fixed component/project/sitewide search for translations."
+msgid "Fixed component/project/site wide search for translations."
 msgstr ""
 
 #: ../../changes.rst:791
@@ -17747,7 +17772,7 @@ msgid "Added support for Yandex Translate API."
 msgstr ""
 
 #: ../../changes.rst:877
-msgid "Improved speed of sitewide search."
+msgid "Improved speed of site wide search."
 msgstr ""
 
 #: ../../changes.rst:878
@@ -18201,8 +18226,10 @@ msgid "Performance improvements for quality checks."
 msgstr ""
 
 #: ../../changes.rst:1022
-msgid "Fixed sitewide search for failing checks."
-msgstr ""
+#, fuzzy
+#| msgid "Strings with any failing checks"
+msgid "Fixed site wide search for failing checks."
+msgstr "Tekenreeksen met mislukte controles"
 
 #: ../../changes.rst:1023
 msgid "Added option to specify source language."
@@ -19685,7 +19712,7 @@ msgstr ""
 
 #: ../../contributing/code.rst:17
 msgid ""
-"Any code for Weblate should be writted with `Security by Design Principles`_ "
+"Any code for Weblate should be written with `Security by Design Principles`_ "
 "in mind."
 msgstr ""
 
@@ -19711,7 +19738,7 @@ msgid ""
 "The easiest approach to enforce all this is to install `pre-commit`_. "
 "Weblate repository contains configuration for it to verify the committed "
 "files are sane. After installing it (it is already included in the :file:"
-"`requirements-lint.txt`) enable it by running ``pre-commit install`` in "
+"`requirements-lint.txt`) turn it on by running ``pre-commit install`` in "
 "Weblate checkout. This way all your changes will be automatically checked."
 msgstr ""
 
@@ -19725,9 +19752,9 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:4
 msgid ""
-"Bugs can behave as application crashes or as a misbehavior. You are welcome "
-"to collect info on any such issue and submit it to our `issue tracker "
-"<https://github.com/WeblateOrg/weblate/issues>`_."
+"Bugs can behave as application crashes or as misbehavior. You are welcome to "
+"collect info on any such issue and submit it to the `issue tracker <https://"
+"github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
 
 #: ../../contributing/debugging.rst:9
@@ -19736,8 +19763,8 @@ msgstr "Foutopsporingsmodus"
 
 #: ../../contributing/debugging.rst:11
 msgid ""
-"Enabling debug mode will make the exceptions show in browser. This is useful "
-"to debug issues in the web interface, but not suitable for production "
+"Turning on debug mode will make the exceptions show in the browser. This is "
+"useful to debug issues in the web interface, but not suitable for production "
 "environment as it has performance consequences and might leak private data."
 msgstr ""
 
@@ -19747,7 +19774,7 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:22
 msgid ""
-"Weblate can produce detailed logs of what is going in in the background. In "
+"Weblate can produce detailed logs of what is going in the background. In the "
 "default configuration it uses syslog and that makes the log appear either "
 "in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on your "
 "syslog daemon configuration)."
@@ -19755,8 +19782,8 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:27
 msgid ""
-"The Docker containers log (as usual in the Docker world) to their output, so "
-"you can look at the logs using ``docker-compose logs``."
+"Docker containers log to their output (as usual in the Docker world), so you "
+"can look at the logs using ``docker-compose logs``."
 msgstr ""
 
 #: ../../contributing/debugging.rst:32
@@ -19794,16 +19821,16 @@ msgstr ""
 
 #: ../../contributing/debugging.rst:53
 msgid ""
-"In case Weblate performs badly in some situation, please collect relevant "
-"logs showing the issue, and anything that might help figuring out where the "
-"code might be improved."
+"In case Weblate performs badly in some situation, please collect the "
+"relevant logs showing the issue, and anything that might help figuring out "
+"where the code might be improved."
 msgstr ""
 
 #: ../../contributing/debugging.rst:57
 msgid ""
 "In case some requests take too long without any indication, you might want "
 "to install `dogslow <https://pypi.org/project/dogslow/>` along with :ref:"
-"`collecting-errors` and get pinpointed detailed tracebacks in the error "
+"`collecting-errors` and get pinpointed and detailed tracebacks in the error "
 "collection tool."
 msgstr ""
 
@@ -19923,8 +19950,8 @@ msgstr ""
 msgid ""
 "You can fund further Weblate development on the `donate page`_. Funds "
 "collected there are used to fund gratis hosting for libre software projects, "
-"and further development of Weblate. Please check the the `donate page` for "
-"details, such as funding goals and rewards you can get by being a funder."
+"and further development of Weblate. Please check the `donate page` for "
+"details, such as funding goals and rewards you can get for being a funder."
 msgstr ""
 
 #: ../../../BACKERS.rst:2
@@ -21169,10 +21196,9 @@ msgstr ""
 
 #: ../../devel/starting.rst:6
 msgid ""
-"You have a project and want to to translate it into several languages? This "
-"guide will help you to do so. We will showcase several typical situations, "
-"but most of the examples are generic and can be applied to other scenarios "
-"as well."
+"Have a project and want to translate it into several languages? This guide "
+"will help you do so. Several typical situations are showcased, but most of "
+"the examples are generic and can be applied to other scenarios as well."
 msgstr ""
 
 #: ../../devel/starting.rst:11
@@ -24886,7 +24912,7 @@ msgstr ""
 msgid ""
 "The check fails on differing translations of one string within a project. "
 "This can also lead to inconsistencies in displayed checks. You can find "
-"other translations of this string on the :guilabel:`Other occurences` tab."
+"other translations of this string on the :guilabel:`Other occurrences` tab."
 msgstr ""
 
 #: ../../user/checks.rst:420
@@ -26000,7 +26026,7 @@ msgstr ""
 
 #: ../../user/search.rst:9
 msgid ""
-"When not defining any field, the lookup happens on :guilabel:`Source`, :"
+"When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Target` and :guilabel:`Context` fields."
 msgstr ""
 
@@ -26011,9 +26037,9 @@ msgstr ""
 #: ../../user/search.rst:17
 msgid ""
 "Any phrase typed into the search box is split into words. Strings containing "
-"any of them are are shown. To look for an exact phrase, put \"the "
-"searchphrase\" into quotes (both single (') and double (\") quotes will "
-"work): ``\"this is a quoted string\"`` or ``'another quoted string'``."
+"any of them are shown. To look for an exact phrase, put \"the searchphrase\" "
+"into quotes (both single (') and double (\") quotes will work): ``\"this is "
+"a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
 
 #: ../../user/search.rst:23
@@ -26483,40 +26509,50 @@ msgid ":kbd:`Alt+Home`"
 msgstr ""
 
 #: ../../user/translating.rst:147
-msgid "Navigates to first translation in current search."
-msgstr ""
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Navigate to first translation in current search."
+msgstr "Deze vertaling wordt op dit moment vergrendeld."
 
 #: ../../user/translating.rst:148
 msgid ":kbd:`Alt+End`"
 msgstr ""
 
 #: ../../user/translating.rst:149
-msgid "Navigates to last translation in current search."
-msgstr ""
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Navigate to last translation in current search."
+msgstr "Deze vertaling wordt op dit moment vergrendeld."
 
 #: ../../user/translating.rst:150
 msgid ":kbd:`Alt+PageUp`"
 msgstr ""
 
 #: ../../user/translating.rst:151
-msgid "Navigates to previous translation in current search."
-msgstr ""
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Navigate to previous translation in current search."
+msgstr "Deze vertaling wordt op dit moment vergrendeld."
 
 #: ../../user/translating.rst:152
 msgid ":kbd:`Alt+PageDown`"
 msgstr ""
 
 #: ../../user/translating.rst:153
-msgid "Navigates to next translation in current search."
-msgstr ""
+#, fuzzy
+#| msgid "This translation is currently locked."
+msgid "Navigate to next translation in current search."
+msgstr "Deze vertaling wordt op dit moment vergrendeld."
 
 #: ../../user/translating.rst:154
 msgid ":kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`"
 msgstr ""
 
 #: ../../user/translating.rst:155
-msgid "Saves current translation."
-msgstr ""
+#, fuzzy
+#| msgid "Machine translation"
+msgid "Save current translation."
+msgstr "Machinevertaling"
 
 #: ../../user/translating.rst:156
 msgid ":kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`"
@@ -26563,7 +26599,7 @@ msgid ":kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`"
 msgstr ""
 
 #: ../../user/translating.rst:167
-msgid "Copy machine translation of given number to current translation."
+msgid "Copy the machine translation of given number to current translation."
 msgstr ""
 
 #: ../../user/translating.rst:168
@@ -26571,8 +26607,10 @@ msgid ":kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`"
 msgstr ""
 
 #: ../../user/translating.rst:169
-msgid "Ignore failing check of given number."
-msgstr ""
+#, fuzzy
+#| msgid "Ignore failing check"
+msgid "Ignore one item in the list of failing checks."
+msgstr "Mislukte controle negeren"
 
 #: ../../user/translating.rst:170
 msgid ":kbd:`Ctrl+J` or :kbd:`Cmd+J`"
@@ -26849,8 +26887,8 @@ msgstr ""
 msgid ""
 "To avoid abuse of the interface, there is rate limiting applied to several "
 "operations like searching, sending contact form or translating. In case you "
-"are are hit by this, you are blocked for a certain period until you can "
-"perform the operation again."
+"are hit by this, you are blocked for a certain period until you can perform "
+"the operation again."
 msgstr ""
 
 #: ../../user/translating.rst:334
@@ -27400,8 +27438,8 @@ msgstr ""
 #: ../../vcs.rst:470
 msgid ""
 "In the background Weblate creates a Git repository for you and all changes "
-"are tracked in in. In case you later decide to use a VCS to store the "
-"translations, you already have a repo within Weblate can base your "
+"are tracked in. In case you later decide to use a VCS to store the "
+"translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
 
