@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.19.1 (da874697) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.19.2 (05fd5fc7) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2017,14 +2017,13 @@ var Sentry = (function (exports) {
             });
             fill(proto, 'removeEventListener', function (original) {
                 return function (eventName, fn, options) {
-                    var callback = fn;
                     try {
-                        callback = callback && (callback.__sentry_wrapped__ || callback);
+                        original.call(this, eventName, fn.__sentry_wrapped__, options);
                     }
                     catch (e) {
                         // ignore, accessing __sentry_wrapped__ will throw in some Selenium environments
                     }
-                    return original.call(this, eventName, callback, options);
+                    return original.call(this, eventName, fn, options);
                 };
             });
         });
@@ -4113,11 +4112,21 @@ var Sentry = (function (exports) {
     var winjs = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i;
     var geckoEval = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i;
     var chromeEval = /\((\S*)(?::(\d+))(?::(\d+))\)/;
+    // Based on our own mapping pattern - https://github.com/getsentry/sentry/blob/9f08305e09866c8bd6d0c24f5b0aabdd7dd6c59c/src/sentry/lang/javascript/errormapping.py#L83-L108
+    var reactMinifiedRegexp = /Minified React error #\d+;/i;
     /** JSDoc */
     function computeStackTrace(ex) {
         // tslint:disable:no-unsafe-any
         var stack = null;
-        var popSize = ex && ex.framesToPop;
+        var popSize = 0;
+        if (ex) {
+            if (typeof ex.framesToPop === 'number') {
+                popSize = ex.framesToPop;
+            }
+            else if (reactMinifiedRegexp.test(ex.message)) {
+                popSize = 1;
+            }
+        }
         try {
             // This must be tried first because Opera 10 *destroys*
             // its stacktrace property if you try to access the stack
@@ -5122,26 +5131,19 @@ var Sentry = (function (exports) {
                      * our wrapped version of `addEventListener`, which internally calls `wrap` helper.
                      * This helper "wraps" whole callback inside a try/catch statement, and attached appropriate metadata to it,
                      * in order for us to make a distinction between wrapped/non-wrapped functions possible.
-                     * If a function has `__sentry__` property, it means that it was wrapped, and it has additional property
-                     * of `__sentry__original__`, holding the handler. And this original handler, has a reversed link,
-                     * with `__sentry_wrapped__` property, which holds the wrapped version.
+                     * If a function was wrapped, it has additional property of `__sentry_wrapped__`, holding the handler.
                      *
                      * When someone adds a handler prior to initialization, and then do it again, but after,
                      * then we have to detach both of them. Otherwise, if we'd detach only wrapped one, it'd be impossible
                      * to get rid of the initial handler and it'd stick there forever.
-                     * In case of second scenario, `__sentry_original__` refers to initial handler, and passed function
-                     * is a wrapped version.
                      */
-                    var callback = fn;
                     try {
-                        if (callback && callback.__sentry__) {
-                            original.call(this, eventName, callback.__sentry_original__, options);
-                        }
+                        original.call(this, eventName, fn.__sentry_wrapped__, options);
                     }
                     catch (e) {
-                        // ignore, accessing __sentry__ will throw in some Selenium environments
+                        // ignore, accessing __sentry_wrapped__ will throw in some Selenium environments
                     }
-                    return original.call(this, eventName, callback, options);
+                    return original.call(this, eventName, fn, options);
                 };
             });
         };
@@ -5559,7 +5561,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.19.1';
+    var SDK_VERSION = '5.19.2';
 
     /**
      * The Sentry Browser SDK Client.
