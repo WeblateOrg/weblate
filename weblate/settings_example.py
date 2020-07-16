@@ -406,6 +406,7 @@ if DEBUG or not HAVE_SYSLOG:
     DEFAULT_LOG = "console"
 else:
     DEFAULT_LOG = "syslog"
+DEFAULT_LOGLEVEL = "DEBUG" if DEBUG else "INFO"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -475,16 +476,13 @@ LOGGING = {
         #     "handlers": [DEFAULT_LOG],
         #     "level": "DEBUG",
         # },
-        "weblate": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "INFO"},
+        "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
         "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "INFO"},
         # Python Social Auth
-        "social": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "INFO"},
+        "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Django Authentication Using LDAP
-        "django_auth_ldap": {
-            "level": "DEBUG" if DEBUG else "INFO",
-            "handlers": [DEFAULT_LOG],
-        },
+        "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
     },
 }
 
