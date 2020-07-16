@@ -2,7 +2,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
   - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v4.3.21
+    rev: v5.1.0
     hooks:
       - id: isort
   - repo: https://github.com/ambv/black
@@ -25,7 +25,7 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.23.0
+    rev: v1.24.2
     hooks:
       - id: yamllint
   - repo: local
@@ -54,7 +54,7 @@ repos:
           |yaml|yml\
           )$"
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.3.1
+    rev: v7.4.0
     hooks:
       - id: eslint
         args: ["--format=compact"]
