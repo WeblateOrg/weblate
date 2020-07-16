@@ -134,8 +134,8 @@ class WeblateAdminSite(AdminSite):
         # Billing
         if "weblate.billing" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
-            from weblate.billing.admin import PlanAdmin, BillingAdmin, InvoiceAdmin
-            from weblate.billing.models import Plan, Billing, Invoice
+            from weblate.billing.admin import BillingAdmin, InvoiceAdmin, PlanAdmin
+            from weblate.billing.models import Billing, Invoice, Plan
 
             self.register(Plan, PlanAdmin)
             self.register(Billing, BillingAdmin)
@@ -161,8 +161,8 @@ class WeblateAdminSite(AdminSite):
         # SAML identity provider
         if "djangosaml2idp" in settings.INSTALLED_APPS:
             # pylint: disable=wrong-import-position
-            from djangosaml2idp.models import PersistentId, ServiceProvider
             from djangosaml2idp.admin import PersistentIdAdmin, ServiceProviderAdmin
+            from djangosaml2idp.models import PersistentId, ServiceProvider
 
             self.register(PersistentId, PersistentIdAdmin)
             self.register(ServiceProvider, ServiceProviderAdmin)
@@ -180,8 +180,8 @@ class WeblateAdminSite(AdminSite):
 
         # Simple SSO
         if "simple_sso.sso_server" in settings.INSTALLED_APPS:
-            from simple_sso.sso_server.server import ConsumerAdmin
             from simple_sso.sso_server.models import Consumer
+            from simple_sso.sso_server.server import ConsumerAdmin
 
             self.register(Consumer, ConsumerAdmin)
 

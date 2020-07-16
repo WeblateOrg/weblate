@@ -63,8 +63,8 @@ def cleanup_auditlog():
 
 @app.task(trail=False)
 def notify_change(change_id):
-    from weblate.trans.models import Change
     from weblate.accounts.notifications import NOTIFICATIONS_ACTIONS
+    from weblate.trans.models import Change
 
     change = Change.objects.get(pk=change_id)
     perm_cache = {}

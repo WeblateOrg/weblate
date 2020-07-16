@@ -172,7 +172,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         return self.name
 
     def save(self, *args, **kwargs):
-        from weblate.trans.tasks import perform_load, component_alerts
+        from weblate.trans.tasks import component_alerts, perform_load
 
         update_tm = self.contribute_shared_tm
 

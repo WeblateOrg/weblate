@@ -26,8 +26,8 @@ from weblate.utils.checks import weblate_check
 
 
 def check_avatars(app_configs, **kwargs):
-    from weblate.auth.models import get_anonymous
     from weblate.accounts.avatar import download_avatar_image
+    from weblate.auth.models import get_anonymous
 
     if not settings.ENABLE_AVATARS:
         return []

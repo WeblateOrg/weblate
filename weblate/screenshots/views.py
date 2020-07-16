@@ -38,7 +38,7 @@ from weblate.utils.views import ComponentViewMixin
 
 try:
     with c_locale():
-        from tesserocr import PyTessBaseAPI, RIL
+        from tesserocr import RIL, PyTessBaseAPI
     HAS_OCR = True
 except ImportError:
     HAS_OCR = False

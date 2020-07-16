@@ -58,7 +58,7 @@ class RestrictedEngine(Engine):
 
 def render_template(template, **kwargs):
     """Helper class to render string template with context."""
-    from weblate.trans.models import Project, Component, Translation
+    from weblate.trans.models import Component, Project, Translation
 
     translation = kwargs.get("translation")
     component = kwargs.get("component")
@@ -111,8 +111,8 @@ def validate_render(value, **kwargs):
 
 
 def validate_render_component(value, translation=None, **kwargs):
-    from weblate.trans.models import Project, Component, Translation
     from weblate.lang.models import Language
+    from weblate.trans.models import Component, Project, Translation
 
     component = Component(
         project=Project(name="project", slug="project", id=-1),
