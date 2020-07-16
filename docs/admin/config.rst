@@ -115,9 +115,9 @@ Prefix for constructing avatar URLs as:
 ``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``.
 The following services are known to work:
 
-Gravatar (default), see https://gravatar.com/
+Gravatar (default), as per https://gravatar.com/
     ``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``
-Libravatar, see https://www.libravatar.org/
+Libravatar, as per https://www.libravatar.org/
    ``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``
 
 .. seealso::
@@ -133,9 +133,8 @@ AUTH_TOKEN_VALID
 
 .. versionadded:: 2.14
 
-How long the authentication token and temporary password from password reset e-mails is valid for.
-
-An amount of seconds defaulting to 172800 (2 days).
+How long the the authentication token and temporary password from password reset e-mails is valid for.
+Set in number of seconds, defaulting to 172800 (2 days).
 
 
 AUTH_PASSWORD_DAYS
@@ -213,11 +212,11 @@ List of quality checks to perform on a translation.
     Provide a fully-qualified path to the Python class implementing the check
     interface.
 
-Adjust the list of checks to include the ones you want to have performed.
+Adjust the list of checks to include ones relevant to you.
 
 All built-in quality :ref:`checks` are turned on by default, from
-where you can change these settings. They are also commented out in :ref:`sample-configuration`
-to use default values, which is to have new checks carried out when going to a new Weblate version.
+where you can change these settings. By default they arecommented out in :ref:`sample-configuration`
+so that default values are used. New checks then carried out for each new Weblate version.
 
 You can turn off all checks:
 
@@ -262,7 +261,7 @@ COMMIT_PENDING_HOURS
 
 .. versionadded:: 2.10
 
-Number of hours between committing pending changes with background task.
+Number of hours between committing pending changes by way of the background task.
 
 .. seealso::
 
@@ -292,7 +291,7 @@ The following subdirectories usually exist:
 :file:`vcs`
     Version control repositories.
 :file:`backups`
-    Daily backup data, see :ref:`backup-dumps`.
+    Daily backup data, please check :ref:`backup-dumps` for details.
 
 .. note::
 
@@ -381,7 +380,7 @@ The default value for component restriction.
 DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE
 -----------------------------------------------------------------------------------------------------------------
 
-Default commit messages for different operations, see :ref:`component`.
+Default commit messages for different operations, please check :ref:`component` for details.
 
 
 .. seealso::
@@ -499,7 +498,7 @@ defaulting to ``'Update from Weblate'``.
 ENABLE_AVATARS
 --------------
 
-Whether to enable Gravatar based avatars for users. By default this is enabled.
+Whether to turn on Gravatar based avatars for users. By default this is on.
 
 Avatars are fetched and cached on the server, lowering the risk of
 leaking private info, speeding up the user experience.
@@ -546,7 +545,7 @@ e-mails and generated absolute URLs.
 ENABLE_SHARING
 --------------
 
-Enable/disable the Share menu so users can share translation progress on social networks.
+Turn on/off the "Share" menu so users can share translation progress on social networks.
 
 .. setting:: GITLAB_USERNAME
 
@@ -685,7 +684,7 @@ URL where your Weblate instance shows its legal documents.
 .. hint::
 
     Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
-    please see :ref:`legal`.
+    please check :ref:`legal` for details.
 
 Example:
 
@@ -710,9 +709,9 @@ For example:
 
     LICENSE_EXTRA = [
         (
-            "GPL-3.0-only",
-            "GNU General Public License v3.0 only",
-            "https://www.gnu.org/licenses/gpl-3.0-standalone.html",
+            "AGPL-3.0",
+            "GNU Affero General Public License v3.0",
+            "https://www.gnu.org/licenses/agpl-3.0-standalone.html",
         ),
     ]
 
@@ -731,7 +730,7 @@ For example:
 
 .. code-block:: python
 
-    LICENSE_FILTER = {"GPL-3.0-only", "GPL-3.0-or-later"}
+    LICENSE_FILTER = {"AGPL-3.0", "GPL-3.0-or-later"}
 
 .. setting:: LICENSE_REQUIRED
 
@@ -829,8 +828,7 @@ MATOMO_URL
 ----------
 
 Full URL (including trailing slash) of a Matomo (formerly Piwik) installation you want
-to use to track Weblate use. For more info about Matomo, see
-<https://matomo.org/>.
+to use to track Weblate use. Please check <https://matomo.org/> for more deails.
 
 .. hint::
 
@@ -894,7 +892,7 @@ List of enabled machine translation services to use.
 MT_APERTIUM_APY
 ---------------
 
-URL of the Apertium-APy server, see http://wiki.apertium.org/wiki/Apertium-apy
+URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy
 
 .. seealso::
 
@@ -970,9 +968,9 @@ v2
     Is meant for API usage and the subscription is usage based.
 
 Previously Weblate was classified as a CAT tool by DeepL, so it was supposed to
-use v1 API, but now it is not classified that way and is supposed to use v2
-API. Therefore it defaults to v2, you can change it to v1 in case you have
-existing CAT subscription and want Weblate to use that.
+use the v1 API, but now is supposed to use the v2 API.
+Therefore it defaults to v2, and you can change it to v1 in case you have
+an existing CAT subscription and want Weblate to use that.
 
 .. seealso::
 
@@ -1005,17 +1003,17 @@ API key for Google Translate API v2, you can register at https://cloud.google.co
 MT_GOOGLE_CREDENTIALS
 ---------------------
 
-API v3 json credentials file obtained in Google cloud console. Please provide full OS path.
+API v3 JSON credentials file obtained in the Google cloud console. Please provide a full OS path.
 Credentials are per service-account affiliated with certain project.
-See https://cloud.google.com/docs/authentication/getting-started
+Please check https://cloud.google.com/docs/authentication/getting-started for more details.
 
 .. setting:: MT_GOOGLE_PROJECT
 
 MT_GOOGLE_PROJECT
 -----------------
 
-API v3 Google cloud `project id` with activated Translation service having billing activated.
-See https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project
+API v3 Google cloud `project id` with activated translation service and billing activated.
+Please check https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project for more details
 
 .. setting:: MT_GOOGLE_LOCATION
 
@@ -1023,9 +1021,9 @@ MT_GOOGLE_LOCATION
 ------------------
 
 API v3 Google Cloud Application Engine may be specific to a location.
-Change accordingly if default ``global`` fallback does not work for you.
+Change accordingly if the default ``global`` fallback does not work for you.
 
-See https://cloud.google.com/appengine/docs/locations
+Please check https://cloud.google.com/appengine/docs/locations for more details
 
 .. seealso::
 
@@ -1036,7 +1034,7 @@ See https://cloud.google.com/appengine/docs/locations
 MT_MICROSOFT_BASE_URL
 ---------------------
 
-Region base url domain as defined in the `Base URLs section
+Region base URL domain as defined in the `"Base URLs" section
 <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_.
 
 Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global.
@@ -1060,19 +1058,19 @@ Client key for the Microsoft Cognitive Services Translator API.
 MT_MICROSOFT_REGION
 -------------------
 
-Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
+Region prefix as defined in `"Multi service subscription" <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
 
 .. setting:: MT_MICROSOFT_ENDPOINT_URL
 
 MT_MICROSOFT_ENDPOINT_URL
 -------------------------
 
-Region endpoint url domain for access token as defined in the `Authenticating with an access token section
+Region endpoint URL domain for access token as defined in the `"Authenticating with an access token" section
 <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_.
 
 Defaults to ``api.cognitive.microsoft.com`` for Azure Global.
 
-For Azure China, please use your endpoint from Azure Portal.
+For Azure China, please use your endpoint from the Azure Portal.
 
 
 .. setting:: MT_MODERNMT_KEY
@@ -1080,7 +1078,7 @@ For Azure China, please use your endpoint from Azure Portal.
 MT_MODERNMT_KEY
 ---------------
 
-API key for ModernMT machine translation engine.
+API key for the ModernMT machine translation engine.
 
 .. seealso::
 
@@ -1106,7 +1104,7 @@ service.
 MT_MYMEMORY_EMAIL
 -----------------
 
-MyMemory identification e-mail address, you can get 1000 requests per day with this.
+MyMemory identification e-mail address. It permits 1000 requests per day.
 
 .. seealso::
 
@@ -1118,7 +1116,7 @@ MyMemory identification e-mail address, you can get 1000 requests per day with t
 MT_MYMEMORY_KEY
 ---------------
 
-MyMemory access key for private translation memory, use together with :setting:`MT_MYMEMORY_USER`.
+MyMemory access key for private translation memory, use it with :setting:`MT_MYMEMORY_USER`.
 
 .. seealso::
 
@@ -1130,7 +1128,7 @@ MyMemory access key for private translation memory, use together with :setting:`
 MT_MYMEMORY_USER
 ----------------
 
-MyMemory user ID for private translation memory, use together with :setting:`MT_MYMEMORY_KEY`.
+MyMemory user ID for private translation memory, use it with :setting:`MT_MYMEMORY_KEY`.
 
 .. seealso::
 
@@ -1379,7 +1377,7 @@ Whether registration of new accounts is currently permitted.
 This optional setting can remain the default``True``, or changed to ``False``.
 
 This setting affects built-in authentication by e-mail address or through the
-Python Social Auth (you can white list certain backends using
+Python Social Auth (you can whitelist certain back-ends using
 :setting:`REGISTRATION_ALLOW_BACKENDS`).
 
 .. note::
@@ -1444,7 +1442,7 @@ Site title to be used for the website and sent e-mails.
 SPECIAL_CHARS
 -------------
 
-Additional characters to include in the visual keyboard, see :ref:`visual-keyboard`.
+Additional characters to include in the visual keyboard, :ref:`visual-keyboard`.
 
 The default value is:
 
@@ -1529,7 +1527,7 @@ Configuration of available VCS backends.
 
 .. note::
 
-    Weblate tries to use all supported backends you have the tools for.
+    Weblate tries to use all supported back-ends you have the tools for.
 
 .. hint::
 
@@ -1623,7 +1621,7 @@ WEBLATE_EXPORTERS
 
 .. versionadded:: 4.2
 
-List of exporters available for use. These offer download of the translations
+List of a available exporters offering downloading translations
 or glossaries in various file formats.
 
 .. seealso::
@@ -1660,8 +1658,8 @@ Identity used by Weblate to sign Git commits, for example:
 
     WEBLATE_GPG_IDENTITY = 'Weblate <weblate@example.com>'
 
-The matching key is searched in Weblate GPG keyring (:file:`home/.gnupg` under
-:setting:`DATA_DIR`), if it is not found the key is generated, see
+The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` under
+:setting:`DATA_DIR`). If not found, a key is generated, please check
 :ref:`gpg-sign` for more details.
 
 .. seealso::
