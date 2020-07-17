@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-16 16:25+0200\n"
-"PO-Revision-Date: 2020-07-15 22:30+0000\n"
-"Last-Translator: ssantos <ssantos@web.de>\n"
+"PO-Revision-Date: 2020-07-18 16:42+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
 "Language: pt\n"
@@ -191,7 +191,7 @@ msgstr "Protegido"
 #: ../../admin/access.rst:83
 msgid "Publicly visible, but translatable only for selected users"
 msgstr ""
-"Visível publicamente, mas somente traduzível por utilizadores selecionados"
+"Visível publicamente, mas traduzível apenas por utilizadores selecionados"
 
 #: ../../admin/access.rst:84
 msgid "Private"
@@ -207,7 +207,7 @@ msgstr "Personalizado"
 
 #: ../../admin/access.rst:87
 msgid "Weblate does not manage users, see :ref:`custom-acl`."
-msgstr ""
+msgstr "Weblate não gere os utilizadores, consulte: :ref:`custom-acl`."
 
 #: ../../admin/access.rst:91
 msgid ""
@@ -216,23 +216,24 @@ msgid ""
 "or by using user management on the project page, as described in :ref:"
 "`manage-acl`."
 msgstr ""
-"Para permitir o acesso a este projeto, você tem que adicionar o privilégio "
-"diretamente ao utilizador ou grupo de utilizador na interface administrativa "
-"do Django ou usando a gestão do utilizador na página do projeto, conforme "
-"descrito em :ref:`manage-acl`."
+"Para permitir o acesso a este projeto, tem de adicionar o privilégio "
+"diretamente ao utilizador, ou grupo de utilizadores na interface "
+"administrativa do Django, ou utilizando a gestão do utilizador na página do "
+"projeto, conforme descrito em :ref:`manage-acl`."
 
 #: ../../admin/access.rst:97
 msgid ""
 "Even with ACL turned on, some summary info will be available about your "
 "project:"
 msgstr ""
-"Mesmo com a ACL ativada, algumas informações de resumo estarão disponíveis "
+"Mesmo com a ACL ativada, alguma informação do resumo irá estar disponível "
 "sobre o seu projeto:"
 
 #: ../../admin/access.rst:99
 msgid "Statistics for the whole instance, including counts for all projects."
 msgstr ""
-"Estatísticas para todo o caso, incluindo contagens para todos os projetos."
+"Estatísticas para toda a instância, incluindo as contagens para todos os "
+"projetos."
 
 #: ../../admin/access.rst:100
 msgid ""
@@ -243,7 +244,7 @@ msgstr ""
 
 #: ../../admin/access.rst:105
 msgid "Automatic group assignments"
-msgstr "Atribuições automáticas de grupos"
+msgstr "Atribuições de grupo automáticas"
 
 #: ../../admin/access.rst:107
 msgid ""
@@ -251,9 +252,9 @@ msgid ""
 "mail addresses. This automatic assignment happens only at the time of "
 "account creation."
 msgstr ""
-"Pode configurar o Weblate para adicionar utilizadores automaticamente a "
-"grupos com base em seus endereços de e-mail. Essa atribuição automática "
-"acontece apenas no momento da criação da conta."
+"Pode configurar o Weblate para adicionar automaticamente os utilizadores aos "
+"grupos com base no endereço de <i>e-mail</i> dos mesmos. Esta atribuição "
+"automática acontece apenas no momento da criação da conta."
 
 #: ../../admin/access.rst:110
 msgid ""
@@ -269,10 +270,10 @@ msgid ""
 "always be created by Weblate upon migrations, in case you want to turn it "
 "off, simply set the regular expression to ``^$``, which will never match."
 msgstr ""
-"A associação automática de grupo para os grupos `Utilizadores` e "
-"`Visualizadores` sempre será criada pelo Weblate após as migrações; caso "
-"queira desativá-las, basta definir a expressão regular para ``^$``, que "
-"nunca corresponderá."
+"A atribuição automática de grupo para os grupos `Utilizadores` e "
+"`Visualizadores` será criada sempre pelo Weblate após as migrações; caso "
+"queira desativá-la, basta definir a expressão regular para ``^$``, que nunca "
+"corresponderá."
 
 #: ../../admin/access.rst:122
 msgid "Users, roles, groups and permissions"
@@ -291,8 +292,8 @@ msgid ""
 "Individual permissions defined by Weblate. You can not assign individual "
 "permissions, this can only be done through assignment of roles."
 msgstr ""
-"Permissões individuais definidos por Weblate. Não pode atribuir permissões "
-"individuais, isso só pode ser feito através da atribuição de funções."
+"Permissões individuais definidas pelo Weblate. Não pode atribuir permissões "
+"individuais, isto só pode ser efetuado através da atribuição de funções."
 
 #: ../../admin/access.rst:130
 msgid "`Role`"
@@ -303,8 +304,8 @@ msgid ""
 "Role defines a set of permissions. This allows reuse of these sets in "
 "several places, and makes the administration easier."
 msgstr ""
-"A função define um conjunto de permissões. Isso permite a reutilização "
-"desses conjuntos em vários lugares e facilita a administração."
+"A função define um conjunto de permissões. Isto permite a reutilização "
+"destes conjuntos em vários lugares, e facilita a administração."
 
 #: ../../admin/access.rst:132
 msgid "`User`"
@@ -323,12 +324,12 @@ msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
 msgstr ""
-"Grupos conectam funções, utilizadores e objetos de autenticação (projetos, "
+"Grupos associam funções, utilizadores e objetos de autenticação (projetos, "
 "idiomas e listas de componentes)."
 
 #: ../../admin/access.rst:154
 msgid "Permission checking"
-msgstr "Verificação de permissões"
+msgstr "Verificação de permissão"
 
 #: ../../admin/access.rst:156
 msgid ""
@@ -337,17 +338,18 @@ msgid ""
 "checks are performed in the order:"
 msgstr ""
 "Sempre que uma permissão é verificada para decidir se alguém é capaz de "
-"percorrer uma determinada ação, a verificação é realizada de acordo com o "
-"escopo e as seguintes verificações são percorridas na ordem:"
+"realizar uma determinada ação, a verificação é realizada de acordo com o "
+"âmbito, e as seguintes verificações são realizadas na ordem:"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` are matched against component or project."
 msgstr ""
-":guilabel:`Lista de componentes` são comparadas com componente ou projeto."
+":guilabel:`Lista de componentes` são comparadas com o componente ou o "
+"projeto."
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
-msgstr ":guilabel:`Componentes` são comparados com componente ou projeto."
+msgstr ":guilabel:`Componentes` são comparados com o componente ou o projeto."
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
@@ -358,21 +360,18 @@ msgid ""
 "As you can see, grating access to a component automatically grants user "
 "access to a containing project as well."
 msgstr ""
+"Como pode ver, o acesso de acesso a um componente também concede "
+"automaticamente acesso de utilizador a um projeto que o contém."
 
 #: ../../admin/access.rst:171
-#, fuzzy
-#| msgid ""
-#| "Only the first rule will be used. So if you set all of :guilabel:"
-#| "`Component list`, :guilabel:`Components` and :guilabel:`Project`, only :"
-#| "guilabel:`Component list` is the only one applied."
 msgid ""
 "Only the first rule will be used. So if you set all of :guilabel:`Component "
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
-"Apenas a primeira regra será usada. Então, se definir todas de :guilabel:"
-"`Lista de componentes`, :guilabel:`Componentes` e :guilabel:`Projeto`, "
-"apenas :guilabel:`Lista de componentes` terá efeito."
+"Apenas será utilizada a primeira regra. Assim, se definir todas da "
+":guilabel:`Lista de Componentes`, :guilabel:`Componentes` e "
+":guilabel:`Projeto`, apenas será aplicada a :guilabel:`Lista de componentes`."
 
 #: ../../admin/access.rst:175
 msgid ""
@@ -386,16 +385,16 @@ msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
 msgstr ""
-"4. :guilabel:`Idiomas` são comparados com o escopo de traduções se "
-"definidos; se não definidos, isso não compara com nenhum idioma."
+"4. :guilabel:`Idiomas` são comparados com o âmbito das traduções se "
+"definidos, se não definidos, isto não compara qualquer idioma."
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
-"Pode usar :guilabel:`Seleção de idioma` ou :guilabel:`Seleção de projeto` "
-"para automatizar a inclusão de todos os idiomas ou projetos."
+"Pode utilizar :guilabel:`Seleção de Idioma` ou :guilabel:`Seleção de Projeto`"
+" para automatizar a inclusão de todos os idiomas ou projetos."
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
@@ -892,17 +891,15 @@ msgstr "Privilégios para todo o site"
 
 #: ../../admin/access.rst:406
 msgid "Use management interface (site wide)"
-msgstr "Utilizar a interface de gestão (em toda a plataforma)"
+msgstr "Utilizar a interface de gestão (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:408
-#, fuzzy
-#| msgid "Add language definitions (on the entire platform)"
 msgid "Add language definitions (site wide)"
-msgstr "Adicionar definições de idioma (em toda a plataforma)"
+msgstr "Adicionar definições de idioma (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:410
 msgid "Manage language definitions (site wide)"
-msgstr "Gerir definições de idioma (em toda a plataforma)"
+msgstr "Gerir definições de idioma (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:412
 msgid "Add groups (site wide)"
@@ -910,7 +907,7 @@ msgstr "Adicionar grupos (em toda a plataforma)"
 
 #: ../../admin/access.rst:414
 msgid "Manage groups (site wide)"
-msgstr "Gerir grupos (em toda a plataforma)"
+msgstr "Gerir grupos (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:416
 msgid "Add users (site wide)"
@@ -922,7 +919,7 @@ msgstr "Gerir utilizadores (em todo o site)"
 
 #: ../../admin/access.rst:420
 msgid "Manage announcements (site wide)"
-msgstr "Gerir anúncios (em toda a plataforma)"
+msgstr "Gerir anúncios (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:422
 msgid "Manage translation memory (site wide)"
@@ -1084,7 +1081,7 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Traduz cadeias automaticamente usando tradução automática ou outros "
+"Traduz automaticamente as cadeias utilizando a tradução automática ou outros "
 "componentes."
 
 #: ../../admin/addons.rst:27
@@ -1212,7 +1209,7 @@ msgstr "Edição em massa"
 
 #: ../../admin/addons.rst:100
 msgid "Bulk edit flags, labels or state for strings."
-msgstr "Edição em massa de marcadores, etiquetas ou estados."
+msgstr "Edição em série de marcadores, etiquetas, ou estados para as cadeias."
 
 #: ../../admin/addons.rst:102
 msgid ""
@@ -1228,7 +1225,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:110
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Marcar traduções não alteradas como \"Necessita de edição\""
+msgstr "Marcar as traduções inalteradas como \"Precisa de edição\""
 
 #: ../../admin/addons.rst:114
 msgid ""
@@ -1237,14 +1234,14 @@ msgid ""
 "especially useful for file formats that include all strings even if not "
 "translated."
 msgstr ""
-"Sempre que uma nova cadeia traduzível é importada do VCS e corresponde a uma "
-"cadeia de origem, é sinalizada como precisando de edição na Weblate. Isto é "
-"especialmente útil para formatos de ficheiros que incluem todas as cadeias "
-"de caracteres, mesmo que não traduzidas."
+"Sempre que uma nova cadeia traduzível é importada de VCS e corresponde a uma "
+"cadeia fonte, esta é marcada como precisa de edição no Weblate. Isto é "
+"especialmente útil para os formatos de ficheiro que incluem todas as cadeias "
+", mesmo que não traduzidas."
 
 #: ../../admin/addons.rst:121
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Marcar as novas cadeias fonte como \"Necessita de edição\""
+msgstr "Marcar as novas cadeias fonte como \"Precisa de edição\""
 
 #: ../../admin/addons.rst:123
 msgid ""
@@ -1252,13 +1249,13 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Sempre que uma nova cadeia é importada do VCS, é marcada como necessita de "
-"edição no Weblate. Assim pode filtrar e editar facilmente as cadeias fonte "
-"escritas pelos programadores."
+"Sempre que uma nova cadeia é importada de VCS, esta é marcada como precisa "
+"de edição no Weblate. Deste modo pode filtrar e editar facilmente as cadeias "
+"fonte escritas pelos programadores."
 
 #: ../../admin/addons.rst:130
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Marcar novas traduções como \"Necessita de edição\""
+msgstr "Marcar as novas traduções como \"Precisa de edição\""
 
 #: ../../admin/addons.rst:132
 msgid ""
@@ -1266,8 +1263,8 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Sempre que uma nova cadeia de tradução é importada do VCS, esta é etiquetada "
-"como \"Necessita de edição' no Weblate. Deste modo, pode filtrar e editar "
+"Sempre que uma nova cadeia de tradução é importada de VCS, esta é marcada "
+"como precisa de edição no Weblate. Deste modo pode filtrar e editar "
 "facilmente as traduções criadas pelos programadores."
 
 #: ../../admin/addons.rst:139
@@ -1276,7 +1273,7 @@ msgstr "Gerador de estatísticas"
 
 #: ../../admin/addons.rst:141
 msgid "Generates a file containing detailed info about the translation."
-msgstr "Cria um ficheiro contendo informações detalhadas sobre a tradução."
+msgstr "Gera um ficheiro contendo a informação detalhada sobre a tradução."
 
 #: ../../admin/addons.rst:143
 msgid ""
@@ -1375,7 +1372,7 @@ msgstr "Atualizar ficheiro LINGUAS"
 
 #: ../../admin/addons.rst:215
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr "Atualiza o ficheiro LINGUAS quando uma nova tradução for adicionada."
+msgstr "Atualiza o ficheiro LINGUAS quando é adicionada uma nova tradução."
 
 #: ../../admin/addons.rst:220
 msgid "Generate MO files"
@@ -1404,7 +1401,7 @@ msgstr "Squash de commits git"
 
 #: ../../admin/addons.rst:237
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Fazer squash de commits Git antes de fazer push das alterações."
+msgstr "Comprimir as submissões Git antes de enviar as alterações."
 
 #: ../../admin/addons.rst:239
 msgid "You can choose one of following modes:"
@@ -1468,7 +1465,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:273
 msgid "Formats the Java properties file"
-msgstr "Formata o ficheiro de propriedades do Java"
+msgstr "Formata as propriedades do ficheiro Java"
 
 #: ../../admin/addons.rst:275
 msgid "Sorts the Java properties file."
@@ -1521,8 +1518,8 @@ msgid ""
 "string."
 msgstr ""
 "Atualize todos os ficheiros de tradução para que correspondam ao ficheiro "
-"base monolingua original. As cadeias não utilizadas são removidas e novas "
-"cadeias são adicionadas como cópias da cadeia de origem."
+"base monolingue original. As cadeias não utilizadas são removidas, e as "
+"novas cadeias são adicionadas como cópias da cadeia fonte."
 
 #: ../../admin/addons.rst:315
 msgid ""
@@ -12148,7 +12145,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:305
 msgid "Repository push URL"
-msgstr "URL de empurrar ao repositório"
+msgstr "URL de submissão do repositório"
 
 #: ../../admin/projects.rst:307
 msgid ""
@@ -12261,7 +12258,7 @@ msgstr ""
 #: ../../formats.rst:1129 ../../formats.rst:1159 ../../formats.rst:1195
 #: ../../formats.rst:1226 ../../formats.rst:1252
 msgid "Monolingual base language file"
-msgstr "Ficheiro monolingua de base"
+msgstr "Ficheiro de idioma base monolingue"
 
 #: ../../admin/projects.rst:386
 msgid "Base file containing string definitions for :ref:`monolingual`."
@@ -12269,7 +12266,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:396
 msgid "Edit base file"
-msgstr "Editar o ficheiro base"
+msgstr "Editar ficheiro base"
 
 #: ../../admin/projects.rst:398
 msgid "Whether to allow editing the base file for :ref:`monolingual`."
@@ -12411,7 +12408,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:493 ../../admin/translating.rst:69
 msgid "Translation flags"
-msgstr "Etiquetas de tradução"
+msgstr "Marcadores de tradução"
 
 #: ../../admin/projects.rst:495
 msgid ""
@@ -12442,8 +12439,8 @@ msgid ""
 "User agreement which needs to be approved before a user can translate this "
 "component."
 msgstr ""
-"Acordo de utilizador que tem de ser aprovado antes de o utilizador poder "
-"traduzir o componente."
+"Acordo do utilizador que tem de ser aprovado antes do utilizador poder "
+"traduzir este componente."
 
 #: ../../admin/projects.rst:522
 msgid "Adding new translation"
@@ -12456,7 +12453,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:528
 msgid "Contact maintainers"
-msgstr "Contactar mantenedores"
+msgstr "Contactar gestores"
 
 #: ../../admin/projects.rst:527
 msgid ""
@@ -12510,7 +12507,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:555
 msgid "Merge style"
-msgstr "Estilo de mesclagem"
+msgstr "Estilo de união"
 
 #: ../../admin/projects.rst:557
 msgid ""
@@ -12540,7 +12537,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:581
 msgid "Committer name"
-msgstr "Nome do committer"
+msgstr "Nome do publicador"
 
 #: ../../admin/projects.rst:583
 msgid ""
@@ -12554,7 +12551,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:591
 msgid "Committer e-mail"
-msgstr "E-mail do committer"
+msgstr "E-mail do publicador"
 
 #: ../../admin/projects.rst:593
 msgid ""
@@ -12565,7 +12562,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:600
 msgid "Push on commit"
-msgstr "Enviar ao commit"
+msgstr "Enviar ao submeter"
 
 #: ../../admin/projects.rst:602
 msgid ""
@@ -12593,7 +12590,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:623
 msgid "Lock on error"
-msgstr "Bloquear em erro"
+msgstr "Bloquear com erro"
 
 #: ../../admin/projects.rst:625
 msgid ""
@@ -25183,7 +25180,7 @@ msgstr ""
 
 #: ../../user/checks.rst:223
 msgid "Java MessageFormat"
-msgstr "MessageFormat do Java"
+msgstr "Formato de Mensagem Java"
 
 #: ../../user/checks.rst:225
 msgid "*Java MessageFormat string does not match source*"
@@ -25596,7 +25593,7 @@ msgstr ""
 
 #: ../../user/checks.rst:563
 msgid "Mismatched \\n"
-msgstr "Não correspondente \\n"
+msgstr "Não correspondido \\n"
 
 #: ../../user/checks.rst:565
 msgid "*Number of \\n in translation does not match source*"
@@ -28341,7 +28338,7 @@ msgstr ""
 
 #: ../../workflows.rst:33
 msgid "Needs editing"
-msgstr "Necessita de edição"
+msgstr "Precisa de edição"
 
 #: ../../workflows.rst:32
 msgid ""
@@ -28362,7 +28359,7 @@ msgstr ""
 
 #: ../../workflows.rst:40
 msgid "Approved"
-msgstr "Aprovado"
+msgstr "Aprovadas"
 
 #: ../../workflows.rst:39
 msgid ""
