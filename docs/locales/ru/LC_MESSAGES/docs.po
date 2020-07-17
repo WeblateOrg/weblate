@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-16 16:25+0200\n"
-"PO-Revision-Date: 2020-07-16 14:12+0000\n"
+"PO-Revision-Date: 2020-07-17 08:38+0000\n"
 "Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -374,18 +374,13 @@ msgstr ""
 "автоматически предоставляет ему доступ и к содержащему компонент проекту."
 
 #: ../../admin/access.rst:171
-#, fuzzy
-#| msgid ""
-#| "Only the first rule will be used. So if you set all of :guilabel:"
-#| "`Component list`, :guilabel:`Components` and :guilabel:`Project`, only :"
-#| "guilabel:`Component list` is the only one applied."
 msgid ""
 "Only the first rule will be used. So if you set all of :guilabel:`Component "
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
-"Используется только первое сработавшее правило. Таким образом, если задать :"
-"guilabel:`Список компонентов`, :guilabel:`Компоненты` и :guilabel:`Проект`, "
+"Используется только первое сработавшее правило. Таким образом, если задать "
+":guilabel:`Список компонентов`, :guilabel:`Компоненты` и :guilabel:`Проект`, "
 "то применится только :guilabel:`Список компонентов`."
 
 #: ../../admin/access.rst:175
@@ -435,12 +430,6 @@ msgid "Checking access to a component"
 msgstr "Проверка доступа к компоненту"
 
 #: ../../admin/access.rst:197
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once he can access the "
-#| "containing project. With enabled :ref:`component-restricted` the access "
-#| "to the component requires explicit permission on the component (or "
-#| "containing component list)."
 msgid ""
 "A user can access the unrestricted component once he can access the "
 "containing project. With enabled :ref:`component-restricted` the access to "
@@ -549,26 +538,31 @@ msgstr ""
 msgid ""
 "Can edit translation templates in :ref:`monolingual` and source string info."
 msgstr ""
+"Может редактировать шаблоны перевода в :ref:`одноязычных компонентах "
+"<monolingual>` и информацию об исходной строке."
 
 #: ../../admin/access.rst:267
 msgid "Can translate the project, and upload translations made offline."
 msgstr ""
+"Может переводить проект и загружать переводы, сделанные в автономном режиме."
 
 #: ../../admin/access.rst:271
 msgid "Can manage VCS and access the exported repository."
 msgstr ""
+"Может управлять системой контроля версий и имеет доступ к экспортированному "
+"репозиторию."
 
 #: ../../admin/access.rst:275
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Может одобрять переводы во время рецензирования."
 
 #: ../../admin/access.rst:279
 msgid "Can access billing info (see :ref:`billing`)."
-msgstr ""
+msgstr "Имеет доступ к платёжной информации (смотрите раздел :ref:`billing`)."
 
 #: ../../admin/access.rst:285
 msgid "Custom access control"
-msgstr ""
+msgstr "Настраиваемый контроль доступа"
 
 #: ../../admin/access.rst:287
 msgid ""
@@ -579,6 +573,14 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"При выборе в графе :guilabel:`Управление доступом` пункта "
+":guilabel:`Настраиваемый`, Weblate прекратит управление доступом для данного "
+"проекта и всеми пользователями и группами можно будет управлять с помощью "
+"административного интерфейса Django. Этот пункт можно использовать для "
+"определения более сложного контроля доступа, либо для настройки политики "
+"общего доступа для всех проектов на одном экземпляре Weblate. Если вы хотите "
+"включить его для всех проектов по умолчанию, пожалуйста, задайте параметр "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:296
 msgid ""
@@ -586,6 +588,10 @@ msgid ""
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
 msgstr ""
+"При включении этого режима Weblate удалит все :ref:`по-проектные списки "
+"контроля доступа <acl>`, которые он создал для этого проекта. Если вы "
+"включаете его, не имея прав администратора, полученных от экземпляра "
+"приложения, вы мгновенно потеряете доступ к управлению проектом."
 
 #: ../../admin/access.rst:303
 msgid "Default groups and roles"
@@ -4818,10 +4824,8 @@ msgid "MT_MODERNMT_KEY"
 msgstr ""
 
 #: ../../admin/config.rst:1081
-#, fuzzy
-#| msgid "Machine translation engines"
 msgid "API key for the ModernMT machine translation engine."
-msgstr "Механизмы машинного перевода"
+msgstr "Ключ API для движка машинного перевода ModernMT."
 
 #: ../../admin/config.rst:1085
 msgid ":ref:`modernmt` :setting:`MT_MODERNMT_URL`"
@@ -14340,10 +14344,8 @@ msgid "percentage of strings failing checks"
 msgstr "Переведённые строки с любыми неудачными проверками"
 
 #: ../../api.rst:1501
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "number of words with failing checks"
-msgstr "Количество неудачных проверок"
+msgstr "количество слов с неудачными проверками"
 
 #: ../../api.rst:1502
 msgid "translation filename"
@@ -24470,11 +24472,11 @@ msgstr ""
 
 #: ../../user/basic.rst:2
 msgid "Weblate basics"
-msgstr ""
+msgstr "Основы Weblate"
 
 #: ../../user/basic.rst:5
 msgid "Project structure"
-msgstr ""
+msgstr "Структура проекта"
 
 #: ../../user/basic.rst:7
 msgid ""
@@ -24485,6 +24487,12 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"Переводы в Weblate организованы по проектам и компонентам. Каждый проект "
+"может содержать несколько компонентов, а те — переводы на отдельные языки. "
+"Компоненту соответствует один переводимый файл (например, :ref:`gettext` или "
+":ref:`aresource`). Проекты служат для организации компонентов в логические "
+"наборы (например, для группировки всех переводов, используемых в одном "
+"приложении)."
 
 #: ../../user/basic.rst:14
 msgid ""
@@ -24494,6 +24502,11 @@ msgid ""
 "`component`, still producing errors for seemingly inconsistent resulting "
 "translations."
 msgstr ""
+"Внутри каждого проекта переводы общих строк по умолчанию распространяются на "
+"другие его компоненты. Это облегчает бремя повторного и много-версионного "
+"перевода. При отключении этого распространения в :ref:`настройках компонента "
+"<component>` для результирующих переводов, кажущихся непоследовательными, "
+"всё равно будут генерироваться ошибки."
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -25916,7 +25929,7 @@ msgstr ""
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
-msgstr ""
+msgstr "Регистрация и профиль пользователя"
 
 #: ../../user/profile.rst:7
 msgid ""
@@ -25924,22 +25937,27 @@ msgid ""
 "default. Only registered users are allowed to actually save changes, and are "
 "credited for every translation made."
 msgstr ""
+"По умолчанию любой может просматривать проекты, смотреть или предлагать "
+"переводы. Право сохранять изменения имеют только зарегистрированные "
+"пользователи и они упоминаются как авторы каждого сделанного ими перевода."
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr ""
+msgstr "Вы можете зарегистрироваться, выполнив несколько простых шагов:"
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
-msgstr ""
+msgstr "Заполните форму регистрации своими учётными данными."
 
 #: ../../user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
 msgstr ""
+"Активируйте регистрацию, пройдя по ссылке в полученном вами электронном "
+"письме."
 
 #: ../../user/profile.rst:15
 msgid "Optionally adjust your profile to choose which languages you know."
-msgstr ""
+msgstr "Дополнительно настройте свой профиль, выбрав, какие языки вы знаете."
 
 #: ../../user/profile.rst:20
 msgid "Dashboard"
