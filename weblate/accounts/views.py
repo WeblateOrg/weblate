@@ -284,7 +284,6 @@ def get_notification_forms(request):
                 subscriptions[key] = {}
                 initials[key] = {
                     "scope": SCOPE_COMPONENT,
-                    "project": None,
                     "component": component,
                 }
             except (ObjectDoesNotExist, ValueError):
@@ -1136,7 +1135,6 @@ def subscribe(request):
             scope=SCOPE_COMPONENT,
             frequency=FREQ_INSTANT,
             component=component,
-            project=component.project,
             onetime=True,
         )
         try:
