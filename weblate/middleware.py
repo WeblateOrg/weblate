@@ -242,6 +242,11 @@ class SecurityMiddleware:
         if "://" in settings.SOCIAL_AUTH_AUTH0_IMAGE:
             domain = urlparse(settings.SOCIAL_AUTH_AUTH0_IMAGE).hostname
             image.add(domain)
+        
+        # Cloudflare use for security
+        if "://" in settings.CLOUDFLARE_URL:
+            domain = urlparse(settings.CLOUDFLARE_URL).hostname
+            script.add(domain)
 
         response["Content-Security-Policy"] = CSP_TEMPLATE.format(
             " ".join(style),
