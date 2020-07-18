@@ -121,10 +121,20 @@ jobs:
         run: ./ci/pip-install ${{ matrix.requirements }}
       - name: Prepare database
         run: ./ci/prepare-database
+      - name: Compile MO files
+        run: coverage run ./manage.py compilemessages
+      - name: Collect static files
+        run: coverage run ./manage.py collectstatic --noinput --verbosity 0
+      - name: Migrate database
+        run: coverage run ./manage.py migrate --noinput --traceback
+      - name: Django checks
+        run: coverage run ./manage.py check
       - name: Test with Django
-        run: ./ci/run-test
+        run: coverage run ./manage.py test
       - name: Test wsgi startup
-        run: ./ci/run-wsgi
+        environment:
+          PYTHONPATH: .
+        run: coverage run weblate/wsgi.py
       - name: Coverage
         run: |
           coverage combine
