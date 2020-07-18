@@ -97,7 +97,7 @@ class GitRepository(Repository):
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
         if abort:
-            if self.has_git_file("rebase-apply"):
+            if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
                 self.execute(["rebase", "--abort"])
             if self.needs_commit():
                 self.execute(["reset", "--hard"])
