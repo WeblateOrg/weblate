@@ -132,7 +132,7 @@ jobs:
       - name: Test with Django
         run: coverage run ./manage.py test
       - name: Test wsgi startup
-        environment:
+        env:
           PYTHONPATH: .
         run: coverage run weblate/wsgi.py
       - name: Coverage
