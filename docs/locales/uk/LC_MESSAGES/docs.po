@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-16 16:25+0200\n"
-"PO-Revision-Date: 2020-07-17 08:38+0000\n"
+"PO-Revision-Date: 2020-07-18 16:42+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -341,24 +341,33 @@ msgid ""
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in the order:"
 msgstr ""
+"Кожного разу, коли виконується перевірка прав доступу для визначення того, "
+"чи може певний користувач виконувати вказану дію, враховується область дії, "
+"а перевірки застосовуються у такому порядку:"
 
 #: ../../admin/access.rst:160
 msgid ":guilabel:`Component list` are matched against component or project."
 msgstr ""
+"Встановлюється відповідність значення параметра :guilabel:`Список складників`"
+" складнику або проєкту."
 
 #: ../../admin/access.rst:162
 msgid ":guilabel:`Components` are matched against component or project."
 msgstr ""
+"Встановлюється відповідність значення :guilabel:`Складники` складнику або "
+"проєкту."
 
 #: ../../admin/access.rst:164
 msgid ":guilabel:`Projects` are matched against project."
-msgstr ""
+msgstr "Встановлюється відповідність значення :guilabel:`Проєкти` проєкту."
 
 #: ../../admin/access.rst:166
 msgid ""
 "As you can see, grating access to a component automatically grants user "
 "access to a containing project as well."
 msgstr ""
+"Як бачите, надання доступу до складника автоматично надає користувачеві "
+"доступу до проєкту, у якому він міститься."
 
 #: ../../admin/access.rst:171
 msgid ""
@@ -366,23 +375,33 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
+"Використовується лише перше правило. Отже, якщо встановлено значення усіх "
+"параметрів — :guilabel:`Список складників`, :guilabel:`Складники` і "
+":guilabel:`Проєкт`, — застосовано буде лише параметр :guilabel:`Список "
+"складників`."
 
 #: ../../admin/access.rst:175
 msgid ""
 "An additional step is performed if checking permission for the translation:"
 msgstr ""
+"Під час перевірки прав доступу до перекладу виконується додатковий крок:"
 
 #: ../../admin/access.rst:178
 msgid ""
 "4. :guilabel:`Languages` are matched against the scope of translations if "
 "set, if not set, this does not match any language."
 msgstr ""
+"4. Встановлюється відповідність параметра :guilabel:`Мови`, якщо для нього "
+"встановлено якесь значення, області перекладів. Якщо значення не "
+"встановлено, вважається, що права доступу не відповідають жодній мові."
 
 #: ../../admin/access.rst:183
 msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
+"Для автоматизації включення усіх мов або проєктів ви можете скористатися "
+"пунктами :guilabel:`Вибір мови` та :guilabel:`Вибір проєкту`."
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
@@ -395,6 +414,10 @@ msgid ""
 "access a project (this is used in the default `Viewers` group, see :ref:"
 "`default-groups`)."
 msgstr ""
+"Користувач має бути учасником групи, пов'язаної із проєктом або будь-яким "
+"складником у проєкті. Участі достатньо — для доступу до проєкту не потрібні "
+"якісь особливі права доступу (це використано у типовій групі `Переглядачі`, "
+"див. :ref:`default-groups`)."
 
 #: ../../admin/access.rst:195
 msgid "Checking access to a component"
@@ -407,6 +430,10 @@ msgid ""
 "the component requires explicit permission to the component (or containing "
 "component list)."
 msgstr ""
+"Користувач отримує доступ до необмеженого складника, щойно він отримує "
+"доступ до проєкту, у якому він міститься. Із увімкненим параметром :ref"
+":`component-restricted` доступ до складника потребує явного доступу до "
+"складника (або списку складників, який його містить)."
 
 #: ../../admin/access.rst:204
 msgid "Managing users and groups"
@@ -417,6 +444,8 @@ msgid ""
 "All users and groups can be managed using the Django admin interface, "
 "available under :file:`/admin/` URL."
 msgstr ""
+"Керувати усіма користувачами та групами можна за допомогою адміністративного "
+"інтерфейсу Django, доступного за адресою :file:`/admin/`."
 
 #: ../../admin/access.rst:212
 msgid "Managing per project access control"
@@ -424,7 +453,7 @@ msgstr "Керування правами доступу на рівні про�
 
 #: ../../admin/access.rst:216
 msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
-msgstr ""
+msgstr "Ця можливість працює лише для керованих ACL проєктів, див. :ref:`acl`."
 
 #: ../../admin/access.rst:218
 msgid ""
@@ -432,6 +461,10 @@ msgid ""
 "(see :ref:`privileges`) can also manage users in projects with access "
 "control turned on through the project page. The interface allows you to:"
 msgstr ""
+"Користувачі з правами доступу :guilabel:`Може керувати правилами ACL проєкту`"
+" (див. :ref:`privileges`) можуть також керувати записами користувачів у "
+"проєктах із увімкненим за допомогою сторінки проєкту керуванням доступом. За "
+"допомогою інтерфейсу ви можете виконувати такі дії:"
 
 #: ../../admin/access.rst:222
 msgid "Add existing users to the project"
@@ -453,6 +486,7 @@ msgstr "Відкликання доступу користувачів"
 msgid ""
 "The user management is available in the :guilabel:`Manage` menu of a project:"
 msgstr ""
+"Керувати користувачами можна за допомогою меню :guilabel:`Керувати` проєкту:"
 
 #: ../../admin/access.rst:233
 msgid ":ref:`acl`"
@@ -467,6 +501,8 @@ msgid ""
 "Weblate comes with a predefined set of groups for a project, wherefrom you "
 "can assign users."
 msgstr ""
+"Weblate постачається із попередньо визначеним набором груп для проєкту. "
+"Групи з цього набору можна пов'язувати із записами користувачів."
 
 #: ../../admin/access.rst:245
 msgid "Has all permissions available in the project."
@@ -530,6 +566,14 @@ msgid ""
 "a single Weblate instance. If you want to turn this on for all projects by "
 "default, please configure the :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Якщо вибрати варіант :guilabel:`Нетиповий` для :guilabel:`Керування доступом`"
+", Weblate припинить керування доступом для вказаного проєкту — керування "
+"усіма записами користувачів і груп може бути здійснене за допомогою "
+"адміністративного інтерфейсу Django. За допомогою цього інтерфейсу можна "
+"здійснювати складніше керування доступом або налаштувати правила спільного "
+"доступу для усіх проєктів у межах окремого екземпляра Weblate. Якщо ви "
+"хочете типово увімкнути такий варіант для усіх проєктів, будь ласка, "
+"налаштуйте :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:296
 msgid ""
@@ -537,6 +581,10 @@ msgid ""
 "this project. If you are doing this without admin permission from the "
 "instance, you will instantly lose your access to manage the project."
 msgstr ""
+"Якщо буде увімкнено цей варіант, Weblate вилучить усі правила :ref:`acl`, "
+"які було створено для цього проєкту. Якщо ви виконаєте цю дію без "
+"адміністративних прав доступу до екземпляра, ви негайно втратите доступ до "
+"керування проєктом."
 
 #: ../../admin/access.rst:303
 msgid "Default groups and roles"
@@ -938,6 +986,8 @@ msgstr ""
 #: ../../admin/access.rst:450
 msgid "By default all users are members of this group, using :ref:`autogroup`."
 msgstr ""
+"Типово, учасниками цієї групи є усі користувачі, використовується "
+":ref:`autogroup`."
 
 #: ../../admin/access.rst:452
 msgid "Default roles: none"
@@ -963,7 +1013,7 @@ msgstr "Типові ролі: `Power user`"
 
 #: ../../admin/access.rst:464
 msgid "`Reviewers`"
-msgstr "`Reviewers`"
+msgstr "`Рецензенти`"
 
 #: ../../admin/access.rst:462
 msgid "Group for reviewers (see :ref:`workflows`)."
@@ -1310,7 +1360,7 @@ msgstr "Об'єднати Git подання перед відправлення
 
 #: ../../admin/addons.rst:239
 msgid "You can choose one of following modes:"
-msgstr ""
+msgstr "Ви можете вибрати один з таких режимів:"
 
 #: ../../admin/addons.rst:243
 msgid "All commits into one"
@@ -1429,7 +1479,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:329
 msgid "Customizing list of addons"
-msgstr ""
+msgstr "Налаштовування списку додатків"
 
 #: ../../admin/addons.rst:331
 msgid ""
@@ -1439,7 +1489,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:338
 msgid "Writing addon"
-msgstr ""
+msgstr "Написання додатка"
 
 #: ../../admin/addons.rst:340
 msgid ""
@@ -1450,11 +1500,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:343
 msgid "Here is an example addon:"
-msgstr ""
+msgstr "Ось приклад додатка:"
 
 #: ../../admin/addons.rst:351
 msgid "Executing scripts from addon"
-msgstr ""
+msgstr "Виконання скриптів з додатка"
 
 #: ../../admin/addons.rst:353
 msgid ""
@@ -1466,6 +1516,7 @@ msgstr ""
 #: ../../admin/addons.rst:360
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
+"Настанови щодо встановлення наведено у розділі :ref:`custom-addon-modules`."
 
 #: ../../admin/addons.rst:362
 msgid ""
@@ -1475,45 +1526,49 @@ msgstr ""
 
 #: ../../admin/addons.rst:365
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "Крім того, можна скористатися такими змінними середовища:"
 
 #: ../../admin/addons.rst:369
 msgid "Version control system used."
-msgstr ""
+msgstr "Використана система керування версіями."
 
 #: ../../admin/addons.rst:373
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "Адреса основного сховища із кодом."
 
 #: ../../admin/addons.rst:377
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Абсолютний шлях до сховища системи керування версіями."
 
 #: ../../admin/addons.rst:383
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "Гілка сховища, яку налаштовано у поточному складнику."
 
 #: ../../admin/addons.rst:387
 msgid "Filemask for current component."
-msgstr ""
+msgstr "Маска файлів для поточного складника."
 
 #: ../../admin/addons.rst:391
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr ""
+msgstr "Назва файла шаблона для одномовного перекладу (може бути порожньою)."
 
 #: ../../admin/addons.rst:397
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
+"Назва файла, який використовується для створення перекладів (може бути "
+"порожньою)."
 
 #: ../../admin/addons.rst:402
 msgid "Fileformat used in current component."
-msgstr ""
+msgstr "Формат файла у поточному складнику."
 
 #: ../../admin/addons.rst:406
 msgid ""
 "Language of currently processed translation (not available for component "
 "level hooks)."
 msgstr ""
+"Мова поточного оброблюваного перекладу (недоступна для скриптів керування на "
+"рівні складника)."
 
 #: ../../admin/addons.rst:411
 msgid ""
@@ -1523,11 +1578,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:417
 msgid "Component slug used to construct URL."
-msgstr ""
+msgstr "Ідентифікатор складника, який використовується для побудови адреси."
 
 #: ../../admin/addons.rst:423
 msgid "Project slug used to construct URL."
-msgstr ""
+msgstr "Ідентифікатор проєкту, який використовується для побудови адреси."
 
 #: ../../admin/addons.rst:429
 msgid "Component name."
@@ -1539,7 +1594,7 @@ msgstr "Назва проєкту."
 
 #: ../../admin/addons.rst:441
 msgid "Component URL."
-msgstr ""
+msgstr "Адреса складника."
 
 #: ../../admin/addons.rst:447
 msgid "Project engage URL."
@@ -1547,11 +1602,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:451 ../../faq.rst:265
 msgid ":ref:`component`"
-msgstr ""
+msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:454
 msgid "Post update repository processing"
-msgstr ""
+msgstr "Обробка сховища після оновлення"
 
 #: ../../admin/addons.rst:456
 msgid ""
@@ -1567,7 +1622,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:471
 msgid "Pre commit processing of translations"
-msgstr ""
+msgstr "Обробка перекладів перед внесенням до сховища"
 
 #: ../../admin/addons.rst:473
 msgid ""
@@ -1583,7 +1638,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:93
 msgid "Management interface"
-msgstr ""
+msgstr "Інтерфейс керування"
 
 #: ../../admin/admin.rst:6
 msgid ""
@@ -1594,19 +1649,23 @@ msgstr ""
 
 #: ../../admin/admin.rst:16
 msgid "The Django admin interface"
-msgstr ""
+msgstr "Адміністративний інтерфейс Django"
 
 #: ../../admin/admin.rst:20
 msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
 msgstr ""
+"Буде вилучено згодом, оскільки його використання призводить до проблем — "
+"більша частина можливостей доступна до безпосереднього керування у Weblate."
 
 #: ../../admin/admin.rst:23
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
 msgstr ""
+"Тут ви можете керувати об'єктами, які зберігаються у базі даних, зокрема "
+"записами користувачів, перекладів та іншими параметрами:"
 
 #: ../../admin/admin.rst:28
 msgid ""
@@ -1630,7 +1689,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:39
 msgid "Adding a project"
-msgstr ""
+msgstr "Додавання проєкту"
 
 #: ../../admin/admin.rst:41
 msgid ""
@@ -1641,11 +1700,11 @@ msgstr ""
 
 #: ../../admin/admin.rst:49
 msgid ":ref:`project`"
-msgstr ""
+msgstr ":ref:`project`"
 
 #: ../../admin/admin.rst:54
 msgid "Bilingual components"
-msgstr ""
+msgstr "Двомовні складники"
 
 #: ../../admin/admin.rst:56
 msgid ""
@@ -1655,11 +1714,11 @@ msgstr ""
 
 #: ../../admin/admin.rst:63 ../../admin/admin.rst:79
 msgid ":ref:`component`, :ref:`bimono`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`bimono`"
 
 #: ../../admin/admin.rst:69
 msgid "Monolingual components"
-msgstr ""
+msgstr "Одномовні складники"
 
 #: ../../admin/admin.rst:71
 msgid ""
@@ -1707,48 +1766,48 @@ msgstr ""
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "Додавання також можливе за допомогою адміністративного інтерфейсу:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr ""
+msgstr "Далі, оголошення буде показано відповідно до вказаного контексту:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "Контекст не вказано"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Показано на панелі приладів (початковій сторінці)."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "Вказано проєкт"
 
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
-msgstr ""
+msgstr "Показано у проєкті, включно із усіма його складниками і перекладами."
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "Вказано складник"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr ""
+msgstr "Показано для вказаного складника і усіх його перекладів."
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "Вказано мову"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
-msgstr ""
+msgstr "Показано для огляду мови і усіх перекладів відповідною мовою."
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr ""
+msgstr "Ось як це виглядає на сторінці огляду мови:"
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -1771,14 +1830,16 @@ msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"Ви також можете вимкнути реєстрацію нових користувачів за допомогою "
+"параметра :setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr ""
+msgstr "Спроби розпізнавання описано у :ref:`rate-limit`."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr ""
+msgstr "Модулі розпізнавання"
 
 #: ../../admin/auth.rst:20
 msgid ""
@@ -1800,7 +1861,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "Розпізнавання за соціальними мережами"
 
 #: ../../admin/auth.rst:35
 msgid ""
@@ -1824,7 +1885,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
-msgstr ""
+msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
 msgid ""
@@ -1839,10 +1900,12 @@ msgstr ""
 #: ../../admin/auth.rst:62
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
 msgstr ""
+":doc:`Модуль розпізнавання за допомогою соціальних мереж у Python <psa:"
+"backends/index>`"
 
 #: ../../admin/auth.rst:65
 msgid "OpenID authentication"
-msgstr ""
+msgstr "Розпізнавання за OpenID"
 
 #: ../../admin/auth.rst:67
 msgid ""
@@ -1853,11 +1916,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
-msgstr ""
+msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:88
 msgid "GitHub authentication"
-msgstr ""
+msgstr "Розпізнавання за GitHub"
 
 #: ../../admin/auth.rst:90
 msgid ""
@@ -1880,11 +1943,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
-msgstr ""
+msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:118
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Розпізнавання за Bitbucket"
 
 #: ../../admin/auth.rst:120
 msgid ""
@@ -1894,11 +1957,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
-msgstr ""
+msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:145
 msgid "Google OAuth 2"
-msgstr ""
+msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:147
 msgid ""
@@ -1914,11 +1977,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:169
 msgid ":doc:`psa:backends/google`"
-msgstr ""
+msgstr ":doc:`psa:backends/google`"
 
 #: ../../admin/auth.rst:174
 msgid "Facebook OAuth 2"
-msgstr ""
+msgstr "Facebook OAuth 2"
 
 #: ../../admin/auth.rst:176
 msgid ""
@@ -1933,11 +1996,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:199
 msgid ":doc:`psa:backends/facebook`"
-msgstr ""
+msgstr ":doc:`psa:backends/facebook`"
 
 #: ../../admin/auth.rst:205
 msgid "GitLab OAuth 2"
-msgstr ""
+msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:207
 msgid ""
@@ -1953,11 +2016,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:234
 msgid ":doc:`psa:backends/gitlab`"
-msgstr ""
+msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:239
 msgid "Microsoft Azure Active Directory"
-msgstr ""
+msgstr "Microsoft Azure Active Directory"
 
 #: ../../admin/auth.rst:241
 msgid ""
@@ -1974,7 +2037,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
-msgstr ""
+msgstr ":doc:`psa:backends/azuread`"
 
 #: ../../admin/auth.rst:288 ../../admin/install/docker.rst:774
 msgid "Slack"
@@ -1993,11 +2056,11 @@ msgstr ""
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
-msgstr ""
+msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:315
 msgid "Turning off password authentication"
-msgstr ""
+msgstr "Вимикання розпізнавання за паролем"
 
 #: ../../admin/auth.rst:317
 msgid ""
@@ -2021,41 +2084,45 @@ msgstr ""
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
-msgstr ""
+msgstr "Розпізнавання за паролем"
 
 #: ../../admin/auth.rst:342
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"Типовий :file:`settings.py` постачається із достатнім набором "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:345
 msgid "Passwords can't be too similar to your other personal info."
-msgstr ""
+msgstr "Паролі не можуть бути надто подібними до інших ваших особистих даних."
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr ""
+msgstr "Паролі мають складатися із принаймні 10 символів."
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
-msgstr ""
+msgstr "Пароль не може бути паролем загального вжитку."
 
 #: ../../admin/auth.rst:348
 msgid "Passwords can't be entirely numeric."
-msgstr ""
+msgstr "Пароль не може складатися лише з цифр."
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
-msgstr ""
+msgstr "Паролі не можуть складатися лише з одного символу або лише з пробілів."
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr ""
+msgstr "Паролі не можуть збігатися із паролями, які ви використовували раніше."
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
 msgstr ""
+"Ви можете налаштувати цей параметр так, щоб він відповідав вашим правилам "
+"щодо паролів."
 
 #: ../../admin/auth.rst:354
 msgid ""
@@ -2066,23 +2133,27 @@ msgstr ""
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
-msgstr ""
+msgstr "Розпізнавання за SAML"
 
 #: ../../admin/auth.rst:366
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
 msgstr ""
+"Будь ласка, виконайте настанови щодо налаштовування розпізнавання за "
+"соціальними мережами у Python. Відмінності:"
 
 #: ../../admin/auth.rst:368
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"У Weblate передбачено підтримку єдиного IDP, який має назву ``weblate``, у "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: ../../admin/auth.rst:370
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "Адреса метаданих XML SAML — ``/accounts/metadata/saml/``."
 
 #: ../../admin/auth.rst:371
 msgid ""
@@ -2090,25 +2161,32 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"Автоматично заповнено буде такі параметри: ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``"
+", ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
+"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:375
 msgid "Example configuration:"
-msgstr ""
+msgstr "Приклад налаштувань:"
 
 #: ../../admin/auth.rst:402
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgstr ""
+":ref:`Налаштовування SAML у Docker <docker-saml>`, :doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:408
 msgid "LDAP authentication"
-msgstr ""
+msgstr "Розпізнавання за допомогою LDAP"
 
 #: ../../admin/auth.rst:410
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"Оптимальним способом уможливлення розпізнавання за допомогою LDAP є "
+"використанням пакунка `django-auth-ldap`. Встановити його можна у звичний "
+"спосіб:"
 
 #: ../../admin/auth.rst:423
 msgid ""
@@ -2143,7 +2221,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
-msgstr ""
+msgstr "Використання пароля bind"
 
 #: ../../admin/auth.rst:482
 msgid ""
@@ -2153,20 +2231,22 @@ msgstr ""
 
 #: ../../admin/auth.rst:496
 msgid "Active directory integration"
-msgstr ""
+msgstr "Інтеграція із Active Directory"
 
 #: ../../admin/auth.rst:525
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
-msgstr ""
+msgstr ":doc:`ldap:index`, :doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:532
 msgid "CAS authentication"
-msgstr ""
+msgstr "Розпізнавання за допомогою CAS"
 
 #: ../../admin/auth.rst:534
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
 msgstr ""
+"Щоб скористатися розпізнаванням за допомогою CAS, встановіть пакунок "
+"подібний до `django-cas-ng`."
 
 #: ../../admin/auth.rst:536
 msgid ""
@@ -2181,7 +2261,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:542
 msgid "To install `django-cas-ng`:"
-msgstr ""
+msgstr "Щоб встановити `django-cas-ng`, виконайте такі дії:"
 
 #: ../../admin/auth.rst:548
 msgid ""
@@ -2201,18 +2281,20 @@ msgstr ""
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
+"У методі :py:meth:`django:django.apps.AppConfig.ready` налаштувань вашої "
+"програми"
 
 #: ../../admin/auth.rst:575
 msgid "In the project's :file:`urls.py` file (when no models exist)"
-msgstr ""
+msgstr "У файлі проєкту :file:`urls.py` (якщо моделей не існує)"
 
 #: ../../admin/auth.rst:590
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr ""
+msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:593
 msgid "Configuring third party Django authentication"
-msgstr ""
+msgstr "Налаштовування стороннього розпізнавання за допомогою Django"
 
 #: ../../admin/auth.rst:595
 msgid ""
@@ -2220,10 +2302,13 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"Загалом, із Weblate має працювати будь-який додаток розпізнавання Django. "
+"Просто виконуйте настанови для цього додатка, просто не забудьте встановити "
+"модуль користувачів Weblate."
 
 #: ../../admin/auth.rst:601
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
 
 #: ../../admin/auth.rst:604
 msgid ""
@@ -2234,11 +2319,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Резервне копіювання і пересування Weblate"
 
 #: ../../admin/backup.rst:7
 msgid "Automated backup"
-msgstr ""
+msgstr "Автоматичне резервне копіювання"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2270,11 +2355,14 @@ msgstr ""
 #: ../../admin/backup.rst:34
 msgid "Purchase backup service on https://weblate.org/support/#backup."
 msgstr ""
+"Придбайте обслуговування із резервним копіюванням на https://weblate.org/"
+"support/#backup."
 
 #: ../../admin/backup.rst:35
 msgid ""
 "Enter obtained key in the management interface, see :ref:`activate-support`."
 msgstr ""
+"Введіть отриманий ключ в інтерфейсі керування, див. :ref:`activate-support`."
 
 #: ../../admin/backup.rst:36
 msgid ""
@@ -2301,7 +2389,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:48
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "Використання нетипового сховища резервних копій"
 
 #: ../../admin/backup.rst:50
 msgid ""
@@ -2312,11 +2400,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:56
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` у документації до Borg"
 
 #: ../../admin/backup.rst:61
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Ключ шифрування Borg"
 
 #: ../../admin/backup.rst:63
 msgid ""
@@ -2333,16 +2421,18 @@ msgstr ""
 
 #: ../../admin/backup.rst:72
 msgid ":doc:`borg:usage/init`"
-msgstr ""
+msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:75
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Відновлення з BorgBackup"
 
 #: ../../admin/backup.rst:77
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Відновлення доступу до вашого сховища резервних копій і приготування вашого "
+"пароля до резервних копій."
 
 #: ../../admin/backup.rst:79
 msgid "List backup existing on the server using ``borg list REPOSITORY``."
@@ -2366,15 +2456,15 @@ msgstr ""
 
 #: ../../admin/backup.rst:87
 msgid "The Borg session might look like:"
-msgstr ""
+msgstr "Сесія Borg може виглядати ось так:"
 
 #: ../../admin/backup.rst:99
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:107
 msgid "Manual backup"
-msgstr ""
+msgstr "Резервне копіювання вручну"
 
 #: ../../admin/backup.rst:109
 msgid ""
@@ -2397,6 +2487,7 @@ msgstr "База даних"
 #: ../../admin/backup.rst:125
 msgid "The actual storage location depends on your database setup."
 msgstr ""
+"Справжнє розташування сховища залежить від ваших налаштувань бази даних."
 
 #: ../../admin/backup.rst:127
 msgid ""
@@ -2426,7 +2517,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:143
 msgid "Django database backup"
-msgstr ""
+msgstr "Резервне копіювання бази даних Django"
 
 #: ../../admin/backup.rst:145
 msgid ""
@@ -2466,11 +2557,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:176
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Дампи даних для резервних копій"
 
 #: ../../admin/backup.rst:178
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr ""
+msgstr "Зберігається у :setting:`DATA_DIR` ``/backups``."
 
 #: ../../admin/backup.rst:180
 msgid ""
@@ -2487,7 +2578,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:185
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr ""
+msgstr "Резервна копія бази даних PostgreSQL у файлі :file:`database.sql`."
 
 #: ../../admin/backup.rst:187
 msgid ""
@@ -2497,11 +2588,11 @@ msgstr ""
 
 #: ../../admin/backup.rst:191
 msgid "Version control repositories"
-msgstr ""
+msgstr "Сховища систем керування версіями"
 
 #: ../../admin/backup.rst:193
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
-msgstr ""
+msgstr "Зберігається у :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:195
 msgid ""
@@ -2514,12 +2605,13 @@ msgstr ""
 
 #: ../../admin/backup.rst:202
 msgid "SSH and GPG keys"
-msgstr ""
+msgstr "Ключі SSH і GPG"
 
 #: ../../admin/backup.rst:204
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
+"Зберігається у :setting:`DATA_DIR` ``/ssh`` і :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:206
 msgid ""
@@ -2530,19 +2622,21 @@ msgstr ""
 
 #: ../../admin/backup.rst:211
 msgid "User uploaded files"
-msgstr ""
+msgstr "Вивантажені користувачем файли"
 
 #: ../../admin/backup.rst:213
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
-msgstr ""
+msgstr "Зберігаються у :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:215
 msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
+"Вам слід створити резервну копію вивантажених файлів (наприклад, "
+":ref:`screenshots`)."
 
 #: ../../admin/backup.rst:218
 msgid "Command line for manual backup"
-msgstr ""
+msgstr "Команда для резервного копіювання вручну"
 
 #: ../../admin/backup.rst:220
 msgid ""
@@ -2565,7 +2659,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:236
 msgid "Celery tasks"
-msgstr ""
+msgstr "Завдання Celery"
 
 #: ../../admin/backup.rst:238
 msgid ""
@@ -2578,23 +2672,23 @@ msgstr ""
 
 #: ../../admin/backup.rst:245
 msgid ":ref:`celery`"
-msgstr ""
+msgstr ":ref:`celery`"
 
 #: ../../admin/backup.rst:248
 msgid "Restoring manual backup"
-msgstr ""
+msgstr "Відновлення зі створеної вручну резервної копії"
 
 #: ../../admin/backup.rst:250
 msgid "Restore all data you have backed up."
-msgstr ""
+msgstr "Відновлення усіх даних зі створеної вами резервної копії."
 
 #: ../../admin/backup.rst:252
 msgid "Update all repositories using :djadmin:`updategit`."
-msgstr ""
+msgstr "Оновлення усіх сховищ за допомогою :djadmin:`updategit`."
 
 #: ../../admin/backup.rst:259
 msgid "Moving a Weblate installation"
-msgstr ""
+msgstr "Пересування встановленого екземпляра Weblate"
 
 #: ../../admin/backup.rst:261
 msgid ""
@@ -2604,15 +2698,15 @@ msgstr ""
 
 #: ../../admin/backup.rst:266
 msgid ":ref:`py3`, :ref:`database-migration`"
-msgstr ""
+msgstr ":ref:`py3`, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
-msgstr ""
+msgstr "Перевірки і виправлення"
 
 #: ../../admin/checks.rst:7
 msgid "Custom automatic fixups"
-msgstr ""
+msgstr "Нетипові автоматичні виправлення"
 
 #: ../../admin/checks.rst:9
 msgid ""
@@ -2640,7 +2734,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:27
 msgid "Customizing behavior"
-msgstr ""
+msgstr "Налаштовування поведінки"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -2659,7 +2753,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:41
 msgid "Here is a list of flags currently accepted:"
-msgstr ""
+msgstr "Ось список прапорців, які приймаються у поточній версії:"
 
 #: ../../admin/checks.rst:43
 msgid "``rst-text``"
@@ -2667,7 +2761,7 @@ msgstr "``rst-text``"
 
 #: ../../admin/checks.rst:44
 msgid "Treat a text as an RST document, affects :ref:`check-same`."
-msgstr ""
+msgstr "Вважати текст документом RST, впливає на :ref:`check-same`."
 
 #: ../../admin/checks.rst:45
 msgid "``md-text``"
@@ -2675,7 +2769,7 @@ msgstr "``md-text``"
 
 #: ../../admin/checks.rst:46
 msgid "Treat text as a Markdown document."
-msgstr ""
+msgstr "Вважати текст документом Markdown."
 
 #: ../../admin/checks.rst:47
 msgid "``dos-eol``"
@@ -2701,7 +2795,7 @@ msgstr "``safe-html``"
 
 #: ../../admin/checks.rst:52
 msgid "The string should be HTML safe, see :ref:`check-safe-html`."
-msgstr ""
+msgstr "Рядок має бути безпечним кодом HTML, див. :ref:`check-safe-html`."
 
 #: ../../admin/checks.rst:53
 msgid "``read-only``"
@@ -2726,7 +2820,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:59
 msgid "``max-length:N``"
-msgstr ""
+msgstr "``max-length:N``"
 
 #: ../../admin/checks.rst:60
 msgid ""
@@ -2736,7 +2830,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:61
 msgid "``xml-text``"
-msgstr ""
+msgstr "``xml-text``"
 
 #: ../../admin/checks.rst:62
 msgid ""
@@ -2746,7 +2840,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
-msgstr ""
+msgstr "``font-family:НАЗВА``"
 
 #: ../../admin/checks.rst:64
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
@@ -2754,7 +2848,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:65
 msgid "``font-weight:WEIGHT``"
-msgstr ""
+msgstr "``font-weight:ВАГА``"
 
 #: ../../admin/checks.rst:66
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
@@ -2762,7 +2856,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:67
 msgid "``font-size:SIZE``"
-msgstr ""
+msgstr "``font-size:РОЗМІР``"
 
 #: ../../admin/checks.rst:68
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
@@ -2770,7 +2864,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:69
 msgid "``font-spacing:SPACING``"
-msgstr ""
+msgstr "``font-spacing:ІНТЕРВАЛ``"
 
 #: ../../admin/checks.rst:70
 msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
@@ -2778,7 +2872,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:71
 msgid "``placeholders:NAME``"
-msgstr ""
+msgstr "``placeholders:НАЗВА``"
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -27788,23 +27882,27 @@ msgstr ""
 
 #: ../../wlc.rst:250
 msgid "API KEY to access Weblate."
-msgstr ""
+msgstr "Ключ доступу до програмного інтерфейсу Weblate."
 
 #: ../../wlc.rst:254
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
 msgstr ""
+"Адреса сервера програмного інтерфейсу, типово, ``http://127.0.0.1:8000/api/"
+"``."
 
 #: ../../wlc.rst:258
 msgid "Path to the default translation - component or project."
-msgstr ""
+msgstr "Шлях до типового перекладу — складника або проєкту."
 
 #: ../../wlc.rst:260
 msgid "The configuration file is an INI file, for example:"
-msgstr ""
+msgstr "Файл налаштувань є файлом формату INI. Приклад:"
 
 #: ../../wlc.rst:269
 msgid "Additionally API keys can be stored in the ``[keys]`` section:"
 msgstr ""
+"У розділі ``[keys]`` можна зберігати додаткові ключі до програмного "
+"інтерфейсу:"
 
 #: ../../wlc.rst:276
 msgid ""
@@ -27819,11 +27917,11 @@ msgstr "Приклади"
 
 #: ../../wlc.rst:283
 msgid "Print current program version:"
-msgstr ""
+msgstr "Вивести версію поточної програми:"
 
 #: ../../wlc.rst:290
 msgid "List all projects:"
-msgstr ""
+msgstr "Список усіх проєктів:"
 
 #: ../../wlc.rst:302
 msgid "You can also designate what project wlc should work on:"
@@ -27833,14 +27931,16 @@ msgstr ""
 msgid ""
 "With this setup it is easy to commit pending changes in the current project:"
 msgstr ""
+"З цими налаштуваннями доволі просто надсилати зміни з черги у поточному "
+"проєкті:"
 
 #: ../../workflows.rst:4
 msgid "Translation workflows"
-msgstr ""
+msgstr "Процеси перекладу"
 
 #: ../../workflows.rst:6
 msgid "Several translation workflows are supported."
-msgstr ""
+msgstr "Передбачено підтримку декількох робочих процесів перекладу."
 
 #: ../../workflows.rst:8
 msgid ""
@@ -27850,7 +27950,7 @@ msgstr ""
 
 #: ../../workflows.rst:12
 msgid "Translation access"
-msgstr ""
+msgstr "Доступ до перекладу"
 
 #: ../../workflows.rst:14
 msgid ""
@@ -27868,7 +27968,7 @@ msgstr ""
 
 #: ../../workflows.rst:26
 msgid "Each translated string can be in one of following states:"
-msgstr ""
+msgstr "Кожен перекладений рядок може перебувати в одному з таких станів:"
 
 #: ../../workflows.rst:29
 msgid "Untranslated"
@@ -27879,6 +27979,8 @@ msgid ""
 "Translation is empty, it might or not be stored in the file, depending on "
 "the file format."
 msgstr ""
+"Переклад є порожнім — його, залежно від формату, може бути не збережено у "
+"файлі перекладу."
 
 #: ../../workflows.rst:33
 msgid "Needs editing"
@@ -27890,6 +27992,10 @@ msgid ""
 "change. The translation is stored in the file, depending on the file format "
 "it might be marked as needing edit (for example as it gets a fuzzy flag)."
 msgstr ""
+"Переклад потребує редагування, зазвичай, у результаті внесення змін до "
+"початкового рядка. Переклад зберігається у файлі. Залежно від формату файла, "
+"його може бути позначено як таки, що потребує редагування (наприклад, "
+"встановлено прапорець неточного перекладу)."
 
 #: ../../workflows.rst:36
 msgid "Waiting for review"
@@ -27900,6 +28006,8 @@ msgid ""
 "Translation is made, but not reviewed. It is stored in the file as a valid "
 "translation."
 msgstr ""
+"Переклад виконано, але не рецензовано. Переклад зберігається у файлі як "
+"чинний переклад."
 
 #: ../../workflows.rst:40
 msgid "Approved"
@@ -27911,10 +28019,13 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
+"Переклад було затверджено у процесі рецензування. Перекладачі вже не можуть "
+"змінити його, лише рецензенти. Перекладачі можуть лише подавати пропозиції "
+"щодо зміни перекладу."
 
 #: ../../workflows.rst:43
 msgid "Suggestions are stored in Weblate only and not in the translation file."
-msgstr ""
+msgstr "Пропозиції зберігаються лише на Weblate, а не у файлі перекладу."
 
 #: ../../workflows.rst:47
 msgid "Direct translation"
@@ -27925,16 +28036,20 @@ msgid ""
 "This is most usual setup for smaller teams, anybody can directly translate. "
 "This is also the default setup in Weblate."
 msgstr ""
+"Цей найпоширеніший варіант для малих команд — безпосередньо перекладати може "
+"будь-хто. Це також типовий варіант для Weblate."
 
 #: ../../workflows.rst:51
 msgid "*Any user* can edit translations."
-msgstr ""
+msgstr "*Будь-який користувач* може редагувати переклади."
 
 #: ../../workflows.rst:52
 msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
 msgstr ""
+"Пропозиції є додатковим способом подання змін, якщо перекладачі не певні "
+"щодо точності внесеної зміни."
 
 #: ../../workflows.rst:56 ../../workflows.rst:86 ../../workflows.rst:121
 msgid "Setting"
@@ -27959,18 +28074,20 @@ msgstr "Увімкнено"
 #: ../../workflows.rst:60 ../../workflows.rst:125
 msgid "It is useful for users to be able to suggest when they are not sure."
 msgstr ""
+"Для користувачів можливість надання пропозицій корисна тим, що уможливлює "
+"переклад, якщо користувач не певен щодо його правильності."
 
 #: ../../workflows.rst:67 ../../workflows.rst:97 ../../workflows.rst:132
 msgid "Translators group"
-msgstr ""
+msgstr "Група перекладачів"
 
 #: ../../workflows.rst:67 ../../workflows.rst:97 ../../workflows.rst:132
 msgid "Or Translate with access control."
-msgstr ""
+msgstr "Або переклад із керуванням доступом."
 
 #: ../../workflows.rst:69 ../../workflows.rst:99 ../../workflows.rst:134
 msgid "Reviewers group"
-msgstr ""
+msgstr "Група рецензентів"
 
 #: ../../workflows.rst:69 ../../workflows.rst:99
 msgid "N/A"
@@ -27982,26 +28099,31 @@ msgstr "Не використовується."
 
 #: ../../workflows.rst:76
 msgid "Peer review"
-msgstr ""
+msgstr "Експертне рецензування"
 
 #: ../../workflows.rst:78
 msgid ""
 "With this workflow, anybody can add suggestions, and need approval from "
 "additional member(s) before it is accepted as a translation."
 msgstr ""
+"У межах цього робочого процесу будь-хто може додавати пропозиції, які "
+"потребуватимуть затвердження від інших учасників команди, перш ніж їх буде "
+"прийнято як переклади."
 
 #: ../../workflows.rst:81
 msgid "*Any user* can add suggestions."
-msgstr ""
+msgstr "*Будь-який користувач* може додавати пропозиції."
 
 #: ../../workflows.rst:82
 msgid "*Any user* can vote for suggestions."
-msgstr ""
+msgstr "*Будь-який користувач* може голосувати за пропозиції."
 
 #: ../../workflows.rst:83
 msgid ""
 "Suggestions become translations when given a predetermined number of votes."
 msgstr ""
+"Пропозиції стають перекладами, якщо отримують попередньо встановлену "
+"кількість голосів."
 
 #: ../../workflows.rst:88 ../../workflows.rst:125 ../../workflows.rst:128
 msgid "off"
@@ -28014,18 +28136,22 @@ msgstr "Увімк."
 #: ../../workflows.rst:94
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
+"Ви можете встановити вище значення, щоб встановити запит щодо більшої "
+"кількості незалежних рецензій."
 
 #: ../../workflows.rst:99
 msgid "Not used, all translators review."
-msgstr ""
+msgstr "Не використовується, рецензування усіх перекладачів."
 
 #: ../../workflows.rst:105
 msgid "Dedicated reviewers"
-msgstr ""
+msgstr "Спеціалізовані рецензенти"
 
 #: ../../workflows.rst:109
 msgid "The proper review workflow is supported since Weblate 2.18."
 msgstr ""
+"Підтримку належного робочого процесу рецензування реалізовано, починаючи з "
+"версії Weblate 2.18."
 
 #: ../../workflows.rst:111
 msgid ""
@@ -28033,22 +28159,28 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"Якщо у проєкті є спеціалізовані рецензенти, ви матимете дві групи "
+"користувачів: одна зможе надсилати переклади, а інше рецензувати їх з метою "
+"забезпечення коректності та якості."
 
 #: ../../workflows.rst:115
 msgid "*Any user* can edit unapproved translations."
-msgstr ""
+msgstr "*Будь-який користувач* може редагувати незатверджені переклади."
 
 #: ../../workflows.rst:116
 msgid "*Reviewer* can approve / unapproved strings."
 msgstr ""
+"*Рецензент* може затверджувати рядки та скасовувати затвердження рядків."
 
 #: ../../workflows.rst:117
 msgid "*Reviewer* can edit all translations (including approved ones)."
-msgstr ""
+msgstr "*Рецензент* може редагувати усі переклади (зокрема й затверджені)."
 
 #: ../../workflows.rst:118
 msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr ""
+"Крім того, пропозиціями можна скористатися для пропонування змін до "
+"затверджених рядків."
 
 #: ../../workflows.rst:134
 msgid "Reviewers"
@@ -28056,11 +28188,11 @@ msgstr "Рецензенти"
 
 #: ../../workflows.rst:134
 msgid "Or Review with access control."
-msgstr ""
+msgstr "Або рецензування із керуванням доступом."
 
 #: ../../workflows.rst:138
 msgid "Turning on reviews"
-msgstr ""
+msgstr "Вмикання рецензування"
 
 #: ../../workflows.rst:140
 msgid ""
@@ -28068,6 +28200,9 @@ msgid ""
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → `Settings` menu):"
 msgstr ""
+"Рецензування можна увімкнути у налаштуваннях проєкту на сторінці "
+":guilabel:`Процес` параметрів проєкту (відкрити її можна за допомогою меню "
+":guilabel:`Керування` → `Параметри`):"
 
 #: ../../workflows.rst:148
 msgid ""
@@ -28075,10 +28210,13 @@ msgid ""
 "you. For example on Hosted Weblate this is not available for projects hosted "
 "for free."
 msgstr ""
+"Залежно від налаштувань Weblate, цей пункт може виявитися недоступним. "
+"Наприклад, на Hosted Weblate він недоступний для проєктів, які працюють на "
+"безкоштовній основі."
 
 #: ../../workflows.rst:155
 msgid "Quality gateway for the source strings"
-msgstr ""
+msgstr "Шлюз якості для початкових рядків"
 
 #: ../../workflows.rst:157
 msgid ""
@@ -28100,11 +28238,11 @@ msgstr ""
 
 #: ../../workflows.rst:214
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
-msgstr ""
+msgstr ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 
 #: ../../workflows.rst:221
 msgid "Source strings reviews"
-msgstr ""
+msgstr "Рецензування початкових рядків"
 
 #: ../../workflows.rst:223
 msgid ""
@@ -28132,7 +28270,7 @@ msgstr ""
 
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
-msgstr ""
+msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 
 #~ msgid "Use management interface (global)"
 #~ msgstr "Використовувати інтерфейс керування (на загальному рівні)"
