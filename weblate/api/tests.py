@@ -1014,6 +1014,41 @@ class ProjectAPITest(APIBaseTest):
             "Language with this language code was not found.",
         )
 
+    def test_create_with_source_language_string(self, format="json"):
+        payload = {
+            "name": "API project",
+            "slug": "api-project",
+            "web": "https://weblate.org/",
+            "source_language": '{"code": "ru"}',
+        }
+        # Request with wrong payload format should fail
+        self.do_request(
+            "api:project-list",
+            method="post",
+            code=400,
+            superuser=True,
+            format=format,
+            request=payload,
+        )
+        # Correct payload
+        payload["source_language"] = "ru"
+        response = self.do_request(
+            "api:project-list",
+            method="post",
+            code=201,
+            superuser=True,
+            format=format,
+            request=payload,
+        )
+        self.assertEqual(Project.objects.count(), 2)
+        self.assertEqual(response.data["source_language"]["code"], "ru")
+        self.assertEqual(
+            Project.objects.get(slug="api-project").source_language.code, "ru"
+        )
+
+    def test_create_with_source_language_string_multipart(self):
+        self.test_create_with_source_language_string(format="multipart")
+
     def test_create_component(self):
         self.do_request(
             "api:project-components",

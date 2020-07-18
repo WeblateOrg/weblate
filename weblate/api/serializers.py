@@ -25,7 +25,7 @@ from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
-from weblate.trans.defines import REPO_LENGTH
+from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
     AutoComponentList,
     Change,
@@ -102,6 +102,7 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
 
 
 class LanguageSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False, max_length=LANGUAGE_NAME_LENGTH)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     plural = LanguagePluralSerializer(required=False)
     aliases = serializers.ListField(source="get_aliases_names", read_only=True)
@@ -126,22 +127,28 @@ class LanguageSerializer(serializers.ModelSerializer):
             "code": {"validators": []},
         }
 
-    def validate_code(self, value):
-        check_query = Language.objects.filter(code=value)
-        if not check_query.exists() and (
+    @property
+    def is_source_language(self):
+        return (
             isinstance(self.parent, ProjectSerializer)
             and self.field_name == "source_language"
-        ):
+        )
+
+    def validate_code(self, value):
+        check_query = Language.objects.filter(code=value)
+        if not check_query.exists() and not self.is_source_language:
             raise serializers.ValidationError(
                 "Language with this language code was not found."
             )
         return value
 
     def validate_plural(self, value):
-        if not value and not (
-            isinstance(self.parent, ProjectSerializer)
-            and self.field_name == "source_language"
-        ):
+        if not value and not self.is_source_language:
+            raise serializers.ValidationError("This field is required.")
+        return value
+
+    def validate_name(self, value):
+        if not value and not self.is_source_language:
             raise serializers.ValidationError("This field is required.")
         return value
 
@@ -159,6 +166,13 @@ class LanguageSerializer(serializers.ModelSerializer):
         plural = Plural(language=language, **plural_validated)
         plural.save()
         return language
+
+    def get_value(self, dictionary):
+        if self.is_source_language and "source_language" in dictionary:
+            value = dictionary["source_language"]
+            if isinstance(value, str):
+                return {"code": value}
+        return super().get_value(dictionary)
 
 
 class FullUserSerializer(serializers.ModelSerializer):
