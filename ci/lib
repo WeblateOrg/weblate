@@ -1,8 +1,5 @@
 # shell library to help executing tests
 
-if [ "${CI_VERBOSE:-1}" -eq 1 ] ; then
-    set -x
-fi
 if [ -z "$TERM" ] ; then
     export TERM=xterm256
 fi
