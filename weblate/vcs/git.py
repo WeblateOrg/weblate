@@ -97,12 +97,15 @@ class GitRepository(Repository):
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
         if abort:
-            if self.has_rev("ORIG_HEAD"):
+            if self.has_git_file("rebase-apply"):
                 self.execute(["rebase", "--abort"])
             if self.needs_commit():
                 self.execute(["reset", "--hard"])
         else:
             self.execute(["rebase", self.get_remote_branch_name()])
+
+    def has_git_file(self, name):
+        return os.path.exists(os.path.join(self.path, ".git", name))
 
     def has_rev(self, rev):
         try:
