@@ -994,8 +994,8 @@ class ProjectAPITest(APIBaseTest):
             superuser=True,
             format="json",
             request={
-                "name": "API project",
-                "slug": "api-project",
+                "name": "API project 2",
+                "slug": "api-project-2",
                 "web": "https://weblate.org/",
                 "source_language": {
                     "code": "invalid",

@@ -136,7 +136,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
     def validate_code(self, value):
         check_query = Language.objects.filter(code=value)
-        if not check_query.exists() and not self.is_source_language:
+        if not check_query.exists() and self.is_source_language:
             raise serializers.ValidationError(
                 "Language with this language code was not found."
             )
