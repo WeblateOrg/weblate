@@ -31,7 +31,6 @@ from django.core.cache import cache
 from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 
-from weblate import settings_example
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
 from weblate.utils.docs import get_doc_url
@@ -42,6 +41,10 @@ DEFAULT_MAILS = {
     "webmaster@localhost",
     "noreply@weblate.org",
     "noreply@example.com",
+}
+DEFAULT_SECRET_KEYS = {
+    "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6(",
+    "secret key used for tests only",
 }
 DOC_LINKS = {
     "security.W001": ("admin/upgdade", "up-3-1"),
@@ -307,7 +310,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if settings.SECRET_KEY == settings_example.SECRET_KEY:
+    if settings.SECRET_KEY in DEFAULT_SECRET_KEYS:
         errors.append(
             weblate_check(
                 "weblate.E014",
