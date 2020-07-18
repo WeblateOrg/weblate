@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.2\n"
 "Report-Msgid-Bugs-To: weblate@lists.cihar.com\n"
 "POT-Creation-Date: 2020-07-16 14:25+0000\n"
-"PO-Revision-Date: 2020-07-15 02:37+0000\n"
+"PO-Revision-Date: 2020-07-18 16:41+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -54,8 +54,8 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"ユーザ名には ASCII 文字のほか、数字と以下の文字を使うことができます: @ . + - "
-"_ (アットマーク、ピリオド、プラス、マイナス、アンダーバーの半角文字)"
+"ユーザー名にはアルファベットと数字のほか、以下の文字を使うことができます: @ . + - _ "
+"(アットマーク、ピリオド、プラス、マイナス、アンダーバーの半角文字)"
 
 #: weblate/accounts/forms.py:124 weblate/accounts/forms.py:769
 #: weblate/auth/models.py:278 weblate/templates/manage-access.html:24
@@ -823,7 +823,7 @@ msgstr "パスワードのリセットはすでに完了しています。"
 
 #: weblate/accounts/views.py:968
 msgid "Could not remove user identity"
-msgstr "ユーザー ID を削除できません"
+msgstr "ユーザー認証方法を削除できませんでした"
 
 #: weblate/accounts/views.py:977
 msgid "Add another identity by confirming your e-mail address first."
@@ -895,7 +895,7 @@ msgstr "自動翻訳"
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
-msgstr "自動翻訳または他のコンポーネントを使用して文字列を自動的に翻訳します。"
+msgstr "機械翻訳または他のコンポーネントを使用して文字列を自動的に翻訳します。"
 
 #: weblate/addons/base.py:298 weblate/trans/views/create.py:195
 msgid ""
@@ -980,9 +980,8 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートすると、Weblate は毎回 \"要編集\" フ"
-"ラグを付けます。これにより、開発者が作成した原文を簡単にフィルタしたり、編集"
-"したりできます。"
+"新しい翻訳可能な文章を VCS からインポートすると、Weblate は毎回 \"要編集\" "
+"フラグを付けます。これにより、開発者が作成した翻訳文を簡単にフィルタしたり、編集したりできます。"
 
 #: weblate/addons/flags.py:75
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -4109,7 +4108,7 @@ msgstr "アカウントを削除"
 
 #: weblate/templates/accounts/profile.html:178
 msgid "User data"
-msgstr "ユーザ ーデータ"
+msgstr "ユーザーデータ"
 
 #: weblate/templates/accounts/profile.html:181
 msgid "You can download all your private data."
@@ -4117,7 +4116,7 @@ msgstr "全ての個人データをダウンロードできます。"
 
 #: weblate/templates/accounts/profile.html:184
 msgid "Download user data"
-msgstr "ユーザ ーデータのダウンロード"
+msgstr "ユーザーデータのダウンロード"
 
 #: weblate/templates/accounts/profile.html:193
 msgid "Your avatar"
@@ -7504,7 +7503,7 @@ msgstr "位置"
 
 #: weblate/templates/snippets/sort-field.html:19 weblate/utils/views.py:97
 msgid "Age of string"
-msgstr "文字列の年齢"
+msgstr "文字列の保存日時"
 
 #: weblate/templates/snippets/sort-field.html:21 weblate/utils/views.py:100
 msgid "Number of failing checks"
@@ -8451,15 +8450,10 @@ msgid "The uploaded file will be merged with the current translation."
 msgstr "アップロードされたファイルは現在の翻訳にマージされます。"
 
 #: weblate/templates/translation.html:354
-#, fuzzy
-#| msgid ""
-#| "The message is shown on the translation page, until its given expiry, or "
-#| "permanently until it is deleted."
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
-msgstr ""
-"メッセージは、指定した期限または削除するまで、翻訳ページに表示し続けます。"
+msgstr "メッセージは、指定した期限または削除するまで、翻訳ページに表示されます。"
 
 #: weblate/templates/translation.html:392
 msgid "Percent"
@@ -8517,8 +8511,7 @@ msgstr "翻訳プロジェクトを宣伝"
 #: weblate/templates/widgets.html:14
 #, python-format
 msgid "You can point newcomers to the introduction page at %(engage_link)s."
-msgstr ""
-"新規の参加者を %(engage_link)s にある紹介ページに移動させることができます。"
+msgstr "新規の参加者を %(engage_link)s にある紹介ページに誘導できます。"
 
 #: weblate/templates/widgets.html:17
 msgid "Promoting specific translations"
@@ -8673,7 +8666,7 @@ msgstr "ラベル付き文字列"
 
 #: weblate/trans/filter.py:42
 msgid "Strings with context"
-msgstr "複数の情報（コンテキスト）がある文字列"
+msgstr "コンテキストがある文字列"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:122
 msgid "Strings needing action without suggestions"
@@ -8696,10 +8689,8 @@ msgid "Strings without a label"
 msgstr "ラベルのない文字列"
 
 #: weblate/trans/filter.py:63
-#, fuzzy
-#| msgid "Translated string"
 msgid "Pluralized string"
-msgstr "翻訳済みの文字列"
+msgstr "複数形がある文字列"
 
 #: weblate/trans/filter.py:68 weblate/trans/filter.py:130
 msgid "Failed check: {}"
@@ -8707,7 +8698,7 @@ msgstr "チェック不良: {}"
 
 #: weblate/trans/filter.py:94 weblate/trans/filter.py:135
 msgid "Labeled: {}"
-msgstr "付加したラベル: {}"
+msgstr "ラベル名: {}"
 
 #: weblate/trans/forms.py:147
 msgid "Invalid checksum specified!"
