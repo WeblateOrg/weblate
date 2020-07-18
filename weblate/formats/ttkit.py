@@ -101,7 +101,7 @@ class TTKitUnit(TranslationUnit):
             # Avoid duplication in case template has same notes
             template_comment = self.template.getnotes()
             if template_comment != comment:
-                comment = template_comment + " " + comment
+                comment = template_comment + "\n" + comment
 
         return comment
 
@@ -461,7 +461,7 @@ class PoMonoUnit(PoUnit):
             context = self.template.getcontext()
             if context:
                 result.append(context)
-        return " ".join(notes)
+        return "\n".join(notes)
 
 
 class XliffUnit(TTKitUnit):
