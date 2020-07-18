@@ -20,7 +20,7 @@
 import os
 import subprocess
 from itertools import chain
-from typing import Optional, Tuple
+from typing import List, Optional, Tuple
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -239,7 +239,7 @@ class BaseAddon:
         else:
             component.delete_alert(self.alert)
 
-    def commit_and_push(self, component, files=None):
+    def commit_and_push(self, component, files: Optional[List[str]] = None):
         if files is None:
             files = list(
                 chain.from_iterable(

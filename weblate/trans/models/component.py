@@ -1362,7 +1362,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         return childs
 
     @perform_on_link
-    def commit_pending(self, reason, user, skip_push=False):
+    def commit_pending(self, reason: str, user, skip_push: bool = False):
         """Check whether there is any translation to be committed."""
         # Get all translation with pending changes
         translations = (
