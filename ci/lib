@@ -12,7 +12,7 @@ check() {
 }
 
 run_coverage() {
-    python -W default -W ignore:unclosed:ResourceWarning -m coverage run --source . --append "$@"
+    python -m coverage run --source . --append "$@"
 }
 
 get_mysql_args() {

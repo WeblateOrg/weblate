@@ -97,6 +97,7 @@ jobs:
       CI_DB_PORT: "60000"
       CI_SELENIUM: "1"
       DJANGO_SETTINGS_MODULE: weblate.settings_test
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
     steps:
       - uses: actions/checkout@v2
       - name: Start services

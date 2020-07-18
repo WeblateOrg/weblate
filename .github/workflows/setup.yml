@@ -75,6 +75,7 @@ jobs:
     env:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       CI_DATABASE: postgresql
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
       - uses: actions/checkout@v2
