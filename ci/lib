@@ -3,9 +3,6 @@
 if [ "${CI_VERBOSE:-1}" -eq 1 ] ; then
     set -x
 fi
-if [ -z "${COVERAGE_NO_ERASE:-}" ] ; then
-    coverage erase
-fi
 if [ -z "$TERM" ] ; then
     export TERM=xterm256
 fi
