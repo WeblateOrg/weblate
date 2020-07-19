@@ -1906,6 +1906,43 @@ class ScreenshotAPITest(APIBaseTest):
             )
         self.assertEqual(Screenshot.objects.count(), 2)
 
+    def test_patch_screenshot(self):
+        self.do_request(
+            "api:screenshot-detail",
+            kwargs={"pk": Screenshot.objects.get().pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"name": "Test New screenshot"},
+        )
+        self.assertEqual(Screenshot.objects.get().name, "Test New screenshot")
+
+    def test_put_screenshot(self):
+        response = self.client.get(
+            reverse("api:screenshot-detail", kwargs={"pk": Screenshot.objects.get().pk})
+        )
+        request = response.data
+        request["name"] = "Test new screenshot"
+        self.do_request(
+            "api:screenshot-detail",
+            kwargs={"pk": Screenshot.objects.get().pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request=request,
+        )
+        self.assertEqual(Screenshot.objects.get().name, "Test new screenshot")
+
+    def test_delete_screenshot(self):
+        self.do_request(
+            "api:screenshot-detail",
+            kwargs={"pk": Screenshot.objects.get().pk},
+            method="delete",
+            code=204,
+            superuser=True,
+        )
+        self.assertEqual(Screenshot.objects.count(), 0)
+
     def test_units_denied(self):
         unit = self.component.source_translation.unit_set.all()[0]
         response = self.client.post(
@@ -1931,6 +1968,22 @@ class ScreenshotAPITest(APIBaseTest):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(str(unit.pk), response.data["units"][0])
+
+    def test_units_delete(self):
+        self.authenticate(True)
+        unit = self.component.source_translation.unit_set.all()[0]
+        self.client.post(
+            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
+            {"unit_id": unit.pk},
+        )
+        response = self.client.delete(
+            reverse(
+                "api:screenshot-delete-units",
+                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": unit.pk},
+            ),
+        )
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(Screenshot.objects.get().units.all()), 0)
 
 
 class ChangeAPITest(APIBaseTest):

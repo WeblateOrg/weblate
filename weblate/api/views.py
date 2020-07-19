@@ -1090,7 +1090,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
         return Unit.objects.filter_access(self.request.user).order_by("id")
 
 
-class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
+class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     """Screenshots API."""
 
     queryset = Screenshot.objects.none()
@@ -1154,6 +1154,24 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
 
         return Response(serializer.data, status=status.HTTP_200_OK,)
 
+    @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[^/.]+)")
+    def delete_units(self, request, pk, unit_id):
+        obj = self.get_object()
+        if not request.user.has_perm("screenshot.edit", obj.component):
+            raise PermissionDenied()
+
+        try:
+            source_string = obj.component.source_translation.unit_set.get(
+                pk=int(unit_id)
+            )
+        except (Unit.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        obj.units.remove(source_string)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
     def create(self, request, *args, **kwargs):
         required_params = ["name", "image", "project_slug", "component_slug"]
         for param in required_params:
@@ -1185,6 +1203,20 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
                 component=component, user=request.user, image=request.data["image"]
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED,)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        request.user.check_access_component(instance.component)
+        if not request.user.has_perm("screenshot.edit", instance.component):
+            self.permission_denied(request, message="Can not edit screenshot.")
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        request.user.check_access_component(instance.component)
+        if not request.user.has_perm("screenshot.delete", instance.component):
+            self.permission_denied(request, message="Can not delete screenshot.")
+        return super().destroy(request, *args, **kwargs)
 
 
 class ChangeFilter(filters.FilterSet):
