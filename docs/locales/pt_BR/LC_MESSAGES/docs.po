@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-16 16:25+0200\n"
-"PO-Revision-Date: 2020-07-18 16:42+0000\n"
+"PO-Revision-Date: 2020-07-19 20:00+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -3800,54 +3800,64 @@ msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
 msgstr ""
+"Os grupos de fontes permitem definir diferentes fontes para diferentes "
+"idiomas, o que é normalmente necessário para idiomas não-latinos:"
 
 #: ../../admin/checks.rst:237
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
+"O grupos de fontes são identificados pelo nome, que não pode conter espaços "
+"ou caracteres especiais, de modo que ele pode ser facilmente utilizado na "
+"definição da verificação:"
 
 #: ../../admin/checks.rst:242
 msgid "Font-family and style is automatically recognized after uploading them:"
 msgstr ""
+"A família de fontes e o estilo são automaticamente reconhecidos após "
+"carregá-los:"
 
 #: ../../admin/checks.rst:246
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr ""
+msgstr "Você pode ter um número de fontes carregadas para Weblate:"
 
 #: ../../admin/checks.rst:250
 msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"Para usar as fontes para verificar o comprimento do texto, passe-o os "
+"sinalizadores apropriados (veja :ref:`custom-checks`). Você provavelmente "
+"precisará dos seguintes:"
 
 #: ../../admin/checks.rst:253
 msgid "``max-size:500``"
-msgstr ""
+msgstr "``max-size:500``"
 
 #: ../../admin/checks.rst:254
 msgid "Defines maximal width."
-msgstr ""
+msgstr "Define o máximo de largura."
 
 #: ../../admin/checks.rst:255
 msgid "``font-family:ubuntu``"
-msgstr ""
+msgstr "``font-family:ubuntu``"
 
 #: ../../admin/checks.rst:256
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
+msgstr "Define o grupo de fontes para usar especificando seu identificador."
 
 #: ../../admin/checks.rst:259
 msgid "``font-size:22``"
-msgstr ""
+msgstr "``font-size:22``"
 
 #: ../../admin/checks.rst:258
 msgid "Defines font size."
-msgstr ""
+msgstr "Define o tamanho da fonte."
 
 #: ../../admin/checks.rst:264
 msgid "Writing own checks"
-msgstr ""
+msgstr "Escrevendo as próprias verificações"
 
 #: ../../admin/checks.rst:266
 msgid ""
@@ -3856,50 +3866,64 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Uma ampla gama de verificações de qualidade são incorporadas, (veja "
+":ref:`checks`), embora eles possam não cobrir tudo o que você deseja "
+"verificar. A lista de verificações realizadas pode ser ajustada usando "
+":setting:`CHECK_LIST` e você também pode adicionar verificações "
+"personalizadas."
 
 #: ../../admin/checks.rst:270
 msgid "Subclass the `weblate.checks.Check`"
-msgstr ""
+msgstr "Crie uma subclasse de `weblate.checks.Check`"
 
 #: ../../admin/checks.rst:271
 msgid "Set a few attributes."
-msgstr ""
+msgstr "Defina alguns atributos."
 
 #: ../../admin/checks.rst:272
 msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method, (which does it for you)."
 msgstr ""
+"Implemente o método ``check`` (se você quiser lidar com plurais em seu "
+"código) ou o método ``check_single`` (que faz isso por você)."
 
 #: ../../admin/checks.rst:275
 msgid "Some examples:"
-msgstr ""
+msgstr "Alguns exemplos:"
 
 #: ../../admin/checks.rst:277
 msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Para instalar verificações personalizadas, forneça um caminho totalmente "
+"qualificado para a classe Python em :setting:`CHECK_LIST`, veja :ref:`custom-"
+"check-modules`."
 
 #: ../../admin/checks.rst:281
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "Verificando se o texto de tradução não contém \"foo\""
 
 #: ../../admin/checks.rst:283
 msgid ""
 "This is a pretty simple check which just checks whether the translation is "
 "missing the string \"foo\"."
 msgstr ""
+"Esta é uma verificação bastante simples que apenas verifica se a tradução "
+"não possui o texto \"foo\"."
 
 #: ../../admin/checks.rst:290
 msgid "Checking that Czech translation text plurals differ"
-msgstr ""
+msgstr "Verificando se os plurais de texto de tradução tcheca são diferentes"
 
 #: ../../admin/checks.rst:292
 msgid ""
 "Check using language info to verify the two plural forms in Czech language "
 "are not same."
 msgstr ""
+"Usa as informações de idioma para verificar se as duas formas plurais no "
+"idioma tcheco não são os mesmos."
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
@@ -24890,11 +24914,11 @@ msgstr ""
 
 #: ../../user/basic.rst:2
 msgid "Weblate basics"
-msgstr ""
+msgstr "Básico do Weblate"
 
 #: ../../user/basic.rst:5
 msgid "Project structure"
-msgstr ""
+msgstr "Estrutura de projetos"
 
 #: ../../user/basic.rst:7
 msgid ""
@@ -24905,6 +24929,12 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"No Weblate, as traduções são organizadas em projetos e componentes. Cada "
+"projeto pode conter vários componentes, os quais contêm traduções para "
+"idiomas individuais. O componente corresponde a um arquivo traduzível (por "
+"exemplo, :ref:`gettext` ou :ref:`aresource`). Os projetos estão lá para "
+"ajudá-lo a organizar componentes em conjuntos lógicos (por exemplo, para "
+"agrupar todas as traduções usadas dentro de um aplicativo)."
 
 #: ../../user/basic.rst:14
 msgid ""
@@ -24914,6 +24944,11 @@ msgid ""
 "`component`, still producing errors for seemingly inconsistent resulting "
 "translations."
 msgstr ""
+"Internamente, cada projeto tem traduções para textos comuns propagados em "
+"outros componentes dentro dele por padrão.  Isso alivia o fardo da tradução "
+"repetitiva e de várias versões.  Desabilite isso conforme :ref:`component`, "
+"ainda produzindo erros para traduções aparentemente inconsistentes "
+"resultantes."
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -26336,7 +26371,7 @@ msgstr ""
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
-msgstr ""
+msgstr "Registro e perfil de usuário"
 
 #: ../../user/profile.rst:7
 msgid ""
@@ -26344,22 +26379,26 @@ msgid ""
 "default. Only registered users are allowed to actually save changes, and are "
 "credited for every translation made."
 msgstr ""
+"Todos podem procurar projetos, visualizar traduções ou sugerir traduções por "
+"padrão. Somente usuários registrados têm permissão para realmente salvar as "
+"alterações e são creditados para cada tradução feita."
 
 #: ../../user/profile.rst:11
 msgid "You can register by following a few simple steps:"
-msgstr ""
+msgstr "Você pode se registrar seguindo alguns passos simples:"
 
 #: ../../user/profile.rst:13
 msgid "Fill out the registration form with your credentials."
-msgstr ""
+msgstr "Preencha o formulário de registro com suas credenciais."
 
 #: ../../user/profile.rst:14
 msgid "Activate registration by following the link in the e-mail you receive."
-msgstr ""
+msgstr "Ative o registro seguindo o link no e-mail que você receber."
 
 #: ../../user/profile.rst:15
 msgid "Optionally adjust your profile to choose which languages you know."
 msgstr ""
+"Ajuste opcionalmente seu perfil para escolher quais idiomas você conhece."
 
 #: ../../user/profile.rst:20
 msgid "Dashboard"
@@ -26370,26 +26409,34 @@ msgid ""
 "When you sign in, you will see an overview of projects and components, as "
 "well as their respective translation progression."
 msgstr ""
+"Ao fazer login, você verá uma visão geral de projetos e componentes, bem "
+"como sua respectiva progressão de tradução."
 
 #: ../../user/profile.rst:27
 msgid ""
 "Components of projects you are watching are shown by default, and cross-"
 "referenced with your preferred languages."
 msgstr ""
+"Os componentes dos projetos que você está observando são mostrados por "
+"padrão, e cruzados com os idiomas de sua preferência."
 
 #: ../../user/profile.rst:32
 msgid "You can switch to different views using the navigation tabs."
 msgstr ""
+"Você pode mudar para visualizações diferentes usando as abas de navegação."
 
 #: ../../user/profile.rst:36
 msgid "The menu has these options:"
-msgstr ""
+msgstr "O menu tem estas opções:"
 
 #: ../../user/profile.rst:38
 msgid ""
 ":guilabel:`Projects` > :guilabel:`Browse all projects` in the main menu "
 "showing translation status for each project on the Weblate instance."
 msgstr ""
+":guilabel:`Projetos` > :guilabel:`Visualizar todos os projetos \" no menu "
+"principal mostrando o status da tradução, para cada projeto, na instância do "
+"Weblate."
 
 #: ../../user/profile.rst:40
 msgid ""
@@ -26397,6 +26444,9 @@ msgid ""
 "translation status of all projects, filtered by one of your primary "
 "languages."
 msgstr ""
+"Selecionar um idioma no menu principal de :guilabel:`Idiomas` irá mostrar o "
+"status da tradução de todos os projetos, filtrada por um dos seus idiomas "
+"primários."
 
 #: ../../user/profile.rst:42
 msgid ""
@@ -26404,6 +26454,9 @@ msgid ""
 "status of only those projects you are watching, filtered by your primary "
 "languages."
 msgstr ""
+":guilabel:`Traduções observadas` no Painel vai mostrar o status da tradução "
+"apenas os projetos que você está observando, filtradas por seus idiomas "
+"primários."
 
 #: ../../user/profile.rst:45
 msgid ""
@@ -26411,12 +26464,17 @@ msgid ""
 "sets of project components preconfigured by the Weblate administrator, see :"
 "ref:`componentlists`."
 msgstr ""
+"Além disso, o menu suspenso também pode mostrar qualquer número de *listas "
+"de componentes*, conjuntos de componentes do projeto pré-configurados pelo "
+"administrador da Weblate, veja :ref:`componentlists`."
 
 #: ../../user/profile.rst:49
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
 msgstr ""
+"Você pode configurar sua exibição de painel padrão pessoal na seção "
+":guilabel:`Preferências` das configurações do perfil do usuário."
 
 #: ../../user/profile.rst:54
 msgid ""
@@ -26425,6 +26483,10 @@ msgid ""
 "dashboard will not be shown, as the user will be redirected to a single "
 "project or component instead."
 msgstr ""
+"Quando o Weblate estiver configurado para um único projeto usando "
+":setting:`SINGLE_PROJECT` no arquivo :file:`settings.py` (veja :ref:`config`)"
+", o painel não será mostrado, pois o usuário será redirecionado para um "
+"único projeto ou componente."
 
 #: ../../user/profile.rst:61
 msgid "User profile"
