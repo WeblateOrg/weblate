@@ -37,11 +37,7 @@ def get_doc_url(page, anchor=""):
     else:
         version = "weblate-{0}".format(weblate.VERSION)
     # Language variant
-    code = get_language()
-    if code in LANGMAP:
-        code = LANGMAP[code]
-    else:
-        code = "en"
+    code = LANGMAP.get(get_language(), "en")
     # Generate URL
     url = f"https://docs.weblate.org/{code}/{version}/{page}.html"
     # Optionally append anchor
