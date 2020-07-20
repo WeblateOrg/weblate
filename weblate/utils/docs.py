@@ -26,6 +26,8 @@ LANGMAP = {
     "zh-hans": "zh_CN",
     "pt-br": "pt_BR",
     "uk": "uk",
+    "ru": "ru",
+    "es": "es",
 }
 
 
