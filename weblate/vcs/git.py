@@ -29,6 +29,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
+from weblate.utils.errors import report_error
 from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
@@ -598,6 +599,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         try:
             self.create_pull_request(self.branch, fork_remote, fork_branch)
         except RepositoryException as error:
+            report_error(cause="Failed pull request")
             if error.retcode == 1:
                 # Pull request already exists.
                 return
