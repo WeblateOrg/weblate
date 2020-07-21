@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from weblate.auth.models import Group
+from weblate.auth.models import Group, Role
 from weblate.logger import LOGGER
 
 
@@ -35,4 +35,10 @@ def get_or_create_namespace_group(namespace):
     namespace_group = Group.objects.get_or_create(name=namespace.upper())
     if isinstance(namespace_group, tuple):
         namespace_group = namespace_group[0]
+
+    access_namespace_role = Role.objects.get_or_create(name="Access Namespace")
+    if isinstance(access_namespace_role, tuple):
+        access_namespace_role = access_namespace_role[0]
+    namespace_group.roles.add(access_namespace_role)
+
     return namespace_group

@@ -999,6 +999,25 @@ class NewLanguageForm(NewLanguageOwnerForm):
         return [self.cleaned_data["lang"]]
 
 
+class NewNamespacedLanguageForm(NewLanguageForm):
+    """Form for requesting namespaced language."""
+
+    def __init__(self, component, *args, **kwargs):
+        super().__init__(component, *args, **kwargs)
+        # don't include already-customized translations
+        customized_translations = component.translation_set.filter(
+            language_code__contains='~' + kwargs.get('namespace')
+        )
+        customized_codes = [t.language_code.split('~')[0] for t in customized_translations]
+        base_translations = component.translation_set.exclude(language_code__contains='~')
+        uncustomized_translations = base_translations.exclude(language_code__in=customized_codes)
+
+        self.fields["lang"].choices = sort_choices([
+            (t.language_code, "{0} ({1})".format(gettext(t.language.name), t.language_code))
+            for t in uncustomized_translations
+        ])
+
+
 def get_new_language_form(request, component):
     """Return new language form for user."""
     if not request.user.has_perm("translation.add", component):

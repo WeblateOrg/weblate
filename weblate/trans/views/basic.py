@@ -39,6 +39,7 @@ from weblate.trans.forms import (
     DeleteForm,
     DownloadForm,
     NewUnitForm,
+    NewNamespacedLanguageForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
@@ -313,6 +314,11 @@ def new_language(request, project, component):
     form_class = get_new_language_form(request, obj)
     can_add = obj.can_add_new_language(request)
 
+    namespace = ""
+    namespace_query = request.user.groups.filter(roles__name="Access Namespace").order_by('name')
+    if namespace_query.count():
+        namespace = namespace_query[0]
+
     if request.method == "POST":
         form = form_class(obj, request.POST)
 
@@ -351,11 +357,58 @@ def new_language(request, project, component):
     else:
         form = form_class(obj)
 
-    return render(
-        request,
-        "new-language.html",
-        {"object": obj, "project": obj.project, "form": form, "can_add": can_add},
-    )
+    context = {
+        "object": obj,
+        "project": obj.project,
+        "form": form,
+        "can_add": can_add,
+        "namespace": namespace,
+        "namespaced_form": NewNamespacedLanguageForm(obj, namespace=namespace)
+    }
+    return render(request, "new-language.html", context)
+
+
+@never_cache
+@login_required
+def new_namespaced_language(request, project, component):
+    obj = get_component(request, project, component)
+
+    namespace = ""
+    namespace_query = request.user.groups.filter(roles__name="Access Namespace").order_by('name')
+    if namespace_query.count():
+        namespace = namespace_query[0]
+
+    if namespace and request.method == "POST":
+        form = NewNamespacedLanguageForm(obj, request.POST)
+
+        if form.is_valid():
+            langs = form.cleaned_data["lang"]
+            kwargs = {
+                "user": request.user,
+                "author": request.user,
+                "component": obj,
+                "details": {},
+            }
+            for language in Language.objects.filter(code__in=langs):
+                namespaced_language = Language.objects.create(
+                    code=language.code + '~' + namespace,
+                    name='{} ({})'.format(language.name, namespace),
+                    direction=language.direction,
+                )
+
+                kwargs["details"]["language"] = namespaced_language.code
+                translation = obj.add_new_language(namespaced_language, request)
+                if translation:
+                    kwargs["translation"] = translation
+                    if len(langs) == 1:
+                        obj = translation
+                    Change.objects.create(
+                        action=Change.ACTION_ADDED_LANGUAGE, **kwargs
+                    )
+            return redirect(obj)
+
+    messages.error(request, _("Please fix errors in the form."))
+    return redirect(obj)
 
 
 @never_cache

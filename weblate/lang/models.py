@@ -108,6 +108,10 @@ class LanguageQuerySet(models.QuerySet):
 
     def parse_lang_country(self, code):
         """Parse language and country from locale code."""
+        # Strip namespace
+        if '~' in code:
+            code = code.split(':')[0]
+
         # Parse private use subtag
         subtag_pos = code.find("-x-")
         if subtag_pos != -1:

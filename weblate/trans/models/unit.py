@@ -122,7 +122,7 @@ class UnitQuerySet(models.QuerySet):
         result = self.filter(
             content_hash=unit.content_hash,
             translation__component__project=project,
-            translation__language=unit.translation.language,
+            translation__language__startswith=unit.translation.language,
         )
         if exclude:
             result = result.exclude(pk=unit.id)
@@ -482,9 +482,11 @@ class Unit(models.Model, LoggerMixin):
                 continue
             if unit.target == self.target and unit.state == self.state:
                 continue
+            if len(unit.change_set) > 0 and unit.change_set.content().order()[0].action == Change.ACTION_AUTO:
+                continue
             unit.target = self.target
             unit.state = self.state
-            unit.save_backend(user, False, change_action=change_action, author=None)
+            unit.save_backend(user, False, change_action=Change.ACTION_AUTO, author=None)
             result = True
         return result
 
