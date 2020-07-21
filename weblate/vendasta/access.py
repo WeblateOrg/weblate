@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 from weblate.auth.models import Group, Role
 from weblate.logger import LOGGER
+from weblate.vendasta.constants import (
+    ACCESS_NAMESPACE,
+    PARTNER_USERS,
+    PUBLIC_LANGUAGES,
+    VENDASTA_DEVELOPERS,
+)
 
 
 def set_permissions(strategy, backend, user, details, **kwargs):
@@ -15,10 +21,10 @@ def set_permissions(strategy, backend, user, details, **kwargs):
 
     roles = details.get("roles", [])
     if "developer" in roles:
-        groups_to_add.append(Group.objects.get(name="Vendasta Developers"))
+        groups_to_add.append(Group.objects.get(name=VENDASTA_DEVELOPERS))
     elif "partner" in roles:
-        groups_to_add.append(Group.objects.get(name="Partner Users"))
-        groups_to_add.append(Group.objects.get(name="Public Languages"))
+        groups_to_add.append(Group.objects.get(name=PARTNER_USERS))
+        groups_to_add.append(Group.objects.get(name=PUBLIC_LANGUAGES))
 
     namespace = details.get("namespace")
     if namespace:
@@ -37,7 +43,7 @@ def get_or_create_namespace_group(namespace):
     if isinstance(namespace_group, tuple):
         namespace_group = namespace_group[0]
 
-    access_namespace_role = Role.objects.get_or_create(name="Access Namespace")
+    access_namespace_role = Role.objects.get_or_create(name=ACCESS_NAMESPACE)
     if isinstance(access_namespace_role, tuple):
         access_namespace_role = access_namespace_role[0]
     namespace_group.roles.add(access_namespace_role)

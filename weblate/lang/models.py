@@ -46,6 +46,7 @@ from weblate.trans.util import sort_objects
 from weblate.utils.stats import LanguageStats
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_pluraleq
+from weblate.vendasta.constants import NAMESPACE_SEPARATOR
 
 PLURAL_RE = re.compile(
     r"\s*nplurals\s*=\s*([0-9]+)\s*;\s*plural\s*=\s*([()n0-9!=|&<>+*/%\s?:-]+)"
@@ -109,7 +110,7 @@ class LanguageQuerySet(models.QuerySet):
     def parse_lang_country(self, code):
         """Parse language and country from locale code."""
         # Strip namespace
-        if "~" in code:
+        if NAMESPACE_SEPARATOR in code:
             code = code.split(":")[0]
 
         # Parse private use subtag

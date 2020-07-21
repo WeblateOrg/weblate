@@ -60,6 +60,7 @@ from weblate.utils.views import (
     get_translation,
     try_set_language,
 )
+from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
 
 def optional_form(form, perm_user, perm, perm_obj, **kwargs):
@@ -316,9 +317,9 @@ def new_language(request, project, component):
     can_add = obj.can_add_new_language(request)
 
     namespace = ""
-    namespace_query = request.user.groups.filter(
-        roles__name="Access Namespace"
-    ).order_by("name")
+    namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
+        "name"
+    )
     if namespace_query.count():
         namespace = namespace_query[0]
 
@@ -377,9 +378,9 @@ def new_namespaced_language(request, project, component):
     obj = get_component(request, project, component)
 
     namespace = ""
-    namespace_query = request.user.groups.filter(
-        roles__name="Access Namespace"
-    ).order_by("name")
+    namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
+        "name"
+    )
     if namespace_query.count():
         namespace = namespace_query[0]
 
@@ -396,7 +397,7 @@ def new_namespaced_language(request, project, component):
             }
             for language in Language.objects.filter(code__in=langs):
                 namespaced_language = Language.objects.create(
-                    code=language.code + "~" + namespace,
+                    code=language.code + NAMESPACE_SEPARATOR + namespace,
                     name="{} ({})".format(language.name, namespace),
                     direction=language.direction,
                 )
