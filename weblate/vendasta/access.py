@@ -30,7 +30,8 @@ def set_permissions(strategy, backend, user, details, **kwargs):
 def get_or_create_namespace_group(namespace):
     """Ensure the existence of a group for a namespace, and return it.
 
-    get_or_create returns a Group if successful, or a tuple of type (Group, bool) if it must create a new Group.
+    get_or_create returns a Group if successful, or a tuple of type (Group, bool)
+    if it must create a new Group.
     """
     namespace_group = Group.objects.get_or_create(name=namespace.upper())
     if isinstance(namespace_group, tuple):

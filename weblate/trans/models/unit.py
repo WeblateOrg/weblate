@@ -482,11 +482,16 @@ class Unit(models.Model, LoggerMixin):
                 continue
             if unit.target == self.target and unit.state == self.state:
                 continue
-            if len(unit.change_set) > 0 and unit.change_set.content().order()[0].action == Change.ACTION_AUTO:
+            if (
+                len(unit.change_set) > 0
+                and unit.change_set.content().order()[0].action == Change.ACTION_AUTO
+            ):
                 continue
             unit.target = self.target
             unit.state = self.state
-            unit.save_backend(user, False, change_action=Change.ACTION_AUTO, author=None)
+            unit.save_backend(
+                user, False, change_action=Change.ACTION_AUTO, author=None
+            )
             result = True
         return result
 

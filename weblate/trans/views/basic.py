@@ -39,8 +39,8 @@ from weblate.trans.forms import (
     ComponentRenameForm,
     DeleteForm,
     DownloadForm,
-    NewUnitForm,
     NewNamespacedLanguageForm,
+    NewUnitForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
@@ -316,7 +316,9 @@ def new_language(request, project, component):
     can_add = obj.can_add_new_language(request)
 
     namespace = ""
-    namespace_query = request.user.groups.filter(roles__name="Access Namespace").order_by('name')
+    namespace_query = request.user.groups.filter(
+        roles__name="Access Namespace"
+    ).order_by("name")
     if namespace_query.count():
         namespace = namespace_query[0]
 
@@ -364,7 +366,7 @@ def new_language(request, project, component):
         "form": form,
         "can_add": can_add,
         "namespace": namespace,
-        "namespaced_form": NewNamespacedLanguageForm(obj, namespace=namespace)
+        "namespaced_form": NewNamespacedLanguageForm(obj, namespace=namespace),
     }
     return render(request, "new-language.html", context)
 
@@ -375,7 +377,9 @@ def new_namespaced_language(request, project, component):
     obj = get_component(request, project, component)
 
     namespace = ""
-    namespace_query = request.user.groups.filter(roles__name="Access Namespace").order_by('name')
+    namespace_query = request.user.groups.filter(
+        roles__name="Access Namespace"
+    ).order_by("name")
     if namespace_query.count():
         namespace = namespace_query[0]
 
@@ -392,8 +396,8 @@ def new_namespaced_language(request, project, component):
             }
             for language in Language.objects.filter(code__in=langs):
                 namespaced_language = Language.objects.create(
-                    code=language.code + '~' + namespace,
-                    name='{} ({})'.format(language.name, namespace),
+                    code=language.code + "~" + namespace,
+                    name="{} ({})".format(language.name, namespace),
                     direction=language.direction,
                 )
 
@@ -406,9 +410,7 @@ def new_namespaced_language(request, project, component):
                     kwargs["translation"] = translation
                     if len(langs) == 1:
                         obj = translation
-                    Change.objects.create(
-                        action=Change.ACTION_ADDED_LANGUAGE, **kwargs
-                    )
+                    Change.objects.create(action=Change.ACTION_ADDED_LANGUAGE, **kwargs)
             return redirect(obj)
 
     messages.error(request, _("Please fix errors in the form."))
