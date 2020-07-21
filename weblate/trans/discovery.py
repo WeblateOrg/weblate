@@ -51,6 +51,7 @@ COPY_ATTRIBUTES = (
     "add_message",
     "delete_message",
     "merge_message",
+    "addon_message",
     "committer_name",
     "committer_email",
     "push_on_commit",
