@@ -111,7 +111,7 @@ class LanguageQuerySet(models.QuerySet):
         """Parse language and country from locale code."""
         # Strip namespace
         if NAMESPACE_SEPARATOR in code:
-            code = code.split(":")[0]
+            code = code.split(NAMESPACE_SEPARATOR)[0]
 
         # Parse private use subtag
         subtag_pos = code.find("-x-")
