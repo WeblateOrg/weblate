@@ -29,6 +29,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
+from weblate.auth.models import Group
 from weblate.formats.exporters import list_exporters
 from weblate.lang.models import Language
 from weblate.trans.forms import (
@@ -395,6 +396,9 @@ def new_namespaced_language(request, project, component):
                     name='{} ({})'.format(language.name, namespace),
                     direction=language.direction,
                 )
+
+                namespace_group = Group.objects.get(name=namespace)
+                namespace_group.languages.add(namespaced_language)
 
                 kwargs["details"]["language"] = namespaced_language.code
                 translation = obj.add_new_language(namespaced_language, request)
