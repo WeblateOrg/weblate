@@ -1,4 +1,4 @@
-var _paq = window._paq || [];
+var _paq = (window._paq = window._paq || []);
 var _track_id = 1;
 var _track_params = JSON.parse(
   document.getElementById("matomo-tracker").dataset.params
