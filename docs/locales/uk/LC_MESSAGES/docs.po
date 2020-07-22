@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-22 09:59+0200\n"
-"PO-Revision-Date: 2020-07-22 09:47+0000\n"
+"PO-Revision-Date: 2020-07-23 02:39+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -14146,6 +14146,7 @@ msgstr ""
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"об'єкт початкової мови, див. :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:760
 msgid "project website"
@@ -14156,31 +14157,38 @@ msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
 msgstr ""
+"адреса списку складників, див. :http:get:`/api/projects/(string:project)/"
+"components/`"
 
 #: ../../api.rst:762
 msgid ""
 "URL to repository status; see :http:get:`/api/projects/(string:project)/"
 "repository/`"
 msgstr ""
+"адреса стану сховища, див. :http:get:`/api/projects/(string:project)/"
+"repository/`"
 
 #: ../../api.rst:763
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
 msgstr ""
+"адреса списку змін, див. :http:get:`/api/projects/(string:project)/changes/`"
 
 #: ../../api.rst:788
 msgid "Deletes a project."
-msgstr ""
+msgstr "Вилучає проєкт."
 
 #: ../../api.rst:795
 msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Повертає список змін у проєкті. Це, по суті, :http:get:`/api/changes/` "
+"області видимості проєкту, які приймають ті самі параметри."
 
 #: ../../api.rst:800 ../../api.rst:1209 ../../api.rst:1618
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
-msgstr ""
+msgstr "список об'єктів складника, див. :http:get:`/api/changes/(int:id)/`"
 
 #: ../../api.rst:804
 msgid ""
@@ -14192,58 +14200,64 @@ msgstr ""
 
 #: ../../api.rst:810 ../../api.rst:1300
 msgid "whether there are any pending changes to commit"
-msgstr ""
+msgstr "визначає, чи є якісь зміни у черзі внесків"
 
 #: ../../api.rst:811 ../../api.rst:1301
 msgid "whether there are any upstream changes to merge"
-msgstr ""
+msgstr "визначає, чи є якісь зміни у основному сховищі для злиття"
 
 #: ../../api.rst:812 ../../api.rst:1302
 msgid "whether there are any local changes to push"
-msgstr ""
+msgstr "визначає, чи є якісь локальні зміни для запису"
 
 #: ../../api.rst:827 ../../api.rst:1726
 msgid "Performs given operation on the VCS repository."
-msgstr ""
+msgstr "Виконує вказану дію над сховищем системи керування версіями."
 
 #: ../../api.rst:832 ../../api.rst:1317 ../../api.rst:1736
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
 msgstr ""
+"Дія, яку слід виконати. Одне з таких значень: ``push``, ``pull``, ``commit``"
+", ``reset``, ``cleanup``"
 
 #: ../../api.rst:833 ../../api.rst:1318 ../../api.rst:1737
 msgid "result of the operation"
-msgstr ""
+msgstr "результат дії"
 
 #: ../../api.rst:857 ../../api.rst:940 ../../api.rst:1127 ../../api.rst:1275
 #: ../../api.rst:1342 ../../api.rst:1418
 msgid "**JSON response example:**"
-msgstr ""
+msgstr "**Приклад відповіді JSON:**"
 
 #: ../../api.rst:875
 msgid "Returns a list of translation components in the given project."
-msgstr ""
+msgstr "Повертає список складників перекладу у вказаному проєкті."
 
 #: ../../api.rst:879
 msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"масив об'єктів складника, див. :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:885
 msgid "Creates translation components in the given project."
-msgstr ""
+msgstr "Створює складники перекладу у вказаному проєкті."
 
 #: ../../api.rst:889
 msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Створений об'єкт складника; див. :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:986
 msgid "Returns paginated statistics for all languages within a project."
-msgstr ""
+msgstr "Повертає поділену на сторінки статистику для усіх мов у проєкті."
 
 #: ../../api.rst:992
 msgid "array of translation statistics objects"
@@ -14259,7 +14273,7 @@ msgstr "код мови"
 
 #: ../../api.rst:1004
 msgid "Returns statistics for a project."
-msgstr ""
+msgstr "Повертає статистику проєкту."
 
 #: ../../api.rst:1018
 msgid "Components"
@@ -14267,17 +14281,19 @@ msgstr "Складники"
 
 #: ../../api.rst:1022
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "Повертає список складників перекладу."
 
 #: ../../api.rst:1026
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
+"Атрибути об'єкта складника документовано у :http:get:`/api/components/"
+"(string:project)/(string:component)/`."
 
 #: ../../api.rst:1030
 msgid "Returns information about translation component."
-msgstr ""
+msgstr "Повертає дані щодо складника перекладу."
 
 #: ../../api.rst:1034 ../../api.rst:1096 ../../api.rst:1177 ../../api.rst:1197
 #: ../../api.rst:1207 ../../api.rst:1217 ../../api.rst:1228 ../../api.rst:1249
@@ -14291,52 +14307,52 @@ msgstr "Ідентифікатор адрес складника"
 
 #: ../../api.rst:1036 ../../api.rst:1179
 msgid "VCS repository branch"
-msgstr ""
+msgstr "гілка сховища системи керування версіями"
 
 #: ../../api.rst:1037 ../../api.rst:1180
 msgid "file format of translations"
-msgstr ""
+msgstr "формат файлів перекладів"
 
 #: ../../api.rst:1038 ../../api.rst:1181
 msgid "mask of translation files in the repository"
-msgstr ""
+msgstr "маска файлів перекладів у сховищі"
 
 #: ../../api.rst:1039
 msgid "URL of the exported VCS repository with translations"
-msgstr ""
+msgstr "адреса експортованого сховища системи керування версіями із перекладами"
 
 #: ../../api.rst:1040
 msgid "license for translations"
-msgstr ""
+msgstr "ліцензування перекладів"
 
 #: ../../api.rst:1041
 msgid "URL of license for translations"
-msgstr ""
+msgstr "адреса ліцензії до перекладів"
 
 #: ../../api.rst:1042 ../../api.rst:1098 ../../api.rst:1182
 msgid "name of component"
-msgstr ""
+msgstr "назва складника"
 
 #: ../../api.rst:1043 ../../api.rst:1099 ../../api.rst:1183
 msgid "slug of component"
-msgstr ""
+msgstr "ідентифікатор складника"
 
 #: ../../api.rst:1044
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "проєкт перекладу, див. :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1045 ../../api.rst:1100 ../../api.rst:1184
 msgid "VCS repository URL"
-msgstr ""
+msgstr "адреса сховища системи керування версіями"
 
 #: ../../api.rst:1046 ../../api.rst:1185
 msgid "base file for monolingual translations"
-msgstr ""
+msgstr "базовий файл для одномовних перекладів"
 
 #: ../../api.rst:1047 ../../api.rst:1186
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "базовий файл для додавання нових перекладів"
 
 #: ../../api.rst:1048 ../../api.rst:1187
 msgid "version control system"
@@ -14347,176 +14363,203 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
+"Адреса стану сховища, див. :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1050
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
+"Адреса списку перекладів, див. :http:get:`/api/components/"
+"(string:project)/(string:component)/translations/`"
 
 #: ../../api.rst:1051
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`"
 msgstr ""
+"Адреса для стану блокування, див. :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1052
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/(string:"
 "component)/changes/`"
 msgstr ""
+"Адреса списку змін; див. :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1053
 msgid "URL of a push repository"
-msgstr ""
+msgstr "Адреса сховища для запису"
 
 #: ../../api.rst:1092
 msgid "Edit a component by a patch request."
-msgstr ""
+msgstr "Редагувати складник розміщенням запиту щодо латання."
 
 #: ../../api.rst:1173
 msgid "Edit a component by a put request."
-msgstr ""
+msgstr "Редагувати складник розміщенням запиту щодо розташування."
 
 #: ../../api.rst:1193
 msgid "Deletes a component."
-msgstr ""
+msgstr "Вилучає складник."
 
 #: ../../api.rst:1202
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Повертає список змін у складнику. Це, по суті, :http:get:`/api/changes/` "
+"області видимості складника, які приймають ті самі параметри."
 
 #: ../../api.rst:1213
 msgid "Returns a list of component screenshots."
-msgstr ""
+msgstr "Повертає список знімків вікон складника."
 
 #: ../../api.rst:1219
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgstr ""
+"масив знімків вікон складника; див. :http:get:`/api/screenshots/(int:id)/`"
 
 #: ../../api.rst:1224
 msgid "Returns component lock status."
-msgstr ""
+msgstr "Повертає стан блокування складника."
 
 #: ../../api.rst:1230
 msgid "whether component is locked for updates"
-msgstr ""
+msgstr "визначає, чи заблоковано складник від оновлень"
 
 #: ../../api.rst:1243
 msgid "Sets component lock status."
-msgstr ""
+msgstr "Встановлює стан блокування складника."
 
 #: ../../api.rst:1245
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`."
 msgstr ""
+"Відповідь є тією самою, що і :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`."
 
 #: ../../api.rst:1251
 msgid "Boolean whether to lock or not."
-msgstr ""
+msgstr "Булеве значення, яке визначає, замкнено сховище чи ні."
 
 #: ../../api.rst:1292 ../../api.rst:1713
 msgid "Returns information about VCS repository status."
-msgstr ""
+msgstr "Повертає дані щодо стану сховища системи керування версіями."
 
 #: ../../api.rst:1294
 msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
 msgstr ""
+"Відповідь є тією самою, що і для :http:get:`/api/projects/(string:project)/"
+"repository/`."
 
 #: ../../api.rst:1303
 msgid "Remote commit information"
-msgstr ""
+msgstr "Дані віддаленого внеску"
 
 #: ../../api.rst:1304
 msgid "VCS repository status as reported by VCS"
 msgstr ""
+"Стан сховища системи керування версіями, який повідомляється системою "
+"керування версіями"
 
 #: ../../api.rst:1305
 msgid "Text describing merge failure or null if there is none"
-msgstr ""
+msgstr "Текст, що описує помилку злиття або null, якщо помилки немає"
 
 #: ../../api.rst:1309
 msgid "Performs the given operation on a VCS repository."
-msgstr ""
+msgstr "Виконує вказану дію над сховищем системи керування версіями."
 
 #: ../../api.rst:1311 ../../api.rst:1728
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
+"Див. документацію у :http:post:`/api/projects/(string:project)/repository/`."
 
 #: ../../api.rst:1359
 msgid "Downloads base file for monolingual translations."
-msgstr ""
+msgstr "Завантажує базовий файл для одномовних перекладів."
 
 #: ../../api.rst:1368
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "Завантажує файл шаблона для нових перекладів."
 
 #: ../../api.rst:1377
 msgid "Returns a list of translation objects in the given component."
-msgstr ""
+msgstr "Повертає список об'єктів перекладу у вказаному складнику."
 
 #: ../../api.rst:1383
 msgid ""
 "array of translation objects; see :http:get:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/`"
 msgstr ""
+"масив об'єктів перекладу, див. :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1387
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "Створює переклад у вказаному складнику."
 
 #: ../../api.rst:1393
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
-msgstr ""
+msgstr "код мови перекладу; див. :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1394
 msgid "new translation object created"
-msgstr ""
+msgstr "створено об'єкт перекладу"
 
 #: ../../api.rst:1467
 msgid "Returns paginated statistics for all translations within component."
 msgstr ""
+"Повертає поділену на сторінки статистику для усіх перекладів у складнику."
 
 #: ../../api.rst:1475
 msgid ""
 "array of translation statistics objects; see :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/statistics/`"
 msgstr ""
+"масив об'єктів статистики перекладу, див. :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/`"
 
 #: ../../api.rst:1482
 msgid "Returns a list of translations."
-msgstr ""
+msgstr "Повертає список перекладів."
 
 #: ../../api.rst:1486
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"Атрибути об'єкта перекладу документовано у :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1490
 msgid "Returns information about a translation."
-msgstr ""
+msgstr "Повертає відомості щодо перекладу."
 
 #: ../../api.rst:1496 ../../api.rst:1604 ../../api.rst:1616 ../../api.rst:1629
 #: ../../api.rst:1641 ../../api.rst:1654 ../../api.rst:1682 ../../api.rst:1693
 #: ../../api.rst:1721 ../../api.rst:1734 ../../api.rst:1749
 msgid "Translation language code"
-msgstr ""
+msgstr "Код мови перекладу"
 
 #: ../../api.rst:1498
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
+"об'єкт складника; див. :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1499
 msgid "number of strings failing checks"
@@ -14532,27 +14575,27 @@ msgstr "кількість слів у рядках, які не пройшли 
 
 #: ../../api.rst:1502
 msgid "translation filename"
-msgstr ""
+msgstr "назва файла перекладу"
 
 #: ../../api.rst:1503
 msgid "number of strings marked for review"
-msgstr ""
+msgstr "кількість рядків, які позначено для рецензування"
 
 #: ../../api.rst:1504
 msgid "percentage of strings marked for review"
-msgstr ""
+msgstr "частка рядків, які позначено для рецензування"
 
 #: ../../api.rst:1505
 msgid "number of words marked for review"
-msgstr ""
+msgstr "кількість слів, які позначено для рецензування"
 
 #: ../../api.rst:1506
 msgid "number of strings with comment"
-msgstr ""
+msgstr "кількість рядків із коментарями"
 
 #: ../../api.rst:1507
 msgid "number of strings with suggestion"
-msgstr ""
+msgstr "кількість рядків із пропозиціями"
 
 #: ../../api.rst:1508
 msgid "whether the translation has a monolingual base"
@@ -14563,18 +14606,20 @@ msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
 msgstr ""
+"код мови, використаний у сховищі; може відрізнятися від коду мови у об'єкті "
+"мови"
 
 #: ../../api.rst:1511 ../../api.rst:1758
 msgid "name of last author"
-msgstr ""
+msgstr "ім'я останнього автора"
 
 #: ../../api.rst:1512
 msgid "last change timestamp"
-msgstr ""
+msgstr "часова позначка останньої зміни"
 
 #: ../../api.rst:1513
 msgid "revision hash for the file"
-msgstr ""
+msgstr "хеш модифікації для файла"
 
 #: ../../api.rst:1514
 msgid "URL for sharing leading to engagement page"
@@ -14582,65 +14627,75 @@ msgstr ""
 
 #: ../../api.rst:1517
 msgid "URL for translating"
-msgstr ""
+msgstr "Адреса для перекладу"
 
 #: ../../api.rst:1521
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"Адреса стану сховища, див. :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1522
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"Адреса об'єкта файла, див. :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1523
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"Адреса списку змін, див. :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1524
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"Адреса списку рядків, див. :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:1598
 msgid "Deletes a translation."
-msgstr ""
+msgstr "Вилучає переклад."
 
 #: ../../api.rst:1609
 msgid ""
 "Returns a list of translation changes. This is essentially a component "
 "scoped :http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Повертає список змін у перекладі. Це, по суті, :http:get:`/api/changes/` "
+"області видимості складника, які приймають ті самі параметри."
 
 #: ../../api.rst:1623
 msgid "Returns a list of translation units."
-msgstr ""
+msgstr "Повертає список модулів перекладу."
 
 #: ../../api.rst:1631
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "масив об'єктів складників; див. :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1635
 msgid "Add new monolingual unit."
-msgstr ""
+msgstr "Додати новий одномовний модуль."
 
 #: ../../api.rst:1643
 msgid "Name of translation unit"
-msgstr ""
+msgstr "Назва модуля перекладу"
 
 #: ../../api.rst:1644
 msgid "The translation unit value"
-msgstr ""
+msgstr "Значення модуля перекладу"
 
 #: ../../api.rst:1648
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "Перемкнути автоматичний переклад."
 
 #: ../../api.rst:1656
 msgid "Automatic translation mode"
@@ -14648,7 +14703,7 @@ msgstr "Режим автоматичного перекладу"
 
 #: ../../api.rst:1657
 msgid "Automatic translation filter type"
-msgstr ""
+msgstr "Автоматичний тип фільтрування перекладів"
 
 #: ../../api.rst:1658
 msgid "Automatic translation source"
@@ -14691,20 +14746,26 @@ msgid ""
 "file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, "
 "``xlsx``, ``json``, ``aresource``, ``strings``"
 msgstr ""
+"Формат файлів, яким слід скористатися; якщо не вказано, перетворення "
+"форматів не виконуватиметься; підтримувані формати файлів: ``po``, ``mo``, "
+"``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, "
+"``strings``"
 
 #: ../../api.rst:1687
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "Вивантажити новий файл із перекладами."
 
 #: ../../api.rst:1695
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``)"
 msgstr ""
+"Спосіб обробки конфліктів (``ignore``, ``replace-translated`` або ``replace-"
+"approved``)"
 
 #: ../../api.rst:1696 ../../api.rst:1886 ../../api.rst:1913
 msgid "Uploaded file"
-msgstr ""
+msgstr "Вивантажений файл"
 
 #: ../../api.rst:1697
 msgid "Author e-mail"
@@ -14719,48 +14780,52 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``)"
 msgstr ""
+"Спосіб вивантаження (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
+"``replace``, ``source``)"
 
 #: ../../api.rst:1700
 msgid "Fuzzy strings processing (*empty*, ``process``, ``approve``)"
-msgstr ""
+msgstr "Обробка неточних перекладів (*empty*, ``process``, ``approve``)"
 
 #: ../../api.rst:1715
 msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"Відповідь така сама, як для :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:1741
 msgid "Returns detailed translation statistics."
-msgstr ""
+msgstr "Повертає докладну статистику щодо перекладу."
 
 #: ../../api.rst:1752
 msgid "number of failing checks"
-msgstr ""
+msgstr "кількість рядків, які не пройшли перевірки"
 
 #: ../../api.rst:1753
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "частка рядків, які не пройшли перевірки"
 
 #: ../../api.rst:1754
 msgid "number of strings needing review"
-msgstr ""
+msgstr "кількість рядків, які потребують рецензування"
 
 #: ../../api.rst:1755
 msgid "percentage of strings needing review"
-msgstr ""
+msgstr "частка рядків, які потребують рецензування"
 
 #: ../../api.rst:1759
 msgid "date of last change"
-msgstr ""
+msgstr "дата останньої зміни"
 
 #: ../../api.rst:1764
 msgid "URL to access the translation (engagement URL)"
-msgstr ""
+msgstr "адреса для доступу до перекладу (адреса запрошення)"
 
 #: ../../api.rst:1765
 msgid "URL to access the translation (real translation URL)"
-msgstr ""
+msgstr "адреса доступу до перекладу (справжня адреса перекладу)"
 
 #: ../../api.rst:1768
 msgid "Units"
@@ -14840,7 +14905,7 @@ msgstr "чи затверджено переклад"
 
 #: ../../api.rst:1799
 msgid "unit position in translation file"
-msgstr ""
+msgstr "позиція модуля у файлі перекладу"
 
 #: ../../api.rst:1800
 msgid "whether the unit has suggestions"
@@ -14856,81 +14921,83 @@ msgstr "чи пройшов модуль усі перевірки"
 
 #: ../../api.rst:1803
 msgid "number of source words"
-msgstr ""
+msgstr "кількість початкових слів"
 
 #: ../../api.rst:1804
 msgid "translation priority; 100 is default"
-msgstr ""
+msgstr "пріоритетність перекладу; типове значення — 100"
 
 #: ../../api.rst:1805
 msgid "unit identifier"
-msgstr ""
+msgstr "ідентифікатор модуля"
 
 #: ../../api.rst:1806
 msgid "URL where the unit can be edited"
-msgstr ""
+msgstr "адреса, за якою можна редагувати модуль"
 
 #: ../../api.rst:1807
 msgid "Source string information link; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
+"Посилання на дані початкового рядка; див. :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1818
 msgid "Filtering of changes was introduced in the 4.1 release."
-msgstr ""
+msgstr "Фільтрування змін було впроваджено у випуску 4.1."
 
 #: ../../api.rst:1820
 msgid "Returns a list of translation changes."
-msgstr ""
+msgstr "Повертає список змін у перекладі."
 
 #: ../../api.rst:1824
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
+"Атрибути об'єкта зміни документовано у :http:get:`/api/units/(int:id)/`."
 
 #: ../../api.rst:1826
 msgid "Username of user to filters"
-msgstr ""
+msgstr "Ім'я користувача для фільтрів"
 
 #: ../../api.rst:1827
 msgid "Action to filter, can be used several times"
-msgstr ""
+msgstr "Дія для фільтрування, можна використовувати декілька разів"
 
 #: ../../api.rst:1828
 msgid "ISO 8601 formatted timestamp to list changes after"
-msgstr ""
+msgstr "Часова позначка у форматі ISO 8601 для показу списку наступних змін"
 
 #: ../../api.rst:1829
 msgid "ISO 8601 formatted timestamp to list changes before"
-msgstr ""
+msgstr "Часова позначка у форматі ISO 8601 для показу списку попередніх змін"
 
 #: ../../api.rst:1833
 msgid "Returns information about translation change."
-msgstr ""
+msgstr "Повертає відомості щодо зміни перекладу."
 
 #: ../../api.rst:1835
 msgid "Change ID"
-msgstr ""
+msgstr "Ідентифікатор зміни"
 
 #: ../../api.rst:1837
 msgid "URL of a related unit object"
-msgstr ""
+msgstr "адреса пов'язаного об'єкта модуля"
 
 #: ../../api.rst:1839 ../../api.rst:1869 ../../api.rst:1905 ../../api.rst:1918
 msgid "URL of a related component object"
-msgstr ""
+msgstr "адреса пов'язаного об'єкта складника"
 
 #: ../../api.rst:1840
 msgid "URL of a related glossary term object"
-msgstr ""
+msgstr "адреса пов'язаного об'єкта терміна з глосарія"
 
 #: ../../api.rst:1841
 msgid "URL of a related user object"
-msgstr ""
+msgstr "адреса пов'язаного об'єкта користувача"
 
 #: ../../api.rst:1842
 msgid "URL of a related author object"
-msgstr ""
+msgstr "адреса або пов'язаний об'єкт автора"
 
 #: ../../api.rst:1843
 msgid "event timestamp"
@@ -14938,67 +15005,72 @@ msgstr "часова позначка події"
 
 #: ../../api.rst:1844
 msgid "numeric identification of action"
-msgstr ""
+msgstr "числовий ідентифікатор дії"
 
 #: ../../api.rst:1845
 msgid "text description of action"
-msgstr ""
+msgstr "текстовий опис дії"
 
 #: ../../api.rst:1846
 msgid "event changed text or detail"
-msgstr ""
+msgstr "змінений текст або подробиці події"
 
 #: ../../api.rst:1847
 msgid "change identifier"
-msgstr ""
+msgstr "змінити ідентифікатор"
 
 #: ../../api.rst:1856
 msgid "Returns a list of screenshot string information."
-msgstr ""
+msgstr "Повертає список даних рядків знімків вікон."
 
 #: ../../api.rst:1860
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
+"Атрибути об'єкта знімка вікна документовано у :http:get:`/api/screenshots/"
+"(int:id)/`."
 
 #: ../../api.rst:1864
 msgid "Returns information about screenshot information."
-msgstr ""
+msgstr "Повертає дані щодо даних знімка вікна."
 
 #: ../../api.rst:1866 ../../api.rst:1877 ../../api.rst:1884 ../../api.rst:1901
 msgid "Screenshot ID"
-msgstr ""
+msgstr "Ідентифікатор знімка вікна"
 
 #: ../../api.rst:1868 ../../api.rst:1904 ../../api.rst:1917
 msgid "name of a screenshot"
-msgstr ""
+msgstr "назва знімка вікна"
 
 #: ../../api.rst:1870 ../../api.rst:1906 ../../api.rst:1919
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
 msgstr ""
+"адреса для отримання файла; див. :http:get:`/api/screenshots/(int:id)/file/`"
 
 #: ../../api.rst:1871 ../../api.rst:1907 ../../api.rst:1920
 msgid ""
 "link to associated source string information; see :http:get:`/api/units/(int:"
 "id)/`"
 msgstr ""
+"пов'язати із відповідними даними початкового рядка, див. :http:get:`/api/"
+"units/(int:id)/`"
 
 #: ../../api.rst:1875
 msgid "Download the screenshot image."
-msgstr ""
+msgstr "Отримати зображення знімка вікна."
 
 #: ../../api.rst:1882
 msgid "Replace screenshot image."
-msgstr ""
+msgstr "Замінити зображення знімка вікна."
 
 #: ../../api.rst:1899
 msgid "Associate source string with screenshot."
-msgstr ""
+msgstr "Пов'язати початковий рядок зі знімком вікна."
 
 #: ../../api.rst:1911
 msgid "Creates a new screenshot."
-msgstr ""
+msgstr "Створює знімок вікна."
 
 #: ../../api.rst:1914
 msgid "Screenshot name"
@@ -15006,11 +15078,11 @@ msgstr "Назва знімка екрана"
 
 #: ../../api.rst:1915
 msgid "Project Slug"
-msgstr ""
+msgstr "Ідентифікатор проєкту"
 
 #: ../../api.rst:1916
 msgid "Component Slug"
-msgstr ""
+msgstr "Ідентифікатор складників"
 
 #: ../../api.rst:1924
 msgid "Component lists"
@@ -15018,7 +15090,7 @@ msgstr "Списки складників"
 
 #: ../../api.rst:1930
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "Повертає список списків складників."
 
 #: ../../api.rst:1934
 msgid ""
@@ -15028,48 +15100,48 @@ msgstr ""
 
 #: ../../api.rst:1938
 msgid "Returns information about component list."
-msgstr ""
+msgstr "Повертає відомості щодо списку складників."
 
 #: ../../api.rst:1940 ../../api.rst:1952 ../../api.rst:1962 ../../api.rst:1972
 #: ../../api.rst:1979 ../../api.rst:1987
 msgid "Component list slug"
-msgstr ""
+msgstr "Ідентифікатор списку складників"
 
 #: ../../api.rst:1942 ../../api.rst:1954 ../../api.rst:1964
 msgid "name of a component list"
-msgstr ""
+msgstr "назва списку складників"
 
 #: ../../api.rst:1943 ../../api.rst:1955 ../../api.rst:1965
 msgid "slug of a component list"
-msgstr ""
+msgstr "ідентифікатор списку складників"
 
 #: ../../api.rst:1944 ../../api.rst:1956 ../../api.rst:1966
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "визначає, чи слід показувати його на панелі приладів"
 
 #: ../../api.rst:1946
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "правила автоматичної прив'язки"
 
 #: ../../api.rst:1950 ../../api.rst:1960
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "Змінює параметри списку складників."
 
 #: ../../api.rst:1970
 msgid "Deletes the component list."
-msgstr ""
+msgstr "Вилучає список складників."
 
 #: ../../api.rst:1977
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "Пов'язати складник зі списком складників."
 
 #: ../../api.rst:1981
 msgid "Component ID"
-msgstr ""
+msgstr "Ідентифікатор складника"
 
 #: ../../api.rst:1985
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "Відв'язати складник зі списку складників."
 
 #: ../../api.rst:1995
 msgid "Notification hooks"
