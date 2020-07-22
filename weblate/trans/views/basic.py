@@ -181,7 +181,9 @@ def show_project(request, project):
 def show_component(request, project, component):
     obj = get_component(request, project, component)
     user = request.user
-    user_can_access_namespace = bool(user.groups.filter(roles__name=ACCESS_NAMESPACE).count())
+    user_can_access_namespace = bool(
+        user.groups.filter(roles__name=ACCESS_NAMESPACE).count()
+    )
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
