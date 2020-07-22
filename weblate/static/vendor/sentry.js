@@ -1,4 +1,4 @@
-/*! @sentry/browser 5.19.2 (05fd5fc7) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 5.20.0 (53369b86) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -40,72 +40,6 @@ var Sentry = (function (exports) {
         return __assign.apply(this, arguments);
     };
 
-    function __rest(s, e) {
-        var t = {};
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-            t[p] = s[p];
-        if (s != null && typeof Object.getOwnPropertySymbols === "function")
-            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
-                t[p[i]] = s[p[i]];
-        return t;
-    }
-
-    function __decorate(decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    }
-
-    function __param(paramIndex, decorator) {
-        return function (target, key) { decorator(target, key, paramIndex); }
-    }
-
-    function __metadata(metadataKey, metadataValue) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
-    }
-
-    function __awaiter(thisArg, _arguments, P, generator) {
-        return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-            function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-            function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-            step((generator = generator.apply(thisArg, _arguments || [])).next());
-        });
-    }
-
-    function __generator(thisArg, body) {
-        var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-        function verb(n) { return function (v) { return step([n, v]); }; }
-        function step(op) {
-            if (f) throw new TypeError("Generator is already executing.");
-            while (_) try {
-                if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-                if (y = 0, t) op = [op[0] & 2, t.value];
-                switch (op[0]) {
-                    case 0: case 1: t = op; break;
-                    case 4: _.label++; return { value: op[1], done: false };
-                    case 5: _.label++; y = op[1]; op = [0]; continue;
-                    case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                    default:
-                        if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                        if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                        if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                        if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                        if (t[2]) _.ops.pop();
-                        _.trys.pop(); continue;
-                }
-                op = body.call(thisArg, _);
-            } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-            if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-        }
-    }
-
-    function __exportStar(m, exports) {
-        for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-    }
-
     function __values(o) {
         var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
         if (m) return m.call(o);
@@ -139,74 +73,6 @@ var Sentry = (function (exports) {
             ar = ar.concat(__read(arguments[i]));
         return ar;
     }
-
-    function __await(v) {
-        return this instanceof __await ? (this.v = v, this) : new __await(v);
-    }
-
-    function __asyncGenerator(thisArg, _arguments, generator) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-        var g = generator.apply(thisArg, _arguments || []), i, q = [];
-        return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i;
-        function verb(n) { if (g[n]) i[n] = function (v) { return new Promise(function (a, b) { q.push([n, v, a, b]) > 1 || resume(n, v); }); }; }
-        function resume(n, v) { try { step(g[n](v)); } catch (e) { settle(q[0][3], e); } }
-        function step(r) { r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r); }
-        function fulfill(value) { resume("next", value); }
-        function reject(value) { resume("throw", value); }
-        function settle(f, v) { if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]); }
-    }
-
-    function __asyncDelegator(o) {
-        var i, p;
-        return i = {}, verb("next"), verb("throw", function (e) { throw e; }), verb("return"), i[Symbol.iterator] = function () { return this; }, i;
-        function verb(n, f) { i[n] = o[n] ? function (v) { return (p = !p) ? { value: __await(o[n](v)), done: n === "return" } : f ? f(v) : v; } : f; }
-    }
-
-    function __asyncValues(o) {
-        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-        var m = o[Symbol.asyncIterator], i;
-        return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-        function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-        function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-    }
-
-    function __makeTemplateObject(cooked, raw) {
-        if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-        return cooked;
-    }
-    function __importStar(mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-        result.default = mod;
-        return result;
-    }
-
-    function __importDefault(mod) {
-        return (mod && mod.__esModule) ? mod : { default: mod };
-    }
-
-    var tslib_1 = /*#__PURE__*/Object.freeze({
-        __extends: __extends,
-        get __assign () { return __assign; },
-        __rest: __rest,
-        __decorate: __decorate,
-        __param: __param,
-        __metadata: __metadata,
-        __awaiter: __awaiter,
-        __generator: __generator,
-        __exportStar: __exportStar,
-        __values: __values,
-        __read: __read,
-        __spread: __spread,
-        __await: __await,
-        __asyncGenerator: __asyncGenerator,
-        __asyncDelegator: __asyncDelegator,
-        __asyncValues: __asyncValues,
-        __makeTemplateObject: __makeTemplateObject,
-        __importStar: __importStar,
-        __importDefault: __importDefault
-    });
 
     /** Console logging verbosity for the SDK. */
     var LogLevel;
@@ -311,11 +177,6 @@ var Sentry = (function (exports) {
         }
         Status.fromHttpCode = fromHttpCode;
     })(exports.Status || (exports.Status = {}));
-
-    /**
-     * Consumes the promise and logs the error when it rejects.
-     * @param promise A promise to forget.
-     */
 
     var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties); // tslint:disable-line:no-unbound-method
     /**
@@ -1299,8 +1160,6 @@ var Sentry = (function (exports) {
         return '';
     }
 
-    // Slightly modified (no IE8 support, ES6) and transcribed to TypeScript
-
     /** SyncPromise internal states */
     var States;
     (function (States) {
@@ -1818,6 +1677,9 @@ var Sentry = (function (exports) {
                     return response;
                 }, function (error) {
                     triggerHandlers('fetch', __assign({}, commonHandlerData, { endTimestamp: Date.now(), error: error }));
+                    // NOTE: If you are a Sentry user, and you are seeing this stack frame,
+                    //       it means the sentry.javascript SDK caught an error invoking your application code.
+                    //       This is expected behavior and NOT indicative of a bug with sentry.javascript.
                     throw error;
                 });
             };
@@ -4096,6 +3958,7 @@ var Sentry = (function (exports) {
 
 
     var CoreIntegrations = /*#__PURE__*/Object.freeze({
+        __proto__: null,
         FunctionToString: FunctionToString,
         InboundFilters: InboundFilters
     });
@@ -4403,7 +4266,44 @@ var Sentry = (function (exports) {
             .reverse();
     }
 
-    /** JSDoc */
+    /**
+     * Builds and Event from a Exception
+     * @hidden
+     */
+    function eventFromException(options, exception, hint) {
+        var syntheticException = (hint && hint.syntheticException) || undefined;
+        var event = eventFromUnknownInput(exception, syntheticException, {
+            attachStacktrace: options.attachStacktrace,
+        });
+        addExceptionMechanism(event, {
+            handled: true,
+            type: 'generic',
+        });
+        event.level = exports.Severity.Error;
+        if (hint && hint.event_id) {
+            event.event_id = hint.event_id;
+        }
+        return SyncPromise.resolve(event);
+    }
+    /**
+     * Builds and Event from a Message
+     * @hidden
+     */
+    function eventFromMessage(options, message, level, hint) {
+        if (level === void 0) { level = exports.Severity.Info; }
+        var syntheticException = (hint && hint.syntheticException) || undefined;
+        var event = eventFromString(message, syntheticException, {
+            attachStacktrace: options.attachStacktrace,
+        });
+        event.level = level;
+        if (hint && hint.event_id) {
+            event.event_id = hint.event_id;
+        }
+        return SyncPromise.resolve(event);
+    }
+    /**
+     * @hidden
+     */
     function eventFromUnknownInput(exception, syntheticException, options) {
         if (options === void 0) { options = {}; }
         var event;
@@ -4458,8 +4358,9 @@ var Sentry = (function (exports) {
         });
         return event;
     }
-    // this._options.attachStacktrace
-    /** JSDoc */
+    /**
+     * @hidden
+     */
     function eventFromString(input, syntheticException, options) {
         if (options === void 0) { options = {}; }
         var event = {
@@ -4615,6 +4516,7 @@ var Sentry = (function (exports) {
 
 
     var index = /*#__PURE__*/Object.freeze({
+        __proto__: null,
         BaseTransport: BaseTransport,
         FetchTransport: FetchTransport,
         XHRTransport: XHRTransport
@@ -4650,34 +4552,14 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         BrowserBackend.prototype.eventFromException = function (exception, hint) {
-            var syntheticException = (hint && hint.syntheticException) || undefined;
-            var event = eventFromUnknownInput(exception, syntheticException, {
-                attachStacktrace: this._options.attachStacktrace,
-            });
-            addExceptionMechanism(event, {
-                handled: true,
-                type: 'generic',
-            });
-            event.level = exports.Severity.Error;
-            if (hint && hint.event_id) {
-                event.event_id = hint.event_id;
-            }
-            return SyncPromise.resolve(event);
+            return eventFromException(this._options, exception, hint);
         };
         /**
          * @inheritDoc
          */
         BrowserBackend.prototype.eventFromMessage = function (message, level, hint) {
             if (level === void 0) { level = exports.Severity.Info; }
-            var syntheticException = (hint && hint.syntheticException) || undefined;
-            var event = eventFromString(message, syntheticException, {
-                attachStacktrace: this._options.attachStacktrace,
-            });
-            event.level = level;
-            if (hint && hint.event_id) {
-                event.event_id = hint.event_id;
-            }
-            return SyncPromise.resolve(event);
+            return eventFromMessage(this._options, message, level, hint);
         };
         return BrowserBackend;
     }(BaseBackend));
@@ -4812,6 +4694,21 @@ var Sentry = (function (exports) {
             /*no-empty*/
         }
         return sentryWrapped;
+    }
+    /**
+     * Injects the Report Dialog script
+     * @hidden
+     */
+    function injectReportDialog(options) {
+        if (options === void 0) { options = {}; }
+        var script = document.createElement('script');
+        script.async = true;
+        // tslint:disable-next-line: no-non-null-assertion
+        script.src = new API(options.dsn).getReportDialogEndpoint(options);
+        if (options.onLoad) {
+            script.onload = options.onLoad;
+        }
+        (document.head || document.body).appendChild(script);
     }
 
     /** Global handlers */
@@ -5553,6 +5450,7 @@ var Sentry = (function (exports) {
 
 
     var BrowserIntegrations = /*#__PURE__*/Object.freeze({
+        __proto__: null,
         GlobalHandlers: GlobalHandlers,
         TryCatch: TryCatch,
         Breadcrumbs: Breadcrumbs,
@@ -5561,7 +5459,7 @@ var Sentry = (function (exports) {
     });
 
     var SDK_NAME = 'sentry.javascript.browser';
-    var SDK_VERSION = '5.19.2';
+    var SDK_VERSION = '5.20.0';
 
     /**
      * The Sentry Browser SDK Client.
@@ -5628,13 +5526,7 @@ var Sentry = (function (exports) {
                 logger.error('Missing `Dsn` option in showReportDialog call');
                 return;
             }
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = new API(dsn).getReportDialogEndpoint(options);
-            if (options.onLoad) {
-                script.onload = options.onLoad;
-            }
-            (document.head || document.body).appendChild(script);
+            injectReportDialog(options);
         };
         return BrowserClient;
     }(BaseClient));
@@ -5818,11 +5710,14 @@ var Sentry = (function (exports) {
     exports.close = close;
     exports.configureScope = configureScope;
     exports.defaultIntegrations = defaultIntegrations;
+    exports.eventFromException = eventFromException;
+    exports.eventFromMessage = eventFromMessage;
     exports.flush = flush;
     exports.forceLoad = forceLoad;
     exports.getCurrentHub = getCurrentHub;
     exports.getHubFromCarrier = getHubFromCarrier;
     exports.init = init;
+    exports.injectReportDialog = injectReportDialog;
     exports.lastEventId = lastEventId;
     exports.makeMain = makeMain;
     exports.onLoad = onLoad;
