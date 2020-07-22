@@ -1202,6 +1202,12 @@ real_patterns = [
             template_name="site.webmanifest", content_type="application/json"
         ),
     ),
+    # VENDASTA URLS BELOW
+    url(
+        r"^new-namespaced-lang/" + COMPONENT + "$",
+        weblate.trans.views.basic.new_namespaced_language,
+        name="new-namespaced-language",
+    ),
 ]
 
 if "weblate.billing" in settings.INSTALLED_APPS:

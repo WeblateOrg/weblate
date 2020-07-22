@@ -1,0 +1,282 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "56"
+  creationTimestamp: null
+  generation: 1
+  labels:
+    app: weblate
+    environment: demo
+    zone: us-central1-c
+  name: weblate
+  selfLink: /apis/extensions/v1beta1/namespaces/weblate-demo/deployments/weblate
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: weblate
+      environment: demo
+      traffic-enabled: "true"
+      us-central1-c: "true"
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: weblate
+        environment: demo
+        traffic-enabled: "true"
+        us-central1-c: "true"
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: failure-domain.beta.kubernetes.io/zone
+                operator: In
+                values:
+                - us-central1-c
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      containers:
+      - env:
+        - name: GKE_PODNAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: GKE_NODENAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: GKE_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: GKE_PODIP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: ENVIRONMENT
+          value: demo
+        - name: DOCKER_IMAGE
+          value: gcr.io/repcore-prod/weblate:fdc17f7cff4d467532ec7424d0fe86562b88c503
+        - name: DOCKER_TAG
+          value: e421071d-076e-4529-bb81-dab30627b0d3
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /etc/weblate/keys/key.json
+        - name: SERVICE_ACCOUNT
+          value: weblate-demo@repcore-prod.iam.gserviceaccount.com
+        - name: VENDASTA_APPLICATION_CREDENTIALS
+          value: /etc/weblate/iam-keys/vendasta-service-account.key
+        - name: VENDASTA_PUBLIC_KEY_ID
+          value: /etc/weblate/iam-keys/public-key-id
+        - name: VENDASTA_SERVICE_ACCOUNT
+          value: weblate-demo@iam.vendasta.com
+        - name: CLOUDSDK_COMPUTE_ZONE
+          value: us-central1-c
+        - name: CLOUDSDK_CONTAINER_CLUSTER
+          value: gke_repcore-prod_us-central1_vendasta-central-regional
+        # POSTGRES
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: AMvIFzuMEIaetyrD
+        - name: POSTGRES_HOST
+          value: "10.33.49.3"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_DATABASE
+          value: weblate
+        - name: POSTGRES_SSL_MODE
+          value: verify-ca
+        - name: POSTGRES_CLI_SSL_CA
+          value: /postgres/server-ca.pem
+        - name: POSTGRES_CLI_SSL_CRT
+          value: /postgres/client-cert.pem
+        - name: POSTGRES_CLI_SSL_KEY
+          value: /postgres/client-key.pem
+        # REDIS
+        - name: REDIS_HOST
+          value: "10.44.36.108"
+        - name: REDIS_PORT
+          value: "6379"
+        # ADMIN
+        - name: WEBLATE_ADMIN_NAME
+          value: Weblate Admin
+        - name: WEBLATE_ADMIN_EMAIL
+          value: bperreault+weblate@vendasta.com
+        - name: WEBLATE_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: weblate-admin-password
+              key: admin-password
+        # EMAIL
+        - name: WEBLATE_SERVER_EMAIL
+          value: weblate@vendasta.com
+        - name: WEBLATE_DEFAULT_FROM_EMAIL
+          value: noreply@vendasta.com
+        - name: WEBLATE_EMAIL_HOST
+          value: smtp.gmail.com
+        - name: WEBLATE_EMAIL_PORT
+          value: "587"
+        - name: WEBLATE_EMAIL_USE_SSL
+          value: "0"
+        - name: WEBLATE_EMAIL_USE_TLS
+          value: "1"
+        - name: WEBLATE_EMAIL_HOST_USER
+          value: bperreault@vendasta.com
+        - name: WEBLATE_EMAIL_HOST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: weblate-email-host-password
+              key: email-password
+        # GITHUB
+        - name: WEBLATE_GITHUB_USERNAME
+          value: weblate-worker
+        - name: WEBLATE_GITHUB_OAUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: weblate-github-oauth-token
+              key: hub
+        # OPENID CONNECT AUTH
+        - name: WEBLATE_SOCIAL_AUTH_VENDASTA_OIDC_URL
+          valueFrom:
+            secretKeyRef:
+              name: weblate-social-auth-oidc-url
+              key: weblate-social-auth-oidc-url
+        - name: WEBLATE_SOCIAL_AUTH_VENDASTA_KEY
+          valueFrom:
+            secretKeyRef:
+              name: weblate-social-auth-key
+              key: weblate-social-auth-key
+        - name: WEBLATE_SOCIAL_AUTH_VENDASTA_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: weblate-social-auth-secret
+              key: weblate-social-auth-secret
+        # OTHER
+        - name: WEBLATE_SITE_TITLE
+          value: "Vendasta Weblate | Web Translate"
+        - name: WEBLATE_REGISTRATION_OPEN
+          value: "0"
+        - name: WEBLATE_TIME_ZONE
+          value: America/Regina
+        - name: WEBLATE_DEBUG
+          value: "0"
+        - name: WEBLATE_ENABLE_HTTPS
+          value: "1"
+        - name: WEBLATE_DATA_DIR
+          value: /app/data
+        - name: WEBLATE_REQUIRE_LOGIN
+          value: "1"
+        image: gcr.io/repcore-prod/weblate:fdc17f7cff4d467532ec7424d0fe86562b88c503
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz/
+            port: 4443
+            scheme: HTTPS
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: weblate
+        ports:
+        - containerPort: 8080
+          name: weblate
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz/
+            port: 4443
+            scheme: HTTPS
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/weblate/keys
+          name: weblate-key
+        - mountPath: /etc/weblate/iam-keys
+          name: weblate-iam-key
+        - mountPath: /app/data
+          name: weblate-data
+        - mountPath: /app/data/ssl/fullchain.pem
+          subPath: tls.crt
+          name: vendasta-internal
+        - mountPath: /app/data/ssl/privkey.pem
+          subPath: tls.key
+          name: vendasta-internal
+        - mountPath: /postgres
+          name: weblate-sql-key
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: vendasta-internal
+        secret:
+          defaultMode: 420
+          secretName: vendasta-internal-secret
+      - name: wildcard-apigateway-co
+        secret:
+          defaultMode: 420
+          secretName: wildcard-apigateway-co
+      - name: weblate-key
+        secret:
+          defaultMode: 420
+          secretName: weblate-key
+      - name: weblate-iam-key
+        secret:
+          defaultMode: 420
+          secretName: weblate-iam-key
+      - name: weblate-data
+        persistentVolumeClaim:
+          claimName: weblate-data
+      - name: weblate-sql-key
+        secret:
+          defaultMode: 384
+          secretName: weblate-sql-key
+      - name: weblate-admin-password
+        secret:
+          secretName: weblate-admin-password
+      - name: weblate-email-host-password
+        secret:
+          secretName: weblate-email-host-password
+      - name: weblate-github-oauth-token
+        secret:
+          secretName: weblate-github-oauth-token
+      - name: weblate-social-auth-oidc-url
+        secret:
+          secretName: weblate-social-auth-oidc-url
+      - name: weblate-social-auth-key
+        secret:
+          secretName: weblate-social-auth-key
+      - name: weblate-social-auth-secret
+        secret:
+          secretName: weblate-social-auth-secret
+status: {}

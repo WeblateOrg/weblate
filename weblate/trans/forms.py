@@ -79,6 +79,7 @@ from weblate.utils.state import (
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
+from weblate.vendasta.constants import NAMESPACE_SEPARATOR
 
 BUTTON_TEMPLATE = """
 <button class="btn btn-default {0}" title="{1}" {2}>{3}</button>
@@ -997,6 +998,37 @@ class NewLanguageForm(NewLanguageOwnerForm):
     def clean_lang(self):
         # Compatibility with NewLanguageOwnerForm
         return [self.cleaned_data["lang"]]
+
+
+class NewNamespacedLanguageForm(NewLanguageForm):
+    """Form for requesting namespaced language."""
+
+    def __init__(self, component, *args, **kwargs):
+        super().__init__(component, *args, **kwargs)
+        # don't include already-customized translations
+        customized_translations = component.translation_set.filter(
+            language_code__contains=NAMESPACE_SEPARATOR + kwargs.get("namespace")
+        )
+        customized_codes = [
+            t.language_code.split(NAMESPACE_SEPARATOR)[0]
+            for t in customized_translations
+        ]
+        base_translations = component.translation_set.exclude(
+            language_code__contains=NAMESPACE_SEPARATOR
+        )
+        uncustomized_translations = base_translations.exclude(
+            language_code__in=customized_codes
+        )
+
+        self.fields["lang"].choices = sort_choices(
+            [
+                (
+                    t.language_code,
+                    "{0} ({1})".format(gettext(t.language.name), t.language_code),
+                )
+                for t in uncustomized_translations
+            ]
+        )
 
 
 def get_new_language_form(request, component):
