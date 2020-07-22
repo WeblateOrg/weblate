@@ -313,7 +313,8 @@ class OpenGraphWidget(NormalWidget):
         ]
 
     def get_title(self):
-        return "Project <b>{}</b>".format(escape(self.obj.name))
+        # Translators: Text on OpenGraph image
+        return _("Project %s") % "<b>{}</b>".format(escape(self.obj.name))
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
