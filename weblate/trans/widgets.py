@@ -30,7 +30,7 @@ from django.utils.formats import number_format
 from django.utils.html import escape
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, npgettext, pgettext
+from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.utils.site import get_site_url
@@ -301,7 +301,7 @@ class OpenGraphWidget(NormalWidget):
     column_offset = 265
     head_template = '<span letter_spacing="-1000">{}</span>'
     foot_template = '<span letter_spacing="2000">{}</span>'
-    verbose = gettext_lazy("Open Graph image")
+    verbose = pgettext_lazy("Status widget name", "Panel")
 
     def get_column_width(self, surface, columns):
         return 230
@@ -410,7 +410,7 @@ class MultiLanguageWidget(SVGWidget):
     order = 81
     colors = ("auto", "red", "green", "blue")
     template_name = "svg/multi-language-badge.svg"
-    verbose = gettext_lazy("Vertical multi language status widget")
+    verbose = pgettext_lazy("Status widget name", "Vertical language bar chart")
 
     COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
 
@@ -485,4 +485,4 @@ class HorizontalMultiLanguageWidget(MultiLanguageWidget):
     name = "horizontal"
     order = 82
     template_name = "svg/multi-language-badge-horizontal.svg"
-    verbose = gettext_lazy("Horizontal multi language status widget")
+    verbose = pgettext_lazy("Status widget name", "Horizontal language bar chart")
