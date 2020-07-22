@@ -20,6 +20,7 @@
 
 
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_str
@@ -316,19 +317,11 @@ def data_project(request, project):
 @never_cache
 @login_required
 def new_language(request, project, component):
-    LOGGER.info("################# Hit the New Language handler")
-    namespace = ""
-    namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
-        "name"
-    )
-    if namespace_query.count():
-        namespace = namespace_query[0]
-    LOGGER.info("################# Got namespace %s", namespace)
-    obj = get_component(request, project, component, skip_acl=bool(namespace))
-    LOGGER.info("################# Got component %s", obj.name)
+    obj = get_component(request, project, component)
+
     form_class = get_new_language_form(request, obj)
     can_add = obj.can_add_new_language(request)
-    LOGGER.info("################# Got form class")
+
     if request.method == "POST":
         form = form_class(obj, request.POST)
 
@@ -366,17 +359,12 @@ def new_language(request, project, component):
         messages.error(request, _("Please fix errors in the form."))
     else:
         form = form_class(obj)
-    LOGGER.info("################# Got form")
-    context = {
-        "object": obj,
-        "project": obj.project,
-        "form": form,
-        "can_add": can_add,
-        "namespace": namespace,
-        "namespaced_form": NewNamespacedLanguageForm(obj, namespace=namespace),
-    }
-    LOGGER.info("################# About to render")
-    return render(request, "new-language.html", context)
+
+    return render(
+        request,
+        "new-language.html",
+        {"object": obj, "project": obj.project, "form": form, "can_add": can_add},
+    )
 
 
 @never_cache
@@ -384,14 +372,15 @@ def new_language(request, project, component):
 def new_namespaced_language(request, project, component):
     obj = get_component(request, project, component)
 
-    namespace = ""
     namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
         "name"
     )
     if namespace_query.count():
         namespace = namespace_query[0]
+    else:
+        raise PermissionDenied()
 
-    if namespace and request.method == "POST":
+    if request.method == "POST":
         form = NewNamespacedLanguageForm(obj, request.POST)
 
         if form.is_valid():
@@ -420,9 +409,17 @@ def new_namespaced_language(request, project, component):
                         obj = translation
                     Change.objects.create(action=Change.ACTION_ADDED_LANGUAGE, **kwargs)
             return redirect(obj)
+        messages.error(request, _("Please fix errors in the form."))
+    else:
+        form = NewNamespacedLanguageForm(obj)
 
-    messages.error(request, _("Please fix errors in the form."))
-    return redirect(obj)
+    context = {
+        "object": obj,
+        "project": obj.project,
+        "form": form,
+        "namespace": namespace,
+    }
+    return render(request, "new-namespaced-language.html", context)
 
 
 @never_cache

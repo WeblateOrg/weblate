@@ -45,23 +45,4 @@
 </div>
 {% endif %}
 
-{% if namespace %}
-<div class="tab-pane" id="customlang">
-
-<form action="{% url 'new-namespaced-language' project=object.project.slug component=object.slug %}" method="post">
-{% csrf_token %}
-  <div class="panel panel-default">
-    <div class="panel-heading"><h4 class="panel-title">{% trans "Customize existing translation" %}</h4></div>
-    <div class="panel-body">
-      <p>{% trans "Please choose the language you want to customize." %}</p>
-      {{ namespaced_form|crispy }}
-    </div>
-    <div class="panel-footer">
-      <input class="btn btn-primary" type="submit" value="{% trans "Customize" %}" />
-    </div>
-  </div>
-</form>
-</div>
-{% endif %}
-
 {% endblock %}
