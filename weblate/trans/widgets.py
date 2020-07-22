@@ -420,6 +420,9 @@ class MultiLanguageWidget(SVGWidget):
         color = self.COLOR_MAP[self.color]
         language_width = 190
         for stats in self.obj.stats.get_language_stats():
+            # Skip empty translations
+            if stats.translated == 0:
+                continue
             language = stats.language
             percent = stats.translated_percent
             if self.color == "auto":
