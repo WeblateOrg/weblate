@@ -122,7 +122,7 @@ class UnitQuerySet(models.QuerySet):
         result = self.filter(
             content_hash=unit.content_hash,
             translation__component__project=project,
-            translation__language__startswith=unit.translation.language,
+            translation__language__code__startswith=unit.translation.language,
         )
         if exclude:
             result = result.exclude(pk=unit.id)
