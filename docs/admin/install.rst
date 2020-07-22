@@ -340,11 +340,11 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
    If you don't want to make the Weblate user a superuser in PostgreSQL, you can
    omit that. In that case you will have to perform some of the migration steps
-   manually as a PostgreSQL superuser:
+   manually as a PostgreSQL superuser in schama Weblate will use:
 
    .. code-block:: postgres
 
-        CREATE EXTENSION IF NOT EXISTS pg_trgm;
+        CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA weblate;
 
 Configuring Weblate to use PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
