@@ -403,23 +403,23 @@ VCS
     Update the internal repository [`Administration`, `Manage repository`]
 
 Site wide privileges
-    Use management interface (site wide)
+    Use management interface
 
-    Add language definitions (site wide)
+    Add language definitions
 
-    Manage language definitions (site wide)
+    Manage language definitions
 
-    Add groups (site wide)
+    Add groups
 
-    Manage groups (site wide)
+    Manage groups
 
-    Add users (site wide)
+    Add users
 
-    Manage users (site wide)
+    Manage users
 
-    Manage announcements (site wide)
+    Manage announcements
 
-    Manage translation memory (site wide)
+    Manage translation memory
 
 .. note::
 
