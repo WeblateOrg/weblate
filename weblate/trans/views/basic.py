@@ -315,17 +315,17 @@ def data_project(request, project):
 @never_cache
 @login_required
 def new_language(request, project, component):
-    obj = get_component(request, project, component)
-
-    form_class = get_new_language_form(request, obj)
-    can_add = obj.can_add_new_language(request)
-
     namespace = ""
     namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
         "name"
     )
     if namespace_query.count():
         namespace = namespace_query[0]
+
+    obj = get_component(request, project, component, skip_acl=bool(namespace))
+
+    form_class = get_new_language_form(request, obj)
+    can_add = obj.can_add_new_language(request)
 
     if request.method == "POST":
         form = form_class(obj, request.POST)
