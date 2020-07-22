@@ -426,10 +426,6 @@ class Change(models.Model, UserDisplayMixin):
     class Meta:
         app_label = "trans"
 
-    def __init__(self, *args, **kwargs):
-        self.notify_state = {}
-        super().__init__(*args, **kwargs)
-
     def __str__(self):
         return _("%(action)s at %(time)s on %(translation)s by %(user)s") % {
             "action": self.get_action_display(),
@@ -438,8 +434,19 @@ class Change(models.Model, UserDisplayMixin):
             "user": self.get_user_display(False),
         }
 
-    def is_merge_failure(self):
-        return self.action in self.ACTIONS_MERGE_FAILURE
+    def save(self, *args, **kwargs):
+        from weblate.accounts.tasks import notify_change
+
+        if self.unit:
+            self.translation = self.unit.translation
+        if self.translation:
+            self.component = self.translation.component
+        if self.component:
+            self.project = self.component.project
+        if self.dictionary:
+            self.project = self.dictionary.project
+        super().save(*args, **kwargs)
+        transaction.on_commit(lambda: notify_change.delay(self.pk))
 
     def get_absolute_url(self):
         """Return link either to unit or translation."""
@@ -454,6 +461,13 @@ class Change(models.Model, UserDisplayMixin):
         if self.project is not None:
             return self.project.get_absolute_url()
         return None
+
+    def __init__(self, *args, **kwargs):
+        self.notify_state = {}
+        super().__init__(*args, **kwargs)
+
+    def is_merge_failure(self):
+        return self.action in self.ACTIONS_MERGE_FAILURE
 
     def can_revert(self):
         return (
@@ -514,17 +528,3 @@ class Change(models.Model, UserDisplayMixin):
             return render_markdown(self.details["comment"])
 
         return ""
-
-    def save(self, *args, **kwargs):
-        from weblate.accounts.tasks import notify_change
-
-        if self.unit:
-            self.translation = self.unit.translation
-        if self.translation:
-            self.component = self.translation.component
-        if self.component:
-            self.project = self.component.project
-        if self.dictionary:
-            self.project = self.dictionary.project
-        super().save(*args, **kwargs)
-        transaction.on_commit(lambda: notify_change.delay(self.pk))

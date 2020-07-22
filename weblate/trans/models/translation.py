@@ -123,6 +123,9 @@ class Translation(models.Model, URLMixin, LoggerMixin):
         app_label = "trans"
         unique_together = ("component", "language")
 
+    def __str__(self):
+        return "{0} — {1}".format(self.component, self.language)
+
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
@@ -233,9 +236,6 @@ class Translation(models.Model, URLMixin, LoggerMixin):
 
     def get_translate_url(self):
         return reverse("translate", kwargs=self.get_reverse_url_kwargs())
-
-    def __str__(self):
-        return "{0} — {1}".format(self.component, self.language)
 
     def get_filename(self):
         """Return absolute filename."""

@@ -57,15 +57,21 @@ class Font(models.Model, UserDisplayMixin):
     class Meta:
         unique_together = [("family", "style", "project")]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.field_errors = {}
-
     def __str__(self):
         return "{} {}".format(self.family, self.style)
 
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        self.clean()
+        super().save(force_insert, force_update, using, update_fields)
+
     def get_absolute_url(self):
         return reverse("font", kwargs={"pk": self.pk, "project": self.project.slug})
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.field_errors = {}
 
     def clean_fields(self, exclude=None):
         self.field_errors = {}
@@ -79,12 +85,6 @@ class Font(models.Model, UserDisplayMixin):
         # Try to parse file only if it passed validation
         if "font" not in self.field_errors and not self.family:
             self.family, self.style = get_font_name(self.font)
-
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
-        self.clean()
-        super().save(force_insert, force_update, using, update_fields)
 
     def get_usage(self):
         related = FontGroup.objects.filter(

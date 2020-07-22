@@ -503,6 +503,71 @@ class Component(models.Model, URLMixin, PathMixin):
         verbose_name = gettext_lazy("Component")
         verbose_name_plural = gettext_lazy("Components")
 
+    def __str__(self):
+        return "/".join((force_str(self.project), self.name))
+
+    def save(self, *args, **kwargs):
+        """Save wrapper.
+
+        It updates backend repository and regenerates translation data.
+        """
+        self.set_default_branch()
+
+        # Linked component cache
+        self.linked_component = Component.objects.get_linked(self.repo)
+
+        # Detect if VCS config has changed (so that we have to pull the repo)
+        changed_git = True
+        changed_setup = False
+        changed_template = False
+        changed_shaping = False
+        if self.id:
+            old = Component.objects.get(pk=self.id)
+            changed_git = (
+                (old.vcs != self.vcs)
+                or (old.repo != self.repo)
+                or (old.branch != self.branch)
+                or (old.filemask != self.filemask)
+                or (old.language_regex != self.language_regex)
+            )
+            changed_setup = (
+                (old.file_format != self.file_format)
+                or (old.edit_template != self.edit_template)
+                or (old.template != self.template)
+            )
+            changed_template = old.template != self.template
+            changed_shaping = old.shaping_regex != self.shaping_regex
+            # Detect slug changes and rename git repo
+            self.check_rename(old)
+            # Rename linked repos
+            if old.slug != self.slug:
+                old.component_set.update(repo=self.get_repo_link_url())
+
+        # Remove leading ./ from paths
+        self.filemask = cleanup_path(self.filemask)
+        self.template = cleanup_path(self.template)
+        self.new_base = cleanup_path(self.new_base)
+
+        # Save/Create object
+        super().save(*args, **kwargs)
+
+        # Ensure source translation is existing, otherwise we might
+        # be hitting race conditions between background update and frontend displaying
+        # the newsly created component
+        bool(self.source_translation)
+
+        from weblate.trans.tasks import component_after_save
+
+        task = component_after_save.delay(
+            self.pk,
+            changed_git,
+            changed_setup,
+            changed_template,
+            changed_shaping,
+            skip_push=kwargs.get("force_insert", False),
+        )
+        self.store_background_task(task)
+
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
@@ -673,9 +738,6 @@ class Component(models.Model, URLMixin, PathMixin):
     def get_share_url(self):
         """Return absolute sharable URL."""
         return get_site_url(reverse("engage", kwargs={"project": self.project.slug}))
-
-    def __str__(self):
-        return "/".join((force_str(self.project), self.name))
 
     @perform_on_link
     def _get_path(self):
@@ -1720,68 +1782,6 @@ class Component(models.Model, URLMixin, PathMixin):
         if not self.new_base:
             return None
         return os.path.join(self.full_path, self.new_base)
-
-    def save(self, *args, **kwargs):
-        """Save wrapper.
-
-        It updates backend repository and regenerates translation data.
-        """
-        self.set_default_branch()
-
-        # Linked component cache
-        self.linked_component = Component.objects.get_linked(self.repo)
-
-        # Detect if VCS config has changed (so that we have to pull the repo)
-        changed_git = True
-        changed_setup = False
-        changed_template = False
-        changed_shaping = False
-        if self.id:
-            old = Component.objects.get(pk=self.id)
-            changed_git = (
-                (old.vcs != self.vcs)
-                or (old.repo != self.repo)
-                or (old.branch != self.branch)
-                or (old.filemask != self.filemask)
-                or (old.language_regex != self.language_regex)
-            )
-            changed_setup = (
-                (old.file_format != self.file_format)
-                or (old.edit_template != self.edit_template)
-                or (old.template != self.template)
-            )
-            changed_template = old.template != self.template
-            changed_shaping = old.shaping_regex != self.shaping_regex
-            # Detect slug changes and rename git repo
-            self.check_rename(old)
-            # Rename linked repos
-            if old.slug != self.slug:
-                old.component_set.update(repo=self.get_repo_link_url())
-
-        # Remove leading ./ from paths
-        self.filemask = cleanup_path(self.filemask)
-        self.template = cleanup_path(self.template)
-        self.new_base = cleanup_path(self.new_base)
-
-        # Save/Create object
-        super().save(*args, **kwargs)
-
-        # Ensure source translation is existing, otherwise we might
-        # be hitting race conditions between background update and frontend displaying
-        # the newsly created component
-        bool(self.source_translation)
-
-        from weblate.trans.tasks import component_after_save
-
-        task = component_after_save.delay(
-            self.pk,
-            changed_git,
-            changed_setup,
-            changed_template,
-            changed_shaping,
-            skip_push=kwargs.get("force_insert", False),
-        )
-        self.store_background_task(task)
 
     def after_save(
         self, changed_git, changed_setup, changed_template, changed_shaping, skip_push

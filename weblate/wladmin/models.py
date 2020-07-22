@@ -107,11 +107,11 @@ class SupportStatus(models.Model):
 
     objects = SupportStatusManager()
 
-    def get_verbose(self):
-        return SUPPORT_NAMES.get(self.name, self.name)
-
     def __str__(self):
         return "{}:{}".format(self.name, self.expiry)
+
+    def get_verbose(self):
+        return SUPPORT_NAMES.get(self.name, self.name)
 
     def refresh(self):
         stats = GlobalStats()

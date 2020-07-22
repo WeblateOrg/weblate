@@ -152,12 +152,6 @@ class Group(models.Model):
     def __str__(self):
         return pgettext("Access control group", self.name)
 
-    @cached_property
-    def short_name(self):
-        if "@" in self.name:
-            return pgettext("Per project access control group", self.name.split("@")[1])
-        return self.__str__()
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.language_selection == SELECTION_ALL:
@@ -180,6 +174,12 @@ class Group(models.Model):
                 Project.objects.filter(component__componentlist=self.componentlist),
                 clear=True,
             )
+
+    @cached_property
+    def short_name(self):
+        if "@" in self.name:
+            return pgettext("Per project access control group", self.name.split("@")[1])
+        return self.__str__()
 
 
 class UserManager(BaseUserManager):

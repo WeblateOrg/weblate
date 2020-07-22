@@ -95,15 +95,6 @@ class Addon(models.Model):
     def __str__(self):
         return "{}: {}".format(self.addon.verbose, self.component)
 
-    def configure_events(self, events):
-        for event in events:
-            Event.objects.get_or_create(addon=self, event=event)
-        self.event_set.exclude(event__in=events).delete()
-
-    @cached_property
-    def addon(self):
-        return ADDONS[self.name](self)
-
     def get_absolute_url(self):
         return reverse(
             "addon-detail",
@@ -113,6 +104,15 @@ class Addon(models.Model):
                 "pk": self.pk,
             },
         )
+
+    def configure_events(self, events):
+        for event in events:
+            Event.objects.get_or_create(addon=self, event=event)
+        self.event_set.exclude(event__in=events).delete()
+
+    @cached_property
+    def addon(self):
+        return ADDONS[self.name](self)
 
     def delete(self, *args, **kwargs):
         # Delete any addon alerts

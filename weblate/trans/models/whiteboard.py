@@ -128,12 +128,6 @@ class WhiteboardMessage(models.Model):
     def __str__(self):
         return self.message
 
-    def clean(self):
-        if self.project and self.component and self.component.project != self.project:
-            raise ValidationError(_("Do not specify both component and project!"))
-        if not self.project and self.component:
-            self.project = self.component.project
-
     def save(self, *args, **kwargs):
         is_new = not self.id
         super().save(*args, **kwargs)
@@ -147,6 +141,12 @@ class WhiteboardMessage(models.Model):
                 whiteboard=self,
                 target=self.message,
             )
+
+    def clean(self):
+        if self.project and self.component and self.component.project != self.project:
+            raise ValidationError(_("Do not specify both component and project!"))
+        if not self.project and self.component:
+            self.project = self.component.project
 
     def render(self):
         if self.message_html:
