@@ -14,8 +14,8 @@ def update_index(apps, schema_editor):
     schema_editor.execute("SELECT show_limit()")
 
     schema_editor.execute(
-        "ALTER DATABASE {} SET pg_trgm.similarity_threshold = 0.5".format(
-            schema_editor.connection.settings_dict["NAME"]
+        "ALTER ROLE {} SET pg_trgm.similarity_threshold = 0.5".format(
+            schema_editor.connection.settings_dict["USER"]
         )
     )
 
