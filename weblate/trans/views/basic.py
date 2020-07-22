@@ -323,12 +323,12 @@ def new_language(request, project, component):
     )
     if namespace_query.count():
         namespace = namespace_query[0]
-
+    LOGGER.info("################# Got namespace %s", namespace)
     obj = get_component(request, project, component, skip_acl=bool(namespace))
-
+    LOGGER.info("################# Got component %s", obj.name)
     form_class = get_new_language_form(request, obj)
     can_add = obj.can_add_new_language(request)
-
+    LOGGER.info("################# Got form class")
     if request.method == "POST":
         form = form_class(obj, request.POST)
 
@@ -366,7 +366,7 @@ def new_language(request, project, component):
         messages.error(request, _("Please fix errors in the form."))
     else:
         form = form_class(obj)
-
+    LOGGER.info("################# Got form")
     context = {
         "object": obj,
         "project": obj.project,
@@ -375,6 +375,7 @@ def new_language(request, project, component):
         "namespace": namespace,
         "namespaced_form": NewNamespacedLanguageForm(obj, namespace=namespace),
     }
+    LOGGER.info("################# About to render")
     return render(request, "new-language.html", context)
 
 
