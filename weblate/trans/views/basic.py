@@ -32,6 +32,7 @@ from django.views.decorators.cache import never_cache
 from weblate.auth.models import Group
 from weblate.formats.exporters import list_exporters
 from weblate.lang.models import Language
+from weblate.logger import LOGGER
 from weblate.trans.forms import (
     AutoForm,
     BulkEditForm,
@@ -315,6 +316,7 @@ def data_project(request, project):
 @never_cache
 @login_required
 def new_language(request, project, component):
+    LOGGER.info("################# Hit the New Language handler")
     namespace = ""
     namespace_query = request.user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
         "name"
