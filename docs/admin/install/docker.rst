@@ -1016,15 +1016,13 @@ adjusted by the following variables:
 .. envvar:: WEBLATE_ADD_ADDONS
 .. envvar:: WEBLATE_REMOVE_ADDONS
 
-For example:
+**Example:**
 
-    **Example:**
+.. code-block:: yaml
 
-    .. code-block:: yaml
-
-        environment:
-          WEBLATE_REMOVE_AUTOFIX: weblate.trans.autofixes.whitespace.SameBookendingWhitespace
-          WEBLATE_ADD_ADDONS: customize.addons.MyAddon,customize.addons.OtherAddon
+    environment:
+      WEBLATE_REMOVE_AUTOFIX: weblate.trans.autofixes.whitespace.SameBookendingWhitespace
+      WEBLATE_ADD_ADDONS: customize.addons.MyAddon,customize.addons.OtherAddon
 
 .. seealso::
 
