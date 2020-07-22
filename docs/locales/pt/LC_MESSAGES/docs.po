@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-16 16:25+0200\n"
+"POT-Creation-Date: 2020-07-22 09:59+0200\n"
 "PO-Revision-Date: 2020-07-22 07:57+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
@@ -369,9 +369,9 @@ msgid ""
 "list`, :guilabel:`Components` and :guilabel:`Project`, only :guilabel:"
 "`Component list` will be applied."
 msgstr ""
-"Apenas será utilizada a primeira regra. Assim, se definir todas da "
-":guilabel:`Lista de Componentes`, :guilabel:`Componentes` e "
-":guilabel:`Projeto`, apenas será aplicada a :guilabel:`Lista de componentes`."
+"Apenas será utilizada a primeira regra. Assim, se definir todas da :guilabel:"
+"`Lista de Componentes`, :guilabel:`Componentes` e :guilabel:`Projeto`, "
+"apenas será aplicada a :guilabel:`Lista de componentes`."
 
 #: ../../admin/access.rst:175
 msgid ""
@@ -393,8 +393,8 @@ msgid ""
 "You can use :guilabel:`Language selection` or :guilabel:`Project selection` "
 "to automate inclusion of all languages or projects."
 msgstr ""
-"Pode utilizar :guilabel:`Seleção de Idioma` ou :guilabel:`Seleção de Projeto`"
-" para automatizar a inclusão de todos os idiomas ou projetos."
+"Pode utilizar :guilabel:`Seleção de Idioma` ou :guilabel:`Seleção de "
+"Projeto` para automatizar a inclusão de todos os idiomas ou projetos."
 
 #: ../../admin/access.rst:187
 msgid "Checking access to a project"
@@ -884,40 +884,58 @@ msgid "Site wide privileges"
 msgstr "Privilégios para todo o site"
 
 #: ../../admin/access.rst:406
-msgid "Use management interface (site wide)"
+#, fuzzy
+#| msgid "Use management interface (site wide)"
+msgid "Use management interface"
 msgstr "Utilizar a interface de gestão (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:408
-msgid "Add language definitions (site wide)"
+#, fuzzy
+#| msgid "Add language definitions (site wide)"
+msgid "Add language definitions"
 msgstr "Adicionar definições de idioma (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:410
-msgid "Manage language definitions (site wide)"
+#, fuzzy
+#| msgid "Manage language definitions (site wide)"
+msgid "Manage language definitions"
 msgstr "Gerir definições de idioma (em todo o &lt;i&gt;site&lt;/i&gt;)"
 
 #: ../../admin/access.rst:412
-msgid "Add groups (site wide)"
-msgstr "Adicionar grupos (em toda a plataforma)"
+#, fuzzy
+#| msgid "Add font group"
+msgid "Add groups"
+msgstr "Adicionar grupo de tipos de letra"
 
 #: ../../admin/access.rst:414
-msgid "Manage groups (site wide)"
-msgstr "Gerir grupos (em todo o &lt;i&gt;site&lt;/i&gt;)"
+#, fuzzy
+#| msgctxt "Access control group"
+#| msgid "Managers"
+msgid "Manage groups"
+msgstr "Gestores"
 
 #: ../../admin/access.rst:416
-msgid "Add users (site wide)"
-msgstr "Adicionar utilizadoress (em todo o site)"
+#, fuzzy
+#| msgid "Add a user"
+msgid "Add users"
+msgstr "Adicionar um utilizador"
 
 #: ../../admin/access.rst:418
-msgid "Manage users (site wide)"
-msgstr "Gerir utilizadores (em todo o site)"
+msgid "Manage users"
+msgstr "Gerir utilizadores"
 
 #: ../../admin/access.rst:420
-msgid "Manage announcements (site wide)"
-msgstr "Gerir anúncios (em todo o &lt;i&gt;site&lt;/i&gt;)"
+#, fuzzy
+#| msgid "New announcement"
+msgid "Manage announcements"
+msgstr "Novo anúncio"
 
 #: ../../admin/access.rst:422
-msgid "Manage translation memory (site wide)"
-msgstr "Gerir a memória de tradução (em todo o site)"
+#, fuzzy
+#| msgctxt "Access control role"
+#| msgid "Manage translation memory"
+msgid "Manage translation memory"
+msgstr "Gerir a memória de tradução"
 
 #: ../../admin/access.rst:426
 msgid ""
@@ -1230,8 +1248,8 @@ msgid ""
 msgstr ""
 "Sempre que uma nova cadeia traduzível é importada de VCS e corresponde a uma "
 "cadeia fonte, esta é marcada como precisa de edição no Weblate. Isto é "
-"especialmente útil para os formatos de ficheiro que incluem todas as cadeias "
-", mesmo que não traduzidas."
+"especialmente útil para os formatos de ficheiro que incluem todas as "
+"cadeias , mesmo que não traduzidas."
 
 #: ../../admin/addons.rst:121
 msgid "Flag new source strings as \"Needs editing\""
@@ -2729,9 +2747,9 @@ msgid ""
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
 "No caso de fazer backups manuais, pode silenciar avisos do Weblate sobre a "
-"falta de backups adicionando ``weblate.I028`` a "
-":setting:`django:SILENCED_SYSTEM_CHECKS` em :file:`settings.py` ou "
-":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` para o Docker."
+"falta de backups adicionando ``weblate.I028`` a :setting:`django:"
+"SILENCED_SYSTEM_CHECKS` em :file:`settings.py` ou :envvar:"
+"`WEBLATE_SILENCED_SYSTEM_CHECKS` para o Docker."
 
 #: ../../admin/backup.rst:123
 msgid "Database"
@@ -2830,10 +2848,10 @@ msgid ""
 "The following sections describe in detail what you should back up and what "
 "you can skip."
 msgstr ""
-"Se tiver espaço de backup suficiente, basta fazer backup de todo o "
-":setting:`DATA_DIR`. Esta é uma situação segura, mesmo que inclua alguns "
-"ficheiros que você não queira. As secções a seguir descrevem em detalhes do "
-"que deve fazer backup e o que pode pular."
+"Se tiver espaço de backup suficiente, basta fazer backup de todo o :setting:"
+"`DATA_DIR`. Esta é uma situação segura, mesmo que inclua alguns ficheiros "
+"que você não queira. As secções a seguir descrevem em detalhes do que deve "
+"fazer backup e o que pode pular."
 
 #: ../../admin/backup.rst:176
 msgid "Dumped data for backups"
@@ -2872,8 +2890,8 @@ msgid ""
 "compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
 msgstr ""
 "O backup do banco de dados é por predefinição gravado como texto simples, "
-"mas também podem ser comprimidos ou totalmente ignorados usando "
-":setting:`DATABASE_BACKUP`."
+"mas também podem ser comprimidos ou totalmente ignorados usando :setting:"
+"`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:191
 msgid "Version control repositories"
@@ -2929,8 +2947,8 @@ msgstr "Armazenados em :setting:`DATA_DIR` ``/media``."
 #: ../../admin/backup.rst:215
 msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
-"Deve fazer o backup dos ficheiros enviados pelo utilizador (por exemplo, "
-":ref:`screenshots`)."
+"Deve fazer o backup dos ficheiros enviados pelo utilizador (por exemplo, :"
+"ref:`screenshots`)."
 
 #: ../../admin/backup.rst:218
 msgid "Command line for manual backup"
@@ -2951,8 +2969,8 @@ msgid ""
 "die.net/man/1/xz"
 msgstr ""
 "A cadeia entre aspas após XZ_OPT permite que escolha suas opções do xz, por "
-"exemplo, a quantidade de memória utilizada para compressão; veja "
-"https://linux.die.net/man/1/xz"
+"exemplo, a quantidade de memória utilizada para compressão; veja https://"
+"linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:228
 msgid ""
@@ -3068,8 +3086,8 @@ msgstr ""
 "Pode ajustar o comportamento de Weblate (principalmente de verificações) "
 "para cada cadeia fonte (na revisão de cadeias fonte, veja :ref:`additional`) "
 "ou em :ref:`component` (:ref:`component-check_flags`). Alguns formatos de "
-"ficheiro também permitem especificar sinalizadores diretamente no formato ("
-"veja :ref:`formats`)."
+"ficheiro também permitem especificar sinalizadores diretamente no formato "
+"(veja :ref:`formats`)."
 
 #: ../../admin/checks.rst:34
 msgid ""
@@ -3176,8 +3194,8 @@ msgid ""
 "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:`check-"
 "xml-tags`."
 msgstr ""
-"Trata o texto como documento XML, afeta :ref:`check-xml-invalid` e :ref"
-":`check-xml-tags`."
+"Trata o texto como documento XML, afeta :ref:`check-xml-invalid` e :ref:"
+"`check-xml-tags`."
 
 #: ../../admin/checks.rst:63
 msgid "``font-family:NAME``"
@@ -3215,8 +3233,8 @@ msgstr "``font-spacing:ESPAÇAMENTO``"
 #: ../../admin/checks.rst:70
 msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
-"Define o espaçamento da letra para verificações da renderização, veja "
-":ref:`fonts`."
+"Define o espaçamento da letra para verificações da renderização, veja :ref:"
+"`fonts`."
 
 #: ../../admin/checks.rst:71
 msgid "``placeholders:NAME``"
@@ -3240,9 +3258,9 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "names, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"Substituições para realizar ao verificar parâmetros de texto resultantes ("
-"por exemplo, em :ref:`check-max-size` ou :ref:`check-max-length`). O caso de "
-"uso típico para isso é expandir objetos colocáveis *(placeables)* para "
+"Substituições para realizar ao verificar parâmetros de texto resultantes "
+"(por exemplo, em :ref:`check-max-size` ou :ref:`check-max-length`). O caso "
+"de uso típico para isso é expandir objetos colocáveis *(placeables)* para "
 "garantir que o texto se encaixe mesmo com nomes longos, por exemplo: "
 "``replacements:%s:\"John Doe\"``."
 
@@ -3277,10 +3295,10 @@ msgid ""
 msgstr ""
 "Trata todas as cadeias como sendo de formato, afeta :ref:`check-python-"
 "format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-"format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref"
-":`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-c"
-"-sharp-format`, :ref:`check-java-format`, :ref:`check-java-messageformat`, "
-":ref:`check-same`."
+"format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
+"`check-python-brace-format`, :ref:`check-javascript-format`, :ref:`check-c-"
+"sharp-format`, :ref:`check-java-format`, :ref:`check-java-messageformat`, :"
+"ref:`check-same`."
 
 #: ../../admin/checks.rst:87
 msgid "``strict-same``"
@@ -3808,8 +3826,8 @@ msgstr ""
 #: ../../admin/checks.rst:242
 msgid "Font-family and style is automatically recognized after uploading them:"
 msgstr ""
-"A família de letras e o estilo são automaticamente reconhecidos após "
-"carregá-los:"
+"A família de letras e o estilo são automaticamente reconhecidos após carregá-"
+"los:"
 
 #: ../../admin/checks.rst:246
 msgid "You can have a number of fonts loaded into Weblate:"
@@ -3859,10 +3877,10 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
-"Uma ampla gama de verificações de qualidade são incorporadas, (veja "
-":ref:`checks`), embora eles possam não cobrir tudo o que deseja verificar. A "
-"lista de verificações realizadas pode ser ajustada usando "
-":setting:`CHECK_LIST` e também pode adicionar verificações personalizadas."
+"Uma ampla gama de verificações de qualidade são incorporadas, (veja :ref:"
+"`checks`), embora eles possam não cobrir tudo o que deseja verificar. A "
+"lista de verificações realizadas pode ser ajustada usando :setting:"
+"`CHECK_LIST` e também pode adicionar verificações personalizadas."
 
 #: ../../admin/checks.rst:270
 msgid "Subclass the `weblate.checks.Check`"
@@ -4011,8 +4029,8 @@ msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
 msgstr ""
-"Após alterar qualquer uma dessas configurações, precisa reiniciar o Weblate -"
-" tanto os processos WSGI quanto os Celery."
+"Após alterar qualquer uma dessas configurações, precisa reiniciar o Weblate "
+"- tanto os processos WSGI quanto os Celery."
 
 #: ../../admin/config.rst:13
 msgid ""
@@ -24982,8 +25000,8 @@ msgid ""
 msgstr ""
 "Internamente, cada projeto tem traduções para textos comuns propagados em "
 "outros componentes dentro dele por predefinição.  Isso alivia o fardo da "
-"tradução repetitiva e de várias versões.  Desative isto conforme "
-":ref:`component`, ainda produzindo erros para traduções aparentemente "
+"tradução repetitiva e de várias versões.  Desative isto conforme :ref:"
+"`component`, ainda produzindo erros para traduções aparentemente "
 "inconsistentes resultantes."
 
 #: ../../user/checks.rst:4
@@ -26498,17 +26516,17 @@ msgid ""
 "sets of project components preconfigured by the Weblate administrator, see :"
 "ref:`componentlists`."
 msgstr ""
-"Além disso, o menu suspenso também pode mostrar qualquer quantidade de *"
-"listas de componentes*, conjuntos de componentes do projeto pré-configurados "
-"pelo administrador da Weblate, veja :ref:`componentlists`."
+"Além disso, o menu suspenso também pode mostrar qualquer quantidade de "
+"*listas de componentes*, conjuntos de componentes do projeto pré-"
+"configurados pelo administrador da Weblate, veja :ref:`componentlists`."
 
 #: ../../user/profile.rst:49
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
 msgstr ""
-"Pode configurar sua exibição de painel padrão pessoal na secção "
-":guilabel:`Preferências` das configurações do perfil do utilizador."
+"Pode configurar sua exibição de painel padrão pessoal na secção :guilabel:"
+"`Preferências` das configurações do perfil do utilizador."
 
 #: ../../user/profile.rst:54
 msgid ""
@@ -26517,10 +26535,10 @@ msgid ""
 "dashboard will not be shown, as the user will be redirected to a single "
 "project or component instead."
 msgstr ""
-"Quando o Weblate estiver configurado para um único projeto usando "
-":setting:`SINGLE_PROJECT` no ficheiro :file:`settings.py` (veja "
-":ref:`config`), o painel não será mostrado, pois o utilizador será "
-"redirecionado para um único projeto ou componente."
+"Quando o Weblate estiver configurado para um único projeto usando :setting:"
+"`SINGLE_PROJECT` no ficheiro :file:`settings.py` (veja :ref:`config`), o "
+"painel não será mostrado, pois o utilizador será redirecionado para um único "
+"projeto ou componente."
 
 #: ../../user/profile.rst:61
 msgid "User profile"
@@ -27055,8 +27073,8 @@ msgid ""
 "Alternatively you can use the search field to find a specific string or term."
 msgstr ""
 "Depois de navegar para um componente, um conjunto de ligações leva à "
-"tradução real. A tradução é ainda dividida em verificações individuais, como "
-":guilabel:`Não traduzidos` ou :guilabel:`Necessitam edição`.  Se todo o "
+"tradução real. A tradução é ainda dividida em verificações individuais, "
+"como :guilabel:`Não traduzidos` ou :guilabel:`Necessitam edição`.  Se todo o "
 "projeto for traduzido sem erro, :guilabel:`Todas as traduções` ainda estão "
 "disponíveis. Alternativamente, pode usar o campo de pesquisa para encontrar "
 "uma cadeia ou termo específico."
@@ -27172,8 +27190,8 @@ msgstr ""
 "Vários pedaços de informações extras podem ser mostrados nesta página, a "
 "maioria proveniente do código-fonte do projeto (como contexto, comentários "
 "ou onde a mensagem está a ser usada). Quando escolhe idiomas secundários nas "
-"suas preferências, a tradução para esses idiomas será mostrada (ver :ref"
-":`secondary-languages`) acima da cadeia fonte."
+"suas preferências, a tradução para esses idiomas será mostrada (ver :ref:"
+"`secondary-languages`) acima da cadeia fonte."
 
 #: ../../user/translating.rst:106
 msgid ""
@@ -27541,11 +27559,11 @@ msgid ""
 "the actual source string. See :ref:`bimono` for more info."
 msgstr ""
 "A limitação predefinida para tradução é dez vezes maior do que a cadeia "
-"fonte. Isso pode ser transformado em "
-":setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Caso esteja acertando "
-"isso, ele também pode ser causado pela tradução monolíngue sendo configurada "
-"como bilíngue, fazendo com que o Weblate veja a chave de tradução como "
-"cadeia fonte em vez da cadeia fonte real. Veja :ref:`bimono` para obter mais "
+"fonte. Isso pode ser transformado em :setting:"
+"`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`. Caso esteja acertando isso, ele "
+"também pode ser causado pela tradução monolíngue sendo configurada como "
+"bilíngue, fazendo com que o Weblate veja a chave de tradução como cadeia "
+"fonte em vez da cadeia fonte real. Veja :ref:`bimono` para obter mais "
 "informações."
 
 #: ../../user/translating.rst:246
@@ -27560,8 +27578,8 @@ msgstr ""
 msgid ""
 "Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`."
 msgstr ""
-"Tamanho máximo renderizado em pixels definido por sinalizadores, veja :ref"
-":`check-max-size`."
+"Tamanho máximo renderizado em pixels definido por sinalizadores, veja :ref:"
+"`check-max-size`."
 
 #: ../../user/translating.rst:255
 msgid ""
@@ -28863,6 +28881,33 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ""
+
+#~ msgid "Use management interface (site wide)"
+#~ msgstr "Utilizar a interface de gestão (em todo o &lt;i&gt;site&lt;/i&gt;)"
+
+#~ msgid "Add language definitions (site wide)"
+#~ msgstr "Adicionar definições de idioma (em todo o &lt;i&gt;site&lt;/i&gt;)"
+
+#~ msgid "Manage language definitions (site wide)"
+#~ msgstr "Gerir definições de idioma (em todo o &lt;i&gt;site&lt;/i&gt;)"
+
+#~ msgid "Add groups (site wide)"
+#~ msgstr "Adicionar grupos (em toda a plataforma)"
+
+#~ msgid "Manage groups (site wide)"
+#~ msgstr "Gerir grupos (em todo o &lt;i&gt;site&lt;/i&gt;)"
+
+#~ msgid "Add users (site wide)"
+#~ msgstr "Adicionar utilizadoress (em todo o site)"
+
+#~ msgid "Manage users (site wide)"
+#~ msgstr "Gerir utilizadores (em todo o site)"
+
+#~ msgid "Manage announcements (site wide)"
+#~ msgstr "Gerir anúncios (em todo o &lt;i&gt;site&lt;/i&gt;)"
+
+#~ msgid "Manage translation memory (site wide)"
+#~ msgstr "Gerir a memória de tradução (em todo o site)"
 
 #, fuzzy
 #~| msgid "Use management interface (on the entire platform)"
